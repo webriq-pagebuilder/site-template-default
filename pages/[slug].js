@@ -1,11 +1,12 @@
 import React from "react"
 import Head from "next/head"
 import { useRouter } from "next/router"
-import { getClient, usePreviewSubscription } from "../lib/sanity"
+import { getClient, usePreviewSubscription, urlFor } from "../lib/sanity"
 import dynamic from "next/dynamic"
 import PageNotFound from "./404"
 import { slugQuery } from "./api/query"
 import { groq } from "next-sanity"
+
 
 const Components = {
   navigation: dynamic(() => import("component/sections/navigation")),
@@ -48,12 +49,16 @@ function page({ data, preview }) {
     return null
   }
 
-  const { sections, title } = pageData
+  const { sections, title, seo } = pageData
 
   return (
     <>
       <Head>
         <title>{title}</title>
+        <meta name="keywords" content={seo?.keywords} />
+        <meta name="synonyms" content={seo?.synonyms} />
+        <meta name="description" content={seo?.description} />
+        <meta name="image" content={urlFor(seo?.seoImage)} />
       </Head>
       {sections &&
         sections?.map(section => {

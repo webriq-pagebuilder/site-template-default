@@ -2,7 +2,8 @@ import React from "react"
 import Head from "next/head"
 import dynamic from "next/dynamic"
 import { homeQuery } from "./api/query"
-import { getClient, usePreviewSubscription } from "../lib/sanity"
+import { getClient, usePreviewSubscription, urlFor } from "../lib/sanity"
+
 
 const Components = {
   navigation: dynamic(() => import("../component/sections/navigation")),
@@ -36,12 +37,16 @@ function Home({ data, preview }) {
     return null
   }
 
-  const { sections, title } = pageData
+  const { sections, title, seo } = pageData
 
   return (
     <>
       <Head>
         <title>{title}</title>
+        <meta name="keywords" content={seo?.keywords} />
+        <meta name="synonyms" content={seo?.synonyms} />
+        <meta name="description" content={seo?.description} />
+        <meta name="image" content={urlFor(seo?.seoImage)} />
       </Head>
       {sections?.map(section => {
         const Component = Components[section._type]

@@ -14,6 +14,14 @@ export default async (req, res) => {
   //   return res.status(401).json({ message: 'Invalid slug' })
   // }
 
+  const corsOrigin =
+    process.env.NODE_ENV === 'development'
+      ? `http://localhost:3333`
+      : `https://pagebuilder-studio.webriq.com`
+
+  res.setHeader("Access-Control-Allow-Origin", corsOrigin)
+  res.setHeader("Access-Control-Allow-Credentials", true)
+
   // Enable Preview Mode by setting the cookies
   res.setPreviewData({})
 
