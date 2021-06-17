@@ -42,7 +42,7 @@ function Home({ data, preview }) {
   return (
     <>
       <Head>
-        <title>{title}</title>
+        <title>{seo?.seoTitle || title}</title>
         {/* Primary Meta Tags */}
         <meta name="title" content={seo?.seoTitle} />
         <meta name="keywords" content={seo?.seoKeywords} />
