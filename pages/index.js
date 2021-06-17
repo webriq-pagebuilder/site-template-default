@@ -43,10 +43,17 @@ function Home({ data, preview }) {
     <>
       <Head>
         <title>{title}</title>
-        <meta name="keywords" content={seo?.keywords} />
-        <meta name="synonyms" content={seo?.synonyms} />
-        <meta name="description" content={seo?.description} />
+        {/* Primary Meta Tags */}
+        <meta name="title" content={seo?.seoTitle} />
+        <meta name="keywords" content={seo?.seoKeywords} />
+        <meta name="synonyms" content={seo?.seoSynonyms} />
+        <meta name="description" content={seo?.seoDescription} />
         <meta name="image" content={urlFor(seo?.seoImage)} />
+        {/* Open Graph / Facebook */}
+        <meta name="og:type" content="website" />
+        <meta name="og:title" content={seo?.seoTitle} />
+        <meta name="og:description" content={seo?.seoDescription} />
+        <meta name="og:image" content={urlFor(seo?.seoImage)} />
       </Head>
       {sections?.map(section => {
         const Component = Components[section._type]
