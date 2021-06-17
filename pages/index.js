@@ -2,7 +2,8 @@ import React from "react"
 import Head from "next/head"
 import dynamic from "next/dynamic"
 import { homeQuery } from "./api/query"
-import { getClient, usePreviewSubscription, urlFor } from "../lib/sanity"
+import { getClient, usePreviewSubscription } from "../lib/sanity"
+import SEO from "../component/SEO"
 
 
 const Components = {
@@ -26,6 +27,7 @@ const Components = {
   footer: dynamic(() => import("../component/sections/footer")),
 }
 
+
 function Home({ data, preview }) {
   const { data: page } = usePreviewSubscription(homeQuery, {
     initialData: data,
@@ -43,17 +45,7 @@ function Home({ data, preview }) {
     <>
       <Head>
         <title>{seo?.seoTitle || title}</title>
-        {/* Primary Meta Tags */}
-        <meta name="title" content={seo?.seoTitle} />
-        <meta name="keywords" content={seo?.seoKeywords} />
-        <meta name="synonyms" content={seo?.seoSynonyms} />
-        <meta name="description" content={seo?.seoDescription} />
-        <meta name="image" content={urlFor(seo?.seoImage)} />
-        {/* Open Graph / Facebook */}
-        <meta name="og:type" content="website" />
-        <meta name="og:title" content={seo?.seoTitle} />
-        <meta name="og:description" content={seo?.seoDescription} />
-        <meta name="og:image" content={urlFor(seo?.seoImage)} />
+        <SEO data={pageData} />
       </Head>
       {sections?.map(section => {
         const Component = Components[section._type]

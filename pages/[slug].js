@@ -1,11 +1,12 @@
 import React from "react"
 import Head from "next/head"
 import { useRouter } from "next/router"
-import { getClient, usePreviewSubscription, urlFor } from "../lib/sanity"
+import { getClient, usePreviewSubscription } from "../lib/sanity"
 import dynamic from "next/dynamic"
 import PageNotFound from "./404"
 import { slugQuery } from "./api/query"
 import { groq } from "next-sanity"
+import SEO from "../component/SEO"
 
 
 const Components = {
@@ -55,17 +56,7 @@ function page({ data, preview }) {
     <>
       <Head>
         <title>{seo?.seoTitle || title}</title>
-        {/* Primary Meta Tags */}
-        <meta name="title" content={seo?.seoTitle} />
-        <meta name="keywords" content={seo?.seoKeywords} />
-        <meta name="synonyms" content={seo?.seoSynonyms} />
-        <meta name="description" content={seo?.seoDescription} />
-        <meta name="image" content={urlFor(seo?.seoImage)} />
-        {/* Open Graph / Facebook */}
-        <meta name="og:type" content="website" />
-        <meta name="og:title" content={seo?.seoTitle} />
-        <meta name="og:description" content={seo?.seoDescription} />
-        <meta name="og:image" content={urlFor(seo?.seoImage)} />
+        <SEO data={pageData} />
       </Head>
       {sections &&
         sections?.map(section => {
