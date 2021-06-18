@@ -1,4 +1,4 @@
-import React from "react"
+import React from "react";
 
 function VariantA({ stats }) {
   return (
@@ -9,7 +9,7 @@ function VariantA({ stats }) {
             stats.map((items, index) => (
               <div className="mb-8 w-full lg:w-1/4 px-4" key={index}>
                 <div className="relative py-10 bg-white shadow rounded">
-                  <h4 className="mb-1 text-green-600">{items?.label}</h4>
+                  <h4 className="mb-1 text-webriq-darkblue">{items?.label}</h4>
                   <span className="text-3xl lg:text-4xl font-bold">
                     {items?.value}
                   </span>
@@ -19,6 +19,6 @@ function VariantA({ stats }) {
         </div>
       </div>
     </section>
-  )
+  );
 }
-export default React.memo(VariantA)
+export default React.memo(VariantA);

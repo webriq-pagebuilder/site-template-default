@@ -8,7 +8,14 @@ module.exports = {
   },
   darkMode: false, // or 'media' or 'class'
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        "webriq-blue": "#296eff",
+        "webriq-lightblue": "#d5e3ff",
+        "webriq-darkblue": "#0045d8",
+        "webriq-babyblue": "#3576ff",
+      },
+    },
   },
   variants: {
     extend: {
@@ -16,4 +23,4 @@ module.exports = {
     },
   },
   plugins: [],
-}
+};

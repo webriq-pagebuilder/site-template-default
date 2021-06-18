@@ -1,7 +1,12 @@
-import React from "react"
-import { urlFor } from "../../../lib/sanity"
+import React from "react";
+import { urlFor } from "../../../lib/sanity";
 
-function VariantC({ /* template,*/ caption, title, portfolios, primaryButton }) {
+function VariantC({
+  /* template,*/ caption,
+  title,
+  portfolios,
+  primaryButton,
+}) {
   return (
     <section>
       <div className="skew skew-top mr-for-radius">
@@ -27,7 +32,9 @@ function VariantC({ /* template,*/ caption, title, portfolios, primaryButton }) 
           <div className="mb-16 flex flex-wrap justify-center md:justify-between items-center">
             <div className="text-center lg:text-left">
               {caption === undefined ? null : (
-                <span className="text-green-600 font-bold">{caption}</span>
+                <span className="text-webriq-darkblue font-bold">
+                  {caption}
+                </span>
               )}
               {title === undefined ? null : (
                 <h2 className="text-4xl lg:text-5xl font-bold font-heading">
@@ -37,13 +44,14 @@ function VariantC({ /* template,*/ caption, title, portfolios, primaryButton }) 
             </div>
             {primaryButton?.label && (
               <a
-                className="hidden md:inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-green-600 hover:bg-green-700 text-gray-50 font-bold leading-loose transition duration-200"
+                className="hidden md:inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-gray-50 font-bold leading-loose transition duration-200"
                 href={
-                  primaryButton?.type === "linkInternal" ? (
-                    primaryButton?.internalLink === "Home" ||
-                    primaryButton?.internalLink === "home"
+                  primaryButton?.type === "linkInternal"
+                    ? primaryButton?.internalLink === "Home" ||
+                      primaryButton?.internalLink === "home"
                       ? "/"
-                      : primaryButton?.internalLink) : primaryButton?.externalLink
+                      : primaryButton?.internalLink
+                    : primaryButton?.externalLink
                 }
               >
                 {primaryButton?.label}
@@ -51,44 +59,47 @@ function VariantC({ /* template,*/ caption, title, portfolios, primaryButton }) 
             )}
           </div>
           <div className="flex flex-wrap -mx-4 mb-4">
-            {portfolios && portfolios?.map(portfolio => (
-                  <div
-                    className="mb-8 w-full md:w-1/2 lg:w-1/3 px-4"
-                    key={portfolio?.heading}
-                  >
-                    <div className="bg-white rounded">
-                      <img
-                        className="mx-auto h-96 w-full rounded object-cover"
-                        src={urlFor(portfolio?.mainImage)}
-                        alt=""
-                      />
-                      <div className="p-6">
-                        <span className="text-gray-400">{portfolio?.dateAdded?.split('-')[0]}</span>
-                        <h3 className="mb-4 text-2xl font-bold font-heading">
-                          {portfolio?.heading}
-                        </h3>
-                        <a
-                          className="flex text-green-600 hover:text-green-700 font-bold"
-                          href="#"
+            {portfolios &&
+              portfolios?.map((portfolio) => (
+                <div
+                  className="mb-8 w-full md:w-1/2 lg:w-1/3 px-4"
+                  key={portfolio?.heading}
+                >
+                  <div className="bg-white rounded">
+                    <img
+                      className="mx-auto h-96 w-full rounded object-cover"
+                      src={urlFor(portfolio?.mainImage)}
+                      alt=""
+                    />
+                    <div className="p-6">
+                      <span className="text-gray-400">
+                        {portfolio?.dateAdded?.split("-")[0]}
+                      </span>
+                      <h3 className="mb-4 text-2xl font-bold font-heading">
+                        {portfolio?.heading}
+                      </h3>
+                      <a
+                        className="flex text-webriq-darkblue hover:text-webriq-darkblue font-bold"
+                        href="#"
+                      >
+                        <svg
+                          className="mr-3 w-6 h-6"
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
                         >
-                          <svg
-                            className="mr-3 w-6 h-6"
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 20 20"
-                            fill="currentColor"
-                          >
-                            <path
-                              fillRule="evenodd"
-                              d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.707l-3-3a1 1 0 00-1.414 1.414L10.586 9H7a1 1 0 100 2h3.586l-1.293 1.293a1 1 0 101.414 1.414l3-3a1 1 0 000-1.414z"
-                              clipRule="evenodd"
-                            />
-                          </svg>
-                          <span>View Case Study</span>
-                        </a>
-                      </div>
+                          <path
+                            fillRule="evenodd"
+                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.707l-3-3a1 1 0 00-1.414 1.414L10.586 9H7a1 1 0 100 2h3.586l-1.293 1.293a1 1 0 101.414 1.414l3-3a1 1 0 000-1.414z"
+                            clipRule="evenodd"
+                          />
+                        </svg>
+                        <span>View Case Study</span>
+                      </a>
                     </div>
                   </div>
-                ))}
+                </div>
+              ))}
 
             {/* <div className="mb-8 w-full md:w-1/2 lg:w-1/3 px-4">
               <div className="bg-white rounded">
@@ -103,7 +114,7 @@ function VariantC({ /* template,*/ caption, title, portfolios, primaryButton }) 
                     Curabitur imperdiet feugiat cursus
                   </h3>
                   <a
-                    className="flex text-green-600 hover:text-green-700 font-bold"
+                    className="flex text-webriq-darkblue hover:text-webriq-darkblue font-bold"
                     href="#"
                   >
                     <svg
@@ -136,7 +147,7 @@ function VariantC({ /* template,*/ caption, title, portfolios, primaryButton }) 
                     Nullam imperdiet lorem at accumsan interdum
                   </h3>
                   <a
-                    className="flex text-green-600 hover:text-green-700 font-bold"
+                    className="flex text-webriq-darkblue hover:text-webriq-darkblue font-bold"
                     href="#"
                   >
                     <svg
@@ -169,7 +180,7 @@ function VariantC({ /* template,*/ caption, title, portfolios, primaryButton }) 
                     Lorem ipsum dolor sit amet consectutar
                   </h3>
                   <a
-                    className="flex text-green-600 hover:text-green-700 font-bold"
+                    className="flex text-webriq-darkblue hover:text-webriq-darkblue font-bold"
                     href="#"
                   >
                     <svg
@@ -202,7 +213,7 @@ function VariantC({ /* template,*/ caption, title, portfolios, primaryButton }) 
                     Curabitur imperdiet feugiat cursus
                   </h3>
                   <a
-                    className="flex text-green-600 hover:text-green-700 font-bold"
+                    className="flex text-webriq-darkblue hover:text-webriq-darkblue font-bold"
                     href="#"
                   >
                     <svg
@@ -235,7 +246,7 @@ function VariantC({ /* template,*/ caption, title, portfolios, primaryButton }) 
                     Nullam imperdiet lorem at accumsan interdum
                   </h3>
                   <a
-                    className="flex text-green-600 hover:text-green-700 font-bold"
+                    className="flex text-webriq-darkblue hover:text-webriq-darkblue font-bold"
                     href="#"
                   >
                     <svg
@@ -259,17 +270,18 @@ function VariantC({ /* template,*/ caption, title, portfolios, primaryButton }) 
           <div className="text-center">
             {primaryButton?.label && (
               <a
-              className="md:hidden inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-green-600 hover:bg-green-700 text-gray-50 font-bold leading-loose transition duration-200"
-              href={
-                primaryButton?.type === "linkInternal" ? (
-                  primaryButton?.internalLink === "Home" ||
-                  primaryButton?.internalLink === "home"
-                    ? "/"
-                    : primaryButton?.internalLink) : primaryButton?.externalLink
-              }
-            >
-              {primaryButton?.label}
-            </a>
+                className="md:hidden inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-gray-50 font-bold leading-loose transition duration-200"
+                href={
+                  primaryButton?.type === "linkInternal"
+                    ? primaryButton?.internalLink === "Home" ||
+                      primaryButton?.internalLink === "home"
+                      ? "/"
+                      : primaryButton?.internalLink
+                    : primaryButton?.externalLink
+                }
+              >
+                {primaryButton?.label}
+              </a>
             )}
           </div>
         </div>
@@ -293,7 +305,7 @@ function VariantC({ /* template,*/ caption, title, portfolios, primaryButton }) 
         </svg>
       </div>
     </section>
-  )
+  );
 }
 
-export default React.memo(VariantC)
+export default React.memo(VariantC);

@@ -1,18 +1,18 @@
-import React from "react"
-import PropTypes from "prop-types"
-import { urlFor } from "../../../lib/sanity"
-import { useRouter } from "next/router"
+import React from "react";
+import PropTypes from "prop-types";
+import { urlFor } from "../../../lib/sanity";
+import { useRouter } from "next/router";
 
 function VariantF({ caption, title, description, images, primaryButton }) {
-  const router = useRouter()
+  const router = useRouter();
   const navigate = () => {
     primaryButton.type === "linkInternal"
       ? primaryButton.internalLink === "Home" ||
         primaryButton.internalLink === "home"
         ? router.push("/")
         : router.push(primaryButton.internalLink)
-      : router.push(primaryButton.externalLink)
-  }
+      : router.push(primaryButton.externalLink);
+  };
   return (
     <section>
       <div className="skew skew-top mr-for-radius">
@@ -38,7 +38,9 @@ function VariantF({ caption, title, description, images, primaryButton }) {
           <div className="flex flex-wrap items-center -mx-4">
             <div className="mb-12 lg:mb-0 w-full lg:w-1/2 flex px-4">
               <div className="max-w-md">
-                <span className="text-green-600 font-bold">{caption}</span>
+                <span className="text-webriq-darkblue font-bold">
+                  {caption}
+                </span>
                 {title && (
                   <h2 className="mb-6 text-4xl lg:text-5xl font-bold font-heading">
                     {title}
@@ -52,7 +54,7 @@ function VariantF({ caption, title, description, images, primaryButton }) {
                 {primaryButton && (
                   <div className="flex flex-wrap lg:-ml-5">
                     <button
-                      className="lg:w-auto py-2 px-6 leading-loose lg:ml-5 text-gray-50 font-bold bg-green-600 hover:bg-green-700 transition duration-200 rounded-l-xl rounded-t-xl"
+                      className="lg:w-auto py-2 px-6 leading-loose lg:ml-5 text-gray-50 font-bold bg-webriq-blue hover:bg-webriq-darkblue transition duration-200 rounded-l-xl rounded-t-xl"
                       onClick={navigate}
                     >
                       {primaryButton.label}
@@ -125,7 +127,7 @@ function VariantF({ caption, title, description, images, primaryButton }) {
         </svg>
       </div>
     </section>
-  )
+  );
 }
 VariantF.propTypes = {
   caption: PropTypes.string,
@@ -134,5 +136,5 @@ VariantF.propTypes = {
   features: PropTypes.array,
   images: PropTypes.array,
   button: PropTypes.object,
-}
-export default React.memo(VariantF)
+};
+export default React.memo(VariantF);

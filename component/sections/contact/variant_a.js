@@ -1,5 +1,5 @@
-import React from "react"
-import WebriQForm from "@webriq/gatsby-webriq-form"
+import React from "react";
+import WebriQForm from "@webriq/gatsby-webriq-form";
 
 function VariantA({
   contactDescription,
@@ -357,7 +357,7 @@ function VariantA({
                         <div className="webriq-recaptcha" />
                       </div>
                       <button
-                        className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-green-600 hover:bg-green-700 text-gray-50 font-bold leading-loose transition duration-200"
+                        className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-gray-50 font-bold leading-loose transition duration-200"
                         type="submit"
                       >
                         Get Started
@@ -371,6 +371,6 @@ function VariantA({
         </div>
       </div>
     </section>
-  )
+  );
 }
-export default React.memo(VariantA)
+export default React.memo(VariantA);

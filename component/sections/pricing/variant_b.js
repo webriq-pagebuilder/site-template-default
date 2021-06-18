@@ -1,4 +1,4 @@
-import React from "react"
+import React from "react";
 
 function VariantB({ caption, title, description, plans }) {
   return (
@@ -26,7 +26,9 @@ function VariantB({ caption, title, description, plans }) {
           <div className="mb-16 w-full flex flex-wrap items-center">
             <div className="w-full lg:w-1/2">
               {caption === undefined ? null : (
-                <span className="text-green-600 font-bold">{caption}</span>
+                <span className="text-webriq-darkblue font-bold">
+                  {caption}
+                </span>
               )}
               {title === undefined ? null : (
                 <h2 className="mb-2 text-4xl lg:text-5xl font-bold font-heading">
@@ -53,10 +55,10 @@ function VariantB({ caption, title, description, plans }) {
                   </div>
                   <div className="w-full lg:w-2/5 px-3">
                     <ul className="mb-4 text-gray-500">
-                      {plans?.[0]?.planIncludes?.map(include => (
+                      {plans?.[0]?.planIncludes?.map((include) => (
                         <li className="mb-4 flex" key={include}>
                           <svg
-                            className="mr-2 w-5 h-5 text-green-500"
+                            className="mr-2 w-5 h-5 text-webriq-blue"
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 20 20"
                             fill="currentColor"
@@ -82,7 +84,7 @@ function VariantB({ caption, title, description, plans }) {
                   <div className="w-full lg:w-1/5 px-3">
                     {plans?.[0]?.primaryButton?.label && (
                       <a
-                        className="inline-block mt-4 lg:mt-0 py-2 px-6 rounded-l-xl rounded-t-xl bg-green-600 hover:bg-green-700 text-white font-bold leading-loose transition duration-200"
+                        className="inline-block mt-4 lg:mt-0 py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-loose transition duration-200"
                         href={
                           plans?.[0]?.primaryButton?.type === "linkInternal"
                             ? plans?.[0]?.primaryButton?.internalLink ===
@@ -108,10 +110,10 @@ function VariantB({ caption, title, description, plans }) {
                   </div>
                   <div className="w-full lg:w-2/5 px-3">
                     <ul className="mb-4 text-gray-500">
-                      {plans?.[1].planIncludes?.map(include => (
+                      {plans?.[1].planIncludes?.map((include) => (
                         <li className="mb-4 flex" key={include}>
                           <svg
-                            className="mr-2 w-5 h-5 text-green-500"
+                            className="mr-2 w-5 h-5 text-webriq-blue"
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 20 20"
                             fill="currentColor"
@@ -138,7 +140,7 @@ function VariantB({ caption, title, description, plans }) {
                     {plans?.[1]?.primaryButton === undefined ||
                     plans?.[1]?.primaryButton.label === undefined ? null : (
                       <a
-                        className="inline-block mt-4 lg:mt-0 py-2 px-6 rounded-l-xl rounded-t-xl bg-green-600 hover:bg-green-700 text-white font-bold leading-loose transition duration-200"
+                        className="inline-block mt-4 lg:mt-0 py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-loose transition duration-200"
                         href={
                           plans?.[1]?.primaryButton?.type === "linkInternal"
                             ? plans?.[1]?.primaryButton?.internalLink ===
@@ -164,10 +166,10 @@ function VariantB({ caption, title, description, plans }) {
                   </div>
                   <div className="w-full lg:w-2/5 px-3">
                     <ul className="mb-4 text-gray-500">
-                      {plans?.[2]?.planIncludes?.map(include => (
+                      {plans?.[2]?.planIncludes?.map((include) => (
                         <li className="mb-4 flex" key={include}>
                           <svg
-                            className="mr-2 w-5 h-5 text-green-500"
+                            className="mr-2 w-5 h-5 text-webriq-blue"
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 20 20"
                             fill="currentColor"
@@ -194,7 +196,7 @@ function VariantB({ caption, title, description, plans }) {
                     {plans?.[2]?.primaryButton === undefined ||
                     plans?.[2]?.primaryButton.label === undefined ? null : (
                       <a
-                        className="inline-block mt-4 lg:mt-0 py-2 px-6 rounded-l-xl rounded-t-xl bg-green-600 hover:bg-green-700 text-white font-bold leading-loose transition duration-200"
+                        className="inline-block mt-4 lg:mt-0 py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-loose transition duration-200"
                         href={
                           plans?.[2]?.primaryButton?.type === "linkInternal"
                             ? plans?.[2]?.primaryButton?.internalLink ===
@@ -234,6 +236,6 @@ function VariantB({ caption, title, description, plans }) {
         </svg>
       </div>
     </section>
-  )
+  );
 }
-export default React.memo(VariantB)
+export default React.memo(VariantB);

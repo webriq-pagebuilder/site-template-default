@@ -1,12 +1,12 @@
-import React from "react"
-import { urlFor } from "../../../lib/sanity"
+import React from "react";
+import { urlFor } from "../../../lib/sanity";
 
 function VariantA({ testimonials }) {
-  const [testimony, setTestimony] = React.useState(0)
+  const [testimony, setTestimony] = React.useState(0);
 
-  const slider = index => {
-    setTestimony(index)
-  }
+  const slider = (index) => {
+    setTestimony(index);
+  };
   // React.useEffect(() => {
   //   console.log(testimony, testimonials.length-1)
   //   testimony === testimonials.length-1 ?
@@ -54,7 +54,7 @@ function VariantA({ testimonials }) {
                     </h4>
                   )}
                   {testimonials?.[testimony]?.jobTitle && (
-                    <p className="text-green-600">
+                    <p className="text-webriq-darkblue">
                       {testimonials?.[testimony]?.jobTitle}
                     </p>
                   )}
@@ -63,7 +63,7 @@ function VariantA({ testimonials }) {
               {testimonials?.[testimony] && (
                 <div className="w-full lg:w-2/3">
                   <svg
-                    className="mb-4 text-green-600 h-10"
+                    className="mb-4 text-webriq-darkblue h-10"
                     viewBox="0 0 32 28"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
@@ -85,7 +85,9 @@ function VariantA({ testimonials }) {
                       <button
                         key={item.testimony}
                         className={`mr-1 ${
-                          index === testimony ? "bg-green-600" : "bg-gray-200"
+                          index === testimony
+                            ? "bg-webriq-darkblue"
+                            : "bg-gray-200"
                         } rounded-full p-1 focus:outline-none`}
                         onClick={() => slider(index)}
                       />
@@ -116,6 +118,6 @@ function VariantA({ testimonials }) {
         </svg>
       </div>
     </section>
-  )
+  );
 }
-export default React.memo(VariantA)
+export default React.memo(VariantA);

@@ -1,20 +1,20 @@
-import React, { useState } from "react"
-import { urlFor } from "../../../lib/sanity"
+import React, { useState } from "react";
+import { urlFor } from "../../../lib/sanity";
 
 function VariantB({ subtitle, title, description, statistics, images }) {
   //for image carousel
-  let [currentPosition, setCurrentPosition] = useState(0) // Initial image index value
+  let [currentPosition, setCurrentPosition] = useState(0); // Initial image index value
 
   const arrowRightClick = () => {
     currentPosition !== images.length - 1 // Check index length
       ? setCurrentPosition(currentPosition + 1)
-      : setCurrentPosition((currentPosition = 0))
-  }
+      : setCurrentPosition((currentPosition = 0));
+  };
   const arrowLeftClick = () => {
     currentPosition !== 0 // Check index length
       ? setCurrentPosition(currentPosition - 1)
-      : setCurrentPosition((currentPosition = images.length - 1))
-  }
+      : setCurrentPosition((currentPosition = images.length - 1));
+  };
 
   return (
     <section>
@@ -23,7 +23,9 @@ function VariantB({ subtitle, title, description, statistics, images }) {
           <div className="flex flex-wrap -mx-4">
             <div className="w-full lg:w-1/2 px-4">
               <div className="max-w-md">
-                <span className="text-green-600 font-bold">{subtitle}</span>
+                <span className="text-webriq-darkblue font-bold">
+                  {subtitle}
+                </span>
                 <h2 className="text-4xl lg:text-5xl font-bold font-heading">
                   {title}
                 </h2>
@@ -48,7 +50,7 @@ function VariantB({ subtitle, title, description, statistics, images }) {
                 (images.length > 1 ? (
                   <>
                     <button
-                      className="order-1 xl:order-0 mr-12 inline-block p-6 bg-white rounded-full shadow text-green-600 hover:text-green-400 focus:outline-none"
+                      className="order-1 xl:order-0 mr-12 inline-block p-6 bg-white rounded-full shadow text-webriq-darkblue hover:text-webriq-babyblue focus:outline-none"
                       onClick={arrowLeftClick}
                     >
                       <svg
@@ -73,7 +75,7 @@ function VariantB({ subtitle, title, description, statistics, images }) {
                       />
                     </div>
                     <button
-                      className="order-2 xl:order-2 ml-12 inline-block p-6 bg-white rounded-full shadow text-green-600 hover:text-green-400 focus:outline-none"
+                      className="order-2 xl:order-2 ml-12 inline-block p-6 bg-white rounded-full shadow text-webriq-darkblue hover:text-webriq-babyblue focus:outline-none"
                       onClick={arrowRightClick}
                     >
                       <svg
@@ -105,6 +107,6 @@ function VariantB({ subtitle, title, description, statistics, images }) {
         </div>
       </div>
     </section>
-  )
+  );
 }
-export default React.memo(VariantB)
+export default React.memo(VariantB);

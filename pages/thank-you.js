@@ -1,4 +1,4 @@
-import React from "react"
+import React from "react";
 
 function ThankYouForm() {
   return (
@@ -30,7 +30,7 @@ function ThankYouForm() {
               alt=""
             />
             <div className="text-center">
-              <p className="mb-10 text-4xl text-green-600 font-bold">
+              <p className="mb-10 text-4xl text-webriq-darkblue font-bold">
                 Success!
               </p>
               <h4 className="mb-10 text-4xl font-bold">
@@ -38,7 +38,7 @@ function ThankYouForm() {
               </h4>
               <div>
                 <a
-                  className="w-full lg:w-auto mb-2 lg:mb-0 lg:mr-4 inline-block py-2 px-6 rounded-l-xl rounded-t-xl font-bold leading-loose text-gray-50 bg-green-600 hover:bg-green-700"
+                  className="w-full lg:w-auto mb-2 lg:mb-0 lg:mr-4 inline-block py-2 px-6 rounded-l-xl rounded-t-xl font-bold leading-loose text-gray-50 bg-webriq-blue hover:bg-webriq-darkblue"
                   href="/"
                 >
                   Go back to Homepage
@@ -67,6 +67,6 @@ function ThankYouForm() {
         </div>
       </section>
     </>
-  )
+  );
 }
-export default React.memo(ThankYouForm)
+export default React.memo(ThankYouForm);

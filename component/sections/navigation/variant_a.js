@@ -1,12 +1,12 @@
-import React from "react"
-import Link from "next/link"
-import { urlFor } from "lib/sanity"
+import React from "react";
+import Link from "next/link";
+import { urlFor } from "lib/sanity";
 
 function VariantA({ template, links, primaryButton, secondaryButton, logo }) {
-  const [menu, setMenu] = React.useState(false)
+  const [menu, setMenu] = React.useState(false);
   const showMenu = () => {
-    setMenu(prevState => !prevState)
-  }
+    setMenu((prevState) => !prevState);
+  };
   return (
     <section>
       <nav className="relative px-6 py-6 flex justify-between items-center bg-white">
@@ -17,7 +17,7 @@ function VariantA({ template, links, primaryButton, secondaryButton, logo }) {
         )}
         <div className="lg:hidden">
           <button
-            className="navbar-burger flex items-center text-green-600 p-3"
+            className="navbar-burger flex items-center text-webriq-darkblue p-3"
             onClick={showMenu}
           >
             <svg
@@ -162,7 +162,7 @@ function VariantA({ template, links, primaryButton, secondaryButton, logo }) {
           <div>
             <ul>
               {links &&
-                links?.map(link => (
+                links?.map((link) => (
                   <li className="mb-1" key={link.label}>
                     {link.type === "linkInternal" ? (
                       <Link
@@ -178,7 +178,7 @@ function VariantA({ template, links, primaryButton, secondaryButton, logo }) {
                               }`
                         }`}
                       >
-                        <a className="block p-4 text-sm font-semibold text-gray-400 hover:bg-green-50 hover:text-green-600 rounded">
+                        <a className="block p-4 text-sm font-semibold text-gray-400 hover:bg-webriq-lightblue hover:text-webriq-darkblue rounded">
                           {link.label}
                         </a>
                       </Link>
@@ -195,7 +195,7 @@ function VariantA({ template, links, primaryButton, secondaryButton, logo }) {
                               }`
                         }`}
                       >
-                        <a className="block p-4 text-sm font-semibold text-gray-400 hover:bg-green-50 hover:text-green-600 rounded">
+                        <a className="block p-4 text-sm font-semibold text-gray-400 hover:bg-webriq-lightblue hover:text-webriq-darkblue rounded">
                           {link.label}
                         </a>
                       </Link>
@@ -259,7 +259,7 @@ function VariantA({ template, links, primaryButton, secondaryButton, logo }) {
         </nav>
       </div>
     </section>
-  )
+  );
 }
 
-export default React.memo(VariantA)
+export default React.memo(VariantA);

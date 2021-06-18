@@ -1,8 +1,7 @@
-import React from "react"
-import { urlFor } from "../../../lib/sanity"
+import React from "react";
+import { urlFor } from "../../../lib/sanity";
 
 function VariantH({ caption, title, features, images }) {
-
   return (
     <section>
       <div className="skew skew-top mr-for-radius">
@@ -28,7 +27,9 @@ function VariantH({ caption, title, features, images }) {
           <div className="flex flex-wrap items-center -mx-4">
             <div className="mb-12 lg:mb-0 w-full lg:w-1/2 px-4">
               <div className="max-w-md">
-                <span className="text-green-600 font-bold">{caption && caption}</span>
+                <span className="text-webriq-darkblue font-bold">
+                  {caption && caption}
+                </span>
                 <h2 className="mb-6 text-4xl lg:text-5xl font-bold font-heading">
                   {title && title}
                 </h2>
@@ -37,7 +38,7 @@ function VariantH({ caption, title, features, images }) {
                     <li className="flex mb-4">
                       <div>
                         <svg
-                          className="mr-3 w-8 h-8 text-green-600"
+                          className="mr-3 w-8 h-8 text-webriq-darkblue"
                           xmlns="http://www.w3.org/2000/svg"
                           fill="none"
                           viewBox="0 0 24 24"
@@ -65,7 +66,7 @@ function VariantH({ caption, title, features, images }) {
                     <li className="flex mb-4">
                       <div>
                         <svg
-                          className="mr-3 w-8 h-8 text-green-600"
+                          className="mr-3 w-8 h-8 text-webriq-darkblue"
                           xmlns="http://www.w3.org/2000/svg"
                           fill="none"
                           viewBox="0 0 24 24"
@@ -93,7 +94,7 @@ function VariantH({ caption, title, features, images }) {
                     <li className="flex">
                       <div>
                         <svg
-                          className="mr-3 w-8 h-8 text-green-600"
+                          className="mr-3 w-8 h-8 text-webriq-darkblue"
                           xmlns="http://www.w3.org/2000/svg"
                           fill="none"
                           viewBox="0 0 24 24"
@@ -171,7 +172,7 @@ function VariantH({ caption, title, features, images }) {
         </svg>
       </div>
     </section>
-  )
+  );
 }
 
-export default React.memo(VariantH)
+export default React.memo(VariantH);

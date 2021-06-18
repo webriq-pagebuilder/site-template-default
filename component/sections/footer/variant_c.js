@@ -1,24 +1,24 @@
-import { urlFor } from "lib/sanity"
-import React from "react"
+import { urlFor } from "lib/sanity";
+import React from "react";
 
 function VariantC({ logo, menu, copyright, socialMedia }) {
   return (
     <section className="bg-gray-50">
       <div className="flex w-full">
         <div className="w-1/3 flex">
-          <div className="w-1/3 py-1 bg-green-400" />
-          <div className="w-1/3 py-1 bg-green-500" />
-          <div className="w-1/3 py-1 bg-green-600" />
+          <div className="w-1/3 py-1 bg-webriq-babyblue" />
+          <div className="w-1/3 py-1 bg-webriq-blue" />
+          <div className="w-1/3 py-1 bg-webriq-darkblue" />
         </div>
         <div className="w-1/3 flex">
-          <div className="w-1/3 py-1 bg-green-400" />
-          <div className="w-1/3 py-1 bg-green-500" />
-          <div className="w-1/3 py-1 bg-green-600" />
+          <div className="w-1/3 py-1 bg-webriq-babyblue" />
+          <div className="w-1/3 py-1 bg-webriq-blue" />
+          <div className="w-1/3 py-1 bg-webriq-darkblue" />
         </div>
         <div className="w-1/3 flex">
-          <div className="w-1/3 py-1 bg-green-400" />
-          <div className="w-1/3 py-1 bg-green-500" />
-          <div className="w-1/3 py-1 bg-green-600" />
+          <div className="w-1/3 py-1 bg-webriq-babyblue" />
+          <div className="w-1/3 py-1 bg-webriq-blue" />
+          <div className="w-1/3 py-1 bg-webriq-darkblue" />
         </div>
       </div>
       <div className="container mx-auto px-4">
@@ -167,6 +167,6 @@ function VariantC({ logo, menu, copyright, socialMedia }) {
         </div>
       </div>
     </section>
-  )
+  );
 }
-export default React.memo(VariantC)
+export default React.memo(VariantC);

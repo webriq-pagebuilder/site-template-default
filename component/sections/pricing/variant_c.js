@@ -1,7 +1,7 @@
-import React from "react"
+import React from "react";
 
 function VariantC({ caption, title, description, plans }) {
-  const [plan, setPlan] = React.useState("monthly")
+  const [plan, setPlan] = React.useState("monthly");
   return (
     <section>
       <div className="skew skew-top mr-for-radius">
@@ -26,7 +26,7 @@ function VariantC({ caption, title, description, plans }) {
         <div className="container mx-auto px-4">
           <div className="mb-16 max-w-lg mx-auto text-center">
             {caption && (
-              <span className="text-green-600 font-bold">{caption}</span>
+              <span className="text-webriq-darkblue font-bold">{caption}</span>
             )}
             {title && (
               <h2 className="mb-2 text-4xl lg:text-5xl font-bold font-heading">
@@ -89,7 +89,7 @@ function VariantC({ caption, title, description, plans }) {
                       )}
                       {plans?.[0]?.primaryButton?.label && (
                         <a
-                          className="block mt-6 w-full py-2 px-6 rounded-l-xl rounded-t-xl bg-green-600 hover:bg-green-700 text-white font-bold leading-loose transition duration-200"
+                          className="block mt-6 w-full py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-loose transition duration-200"
                           href={
                             plans?.[0]?.primaryButton?.type === "linkInternal"
                               ? plans?.[0]?.primaryButton?.internalLink ===
@@ -136,7 +136,7 @@ function VariantC({ caption, title, description, plans }) {
                       )}
                       {plans?.[1]?.primaryButton?.label && (
                         <a
-                          className="block mt-6 w-full py-2 px-6 rounded-l-xl rounded-t-xl bg-green-600 hover:bg-green-700 text-white font-bold leading-loose transition duration-200"
+                          className="block mt-6 w-full py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-loose transition duration-200"
                           href={
                             plans?.[1]?.primaryButton?.type === "linkInternal"
                               ? plans?.[1]?.primaryButton?.internalLink ===
@@ -178,6 +178,6 @@ function VariantC({ caption, title, description, plans }) {
         </svg>
       </div>
     </section>
-  )
+  );
 }
-export default React.memo(VariantC)
+export default React.memo(VariantC);

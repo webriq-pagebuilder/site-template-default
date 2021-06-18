@@ -1,8 +1,8 @@
-import React, { useState } from "react"
+import React, { useState } from "react";
 
 function VariantC({ title, text, button1, button2 }) {
   //to hide cookie component
-  const [showCookie, setShowCookie] = useState(true)
+  const [showCookie, setShowCookie] = useState(true);
 
   return (
     <div className="fixed bottom-0 inset-x-0 z-50">
@@ -16,7 +16,7 @@ function VariantC({ title, text, button1, button2 }) {
                   (button1.match(/Accept|Allow|Ok|Yes/gi) ? (
                     <button
                       type="button"
-                      className="inline-block mr-4 py-2 px-4 rounded-l-xl rounded-t-xl border-2 border-green-600 hover:border-green-700 bg-green-600 hover:bg-green-700 transition duration-500"
+                      className="inline-block mr-4 py-2 px-4 rounded-l-xl rounded-t-xl border-2 border-webriq-blue hover:border-webriq-darkblue bg-webriq-blue hover:bg-webriq-darkblue transition duration-500"
                       onClick={() => setShowCookie(!showCookie)}
                     >
                       {button1}
@@ -32,7 +32,7 @@ function VariantC({ title, text, button1, button2 }) {
                   ) : (
                     <button
                       type="button"
-                      className="inline-block mr-4 py-2 px-4 rounded-l-xl rounded-t-xl border-2 border-green-600 hover:border-green-700 bg-green-600 hover:bg-green-700 transition duration-500"
+                      className="inline-block mr-4 py-2 px-4 rounded-l-xl rounded-t-xl border-2 border-webriq-blue hover:border-webriq-darkblue bg-webriq-blue hover:bg-webriq-darkblue transition duration-500"
                       onClick={() => setShowCookie(!showCookie)}
                     >
                       {button1}
@@ -42,7 +42,7 @@ function VariantC({ title, text, button1, button2 }) {
                   (button2.match(/Accept|Allow|Ok|Yes/gi) ? (
                     <button
                       type="button"
-                      className="inline-block mr-4 py-2 px-4 rounded-l-xl rounded-t-xl border-2 border-green-600 hover:border-green-700 bg-green-600 hover:bg-green-700 transition duration-500"
+                      className="inline-block mr-4 py-2 px-4 rounded-l-xl rounded-t-xl border-2 border-webriq-blue hover:border-webriq-darkblue bg-webriq-blue hover:bg-webriq-darkblue transition duration-500"
                       onClick={() => setShowCookie(!showCookie)}
                     >
                       {button2}
@@ -58,7 +58,7 @@ function VariantC({ title, text, button1, button2 }) {
                   ) : (
                     <button
                       type="button"
-                      className="inline-block mr-4 py-2 px-4 rounded-l-xl rounded-t-xl border-2 border-green-600 hover:border-green-700 bg-green-600 hover:bg-green-700 transition duration-500"
+                      className="inline-block mr-4 py-2 px-4 rounded-l-xl rounded-t-xl border-2 border-webriq-blue hover:border-webriq-darkblue bg-webriq-blue hover:bg-webriq-darkblue transition duration-500"
                       onClick={() => setShowCookie(!showCookie)}
                     >
                       {button2}
@@ -69,6 +69,6 @@ function VariantC({ title, text, button1, button2 }) {
           )
         : null}
     </div>
-  )
+  );
 }
-export default React.memo(VariantC)
+export default React.memo(VariantC);

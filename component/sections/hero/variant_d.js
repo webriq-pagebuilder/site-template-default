@@ -1,5 +1,5 @@
-import React from "react"
-import { urlFor } from "lib/sanity"
+import React from "react";
+import { urlFor } from "lib/sanity";
 function VariantD({
   template,
   image,
@@ -54,7 +54,7 @@ function VariantD({
             </svg>
           </li>
           <li>
-            <a className="text-sm text-green-600 font-bold" href="#">
+            <a className="text-sm text-webriq-darkblue font-bold" href="#">
               About Us
             </a>
           </li>
@@ -123,7 +123,7 @@ function VariantD({
           </li>
         </ul>
         <a
-          className="hidden lg:block py-2 px-6 bg-green-600 hover:bg-green-700 text-sm text-white font-bold rounded-l-xl rounded-t-xl transition duration-200"
+          className="hidden lg:block py-2 px-6 bg-webriq-blue hover:bg-webriq-darkblue text-sm text-white font-bold rounded-l-xl rounded-t-xl transition duration-200"
           href="#"
         >
           Contact Us
@@ -142,10 +142,10 @@ function VariantD({
                 <div className="relative max-w-md mx-auto lg:mx-0">
                   <h2 className="mb-3 text-4xl lg:text-5xl font-bold font-heading">
                     {/* <span>Build &amp; Launch without </span>
-                    <span className="text-green-600">problems</span> */}
+                    <span className="text-webriq-darkblue">problems</span> */}
                     {title && (
                       <>
-                        <span>{title}</span>                        
+                        <span>{title}</span>
                       </>
                     )}
                   </h2>
@@ -161,13 +161,14 @@ function VariantD({
                   <div>
                     {primaryButton && (
                       <a
-                        className="inline-block mb-3 lg:mb-0 lg:mr-3 w-full lg:w-auto py-2 px-6 leading-loose bg-green-600 hover:bg-green-700 text-white font-semibold rounded-l-xl rounded-t-xl transition duration-200"
+                        className="inline-block mb-3 lg:mb-0 lg:mr-3 w-full lg:w-auto py-2 px-6 leading-loose bg-webriq-blue hover:bg-webriq-darkblue text-white font-semibold rounded-l-xl rounded-t-xl transition duration-200"
                         href={
-                          primaryButton.type === "linkInternal" ? (
-                            primaryButton.internalLink === "Home" ||
-                            primaryButton.internalLink === "home"
+                          primaryButton.type === "linkInternal"
+                            ? primaryButton.internalLink === "Home" ||
+                              primaryButton.internalLink === "home"
                               ? "/"
-                              : primaryButton.internalLink) : primaryButton.externalLink
+                              : primaryButton.internalLink
+                            : primaryButton.externalLink
                         }
                       >
                         {primaryButton.label}
@@ -177,11 +178,12 @@ function VariantD({
                       <a
                         className="inline-block w-full lg:w-auto py-2 px-6 leading-loose font-semibold bg-white hover:bg-gray-50 rounded-l-xl rounded-t-xl transition duration-200"
                         href={
-                            secondaryButton.type === "linkInternal" ? (
-                            secondaryButton.internalLink === "Home" ||
-                            secondaryButton.internalLink === "home"
+                          secondaryButton.type === "linkInternal"
+                            ? secondaryButton.internalLink === "Home" ||
+                              secondaryButton.internalLink === "home"
                               ? "/"
-                              : secondaryButton.internalLink) : secondaryButton.externalLink
+                              : secondaryButton.internalLink
+                            : secondaryButton.externalLink
                         }
                       >
                         {secondaryButton.label}
@@ -204,7 +206,7 @@ function VariantD({
         </div>
       </div>
     </section>
-  )
+  );
 }
 
-export default React.memo(VariantD)
+export default React.memo(VariantD);

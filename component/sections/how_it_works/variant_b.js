@@ -1,4 +1,4 @@
-import React from "react"
+import React from "react";
 
 function VariantB({ subtitle, title, text, steps }) {
   return (
@@ -8,7 +8,9 @@ function VariantB({ subtitle, title, text, steps }) {
           <div className="flex flex-wrap items-center">
             <div className="w-full lg:w-1/2 mb-12 lg:mb-0">
               <div className="max-w-md mx-20">
-                <span className="text-green-600 font-bold">{subtitle}</span>
+                <span className="text-webriq-darkblue font-bold">
+                  {subtitle}
+                </span>
                 <h2 className="mb-2 text-4xl lg:text-5xl font-bold font-heading">
                   {title}
                 </h2>
@@ -24,7 +26,7 @@ function VariantB({ subtitle, title, text, steps }) {
                     className="mb-12 lg:mb-8 lg:ml-10 flex flex-wrap items-start"
                     key={index}
                   >
-                    <span className="mb-4 lg:mb-0 lg:mr-6 inline-flex items-center justify-center w-16 h-16 bg-green-100 rounded text-green-600 text-2xl font-bold">
+                    <span className="mb-4 lg:mb-0 lg:mr-6 inline-flex items-center justify-center w-16 h-16 bg-webriq-lightblue rounded text-webriq-darkblue text-2xl font-bold">
                       {index + 1}
                     </span>
                     <div className="w-full lg:w-3/4">
@@ -42,6 +44,6 @@ function VariantB({ subtitle, title, text, steps }) {
         </div>
       </div>
     </section>
-  )
+  );
 }
-export default React.memo(VariantB)
+export default React.memo(VariantB);

@@ -1,6 +1,6 @@
-import React from "react"
-import Link from "next/link"
-import { urlFor } from "lib/sanity"
+import React from "react";
+import Link from "next/link";
+import { urlFor } from "lib/sanity";
 
 function VariantB({
   /*template , */ links,
@@ -8,11 +8,11 @@ function VariantB({
   secondaryButton,
   logo,
 }) {
-  const [menu, setMenu] = React.useState(false)
+  const [menu, setMenu] = React.useState(false);
 
   const showMenu = () => {
-    setMenu(prevState => !prevState)
-  }
+    setMenu((prevState) => !prevState);
+  };
   return (
     <section>
       <nav className="relative py-6 bg-white">
@@ -24,7 +24,7 @@ function VariantB({
           )}
           <div className="lg:hidden">
             <button
-              className="navbar-burger flex items-center text-green-600 p-3"
+              className="navbar-burger flex items-center text-webriq-darkblue p-3"
               onClick={showMenu}
             >
               <svg
@@ -122,7 +122,7 @@ function VariantB({
           )}
           {secondaryButton && (
             <a
-              className="hidden lg:inline-block py-2 px-6 bg-green-500 hover:bg-green-600 text-sm text-white font-bold rounded-l-xl rounded-t-xl transition duration-200"
+              className="hidden lg:inline-block py-2 px-6 bg-webriq-blue hover:bg-webriq-darkblue text-sm text-white font-bold rounded-l-xl rounded-t-xl transition duration-200"
               href={
                 secondaryButton.type === "linkInternal"
                   ? secondaryButton.internalLink === "Home" ||
@@ -169,7 +169,7 @@ function VariantB({
           <div>
             <ul>
               {links &&
-                links?.map(link => (
+                links?.map((link) => (
                   <li className="mb-1" key={link?.label}>
                     {link.type === "linkInternal" ? (
                       <Link
@@ -184,7 +184,7 @@ function VariantB({
                               }`
                         }`}
                       >
-                        <a className="block p-4 text-sm font-semibold text-gray-400 hover:bg-green-50 hover:text-green-600 rounded">
+                        <a className="block p-4 text-sm font-semibold text-gray-400 hover:bg-webriq-lightblue hover:text-webriq-darkblue rounded">
                           {link.label}
                         </a>
                       </Link>
@@ -201,7 +201,7 @@ function VariantB({
                               }`
                         }`}
                       >
-                        <a className="block p-4 text-sm font-semibold text-gray-400 hover:bg-green-50 hover:text-green-600 rounded">
+                        <a className="block p-4 text-sm font-semibold text-gray-400 hover:bg-webriq-lightblue hover:text-webriq-darkblue rounded">
                           {link.label}
                         </a>
                       </Link>
@@ -231,7 +231,7 @@ function VariantB({
               )}
               {secondaryButton && (
                 <a
-                  className="block px-4 py-3 mb-2 leading-loose text-xs text-center text-white font-semibold bg-green-600 hover:bg-green-700 rounded-l-xl rounded-t-xl"
+                  className="block px-4 py-3 mb-2 leading-loose text-xs text-center text-white font-semibold bg-webriq-blue hover:bg-webriq-darkblue rounded-l-xl rounded-t-xl"
                   href={
                     secondaryButton.type === "linkInternal"
                       ? secondaryButton.internalLink === "Home" ||
@@ -265,7 +265,7 @@ function VariantB({
         </nav>
       </div>
     </section>
-  )
+  );
 }
 
-export default React.memo(VariantB)
+export default React.memo(VariantB);

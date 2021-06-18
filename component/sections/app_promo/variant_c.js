@@ -1,5 +1,5 @@
-import React from "react"
-import { urlFor } from "../../../lib/sanity"
+import React from "react";
+import { urlFor } from "../../../lib/sanity";
 
 function VariantC({ subtitle, title, description, features, images }) {
   return (
@@ -9,7 +9,9 @@ function VariantC({ subtitle, title, description, features, images }) {
           <div className="flex flex-wrap items-center mx-5">
             <div className="mb-12 lg:mb-0 w-full lg:w-1/2 px-4">
               <div className="max-w-md">
-                <span className="text-green-600 font-bold">{subtitle}</span>
+                <span className="text-webriq-darkblue font-bold">
+                  {subtitle}
+                </span>
                 <h2 className="text-4xl lg:text-5xl font-bold font-heading">
                   {title}
                 </h2>
@@ -21,7 +23,7 @@ function VariantC({ subtitle, title, description, features, images }) {
                     features.map((feature, index) => (
                       <li className="mb-3 flex items-center" key={index}>
                         <svg
-                          className="w-5 h-5 mr-2 text-green-500"
+                          className="w-5 h-5 mr-2 text-webriq-blue"
                           xmlns="http://www.w3.org/2000/svg"
                           viewBox="0 0 20 20"
                           fill="currentColor"
@@ -54,6 +56,6 @@ function VariantC({ subtitle, title, description, features, images }) {
         </div>
       </div>
     </section>
-  )
+  );
 }
-export default React.memo(VariantC)
+export default React.memo(VariantC);

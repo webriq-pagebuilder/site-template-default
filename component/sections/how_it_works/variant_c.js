@@ -1,4 +1,4 @@
-import React from "react"
+import React from "react";
 
 function VariantC({ subtitle, title, steps }) {
   return (
@@ -6,7 +6,7 @@ function VariantC({ subtitle, title, steps }) {
       <div className="py-20 bg-gray-50 radius-for-skewed">
         <div className="container mx-auto px-4">
           <div className="mb-16 mx-auto max-w-md text-center">
-            <span className="text-green-600 font-bold">{subtitle}</span>
+            <span className="text-webriq-darkblue font-bold">{subtitle}</span>
             <h2 className="text-4xl lg:text-5xl font-bold font-heading">
               {title}
             </h2>
@@ -19,7 +19,7 @@ function VariantC({ subtitle, title, steps }) {
                   key={index}
                 >
                   <div className="py-10 px-6 bg-white shadow rounded text-center">
-                    <span className="mb-6 w-16 h-16 inline-flex justify-center items-center bg-green-100 rounded text-2xl text-green-600 font-bold">
+                    <span className="mb-6 w-16 h-16 inline-flex justify-center items-center bg-webriq-lightblue rounded text-2xl text-webriq-darkblue font-bold">
                       {index + 1}
                     </span>
                     <h3 className="mb-4 text-2xl font-bold font-heading">
@@ -35,6 +35,6 @@ function VariantC({ subtitle, title, steps }) {
         </div>
       </div>
     </section>
-  )
+  );
 }
-export default React.memo(VariantC)
+export default React.memo(VariantC);

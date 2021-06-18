@@ -1,4 +1,4 @@
-import React from "react"
+import React from "react";
 
 function VariantB({ caption, title, description, features, featureItems }) {
   return (
@@ -27,7 +27,7 @@ function VariantB({ caption, title, description, features, featureItems }) {
             <div className="w-full lg:w-1/2 mb-12 lg:mb-0">
               <div className="max-w-md lg:mx-auto">
                 {caption === undefined ? null : (
-                  <span className="text-green-600 font-bold">
+                  <span className="text-webriq-darkblue font-bold">
                     {/* Dolor sit amet consectutar */}
                     {caption}
                   </span>
@@ -46,27 +46,28 @@ function VariantB({ caption, title, description, features, featureItems }) {
                   </p>
                 )}
                 <ul className="text-gray-500 font-bold">
-                  {featureItems && featureItems.map(item => (
-                        <li className="flex mb-4" key={item}>
-                          <svg
-                            className="mr-2 w-6 h-6 text-green-400"
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 20 20"
-                            fill="currentColor"
-                          >
-                            <path
-                              fillRule="evenodd"
-                              d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                              clipRule="evenodd"
-                            />
-                          </svg>
-                          <span>{item}</span>
-                        </li>
-                      ))}
+                  {featureItems &&
+                    featureItems.map((item) => (
+                      <li className="flex mb-4" key={item}>
+                        <svg
+                          className="mr-2 w-6 h-6 text-webriq-babyblue"
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                            clipRule="evenodd"
+                          />
+                        </svg>
+                        <span>{item}</span>
+                      </li>
+                    ))}
                   {/*                  
                   <li className="flex mb-4">
                     <svg
-                      className="mr-2 w-6 h-6 text-green-400"
+                      className="mr-2 w-6 h-6 text-webriq-babyblue"
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 20 20"
                       fill="currentColor"
@@ -81,7 +82,7 @@ function VariantB({ caption, title, description, features, featureItems }) {
                   </li>
                   <li className="flex mb-4">
                     <svg
-                      className="mr-2 w-6 h-6 text-green-400"
+                      className="mr-2 w-6 h-6 text-webriq-babyblue"
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 20 20"
                       fill="currentColor"
@@ -101,9 +102,9 @@ function VariantB({ caption, title, description, features, featureItems }) {
               <div className="mb-8 lg:mb-0 w-full md:w-1/2 px-4">
                 {features?.[0] && (
                   <div className="mb-8 py-6 pl-6 pr-4 shadow rounded bg-white">
-                    <span className="mb-4 inline-block p-3 rounded-lg bg-green-100">
+                    <span className="mb-4 inline-block p-3 rounded-lg bg-webriq-lightblue">
                       <svg
-                        className="w-10 h-10 text-green-600"
+                        className="w-10 h-10 text-webriq-darkblue"
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
                         viewBox="0 0 24 24"
@@ -127,9 +128,9 @@ function VariantB({ caption, title, description, features, featureItems }) {
                 )}
                 {features === undefined || features[1] === undefined ? null : (
                   <div className="py-6 pl-6 pr-4 shadow rounded bg-white">
-                    <span className="mb-4 inline-block p-3 rounded-lg bg-green-100">
+                    <span className="mb-4 inline-block p-3 rounded-lg bg-webriq-lightblue">
                       <svg
-                        className="w-10 h-10 text-green-600"
+                        className="w-10 h-10 text-webriq-darkblue"
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 20 20"
                         fill="currentColor"
@@ -149,9 +150,9 @@ function VariantB({ caption, title, description, features, featureItems }) {
               <div className="w-full md:w-1/2 lg:mt-20 px-4">
                 {features?.[2] && (
                   <div className="mb-8 py-6 pl-6 pr-4 shadow rounded-lg bg-white">
-                    <span className="mb-4 inline-block p-3 rounded bg-green-100">
+                    <span className="mb-4 inline-block p-3 rounded bg-webriq-lightblue">
                       <svg
-                        className="w-10 h-10 text-green-600"
+                        className="w-10 h-10 text-webriq-darkblue"
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
                         viewBox="0 0 24 24"
@@ -175,9 +176,9 @@ function VariantB({ caption, title, description, features, featureItems }) {
                 )}
                 {features?.[3] && (
                   <div className="py-6 pl-6 pr-4 shadow rounded-lg bg-white">
-                    <span className="mb-4 inline-block p-3 rounded bg-green-100">
+                    <span className="mb-4 inline-block p-3 rounded bg-webriq-lightblue">
                       <svg
-                        className="w-10 h-10 text-green-600"
+                        className="w-10 h-10 text-webriq-darkblue"
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 20 20"
                         fill="currentColor"
@@ -222,7 +223,7 @@ function VariantB({ caption, title, description, features, featureItems }) {
         </svg>
       </div>
     </section>
-  )
+  );
 }
 
-export default React.memo(VariantB)
+export default React.memo(VariantB);

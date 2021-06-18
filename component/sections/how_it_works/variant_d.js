@@ -1,4 +1,4 @@
-import React from "react"
+import React from "react";
 
 function VariantD({ subtitle, title, steps }) {
   return (
@@ -6,7 +6,7 @@ function VariantD({ subtitle, title, steps }) {
       <div className="py-20 bg-gray-50 radius-for-skewed">
         <div className="container mx-auto px-4">
           <div className="mb-20 max-w-md text-center mx-auto">
-            <span className="text-green-600 font-bold">{subtitle}</span>
+            <span className="text-webriq-darkblue font-bold">{subtitle}</span>
             <h2 className="text-4xl lg:text-5xl font-bold font-heading">
               {title}
             </h2>
@@ -16,7 +16,7 @@ function VariantD({ subtitle, title, steps }) {
               {steps?.[0] && (
                 <div className="mb-16 lg:mb-0 relative w-full md:w-1/2 lg:w-1/3 px-4">
                   <svg
-                    className="absolute top-0 left-0 -mt-10 ml-4 text-green-600"
+                    className="absolute top-0 left-0 -mt-10 ml-4 text-webriq-darkblue"
                     width={36}
                     height={101}
                     viewBox="0 0 36 101"
@@ -38,7 +38,7 @@ function VariantD({ subtitle, title, steps }) {
               {steps?.[1] && (
                 <div className="mb-16 lg:mb-0 relative w-full md:w-1/2 lg:w-1/3 px-4">
                   <svg
-                    className="absolute top-0 left-0 -mt-10 ml-4 text-green-600"
+                    className="absolute top-0 left-0 -mt-10 ml-4 text-webriq-darkblue"
                     width={70}
                     height={103}
                     viewBox="0 0 70 103"
@@ -60,7 +60,7 @@ function VariantD({ subtitle, title, steps }) {
               {steps?.[2] && (
                 <div className="relative w-full md:w-1/2 lg:w-1/3 px-4">
                   <svg
-                    className="absolute top-0 left-0 -mt-10 ml-4 text-green-600"
+                    className="absolute top-0 left-0 -mt-10 ml-4 text-webriq-darkblue"
                     width={72}
                     height={105}
                     viewBox="0 0 72 105"
@@ -84,6 +84,6 @@ function VariantD({ subtitle, title, steps }) {
         </div>
       </div>
     </section>
-  )
+  );
 }
-export default React.memo(VariantD)
+export default React.memo(VariantD);
