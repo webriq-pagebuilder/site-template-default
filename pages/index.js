@@ -50,7 +50,7 @@ function Home({ data, preview }) {
             key={section._key}
             template={{
               bg: "gray",
-              color: "#296eff",
+              color: "webriq",
             }}
             data={section}
           />

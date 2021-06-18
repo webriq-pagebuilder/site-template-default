@@ -64,7 +64,7 @@ function page({ data, preview }) {
               key={section._key}
               template={{
                 bg: "gray",
-                color: "#296eff",
+                color: "webriq",
               }}
               {...{ [section._type]: section }}
               data={section}

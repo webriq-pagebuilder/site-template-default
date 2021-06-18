@@ -116,7 +116,7 @@ function VariantA({ template, links, primaryButton, secondaryButton, logo }) {
         )}
         {secondaryButton && (
           <a
-            className={`hidden lg:inline-block py-2 px-6 bg-${template.color}-500 hover:bg-${template.color}-600 text-sm text-white font-bold rounded-l-xl rounded-t-xl transition duration-200`}
+            className={`hidden lg:inline-block py-2 px-6 bg-${template.color}-blue hover:bg-${template.color}-darkblue text-sm text-white font-bold rounded-l-xl rounded-t-xl transition duration-200`}
             href={
               secondaryButton.type === "linkInternal"
                 ? secondaryButton.internalLink === "Home" ||
@@ -225,7 +225,7 @@ function VariantA({ template, links, primaryButton, secondaryButton, logo }) {
               )}
               {secondaryButton && (
                 <a
-                  className={`block px-4 py-3 mb-2 leading-loose text-xs text-center text-white font-semibold bg-${template.color}-600 hover:bg-${template.color}-700 rounded-l-xl rounded-t-xl`}
+                  className={`block px-4 py-3 mb-2 leading-loose text-xs text-center text-white font-semibold bg-${template.color}-blue hover:bg-${template.color}-darkblue rounded-l-xl rounded-t-xl`}
                   href={
                     secondaryButton.type === "linkInternal"
                       ? secondaryButton.internalLink === "Home" ||
