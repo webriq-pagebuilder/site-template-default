@@ -1,7 +1,7 @@
-import React from "react"
+import React from "react";
 
 function VariantA({ caption, title, description, plans }) {
-  const [plan, setPlan] = React.useState("monthly")
+  const [plan, setPlan] = React.useState("monthly");
 
   return (
     <section>
@@ -26,7 +26,7 @@ function VariantA({ caption, title, description, plans }) {
       <div className="py-20 bg-gray-50 radius-for-skewed">
         <div className="container mx-auto px-4">
           <div className="max-w-2xl mx-auto text-center mb-16">
-            <span className="text-green-600 font-bold">
+            <span className="text-webriq-darkblue font-bold">
               {caption && caption}
             </span>
             <h2 className="mb-2 text-4xl lg:text-5xl font-bold font-heading">
@@ -81,10 +81,10 @@ function VariantA({ caption, title, description, plans }) {
                     {plans?.[0]?.description}
                   </p>
                   <ul className="mb-6 text-gray-500">
-                    {plans?.[0]?.planIncludes?.map(include => (
+                    {plans?.[0]?.planIncludes?.map((include) => (
                       <li className="mb-2 flex" key={include}>
                         <svg
-                          className="mr-2 w-5 h-5 text-green-600"
+                          className="mr-2 w-5 h-5 text-webriq-darkblue"
                           xmlns="http://www.w3.org/2000/svg"
                           viewBox="0 0 20 20"
                           fill="currentColor"
@@ -101,7 +101,7 @@ function VariantA({ caption, title, description, plans }) {
                   </ul>
                   {plans?.[0]?.primaryButton?.label && (
                     <a
-                      className="inline-block text-center py-2 px-4 w-full rounded-l-xl rounded-t-xl bg-green-600 hover:bg-green-700 text-white font-bold leading-loose transition duration-200"
+                      className="inline-block text-center py-2 px-4 w-full rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-loose transition duration-200"
                       href={
                         plans?.[0]?.primaryButton?.type === "linkInternal"
                           ? plans?.[0]?.primaryButton?.internalLink ===
@@ -120,7 +120,7 @@ function VariantA({ caption, title, description, plans }) {
             )}
             {plans?.[1] && (
               <div className="w-full md:w-1/2 lg:w-1/3 px-4 mb-8 lg:mb-0">
-                <div className="p-8 bg-green-600 shadow rounded">
+                <div className="p-8 bg-webriq-darkblue shadow rounded">
                   <h4 className="mb-2 text-2xl font-bold text-white">
                     {plans?.[1]?.planType}
                   </h4>
@@ -140,10 +140,10 @@ function VariantA({ caption, title, description, plans }) {
                     {plans?.[1]?.description}
                   </p>
                   <ul className="mb-6 text-gray-50">
-                    {plans?.[1]?.planIncludes?.map(include => (
+                    {plans?.[1]?.planIncludes?.map((include) => (
                       <li className="mb-2 flex" key={include}>
                         <svg
-                          className="mr-2 w-5 h-5 text-green-400"
+                          className="mr-2 w-5 h-5 text-webriq-babyblue"
                           xmlns="http://www.w3.org/2000/svg"
                           viewBox="0 0 20 20"
                           fill="currentColor"
@@ -199,10 +199,10 @@ function VariantA({ caption, title, description, plans }) {
                     {plans?.[2]?.description}
                   </p>
                   <ul className="mb-6 text-gray-500">
-                    {plans?.[2]?.planIncludes?.map(include => (
+                    {plans?.[2]?.planIncludes?.map((include) => (
                       <li className="mb-2 flex" key={include}>
                         <svg
-                          className="mr-2 w-5 h-5 text-green-600"
+                          className="mr-2 w-5 h-5 text-webriq-darkblue"
                           xmlns="http://www.w3.org/2000/svg"
                           viewBox="0 0 20 20"
                           fill="currentColor"
@@ -218,7 +218,7 @@ function VariantA({ caption, title, description, plans }) {
                     ))}
                   </ul>
                   <a
-                    className="inline-block text-center py-2 px-4 w-full rounded-l-xl rounded-t-xl bg-green-600 hover:bg-green-700 text-white font-bold leading-loose transition duration-200"
+                    className="inline-block text-center py-2 px-4 w-full rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-loose transition duration-200"
                     href="#"
                   >
                     Get Started
@@ -271,7 +271,7 @@ function VariantA({ caption, title, description, plans }) {
     //     <div className="container mx-auto px-4">
     //       <div className="max-w-2xl mx-auto text-center mb-16">
     //         {caption === undefined ? null : (
-    //           <span className="text-green-600 font-bold">{caption}</span>
+    //           <span className="text-webriq-darkblue font-bold">{caption}</span>
     //         )}
     //         {title === undefined ? null : (
     //           <h2 className="mb-2 text-4xl lg:text-5xl font-bold font-heading">
@@ -339,7 +339,7 @@ function VariantA({ caption, title, description, plans }) {
     //                   {offers?.[0]?.planIncludes?.map(include =>
     //                     <li className="mb-2 flex">
     //                       <svg
-    //                         className="mr-2 w-5 h-5 text-green-600"
+    //                         className="mr-2 w-5 h-5 text-webriq-darkblue"
     //                         xmlns="http://www.w3.org/2000/svg"
     //                         viewBox="0 0 20 20"
     //                         fill="currentColor"
@@ -356,7 +356,7 @@ function VariantA({ caption, title, description, plans }) {
     //                 </ul>
     //                 {offers?.[0]?.primaryButton?.label && (
     //                   <a
-    //                     className="inline-block text-center py-2 px-4 w-full rounded-l-xl rounded-t-xl bg-green-600 hover:bg-green-700 text-white font-bold leading-loose transition duration-200"
+    //                     className="inline-block text-center py-2 px-4 w-full rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-loose transition duration-200"
     //                     href={
     //                       offers?.[0]?.primaryButton.type === "linkInternal" ? (
     //                         offers?.[0]?.primaryButton.internalLink === "Home" ||
@@ -372,7 +372,7 @@ function VariantA({ caption, title, description, plans }) {
     //             </div>
     //           <div className="w-full md:w-1/2 lg:w-1/3 px-4 mb-8 lg:mb-0">
     //             {offers?.[1] && (
-    //               <div className="p-8 bg-green-600 shadow rounded">
+    //               <div className="p-8 bg-webriq-darkblue shadow rounded">
     //                 <h4 className="mb-2 text-2xl font-bold text-white">
     //                   {offers?.[1]?.title}
     //                 </h4>
@@ -403,7 +403,7 @@ function VariantA({ caption, title, description, plans }) {
     //                 {offers?.[1]?.planIncludes?.map(include =>
     //                   <li className="mb-2 flex">
     //                     <svg
-    //                       className="mr-2 w-5 h-5 text-green-400"
+    //                       className="mr-2 w-5 h-5 text-webriq-babyblue"
     //                       xmlns="http://www.w3.org/2000/svg"
     //                       viewBox="0 0 20 20"
     //                       fill="currentColor"
@@ -465,7 +465,7 @@ function VariantA({ caption, title, description, plans }) {
     //                 <ul className="mb-6 text-gray-500">
     //                   <li className="mb-2 flex">
     //                     <svg
-    //                       className="mr-2 w-5 h-5 text-green-600"
+    //                       className="mr-2 w-5 h-5 text-webriq-darkblue"
     //                       xmlns="http://www.w3.org/2000/svg"
     //                       viewBox="0 0 20 20"
     //                       fill="currentColor"
@@ -480,7 +480,7 @@ function VariantA({ caption, title, description, plans }) {
     //                   </li>
     //                   <li className="mb-2 flex">
     //                     <svg
-    //                       className="mr-2 w-5 h-5 text-green-600"
+    //                       className="mr-2 w-5 h-5 text-webriq-darkblue"
     //                       xmlns="http://www.w3.org/2000/svg"
     //                       viewBox="0 0 20 20"
     //                       fill="currentColor"
@@ -495,7 +495,7 @@ function VariantA({ caption, title, description, plans }) {
     //                   </li>
     //                   <li className="mb-2 flex">
     //                     <svg
-    //                       className="mr-2 w-5 h-5 text-green-600"
+    //                       className="mr-2 w-5 h-5 text-webriq-darkblue"
     //                       xmlns="http://www.w3.org/2000/svg"
     //                       viewBox="0 0 20 20"
     //                       fill="currentColor"
@@ -510,7 +510,7 @@ function VariantA({ caption, title, description, plans }) {
     //                   </li>
     //                   <li className="mb-2 flex">
     //                     <svg
-    //                       className="mr-2 w-5 h-5 text-green-600"
+    //                       className="mr-2 w-5 h-5 text-webriq-darkblue"
     //                       xmlns="http://www.w3.org/2000/svg"
     //                       viewBox="0 0 20 20"
     //                       fill="currentColor"
@@ -525,7 +525,7 @@ function VariantA({ caption, title, description, plans }) {
     //                   </li>
     //                   <li className="mb-2 flex">
     //                     <svg
-    //                       className="mr-2 w-5 h-5 text-green-600"
+    //                       className="mr-2 w-5 h-5 text-webriq-darkblue"
     //                       xmlns="http://www.w3.org/2000/svg"
     //                       viewBox="0 0 20 20"
     //                       fill="currentColor"
@@ -542,7 +542,7 @@ function VariantA({ caption, title, description, plans }) {
     //                 {offers[2].primaryButton === undefined ||
     //                 offers[2].primaryButton.displayText === undefined ? null : (
     //                   <a
-    //                     className="inline-block text-center py-2 px-4 w-full rounded-l-xl rounded-t-xl bg-green-600 hover:bg-green-700 text-white font-bold leading-loose transition duration-200"
+    //                     className="inline-block text-center py-2 px-4 w-full rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-loose transition duration-200"
     //                     href={
     //                       offers[2].primaryButton.route === "Home" ||
     //                       offers[2].primaryButton.route === "home"
@@ -579,6 +579,6 @@ function VariantA({ caption, title, description, plans }) {
     //     </svg>
     //   </div>
     // </section>
-  )
+  );
 }
-export default React.memo(VariantA)
+export default React.memo(VariantA);

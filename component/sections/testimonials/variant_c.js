@@ -1,23 +1,23 @@
-import React from "react"
-import { urlFor } from "../../../lib/sanity"
+import React from "react";
+import { urlFor } from "../../../lib/sanity";
 function VariantC({ caption, title, testimonials }) {
-  const [testimony, setTestimony] = React.useState(testimonials)
+  const [testimony, setTestimony] = React.useState(testimonials);
 
-  const slider = action => {
+  const slider = (action) => {
     if (action === "next") {
       // Remove first element
-      let firstItem = testimony?.shift()
+      let firstItem = testimony?.shift();
 
       // Push the deleted element to last index
-      setTestimony(prevState => [...prevState, firstItem])
+      setTestimony((prevState) => [...prevState, firstItem]);
     } else if (action === "prev") {
       // Remove last element
-      let lastItem = testimony?.pop()
+      let lastItem = testimony?.pop();
 
       // Push the deleted element to first index
-      setTestimony(prevState => [lastItem, ...prevState])
+      setTestimony((prevState) => [lastItem, ...prevState]);
     }
-  }
+  };
 
   return (
     <section>
@@ -43,7 +43,7 @@ function VariantC({ caption, title, testimonials }) {
         <div className="max-w-6xl mx-auto px-4 pb-6 lg:pb-16">
           <div className="flex flex-wrap justify-center lg:justify-between items-center text-center lg:text-left">
             <div className="w-full lg:w-4/5 mb-4 lg:mb-0">
-              <span className="text-green-600 font-bold">{caption}</span>
+              <span className="text-webriq-darkblue font-bold">{caption}</span>
               <h2 className="text-4xl lg:text-5xl font-bold font-heading">
                 {title}
               </h2>
@@ -51,7 +51,7 @@ function VariantC({ caption, title, testimonials }) {
             <div className="w-full lg:w-1/5">
               {testimony?.length >= 4 && (
                 <button
-                  className="mr-4 bg-white p-5 rounded-full shadow-md text-green-600 hover:text-green-700 transition duration-200"
+                  className="mr-4 bg-white p-5 rounded-full shadow-md text-webriq-darkblue hover:text-webriq-darkblue transition duration-200"
                   onClick={() => slider("prev")}
                 >
                   <svg
@@ -72,7 +72,7 @@ function VariantC({ caption, title, testimonials }) {
               )}
               {testimony?.length >= 4 && (
                 <button
-                  className="bg-white p-5 rounded-full shadow-md text-green-600 hover:text-green-700 transition duration-200"
+                  className="bg-white p-5 rounded-full shadow-md text-webriq-darkblue hover:text-webriq-darkblue transition duration-200"
                   onClick={() => slider("next")}
                 >
                   <svg
@@ -95,7 +95,7 @@ function VariantC({ caption, title, testimonials }) {
           </div>
         </div>
         <div className="relative flex">
-          {testimony?.map(item => (
+          {testimony?.map((item) => (
             <>
               {/* <div className="hidden lg:block absolute top-0 left-0 lg:w-1/3 px-3 -ml-80 opacity-25">
                 <div className="p-8 bg-white rounded shadow text-center">
@@ -160,6 +160,6 @@ function VariantC({ caption, title, testimonials }) {
         </svg>
       </div>
     </section>
-  )
+  );
 }
-export default React.memo(VariantC)
+export default React.memo(VariantC);

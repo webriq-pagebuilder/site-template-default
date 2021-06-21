@@ -1,8 +1,8 @@
-import React from "react"
-import Head from "next/head"
-import dynamic from "next/dynamic"
-import { homeQuery } from "./api/query"
-import { getClient, usePreviewSubscription } from "../lib/sanity"
+import React from "react";
+import Head from "next/head";
+import dynamic from "next/dynamic";
+import { homeQuery } from "./api/query";
+import { getClient, usePreviewSubscription } from "../lib/sanity";
 
 const Components = {
   navigation: dynamic(() => import("../component/sections/navigation")),
@@ -23,52 +23,52 @@ const Components = {
   stats: dynamic(() => import("../component/sections/stats")),
   cookies: dynamic(() => import("../component/sections/cookies")),
   footer: dynamic(() => import("../component/sections/footer")),
-}
+};
 
 function Home({ data, preview }) {
   const { data: page } = usePreviewSubscription(homeQuery, {
     initialData: data,
     enabled: preview,
-  })
+  });
 
-  const pageData = page?.page?.[0] || page[0]
+  const pageData = page?.page?.[0] || page[0];
   if (!pageData) {
-    return null
+    return null;
   }
 
-  const { sections, title } = pageData
+  const { sections, title } = pageData;
 
   return (
     <>
       <Head>
         <title>{title}</title>
       </Head>
-      {sections?.map(section => {
-        const Component = Components[section._type]
+      {sections?.map((section) => {
+        const Component = Components[section._type];
         return (
           <Component
             key={section._key}
             template={{
               bg: "gray",
-              color: "green",
+              color: "webriq",
             }}
             data={section}
           />
-        )
+        );
       })}
     </>
-  )
+  );
 }
 
 export async function getStaticProps({ preview = false }) {
-  const page = await getClient(preview).fetch(homeQuery)
+  const page = await getClient(preview).fetch(homeQuery);
 
   return {
     props: {
       preview,
       data: { page },
     },
-  }
+  };
 }
 
-export default React.memo(Home)
+export default React.memo(Home);

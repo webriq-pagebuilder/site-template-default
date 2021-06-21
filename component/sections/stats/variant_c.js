@@ -1,4 +1,4 @@
-import React from "react"
+import React from "react";
 
 function VariantC({ stats }) {
   return (
@@ -8,9 +8,9 @@ function VariantC({ stats }) {
           <div className="flex flex-wrap items-center justify-center">
             {stats[0] && (
               <div className="mb-8 w-full md:w-1/2 lg:w-1/4 text-center">
-                <span className="mb-6 inline-block p-4 rounded bg-green-100">
+                <span className="mb-6 inline-block p-4 rounded bg-webriq-lightblue">
                   <svg
-                    className="w-6 h-6 text-green-600"
+                    className="w-6 h-6 text-webriq-darkblue"
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 20 20"
                     fill="currentColor"
@@ -24,9 +24,9 @@ function VariantC({ stats }) {
             )}
             {stats[1] && (
               <div className="mb-8 w-full md:w-1/2 lg:w-1/4 text-center">
-                <span className="mb-6 inline-block p-4 rounded bg-green-100">
+                <span className="mb-6 inline-block p-4 rounded bg-webriq-lightblue">
                   <svg
-                    className="w-6 h-6 text-green-600"
+                    className="w-6 h-6 text-webriq-darkblue"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 24 24"
@@ -46,9 +46,9 @@ function VariantC({ stats }) {
             )}
             {stats[2] && (
               <div className="mb-8 w-full md:w-1/2 lg:w-1/4 text-center">
-                <span className="mb-6 inline-block p-4 rounded bg-green-100">
+                <span className="mb-6 inline-block p-4 rounded bg-webriq-lightblue">
                   <svg
-                    className="w-6 h-6 text-green-600"
+                    className="w-6 h-6 text-webriq-darkblue"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 24 24"
@@ -68,9 +68,9 @@ function VariantC({ stats }) {
             )}
             {stats[3] && (
               <div className="mb-8 w-full md:w-1/2 lg:w-1/4 text-center">
-                <span className="mb-6 inline-block p-4 rounded bg-green-100">
+                <span className="mb-6 inline-block p-4 rounded bg-webriq-lightblue">
                   <svg
-                    className="w-6 h-6 text-green-600"
+                    className="w-6 h-6 text-webriq-darkblue"
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 20 20"
                     fill="currentColor"
@@ -91,6 +91,6 @@ function VariantC({ stats }) {
         )}
       </div>
     </section>
-  )
+  );
 }
-export default React.memo(VariantC)
+export default React.memo(VariantC);

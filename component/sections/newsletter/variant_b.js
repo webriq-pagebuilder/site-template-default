@@ -1,6 +1,6 @@
-import React from "react"
-import { urlFor } from "lib/sanity"
-import WebriQForm from "@webriq/gatsby-webriq-form"
+import React from "react";
+import { urlFor } from "lib/sanity";
+import WebriQForm from "@webriq/gatsby-webriq-form";
 
 function VariantB({ logo, title, description, formFields, formId, formName }) {
   return (
@@ -51,7 +51,7 @@ function VariantB({ logo, title, description, formFields, formId, formName }) {
                       <div className="webriq-recaptcha" />
                     </div>
                     <button
-                      className="flex-none py-2 px-6 rounded-t-xl rounded-l-xl bg-green-600 hover:bg-green-700 text-gray-50 font-bold leading-loose transition duration-200"
+                      className="flex-none py-2 px-6 rounded-t-xl rounded-l-xl bg-webriq-blue hover:bg-webriq-darkblue text-gray-50 font-bold leading-loose transition duration-200"
                       type="submit"
                     >
                       Get Started
@@ -64,6 +64,6 @@ function VariantB({ logo, title, description, formFields, formId, formName }) {
         </div>
       </div>
     </section>
-  )
+  );
 }
-export default React.memo(VariantB)
+export default React.memo(VariantB);

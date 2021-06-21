@@ -1,5 +1,5 @@
-import React from "react"
-import { urlFor } from "../../../lib/sanity"
+import React from "react";
+import { urlFor } from "../../../lib/sanity";
 
 function VariantC({ caption, title, posts, primaryButton }) {
   return (
@@ -26,7 +26,7 @@ function VariantC({ caption, title, posts, primaryButton }) {
         <div className="container mx-auto px-4">
           <div className="mb-16 flex flex-wrap items-center">
             <div className="w-full lg:w-1/2 text-center lg:text-left">
-              <span className="text-green-600 font-bold">
+              <span className="text-webriq-darkblue font-bold">
                 {caption && caption}
               </span>
               <h2 className="text-4xl lg:text-5xl font-bold font-heading">
@@ -36,7 +36,7 @@ function VariantC({ caption, title, posts, primaryButton }) {
             {primaryButton && (
               <div className="hidden lg:block text-right w-1/2">
                 <a
-                  className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-green-600 hover:bg-green-700 text-gray-50 font-bold leading-loose transition duration-200"
+                  className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-gray-50 font-bold leading-loose transition duration-200"
                   href={
                     primaryButton.type === "linkInternal"
                       ? primaryButton.internalLink === "Home" ||
@@ -74,7 +74,7 @@ function VariantC({ caption, title, posts, primaryButton }) {
                         {post.description}
                       </p>
                       <a
-                        className="text-green-600 hover:text-green-700 font-bold"
+                        className="text-webriq-darkblue hover:text-webriq-darkblue font-bold"
                         href="#"
                       >
                         Learn More
@@ -94,7 +94,7 @@ function VariantC({ caption, title, posts, primaryButton }) {
                         {post.description}
                       </p>
                       <a
-                        className="text-green-600 hover:text-green-700 font-bold"
+                        className="text-webriq-darkblue hover:text-webriq-darkblue font-bold"
                         href="#"
                       >
                         Learn More
@@ -219,6 +219,6 @@ function VariantC({ caption, title, posts, primaryButton }) {
         </svg>
       </div>
     </section>
-  )
+  );
 }
-export default React.memo(VariantC)
+export default React.memo(VariantC);

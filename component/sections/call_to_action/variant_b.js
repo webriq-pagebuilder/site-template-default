@@ -1,6 +1,6 @@
-import { urlFor } from "lib/sanity"
-import React from "react"
-import WebriQForm from "@webriq/gatsby-webriq-form"
+import { urlFor } from "lib/sanity";
+import React from "react";
+import WebriQForm from "@webriq/gatsby-webriq-form";
 
 function VariantB({ logo, title, text, formFields, formId, formName }) {
   return (
@@ -9,7 +9,7 @@ function VariantB({ logo, title, text, formFields, formId, formName }) {
         <div className="container mx-auto px-4">
           <div className="max-w-xl mx-auto text-center">
             {logo && (
-              <span className="mb-6 inline-block p-3 bg-green-200 rounded">
+              <span className="mb-6 inline-block p-3 bg-webriq-lightblue rounded">
                 <img
                   className="h-12"
                   src={urlFor(logo?.image)}
@@ -64,7 +64,7 @@ function VariantB({ logo, title, text, formFields, formId, formName }) {
                     <div className="webriq-recaptcha" />
                   </div>
                   <button
-                    className="w-full md:w-auto py-2 px-4 bg-green-600 hover:bg-green-700 text-white font-bold leading-loose rounded-l-xl rounded-t-xl transition duration-200"
+                    className="w-full md:w-auto py-2 px-4 bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-loose rounded-l-xl rounded-t-xl transition duration-200"
                     type="submit"
                   >
                     Get&nbsp;Started
@@ -76,6 +76,6 @@ function VariantB({ logo, title, text, formFields, formId, formName }) {
         </div>
       </div>
     </section>
-  )
+  );
 }
-export default React.memo(VariantB)
+export default React.memo(VariantB);

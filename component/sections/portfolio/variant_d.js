@@ -1,11 +1,16 @@
-import React from "react"
-import { urlFor } from "../../../lib/sanity"
-function VariantD({ /* template,*/ caption, title, portfolios, primaryButton }) {
-  const [category, setCategory] = React.useState("category_2")
+import React from "react";
+import { urlFor } from "../../../lib/sanity";
+function VariantD({
+  /* template,*/ caption,
+  title,
+  portfolios,
+  primaryButton,
+}) {
+  const [category, setCategory] = React.useState("category_2");
 
   const renderCategory = () => {
     if (category === "category_1") {
-      return <p>Category 1</p>
+      return <p>Category 1</p>;
     } else if (category === "category_2") {
       return (
         <div className="flex flex-wrap -mx-4 mb-12">
@@ -43,7 +48,7 @@ function VariantD({ /* template,*/ caption, title, portfolios, primaryButton }) 
           {portfolios && (
             <div className="flex flex-wrap w-full lg:w-1/2">
               <div className="w-full px-4 mb-8">
-                {portfolios?.[3] &&  (
+                {portfolios?.[3] && (
                   <div className="relative">
                     <img
                       className="h-128 w-full rounded-lg object-cover"
@@ -53,7 +58,7 @@ function VariantD({ /* template,*/ caption, title, portfolios, primaryButton }) 
                     <div className="absolute inset-0 bg-gray-900 opacity-80 rounded-lg" />
                     <div className="absolute inset-0 p-6 flex justify-center">
                       <div className="max-w-md my-auto">
-                        <span className="text-green-600 font-bold">
+                        <span className="text-webriq-darkblue font-bold">
                           {portfolios[3].subtitle}
                         </span>
                         <h2 className="text-4xl lg:text-5xl text-white font-bold">
@@ -64,7 +69,7 @@ function VariantD({ /* template,*/ caption, title, portfolios, primaryButton }) 
                             {portfolios[3].description}
                           </p>
                           <a
-                            className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-green-600 hover:bg-green-700 text-gray-50 font-bold leading-loose"
+                            className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-gray-50 font-bold leading-loose"
                             href="#"
                           >
                             See More
@@ -96,15 +101,15 @@ function VariantD({ /* template,*/ caption, title, portfolios, primaryButton }) 
             </div>
           )}
         </div>
-      )
+      );
     } else if (category === "category_3") {
-      return <p>Category 3</p>
+      return <p>Category 3</p>;
     } else if (category === "category_4") {
-      return <p>Category 4</p>
+      return <p>Category 4</p>;
     } else {
-      return <p>Category 1</p>
+      return <p>Category 1</p>;
     }
-  }
+  };
   return (
     <section>
       <div className="skew skew-top mr-for-radius">
@@ -129,7 +134,7 @@ function VariantD({ /* template,*/ caption, title, portfolios, primaryButton }) 
         <div className="container mx-auto px-4">
           <div className="mb-8 md:mb-16 max-w-lg mx-auto text-center">
             {caption === undefined ? null : (
-              <span className="text-green-600 font-bold">
+              <span className="text-webriq-darkblue font-bold">
                 {/* Dolor sit amet consectutar */}
                 {caption}
               </span>
@@ -189,13 +194,14 @@ function VariantD({ /* template,*/ caption, title, portfolios, primaryButton }) 
           {primaryButton && (
             <div className="text-center">
               <a
-                className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-green-600 hover:bg-green-700 text-gray-50 font-bold leading-loose transition duration-200"
+                className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-gray-50 font-bold leading-loose transition duration-200"
                 href={
-                  primaryButton.type === "linkInternal" ? (
-                    primaryButton.internalLink === "Home" ||
-                    primaryButton.internalLink === "home"
+                  primaryButton.type === "linkInternal"
+                    ? primaryButton.internalLink === "Home" ||
+                      primaryButton.internalLink === "home"
                       ? "/"
-                      : primaryButton.internalLink) : primaryButton.externalLink
+                      : primaryButton.internalLink
+                    : primaryButton.externalLink
                 }
               >
                 {primaryButton.label}
@@ -223,7 +229,7 @@ function VariantD({ /* template,*/ caption, title, portfolios, primaryButton }) 
         </svg>
       </div>
     </section>
-  )
+  );
 }
 
-export default React.memo(VariantD)
+export default React.memo(VariantD);

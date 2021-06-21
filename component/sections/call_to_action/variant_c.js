@@ -1,5 +1,5 @@
-import React from "react"
-import WebriQForm from "@webriq/gatsby-webriq-form"
+import React from "react";
+import WebriQForm from "@webriq/gatsby-webriq-form";
 
 function VariantC({ title, text, features, formFields, formId, formName }) {
   return (
@@ -41,7 +41,7 @@ function VariantC({ title, text, features, formFields, formId, formName }) {
                     <div className="webriq-recaptcha" />
                   </div>
                   <button
-                    className="inline-block py-2 px-6 bg-green-600 hover:bg-green-700 text-white font-bold leading-loose rounded-l-xl rounded-t-xl transition duration-200"
+                    className="inline-block py-2 px-6 bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-loose rounded-l-xl rounded-t-xl transition duration-200"
                     type="submit"
                   >
                     Get Started
@@ -56,7 +56,7 @@ function VariantC({ title, text, features, formFields, formId, formName }) {
                     <li className="mr-4 flex items-center" key={index}>
                       <span>
                         <svg
-                          className="mr-2 w-6 h-6 text-green-500"
+                          className="mr-2 w-6 h-6 text-webriq-blue"
                           xmlns="http://www.w3.org/2000/svg"
                           viewBox="0 0 20 20"
                           fill="currentColor"
@@ -77,6 +77,6 @@ function VariantC({ title, text, features, formFields, formId, formName }) {
         </div>
       </div>
     </section>
-  )
+  );
 }
-export default React.memo(VariantC)
+export default React.memo(VariantC);

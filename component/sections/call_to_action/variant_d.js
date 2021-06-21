@@ -1,6 +1,6 @@
-import { urlFor } from "lib/sanity"
-import React from "react"
-import WebriQForm from "@webriq/gatsby-webriq-form"
+import { urlFor } from "lib/sanity";
+import React from "react";
+import WebriQForm from "@webriq/gatsby-webriq-form";
 
 function VariantD({
   logo,
@@ -36,7 +36,7 @@ function VariantD({
             <p className="mb-8 text-gray-500 leading-loose">{text}</p>
             {button && (
               <a
-                className="inline-block py-2 px-6 bg-green-600 hover:bg-green-700 text-white font-bold leading-loose transition duration-250 rounded-l-xl rounded-t-xl"
+                className="inline-block py-2 px-6 bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-loose transition duration-250 rounded-l-xl rounded-t-xl"
                 href={
                   button.type === "linkExternal"
                     ? button?.externalLink
@@ -274,7 +274,7 @@ function VariantD({
                       <div className="webriq-recaptcha" />
                     </div>
                     <button
-                      className="mb-4 py-4 w-full rounded text-sm bg-green-600 hover:bg-green-700 text-white font-bold leading-normal transition duration-200"
+                      className="mb-4 py-4 w-full rounded text-sm bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-normal transition duration-200"
                       type="submit"
                     >
                       Sign Up
@@ -282,7 +282,7 @@ function VariantD({
                   </WebriQForm>
                   <p className="text-xs text-gray-400">
                     <span>Already have an account?</span>
-                    <a className="text-green-500" href="#">
+                    <a className="text-webriq-blue" href="#">
                       &nbsp;Sign In
                     </a>
                   </p>
@@ -293,7 +293,7 @@ function VariantD({
                   <p className="text-center text-gray-400">
                     {links?.[0](
                       <a
-                        className="text-green-600 hover:text-green-700"
+                        className="text-webriq-darkblue hover:text-webriq-darkblue"
                         href={
                           links[0].type === "linkExternal"
                             ? links[0]?.externalLink
@@ -311,7 +311,7 @@ function VariantD({
                     <span>&nbsp;and&nbsp;</span>
                     {links?.[1](
                       <a
-                        className="text-green-600 hover:text-green-700"
+                        className="text-webriq-darkblue hover:text-webriq-darkblue"
                         href={
                           links[1].type === "linkExternal"
                             ? links[1]?.externalLink
@@ -331,7 +331,7 @@ function VariantD({
                   <p className="text-center text-gray-400">
                     {links?.[0] && (
                       <a
-                        className="text-green-600 hover:text-green-700"
+                        className="text-webriq-darkblue hover:text-webriq-darkblue"
                         href={
                           links[0].type === "linkExternal"
                             ? links[0]?.externalLink
@@ -353,6 +353,6 @@ function VariantD({
         </div>
       </div>
     </section>
-  )
+  );
 }
-export default React.memo(VariantD)
+export default React.memo(VariantD);

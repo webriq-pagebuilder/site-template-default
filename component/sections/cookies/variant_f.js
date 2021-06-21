@@ -1,9 +1,9 @@
-import React, { useState } from "react"
-import PortableText from "@sanity/block-content-to-react"
+import React, { useState } from "react";
+import PortableText from "@sanity/block-content-to-react";
 
 function VariantF({ title, block, button1, button2 }) {
   //to hide cookie component
-  const [showCookie, setShowCookie] = useState(true)
+  const [showCookie, setShowCookie] = useState(true);
 
   return (
     <div className="fixed bottom-0 inset-x-0 z-50">
@@ -21,7 +21,7 @@ function VariantF({ title, block, button1, button2 }) {
                   (button1.match(/Accept|Allow|Ok|Yes/gi) ? (
                     <button
                       type="button"
-                      className="inline-block w-1/2 py-4 text-sm rounded-br-lg border-r text-green-600 font-bold hover:bg-gray-700 transition duration-500"
+                      className="inline-block w-1/2 py-4 text-sm rounded-br-lg border-r text-webriq-darkblue font-bold hover:bg-gray-700 transition duration-500"
                       onClick={() => setShowCookie(!showCookie)}
                     >
                       {button1}
@@ -37,7 +37,7 @@ function VariantF({ title, block, button1, button2 }) {
                   ) : (
                     <button
                       type="button"
-                      className="inline-block w-1/2 py-4 text-sm rounded-br-lg border-r text-green-600 font-bold hover:bg-gray-700 transition duration-500"
+                      className="inline-block w-1/2 py-4 text-sm rounded-br-lg border-r text-webriq-darkblue font-bold hover:bg-gray-700 transition duration-500"
                       onClick={() => setShowCookie(!showCookie)}
                     >
                       {button1}
@@ -47,7 +47,7 @@ function VariantF({ title, block, button1, button2 }) {
                   (button2.match(/Accept|Allow|Ok|Yes/gi) ? (
                     <button
                       type="button"
-                      className="inline-block w-1/2 py-4 text-sm rounded-br-lg border-r text-green-600 font-bold hover:bg-gray-700 transition duration-500"
+                      className="inline-block w-1/2 py-4 text-sm rounded-br-lg border-r text-webriq-darkblue font-bold hover:bg-gray-700 transition duration-500"
                       onClick={() => setShowCookie(!showCookie)}
                     >
                       {button2}
@@ -63,7 +63,7 @@ function VariantF({ title, block, button1, button2 }) {
                   ) : (
                     <button
                       type="button"
-                      className="inline-block w-1/2 py-4 text-sm rounded-br-lg border-r text-green-600 font-bold hover:bg-gray-700 transition duration-500"
+                      className="inline-block w-1/2 py-4 text-sm rounded-br-lg border-r text-webriq-darkblue font-bold hover:bg-gray-700 transition duration-500"
                       onClick={() => setShowCookie(!showCookie)}
                     >
                       {button2}
@@ -74,6 +74,6 @@ function VariantF({ title, block, button1, button2 }) {
           )
         : null}
     </div>
-  )
+  );
 }
-export default React.memo(VariantF)
+export default React.memo(VariantF);

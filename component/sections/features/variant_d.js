@@ -1,4 +1,4 @@
-import React from "react"
+import React from "react";
 
 function VariantD({ caption, title, features }) {
   return (
@@ -25,7 +25,7 @@ function VariantD({ caption, title, features }) {
         <div className="container mx-auto px-4">
           <div className="mb-16 max-w-md mx-auto text-center">
             {caption && (
-              <span className="text-green-600 font-bold">{caption}</span>
+              <span className="text-webriq-darkblue font-bold">{caption}</span>
             )}
             {title && (
               <h2 className="text-4xl lg:text-5xl font-bold font-heading">
@@ -37,9 +37,9 @@ function VariantD({ caption, title, features }) {
             {features?.[0] && (
               <div className="mb-8 lg:mb-0 w-full lg:w-1/3 px-4">
                 <div className="py-12 px-6 bg-white rounded shadow text-center">
-                  <span className="mb-6 inline-block p-2 rounded-lg bg-green-100">
+                  <span className="mb-6 inline-block p-2 rounded-lg bg-webriq-lightblue">
                     <svg
-                      className="w-10 h-10 text-green-500"
+                      className="w-10 h-10 text-webriq-blue"
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
                       viewBox="0 0 24 24"
@@ -63,9 +63,9 @@ function VariantD({ caption, title, features }) {
             {features?.[1] && (
               <div className="mb-8 lg:mb-0 w-full lg:w-1/3 px-4">
                 <div className="py-12 px-6 bg-white rounded shadow text-center">
-                  <span className="mb-6 inline-block p-2 rounded-lg bg-green-100">
+                  <span className="mb-6 inline-block p-2 rounded-lg bg-webriq-lightblue">
                     <svg
-                      className="w-10 h-10 text-green-500"
+                      className="w-10 h-10 text-webriq-blue"
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 20 20"
                       fill="currentColor"
@@ -83,9 +83,9 @@ function VariantD({ caption, title, features }) {
             {features?.[2] && (
               <div className="w-full lg:w-1/3 px-4">
                 <div className="py-12 px-6 bg-white rounded shadow text-center">
-                  <span className="mb-6 inline-block p-2 rounded bg-green-100">
+                  <span className="mb-6 inline-block p-2 rounded bg-webriq-lightblue">
                     <svg
-                      className="w-10 h-10 text-green-500"
+                      className="w-10 h-10 text-webriq-blue"
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
                       viewBox="0 0 24 24"
@@ -128,7 +128,7 @@ function VariantD({ caption, title, features }) {
         </svg>
       </div>
     </section>
-  )
+  );
 }
 
-export default React.memo(VariantD)
+export default React.memo(VariantD);

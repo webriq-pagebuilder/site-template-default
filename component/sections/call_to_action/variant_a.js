@@ -1,5 +1,5 @@
-import { urlFor } from "lib/sanity"
-import React from "react"
+import { urlFor } from "lib/sanity";
+import React from "react";
 
 function VariantA({ logo, title, text, button }) {
   return (
@@ -28,7 +28,7 @@ function VariantA({ logo, title, text, button }) {
             </p>
             {button && (
               <a
-                className="inline-block py-2 px-6 bg-green-600 hover:bg-green-700 text-white font-bold leading-loose rounded-l-xl rounded-t-xl transition duration-200"
+                className="inline-block py-2 px-6 bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-loose rounded-l-xl rounded-t-xl transition duration-200"
                 href={
                   button.type === "linkExternal"
                     ? button?.externalLink
@@ -47,6 +47,6 @@ function VariantA({ logo, title, text, button }) {
         </div>
       </div>
     </section>
-  )
+  );
 }
-export default React.memo(VariantA)
+export default React.memo(VariantA);

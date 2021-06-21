@@ -1,4 +1,4 @@
-import React from "react"
+import React from "react";
 
 function VariantC({ subtitle, title, faqs }) {
   return (
@@ -6,7 +6,7 @@ function VariantC({ subtitle, title, faqs }) {
       <div className="py-20 bg-gray-50 radius-for-skewed">
         <div className="container mx-auto px-4">
           <div className="mb-16 max-w-xl mx-auto text-center">
-            <span className="text-green-600 font-bold">{subtitle}</span>
+            <span className="text-webriq-darkblue font-bold">{subtitle}</span>
             <h2 className="text-5xl font-bold">{title}</h2>
           </div>
           <div className="flex flex-wrap -mx-4 -mb-8">
@@ -16,7 +16,7 @@ function VariantC({ subtitle, title, faqs }) {
                   {faq.question && (
                     <div className="h-full p-8 bg-white rounded shadow">
                       <div className="mb-6 flex items-start">
-                        <span className="mr-4 inline-block p-3 rounded-full bg-green-600">
+                        <span className="mr-4 inline-block p-3 rounded-full bg-webriq-darkblue">
                           <svg
                             className="w-6 h-6 text-white"
                             xmlns="http://www.w3.org/2000/svg"
@@ -45,6 +45,6 @@ function VariantC({ subtitle, title, faqs }) {
         </div>
       </div>
     </section>
-  )
+  );
 }
-export default React.memo(VariantC)
+export default React.memo(VariantC);

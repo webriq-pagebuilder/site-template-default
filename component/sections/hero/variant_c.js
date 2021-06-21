@@ -1,5 +1,5 @@
-import React from "react"
-import PropTypes from "prop-types"
+import React from "react";
+import PropTypes from "prop-types";
 
 function VariantC({
   // template,
@@ -10,7 +10,7 @@ function VariantC({
 }) {
   return (
     <section className="relative pb-56 sm:pb-80">
-      <div className="relative pt-12 md:pt-16 pb-32 md:pb-64 bg-gray-50 border-b-4 border-green-600">
+      <div className="relative pt-12 md:pt-16 pb-32 md:pb-64 bg-gray-50 border-b-4 border-webriq-blue">
         <div className="relative container mx-auto px-4">
           <div className="max-w-2xl mx-auto text-center mb-12 md:mb-20">
             <h2 className="mb-10 text-4xl lg:text-5xl font-bold">
@@ -24,7 +24,7 @@ function VariantC({
             <div>
               {primaryButton && (
                 <a
-                  className="inline-block mb-3 lg:mb-0 lg:mr-3 w-full lg:w-auto py-2 px-6 bg-green-600 hover:bg-green-700 text-white font-semibold leading-loose rounded-l-xl rounded-t-xl transition duration-200"
+                  className="inline-block mb-3 lg:mb-0 lg:mr-3 w-full lg:w-auto py-2 px-6 bg-webriq-blue hover:bg-webriq-darkblue text-white font-semibold leading-loose rounded-l-xl rounded-t-xl transition duration-200"
                   href={
                     primaryButton.type === "linkInternal"
                       ? primaryButton.internalLink === "Home" ||
@@ -65,7 +65,7 @@ function VariantC({
             String(videoLink).includes("https://www.youtube.com/watch?")) ||
           String(videoLink).includes("youtube.com/watch?") ? (
             <iframe
-              className="rounded-3xl md:rounded-6xl md:rounded-br-none border-4 border-green-600"
+              className="rounded-3xl md:rounded-6xl md:rounded-br-none border-4 border-webriq-blue"
               width="880"
               height="500"
               src={`https://www.youtube.com/embed/${
@@ -81,7 +81,7 @@ function VariantC({
           {/* <div className="absolute inset-0 flex items-center justify-center">
             <button className="flex items-center justify-center bg-white rounded-full">
               <svg
-                className="w-16 h-16 text-green-600 hover:text-green-700 transition duration-200"
+                className="w-16 h-16 text-webriq-darkblue hover:text-webriq-darkblue transition duration-200"
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 20 20"
                 fill="currentColor"
@@ -97,7 +97,7 @@ function VariantC({
         </div>
       </div>
     </section>
-  )
+  );
 }
 
 VariantC.propTypes = {
@@ -108,5 +108,5 @@ VariantC.propTypes = {
   primaryButton: PropTypes.object,
   secondaryButton: PropTypes.object,
   videoLink: PropTypes.string,
-}
-export default React.memo(VariantC)
+};
+export default React.memo(VariantC);
