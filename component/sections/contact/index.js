@@ -13,6 +13,8 @@ function Contact({ data }) {
     formFields: data?.variants?.[variant]?.form?.fields,
     formId: data?.variants?.[variant]?.form?.id,
     formName: data?.variants?.[variant]?.form?.name,
+    button: data?.variants?.[variant]?.primaryButton,
+    block: data?.variants?.[variant]?.block,
   }
   return <Variant {...props} />
 }
