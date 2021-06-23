@@ -1,6 +1,5 @@
 import React from "react"
 import WebriQForm from "@webriq/gatsby-webriq-form"
-import PortableText from "@sanity/block-content-to-react"
 
 function VariantA({
   contactDescription,
@@ -10,53 +9,35 @@ function VariantA({
   formFields,
   formId,
   formName,
-  button,
-  block
 }) {
-  const serializers = {
-    marks: {
-      internalLink: ({ children, mark }) => (
-        <a style={{ color: "red" }} href={mark.slug.current}>
-          {children}
-        </a>
-      ),
-      link: ({ children, mark }) => (
-        mark.blank ? (
-          <a href={mark.href} target="_blank" rel="noopener noreferrer">{children}</a>
-        ) : (
-          <a style={{ color: "blue" }} href={mark.href}>{children}</a>
-        )
-      )
-    }
-  }
   return (
     <section>
       <div className="py-20 bg-gray-50 radius-for-skewed">
         <div className="container mx-auto px-4">
           {contactDescription && (
-            <div className="mb-12 pl-10">
+            <div className="mb-12">
               <h2 className="text-4xl lg:text-5xl font-bold font-heading">
                 Contact
               </h2>
-              <p className="mt-5 text-gray-500 leading-loose">
+              <p className="text-gray-500 leading-loose">
                 {contactDescription}
               </p>
             </div>
           )}
           <div className="flex flex-wrap">
-            <div className="pl-10 w-full lg:w-1/2 mb-16 lg:mb-0">
+            <div className="w-full lg:w-1/2 mb-16 lg:mb-0">
               <div className="flex flex-wrap">
                 {officeInformation && (
-                  <div className="mb-12 pr-10 w-full md:w-1/2 lg:w-1/2">
-                    <h3 className="mb-5 text-3xl lg:text-4xl font-bold">
+                  <div className="mb-12 w-full md:w-1/2 lg:w-1/2">
+                    <h3 className="mb-2 text-3xl lg:text-4xl font-bold">
                       Office
                     </h3>
                     <p className="text-gray-400">{officeInformation}</p>
                   </div>
                 )}
                 {contactEmail && (
-                  <div className="mb-12 px-10 w-full md:w-1/2">
-                    <h3 className="mb-5 text-3xl lg:text-4xl font-bold">
+                  <div className="mb-12 w-full md:w-1/2">
+                    <h3 className="mb-2 text-3xl lg:text-4xl font-bold">
                       Contacts
                     </h3>
                     <p className="text-gray-400">{contactEmail}</p>
@@ -64,13 +45,13 @@ function VariantA({
                 )}
                 {socialLinks && (
                   <div className="w-full md:w-1/3 lg:w-full">
-                    <h3 className="mb-5 text-3xl lg:text-4xl font-bold">
+                    <h3 className="mb-2 text-3xl lg:text-4xl font-bold">
                       Socials
                     </h3>
                     <div className="mb-4 lg:mb-0 order-first lg:order-last">
                       {socialLinks?.fbLink && (
                         <a
-                          className="inline-block mr-5 bg-gray-50 hover:bg-gray-100 rounded"
+                          className="inline-block mr-2 p-2 bg-gray-50 hover:bg-gray-100 rounded"
                           href={socialLinks?.fbLink}
                         >
                           <svg
@@ -88,7 +69,7 @@ function VariantA({
                       )}
                       {socialLinks?.twitterLink && (
                         <a
-                          className="inline-block mr-5 bg-gray-50 hover:bg-gray-100 rounded"
+                          className="inline-block mr-2 p-2 bg-gray-50 hover:bg-gray-100 rounded"
                           href={socialLinks?.twitterLink}
                         >
                           <svg
@@ -106,7 +87,7 @@ function VariantA({
                       )}
                       {socialLinks?.instagramLink && (
                         <a
-                          className="inline-block mr-2 bg-gray-50 hover:bg-gray-100 rounded"
+                          className="inline-block mr-2 p-2 bg-gray-50 hover:bg-gray-100 rounded"
                           href={socialLinks?.instagramLink}
                         >
                           <svg
@@ -127,7 +108,7 @@ function VariantA({
                 )}
               </div>
             </div>
-            <div className="pl-10 w-full lg:w-1/2">
+            <div className="w-full lg:w-1/2">
               {formFields && (
                 <div className="max-w-md lg:mx-auto">
                   <WebriQForm
@@ -138,7 +119,7 @@ function VariantA({
                     data-thankyou-url="/thank-you"
                     scriptSrc="https://pagebuilderforms.webriq.com/js/initReactForms"
                   >
-                    {/* <div className="mb-4 text-sm">
+                    <div className="mb-4 text-sm">
                       <span className="mr-4 font-semibold">Department:</span>
                       <label className="mr-4">
                         <input
@@ -159,7 +140,7 @@ function VariantA({
                         />
                         <span>Sales</span>
                       </label>
-                    </div> */}
+                    </div>
                     {formFields?.[0] &&
                       formFields[0]?.name &&
                       (formFields[0].type === "textarea" ? (
@@ -187,15 +168,15 @@ function VariantA({
                             formFields[0].type === "inputEmail"
                               ? "email"
                               : formFields[0].type === "inputPassword"
-                                ? "password"
-                                : "text"
+                              ? "password"
+                              : "text"
                           }
                           placeholder={
                             formFields[0].type === "inputEmail"
                               ? "name@email.com"
                               : formFields[0].type === "inputPassword"
-                                ? "Enter your password"
-                                : formFields[0]?.name
+                              ? "Enter your password"
+                              : formFields[0]?.name
                           }
                           name={formFields[0]?.name}
                         />
@@ -227,15 +208,15 @@ function VariantA({
                             formFields[1].type === "inputEmail"
                               ? "email"
                               : formFields[1].type === "inputPassword"
-                                ? "password"
-                                : "text"
+                              ? "password"
+                              : "text"
                           }
                           placeholder={
                             formFields[1].type === "inputEmail"
                               ? "name@email.com"
                               : formFields[1].type === "inputPassword"
-                                ? "Enter your password"
-                                : formFields[1]?.name
+                              ? "Enter your password"
+                              : formFields[1]?.name
                           }
                           name={formFields[1]?.name}
                         />
@@ -267,15 +248,15 @@ function VariantA({
                             formFields[2].type === "inputEmail"
                               ? "email"
                               : formFields[2].type === "inputPassword"
-                                ? "password"
-                                : "text"
+                              ? "password"
+                              : "text"
                           }
                           placeholder={
                             formFields[2].type === "inputEmail"
                               ? "name@email.com"
                               : formFields[2].type === "inputPassword"
-                                ? "Enter your password"
-                                : formFields[2]?.name
+                              ? "Enter your password"
+                              : formFields[2]?.name
                           }
                           name={formFields[2]?.name}
                         />
@@ -307,15 +288,15 @@ function VariantA({
                             formFields[3].type === "inputEmail"
                               ? "email"
                               : formFields[3].type === "inputPassword"
-                                ? "password"
-                                : "text"
+                              ? "password"
+                              : "text"
                           }
                           placeholder={
                             formFields[3].type === "inputEmail"
                               ? "name@email.com"
                               : formFields[3].type === "inputPassword"
-                                ? "Enter your password"
-                                : formFields[3]?.name
+                              ? "Enter your password"
+                              : formFields[3]?.name
                           }
                           name={formFields[3]?.name}
                         />
@@ -347,48 +328,40 @@ function VariantA({
                             formFields[4].type === "inputEmail"
                               ? "email"
                               : formFields[4].type === "inputPassword"
-                                ? "password"
-                                : "text"
+                              ? "password"
+                              : "text"
                           }
                           placeholder={
                             formFields[4].type === "inputEmail"
                               ? "name@email.com"
                               : formFields[4].type === "inputPassword"
-                                ? "Enter your password"
-                                : formFields[4]?.name
+                              ? "Enter your password"
+                              : formFields[4]?.name
                           }
                           name={formFields[4]?.name}
                         />
                       ))}
                     <div className="flex justify-between items-center">
-                      {block && (
-                        <div className="inline-flex">
-                          <input className="mr-2 mt-1" type="checkbox" id="terms" name="terms" defaultValue={1} />
-                          <span className="text-sm font-semibold">
-                            <PortableText blocks={block} serializers={serializers} />
-                          </span>
-                        </div>
-                      )}
+                      <label>
+                        <input
+                          className="mr-1"
+                          type="checkbox"
+                          name="terms"
+                          defaultValue={1}
+                        />
+                        <span className="text-sm font-semibold">
+                          I agree to terms and conditions.
+                        </span>
+                      </label>
                       <div>
                         <div className="webriq-recaptcha" />
                       </div>
-                      {button && (
-                        <a
-                          className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-green-600 hover:bg-green-700 text-gray-50 font-bold leading-loose transition duration-200"
-                          href={
-                            button.type === "linkExternal"
-                              ? button?.externalLink
-                              : button.type === "linkInternal"
-                                ? button.internalLink === "Home" ||
-                                  button.internalLink === "home"
-                                  ? "/"
-                                  : button?.internalLink
-                                : "page-not-found"
-                          }
-                        >
-                          {button?.label}
-                        </a>
-                      )}
+                      <button
+                        className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-green-600 hover:bg-green-700 text-gray-50 font-bold leading-loose transition duration-200"
+                        type="submit"
+                      >
+                        Get Started
+                      </button>
                     </div>
                   </WebriQForm>
                 </div>
