@@ -1,11 +1,12 @@
-import React from "react";
-import Head from "next/head";
-import { useRouter } from "next/router";
-import { getClient, usePreviewSubscription } from "../lib/sanity";
-import dynamic from "next/dynamic";
-import PageNotFound from "./404";
-import { slugQuery } from "./api/query";
-import { groq } from "next-sanity";
+import React from "react"
+import Head from "next/head"
+import { useRouter } from "next/router"
+import { getClient, usePreviewSubscription } from "../lib/sanity"
+import dynamic from "next/dynamic"
+import PageNotFound from "./404"
+import { slugQuery } from "./api/query"
+import { groq } from "next-sanity"
+import SEO from "../component/SEO"
 
 const Components = {
   navigation: dynamic(() => import("component/sections/navigation")),
@@ -48,12 +49,13 @@ function page({ data, preview }) {
     return null;
   }
 
-  const { sections, title } = pageData;
+  const { sections, title, seo } = pageData
 
   return (
     <>
       <Head>
-        <title>{title}</title>
+        <title>{seo?.seoTitle || title}</title>
+        <SEO data={pageData} />
       </Head>
       {sections &&
         sections?.map((section) => {
