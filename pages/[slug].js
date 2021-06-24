@@ -8,7 +8,6 @@ import { slugQuery } from "./api/query"
 import { groq } from "next-sanity"
 import SEO from "../component/SEO"
 
-
 const Components = {
   navigation: dynamic(() => import("component/sections/navigation")),
   header: dynamic(() => import("component/sections/hero")),
@@ -29,25 +28,25 @@ const Components = {
   logoCloud: dynamic(() => import("component/sections/logoCloud")),
   footer: dynamic(() => import("component/sections/footer")),
   signInSignUp: dynamic(() => import("component/sections/sign_in_sign_up")),
-}
+};
 
 function page({ data, preview }) {
-  const router = useRouter()
+  const router = useRouter();
 
   if (!router.isFallback && !data?.page?.slug) {
-    return <PageNotFound statusCode={404} />
+    return <PageNotFound statusCode={404} />;
   }
 
-  const slug = data?.page?.slug
+  const slug = data?.page?.slug;
   const { data: page } = usePreviewSubscription(slugQuery, {
     params: { slug },
     initialData: data,
     enabled: preview,
-  })
+  });
 
-  const pageData = page?.page || page
+  const pageData = page?.page || page;
   if (!pageData) {
-    return null
+    return null;
   }
 
   const { sections, title, seo } = pageData
@@ -59,47 +58,47 @@ function page({ data, preview }) {
         <SEO data={pageData} />
       </Head>
       {sections &&
-        sections?.map(section => {
-          const Component = Components[section._type]
+        sections?.map((section) => {
+          const Component = Components[section._type];
 
           return (
             <Component
               key={section._key}
               template={{
                 bg: "gray",
-                color: "green",
+                color: "webriq",
               }}
               {...{ [section._type]: section }}
               data={section}
             />
-          )
+          );
         })}
     </>
-  )
+  );
 }
 
 export async function getStaticProps({ params, preview = false }) {
   const page = await getClient(preview).fetch(slugQuery, {
     slug: params.slug,
-  })
+  });
 
   return {
     props: {
       preview,
       data: { page },
     },
-  }
+  };
 }
 
 export async function getStaticPaths() {
   const paths = await getClient().fetch(
     groq`*[_type == "page" && defined(slug.current)][].slug.current`
-  )
+  );
 
   return {
-    paths: paths.map(slug => ({ params: { slug } })),
+    paths: paths.map((slug) => ({ params: { slug } })),
     fallback: true,
-  }
+  };
 }
 
-export default React.memo(page)
+export default React.memo(page);

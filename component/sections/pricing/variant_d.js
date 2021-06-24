@@ -1,6 +1,6 @@
-import { urlFor } from "lib/sanity"
-import React from "react"
-import WebriQForm from "@webriq/gatsby-webriq-form"
+import { urlFor } from "lib/sanity";
+import React from "react";
+import WebriQForm from "@webriq/gatsby-webriq-form";
 
 function VariantD({
   caption,
@@ -11,7 +11,7 @@ function VariantD({
   banner,
   form,
 }) {
-  const [banners, setBanners] = React.useState(0)
+  const [banners, setBanners] = React.useState(0);
 
   // React.useEffect(() => {
 
@@ -45,7 +45,7 @@ function VariantD({
         <div className="container mx-auto px-4">
           <div className="mb-16 max-w-2xl mx-auto text-center">
             <div className="max-w-lg mx-auto">
-              <span className="text-green-600 font-bold">{caption}</span>
+              <span className="text-webriq-darkblue font-bold">{caption}</span>
               <h2 className="mb-2 text-4xl lg:text-5xl font-bold font-heading">
                 {title}
               </h2>
@@ -55,14 +55,14 @@ function VariantD({
               <label className="md:mr-4 w-full sm:w-auto flex items-center mr-8 mb-2">
                 <input type="radio" name="billing" defaultValue={1} />
                 <span className="mx-2 font-semibold">Monthly Billing</span>
-                <span className="inline-flex items-center justify-center w-12 h-10 bg-green-600 text-white font-semibold rounded-lg">
+                <span className="inline-flex items-center justify-center w-12 h-10 bg-webriq-darkblue text-white font-semibold rounded-lg">
                   ${monthlyBilling}
                 </span>
               </label>
               <label className="flex w-full sm:w-auto items-center mb-2">
                 <input type="radio" name="billing" defaultValue={2} />
                 <span className="mx-2 font-semibold">Annual Billing</span>
-                <span className="inline-flex items-center justify-center w-12 h-10 bg-green-600 text-white font-semibold rounded-lg">
+                <span className="inline-flex items-center justify-center w-12 h-10 bg-webriq-darkblue text-white font-semibold rounded-lg">
                   ${annualBilling}
                 </span>
               </label>
@@ -83,7 +83,7 @@ function VariantD({
                   data-thankyou-url={"/"}
                   scriptSrc="https://pagebuilderforms.webriq.com/js/initReactForms"
                 >
-                  {form?.fields?.map(field => (
+                  {form?.fields?.map((field) => (
                     <>
                       {field.type === "inputText" &&
                       String(field?.name).split(" ")[0].toLowerCase() ===
@@ -150,20 +150,20 @@ function VariantD({
                       <span className="ml-1 text-xs">
                         By signing up, you agree to our{" "}
                         <a
-                          className="text-green-600 font-bold hover:text-green-700"
+                          className="text-webriq-darkblue font-bold hover:text-webriq-darkblue"
                           href="#"
                         >
                           Terms,
                         </a>
                         <a
-                          className="text-green-600 font-bold hover:text-green-700"
+                          className="text-webriq-darkblue font-bold hover:text-webriq-darkblue"
                           href="#"
                         >
                           Data Policy
                         </a>{" "}
                         and{" "}
                         <a
-                          className="text-green-600 font-bold hover:text-green-700"
+                          className="text-webriq-darkblue font-bold hover:text-webriq-darkblue"
                           href="#"
                         >
                           Cookies Policy.
@@ -173,20 +173,20 @@ function VariantD({
                   </div>
                   <button
                     type="submit"
-                    className="block w-full p-4 text-center text-white font-bold leading-none bg-green-600 hover:bg-green-700 rounded-l-xl rounded-t-xl transition duration-200"
+                    className="block w-full p-4 text-center text-white font-bold leading-none bg-webriq-blue hover:bg-webriq-darkblue rounded-l-xl rounded-t-xl transition duration-200"
                   >
                     Buy Monthly Supply
                   </button>
                 </WebriQForm>
                 <p className="text-xs text-gray-400 text-xs">
                   Already have an account?{" "}
-                  <a className="text-green-600 hover:underline" href="#">
+                  <a className="text-webriq-darkblue hover:underline" href="#">
                     Sign In
                   </a>
                 </p>
               </div>
             </div>
-            <div className="py-10 w-full md:w-1/2 bg-green-600 lg:rounded-r overflow-hidden flex flex-col">
+            <div className="py-10 w-full md:w-1/2 bg-webriq-darkblue lg:rounded-r overflow-hidden flex flex-col">
               <img
                 className="w-full md:max-w-xs mx-auto my-auto"
                 src={urlFor(banner?.[banners]?.mainImage)}
@@ -202,7 +202,7 @@ function VariantD({
                     className={` ${
                       banners === index
                         ? "focus:outline-none inline-block mr-2 w-2 h-2 bg-white rounded-full"
-                        : "focus:outline-none inline-block mr-2 w-2 h-2 bg-green-400 rounded-full"
+                        : "focus:outline-none inline-block mr-2 w-2 h-2 bg-webriq-babyblue rounded-full"
                     } `}
                     onClick={() => setBanners(index)}
                   />
@@ -231,6 +231,6 @@ function VariantD({
         </svg>
       </div>
     </section>
-  )
+  );
 }
-export default React.memo(VariantD)
+export default React.memo(VariantD);

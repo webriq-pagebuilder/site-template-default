@@ -155,7 +155,7 @@ function VariantA({ /* template,*/ caption, title, images, primaryButton }) {
         <div className="container mx-auto px-4">
           <div className="mb-8 md:mb-16 max-w-lg mx-auto text-center">
             {caption === undefined ? null : (
-              <span className="text-green-600 font-bold">{caption}</span>
+              <span className="text-webriq-darkblue font-bold">{caption}</span>
             )}
             {title === undefined ? null : (
               <h2 className="mb-6 text-4xl lg:text-5xl font-bold font-heading">
@@ -211,7 +211,7 @@ function VariantA({ /* template,*/ caption, title, images, primaryButton }) {
           <div className="text-center">
             {primaryButton?.label && (
               <a
-                className="inline-block py-2 px-6 leading-loose rounded-l-xl rounded-t-xl bg-green-600 hover:bg-green-700 text-gray-50 font-bold"
+                className="inline-block py-2 px-6 leading-loose rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-gray-50 font-bold"
                 href={
                   primaryButton.type === "linkInternal"
                     ? primaryButton.internalLink === "Home" ||

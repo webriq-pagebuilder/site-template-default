@@ -1,6 +1,6 @@
-import React from "react"
-import PropTypes from "prop-types"
-import { urlFor } from "../../../lib/sanity"
+import React from "react";
+import PropTypes from "prop-types";
+import { urlFor } from "../../../lib/sanity";
 function VariantG({ caption, title, description, images, featureItems }) {
   return (
     <section>
@@ -28,7 +28,9 @@ function VariantG({ caption, title, description, images, featureItems }) {
             <div className="mb-12 lg:mb-0 w-full lg:w-1/2 px-4">
               <div className="max-w-md">
                 {caption && (
-                  <span className="text-green-600 font-bold">{caption}</span>
+                  <span className="text-webriq-darkblue font-bold">
+                    {caption}
+                  </span>
                 )}
                 {title && (
                   <h2 className="mb-3 text-4xl lg:text-5xl font-bold font-heading">
@@ -41,27 +43,28 @@ function VariantG({ caption, title, description, images, featureItems }) {
                   </p>
                 )}
                 <ul className="text-gray-500 font-bold">
-                  {featureItems && featureItems.map(item => (
-                        <li className="mb-2 flex items-center" key={item}>
-                          <svg
-                            className="mr-2 w-5 h-5 text-green-500"
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 20 20"
-                            fill="currentColor"
-                          >
-                            <path
-                              fillRule="evenodd"
-                              d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                              clipRule="evenodd"
-                            />
-                          </svg>
-                          <span>{item}</span>
-                        </li>
-                      ))}
+                  {featureItems &&
+                    featureItems.map((item) => (
+                      <li className="mb-2 flex items-center" key={item}>
+                        <svg
+                          className="mr-2 w-5 h-5 text-webriq-blue"
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                            clipRule="evenodd"
+                          />
+                        </svg>
+                        <span>{item}</span>
+                      </li>
+                    ))}
                   {/*                   
                   <li className="mb-2 flex items-center">
                     <svg
-                      className="mr-2 w-5 h-5 text-green-500"
+                      className="mr-2 w-5 h-5 text-webriq-blue"
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 20 20"
                       fill="currentColor"
@@ -76,7 +79,7 @@ function VariantG({ caption, title, description, images, featureItems }) {
                   </li>
                   <li className="flex items-center">
                     <svg
-                      className="mr-2 w-5 h-5 text-green-500"
+                      className="mr-2 w-5 h-5 text-webriq-blue"
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 20 20"
                       fill="currentColor"
@@ -158,7 +161,7 @@ function VariantG({ caption, title, description, images, featureItems }) {
         </svg>
       </div>
     </section>
-  )
+  );
 }
 VariantG.propTypes = {
   caption: PropTypes.string,
@@ -167,5 +170,5 @@ VariantG.propTypes = {
   features: PropTypes.array,
   images: PropTypes.array,
   featureItems: PropTypes.array,
-}
-export default React.memo(VariantG)
+};
+export default React.memo(VariantG);

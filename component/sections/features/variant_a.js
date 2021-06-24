@@ -1,4 +1,4 @@
-import React from "react"
+import React from "react";
 
 function VariantA({ caption, title, features }) {
   return (
@@ -25,7 +25,7 @@ function VariantA({ caption, title, features }) {
         <div className="container mx-auto px-4">
           <div className="mb-16 max-w-md mx-auto text-center">
             {caption && (
-              <span className="text-green-600 font-bold">
+              <span className="text-webriq-darkblue font-bold">
                 {/* Dolor sit amet consectutar */}
                 {caption}
               </span>
@@ -40,7 +40,7 @@ function VariantA({ caption, title, features }) {
           <div className="flex flex-wrap -mx-4">
             {features?.[0] && (
               <div className="mb-12 lg:mb-0 w-full md:w-1/2 lg:w-1/4 px-4">
-                <span className="mb-4 md:mb-6 inline-block bg-green-100 p-3 text-green-500 rounded">
+                <span className="mb-4 md:mb-6 inline-block bg-webriq-lightblue p-3 text-webriq-blue rounded">
                   <svg
                     className="w-8 h-8"
                     xmlns="http://www.w3.org/2000/svg"
@@ -63,7 +63,7 @@ function VariantA({ caption, title, features }) {
             )}
             {features?.[1] && (
               <div className="mb-12 lg:mb-0 w-full md:w-1/2 lg:w-1/4 px-4">
-                <span className="mb-4 md:mb-6 inline-block bg-green-100 p-3 text-green-500 rounded">
+                <span className="mb-4 md:mb-6 inline-block bg-webriq-lightblue p-3 text-webriq-blue rounded">
                   <svg
                     className="w-8 h-8"
                     xmlns="http://www.w3.org/2000/svg"
@@ -90,7 +90,7 @@ function VariantA({ caption, title, features }) {
             )}
             {features?.[2] && (
               <div className="mb-12 lg:mb-0 w-full md:w-1/2 lg:w-1/4 px-4">
-                <span className="mb-4 md:mb-6 inline-block bg-green-100 p-3 text-green-500 rounded">
+                <span className="mb-4 md:mb-6 inline-block bg-webriq-lightblue p-3 text-webriq-blue rounded">
                   <svg
                     className="w-8 h-8"
                     xmlns="http://www.w3.org/2000/svg"
@@ -121,7 +121,7 @@ function VariantA({ caption, title, features }) {
             )}
             {features?.[3] && (
               <div className="w-full md:w-1/2 lg:w-1/4 px-4">
-                <span className="mb-4 md:mb-6 inline-block bg-green-100 p-3 text-green-500 rounded">
+                <span className="mb-4 md:mb-6 inline-block bg-webriq-lightblue p-3 text-webriq-blue rounded">
                   <svg
                     className="w-8 h-8"
                     xmlns="http://www.w3.org/2000/svg"
@@ -170,7 +170,7 @@ function VariantA({ caption, title, features }) {
         </svg>
       </div>
     </section>
-  )
+  );
 }
 
-export default React.memo(VariantA)
+export default React.memo(VariantA);

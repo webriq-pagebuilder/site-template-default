@@ -1,5 +1,5 @@
-import { urlFor } from "lib/sanity"
-import React from "react"
+import { urlFor } from "lib/sanity";
+import React from "react";
 
 function VariantD({ caption, title, posts, primaryButton }) {
   return (
@@ -26,7 +26,7 @@ function VariantD({ caption, title, posts, primaryButton }) {
         <div className="container mx-auto px-4">
           <div className="mb-16 flex flex-wrap items-center">
             <div className="w-full lg:w-1/2">
-              <span className="text-green-600 font-bold">{caption}</span>
+              <span className="text-webriq-darkblue font-bold">{caption}</span>
               <h2 className="text-4xl lg:text-5xl font-bold font-heading">
                 {title}
               </h2>
@@ -34,7 +34,7 @@ function VariantD({ caption, title, posts, primaryButton }) {
             <div className="hidden lg:block text-right w-1/2">
               {primaryButton && (
                 <a
-                  className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-green-600 hover:bg-green-700 text-gray-50 font-bold leading-loose transition duration-200"
+                  className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-gray-50 font-bold leading-loose transition duration-200"
                   href={
                     primaryButton.type === "linkInternal"
                       ? primaryButton.internalLink === "Home" ||
@@ -59,7 +59,7 @@ function VariantD({ caption, title, posts, primaryButton }) {
                   <ul>
                     <li>
                       <a
-                        className="block py-2 px-3 mb-4 rounded text-green-600 font-bold bg-gray-50"
+                        className="block py-2 px-3 mb-4 rounded text-webriq-darkblue font-bold bg-gray-50"
                         href="#"
                       >
                         All
@@ -67,7 +67,7 @@ function VariantD({ caption, title, posts, primaryButton }) {
                     </li>
                     <li>
                       <a
-                        className="block py-2 px-3 mb-4 rounded hover:text-green-600 hover:bg-gray-50"
+                        className="block py-2 px-3 mb-4 rounded hover:text-webriq-darkblue hover:bg-gray-50"
                         href="#"
                       >
                         Community
@@ -75,7 +75,7 @@ function VariantD({ caption, title, posts, primaryButton }) {
                     </li>
                     <li>
                       <a
-                        className="block py-2 px-3 mb-4 rounded hover:text-green-600 hover:bg-gray-50"
+                        className="block py-2 px-3 mb-4 rounded hover:text-webriq-darkblue hover:bg-gray-50"
                         href="#"
                       >
                         Design
@@ -83,7 +83,7 @@ function VariantD({ caption, title, posts, primaryButton }) {
                     </li>
                     <li>
                       <a
-                        className="block py-2 px-3 mb-4 rounded hover:text-green-600 hover:bg-gray-50"
+                        className="block py-2 px-3 mb-4 rounded hover:text-webriq-darkblue hover:bg-gray-50"
                         href="#"
                       >
                         Engineering
@@ -91,7 +91,7 @@ function VariantD({ caption, title, posts, primaryButton }) {
                     </li>
                     <li>
                       <a
-                        className="block py-2 px-3 mb-4 rounded hover:text-green-600 hover:bg-gray-50"
+                        className="block py-2 px-3 mb-4 rounded hover:text-webriq-darkblue hover:bg-gray-50"
                         href="#"
                       >
                         Marketplace
@@ -99,7 +99,7 @@ function VariantD({ caption, title, posts, primaryButton }) {
                     </li>
                     <li>
                       <a
-                        className="block py-2 px-3 mb-4 rounded hover:text-green-600 hover:bg-gray-50"
+                        className="block py-2 px-3 mb-4 rounded hover:text-webriq-darkblue hover:bg-gray-50"
                         href="#"
                       >
                         News
@@ -107,7 +107,7 @@ function VariantD({ caption, title, posts, primaryButton }) {
                     </li>
                     <li>
                       <a
-                        className="block py-2 px-3 mb-4 rounded hover:text-green-600 hover:bg-gray-50"
+                        className="block py-2 px-3 mb-4 rounded hover:text-webriq-darkblue hover:bg-gray-50"
                         href="#"
                       >
                         Culture
@@ -115,7 +115,7 @@ function VariantD({ caption, title, posts, primaryButton }) {
                     </li>
                     <li>
                       <a
-                        className="block py-2 px-3 mb-4 rounded hover:text-green-600 hover:bg-gray-50"
+                        className="block py-2 px-3 mb-4 rounded hover:text-webriq-darkblue hover:bg-gray-50"
                         href="#"
                       >
                         Product Updates
@@ -123,7 +123,7 @@ function VariantD({ caption, title, posts, primaryButton }) {
                     </li>
                     <li>
                       <a
-                        className="block py-2 px-3 mb-4 rounded hover:text-green-600 hover:bg-gray-50"
+                        className="block py-2 px-3 mb-4 rounded hover:text-webriq-darkblue hover:bg-gray-50"
                         href="#"
                       >
                         Trust &amp; Security
@@ -135,7 +135,7 @@ function VariantD({ caption, title, posts, primaryButton }) {
             )}
             <div className="w-full lg:w-3/4 px-3">
               {posts &&
-                posts?.map(post => (
+                posts?.map((post) => (
                   <div
                     className="flex flex-wrap -mx-3 mb-8 lg:mb-6"
                     key={post.heading}
@@ -155,7 +155,7 @@ function VariantD({ caption, title, posts, primaryButton }) {
                       </a>
                       <div className="mb-2 flex items-center text-sm">
                         <a
-                          className="text-green-600 hover:underline hover:text-green-700"
+                          className="text-webriq-darkblue hover:underline hover:text-webriq-darkblue"
                           href="#"
                         >
                           {post.postedBy}
@@ -190,6 +190,6 @@ function VariantD({ caption, title, posts, primaryButton }) {
         </svg>
       </div>
     </section>
-  )
+  );
 }
-export default React.memo(VariantD)
+export default React.memo(VariantD);

@@ -1,37 +1,37 @@
-import React, { useState } from "react"
+import React, { useState } from "react";
 
 function VariantA({ subtitle, title, faqs }) {
-  const [view, setView] = useState([])
-  const [searchTerm, setSearchTerm] = useState("")
+  const [view, setView] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
 
   useState(() => {
     faqs &&
-      faqs.map(faq =>
-        setView(prevState => [
+      faqs.map((faq) =>
+        setView((prevState) => [
           ...prevState,
           { question: faq?.question, answer: faq?.answer, hidden: false },
         ])
-      )
-  }, [])
+      );
+  }, []);
 
   const results = !searchTerm
     ? view
-    : view.filter(items =>
+    : view.filter((items) =>
         items.question.toLowerCase().includes(searchTerm.toLowerCase())
-      )
+      );
 
-  const toggleView = position => {
-    let newFaq = [...view]
-    newFaq[position].hidden = !view[position].hidden
-    setView(newFaq)
-  }
+  const toggleView = (position) => {
+    let newFaq = [...view];
+    newFaq[position].hidden = !view[position].hidden;
+    setView(newFaq);
+  };
 
   return (
     <section>
       <div className="py-20 bg-gray-50 radius-for-skewed">
         <div className="container mx-auto px-4">
           <div className="mb-16 max-w-xl mx-auto text-center">
-            <span className="text-green-600 font-bold font-heading">
+            <span className="text-webriq-darkblue font-bold font-heading">
               {subtitle}
             </span>
             <h2 className="mb-6 text-5xl font-bold font-heading">{title}</h2>
@@ -41,9 +41,9 @@ function VariantA({ subtitle, title, faqs }) {
                   className="w-2/3 p-4 text-xs font-heading bg-white focus:border-gray-500 focus:outline-none rounded-l"
                   placeholder="Search, find any question you want to ask..."
                   value={searchTerm}
-                  onChange={e => setSearchTerm(e.target.value)}
+                  onChange={(e) => setSearchTerm(e.target.value)}
                 />
-                <button className="pr-4 rounded-r-lg bg-white text-green-600">
+                <button className="pr-4 rounded-r-lg bg-white text-webriq-darkblue">
                   <svg
                     className="w-6 h-6"
                     fill="none"
@@ -74,7 +74,7 @@ function VariantA({ subtitle, title, faqs }) {
                         >
                           <span className="text-xl">{item?.question}</span>
                           <svg
-                            className="w-4 h-4 text-green-600"
+                            className="w-4 h-4 text-webriq-darkblue"
                             xmlns="http://www.w3.org/2000/svg"
                             fill="none"
                             viewBox="0 0 24 24"
@@ -109,7 +109,7 @@ function VariantA({ subtitle, title, faqs }) {
                         >
                           <span className="text-xl">{faq?.question}</span>
                           <svg
-                            className="w-4 h-4 text-green-600"
+                            className="w-4 h-4 text-webriq-darkblue"
                             xmlns="http://www.w3.org/2000/svg"
                             fill="none"
                             viewBox="0 0 24 24"
@@ -141,6 +141,6 @@ function VariantA({ subtitle, title, faqs }) {
         </div>
       </div>
     </section>
-  )
+  );
 }
-export default React.memo(VariantA)
+export default React.memo(VariantA);

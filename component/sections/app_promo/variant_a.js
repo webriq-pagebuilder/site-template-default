@@ -1,10 +1,10 @@
-import React from "react"
-import { urlFor } from "lib/sanity"
+import React from "react";
+import { urlFor } from "lib/sanity";
 
 function VariantA({ logo, subtitle, title, images }) {
   return (
     <section>
-      <div className="pt-20 bg-green-600 overflow-hidden radius-for-skewed">
+      <div className="pt-20 bg-webriq-darkblue overflow-hidden radius-for-skewed">
         <div className="container mx-auto px-4">
           <div className="relative max-w-md mx-auto text-center">
             {logo && (
@@ -47,6 +47,6 @@ function VariantA({ logo, subtitle, title, images }) {
         </div>
       </div>
     </section>
-  )
+  );
 }
-export default React.memo(VariantA)
+export default React.memo(VariantA);

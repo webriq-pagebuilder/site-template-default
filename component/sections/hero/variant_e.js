@@ -1,5 +1,5 @@
-import React from "react"
-import WebriQForm from "@webriq/gatsby-webriq-form"
+import React from "react";
+import WebriQForm from "@webriq/gatsby-webriq-form";
 
 function VariantE({
   template,
@@ -34,7 +34,7 @@ function VariantE({
                   <div>
                     {primaryButton && (
                       <a
-                        className="inline-block mb-3 lg:mb-0 lg:mr-3 w-full lg:w-auto py-2 px-6 bg-green-600 hover:bg-green-700 text-white font-semibold leading-loose rounded-l-xl rounded-t-xl transition duration-200"
+                        className="inline-block mb-3 lg:mb-0 lg:mr-3 w-full lg:w-auto py-2 px-6 bg-webriq-blue hover:bg-webriq-darkblue text-white font-semibold leading-loose rounded-l-xl rounded-t-xl transition duration-200"
                         href={
                           primaryButton.type === "linkExternal"
                             ? primaryButton?.externalLink
@@ -293,7 +293,7 @@ function VariantE({
                       </div>
                       <div className="text-center">
                         <button
-                          className="mb-2 w-full py-4 bg-green-600 hover:bg-green-700 rounded text-sm font-bold text-gray-50 transition duration-200"
+                          className="mb-2 w-full py-4 bg-webriq-blue hover:bg-webriq-darkblue rounded text-sm font-bold text-gray-50 transition duration-200"
                           type="submit"
                         >
                           Sign Up
@@ -301,7 +301,7 @@ function VariantE({
                         <span className="text-gray-400 text-xs">
                           Already have an account?{" "}
                           <a
-                            className="text-green-600 hover:underline"
+                            className="text-webriq-darkblue hover:underline"
                             href="#"
                           >
                             Sign In
@@ -316,7 +316,7 @@ function VariantE({
                     <p className="text-xs text-gray-500">
                       {links?.[0] && (
                         <a
-                          className="underline text-green-600 hover:text-green-700"
+                          className="underline text-webriq-darkblue hover:text-webriq-darkblue"
                           href={
                             links[0].type === "linkExternal"
                               ? links[0]?.externalLink
@@ -334,7 +334,7 @@ function VariantE({
                       <span>&nbsp;and&nbsp;</span>
                       {links?.[1] && (
                         <a
-                          className="underline text-green-600 hover:text-green-700"
+                          className="underline text-webriq-darkblue hover:text-webriq-darkblue"
                           href={
                             links[1].type === "linkExternal"
                               ? links[1]?.externalLink
@@ -354,7 +354,7 @@ function VariantE({
                     <p className="text-xs text-gray-500">
                       {links?.[0] && (
                         <a
-                          className="underline text-green-600 hover:text-green-700"
+                          className="underline text-webriq-darkblue hover:text-webriq-darkblue"
                           href={
                             links[0].type === "linkExternal"
                               ? links[0]?.externalLink
@@ -377,6 +377,6 @@ function VariantE({
         </div>
       </div>
     </section>
-  )
+  );
 }
-export default React.memo(VariantE)
+export default React.memo(VariantE);

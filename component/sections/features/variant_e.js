@@ -1,19 +1,19 @@
-import React, { useState } from "react"
-import { urlFor } from "../../../lib/sanity"
+import React, { useState } from "react";
+import { urlFor } from "../../../lib/sanity";
 
 function VariantE({ featuredItems }) {
   //for image carousel
-  let [item, setItem] = useState(0) // Initial image index value
+  let [item, setItem] = useState(0); // Initial image index value
 
-  const slider = action => {
+  const slider = (action) => {
     action === "next"
       ? item !== featuredItems.length - 1
-        ? setItem(prevState => prevState + 1)
+        ? setItem((prevState) => prevState + 1)
         : setItem(0)
       : item >= 1
-      ? setItem(prevState => prevState - 1)
-      : setItem(featuredItems.length - 1)
-  }
+      ? setItem((prevState) => prevState - 1)
+      : setItem(featuredItems.length - 1);
+  };
   return (
     <section>
       {featuredItems?.length === 0 ? null : (
@@ -23,7 +23,7 @@ function VariantE({ featuredItems }) {
               <div className="xl:absolute inset-y-0 left-0 -ml-6 xl:flex items-center">
                 {featuredItems?.length >= 2 && (
                   <button
-                    className="p-4 bg-green-600 hover:bg-green-700 focus:outline-none rounded-l-xl rounded-t-xl text-white z-10"
+                    className="p-4 bg-webriq-blue hover:bg-webriq-darkblue focus:outline-none rounded-l-xl rounded-t-xl text-white z-10"
                     onClick={() => slider("prev")}
                   >
                     <svg
@@ -52,7 +52,7 @@ function VariantE({ featuredItems }) {
                   />
                 )}
                 <div className="xl:absolute top-0 left-0 mt-12 xl:mt-20 max-w-xl mx-auto xl:mx-0 p-6 xl:py-24 rounded bg-white border-gray-50 shadow text-center">
-                  <span className="font-bold text-green-600">
+                  <span className="font-bold text-webriq-darkblue">
                     {featuredItems?.[item]?.subtitle &&
                       featuredItems?.[item]?.subtitle}
                   </span>
@@ -69,7 +69,7 @@ function VariantE({ featuredItems }) {
               <div className="xl:absolute inset-y-0 right-0 -mr-8 xl:flex items-center">
                 {featuredItems?.length >= 2 && (
                   <button
-                    className="p-4 bg-green-600 hover:bg-green-700 focus:outline-none rounded-r-xl rounded-t-xl text-white"
+                    className="p-4 bg-webriq-blue hover:bg-webriq-darkblue focus:outline-none rounded-r-xl rounded-t-xl text-white"
                     onClick={() => slider("next")}
                   >
                     <svg
@@ -103,7 +103,7 @@ function VariantE({ featuredItems }) {
         </svg>
       </div>
     </section>
-  )
+  );
 }
 
-export default React.memo(VariantE)
+export default React.memo(VariantE);

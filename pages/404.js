@@ -1,4 +1,4 @@
-import React from "react"
+import React from "react";
 
 function PageNotFound() {
   return (
@@ -30,7 +30,7 @@ function PageNotFound() {
               alt=""
             />
             <div className="text-center">
-              <span className="mb-6 text-4xl text-green-600 font-bold">
+              <span className="mb-6 text-4xl text-webriq-darkblue font-bold">
                 Whoops!
               </span>
               <h3 className="mb-2 text-4xl font-bold">Something went wrong!</h3>
@@ -39,7 +39,7 @@ function PageNotFound() {
               </p>
               <div>
                 <a
-                  className="w-full lg:w-auto mb-2 lg:mb-0 lg:mr-4 inline-block py-2 px-6 rounded-l-xl rounded-t-xl font-bold leading-loose text-gray-50 bg-green-600 hover:bg-green-700"
+                  className="w-full lg:w-auto mb-2 lg:mb-0 lg:mr-4 inline-block py-2 px-6 rounded-l-xl rounded-t-xl font-bold leading-loose text-gray-50 bg-webriq-blue hover:bg-webriq-darkblue"
                   href="/"
                 >
                   Go back to Homepage
@@ -74,6 +74,6 @@ function PageNotFound() {
         </div>
       </section>
     </>
-  )
+  );
 }
-export default React.memo(PageNotFound)
+export default React.memo(PageNotFound);

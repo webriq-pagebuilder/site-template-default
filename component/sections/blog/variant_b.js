@@ -1,5 +1,5 @@
-import React from "react"
-import { urlFor } from "../../../lib/sanity"
+import React from "react";
+import { urlFor } from "../../../lib/sanity";
 
 function VariantB({ caption, title, posts, primaryButton }) {
   return (
@@ -27,7 +27,9 @@ function VariantB({ caption, title, posts, primaryButton }) {
           <div className="mb-6 flex flex-wrap justify-center">
             <div className="mb-16 w-full text-center">
               {caption && (
-                <span className="text-green-600 font-bold">{caption}</span>
+                <span className="text-webriq-darkblue font-bold">
+                  {caption}
+                </span>
               )}
               {title && (
                 <h2 className="text-4xl lg:text-5xl font-bold font-heading">
@@ -37,10 +39,8 @@ function VariantB({ caption, title, posts, primaryButton }) {
             </div>
             {posts && (
               <div className="flex flex-wrap -mx-3 mb-16">
-                <div
-                  className={`flex flex-wrap w-full lg:w-1/2`}
-                >
-                  {posts.map(post => (
+                <div className={`flex flex-wrap w-full lg:w-1/2`}>
+                  {posts.map((post) => (
                     <div
                       className={`mb-6 lg:mb-0 w-full lg:w-1/2 px-3`}
                       key={post.heading}
@@ -62,7 +62,7 @@ function VariantB({ caption, title, posts, primaryButton }) {
                             {post.description}
                           </p>
                           <a
-                            className="text-green-600 hover:text-green-700 font-bold"
+                            className="text-webriq-darkblue hover:text-webriq-darkblue font-bold"
                             href="#"
                           >
                             Learn More
@@ -75,15 +75,16 @@ function VariantB({ caption, title, posts, primaryButton }) {
               </div>
             )}
             <div>
-            {posts?.length >= 6 && (primaryButton &&
+              {posts?.length >= 6 && primaryButton && (
                 <a
-                  className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-green-600 hover:bg-green-700 text-gray-50 font-bold leading-loose outline-none transition duration-200"
+                  className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-gray-50 font-bold leading-loose outline-none transition duration-200"
                   href={
-                    primaryButton.type === "linkInternal" ? (
-                      primaryButton.internalLink === "Home" ||
-                      primaryButton.internalLink === "home"
+                    primaryButton.type === "linkInternal"
+                      ? primaryButton.internalLink === "Home" ||
+                        primaryButton.internalLink === "home"
                         ? "/"
-                        : primaryButton.internalLink) : primaryButton.externalLink
+                        : primaryButton.internalLink
+                      : primaryButton.externalLink
                   }
                 >
                   {primaryButton.label}
@@ -112,6 +113,6 @@ function VariantB({ caption, title, posts, primaryButton }) {
         </svg>
       </div>
     </section>
-  )
+  );
 }
-export default React.memo(VariantB)
+export default React.memo(VariantB);

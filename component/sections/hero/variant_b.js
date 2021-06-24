@@ -1,5 +1,5 @@
-import React from "react"
-import { urlFor } from "lib/sanity"
+import React from "react";
+import { urlFor } from "lib/sanity";
 
 function VariantB({
   template,
@@ -20,7 +20,7 @@ function VariantB({
                   <div className="max-w-md mx-auto lg:mx-0">
                     <h2 className="mb-3 text-4xl lg:text-5xl font-bold font-heading">
                       {/* <span>Build &amp; Launch without </span>
-                      <span className="text-green-600">problems</span> */}
+                      <span className="text-webriq-darkblue">problems</span> */}
                       {title && (
                         <>
                           <span>{String(title).split("*")[0]}</span>
@@ -43,13 +43,14 @@ function VariantB({
                     <div>
                       {primaryButton && (
                         <a
-                          className="inline-block mb-3 lg:mb-0 lg:mr-3 w-full lg:w-auto py-2 px-6 leading-loose bg-green-600 hover:bg-green-700 text-white font-semibold rounded-l-xl rounded-t-xl transition duration-200"
+                          className="inline-block mb-3 lg:mb-0 lg:mr-3 w-full lg:w-auto py-2 px-6 leading-loose bg-webriq-blue hover:bg-webriq-darkblue text-white font-semibold rounded-l-xl rounded-t-xl transition duration-200"
                           href={
-                            primaryButton.type === "linkInternal" ? (
-                              primaryButton.internalLink === "Home" ||
-                              primaryButton.internalLink === "home"
+                            primaryButton.type === "linkInternal"
+                              ? primaryButton.internalLink === "Home" ||
+                                primaryButton.internalLink === "home"
                                 ? "/"
-                                : primaryButton.internalLink) : primaryButton.externalLink
+                                : primaryButton.internalLink
+                              : primaryButton.externalLink
                           }
                         >
                           {primaryButton.label}
@@ -59,11 +60,12 @@ function VariantB({
                         <a
                           className="inline-block w-full lg:w-auto py-2 px-6 leading-loose font-semibold bg-white hover:bg-gray-50 rounded-l-xl rounded-t-xl transition duration-200"
                           href={
-                              secondaryButton.type === "linkInternal" ? (
-                              secondaryButton.internalLink === "Home" ||
-                              secondaryButton.internalLink === "home"
+                            secondaryButton.type === "linkInternal"
+                              ? secondaryButton.internalLink === "Home" ||
+                                secondaryButton.internalLink === "home"
                                 ? "/"
-                                : secondaryButton.internalLink) : secondaryButton.externalLink
+                                : secondaryButton.internalLink
+                              : secondaryButton.externalLink
                           }
                         >
                           {secondaryButton.label}
@@ -114,7 +116,7 @@ function VariantB({
         </div>
       </section>
     </>
-  )
+  );
 }
 
-export default React.memo(VariantB)
+export default React.memo(VariantB);

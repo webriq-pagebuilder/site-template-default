@@ -1,5 +1,5 @@
-import React from "react"
-import { urlFor } from "../../../lib/sanity"
+import React from "react";
+import { urlFor } from "../../../lib/sanity";
 
 function VariantB({
   /* template,*/ caption,
@@ -32,7 +32,9 @@ function VariantB({
           <div className="mb-16 flex flex-wrap justify-center md:justify-between items-center">
             <div className="text-center lg:text-left">
               {caption && (
-                <span className="text-green-600 font-bold">{caption}</span>
+                <span className="text-webriq-darkblue font-bold">
+                  {caption}
+                </span>
               )}
               {title && (
                 <h2 className="text-4xl lg:text-5xl font-bold font-heading">
@@ -42,7 +44,7 @@ function VariantB({
             </div>
             {primaryButton?.label && (
               <a
-                className="md:inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-green-600 hover:bg-green-700 text-gray-50 font-bold leading-loose transition duration-200"
+                className="md:inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-gray-50 font-bold leading-loose transition duration-200"
                 href={
                   primaryButton.type === "linkInternal"
                     ? primaryButton.internalLink === "Home" ||
@@ -58,7 +60,7 @@ function VariantB({
           </div>
           <div className="flex flex-wrap -mx-4 mb-4">
             {portfolios &&
-              portfolios.map(portfolio => (
+              portfolios.map((portfolio) => (
                 <div
                   className="relative mb-4 w-full md:w-1/2 lg:w-1/3 px-4"
                   key={portfolio.heading}
@@ -138,7 +140,7 @@ function VariantB({
           <div className="text-center">
             {primaryButton?.label && (
               <a
-                className="md:hidden inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-green-600 hover:bg-green-700 text-gray-50 font-bold leading-loose transition duration-200"
+                className="md:hidden inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-gray-50 font-bold leading-loose transition duration-200"
                 href={
                   primaryButton.type === "linkInternal"
                     ? primaryButton.internalLink === "Home" ||
@@ -173,7 +175,7 @@ function VariantB({
         </svg>
       </div>
     </section>
-  )
+  );
 }
 
-export default React.memo(VariantB)
+export default React.memo(VariantB);

@@ -1,4 +1,4 @@
-import React from "react"
+import React from "react";
 
 function VariantC({ caption, title, features }) {
   return (
@@ -25,7 +25,7 @@ function VariantC({ caption, title, features }) {
         <div className="container mx-auto px-4">
           <div className="mb-16 max-w-md mx-auto text-center">
             {caption && (
-              <span className="text-green-600 font-bold">
+              <span className="text-webriq-darkblue font-bold">
                 {/* Dolor sit amet consectutar */}
                 {caption}
               </span>
@@ -42,9 +42,9 @@ function VariantC({ caption, title, features }) {
               <div className="mb-6 w-full lg:w-1/2 px-3">
                 <div className="p-6 flex flex-wrap bg-white shadow rounded-lg">
                   <div>
-                    <span className="mb-4 lg:mb-0 mr-6 inline-block p-3 md:p-5 rounded-lg bg-green-100">
+                    <span className="mb-4 lg:mb-0 mr-6 inline-block p-3 md:p-5 rounded-lg bg-webriq-lightblue">
                       <svg
-                        className="h-8 w-8 md:w-12 md:h-12 text-green-500"
+                        className="h-8 w-8 md:w-12 md:h-12 text-webriq-blue"
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
                         viewBox="0 0 24 24"
@@ -63,7 +63,9 @@ function VariantC({ caption, title, features }) {
                     <h3 className="mb-2 text-2xl font-bold font-heading">
                       {features?.[0]?.heading}
                     </h3>
-                    <p className="text-gray-500">{features?.[0]?.description}</p>
+                    <p className="text-gray-500">
+                      {features?.[0]?.description}
+                    </p>
                   </div>
                 </div>
               </div>
@@ -72,9 +74,9 @@ function VariantC({ caption, title, features }) {
               <div className="mb-6 w-full lg:w-1/2 px-3">
                 <div className="p-6 flex flex-wrap bg-white shadow rounded-lg">
                   <div>
-                    <span className="mb-4 lg:mb-0 mr-6 inline-block p-3 md:p-5 rounded-lg bg-green-100">
+                    <span className="mb-4 lg:mb-0 mr-6 inline-block p-3 md:p-5 rounded-lg bg-webriq-lightblue">
                       <svg
-                        className="h-8 w-8 md:w-12 md:h-12 text-green-500"
+                        className="h-8 w-8 md:w-12 md:h-12 text-webriq-blue"
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 20 20"
                         fill="currentColor"
@@ -87,7 +89,9 @@ function VariantC({ caption, title, features }) {
                     <h3 className="mb-2 text-2xl font-bold font-heading">
                       {features?.[1]?.heading}
                     </h3>
-                    <p className="text-gray-500">{features?.[1]?.description}</p>
+                    <p className="text-gray-500">
+                      {features?.[1]?.description}
+                    </p>
                   </div>
                 </div>
               </div>
@@ -96,9 +100,9 @@ function VariantC({ caption, title, features }) {
               <div className="mb-6 lg:mb-0 w-full lg:w-1/2 px-3">
                 <div className="p-6 flex flex-wrap bg-white shadow rounded-lg">
                   <div>
-                    <span className="mb-4 lg:mb-0 mr-6 inline-block p-3 md:p-5 rounded bg-green-100">
+                    <span className="mb-4 lg:mb-0 mr-6 inline-block p-3 md:p-5 rounded bg-webriq-lightblue">
                       <svg
-                        className="h-8 w-8 md:w-12 md:h-12 text-green-500"
+                        className="h-8 w-8 md:w-12 md:h-12 text-webriq-blue"
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
                         viewBox="0 0 24 24"
@@ -117,7 +121,9 @@ function VariantC({ caption, title, features }) {
                     <h3 className="mb-2 text-2xl font-bold font-heading">
                       {features?.[2]?.heading}
                     </h3>
-                    <p className="text-gray-500">{features?.[2]?.description}</p>
+                    <p className="text-gray-500">
+                      {features?.[2]?.description}
+                    </p>
                   </div>
                 </div>
               </div>
@@ -126,9 +132,9 @@ function VariantC({ caption, title, features }) {
               <div className="w-full lg:w-1/2 px-3">
                 <div className="p-6 flex flex-wrap bg-white shadow rounded-lg">
                   <div>
-                    <span className="mb-4 lg:mb-0 mr-6 inline-block p-3 md:p-5 rounded bg-green-100">
+                    <span className="mb-4 lg:mb-0 mr-6 inline-block p-3 md:p-5 rounded bg-webriq-lightblue">
                       <svg
-                        className="h-8 w-8 md:w-12 md:h-12 text-green-500"
+                        className="h-8 w-8 md:w-12 md:h-12 text-webriq-blue"
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 20 20"
                         fill="currentColor"
@@ -146,7 +152,9 @@ function VariantC({ caption, title, features }) {
                     <h3 className="mb-2 text-2xl font-bold font-heading">
                       {features?.[3]?.heading}
                     </h3>
-                    <p className="text-gray-500">{features?.[3]?.description}</p>
+                    <p className="text-gray-500">
+                      {features?.[3]?.description}
+                    </p>
                   </div>
                 </div>
               </div>
@@ -173,7 +181,7 @@ function VariantC({ caption, title, features }) {
         </svg>
       </div>
     </section>
-  )
+  );
 }
 
-export default React.memo(VariantC)
+export default React.memo(VariantC);

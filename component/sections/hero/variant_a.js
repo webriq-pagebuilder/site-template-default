@@ -1,6 +1,6 @@
-import React from "react"
-import PropTypes from "prop-types"
-import { urlFor } from "lib/sanity"
+import React from "react";
+import PropTypes from "prop-types";
+import { urlFor } from "lib/sanity";
 
 function VariantA({
   template,
@@ -13,7 +13,7 @@ function VariantA({
   return (
     <section className="skewed-bottom-right">
       <div
-        className={`bg-${template.bg}-50 pt-12 lg:pt-20 pb-20 radius-for-skewed`}
+        className={`bg-${template.bg}-lightblue pt-12 lg:pt-20 pb-20 radius-for-skewed`}
       >
         <div className="container mx-auto px-4">
           <div className="flex flex-wrap -mx-4">
@@ -40,7 +40,7 @@ function VariantA({
                   <div>
                     {primaryButton?.label && (
                       <a
-                        className={`inline-block mb-3 lg:mb-0 lg:mr-3 w-full lg:w-auto py-2 px-6 leading-loose bg-${template.color}-600 hover:bg-${template.color}-700 text-white font-semibold rounded-l-xl rounded-t-xl transition duration-200`}
+                        className={`inline-block mb-3 lg:mb-0 lg:mr-3 w-full lg:w-auto py-2 px-6 leading-loose bg-${template.color}-blue hover:bg-${template.color}-darkblue text-white font-semibold rounded-l-xl rounded-t-xl transition duration-200`}
                         href={
                           primaryButton.type === "linkInternal"
                             ? primaryButton.internalLink === "Home" ||
@@ -120,7 +120,7 @@ function VariantA({
         </svg>
       </div>
     </section>
-  )
+  );
 }
 
 VariantA.propTypes = {
@@ -130,5 +130,5 @@ VariantA.propTypes = {
   description: PropTypes.string,
   primaryButton: PropTypes.object,
   secondaryButton: PropTypes.object,
-}
-export default React.memo(VariantA)
+};
+export default React.memo(VariantA);

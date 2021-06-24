@@ -1,6 +1,6 @@
-import React from "react"
-import WebriQForm from "@webriq/gatsby-webriq-form"
-import { urlFor } from "lib/sanity"
+import React from "react";
+import WebriQForm from "@webriq/gatsby-webriq-form";
+import { urlFor } from "lib/sanity";
 
 function VariantA({
   logo,
@@ -248,14 +248,17 @@ function VariantA({
               {formFields && (
                 <div className="text-center">
                   <button
-                    className="mb-2 w-full py-4 bg-green-600 hover:bg-green-700 rounded text-sm font-bold text-gray-50 transition duration-200"
+                    className="mb-2 w-full py-4 bg-webriq-blue hover:bg-webriq-darkblue rounded text-sm font-bold text-gray-50 transition duration-200"
                     type="submit"
                   >
                     Sign Up
                   </button>
                   <span className="text-gray-400 text-xs">
                     <span>Already have an account?</span>
-                    <a className="text-green-600 hover:underline" href="#">
+                    <a
+                      className="text-webriq-darkblue hover:underline"
+                      href="#"
+                    >
                       &nbsp;Sign In
                     </a>
                   </span>
@@ -326,6 +329,6 @@ function VariantA({
         </div>
       </div>
     </section>
-  )
+  );
 }
-export default React.memo(VariantA)
+export default React.memo(VariantA);

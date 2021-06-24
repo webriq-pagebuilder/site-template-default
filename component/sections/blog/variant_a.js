@@ -1,6 +1,6 @@
-import React from "react"
-import PropTypes from "prop-types"
-import { urlFor } from "../../../lib/sanity"
+import React from "react";
+import PropTypes from "prop-types";
+import { urlFor } from "../../../lib/sanity";
 
 function VariantA({ caption, title, posts, primaryButton }) {
   return (
@@ -27,7 +27,7 @@ function VariantA({ caption, title, posts, primaryButton }) {
         <div className="container mx-auto px-4">
           <div className="mb-16 text-center">
             {caption && (
-              <span className="text-green-600 font-bold">{caption}</span>
+              <span className="text-webriq-darkblue font-bold">{caption}</span>
             )}
             {title && (
               <h2 className="text-4xl lg:text-5xl font-bold font-heading">
@@ -50,7 +50,7 @@ function VariantA({ caption, title, posts, primaryButton }) {
                         <div className="absolute inset-0 bg-gray-900 opacity-75 rounded" />
                         <div className="absolute inset-0 p-6 flex flex-col items-start">
                           {posts?.[0]?.category && (
-                            <span className="mb-auto py-1 px-3 text-sm bg-white rounded-full text-green-600 uppercase font-bold">
+                            <span className="mb-auto py-1 px-3 text-sm bg-white rounded-full text-webriq-darkblue uppercase font-bold">
                               {posts[0].category}
                             </span>
                           )}
@@ -77,7 +77,7 @@ function VariantA({ caption, title, posts, primaryButton }) {
                         <div className="absolute inset-0 bg-gray-900 opacity-75 rounded" />
                         <div className="absolute inset-0 p-6 flex flex-col items-start">
                           {posts?.[1]?.category && (
-                            <span className="mb-auto py-1 px-3 text-sm bg-white rounded-full text-green-600 uppercase font-bold">
+                            <span className="mb-auto py-1 px-3 text-sm bg-white rounded-full text-webriq-darkblue uppercase font-bold">
                               {posts[1].category}
                             </span>
                           )}
@@ -104,7 +104,7 @@ function VariantA({ caption, title, posts, primaryButton }) {
                         <div className="absolute inset-0 bg-gray-900 opacity-75 rounded" />
                         <div className="absolute inset-0 p-6 flex flex-col items-start">
                           {posts?.[2]?.category && (
-                            <span className="mb-auto py-1 px-3 text-sm bg-white rounded-full text-green-600 uppercase font-bold">
+                            <span className="mb-auto py-1 px-3 text-sm bg-white rounded-full text-webriq-darkblue uppercase font-bold">
                               {posts[2].category}
                             </span>
                           )}
@@ -133,7 +133,7 @@ function VariantA({ caption, title, posts, primaryButton }) {
                         <div className="absolute inset-0 bg-gray-900 opacity-75 rounded" />
                         <div className="absolute inset-0 p-6 flex flex-col items-start">
                           {posts?.[3]?.category && (
-                            <span className="mb-auto py-1 px-3 text-sm bg-white rounded-full text-green-600 uppercase font-bold">
+                            <span className="mb-auto py-1 px-3 text-sm bg-white rounded-full text-webriq-darkblue uppercase font-bold">
                               {posts[3].category}
                             </span>
                           )}
@@ -160,7 +160,7 @@ function VariantA({ caption, title, posts, primaryButton }) {
                         <div className="absolute inset-0 bg-gray-900 opacity-75 rounded" />
                         <div className="absolute inset-0 p-6 flex flex-col items-start">
                           {posts?.[4]?.category && (
-                            <span className="mb-auto py-1 px-3 text-sm bg-white rounded-full text-green-600 uppercase font-bold">
+                            <span className="mb-auto py-1 px-3 text-sm bg-white rounded-full text-webriq-darkblue uppercase font-bold">
                               {posts[4].category}
                             </span>
                           )}
@@ -187,7 +187,7 @@ function VariantA({ caption, title, posts, primaryButton }) {
                         <div className="absolute inset-0 bg-gray-900 opacity-75 rounded" />
                         <div className="absolute inset-0 p-6 flex flex-col items-start">
                           {posts?.[5]?.category && (
-                            <span className="mb-auto py-1 px-3 text-sm bg-white rounded-full text-green-600 uppercase font-bold">
+                            <span className="mb-auto py-1 px-3 text-sm bg-white rounded-full text-webriq-darkblue uppercase font-bold">
                               {posts[5].category}
                             </span>
                           )}
@@ -206,7 +206,7 @@ function VariantA({ caption, title, posts, primaryButton }) {
               <div className="mt-10">
                 {posts?.length >= 6 && primaryButton && (
                   <a
-                    className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-green-600 hover:bg-green-700 text-gray-50 font-bold leading-loose outline-none transition duration-200"
+                    className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-gray-50 font-bold leading-loose outline-none transition duration-200"
                     href={
                       primaryButton.type === "linkInternal"
                         ? primaryButton.internalLink === "Home" ||
@@ -243,11 +243,11 @@ function VariantA({ caption, title, posts, primaryButton }) {
         </svg>
       </div>
     </section>
-  )
+  );
 }
 VariantA.propTypes = {
   caption: PropTypes.string,
   title: PropTypes.string,
   posts: PropTypes.object,
-}
-export default React.memo(VariantA)
+};
+export default React.memo(VariantA);
