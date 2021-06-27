@@ -1,5 +1,6 @@
 export default async (req, res) => {
-  const corsOrigin = process.env.SANITY_STUDIO_URL || "http://localhost:3333";
+  const corsOrigin =
+    process.env.SITE_SANITY_STUDIO_URL || "http://localhost:3333";
 
   res.setHeader("Access-Control-Allow-Origin", corsOrigin);
   res.setHeader("Access-Control-Allow-Credentials", true);

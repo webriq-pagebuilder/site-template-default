@@ -1,10 +1,10 @@
-import React from "react"
-import { urlFor } from "lib/sanity"
+import React from "react";
+import { urlFor } from "lib/sanity";
 
-function SEO ({ data }) {
-  const seo = data?.seo
-  const title = data?.title
-  const url = process.env.SANITY_STUDIO_URL
+function SEO({ data }) {
+  const seo = data?.seo;
+  const title = data?.title;
+  const url = process.env.SITE_SANITY_STUDIO_URL || "http://localhost:3333";
 
   return (
     <>
@@ -27,7 +27,7 @@ function SEO ({ data }) {
       <meta property="twitter:description" content={seo?.seoDescription} />
       <meta property="twitter:image" content={urlFor(seo?.seoImage)} />
     </>
-  )
+  );
 }
 
-export default React.memo(SEO)
+export default React.memo(SEO);
