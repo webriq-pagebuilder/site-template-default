@@ -2,8 +2,13 @@ import React from "react"
 import BlockContent from "@sanity/block-content-to-react"
 
 
-function VariantB({ heading, content }) {
+function VariantB({ heading, firstColumn, secondColumn }) {
   const serializers = {
+    types: {
+      block: (props) => (
+        <p className="text-gray-500 text-justify leading-relaxed mb-5">{props.children}</p>
+      )
+    },
     marks: {
       internalLink: ({ children, mark }) => (
         <a className="hover:text-red-400 text-red-800" href={mark.slug.current}>
@@ -23,20 +28,18 @@ function VariantB({ heading, content }) {
   return (
     <section className="py-8">
       <h2 className="text-3xl mb-5 font-semibold font-heading text-center">{heading}</h2>
-      {content && (
-        <div className="flex flex-wrap -mx-10 justify-center">
-          <div className="w-1/4 px-5 mb-6">
-            <p className="text-gray-400 text-justify leading-relaxed">
-              <BlockContent blocks={content?.[0]} serializers={serializers} />
-            </p>
+      <div className="flex flex-wrap -mx-10 justify-center">
+        {firstColumn && (
+          <div className="w-1/4 px-5 mb-6 text-gray-500 text-justify leading-relaxed">
+            <BlockContent blocks={firstColumn} serializers={serializers} />
           </div>
-          <div className="w-1/4 px-5 mb-6 md:mb-0">
-            <p className="text-gray-400 text-justify leading-relaxed">
-              <BlockContent blocks={content?.[1]} serializers={serializers} />
-            </p>
+        )}
+        {secondColumn && (
+          <div className="w-1/4 px-5 mb-6 md:mb-0 text-gray-500 text-justify leading-relaxed">
+            <BlockContent blocks={secondColumn} serializers={serializers} />
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </section>
   )
 }
