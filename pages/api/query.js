@@ -26,18 +26,21 @@ const allProjections = `
         "arrImages": images,
         primaryButton {
           label,
+          pageAccess,
           "type": link.condition,
           "internalLink": link.linkInternal->slug.current,
           "externalLink": link.linkExternal
         },
         secondaryButton {
           label,
+          pageAccess,
           "type": link.condition,
           "internalLink": link.linkInternal->slug.current,
           "externalLink": link.linkExternal
         }, 
         routes[]{
           label,
+          pageAccess,
           "type": link.condition,
           "internalLink": link.linkInternal->slug.current,
           "externalLink": link.linkExternal
@@ -47,6 +50,7 @@ const allProjections = `
         ...,
         primaryButton {
         label,
+        pageAccess,
         "type": link.condition,
         "internalLink": link.linkInternal->slug.current,
         "externalLink": link.linkExternal
@@ -99,18 +103,21 @@ const allProjections = `
       "arrImages": images,
       routes[]{
         label,
+        pageAccess,
         "type": link.condition,
         "internalLink": link.linkInternal->slug.current,
         "externalLink": link.linkExternal
       },
       primaryButton {
         label,
+        pageAccess,
         "type": link.condition,
         "internalLink": link.linkInternal->slug.current,
         "externalLink": link.linkExternal
       },
       secondaryButton {
         label,
+        pageAccess,
         "type": link.condition,
         "internalLink": link.linkInternal->slug.current,
         "externalLink": link.linkExternal
@@ -120,6 +127,7 @@ const allProjections = `
         ...,
         primaryButton {
         label,
+        pageAccess,
         "type": link.condition,
         "internalLink": link.linkInternal->slug.current,
         "externalLink": link.linkExternal
@@ -164,18 +172,21 @@ const allProjections = `
       "arrImages": images,
       routes[]{
         label,
+        pageAccess,
         "type": link.condition,
         "internalLink": link.linkInternal->slug.current,
         "externalLink": link.linkExternal
       },
       primaryButton {
         label,
+        pageAccess,
         "type": link.condition,
         "internalLink": link.linkInternal->slug.current,
         "externalLink": link.linkExternal
       },
       secondaryButton {
         label,
+        pageAccess,
         "type": link.condition,
         "internalLink": link.linkInternal->slug.current,
         "externalLink": link.linkExternal
@@ -185,6 +196,7 @@ const allProjections = `
         ...,
         primaryButton {
         label,
+        pageAccess,
         "type": link.condition,
         "internalLink": link.linkInternal->slug.current,
         "externalLink": link.linkExternal
@@ -231,16 +243,25 @@ const allProjections = `
  
       routes[]{
         label,
+        pageAccess,
         "type": link.condition,
         "internalLink": link.linkInternal->slug.current,
         "externalLink": link.linkExternal
       },
       primaryButton {
         label,
+        pageAccess,
         "type": link.condition,
         "internalLink": link.linkInternal->slug.current,
         "externalLink": link.linkExternal
       },  
+      secondaryButton {
+        label,
+        pageAccess,
+        "type": link.condition,
+        "internalLink": link.linkInternal->slug.current,
+        "externalLink": link.linkExternal
+      },
       "arrImages": images,
       "featuredItems": arrayOfTitleAndDescription,
       copyright,
@@ -284,12 +305,14 @@ const allProjections = `
       },
       primaryButton {
         label,
+        pageAccess,
         "type": link.condition,
         "internalLink": link.linkInternal->slug.current,
         "externalLink": link.linkExternal
       },
       secondaryButton {
         label,
+        pageAccess,
         "type": link.condition,
         "internalLink": link.linkInternal->slug.current,
         "externalLink": link.linkExternal

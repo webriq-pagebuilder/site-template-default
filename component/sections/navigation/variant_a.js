@@ -38,38 +38,38 @@ function VariantA({ template, links, primaryButton, secondaryButton, logo }) {
                   {link.type === "linkInternal" ? (
                     <Link
                       prefetch={true}
-                      href={`${
-                        link.internalLink === "Home" ||
+                      href={`${link.internalLink === "Home" ||
                         link.internalLink === "home"
-                          ? "/"
-                          : `/${
-                              link.internalLink === undefined
-                                ? "page-not-found"
-                                : link.internalLink
-                            }`
-                      }`}
+                        ? "/"
+                        : `/${link.internalLink === undefined
+                          ? "page-not-found"
+                          : link.internalLink
+                        }`
+                        }`}
                     >
                       <a
                         className={`text-sm text-gray-400 hover:text-gray-500`}
+                        target={link?.pageAccess === "openLinkToNewTab" ? "_blank" : null}
+                        rel={link?.pageAccess === "openLinkToNewTab" ? "noopener noreferrer" : null}
                       >
                         {link.label}
                       </a>
                     </Link>
                   ) : (
                     <Link
-                      href={`${
-                        link.externalLink === "Home" ||
+                      href={`${link.externalLink === "Home" ||
                         link.externalLink === "home"
-                          ? "/"
-                          : `${
-                              link.externalLink === undefined
-                                ? "page-not-found"
-                                : link.externalLink
-                            }`
-                      }`}
+                        ? "/"
+                        : `${link.externalLink === undefined
+                          ? "page-not-found"
+                          : link.externalLink
+                        }`
+                        }`}
                     >
                       <a
                         className={`text-sm text-gray-400 hover:text-gray-500`}
+                        target={link?.pageAccess === "openLinkToNewTab" ? "_blank" : null}
+                        rel={link?.pageAccess === "openLinkToNewTab" ? "noopener noreferrer" : null}
                       >
                         {link.label}
                       </a>
@@ -100,6 +100,8 @@ function VariantA({ template, links, primaryButton, secondaryButton, logo }) {
         {primaryButton && (
           <a
             className="hidden lg:inline-block lg:ml-auto lg:mr-3 py-2 px-6 bg-gray-50 hover:bg-gray-100 text-sm text-gray-900 font-bold rounded-l-xl rounded-t-xl transition duration-200"
+            target={primaryButton?.pageAccess === "openLinkToNewTab" ? "_blank" : null}
+            rel={primaryButton?.pageAccess === "openLinkToNewTab" ? "noopener noreferrer" : null}
             href={
               primaryButton.type === "linkInternal"
                 ? primaryButton.internalLink === "Home" ||
@@ -107,8 +109,8 @@ function VariantA({ template, links, primaryButton, secondaryButton, logo }) {
                   ? "/"
                   : primaryButton.internalLink
                 : primaryButton.type === "linkExternal"
-                ? primaryButton.externalLink
-                : "page-not-found"
+                  ? primaryButton.externalLink
+                  : "page-not-found"
             }
           >
             {primaryButton.label}
@@ -117,6 +119,8 @@ function VariantA({ template, links, primaryButton, secondaryButton, logo }) {
         {secondaryButton && (
           <a
             className={`hidden lg:inline-block py-2 px-6 bg-${template.color}-blue hover:bg-${template.color}-darkblue text-sm text-white font-bold rounded-l-xl rounded-t-xl transition duration-200`}
+            target={secondaryButton?.pageAccess === "openLinkToNewTab" ? "_blank" : null}
+            rel={secondaryButton?.pageAccess === "openLinkToNewTab" ? "noopener noreferrer" : null}
             href={
               secondaryButton.type === "linkInternal"
                 ? secondaryButton.internalLink === "Home" ||
@@ -124,8 +128,8 @@ function VariantA({ template, links, primaryButton, secondaryButton, logo }) {
                   ? "/"
                   : secondaryButton.internalLink
                 : secondaryButton.type === "linkExternal"
-                ? secondaryButton.externalLink
-                : "page-not-found"
+                  ? secondaryButton.externalLink
+                  : "page-not-found"
             }
           >
             {secondaryButton.label}
@@ -167,16 +171,14 @@ function VariantA({ template, links, primaryButton, secondaryButton, logo }) {
                     {link.type === "linkInternal" ? (
                       <Link
                         prefetch={true}
-                        href={`${
-                          link.internalLink === "Home" ||
+                        href={`${link.internalLink === "Home" ||
                           link.internalLink === "home"
-                            ? "/"
-                            : `/${
-                                link.internalLink === undefined
-                                  ? "page-not-found"
-                                  : link.internalLink
-                              }`
-                        }`}
+                          ? "/"
+                          : `/${link.internalLink === undefined
+                            ? "page-not-found"
+                            : link.internalLink
+                          }`
+                          }`}
                       >
                         <a className="block p-4 text-sm font-semibold text-gray-400 hover:bg-webriq-lightblue hover:text-webriq-darkblue rounded">
                           {link.label}
@@ -184,16 +186,14 @@ function VariantA({ template, links, primaryButton, secondaryButton, logo }) {
                       </Link>
                     ) : (
                       <Link
-                        href={`${
-                          link.externalLink === "Home" ||
+                        href={`${link.externalLink === "Home" ||
                           link.externalLink === "home"
-                            ? "/"
-                            : `${
-                                link.externalLink === undefined
-                                  ? "page-not-found"
-                                  : link.externalLink
-                              }`
-                        }`}
+                          ? "/"
+                          : `${link.externalLink === undefined
+                            ? "page-not-found"
+                            : link.externalLink
+                          }`
+                          }`}
                       >
                         <a className="block p-4 text-sm font-semibold text-gray-400 hover:bg-webriq-lightblue hover:text-webriq-darkblue rounded">
                           {link.label}
@@ -216,8 +216,8 @@ function VariantA({ template, links, primaryButton, secondaryButton, logo }) {
                         ? "/"
                         : primaryButton.internalLink
                       : primaryButton.type === "linkExternal"
-                      ? primaryButton.externalLink
-                      : "page-not-found"
+                        ? primaryButton.externalLink
+                        : "page-not-found"
                   }
                 >
                   {primaryButton.label}
@@ -233,8 +233,8 @@ function VariantA({ template, links, primaryButton, secondaryButton, logo }) {
                         ? "/"
                         : secondaryButton.internalLink
                       : secondaryButton.type === "linkExternal"
-                      ? secondaryButton.externalLink
-                      : "page-not-found"
+                        ? secondaryButton.externalLink
+                        : "page-not-found"
                   }
                 >
                   {secondaryButton.label}
