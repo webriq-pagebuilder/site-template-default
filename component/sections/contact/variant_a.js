@@ -72,6 +72,8 @@ function VariantA({
                       {socialLinks?.fbLink && (
                         <a
                           className="inline-block mr-5 bg-gray-50 hover:bg-gray-100 rounded"
+                          target="_blank"
+                          rel="noopener noreferrer"
                           href={socialLinks?.fbLink}
                         >
                           <svg
@@ -90,6 +92,8 @@ function VariantA({
                       {socialLinks?.twitterLink && (
                         <a
                           className="inline-block mr-5 bg-gray-50 hover:bg-gray-100 rounded"
+                          target="_blank"
+                          rel="noopener noreferrer"
                           href={socialLinks?.twitterLink}
                         >
                           <svg
@@ -108,6 +112,8 @@ function VariantA({
                       {socialLinks?.instagramLink && (
                         <a
                           className="inline-block mr-2 bg-gray-50 hover:bg-gray-100 rounded"
+                          target="_blank"
+                          rel="noopener noreferrer"
                           href={socialLinks?.instagramLink}
                         >
                           <svg
@@ -375,7 +381,9 @@ function VariantA({
                       </div>
                       {button && (
                         <a
-                          className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-green-600 hover:bg-green-700 text-gray-50 font-bold leading-loose transition duration-200"
+                          className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-loose transition duration-200"
+                          target={button?.pageAccess === "openLinkToNewTab" ? "_blank" : null}
+                          rel={button?.pageAccess === "openLinkToNewTab" ? "noopener noreferrer" : null}
                           href={
                             button.type === "linkExternal"
                               ? button?.externalLink

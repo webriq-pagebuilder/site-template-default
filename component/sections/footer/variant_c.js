@@ -29,74 +29,27 @@ function VariantC({ logo, menu, copyright, socialMedia }) {
             </p>
             {menu && (
               <div className="lg:absolute lg:left-1/2 lg:transform lg:-translate-x-1/2 mb-6 lg:mb-0 mx-auto">
-                {menu[0] && (
-                  <a
-                    className="mr-6 text-sm hover:text-gray-500"
-                    href={
-                      menu[0].type === "linkExternal"
-                        ? menu[0]?.externalLink
-                        : menu[0].type === "linkInternal"
-                        ? menu[0]?.internalLink === "Home" ||
-                          menu[0]?.internalLink === "home"
-                          ? "/"
-                          : menu[0]?.internalLink
-                        : "page-not-found"
-                    }
-                  >
-                    {menu[0]?.label}
-                  </a>
-                )}
-                {menu[1] && (
-                  <a
-                    className="mr-6 text-sm hover:text-gray-500"
-                    href={
-                      menu[1].type === "linkExternal"
-                        ? menu[1]?.externalLink
-                        : menu[1].type === "linkInternal"
-                        ? menu[1]?.internalLink === "Home" ||
-                          menu[1]?.internalLink === "home"
-                          ? "/"
-                          : menu[1]?.internalLink
-                        : "page-not-found"
-                    }
-                  >
-                    {menu[1]?.label}
-                  </a>
-                )}
-                {menu[2] && (
-                  <a
-                    className="mr-6 text-sm hover:text-gray-500"
-                    href={
-                      menu[2].type === "linkExternal"
-                        ? menu[2]?.externalLink
-                        : menu[2].type === "linkInternal"
-                        ? menu[2]?.internalLink === "Home" ||
-                          menu[2]?.internalLink === "home"
-                          ? "/"
-                          : menu[2]?.internalLink
-                        : "page-not-found"
-                    }
-                  >
-                    {menu[2]?.label}
-                  </a>
-                )}
-                {menu[3] && (
-                  <a
-                    className="mr-6 text-sm hover:text-gray-500"
-                    href={
-                      menu[3].type === "linkExternal"
-                        ? menu[3]?.externalLink
-                        : menu[3].type === "linkInternal"
-                        ? menu[3]?.internalLink === "Home" ||
-                          menu[3]?.internalLink === "home"
-                          ? "/"
-                          : menu[3]?.internalLink
-                        : "page-not-found"
-                    }
-                  >
-                    {menu[3]?.label}
-                  </a>
-                )}
+                <ul className="flex flex-wrap lg:space-x-5 justify-between items-center mx-20">
+                  {menu?.map((links, index) => (
+                    <li className="w-full md:w-auto mb-2 md:mb-0" key={index}>
+                      <a
+                        className="mr-6 text-sm hover:text-gray-500"
+                        href={
+                          links?.type === "linkExternal"
+                            ? links?.externalLink
+                            : links?.type === "linkInternal"
+                              ? links?.internalLink === "Home" ||
+                                links?.internalLink === "home"
+                                ? "/"
+                                : links?.internalLink
+                              : "page-not-found"
+                        }
+                      >
+                        {links?.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
               </div>
             )}
             <div className="mb-12 lg:mb-0 lg:ml-auto w-full lg:w-auto order-first lg:order-last text-center lg:text-left">
@@ -118,7 +71,7 @@ function VariantC({ logo, menu, copyright, socialMedia }) {
           {socialMedia && (
             <div className="flex justify-center">
               {socialMedia?.fbLink && (
-                <a className="mr-3" href={socialMedia?.fbLink}>
+                <a className="mr-3" target="_blank" rel="noopener noreferrer" href={socialMedia?.fbLink}>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"
@@ -133,7 +86,7 @@ function VariantC({ logo, menu, copyright, socialMedia }) {
                 </a>
               )}
               {socialMedia?.twitterLink && (
-                <a className="mr-3" href={socialMedia?.twitterLink}>
+                <a className="mr-3" target="_blank" rel="noopener noreferrer" href={socialMedia?.twitterLink}>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"
@@ -148,7 +101,7 @@ function VariantC({ logo, menu, copyright, socialMedia }) {
                 </a>
               )}
               {socialMedia?.instagramLink && (
-                <a className="mr-3" href={socialMedia?.instagramLink}>
+                <a className="mr-3" target="_blank" rel="noopener noreferrer" href={socialMedia?.instagramLink}>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"

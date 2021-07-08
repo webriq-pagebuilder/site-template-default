@@ -149,41 +149,37 @@ function VariantD({
               <div className="inline-flex flex-wrap py-1 sm:px-1 sm:space-x-1 bg-white rounded text-sm">
                 <button
                   onClick={() => setCategory("category_1")}
-                  className={`w-full sm:w-auto mb-1 sm:mb-0 mx-1 sm:mx-0 py-2 px-4 ${
-                    category === "category_1"
+                  className={`w-full sm:w-auto mb-1 sm:mb-0 mx-1 sm:mx-0 py-2 px-4 ${category === "category_1"
                       ? "bg-gray-50 text-gray-900 shadow rounded font-bold focus:outline-none transition duration-200"
                       : "hover:bg-gray-50 text-gray-500 hover:text-gray-900 rounded hover:shadow font-bold focus:outline-none transition duration-200"
-                  }`}
+                    }`}
                 >
                   Category 1
                 </button>
                 <button
                   onClick={() => setCategory("category_2")}
-                  className={`w-full sm:w-auto mb-1 sm:mb-0 mx-1 sm:mx-0 py-2 px-4 ${
-                    category === "category_2"
+                  className={`w-full sm:w-auto mb-1 sm:mb-0 mx-1 sm:mx-0 py-2 px-4 ${category === "category_2"
                       ? "bg-gray-50 text-gray-900 shadow rounded font-bold focus:outline-none transition duration-200"
                       : "hover:bg-gray-50 text-gray-500 hover:text-gray-900 rounded hover:shadow font-bold focus:outline-none transition duration-200"
-                  }`}
+                    }`}
                 >
                   Category 2
                 </button>
                 <button
                   onClick={() => setCategory("category_3")}
-                  className={`w-full sm:w-auto mb-1 sm:mb-0 mx-1 sm:mx-0 py-2 px-4 ${
-                    category === "category_3"
+                  className={`w-full sm:w-auto mb-1 sm:mb-0 mx-1 sm:mx-0 py-2 px-4 ${category === "category_3"
                       ? "bg-gray-50 text-gray-900 shadow rounded font-bold focus:outline-none transition duration-200"
                       : "hover:bg-gray-50 text-gray-500 hover:text-gray-900 rounded hover:shadow font-bold focus:outline-none transition duration-200"
-                  }`}
+                    }`}
                 >
                   Category 3
                 </button>
                 <button
                   onClick={() => setCategory("category_4")}
-                  className={`w-full sm:w-auto mb-1 sm:mb-0 mx-1 sm:mx-0 py-2 px-4 ${
-                    category === "category_4"
+                  className={`w-full sm:w-auto mb-1 sm:mb-0 mx-1 sm:mx-0 py-2 px-4 ${category === "category_4"
                       ? "bg-gray-50 text-gray-900 shadow rounded font-bold focus:outline-none transition duration-200"
                       : "hover:bg-gray-50 text-gray-500 hover:text-gray-900 rounded hover:shadow font-bold focus:outline-none transition duration-200"
-                  }`}
+                    }`}
                 >
                   Category 4
                 </button>
@@ -195,6 +191,8 @@ function VariantD({
             <div className="text-center">
               <a
                 className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-gray-50 font-bold leading-loose transition duration-200"
+                target={primaryButton?.pageAccess === "openLinkToNewTab" ? "_blank" : null}
+                rel={primaryButton?.pageAccess === "openLinkToNewTab" ? "noopener noreferrer" : null}
                 href={
                   primaryButton.type === "linkInternal"
                     ? primaryButton.internalLink === "Home" ||

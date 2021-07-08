@@ -45,6 +45,8 @@ function VariantC({
             {primaryButton?.label && (
               <a
                 className="hidden md:inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-gray-50 font-bold leading-loose transition duration-200"
+                target={primaryButton?.pageAccess === "openLinkToNewTab" ? "_blank" : null}
+                rel={primaryButton?.pageAccess === "openLinkToNewTab" ? "noopener noreferrer" : null}
                 href={
                   primaryButton?.type === "linkInternal"
                     ? primaryButton?.internalLink === "Home" ||

@@ -25,183 +25,47 @@ function VariantB({ logo, copyright, socialMedia, menu }) {
             {menu && (
               <div className="w-full lg:w-auto">
                 <ul className="mt-8 flex flex-wrap lg:space-x-5 justify-between items-center mx-20">
-                  {menu[0] && (
-                    <li className="w-full md:w-auto mb-2 md:mb-0">
-                      {menu[0].label && (
+                  {menu?.map((links, index, { length }) => (
+                    <>
+                      <li className="w-full md:w-auto mb-2 md:mb-0" key={index}>
                         <a
                           className="lg:text-sm text-gray-400 hover:text-gray-500"
+                          target={links?.pageAccess === "openLinkToNewTab" ? "_blank" : null}
+                          rel={links?.pageAccess === "openLinkToNewTab" ? "noopener noreferrer" : null}
                           href={
-                            menu[0].type === "linkExternal"
-                              ? menu[0]?.externalLink
-                              : menu[0].type === "linkInternal"
-                              ? menu[0].internalLink === "Home" ||
-                                menu[0].internalLink === "home"
-                                ? "/"
-                                : menu[0]?.internalLink
-                              : "page-not-found"
+                            links?.type === "linkExternal"
+                              ? links?.externalLink
+                              : links?.type === "linkInternal"
+                                ? links?.internalLink === "Home" ||
+                                  links?.internalLink === "home"
+                                  ? "/"
+                                  : links?.internalLink
+                                : "page-not-found"
                           }
                         >
-                          {menu[0]?.label}
+                          {links?.label}
                         </a>
-                      )}
-                    </li>
-                  )}
-                  {menu[1] && (
-                    <>
-                      <li className="hidden md:block">
-                        <svg
-                          className="mx-4 w-4 h-4 text-gray-300"
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="2"
-                            d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"
-                          ></path>
-                        </svg>
                       </li>
-                      <li className="w-full md:w-auto mb-2 md:mb-0">
-                        {menu[1].label && (
-                          <a
-                            className="lg:text-sm text-gray-400 hover:text-gray-500"
-                            href={
-                              menu[1].type === "linkExternal"
-                                ? menu[1]?.externalLink
-                                : menu[1].type === "linkInternal"
-                                ? menu[1].internalLink === "Home" ||
-                                  menu[1].internalLink === "home"
-                                  ? "/"
-                                  : menu[1]?.internalLink
-                                : "page-not-found"
-                            }
+                      {index + 1 !== length ? (
+                        <li className="hidden md:block">
+                          <svg
+                            className="mx-4 w-4 h-4 text-gray-300"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
                           >
-                            {menu[1]?.label}
-                          </a>
-                        )}
-                      </li>
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth="2"
+                              d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"
+                            ></path>
+                          </svg>
+                        </li>
+                      ) : null}
                     </>
-                  )}
-                  {menu[2] && (
-                    <>
-                      <li className="hidden md:block">
-                        <svg
-                          className="mx-4 w-4 h-4 text-gray-300"
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="2"
-                            d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"
-                          ></path>
-                        </svg>
-                      </li>
-                      <li className="w-full md:w-auto mb-2 md:mb-0">
-                        {menu[2].label && (
-                          <a
-                            className="lg:text-sm text-gray-400 hover:text-gray-500"
-                            href={
-                              menu[2].type === "linkExternal"
-                                ? menu[2]?.externalLink
-                                : menu[2].type === "linkInternal"
-                                ? menu[2].internalLink === "Home" ||
-                                  menu[2].internalLink === "home"
-                                  ? "/"
-                                  : menu[2]?.internalLink
-                                : "page-not-found"
-                            }
-                          >
-                            {menu[2]?.label}
-                          </a>
-                        )}
-                      </li>
-                    </>
-                  )}
-                  {menu[3] && (
-                    <>
-                      <li className="hidden md:block">
-                        <svg
-                          className="mx-4 w-4 h-4 text-gray-300"
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="2"
-                            d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"
-                          ></path>
-                        </svg>
-                      </li>
-                      <li className="w-full md:w-auto mb-2 md:mb-0">
-                        {menu[3].label && (
-                          <a
-                            className="lg:text-sm text-gray-400 hover:text-gray-500"
-                            href={
-                              menu[3].type === "linkExternal"
-                                ? menu[3]?.externalLink
-                                : menu[3].type === "linkInternal"
-                                ? menu[3].internalLink === "Home" ||
-                                  menu[3].internalLink === "home"
-                                  ? "/"
-                                  : menu[3]?.internalLink
-                                : "page-not-found"
-                            }
-                          >
-                            {menu[3]?.label}
-                          </a>
-                        )}
-                      </li>
-                    </>
-                  )}
-                  {menu[4] && (
-                    <>
-                      <li className="hidden md:block">
-                        <svg
-                          className="mx-4 w-4 h-4 text-gray-300"
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="2"
-                            d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"
-                          ></path>
-                        </svg>
-                      </li>
-                      <li>
-                        {menu[4].label && (
-                          <a
-                            className="lg:text-sm text-gray-400 hover:text-gray-500"
-                            href={
-                              menu[4].type === "linkExternal"
-                                ? menu[4]?.externalLink
-                                : menu[4].type === "linkInternal"
-                                ? menu[4].internalLink === "Home" ||
-                                  menu[4].internalLink === "home"
-                                  ? "/"
-                                  : menu[4]?.internalLink
-                                : "page-not-found"
-                            }
-                          >
-                            {menu[4]?.label}
-                          </a>
-                        )}
-                      </li>
-                    </>
-                  )}
+                  ))}
                 </ul>
               </div>
             )}
@@ -213,6 +77,8 @@ function VariantB({ logo, copyright, socialMedia, menu }) {
                 {socialMedia?.fbLink && (
                   <a
                     className="inline-block mr-2 p-2 bg-gray-50 hover:bg-gray-100 rounded"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     href={socialMedia?.fbLink}
                   >
                     <svg
@@ -231,6 +97,8 @@ function VariantB({ logo, copyright, socialMedia, menu }) {
                 {socialMedia?.twitterLink && (
                   <a
                     className="inline-block mr-2 p-2 bg-gray-50 hover:bg-gray-100 rounded"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     href={socialMedia?.twitterLink}
                   >
                     <svg
@@ -249,6 +117,8 @@ function VariantB({ logo, copyright, socialMedia, menu }) {
                 {socialMedia?.instagramLink && (
                   <a
                     className="inline-block mr-2 p-2 bg-gray-50 hover:bg-gray-100 rounded"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     href={socialMedia?.instagramLink}
                   >
                     <svg

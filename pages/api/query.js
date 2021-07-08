@@ -66,6 +66,7 @@ const allProjections = `
       }, 
       formLinks[] {
         label,
+        pageAccess,
         "type": link.condition,
         "externalLink": link.linkExternal,
         "internalLink": link.linkInternal->slug.current
@@ -89,6 +90,7 @@ const allProjections = `
       },
       menu[] {
         label,
+        pageAccess,
         "type": link.condition,
         "externalLink": link.linkExternal,
         "internalLink": link.linkInternal->slug.current
@@ -143,6 +145,7 @@ const allProjections = `
       },
       formLinks[] {
         label,
+        pageAccess,
         "type": link.condition,
         "externalLink": link.linkExternal,
         "internalLink": link.linkInternal->slug.current
@@ -154,6 +157,7 @@ const allProjections = `
       faqsWithCategory[],
       menu[] {
         label,
+        pageAccess,
         "type": link.condition,
         "externalLink": link.linkExternal,
         "internalLink": link.linkInternal->slug.current
@@ -214,12 +218,14 @@ const allProjections = `
       },
       formLinks[] {
         label,
+        pageAccess,
         "type": link.condition,
         "externalLink": link.linkExternal,
         "internalLink": link.linkInternal->slug.current
       },
       menu[] {
         label,
+        pageAccess,
         "type": link.condition,
         "externalLink": link.linkExternal,
         "internalLink": link.linkInternal->slug.current
@@ -275,6 +281,7 @@ const allProjections = `
       },
       formLinks[] {
         label,
+        pageAccess,
         "type": link.condition,
         "externalLink": link.linkExternal,
         "internalLink": link.linkInternal->slug.current
@@ -286,6 +293,7 @@ const allProjections = `
       },
       menu[] {
         label,
+        pageAccess,
         "type": link.condition,
         "externalLink": link.linkExternal,
         "internalLink": link.linkInternal->slug.current
@@ -319,6 +327,7 @@ const allProjections = `
       },
       formLinks[] {
         label,
+        pageAccess,
         "type": link.condition,
         "externalLink": link.linkExternal,
         "internalLink": link.linkInternal->slug.current
@@ -329,7 +338,21 @@ const allProjections = `
       heading,
       images,
       firstButton,
-      secondButton, 
+      secondButton,
+      primaryButton {
+        label,
+        pageAccess,
+        "type": link.condition,
+        "internalLink": link.linkInternal->slug.current,
+        "externalLink": link.linkExternal
+      },
+      secondaryButton {
+        label,
+        pageAccess,
+        "type": link.condition,
+        "internalLink": link.linkInternal->slug.current,
+        "externalLink": link.linkExternal
+      }, 
     },
   }
 }

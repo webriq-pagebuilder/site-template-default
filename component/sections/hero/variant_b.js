@@ -19,8 +19,6 @@ function VariantB({
                 <div className="w-full text-center lg:text-left">
                   <div className="max-w-md mx-auto lg:mx-0">
                     <h2 className="mb-3 text-4xl lg:text-5xl font-bold font-heading">
-                      {/* <span>Build &amp; Launch without </span>
-                      <span className="text-webriq-darkblue">problems</span> */}
                       {title && (
                         <>
                           <span>{String(title).split("*")[0]}</span>
@@ -34,8 +32,6 @@ function VariantB({
                   <div className="max-w-sm mx-auto lg:mx-0">
                     {description && (
                       <p className="mb-6 text-gray-400 leading-loose">
-                        {/* Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                      Pellentesque efficitur nisl sodales egestas lobortis. */}
                         {description}
                       </p>
                     )}
@@ -44,6 +40,8 @@ function VariantB({
                       {primaryButton && (
                         <a
                           className="inline-block mb-3 lg:mb-0 lg:mr-3 w-full lg:w-auto py-2 px-6 leading-loose bg-webriq-blue hover:bg-webriq-darkblue text-white font-semibold rounded-l-xl rounded-t-xl transition duration-200"
+                          target={primaryButton?.pageAccess === "openLinkToNewTab" ? "_blank" : null}
+                          rel={primaryButton?.pageAccess === "openLinkToNewTab" ? "noopener noreferrer" : null}
                           href={
                             primaryButton.type === "linkInternal"
                               ? primaryButton.internalLink === "Home" ||
@@ -59,6 +57,8 @@ function VariantB({
                       {secondaryButton && (
                         <a
                           className="inline-block w-full lg:w-auto py-2 px-6 leading-loose font-semibold bg-white hover:bg-gray-50 rounded-l-xl rounded-t-xl transition duration-200"
+                          target={secondaryButton?.pageAccess === "openLinkToNewTab" ? "_blank" : null}
+                          rel={secondaryButton?.pageAccess === "openLinkToNewTab" ? "noopener noreferrer" : null}
                           href={
                             secondaryButton.type === "linkInternal"
                               ? secondaryButton.internalLink === "Home" ||
