@@ -7,10 +7,10 @@ function TextComponent({ data }) {
 
   const props = {
     heading: data?.variants?.[variant]?.heading,
-    content: data?.variants?.[variant]?.content,
-    firstColumn: data?.variants?.[variant]?.firstContent,
-    secondColumn: data?.variants?.[variant]?.secondContent,
-    thirdColumn: data?.variants?.[variant]?.thirdContent
+    singleColumn: data?.variants?.[variant]?.singleColumn,
+    firstColumn: data?.variants?.[variant]?.firstColumn,
+    secondColumn: data?.variants?.[variant]?.secondColumn,
+    thirdColumn: data?.variants?.[variant]?.thirdColumn
   }
   return <Variant {...props} />
 }

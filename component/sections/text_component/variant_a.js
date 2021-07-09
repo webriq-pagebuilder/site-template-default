@@ -1,7 +1,7 @@
 import React from "react";
 import BlockContent from "@sanity/block-content-to-react"
 
-function VariantA({ heading, content }) {
+function VariantA({ heading, singleColumn }) {
   const serializers = {
     types: {
       block: (props) => (
@@ -29,7 +29,7 @@ function VariantA({ heading, content }) {
       <h2 className="text-3xl mb-5 font-semibold font-heading text-center">{heading}</h2>
       <div className="flex flex-wrap -mx-3 justify-center">
         <div className="md:w-1/2 mb-6 md:mb-0">
-          <BlockContent blocks={content} serializers={serializers} />
+          <BlockContent blocks={singleColumn} serializers={serializers} />
         </div>
       </div>
     </section>
