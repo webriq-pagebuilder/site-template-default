@@ -24,6 +24,8 @@ const Components = {
   stats: dynamic(() => import("../component/sections/stats")),
   cookies: dynamic(() => import("../component/sections/cookies")),
   footer: dynamic(() => import("../component/sections/footer")),
+  signInSignUp: dynamic(() => import("component/sections/sign_in_sign_up")),
+  textComponent: dynamic(() => import("component/sections/text_component"))
 };
 
 

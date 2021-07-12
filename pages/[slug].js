@@ -28,6 +28,7 @@ const Components = {
   logoCloud: dynamic(() => import("component/sections/logoCloud")),
   footer: dynamic(() => import("component/sections/footer")),
   signInSignUp: dynamic(() => import("component/sections/sign_in_sign_up")),
+  textComponent: dynamic(() => import("component/sections/text_component"))
 };
 
 function page({ data, preview }) {
