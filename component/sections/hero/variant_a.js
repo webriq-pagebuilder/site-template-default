@@ -41,8 +41,12 @@ function VariantA({
                     {primaryButton?.label && (
                       <a
                         className={`inline-block mb-3 lg:mb-0 lg:mr-3 w-full lg:w-auto py-2 px-6 leading-loose bg-${template.color}-blue hover:bg-${template.color}-darkblue text-white font-semibold rounded-l-xl rounded-t-xl transition duration-200`}
-                        target={primaryButton?.pageAccess === "openLinkToNewTab" ? "_blank" : null}
-                        rel={primaryButton?.pageAccess === "openLinkToNewTab" ? "noopener noreferrer" : null}
+                        target={primaryButton?.linkTarget}
+                        rel={
+                          primaryButton?.linkTarget === "_blank"
+                            ? "noopener noreferrer"
+                            : null
+                        }
                         href={
                           primaryButton.type === "linkInternal"
                             ? primaryButton.internalLink === "Home" ||
@@ -58,8 +62,12 @@ function VariantA({
                     {secondaryButton?.label && (
                       <a
                         className="inline-block w-full lg:w-auto py-2 px-6 leading-loose font-semibold bg-white hover:bg-gray-50 rounded-l-xl rounded-t-xl transition duration-200"
-                        target={secondaryButton?.pageAccess === "openLinkToNewTab" ? "_blank" : null}
-                        rel={secondaryButton?.pageAccess === "openLinkToNewTab" ? "noopener noreferrer" : null}
+                        target={secondaryButton?.linkTarget}
+                        rel={
+                          secondaryButton?.linkTarget === "_blank"
+                            ? "noopener noreferrer"
+                            : null
+                        }
                         href={
                           secondaryButton.type === "linkInternal"
                             ? secondaryButton.internalLink === "Home" ||

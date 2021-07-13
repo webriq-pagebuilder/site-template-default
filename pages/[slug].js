@@ -1,12 +1,12 @@
-import React from "react"
-import Head from "next/head"
-import { useRouter } from "next/router"
-import { getClient, usePreviewSubscription } from "../lib/sanity"
-import dynamic from "next/dynamic"
-import PageNotFound from "./404"
-import { slugQuery } from "./api/query"
-import { groq } from "next-sanity"
-import SEO from "../component/SEO"
+import React from "react";
+import Head from "next/head";
+import { useRouter } from "next/router";
+import { getClient, usePreviewSubscription } from "../lib/sanity";
+import dynamic from "next/dynamic";
+import PageNotFound from "./404";
+import { slugQuery } from "./api/query";
+import { groq } from "next-sanity";
+import SEO from "../component/SEO";
 
 const Components = {
   navigation: dynamic(() => import("component/sections/navigation")),
@@ -28,17 +28,18 @@ const Components = {
   logoCloud: dynamic(() => import("component/sections/logoCloud")),
   footer: dynamic(() => import("component/sections/footer")),
   signInSignUp: dynamic(() => import("component/sections/sign_in_sign_up")),
-  textComponent: dynamic(() => import("component/sections/text_component"))
+  textComponent: dynamic(() => import("component/sections/text_component")),
 };
 
-function page({ data, preview }) {
+function page({ data, preview, slug }) {
+  console.log("🚀 ~ file: [slug].js ~ line 35 ~ page ~ slug", slug);
+  console.log("🚀 ~ file: [slug].js ~ line 35 ~ page ~ data", data);
   const router = useRouter();
 
-  if (!router.isFallback && !data?.page?.slug) {
-    return <PageNotFound statusCode={404} />;
-  }
+  // if (!router.isFallback && !data?.page?.slug) {
+  //   return <PageNotFound statusCode={404} />;
+  // }
 
-  const slug = data?.page?.slug;
   const { data: page } = usePreviewSubscription(slugQuery, {
     params: { slug },
     initialData: data,
@@ -50,7 +51,7 @@ function page({ data, preview }) {
     return null;
   }
 
-  const { sections, title, seo } = pageData
+  const { sections, title, seo } = pageData;
 
   return (
     <>
@@ -79,6 +80,10 @@ function page({ data, preview }) {
 }
 
 export async function getStaticProps({ params, preview = false }) {
+  console.log(
+    "🚀 ~ file: [slug].js ~ line 83 ~ getStaticProps ~ params",
+    params
+  );
   const page = await getClient(preview).fetch(slugQuery, {
     slug: params.slug,
   });
@@ -87,6 +92,7 @@ export async function getStaticProps({ params, preview = false }) {
     props: {
       preview,
       data: { page },
+      slug: params.slug,
     },
   };
 }
@@ -94,6 +100,10 @@ export async function getStaticProps({ params, preview = false }) {
 export async function getStaticPaths() {
   const paths = await getClient().fetch(
     groq`*[_type == "page" && defined(slug.current)][].slug.current`
+  );
+  console.log(
+    "🚀 ~ file: [slug].js ~ line 103 ~ getStaticPaths ~ paths",
+    paths
   );
 
   return {

@@ -37,19 +37,21 @@ function VariantC({ caption, title, description, plans }) {
             {plans && (
               <div className="inline-block py-1 px-1 bg-white rounded-lg">
                 <button
-                  className={`mr-1 text-sm py-2 px-4 ${plan === "monthly"
-                    ? "text-gray-900 bg-gray-50 rounded-lg shadow"
-                    : "text-gray-500"
-                    } font-bold focus:outline-none`}
+                  className={`mr-1 text-sm py-2 px-4 ${
+                    plan === "monthly"
+                      ? "text-gray-900 bg-gray-50 rounded-lg shadow"
+                      : "text-gray-500"
+                  } font-bold focus:outline-none`}
                   onClick={() => setPlan("monthly")}
                 >
                   Monthly
                 </button>
                 <button
-                  className={`text-sm py-2 px-4 ${plan === "yearly"
-                    ? "text-gray-900 bg-gray-50 rounded-lg shadow"
-                    : "text-gray-500"
-                    } font-bold focus:outline-none`}
+                  className={`text-sm py-2 px-4 ${
+                    plan === "yearly"
+                      ? "text-gray-900 bg-gray-50 rounded-lg shadow"
+                      : "text-gray-500"
+                  } font-bold focus:outline-none`}
                   onClick={() => setPlan("yearly")}
                 >
                   Yearly
@@ -75,10 +77,11 @@ function VariantC({ caption, title, description, plans }) {
                         <span className="text-5xl lg:text-6xl font-bold">
                           {isNaN(parseInt(plans?.[0]?.price))
                             ? plans?.[0]?.price
-                            : `$${plan === "yearly"
-                              ? plans?.[0]?.price * 12
-                              : plans?.[0]?.price
-                            }`}
+                            : `$${
+                                plan === "yearly"
+                                  ? plans?.[0]?.price * 12
+                                  : plans?.[0]?.price
+                              }`}
                         </span>
                       )}
                       {!isNaN(parseInt(plans?.[0]?.price)) && (
@@ -87,14 +90,24 @@ function VariantC({ caption, title, description, plans }) {
                       {plans?.[0]?.primaryButton?.label && (
                         <a
                           className="block mt-6 w-full py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-loose transition duration-200"
-                          target={plans?.[0]?.primaryButton?.pageAccess === "openLinkToNewTab" ? "_blank" : null}
-                          rel={plans?.[0]?.primaryButton?.pageAccess === "openLinkToNewTab" ? "noopener noreferrer" : null}
+                          target={
+                            plans?.[0]?.primaryButton?.linkTarget ===
+                            "openLinkToNewTab"
+                              ? "_blank"
+                              : null
+                          }
+                          rel={
+                            plans?.[0]?.primaryButton?.linkTarget ===
+                            "openLinkToNewTab"
+                              ? "noopener noreferrer"
+                              : null
+                          }
                           href={
                             plans?.[0]?.primaryButton?.type === "linkInternal"
                               ? plans?.[0]?.primaryButton?.internalLink ===
-                                "Home" ||
+                                  "Home" ||
                                 plans?.[0]?.primaryButton?.internalLink ===
-                                "home"
+                                  "home"
                                 ? "/"
                                 : plans?.[0]?.primaryButton?.internalLink
                               : plans?.[0]?.primaryButton?.externalLink
@@ -123,10 +136,11 @@ function VariantC({ caption, title, description, plans }) {
                         <span className="text-5xl lg:text-6xl font-bold">
                           {isNaN(parseInt(plans?.[1]?.price))
                             ? plans?.[1]?.price
-                            : `$${plan === "yearly"
-                              ? plans?.[1]?.price * 12
-                              : plans?.[1]?.price
-                            }`}
+                            : `$${
+                                plan === "yearly"
+                                  ? plans?.[1]?.price * 12
+                                  : plans?.[1]?.price
+                              }`}
                         </span>
                       )}
                       {!isNaN(parseInt(plans?.[1]?.price)) && (
@@ -135,14 +149,24 @@ function VariantC({ caption, title, description, plans }) {
                       {plans?.[1]?.primaryButton?.label && (
                         <a
                           className="block mt-6 w-full py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-loose transition duration-200"
-                          target={plans?.[1]?.primaryButton?.pageAccess === "openLinkToNewTab" ? "_blank" : null}
-                          rel={plans?.[1]?.primaryButton?.pageAccess === "openLinkToNewTab" ? "noopener noreferrer" : null}
+                          target={
+                            plans?.[1]?.primaryButton?.linkTarget ===
+                            "openLinkToNewTab"
+                              ? "_blank"
+                              : null
+                          }
+                          rel={
+                            plans?.[1]?.primaryButton?.linkTarget ===
+                            "openLinkToNewTab"
+                              ? "noopener noreferrer"
+                              : null
+                          }
                           href={
                             plans?.[1]?.primaryButton?.type === "linkInternal"
                               ? plans?.[1]?.primaryButton?.internalLink ===
-                                "Home" ||
+                                  "Home" ||
                                 plans?.[1]?.primaryButton?.internalLink ===
-                                "home"
+                                  "home"
                                 ? "/"
                                 : plans?.[1]?.primaryButton?.internalLink
                               : plans?.[1]?.primaryButton?.externalLink

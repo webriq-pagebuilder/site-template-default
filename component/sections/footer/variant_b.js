@@ -26,21 +26,25 @@ function VariantB({ logo, copyright, socialMedia, menu }) {
               <div className="w-full lg:w-auto">
                 <ul className="mt-8 flex flex-wrap lg:space-x-5 justify-between items-center mx-20">
                   {menu?.map((links, index, { length }) => (
-                    <>
+                    <React.Fragment key={links?._key || index}>
                       <li className="w-full md:w-auto mb-2 md:mb-0" key={index}>
                         <a
                           className="lg:text-sm text-gray-400 hover:text-gray-500"
-                          target={links?.pageAccess === "openLinkToNewTab" ? "_blank" : null}
-                          rel={links?.pageAccess === "openLinkToNewTab" ? "noopener noreferrer" : null}
+                          target={links?.linkTarget}
+                          rel={
+                            links?.linkTarget === "_blank"
+                              ? "noopener noreferrer"
+                              : null
+                          }
                           href={
                             links?.type === "linkExternal"
                               ? links?.externalLink
                               : links?.type === "linkInternal"
-                                ? links?.internalLink === "Home" ||
-                                  links?.internalLink === "home"
-                                  ? "/"
-                                  : links?.internalLink
-                                : "page-not-found"
+                              ? links?.internalLink === "Home" ||
+                                links?.internalLink === "home"
+                                ? "/"
+                                : links?.internalLink
+                              : "page-not-found"
                           }
                         >
                           {links?.label}
@@ -64,7 +68,7 @@ function VariantB({ logo, copyright, socialMedia, menu }) {
                           </svg>
                         </li>
                       ) : null}
-                    </>
+                    </React.Fragment>
                   ))}
                 </ul>
               </div>

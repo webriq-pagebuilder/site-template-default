@@ -14,16 +14,18 @@ function VariantC({
         <div className="relative container mx-auto px-4">
           <div className="max-w-2xl mx-auto text-center mb-12 md:mb-20">
             <h2 className="mb-10 text-4xl lg:text-5xl font-bold">
-              {title && (
-                <span>{title}</span>
-              )}
+              {title && <span>{title}</span>}
             </h2>
             <div>
               {primaryButton && (
                 <a
                   className="inline-block mb-3 lg:mb-0 lg:mr-3 w-full lg:w-auto py-2 px-6 bg-webriq-blue hover:bg-webriq-darkblue text-white font-semibold leading-loose rounded-l-xl rounded-t-xl transition duration-200"
-                  target={primaryButton?.pageAccess === "openLinkToNewTab" ? "_blank" : null}
-                  rel={primaryButton?.pageAccess === "openLinkToNewTab" ? "noopener noreferrer" : null}
+                  target={primaryButton?.linkTarget}
+                  rel={
+                    primaryButton?.linkTarget === "_blank"
+                      ? "noopener noreferrer"
+                      : null
+                  }
                   href={
                     primaryButton.type === "linkInternal"
                       ? primaryButton.internalLink === "Home" ||
@@ -39,8 +41,12 @@ function VariantC({
               {secondaryButton === undefined ? null : (
                 <a
                   className="inline-block w-full lg:w-auto py-2 px-6 font-semibold bg-white hover:bg-gray-50 rounded-l-xl rounded-t-xl transition duration-200"
-                  target={secondaryButton?.pageAccess === "openLinkToNewTab" ? "_blank" : null}
-                  rel={secondaryButton?.pageAccess === "openLinkToNewTab" ? "noopener noreferrer" : null}
+                  target={secondaryButton?.linkTarget}
+                  rel={
+                    secondaryButton?.linkTarget === "_blank"
+                      ? "noopener noreferrer"
+                      : null
+                  }
                   href={
                     secondaryButton.type === "linkInternal"
                       ? secondaryButton.internalLink === "Home" ||
@@ -59,13 +65,14 @@ function VariantC({
         <div className="absolute inset-x-5 max-w-4xl mx-auto px-2">
           {(videoLink &&
             String(videoLink).includes("https://www.youtube.com/watch?")) ||
-            String(videoLink).includes("youtube.com/watch?") ? (
+          String(videoLink).includes("youtube.com/watch?") ? (
             <iframe
               className="rounded-3xl md:rounded-6xl md:rounded-br-none border-4 border-webriq-blue"
               width="880"
               height="500"
-              src={`https://www.youtube.com/embed/${String(videoLink).split("=")[1].split("&")[0]
-                }`}
+              src={`https://www.youtube.com/embed/${
+                String(videoLink).split("=")[1].split("&")[0]
+              }`}
               title="YouTube video player"
               frameBorder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"

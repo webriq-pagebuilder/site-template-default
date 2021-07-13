@@ -12,17 +12,17 @@ function VariantC({ title, images, button }) {
           {button && (
             <a
               className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-gray-50 font-bold leading-loose"
-              target={button?.pageAccess === "openLinkToNewTab" ? "_blank" : null}
-              rel={button?.pageAccess === "openLinkToNewTab" ? "noopener noreferrer" : null}
+              target={button?.linkTarget}
+              rel={button?.linkTarget === "_blank" ? "noopener noreferrer" : ""}
               href={
                 button.type === "linkExternal"
                   ? button?.externalLink
                   : button.type === "linkInternal"
-                    ? button.internalLink === "Home" ||
-                      button.internalLink === "home"
-                      ? "/"
-                      : button?.internalLink
-                    : "page-not-found"
+                  ? button.internalLink === "Home" ||
+                    button.internalLink === "home"
+                    ? "/"
+                    : button?.internalLink
+                  : "page-not-found"
               }
             >
               {button?.label}

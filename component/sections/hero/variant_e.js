@@ -35,17 +35,21 @@ function VariantE({
                     {primaryButton && (
                       <a
                         className="inline-block mb-3 lg:mb-0 lg:mr-3 w-full lg:w-auto py-2 px-6 bg-webriq-blue hover:bg-webriq-darkblue text-white font-semibold leading-loose rounded-l-xl rounded-t-xl transition duration-200"
-                        target={primaryButton?.pageAccess === "openLinkToNewTab" ? "_blank" : null}
-                        rel={primaryButton?.pageAccess === "openLinkToNewTab" ? "noopener noreferrer" : null}
+                        target={primaryButton?.linkTarget}
+                        rel={
+                          primaryButton?.linkTarget === "_blank"
+                            ? "noopener noreferrer"
+                            : null
+                        }
                         href={
                           primaryButton.type === "linkExternal"
                             ? primaryButton?.externalLink
                             : primaryButton.type === "linkInternal"
-                              ? primaryButton.internalLink === "Home" ||
-                                primaryButton.internalLink === "home"
-                                ? "/"
-                                : primaryButton?.internalLink
-                              : "page-not-found"
+                            ? primaryButton.internalLink === "Home" ||
+                              primaryButton.internalLink === "home"
+                              ? "/"
+                              : primaryButton?.internalLink
+                            : "page-not-found"
                         }
                       >
                         {primaryButton?.label}
@@ -54,17 +58,21 @@ function VariantE({
                     {secondaryButton && (
                       <a
                         className="inline-block w-full lg:w-auto py-2 px-6 font-semibold bg-white hover:bg-gray-50 rounded-l-xl rounded-t-xl transition duration-200"
-                        target={secondaryButton?.pageAccess === "openLinkToNewTab" ? "_blank" : null}
-                        rel={secondaryButton?.pageAccess === "openLinkToNewTab" ? "noopener noreferrer" : null}
+                        target={secondaryButton?.linkTarget}
+                        rel={
+                          secondaryButton?.linkTarget === "_blank"
+                            ? "noopener noreferrer"
+                            : null
+                        }
                         href={
                           secondaryButton.type === "linkExternal"
                             ? secondaryButton?.externalLink
                             : secondaryButton.type === "linkInternal"
-                              ? secondaryButton.internalLink === "Home" ||
-                                secondaryButton.internalLink === "home"
-                                ? "/"
-                                : secondaryButton?.internalLink
-                              : "page-not-found"
+                            ? secondaryButton.internalLink === "Home" ||
+                              secondaryButton.internalLink === "home"
+                              ? "/"
+                              : secondaryButton?.internalLink
+                            : "page-not-found"
                         }
                       >
                         {secondaryButton?.label}
@@ -116,15 +124,15 @@ function VariantE({
                                   formFields[0].type === "inputEmail"
                                     ? "email"
                                     : formFields[0].type === "inputPassword"
-                                      ? "password"
-                                      : "text"
+                                    ? "password"
+                                    : "text"
                                 }
                                 placeholder={
                                   formFields[0].type === "inputEmail"
                                     ? "name@email.com"
                                     : formFields[0].type === "inputPassword"
-                                      ? "Enter your password"
-                                      : formFields[0]?.name
+                                    ? "Enter your password"
+                                    : formFields[0]?.name
                                 }
                                 name={formFields[0]?.name}
                               />
@@ -156,15 +164,15 @@ function VariantE({
                                   formFields[1].type === "inputEmail"
                                     ? "email"
                                     : formFields[1].type === "inputPassword"
-                                      ? "password"
-                                      : "text"
+                                    ? "password"
+                                    : "text"
                                 }
                                 placeholder={
                                   formFields[1].type === "inputEmail"
                                     ? "name@email.com"
                                     : formFields[1].type === "inputPassword"
-                                      ? "Enter your password"
-                                      : formFields[1]?.name
+                                    ? "Enter your password"
+                                    : formFields[1]?.name
                                 }
                                 name={formFields[1]?.name}
                               />
@@ -199,15 +207,15 @@ function VariantE({
                               formFields[2].type === "inputEmail"
                                 ? "email"
                                 : formFields[2].type === "inputPassword"
-                                  ? "password"
-                                  : "text"
+                                ? "password"
+                                : "text"
                             }
                             placeholder={
                               formFields[2].type === "inputEmail"
                                 ? "name@email.com"
                                 : formFields[2].type === "inputPassword"
-                                  ? "Enter your password"
-                                  : formFields[2]?.name
+                                ? "Enter your password"
+                                : formFields[2]?.name
                             }
                             name={formFields[2]?.name}
                           />
@@ -239,15 +247,15 @@ function VariantE({
                               formFields[3].type === "inputEmail"
                                 ? "email"
                                 : formFields[3].type === "inputPassword"
-                                  ? "password"
-                                  : "text"
+                                ? "password"
+                                : "text"
                             }
                             placeholder={
                               formFields[3].type === "inputEmail"
                                 ? "name@email.com"
                                 : formFields[3].type === "inputPassword"
-                                  ? "Enter your password"
-                                  : formFields[3]?.name
+                                ? "Enter your password"
+                                : formFields[3]?.name
                             }
                             name={formFields[3]?.name}
                           />
@@ -279,15 +287,15 @@ function VariantE({
                               formFields[4].type === "inputEmail"
                                 ? "email"
                                 : formFields[4].type === "inputPassword"
-                                  ? "password"
-                                  : "text"
+                                ? "password"
+                                : "text"
                             }
                             placeholder={
                               formFields[4].type === "inputEmail"
                                 ? "name@email.com"
                                 : formFields[4].type === "inputPassword"
-                                  ? "Enter your password"
-                                  : formFields[4]?.name
+                                ? "Enter your password"
+                                : formFields[4]?.name
                             }
                             name={formFields[4]?.name}
                           />
@@ -321,18 +329,24 @@ function VariantE({
                       <>
                         <a
                           className="underline text-webriq-darkblue hover:text-webriq-darkblue"
-                          target={link?.pageAccess === "openLinkToNewTab" ? "_blank" : null}
-                          rel={link?.pageAccess === "openLinkToNewTab" ? "noopener noreferrer" : null}
+                          target={
+                            link?.linkTarget === "_blank" ? "_blank" : null
+                          }
+                          rel={
+                            link?.linkTarget === "_blank"
+                              ? "noopener noreferrer"
+                              : null
+                          }
                           key={index}
                           href={
                             link?.type === "linkExternal"
                               ? link?.externalLink
                               : link?.type === "linkInternal"
-                                ? link?.internalLink === "Home" ||
-                                  link?.internalLink === "home"
-                                  ? "/"
-                                  : link?.internalLink
-                                : "page-not-found"
+                              ? link?.internalLink === "Home" ||
+                                link?.internalLink === "home"
+                                ? "/"
+                                : link?.internalLink
+                              : "page-not-found"
                           }
                         >
                           {link?.label}
@@ -350,8 +364,8 @@ function VariantE({
                       {links?.[0] && (
                         <a
                           className="underline text-webriq-darkblue hover:text-webriq-darkblue"
-                          target={links?.[0]?.pageAccess === "openLinkToNewTab" ? "_blank" : null}
-                          rel={links?.[0]?.pageAccess === "openLinkToNewTab" ? "noopener noreferrer" : null}
+                          target={links?.[0]?.linkTarget === "_blank" ? "_blank" : null}
+                          rel={links?.[0]?.linkTarget === "_blank" ? "noopener noreferrer" : ""}
                           href={
                             links[0].type === "linkExternal"
                               ? links[0]?.externalLink
@@ -370,8 +384,8 @@ function VariantE({
                       {links?.[1] && (
                         <a
                           className="underline text-webriq-darkblue hover:text-webriq-darkblue"
-                          target={links?.[1]?.pageAccess === "openLinkToNewTab" ? "_blank" : null}
-                          rel={links?.[1]?.pageAccess === "openLinkToNewTab" ? "noopener noreferrer" : null}
+                          target={links?.[1]?.linkTarget === "_blank" ? "_blank" : null}
+                          rel={links?.[1]?.linkTarget === "_blank" ? "noopener noreferrer" : ""}
                           href={
                             links[1].type === "linkExternal"
                               ? links[1]?.externalLink
@@ -392,8 +406,8 @@ function VariantE({
                       {links?.[0] && (
                         <a
                           className="underline text-webriq-darkblue hover:text-webriq-darkblue"
-                          target={links?.[0]?.pageAccess === "openLinkToNewTab" ? "_blank" : null}
-                          rel={links?.[0]?.pageAccess === "openLinkToNewTab" ? "noopener noreferrer" : null}
+                          target={links?.[0]?.linkTarget === "_blank" ? "_blank" : null}
+                          rel={links?.[0]?.linkTarget === "_blank" ? "noopener noreferrer" : ""}
                           href={
                             links[0].type === "linkExternal"
                               ? links[0]?.externalLink

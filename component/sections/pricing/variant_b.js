@@ -85,12 +85,22 @@ function VariantB({ caption, title, description, plans }) {
                     {plans?.[0]?.primaryButton?.label && (
                       <a
                         className="inline-block mt-4 lg:mt-0 py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-loose transition duration-200"
-                        target={plans?.[0]?.primaryButton?.pageAccess === "openLinkToNewTab" ? "_blank" : null}
-                        rel={plans?.[0]?.primaryButton?.pageAccess === "openLinkToNewTab" ? "noopener noreferrer" : null}
+                        target={
+                          plans?.[0]?.primaryButton?.linkTarget ===
+                          "openLinkToNewTab"
+                            ? "_blank"
+                            : null
+                        }
+                        rel={
+                          plans?.[0]?.primaryButton?.linkTarget ===
+                          "openLinkToNewTab"
+                            ? "noopener noreferrer"
+                            : null
+                        }
                         href={
                           plans?.[0]?.primaryButton?.type === "linkInternal"
                             ? plans?.[0]?.primaryButton?.internalLink ===
-                              "Home" ||
+                                "Home" ||
                               plans?.[0]?.primaryButton?.internalLink === "home"
                               ? "/"
                               : plans?.[0]?.primaryButton?.internalLink
@@ -140,15 +150,25 @@ function VariantB({ caption, title, description, plans }) {
                   </div>
                   <div className="w-full lg:w-1/5 px-3">
                     {plans?.[1]?.primaryButton === undefined ||
-                      plans?.[1]?.primaryButton.label === undefined ? null : (
+                    plans?.[1]?.primaryButton.label === undefined ? null : (
                       <a
                         className="inline-block mt-4 lg:mt-0 py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-loose transition duration-200"
-                        target={plans?.[1]?.primaryButton?.pageAccess === "openLinkToNewTab" ? "_blank" : null}
-                        rel={plans?.[1]?.primaryButton?.pageAccess === "openLinkToNewTab" ? "noopener noreferrer" : null}
+                        target={
+                          plans?.[1]?.primaryButton?.linkTarget ===
+                          "openLinkToNewTab"
+                            ? "_blank"
+                            : null
+                        }
+                        rel={
+                          plans?.[1]?.primaryButton?.linkTarget ===
+                          "openLinkToNewTab"
+                            ? "noopener noreferrer"
+                            : null
+                        }
                         href={
                           plans?.[1]?.primaryButton?.type === "linkInternal"
                             ? plans?.[1]?.primaryButton?.internalLink ===
-                              "Home" ||
+                                "Home" ||
                               plans?.[1]?.primaryButton?.internalLink === "home"
                               ? "/"
                               : plans?.[1]?.primaryButton?.internalLink
@@ -198,15 +218,25 @@ function VariantB({ caption, title, description, plans }) {
                   </div>
                   <div className="w-full lg:w-1/5 px-3">
                     {plans?.[2]?.primaryButton === undefined ||
-                      plans?.[2]?.primaryButton.label === undefined ? null : (
+                    plans?.[2]?.primaryButton.label === undefined ? null : (
                       <a
                         className="inline-block mt-4 lg:mt-0 py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-loose transition duration-200"
-                        target={plans?.[2]?.primaryButton?.pageAccess === "openLinkToNewTab" ? "_blank" : null}
-                        rel={plans?.[2]?.primaryButton?.pageAccess === "openLinkToNewTab" ? "noopener noreferrer" : null}
+                        target={
+                          plans?.[2]?.primaryButton?.linkTarget ===
+                          "openLinkToNewTab"
+                            ? "_blank"
+                            : null
+                        }
+                        rel={
+                          plans?.[2]?.primaryButton?.linkTarget ===
+                          "openLinkToNewTab"
+                            ? "noopener noreferrer"
+                            : null
+                        }
                         href={
                           plans?.[2]?.primaryButton?.type === "linkInternal"
                             ? plans?.[2]?.primaryButton?.internalLink ===
-                              "Home" ||
+                                "Home" ||
                               plans?.[2]?.primaryButton?.internalLink === "home"
                               ? "/"
                               : plans?.[2]?.primaryButton?.internalLink

@@ -45,8 +45,12 @@ function VariantF({ caption, title, description, images, primaryButton }) {
                   <div className="flex flex-wrap lg:-ml-5">
                     <a
                       className="lg:w-auto py-2 px-6 leading-loose lg:ml-5 text-gray-50 font-bold bg-webriq-blue hover:bg-webriq-darkblue transition duration-200 rounded-l-xl rounded-t-xl"
-                      target={primaryButton?.pageAccess === "openLinkToNewTab" ? "_blank" : null}
-                      rel={primaryButton?.pageAccess === "openLinkToNewTab" ? "noopener noreferrer" : null}
+                      target={primaryButton?.linkTarget}
+                      rel={
+                        primaryButton?.linkTarget === "_blank"
+                          ? "noopener noreferrer"
+                          : null
+                      }
                       href={
                         primaryButton.type === "linkInternal"
                           ? primaryButton.internalLink === "Home" ||

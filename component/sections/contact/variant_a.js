@@ -1,6 +1,6 @@
-import React from "react"
-import WebriQForm from "@webriq/gatsby-webriq-form"
-import PortableText from "@sanity/block-content-to-react"
+import React from "react";
+import WebriQForm from "@webriq/gatsby-webriq-form";
+import PortableText from "@sanity/block-content-to-react";
 
 function VariantA({
   contactDescription,
@@ -11,7 +11,7 @@ function VariantA({
   formId,
   formName,
   button,
-  block
+  block,
 }) {
   const serializers = {
     marks: {
@@ -20,15 +20,18 @@ function VariantA({
           {children}
         </a>
       ),
-      link: ({ children, mark }) => (
+      link: ({ children, mark }) =>
         mark.blank ? (
-          <a href={mark.href} target="_blank" rel="noopener noreferrer">{children}</a>
+          <a href={mark.href} target="_blank" rel="noopener noreferrer">
+            {children}
+          </a>
         ) : (
-          <a style={{ color: "blue" }} href={mark.href}>{children}</a>
-        )
-      )
-    }
-  }
+          <a style={{ color: "blue" }} href={mark.href}>
+            {children}
+          </a>
+        ),
+    },
+  };
 
   return (
     <section>
@@ -194,15 +197,15 @@ function VariantA({
                             formFields[0].type === "inputEmail"
                               ? "email"
                               : formFields[0].type === "inputPassword"
-                                ? "password"
-                                : "text"
+                              ? "password"
+                              : "text"
                           }
                           placeholder={
                             formFields[0].type === "inputEmail"
                               ? "name@email.com"
                               : formFields[0].type === "inputPassword"
-                                ? "Enter your password"
-                                : formFields[0]?.name
+                              ? "Enter your password"
+                              : formFields[0]?.name
                           }
                           name={formFields[0]?.name}
                         />
@@ -234,15 +237,15 @@ function VariantA({
                             formFields[1].type === "inputEmail"
                               ? "email"
                               : formFields[1].type === "inputPassword"
-                                ? "password"
-                                : "text"
+                              ? "password"
+                              : "text"
                           }
                           placeholder={
                             formFields[1].type === "inputEmail"
                               ? "name@email.com"
                               : formFields[1].type === "inputPassword"
-                                ? "Enter your password"
-                                : formFields[1]?.name
+                              ? "Enter your password"
+                              : formFields[1]?.name
                           }
                           name={formFields[1]?.name}
                         />
@@ -274,15 +277,15 @@ function VariantA({
                             formFields[2].type === "inputEmail"
                               ? "email"
                               : formFields[2].type === "inputPassword"
-                                ? "password"
-                                : "text"
+                              ? "password"
+                              : "text"
                           }
                           placeholder={
                             formFields[2].type === "inputEmail"
                               ? "name@email.com"
                               : formFields[2].type === "inputPassword"
-                                ? "Enter your password"
-                                : formFields[2]?.name
+                              ? "Enter your password"
+                              : formFields[2]?.name
                           }
                           name={formFields[2]?.name}
                         />
@@ -314,15 +317,15 @@ function VariantA({
                             formFields[3].type === "inputEmail"
                               ? "email"
                               : formFields[3].type === "inputPassword"
-                                ? "password"
-                                : "text"
+                              ? "password"
+                              : "text"
                           }
                           placeholder={
                             formFields[3].type === "inputEmail"
                               ? "name@email.com"
                               : formFields[3].type === "inputPassword"
-                                ? "Enter your password"
-                                : formFields[3]?.name
+                              ? "Enter your password"
+                              : formFields[3]?.name
                           }
                           name={formFields[3]?.name}
                         />
@@ -354,15 +357,15 @@ function VariantA({
                             formFields[4].type === "inputEmail"
                               ? "email"
                               : formFields[4].type === "inputPassword"
-                                ? "password"
-                                : "text"
+                              ? "password"
+                              : "text"
                           }
                           placeholder={
                             formFields[4].type === "inputEmail"
                               ? "name@email.com"
                               : formFields[4].type === "inputPassword"
-                                ? "Enter your password"
-                                : formFields[4]?.name
+                              ? "Enter your password"
+                              : formFields[4]?.name
                           }
                           name={formFields[4]?.name}
                         />
@@ -370,9 +373,18 @@ function VariantA({
                     <div className="flex justify-between items-center">
                       {block && (
                         <div className="inline-flex">
-                          <input className="mr-2 mt-1" type="checkbox" id="terms" name="terms" defaultValue={1} />
+                          <input
+                            className="mr-2 mt-1"
+                            type="checkbox"
+                            id="terms"
+                            name="terms"
+                            defaultValue={1}
+                          />
                           <span className="text-sm font-semibold">
-                            <PortableText blocks={block} serializers={serializers} />
+                            <PortableText
+                              blocks={block}
+                              serializers={serializers}
+                            />
                           </span>
                         </div>
                       )}
@@ -382,17 +394,21 @@ function VariantA({
                       {button && (
                         <a
                           className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-loose transition duration-200"
-                          target={button?.pageAccess === "openLinkToNewTab" ? "_blank" : null}
-                          rel={button?.pageAccess === "openLinkToNewTab" ? "noopener noreferrer" : null}
+                          target={button?.linkTarget}
+                          rel={
+                            button?.linkTarget === "_blank"
+                              ? "noopener noreferrer"
+                              : null
+                          }
                           href={
                             button.type === "linkExternal"
                               ? button?.externalLink
                               : button.type === "linkInternal"
-                                ? button.internalLink === "Home" ||
-                                  button.internalLink === "home"
-                                  ? "/"
-                                  : button?.internalLink
-                                : "page-not-found"
+                              ? button.internalLink === "Home" ||
+                                button.internalLink === "home"
+                                ? "/"
+                                : button?.internalLink
+                              : "page-not-found"
                           }
                         >
                           {button?.label}

@@ -2,12 +2,7 @@ import React from "react";
 import Link from "next/link";
 import { urlFor } from "lib/sanity";
 
-function VariantD({
-  links,
-  primaryButton,
-  secondaryButton,
-  logo,
-}) {
+function VariantD({ links, primaryButton, secondaryButton, logo }) {
   const [menu, setMenu] = React.useState(false);
 
   const showMenu = () => {
@@ -24,38 +19,50 @@ function VariantD({
                   <li>
                     {link.type === "linkInternal" ? (
                       <Link
-                        href={`${link.internalLink === "Home" ||
+                        href={`${
+                          link.internalLink === "Home" ||
                           link.internalLink === "home"
-                          ? "/"
-                          : `/${link.internalLink === undefined
-                            ? "page-not-found"
-                            : link.internalLink
-                          }`
-                          }`}
+                            ? "/"
+                            : `/${
+                                link.internalLink === undefined
+                                  ? "page-not-found"
+                                  : link.internalLink
+                              }`
+                        }`}
                       >
                         <a
                           className={`text-sm text-gray-400 hover:text-gray-500`}
-                          target={link?.pageAccess === "openLinkToNewTab" ? "_blank" : null}
-                          rel={link?.pageAccess === "openLinkToNewTab" ? "noopener noreferrer" : null}
+                          target={link?.linkTarget}
+                          rel={
+                            link?.linkTarget === "_blank"
+                              ? "noopener noreferrer"
+                              : null
+                          }
                         >
                           {link.label}
                         </a>
                       </Link>
                     ) : (
                       <Link
-                        href={`${link.externalLink === "Home" ||
+                        href={`${
+                          link.externalLink === "Home" ||
                           link.externalLink === "home"
-                          ? "/"
-                          : `${link.externalLink === undefined
-                            ? "page-not-found"
-                            : link.externalLink
-                          }`
-                          }`}
+                            ? "/"
+                            : `${
+                                link.externalLink === undefined
+                                  ? "page-not-found"
+                                  : link.externalLink
+                              }`
+                        }`}
                       >
                         <a
                           className={`text-sm text-gray-400 hover:text-gray-500`}
-                          target={link?.pageAccess === "openLinkToNewTab" ? "_blank" : null}
-                          rel={link?.pageAccess === "openLinkToNewTab" ? "noopener noreferrer" : null}
+                          target={link?.linkTarget}
+                          rel={
+                            link?.linkTarget === "_blank"
+                              ? "noopener noreferrer"
+                              : null
+                          }
                         >
                           {link.label}
                         </a>
@@ -91,8 +98,12 @@ function VariantD({
           {primaryButton && (
             <a
               className="hidden lg:inline-block lg:ml-auto lg:mr-3 py-2 px-6 bg-gray-50 hover:bg-gray-100 text-sm text-gray-900 font-bold rounded-l-xl rounded-t-xl transition duration-200"
-              target={primaryButton?.pageAccess === "openLinkToNewTab" ? "_blank" : null}
-              rel={primaryButton?.pageAccess === "openLinkToNewTab" ? "noopener noreferrer" : null}
+              target={primaryButton?.linkTarget}
+              rel={
+                primaryButton?.linkTarget === "_blank"
+                  ? "noopener noreferrer"
+                  : null
+              }
               href={
                 primaryButton.type === "linkInternal"
                   ? primaryButton.internalLink === "Home" ||
@@ -100,8 +111,8 @@ function VariantD({
                     ? "/"
                     : primaryButton.internalLink
                   : primaryButton.type === "linkExternal"
-                    ? primaryButton.externalLink
-                    : "page-not-found"
+                  ? primaryButton.externalLink
+                  : "page-not-found"
               }
             >
               {primaryButton.label}
@@ -110,8 +121,12 @@ function VariantD({
           {secondaryButton && (
             <a
               className="hidden lg:inline-block py-2 px-6 bg-webriq-blue hover:bg-webriq-darkblue text-sm text-white font-bold rounded-l-xl rounded-t-xl transition duration-200"
-              target={secondaryButton?.pageAccess === "openLinkToNewTab" ? "_blank" : null}
-              rel={secondaryButton?.pageAccess === "openLinkToNewTab" ? "noopener noreferrer" : null}
+              target={secondaryButton?.linkTarget}
+              rel={
+                secondaryButton?.linkTarget === "_blank"
+                  ? "noopener noreferrer"
+                  : null
+              }
               href={
                 secondaryButton.type === "linkInternal"
                   ? secondaryButton.internalLink === "Home" ||
@@ -119,8 +134,8 @@ function VariantD({
                     ? "/"
                     : secondaryButton.internalLink
                   : secondaryButton.type === "linkExternal"
-                    ? secondaryButton.externalLink
-                    : "page-not-found"
+                  ? secondaryButton.externalLink
+                  : "page-not-found"
               }
             >
               {secondaryButton.label}
@@ -177,14 +192,16 @@ function VariantD({
                   <li className="mb-1" key={link?.label}>
                     {link.type === "linkInternal" ? (
                       <Link
-                        href={`${link.internalLink === "Home" ||
+                        href={`${
+                          link.internalLink === "Home" ||
                           link.internalLink === "home"
-                          ? "/"
-                          : `/${link.internalLink === undefined
-                            ? "page-not-found"
-                            : link.internalLink
-                          }`
-                          }`}
+                            ? "/"
+                            : `/${
+                                link.internalLink === undefined
+                                  ? "page-not-found"
+                                  : link.internalLink
+                              }`
+                        }`}
                       >
                         <a className="block p-4 text-sm font-semibold text-gray-400 hover:bg-webriq-lightblue hover:text-webriq-darkblue rounded">
                           {link.label}
@@ -192,14 +209,16 @@ function VariantD({
                       </Link>
                     ) : (
                       <Link
-                        href={`${link.externalLink === "Home" ||
+                        href={`${
+                          link.externalLink === "Home" ||
                           link.externalLink === "home"
-                          ? "/"
-                          : `${link.externalLink === undefined
-                            ? "page-not-found"
-                            : link.externalLink
-                          }`
-                          }`}
+                            ? "/"
+                            : `${
+                                link.externalLink === undefined
+                                  ? "page-not-found"
+                                  : link.externalLink
+                              }`
+                        }`}
                       >
                         <a className="block p-4 text-sm font-semibold text-gray-400 hover:bg-webriq-lightblue hover:text-webriq-darkblue rounded">
                           {link.label}
@@ -222,8 +241,8 @@ function VariantD({
                         ? "/"
                         : primaryButton.internalLink
                       : primaryButton.type === "linkExternal"
-                        ? primaryButton.externalLink
-                        : "page-not-found"
+                      ? primaryButton.externalLink
+                      : "page-not-found"
                   }
                 >
                   {primaryButton.label}
@@ -239,8 +258,8 @@ function VariantD({
                         ? "/"
                         : secondaryButton.internalLink
                       : secondaryButton.type === "linkExternal"
-                        ? secondaryButton.externalLink
-                        : "page-not-found"
+                      ? secondaryButton.externalLink
+                      : "page-not-found"
                   }
                 >
                   {secondaryButton.label}
