@@ -1,9 +1,15 @@
-import React from "react"
-import dynamic from "next/dynamic"
+import React from "react";
+import dynamic from "next/dynamic";
+
+const Variants = {
+  variant_a: dynamic(() => import("./variant_a")),
+  variant_b: dynamic(() => import("./variant_b")),
+};
 
 function Contact({ data }) {
-  const variant = data?.variants?.variant
-  const Variant = dynamic(() => import(`./${variant}`))
+  const variant = data?.variants?.variant;
+
+  const Variant = Variants?.[variant];
   const props = {
     contactDescription: data?.variants?.[variant]?.contactDescription,
     officeInformation: data?.variants?.[variant]?.officeInformation,
@@ -14,8 +20,9 @@ function Contact({ data }) {
     formId: data?.variants?.[variant]?.form?.id,
     formName: data?.variants?.[variant]?.form?.name,
     button: data?.variants?.[variant]?.primaryButton,
-    block: data?.variants?.[variant]?.block
-  }
-  return <Variant {...props} />
+    block: data?.variants?.[variant]?.block,
+  };
+
+  return Variant ? <Variant {...props} /> : null;
 }
-export default React.memo(Contact)
+export default React.memo(Contact);
