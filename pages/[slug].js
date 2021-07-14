@@ -32,13 +32,11 @@ const Components = {
 };
 
 function page({ data, preview, slug }) {
-  console.log("🚀 ~ file: [slug].js ~ line 35 ~ page ~ slug", slug);
-  console.log("🚀 ~ file: [slug].js ~ line 35 ~ page ~ data", data);
   const router = useRouter();
 
-  // if (!router.isFallback && !data?.page?.slug) {
-  //   return <PageNotFound statusCode={404} />;
-  // }
+  if (!router.isFallback && !data?.page?.slug) {
+    return <PageNotFound statusCode={404} />;
+  }
 
   const { data: page } = usePreviewSubscription(slugQuery, {
     params: { slug },
@@ -80,10 +78,6 @@ function page({ data, preview, slug }) {
 }
 
 export async function getStaticProps({ params, preview = false }) {
-  console.log(
-    "🚀 ~ file: [slug].js ~ line 83 ~ getStaticProps ~ params",
-    params
-  );
   const page = await getClient(preview).fetch(slugQuery, {
     slug: params.slug,
   });
@@ -100,10 +94,6 @@ export async function getStaticProps({ params, preview = false }) {
 export async function getStaticPaths() {
   const paths = await getClient().fetch(
     groq`*[_type == "page" && defined(slug.current)][].slug.current`
-  );
-  console.log(
-    "🚀 ~ file: [slug].js ~ line 103 ~ getStaticPaths ~ paths",
-    paths
   );
 
   return {
