@@ -34,6 +34,12 @@ function VariantC({ logo, menu, copyright, socialMedia }) {
                     <li className="w-full md:w-auto mb-2 md:mb-0" key={index}>
                       <a
                         className="mr-6 text-sm hover:text-gray-500"
+                        target={links?.linkTarget}
+                        rel={
+                          links?.linkTarget === "_blank"
+                            ? "noopener noreferrer"
+                            : null
+                        }
                         href={
                           links?.type === "linkExternal"
                             ? links?.externalLink

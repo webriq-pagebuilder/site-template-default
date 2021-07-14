@@ -3,10 +3,6 @@ import Link from "next/link";
 import { urlFor } from "lib/sanity";
 
 function VariantA({ template, links, primaryButton, secondaryButton, logo }) {
-  console.log(
-    "🚀 ~ file: variant_a.js ~ line 6 ~ VariantA ~ primaryButton",
-    primaryButton
-  );
   const [menu, setMenu] = React.useState(false);
   const showMenu = () => {
     setMenu((prevState) => !prevState);
@@ -42,16 +38,14 @@ function VariantA({ template, links, primaryButton, secondaryButton, logo }) {
                   {link.type === "linkInternal" ? (
                     <Link
                       prefetch={true}
-                      href={`${
-                        link.internalLink === "Home" ||
-                        link.internalLink === "home"
+                      href={`${link.internalLink === "Home" ||
+                          link.internalLink === "home"
                           ? "/"
-                          : `/${
-                              link.internalLink === undefined
-                                ? "page-not-found"
-                                : link.internalLink
-                            }`
-                      }`}
+                          : `/${link.internalLink === undefined
+                            ? "page-not-found"
+                            : link.internalLink
+                          }`
+                        }`}
                     >
                       <a
                         className={`text-sm text-gray-400 hover:text-gray-500`}
@@ -67,16 +61,14 @@ function VariantA({ template, links, primaryButton, secondaryButton, logo }) {
                     </Link>
                   ) : (
                     <Link
-                      href={`${
-                        link.externalLink === "Home" ||
-                        link.externalLink === "home"
+                      href={`${link.externalLink === "Home" ||
+                          link.externalLink === "home"
                           ? "/"
-                          : `${
-                              link.externalLink === undefined
-                                ? "page-not-found"
-                                : link.externalLink
-                            }`
-                      }`}
+                          : `${link.externalLink === undefined
+                            ? "page-not-found"
+                            : link.externalLink
+                          }`
+                        }`}
                     >
                       <a
                         className={`text-sm text-gray-400 hover:text-gray-500`}
@@ -129,8 +121,8 @@ function VariantA({ template, links, primaryButton, secondaryButton, logo }) {
                   ? "/"
                   : primaryButton.internalLink
                 : primaryButton.type === "linkExternal"
-                ? primaryButton.externalLink
-                : "page-not-found"
+                  ? primaryButton.externalLink
+                  : "page-not-found"
             }
           >
             {primaryButton.label}
@@ -152,8 +144,8 @@ function VariantA({ template, links, primaryButton, secondaryButton, logo }) {
                   ? "/"
                   : secondaryButton.internalLink
                 : secondaryButton.type === "linkExternal"
-                ? secondaryButton.externalLink
-                : "page-not-found"
+                  ? secondaryButton.externalLink
+                  : "page-not-found"
             }
           >
             {secondaryButton.label}
@@ -195,16 +187,14 @@ function VariantA({ template, links, primaryButton, secondaryButton, logo }) {
                     {link.type === "linkInternal" ? (
                       <Link
                         prefetch={true}
-                        href={`${
-                          link.internalLink === "Home" ||
-                          link.internalLink === "home"
+                        href={`${link.internalLink === "Home" ||
+                            link.internalLink === "home"
                             ? "/"
-                            : `/${
-                                link.internalLink === undefined
-                                  ? "page-not-found"
-                                  : link.internalLink
-                              }`
-                        }`}
+                            : `/${link.internalLink === undefined
+                              ? "page-not-found"
+                              : link.internalLink
+                            }`
+                          }`}
                       >
                         <a className="block p-4 text-sm font-semibold text-gray-400 hover:bg-webriq-lightblue hover:text-webriq-darkblue rounded">
                           {link.label}
@@ -212,16 +202,14 @@ function VariantA({ template, links, primaryButton, secondaryButton, logo }) {
                       </Link>
                     ) : (
                       <Link
-                        href={`${
-                          link.externalLink === "Home" ||
-                          link.externalLink === "home"
+                        href={`${link.externalLink === "Home" ||
+                            link.externalLink === "home"
                             ? "/"
-                            : `${
-                                link.externalLink === undefined
-                                  ? "page-not-found"
-                                  : link.externalLink
-                              }`
-                        }`}
+                            : `${link.externalLink === undefined
+                              ? "page-not-found"
+                              : link.externalLink
+                            }`
+                          }`}
                       >
                         <a className="block p-4 text-sm font-semibold text-gray-400 hover:bg-webriq-lightblue hover:text-webriq-darkblue rounded">
                           {link.label}
@@ -244,8 +232,8 @@ function VariantA({ template, links, primaryButton, secondaryButton, logo }) {
                         ? "/"
                         : primaryButton.internalLink
                       : primaryButton.type === "linkExternal"
-                      ? primaryButton.externalLink
-                      : "page-not-found"
+                        ? primaryButton.externalLink
+                        : "page-not-found"
                   }
                 >
                   {primaryButton.label}
@@ -261,8 +249,8 @@ function VariantA({ template, links, primaryButton, secondaryButton, logo }) {
                         ? "/"
                         : secondaryButton.internalLink
                       : secondaryButton.type === "linkExternal"
-                      ? secondaryButton.externalLink
-                      : "page-not-found"
+                        ? secondaryButton.externalLink
+                        : "page-not-found"
                   }
                 >
                   {secondaryButton.label}

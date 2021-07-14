@@ -36,21 +36,19 @@ function VariantA({ caption, title, description, plans }) {
             {plans?.[0]?.price && (
               <div className="inline-block py-1 px-1 bg-white rounded-lg">
                 <button
-                  className={`mr-1 text-sm py-2 px-4 ${
-                    plan === "monthly"
-                      ? "text-gray-900 bg-gray-50 rounded-lg shadow"
-                      : "text-gray-500"
-                  } hover:text-gray-900 font-bold focus:outline-none`}
+                  className={`mr-1 text-sm py-2 px-4 ${plan === "monthly"
+                    ? "text-gray-900 bg-gray-50 rounded-lg shadow"
+                    : "text-gray-500"
+                    } hover:text-gray-900 font-bold focus:outline-none`}
                   onClick={() => setPlan("monthly")}
                 >
                   Monthly
                 </button>
                 <button
-                  className={`text-sm py-2 px-4 ${
-                    plan === "yearly"
-                      ? "text-gray-900 bg-gray-50 rounded-lg shadow"
-                      : "text-gray-500"
-                  } font-bold focus:outline-none`}
+                  className={`text-sm py-2 px-4 ${plan === "yearly"
+                    ? "text-gray-900 bg-gray-50 rounded-lg shadow"
+                    : "text-gray-500"
+                    } font-bold focus:outline-none`}
                   onClick={() => setPlan("yearly")}
                 >
                   Yearly
@@ -68,11 +66,10 @@ function VariantA({ caption, title, description, plans }) {
                   <span className="text-6xl font-bold">
                     {isNaN(parseInt(plans?.[0]?.price))
                       ? plans?.[0]?.price
-                      : `$${
-                          plan === "yearly"
-                            ? plans?.[0]?.price * 12
-                            : plans?.[0]?.price
-                        }`}
+                      : `$${plan === "yearly"
+                        ? plans?.[0]?.price * 12
+                        : plans?.[0]?.price
+                      }`}
                   </span>
                   {!isNaN(parseInt(plans?.[0]?.price)) && (
                     <span className="text-gray-400 text-xs">/{plan}</span>
@@ -102,22 +99,16 @@ function VariantA({ caption, title, description, plans }) {
                   {plans?.[0]?.primaryButton?.label && (
                     <a
                       className="inline-block text-center py-2 px-4 w-full rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-loose transition duration-200"
-                      target={
-                        plans?.[0]?.primaryButton?.linkTarget ===
-                        "openLinkToNewTab"
-                          ? "_blank"
-                          : null
-                      }
+                      target={plans?.[0]?.primaryButton?.linkTarget}
                       rel={
-                        plans?.[0]?.primaryButton?.linkTarget ===
-                        "openLinkToNewTab"
+                        plans?.[0]?.primaryButton?.linkTarget === "_blank"
                           ? "noopener noreferrer"
                           : null
                       }
                       href={
                         plans?.[0]?.primaryButton?.type === "linkInternal"
                           ? plans?.[0]?.primaryButton?.internalLink ===
-                              "Home" ||
+                            "Home" ||
                             plans?.[0]?.primaryButton?.internalLink === "home"
                             ? "/"
                             : plans?.[0]?.primaryButton?.internalLink
@@ -139,11 +130,10 @@ function VariantA({ caption, title, description, plans }) {
                   <span className="text-6xl font-bold text-white">
                     {isNaN(parseInt(plans?.[1]?.price))
                       ? plans?.[1]?.price
-                      : `$${
-                          plan === "yearly"
-                            ? plans?.[1]?.price * 12
-                            : plans?.[1]?.price
-                        }`}
+                      : `$${plan === "yearly"
+                        ? plans?.[1]?.price * 12
+                        : plans?.[1]?.price
+                      }`}
                   </span>
                   {!isNaN(parseInt(plans?.[1]?.price)) && (
                     <span className="text-gray-50 text-xs">/{plan}</span>
@@ -173,22 +163,16 @@ function VariantA({ caption, title, description, plans }) {
                   {plans?.[1]?.primaryButton?.label && (
                     <a
                       className="inline-block text-center py-2 px-4 w-full rounded-l-xl rounded-t-xl bg-white hover:bg-gray-50 font-bold leading-loose transition duration-200"
-                      target={
-                        plans?.[1]?.primaryButton?.linkTarget ===
-                        "openLinkToNewTab"
-                          ? "_blank"
-                          : null
-                      }
+                      target={plans?.[1]?.primaryButton?.linkTarget}
                       rel={
-                        plans?.[1]?.primaryButton?.linkTarget ===
-                        "openLinkToNewTab"
+                        plans?.[1]?.primaryButton?.linkTarget === "_blank"
                           ? "noopener noreferrer"
                           : null
                       }
                       href={
                         plans?.[1]?.primaryButton?.type === "linkInternal"
                           ? plans?.[1]?.primaryButton?.internalLink ===
-                              "Home" ||
+                            "Home" ||
                             plans?.[1]?.primaryButton?.internalLink === "home"
                             ? "/"
                             : plans?.[1]?.primaryButton?.internalLink
@@ -210,11 +194,10 @@ function VariantA({ caption, title, description, plans }) {
                   <span className="text-6xl font-bold">
                     {isNaN(parseInt(plans?.[2]?.price))
                       ? plans?.[2]?.price
-                      : `$${
-                          plan === "yearly"
-                            ? plans?.[2]?.price * 12
-                            : plans?.[2]?.price
-                        }`}
+                      : `$${plan === "yearly"
+                        ? plans?.[2]?.price * 12
+                        : plans?.[2]?.price
+                      }`}
                   </span>
                   {!isNaN(parseInt(plans?.[2]?.price)) && (
                     <span className="text-gray-400 text-xs">/{plan}</span>
@@ -244,22 +227,16 @@ function VariantA({ caption, title, description, plans }) {
                   {plans?.[2]?.primaryButton?.label && (
                     <a
                       className="inline-block text-center py-2 px-4 w-full rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-loose transition duration-200"
-                      target={
-                        plans?.[2]?.primaryButton?.linkTarget ===
-                        "openLinkToNewTab"
-                          ? "_blank"
-                          : null
-                      }
+                      target={plans?.[2]?.primaryButton?.linkTarget}
                       rel={
-                        plans?.[2]?.primaryButton?.linkTarget ===
-                        "openLinkToNewTab"
+                        plans?.[2]?.primaryButton?.linkTarget === "_blank"
                           ? "noopener noreferrer"
                           : null
                       }
                       href={
                         plans?.[2]?.primaryButton?.type === "linkInternal"
                           ? plans?.[2]?.primaryButton?.internalLink ===
-                              "Home" ||
+                            "Home" ||
                             plans?.[2]?.primaryButton?.internalLink === "home"
                             ? "/"
                             : plans?.[2]?.primaryButton?.internalLink
