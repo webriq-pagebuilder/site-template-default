@@ -17,7 +17,7 @@ function VariantC({
     <section>
       <nav className="relative py-6 bg-white">
         <div className="container mx-auto px-4 flex items-center">
-          <ul className="hidden lg:flex lg:w-1/3 lg:flex lg:items-center lg:w-auto lg:space-x-6">
+          <ul className="hidden lg:flex lg:items-center lg:w-auto lg:space-x-6">
             {links &&
               links?.map((link, index) => (
                 <React.Fragment key={link.label}>
@@ -37,6 +37,12 @@ function VariantC({
                       >
                         <a
                           className={`text-sm text-gray-400 hover:text-gray-500`}
+                          target={link?.linkTarget}
+                          rel={
+                            link?.linkTarget === "_blank"
+                              ? "noopener noreferrer"
+                              : null
+                          }
                         >
                           {link.label}
                         </a>
@@ -56,6 +62,12 @@ function VariantC({
                       >
                         <a
                           className={`text-sm text-gray-400 hover:text-gray-500`}
+                          target={link?.linkTarget}
+                          rel={
+                            link?.linkTarget === "_blank"
+                              ? "noopener noreferrer"
+                              : null
+                          }
                         >
                           {link.label}
                         </a>
@@ -92,6 +104,12 @@ function VariantC({
             {primaryButton && (
               <a
                 className="hidden lg:inline-block lg:ml-auto lg:mr-3 py-2 px-6 bg-gray-50 hover:bg-gray-100 text-sm text-gray-900 font-bold rounded-l-xl rounded-t-xl transition duration-200"
+                target={primaryButton?.linkTarget}
+                rel={
+                  primaryButton?.linkTarget === "_blank"
+                    ? "noopener noreferrer"
+                    : null
+                }
                 href={
                   primaryButton.type === "linkInternal"
                     ? primaryButton.internalLink === "Home" ||
@@ -109,6 +127,12 @@ function VariantC({
             {secondaryButton && (
               <a
                 className="hidden lg:inline-block py-2 px-6 bg-webriq-blue hover:bg-webriq-darkblue text-sm text-white font-bold rounded-l-xl rounded-t-xl transition duration-200"
+                target={secondaryButton?.linkTarget}
+                rel={
+                  secondaryButton?.linkTarget === "_blank"
+                    ? "noopener noreferrer"
+                    : null
+                }
                 href={
                   secondaryButton.type === "linkInternal"
                     ? secondaryButton.internalLink === "Home" ||
