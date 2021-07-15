@@ -56,7 +56,7 @@ function page({ data, preview }) {
     <>
       <Head>
         <title>{seo?.seoTitle || title}</title>
-        <SEO data={pageData} />
+        <SEO data={pageData} slug={slug} />
       </Head>
       {sections &&
         sections?.map((section) => {
