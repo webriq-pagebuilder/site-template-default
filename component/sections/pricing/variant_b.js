@@ -25,26 +25,26 @@ function VariantB({ caption, title, description, plans }) {
         <div className="container mx-auto px-4">
           <div className="mb-16 w-full flex flex-wrap items-center">
             <div className="w-full lg:w-1/2">
-              {caption === undefined ? null : (
+              {caption && (
                 <span className="text-webriq-darkblue font-bold">
                   {caption}
                 </span>
               )}
-              {title === undefined ? null : (
+              {title && (
                 <h2 className="mb-2 text-4xl lg:text-5xl font-bold font-heading">
                   {title}
                 </h2>
               )}
             </div>
             <div className="w-full lg:w-1/2">
-              {description === undefined ? null : (
+              {description && (
                 <p className="max-w-xs lg:mx-auto text-gray-500 leading-loose">
                   {description}
                 </p>
               )}
             </div>
           </div>
-          {plans === undefined ? null : (
+          {plans && (
             <div className="flex flex-wrap">
               {plans?.[0] && (
                 <div className="mb-8 w-full p-8 flex flex-wrap items-center bg-white rounded shadow">
@@ -85,10 +85,16 @@ function VariantB({ caption, title, description, plans }) {
                     {plans?.[0]?.primaryButton?.label && (
                       <a
                         className="inline-block mt-4 lg:mt-0 py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-loose transition duration-200"
+                        target={plans?.[0]?.primaryButton?.linkTarget}
+                        rel={
+                          plans?.[0]?.primaryButton?.linkTarget === "_blank"
+                            ? "noopener noreferrer"
+                            : null
+                        }
                         href={
                           plans?.[0]?.primaryButton?.type === "linkInternal"
                             ? plans?.[0]?.primaryButton?.internalLink ===
-                                "Home" ||
+                              "Home" ||
                               plans?.[0]?.primaryButton?.internalLink === "home"
                               ? "/"
                               : plans?.[0]?.primaryButton?.internalLink
@@ -138,13 +144,19 @@ function VariantB({ caption, title, description, plans }) {
                   </div>
                   <div className="w-full lg:w-1/5 px-3">
                     {plans?.[1]?.primaryButton === undefined ||
-                    plans?.[1]?.primaryButton.label === undefined ? null : (
+                      plans?.[1]?.primaryButton.label === undefined ? null : (
                       <a
                         className="inline-block mt-4 lg:mt-0 py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-loose transition duration-200"
+                        target={plans?.[1]?.primaryButton?.linkTarget}
+                        rel={
+                          plans?.[1]?.primaryButton?.linkTarget === "_blank"
+                            ? "noopener noreferrer"
+                            : null
+                        }
                         href={
                           plans?.[1]?.primaryButton?.type === "linkInternal"
                             ? plans?.[1]?.primaryButton?.internalLink ===
-                                "Home" ||
+                              "Home" ||
                               plans?.[1]?.primaryButton?.internalLink === "home"
                               ? "/"
                               : plans?.[1]?.primaryButton?.internalLink
@@ -194,13 +206,19 @@ function VariantB({ caption, title, description, plans }) {
                   </div>
                   <div className="w-full lg:w-1/5 px-3">
                     {plans?.[2]?.primaryButton === undefined ||
-                    plans?.[2]?.primaryButton.label === undefined ? null : (
+                      plans?.[2]?.primaryButton.label === undefined ? null : (
                       <a
                         className="inline-block mt-4 lg:mt-0 py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-loose transition duration-200"
+                        target={plans?.[2]?.primaryButton?.linkTarget}
+                        rel={
+                          plans?.[2]?.primaryButton?.linkTarget === "_blank"
+                            ? "noopener noreferrer"
+                            : null
+                        }
                         href={
                           plans?.[2]?.primaryButton?.type === "linkInternal"
                             ? plans?.[2]?.primaryButton?.internalLink ===
-                                "Home" ||
+                              "Home" ||
                               plans?.[2]?.primaryButton?.internalLink === "home"
                               ? "/"
                               : plans?.[2]?.primaryButton?.internalLink

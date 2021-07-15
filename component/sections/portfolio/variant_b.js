@@ -45,6 +45,12 @@ function VariantB({
             {primaryButton?.label && (
               <a
                 className="md:inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-gray-50 font-bold leading-loose transition duration-200"
+                target={primaryButton?.linkTarget}
+                rel={
+                  primaryButton?.linkTarget === "_blank"
+                    ? "noopener noreferrer"
+                    : null
+                }
                 href={
                   primaryButton.type === "linkInternal"
                     ? primaryButton.internalLink === "Home" ||

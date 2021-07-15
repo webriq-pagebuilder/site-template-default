@@ -2,12 +2,7 @@ import React from "react";
 import Link from "next/link";
 import { urlFor } from "lib/sanity";
 
-function VariantD({
-  /*template , */ links,
-  primaryButton,
-  secondaryButton,
-  logo,
-}) {
+function VariantD({ links, primaryButton, secondaryButton, logo }) {
   const [menu, setMenu] = React.useState(false);
 
   const showMenu = () => {
@@ -17,7 +12,7 @@ function VariantD({
     <section>
       <nav className="relative px-6 py-6 bg-white">
         <div className="flex items-center">
-          <ul className="hidden lg:flex lg:flex lg:items-center lg:w-auto lg:space-x-5">
+          <ul className="hidden lg:flex lg:items-center lg:w-auto lg:space-x-5">
             {links &&
               links.map((link, index) => (
                 <React.Fragment key={link.label}>
@@ -37,6 +32,12 @@ function VariantD({
                       >
                         <a
                           className={`text-sm text-gray-400 hover:text-gray-500`}
+                          target={link?.linkTarget}
+                          rel={
+                            link?.linkTarget === "_blank"
+                              ? "noopener noreferrer"
+                              : null
+                          }
                         >
                           {link.label}
                         </a>
@@ -56,6 +57,12 @@ function VariantD({
                       >
                         <a
                           className={`text-sm text-gray-400 hover:text-gray-500`}
+                          target={link?.linkTarget}
+                          rel={
+                            link?.linkTarget === "_blank"
+                              ? "noopener noreferrer"
+                              : null
+                          }
                         >
                           {link.label}
                         </a>
@@ -91,6 +98,12 @@ function VariantD({
           {primaryButton && (
             <a
               className="hidden lg:inline-block lg:ml-auto lg:mr-3 py-2 px-6 bg-gray-50 hover:bg-gray-100 text-sm text-gray-900 font-bold rounded-l-xl rounded-t-xl transition duration-200"
+              target={primaryButton?.linkTarget}
+              rel={
+                primaryButton?.linkTarget === "_blank"
+                  ? "noopener noreferrer"
+                  : null
+              }
               href={
                 primaryButton.type === "linkInternal"
                   ? primaryButton.internalLink === "Home" ||
@@ -108,6 +121,12 @@ function VariantD({
           {secondaryButton && (
             <a
               className="hidden lg:inline-block py-2 px-6 bg-webriq-blue hover:bg-webriq-darkblue text-sm text-white font-bold rounded-l-xl rounded-t-xl transition duration-200"
+              target={secondaryButton?.linkTarget}
+              rel={
+                secondaryButton?.linkTarget === "_blank"
+                  ? "noopener noreferrer"
+                  : null
+              }
               href={
                 secondaryButton.type === "linkInternal"
                   ? secondaryButton.internalLink === "Home" ||
@@ -214,7 +233,7 @@ function VariantD({
             <div className="pt-6">
               {primaryButton && (
                 <a
-                  className="block px-4 py-3 mb-3 leading-loose text-xs text-center font-semibold leading-none bg-gray-50 hover:bg-gray-100 rounded-l-xl rounded-t-xl"
+                  className="block px-4 py-3 mb-3 leading-loose text-xs text-center font-semibold bg-gray-50 hover:bg-gray-100 rounded-l-xl rounded-t-xl"
                   href={
                     primaryButton.type === "linkInternal"
                       ? primaryButton.internalLink === "Home" ||
@@ -231,7 +250,7 @@ function VariantD({
               )}
               {secondaryButton && (
                 <a
-                  className="block px-4 py-3 mb-2 leading-loose text-xs text-center text-white font-semibold bg-webriq-blue hover:bg-webriq-darkblue rounded-l-xl rounded-t-xl"
+                  className="block px-4 py-3 mb-3 leading-loose text-xs text-center font-semibold bg-gray-50 hover:bg-gray-100 rounded-l-xl rounded-t-xl"
                   href={
                     secondaryButton.type === "linkInternal"
                       ? secondaryButton.internalLink === "Home" ||

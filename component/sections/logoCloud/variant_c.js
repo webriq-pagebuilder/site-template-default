@@ -12,6 +12,8 @@ function VariantC({ title, images, button }) {
           {button && (
             <a
               className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-gray-50 font-bold leading-loose"
+              target={button?.linkTarget}
+              rel={button?.linkTarget === "_blank" ? "noopener noreferrer" : ""}
               href={
                 button.type === "linkExternal"
                   ? button?.externalLink
