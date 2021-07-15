@@ -346,13 +346,6 @@ const allProjections = `
         "internalLink": link.linkInternal->slug.current,
         "externalLink": link.linkExternal
       },
-      secondaryButton {
-        label,
-        linkTarget,
-        "type": link.condition,
-        "internalLink": link.linkInternal->slug.current,
-        "externalLink": link.linkExternal
-      }, 
     },
   }
 }
