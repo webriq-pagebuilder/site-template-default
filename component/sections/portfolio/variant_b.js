@@ -27,7 +27,7 @@ function VariantB({caption, title, portfolios}) {
         <div className="container px-4 mx-auto">
           <div className="mb-16 flex flex-wrap justify-center md:justify-between items-center">
             <div className="text-center lg:text-left">
-              {caption && <span className="text-green-600 font-bold">{caption}</span>}
+              {caption && <span className="text-webriq-blue font-bold">{caption}</span>}
               {title && <h2 className="text-4xl lg:text-5xl font-bold font-heading">{title}</h2>}
             </div>
             {portfolios.length === viewProjects || portfolios.length < 6 ? null : (
@@ -55,7 +55,22 @@ function VariantB({caption, title, portfolios}) {
                         <p className="mb-auto text-xl lg:text-2xl text-white font-bold">{content?.heading}</p>
                         <a 
                           className="inline-block py-2 px-4 border-2 border-gray-400 hover:border-white bg-transparent text-gray-50 hover:bg-white hover:text-gray-900 transition duration-200 rounded-l-xl rounded-t-xl font-bold leading-loose" 
-                          href={urlFor(content?.mainImage)}
+                          target={content?.primaryButton?.linkTarget}
+                          rel={
+                            content?.primaryButton?.linkTarget === "_blank"
+                              ? "noopener noreferrer"
+                              : null
+                          }
+                          href={
+                            content?.primaryButton?.type === "linkExternal"
+                              ? content?.primaryButton?.externalLink
+                              : content?.primaryButton?.type === "linkInternal"
+                                ? content?.primaryButton?.internalLink === "Home" ||
+                                  content?.primaryButton?.internalLink === "home"
+                                  ? "/"
+                                  : content?.primaryButton?.internalLink
+                                : "page-not-found"
+                          }
                         >
                           View Project
                         </a>

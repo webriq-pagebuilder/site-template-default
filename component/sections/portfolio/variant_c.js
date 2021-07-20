@@ -53,7 +53,25 @@ function VariantC({caption, title, portfolios}) {
                       <div className="p-6">
                         <span className="text-gray-400">{content?.dateAdded}</span>
                         <h3 className="mb-4 text-2xl font-bold font-heading">{content?.heading}</h3>
-                        <a className="flex text-webriq-blue hover:text-webriq-darkblue font-bold" href={urlFor(content?.mainImage)}>
+                        <a 
+                          className="flex text-webriq-blue hover:text-webriq-darkblue font-bold" 
+                          target={content?.primaryButton?.linkTarget}
+                          rel={
+                            content?.primaryButton?.linkTarget === "_blank"
+                              ? "noopener noreferrer"
+                              : null
+                          }
+                          href={
+                            content?.primaryButton?.type === "linkExternal"
+                              ? content?.primaryButton?.externalLink
+                              : content?.primaryButton?.type === "linkInternal"
+                                ? content?.primaryButton?.internalLink === "Home" ||
+                                  content?.primaryButton?.internalLink === "home"
+                                  ? "/"
+                                  : content?.primaryButton?.internalLink
+                                : "page-not-found"
+                          }
+                        >
                           <svg className="mr-3 w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                             <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.707l-3-3a1 1 0 00-1.414 1.414L10.586 9H7a1 1 0 100 2h3.586l-1.293 1.293a1 1 0 101.414 1.414l3-3a1 1 0 000-1.414z" clipRule="evenodd" />
                           </svg>
