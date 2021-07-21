@@ -1,10 +1,10 @@
 import React from "react";
 import PortableText from "@sanity/block-content-to-react";
-import { setCookie, getCookie } from "../../../utils/cookies";
+import { setCookie, getCookie } from "utils/cookies";
 
 
-function VariantD({ title, block, button1, button2 }) {
-  let cookieExists = getCookie();
+function VariantD({ title, block, allowCookieBtn, denyCookieBtn }) {
+  const cookieExists = () => getCookie();
   const [showCookie, setShowCookie] = React.useState(cookieExists);
 
   //block element styling
@@ -41,7 +41,7 @@ function VariantD({ title, block, button1, button2 }) {
                 {block && <PortableText blocks={block} serializers={serializers} />}
               </div>
               <div className="w-full lg:w-1/2 px-4 lg:text-right">
-                {button1 && (
+                {allowCookieBtn && (
                   <button
                     type="button"
                     className="mr-4 py-2 px-4 rounded-l-xl rounded-t-xl border-2 border-webriq-blue hover:border-webriq-darkblue bg-webriq-blue hover:bg-webriq-darkblue transition duration-500"
@@ -50,19 +50,19 @@ function VariantD({ title, block, button1, button2 }) {
                       setShowCookie(!showCookie)
                     }}
                   >
-                    {button1}
+                    {allowCookieBtn}
                   </button>
                 )}
-                {button2 && (
+                {denyCookieBtn && (
                   <button
                     type="button"
-                    className="mr-4 py-2 px-4 rounded-r-xl rounded-t-xl border-2 border-gray-400 hover:bg-gray-700 transition duration-500"
+                    className="m-2 py-2 px-4 rounded-r-xl rounded-t-xl border-2 border-gray-400 hover:bg-gray-700 transition duration-500"
                     onClick={() => {
                       setCookie("dismiss")
                       setShowCookie(!showCookie)
                     }}
                   >
-                    {button2}
+                    {denyCookieBtn}
                   </button>
                 )}
               </div>

@@ -1,10 +1,10 @@
 import React from "react";
 import PortableText from "@sanity/block-content-to-react";
-import { setCookie, getCookie } from "../../../utils/cookies";
+import { setCookie, getCookie } from "utils/cookies";
 
 
-function VariantE({ title, block, button1, button2 }) {
-  let cookieExists = getCookie();
+function VariantE({ title, block, allowCookieBtn, denyCookieBtn }) {
+  const cookieExists = () => getCookie();
   const [showCookie, setShowCookie] = React.useState(cookieExists);
 
   //block element styling
@@ -38,7 +38,7 @@ function VariantE({ title, block, button1, button2 }) {
             <div className="text-center">
               <p className="font-bold font-heading">{title}</p>
               {block && <PortableText blocks={block} serializers={serializers} />}
-              {button1 && (
+              {allowCookieBtn && (
                 <button
                   type="button"
                   className="inline-block mr-3 py-2 px-4 rounded-l-xl rounded-t-xl border-2 border-webriq-blue hover:border-webriq-darkblue bg-webriq-blue hover:bg-webriq-darkblue transition duration-500"
@@ -47,10 +47,10 @@ function VariantE({ title, block, button1, button2 }) {
                     setShowCookie(!showCookie)
                   }}
                 >
-                  {button1}
+                  {allowCookieBtn}
                 </button>
               )}
-              {button2 && (
+              {denyCookieBtn && (
                 <button
                   type="button"
                   className="inline-block mr-4 py-2 px-4 rounded-r-xl rounded-t-xl border-2 border-gray-400 hover:bg-gray-700 transition duration-500"
@@ -59,7 +59,7 @@ function VariantE({ title, block, button1, button2 }) {
                     setShowCookie(!showCookie)
                   }}
                 >
-                  {button2}
+                  {denyCookieBtn}
                 </button>
               )}
             </div>

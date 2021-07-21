@@ -1,9 +1,9 @@
 import React from "react";
-import { setCookie, getCookie } from "../../../utils/cookies";
+import { setCookie, getCookie } from "utils/cookies";
 
 
-function VariantC({ title, text, button1, button2 }) {
-  let cookieExists = getCookie();
+function VariantC({ title, text, allowCookieBtn, denyCookieBtn }) {
+  const cookieExists = () => getCookie();
   const [showCookie, setShowCookie] = React.useState(cookieExists);
 
   return (
@@ -14,7 +14,7 @@ function VariantC({ title, text, button1, button2 }) {
             <div className="text-center">
               <p className="font-bold font-heading">{title}</p>
               <p className="mt-3 mb-6 text-gray-400 text-sm">{text}</p>
-              {button1 && (
+              {allowCookieBtn && (
                 <button
                   type="button"
                   className="inline-block mr-4 py-2 px-4 rounded-l-xl rounded-t-xl border-2 border-webriq-blue hover:border-webriq-darkblue bg-webriq-blue hover:bg-webriq-darkblue transition duration-500"
@@ -23,10 +23,10 @@ function VariantC({ title, text, button1, button2 }) {
                     setShowCookie(!showCookie)
                   }}
                 >
-                  {button1}
+                  {allowCookieBtn}
                 </button>
               )}
-              {button2 && (
+              {denyCookieBtn && (
                 <button
                   type="button"
                   className="inline-block m-2 py-2 px-4 rounded-r-xl rounded-t-xl border-2 border-gray-400 hover:bg-gray-700 transition duration-500"
@@ -35,7 +35,7 @@ function VariantC({ title, text, button1, button2 }) {
                     setShowCookie(!showCookie)
                   }}
                 >
-                  {button2}
+                  {denyCookieBtn}
                 </button>
               )}
             </div>
