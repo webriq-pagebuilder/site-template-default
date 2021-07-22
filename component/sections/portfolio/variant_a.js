@@ -1,18 +1,19 @@
 import React from "react";
-import { urlFor } from "../../../lib/sanity";
+import { urlFor } from "lib/sanity";
 
-function VariantA({ caption, title, portfolios }) {
-  const [category, setCategory] = React.useState(portfolios?.[0]?.category); //set the first index category as initial value
-  let [viewProjects, setViewPortfolios] = React.useState(8);
 
-  //creates new array of items based on selected category
-  const newArray = portfolios?.filter(content => content?.category === category).map(items => ({ ...items, default: viewProjects }));
-  
+function VariantA({ caption, title, portfolios, buttonLabel }) {
+  let portfolioLength = 8; //set initial number of portfolios to display for this variant
+  const [activeTab, setActiveTab] = React.useState(portfolios?.[0]?.category); //set the first index category as initial value
+  const [viewPortfolios, setViewPortfolios] = React.useState(portfolioLength);
+
+  //creates new array of items filtered by active tab
+  const filteredData = portfolios?.filter(data => data?.category === activeTab)
+
   const handleViewMoreProjects = () => {
-    const added = newArray?.[0]?.content?.length - viewProjects
-    viewProjects !== newArray?.[0]?.content?.length // Check index length
-      ? setViewPortfolios(viewProjects + added)
-      : setViewPortfolios((viewProjects = 8));
+    viewPortfolios !== filteredData?.[0]?.content?.length  // Check index length
+      ? setViewPortfolios(filteredData?.[0]?.content?.length)
+      : setViewPortfolios(portfolioLength);
   };
 
   return (
@@ -45,12 +46,12 @@ function VariantA({ caption, title, portfolios }) {
                 {portfolios?.map((content, index) => (
                   <button
                     key={index}
-                    onClick={() => setCategory(content?.category)}
                     className={`w-full sm:w-auto mb-1 sm:mb-0 mx-1 sm:mx-0 py-2 px-4 ${
-                      category === content?.category
+                      activeTab === content?.category
                         ? "bg-gray-50 text-webriq-darkblue shadow rounded font-bold focus:outline-none transition duration-200"
                         : "hover:bg-webriq-lightblue text-gray-500 hover:text-webriq-blue rounded hover:shadow font-bold focus:outline-none transition duration-200"
                     }`}
+                    onClick={() => setActiveTab(content?.category)}
                   >
                     {content?.category}
                   </button>
@@ -58,56 +59,56 @@ function VariantA({ caption, title, portfolios }) {
               </div>
             )}
           </div>
-          {newArray && (
-            <div className="flex flex-wrap mb-8 -mx-4">
-              {newArray?.[0]?.content?.slice(0, newArray?.[0]?.default)?.map((items, index) => (
-                <div className="w-1/4 mb-8 px-4" key={index}>
-                  {items?.mainImage && (
-                    <div className="relative mx-auto h-64 w-full rounded-lg">
-                      <img 
-                        className="mx-auto h-64 w-full rounded object-cover" 
-                        src={urlFor(items?.mainImage)} 
-                      />
-                      <div className="opacity-0 hover:opacity-75 duration-300 absolute inset-0 z-10 bg-gray-900 flex justify-center items-center rounded-lg">
-                        <a 
-                          className="inline-block py-2 px-4 border-2 border-gray-400 hover:border-white hover:opacity-100 text-gray-50 hover:bg-white hover:text-gray-900 transition duration-200 rounded-l-xl rounded-t-xl font-bold leading-loose" 
-                          target={items?.primaryButton?.linkTarget}
-                          rel={
-                            items?.primaryButton?.linkTarget === "_blank"
-                              ? "noopener noreferrer"
-                              : null
-                          }
-                          href={
-                            items?.primaryButton?.type === "linkExternal"
-                              ? items?.primaryButton?.externalLink
-                              : items?.primaryButton?.type === "linkInternal"
-                                ? items?.primaryButton?.internalLink === "Home" ||
-                                  items?.primaryButton?.internalLink === "home"
-                                  ? "/"
-                                  : items?.primaryButton?.internalLink
-                                : "page-not-found"
-                          }
-                        >
-                          View Project
-                        </a>
-                      </div>
+          <div className="flex flex-wrap mb-8 -mx-4">
+            {filteredData?.[0]?.content?.slice(0, viewPortfolios)?.map((content, index) => (
+              <div className="w-1/4 mb-8 px-4" key={index}>
+                {content?.mainImage && (
+                  <div className="relative mx-auto h-64 w-full rounded-lg">
+                    <img 
+                      className="mx-auto h-64 w-full rounded object-cover" 
+                      src={urlFor(content?.mainImage)} 
+                    />
+                    <div className="opacity-0 hover:opacity-75 duration-300 absolute inset-0 z-10 bg-gray-900 flex justify-center items-center rounded-lg">
+                      <a 
+                        className="inline-block py-2 px-4 border-2 border-gray-400 hover:border-white hover:opacity-100 text-gray-50 hover:bg-white hover:text-gray-900 transition duration-200 rounded-l-xl rounded-t-xl font-bold leading-loose" 
+                        target={content?.primaryButton?.linkTarget}
+                        rel={
+                          content?.primaryButton?.linkTarget === "_blank"
+                            ? "noopener noreferrer"
+                            : null
+                        }
+                        href={
+                          content?.primaryButton?.type === "linkExternal"
+                            ? content?.primaryButton?.externalLink
+                            : content?.primaryButton?.type === "linkInternal"
+                              ? content?.primaryButton?.internalLink === "Home" ||
+                                content?.primaryButton?.internalLink === "home"
+                                ? "/"
+                                : content?.primaryButton?.internalLink
+                              : "page-not-found"
+                        }
+                      >
+                        {content?.primaryButton?.label ?? "View Project"}
+                      </a>
                     </div>
-                  )}
-                </div>
-              ))}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+          {filteredData?.[0]?.content && (
+            <div className="text-center">
+              {filteredData?.[0]?.content?.length === viewPortfolios || filteredData?.[0]?.content?.length > portfolioLength && (
+                <button 
+                  className="inline-block py-2 px-6 leading-loose rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-gray-50 font-bold" 
+                  id={filteredData?.[0]?._key}
+                  onClick={handleViewMoreProjects}
+                >
+                  {buttonLabel ?? "View More Projects"}
+                </button>
+              )}
             </div>
           )}
-          <div className="text-center">
-            {newArray?.[0]?.content?.length === viewProjects || newArray?.[0]?.content?.length < 8 ? null : (
-              <button 
-                className="inline-block py-2 px-6 leading-loose rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-gray-50 font-bold" 
-                onClick={handleViewMoreProjects}
-                id={newArray?.[0]?._key}
-              >
-                View More Projects
-              </button>
-            )}
-          </div>
         </div>
       </div>
       <div className="skew skew-bottom mr-for-radius">

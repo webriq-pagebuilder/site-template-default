@@ -1,14 +1,14 @@
 import React from "react";
-import { urlFor } from "../../../lib/sanity";
+import { urlFor } from "lib/sanity";
 
-function VariantB({caption, title, portfolios}) {
-  let [viewProjects, setViewPortfolios] = React.useState(6);
+function VariantB({caption, title, portfolios, buttonLabel}) {
+  const portfolioLength = 6; //set initial number of portfolios to display for this variant
+  const [viewPortfolios, setViewPortfolios] = React.useState(portfolioLength);
 
   const handleViewMoreProjects = () => {
-    const added = portfolios.length - viewProjects
-    viewProjects !== portfolios.length - 1 // Check index length
-      ? setViewPortfolios(viewProjects + added)
-      : setViewPortfolios((viewProjects = 0));
+    viewPortfolios !== portfolios.length - 1 // Check index length
+      ? setViewPortfolios(portfolios.length)
+      : setViewPortfolios(portfolioLength);
   };
 
   return (
@@ -30,18 +30,18 @@ function VariantB({caption, title, portfolios}) {
               {caption && <span className="text-webriq-blue font-bold">{caption}</span>}
               {title && <h2 className="text-4xl lg:text-5xl font-bold font-heading">{title}</h2>}
             </div>
-            {portfolios.length === viewProjects || portfolios.length < 6 ? null : (
+            {portfolios.length === viewPortfolios || portfolios.length < portfolioLength ? null : (
               <button 
                 className="hidden md:inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-gray-50 font-bold leading-loose transition duration-200" 
                 onClick={handleViewMoreProjects}
               >
-                View More Projects
+                {buttonLabel ?? "View More Projects"}
               </button>
             )}
           </div>
           {portfolios && (
             <div className="flex flex-wrap -mx-4 mb-4">
-              {portfolios?.slice(0, viewProjects).map((content, index) => (
+              {portfolios?.slice(0, viewPortfolios).map((content, index) => (
                 <div className="relative mb-4 w-full md:w-1/2 lg:w-1/3 px-4" key={index}>
                   {content?.mainImage && (
                     <div className="relative h-80 mb-5 mx-auto rounded">
@@ -72,7 +72,7 @@ function VariantB({caption, title, portfolios}) {
                                 : "page-not-found"
                           }
                         >
-                          View Project
+                          {content?.primaryButton?.label ?? "View Portfolio"}
                         </a>
                       </div>
                     </div>
