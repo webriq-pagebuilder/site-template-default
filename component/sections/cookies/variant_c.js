@@ -3,8 +3,10 @@ import { setCookie, getCookie } from "utils/cookies";
 
 
 function VariantC({ title, text, allowCookieBtn, denyCookieBtn }) {
-  const cookieExists = () => getCookie();
-  const [showCookie, setShowCookie] = React.useState(cookieExists);
+  const [showCookie, setShowCookie] = React.useState(() => {
+    const cookieExists = getCookie();
+    return cookieExists;
+  });
 
   return (
     <div className="fixed bottom-0 inset-x-0 z-50">

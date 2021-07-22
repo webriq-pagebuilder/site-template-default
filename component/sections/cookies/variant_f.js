@@ -3,9 +3,11 @@ import PortableText from "@sanity/block-content-to-react";
 import { setCookie, getCookie } from "utils/cookies";
 
 
-function VariantF({ title, block, denyCookieBtn, allowCookieBtn }) {
-  const cookieExists = () => getCookie();
-  const [showCookie, setShowCookie] = React.useState(cookieExists);
+function VariantF({ title, block, allowCookieBtn, denyCookieBtn }) {
+  const [showCookie, setShowCookie] = React.useState(() => {
+    const cookieExists = getCookie();
+    return cookieExists;
+  });
 
   //block element styling
   const serializers = {
