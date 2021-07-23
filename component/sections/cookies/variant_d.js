@@ -4,10 +4,7 @@ import { setCookie, getCookie } from "utils/cookies";
 
 
 function VariantD({ title, block, allowCookieBtn, denyCookieBtn }) {
-  const [showCookie, setShowCookie] = React.useState(() => {
-    const cookieExists = getCookie();
-    return cookieExists;
-  });
+  const [showCookie, setShowCookie] = React.useState(() => getCookie());
 
   //block element styling
   const serializers = {

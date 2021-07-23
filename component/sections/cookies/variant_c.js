@@ -1,12 +1,33 @@
 import React from "react";
+import PortableText from "@sanity/block-content-to-react";
 import { setCookie, getCookie } from "utils/cookies";
 
 
-function VariantC({ title, text, allowCookieBtn, denyCookieBtn }) {
-  const [showCookie, setShowCookie] = React.useState(() => {
-    const cookieExists = getCookie();
-    return cookieExists;
-  });
+function VariantC({ title, block, allowCookieBtn, denyCookieBtn }) {
+  const [showCookie, setShowCookie] = React.useState(() => getCookie());
+
+  //block element styling
+  const serializers = {
+    types: {
+      block: (props) => (
+        <p className="text-gray-400 text-sm my-5">{props.children}</p>
+      )
+    },
+    marks: {
+      internalLink: ({ children, mark }) => (
+        <a className="hover:text-webriq-blue text-webriq-babyblue" href={mark.slug.current}>
+          {children}
+        </a>
+      ),
+      link: ({ children, mark }) => (
+        mark.blank ? (
+          <a href={mark.href} target="_blank" rel="noopener noreferrer">{children}</a>
+        ) : (
+          <a className="hover:text-webriq-darkblue text-webriq-blue" href={mark.href} target="_blank" rel="noopener noreferrer">{children}</a>
+        )
+      )
+    }
+  };
 
   return (
     <div className="fixed bottom-0 inset-x-0 z-50">
@@ -15,7 +36,7 @@ function VariantC({ title, text, allowCookieBtn, denyCookieBtn }) {
           <div className="max-w-md p-6 px-10 mx-4 md:mx-0 md:ml-10 mb-6 bg-gray-800 text-white rounded-lg">
             <div className="text-center">
               <p className="font-bold font-heading">{title}</p>
-              <p className="mt-3 mb-6 text-gray-400 text-sm">{text}</p>
+              {block && <PortableText blocks={block} serializers={serializers} />}
               {allowCookieBtn && (
                 <button
                   type="button"
