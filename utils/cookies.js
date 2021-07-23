@@ -1,5 +1,3 @@
-import React from "react";
-
 let name = "dxpstudio-cookieconsent";
 
 // sets the cookie
@@ -11,8 +9,10 @@ export function setCookie(value) {
 
 // returns the cookie with the given name, 'undefined' if not found
 export function getCookie() {
-  let matches = document.cookie.match(new RegExp(
-    "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
-  ));
-  return matches ? decodeURIComponent(matches[1]) : undefined;
+  if(typeof window !== "undefined") {
+    let matches = document.cookie.match(new RegExp(
+      "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+    ));
+    return matches ? decodeURIComponent(matches[1]) : undefined;
+  }
 }
