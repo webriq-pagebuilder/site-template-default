@@ -5,20 +5,21 @@ const Variants = {
   variant_a: dynamic(() => import("./variant_a")),
   variant_b: dynamic(() => import("./variant_b")),
   variant_c: dynamic(() => import("./variant_c")),
-  variant_d: dynamic(() => import("./variant_d")),
 };
 
-function Team({ data }) {
+function TextComponent({ data }) {
   const variant = data?.variants?.variant;
 
   const Variant = Variants?.[variant];
   const props = {
-    caption: data?.variants?.[variant]?.subtitle,
-    title: data?.variants?.[variant]?.heading,
-    team: data?.variants?.[variant]?.teams,
+    heading: data?.variants?.[variant]?.heading,
+    singleColumn: data?.variants?.[variant]?.singleColumn,
+    firstColumn: data?.variants?.[variant]?.firstColumn,
+    secondColumn: data?.variants?.[variant]?.secondColumn,
+    thirdColumn: data?.variants?.[variant]?.thirdColumn,
   };
 
   return Variant ? <Variant {...props} /> : null;
 }
 
-export default React.memo(Team);
+export default React.memo(TextComponent);

@@ -13,7 +13,7 @@ function VariantD({
   links,
 }) {
   return (
-    <section className="py-20 bg-gray-50">
+    <section className="py-20 px-10 bg-gray-50">
       <div className="container mx-auto px-4">
         <div className="flex flex-wrap items-center justify-center -mx-4">
           <div className="mb-16 lg:mb-0 max-w-2xl lg:w-1/2 px-4">
@@ -37,22 +37,26 @@ function VariantD({
             {button && (
               <a
                 className="inline-block py-2 px-6 bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-loose transition duration-250 rounded-l-xl rounded-t-xl"
+                target={button?.linkTarget}
+                rel={
+                  button?.linkTarget === "_blank" ? "noopener noreferrer" : null
+                }
                 href={
                   button.type === "linkExternal"
                     ? button?.externalLink
                     : button.type === "linkInternal"
-                    ? button.internalLink === "Home" ||
-                      button.internalLink === "home"
-                      ? "/"
-                      : button?.internalLink
-                    : "page-not-found"
+                      ? button.internalLink === "Home" ||
+                        button.internalLink === "home"
+                        ? "/"
+                        : button?.internalLink
+                      : "page-not-found"
                 }
               >
                 {button?.label}
               </a>
             )}
           </div>
-          <div className="w-full lg:w-1/2 px-4">
+          <div className="w-full lg:w-1/2">
             <div className="max-w-sm mx-auto lg:mr-0 lg:ml-auto">
               {formFields && (
                 <div className="mb-6 py-8 px-6 bg-white shadow rounded-t-3xl rounded-bl-3xl text-center">
@@ -94,15 +98,15 @@ function VariantD({
                                 formFields[0].type === "inputEmail"
                                   ? "email"
                                   : formFields[0].type === "inputPassword"
-                                  ? "password"
-                                  : "text"
+                                    ? "password"
+                                    : "text"
                               }
                               placeholder={
                                 formFields[0].type === "inputEmail"
                                   ? "name@email.com"
                                   : formFields[0].type === "inputPassword"
-                                  ? "Enter your password"
-                                  : formFields[0]?.name
+                                    ? "Enter your password"
+                                    : formFields[0]?.name
                               }
                               name={formFields[0]?.name}
                             />
@@ -134,15 +138,15 @@ function VariantD({
                                 formFields[1].type === "inputEmail"
                                   ? "email"
                                   : formFields[1].type === "inputPassword"
-                                  ? "password"
-                                  : "text"
+                                    ? "password"
+                                    : "text"
                               }
                               placeholder={
                                 formFields[1].type === "inputEmail"
                                   ? "name@email.com"
                                   : formFields[1].type === "inputPassword"
-                                  ? "Enter your password"
-                                  : formFields[1]?.name
+                                    ? "Enter your password"
+                                    : formFields[1]?.name
                               }
                               name={formFields[1]?.name}
                             />
@@ -177,15 +181,15 @@ function VariantD({
                             formFields[2].type === "inputEmail"
                               ? "email"
                               : formFields[2].type === "inputPassword"
-                              ? "password"
-                              : "text"
+                                ? "password"
+                                : "text"
                           }
                           placeholder={
                             formFields[2].type === "inputEmail"
                               ? "name@email.com"
                               : formFields[2].type === "inputPassword"
-                              ? "Enter your password"
-                              : formFields[2]?.name
+                                ? "Enter your password"
+                                : formFields[2]?.name
                           }
                           name={formFields[2]?.name}
                         />
@@ -217,15 +221,15 @@ function VariantD({
                             formFields[3].type === "inputEmail"
                               ? "email"
                               : formFields[3].type === "inputPassword"
-                              ? "password"
-                              : "text"
+                                ? "password"
+                                : "text"
                           }
                           placeholder={
                             formFields[3].type === "inputEmail"
                               ? "name@email.com"
                               : formFields[3].type === "inputPassword"
-                              ? "Enter your password"
-                              : formFields[3]?.name
+                                ? "Enter your password"
+                                : formFields[3]?.name
                           }
                           name={formFields[3]?.name}
                         />
@@ -257,15 +261,15 @@ function VariantD({
                             formFields[4].type === "inputEmail"
                               ? "email"
                               : formFields[4].type === "inputPassword"
-                              ? "password"
-                              : "text"
+                                ? "password"
+                                : "text"
                           }
                           placeholder={
                             formFields[4].type === "inputEmail"
                               ? "name@email.com"
                               : formFields[4].type === "inputPassword"
-                              ? "Enter your password"
-                              : formFields[4]?.name
+                                ? "Enter your password"
+                                : formFields[4]?.name
                           }
                           name={formFields[4]?.name}
                         />
@@ -288,66 +292,39 @@ function VariantD({
                   </p>
                 </div>
               )}
-              {links &&
-                (links.length > 1 ? (
-                  <p className="text-center text-gray-400">
-                    {links?.[0](
+              {links && (
+                <p className="text-center text-gray-400">
+                  {links?.map((link, index, { length }) => (
+                    <>
                       <a
-                        className="text-webriq-darkblue hover:text-webriq-darkblue"
+                        className="text-webriq-darkblue hover:text-webriq-darkblue font-bold"
+                        target={link?.linkTarget}
+                        rel={
+                          link?.linkTarget === "_blank"
+                            ? "noopener noreferrer"
+                            : null
+                        }
+                        key={index}
                         href={
-                          links[0].type === "linkExternal"
-                            ? links[0]?.externalLink
-                            : links[0].type === "linkInternal"
-                            ? links[0].internalLink === "Home" ||
-                              links[0].internalLink === "home"
-                              ? "/"
-                              : links[0]?.internalLink
-                            : "page-not-found"
+                          link?.type === "linkExternal"
+                            ? link?.externalLink
+                            : link?.type === "linkInternal"
+                              ? link?.internalLink === "Home" ||
+                                link?.internalLink === "home"
+                                ? "/"
+                                : link?.internalLink
+                              : "page-not-found"
                         }
                       >
-                        {links[0]?.label}
+                        {link?.label}
                       </a>
-                    )}
-                    <span>&nbsp;and&nbsp;</span>
-                    {links?.[1](
-                      <a
-                        className="text-webriq-darkblue hover:text-webriq-darkblue"
-                        href={
-                          links[1].type === "linkExternal"
-                            ? links[1]?.externalLink
-                            : links[1].type === "linkInternal"
-                            ? links[1].internalLink === "Home" ||
-                              links[1].internalLink === "home"
-                              ? "/"
-                              : links[1]?.internalLink
-                            : "page-not-found"
-                        }
-                      >
-                        {links[1]?.label}
-                      </a>
-                    )}
-                  </p>
-                ) : (
-                  <p className="text-center text-gray-400">
-                    {links?.[0] && (
-                      <a
-                        className="text-webriq-darkblue hover:text-webriq-darkblue"
-                        href={
-                          links[0].type === "linkExternal"
-                            ? links[0]?.externalLink
-                            : links[0].type === "linkInternal"
-                            ? links[0].internalLink === "Home" ||
-                              links[0].internalLink === "home"
-                              ? "/"
-                              : links[0]?.internalLink
-                            : "page-not-found"
-                        }
-                      >
-                        {links[0]?.label}
-                      </a>
-                    )}
-                  </p>
-                ))}
+                      {index + 1 !== length ? (
+                        <span>&nbsp;and&nbsp;</span>
+                      ) : null}
+                    </>
+                  ))}
+                </p>
+              )}
             </div>
           </div>
         </div>

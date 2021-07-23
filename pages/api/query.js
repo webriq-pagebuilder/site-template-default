@@ -1,4 +1,4 @@
-import { groq } from "next-sanity"
+import { groq } from "next-sanity";
 const allProjections = `
 {
   ...,
@@ -26,18 +26,21 @@ const allProjections = `
         "arrImages": images,
         primaryButton {
           label,
+          linkTarget,
           "type": link.condition,
           "internalLink": link.linkInternal->slug.current,
           "externalLink": link.linkExternal
         },
         secondaryButton {
           label,
+          linkTarget,
           "type": link.condition,
           "internalLink": link.linkInternal->slug.current,
           "externalLink": link.linkExternal
         }, 
         routes[]{
           label,
+          linkTarget,
           "type": link.condition,
           "internalLink": link.linkInternal->slug.current,
           "externalLink": link.linkExternal
@@ -47,6 +50,7 @@ const allProjections = `
         ...,
         primaryButton {
         label,
+        linkTarget,
         "type": link.condition,
         "internalLink": link.linkInternal->slug.current,
         "externalLink": link.linkExternal
@@ -62,6 +66,7 @@ const allProjections = `
       }, 
       formLinks[] {
         label,
+        linkTarget,
         "type": link.condition,
         "externalLink": link.linkExternal,
         "internalLink": link.linkInternal->slug.current
@@ -85,6 +90,7 @@ const allProjections = `
       },
       menu[] {
         label,
+        linkTarget,
         "type": link.condition,
         "externalLink": link.linkExternal,
         "internalLink": link.linkInternal->slug.current
@@ -99,18 +105,21 @@ const allProjections = `
       "arrImages": images,
       routes[]{
         label,
+        linkTarget,
         "type": link.condition,
         "internalLink": link.linkInternal->slug.current,
         "externalLink": link.linkExternal
       },
       primaryButton {
         label,
+        linkTarget,
         "type": link.condition,
         "internalLink": link.linkInternal->slug.current,
         "externalLink": link.linkExternal
       },
       secondaryButton {
         label,
+        linkTarget,
         "type": link.condition,
         "internalLink": link.linkInternal->slug.current,
         "externalLink": link.linkExternal
@@ -120,6 +129,7 @@ const allProjections = `
         ...,
         primaryButton {
         label,
+        linkTarget,
         "type": link.condition,
         "internalLink": link.linkInternal->slug.current,
         "externalLink": link.linkExternal
@@ -135,6 +145,7 @@ const allProjections = `
       },
       formLinks[] {
         label,
+        linkTarget,
         "type": link.condition,
         "externalLink": link.linkExternal,
         "internalLink": link.linkInternal->slug.current
@@ -146,6 +157,7 @@ const allProjections = `
       faqsWithCategory[],
       menu[] {
         label,
+        linkTarget,
         "type": link.condition,
         "externalLink": link.linkExternal,
         "internalLink": link.linkInternal->slug.current
@@ -164,18 +176,21 @@ const allProjections = `
       "arrImages": images,
       routes[]{
         label,
+        linkTarget,
         "type": link.condition,
         "internalLink": link.linkInternal->slug.current,
         "externalLink": link.linkExternal
       },
       primaryButton {
         label,
+        linkTarget,
         "type": link.condition,
         "internalLink": link.linkInternal->slug.current,
         "externalLink": link.linkExternal
       },
       secondaryButton {
         label,
+        linkTarget,
         "type": link.condition,
         "internalLink": link.linkInternal->slug.current,
         "externalLink": link.linkExternal
@@ -185,6 +200,7 @@ const allProjections = `
         ...,
         primaryButton {
         label,
+        linkTarget,
         "type": link.condition,
         "internalLink": link.linkInternal->slug.current,
         "externalLink": link.linkExternal
@@ -202,12 +218,14 @@ const allProjections = `
       },
       formLinks[] {
         label,
+        linkTarget,
         "type": link.condition,
         "externalLink": link.linkExternal,
         "internalLink": link.linkInternal->slug.current
       },
       menu[] {
         label,
+        linkTarget,
         "type": link.condition,
         "externalLink": link.linkExternal,
         "internalLink": link.linkInternal->slug.current
@@ -231,16 +249,25 @@ const allProjections = `
  
       routes[]{
         label,
+        linkTarget,
         "type": link.condition,
         "internalLink": link.linkInternal->slug.current,
         "externalLink": link.linkExternal
       },
       primaryButton {
         label,
+        linkTarget,
         "type": link.condition,
         "internalLink": link.linkInternal->slug.current,
         "externalLink": link.linkExternal
       },  
+      secondaryButton {
+        label,
+        linkTarget,
+        "type": link.condition,
+        "internalLink": link.linkInternal->slug.current,
+        "externalLink": link.linkExternal
+      },
       "arrImages": images,
       "featuredItems": arrayOfTitleAndDescription,
       copyright,
@@ -254,6 +281,7 @@ const allProjections = `
       },
       formLinks[] {
         label,
+        linkTarget,
         "type": link.condition,
         "externalLink": link.linkExternal,
         "internalLink": link.linkInternal->slug.current
@@ -265,6 +293,7 @@ const allProjections = `
       },
       menu[] {
         label,
+        linkTarget,
         "type": link.condition,
         "externalLink": link.linkExternal,
         "internalLink": link.linkInternal->slug.current
@@ -284,18 +313,21 @@ const allProjections = `
       },
       primaryButton {
         label,
+        linkTarget,
         "type": link.condition,
         "internalLink": link.linkInternal->slug.current,
         "externalLink": link.linkExternal
       },
       secondaryButton {
         label,
+        linkTarget,
         "type": link.condition,
         "internalLink": link.linkInternal->slug.current,
         "externalLink": link.linkExternal
       },
       formLinks[] {
         label,
+        linkTarget,
         "type": link.condition,
         "externalLink": link.linkExternal,
         "internalLink": link.linkInternal->slug.current
@@ -306,17 +338,24 @@ const allProjections = `
       heading,
       images,
       firstButton,
-      secondButton, 
+      secondButton,
+      primaryButton {
+        label,
+        linkTarget,
+        "type": link.condition,
+        "internalLink": link.linkInternal->slug.current,
+        "externalLink": link.linkExternal
+      },
     },
   }
 }
 }
-`
+`;
 
 export const homeQuery = groq`
   *[_type == "page" && (slug.current == "home" || slug.current == "Home") ] ${allProjections}
-`
+`;
 
 export const slugQuery = groq`
   *[_type == "page" && slug.current == $slug][0] ${allProjections}
-`
+`;
