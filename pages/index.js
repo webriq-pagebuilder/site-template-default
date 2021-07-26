@@ -3,7 +3,6 @@ import Head from "next/head"
 import dynamic from "next/dynamic"
 import { homeQuery } from "./api/query"
 import { getClient, usePreviewSubscription } from "../lib/sanity"
-import SEO from "../component/SEO"
 
 const Components = {
   navigation: dynamic(() => import("../component/sections/navigation")),
@@ -28,6 +27,7 @@ const Components = {
   textComponent: dynamic(() => import("component/sections/text_component"))
 };
 
+const SEO = dynamic(() => import("component/SEO"))
 
 function Home({ data, preview }) {
   const { data: page } = usePreviewSubscription(homeQuery, {
@@ -45,7 +45,7 @@ function Home({ data, preview }) {
   return (
     <>
       <Head>
-        <title>{seo?.seoTitle || title}</title>
+        <title>{seo?.seoTitle ?? title}</title>
         <SEO data={pageData} />
       </Head>
       {sections?.map((section) => {
