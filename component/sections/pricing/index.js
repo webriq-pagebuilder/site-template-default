@@ -5,7 +5,7 @@ import {loadStripe} from '@stripe/stripe-js';
 
 function Pricing({ data, published }) {
   const variant = data?.variants?.variant  
-  const stripePromise = loadStripe("pk_test_51JDL3ZLisY7c4Rogu5n4AXHiExRPAnoBHWnKDGk9sC6rHz0dddWe4gEaoSxut0b8Hh1GY1c4sb9MMgaYTnQAoj9D00ebJ62hRD")
+  const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PKEY)
   const Variant = dynamic(() => import(`./${variant}`))
   const {_type} = data
   const props = {
