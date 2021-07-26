@@ -1,6 +1,6 @@
 import Stripe from 'stripe';
 
-const stripe = new Stripe("sk_test_51JDL3ZLisY7c4Rog1d5sPV3O7yTjNOv402Nzy2kWq3tM67lCzLFC2PoW4zLcyXtQkasunU83nGCWyYS9HFrAJXRf00cwhVejxf")
+const stripe = new Stripe(process.env.NEXT_PUBLIC_STRIPE_SKEY)
 
 export default async (req, res) => {
     const {plans, section} = req.body

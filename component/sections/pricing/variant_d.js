@@ -26,24 +26,10 @@ function VariantD({
   const elements = useElements();
   const [banners, setBanners] = React.useState(0);
   const [billing, setBilling] = React.useState({amount: 0, billType: ''})
-  console.log(billing)
-  const [billing_details, setBilling_details] = React.useState({
-    address: {
-      city: '',
-      country: '',
-      line1: '',
-      line2: '',
-      postal_code: '',
-      state: '',
-    },
-    email: '',
-    name: '',
-    phone: ''
-  })
+
   const handleChange = (e) => {
     e.target.value === monthlyBilling ? setBilling({amount: e.target.value, billType: "Monthly"}) : setBilling({amount: e.target.value, billType: "Annual"})
   };
-  console.log(billing.amount)
   const handleSubmit = async (e) => {
     e.preventDefault();
     const {error, paymentMethod} = await stripe.createPaymentMethod({
@@ -54,10 +40,8 @@ function VariantD({
     if(!error){
       const {id} = paymentMethod
       try {
-        const {data} = await axios.post('/api/charge', {id, amount: billing.amount*100, description: `${billing.billType} - ${description}`, })
-        console.log(data)
-      } catch (error) {
-        console.log(error)
+        const {data} = await axios.post('/api/charge', {id, amount: billing.amount*100, description: `${billing.billType} - ${description}`, })  
+      } catch (error) {   
       }
     }
   }
