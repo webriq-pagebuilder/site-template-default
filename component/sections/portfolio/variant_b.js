@@ -8,7 +8,7 @@ function VariantB({caption, title, portfolios, buttonLabel}) {
   const handleViewMoreProjects = () => {
     viewPortfolios !== portfolios.length - 1 // Check index length
       ? setViewPortfolios(portfolios.length)
-      : setViewPortfolios(portfolioLength);
+      : setViewPortfolios(portfolioLength)
   };
 
   return (
@@ -30,13 +30,18 @@ function VariantB({caption, title, portfolios, buttonLabel}) {
               {caption && <span className="text-webriq-blue font-bold">{caption}</span>}
               {title && <h2 className="text-4xl lg:text-5xl font-bold font-heading">{title}</h2>}
             </div>
-            {portfolios.length === viewPortfolios || portfolios.length < portfolioLength ? null : (
-              <button 
-                className="hidden md:inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-gray-50 font-bold leading-loose transition duration-200" 
-                onClick={handleViewMoreProjects}
-              >
-                {buttonLabel ?? "View More Projects"}
-              </button>
+            {portfolios && (
+              <div>
+                {portfolios?.length === viewPortfolios || portfolios?.length < portfolioLength ? null : (
+                  <button 
+                    id={buttonLabel}
+                    className="hidden md:inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-gray-50 font-bold leading-loose transition duration-200" 
+                    onClick={handleViewMoreProjects}
+                  >
+                    {buttonLabel ?? "View More Projects"}
+                  </button>
+                )}
+              </div>
             )}
           </div>
           {portfolios && (
