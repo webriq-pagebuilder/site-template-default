@@ -21,11 +21,11 @@ function SEO({ data, slug }) {
       <meta property="og:description" content={seo?.seoDescription} />
       <meta property="og:image" content={urlFor(seo?.seoImage)?.width(500)?.url()} />
       {/* Twitter */}
-      <meta property="twitter:card" content="summary_large_image" />
-      <meta property="twitter:url" content={url} />
-      <meta property="twitter:title" content={seo?.seoTitle ?? title} />
-      <meta property="twitter:description" content={seo?.seoDescription} />
-      <meta property="twitter:image" content={urlFor(seo?.seoImage)?.width(500)?.url()} />
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:url" content={url} />
+      <meta name="twitter:title" content={seo?.seoTitle ?? title} />
+      <meta name="twitter:description" content={seo?.seoDescription} />
+      <meta name="twitter:image" content={urlFor(seo?.seoImage)?.width(500)?.url()} />
     </>
   );
 }
