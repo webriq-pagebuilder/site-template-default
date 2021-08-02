@@ -1,4 +1,287 @@
 import { groq } from "next-sanity";
+
+const variant_a = `
+  variant_a {
+    ...,
+    "featuredItems": arrayOfTitleAndDescription,
+    "arrImages": images,
+    primaryButton {
+      ...,
+      "type": link.condition,
+      "internalLink": link.linkInternal->slug.current,
+      "externalLink": link.linkExternal
+    },
+    secondaryButton {
+      ...,
+      "type": link.condition,
+      "internalLink": link.linkInternal->slug.current,
+      "externalLink": link.linkExternal
+    },
+    routes[] {
+      ...,
+      "type": link.condition,
+      "internalLink": link.linkInternal->slug.current,
+      "externalLink": link.linkExternal
+    },
+    plans[] {
+      ...,
+      primaryButton {
+        ...,
+        "type": link.condition,
+        "internalLink": link.linkInternal->slug.current,
+        "externalLink": link.linkExternal
+      },
+    },
+    formLinks[] {
+      ...,
+      "type": link.condition,
+      "externalLink": link.linkExternal,
+      "internalLink": link.linkInternal->slug.current
+    },
+    arrayOfTitleAndText[] {
+      ...,
+      "title": heading,
+      "content": plainText
+    },
+    menu[] {
+      ...,
+      "type": link.condition,
+      "externalLink": link.linkExternal,
+      "internalLink": link.linkInternal->slug.current
+    },
+    portfolios[] {
+      ...,
+      content[] {
+        ...,
+        primaryButton {
+          ...,
+          "type": link.condition,
+          "internalLink": link.linkInternal->slug.current,
+          "externalLink": link.linkExternal
+        },
+      },
+    },
+  },
+`;
+
+const variant_b = `
+  variant_b {
+    ...,
+    "arrImages": images,
+    routes[] {
+      ...,
+      "type": link.condition,
+      "internalLink": link.linkInternal->slug.current,
+      "externalLink": link.linkExternal
+    },
+    primaryButton {
+      ...,
+      "type": link.condition,
+      "internalLink": link.linkInternal->slug.current,
+      "externalLink": link.linkExternal
+    },
+    secondaryButton {
+      ...,
+      "type": link.condition,
+      "internalLink": link.linkInternal->slug.current,
+      "externalLink": link.linkExternal
+    },
+    "featuredItems": arrayOfTitleAndDescription,
+    plans[] {
+      ...,
+      primaryButton {
+        ...,
+        "type": link.condition,
+        "internalLink": link.linkInternal->slug.current,
+        "externalLink": link.linkExternal
+      },
+    },
+    formLinks[] {
+      ...,
+      "type": link.condition,
+      "externalLink": link.linkExternal,
+      "internalLink": link.linkInternal->slug.current
+    },
+    menu[] {
+      ...,
+      "type": link.condition,
+      "externalLink": link.linkExternal,
+      "internalLink": link.linkInternal->slug.current
+    },
+    arrayOfTitleAndText[] {
+      ...,
+      "title": heading,
+      "content": plainText
+    },
+    portfolios[] {
+      ...,
+      primaryButton {
+        ...,
+        "type": link.condition,
+        "internalLink": link.linkInternal->slug.current,
+        "externalLink": link.linkExternal
+      },
+    },
+  },
+`;
+
+const variant_c = `
+  variant_c {
+    ...,
+    "arrImages": images,
+    routes[] {
+      ...,
+      "type": link.condition,
+      "internalLink": link.linkInternal->slug.current,
+      "externalLink": link.linkExternal
+    },
+    primaryButton {
+      ...,
+      "type": link.condition,
+      "internalLink": link.linkInternal->slug.current,
+      "externalLink": link.linkExternal
+    },
+    secondaryButton {
+      ...,
+      "type": link.condition,
+      "internalLink": link.linkInternal->slug.current,
+      "externalLink": link.linkExternal
+    },
+    "featuredItems": arrayOfTitleAndDescription,
+    plans[] {
+      ...,
+      primaryButton {
+        ...,
+        "type": link.condition,
+        "internalLink": link.linkInternal->slug.current,
+        "externalLink": link.linkExternal
+      },
+    },
+    formLinks[] {
+      ...,
+      "type": link.condition,
+      "externalLink": link.linkExternal,
+      "internalLink": link.linkInternal->slug.current
+    },
+    menu[] {
+      ...,
+      "type": link.condition,
+      "externalLink": link.linkExternal,
+      "internalLink": link.linkInternal->slug.current
+    },
+    arrayOfTitleAndText[] {
+      ...,
+      "title": heading,
+      "content": plainText
+    },
+    portfolios[] {
+      ...,
+      primaryButton {
+        ...,
+        "type": link.condition,
+        "internalLink": link.linkInternal->slug.current,
+        "externalLink": link.linkExternal
+      },
+    },      
+  },
+`;
+
+const variant_d = `
+  variant_d {
+    ...,
+    routes[] {
+      ...,
+      "type": link.condition,
+      "internalLink": link.linkInternal->slug.current,
+      "externalLink": link.linkExternal
+    },
+    primaryButton {
+      ...,
+      "type": link.condition,
+      "internalLink": link.linkInternal->slug.current,
+      "externalLink": link.linkExternal
+    },  
+    secondaryButton {
+      ...,
+      "type": link.condition,
+      "internalLink": link.linkInternal->slug.current,
+      "externalLink": link.linkExternal
+    },
+    "arrImages": images,
+    "featuredItems": arrayOfTitleAndDescription,
+    formLinks[] {
+      ...,
+      "type": link.condition,
+      "externalLink": link.linkExternal,
+      "internalLink": link.linkInternal->slug.current
+    },
+    menu[] {
+      ...,
+      "type": link.condition,
+      "externalLink": link.linkExternal,
+      "internalLink": link.linkInternal->slug.current
+    },
+    arrayOfTitleAndText[] {
+      ...,
+      "title": heading,
+      "content": plainText
+    },
+    portfolios[] {
+      ...,
+      content[] {
+        ...,
+        primaryButton {
+          ...,
+          "type": link.condition,
+          "internalLink": link.linkInternal->slug.current,
+          "externalLink": link.linkExternal
+        },
+      },
+    },     
+  },
+`;
+
+const variant_e = `
+  variant_e {
+    ...,
+    arrayOfTitleAndText[] {
+      ...,
+      "title": heading,
+      "content": plainText
+    },
+    primaryButton {
+      ...,
+      "type": link.condition,
+      "internalLink": link.linkInternal->slug.current,
+      "externalLink": link.linkExternal
+    },
+    secondaryButton {
+      ...,
+      "type": link.condition,
+      "internalLink": link.linkInternal->slug.current,
+      "externalLink": link.linkExternal
+    },
+    formLinks[] {
+      ...,
+      "type": link.condition,
+      "externalLink": link.linkExternal,
+      "internalLink": link.linkInternal->slug.current
+    },
+  },
+`;
+
+const variant_f = `
+  variant_f {
+    ...,
+    primaryButton {
+      ...,
+      "type": link.condition,
+      "internalLink": link.linkInternal->slug.current,
+      "externalLink": link.linkExternal
+    },
+  },
+`;
+
 const allProjections = `
 {
   ...,
@@ -10,345 +293,14 @@ const allProjections = `
     variants {
       ...,
       "variant": condition,
-      variant_a {
-        ...,
-        heading,
-        description,
-        logo,
-        plainText,
-        acceptButtonLabel,
-        declineButtonLabel,
-        subtitle,
-        url,
-        copyright,
-        socialLinks,
-        "featuredItems": arrayOfTitleAndDescription,
-        "arrImages": images,
-        primaryButton {
-          label,
-          linkTarget,
-          "type": link.condition,
-          "internalLink": link.linkInternal->slug.current,
-          "externalLink": link.linkExternal
-        },
-        secondaryButton {
-          label,
-          linkTarget,
-          "type": link.condition,
-          "internalLink": link.linkInternal->slug.current,
-          "externalLink": link.linkExternal
-        }, 
-        routes[]{
-          label,
-          linkTarget,
-          "type": link.condition,
-          "internalLink": link.linkInternal->slug.current,
-          "externalLink": link.linkExternal
-        },
-          
-      plans[]{
-        ...,
-        primaryButton {
-        label,
-        linkTarget,
-        "type": link.condition,
-        "internalLink": link.linkInternal->slug.current,
-        "externalLink": link.linkExternal
-        },
-      },
-       form {
-          id,
-          name,
-          fields[] {
-            name,
-            type
-          }        
-      }, 
-      formLinks[] {
-        label,
-        linkTarget,
-        "type": link.condition,
-        "externalLink": link.linkExternal,
-        "internalLink": link.linkInternal->slug.current
-      },
-      askedQuestions[] {
-        answer,
-        question
-      },
-      arrayOfTitleAndText[] {
-        "title": heading,
-        "content": plainText
-      },
-      statItems[] {
-        label,
-        value
-      },
-      contactDetails[] {
-        addressInfo,
-        contactInfo,
-        emailInfo
-      },
-      menu[] {
-        label,
-        linkTarget,
-        "type": link.condition,
-        "externalLink": link.linkExternal,
-        "internalLink": link.linkInternal->slug.current
-      },        
+      ${variant_a}
+      ${variant_b}
+      ${variant_c}
+      ${variant_d}
+      ${variant_e}
+      ${variant_f}
     },
-    variant_b {
-      ...,
-      heading,
-      description,
-      logo,
-      socialLinks,
-      "arrImages": images,
-      routes[]{
-        label,
-        linkTarget,
-        "type": link.condition,
-        "internalLink": link.linkInternal->slug.current,
-        "externalLink": link.linkExternal
-      },
-      primaryButton {
-        label,
-        linkTarget,
-        "type": link.condition,
-        "internalLink": link.linkInternal->slug.current,
-        "externalLink": link.linkExternal
-      },
-      secondaryButton {
-        label,
-        linkTarget,
-        "type": link.condition,
-        "internalLink": link.linkInternal->slug.current,
-        "externalLink": link.linkExternal
-      },
-      "featuredItems": arrayOfTitleAndDescription,
-      plans[]{
-        ...,
-        primaryButton {
-        label,
-        linkTarget,
-        "type": link.condition,
-        "internalLink": link.linkInternal->slug.current,
-        "externalLink": link.linkExternal
-        },
-      },
-      form {
-        id,
-        name,
-        fields[] {
-          name,
-          type
-        }
-      },
-      formLinks[] {
-        label,
-        linkTarget,
-        "type": link.condition,
-        "externalLink": link.linkExternal,
-        "internalLink": link.linkInternal->slug.current
-      },
-      statItems[] {
-        label,
-        value
-      },
-      faqsWithCategory[],
-      menu[] {
-        label,
-        linkTarget,
-        "type": link.condition,
-        "externalLink": link.linkExternal,
-        "internalLink": link.linkInternal->slug.current
-      },
-      arrayOfTitleAndText[] {
-        "title": heading,
-        "content": plainText
-      },      
-    },
-    variant_c {
-      ...,
-      heading,
-      copyright,
-      plainText,
-      socialLinks,
-      "arrImages": images,
-      routes[]{
-        label,
-        linkTarget,
-        "type": link.condition,
-        "internalLink": link.linkInternal->slug.current,
-        "externalLink": link.linkExternal
-      },
-      primaryButton {
-        label,
-        linkTarget,
-        "type": link.condition,
-        "internalLink": link.linkInternal->slug.current,
-        "externalLink": link.linkExternal
-      },
-      secondaryButton {
-        label,
-        linkTarget,
-        "type": link.condition,
-        "internalLink": link.linkInternal->slug.current,
-        "externalLink": link.linkExternal
-      },
-      "featuredItems": arrayOfTitleAndDescription,
-      plans[]{
-        ...,
-        primaryButton {
-        label,
-        linkTarget,
-        "type": link.condition,
-        "internalLink": link.linkInternal->slug.current,
-        "externalLink": link.linkExternal
-        },
-      },
-      logo,
-      tags[],
-      form {
-        id,
-        name,
-        fields[] {
-          name,
-          type
-        }
-      },
-      formLinks[] {
-        label,
-        linkTarget,
-        "type": link.condition,
-        "externalLink": link.linkExternal,
-        "internalLink": link.linkInternal->slug.current
-      },
-      menu[] {
-        label,
-        linkTarget,
-        "type": link.condition,
-        "externalLink": link.linkExternal,
-        "internalLink": link.linkInternal->slug.current
-      },
-      statItems[] {
-        label,
-        value
-      },
-      arrayOfTitleAndText[] {
-        "title": heading,
-        "content": plainText
-      },      
-    },
-    variant_d {
-      ...,
-      heading,
-      plainText,
-      logo,
-      tags[],
-      socialLinks,
- 
-      routes[]{
-        label,
-        linkTarget,
-        "type": link.condition,
-        "internalLink": link.linkInternal->slug.current,
-        "externalLink": link.linkExternal
-      },
-      primaryButton {
-        label,
-        linkTarget,
-        "type": link.condition,
-        "internalLink": link.linkInternal->slug.current,
-        "externalLink": link.linkExternal
-      },  
-      secondaryButton {
-        label,
-        linkTarget,
-        "type": link.condition,
-        "internalLink": link.linkInternal->slug.current,
-        "externalLink": link.linkExternal
-      },
-      "arrImages": images,
-      "featuredItems": arrayOfTitleAndDescription,
-      copyright,
-      form {
-        id,
-        name,
-        fields[] {
-          name,
-          type
-        }
-      },
-      formLinks[] {
-        label,
-        linkTarget,
-        "type": link.condition,
-        "externalLink": link.linkExternal,
-        "internalLink": link.linkInternal->slug.current
-      },
-      contactDetails[] {
-        addressInfo,
-        contactInfo,
-        emailInfo
-      },
-      menu[] {
-        label,
-        linkTarget,
-        "type": link.condition,
-        "externalLink": link.linkExternal,
-        "internalLink": link.linkInternal->slug.current
-      },
-      arrayOfTitleAndText[] {
-        "title": heading,
-        "content": plainText
-      }     
-    },
-    variant_e {
-      ...,
-      subtitle,
-      heading,
-      arrayOfTitleAndText[] {
-        "title": heading,
-        "content": plainText
-      },
-      primaryButton {
-        label,
-        linkTarget,
-        "type": link.condition,
-        "internalLink": link.linkInternal->slug.current,
-        "externalLink": link.linkExternal
-      },
-      secondaryButton {
-        label,
-        linkTarget,
-        "type": link.condition,
-        "internalLink": link.linkInternal->slug.current,
-        "externalLink": link.linkExternal
-      },
-      formLinks[] {
-        label,
-        linkTarget,
-        "type": link.condition,
-        "externalLink": link.linkExternal,
-        "internalLink": link.linkInternal->slug.current
-      },
-    },
-    variant_f {
-      ...,
-      heading,
-      images,
-      acceptButtonLabel,
-      declineButtonLabel,
-      primaryButton {
-        label,
-        linkTarget,
-        "type": link.condition,
-        "internalLink": link.linkInternal->slug.current,
-        "externalLink": link.linkExternal
-      },
-    },
-  }
-}
+  },
 }
 `;
 
