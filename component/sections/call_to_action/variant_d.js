@@ -73,9 +73,9 @@ function VariantD({
                       <span className="text-sm text-gray-400">Sign Up</span>
                       <h4 className="text-2xl">Create an account</h4>
                     </div>
-                    <div className="mb-4 flex flex-wrap -mx-2">
+                    <div className="mb-3 flex flex-wrap -mx-2">
                       {formFields?.[0] && formFields[0]?.name && (
-                        <div className="mb-3 w-full lg:w-1/2 px-2">
+                        <div className="w-full lg:w-1/2 px-2">
                           {formFields[0].type === "textarea" ? (
                             <textarea
                               className="w-full p-4 text-xs bg-gray-100 outline-none rounded"
@@ -115,7 +115,7 @@ function VariantD({
                         </div>
                       )}
                       {formFields?.[1] && formFields[1]?.name && (
-                        <div className="mb-3 w-full lg:w-1/2 px-2">
+                        <div className="w-full lg:w-1/2 px-2">
                           {formFields[1].type === "textarea" ? (
                             <textarea
                               className="w-full p-4 text-xs bg-gray-100 outline-none rounded"
@@ -165,7 +165,7 @@ function VariantD({
                           name={formFields[2]?.name}
                         />
                       ) : formFields[2].type === "inputFile" ? (
-                        <div className="mb-4">
+                        <div className="mb-3">
                           <label className="flex px-2 bg-gray-100 rounded">
                             <input
                               className="w-full p-4 text-xs bg-gray-100 outline-none rounded"
@@ -205,7 +205,7 @@ function VariantD({
                           name={formFields[3]?.name}
                         />
                       ) : formFields[3].type === "inputFile" ? (
-                        <div className="mb-4">
+                        <div className="mb-3">
                           <label className="flex px-2 bg-gray-100 rounded">
                             <input
                               className="w-full p-4 text-xs bg-gray-100 outline-none rounded"
@@ -245,7 +245,7 @@ function VariantD({
                           name={formFields[4]?.name}
                         />
                       ) : formFields[4].type === "inputFile" ? (
-                        <div className="mb-4">
+                        <div className="mb-3">
                           <label className="flex px-2 bg-gray-100 rounded">
                             <input
                               className="w-full p-4 text-xs bg-gray-100 outline-none rounded"
