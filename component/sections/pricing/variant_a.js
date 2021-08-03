@@ -2,36 +2,32 @@ import React from "react";
 import axios from 'axios'
 import { initiateCheckout } from "lib/checkout";
 
-
-function VariantA({ caption, title, description, plans, published, section }) {
+function VariantA({ caption, title, description, plans, stripePKey, stripeSKey, published }) {
+  
   const [plan, setPlan] = React.useState("monthly");
   const [subscriptionProducts, setSubscriptionProducts] = React.useState(null)
   
-  React.useEffect(() => {
-    async function create () {
-        const createProduct = await axios.post('/api/products/subscriptions/create', {plans, section})
-        setSubscriptionProducts(createProduct.data)
+  React.useEffect(() => {  
+     async function getList () {
+        const getProductList = await axios.get('/api/stripe-products/getList', { params: {apiKey: stripeSKey}})
+        setSubscriptionProducts(getProductList.data.data)
     };
-    published && create()
+    published && getList()
   }, [published])
 
+  
   React.useEffect(() => {
-    plans?.map(plan =>     
-      subscriptionProducts?.map((subscriptionProduct, index) => 
-          {
-            plan.planType === subscriptionProduct.name &&
-            subscriptionProduct.price.recurring.interval === 'month' ? 
-            plan['monthly_price'] =  subscriptionProduct.price.id : null
+    subscriptionProducts?.map(price => {
+      plans?.map(plan => {
+        price?.product === `dxpstudio-pricing-${plan?._key}-${plan?.planType?.replace(/ /g, "-")}` && 
+        price?.recurring.interval === 'month' ? plan['monthly_price']  = price?.id : null
 
-            plan.planType === subscriptionProduct.name &&
-            subscriptionProduct.price.recurring.interval === 'year' ? 
-            plan['yearly_price'] =  subscriptionProduct.price.id : null
-          }                 
-        )
-      )
-  }, [subscriptionProducts, plans])
-  console.log(subscriptionProducts)
-  console.log(plans)
+        price?.product === `dxpstudio-pricing-${plan?._key}-${plan?.planType?.replace(/ /g, "-")}` && 
+        price?.recurring.interval === 'year' ? plan['yearly_price']  = price?.id : null
+      })
+    })        
+  }, [subscriptionProducts])
+
   return (
     <section>
       <div className="skew skew-top mr-for-radius">
@@ -62,7 +58,7 @@ function VariantA({ caption, title, description, plans, published, section }) {
               {title && title}
             </h2>
             <p className="mb-6 text-gray-500">{description && description}</p>
-            {plans?.[0]?.price && (
+            {plans?.[0]?.monthlyPrice && (
               <div className="inline-block py-1 px-1 bg-white rounded-lg">
                 <button
                   className={`mr-1 text-sm py-2 px-4 ${
@@ -88,22 +84,22 @@ function VariantA({ caption, title, description, plans, published, section }) {
             )}
           </div>
           <div className="flex flex-wrap -mx-4">
-            {plans?.[0]?.price && (
+            {plans?.[0]?.monthlyPrice && (
               <div className="w-full md:w-1/2 lg:w-1/3 px-4 mb-8 lg:mb-0">
                 <div className="p-8 bg-white shadow rounded">
                   <h4 className="mb-2 text-2xl font-bold font-heading">
                     {plans?.[0]?.planType}
                   </h4>
                   <span className="text-6xl font-bold">
-                    {isNaN(parseInt(plans?.[0]?.price))
-                      ? plans?.[0]?.price
+                    {isNaN(parseInt(plans?.[0]?.monthlyPrice))
+                      ? plans?.[0]?.monthlyPrice
                       : `$${
                           plan === "yearly"
-                            ? plans?.[0]?.price * 12
-                            : plans?.[0]?.price
+                            ? plans?.[0]?.yearlyPrice
+                            : plans?.[0]?.monthlyPrice
                         }`}
                   </span>
-                  {!isNaN(parseInt(plans?.[0]?.price)) && (
+                  {!isNaN(parseInt(plans?.[0]?.monthlyPrice)) && (
                     <span className="text-gray-400 text-xs">/{plan}</span>
                   )}
                   <p className="mt-3 mb-6 text-gray-500 leading-loose">
@@ -128,7 +124,7 @@ function VariantA({ caption, title, description, plans, published, section }) {
                       </li>
                     ))}
                   </ul>
-                  {plans?.[0]?.primaryButton?.label && (
+                  {plans?.[0]?.checkoutButtonName && (
                     <a
                       className="inline-block text-center py-2 px-4 w-full rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-loose transition duration-200 cursor-pointer"
                       // href={
@@ -147,9 +143,9 @@ function VariantA({ caption, title, description, plans, published, section }) {
                             quantity: 1                          
                           }
                         ]
-                      })}}
+                      }, stripePKey)}}
                     >
-                      {plans?.[0]?.primaryButton?.label}
+                      {plans?.[0]?.checkoutButtonName}
                     </a>
                   )}
                 </div>
@@ -162,15 +158,15 @@ function VariantA({ caption, title, description, plans, published, section }) {
                     {plans?.[1]?.planType}
                   </h4>
                   <span className="text-6xl font-bold text-white">
-                    {isNaN(parseInt(plans?.[1]?.price))
-                      ? plans?.[1]?.price
+                    {isNaN(parseInt(plans?.[1]?.monthlyPrice))
+                      ? plans?.[1]?.monthlyPrice
                       : `$${
                           plan === "yearly"
-                            ? plans?.[1]?.price * 12
-                            : plans?.[1]?.price
+                            ? plans?.[1]?.yearlyPrice
+                            : plans?.[1]?.monthlyPrice
                         }`}
                   </span>
-                  {!isNaN(parseInt(plans?.[1]?.price)) && (
+                  {!isNaN(parseInt(plans?.[1]?.monthlyPrice)) && (
                     <span className="text-gray-50 text-xs">/{plan}</span>
                   )}
                   <p className="mt-3 mb-6 leading-loose text-gray-50">
@@ -195,7 +191,7 @@ function VariantA({ caption, title, description, plans, published, section }) {
                       </li>
                     ))}
                   </ul>
-                  {plans?.[1]?.primaryButton?.label && (
+                  {plans?.[1]?.checkoutButtonName && (
                     <a
                       className="inline-block text-center py-2 px-4 w-full rounded-l-xl rounded-t-xl bg-white hover:bg-gray-50 font-bold leading-loose transition duration-200 cursor-pointer"
                       // href={
@@ -214,9 +210,9 @@ function VariantA({ caption, title, description, plans, published, section }) {
                             quantity: 1                          
                           }
                         ]
-                      })}}
+                      }, stripePKey)}}
                     >
-                      {plans?.[1]?.primaryButton?.label}
+                      {plans?.[1]?.checkoutButtonName}
                     </a>
                   )}
                 </div>
@@ -229,15 +225,15 @@ function VariantA({ caption, title, description, plans, published, section }) {
                     {plans?.[2]?.planType}
                   </h4>
                   <span className="text-6xl font-bold">
-                    {isNaN(parseInt(plans?.[2]?.price))
-                      ? plans?.[2]?.price
+                    {isNaN(parseInt(plans?.[2]?.monthlyPrice))
+                      ? plans?.[2]?.monthlyPrice
                       : `$${
                           plan === "yearly"
-                            ? plans?.[2]?.price * 12
-                            : plans?.[2]?.price
+                            ? plans?.[2]?.yearlyPrice
+                            : plans?.[2]?.monthlyPrice
                         }`}
                   </span>
-                  {!isNaN(parseInt(plans?.[2]?.price)) && (
+                  {!isNaN(parseInt(plans?.[2]?.monthlyPrice)) && (
                     <span className="text-gray-400 text-xs">/{plan}</span>
                   )}
                   <p className="mt-3 mb-6 text-gray-500 leading-loose">
@@ -271,9 +267,9 @@ function VariantA({ caption, title, description, plans, published, section }) {
                           quantity: 1                          
                         }
                       ]
-                    })}}
+                    }, stripePKey)}}
                   >
-                  {plans?.[2]?.primaryButton?.label}
+                  {plans?.[2]?.checkoutButtonName}
                   </a>
                 </div>
               </div>

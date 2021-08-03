@@ -75,7 +75,7 @@ function page({ data, preview }) {
               }}
               {...{ [section._type]: section }}
               data={section}
-              published={published[0]?._id?.split(".")[0] !== 'drafts' ? true : false}
+              published={published[0]?._id?.split(".")?.[0] !== 'drafts' ? true : false}
             />
           );
         })}
