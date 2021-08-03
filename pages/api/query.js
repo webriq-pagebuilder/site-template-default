@@ -61,6 +61,12 @@ const variant_a = `
         },
       },
     },
+    signinLink {
+      ...,
+      "type": link.condition,
+      "externalLink": link.linkExternal,
+      "internalLink": link.linkInternal->slug.current
+    },
   },
 `;
 
@@ -121,6 +127,12 @@ const variant_b = `
         "internalLink": link.linkInternal->slug.current,
         "externalLink": link.linkExternal
       },
+    },
+    signinLink {
+      ...,
+      "type": link.condition,
+      "externalLink": link.linkExternal,
+      "internalLink": link.linkInternal->slug.current
     },
   },
 `;
@@ -237,6 +249,12 @@ const variant_d = `
           "externalLink": link.linkExternal
         },
       },
+    },
+    signinLink {
+      ...,
+      "type": link.condition,
+      "externalLink": link.linkExternal,
+      "internalLink": link.linkInternal->slug.current
     },     
   },
 `;
