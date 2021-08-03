@@ -21,6 +21,8 @@ function Pricing({ data }) {
     monthlyBilling: data?.variants?.[variant]?.monthlyBilling,
     banner: data?.variants?.[variant]?.banner,
     form: data?.variants?.[variant]?.form,
+    block: data?.variants?.[variant]?.block,
+    signInLink: data?.variants?.[variant]?.signinLink,
   };
 
   return Variant ? <Variant {...props} /> : null;

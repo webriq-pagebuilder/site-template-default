@@ -11,6 +11,7 @@ function VariantD({
   formId,
   formName,
   links,
+  signInLink
 }) {
   return (
     <section className="py-20 px-10 bg-gray-50">
@@ -286,8 +287,21 @@ function VariantD({
                   </WebriQForm>
                   <p className="text-xs text-gray-400">
                     <span>Already have an account?</span>
-                    <a className="text-webriq-blue" href="#">
-                      &nbsp;Sign In
+                    <a 
+                      className="text-webriq-blue" 
+                      target={signInLink?.linkTarget}
+                      rel={signInLink?.linkTarget === "_blank" ? "noopener noreferrer" : null}
+                      href={signInLink?.type === "linkExternal"
+                        ? signInLink?.externalLink
+                        : signInLink?.type === "linkInternal"
+                          ? signInLink?.internalLink === "Home" ||
+                            signInLink?.internalLink === "home"
+                            ? "/"
+                            : signInLink?.internalLink
+                          : "page-not-found"
+                      }
+                    >
+                      &nbsp;{signInLink?.label}
                     </a>
                   </p>
                 </div>
