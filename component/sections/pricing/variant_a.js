@@ -14,7 +14,6 @@ function VariantA({ caption, title, description, plans, stripePKey, stripeSKey, 
     };
     published && getList()
   }, [published])
-
   
   React.useEffect(() => {
     subscriptionProducts?.map(price => {
@@ -126,16 +125,7 @@ function VariantA({ caption, title, description, plans, stripePKey, stripeSKey, 
                   </ul>
                   {plans?.[0]?.checkoutButtonName && (
                     <a
-                      className="inline-block text-center py-2 px-4 w-full rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-loose transition duration-200 cursor-pointer"
-                      // href={
-                      //   plans?.[0]?.primaryButton?.type === "linkInternal"
-                      //     ? plans?.[0]?.primaryButton?.internalLink ===
-                      //         "Home" ||
-                      //       plans?.[0]?.primaryButton?.internalLink === "home"
-                      //       ? "/"
-                      //       : plans?.[0]?.primaryButton?.internalLink
-                      //     : plans?.[0]?.primaryButton?.externalLink
-                      // }
+                      className="inline-block text-center py-2 px-4 w-full rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-loose transition duration-200 cursor-pointer"                  
                       onClick={() => {initiateCheckout({
                         lineItems: [
                           {
@@ -193,16 +183,7 @@ function VariantA({ caption, title, description, plans, stripePKey, stripeSKey, 
                   </ul>
                   {plans?.[1]?.checkoutButtonName && (
                     <a
-                      className="inline-block text-center py-2 px-4 w-full rounded-l-xl rounded-t-xl bg-white hover:bg-gray-50 font-bold leading-loose transition duration-200 cursor-pointer"
-                      // href={
-                      //   plans?.[1]?.primaryButton?.type === "linkInternal"
-                      //     ? plans?.[1]?.primaryButton?.internalLink ===
-                      //         "Home" ||
-                      //       plans?.[1]?.primaryButton?.internalLink === "home"
-                      //       ? "/"
-                      //       : plans?.[1]?.primaryButton?.internalLink
-                      //     : plans?.[1]?.primaryButton?.externalLink
-                      // }
+                      className="inline-block text-center py-2 px-4 w-full rounded-l-xl rounded-t-xl bg-white hover:bg-gray-50 font-bold leading-loose transition duration-200 cursor-pointer"    
                       onClick={() => {initiateCheckout({
                         lineItems: [
                           {

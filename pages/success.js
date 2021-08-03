@@ -34,7 +34,7 @@ function Success() {
                 Success!
               </p>
               <h4 className="mb-10 text-4xl font-bold">
-                Thank you for your Purchased!
+                Thank you for your Purchased
               </h4>
               <div>
                 <a
