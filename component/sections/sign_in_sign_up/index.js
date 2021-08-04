@@ -22,6 +22,7 @@ function SignUpForm({ data }) {
     formId: component?.[variant]?.form?.id,
     formName: component?.[variant]?.form?.name,
     links: component?.[variant]?.formLinks,
+    signInLink: data?.variants?.[variant]?.signinLink,
   };
 
   return Variant ? <Variant {...props} /> : null;

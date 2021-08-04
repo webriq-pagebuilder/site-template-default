@@ -6,7 +6,6 @@ import dynamic from "next/dynamic";
 import PageNotFound from "./404";
 import { slugQuery } from "./api/query";
 import { groq } from "next-sanity";
-import SEO from "../component/SEO";
 
 const Components = {
   navigation: dynamic(() => import("component/sections/navigation")),
@@ -30,6 +29,8 @@ const Components = {
   signInSignUp: dynamic(() => import("component/sections/sign_in_sign_up")),
   textComponent: dynamic(() => import("component/sections/text_component")),
 };
+
+const SEO = dynamic(() => import("component/SEO"))
 
 function page({ data, preview, slug }) {
   const router = useRouter();
@@ -55,7 +56,7 @@ function page({ data, preview, slug }) {
     <>
       <Head>
         <title>{seo?.seoTitle || title}</title>
-        <SEO data={pageData} />
+        <SEO data={pageData} slug={slug} />
       </Head>
       {sections &&
         sections?.map((section) => {
