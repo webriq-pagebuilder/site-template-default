@@ -10,11 +10,11 @@ function VariantA({ caption, title, description, plans, stripePKey, stripeSKey, 
   React.useEffect(() => {  
      async function getList () {
         const getProductList = await axios.get('/api/stripe-products/getList', { params: {apiKey: stripeSKey}})
-        setSubscriptionProducts(getProductList.data.data)
+        setSubscriptionProducts(getProductList.data.data)     
     };
-    published && getList()
-  }, [published])
-  
+    getList()
+  }, [subscriptionProducts])
+ 
   React.useEffect(() => {
     subscriptionProducts?.map(price => {
       plans?.map(plan => {
