@@ -133,9 +133,8 @@ function VariantA({ caption, title, description, plans, accountId, projectId, do
                       </li>
                     ))}
                   </ul>
-                  {(!!subscriptionProducts) && (
-                    <a
-                      className={`inline-block text-center py-2 px-4 w-full rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-loose transition duration-200 cursor-pointer ${subscriptionProducts === null && 'disabled:opacity-50 cursor-not-allowed'}` }                 
+                  <button
+                      className={`inline-block text-center py-2 px-4 w-full rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-loose transition duration-200 cursor-pointer ${subscriptionProducts === null && 'disabled:opacity-50 cursor-not-allowed'}`} disabled={subscriptionProducts === null}
                       onClick={() => {initiateCheckout({
                         lineItems: [
                           {
@@ -146,8 +145,7 @@ function VariantA({ caption, title, description, plans, accountId, projectId, do
                       }, stripePKey, NEXT_PUBLIC_DXP_STUDIO_ADDRESS)}}
                     >
                       {plans?.[0]?.checkoutButtonName}
-                    </a>
-                  )}
+                    </button>
                 </div>
               </div>
             )}
@@ -191,9 +189,8 @@ function VariantA({ caption, title, description, plans, accountId, projectId, do
                       </li>
                     ))}
                   </ul>
-                  {(!!subscriptionProducts) && (
-                    <a
-                      className={`inline-block text-center py-2 px-4 w-full rounded-l-xl rounded-t-xl bg-white hover:bg-gray-50 font-bold leading-loose transition duration-200 cursor-pointer ${subscriptionProducts === null && 'disabled:opacity-50 cursor-not-allowed'}` }   
+                  <button
+                      className={`inline-block text-center py-2 px-4 w-full rounded-l-xl rounded-t-xl bg-white hover:bg-gray-50 font-bold leading-loose transition duration-200 cursor-pointer ${subscriptionProducts === null && 'disabled:opacity-50 cursor-not-allowed'}`} disabled={subscriptionProducts === null}
                       onClick={() => {initiateCheckout({
                         lineItems: [
                           {
@@ -204,12 +201,11 @@ function VariantA({ caption, title, description, plans, accountId, projectId, do
                       }, stripePKey, NEXT_PUBLIC_DXP_STUDIO_ADDRESS)}}
                     >
                       {plans?.[1]?.checkoutButtonName}
-                    </a>
-                  )}
+                    </button>
                 </div>
               </div>
             )}
-            {(plans?.[2]?.checkoutButtonName) && (
+            {(plans?.[2]) && (
               <div className="w-full lg:w-1/3 px-4">
                 <div className="p-8 bg-white shadow rounded">
                   <h4 className="mb-2 text-2xl font-bold font-heading">
@@ -249,8 +245,8 @@ function VariantA({ caption, title, description, plans, accountId, projectId, do
                       </li>
                     ))}
                   </ul>
-                  {(!!subscriptionProducts) && <a
-                    className={`inline-block text-center py-2 px-4 w-full rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-loose transition duration-200 cursor-pointer ${subscriptionProducts === null && 'disabled:opacity-50 cursor-not-allowed'}`}
+                 <button
+                    className={`inline-block text-center py-2 px-4 w-full rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-loose transition duration-200 cursor-pointer ${subscriptionProducts === null && 'disabled:opacity-50 cursor-not-allowed'}`} disabled={subscriptionProducts === null}
                     onClick={() => {initiateCheckout({
                       lineItems: [
                         {
@@ -261,7 +257,7 @@ function VariantA({ caption, title, description, plans, accountId, projectId, do
                     }, stripePKey, NEXT_PUBLIC_DXP_STUDIO_ADDRESS)}}
                   >
                   {plans?.[2]?.checkoutButtonName}
-                  </a>}
+                  </button>
                 </div>
               </div>
             )}
