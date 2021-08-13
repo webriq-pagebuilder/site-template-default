@@ -33,7 +33,6 @@ const Components = {
 
 function page({ data, preview }) {
   const router = useRouter();
-  const [published, setPublished] = React.useState([])
   if (!router.isFallback && !data?.page?.slug) {
     return <PageNotFound statusCode={404} />;
   }
@@ -51,10 +50,6 @@ function page({ data, preview }) {
   }
 
   const { sections, title, seo } = pageData
-  
-  React.useEffect(() => {
-    setPublished(prevState => [...prevState, pageData])
-  }, [pageData])
 
   return (
     <>
@@ -75,7 +70,7 @@ function page({ data, preview }) {
               }}
               {...{ [section._type]: section }}
               data={section}
-              published={published?.[0]?._id?.split(".")?.[0] !== 'drafts' ? true : false}
+              published={String(data?.page?._id)?.split('.')[0] !=="drafts"}
             />
           );
         })}

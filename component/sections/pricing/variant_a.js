@@ -1,20 +1,33 @@
 import React from "react";
 import axios from 'axios'
 import { initiateCheckout } from "lib/checkout";
+import { useRouter } from 'next/router'
 
-function VariantA({ caption, title, description, plans, stripePKey, stripeSKey, published }) {
-  
+
+function VariantA({ caption, title, description, plans, accountId, projectId, documentId, stripePKey, published, NEXT_PUBLIC_DXP_STUDIO_ADDRESS }) {
+  const router = useRouter();
+  console.log(router.pathname)
   const [plan, setPlan] = React.useState("monthly");
   const [subscriptionProducts, setSubscriptionProducts] = React.useState(null)
-  
+
   React.useEffect(() => {  
      async function getList () {
-        const getProductList = await axios.get('/api/stripe-products/getList', { params: {apiKey: stripeSKey}})
-        setSubscriptionProducts(getProductList.data.data)     
+        const getProductList = await axios.get(`https://${NEXT_PUBLIC_DXP_STUDIO_ADDRESS}/api/stripe-account`, {
+          params: {
+            accountId,
+            projectId,
+            documentId
+          } 
+        })        
+        setSubscriptionProducts(getProductList?.data?.data)
     };
-    getList()
-  }, [subscriptionProducts])
- 
+    try {
+      published && getList()
+    } catch (error) {
+      console.log('Error Getting All Price from Stripe. Check your Environment Variables')
+    }
+  }, [plans, documentId, projectId, published])
+
   React.useEffect(() => {
     subscriptionProducts?.map(price => {
       plans?.map(plan => {
@@ -25,7 +38,7 @@ function VariantA({ caption, title, description, plans, stripePKey, stripeSKey, 
         price?.recurring.interval === 'year' ? plan['yearly_price']  = price?.id : null
       })
     })        
-  }, [subscriptionProducts])
+  }, [plans, subscriptionProducts])
 
   return (
     <section>
@@ -123,9 +136,9 @@ function VariantA({ caption, title, description, plans, stripePKey, stripeSKey, 
                       </li>
                     ))}
                   </ul>
-                  {plans?.[0]?.checkoutButtonName && (
+                  {(!!subscriptionProducts) && (
                     <a
-                      className="inline-block text-center py-2 px-4 w-full rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-loose transition duration-200 cursor-pointer"                  
+                      className={`inline-block text-center py-2 px-4 w-full rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-loose transition duration-200 cursor-pointer ${subscriptionProducts === null && 'disabled:opacity-50 cursor-not-allowed'}` }                 
                       onClick={() => {initiateCheckout({
                         lineItems: [
                           {
@@ -181,9 +194,9 @@ function VariantA({ caption, title, description, plans, stripePKey, stripeSKey, 
                       </li>
                     ))}
                   </ul>
-                  {plans?.[1]?.checkoutButtonName && (
+                  {(!!subscriptionProducts) && (
                     <a
-                      className="inline-block text-center py-2 px-4 w-full rounded-l-xl rounded-t-xl bg-white hover:bg-gray-50 font-bold leading-loose transition duration-200 cursor-pointer"    
+                      className={`inline-block text-center py-2 px-4 w-full rounded-l-xl rounded-t-xl bg-white hover:bg-gray-50 font-bold leading-loose transition duration-200 cursor-pointer ${subscriptionProducts === null && 'disabled:opacity-50 cursor-not-allowed'}` }   
                       onClick={() => {initiateCheckout({
                         lineItems: [
                           {
@@ -199,7 +212,7 @@ function VariantA({ caption, title, description, plans, stripePKey, stripeSKey, 
                 </div>
               </div>
             )}
-            {plans?.[2] && (
+            {(plans?.[2]?.checkoutButtonName) && (
               <div className="w-full lg:w-1/3 px-4">
                 <div className="p-8 bg-white shadow rounded">
                   <h4 className="mb-2 text-2xl font-bold font-heading">
@@ -239,8 +252,8 @@ function VariantA({ caption, title, description, plans, stripePKey, stripeSKey, 
                       </li>
                     ))}
                   </ul>
-                  <a
-                    className="inline-block text-center py-2 px-4 w-full rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-loose transition duration-200 cursor-pointer"
+                  {(!!subscriptionProducts) && <a
+                    className={`inline-block text-center py-2 px-4 w-full rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-loose transition duration-200 cursor-pointer ${subscriptionProducts === null && 'disabled:opacity-50 cursor-not-allowed'}`}
                     onClick={() => {initiateCheckout({
                       lineItems: [
                         {
@@ -251,7 +264,7 @@ function VariantA({ caption, title, description, plans, stripePKey, stripeSKey, 
                     }, stripePKey)}}
                   >
                   {plans?.[2]?.checkoutButtonName}
-                  </a>
+                  </a>}
                 </div>
               </div>
             )}

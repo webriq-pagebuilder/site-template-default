@@ -1,17 +1,17 @@
 import { urlFor } from "lib/sanity";
 import React from "react";
 import WebriQForm from "@webriq/gatsby-webriq-form";
-import {CardElement, useStripe, useElements} from '@stripe/react-stripe-js';
+// import {CardElement, useStripe, useElements} from '@stripe/react-stripe-js';
 import axios from 'axios'
 
-const cardElementOptions ={
-  style: {
-      base: {         
-          padding: '10px'
-      }
-  },
-  hidePostalCode: true
-};
+// const cardElementOptions ={
+//   style: {
+//       base: {         
+//           padding: '10px'
+//       }
+//   },
+//   hidePostalCode: true
+// };
 
 function VariantD({
   caption,
@@ -164,9 +164,11 @@ function VariantD({
                             </svg>
                           </button>
                         </div>
-                      ) : field.type === "card" ? <div className="p-3 mb-4">
-                        <CardElement options={cardElementOptions}/>
-                      </div> : null}
+                      ) : 
+                      // field.type === "card" ? <div className="p-3 mb-4">
+                      //   <CardElement options={cardElementOptions}/>
+                      // </div> : 
+                      null}
                     </>
                   ))}
 
