@@ -1,10 +1,8 @@
 import React from "react"
 import dynamic from "next/dynamic"
-// import {Elements} from '@stripe/react-stripe-js';
-// import {loadStripe} from '@stripe/stripe-js';
 
 const {
-  NEXT_PUBLIC_DXP_STUDIO_ADDRESS 
+  NEXT_PUBLIC_APP_URL 
 } = process.env
 
 function Pricing({ data, published }) {
@@ -25,13 +23,11 @@ function Pricing({ data, published }) {
     projectId: data?.variants?.[variant]?.stripeAccount?.projectId,
     documentId: data?.variants?.[variant]?.stripeAccount?.documentId,
     published,
-    NEXT_PUBLIC_DXP_STUDIO_ADDRESS: NEXT_PUBLIC_DXP_STUDIO_ADDRESS || 'dxpstudio.webriq.com'
+    NEXT_PUBLIC_APP_URL: NEXT_PUBLIC_APP_URL || 'dxpstudio.webriq.com'
   }
 
   return (
-    // <Elements stripe={stripePromise}>
       <Variant {...props} />
-    // </Elements>
   )
 }
 
