@@ -1,12 +1,9 @@
 import React from "react";
 import axios from 'axios'
 import { initiateCheckout } from "lib/checkout";
-import { useRouter } from 'next/router'
 
 
 function VariantA({ caption, title, description, plans, accountId, projectId, documentId, stripePKey, published, NEXT_PUBLIC_DXP_STUDIO_ADDRESS }) {
-  const router = useRouter();
-  console.log(router.pathname)
   const [plan, setPlan] = React.useState("monthly");
   const [subscriptionProducts, setSubscriptionProducts] = React.useState(null)
 
@@ -146,7 +143,7 @@ function VariantA({ caption, title, description, plans, accountId, projectId, do
                             quantity: 1                          
                           }
                         ]
-                      }, stripePKey)}}
+                      }, stripePKey, NEXT_PUBLIC_DXP_STUDIO_ADDRESS)}}
                     >
                       {plans?.[0]?.checkoutButtonName}
                     </a>
@@ -204,7 +201,7 @@ function VariantA({ caption, title, description, plans, accountId, projectId, do
                             quantity: 1                          
                           }
                         ]
-                      }, stripePKey)}}
+                      }, stripePKey, NEXT_PUBLIC_DXP_STUDIO_ADDRESS)}}
                     >
                       {plans?.[1]?.checkoutButtonName}
                     </a>
@@ -261,7 +258,7 @@ function VariantA({ caption, title, description, plans, accountId, projectId, do
                           quantity: 1                          
                         }
                       ]
-                    }, stripePKey)}}
+                    }, stripePKey, NEXT_PUBLIC_DXP_STUDIO_ADDRESS)}}
                   >
                   {plans?.[2]?.checkoutButtonName}
                   </a>}
