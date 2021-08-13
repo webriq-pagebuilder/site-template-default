@@ -10,8 +10,7 @@ function VariantA({ caption, title, description, plans, accountId, projectId, do
   React.useEffect(() => {  
      async function getList () {
         const getProductList = await axios.get(`https://${NEXT_PUBLIC_DXP_STUDIO_ADDRESS}/api/stripe-account`, {
-          params: {
-            accountId,
+          params: {    
             projectId,
             documentId
           } 
@@ -36,7 +35,7 @@ function VariantA({ caption, title, description, plans, accountId, projectId, do
       })
     })        
   }, [plans, subscriptionProducts])
-
+  
   return (
     <section>
       <div className="skew skew-top mr-for-radius">
