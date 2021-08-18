@@ -220,6 +220,11 @@
     "@types/react" "^17.0.0"
     rxjs "^6.5.3"
 
+"@stripe/stripe-js@^1.17.0":
+  version "1.17.0"
+  resolved "https://registry.yarnpkg.com/@stripe/stripe-js/-/stripe-js-1.17.0.tgz#1961aad0aa4d2f1609753c2807ed39baea025691"
+  integrity sha512-LztkapiDV+2bEjsmAL2QnmTQBJwx37VnvuBkgXxPe9cJr2jbK0UGzumxSZUiRXeUlgh5j3CXh5jsGFTdc3iv+Q==
+
 "@types/prop-types@*":
   version "15.7.3"
   resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.7.3.tgz#2ab0d5da2e5815f94b0b9d4b95d1e5f243ab2ca7"
