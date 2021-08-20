@@ -8,18 +8,17 @@ const Variants = {
 };
 
 function AppPromo({ data }) {
-  const component = data?.variants;
-  const variant = component?.variant;
-
+  const variant = data?.variant;
   const Variant = Variants?.[variant];
+
   const props = {
-    logo: component?.[variant]?.logo,
-    subtitle: component?.[variant]?.subtitle,
-    title: component?.[variant]?.heading,
-    description: component?.[variant]?.description,
-    statistics: component?.[variant]?.statItems,
-    features: component?.[variant]?.tags,
-    images: component?.[variant]?.arrImages,
+    logo: data?.content?.[variant]?.logo,
+    subtitle: data?.content?.[variant]?.subtitle,
+    title: data?.content?.[variant]?.heading,
+    description: data?.content?.[variant]?.description,
+    statistics: data?.content?.[variant]?.statItems,
+    features: data?.content?.[variant]?.tags,
+    images: data?.content?.[variant]?.images,
   };
 
   return Variant ? <Variant {...props} /> : null;

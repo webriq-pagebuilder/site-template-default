@@ -238,7 +238,7 @@ function VariantB({
             <div className="pt-6">
               {primaryButton && (
                 <a
-                  className="block px-4 py-3 mb-3 leading-loose text-xs text-center font-semibold leading-none bg-gray-50 hover:bg-gray-100 rounded-l-xl rounded-t-xl"
+                  className="block px-4 py-3 mb-3 leading-loose text-xs text-center font-semibold bg-gray-50 hover:bg-gray-100 rounded-l-xl rounded-t-xl"
                   href={
                     primaryButton.type === "linkInternal"
                       ? primaryButton.internalLink === "Home" ||

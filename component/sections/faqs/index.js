@@ -8,15 +8,14 @@ const Variants = {
 };
 
 function FAQs({ data }) {
-  const component = data?.variants;
-  const variant = component?.variant;
-
+  const variant = data?.variant;
   const Variant = Variants?.[variant];
+
   const props = {
-    subtitle: component?.[variant]?.subtitle,
-    title: component?.[variant]?.heading,
-    faqs: component?.[variant]?.askedQuestions,
-    faqsWithCategories: component?.[variant]?.faqsWithCategory,
+    subtitle: data?.content?.[variant]?.subtitle,
+    title: data?.content?.[variant]?.heading,
+    faqs: data?.content?.[variant]?.askedQuestions,
+    faqsWithCategories: data?.content?.[variant]?.faqsWithCategory,
   };
 
   return Variant ? <Variant {...props} /> : null;

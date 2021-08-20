@@ -18,9 +18,9 @@ function VariantB({ title, text, images }) {
             {images &&
               images?.map((image, index) => (
                 <div className="mb-4 w-full lg:w-1/3 px-2" key={index}>
-                  <div className="py-16 bg-gray-50 rounded">
+                  <div className="bg-gray-50 rounded">
                     <img
-                      className="mx-auto h-48 w-48 object-cover"
+                      className="mx-auto h-48 w-48 object-contain"
                       src={urlFor(image)}
                     />
                   </div>

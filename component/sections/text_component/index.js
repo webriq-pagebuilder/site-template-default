@@ -8,15 +8,15 @@ const Variants = {
 };
 
 function TextComponent({ data }) {
-  const variant = data?.variants?.variant;
-
+  const variant = data?.variant;
   const Variant = Variants?.[variant];
+
   const props = {
-    heading: data?.variants?.[variant]?.heading,
-    singleColumn: data?.variants?.[variant]?.singleColumn,
-    firstColumn: data?.variants?.[variant]?.firstColumn,
-    secondColumn: data?.variants?.[variant]?.secondColumn,
-    thirdColumn: data?.variants?.[variant]?.thirdColumn,
+    heading: data?.content?.[variant]?.heading,
+    singleColumn: data?.content?.[variant]?.singleColumn,
+    firstColumn: data?.content?.[variant]?.firstColumn,
+    secondColumn: data?.content?.[variant]?.secondColumn,
+    thirdColumn: data?.content?.[variant]?.thirdColumn,
   };
 
   return Variant ? <Variant {...props} /> : null;

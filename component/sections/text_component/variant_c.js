@@ -1,13 +1,14 @@
-import React from "react"
-import BlockContent from "@sanity/block-content-to-react"
-
+import React from "react";
+import BlockContent from "@sanity/block-content-to-react";
 
 function VariantC({ heading, firstColumn, secondColumn, thirdColumn }) {
   const serializers = {
     types: {
       block: (props) => (
-        <p className="text-gray-500 text-justify leading-relaxed mb-5">{props.children}</p>
-      )
+        <p className="text-gray-500 text-justify leading-relaxed mb-5">
+          {props.children}
+        </p>
+      ),
     },
     marks: {
       internalLink: ({ children, mark }) => (
@@ -15,19 +16,24 @@ function VariantC({ heading, firstColumn, secondColumn, thirdColumn }) {
           {children}
         </a>
       ),
-      link: ({ children, mark }) => (
+      link: ({ children, mark }) =>
         mark.blank ? (
-          <a href={mark.href} target="_blank" rel="noopener noreferrer">{children}</a>
+          <a href={mark.href} target="_blank" rel="noopener noreferrer">
+            {children}
+          </a>
         ) : (
-          <a className="hover:text-blue-400 text-blue-800" href={mark.href}>{children}</a>
-        )
-      )
-    }
-  }
+          <a className="hover:text-blue-400 text-blue-800" href={mark.href}>
+            {children}
+          </a>
+        ),
+    },
+  };
 
   return (
-    <section className="py-8 px-4">
-      <h2 className="text-3xl mb-5 font-semibold font-heading text-center">{heading}</h2>
+    <section className="py-20 px-4">
+      <h2 className="text-3xl mb-5 font-semibold font-heading text-center">
+        {heading}
+      </h2>
       <div className="flex flex-wrap -mx-3 justify-center">
         {firstColumn && (
           <div className="md:w-1/4 px-3 mb-6 md:mb-0 text-gray-500 text-justify leading-relaxed">
@@ -46,6 +52,6 @@ function VariantC({ heading, firstColumn, secondColumn, thirdColumn }) {
         )}
       </div>
     </section>
-  )
+  );
 }
-export default React.memo(VariantC)
+export default React.memo(VariantC);

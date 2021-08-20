@@ -8,17 +8,16 @@ const Variants = {
 };
 
 function Footer({ data }) {
-  const component = data?.variants;
-  const variant = component?.variant;
-
+  const variant = data?.variant;
   const Variant = Variants?.[variant];
+
   const props = {
-    logo: component?.[variant]?.logo,
-    text: component?.[variant]?.plainText,
-    contacts: component?.[variant]?.contactDetails,
-    copyright: component?.[variant]?.copyright,
-    socialMedia: component?.[variant]?.socialLinks,
-    menu: component?.[variant]?.menu,
+    logo: data?.content?.[variant]?.logo,
+    text: data?.content?.[variant]?.plainText,
+    contacts: data?.content?.[variant]?.contactDetails,
+    copyright: data?.content?.[variant]?.copyright,
+    socialMedia: data?.content?.[variant]?.socialLinks,
+    menu: data?.content?.[variant]?.menu,
   };
 
   return Variant ? <Variant {...props} /> : null;

@@ -26,7 +26,7 @@ function VariantA({ logo, subtitle, title, images }) {
             <div className="h-80 mt-10">
               {images?.[0] && (
                 <img
-                  className="absolute bottom-0 left-1/2 transform -translate-x-1/2 h-80 z-10"
+                  className="absolute bottom-0 left-1/2 w-3/4 transform -translate-x-1/2 h-80 z-10"
                   src={urlFor(images[0])}
                 />
               )}

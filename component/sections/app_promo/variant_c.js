@@ -12,7 +12,7 @@ function VariantC({ subtitle, title, description, features, images }) {
                 <span className="text-webriq-darkblue font-bold">
                   {subtitle}
                 </span>
-                <h2 className="text-4xl lg:text-5xl font-bold font-heading">
+                <h2 className="text-2xl md:text-4xl lg:text-5xl font-bold font-heading">
                   {title}
                 </h2>
                 <p className="mb-6 text-gray-500 leading-loose">

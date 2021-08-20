@@ -173,202 +173,237 @@ function VariantA({
                     {formFields?.[0] &&
                       formFields[0]?.name &&
                       (formFields[0].type === "textarea" ? (
-                        <textarea
-                          className="mb-3 w-full p-4 text-xs bg-gray-100 outline-none rounded"
-                          type="text"
-                          placeholder={formFields[0]?.name}
-                          name={formFields[0]?.name}
-                        />
+                        <div class="mb-4">
+                          <textarea
+                            className="w-full h-24 p-4 text-xs font-semibold leading-none resize-none bg-white rounded outline-none"
+                            type="text"
+                            placeholder={formFields[0]?.name}
+                            name={formFields[0]?.name}
+                          />
+                        </div>
                       ) : formFields[0].type === "inputFile" ? (
                         <div className="mb-4">
-                          <label className="flex px-2 bg-gray-100 rounded">
+                          <label className="flex px-2 bg-white rounded">
                             <input
-                              className="w-full p-4 text-xs bg-gray-100 outline-none rounded"
+                              className="hidden"
                               type="file"
                               placeholder="Choose file.."
                               name={formFields[0]?.name}
                             />
+                            <div className="my-1 ml-auto px-4 py-3 text-xs text-white font-semibold leading-none bg-gray-500 hover:bg-gray-600 rounded cursor-pointer transition duration-200">
+                              Browse
+                            </div>
                           </label>
                         </div>
                       ) : (
-                        <input
-                          className="mb-3 w-full p-4 text-xs bg-gray-100 outline-none rounded"
-                          type={
-                            formFields[0].type === "inputEmail"
-                              ? "email"
-                              : formFields[0].type === "inputPassword"
-                              ? "password"
-                              : "text"
-                          }
-                          placeholder={
-                            formFields[0].type === "inputEmail"
-                              ? "name@email.com"
-                              : formFields[0].type === "inputPassword"
-                              ? "Enter your password"
-                              : formFields[0]?.name
-                          }
-                          name={formFields[0]?.name}
-                        />
+                        <div class="mb-4">
+                          <input
+                            className="w-full p-4 text-xs font-semibold leading-none bg-white rounded outline-none"
+                            type={
+                              formFields[0].type === "inputEmail"
+                                ? "email"
+                                : formFields[0].type === "inputPassword"
+                                ? "password"
+                                : "text"
+                            }
+                            placeholder={
+                              formFields[0].type === "inputEmail"
+                                ? "name@email.com"
+                                : formFields[0].type === "inputPassword"
+                                ? "Enter your password"
+                                : formFields[0]?.name
+                            }
+                            name={formFields[0]?.name}
+                          />
+                        </div>
                       ))}
                     {formFields?.[1] &&
                       formFields[1]?.name &&
                       (formFields[1].type === "textarea" ? (
-                        <textarea
-                          className="mb-3 w-full p-4 text-xs bg-gray-100 outline-none rounded"
-                          type="text"
-                          placeholder={formFields[1]?.name}
-                          name={formFields[1]?.name}
-                        />
+                        <div class="mb-4">
+                          <textarea
+                            className="w-full h-24 p-4 text-xs font-semibold leading-none resize-none bg-white rounded outline-none"
+                            type="text"
+                            placeholder={formFields[1]?.name}
+                            name={formFields[1]?.name}
+                          />
+                        </div>
                       ) : formFields[1].type === "inputFile" ? (
                         <div className="mb-4">
-                          <label className="flex px-2 bg-gray-100 rounded">
+                          <label className="flex px-2 bg-white rounded">
                             <input
-                              className="w-full p-4 text-xs bg-gray-100 outline-none rounded"
+                              className="hidden"
                               type="file"
                               placeholder="Choose file.."
                               name={formFields[1]?.name}
                             />
+                            <div className="my-1 ml-auto px-4 py-3 text-xs text-white font-semibold leading-none bg-gray-500 hover:bg-gray-600 rounded cursor-pointer transition duration-200">
+                              Browse
+                            </div>
                           </label>
                         </div>
                       ) : (
-                        <input
-                          className="mb-3 w-full p-4 text-xs bg-gray-100 outline-none rounded"
-                          type={
-                            formFields[1].type === "inputEmail"
-                              ? "email"
-                              : formFields[1].type === "inputPassword"
-                              ? "password"
-                              : "text"
-                          }
-                          placeholder={
-                            formFields[1].type === "inputEmail"
-                              ? "name@email.com"
-                              : formFields[1].type === "inputPassword"
-                              ? "Enter your password"
-                              : formFields[1]?.name
-                          }
-                          name={formFields[1]?.name}
-                        />
+                        <div className="mb-4">
+                          <input
+                            className="w-full p-4 text-xs font-semibold leading-none bg-white rounded outline-none"
+                            type={
+                              formFields[1].type === "inputEmail"
+                                ? "email"
+                                : formFields[1].type === "inputPassword"
+                                ? "password"
+                                : "text"
+                            }
+                            placeholder={
+                              formFields[1].type === "inputEmail"
+                                ? "name@email.com"
+                                : formFields[1].type === "inputPassword"
+                                ? "Enter your password"
+                                : formFields[1]?.name
+                            }
+                            name={formFields[1]?.name}
+                          />
+                        </div>
                       ))}
                     {formFields?.[2] &&
                       formFields[2]?.name &&
                       (formFields[2].type === "textarea" ? (
-                        <textarea
-                          className="mb-3 w-full p-4 text-xs bg-gray-100 outline-none rounded"
-                          type="text"
-                          placeholder={formFields[2]?.name}
-                          name={formFields[2]?.name}
-                        />
+                        <div className="mb-4">
+                          <textarea
+                            className="w-full h-24 p-4 text-xs font-semibold leading-none resize-none bg-white rounded outline-none"
+                            type="text"
+                            placeholder={formFields[2]?.name}
+                            name={formFields[2]?.name}
+                          />
+                        </div>
                       ) : formFields[2].type === "inputFile" ? (
                         <div className="mb-4">
-                          <label className="flex px-2 bg-gray-100 rounded">
+                          <label className="flex px-2 bg-white rounded">
                             <input
-                              className="w-full p-4 text-xs bg-gray-100 outline-none rounded"
+                              className="hidden"
                               type="file"
                               placeholder="Choose file.."
                               name={formFields[2]?.name}
                             />
+                            <div className="my-1 ml-auto px-4 py-3 text-xs text-white font-semibold leading-none bg-gray-500 hover:bg-gray-600 rounded cursor-pointer transition duration-200">
+                              Browse
+                            </div>
                           </label>
                         </div>
                       ) : (
-                        <input
-                          className="mb-3 w-full p-4 text-xs bg-gray-100 outline-none rounded"
-                          type={
-                            formFields[2].type === "inputEmail"
-                              ? "email"
-                              : formFields[2].type === "inputPassword"
-                              ? "password"
-                              : "text"
-                          }
-                          placeholder={
-                            formFields[2].type === "inputEmail"
-                              ? "name@email.com"
-                              : formFields[2].type === "inputPassword"
-                              ? "Enter your password"
-                              : formFields[2]?.name
-                          }
-                          name={formFields[2]?.name}
-                        />
+                        <div className="mb-4">
+                          <input
+                            className="w-full p-4 text-xs font-semibold leading-none bg-white rounded outline-none"
+                            type={
+                              formFields[2].type === "inputEmail"
+                                ? "email"
+                                : formFields[2].type === "inputPassword"
+                                ? "password"
+                                : "text"
+                            }
+                            placeholder={
+                              formFields[2].type === "inputEmail"
+                                ? "name@email.com"
+                                : formFields[2].type === "inputPassword"
+                                ? "Enter your password"
+                                : formFields[2]?.name
+                            }
+                            name={formFields[2]?.name}
+                          />
+                        </div>
                       ))}
                     {formFields?.[3] &&
                       formFields[3]?.name &&
                       (formFields[3].type === "textarea" ? (
-                        <textarea
-                          className="mb-3 w-full p-4 text-xs bg-gray-100 outline-none rounded"
-                          type="text"
-                          placeholder={formFields[3]?.name}
-                          name={formFields[3]?.name}
-                        />
+                        <div className="mb-4">
+                          <textarea
+                            className="w-full h-24 p-4 text-xs font-semibold leading-none resize-none bg-white rounded outline-none"
+                            type="text"
+                            placeholder={formFields[3]?.name}
+                            name={formFields[3]?.name}
+                          />
+                        </div>
                       ) : formFields[3].type === "inputFile" ? (
                         <div className="mb-4">
-                          <label className="flex px-2 bg-gray-100 rounded">
+                          <label className="flex px-2 bg-white rounded">
                             <input
-                              className="w-full p-4 text-xs bg-gray-100 outline-none rounded"
+                              className="hidden"
                               type="file"
                               placeholder="Choose file.."
                               name={formFields[3]?.name}
                             />
+                            <div className="my-1 ml-auto px-4 py-3 text-xs text-white font-semibold leading-none bg-gray-500 hover:bg-gray-600 rounded cursor-pointer transition duration-200">
+                              Browse
+                            </div>
                           </label>
                         </div>
                       ) : (
-                        <input
-                          className="mb-3 w-full p-4 text-xs bg-gray-100 outline-none rounded"
-                          type={
-                            formFields[3].type === "inputEmail"
-                              ? "email"
-                              : formFields[3].type === "inputPassword"
-                              ? "password"
-                              : "text"
-                          }
-                          placeholder={
-                            formFields[3].type === "inputEmail"
-                              ? "name@email.com"
-                              : formFields[3].type === "inputPassword"
-                              ? "Enter your password"
-                              : formFields[3]?.name
-                          }
-                          name={formFields[3]?.name}
-                        />
+                        <div className="mb-4">
+                          <input
+                            className="w-full p-4 text-xs font-semibold leading-none bg-white rounded outline-none"
+                            type={
+                              formFields[3].type === "inputEmail"
+                                ? "email"
+                                : formFields[3].type === "inputPassword"
+                                ? "password"
+                                : "text"
+                            }
+                            placeholder={
+                              formFields[3].type === "inputEmail"
+                                ? "name@email.com"
+                                : formFields[3].type === "inputPassword"
+                                ? "Enter your password"
+                                : formFields[3]?.name
+                            }
+                            name={formFields[3]?.name}
+                          />
+                        </div>
                       ))}
                     {formFields?.[4] &&
                       formFields[4]?.name &&
                       (formFields[4].type === "textarea" ? (
-                        <textarea
-                          className="mb-3 w-full p-4 text-xs bg-gray-100 outline-none rounded"
-                          type="text"
-                          placeholder={formFields[4]?.name}
-                          name={formFields[4]?.name}
-                        />
+                        <div className="mb-4">
+                          <textarea
+                            className="w-full h-24 p-4 text-xs font-semibold leading-none resize-none bg-white rounded outline-none"
+                            type="text"
+                            placeholder={formFields[4]?.name}
+                            name={formFields[4]?.name}
+                          />
+                        </div>
                       ) : formFields[4].type === "inputFile" ? (
                         <div className="mb-4">
-                          <label className="flex px-2 bg-gray-100 rounded">
+                          <label className="flex px-2 bg-white rounded">
                             <input
-                              className="w-full p-4 text-xs bg-gray-100 outline-none rounded"
+                              className="hidden"
                               type="file"
                               placeholder="Choose file.."
                               name={formFields[4]?.name}
                             />
+                            <div className="my-1 ml-auto px-4 py-3 text-xs text-white font-semibold leading-none bg-gray-500 hover:bg-gray-600 rounded cursor-pointer transition duration-200">
+                              Browse
+                            </div>
                           </label>
                         </div>
                       ) : (
-                        <input
-                          className="mb-3 w-full p-4 text-xs bg-gray-100 outline-none rounded"
-                          type={
-                            formFields[4].type === "inputEmail"
-                              ? "email"
-                              : formFields[4].type === "inputPassword"
-                              ? "password"
-                              : "text"
-                          }
-                          placeholder={
-                            formFields[4].type === "inputEmail"
-                              ? "name@email.com"
-                              : formFields[4].type === "inputPassword"
-                              ? "Enter your password"
-                              : formFields[4]?.name
-                          }
-                          name={formFields[4]?.name}
-                        />
+                        <div className="mb-4">
+                          <input
+                            className="w-full p-4 text-xs font-semibold leading-none bg-white rounded outline-none"
+                            type={
+                              formFields[4].type === "inputEmail"
+                                ? "email"
+                                : formFields[4].type === "inputPassword"
+                                ? "password"
+                                : "text"
+                            }
+                            placeholder={
+                              formFields[4].type === "inputEmail"
+                                ? "name@email.com"
+                                : formFields[4].type === "inputPassword"
+                                ? "Enter your password"
+                                : formFields[4]?.name
+                            }
+                            name={formFields[4]?.name}
+                          />
+                        </div>
                       ))}
                     <div className="flex justify-between items-center">
                       {block && (

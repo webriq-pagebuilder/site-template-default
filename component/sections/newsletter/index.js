@@ -7,17 +7,16 @@ const Variants = {
 };
 
 function Newsletter({ data }) {
-  const component = data?.variants;
-  const variant = component?.variant;
-
+  const variant = data?.variant;
   const Variant = Variants?.[variant];
+
   const props = {
-    logo: component?.[variant]?.logo,
-    title: component?.[variant]?.heading,
-    description: component?.[variant]?.description,
-    formFields: component?.[variant]?.form?.fields,
-    formId: component?.[variant]?.form?.id,
-    formName: component?.[variant]?.form?.name,
+    logo: data?.content?.[variant]?.logo,
+    title: data?.content?.[variant]?.heading,
+    description: data?.content?.[variant]?.description,
+    formFields: data?.content?.[variant]?.form?.fields,
+    formId: data?.content?.[variant]?.form?.id,
+    formName: data?.content?.[variant]?.form?.name,
   };
 
   return Variant ? <Variant {...props} /> : null;

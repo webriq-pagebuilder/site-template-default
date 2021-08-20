@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { urlFor } from "lib/sanity";
 
 function VariantC({
   // template,
@@ -63,22 +64,47 @@ function VariantC({
           </div>
         </div>
         <div className="absolute inset-x-5 max-w-4xl mx-auto px-2">
-          {(videoLink &&
-            String(videoLink).includes("https://www.youtube.com/watch?")) ||
-          String(videoLink).includes("youtube.com/watch?") ? (
-            <iframe
-              className="rounded-3xl md:rounded-6xl md:rounded-br-none border-4 border-webriq-blue"
-              width="880"
-              height="500"
-              src={`https://www.youtube.com/embed/${
-                String(videoLink).split("=")[1].split("&")[0]
-              }`}
-              title="YouTube video player"
-              frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            ></iframe>
-          ) : null}
+          {videoLink ? (
+            String(videoLink).includes("https://www.youtube.com/watch?") ||
+            String(videoLink).includes("youtube.com/watch?") ? (
+              <iframe
+                className="rounded-3xl md:rounded-6xl md:rounded-br-none border-4 border-webriq-blue"
+                width="880"
+                height="500"
+                src={`https://www.youtube.com/embed/${
+                  String(videoLink).split("=")[1].split("&")[0]
+                }`}
+                title="YouTube video player"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              ></iframe>
+            ) : null
+          ) : (
+            <>
+              <img
+                className="rounded-3xl md:rounded-6xl md:rounded-br-none"
+                src="https://images.unsplash.com/photo-1572521165329-b197f9ea3da6?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80"
+                alt=""
+              />
+              <div className="absolute inset-0 flex items-center justify-center">
+                <button className="flex items-center justify-center bg-white rounded-full">
+                  <svg
+                    className="w-16 h-16 text-green-600 hover:text-green-700 transition duration-200"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </>
+          )}
 
           {/* <div className="absolute inset-0 flex items-center justify-center">
             <button className="flex items-center justify-center bg-white rounded-full">

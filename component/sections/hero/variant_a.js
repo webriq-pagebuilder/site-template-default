@@ -93,30 +93,30 @@ function VariantA({
                     alt=""
                   />
                 )}
-                {/* <img
+                <img
                   className="hidden md:block absolute"
                   style={{ top: "-2rem", right: "3rem", zIndex: "-1" }}
-                  src="atis-assets/elements/green-dark-up.svg"
+                  src="assets/elements/webriq-blue-dark-up.svg"
                   alt=""
                 />
                 <img
                   className="hidden md:block absolute"
                   style={{ bottom: "-2rem", right: "-2rem", zIndex: "-1" }}
-                  src="atis-assets/elements/wing-green-down.svg"
+                  src="assets/elements/wing-webriq-blue-down.svg"
                   alt=""
                 />
                 <img
                   className="hidden md:block absolute"
                   style={{ top: "3rem", right: "-3rem", zIndex: "-1" }}
-                  src="atis-assets/elements/bullets-gray-right.svg"
+                  src="assets/elements/bullets-gray-right.svg"
                   alt=""
                 />
                 <img
                   className="hidden md:block absolute"
                   style={{ bottom: "2.5rem", left: "-4.5rem", zIndex: "-1" }}
-                  src="atis-assets/elements/bullets-gray-left.svg"
+                  src="assets/elements/bullets-gray-left.svg"
                   alt=""
-                /> */}
+                />
               </div>
             </div>
           </div>

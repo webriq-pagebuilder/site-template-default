@@ -9,16 +9,18 @@ const Variants = {
 };
 
 function Navigation({ template, data }) {
-  const variant = data?.variants?.variant;
-
+  const variant = data?.variant;
   const Variant = Variants?.[variant];
+
   const props = {
     template,
-    logo: data?.variants?.[variant]?.logo?.image,
-    links: data?.variants?.[variant]?.routes,
-    primaryButton: data?.variants?.[variant]?.primaryButton,
-    secondaryButton: data?.variants?.[variant]?.secondaryButton,
+    logo: data?.content?.[variant]?.logo?.image,
+    links: data?.content?.[variant]?.routes,
+    primaryButton: data?.content?.[variant]?.primaryButton,
+    secondaryButton: data?.content?.[variant]?.secondaryButton,
   };
+
+  console.log(props);
 
   return Variant ? <Variant {...props} /> : null;
 }

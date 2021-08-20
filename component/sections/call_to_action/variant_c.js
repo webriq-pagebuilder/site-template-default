@@ -14,15 +14,15 @@ function VariantC({ title, text, features, formFields, formId, formName }) {
           </div>
           <div className="w-full lg:w-1/2 px-4">
             {formFields && (
-              <div className="mb-4 flex items-center lg:justify-end">
-                <WebriQForm
-                  method="POST"
-                  data-form-id={formId}
-                  name={formName}
-                  className="form-callToAction"
-                  data-thankyou-url="/thank-you"
-                  scriptSrc="https://pagebuilderforms.webriq.com/js/initReactForms"
-                >
+              <WebriQForm
+                method="POST"
+                data-form-id={formId}
+                name={formName}
+                className="form-callToAction"
+                data-thankyou-url="/thank-you"
+                scriptSrc="https://pagebuilderforms.webriq.com/js/initReactForms"
+              >
+                <div className="mb-4 flex items-center lg:justify-end">
                   {formFields?.[0] && formFields[0]?.type && (
                     <input
                       className="mr-2 py-2 px-4 bg-white rounded leading-loose"
@@ -46,8 +46,8 @@ function VariantC({ title, text, features, formFields, formId, formName }) {
                   >
                     Get Started
                   </button>
-                </WebriQForm>
-              </div>
+                </div>
+              </WebriQForm>
             )}
             <div>
               <ul className="flex items-center lg:justify-end text-gray-500">

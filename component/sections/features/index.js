@@ -13,19 +13,19 @@ const Variants = {
 };
 
 function Features({ /* template*/ data }) {
-  const variant = data?.variants?.variant;
-
+  const variant = data?.variant;
   const Variant = Variants?.[variant];
+
   const props = {
-    caption: data?.variants?.[variant]?.subtitle,
-    title: data?.variants?.[variant]?.heading,
-    description: data?.variants?.[variant]?.description,
-    features: data?.variants?.[variant]?.arrayOfTitleAndDescription,
-    featureItems: data?.variants?.[variant]?.tags,
-    featuredItems: data?.variants?.[variant]?.featuredItems,
-    image: data?.variants?.[variant]?.images?.[0],
-    images: data?.variants?.[variant]?.images,
-    primaryButton: data?.variants?.[variant]?.primaryButton,
+    caption: data?.content?.[variant]?.subtitle,
+    title: data?.content?.[variant]?.heading,
+    description: data?.content?.[variant]?.description,
+    features: data?.content?.[variant]?.arrayOfTitleAndDescription,
+    featureItems: data?.content?.[variant]?.tags,
+    featuredItems: data?.content?.[variant]?.featuredItems,
+    image: data?.content?.[variant]?.images?.[0],
+    images: data?.content?.[variant]?.images,
+    primaryButton: data?.content?.[variant]?.primaryButton,
   };
 
   return Variant ? <Variant {...props} /> : null;

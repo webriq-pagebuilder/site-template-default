@@ -10,16 +10,15 @@ const Variants = {
 };
 
 function HowItWorks({ data }) {
-  const component = data?.variants;
-  const variant = component?.variant;
-
+  const variant = data?.variant;
   const Variant = Variants?.[variant];
+
   const props = {
-    subtitle: component?.[variant]?.subtitle,
-    title: component?.[variant]?.heading,
-    text: component?.[variant]?.plainText,
-    video: component?.[variant]?.url,
-    steps: component?.[variant]?.arrayOfTitleAndText,
+    subtitle: data?.content?.[variant]?.subtitle,
+    title: data?.content?.[variant]?.heading,
+    text: data?.content?.[variant]?.plainText,
+    video: data?.content?.[variant]?.url,
+    steps: data?.content?.[variant]?.arrayOfTitleAndText,
   };
 
   return Variant ? <Variant {...props} /> : null;
