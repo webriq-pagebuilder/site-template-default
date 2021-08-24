@@ -90,7 +90,7 @@ function VariantC({
               <div className="absolute inset-0 flex items-center justify-center">
                 <button className="flex items-center justify-center bg-white rounded-full">
                   <svg
-                    className="w-16 h-16 text-green-600 hover:text-green-700 transition duration-200"
+                    className="w-16 h-16 text-webriq-blue hover:text-webriq-darkblue transition duration-200"
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 20 20"
                     fill="currentColor"

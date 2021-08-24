@@ -46,7 +46,7 @@ function VariantA({
                   <div className="mb-3 w-full lg:w-1/2 px-2">
                     {formFields[0].type === "textarea" ? (
                       <textarea
-                        className="w-full p-4 text-xs bg-white outline-none rounded"
+                        className="w-full p-4 text-xs bg-white rounded"
                         type="text"
                         placeholder={formFields[0]?.name}
                         name={formFields[0]?.name}
@@ -54,7 +54,7 @@ function VariantA({
                     ) : formFields[0].type === "inputFile" ? (
                       <label className="flex px-2 bg-white rounded">
                         <input
-                          className="w-full p-4 text-xs bg-white outline-none rounded"
+                          className="w-full p-4 text-xs bg-white rounded"
                           type="file"
                           placeholder="Choose file.."
                           name={formFields[0]?.name}
@@ -62,7 +62,7 @@ function VariantA({
                       </label>
                     ) : (
                       <input
-                        className="w-full p-4 text-xs bg-white outline-none rounded"
+                        className="w-full p-4 text-xs bg-white rounded"
                         type={
                           formFields[0].type === "inputEmail"
                             ? "email"
@@ -86,7 +86,7 @@ function VariantA({
                   <div className="mb-3 w-full lg:w-1/2 px-2">
                     {formFields[1].type === "textarea" ? (
                       <textarea
-                        className="w-full p-4 text-xs bg-white outline-none rounded"
+                        className="w-full p-4 text-xs bg-white rounded"
                         type="text"
                         placeholder={formFields[1]?.name}
                         name={formFields[1]?.name}
@@ -94,7 +94,7 @@ function VariantA({
                     ) : formFields[1].type === "inputFile" ? (
                       <label className="flex px-2 bg-white rounded">
                         <input
-                          className="w-full p-4 text-xs bg-white outline-none rounded"
+                          className="w-full p-4 text-xs bg-white rounded"
                           type="file"
                           placeholder="Choose file.."
                           name={formFields[1]?.name}
@@ -102,7 +102,7 @@ function VariantA({
                       </label>
                     ) : (
                       <input
-                        className="w-full p-4 text-xs bg-white outline-none rounded"
+                        className="w-full p-4 text-xs bg-white rounded"
                         type={
                           formFields[1].type === "inputEmail"
                             ? "email"
@@ -127,7 +127,7 @@ function VariantA({
                 formFields[2]?.name &&
                 (formFields[2].type === "textarea" ? (
                   <textarea
-                    className="mb-3 w-full p-4 text-xs bg-white outline-none rounded"
+                    className="mb-3 w-full p-4 text-xs bg-white rounded"
                     type="text"
                     placeholder={formFields[2]?.name}
                     name={formFields[2]?.name}
@@ -136,7 +136,7 @@ function VariantA({
                   <div className="mb-4">
                     <label className="flex px-2 bg-white rounded">
                       <input
-                        className="w-full p-4 text-xs bg-white outline-none rounded"
+                        className="w-full p-4 text-xs bg-white rounded"
                         type="file"
                         placeholder="Choose file.."
                         name={formFields[2]?.name}
@@ -145,7 +145,7 @@ function VariantA({
                   </div>
                 ) : (
                   <input
-                    className="mb-3 w-full p-4 text-xs bg-white outline-none rounded"
+                    className="mb-3 w-full p-4 text-xs bg-white rounded"
                     type={
                       formFields[2].type === "inputEmail"
                         ? "email"
@@ -167,7 +167,7 @@ function VariantA({
                 formFields[3]?.name &&
                 (formFields[3].type === "textarea" ? (
                   <textarea
-                    className="mb-3 w-full p-4 text-xs bg-white outline-none rounded"
+                    className="mb-3 w-full p-4 text-xs bg-white rounded"
                     type="text"
                     placeholder={formFields[3]?.name}
                     name={formFields[3]?.name}
@@ -176,7 +176,7 @@ function VariantA({
                   <div className="mb-4">
                     <label className="flex px-2 bg-white rounded">
                       <input
-                        className="w-full p-4 text-xs bg-white outline-none rounded"
+                        className="w-full p-4 text-xs bg-white rounded"
                         type="file"
                         placeholder="Choose file.."
                         name={formFields[3]?.name}
@@ -185,7 +185,7 @@ function VariantA({
                   </div>
                 ) : (
                   <input
-                    className="mb-3 w-full p-4 text-xs bg-white outline-none rounded"
+                    className="mb-3 w-full p-4 text-xs bg-white rounded"
                     type={
                       formFields[3].type === "inputEmail"
                         ? "email"
@@ -207,7 +207,7 @@ function VariantA({
                 formFields[4]?.name &&
                 (formFields[4].type === "textarea" ? (
                   <textarea
-                    className="mb-3 w-full p-4 text-xs bg-white outline-none rounded"
+                    className="mb-3 w-full p-4 text-xs bg-white rounded"
                     type="text"
                     placeholder={formFields[4]?.name}
                     name={formFields[4]?.name}
@@ -216,7 +216,7 @@ function VariantA({
                   <div className="mb-4">
                     <label className="flex px-2 bg-white rounded">
                       <input
-                        className="w-full p-4 text-xs bg-white outline-none rounded"
+                        className="w-full p-4 text-xs bg-white rounded"
                         type="file"
                         placeholder="Choose file.."
                         name={formFields[4]?.name}
@@ -225,7 +225,7 @@ function VariantA({
                   </div>
                 ) : (
                   <input
-                    className="mb-3 w-full p-4 text-xs bg-white outline-none rounded"
+                    className="mb-3 w-full p-4 text-xs bg-white rounded"
                     type={
                       formFields[4].type === "inputEmail"
                         ? "email"
@@ -259,10 +259,15 @@ function VariantA({
                     <a
                       className="text-webriq-darkblue hover:underline"
                       target={signInLink?.linkTarget}
-                      rel={signInLink?.linkTarget === "_blank" ? "noopener noreferrer" : null}
-                      href={signInLink?.type === "linkExternal"
-                        ? signInLink?.externalLink
-                        : signInLink?.type === "linkInternal"
+                      rel={
+                        signInLink?.linkTarget === "_blank"
+                          ? "noopener noreferrer"
+                          : null
+                      }
+                      href={
+                        signInLink?.type === "linkExternal"
+                          ? signInLink?.externalLink
+                          : signInLink?.type === "linkInternal"
                           ? signInLink?.internalLink === "Home" ||
                             signInLink?.internalLink === "home"
                             ? "/"

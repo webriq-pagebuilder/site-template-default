@@ -175,7 +175,7 @@ function VariantA({
                       (formFields[0].type === "textarea" ? (
                         <div class="mb-4">
                           <textarea
-                            className="w-full h-24 p-4 text-xs font-semibold leading-none resize-none bg-white rounded outline-none"
+                            className="w-full h-24 p-4 text-xs font-semibold leading-none resize-none bg-white rounded"
                             type="text"
                             placeholder={formFields[0]?.name}
                             name={formFields[0]?.name}
@@ -198,7 +198,7 @@ function VariantA({
                       ) : (
                         <div class="mb-4">
                           <input
-                            className="w-full p-4 text-xs font-semibold leading-none bg-white rounded outline-none"
+                            className="w-full p-4 text-xs font-semibold leading-none bg-white rounded"
                             type={
                               formFields[0].type === "inputEmail"
                                 ? "email"
@@ -222,7 +222,7 @@ function VariantA({
                       (formFields[1].type === "textarea" ? (
                         <div class="mb-4">
                           <textarea
-                            className="w-full h-24 p-4 text-xs font-semibold leading-none resize-none bg-white rounded outline-none"
+                            className="w-full h-24 p-4 text-xs font-semibold leading-none resize-none bg-white rounded"
                             type="text"
                             placeholder={formFields[1]?.name}
                             name={formFields[1]?.name}
@@ -245,7 +245,7 @@ function VariantA({
                       ) : (
                         <div className="mb-4">
                           <input
-                            className="w-full p-4 text-xs font-semibold leading-none bg-white rounded outline-none"
+                            className="w-full p-4 text-xs font-semibold leading-none bg-white rounded"
                             type={
                               formFields[1].type === "inputEmail"
                                 ? "email"
@@ -269,7 +269,7 @@ function VariantA({
                       (formFields[2].type === "textarea" ? (
                         <div className="mb-4">
                           <textarea
-                            className="w-full h-24 p-4 text-xs font-semibold leading-none resize-none bg-white rounded outline-none"
+                            className="w-full h-24 p-4 text-xs font-semibold leading-none resize-none bg-white rounded"
                             type="text"
                             placeholder={formFields[2]?.name}
                             name={formFields[2]?.name}
@@ -292,7 +292,7 @@ function VariantA({
                       ) : (
                         <div className="mb-4">
                           <input
-                            className="w-full p-4 text-xs font-semibold leading-none bg-white rounded outline-none"
+                            className="w-full p-4 text-xs font-semibold leading-none bg-white rounded"
                             type={
                               formFields[2].type === "inputEmail"
                                 ? "email"
@@ -316,7 +316,7 @@ function VariantA({
                       (formFields[3].type === "textarea" ? (
                         <div className="mb-4">
                           <textarea
-                            className="w-full h-24 p-4 text-xs font-semibold leading-none resize-none bg-white rounded outline-none"
+                            className="w-full h-24 p-4 text-xs font-semibold leading-none resize-none bg-white rounded"
                             type="text"
                             placeholder={formFields[3]?.name}
                             name={formFields[3]?.name}
@@ -339,7 +339,7 @@ function VariantA({
                       ) : (
                         <div className="mb-4">
                           <input
-                            className="w-full p-4 text-xs font-semibold leading-none bg-white rounded outline-none"
+                            className="w-full p-4 text-xs font-semibold leading-none bg-white rounded"
                             type={
                               formFields[3].type === "inputEmail"
                                 ? "email"
@@ -363,7 +363,7 @@ function VariantA({
                       (formFields[4].type === "textarea" ? (
                         <div className="mb-4">
                           <textarea
-                            className="w-full h-24 p-4 text-xs font-semibold leading-none resize-none bg-white rounded outline-none"
+                            className="w-full h-24 p-4 text-xs font-semibold leading-none resize-none bg-white rounded"
                             type="text"
                             placeholder={formFields[4]?.name}
                             name={formFields[4]?.name}
@@ -386,7 +386,7 @@ function VariantA({
                       ) : (
                         <div className="mb-4">
                           <input
-                            className="w-full p-4 text-xs font-semibold leading-none bg-white rounded outline-none"
+                            className="w-full p-4 text-xs font-semibold leading-none bg-white rounded"
                             type={
                               formFields[4].type === "inputEmail"
                                 ? "email"
