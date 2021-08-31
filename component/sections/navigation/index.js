@@ -20,8 +20,6 @@ function Navigation({ template, data }) {
     secondaryButton: data?.content?.[variant]?.secondaryButton,
   };
 
-  console.log(props);
-
   return Variant ? <Variant {...props} /> : null;
 }
 export default React.memo(Navigation);

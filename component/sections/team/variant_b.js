@@ -1,74 +1,58 @@
-import React from "react"
-import { urlFor } from "../../../lib/sanity"
+import React from "react";
+import { urlFor } from "../../../lib/sanity";
 
 function VariantB({ team }) {
   const [member, setMember] = React.useState({
     name: "",
     jobTitle: "",
     image: "",
-  })
+  });
 
   React.useEffect(() => {
-    team && team.map(item =>
-          item.team === team[0].team
-            ? setMember({
-                name: item.name && item.name,
-                jobTitle: item.jobTitle && item.jobTitle,
-                image: item.mainImage && item.mainImage
-              })
-            : null
-        )
-  }, [])
+    team &&
+      team.map((item) =>
+        item.team === team[0].team
+          ? setMember({
+              name: item.name && item.name,
+              jobTitle: item.jobTitle && item.jobTitle,
+              image: item.mainImage && item.mainImage,
+            })
+          : null
+      );
+  }, []);
 
   const choosenMember = (name, jobTitle, img) => {
-    setMember({ name, jobTitle, image: img })
-  }
+    setMember({ name, jobTitle, image: img });
+  };
   return (
     <section>
-      <div className="skew skew-top mr-for-radius">
-        <svg
-          className="h-8 md:h-12 lg:h-20 w-full text-gray-50"
-          viewBox="0 0 10 10"
-          preserveAspectRatio="none"
-        >
-          <polygon fill="currentColor" points="0 0 10 10 0 10" />
-        </svg>
-      </div>
-      <div className="skew skew-top ml-for-radius">
-        <svg
-          className="h-8 md:h-12 lg:h-20 w-full text-gray-50"
-          viewBox="0 0 10 10"
-          preserveAspectRatio="none"
-        >
-          <polygon fill="currentColor" points="0 10 10 0 10 10" />
-        </svg>
-      </div>
       {team && (
         <div className="py-20 bg-gray-50 radius-for-skewed">
           <div className="container mx-auto px-4">
             <div className="flex flex-wrap items-center -mx-3">
               <div className="w-full lg:w-1/3 px-3 mb-8 lg:mb-0">
                 <ul className="flex flex-wrap flex-row lg:flex-col justify-center lg:justify-start space-x-6 lg:space-x-0">
-                  {team && team.map(item => (
-                        <li key={item.name}>
-                          <button
-                            className={`text-2xl lg:text-4xl mb-4 ${
-                              item.name === member.name
-                                ? "text-gray-900"
-                                : "text-gray-300"
-                            } hover:text-gray-400 font-bold focus:outline-none`}
-                            onClick={() =>
-                              choosenMember(
-                                item.name,
-                                item.jobTitle,
-                                item.mainImage
-                              )
-                            }
-                          >
-                            {item.name}
-                          </button>
-                        </li>
-                      ))}
+                  {team &&
+                    team.map((item) => (
+                      <li key={item.name}>
+                        <button
+                          className={`text-2xl lg:text-4xl mb-4 ${
+                            item.name === member.name
+                              ? "text-gray-900"
+                              : "text-gray-300"
+                          } hover:text-gray-400 font-bold focus:outline-none`}
+                          onClick={() =>
+                            choosenMember(
+                              item.name,
+                              item.jobTitle,
+                              item.mainImage
+                            )
+                          }
+                        >
+                          {item.name}
+                        </button>
+                      </li>
+                    ))}
                 </ul>
               </div>
               {team.length === 0 ? null : (
@@ -95,25 +79,7 @@ function VariantB({ team }) {
           </div>
         </div>
       )}
-      <div className="skew skew-bottom mr-for-radius">
-        <svg
-          className="h-8 md:h-12 lg:h-20 w-full text-gray-50"
-          viewBox="0 0 10 10"
-          preserveAspectRatio="none"
-        >
-          <polygon fill="currentColor" points="0 0 10 0 0 10" />
-        </svg>
-      </div>
-      <div className="skew skew-bottom ml-for-radius">
-        <svg
-          className="h-8 md:h-12 lg:h-20 w-full text-gray-50"
-          viewBox="0 0 10 10"
-          preserveAspectRatio="none"
-        >
-          <polygon fill="currentColor" points="0 0 10 0 10 10" />
-        </svg>
-      </div>
     </section>
-  )
+  );
 }
-export default React.memo(VariantB)
+export default React.memo(VariantB);

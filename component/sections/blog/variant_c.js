@@ -1,27 +1,9 @@
 import React from "react";
 import { urlFor } from "../../../lib/sanity";
 
-function VariantC({ caption, title, posts, primaryButton }) {
+function VariantC({ caption, title, posts, buttonLabel }) {
   return (
     <section>
-      <div className="skew skew-top mr-for-radius">
-        <svg
-          className="h-8 md:h-12 lg:h-20 w-full text-gray-50"
-          viewBox="0 0 10 10"
-          preserveAspectRatio="none"
-        >
-          <polygon fill="currentColor" points="0 0 10 10 0 10" />
-        </svg>
-      </div>
-      <div className="skew skew-top ml-for-radius">
-        <svg
-          className="h-8 md:h-12 lg:h-20 w-full text-gray-50"
-          viewBox="0 0 10 10"
-          preserveAspectRatio="none"
-        >
-          <polygon fill="currentColor" points="0 10 10 0 10 10" />
-        </svg>
-      </div>
       <div className="py-20 bg-gray-50 radius-for-skewed">
         <div className="container mx-auto px-4">
           <div className="mb-16 flex flex-wrap items-center">
@@ -33,21 +15,11 @@ function VariantC({ caption, title, posts, primaryButton }) {
                 {title && title}
               </h2>
             </div>
-            {primaryButton && (
+            {buttonLabel && (
               <div className="hidden lg:block text-right w-1/2">
-                <a
-                  className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-gray-50 font-bold leading-loose transition duration-200"
-                  href={
-                    primaryButton.type === "linkInternal"
-                      ? primaryButton.internalLink === "Home" ||
-                        primaryButton.internalLink === "home"
-                        ? "/"
-                        : primaryButton.internalLink
-                      : primaryButton.externalLink
-                  }
-                >
-                  {primaryButton.label}
-                </a>
+                <button className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-gray-50 font-bold leading-loose transition duration-200">
+                  {buttonLabel}
+                </button>
               </div>
             )}
           </div>
@@ -75,9 +47,18 @@ function VariantC({ caption, title, posts, primaryButton }) {
                       </p>
                       <a
                         className="text-webriq-darkblue hover:text-webriq-darkblue font-bold"
-                        href="#"
+                        href={
+                          post?.primaryButton?.type === "linkExternal"
+                            ? post?.primaryButton?.externalLink
+                            : post?.primaryButton?.type === "linkInternal"
+                            ? post?.primaryButton?.internalLink === "Home" ||
+                              post?.primaryButton?.internalLink === "home"
+                              ? "/"
+                              : post?.primaryButton?.internalLink
+                            : "page-not-found"
+                        }
                       >
-                        Learn More
+                        {post?.primaryButton?.label}
                       </a>
                     </div>
                   </div>
@@ -199,24 +180,6 @@ function VariantC({ caption, title, posts, primaryButton }) {
             </div>
           )}
         </div>
-      </div>
-      <div className="skew skew-bottom mr-for-radius">
-        <svg
-          className="h-8 md:h-12 lg:h-20 w-full text-gray-50"
-          viewBox="0 0 10 10"
-          preserveAspectRatio="none"
-        >
-          <polygon fill="currentColor" points="0 0 10 0 0 10" />
-        </svg>
-      </div>
-      <div className="skew skew-bottom ml-for-radius">
-        <svg
-          className="h-8 md:h-12 lg:h-20 w-full text-gray-50"
-          viewBox="0 0 10 10"
-          preserveAspectRatio="none"
-        >
-          <polygon fill="currentColor" points="0 0 10 0 10 10" />
-        </svg>
       </div>
     </section>
   );

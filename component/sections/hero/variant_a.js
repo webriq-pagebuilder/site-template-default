@@ -94,15 +94,15 @@ function VariantA({
                   />
                 )}
                 <img
-                  className="hidden md:block absolute"
+                  className="hidden md:block absolute h-28 w-28"
                   style={{ top: "-2rem", right: "3rem", zIndex: "-1" }}
-                  src="assets/elements/webriq-blue-dark-up.svg"
+                  src="assets/elements/webriq-blue-dark-up.png"
                   alt=""
                 />
                 <img
-                  className="hidden md:block absolute"
+                  className="hidden md:block absolute h-36 w-36"
                   style={{ bottom: "-2rem", right: "-2rem", zIndex: "-1" }}
-                  src="assets/elements/wing-webriq-blue-down.svg"
+                  src="assets/elements/wing-webriq-blue-down.png"
                   alt=""
                 />
                 <img
@@ -121,15 +121,6 @@ function VariantA({
             </div>
           </div>
         </div>
-      </div>
-      <div className="mr-for-radius">
-        <svg
-          className="h-8 md:h-12 lg:h-20 w-full text-gray-50"
-          viewBox="0 0 10 10"
-          preserveAspectRatio="none"
-        >
-          <polygon fill="currentColor" points="0 0 10 0 0 10"></polygon>
-        </svg>
       </div>
     </section>
   );

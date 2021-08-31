@@ -1,5 +1,5 @@
-import React from "react"
-import { urlFor } from "lib/sanity"
+import React from "react";
+import { urlFor } from "lib/sanity";
 
 function VariantA({ title, images }) {
   return (
@@ -10,9 +10,9 @@ function VariantA({ title, images }) {
           {images &&
             images?.map((image, index) => (
               <div className="mb-4 w-full md:w-1/3 lg:w-1/6 px-2" key={index}>
-                <div className="py-2 bg-gray-50 rounded">
+                <div className="bg-gray-50 rounded">
                   <img
-                    className="mx-auto h-48 w-48 object-cover"
+                    className="mx-auto h-48 w-48 object-scale-down"
                     src={urlFor(image)}
                   />
                 </div>
@@ -21,6 +21,6 @@ function VariantA({ title, images }) {
         </div>
       </div>
     </section>
-  )
+  );
 }
-export default React.memo(VariantA)
+export default React.memo(VariantA);

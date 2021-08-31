@@ -112,7 +112,7 @@ function VariantC({ caption, title, testimonials }) {
                   <div className="p-8 bg-white rounded shadow text-center">
                     <div>
                       <p className="mb-8 text-gray-500 leading-loose">
-                        {item.testimony}
+                        {item.plainText}
                       </p>
                       <img
                         className="mb-2 mx-auto w-12 h-12 rounded-full object-cover"

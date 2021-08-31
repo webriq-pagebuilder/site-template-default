@@ -144,7 +144,7 @@ function VariantB({ caption, title, testimonials }) {
                           />
                         </svg>
                         <p className="text-gray-500 leading-loose mb-4">
-                          {testimonial?.testimony}
+                          {testimonial?.plainText}
                         </p>
                         <h4 className="font-bold font-heading">
                           {testimonial?.name}

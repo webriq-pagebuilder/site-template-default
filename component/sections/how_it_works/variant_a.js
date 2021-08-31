@@ -3,11 +3,11 @@ import React from "react";
 function VariantA({ subtitle, title, text, video, steps }) {
   return (
     <section>
-      <div className="py-20 bg-gray-50 radius-for-skewed">
+      <div className="py-28 bg-gray-50 radius-for-skewed">
         <div className="container mx-auto px-4">
-          <div className="mb-10 flex flex-wrap">
+          <div className="m-10 flex flex-wrap">
             <div className="mb-10 lg:mb-0 w-full lg:w-1/2">
-              <div className="max-w-md mx-20">
+              <div className="max-w-md mx-10">
                 <span className="text-webriq-darkblue font-bold">
                   {subtitle}
                 </span>
@@ -17,13 +17,13 @@ function VariantA({ subtitle, title, text, video, steps }) {
                 <p className="max-w-xs text-gray-500 leading-loose">{text}</p>
               </div>
             </div>
-            <div className="relative w-full lg:w-1/4">
+            <div className="relative w-full lg:max-w-lg">
               {video ? (
                 <iframe
                   //className="rounded-3xl md:rounded-6xl md:rounded-br-none border-4 border-webriq-blue"
                   className="relative rounded-lg"
-                  width="550"
-                  height="355"
+                  width="525"
+                  height="325"
                   src={`https://www.youtube.com/embed/${
                     String(video).split("=")[1].split("&")[0]
                   }`}

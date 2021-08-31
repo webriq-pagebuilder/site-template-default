@@ -3,45 +3,23 @@ import React from "react";
 function VariantB({ caption, title, description, features, featureItems }) {
   return (
     <section>
-      <div className="skew skew-top mr-for-radius">
-        <svg
-          className="h-8 md:h-12 lg:h-20 w-full text-gray-50"
-          viewBox="0 0 10 10"
-          preserveAspectRatio="none"
-        >
-          <polygon fill="currentColor" points="0 0 10 10 0 10" />
-        </svg>
-      </div>
-      <div className="skew skew-top ml-for-radius">
-        <svg
-          className="h-8 md:h-12 lg:h-20 w-full text-gray-50"
-          viewBox="0 0 10 10"
-          preserveAspectRatio="none"
-        >
-          <polygon fill="currentColor" points="0 10 10 0 10 10" />
-        </svg>
-      </div>
       <div className="py-20 bg-gray-50 radius-for-skewed">
         <div className="container mx-auto px-4">
           <div className="flex flex-wrap items-center">
             <div className="w-full lg:w-1/2 mb-12 lg:mb-0">
               <div className="max-w-md lg:mx-auto">
-                {caption === undefined ? null : (
+                {caption && (
                   <span className="text-webriq-darkblue font-bold">
-                    {/* Dolor sit amet consectutar */}
                     {caption}
                   </span>
                 )}
-                {title === undefined ? null : (
+                {title && (
                   <h2 className="my-2 text-4xl lg:text-5xl font-bold font-heading">
-                    {/* Build &amp; Launch without problems */}
                     {title}
                   </h2>
                 )}
-                {description === undefined ? null : (
+                {description && (
                   <p className="mb-6 text-gray-500 leading-loose">
-                    {/* Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  Pellentesque efficitur nisl sodales egestas lobortis. */}
                     {description}
                   </p>
                 )}
@@ -64,37 +42,6 @@ function VariantB({ caption, title, description, features, featureItems }) {
                         <span>{item}</span>
                       </li>
                     ))}
-                  {/*                  
-                  <li className="flex mb-4">
-                    <svg
-                      className="mr-2 w-6 h-6 text-webriq-babyblue"
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                    <span>Morbi mollis metus pretium ultrices tincidunt</span>
-                  </li>
-                  <li className="flex mb-4">
-                    <svg
-                      className="mr-2 w-6 h-6 text-webriq-babyblue"
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                    <span>Etiam lectus nunc, commodo et risus in</span>
-                  </li> */}
                 </ul>
               </div>
             </div>
@@ -126,7 +73,7 @@ function VariantB({ caption, title, description, features, featureItems }) {
                     </p>
                   </div>
                 )}
-                {features === undefined || features[1] === undefined ? null : (
+                {features && features[1] && (
                   <div className="py-6 pl-6 pr-4 shadow rounded bg-white">
                     <span className="mb-4 inline-block p-3 rounded-lg bg-webriq-lightblue">
                       <svg
@@ -203,24 +150,6 @@ function VariantB({ caption, title, description, features, featureItems }) {
             </div>
           </div>
         </div>
-      </div>
-      <div className="skew skew-bottom mr-for-radius">
-        <svg
-          className="h-8 md:h-12 lg:h-20 w-full text-gray-50"
-          viewBox="0 0 10 10"
-          preserveAspectRatio="none"
-        >
-          <polygon fill="currentColor" points="0 0 10 0 0 10" />
-        </svg>
-      </div>
-      <div className="skew skew-bottom ml-for-radius">
-        <svg
-          className="h-8 md:h-12 lg:h-20 w-full text-gray-50"
-          viewBox="0 0 10 10"
-          preserveAspectRatio="none"
-        >
-          <polygon fill="currentColor" points="0 0 10 0 10 10" />
-        </svg>
       </div>
     </section>
   );
