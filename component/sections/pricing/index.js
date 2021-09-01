@@ -5,10 +5,10 @@ const {
   NEXT_PUBLIC_APP_URL 
 } = process.env
 
-function Pricing({ data, published }) {
+function Pricing({ data, published}) {
   const variant = data?.variants?.variant  
   const Variant = dynamic(() => import(`./${variant}`))
- 
+
   const props = {
     caption: data?.variants?.[variant]?.subtitle,
     title: data?.variants?.[variant]?.heading,
@@ -23,7 +23,7 @@ function Pricing({ data, published }) {
     projectId: data?.variants?.[variant]?.stripeAccount?.projectId,
     documentId: data?.variants?.[variant]?.stripeAccount?.documentId,
     published,
-    NEXT_PUBLIC_APP_URL: NEXT_PUBLIC_APP_URL || 'dxpstudio.webriq.com'
+    NEXT_PUBLIC_DXP_STUDIO_ADDRESS: NEXT_PUBLIC_APP_URL || 'https://dxpstudio.webriq.com'
   }
 
   return (

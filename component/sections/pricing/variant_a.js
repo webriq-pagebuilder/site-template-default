@@ -2,39 +2,36 @@ import React from "react";
 import axios from 'axios'
 import { initiateCheckout } from "lib/checkout";
 
-
-function VariantA({ caption, title, description, plans, accountId, projectId, documentId, stripePKey, published, NEXT_PUBLIC_DXP_STUDIO_ADDRESS }) {
+function VariantA({ caption, title, description, plans, projectId, documentId, published, stripePKey, NEXT_PUBLIC_DXP_STUDIO_ADDRESS }) {
   const [plan, setPlan] = React.useState("monthly");
   const [subscriptionProducts, setSubscriptionProducts] = React.useState(null)
 
   React.useEffect(() => {  
      async function getList () {
-        const getProductList = await axios.get(`https://${NEXT_PUBLIC_DXP_STUDIO_ADDRESS}/api/stripe-account`, {
+        const getProductList = await axios.get(`${NEXT_PUBLIC_DXP_STUDIO_ADDRESS}/api/stripe-account/get-products`, {
           params: {    
             projectId,
             documentId
           } 
-        })        
-        setSubscriptionProducts(getProductList?.data?.data)
-    };
-    try {
-      published && getList()
-    } catch (error) {
-      console.log('Error Getting All Price from Stripe. Check your Environment Variables')
-    }
-  }, [plans, documentId, projectId, published])
+        })       
+        setSubscriptionProducts(getProductList.data.data)
+    };  
+    published && getList()
+  }, [projectId, published])
 
   React.useEffect(() => {
-    subscriptionProducts?.map(price => {
-      plans?.map(plan => {
-        price?.product === `dxpstudio-pricing-${plan?._key}-${plan?.planType?.replace(/ /g, "-")}` && 
-        price?.recurring.interval === 'month' ? plan['monthly_price']  = price?.id : null
-
-        price?.product === `dxpstudio-pricing-${plan?._key}-${plan?.planType?.replace(/ /g, "-")}` && 
-        price?.recurring.interval === 'year' ? plan['yearly_price']  = price?.id : null
-      })
-    })        
-  }, [plans, subscriptionProducts])
+    if(subscriptionProducts){
+      subscriptionProducts?.map(price => {
+        plans?.map(plan => {
+          price?.product === `dxpstudio-pricing-${plan?._key}-${plan?.planType?.replace(/ /g, "-")}` && 
+          price?.recurring.interval === 'month' ? plan['monthly_price']  = price?.id : null
+  
+          price?.product === `dxpstudio-pricing-${plan?._key}-${plan?.planType?.replace(/ /g, "-")}` && 
+          price?.recurring.interval === 'year' ? plan['yearly_price']  = price?.id : null
+        })
+      })  
+    }      
+  }, [subscriptionProducts])
   
   return (
     <section>
