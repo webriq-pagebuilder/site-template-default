@@ -8,13 +8,17 @@ function VariantA({ caption, title, description, plans, projectId, documentId, p
 
   React.useEffect(() => {  
      async function getList () {
-        const getProductList = await axios.get(`${NEXT_PUBLIC_DXP_STUDIO_ADDRESS}/api/stripe-account/get-products`, {
-          params: {    
-            projectId,
-            documentId
-          } 
-        })       
-        setSubscriptionProducts(getProductList.data.data)
+        try {
+          const getProductList = await axios.get(`${NEXT_PUBLIC_DXP_STUDIO_ADDRESS}/api/stripe-account/get-products`, {
+            params: {    
+              projectId,
+              documentId
+            } 
+          })       
+          setSubscriptionProducts(getProductList.data.data)
+        } catch (error) {
+          console.log(error.message)
+        }
     };  
     published && getList()
   }, [projectId, published])
@@ -66,21 +70,19 @@ function VariantA({ caption, title, description, plans, projectId, documentId, p
             {plans?.[0]?.monthlyPrice && (
               <div className="inline-block py-1 px-1 bg-white rounded-lg">
                 <button
-                  className={`mr-1 text-sm py-2 px-4 ${
-                    plan === "monthly"
-                      ? "text-gray-900 bg-gray-50 rounded-lg shadow"
-                      : "text-gray-500"
-                  } hover:text-gray-900 font-bold focus:outline-none`}
+                  className={`mr-1 text-sm py-2 px-4 ${plan === "monthly"
+                    ? "text-gray-900 bg-gray-50 rounded-lg shadow"
+                    : "text-gray-500"
+                    } hover:text-gray-900 font-bold focus:outline-none`}
                   onClick={() => setPlan("monthly")}
                 >
                   Monthly
                 </button>
                 <button
-                  className={`text-sm py-2 px-4 ${
-                    plan === "yearly"
-                      ? "text-gray-900 bg-gray-50 rounded-lg shadow"
-                      : "text-gray-500"
-                  } font-bold focus:outline-none`}
+                  className={`text-sm py-2 px-4 ${plan === "yearly"
+                    ? "text-gray-900 bg-gray-50 rounded-lg shadow"
+                    : "text-gray-500"
+                    } font-bold focus:outline-none`}
                   onClick={() => setPlan("yearly")}
                 >
                   Yearly
