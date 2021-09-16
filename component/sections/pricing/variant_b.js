@@ -1,6 +1,38 @@
 import React from "react";
+import axios from "axios";
+import { initiateCheckout } from "lib/checkout";
 
-function VariantB({ caption, title, description, plans }) {
+function VariantB({ caption, title, description, plans,  projectId, documentId, published, stripePKey, NEXT_PUBLIC_DXP_STUDIO_ADDRESS }) {
+  const [subscriptionProducts, setSubscriptionProducts] = React.useState(null)
+  
+  React.useEffect(() => {  
+    async function getList () {
+       try {
+         const getProductList = await axios.get(`${NEXT_PUBLIC_DXP_STUDIO_ADDRESS}/api/stripe/get-products`, {
+           params: {    
+             projectId,
+             documentId
+           } 
+         })  
+         setSubscriptionProducts(getProductList.data.data)
+       } catch (error) {
+         console.log(error.message)
+       }
+   };  
+   published && getList()
+  }, [published])  
+
+  React.useEffect(() => {
+    if(subscriptionProducts){
+      subscriptionProducts?.map(price => {
+        plans?.map(plan => {      
+          price?.product === `dxpstudio-pricing-${plan?._key}-${plan?.planType?.replace(/ /g, "-")}` && 
+          (plan['checkout']  = price?.id)  
+        })
+      })  
+    }      
+  }, [subscriptionProducts, plans])
+
   return (
     <section>
       <div className="skew skew-top mr-for-radius">
@@ -37,14 +69,14 @@ function VariantB({ caption, title, description, plans }) {
               )}
             </div>
             <div className="w-full lg:w-1/2">
-              {description === undefined ? null : (
+              {!description ? null : (
                 <p className="max-w-xs lg:mx-auto text-gray-500 leading-loose">
                   {description}
                 </p>
               )}
             </div>
           </div>
-          {plans === undefined ? null : (
+          {!plans ? null : (
             <div className="flex flex-wrap">
               {plans?.[0] && (
                 <div className="mb-8 w-full p-8 flex flex-wrap items-center bg-white rounded shadow">
@@ -81,23 +113,21 @@ function VariantB({ caption, title, description, plans }) {
                         : `$${plans?.[0]?.price}`}
                     </span>
                   </div>
-                  <div className="w-full lg:w-1/5 px-3">
-                    {plans?.[0]?.primaryButton?.label && (
-                      <a
-                        className="inline-block mt-4 lg:mt-0 py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-loose transition duration-200"
-                        href={
-                          plans?.[0]?.primaryButton?.type === "linkInternal"
-                            ? plans?.[0]?.primaryButton?.internalLink ===
-                                "Home" ||
-                              plans?.[0]?.primaryButton?.internalLink === "home"
-                              ? "/"
-                              : plans?.[0]?.primaryButton?.internalLink
-                            : plans?.[0]?.primaryButton?.externalLink
-                        }
+                  {console.log(plans[0].checkout)}                 
+                  <div className="w-full lg:w-1/5 px-3">                    
+                      <button
+                        className={`inline-block mt-4 lg:mt-0 py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-loose transition duration-200  ${!subscriptionProducts&& 'disabled:opacity-50 cursor-not-allowed'}`} disabled={!subscriptionProducts}
+                        onClick={() => {initiateCheckout({
+                          lineItems: [
+                            {
+                              price: plans[0].checkout,
+                              quantity: 1                          
+                            }
+                          ]
+                        }, stripePKey, NEXT_PUBLIC_DXP_STUDIO_ADDRESS, false)}}
                       >
-                        {plans?.[0]?.primaryButton.label}
-                      </a>
-                    )}
+                        {plans?.[0]?.checkoutButtonName}
+                      </button>         
                   </div>
                 </div>
               )}
@@ -136,24 +166,20 @@ function VariantB({ caption, title, description, plans }) {
                         : `$${plans?.[1]?.price}`}
                     </span>
                   </div>
-                  <div className="w-full lg:w-1/5 px-3">
-                    {plans?.[1]?.primaryButton === undefined ||
-                    plans?.[1]?.primaryButton.label === undefined ? null : (
-                      <a
-                        className="inline-block mt-4 lg:mt-0 py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-loose transition duration-200"
-                        href={
-                          plans?.[1]?.primaryButton?.type === "linkInternal"
-                            ? plans?.[1]?.primaryButton?.internalLink ===
-                                "Home" ||
-                              plans?.[1]?.primaryButton?.internalLink === "home"
-                              ? "/"
-                              : plans?.[1]?.primaryButton?.internalLink
-                            : plans?.[1]?.primaryButton?.externalLink
-                        }
-                      >
-                        {plans?.[1]?.primaryButton?.label}
-                      </a>
-                    )}
+                  <div className="w-full lg:w-1/5 px-3">                
+                    <button
+                      className={`inline-block mt-4 lg:mt-0 py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-loose transition duration-200 ${!subscriptionProducts&& 'disabled:opacity-50 cursor-not-allowed'}`} disabled={!subscriptionProducts}
+                      onClick={() => {initiateCheckout({
+                        lineItems: [
+                          {
+                            price: plans[1].checkout,
+                            quantity: 1                          
+                          }
+                        ]
+                      }, stripePKey, NEXT_PUBLIC_DXP_STUDIO_ADDRESS, false)}}
+                    >
+                      {plans?.[0]?.checkoutButtonName}
+                    </button>                  
                   </div>
                 </div>
               )}
@@ -194,21 +220,20 @@ function VariantB({ caption, title, description, plans }) {
                   </div>
                   <div className="w-full lg:w-1/5 px-3">
                     {plans?.[2]?.primaryButton === undefined ||
-                    plans?.[2]?.primaryButton.label === undefined ? null : (
-                      <a
-                        className="inline-block mt-4 lg:mt-0 py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-loose transition duration-200"
-                        href={
-                          plans?.[2]?.primaryButton?.type === "linkInternal"
-                            ? plans?.[2]?.primaryButton?.internalLink ===
-                                "Home" ||
-                              plans?.[2]?.primaryButton?.internalLink === "home"
-                              ? "/"
-                              : plans?.[2]?.primaryButton?.internalLink
-                            : plans?.[2]?.primaryButton?.externalLink
-                        }
+                    plans?.[2]?.checkoutButtonName === undefined ? null : (
+                      <button
+                        className={`inline-block mt-4 lg:mt-0 py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-loose transition duration-200   ${!subscriptionProducts&& 'disabled:opacity-50 cursor-not-allowed'}`} disabled={!subscriptionProducts}
+                        onClick={() => {initiateCheckout({
+                          lineItems: [
+                            {
+                              price: plans[2].checkout,
+                              quantity: 1                          
+                            }
+                          ]
+                        }, stripePKey, NEXT_PUBLIC_DXP_STUDIO_ADDRESS, false)}}
                       >
-                        {plans?.[2]?.primaryButton?.label}
-                      </a>
+                        {plans?.[0]?.checkoutButtonName}
+                      </button>
                     )}
                   </div>
                 </div>

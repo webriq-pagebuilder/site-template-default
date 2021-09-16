@@ -9,7 +9,7 @@ function VariantA({ caption, title, description, plans, projectId, documentId, p
   React.useEffect(() => {  
      async function getList () {
         try {
-          const getProductList = await axios.get(`${NEXT_PUBLIC_DXP_STUDIO_ADDRESS}/api/stripe-account/get-products`, {
+          const getProductList = await axios.get(`${NEXT_PUBLIC_DXP_STUDIO_ADDRESS}/api/stripe/get-products`, {
             params: {    
               projectId,
               documentId
@@ -132,7 +132,7 @@ function VariantA({ caption, title, description, plans, projectId, documentId, p
                     ))}
                   </ul>
                   <button
-                      className={`inline-block text-center py-2 px-4 w-full rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-loose transition duration-200 cursor-pointer ${subscriptionProducts === null && 'disabled:opacity-50 cursor-not-allowed'}`} disabled={subscriptionProducts === null}
+                      className={`inline-block text-center py-2 px-4 w-full rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-loose transition duration-200 cursor-pointer ${!subscriptionProducts && 'disabled:opacity-50 cursor-not-allowed'}`} disabled={!subscriptionProducts}
                       onClick={() => {initiateCheckout({
                         lineItems: [
                           {
@@ -140,7 +140,7 @@ function VariantA({ caption, title, description, plans, projectId, documentId, p
                             quantity: 1                          
                           }
                         ]
-                      }, stripePKey, NEXT_PUBLIC_DXP_STUDIO_ADDRESS)}}
+                      }, stripePKey, NEXT_PUBLIC_DXP_STUDIO_ADDRESS, true)}}
                     >
                       {plans?.[0]?.checkoutButtonName}
                     </button>
@@ -188,7 +188,7 @@ function VariantA({ caption, title, description, plans, projectId, documentId, p
                     ))}
                   </ul>
                   <button
-                      className={`inline-block text-center py-2 px-4 w-full rounded-l-xl rounded-t-xl bg-white hover:bg-gray-50 font-bold leading-loose transition duration-200 cursor-pointer ${subscriptionProducts === null && 'disabled:opacity-50 cursor-not-allowed'}`} disabled={subscriptionProducts === null}
+                      className={`inline-block text-center py-2 px-4 w-full rounded-l-xl rounded-t-xl bg-white hover:bg-gray-50 font-bold leading-loose transition duration-200 cursor-pointer ${!subscriptionProducts && 'disabled:opacity-50 cursor-not-allowed'}`} disabled={!subscriptionProducts}
                       onClick={() => {initiateCheckout({
                         lineItems: [
                           {
@@ -196,7 +196,7 @@ function VariantA({ caption, title, description, plans, projectId, documentId, p
                             quantity: 1                          
                           }
                         ]
-                      }, stripePKey, NEXT_PUBLIC_DXP_STUDIO_ADDRESS)}}
+                      }, stripePKey, NEXT_PUBLIC_DXP_STUDIO_ADDRESS, true)}}
                     >
                       {plans?.[1]?.checkoutButtonName}
                     </button>
@@ -244,7 +244,7 @@ function VariantA({ caption, title, description, plans, projectId, documentId, p
                     ))}
                   </ul>
                  <button
-                    className={`inline-block text-center py-2 px-4 w-full rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-loose transition duration-200 cursor-pointer ${subscriptionProducts === null && 'disabled:opacity-50 cursor-not-allowed'}`} disabled={subscriptionProducts === null}
+                    className={`inline-block text-center py-2 px-4 w-full rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-loose transition duration-200 cursor-pointer ${!subscriptionProducts && 'disabled:opacity-50 cursor-not-allowed'}`} disabled={!subscriptionProducts}
                     onClick={() => {initiateCheckout({
                       lineItems: [
                         {
@@ -252,7 +252,7 @@ function VariantA({ caption, title, description, plans, projectId, documentId, p
                           quantity: 1                          
                         }
                       ]
-                    }, stripePKey, NEXT_PUBLIC_DXP_STUDIO_ADDRESS)}}
+                    }, stripePKey, NEXT_PUBLIC_DXP_STUDIO_ADDRESS, true)}}
                   >
                   {plans?.[2]?.checkoutButtonName}
                   </button>

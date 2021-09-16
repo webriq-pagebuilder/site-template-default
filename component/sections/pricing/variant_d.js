@@ -4,26 +4,16 @@ import WebriQForm from "@webriq/gatsby-webriq-form";
 // import {CardElement, useStripe, useElements} from '@stripe/react-stripe-js';
 import axios from 'axios'
 
-// const cardElementOptions ={
-//   style: {
-//       base: {         
-//           padding: '10px'
-//       }
-//   },
-//   hidePostalCode: true
-// };
+  function VariantD({
+    caption,
+    title,
+    description,
+    annualBilling,
+    monthlyBilling,
+    banner,
+    form,
+  }) {
 
-function VariantD({
-  caption,
-  title,
-  description,
-  annualBilling,
-  monthlyBilling,
-  banner,
-  form,
-}) {
-  const stripe = useStripe();
-  const elements = useElements();
   const [banners, setBanners] = React.useState(0);
   const [billing, setBilling] = React.useState({amount: 0, billType: ''})
 
@@ -32,11 +22,11 @@ function VariantD({
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const {error, paymentMethod} = await stripe.createPaymentMethod({
-      type: 'card',
-      card: elements.getElement(CardElement),
-      // billing_details
-    })
+    // const {error, paymentMethod} = await stripe.createPaymentMethod({
+    //   type: 'card',
+    //   card: elements.getElement(CardElement),
+    //   // billing_details
+    // })
     if(!error){
       const {id} = paymentMethod
       try {
@@ -202,7 +192,7 @@ function VariantD({
                   <button
                     type="submit"
                     className={`block w-full p-4 text-center text-white font-bold leading-none bg-webriq-blue hover:bg-webriq-darkblue rounded-l-xl rounded-t-xl transition duration-200 ${billing.billType === '' && 'disabled:opacity-50 cursor-not-allowed'}`}
-                    disabled={billing.billType === '' || !stripe}
+                    disabled={billing.billType === ''}
                     onClick={handleSubmit}
                   >
                     Buy {billing.billType} Supply
