@@ -1,42 +1,67 @@
 import React from "react";
-import axios from 'axios'
+import axios from "axios";
 import { initiateCheckout } from "lib/checkout";
 
-function VariantA({ caption, title, description, plans, projectId, documentId, published, stripePKey, NEXT_PUBLIC_DXP_STUDIO_ADDRESS }) {
+function VariantA({
+  caption,
+  title,
+  description,
+  plans,
+  projectId,
+  documentId,
+  published,
+  stripePKey,
+  NEXT_PUBLIC_DXP_STUDIO_ADDRESS,
+}) {
   const [plan, setPlan] = React.useState("monthly");
-  const [subscriptionProducts, setSubscriptionProducts] = React.useState(null)
-
-  React.useEffect(() => {  
-     async function getList () {
-        try {
-          const getProductList = await axios.get(`${NEXT_PUBLIC_DXP_STUDIO_ADDRESS}/api/stripe/get-products`, {
-            params: {    
-              projectId,
-              documentId
-            } 
-          })       
-          setSubscriptionProducts(getProductList.data.data)
-        } catch (error) {
-          console.log(error.message)
-        }
-    };  
-    published && getList()
-  }, [projectId, published])
+  const [subscriptionProducts, setSubscriptionProducts] = React.useState(null);
+  const [usePlan, setUsePlan] = React.useState(plans);
 
   React.useEffect(() => {
-    if(subscriptionProducts){
-      subscriptionProducts?.map(price => {
-        plans?.map(plan => {
-          price?.product === `dxpstudio-pricing-${plan?._key}-${plan?.planType?.replace(/ /g, "-")}` && 
-          price?.recurring.interval === 'month' ? plan['monthly_price']  = price?.id : null
-  
-          price?.product === `dxpstudio-pricing-${plan?._key}-${plan?.planType?.replace(/ /g, "-")}` && 
-          price?.recurring.interval === 'year' ? plan['yearly_price']  = price?.id : null
-        })
-      })  
-    }      
-  }, [subscriptionProducts])
-  
+    async function getList() {
+      try {
+        const getProductList = await axios.get(
+          `${NEXT_PUBLIC_DXP_STUDIO_ADDRESS}/api/stripe/get-products`,
+          {
+            params: {
+              projectId,
+              documentId,
+            },
+          }
+        );
+        console.log(getProductList);
+        setSubscriptionProducts(getProductList.data.data);
+      } catch (error) {
+        console.log(error.message);
+      }
+    }
+    published && getList();
+  }, [projectId, published]);
+
+  React.useEffect(() => {
+    if (subscriptionProducts) {
+      subscriptionProducts?.map((price) => {
+        plans?.map((plan) => {
+          price?.product ===
+            `dxpstudio-pricing-${plan?._key}-${plan?.planType?.replace(
+              / /g,
+              "-"
+            )}` && price?.recurring.interval === "month"
+            ? (plan["monthly_price"] = price?.id)
+            : null;
+
+          price?.product ===
+            `dxpstudio-pricing-${plan?._key}-${plan?.planType?.replace(
+              / /g,
+              "-"
+            )}` && price?.recurring.interval === "year"
+            ? (plan["yearly_price"] = price?.id)
+            : null;
+        });
+      });
+    }
+  }, [subscriptionProducts]);
+
   return (
     <section>
       <div className="skew skew-top mr-for-radius">
@@ -67,22 +92,24 @@ function VariantA({ caption, title, description, plans, projectId, documentId, p
               {title && title}
             </h2>
             <p className="mb-6 text-gray-500">{description && description}</p>
-            {plans?.[0]?.monthlyPrice && (
+            {usePlan?.[0]?.monthlyPrice && (
               <div className="inline-block py-1 px-1 bg-white rounded-lg">
                 <button
-                  className={`mr-1 text-sm py-2 px-4 ${plan === "monthly"
-                    ? "text-gray-900 bg-gray-50 rounded-lg shadow"
-                    : "text-gray-500"
-                    } hover:text-gray-900 font-bold focus:outline-none`}
+                  className={`mr-1 text-sm py-2 px-4 ${
+                    plan === "monthly"
+                      ? "text-gray-900 bg-gray-50 rounded-lg shadow"
+                      : "text-gray-500"
+                  } hover:text-gray-900 font-bold focus:outline-none`}
                   onClick={() => setPlan("monthly")}
                 >
                   Monthly
                 </button>
                 <button
-                  className={`text-sm py-2 px-4 ${plan === "yearly"
-                    ? "text-gray-900 bg-gray-50 rounded-lg shadow"
-                    : "text-gray-500"
-                    } font-bold focus:outline-none`}
+                  className={`text-sm py-2 px-4 ${
+                    plan === "yearly"
+                      ? "text-gray-900 bg-gray-50 rounded-lg shadow"
+                      : "text-gray-500"
+                  } font-bold focus:outline-none`}
                   onClick={() => setPlan("yearly")}
                 >
                   Yearly
@@ -91,29 +118,29 @@ function VariantA({ caption, title, description, plans, projectId, documentId, p
             )}
           </div>
           <div className="flex flex-wrap -mx-4">
-            {plans?.[0]?.monthlyPrice && (
+            {usePlan?.[0]?.monthlyPrice && (
               <div className="w-full md:w-1/2 lg:w-1/3 px-4 mb-8 lg:mb-0">
                 <div className="p-8 bg-white shadow rounded">
                   <h4 className="mb-2 text-2xl font-bold font-heading">
-                    {plans?.[0]?.planType}
+                    {usePlan?.[0]?.planType}
                   </h4>
                   <span className="text-6xl font-bold">
-                    {isNaN(parseInt(plans?.[0]?.monthlyPrice))
-                      ? plans?.[0]?.monthlyPrice
+                    {isNaN(parseInt(usePlan?.[0]?.monthlyPrice))
+                      ? usePlan?.[0]?.monthlyPrice
                       : `$${
                           plan === "yearly"
-                            ? plans?.[0]?.yearlyPrice
-                            : plans?.[0]?.monthlyPrice
+                            ? usePlan?.[0]?.yearlyPrice
+                            : usePlan?.[0]?.monthlyPrice
                         }`}
                   </span>
-                  {!isNaN(parseInt(plans?.[0]?.monthlyPrice)) && (
+                  {!isNaN(parseInt(usePlan?.[0]?.monthlyPrice)) && (
                     <span className="text-gray-400 text-xs">/{plan}</span>
                   )}
                   <p className="mt-3 mb-6 text-gray-500 leading-loose">
-                    {plans?.[0]?.description}
+                    {usePlan?.[0]?.description}
                   </p>
                   <ul className="mb-6 text-gray-500">
-                    {plans?.[0]?.planIncludes?.map((include) => (
+                    {usePlan?.[0]?.planIncludes?.map((include) => (
                       <li className="mb-2 flex" key={include}>
                         <svg
                           className="mr-2 w-5 h-5 text-webriq-darkblue"
@@ -132,44 +159,58 @@ function VariantA({ caption, title, description, plans, projectId, documentId, p
                     ))}
                   </ul>
                   <button
-                      className={`inline-block text-center py-2 px-4 w-full rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-loose transition duration-200 cursor-pointer ${!subscriptionProducts && 'disabled:opacity-50 cursor-not-allowed'}`} disabled={!subscriptionProducts}
-                      onClick={() => {initiateCheckout({
-                        lineItems: [
-                          {
-                            price: plan === 'monthly' ? plans[0].monthly_price : plans[0].yearly_price,
-                            quantity: 1                          
-                          }
-                        ]
-                      }, stripePKey, NEXT_PUBLIC_DXP_STUDIO_ADDRESS, true)}}
-                    >
-                      {plans?.[0]?.checkoutButtonName}
-                    </button>
+                    className={`inline-block text-center py-2 px-4 w-full rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-loose transition duration-200 cursor-pointer ${
+                      !subscriptionProducts &&
+                      "disabled:opacity-50 cursor-not-allowed"
+                    }`}
+                    disabled={!subscriptionProducts}
+                    onClick={() => {
+                      initiateCheckout(
+                        {
+                          lineItems: [
+                            {
+                              price:
+                                plan === "monthly"
+                                  ? usePlan[0].monthly_price
+                                  : usePlan[0].yearly_price,
+                              quantity: 1,
+                            },
+                          ],
+                        },
+                        stripePKey,
+                        NEXT_PUBLIC_DXP_STUDIO_ADDRESS,
+                        true
+                      );
+                    }}
+                  >
+                    {usePlan?.[0]?.checkoutButtonName}
+                  </button>
                 </div>
               </div>
             )}
-            {plans?.[1] && (
+            {usePlan?.[1] && (
               <div className="w-full md:w-1/2 lg:w-1/3 px-4 mb-8 lg:mb-0">
                 <div className="p-8 bg-webriq-darkblue shadow rounded">
                   <h4 className="mb-2 text-2xl font-bold text-white">
-                    {plans?.[1]?.planType}
+                    {usePlan?.[1]?.planType}
                   </h4>
                   <span className="text-6xl font-bold text-white">
-                    {isNaN(parseInt(plans?.[1]?.monthlyPrice))
-                      ? plans?.[1]?.monthlyPrice
+                    {isNaN(parseInt(usePlan?.[1]?.monthlyPrice))
+                      ? usePlan?.[1]?.monthlyPrice
                       : `$${
                           plan === "yearly"
-                            ? plans?.[1]?.yearlyPrice
-                            : plans?.[1]?.monthlyPrice
+                            ? usePlan?.[1]?.yearlyPrice
+                            : usePlan?.[1]?.monthlyPrice
                         }`}
                   </span>
-                  {!isNaN(parseInt(plans?.[1]?.monthlyPrice)) && (
+                  {!isNaN(parseInt(usePlan?.[1]?.monthlyPrice)) && (
                     <span className="text-gray-50 text-xs">/{plan}</span>
                   )}
                   <p className="mt-3 mb-6 leading-loose text-gray-50">
-                    {plans?.[1]?.description}
+                    {usePlan?.[1]?.description}
                   </p>
                   <ul className="mb-6 text-gray-50">
-                    {plans?.[1]?.planIncludes?.map((include) => (
+                    {usePlan?.[1]?.planIncludes?.map((include) => (
                       <li className="mb-2 flex" key={include}>
                         <svg
                           className="mr-2 w-5 h-5 text-webriq-babyblue"
@@ -188,44 +229,58 @@ function VariantA({ caption, title, description, plans, projectId, documentId, p
                     ))}
                   </ul>
                   <button
-                      className={`inline-block text-center py-2 px-4 w-full rounded-l-xl rounded-t-xl bg-white hover:bg-gray-50 font-bold leading-loose transition duration-200 cursor-pointer ${!subscriptionProducts && 'disabled:opacity-50 cursor-not-allowed'}`} disabled={!subscriptionProducts}
-                      onClick={() => {initiateCheckout({
-                        lineItems: [
-                          {
-                            price: plan === 'monthly' ? plans[1].monthly_price : plans[1].yearly_price,
-                            quantity: 1                          
-                          }
-                        ]
-                      }, stripePKey, NEXT_PUBLIC_DXP_STUDIO_ADDRESS, true)}}
-                    >
-                      {plans?.[1]?.checkoutButtonName}
-                    </button>
+                    className={`inline-block text-center py-2 px-4 w-full rounded-l-xl rounded-t-xl bg-white hover:bg-gray-50 font-bold leading-loose transition duration-200 cursor-pointer ${
+                      !subscriptionProducts &&
+                      "disabled:opacity-50 cursor-not-allowed"
+                    }`}
+                    disabled={!subscriptionProducts}
+                    onClick={() => {
+                      initiateCheckout(
+                        {
+                          lineItems: [
+                            {
+                              price:
+                                plan === "monthly"
+                                  ? usePlan[1].monthly_price
+                                  : usePlan[1].yearly_price,
+                              quantity: 1,
+                            },
+                          ],
+                        },
+                        stripePKey,
+                        NEXT_PUBLIC_DXP_STUDIO_ADDRESS,
+                        true
+                      );
+                    }}
+                  >
+                    {usePlan?.[1]?.checkoutButtonName}
+                  </button>
                 </div>
               </div>
             )}
-            {(plans?.[2]) && (
+            {usePlan?.[2] && (
               <div className="w-full lg:w-1/3 px-4">
                 <div className="p-8 bg-white shadow rounded">
                   <h4 className="mb-2 text-2xl font-bold font-heading">
-                    {plans?.[2]?.planType}
+                    {usePlan?.[2]?.planType}
                   </h4>
                   <span className="text-6xl font-bold">
-                    {isNaN(parseInt(plans?.[2]?.monthlyPrice))
-                      ? plans?.[2]?.monthlyPrice
+                    {isNaN(parseInt(usePlan?.[2]?.monthlyPrice))
+                      ? usePlan?.[2]?.monthlyPrice
                       : `$${
                           plan === "yearly"
-                            ? plans?.[2]?.yearlyPrice
-                            : plans?.[2]?.monthlyPrice
+                            ? usePlan?.[2]?.yearlyPrice
+                            : usePlan?.[2]?.monthlyPrice
                         }`}
                   </span>
-                  {!isNaN(parseInt(plans?.[2]?.monthlyPrice)) && (
+                  {!isNaN(parseInt(usePlan?.[2]?.monthlyPrice)) && (
                     <span className="text-gray-400 text-xs">/{plan}</span>
                   )}
                   <p className="mt-3 mb-6 text-gray-500 leading-loose">
-                    {plans?.[2]?.description}
+                    {usePlan?.[2]?.description}
                   </p>
                   <ul className="mb-6 text-gray-500">
-                    {plans?.[2]?.planIncludes?.map((include) => (
+                    {usePlan?.[2]?.planIncludes?.map((include) => (
                       <li className="mb-2 flex" key={include}>
                         <svg
                           className="mr-2 w-5 h-5 text-webriq-darkblue"
@@ -243,18 +298,32 @@ function VariantA({ caption, title, description, plans, projectId, documentId, p
                       </li>
                     ))}
                   </ul>
-                 <button
-                    className={`inline-block text-center py-2 px-4 w-full rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-loose transition duration-200 cursor-pointer ${!subscriptionProducts && 'disabled:opacity-50 cursor-not-allowed'}`} disabled={!subscriptionProducts}
-                    onClick={() => {initiateCheckout({
-                      lineItems: [
+                  <button
+                    className={`inline-block text-center py-2 px-4 w-full rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-loose transition duration-200 cursor-pointer ${
+                      !subscriptionProducts &&
+                      "disabled:opacity-50 cursor-not-allowed"
+                    }`}
+                    disabled={!subscriptionProducts}
+                    onClick={() => {
+                      initiateCheckout(
                         {
-                          price: plan === 'monthly' ? plans[2].monthly_price : plans[2].yearly_price,
-                          quantity: 1                          
-                        }
-                      ]
-                    }, stripePKey, NEXT_PUBLIC_DXP_STUDIO_ADDRESS, true)}}
+                          lineItems: [
+                            {
+                              price:
+                                plan === "monthly"
+                                  ? usePlan[2].monthly_price
+                                  : usePlan[2].yearly_price,
+                              quantity: 1,
+                            },
+                          ],
+                        },
+                        stripePKey,
+                        NEXT_PUBLIC_DXP_STUDIO_ADDRESS,
+                        true
+                      );
+                    }}
                   >
-                  {plans?.[2]?.checkoutButtonName}
+                    {usePlan?.[2]?.checkoutButtonName}
                   </button>
                 </div>
               </div>
@@ -280,7 +349,7 @@ function VariantA({ caption, title, description, plans, projectId, documentId, p
           <polygon fill="currentColor" points="0 0 10 0 10 10" />
         </svg>
       </div>
-    </section> 
+    </section>
   );
 }
 export default React.memo(VariantA);

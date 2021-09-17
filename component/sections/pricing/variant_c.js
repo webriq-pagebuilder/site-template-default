@@ -15,6 +15,7 @@ function VariantC({
 }) {
   const [plan, setPlan] = React.useState("monthly");
   const [subscriptionProducts, setSubscriptionProducts] = React.useState(null);
+  const [usePlan, setUsePlan] = React.useState(plans);
 
   React.useEffect(() => {
     async function getList() {
@@ -117,30 +118,30 @@ function VariantC({
               </div>
             )}
           </div>
-          {plans && (
+          {usePlan && (
             <div className="flex flex-wrap max-w-4xl mx-auto">
-              {plans?.[0] && (
+              {usePlan?.[0] && (
                 <div className="w-full lg:w-1/2 px-4 mb-8 lg:mb-0">
                   <div className="py-8 px-10 max-w-md mx-auto bg-white shadow rounded text-center">
                     <div className="mb-12">
                       <h3 className="mb-4 text-2xl font-bold font-heading">
-                        {plans?.[0]?.planType}
+                        {usePlan?.[0]?.planType}
                       </h3>
                       <p className="mb-6 text-gray-500">
-                        {plans?.[0]?.description}
+                        {usePlan?.[0]?.description}
                       </p>
                     </div>
                     <div>
                       <span className="text-5xl lg:text-6xl font-bold">
-                      {isNaN(parseInt(plans?.[0]?.monthlyPrice))
-                      ? plans?.[0]?.monthlyPrice
-                      : `$${
-                          plan === "yearly"
-                            ? plans?.[0]?.yearlyPrice
-                            : plans?.[0]?.monthlyPrice
-                        }`}
+                        {isNaN(parseInt(usePlan?.[0]?.monthlyPrice))
+                          ? usePlan?.[0]?.monthlyPrice
+                          : `$${
+                              plan === "yearly"
+                                ? usePlan?.[0]?.yearlyPrice
+                                : usePlan?.[0]?.monthlyPrice
+                            }`}
                       </span>
-                      {!isNaN(parseInt(plans?.[0]?.price)) && (
+                      {!isNaN(parseInt(usePlan?.[0]?.price)) && (
                         <span className="text-gray-500">{`/${plan}`}</span>
                       )}
                       <button
@@ -156,8 +157,8 @@ function VariantC({
                                 {
                                   price:
                                     plan === "monthly"
-                                      ? plans[0].monthly_price
-                                      : plans[0].yearly_price,
+                                      ? usePlan[0].monthly_price
+                                      : usePlan[0].yearly_price,
                                   quantity: 1,
                                 },
                               ],
@@ -168,34 +169,34 @@ function VariantC({
                           );
                         }}
                       >
-                        {plans?.[0]?.checkoutButtonName}
+                        {usePlan?.[0]?.checkoutButtonName}
                       </button>
                     </div>
                   </div>
                 </div>
               )}
-              {plans?.[1] && (
+              {usePlan?.[1] && (
                 <div className="w-full lg:w-1/2 px-4">
                   <div className="py-8 px-10 max-w-md mx-auto bg-white shadow rounded text-center">
                     <div className="mb-12">
                       <h3 className="mb-4 text-2xl font-bold font-heading">
-                        {plans?.[1].planType}
+                        {usePlan?.[1].planType}
                       </h3>
                       <p className="mb-6 text-gray-500">
-                        {plans?.[1].description}
+                        {usePlan?.[1].description}
                       </p>
                     </div>
                     <div>
                       <span className="text-5xl lg:text-6xl font-bold">
-                        {isNaN(parseInt(plans?.[0]?.monthlyPrice))
-                        ? plans?.[0]?.monthlyPrice
-                        : `$${
-                            plan === "yearly"
-                              ? plans?.[1]?.yearlyPrice
-                              : plans?.[1]?.monthlyPrice
-                          }`}
+                        {isNaN(parseInt(usePlan?.[0]?.monthlyPrice))
+                          ? usePlan?.[0]?.monthlyPrice
+                          : `$${
+                              plan === "yearly"
+                                ? usePlan?.[1]?.yearlyPrice
+                                : usePlan?.[1]?.monthlyPrice
+                            }`}
                       </span>
-                      {!isNaN(parseInt(plans?.[1]?.price)) && (
+                      {!isNaN(parseInt(usePlan?.[1]?.price)) && (
                         <span className="text-gray-500">{`/${plan}`}</span>
                       )}
                       <button
@@ -211,8 +212,8 @@ function VariantC({
                                 {
                                   price:
                                     plan === "monthly"
-                                      ? plans[1].monthly_price
-                                      : plans[1].yearly_price,
+                                      ? usePlan[1].monthly_price
+                                      : usePlan[1].yearly_price,
                                   quantity: 1,
                                 },
                               ],
@@ -223,7 +224,7 @@ function VariantC({
                           );
                         }}
                       >
-                        {plans?.[0]?.checkoutButtonName}
+                        {usePlan?.[0]?.checkoutButtonName}
                       </button>
                     </div>
                   </div>
