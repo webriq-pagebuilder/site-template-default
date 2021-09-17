@@ -3,7 +3,6 @@ import React from "react";
 import WebriQForm from "@webriq/gatsby-webriq-form";
 import PortableText from "@sanity/block-content-to-react";
 
-
 function VariantD({
   caption,
   title,
@@ -13,20 +12,20 @@ function VariantD({
   banner,
   form,
   block,
-  signInLink
+  signInLink,
 }) {
   const [banners, setBanners] = React.useState(0);
-  const [billing, setBilling] = React.useState({amount: 0, billType: ''})
+  const [billing, setBilling] = React.useState({ amount: 0, billType: "" });
 
   const handleChange = (e) => {
-    e.target.value === monthlyBilling ? setBilling({amount: e.target.value, billType: "Monthly"}) : setBilling({amount: e.target.value, billType: "Annual"})
+    e.target.value === monthlyBilling
+      ? setBilling({ amount: e.target.value, billType: "Monthly" })
+      : setBilling({ amount: e.target.value, billType: "Annual" });
   };
 
   const serializers = {
     types: {
-      block: (props) => (
-        <p className="text-xs">{props.children}</p>
-      )
+      block: (props) => <p className="text-xs">{props.children}</p>,
     },
     marks: {
       internalLink: ({ children, mark }) => (
@@ -34,14 +33,20 @@ function VariantD({
           {children}
         </a>
       ),
-      link: ({ children, mark }) => (
+      link: ({ children, mark }) =>
         mark.blank ? (
-          <a href={mark.href} target="_blank" rel="noopener noreferrer">{children}</a>
+          <a href={mark.href} target="_blank" rel="noopener noreferrer">
+            {children}
+          </a>
         ) : (
-          <a className="text-webriq-darkblue font-bold hover:text-webriq-darkblue" href={mark.href}>{children}</a>
-        )
-      )
-    }
+          <a
+            className="text-webriq-darkblue font-bold hover:text-webriq-darkblue"
+            href={mark.href}
+          >
+            {children}
+          </a>
+        ),
+    },
   };
 
   return (
@@ -76,14 +81,24 @@ function VariantD({
             </div>
             <div className="flex flex-wrap justify-center">
               <label className="md:mr-4 w-full sm:w-auto flex items-center mr-8 mb-2">
-                <input type="radio" name="billing" defaultValue={monthlyBilling} onChange={(e) => handleChange(e)}/>
+                <input
+                  type="radio"
+                  name="billing"
+                  defaultValue={monthlyBilling}
+                  onChange={(e) => handleChange(e)}
+                />
                 <span className="mx-2 font-semibold">Monthly Billing</span>
                 <span className="inline-flex items-center justify-center w-16 h-10 bg-webriq-darkblue text-white font-semibold rounded-lg">
                   ${monthlyBilling}
                 </span>
               </label>
               <label className="flex w-full sm:w-auto items-center mb-2">
-                <input type="radio" name="billing" defaultValue={annualBilling} onChange={(e) => handleChange(e)}/>
+                <input
+                  type="radio"
+                  name="billing"
+                  defaultValue={annualBilling}
+                  onChange={(e) => handleChange(e)}
+                />
                 <span className="mx-2 font-semibold">Annual Billing</span>
                 <span className="inline-flex items-center justify-center w-16 h-10 bg-webriq-darkblue text-white font-semibold rounded-lg">
                   ${annualBilling}
@@ -111,7 +126,10 @@ function VariantD({
                       {field.type === "inputText" &&
                       String(field?.name).split(" ")[0].toLowerCase() ===
                         "email" ? (
-                        <div className="flex mb-4 px-4 bg-gray-50 rounded" key={field?._key}>
+                        <div
+                          className="flex mb-4 px-4 bg-gray-50 rounded"
+                          key={field?._key}
+                        >
                           <input
                             className="w-full py-4 text-xs placeholder-gray-400 font-semibold leading-none bg-gray-50 focus:outline-none"
                             type="email"
@@ -163,25 +181,31 @@ function VariantD({
                             </svg>
                           </button>
                         </div>
-                      ) : 
-                      // field.type === "card" ? <div className="p-3 mb-4">
+                      ) : // field.type === "card" ? <div className="p-3 mb-4">
                       //   <CardElement options={cardElementOptions}/>
-                      // </div> : 
+                      // </div> :
                       null}
                     </>
                   ))}
 
                   <div className="text-left mb-5 text-sm text-gray-400">
                     <label className="inline-flex">
-                      <input className="mr-2" type="checkbox" name="terms" defaultValue={1} />
+                      <input
+                        className="mr-2"
+                        type="checkbox"
+                        name="terms"
+                        defaultValue={1}
+                      />
                       <PortableText blocks={block} serializers={serializers} />
                     </label>
                   </div>
                   <button
                     type="submit"
-                    className={`block w-full p-4 text-center text-white font-bold leading-none bg-webriq-blue hover:bg-webriq-darkblue rounded-l-xl rounded-t-xl transition duration-200 ${billing.billType === '' && 'disabled:opacity-50 cursor-not-allowed'}`}
-                    disabled={billing.billType === ''}
-                    onClick={handleSubmit}
+                    className={`block w-full p-4 text-center text-white font-bold leading-none bg-webriq-blue hover:bg-webriq-darkblue rounded-l-xl rounded-t-xl transition duration-200 ${
+                      billing.billType === "" &&
+                      "disabled:opacity-50 cursor-not-allowed"
+                    }`}
+                    disabled={billing.billType === ""}
                   >
                     Buy {billing.billType} Supply
                   </button>
@@ -191,10 +215,15 @@ function VariantD({
                   <a
                     className="text-webriq-darkblue hover:underline"
                     target={signInLink?.linkTarget}
-                    rel={signInLink?.linkTarget === "_blank" ? "noopener noreferrer" : null}
-                    href={signInLink?.type === "linkExternal"
-                      ? signInLink?.externalLink
-                      : signInLink?.type === "linkInternal"
+                    rel={
+                      signInLink?.linkTarget === "_blank"
+                        ? "noopener noreferrer"
+                        : null
+                    }
+                    href={
+                      signInLink?.type === "linkExternal"
+                        ? signInLink?.externalLink
+                        : signInLink?.type === "linkInternal"
                         ? signInLink?.internalLink === "Home" ||
                           signInLink?.internalLink === "home"
                           ? "/"
