@@ -34,7 +34,6 @@ const SEO = dynamic(() => import("component/SEO"))
 
 function page({ data, preview, slug }) {
   const router = useRouter();
-
   if (!router.isFallback && !data?.page?.slug) {
     return <PageNotFound statusCode={404} />;
   }
@@ -71,6 +70,7 @@ function page({ data, preview, slug }) {
               }}
               {...{ [section._type]: section }}
               data={section}
+              published={String(data?.page?._id)?.split('.')[0] !=="drafts"}
             />
           );
         })}

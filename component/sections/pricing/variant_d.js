@@ -3,7 +3,6 @@ import React from "react";
 import WebriQForm from "@webriq/gatsby-webriq-form";
 import PortableText from "@sanity/block-content-to-react";
 
-
 function VariantD({
   caption,
   title,
@@ -13,23 +12,20 @@ function VariantD({
   banner,
   form,
   block,
-  signInLink
+  signInLink,
 }) {
   const [banners, setBanners] = React.useState(0);
+  const [billing, setBilling] = React.useState({ amount: 0, billType: "" });
 
-  // React.useEffect(() => {
-
-  //   banners === banner.length - 1 ?
-  //   setInterval(() => {setBanners(0)}, 3000)
-  //     :
-  //     setInterval(() => {setBanners(banners + 1)}, 3000)
-  // }, [banners])
+  const handleChange = (e) => {
+    e.target.value === monthlyBilling
+      ? setBilling({ amount: e.target.value, billType: "Monthly" })
+      : setBilling({ amount: e.target.value, billType: "Annual" });
+  };
 
   const serializers = {
     types: {
-      block: (props) => (
-        <p className="text-xs">{props.children}</p>
-      )
+      block: (props) => <p className="text-xs">{props.children}</p>,
     },
     marks: {
       internalLink: ({ children, mark }) => (
@@ -37,14 +33,20 @@ function VariantD({
           {children}
         </a>
       ),
-      link: ({ children, mark }) => (
+      link: ({ children, mark }) =>
         mark.blank ? (
-          <a href={mark.href} target="_blank" rel="noopener noreferrer">{children}</a>
+          <a href={mark.href} target="_blank" rel="noopener noreferrer">
+            {children}
+          </a>
         ) : (
-          <a className="text-webriq-darkblue font-bold hover:text-webriq-darkblue" href={mark.href}>{children}</a>
-        )
-      )
-    }
+          <a
+            className="text-webriq-darkblue font-bold hover:text-webriq-darkblue"
+            href={mark.href}
+          >
+            {children}
+          </a>
+        ),
+    },
   };
 
   return (
@@ -79,23 +81,33 @@ function VariantD({
             </div>
             <div className="flex flex-wrap justify-center">
               <label className="md:mr-4 w-full sm:w-auto flex items-center mr-8 mb-2">
-                <input type="radio" name="billing" defaultValue={1} />
+                <input
+                  type="radio"
+                  name="billing"
+                  defaultValue={monthlyBilling}
+                  onChange={(e) => handleChange(e)}
+                />
                 <span className="mx-2 font-semibold">Monthly Billing</span>
-                <span className="inline-flex items-center justify-center w-12 h-10 bg-webriq-darkblue text-white font-semibold rounded-lg">
+                <span className="inline-flex items-center justify-center w-16 h-10 bg-webriq-darkblue text-white font-semibold rounded-lg">
                   ${monthlyBilling}
                 </span>
               </label>
               <label className="flex w-full sm:w-auto items-center mb-2">
-                <input type="radio" name="billing" defaultValue={2} />
+                <input
+                  type="radio"
+                  name="billing"
+                  defaultValue={annualBilling}
+                  onChange={(e) => handleChange(e)}
+                />
                 <span className="mx-2 font-semibold">Annual Billing</span>
-                <span className="inline-flex items-center justify-center w-12 h-10 bg-webriq-darkblue text-white font-semibold rounded-lg">
+                <span className="inline-flex items-center justify-center w-16 h-10 bg-webriq-darkblue text-white font-semibold rounded-lg">
                   ${annualBilling}
                 </span>
               </label>
             </div>
           </div>
           <div className="flex flex-wrap bg-white rounded shadow">
-            <div className="w-full md:w-1/2 mb-8 md:mb-0">
+            <form className="w-full md:w-1/2 mb-8 md:mb-0">
               <div className="px-6 py-8 lg:px-8 text-center">
                 <span className="text-gray-400">Sign In</span>
                 <h4 className="mb-8 text-2xl font-heading">
@@ -114,7 +126,10 @@ function VariantD({
                       {field.type === "inputText" &&
                       String(field?.name).split(" ")[0].toLowerCase() ===
                         "email" ? (
-                        <div className="flex mb-4 px-4 bg-gray-50 rounded">
+                        <div
+                          className="flex mb-4 px-4 bg-gray-50 rounded"
+                          key={field?._key}
+                        >
                           <input
                             className="w-full py-4 text-xs placeholder-gray-400 font-semibold leading-none bg-gray-50 focus:outline-none"
                             type="email"
@@ -166,21 +181,33 @@ function VariantD({
                             </svg>
                           </button>
                         </div>
-                      ) : null}
+                      ) : // field.type === "card" ? <div className="p-3 mb-4">
+                      //   <CardElement options={cardElementOptions}/>
+                      // </div> :
+                      null}
                     </>
                   ))}
 
                   <div className="text-left mb-5 text-sm text-gray-400">
                     <label className="inline-flex">
-                      <input className="mr-2" type="checkbox" name="terms" defaultValue={1} />
+                      <input
+                        className="mr-2"
+                        type="checkbox"
+                        name="terms"
+                        defaultValue={1}
+                      />
                       <PortableText blocks={block} serializers={serializers} />
                     </label>
                   </div>
                   <button
                     type="submit"
-                    className="block w-full p-4 text-center text-white font-bold leading-none bg-webriq-blue hover:bg-webriq-darkblue rounded-l-xl rounded-t-xl transition duration-200"
+                    className={`block w-full p-4 text-center text-white font-bold leading-none bg-webriq-blue hover:bg-webriq-darkblue rounded-l-xl rounded-t-xl transition duration-200 ${
+                      billing.billType === "" &&
+                      "disabled:opacity-50 cursor-not-allowed"
+                    }`}
+                    disabled={billing.billType === ""}
                   >
-                    Buy Monthly Supply
+                    Buy {billing.billType} Supply
                   </button>
                 </WebriQForm>
                 <p className="text-xs text-gray-400">
@@ -188,10 +215,15 @@ function VariantD({
                   <a
                     className="text-webriq-darkblue hover:underline"
                     target={signInLink?.linkTarget}
-                    rel={signInLink?.linkTarget === "_blank" ? "noopener noreferrer" : null}
-                    href={signInLink?.type === "linkExternal"
-                      ? signInLink?.externalLink
-                      : signInLink?.type === "linkInternal"
+                    rel={
+                      signInLink?.linkTarget === "_blank"
+                        ? "noopener noreferrer"
+                        : null
+                    }
+                    href={
+                      signInLink?.type === "linkExternal"
+                        ? signInLink?.externalLink
+                        : signInLink?.type === "linkInternal"
                         ? signInLink?.internalLink === "Home" ||
                           signInLink?.internalLink === "home"
                           ? "/"
@@ -203,7 +235,7 @@ function VariantD({
                   </a>
                 </p>
               </div>
-            </div>
+            </form>
             <div className="py-10 w-full md:w-1/2 bg-webriq-darkblue lg:rounded-r overflow-hidden flex flex-col">
               <img
                 className="w-full md:max-w-xs mx-auto my-auto"
@@ -216,7 +248,7 @@ function VariantD({
               <div className="text-center">
                 {banner?.map((item, index) => (
                   <button
-                    key={item}
+                    key={item?._key}
                     className={` ${
                       banners === index
                         ? "focus:outline-none inline-block mr-2 w-2 h-2 bg-white rounded-full"
@@ -251,4 +283,5 @@ function VariantD({
     </section>
   );
 }
+
 export default React.memo(VariantD);

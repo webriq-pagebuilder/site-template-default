@@ -1,7 +1,66 @@
 import React from "react";
+import axios from "axios";
+import { initiateCheckout } from "lib/checkout";
 
-function VariantC({ caption, title, description, plans }) {
+function VariantC({
+  caption,
+  title,
+  description,
+  plans,
+  projectId,
+  documentId,
+  published,
+  stripePKey,
+  NEXT_PUBLIC_DXP_STUDIO_ADDRESS,
+}) {
   const [plan, setPlan] = React.useState("monthly");
+  const [subscriptionProducts, setSubscriptionProducts] = React.useState(null);
+  const [usePlan, setUsePlan] = React.useState(plans);
+
+  React.useEffect(() => {
+    async function getList() {
+      try {
+        const getProductList = await axios.get(
+          `${NEXT_PUBLIC_DXP_STUDIO_ADDRESS}/api/stripe-account/get-products`,
+          {
+            params: {
+              projectId,
+              documentId,
+            },
+          }
+        );
+        setSubscriptionProducts(getProductList.data.data);
+      } catch (error) {
+        console.log(error.message);
+      }
+    }
+    published && getList();
+  }, [projectId, published]);
+
+  React.useEffect(() => {
+    if (subscriptionProducts) {
+      subscriptionProducts?.map((price) => {
+        plans?.map((plan) => {
+          price?.product ===
+            `dxpstudio-pricing-${plan?._key}-${plan?.planType?.replace(
+              / /g,
+              "-"
+            )}` && price?.recurring.interval === "month"
+            ? (plan["monthly_price"] = price?.id)
+            : null;
+
+          price?.product ===
+            `dxpstudio-pricing-${plan?._key}-${plan?.planType?.replace(
+              / /g,
+              "-"
+            )}` && price?.recurring.interval === "year"
+            ? (plan["yearly_price"] = price?.id)
+            : null;
+        });
+      });
+    }
+  }, [subscriptionProducts]);
+
   return (
     <section>
       <div className="skew skew-top mr-for-radius">
@@ -57,108 +116,116 @@ function VariantC({ caption, title, description, plans }) {
               </div>
             )}
           </div>
-          {plans && (
+          {usePlan && (
             <div className="flex flex-wrap max-w-4xl mx-auto">
-              {plans?.[0] && (
+              {usePlan?.[0] && (
                 <div className="w-full lg:w-1/2 px-4 mb-8 lg:mb-0">
                   <div className="py-8 px-10 max-w-md mx-auto bg-white shadow rounded text-center">
                     <div className="mb-12">
                       <h3 className="mb-4 text-2xl font-bold font-heading">
-                        {plans?.[0]?.planType}
+                        {usePlan?.[0]?.planType}
                       </h3>
                       <p className="mb-6 text-gray-500">
-                        {plans?.[0]?.description}
+                        {usePlan?.[0]?.description}
                       </p>
                     </div>
                     <div>
-                      {plans?.[0]?.price && (
-                        <span className="text-5xl lg:text-6xl font-bold">
-                          {isNaN(parseInt(plans?.[0]?.price))
-                            ? plans?.[0]?.price
-                            : `$${plan === "yearly"
-                              ? plans?.[0]?.price * 12
-                              : plans?.[0]?.price
+                      <span className="text-5xl lg:text-6xl font-bold">
+                        {isNaN(parseInt(usePlan?.[0]?.monthlyPrice))
+                          ? usePlan?.[0]?.monthlyPrice
+                          : `$${
+                              plan === "yearly"
+                                ? usePlan?.[0]?.yearlyPrice
+                                : usePlan?.[0]?.monthlyPrice
                             }`}
-                        </span>
-                      )}
-                      {!isNaN(parseInt(plans?.[0]?.price)) && (
+                      </span>
+                      {!isNaN(parseInt(usePlan?.[0]?.price)) && (
                         <span className="text-gray-500">{`/${plan}`}</span>
                       )}
-                      {plans?.[0]?.primaryButton?.label && (
-                        <a
-                          className="block mt-6 w-full py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-loose transition duration-200"
-                          target={plans?.[0]?.primaryButton?.linkTarget}
-                          rel={
-                            plans?.[0]?.primaryButton?.linkTarget === "_blank"
-                              ? "noopener noreferrer"
-                              : null
-                          }
-                          href={
-                            plans?.[0]?.primaryButton?.type === "linkInternal"
-                              ? plans?.[0]?.primaryButton?.internalLink ===
-                                "Home" ||
-                                plans?.[0]?.primaryButton?.internalLink ===
-                                "home"
-                                ? "/"
-                                : plans?.[0]?.primaryButton?.internalLink
-                              : plans?.[0]?.primaryButton?.externalLink
-                          }
-                        >
-                          {plans?.[0]?.primaryButton.label}
-                        </a>
-                      )}
+                      <button
+                        className={`block mt-6 w-full py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-loose transition duration-200 ${
+                          !subscriptionProducts &&
+                          "disabled:opacity-50 cursor-not-allowed"
+                        }`}
+                        disabled={!subscriptionProducts}
+                        onClick={() => {
+                          initiateCheckout(
+                            {
+                              lineItems: [
+                                {
+                                  price:
+                                    plan === "monthly"
+                                      ? usePlan[0].monthly_price
+                                      : usePlan[0].yearly_price,
+                                  quantity: 1,
+                                },
+                              ],
+                            },
+                            stripePKey,
+                            window.location.origin + "/success",
+                            window.location.href,
+                            true
+                          );
+                        }}
+                      >
+                        {usePlan?.[0]?.checkoutButtonName}
+                      </button>
                     </div>
                   </div>
                 </div>
               )}
-              {plans?.[1] && (
+              {usePlan?.[1] && (
                 <div className="w-full lg:w-1/2 px-4">
                   <div className="py-8 px-10 max-w-md mx-auto bg-white shadow rounded text-center">
                     <div className="mb-12">
                       <h3 className="mb-4 text-2xl font-bold font-heading">
-                        {plans?.[1].planType}
+                        {usePlan?.[1].planType}
                       </h3>
                       <p className="mb-6 text-gray-500">
-                        {plans?.[1].description}
+                        {usePlan?.[1].description}
                       </p>
                     </div>
                     <div>
-                      {plans?.[1]?.price && (
-                        <span className="text-5xl lg:text-6xl font-bold">
-                          {isNaN(parseInt(plans?.[1]?.price))
-                            ? plans?.[1]?.price
-                            : `$${plan === "yearly"
-                              ? plans?.[1]?.price * 12
-                              : plans?.[1]?.price
+                      <span className="text-5xl lg:text-6xl font-bold">
+                        {isNaN(parseInt(usePlan?.[0]?.monthlyPrice))
+                          ? usePlan?.[0]?.monthlyPrice
+                          : `$${
+                              plan === "yearly"
+                                ? usePlan?.[1]?.yearlyPrice
+                                : usePlan?.[1]?.monthlyPrice
                             }`}
-                        </span>
-                      )}
-                      {!isNaN(parseInt(plans?.[1]?.price)) && (
+                      </span>
+                      {!isNaN(parseInt(usePlan?.[1]?.price)) && (
                         <span className="text-gray-500">{`/${plan}`}</span>
                       )}
-                      {plans?.[1]?.primaryButton?.label && (
-                        <a
-                          className="block mt-6 w-full py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-loose transition duration-200"
-                          target={plans?.[1]?.primaryButton?.linkTarget}
-                          rel={
-                            plans?.[1]?.primaryButton?.linkTarget === "_blank"
-                              ? "noopener noreferrer"
-                              : null
-                          }
-                          href={
-                            plans?.[1]?.primaryButton?.type === "linkInternal"
-                              ? plans?.[1]?.primaryButton?.internalLink ===
-                                "Home" ||
-                                plans?.[1]?.primaryButton?.internalLink ===
-                                "home"
-                                ? "/"
-                                : plans?.[1]?.primaryButton?.internalLink
-                              : plans?.[1]?.primaryButton?.externalLink
-                          }
-                        >
-                          {plans?.[1].primaryButton?.label}
-                        </a>
-                      )}
+                      <button
+                        className={`block mt-6 w-full py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-loose transition duration-200 ${
+                          !subscriptionProducts &&
+                          "disabled:opacity-50 cursor-not-allowed"
+                        }`}
+                        disabled={!subscriptionProducts}
+                        onClick={() => {
+                          initiateCheckout(
+                            {
+                              lineItems: [
+                                {
+                                  price:
+                                    plan === "monthly"
+                                      ? usePlan[1].monthly_price
+                                      : usePlan[1].yearly_price,
+                                  quantity: 1,
+                                },
+                              ],
+                            },
+                            stripePKey,
+                            window.location.origin + "/success",
+                            window.location.href,
+                            true
+                          );
+                        }}
+                      >
+                        {usePlan?.[0]?.checkoutButtonName}
+                      </button>
                     </div>
                   </div>
                 </div>
