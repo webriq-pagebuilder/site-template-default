@@ -8,10 +8,15 @@ const Variants = {
   variant_d: dynamic(() => import("./variant_d")),
 };
 
-function Pricing({ data }) {
-  const variant = data?.variants?.variant;
+const {
+  NEXT_PUBLIC_DXP_STUDIO_ADDRESS 
+} = process.env
+
+function Pricing({ data, published}) {
+  const variant = data?.variants?.variant
 
   const Variant = Variants?.[variant];
+ 
   const props = {
     caption: data?.variants?.[variant]?.subtitle,
     title: data?.variants?.[variant]?.heading,
@@ -21,6 +26,12 @@ function Pricing({ data }) {
     monthlyBilling: data?.variants?.[variant]?.monthlyBilling,
     banner: data?.variants?.[variant]?.banner,
     form: data?.variants?.[variant]?.form,
+    stripePKey: data?.variants?.[variant]?.stripeAccount?.stripePKey,
+    accountId: data?.variants?.[variant]?.stripeAccount?.accountId,
+    projectId: data?.variants?.[variant]?.stripeAccount?.projectId,
+    documentId: data?.variants?.[variant]?.stripeAccount?.documentId,
+    published,
+    NEXT_PUBLIC_DXP_STUDIO_ADDRESS: NEXT_PUBLIC_DXP_STUDIO_ADDRESS || 'https://dxpstudio.webriq.com',
     block: data?.variants?.[variant]?.block,
     signInLink: data?.variants?.[variant]?.signinLink,
   };
