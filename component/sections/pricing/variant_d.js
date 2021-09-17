@@ -1,40 +1,49 @@
 import { urlFor } from "lib/sanity";
 import React from "react";
 import WebriQForm from "@webriq/gatsby-webriq-form";
-// import {CardElement, useStripe, useElements} from '@stripe/react-stripe-js';
-import axios from 'axios'
+import PortableText from "@sanity/block-content-to-react";
 
-  function VariantD({
-    caption,
-    title,
-    description,
-    annualBilling,
-    monthlyBilling,
-    banner,
-    form,
-  }) {
 
+function VariantD({
+  caption,
+  title,
+  description,
+  annualBilling,
+  monthlyBilling,
+  banner,
+  form,
+  block,
+  signInLink
+}) {
   const [banners, setBanners] = React.useState(0);
   const [billing, setBilling] = React.useState({amount: 0, billType: ''})
 
   const handleChange = (e) => {
     e.target.value === monthlyBilling ? setBilling({amount: e.target.value, billType: "Monthly"}) : setBilling({amount: e.target.value, billType: "Annual"})
   };
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    // const {error, paymentMethod} = await stripe.createPaymentMethod({
-    //   type: 'card',
-    //   card: elements.getElement(CardElement),
-    //   // billing_details
-    // })
-    if(!error){
-      const {id} = paymentMethod
-      try {
-        const {data} = await axios.post('/api/charge', {id, amount: billing.amount*100, description: `${billing.billType} - ${description}`, })  
-      } catch (error) {   
-      }
+
+  const serializers = {
+    types: {
+      block: (props) => (
+        <p className="text-xs">{props.children}</p>
+      )
+    },
+    marks: {
+      internalLink: ({ children, mark }) => (
+        <a className="hover:text-red-400 text-red-800" href={mark.slug.current}>
+          {children}
+        </a>
+      ),
+      link: ({ children, mark }) => (
+        mark.blank ? (
+          <a href={mark.href} target="_blank" rel="noopener noreferrer">{children}</a>
+        ) : (
+          <a className="text-webriq-darkblue font-bold hover:text-webriq-darkblue" href={mark.href}>{children}</a>
+        )
+      )
     }
-  }
+  };
+
   return (
     <section>
       <div className="skew skew-top mr-for-radius">
@@ -163,30 +172,9 @@ import axios from 'axios'
                   ))}
 
                   <div className="text-left mb-5 text-sm text-gray-400">
-                    <label className="flex">
-                      <input type="checkbox" name="terms" defaultValue={1} />
-                      <span className="ml-1 text-xs">
-                        By signing up, you agree to our{" "}
-                        <a
-                          className="text-webriq-darkblue font-bold hover:text-webriq-darkblue"
-                          href="/terms-data-policy"
-                        >
-                          Terms,
-                        </a>
-                        <a
-                          className="text-webriq-darkblue font-bold hover:text-webriq-darkblue"
-                          href="/terms-data-policy"
-                        >
-                          Data Policy
-                        </a>{" "}
-                        and{" "}
-                        <a
-                          className="text-webriq-darkblue font-bold hover:text-webriq-darkblue"
-                          href="/cookies-policy"
-                        >
-                          Cookies Policy.
-                        </a>
-                      </span>
+                    <label className="inline-flex">
+                      <input className="mr-2" type="checkbox" name="terms" defaultValue={1} />
+                      <PortableText blocks={block} serializers={serializers} />
                     </label>
                   </div>
                   <button
@@ -198,10 +186,23 @@ import axios from 'axios'
                     Buy {billing.billType} Supply
                   </button>
                 </WebriQForm>
-                <p className="text-xs text-gray-400 text-xs">
+                <p className="text-xs text-gray-400">
                   Already have an account?{" "}
-                  <a className="text-webriq-darkblue hover:underline" href="#">
-                    Sign In
+                  <a
+                    className="text-webriq-darkblue hover:underline"
+                    target={signInLink?.linkTarget}
+                    rel={signInLink?.linkTarget === "_blank" ? "noopener noreferrer" : null}
+                    href={signInLink?.type === "linkExternal"
+                      ? signInLink?.externalLink
+                      : signInLink?.type === "linkInternal"
+                        ? signInLink?.internalLink === "Home" ||
+                          signInLink?.internalLink === "home"
+                          ? "/"
+                          : signInLink?.internalLink
+                        : "page-not-found"
+                    }
+                  >
+                    &nbsp;{signInLink?.label}
                   </a>
                 </p>
               </div>
@@ -253,4 +254,5 @@ import axios from 'axios'
     </section>
   );
 }
+
 export default React.memo(VariantD);

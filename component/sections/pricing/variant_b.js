@@ -73,12 +73,12 @@ function VariantB({
         <div className="container mx-auto px-4">
           <div className="mb-16 w-full flex flex-wrap items-center">
             <div className="w-full lg:w-1/2">
-              {caption === undefined ? null : (
+              {caption && (
                 <span className="text-webriq-darkblue font-bold">
                   {caption}
                 </span>
               )}
-              {title === undefined ? null : (
+              {title && (
                 <h2 className="mb-2 text-4xl lg:text-5xl font-bold font-heading">
                   {title}
                 </h2>

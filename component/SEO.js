@@ -1,31 +1,31 @@
 import React from "react";
 import { urlFor } from "lib/sanity";
 
-function SEO({ data }) {
+function SEO({ data, slug }) {
   const seo = data?.seo;
   const title = data?.title;
-  const url = process.env.SITE_SANITY_STUDIO_URL || "http://localhost:3333";
+  const url = `${typeof window !== "undefined"
+    ? process.env.NEXT_PUBLIC_SITE_URL
+    : "http://localhost:3000"}/${slug ?? ""}`;
 
   return (
     <>
       {/* Primary Meta Tags */}
-      <meta name="title" content={seo?.seoTitle || title} />
+      <meta name="title" content={seo?.seoTitle ?? title} />
       <meta name="keywords" content={seo?.seoKeywords} />
       <meta name="synonyms" content={seo?.seoSynonyms} />
       <meta name="description" content={seo?.seoDescription} />
-      <meta name="image" content={urlFor(seo?.seoImage)} />
       {/* Open Graph / Facebook */}
-      <meta property="og:type" content="website" />
-      <meta property="og:title" content={seo?.seoTitle || title} />
+      <meta property="og:title" content={seo?.seoTitle ?? title} />
       <meta property="og:url" content={url} />
       <meta property="og:description" content={seo?.seoDescription} />
-      <meta property="og:image" content={urlFor(seo?.seoImage)} />
+      <meta property="og:image" content={urlFor(seo?.seoImage)?.width(500)?.url()} />
       {/* Twitter */}
-      <meta property="twitter:card" content="summary_large_image" />
-      <meta property="twitter:url" content={url} />
-      <meta property="twitter:title" content={seo?.seoTitle || title} />
-      <meta property="twitter:description" content={seo?.seoDescription} />
-      <meta property="twitter:image" content={urlFor(seo?.seoImage)} />
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:url" content={url} />
+      <meta name="twitter:title" content={seo?.seoTitle ?? title} />
+      <meta name="twitter:description" content={seo?.seoDescription} />
+      <meta name="twitter:image" content={urlFor(seo?.seoImage)?.width(500)?.url()} />
     </>
   );
 }

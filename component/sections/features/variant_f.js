@@ -1,18 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { urlFor } from "../../../lib/sanity";
-import { useRouter } from "next/router";
 
 function VariantF({ caption, title, description, images, primaryButton }) {
-  const router = useRouter();
-  const navigate = () => {
-    primaryButton.type === "linkInternal"
-      ? primaryButton.internalLink === "Home" ||
-        primaryButton.internalLink === "home"
-        ? router.push("/")
-        : router.push(primaryButton.internalLink)
-      : router.push(primaryButton.externalLink);
-  };
   return (
     <section>
       <div className="skew skew-top mr-for-radius">
@@ -53,12 +43,25 @@ function VariantF({ caption, title, description, images, primaryButton }) {
                 )}
                 {primaryButton && (
                   <div className="flex flex-wrap lg:-ml-5">
-                    <button
+                    <a
                       className="lg:w-auto py-2 px-6 leading-loose lg:ml-5 text-gray-50 font-bold bg-webriq-blue hover:bg-webriq-darkblue transition duration-200 rounded-l-xl rounded-t-xl"
-                      onClick={navigate}
+                      target={primaryButton?.linkTarget}
+                      rel={
+                        primaryButton?.linkTarget === "_blank"
+                          ? "noopener noreferrer"
+                          : null
+                      }
+                      href={
+                        primaryButton.type === "linkInternal"
+                          ? primaryButton.internalLink === "Home" ||
+                            primaryButton.internalLink === "home"
+                            ? "/"
+                            : primaryButton?.internalLink
+                          : "page-not-found"
+                      }
                     >
                       {primaryButton.label}
-                    </button>
+                    </a>
                   </div>
                 )}
               </div>

@@ -1,12 +1,11 @@
-import React from "react"
-import Head from "next/head"
-import { useRouter } from "next/router"
-import { getClient, usePreviewSubscription } from "../lib/sanity"
-import dynamic from "next/dynamic"
-import PageNotFound from "./404"
-import { slugQuery } from "./api/query"
-import { groq } from "next-sanity"
-import SEO from "../component/SEO"
+import React from "react";
+import Head from "next/head";
+import { useRouter } from "next/router";
+import { getClient, usePreviewSubscription } from "../lib/sanity";
+import dynamic from "next/dynamic";
+import PageNotFound from "./404";
+import { slugQuery } from "./api/query";
+import { groq } from "next-sanity";
 
 const Components = {
   navigation: dynamic(() => import("component/sections/navigation")),
@@ -28,16 +27,17 @@ const Components = {
   logoCloud: dynamic(() => import("component/sections/logoCloud")),
   footer: dynamic(() => import("component/sections/footer")),
   signInSignUp: dynamic(() => import("component/sections/sign_in_sign_up")),
-  textComponent: dynamic(() => import("component/sections/text_component"))
+  textComponent: dynamic(() => import("component/sections/text_component")),
 };
 
-function page({ data, preview }) {
+const SEO = dynamic(() => import("component/SEO"))
+
+function page({ data, preview, slug }) {
   const router = useRouter();
   if (!router.isFallback && !data?.page?.slug) {
     return <PageNotFound statusCode={404} />;
   }
 
-  const slug = data?.page?.slug;
   const { data: page } = usePreviewSubscription(slugQuery, {
     params: { slug },
     initialData: data,
@@ -49,13 +49,13 @@ function page({ data, preview }) {
     return null;
   }
 
-  const { sections, title, seo } = pageData
+  const { sections, title, seo } = pageData;
 
   return (
     <>
       <Head>
         <title>{seo?.seoTitle || title}</title>
-        <SEO data={pageData} />
+        <SEO data={pageData} slug={slug} />
       </Head>
       {sections &&
         sections?.map((section) => {
@@ -87,6 +87,7 @@ export async function getStaticProps({ params, preview = false }) {
     props: {
       preview,
       data: { page },
+      slug: params.slug,
     },
   };
 }

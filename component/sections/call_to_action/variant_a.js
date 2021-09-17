@@ -29,15 +29,19 @@ function VariantA({ logo, title, text, button }) {
             {button && (
               <a
                 className="inline-block py-2 px-6 bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-loose rounded-l-xl rounded-t-xl transition duration-200"
+                target={button?.linkTarget}
+                rel={
+                  button?.linkTarget === "_blank" ? "noopener noreferrer" : null
+                }
                 href={
-                  button.type === "linkExternal"
+                  button?.type === "linkExternal"
                     ? button?.externalLink
-                    : button.type === "linkInternal"
-                    ? button.internalLink === "Home" ||
-                      button.internalLink === "home"
-                      ? "/"
-                      : button?.internalLink
-                    : "page-not-found"
+                    : button?.type === "linkInternal"
+                      ? button?.internalLink === "Home" ||
+                        button?.internalLink === "home"
+                        ? "/"
+                        : button?.internalLink
+                      : "page-not-found"
                 }
               >
                 {button?.label}

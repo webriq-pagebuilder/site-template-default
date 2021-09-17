@@ -31,9 +31,10 @@ function Pricing({ data, published}) {
     projectId: data?.variants?.[variant]?.stripeAccount?.projectId,
     documentId: data?.variants?.[variant]?.stripeAccount?.documentId,
     published,
-    NEXT_PUBLIC_DXP_STUDIO_ADDRESS: NEXT_PUBLIC_DXP_STUDIO_ADDRESS || 'http://localhost:3001'
-    // 'https://dxpstudio.webriq.com'
-  }
+    NEXT_PUBLIC_DXP_STUDIO_ADDRESS: NEXT_PUBLIC_DXP_STUDIO_ADDRESS || 'https://dxpstudio.webriq.com',
+    block: data?.variants?.[variant]?.block,
+    signInLink: data?.variants?.[variant]?.signinLink,
+  };
 
   return Variant ? <Variant {...props} /> : null;
 }
