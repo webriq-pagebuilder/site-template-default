@@ -19,7 +19,7 @@ function VariantB({
     async function getList() {
       try {
         const getProductList = await axios.get(
-          `${NEXT_PUBLIC_DXP_STUDIO_ADDRESS}/api/stripe/get-products`,
+          `${NEXT_PUBLIC_DXP_STUDIO_ADDRESS}/api/stripe-account/get-products`,
           {
             params: {
               projectId,
@@ -147,7 +147,8 @@ function VariantB({
                             ],
                           },
                           stripePKey,
-                          NEXT_PUBLIC_DXP_STUDIO_ADDRESS,
+                          window.location.origin + "/success",
+                          window.location.href,
                           false
                         );
                       }}
@@ -210,7 +211,8 @@ function VariantB({
                             ],
                           },
                           stripePKey,
-                          NEXT_PUBLIC_DXP_STUDIO_ADDRESS,
+                          window.location.origin + "/success",
+                          window.location.href,
                           false
                         );
                       }}
@@ -275,7 +277,8 @@ function VariantB({
                               ],
                             },
                             stripePKey,
-                            NEXT_PUBLIC_DXP_STUDIO_ADDRESS,
+                            window.location.origin + "/success",
+                            window.location.href,
                             false
                           );
                         }}
