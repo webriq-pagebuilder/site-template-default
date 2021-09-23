@@ -10,10 +10,10 @@ function VariantC({
 }) {
   return (
     <section className="relative pb-56 sm:pb-80">
-      <div className="relative pt-12 md:pt-16 pb-32 md:pb-64 bg-gray-50 border-b-4 border-webriq-blue">
+      <div className="relative pt-12 md:pt-16 pb-32 md:pb-64 bg-gray-50">
         <div className="relative container mx-auto px-4">
           <div className="max-w-2xl mx-auto text-center mb-12 md:mb-20">
-            <h2 className="mb-10 text-4xl lg:text-5xl font-bold">
+            <h2 className="mb-10 text-lg md:text-4xl lg:text-5xl font-bold">
               {title && <span>{title}</span>}
             </h2>
             <div>
@@ -62,23 +62,25 @@ function VariantC({
             </div>
           </div>
         </div>
-        <div className="absolute inset-x-5 max-w-2xl mx-auto mt-5 px-2">
-          {(videoLink &&
-            String(videoLink).includes("https://www.youtube.com/watch?")) ||
-          String(videoLink).includes("youtube.com/watch?") ? (
-            <iframe
-              className="w-full h-full sm:h-96 md:h-96 lg:h-96 xl:h-96 2xl:h-96 rounded-3xl md:rounded-6xl md:rounded-br-none border-4 border-webriq-blue"
-              src={`https://www.youtube.com/embed/${
-                String(videoLink).split("=")[1].split("&")[0]
-              }`}
-              title="YouTube video player"
-              frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            ></iframe>
-          ) : null}
+        <div className="mx-10 md:mx-20 lg:mx-60 xl:mx-60">
+          <div className="relative aspect-w-16 aspect-h-9">
+            {(videoLink &&
+              String(videoLink).includes("https://www.youtube.com/watch?")) ||
+            String(videoLink).includes("youtube.com/watch?") ? (
+              <iframe
+                className="absolute top-0 left-0 w-full h-full rounded-3xl md:rounded-6xl md:rounded-br-none border-4 border-webriq-blue"
+                src={`https://www.youtube.com/embed/${
+                  String(videoLink).split("=")[1].split("&")[0]
+                }`}
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              ></iframe>
+            ) : null}
+          </div>
+        </div>
 
-          {/* <div className="absolute inset-0 flex items-center justify-center">
+        {/* <div className="absolute inset-0 flex items-center justify-center">
             <button className="flex items-center justify-center bg-white rounded-full">
               <svg
                 className="w-16 h-16 text-webriq-darkblue hover:text-webriq-darkblue transition duration-200"
@@ -94,7 +96,6 @@ function VariantC({
               </svg>
             </button>
           </div> */}
-        </div>
       </div>
     </section>
   );
