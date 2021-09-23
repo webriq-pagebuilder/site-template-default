@@ -68,7 +68,7 @@ function VariantC({
               String(videoLink).includes("https://www.youtube.com/watch?")) ||
             String(videoLink).includes("youtube.com/watch?") ? (
               <iframe
-                className="absolute top-0 left-0 w-full h-full rounded-3xl md:rounded-6xl md:rounded-br-none border-4 border-webriq-blue"
+                className="absolute top-0 left-0 w-full h-full rounded-3xl border-4 border-webriq-blue"
                 src={`https://www.youtube.com/embed/${
                   String(videoLink).split("=")[1].split("&")[0]
                 }`}
