@@ -10,7 +10,7 @@ function VariantC({
 }) {
   return (
     <section className="relative pb-56 sm:pb-80">
-      <div className="relative pt-12 md:pt-16 pb-32 md:pb-64 bg-gray-50">
+      <div className="relative pt-12 md:pt-16 pb-32 md:pb-64 bg-gray-50 border-b-4 border-webriq-blue">
         <div className="relative container mx-auto px-4">
           <div className="max-w-2xl mx-auto text-center mb-12 md:mb-20">
             <h2 className="mb-10 text-4xl lg:text-5xl font-bold">
@@ -62,12 +62,12 @@ function VariantC({
             </div>
           </div>
         </div>
-        <div className="aspect-w-16 aspect-h-9 lg:mx-40 xl:mx-40 2xl:mx-40 mx-10">
+        <div className="absolute inset-x-5 max-w-2xl mx-auto mt-5 px-2">
           {(videoLink &&
             String(videoLink).includes("https://www.youtube.com/watch?")) ||
           String(videoLink).includes("youtube.com/watch?") ? (
             <iframe
-              className="rounded-3xl md:rounded-6xl md:rounded-br-none border-4 border-webriq-blue"
+              className="w-full h-full sm:h-96 md:h-96 lg:h-96 xl:h-96 2xl:h-96 rounded-3xl md:rounded-6xl md:rounded-br-none border-4 border-webriq-blue"
               src={`https://www.youtube.com/embed/${
                 String(videoLink).split("=")[1].split("&")[0]
               }`}
@@ -99,4 +99,14 @@ function VariantC({
     </section>
   );
 }
+
+VariantC.propTypes = {
+  template: PropTypes.object,
+  images: PropTypes.object,
+  title: PropTypes.string,
+  description: PropTypes.string,
+  primaryButton: PropTypes.object,
+  secondaryButton: PropTypes.object,
+  videoLink: PropTypes.string,
+};
 export default React.memo(VariantC);
