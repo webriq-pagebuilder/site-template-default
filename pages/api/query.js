@@ -67,6 +67,15 @@ const variant_a = `
       "externalLink": link.linkExternal,
       "internalLink": link.linkInternal->slug.current
     },
+    blogPosts[]->{
+      ...,
+      "link": slug.current,
+      authors[]->{
+        ...,
+        "link": slug.current
+      },
+      categories[]->
+    }    
   },
 `;
 
@@ -134,6 +143,15 @@ const variant_b = `
       "externalLink": link.linkExternal,
       "internalLink": link.linkInternal->slug.current
     },
+    blogPosts[]->{
+      ...,
+      "link": slug.current,
+      authors[]->{
+        ...,
+        "link": slug.current
+      },
+      categories[]->
+    }    
   },
 `;
 
@@ -194,7 +212,16 @@ const variant_c = `
         "internalLink": link.linkInternal->slug.current,
         "externalLink": link.linkExternal
       },
-    },      
+    },
+    blogPosts[]->{
+      ...,
+      "link": slug.current,
+      authors[]->{
+        ...,
+        "link": slug.current
+      },
+      categories[]->
+    }          
   },
 `;
 
@@ -255,7 +282,19 @@ const variant_d = `
       "type": link.condition,
       "externalLink": link.linkExternal,
       "internalLink": link.linkInternal->slug.current
-    },     
+    },  
+    blogPosts[]->{
+      ...,
+      "link": slug.current,
+      authors[]->{
+        _id,
+        name,
+        bio,
+        image,
+        "link": slug.current,
+      },
+      categories[]->
+    }       
   },
 `;
 
@@ -328,4 +367,15 @@ export const homeQuery = groq`
 
 export const slugQuery = groq`
   *[_type == "page" && slug.current == $slug][0] ${allProjections}
+`;
+
+export const blogQuery = groq`
+  *[_type == "post" && slug.current == $slug][0] {
+    ...,
+    authors[]->{
+      ...,
+      "link": slug.current
+    },
+    categories[]->
+  }
 `;

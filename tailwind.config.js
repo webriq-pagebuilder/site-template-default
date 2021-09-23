@@ -20,6 +20,7 @@ module.exports = {
   variants: {
     extend: {
       visibility: ["hover", "focus"],
+      animation: ["motion-reduce"],
     },
   },
   plugins: [],
