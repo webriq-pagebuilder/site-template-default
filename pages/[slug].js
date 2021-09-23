@@ -30,7 +30,7 @@ const Components = {
   textComponent: dynamic(() => import("component/sections/text_component")),
 };
 
-const SEO = dynamic(() => import("component/SEO"))
+const SEO = dynamic(() => import("component/SEO"));
 
 function page({ data, preview, slug }) {
   const router = useRouter();
@@ -70,7 +70,6 @@ function page({ data, preview, slug }) {
               }}
               {...{ [section._type]: section }}
               data={section}
-              published={String(data?.page?._id)?.split('.')[0] !=="drafts"}
             />
           );
         })}

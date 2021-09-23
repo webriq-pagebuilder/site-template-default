@@ -7,60 +7,71 @@ function VariantA({
   title,
   description,
   plans,
-  projectId,
-  documentId,
-  published,
+  sanityToken,
+  hashKey,
+  apiVersion,
+  stripeSecretKey,
   stripePKey,
   NEXT_PUBLIC_DXP_STUDIO_ADDRESS,
 }) {
   const [plan, setPlan] = React.useState("monthly");
-  const [subscriptionProducts, setSubscriptionProducts] = React.useState(null);
+  const [subscriptionProducts, setSubscriptionProducts] = React.useState([]);
   const [usePlan, setUsePlan] = React.useState(plans);
 
-  React.useEffect(() => {
-    async function getList() {
+  async function getPriceId(plans) {
+    let plansResponse = [];
+    let i = 0;
+    for (; i < plans?.length; ) {
+      const payload = {
+        id: `dxpstudio-pricing-${plans[i]?._key}-${plans[i]?.planType?.replace(
+          / /g,
+          "-"
+        )}-recurring-monthlyPrice-${plans[i]?.monthlyPrice}-yearlyPrice-${
+          plans[i]?.yearlyPrice
+        }`,
+        sanityToken,
+        hashKey,
+        stripeSecretKey,
+        apiVersion,
+      };
       try {
-        const getProductList = await axios.get(
-          `${NEXT_PUBLIC_DXP_STUDIO_ADDRESS}/api/stripe-account/get-products`,
-          {
-            params: {
-              projectId,
-              documentId,
-            },
-          }
+        const response = await axios.post(
+          `${NEXT_PUBLIC_DXP_STUDIO_ADDRESS}/api/stripe-account/get-product-by-id`,
+          payload
         );
-        console.log(getProductList);
-        setSubscriptionProducts(getProductList.data.data);
+        const data = await response.data;
+        plansResponse.push(data.data);
       } catch (error) {
-        console.log(error.message);
+        console.log(error);
       }
+      i++;
     }
-    published && getList();
-  }, [projectId, published]);
+    setSubscriptionProducts(plansResponse);
+    return plansResponse;
+  }
 
   React.useEffect(() => {
-    if (subscriptionProducts) {
-      subscriptionProducts?.map((price) => {
-        plans?.map((plan) => {
-          price?.product ===
-            `dxpstudio-pricing-${plan?._key}-${plan?.planType?.replace(
-              / /g,
-              "-"
-            )}` && price?.recurring.interval === "month"
-            ? (plan["monthly_price"] = price?.id)
-            : null;
+    getPriceId(usePlan);
+  }, [plans]);
 
-          price?.product ===
-            `dxpstudio-pricing-${plan?._key}-${plan?.planType?.replace(
-              / /g,
-              "-"
-            )}` && price?.recurring.interval === "year"
-            ? (plan["yearly_price"] = price?.id)
-            : null;
+  React.useEffect(() => {
+    if (subscriptionProducts?.length === plans?.length) {
+      plans.forEach((plan) => {
+        subscriptionProducts.forEach((subs) => {
+          if (plan.planType === subs.product.name) {
+            subs.price.map((price) => {
+              if (price.recurring == "month") {
+                plan["monthlyPriceCheckoutButton"] = price.id;
+              } else {
+                plan["yearlyPriceCheckoutButton"] = price.id;
+              }
+            });
+          }
         });
       });
     }
-  }, [subscriptionProducts]);
+    setUsePlan(plans);
+  }, [subscriptionProducts, plans]);
 
   return (
     <section>
@@ -92,22 +103,24 @@ function VariantA({
               {title && title}
             </h2>
             <p className="mb-6 text-gray-500">{description && description}</p>
-            {usePlan?.[0]?.monthlyPrice && (
+            {plans?.[0]?.monthlyPrice && (
               <div className="inline-block py-1 px-1 bg-white rounded-lg">
                 <button
-                  className={`mr-1 text-sm py-2 px-4 ${plan === "monthly"
-                    ? "text-gray-900 bg-gray-50 rounded-lg shadow"
-                    : "text-gray-500"
-                    } hover:text-gray-900 font-bold focus:outline-none`}
+                  className={`mr-1 text-sm py-2 px-4 ${
+                    plan === "monthly"
+                      ? "text-gray-900 bg-gray-50 rounded-lg shadow"
+                      : "text-gray-500"
+                  } hover:text-gray-900 font-bold focus:outline-none`}
                   onClick={() => setPlan("monthly")}
                 >
                   Monthly
                 </button>
                 <button
-                  className={`text-sm py-2 px-4 ${plan === "yearly"
-                    ? "text-gray-900 bg-gray-50 rounded-lg shadow"
-                    : "text-gray-500"
-                    } font-bold focus:outline-none`}
+                  className={`text-sm py-2 px-4 ${
+                    plan === "yearly"
+                      ? "text-gray-900 bg-gray-50 rounded-lg shadow"
+                      : "text-gray-500"
+                  } font-bold focus:outline-none`}
                   onClick={() => setPlan("yearly")}
                 >
                   Yearly
@@ -158,10 +171,10 @@ function VariantA({
                   </ul>
                   <button
                     className={`inline-block text-center py-2 px-4 w-full rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-loose transition duration-200 cursor-pointer ${
-                      !subscriptionProducts &&
-                      "disabled:opacity-50 cursor-not-allowed"
+                      !usePlan[0].monthlyPriceCheckoutButton &&
+                      "disabled:opacity-50 cursor-not-allowed bg-webriq-darkblue"
                     }`}
-                    disabled={!subscriptionProducts}
+                    disabled={!usePlan[0].monthlyPriceCheckoutButton}
                     onClick={() => {
                       initiateCheckout(
                         {
@@ -169,8 +182,8 @@ function VariantA({
                             {
                               price:
                                 plan === "monthly"
-                                  ? usePlan[0].monthly_price
-                                  : usePlan[0].yearly_price,
+                                  ? usePlan[0].monthlyPriceCheckoutButton
+                                  : usePlan[0].yearlyPriceCheckoutButton,
                               quantity: 1,
                             },
                           ],
@@ -182,7 +195,10 @@ function VariantA({
                       );
                     }}
                   >
-                    {usePlan?.[0]?.checkoutButtonName}
+                    {!usePlan[0].monthlyPriceCheckoutButton ||
+                    !usePlan[0].yearlyPriceCheckoutButton
+                      ? "Processing..."
+                      : usePlan?.[0]?.checkoutButtonName}
                   </button>
                 </div>
               </div>
@@ -229,10 +245,10 @@ function VariantA({
                   </ul>
                   <button
                     className={`inline-block text-center py-2 px-4 w-full rounded-l-xl rounded-t-xl bg-white hover:bg-gray-50 font-bold leading-loose transition duration-200 cursor-pointer ${
-                      !subscriptionProducts &&
+                      !usePlan[1].monthlyPriceCheckoutButton &&
                       "disabled:opacity-50 cursor-not-allowed"
                     }`}
-                    disabled={!subscriptionProducts}
+                    disabled={!usePlan[1].monthlyPriceCheckoutButton}
                     onClick={() => {
                       initiateCheckout(
                         {
@@ -240,8 +256,8 @@ function VariantA({
                             {
                               price:
                                 plan === "monthly"
-                                  ? usePlan[1].monthly_price
-                                  : usePlan[1].yearly_price,
+                                  ? usePlan[1].monthlyPriceCheckoutButton
+                                  : usePlan[1].yearlyPriceCheckoutButton,
                               quantity: 1,
                             },
                           ],
@@ -253,7 +269,10 @@ function VariantA({
                       );
                     }}
                   >
-                    {usePlan?.[1]?.checkoutButtonName}
+                    {!usePlan[1].monthlyPriceCheckoutButton ||
+                    !usePlan[1].yearlyPriceCheckoutButton
+                      ? "Processing..."
+                      : usePlan?.[1]?.checkoutButtonName}
                   </button>
                 </div>
               </div>
@@ -300,10 +319,10 @@ function VariantA({
                   </ul>
                   <button
                     className={`inline-block text-center py-2 px-4 w-full rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-loose transition duration-200 cursor-pointer ${
-                      !subscriptionProducts &&
+                      !usePlan[2].monthlyPriceCheckoutButton &&
                       "disabled:opacity-50 cursor-not-allowed"
                     }`}
-                    disabled={!subscriptionProducts}
+                    disabled={!usePlan[2].monthlyPriceCheckoutButton}
                     onClick={() => {
                       initiateCheckout(
                         {
@@ -311,19 +330,23 @@ function VariantA({
                             {
                               price:
                                 plan === "monthly"
-                                  ? usePlan[2].monthly_price
-                                  : usePlan[2].yearly_price,
+                                  ? usePlan[2].monthlyPriceCheckoutButton
+                                  : usePlan[2].yearlyPriceCheckoutButton,
                               quantity: 1,
                             },
                           ],
                         },
                         stripePKey,
-                        NEXT_PUBLIC_DXP_STUDIO_ADDRESS,
+                        window.location.origin + "/success",
+                        window.location.href,
                         true
                       );
                     }}
                   >
-                    {usePlan?.[2]?.checkoutButtonName}
+                    {!usePlan[2].monthlyPriceCheckoutButton ||
+                    !usePlan[2].yearlyPriceCheckoutButton
+                      ? "Processing..."
+                      : usePlan?.[2]?.checkoutButtonName}
                   </button>
                 </div>
               </div>

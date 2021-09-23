@@ -7,46 +7,64 @@ function VariantB({
   title,
   description,
   plans,
-  projectId,
-  documentId,
-  published,
+  sanityToken,
+  hashKey,
+  apiVersion,
+  stripeSecretKey,
   stripePKey,
   NEXT_PUBLIC_DXP_STUDIO_ADDRESS,
 }) {
-  const [subscriptionProducts, setSubscriptionProducts] = React.useState(null);
+  const [subscriptionProducts, setSubscriptionProducts] = React.useState([]);
   const [usePlan, setUsePlan] = React.useState(plans);
-  React.useEffect(() => {
-    async function getList() {
+
+  async function getPriceId(plans) {
+    let plansResponse = [];
+    let i = 0;
+
+    for (; i < plans?.length; ) {
+      const payload = {
+        id: `dxpstudio-pricing-${plans[i]?._key}-${plans[i]?.planType?.replace(
+          / /g,
+          "-"
+        )}-oneTimePrice-${plans[i]?.price}`,
+        sanityToken,
+        hashKey,
+        stripeSecretKey,
+        apiVersion,
+      };
       try {
-        const getProductList = await axios.get(
-          `${NEXT_PUBLIC_DXP_STUDIO_ADDRESS}/api/stripe-account/get-products`,
-          {
-            params: {
-              projectId,
-              documentId,
-            },
-          }
+        const response = await axios.post(
+          `${NEXT_PUBLIC_DXP_STUDIO_ADDRESS}/api/stripe-account/get-product-by-id`,
+          payload
         );
-        setSubscriptionProducts(getProductList.data.data);
+        const data = await response.data;
+        plansResponse.push(data.data);
       } catch (error) {
-        console.log(error.message);
+        console.log(error);
       }
+      i++;
     }
-    published && getList();
-  }, [published]);
+    setSubscriptionProducts(plansResponse);
+    return plansResponse;
+  }
 
   React.useEffect(() => {
-    if (subscriptionProducts) {
-      subscriptionProducts?.map((price) => {
-        plans?.map((plan) => {
-          price?.product ===
-            `dxpstudio-pricing-${plan?._key}-${plan?.planType?.replace(
-              / /g,
-              "-"
-            )}` && (plan["checkout"] = price?.id);
+    getPriceId(plans);
+  }, [plans]);
+
+  React.useEffect(() => {
+    if (subscriptionProducts?.length === plans?.length) {
+      plans.forEach((plan) => {
+        subscriptionProducts.forEach((subs) => {
+          if (plan.planType === subs.product.name) {
+            subs.price.map((price) => {
+              plan["checkoutButton"] = price.id;
+            });
+          }
         });
       });
     }
+    setUsePlan(plans);
   }, [subscriptionProducts, plans]);
 
   return (
@@ -141,7 +159,7 @@ function VariantB({
                           {
                             lineItems: [
                               {
-                                price: usePlan[0].checkout,
+                                price: usePlan[0].checkoutButton,
                                 quantity: 1,
                               },
                             ],
@@ -153,7 +171,9 @@ function VariantB({
                         );
                       }}
                     >
-                      {usePlan?.[0]?.checkoutButtonName}
+                      {!usePlan[0].checkoutButton
+                        ? "Processing..."
+                        : usePlan?.[0]?.checkoutButtonName}
                     </button>
                   </div>
                 </div>
@@ -205,7 +225,7 @@ function VariantB({
                           {
                             lineItems: [
                               {
-                                price: usePlan[1].checkout,
+                                price: usePlan[1].checkoutButton,
                                 quantity: 1,
                               },
                             ],
@@ -217,7 +237,9 @@ function VariantB({
                         );
                       }}
                     >
-                      {usePlan?.[0]?.checkoutButtonName}
+                      {!usePlan[1].checkoutButton
+                        ? "Processing..."
+                        : usePlan?.[1]?.checkoutButtonName}
                     </button>
                   </div>
                 </div>
@@ -283,7 +305,7 @@ function VariantB({
                           );
                         }}
                       >
-                        {usePlan?.[0]?.checkoutButtonName}
+                        {usePlan?.[2]?.checkoutButtonName}
                       </button>
                     )}
                   </div>
