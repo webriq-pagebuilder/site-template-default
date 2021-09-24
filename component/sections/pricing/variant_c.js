@@ -158,10 +158,10 @@ function VariantC({
                       )}
                       <button
                         className={`block mt-6 w-full py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-loose transition duration-200 ${
-                          !usePlan[1].monthlyPriceCheckoutButton &&
+                          !usePlan?.[0]?.monthlyPriceCheckoutButton &&
                           "disabled:opacity-50 cursor-not-allowed"
                         }`}
-                        disabled={!usePlan[1].monthlyPriceCheckoutButton}
+                        disabled={!usePlan?.[0]?.monthlyPriceCheckoutButton}
                         onClick={() => {
                           initiateCheckout(
                             {
@@ -169,8 +169,8 @@ function VariantC({
                                 {
                                   price:
                                     plan === "monthly"
-                                      ? usePlan[0].monthlyPriceCheckoutButton
-                                      : usePlan[0].yearlyPriceCheckoutButton,
+                                      ? usePlan?.[0]?.monthlyPriceCheckoutButton
+                                      : usePlan?.[0]?.yearlyPriceCheckoutButton,
                                   quantity: 1,
                                 },
                               ],
@@ -182,8 +182,8 @@ function VariantC({
                           );
                         }}
                       >
-                        {!usePlan[0].monthlyPriceCheckoutButton ||
-                        !usePlan[0].yearlyPriceCheckoutButton
+                        {!usePlan?.[0]?.monthlyPriceCheckoutButton ||
+                        !usePlan?.[0]?.yearlyPriceCheckoutButton
                           ? "Processing..."
                           : usePlan?.[0]?.checkoutButtonName}
                       </button>
@@ -217,10 +217,10 @@ function VariantC({
                       )}
                       <button
                         className={`block mt-6 w-full py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-loose transition duration-200 ${
-                          !usePlan[1].monthlyPriceCheckoutButton &&
+                          !usePlan?.[1]?.monthlyPriceCheckoutButton &&
                           "disabled:opacity-50 cursor-not-allowed"
                         }`}
-                        disabled={!usePlan[1].monthlyPriceCheckoutButton}
+                        disabled={!usePlan?.[1]?.monthlyPriceCheckoutButton}
                         onClick={() => {
                           initiateCheckout(
                             {
@@ -228,8 +228,8 @@ function VariantC({
                                 {
                                   price:
                                     plan === "monthly"
-                                      ? usePlan[1].monthlyPriceCheckoutButton
-                                      : usePlan[1].yearlyPriceCheckoutButton,
+                                      ? usePlan?.[1]?.monthlyPriceCheckoutButton
+                                      : usePlan?.[1]?.yearlyPriceCheckoutButton,
                                   quantity: 1,
                                 },
                               ],
@@ -241,8 +241,8 @@ function VariantC({
                           );
                         }}
                       >
-                        {!usePlan[1].monthlyPriceCheckoutButton ||
-                        !usePlan[1].yearlyPriceCheckoutButton
+                        {!usePlan?.[1]?.monthlyPriceCheckoutButton ||
+                        !usePlan?.[1]?.yearlyPriceCheckoutButton
                           ? "Processing..."
                           : usePlan?.[1]?.checkoutButtonName}
                       </button>

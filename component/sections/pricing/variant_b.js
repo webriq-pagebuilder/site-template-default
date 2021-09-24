@@ -150,10 +150,10 @@ function VariantB({
                   <div className="w-full lg:w-1/5 px-3">
                     <button
                       className={`inline-block mt-4 lg:mt-0 py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-loose transition duration-200  ${
-                        !subscriptionProducts &&
+                        !usePlan?.[0]?.checkoutButton &&
                         "disabled:opacity-50 cursor-not-allowed"
                       }`}
-                      disabled={!subscriptionProducts}
+                      disabled={!usePlan?.[0]?.checkoutButton}
                       onClick={() => {
                         initiateCheckout(
                           {
@@ -171,7 +171,7 @@ function VariantB({
                         );
                       }}
                     >
-                      {!usePlan[0].checkoutButton
+                      {!usePlan?.[0]?.checkoutButton
                         ? "Processing..."
                         : usePlan?.[0]?.checkoutButtonName}
                     </button>
@@ -216,10 +216,10 @@ function VariantB({
                   <div className="w-full lg:w-1/5 px-3">
                     <button
                       className={`inline-block mt-4 lg:mt-0 py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-loose transition duration-200 ${
-                        !subscriptionProducts &&
+                        !usePlan?.[1]?.checkoutButton &&
                         "disabled:opacity-50 cursor-not-allowed"
                       }`}
-                      disabled={!subscriptionProducts}
+                      disabled={!usePlan?.[1]?.checkoutButton}
                       onClick={() => {
                         initiateCheckout(
                           {
@@ -237,7 +237,7 @@ function VariantB({
                         );
                       }}
                     >
-                      {!usePlan[1].checkoutButton
+                      {!usePlan?.[1]?.checkoutButton
                         ? "Processing..."
                         : usePlan?.[1]?.checkoutButtonName}
                     </button>

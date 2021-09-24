@@ -30,7 +30,7 @@ function Pricing({ data }) {
     apiVersion: data?.variants?.[variant]?.stripeAccount?.apiVersion,
     sanityToken: "studio",
     NEXT_PUBLIC_DXP_STUDIO_ADDRESS:
-      NEXT_PUBLIC_DXP_STUDIO_ADDRESS || "https://dxpstudio-app.vercel.app",
+      NEXT_PUBLIC_DXP_STUDIO_ADDRESS || "https://dxpstudio.webriq.com",
     block: data?.variants?.[variant]?.block,
     signInLink: data?.variants?.[variant]?.signinLink,
   };
