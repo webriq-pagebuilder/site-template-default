@@ -5,7 +5,10 @@ import { blogQuery } from "pages/api/query";
 import { format } from "date-fns";
 import BlockContent from "@sanity/block-content-to-react";
 import PageNotFound from "pages/404";
-//import dynamic from "next/dynamic";
+import dynamic from "next/dynamic";
+
+const Navigation = dynamic(() => import("component/sections/navigation"));
+const Footer = dynamic(() => import("component/sections/footer"));
 
 // block styling as props to `serializers` of the BlockContent component
 const blockStyle = {
@@ -83,18 +86,15 @@ const blockStyle = {
   },
 };
 
-//const Navigation = dynamic(() => import("component/sections/navigation"));
-//const Footer = dynamic(() => import("component/sections/footer"));
-
 function BlogPage({ data, preview, navAndFooter }) {
-  const slug = data?.blogData?.slug;
+  const slug = data?.slug;
   const { data: blogData } = usePreviewSubscription(blogQuery, {
     params: { slug },
     initialData: data,
     enabled: preview,
   });
 
-  const post = data?.blogData || blogData;
+  const post = data || blogData;
 
   if (Object.entries(data).length === 0) {
     return <PageNotFound statusCode={404} />;
@@ -107,17 +107,29 @@ function BlogPage({ data, preview, navAndFooter }) {
       <Head>
         <title>{title}</title>
       </Head>
-      {/* <Navigation
-        data={navAndFooter[0]}
-        template={{
-          bg: "gray",
-          color: "webriq",
-        }}
-      /> */}
-      <section>
-        <div className="py-20 bg-gray-50 radius-for-skewed">
+      {navAndFooter
+        ?.filter((data) => data?._type === "navigation")
+        ?.map((nav) => (
+          <Navigation
+            key={nav?._key}
+            data={nav}
+            template={{
+              bg: "gray",
+              color: "webriq",
+            }}
+          />
+        ))}
+      <section className="pb-20">
+        <div
+          className="p-20 mb-12"
+          style={{
+            backgroundImage: `url(${mainImage && urlFor(mainImage)})`,
+            backgroundRepeat: "no-repeat",
+            backgroundSize: "cover",
+          }}
+        >
           <div className="container mx-auto px-4">
-            <div className="mb-10 max-w-2xl mx-auto text-center">
+            <div className="max-w-2xl mx-auto text-center">
               {categories &&
                 categories?.map((tag, index) => (
                   <span
@@ -134,7 +146,7 @@ function BlogPage({ data, preview, navAndFooter }) {
               )}
               {publishedAt && (
                 <span
-                  className={`text-base lg:text-xl text-gray-400 ${
+                  className={`text-base lg:text-xl text-white ${
                     categories ?? "ml-2"
                   }`}
                 >
@@ -143,70 +155,70 @@ function BlogPage({ data, preview, navAndFooter }) {
               )}
               <div className="mt-2">
                 {title && (
-                  <h2 className="mb-6 text-4xl lg:text-5xl font-bold font-heading">
+                  <h2 className="mb-6 text-4xl lg:text-5xl text-white font-bold">
                     {title}
                   </h2>
                 )}
-                {authors &&
-                  authors?.map((author, index, { length }) => (
-                    <div className="flex justify-center" key={index}>
-                      <div className="mr-4">
-                        {author?.image ? (
-                          <img
-                            className="w-12 h-12 object-cover object-top rounded-full"
-                            src={urlFor(author?.image)}
-                            alt=""
-                          />
-                        ) : (
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="48"
-                            height="48"
-                            viewBox="0 0 24 24"
-                          >
-                            <path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm0 22c-3.123 0-5.914-1.441-7.749-3.69.259-.588.783-.995 1.867-1.246 2.244-.518 4.459-.981 3.393-2.945-3.155-5.82-.899-9.119 2.489-9.119 3.322 0 5.634 3.177 2.489 9.119-1.035 1.952 1.1 2.416 3.393 2.945 1.082.25 1.61.655 1.871 1.241-1.836 2.253-4.628 3.695-7.753 3.695z" />
-                          </svg>
-                        )}
+                <div className="flex justify-center">
+                  {authors &&
+                    authors?.map((author, index, { length }) => (
+                      <div className="flex justify-center" key={index}>
+                        <div className="mr-4">
+                          {author?.image ? (
+                            <img
+                              className="w-12 h-12 object-cover object-top rounded-full"
+                              src={urlFor(author?.image)}
+                              alt=""
+                            />
+                          ) : (
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="48"
+                              height="48"
+                              viewBox="0 0 24 24"
+                            >
+                              <path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm0 22c-3.123 0-5.914-1.441-7.749-3.69.259-.588.783-.995 1.867-1.246 2.244-.518 4.459-.981 3.393-2.945-3.155-5.82-.899-9.119 2.489-9.119 3.322 0 5.634 3.177 2.489 9.119-1.035 1.952 1.1 2.416 3.393 2.945 1.082.25 1.61.655 1.871 1.241-1.836 2.253-4.628 3.695-7.753 3.695z" />
+                            </svg>
+                          )}
+                        </div>
+                        <div className="text-left">
+                          <h3 className="text-webriq-blue font-bold">
+                            {author?.name}
+                          </h3>
+                          {index + 1 !== length ? (
+                            <span>&nbsp;and&nbsp;</span>
+                          ) : null}
+                          <span className="text-xs text-webriq-lightblue italic">
+                            {authors?.length > 1 ? "Authors" : "Author"}
+                          </span>
+                        </div>
                       </div>
-                      <div className="text-left">
-                        <h3 className="text-webriq-darkblue font-bold">
-                          {author?.name}
-                        </h3>
-                        {index + 1 !== length ? (
-                          <span>&nbsp;and&nbsp;</span>
-                        ) : null}
-                        <span className="text-xs text-gray-900 italic">
-                          {authors?.length > 1 ? "Authors" : "Author"}
-                        </span>
-                      </div>
-                    </div>
-                  ))}
+                    ))}
+                </div>
               </div>
             </div>
-            <div className="mb-10">
-              {mainImage && (
-                <img
-                  className="w-full h-80 object-fill rounded-lg"
-                  src={urlFor(mainImage)}
-                  alt=""
-                />
-              )}
-            </div>
-            {body && (
-              <div className="max-w-4xl mx-auto">
-                <BlockContent blocks={body} serializers={blockStyle} />
-              </div>
-            )}
           </div>
         </div>
+        <div className="container mx-auto px-4">
+          {body && (
+            <div className="max-w-4xl mx-auto">
+              <BlockContent blocks={body} serializers={blockStyle} />
+            </div>
+          )}
+        </div>
       </section>
-      {/* <Footer
-        data={navAndFooter[navAndFooter.length - 1].variants}
-        template={{
-          bg: "gray",
-          color: "webriq",
-        }}
-      /> */}
+      {navAndFooter
+        ?.filter((data) => data?._type === "footer")
+        ?.map((footer) => (
+          <Footer
+            key={footer?._key}
+            data={footer}
+            template={{
+              bg: "gray",
+              color: "webriq",
+            }}
+          />
+        ))}
     </>
   );
 }

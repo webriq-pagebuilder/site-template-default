@@ -151,7 +151,7 @@ function VariantD({ subtitle, title, posts, buttonLabel }) {
               ) : postsPerCategory?.length > blogsPerPage ? (
                 <button
                   className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-gray-50 font-bold leading-loose transition duration-200"
-                  onClick={() => setBlogsPerPage(posts?.length)}
+                  onClick={() => setBlogsPerPage(postsPerCategory?.length)}
                 >
                   {buttonLabel}
                 </button>

@@ -379,3 +379,122 @@ export const blogQuery = groq`
     categories[]->
   }
 `;
+
+export const blogNavAndFooter = groq`
+*[_type=="page" && slug.current == $slug]{
+  sections[] {
+    ...,
+    variants {
+      ...,
+      "variant": condition,
+      variant_a {
+        ...,
+        primaryButton {
+          ...,
+          "type": link.condition,
+          "internalLink": link.linkInternal->slug.current,
+          "externalLink": link.linkExternal
+        },
+        secondaryButton {
+          ...,
+          "type": link.condition,
+          "internalLink": link.linkInternal->slug.current,
+          "externalLink": link.linkExternal
+        },
+        routes[] {
+          ...,
+          "type": link.condition,
+          "internalLink": link.linkInternal->slug.current,
+          "externalLink": link.linkExternal
+        },
+        menu[] {
+          ...,
+          "type": link.condition,
+          "externalLink": link.linkExternal,
+          "internalLink": link.linkInternal->slug.current
+        },
+      },
+      variant_b {
+        ...,
+        primaryButton {
+          ...,
+          "type": link.condition,
+          "internalLink": link.linkInternal->slug.current,
+          "externalLink": link.linkExternal
+        },
+        secondaryButton {
+          ...,
+          "type": link.condition,
+          "internalLink": link.linkInternal->slug.current,
+          "externalLink": link.linkExternal
+        },
+        routes[] {
+          ...,
+          "type": link.condition,
+          "internalLink": link.linkInternal->slug.current,
+          "externalLink": link.linkExternal
+        },
+        menu[] {
+          ...,
+          "type": link.condition,
+          "externalLink": link.linkExternal,
+          "internalLink": link.linkInternal->slug.current
+        },
+      },
+      variant_c {
+        ...,
+        primaryButton {
+          ...,
+          "type": link.condition,
+          "internalLink": link.linkInternal->slug.current,
+          "externalLink": link.linkExternal
+        },
+        secondaryButton {
+          ...,
+          "type": link.condition,
+          "internalLink": link.linkInternal->slug.current,
+          "externalLink": link.linkExternal
+        },
+        routes[] {
+          ...,
+          "type": link.condition,
+          "internalLink": link.linkInternal->slug.current,
+          "externalLink": link.linkExternal
+        },
+        menu[] {
+          ...,
+          "type": link.condition,
+          "externalLink": link.linkExternal,
+          "internalLink": link.linkInternal->slug.current
+        },
+      },
+      variant_d {
+        ...,
+        primaryButton {
+          ...,
+          "type": link.condition,
+          "internalLink": link.linkInternal->slug.current,
+          "externalLink": link.linkExternal
+        },
+        secondaryButton {
+          ...,
+          "type": link.condition,
+          "internalLink": link.linkInternal->slug.current,
+          "externalLink": link.linkExternal
+        },
+        routes[] {
+          ...,
+          "type": link.condition,
+          "internalLink": link.linkInternal->slug.current,
+          "externalLink": link.linkExternal
+        },
+        menu[] {
+          ...,
+          "type": link.condition,
+          "externalLink": link.linkExternal,
+          "internalLink": link.linkInternal->slug.current
+        },
+      },
+    },
+  },
+}`;

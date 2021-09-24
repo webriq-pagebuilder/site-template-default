@@ -3,7 +3,7 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { getClient, usePreviewSubscription } from "../lib/sanity";
 import dynamic from "next/dynamic";
-import { blogQuery, slugQuery } from "./api/query";
+import { blogQuery, blogNavAndFooter, slugQuery } from "./api/query";
 import { groq } from "next-sanity";
 
 const Components = {
@@ -38,9 +38,9 @@ function page({ data, preview }) {
   if (!router.isFallback && !data?.page?.slug) {
     return (
       <BlogPage
-        data={data.blogData}
+        data={data?.blogData}
         preview={preview}
-        //navAndFooter={data.navAndFooter[0].sections}
+        navAndFooter={data?.navAndFooter?.[0]?.sections}
       />
     );
   }
@@ -56,7 +56,6 @@ function page({ data, preview }) {
   if (!pageData) {
     return null;
   }
-
   const { sections, title, seo } = pageData;
 
   return (
@@ -94,7 +93,9 @@ export async function getStaticProps({ params, preview = false }) {
     slug: params.slug,
   });
 
-  //const navAndFooter = await getClient(preview).fetch(blogNavAndFooter);
+  const navAndFooter = await getClient(preview).fetch(blogNavAndFooter, {
+    slug: params.slug,
+  });
 
   return {
     props: {
@@ -102,7 +103,7 @@ export async function getStaticProps({ params, preview = false }) {
       data: {
         page,
         blogData,
-        //navAndFooter,
+        navAndFooter,
       },
     },
   };
