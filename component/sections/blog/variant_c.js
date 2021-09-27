@@ -267,17 +267,14 @@ function VariantC({ subtitle, title, posts, buttonLabel }) {
                               </span>
                               {post?.authors?.map(
                                 (author, index, { length }) => (
-                                  <>
-                                    <span
-                                      className="text-webriq-darkblue italic"
-                                      key={index}
-                                    >
+                                  <div key={index}>
+                                    <span className="text-webriq-darkblue italic">
                                       {author?.name}
                                     </span>
                                     {index + 1 !== length ? (
                                       <span>&nbsp;,&nbsp;</span>
                                     ) : null}
-                                  </>
+                                  </div>
                                 )
                               )}
                             </div>
@@ -327,17 +324,14 @@ function VariantC({ subtitle, title, posts, buttonLabel }) {
                               </span>
                               {post?.authors?.map(
                                 (author, index, { length }) => (
-                                  <>
-                                    <span
-                                      className="text-webriq-darkblue italic"
-                                      key={index}
-                                    >
+                                  <div key={index}>
+                                    <span className="text-webriq-darkblue italic">
                                       {author?.name}
                                     </span>
                                     {index + 1 !== length ? (
                                       <span>&nbsp;,&nbsp;</span>
                                     ) : null}
-                                  </>
+                                  </div>
                                 )
                               )}
                             </div>

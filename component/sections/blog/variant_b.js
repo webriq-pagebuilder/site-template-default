@@ -81,111 +81,31 @@ const blockStyle = {
 };
 
 function VariantB({ subtitle, title, posts, buttonLabel }) {
-  let blogs = 5,
-    startPage = 1,
-    index = 0;
-  let [numberOfPages, setNumberOfPages] = React.useState(startPage); // number of pages
-  let [blogsPerPage, setBlogsPerPage] = React.useState(blogs); // sets the number of blogs to initially show on page
-  let [activePage, setActivePage] = React.useState(startPage); // the current page
+  let blogsPerPage = 5,
+    count = 0;
+  const [blogsToShow, setBlogsToShow] = React.useState(count + 1); // set number of blogs to show
   const [showMore, setShowMore] = React.useState(false); // show all blogs posts
 
-  // get blog list for page
-  const indexOfLastPost = numberOfPages * blogsPerPage;
-  const indexOfFirstPost = indexOfLastPost - blogsPerPage;
-
-  // change page
-  const changePage = (buttonNumber) => setNumberOfPages(buttonNumber);
-
-  // pagination
-  const Pagination = ({ blogsPerPage, changePage }) => {
-    const pageButtons = [];
-
-    for (let i = 1; i <= Math.ceil(posts?.length / blogsPerPage); i++) {
-      pageButtons.push(i);
-    }
-
-    return (
-      <div className="mb-16 flex justify-center space-x-4">
-        <div className="flex justify-center">
-          <nav
-            className="flex items-center bg-white shadow rounded"
-            aria-label="Pagination"
-          >
-            {activePage > startPage && (
-              <button
-                className="px-4 text-gray-400 hover:text-gray-500"
-                onClick={() => {
-                  activePage !== startPage
-                    ? setActivePage(activePage - startPage)
-                    : setActivePage(startPage);
-                  changePage(activePage - 1);
-                }}
-              >
-                <svg
-                  className="w-4 h-4"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M10 19l-7-7m0 0l7-7m-7 7h18"
-                  />
-                </svg>
-              </button>
-            )}
-            <div className="p-2 border-r border-l text-gray-500">
-              {pageButtons?.map((buttonNumber) => (
-                <button
-                  className={`"mx-1 px-2 rounded hover:bg-webriq-lightblue hover:text-webriq-blue text-webriq-darkblue" ${
-                    activePage === buttonNumber
-                      ? "bg-webriq-lightblue text-webriq-blue"
-                      : null
-                  }`}
-                  key={buttonNumber}
-                  onClick={() => {
-                    changePage(buttonNumber);
-                    setActivePage(buttonNumber);
-                  }}
-                >
-                  {buttonNumber}
-                </button>
-              ))}
-            </div>
-            {activePage !== pageButtons?.length && (
-              <button
-                className="px-4 text-gray-400 hover:text-gray-500"
-                onClick={() => {
-                  changePage(pageButtons[activePage]);
-                  activePage !== pageButtons?.length
-                    ? setActivePage(activePage + 1)
-                    : setActivePage(startPage);
-                }}
-              >
-                <svg
-                  className="w-4 h-4"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M14 5l7 7m0 0l-7 7m7-7H3"
-                  />
-                </svg>
-              </button>
-            )}
-          </nav>
-        </div>
-      </div>
+  // split array into groups of 5 posts
+  const splitPosts = (arr, size, numberOfGroups) => {
+    const chunks = arr.reduce(
+      (chunks, items, i) =>
+        (i % size
+          ? chunks[chunks?.length - 1].push(items)
+          : chunks.push([items])) && chunks,
+      []
     );
+    if (chunks[chunks?.length - 1]?.length < numberOfGroups) {
+      chunks[chunks?.length - 2].push(...chunks.pop());
+    }
+    return chunks;
   };
+
+  const newArray = splitPosts(
+    posts,
+    blogsPerPage,
+    Math.ceil(posts?.length / blogsPerPage)
+  );
 
   return (
     <section>
@@ -204,90 +124,23 @@ function VariantB({ subtitle, title, posts, buttonLabel }) {
                 </h2>
               )}
             </div>
-            {posts && (
-              <div className="flex flex-wrap -mx-3 mb-16">
-                <div className="mb-6 lg:mb-0 w-full lg:w-1/2 px-3">
-                  {posts?.slice(index, index + 1)?.map((post, key) => (
-                    <div
-                      className="h-full flex flex-col rounded shadow"
-                      key={key}
-                    >
-                      {post?.mainImage && (
-                        <img
-                          className="rounded-t object-cover h-80 lg:h-full w-full"
-                          src={urlFor(post?.mainImage)}
-                          alt=""
-                        />
-                      )}
-                      <div className="mt-auto p-6 rounded-b bg-white">
-                        {post?.categories &&
-                          post?.categories?.map((category, index) => (
-                            <span
-                              className="mb-auto py-1 px-3 text-sm bg-webriq-lightblue rounded-full text-webriq-darkblue uppercase font-bold"
-                              key={index}
-                            >
-                              {category?.title}
-                            </span>
-                          ))}
-                        {post?.publishedAt && (
-                          <span className="text-sm text-gray-400">
-                            {format(
-                              new Date(post?.publishedAt),
-                              " dd MMM, yyyy"
-                            )}
-                          </span>
-                        )}
-                        {post?.title && (
-                          <h2 className="my-2 text-2xl font-bold">
-                            {post?.title}
-                          </h2>
-                        )}
-                        {post?.authors && (
-                          <div className="flex mb-5">
-                            {post?.authors?.map((author, index, { length }) => (
-                              <>
-                                <span
-                                  className="text-webriq-babyblue text-sm italic"
-                                  key={index}
-                                >
-                                  {author?.name}
-                                </span>
-                                {index + 1 !== length ? (
-                                  <span className="text-webriq-darkblue">
-                                    &nbsp;,&nbsp;
-                                  </span>
-                                ) : null}
-                              </>
-                            ))}
-                          </div>
-                        )}
-                        {post?.excerpt && (
-                          <BlockContent
-                            blocks={post?.excerpt}
-                            serializers={blockStyle}
-                          />
-                        )}
-                        <Link href={`/${post?.slug?.current}`}>
-                          <a className="text-webriq-darkblue hover:text-webriq-babyblue font-bold">
-                            Learn More
-                          </a>
-                        </Link>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-                <div className="flex flex-wrap w-full lg:w-1/2">
-                  {posts?.slice(index + 1, index + 5)?.map((post, key) => (
-                    <div className="mb-6 w-full lg:w-1/2 px-3" key={key}>
-                      <div className="rounded overflow-hidden shadow">
+            {newArray &&
+              newArray?.slice(count, blogsToShow)?.map((posts, index) => (
+                <div className="flex flex-wrap -mx-3 mb-16" key={index}>
+                  <div className="mb-6 lg:mb-0 w-full lg:w-1/2 px-3">
+                    {posts?.slice(count, count + 1)?.map((post, key) => (
+                      <div
+                        className="h-full flex flex-col rounded shadow"
+                        key={key}
+                      >
                         {post?.mainImage && (
                           <img
-                            className="h-80 lg:h-full w-full rounded-t object-cover"
+                            className="rounded-t object-cover h-80 lg:h-full w-full"
                             src={urlFor(post?.mainImage)}
                             alt=""
                           />
                         )}
-                        <div className="p-6 rounded-b bg-white">
+                        <div className="mt-auto p-6 rounded-b bg-white">
                           {post?.categories &&
                             post?.categories?.map((category, index) => (
                               <span
@@ -314,11 +167,8 @@ function VariantB({ subtitle, title, posts, buttonLabel }) {
                             <div className="flex mb-5">
                               {post?.authors?.map(
                                 (author, index, { length }) => (
-                                  <>
-                                    <span
-                                      className="text-webriq-babyblue text-sm italic"
-                                      key={index}
-                                    >
+                                  <div key={index}>
+                                    <span className="text-webriq-babyblue text-sm italic">
                                       {author?.name}
                                     </span>
                                     {index + 1 !== length ? (
@@ -326,10 +176,16 @@ function VariantB({ subtitle, title, posts, buttonLabel }) {
                                         &nbsp;,&nbsp;
                                       </span>
                                     ) : null}
-                                  </>
+                                  </div>
                                 )
                               )}
                             </div>
+                          )}
+                          {post?.excerpt && (
+                            <BlockContent
+                              blocks={post?.excerpt}
+                              serializers={blockStyle}
+                            />
                           )}
                           <Link href={`/${post?.slug?.current}`}>
                             <a className="text-webriq-darkblue hover:text-webriq-babyblue font-bold">
@@ -338,16 +194,80 @@ function VariantB({ subtitle, title, posts, buttonLabel }) {
                           </Link>
                         </div>
                       </div>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
+                  <div className="flex flex-wrap w-full lg:w-1/2">
+                    {posts?.slice(count + 1, blogsPerPage)?.map((post, key) => (
+                      <div className="mb-6 w-full lg:w-1/2 px-3" key={key}>
+                        <div className="rounded overflow-hidden shadow">
+                          {post?.mainImage && (
+                            <img
+                              className="h-80 lg:h-full w-full rounded-t object-cover"
+                              src={urlFor(post?.mainImage)}
+                              alt=""
+                            />
+                          )}
+                          <div className="p-6 rounded-b bg-white">
+                            {post?.categories &&
+                              post?.categories?.map((category, index) => (
+                                <span
+                                  className="mb-auto py-1 px-3 text-sm bg-webriq-lightblue rounded-full text-webriq-darkblue uppercase font-bold"
+                                  key={index}
+                                >
+                                  {category?.title}
+                                </span>
+                              ))}
+                            {post?.publishedAt && (
+                              <span className="text-sm text-gray-400">
+                                {format(
+                                  new Date(post?.publishedAt),
+                                  " dd MMM, yyyy"
+                                )}
+                              </span>
+                            )}
+                            {post?.title && (
+                              <h2 className="my-2 text-2xl font-bold">
+                                {post?.title}
+                              </h2>
+                            )}
+                            {post?.authors && (
+                              <div className="flex mb-5">
+                                {post?.authors?.map(
+                                  (author, index, { length }) => (
+                                    <div key={index}>
+                                      <span className="text-webriq-babyblue text-sm italic">
+                                        {author?.name}
+                                      </span>
+                                      {index + 1 !== length ? (
+                                        <span className="text-webriq-darkblue">
+                                          &nbsp;,&nbsp;
+                                        </span>
+                                      ) : null}
+                                    </div>
+                                  )
+                                )}
+                              </div>
+                            )}
+                            <Link href={`/${post?.slug?.current}`}>
+                              <a className="text-webriq-darkblue hover:text-webriq-babyblue font-bold">
+                                Learn More
+                              </a>
+                            </Link>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            )}
+              ))}
             <div>
-              {posts?.length > blogsPerPage && buttonLabel && (
+              {posts?.length > blogsPerPage && !showMore && buttonLabel && (
                 <button
                   className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-gray-50 font-bold leading-loose outline-none transition duration-200"
-                  onClick={() => setBlogsPerPage(posts?.length)}
+                  onClick={() => {
+                    setBlogsToShow(newArray?.length);
+                    setShowMore(true);
+                  }}
                 >
                   {buttonLabel}
                 </button>
