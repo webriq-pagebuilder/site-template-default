@@ -34,7 +34,6 @@ const BlogPage = dynamic(() => import("component/blog/"));
 
 function page({ data, preview }) {
   const router = useRouter();
-
   if (!router.isFallback && !data?.page?.slug) {
     return (
       <BlogPage

@@ -1,7 +1,77 @@
 import React from "react";
+import axios from "axios";
+import { initiateCheckout } from "lib/checkout";
 
-function VariantA({ caption, title, description, plans }) {
+function VariantA({
+  caption,
+  title,
+  description,
+  plans,
+  sanityToken,
+  hashKey,
+  apiVersion,
+  stripeSecretKey,
+  stripePKey,
+  NEXT_PUBLIC_DXP_STUDIO_ADDRESS,
+}) {
   const [plan, setPlan] = React.useState("monthly");
+  const [subscriptionProducts, setSubscriptionProducts] = React.useState([]);
+  const [usePlan, setUsePlan] = React.useState(plans);
+
+  async function getPriceId(plans) {
+    let plansResponse = [];
+    let i = 0;
+    for (; i < plans?.length; ) {
+      const payload = {
+        id: `dxpstudio-pricing-${plans[i]?._key}-${plans[i]?.planType?.replace(
+          / /g,
+          "-"
+        )}-recurring-monthlyPrice-${plans[i]?.monthlyPrice}-yearlyPrice-${
+          plans[i]?.yearlyPrice
+        }`,
+        sanityToken,
+        hashKey,
+        stripeSecretKey,
+        apiVersion,
+      };
+      try {
+        const response = await axios.post(
+          `${NEXT_PUBLIC_DXP_STUDIO_ADDRESS}/api/stripe-account/get-product-by-id`,
+          payload
+        );
+        const data = await response.data;
+        plansResponse.push(data.data);
+      } catch (error) {
+        console.log(error);
+      }
+      i++;
+    }
+    setSubscriptionProducts(plansResponse);
+    return plansResponse;
+  }
+
+  React.useEffect(() => {
+    getPriceId(usePlan);
+  }, [plans]);
+
+  React.useEffect(() => {
+    if (subscriptionProducts?.length === plans?.length) {
+      plans.forEach((plan) => {
+        subscriptionProducts.forEach((subs) => {
+          if (plan.planType === subs.product.name) {
+            subs.price.map((price) => {
+              if (price.recurring == "month") {
+                plan["monthlyPriceCheckoutButton"] = price.id;
+              } else {
+                plan["yearlyPriceCheckoutButton"] = price.id;
+              }
+            });
+          }
+        });
+      });
+    }
+    setUsePlan(plans);
+  }, [subscriptionProducts, plans]);
 
   return (
     <section>
@@ -33,22 +103,24 @@ function VariantA({ caption, title, description, plans }) {
               {title && title}
             </h2>
             <p className="mb-6 text-gray-500">{description && description}</p>
-            {plans?.[0]?.price && (
+            {plans?.[0]?.monthlyPrice && (
               <div className="inline-block py-1 px-1 bg-white rounded-lg">
                 <button
-                  className={`mr-1 text-sm py-2 px-4 ${plan === "monthly"
-                    ? "text-gray-900 bg-gray-50 rounded-lg shadow"
-                    : "text-gray-500"
-                    } hover:text-gray-900 font-bold focus:outline-none`}
+                  className={`mr-1 text-sm py-2 px-4 ${
+                    plan === "monthly"
+                      ? "text-gray-900 bg-gray-50 rounded-lg shadow"
+                      : "text-gray-500"
+                  } hover:text-gray-900 font-bold focus:outline-none`}
                   onClick={() => setPlan("monthly")}
                 >
                   Monthly
                 </button>
                 <button
-                  className={`text-sm py-2 px-4 ${plan === "yearly"
-                    ? "text-gray-900 bg-gray-50 rounded-lg shadow"
-                    : "text-gray-500"
-                    } font-bold focus:outline-none`}
+                  className={`text-sm py-2 px-4 ${
+                    plan === "yearly"
+                      ? "text-gray-900 bg-gray-50 rounded-lg shadow"
+                      : "text-gray-500"
+                  } font-bold focus:outline-none`}
                   onClick={() => setPlan("yearly")}
                 >
                   Yearly
@@ -57,28 +129,29 @@ function VariantA({ caption, title, description, plans }) {
             )}
           </div>
           <div className="flex flex-wrap -mx-4">
-            {plans?.[0]?.price && (
+            {usePlan?.[0]?.monthlyPrice && (
               <div className="w-full md:w-1/2 lg:w-1/3 px-4 mb-8 lg:mb-0">
                 <div className="p-8 bg-white shadow rounded">
                   <h4 className="mb-2 text-2xl font-bold font-heading">
-                    {plans?.[0]?.planType}
+                    {usePlan?.[0]?.planType}
                   </h4>
                   <span className="text-6xl font-bold">
-                    {isNaN(parseInt(plans?.[0]?.price))
-                      ? plans?.[0]?.price
-                      : `$${plan === "yearly"
-                        ? plans?.[0]?.price * 12
-                        : plans?.[0]?.price
-                      }`}
+                    {isNaN(parseInt(usePlan?.[0]?.monthlyPrice))
+                      ? usePlan?.[0]?.monthlyPrice
+                      : `$${
+                          plan === "yearly"
+                            ? usePlan?.[0]?.yearlyPrice
+                            : usePlan?.[0]?.monthlyPrice
+                        }`}
                   </span>
-                  {!isNaN(parseInt(plans?.[0]?.price)) && (
+                  {!isNaN(parseInt(usePlan?.[0]?.monthlyPrice)) && (
                     <span className="text-gray-400 text-xs">/{plan}</span>
                   )}
                   <p className="mt-3 mb-6 text-gray-500 leading-loose">
-                    {plans?.[0]?.description}
+                    {usePlan?.[0]?.description}
                   </p>
                   <ul className="mb-6 text-gray-500">
-                    {plans?.[0]?.planIncludes?.map((include) => (
+                    {usePlan?.[0]?.planIncludes?.map((include) => (
                       <li className="mb-2 flex" key={include}>
                         <svg
                           className="mr-2 w-5 h-5 text-webriq-darkblue"
@@ -96,53 +169,63 @@ function VariantA({ caption, title, description, plans }) {
                       </li>
                     ))}
                   </ul>
-                  {plans?.[0]?.primaryButton?.label && (
-                    <a
-                      className="inline-block text-center py-2 px-4 w-full rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-loose transition duration-200"
-                      target={plans?.[0]?.primaryButton?.linkTarget}
-                      rel={
-                        plans?.[0]?.primaryButton?.linkTarget === "_blank"
-                          ? "noopener noreferrer"
-                          : null
-                      }
-                      href={
-                        plans?.[0]?.primaryButton?.type === "linkInternal"
-                          ? plans?.[0]?.primaryButton?.internalLink ===
-                            "Home" ||
-                            plans?.[0]?.primaryButton?.internalLink === "home"
-                            ? "/"
-                            : plans?.[0]?.primaryButton?.internalLink
-                          : plans?.[0]?.primaryButton?.externalLink
-                      }
-                    >
-                      {plans?.[0]?.primaryButton?.label}
-                    </a>
-                  )}
+                  <button
+                    className={`inline-block text-center py-2 px-4 w-full rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-loose transition duration-200 cursor-pointer ${
+                      !usePlan?.[0]?.monthlyPriceCheckoutButton &&
+                      "disabled:opacity-50 cursor-not-allowed bg-webriq-darkblue"
+                    }`}
+                    disabled={!usePlan?.[0]?.monthlyPriceCheckoutButton}
+                    onClick={() => {
+                      initiateCheckout(
+                        {
+                          lineItems: [
+                            {
+                              price:
+                                plan === "monthly"
+                                  ? usePlan?.[0]?.monthlyPriceCheckoutButton
+                                  : usePlan?.[0]?.yearlyPriceCheckoutButton,
+                              quantity: 1,
+                            },
+                          ],
+                        },
+                        stripePKey,
+                        window.location.origin + "/success",
+                        window.location.href,
+                        true
+                      );
+                    }}
+                  >
+                    {!usePlan?.[0]?.monthlyPriceCheckoutButton ||
+                    !usePlan?.[0]?.yearlyPriceCheckoutButton
+                      ? "Processing..."
+                      : usePlan?.[0]?.checkoutButtonName}
+                  </button>
                 </div>
               </div>
             )}
-            {plans?.[1] && (
+            {usePlan?.[1] && (
               <div className="w-full md:w-1/2 lg:w-1/3 px-4 mb-8 lg:mb-0">
                 <div className="p-8 bg-webriq-darkblue shadow rounded">
                   <h4 className="mb-2 text-2xl font-bold text-white">
-                    {plans?.[1]?.planType}
+                    {usePlan?.[1]?.planType}
                   </h4>
                   <span className="text-6xl font-bold text-white">
-                    {isNaN(parseInt(plans?.[1]?.price))
-                      ? plans?.[1]?.price
-                      : `$${plan === "yearly"
-                        ? plans?.[1]?.price * 12
-                        : plans?.[1]?.price
-                      }`}
+                    {isNaN(parseInt(usePlan?.[1]?.monthlyPrice))
+                      ? usePlan?.[1]?.monthlyPrice
+                      : `$${
+                          plan === "yearly"
+                            ? usePlan?.[1]?.yearlyPrice
+                            : usePlan?.[1]?.monthlyPrice
+                        }`}
                   </span>
-                  {!isNaN(parseInt(plans?.[1]?.price)) && (
+                  {!isNaN(parseInt(usePlan?.[1]?.monthlyPrice)) && (
                     <span className="text-gray-50 text-xs">/{plan}</span>
                   )}
                   <p className="mt-3 mb-6 leading-loose text-gray-50">
-                    {plans?.[1]?.description}
+                    {usePlan?.[1]?.description}
                   </p>
                   <ul className="mb-6 text-gray-50">
-                    {plans?.[1]?.planIncludes?.map((include) => (
+                    {usePlan?.[1]?.planIncludes?.map((include) => (
                       <li className="mb-2 flex" key={include}>
                         <svg
                           className="mr-2 w-5 h-5 text-webriq-babyblue"
@@ -160,53 +243,63 @@ function VariantA({ caption, title, description, plans }) {
                       </li>
                     ))}
                   </ul>
-                  {plans?.[1]?.primaryButton?.label && (
-                    <a
-                      className="inline-block text-center py-2 px-4 w-full rounded-l-xl rounded-t-xl bg-white hover:bg-gray-50 font-bold leading-loose transition duration-200"
-                      target={plans?.[1]?.primaryButton?.linkTarget}
-                      rel={
-                        plans?.[1]?.primaryButton?.linkTarget === "_blank"
-                          ? "noopener noreferrer"
-                          : null
-                      }
-                      href={
-                        plans?.[1]?.primaryButton?.type === "linkInternal"
-                          ? plans?.[1]?.primaryButton?.internalLink ===
-                            "Home" ||
-                            plans?.[1]?.primaryButton?.internalLink === "home"
-                            ? "/"
-                            : plans?.[1]?.primaryButton?.internalLink
-                          : plans?.[1]?.primaryButton?.externalLink
-                      }
-                    >
-                      {plans?.[1]?.primaryButton?.label}
-                    </a>
-                  )}
+                  <button
+                    className={`inline-block text-center py-2 px-4 w-full rounded-l-xl rounded-t-xl bg-white hover:bg-gray-50 font-bold leading-loose transition duration-200 cursor-pointer ${
+                      !usePlan?.[1]?.monthlyPriceCheckoutButton &&
+                      "disabled:opacity-50 cursor-not-allowed"
+                    }`}
+                    disabled={!usePlan?.[1]?.monthlyPriceCheckoutButton}
+                    onClick={() => {
+                      initiateCheckout(
+                        {
+                          lineItems: [
+                            {
+                              price:
+                                plan === "monthly"
+                                  ? usePlan?.[1]?.monthlyPriceCheckoutButton
+                                  : usePlan?.[1]?.yearlyPriceCheckoutButton,
+                              quantity: 1,
+                            },
+                          ],
+                        },
+                        stripePKey,
+                        window.location.origin + "/success",
+                        window.location.href,
+                        true
+                      );
+                    }}
+                  >
+                    {!usePlan?.[1]?.monthlyPriceCheckoutButton ||
+                    !usePlan?.[1]?.yearlyPriceCheckoutButton
+                      ? "Processing..."
+                      : usePlan?.[1]?.checkoutButtonName}
+                  </button>
                 </div>
               </div>
             )}
-            {plans?.[2] && (
+            {usePlan?.[2] && (
               <div className="w-full lg:w-1/3 px-4">
                 <div className="p-8 bg-white shadow rounded">
                   <h4 className="mb-2 text-2xl font-bold font-heading">
-                    {plans?.[2]?.planType}
+                    {usePlan?.[2]?.planType}
                   </h4>
                   <span className="text-6xl font-bold">
-                    {isNaN(parseInt(plans?.[2]?.price))
-                      ? plans?.[2]?.price
-                      : `$${plan === "yearly"
-                        ? plans?.[2]?.price * 12
-                        : plans?.[2]?.price
-                      }`}
+                    {isNaN(parseInt(usePlan?.[2]?.monthlyPrice))
+                      ? usePlan?.[2]?.monthlyPrice
+                      : `$${
+                          plan === "yearly"
+                            ? usePlan?.[2]?.yearlyPrice
+                            : usePlan?.[2]?.monthlyPrice
+                        }`}
                   </span>
-                  {!isNaN(parseInt(plans?.[2]?.price)) && (
+                  {!isNaN(parseInt(usePlan?.[2]?.monthlyPrice)) && (
                     <span className="text-gray-400 text-xs">/{plan}</span>
                   )}
                   <p className="mt-3 mb-6 text-gray-500 leading-loose">
-                    {plans?.[2]?.description}
+                    {usePlan?.[2]?.description}
                   </p>
                   <ul className="mb-6 text-gray-500">
-                    {plans?.[2]?.planIncludes?.map((include) => (
+                    {usePlan?.[2]?.planIncludes?.map((include) => (
                       <li className="mb-2 flex" key={include}>
                         <svg
                           className="mr-2 w-5 h-5 text-webriq-darkblue"
@@ -224,28 +317,37 @@ function VariantA({ caption, title, description, plans }) {
                       </li>
                     ))}
                   </ul>
-                  {plans?.[2]?.primaryButton?.label && (
-                    <a
-                      className="inline-block text-center py-2 px-4 w-full rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-loose transition duration-200"
-                      target={plans?.[2]?.primaryButton?.linkTarget}
-                      rel={
-                        plans?.[2]?.primaryButton?.linkTarget === "_blank"
-                          ? "noopener noreferrer"
-                          : null
-                      }
-                      href={
-                        plans?.[2]?.primaryButton?.type === "linkInternal"
-                          ? plans?.[2]?.primaryButton?.internalLink ===
-                            "Home" ||
-                            plans?.[2]?.primaryButton?.internalLink === "home"
-                            ? "/"
-                            : plans?.[2]?.primaryButton?.internalLink
-                          : plans?.[2]?.primaryButton?.externalLink
-                      }
-                    >
-                      {plans?.[2]?.primaryButton?.label}
-                    </a>
-                  )}
+                  <button
+                    className={`inline-block text-center py-2 px-4 w-full rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-loose transition duration-200 cursor-pointer ${
+                      !usePlan[2]?.monthlyPriceCheckoutButton &&
+                      "disabled:opacity-50 cursor-not-allowed"
+                    }`}
+                    disabled={!usePlan[2]?.monthlyPriceCheckoutButton}
+                    onClick={() => {
+                      initiateCheckout(
+                        {
+                          lineItems: [
+                            {
+                              price:
+                                plan === "monthly"
+                                  ? usePlan[2]?.monthlyPriceCheckoutButton
+                                  : usePlan[2]?.yearlyPriceCheckoutButton,
+                              quantity: 1,
+                            },
+                          ],
+                        },
+                        stripePKey,
+                        window.location.origin + "/success",
+                        window.location.href,
+                        true
+                      );
+                    }}
+                  >
+                    {!usePlan[2]?.monthlyPriceCheckoutButton ||
+                    !usePlan[2]?.yearlyPriceCheckoutButton
+                      ? "Processing..."
+                      : usePlan?.[2]?.checkoutButtonName}
+                  </button>
                 </div>
               </div>
             )}

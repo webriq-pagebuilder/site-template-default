@@ -23,5 +23,5 @@ module.exports = {
       animation: ["motion-reduce"],
     },
   },
-  plugins: [],
+  plugins: [require("@tailwindcss/aspect-ratio")],
 };
