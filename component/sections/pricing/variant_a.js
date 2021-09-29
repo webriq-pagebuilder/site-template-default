@@ -7,7 +7,6 @@ function VariantA({
   title,
   description,
   plans,
-  sanityToken,
   hashKey,
   apiVersion,
   stripeSecretKey,
@@ -17,22 +16,26 @@ function VariantA({
   const [plan, setPlan] = React.useState("monthly");
   const [subscriptionProducts, setSubscriptionProducts] = React.useState([]);
   const [usePlan, setUsePlan] = React.useState(plans);
+  const [pKeyError, setPKError] = React.useState(false);
+  const [isLoading, setIsLoading] = React.useState(false);
 
   async function getPriceId(plans) {
     let plansResponse = [];
     let i = 0;
     for (; i < plans?.length; ) {
       const payload = {
-        id: `dxpstudio-pricing-${plans[i]?._key}-${plans[i]?.planType?.replace(
-          / /g,
-          "-"
-        )}-recurring-monthlyPrice-${plans[i]?.monthlyPrice}-yearlyPrice-${
-          plans[i]?.yearlyPrice
-        }`,
-        sanityToken,
-        hashKey,
-        stripeSecretKey,
-        apiVersion,
+        credentials: {
+          hashKey,
+          stripeSecretKey,
+          apiVersion,
+        },
+        stripeParams: {
+          id: `dxpstudio-pricing-${plans[i]?._key}-${plans[
+            i
+          ]?.planType?.replace(/ /g, "-")}-recurring-monthlyPrice-${
+            plans[i]?.monthlyPrice
+          }-yearlyPrice-${plans[i]?.yearlyPrice}`,
+        },
       };
       try {
         const response = await axios.post(
@@ -40,6 +43,7 @@ function VariantA({
           payload
         );
         const data = await response.data;
+
         plansResponse.push(data.data);
       } catch (error) {
         console.log(error);
@@ -128,6 +132,22 @@ function VariantA({
               </div>
             )}
           </div>
+          {pKeyError && (
+            <div>
+              <p
+                style={{
+                  fontSize: 9,
+                  color: "red",
+                  textAlign: "center",
+                  padding: 20,
+                }}
+              >
+                Stripe Checkout won't work because of an Invalid
+                <strong> Stripe Public Key</strong>, please fix it in your
+                studio under webriq-payments to get rid of this error message.
+              </p>
+            </div>
+          )}
           <div className="flex flex-wrap -mx-4">
             {usePlan?.[0]?.monthlyPrice && (
               <div className="w-full md:w-1/2 lg:w-1/3 px-4 mb-8 lg:mb-0">
@@ -191,7 +211,8 @@ function VariantA({
                         stripePKey,
                         window.location.origin + "/success",
                         window.location.href,
-                        true
+                        true,
+                        setPKError
                       );
                     }}
                   >
@@ -265,7 +286,8 @@ function VariantA({
                         stripePKey,
                         window.location.origin + "/success",
                         window.location.href,
-                        true
+                        true,
+                        setPKError
                       );
                     }}
                   >
@@ -339,7 +361,8 @@ function VariantA({
                         stripePKey,
                         window.location.origin + "/success",
                         window.location.href,
-                        true
+                        true,
+                        setPKError
                       );
                     }}
                   >

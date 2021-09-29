@@ -7,7 +7,6 @@ function VariantB({
   title,
   description,
   plans,
-  sanityToken,
   hashKey,
   apiVersion,
   stripeSecretKey,
@@ -16,6 +15,7 @@ function VariantB({
 }) {
   const [subscriptionProducts, setSubscriptionProducts] = React.useState([]);
   const [usePlan, setUsePlan] = React.useState(plans);
+  const [pKeyError, setPKError] = React.useState(false);
 
   async function getPriceId(plans) {
     let plansResponse = [];
@@ -23,14 +23,16 @@ function VariantB({
 
     for (; i < plans?.length; ) {
       const payload = {
-        id: `dxpstudio-pricing-${plans[i]?._key}-${plans[i]?.planType?.replace(
-          / /g,
-          "-"
-        )}-oneTimePrice-${plans[i]?.price}`,
-        sanityToken,
-        hashKey,
-        stripeSecretKey,
-        apiVersion,
+        credentials: {
+          hashKey,
+          stripeSecretKey,
+          apiVersion,
+        },
+        stripeParams: {
+          id: `dxpstudio-pricing-${plans[i]?._key}-${plans[
+            i
+          ]?.planType?.replace(/ /g, "-")}-oneTimePrice-${plans[i]?.price}`,
+        },
       };
       try {
         const response = await axios.post(
@@ -110,6 +112,22 @@ function VariantB({
               )}
             </div>
           </div>
+          {pKeyError && (
+            <div>
+              <p
+                style={{
+                  fontSize: 9,
+                  color: "red",
+                  textAlign: "center",
+                  padding: 20,
+                }}
+              >
+                Stripe Checkout won't work because of an Invalid
+                <strong> Stripe Public Key</strong>, please fix it in your
+                studio under webriq-payments to get rid of this error message.
+              </p>
+            </div>
+          )}
           {!usePlan ? null : (
             <div className="flex flex-wrap">
               {usePlan?.[0] && (
@@ -167,7 +185,8 @@ function VariantB({
                           stripePKey,
                           window.location.origin + "/success",
                           window.location.href,
-                          false
+                          false,
+                          setPKError
                         );
                       }}
                     >
@@ -233,7 +252,8 @@ function VariantB({
                           stripePKey,
                           window.location.origin + "/success",
                           window.location.href,
-                          false
+                          false,
+                          setPKError
                         );
                       }}
                     >
@@ -301,7 +321,8 @@ function VariantB({
                             stripePKey,
                             window.location.origin + "/success",
                             window.location.href,
-                            false
+                            false,
+                            setPKError
                           );
                         }}
                       >
