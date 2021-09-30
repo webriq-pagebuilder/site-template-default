@@ -16,7 +16,7 @@ function VariantA({ logo, title, description, formFields, formId, formName }) {
                 <img
                   className="h-12"
                   src={urlFor(logo?.image)}
-                  alt={logo?.alt}
+                  alt={logo?.alt ?? "newsletter-variantA-logo"}
                   width="auto"
                 />
               </a>
@@ -32,7 +32,7 @@ function VariantA({ logo, title, description, formFields, formId, formName }) {
                 name={formName}
                 className="form-newsletter"
                 data-thankyou-url="/thank-you"
-                scriptSrc="https://pagebuilderforms.webriq.com/js/initReactForms"
+                scriptsrc="https://pagebuilderforms.webriq.com/js/initReactForms"
               >
                 <div className="max-w-md mx-auto flex flex-wrap items-center">
                   <input

@@ -13,7 +13,7 @@ function VariantB({
         <div className="container mx-auto px-4">
           {contactDescription && (
             <div className="mb-16 max-w-md mx-auto text-center">
-              <h2 className="text-4xl lg:text-5xl font-bold font-heading">Contact</h2>
+              <h2 className="mb-5 text-4xl lg:text-5xl font-bold font-heading">Contact</h2>
               <p className="text-gray-500">{contactDescription}</p>
             </div>
           )}

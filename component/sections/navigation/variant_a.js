@@ -37,7 +37,6 @@ function VariantA({ template, links, primaryButton, secondaryButton, logo }) {
                 <li>
                   {link.type === "linkInternal" ? (
                     <Link
-                      prefetch={true}
                       href={`${link.internalLink === "Home" ||
                           link.internalLink === "home"
                           ? "/"
@@ -186,7 +185,6 @@ function VariantA({ template, links, primaryButton, secondaryButton, logo }) {
                   <li className="mb-1" key={link.label}>
                     {link.type === "linkInternal" ? (
                       <Link
-                        prefetch={true}
                         href={`${link.internalLink === "Home" ||
                             link.internalLink === "home"
                             ? "/"

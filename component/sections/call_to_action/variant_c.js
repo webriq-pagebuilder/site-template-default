@@ -21,7 +21,7 @@ function VariantC({ title, text, features, formFields, formId, formName }) {
                   name={formName}
                   className="form-callToAction"
                   data-thankyou-url="/thank-you"
-                  scriptSrc="https://pagebuilderforms.webriq.com/js/initReactForms"
+                  scriptsrc="https://pagebuilderforms.webriq.com/js/initReactForms"
                 >
                   {formFields?.[0] && formFields[0]?.type && (
                     <input

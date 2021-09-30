@@ -1,5 +1,7 @@
 import React from "react";
-import { urlFor } from "../../../lib/sanity";
+import { urlFor } from "lib/sanity";
+
+
 
 function VariantD({ testimonials }) {
   const [testimony, setTestimony] = React.useState(0);
@@ -21,24 +23,6 @@ function VariantD({ testimonials }) {
 
   return (
     <section>
-      <div className="skew skew-top mr-for-radius">
-        <svg
-          className="h-8 md:h-12 lg:h-20 w-full text-gray-50"
-          viewBox="0 0 10 10"
-          preserveAspectRatio="none"
-        >
-          <polygon fill="currentColor" points="0 0 10 10 0 10" />
-        </svg>
-      </div>
-      <div className="skew skew-top ml-for-radius">
-        <svg
-          className="h-8 md:h-12 lg:h-20 w-full text-gray-50"
-          viewBox="0 0 10 10"
-          preserveAspectRatio="none"
-        >
-          <polygon fill="currentColor" points="0 10 10 0 10 10" />
-        </svg>
-      </div>
       <div className="py-20 bg-gray-50 radius-for-skewed">
         <div className="container px-4 mx-auto">
           <div className="lg:flex items-center justify-center md:space-x-8">
@@ -174,11 +158,11 @@ function VariantD({ testimonials }) {
                     )}
                   </div>
                   <div>
-                    {testimonial[testimony].mainImage && (
+                    {testimonial[testimony]?.mainImage && (
                       <img
-                        className="mb-6 mx-auto w-32 h-32 rounded-full object-cover"
-                        src={urlFor(testimonial[testimony].mainImage)}
-                        alt=""
+                        className="mb-6 mx-auto w-24 h-32 rounded-full object-contain"
+                        src={urlFor(testimonial[testimony]?.mainImage)}
+                        alt={`testimonials-variantD-image${testimony}`}
                       />
                     )}
                   </div>
@@ -200,13 +184,13 @@ function VariantD({ testimonials }) {
                     />
                   </svg>
                   <p className="mb-10 text-xl lg:text-2xl leading-loose text-gray-500">
-                    {testimonial[testimony].testimony}
+                    {testimonial[testimony]?.testimony}
                   </p>
                   <h4 className="text-2xl font-bold font-heading">
-                    {testimonial[testimony].name}
+                    {testimonial[testimony]?.name}
                   </h4>
                   <p className="text-gray-500">
-                    {testimonial[testimony].jobTitle}
+                    {testimonial[testimony]?.jobTitle}
                   </p>
                 </div>
               </div>
@@ -234,24 +218,6 @@ function VariantD({ testimonials }) {
             )}
           </div>
         </div>
-      </div>
-      <div className="skew skew-bottom mr-for-radius">
-        <svg
-          className="h-8 md:h-12 lg:h-20 w-full text-gray-50"
-          viewBox="0 0 10 10"
-          preserveAspectRatio="none"
-        >
-          <polygon fill="currentColor" points="0 0 10 0 0 10" />
-        </svg>
-      </div>
-      <div className="skew skew-bottom ml-for-radius">
-        <svg
-          className="h-8 md:h-12 lg:h-20 w-full text-gray-50"
-          viewBox="0 0 10 10"
-          preserveAspectRatio="none"
-        >
-          <polygon fill="currentColor" points="0 0 10 0 10 10" />
-        </svg>
       </div>
     </section>
   );
