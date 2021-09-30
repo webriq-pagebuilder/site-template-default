@@ -13,61 +13,66 @@ function VariantB({
   stripePKey,
   NEXT_PUBLIC_DXP_STUDIO_ADDRESS,
 }) {
-  const [subscriptionProducts, setSubscriptionProducts] = React.useState([]);
   const [usePlan, setUsePlan] = React.useState(plans);
   const [pKeyError, setPKError] = React.useState(false);
+  const comma = Intl.NumberFormat("en-us");
 
-  async function getPriceId(plans) {
-    let plansResponse = [];
-    let i = 0;
+  React.useEffect(() => {
+    async function getPriceId(plans) {
+      let i = 0;
+      for (; i < plans?.length; ) {
+        const productPayload = {
+          credentials: {
+            hashKey,
+            stripeSecretKey,
+            apiVersion,
+          },
+          StripeParams: {
+            id: `dxpstudio-pricing-${plans[i]?._key}-${plans[
+              i
+            ]?.planType?.replace(/ /g, "-")}-oneTimePrice-${plans[i]?.price}`,
+          },
+        };
 
-    for (; i < plans?.length; ) {
-      const payload = {
-        credentials: {
-          hashKey,
-          stripeSecretKey,
-          apiVersion,
-        },
-        stripeParams: {
-          id: `dxpstudio-pricing-${plans[i]?._key}-${plans[
-            i
-          ]?.planType?.replace(/ /g, "-")}-oneTimePrice-${plans[i]?.price}`,
-        },
-      };
-      try {
-        const response = await axios.post(
-          `${NEXT_PUBLIC_DXP_STUDIO_ADDRESS}/api/stripe-account/get-product-by-id`,
-          payload
-        );
-        const data = await response.data;
-        plansResponse.push(data.data);
-      } catch (error) {
-        console.log(error);
+        const pricePayload = {
+          credentials: {
+            hashKey,
+            stripeSecretKey,
+            apiVersion,
+          },
+        };
+        try {
+          const product = await axios.post(
+            `${NEXT_PUBLIC_DXP_STUDIO_ADDRESS}/api/payments/stripe?resource=products&action=retrieve`,
+            productPayload
+          );
+          const productData = await product.data;
+          // plansResponse.push(data.data);
+
+          const prices = await axios.post(
+            `${NEXT_PUBLIC_DXP_STUDIO_ADDRESS}/api/payments/stripe?resource=prices&action=list`,
+            pricePayload
+          );
+          const pricesData = await prices.data;
+
+          pricesData.data.map((price) => {
+            if (
+              price.product === productData.id &&
+              productData.name === plans[i].planType
+            ) {
+              plans[i]["checkoutButton"] = price.id;
+            }
+          });
+
+          setUsePlan(plans);
+        } catch (error) {
+          console.log(error);
+        }
+        i++;
       }
-      i++;
     }
-    setSubscriptionProducts(plansResponse);
-    return plansResponse;
-  }
-
-  React.useEffect(() => {
-    getPriceId(plans);
+    getPriceId(usePlan);
   }, [plans]);
-
-  React.useEffect(() => {
-    if (subscriptionProducts?.length === plans?.length) {
-      plans.forEach((plan) => {
-        subscriptionProducts.forEach((subs) => {
-          if (plan.planType === subs.product.name) {
-            subs.price.map((price) => {
-              plan["checkoutButton"] = price.id;
-            });
-          }
-        });
-      });
-    }
-    setUsePlan(plans);
-  }, [subscriptionProducts, plans]);
 
   return (
     <section>
@@ -161,8 +166,8 @@ function VariantB({
                   <div className="w-full lg:w-1/5 px-3 lg:text-center">
                     <span className="text-4xl font-bold">
                       {isNaN(parseInt(usePlan?.[0]?.price))
-                        ? usePlan?.[0]?.price
-                        : `$${usePlan?.[0]?.price}`}
+                        ? comma.format(usePlan?.[0]?.price)
+                        : `$${comma.format(usePlan?.[0]?.price)}`}
                     </span>
                   </div>
                   <div className="w-full lg:w-1/5 px-3">
@@ -228,8 +233,8 @@ function VariantB({
                   <div className="w-full lg:w-1/5 px-3 lg:text-center">
                     <span className="text-4xl font-bold">
                       {isNaN(parseInt(usePlan?.[1]?.price))
-                        ? usePlan?.[1]?.price
-                        : `$${usePlan?.[1]?.price}`}
+                        ? comma.format(usePlan?.[1]?.price)
+                        : `$${comma.format(usePlan?.[1]?.price)}`}
                     </span>
                   </div>
                   <div className="w-full lg:w-1/5 px-3">
@@ -295,8 +300,8 @@ function VariantB({
                   <div className="w-full lg:w-1/5 px-3 lg:text-center">
                     <span className="text-4xl font-bold">
                       {isNaN(parseInt(usePlan?.[2]?.price))
-                        ? usePlan?.[2]?.price
-                        : `$${usePlan?.[2]?.price}`}
+                        ? comma.format(usePlan?.[2]?.price)
+                        : `$${comma.format(usePlan?.[2]?.price)}`}
                     </span>
                   </div>
                   <div className="w-full lg:w-1/5 px-3">

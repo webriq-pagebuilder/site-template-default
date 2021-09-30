@@ -14,66 +14,72 @@ function VariantC({
   NEXT_PUBLIC_DXP_STUDIO_ADDRESS,
 }) {
   const [plan, setPlan] = React.useState("monthly");
-  const [subscriptionProducts, setSubscriptionProducts] = React.useState([]);
   const [usePlan, setUsePlan] = React.useState(plans);
   const [pKeyError, setPKError] = React.useState(false);
-
-  async function getPriceId(plans) {
-    let plansResponse = [];
-    let i = 0;
-    for (; i < plans?.length; ) {
-      const payload = {
-        credentials: {
-          hashKey,
-          stripeSecretKey,
-          apiVersion,
-        },
-        stripeParams: {
-          id: `dxpstudio-pricing-${plans[i]?._key}-${plans[
-            i
-          ]?.planType?.replace(/ /g, "-")}-recurring-monthlyPrice-${
-            plans[i]?.monthlyPrice
-          }-yearlyPrice-${plans[i]?.yearlyPrice}`,
-        },
-      };
-      try {
-        const response = await axios.post(
-          `${NEXT_PUBLIC_DXP_STUDIO_ADDRESS}/api/stripe-account/get-product-by-id`,
-          payload
-        );
-        const data = await response.data;
-        plansResponse.push(data.data);
-      } catch (error) {
-        console.log(error);
-      }
-      i++;
-    }
-    setSubscriptionProducts(plansResponse);
-    return plansResponse;
-  }
+  const comma = Intl.NumberFormat("en-us");
 
   React.useEffect(() => {
-    getPriceId(plans);
-  }, [plans]);
+    async function getPriceId(plans) {
+      let i = 0;
+      for (; i < plans?.length; ) {
+        const productPayload = {
+          credentials: {
+            hashKey,
+            stripeSecretKey,
+            apiVersion,
+          },
+          StripeParams: {
+            id: `dxpstudio-pricing-${plans[i]?._key}-${plans[
+              i
+            ]?.planType?.replace(/ /g, "-")}-recurring-monthlyPrice-${
+              plans[i]?.monthlyPrice
+            }-yearlyPrice-${plans[i]?.yearlyPrice}`,
+          },
+        };
 
-  React.useEffect(() => {
-    if (subscriptionProducts?.length === plans?.length) {
-      plans.forEach((plan) => {
-        subscriptionProducts.forEach((subs) => {
-          if (plan.planType === subs.product.name) {
-            subs.price.map((price) => {
-              if (price.recurring == "month") {
-                plan["monthlyPriceCheckoutButton"] = price.id;
+        const pricePayload = {
+          credentials: {
+            hashKey,
+            stripeSecretKey,
+            apiVersion,
+          },
+        };
+        try {
+          const product = await axios.post(
+            `${NEXT_PUBLIC_DXP_STUDIO_ADDRESS}/api/payments/stripe?resource=products&action=retrieve`,
+            productPayload
+          );
+          const productData = await product.data;
+          // plansResponse.push(data.data);
+
+          const prices = await axios.post(
+            `${NEXT_PUBLIC_DXP_STUDIO_ADDRESS}/api/payments/stripe?resource=prices&action=list`,
+            pricePayload
+          );
+          const pricesData = await prices.data;
+
+          pricesData.data.map((price) => {
+            if (
+              price.product === productData.id &&
+              productData.name === plans[i].planType
+            ) {
+              if (price.recurring.interval === "month") {
+                plans[i]["monthlyPriceCheckoutButton"] = price.id;
               } else {
-                plan["yearlyPriceCheckoutButton"] = price.id;
+                plans[i]["yearlyPriceCheckoutButton"] = price.id;
               }
-            });
-          }
-        });
-      });
+            }
+          });
+
+          setUsePlan(plans);
+        } catch (error) {
+          console.log(error);
+        }
+        i++;
+      }
     }
-    setUsePlan(plans);
-  }, [subscriptionProducts, plans]);
+    getPriceId(usePlan);
+  }, [plans]);
 
   return (
     <section>
@@ -167,8 +173,8 @@ function VariantC({
                           ? usePlan?.[0]?.monthlyPrice
                           : `$${
                               plan === "yearly"
-                                ? usePlan?.[0]?.yearlyPrice
-                                : usePlan?.[0]?.monthlyPrice
+                                ? comma.format(usePlan?.[0]?.yearlyPrice)
+                                : comma.format(usePlan?.[0]?.monthlyPrice)
                             }`}
                       </span>
                       {!isNaN(parseInt(usePlan?.[0]?.price)) && (
@@ -227,8 +233,8 @@ function VariantC({
                           ? usePlan?.[1]?.monthlyPrice
                           : `$${
                               plan === "yearly"
-                                ? usePlan?.[1]?.yearlyPrice
-                                : usePlan?.[1]?.monthlyPrice
+                                ? comma.format(usePlan?.[1]?.yearlyPrice)
+                                : comma.format(usePlan?.[1]?.monthlyPrice)
                             }`}
                       </span>
                       {!isNaN(parseInt(usePlan?.[1]?.price)) && (
