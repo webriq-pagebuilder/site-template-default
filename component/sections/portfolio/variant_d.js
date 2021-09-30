@@ -1,6 +1,7 @@
 import React from "react";
 import { urlFor } from "lib/sanity";
 
+
 function VariantD({ caption, title, portfolios, buttonLabel }) {
   let portfoliosPerPage = 6,
     count = 0; // default number of portfolios per category
@@ -377,8 +378,7 @@ function VariantD({ caption, title, portfolios, buttonLabel }) {
               ))}
           <div className="text-center">
             {portfoliosPerCategory?.[0]?.content?.length > portfoliosPerPage &&
-              !showMore &&
-              buttonLabel && (
+              !showMore && (
                 <button
                   className="inline-block py-2 px-6 leading-loose rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-gray-50 font-bold"
                   onClick={() => {
@@ -386,7 +386,7 @@ function VariantD({ caption, title, portfolios, buttonLabel }) {
                     setShowMore(true);
                   }}
                 >
-                  {buttonLabel}
+                  {buttonLabel ?? "View More Projects"}
                 </button>
               )}
           </div>

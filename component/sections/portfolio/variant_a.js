@@ -1,6 +1,8 @@
 import React from "react";
 import { urlFor } from "lib/sanity";
 
+
+
 function VariantA({ caption, title, portfolios, buttonLabel }) {
   let portfolioLength = 8; //set initial number of portfolios to display for this variant
   const [activeTab, setActiveTab] = React.useState(portfolios?.[0]?.category); //set the first index category as initial value
@@ -85,8 +87,7 @@ function VariantA({ caption, title, portfolios, buttonLabel }) {
           </div>
           <div className="text-center">
             {filteredData?.[0]?.content?.length > portfolioLength &&
-              !showMore &&
-              buttonLabel && (
+              !showMore && (
                 <button
                   className="inline-block py-2 px-6 leading-loose rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-gray-50 font-bold"
                   onClick={() => {
