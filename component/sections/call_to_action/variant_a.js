@@ -15,7 +15,7 @@ function VariantA({ logo, title, text, button }) {
                 <img
                   className="h-12"
                   src={urlFor(logo?.image)}
-                  alt={logo?.alt}
+                  alt={logo?.alt ?? "callToAction-variantA-logo"}
                   width="auto"
                 />
               </a>

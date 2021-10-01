@@ -96,7 +96,7 @@ function VariantE({
                       name={formName}
                       className="form-header"
                       data-thankyou-url="/thank-you"
-                      scriptSrc="https://pagebuilderforms.webriq.com/js/initReactForms"
+                      scriptsrc="https://pagebuilderforms.webriq.com/js/initReactForms"
                     >
                       <div className="flex flex-wrap -mx-2">
                         {formFields?.[0] && formFields[0]?.name && (

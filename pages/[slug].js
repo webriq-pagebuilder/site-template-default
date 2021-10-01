@@ -3,8 +3,7 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { getClient, usePreviewSubscription } from "../lib/sanity";
 import dynamic from "next/dynamic";
-import PageNotFound from "./404";
-import { slugQuery } from "./api/query";
+import { blogQuery, blogNavAndFooter, slugQuery } from "./api/query";
 import { groq } from "next-sanity";
 
 const Components = {
@@ -31,13 +30,21 @@ const Components = {
 };
 
 const SEO = dynamic(() => import("component/SEO"));
+const BlogPage = dynamic(() => import("component/blog/"));
 
-function page({ data, preview, slug }) {
+function page({ data, preview }) {
   const router = useRouter();
   if (!router.isFallback && !data?.page?.slug) {
-    return <PageNotFound statusCode={404} />;
+    return (
+      <BlogPage
+        data={data?.blogData}
+        preview={preview}
+        navAndFooter={data?.navAndFooter?.[0]?.sections}
+      />
+    );
   }
 
+  const slug = data?.page?.slug;
   const { data: page } = usePreviewSubscription(slugQuery, {
     params: { slug },
     initialData: data,
@@ -48,7 +55,6 @@ function page({ data, preview, slug }) {
   if (!pageData) {
     return null;
   }
-
   const { sections, title, seo } = pageData;
 
   return (
@@ -82,11 +88,22 @@ export async function getStaticProps({ params, preview = false }) {
     slug: params.slug,
   });
 
+  const blogData = await getClient(preview).fetch(blogQuery, {
+    slug: params.slug,
+  });
+
+  const navAndFooter = await getClient(preview).fetch(blogNavAndFooter, {
+    slug: params.slug,
+  });
+
   return {
     props: {
       preview,
-      data: { page },
-      slug: params.slug,
+      data: {
+        page,
+        blogData,
+        navAndFooter,
+      },
     },
   };
 }

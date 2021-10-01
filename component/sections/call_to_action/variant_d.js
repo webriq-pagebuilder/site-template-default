@@ -26,7 +26,7 @@ function VariantD({
                 <img
                   className="h-12"
                   src={urlFor(logo?.image)}
-                  alt={logo?.alt}
+                  alt={logo?.alt ?? "callToAction-variantD-logo"}
                   width="auto"
                 />
               </a>
@@ -67,7 +67,7 @@ function VariantD({
                     name={formName}
                     className="form-callToAction"
                     data-thankyou-url="/thank-you"
-                    scriptSrc="https://pagebuilderforms.webriq.com/js/initReactForms"
+                    scriptsrc="https://pagebuilderforms.webriq.com/js/initReactForms"
                   >
                     <div className="mb-6">
                       <span className="text-sm text-gray-400">Sign Up</span>

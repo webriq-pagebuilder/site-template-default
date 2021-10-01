@@ -1,5 +1,5 @@
 import React from "react";
-import { urlFor } from "../../../lib/sanity";
+import { urlFor } from "lib/sanity";
 
 function VariantA({ testimonials }) {
   const [testimony, setTestimony] = React.useState(0);
@@ -7,34 +7,9 @@ function VariantA({ testimonials }) {
   const slider = (index) => {
     setTestimony(index);
   };
-  // React.useEffect(() => {
-  //   console.log(testimony, testimonials.length-1)
-  //   testimony === testimonials.length-1 ?
-  //     setInterval(() => {setTestimony(0)}, 3000)
-  //     :
-  //     setInterval(() => {setTestimony(testimony + 1)}, 3000)
-  // }, [testimony])
 
   return (
     <section>
-      <div className="skew skew-top mr-for-radius">
-        <svg
-          className="h-8 md:h-12 lg:h-20 w-full text-gray-50"
-          viewBox="0 0 10 10"
-          preserveAspectRatio="none"
-        >
-          <polygon fill="currentColor" points="0 0 10 10 0 10" />
-        </svg>
-      </div>
-      <div className="skew skew-top ml-for-radius">
-        <svg
-          className="h-8 md:h-12 lg:h-20 w-full text-gray-50"
-          viewBox="0 0 10 10"
-          preserveAspectRatio="none"
-        >
-          <polygon fill="currentColor" points="0 10 10 0 10 10" />
-        </svg>
-      </div>
       <div className="py-20 bg-gray-50 radius-for-skewed">
         <div className="container mx-auto px-4">
           <div className="mx-auto py-10 bg-white shadow rounded">
@@ -80,42 +55,26 @@ function VariantA({ testimonials }) {
                   <h3 className="mb-6 text-3xl lg:text-4xl font-bold font-heading">
                     {testimonials?.[testimony]?.testimony}
                   </h3>
-                  <div>
-                    {testimonials.map((item, index) => (
-                      <button
-                        key={item.testimony}
-                        className={`mr-1 ${
-                          index === testimony
-                            ? "bg-webriq-darkblue"
-                            : "bg-gray-200"
-                        } rounded-full p-1 focus:outline-none`}
-                        onClick={() => slider(index)}
-                      />
-                    ))}
-                  </div>
+                  {testimonials?.length > 1 && (
+                    <div>
+                      {testimonials.map((item, index) => (
+                        <button
+                          key={index}
+                          className={`mr-1 ${
+                            index === testimony
+                              ? "bg-webriq-darkblue"
+                              : "bg-gray-200"
+                          } rounded-full p-1 focus:outline-none`}
+                          onClick={() => slider(index)}
+                        />
+                      ))}
+                    </div>
+                  )}
                 </div>
               )}
             </div>
           </div>
         </div>
-      </div>
-      <div className="skew skew-bottom mr-for-radius">
-        <svg
-          className="h-8 md:h-12 lg:h-20 w-full text-gray-50"
-          viewBox="0 0 10 10"
-          preserveAspectRatio="none"
-        >
-          <polygon fill="currentColor" points="0 0 10 0 0 10" />
-        </svg>
-      </div>
-      <div className="skew skew-bottom ml-for-radius">
-        <svg
-          className="h-8 md:h-12 lg:h-20 w-full text-gray-50"
-          viewBox="0 0 10 10"
-          preserveAspectRatio="none"
-        >
-          <polygon fill="currentColor" points="0 0 10 0 10 10" />
-        </svg>
       </div>
     </section>
   );
