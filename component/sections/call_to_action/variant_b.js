@@ -13,7 +13,7 @@ function VariantB({ logo, title, text, formFields, formId, formName }) {
                 <img
                   className="h-12"
                   src={urlFor(logo?.image)}
-                  alt={logo?.alt}
+                  alt={logo?.alt ?? "callToAction-variantB-logo"}
                   width="auto"
                 />
               </span>
@@ -30,7 +30,7 @@ function VariantB({ logo, title, text, formFields, formId, formName }) {
                   name={formName}
                   className="form-callToAction"
                   data-thankyou-url="/thank-you"
-                  scriptSrc="https://pagebuilderforms.webriq.com/js/initReactForms"
+                  scriptsrc="https://pagebuilderforms.webriq.com/js/initReactForms"
                 >
                   {formFields?.[0] && formFields[0]?.type && (
                     <input
