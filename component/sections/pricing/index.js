@@ -1,14 +1,20 @@
-import React from "react"
-import dynamic from "next/dynamic"
+import React from "react";
+import dynamic from "next/dynamic";
 
-const {
-  NEXT_PUBLIC_APP_URL 
-} = process.env
+const Variants = {
+  variant_a: dynamic(() => import("./variant_a")),
+  variant_b: dynamic(() => import("./variant_b")),
+  variant_c: dynamic(() => import("./variant_c")),
+  variant_d: dynamic(() => import("./variant_d")),
+};
 
-function Pricing({ data, published }) {
-  const variant = data?.variants?.variant  
-  const Variant = dynamic(() => import(`./${variant}`))
- 
+const { NEXT_PUBLIC_DXP_STUDIO_ADDRESS } = process.env;
+
+function Pricing({ data }) {
+  const variant = data?.variants?.variant;
+
+  const Variant = Variants?.[variant];
+
   const props = {
     caption: data?.variants?.[variant]?.subtitle,
     title: data?.variants?.[variant]?.heading,
@@ -19,16 +25,17 @@ function Pricing({ data, published }) {
     banner: data?.variants?.[variant]?.banner,
     form: data?.variants?.[variant]?.form,
     stripePKey: data?.variants?.[variant]?.stripeAccount?.stripePKey,
-    accountId: data?.variants?.[variant]?.stripeAccount?.accountId,
-    projectId: data?.variants?.[variant]?.stripeAccount?.projectId,
-    documentId: data?.variants?.[variant]?.stripeAccount?.documentId,
-    published,
-    NEXT_PUBLIC_APP_URL: NEXT_PUBLIC_APP_URL || 'dxpstudio.webriq.com'
-  }
+    stripeSecretKey: data?.variants?.[variant]?.stripeAccount?.stripeSKey,
+    hashKey: data?.variants?.[variant]?.stripeAccount?.hashKey,
+    apiVersion: data?.variants?.[variant]?.stripeAccount?.apiVersion,
+    sanityToken: "studio",
+    NEXT_PUBLIC_DXP_STUDIO_ADDRESS:
+      NEXT_PUBLIC_DXP_STUDIO_ADDRESS || "https://dxpstudio.webriq.com",
+    block: data?.variants?.[variant]?.block,
+    signInLink: data?.variants?.[variant]?.signinLink,
+  };
 
-  return (
-      <Variant {...props} />
-  )
+  return Variant ? <Variant {...props} /> : null;
 }
 
-export default React.memo(Pricing)
+export default React.memo(Pricing);

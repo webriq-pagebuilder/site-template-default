@@ -10,6 +10,7 @@ function VariantA({
   formId,
   formName,
   links,
+  signInLink,
 }) {
   return (
     <section className="py-10 lg:py-20 bg-gray-50">
@@ -257,9 +258,19 @@ function VariantA({
                     <span>Already have an account?</span>
                     <a
                       className="text-webriq-darkblue hover:underline"
-                      href="#"
+                      target={signInLink?.linkTarget}
+                      rel={signInLink?.linkTarget === "_blank" ? "noopener noreferrer" : null}
+                      href={signInLink?.type === "linkExternal"
+                        ? signInLink?.externalLink
+                        : signInLink?.type === "linkInternal"
+                          ? signInLink?.internalLink === "Home" ||
+                            signInLink?.internalLink === "home"
+                            ? "/"
+                            : signInLink?.internalLink
+                          : "page-not-found"
+                      }
                     >
-                      &nbsp;Sign In
+                      &nbsp;{signInLink?.label}
                     </a>
                   </span>
                 </div>

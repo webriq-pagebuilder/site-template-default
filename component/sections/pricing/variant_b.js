@@ -1,6 +1,72 @@
 import React from "react";
+import axios from "axios";
+import { initiateCheckout } from "lib/checkout";
 
-function VariantB({ caption, title, description, plans }) {
+function VariantB({
+  caption,
+  title,
+  description,
+  plans,
+  sanityToken,
+  hashKey,
+  apiVersion,
+  stripeSecretKey,
+  stripePKey,
+  NEXT_PUBLIC_DXP_STUDIO_ADDRESS,
+}) {
+  const [subscriptionProducts, setSubscriptionProducts] = React.useState([]);
+  const [usePlan, setUsePlan] = React.useState(plans);
+
+  async function getPriceId(plans) {
+    let plansResponse = [];
+    let i = 0;
+
+    for (; i < plans?.length; ) {
+      const payload = {
+        id: `dxpstudio-pricing-${plans[i]?._key}-${plans[i]?.planType?.replace(
+          / /g,
+          "-"
+        )}-oneTimePrice-${plans[i]?.price}`,
+        sanityToken,
+        hashKey,
+        stripeSecretKey,
+        apiVersion,
+      };
+      try {
+        const response = await axios.post(
+          `${NEXT_PUBLIC_DXP_STUDIO_ADDRESS}/api/stripe-account/get-product-by-id`,
+          payload
+        );
+        const data = await response.data;
+        plansResponse.push(data.data);
+      } catch (error) {
+        console.log(error);
+      }
+      i++;
+    }
+    setSubscriptionProducts(plansResponse);
+    return plansResponse;
+  }
+
+  React.useEffect(() => {
+    getPriceId(plans);
+  }, [plans]);
+
+  React.useEffect(() => {
+    if (subscriptionProducts?.length === plans?.length) {
+      plans.forEach((plan) => {
+        subscriptionProducts.forEach((subs) => {
+          if (plan.planType === subs.product.name) {
+            subs.price.map((price) => {
+              plan["checkoutButton"] = price.id;
+            });
+          }
+        });
+      });
+    }
+    setUsePlan(plans);
+  }, [subscriptionProducts, plans]);
+
   return (
     <section>
       <div className="skew skew-top mr-for-radius">
@@ -25,37 +91,37 @@ function VariantB({ caption, title, description, plans }) {
         <div className="container mx-auto px-4">
           <div className="mb-16 w-full flex flex-wrap items-center">
             <div className="w-full lg:w-1/2">
-              {caption === undefined ? null : (
+              {caption && (
                 <span className="text-webriq-darkblue font-bold">
                   {caption}
                 </span>
               )}
-              {title === undefined ? null : (
+              {title && (
                 <h2 className="mb-2 text-4xl lg:text-5xl font-bold font-heading">
                   {title}
                 </h2>
               )}
             </div>
             <div className="w-full lg:w-1/2">
-              {description === undefined ? null : (
+              {!description ? null : (
                 <p className="max-w-xs lg:mx-auto text-gray-500 leading-loose">
                   {description}
                 </p>
               )}
             </div>
           </div>
-          {plans === undefined ? null : (
+          {!usePlan ? null : (
             <div className="flex flex-wrap">
-              {plans?.[0] && (
+              {usePlan?.[0] && (
                 <div className="mb-8 w-full p-8 flex flex-wrap items-center bg-white rounded shadow">
                   <div className="w-full lg:w-1/5 px-3 self-start">
                     <h3 className="mb-4 text-2xl font-bold font-heading">
-                      {plans?.[0]?.planType}
+                      {usePlan?.[0]?.planType}
                     </h3>
                   </div>
                   <div className="w-full lg:w-2/5 px-3">
                     <ul className="mb-4 text-gray-500">
-                      {plans?.[0]?.planIncludes?.map((include) => (
+                      {usePlan?.[0]?.planIncludes?.map((include) => (
                         <li className="mb-4 flex" key={include}>
                           <svg
                             className="mr-2 w-5 h-5 text-webriq-blue"
@@ -76,41 +142,52 @@ function VariantB({ caption, title, description, plans }) {
                   </div>
                   <div className="w-full lg:w-1/5 px-3 lg:text-center">
                     <span className="text-4xl font-bold">
-                      {isNaN(parseInt(plans?.[0]?.price))
-                        ? plans?.[0]?.price
-                        : `$${plans?.[0]?.price}`}
+                      {isNaN(parseInt(usePlan?.[0]?.price))
+                        ? usePlan?.[0]?.price
+                        : `$${usePlan?.[0]?.price}`}
                     </span>
                   </div>
                   <div className="w-full lg:w-1/5 px-3">
-                    {plans?.[0]?.primaryButton?.label && (
-                      <a
-                        className="inline-block mt-4 lg:mt-0 py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-loose transition duration-200"
-                        href={
-                          plans?.[0]?.primaryButton?.type === "linkInternal"
-                            ? plans?.[0]?.primaryButton?.internalLink ===
-                                "Home" ||
-                              plans?.[0]?.primaryButton?.internalLink === "home"
-                              ? "/"
-                              : plans?.[0]?.primaryButton?.internalLink
-                            : plans?.[0]?.primaryButton?.externalLink
-                        }
-                      >
-                        {plans?.[0]?.primaryButton.label}
-                      </a>
-                    )}
+                    <button
+                      className={`inline-block mt-4 lg:mt-0 py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-loose transition duration-200  ${
+                        !usePlan?.[0]?.checkoutButton &&
+                        "disabled:opacity-50 cursor-not-allowed"
+                      }`}
+                      disabled={!usePlan?.[0]?.checkoutButton}
+                      onClick={() => {
+                        initiateCheckout(
+                          {
+                            lineItems: [
+                              {
+                                price: usePlan[0].checkoutButton,
+                                quantity: 1,
+                              },
+                            ],
+                          },
+                          stripePKey,
+                          window.location.origin + "/success",
+                          window.location.href,
+                          false
+                        );
+                      }}
+                    >
+                      {!usePlan?.[0]?.checkoutButton
+                        ? "Processing..."
+                        : usePlan?.[0]?.checkoutButtonName}
+                    </button>
                   </div>
                 </div>
               )}
-              {plans?.[1] && (
+              {usePlan?.[1] && (
                 <div className="mb-8 w-full p-8 flex flex-wrap items-center bg-white rounded shadow">
                   <div className="w-full lg:w-1/5 px-3 self-start">
                     <h3 className="mb-4 text-2xl font-bold font-heading">
-                      {plans?.[1]?.planType}
+                      {usePlan?.[1]?.planType}
                     </h3>
                   </div>
                   <div className="w-full lg:w-2/5 px-3">
                     <ul className="mb-4 text-gray-500">
-                      {plans?.[1].planIncludes?.map((include) => (
+                      {usePlan?.[1].planIncludes?.map((include) => (
                         <li className="mb-4 flex" key={include}>
                           <svg
                             className="mr-2 w-5 h-5 text-webriq-blue"
@@ -131,42 +208,52 @@ function VariantB({ caption, title, description, plans }) {
                   </div>
                   <div className="w-full lg:w-1/5 px-3 lg:text-center">
                     <span className="text-4xl font-bold">
-                      {isNaN(parseInt(plans?.[1]?.price))
-                        ? plans?.[1]?.price
-                        : `$${plans?.[1]?.price}`}
+                      {isNaN(parseInt(usePlan?.[1]?.price))
+                        ? usePlan?.[1]?.price
+                        : `$${usePlan?.[1]?.price}`}
                     </span>
                   </div>
                   <div className="w-full lg:w-1/5 px-3">
-                    {plans?.[1]?.primaryButton === undefined ||
-                    plans?.[1]?.primaryButton.label === undefined ? null : (
-                      <a
-                        className="inline-block mt-4 lg:mt-0 py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-loose transition duration-200"
-                        href={
-                          plans?.[1]?.primaryButton?.type === "linkInternal"
-                            ? plans?.[1]?.primaryButton?.internalLink ===
-                                "Home" ||
-                              plans?.[1]?.primaryButton?.internalLink === "home"
-                              ? "/"
-                              : plans?.[1]?.primaryButton?.internalLink
-                            : plans?.[1]?.primaryButton?.externalLink
-                        }
-                      >
-                        {plans?.[1]?.primaryButton?.label}
-                      </a>
-                    )}
+                    <button
+                      className={`inline-block mt-4 lg:mt-0 py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-loose transition duration-200 ${
+                        !usePlan?.[1]?.checkoutButton &&
+                        "disabled:opacity-50 cursor-not-allowed"
+                      }`}
+                      disabled={!usePlan?.[1]?.checkoutButton}
+                      onClick={() => {
+                        initiateCheckout(
+                          {
+                            lineItems: [
+                              {
+                                price: usePlan[1].checkoutButton,
+                                quantity: 1,
+                              },
+                            ],
+                          },
+                          stripePKey,
+                          window.location.origin + "/success",
+                          window.location.href,
+                          false
+                        );
+                      }}
+                    >
+                      {!usePlan?.[1]?.checkoutButton
+                        ? "Processing..."
+                        : usePlan?.[1]?.checkoutButtonName}
+                    </button>
                   </div>
                 </div>
               )}
-              {plans?.[2] && (
+              {usePlan?.[2] && (
                 <div className="w-full p-8 flex flex-wrap items-center bg-white rounded shadow">
                   <div className="w-full lg:w-1/5 px-3 self-start">
                     <h3 className="mb-4 text-2xl font-bold font-heading">
-                      {plans?.[2]?.planType}
+                      {usePlan?.[2]?.planType}
                     </h3>
                   </div>
                   <div className="w-full lg:w-2/5 px-3">
                     <ul className="mb-4 text-gray-500">
-                      {plans?.[2]?.planIncludes?.map((include) => (
+                      {usePlan?.[2]?.planIncludes?.map((include) => (
                         <li className="mb-4 flex" key={include}>
                           <svg
                             className="mr-2 w-5 h-5 text-webriq-blue"
@@ -187,28 +274,39 @@ function VariantB({ caption, title, description, plans }) {
                   </div>
                   <div className="w-full lg:w-1/5 px-3 lg:text-center">
                     <span className="text-4xl font-bold">
-                      {isNaN(parseInt(plans?.[2]?.price))
-                        ? plans?.[2]?.price
-                        : `$${plans?.[2]?.price}`}
+                      {isNaN(parseInt(usePlan?.[2]?.price))
+                        ? usePlan?.[2]?.price
+                        : `$${usePlan?.[2]?.price}`}
                     </span>
                   </div>
                   <div className="w-full lg:w-1/5 px-3">
-                    {plans?.[2]?.primaryButton === undefined ||
-                    plans?.[2]?.primaryButton.label === undefined ? null : (
-                      <a
-                        className="inline-block mt-4 lg:mt-0 py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-loose transition duration-200"
-                        href={
-                          plans?.[2]?.primaryButton?.type === "linkInternal"
-                            ? plans?.[2]?.primaryButton?.internalLink ===
-                                "Home" ||
-                              plans?.[2]?.primaryButton?.internalLink === "home"
-                              ? "/"
-                              : plans?.[2]?.primaryButton?.internalLink
-                            : plans?.[2]?.primaryButton?.externalLink
-                        }
+                    {usePlan?.[2]?.primaryButton === undefined ||
+                    usePlan?.[2]?.checkoutButtonName === undefined ? null : (
+                      <button
+                        className={`inline-block mt-4 lg:mt-0 py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-loose transition duration-200   ${
+                          !subscriptionProducts &&
+                          "disabled:opacity-50 cursor-not-allowed"
+                        }`}
+                        disabled={!subscriptionProducts}
+                        onClick={() => {
+                          initiateCheckout(
+                            {
+                              lineItems: [
+                                {
+                                  price: usePlan[2].checkout,
+                                  quantity: 1,
+                                },
+                              ],
+                            },
+                            stripePKey,
+                            window.location.origin + "/success",
+                            window.location.href,
+                            false
+                          );
+                        }}
                       >
-                        {plans?.[2]?.primaryButton?.label}
-                      </a>
+                        {usePlan?.[2]?.checkoutButtonName}
+                      </button>
                     )}
                   </div>
                 </div>
