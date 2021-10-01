@@ -7,65 +7,71 @@ function VariantB({
   title,
   description,
   plans,
-  sanityToken,
   hashKey,
   apiVersion,
   stripeSecretKey,
   stripePKey,
   NEXT_PUBLIC_DXP_STUDIO_ADDRESS,
 }) {
-  const [subscriptionProducts, setSubscriptionProducts] = React.useState([]);
   const [usePlan, setUsePlan] = React.useState(plans);
+  const [pKeyError, setPKError] = React.useState(false);
+  const comma = Intl.NumberFormat("en-us");
 
   async function getPriceId(plans) {
-    let plansResponse = [];
     let i = 0;
-
     for (; i < plans?.length; ) {
-      const payload = {
+      const productPayload = {
+        credentials: {
+          hashKey,
+          stripeSecretKey,
+          apiVersion,
+        },
         id: `dxpstudio-pricing-${plans[i]?._key}-${plans[i]?.planType?.replace(
           / /g,
           "-"
         )}-oneTimePrice-${plans[i]?.price}`,
-        sanityToken,
-        hashKey,
-        stripeSecretKey,
-        apiVersion,
+      };
+
+      const pricePayload = {
+        credentials: {
+          hashKey,
+          stripeSecretKey,
+          apiVersion,
+        },
       };
       try {
-        const response = await axios.post(
-          `${NEXT_PUBLIC_DXP_STUDIO_ADDRESS}/api/stripe-account/get-product-by-id`,
-          payload
+        const product = await axios.post(
+          `${NEXT_PUBLIC_DXP_STUDIO_ADDRESS}/api/payments/stripe?resource=products&action=retrieve`,
+          productPayload
         );
-        const data = await response.data;
-        plansResponse.push(data.data);
+        const productData = await product.data;
+        // plansResponse.push(data.data);
+
+        const prices = await axios.post(
+          `${NEXT_PUBLIC_DXP_STUDIO_ADDRESS}/api/payments/stripe?resource=prices&action=list`,
+          pricePayload
+        );
+        const pricesData = await prices.data;
+
+        pricesData.data.map((price) => {
+          if (
+            price.product === productData.id &&
+            productData.name === plans[i].planType
+          ) {
+            plans[i]["checkoutButton"] = price.id;
+          }
+        });
+
+        setUsePlan(plans);
       } catch (error) {
         console.log(error);
       }
       i++;
     }
-    setSubscriptionProducts(plansResponse);
-    return plansResponse;
   }
-
   React.useEffect(() => {
-    getPriceId(plans);
-  }, [plans]);
-
-  React.useEffect(() => {
-    if (subscriptionProducts?.length === plans?.length) {
-      plans.forEach((plan) => {
-        subscriptionProducts.forEach((subs) => {
-          if (plan.planType === subs.product.name) {
-            subs.price.map((price) => {
-              plan["checkoutButton"] = price.id;
-            });
-          }
-        });
-      });
-    }
-    setUsePlan(plans);
-  }, [subscriptionProducts, plans]);
+    getPriceId(usePlan);
+  }, [plans, usePlan]);
 
   return (
     <section>
@@ -110,6 +116,22 @@ function VariantB({
               )}
             </div>
           </div>
+          {pKeyError && (
+            <div>
+              <p
+                style={{
+                  fontSize: 9,
+                  color: "red",
+                  textAlign: "center",
+                  padding: 20,
+                }}
+              >
+                Stripe Checkout won't work because of an Invalid
+                <strong> Stripe Public Key</strong>, please fix it in your
+                studio under webriq-payments to get rid of this error message.
+              </p>
+            </div>
+          )}
           {!usePlan ? null : (
             <div className="flex flex-wrap">
               {usePlan?.[0] && (
@@ -143,17 +165,16 @@ function VariantB({
                   <div className="w-full lg:w-1/5 px-3 lg:text-center">
                     <span className="text-4xl font-bold">
                       {isNaN(parseInt(usePlan?.[0]?.price))
-                        ? usePlan?.[0]?.price
-                        : `$${usePlan?.[0]?.price}`}
+                        ? comma.format(usePlan?.[0]?.price)
+                        : `$${comma.format(usePlan?.[0]?.price)}`}
                     </span>
                   </div>
                   <div className="w-full lg:w-1/5 px-3">
                     <button
                       className={`inline-block mt-4 lg:mt-0 py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-loose transition duration-200  ${
-                        !usePlan?.[0]?.checkoutButton &&
-                        "disabled:opacity-50 cursor-not-allowed"
+                        !usePlan[0] && "disabled:opacity-50 cursor-not-allowed"
                       }`}
-                      disabled={!usePlan?.[0]?.checkoutButton}
+                      disabled={!usePlan[0]}
                       onClick={() => {
                         initiateCheckout(
                           {
@@ -167,11 +188,12 @@ function VariantB({
                           stripePKey,
                           window.location.origin + "/success",
                           window.location.href,
-                          false
+                          false,
+                          setPKError
                         );
                       }}
                     >
-                      {!usePlan?.[0]?.checkoutButton
+                      {!usePlan[0]
                         ? "Processing..."
                         : usePlan?.[0]?.checkoutButtonName}
                     </button>
@@ -209,17 +231,16 @@ function VariantB({
                   <div className="w-full lg:w-1/5 px-3 lg:text-center">
                     <span className="text-4xl font-bold">
                       {isNaN(parseInt(usePlan?.[1]?.price))
-                        ? usePlan?.[1]?.price
-                        : `$${usePlan?.[1]?.price}`}
+                        ? comma.format(usePlan?.[1]?.price)
+                        : `$${comma.format(usePlan?.[1]?.price)}`}
                     </span>
                   </div>
                   <div className="w-full lg:w-1/5 px-3">
                     <button
                       className={`inline-block mt-4 lg:mt-0 py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-loose transition duration-200 ${
-                        !usePlan?.[1]?.checkoutButton &&
-                        "disabled:opacity-50 cursor-not-allowed"
+                        !usePlan[1] && "disabled:opacity-50 cursor-not-allowed"
                       }`}
-                      disabled={!usePlan?.[1]?.checkoutButton}
+                      disabled={!usePlan[1]}
                       onClick={() => {
                         initiateCheckout(
                           {
@@ -233,11 +254,12 @@ function VariantB({
                           stripePKey,
                           window.location.origin + "/success",
                           window.location.href,
-                          false
+                          false,
+                          setPKError
                         );
                       }}
                     >
-                      {!usePlan?.[1]?.checkoutButton
+                      {!usePlan[1]
                         ? "Processing..."
                         : usePlan?.[1]?.checkoutButtonName}
                     </button>
@@ -275,19 +297,18 @@ function VariantB({
                   <div className="w-full lg:w-1/5 px-3 lg:text-center">
                     <span className="text-4xl font-bold">
                       {isNaN(parseInt(usePlan?.[2]?.price))
-                        ? usePlan?.[2]?.price
-                        : `$${usePlan?.[2]?.price}`}
+                        ? comma.format(usePlan?.[2]?.price)
+                        : `$${comma.format(usePlan?.[2]?.price)}`}
                     </span>
                   </div>
                   <div className="w-full lg:w-1/5 px-3">
-                    {usePlan?.[2]?.primaryButton === undefined ||
-                    usePlan?.[2]?.checkoutButtonName === undefined ? null : (
+                    {!usePlan?.[2]?.primaryButton ||
+                    !usePlan?.[2]?.checkoutButtonName ? null : (
                       <button
                         className={`inline-block mt-4 lg:mt-0 py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-loose transition duration-200   ${
-                          !subscriptionProducts &&
-                          "disabled:opacity-50 cursor-not-allowed"
+                          !usePlan && "disabled:opacity-50 cursor-not-allowed"
                         }`}
-                        disabled={!subscriptionProducts}
+                        disabled={!usePlan}
                         onClick={() => {
                           initiateCheckout(
                             {
@@ -301,11 +322,14 @@ function VariantB({
                             stripePKey,
                             window.location.origin + "/success",
                             window.location.href,
-                            false
+                            false,
+                            setPKError
                           );
                         }}
                       >
-                        {usePlan?.[2]?.checkoutButtonName}
+                        {!usePlan[2]
+                          ? "Processing..."
+                          : usePlan?.[2]?.checkoutButtonName}
                       </button>
                     )}
                   </div>
