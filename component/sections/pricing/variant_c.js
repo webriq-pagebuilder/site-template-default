@@ -18,66 +18,68 @@ function VariantC({
   const [pKeyError, setPKError] = React.useState(false);
   const comma = Intl.NumberFormat("en-us");
 
-  React.useEffect(() => {
-    async function getPriceId(plans) {
-      let i = 0;
-      for (; i < plans?.length; ) {
-        const productPayload = {
-          credentials: {
-            hashKey,
-            stripeSecretKey,
-            apiVersion,
-          },
-          id: `dxpstudio-pricing-${plans[i]?._key}-${plans[
-            i
-          ]?.planType?.replace(/ /g, "-")}-recurring-monthlyPrice-${
-            plans[i]?.monthlyPrice
-          }-yearlyPrice-${plans[i]?.yearlyPrice}`,
-        };
+  async function getPriceId(plans) {
+    let i = 0;
+    for (; i < plans?.length; ) {
+      const productPayload = {
+        credentials: {
+          hashKey,
+          stripeSecretKey,
+          apiVersion,
+        },
+        id: `dxpstudio-pricing-${plans[i]?._key}-${plans[i]?.planType?.replace(
+          / /g,
+          "-"
+        )}-recurring-monthlyPrice-${plans[i]?.monthlyPrice}-yearlyPrice-${
+          plans[i]?.yearlyPrice
+        }`,
+      };
 
-        const pricePayload = {
-          credentials: {
-            hashKey,
-            stripeSecretKey,
-            apiVersion,
-          },
-        };
-        try {
-          const product = await axios.post(
-            `${NEXT_PUBLIC_DXP_STUDIO_ADDRESS}/api/payments/stripe?resource=products&action=retrieve`,
-            productPayload
-          );
-          const productData = await product.data;
-          // plansResponse.push(data.data);
+      const pricePayload = {
+        credentials: {
+          hashKey,
+          stripeSecretKey,
+          apiVersion,
+        },
+      };
+      try {
+        const product = await axios.post(
+          `${NEXT_PUBLIC_DXP_STUDIO_ADDRESS}/api/payments/stripe?resource=products&action=retrieve`,
+          productPayload
+        );
+        const productData = await product.data;
+        // plansResponse.push(data.data);
 
-          const prices = await axios.post(
-            `${NEXT_PUBLIC_DXP_STUDIO_ADDRESS}/api/payments/stripe?resource=prices&action=list`,
-            pricePayload
-          );
-          const pricesData = await prices.data;
+        const prices = await axios.post(
+          `${NEXT_PUBLIC_DXP_STUDIO_ADDRESS}/api/payments/stripe?resource=prices&action=list`,
+          pricePayload
+        );
+        const pricesData = await prices.data;
 
-          pricesData.data.map((price) => {
-            if (
-              price.product === productData.id &&
-              productData.name === plans[i].planType
-            ) {
-              if (price.recurring.interval === "month") {
-                plans[i]["monthlyPriceCheckoutButton"] = price.id;
-              } else {
-                plans[i]["yearlyPriceCheckoutButton"] = price.id;
-              }
+        pricesData.data.map((price) => {
+          if (
+            price.product === productData.id &&
+            productData.name === plans[i].planType
+          ) {
+            if (price.recurring.interval === "month") {
+              plans[i]["monthlyPriceCheckoutButton"] = price.id;
+            } else {
+              plans[i]["yearlyPriceCheckoutButton"] = price.id;
             }
-          });
+          }
+        });
 
-          setUsePlan(plans);
-        } catch (error) {
-          console.log(error);
-        }
-        i++;
+        setUsePlan(plans);
+      } catch (error) {
+        console.log(error);
       }
+      i++;
     }
+  }
+
+  React.useEffect(() => {
     getPriceId(usePlan);
-  }, [plans]);
+  }, [plans, usePlan]);
 
   return (
     <section>
@@ -180,10 +182,10 @@ function VariantC({
                       )}
                       <button
                         className={`block mt-6 w-full py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-loose transition duration-200 ${
-                          !usePlan?.[0]?.monthlyPriceCheckoutButton &&
+                          !usePlan[0] &&
                           "disabled:opacity-50 cursor-not-allowed"
                         }`}
-                        disabled={!usePlan?.[0]?.monthlyPriceCheckoutButton}
+                        disabled={!usePlan[0]}
                         onClick={() => {
                           initiateCheckout(
                             {
@@ -205,8 +207,7 @@ function VariantC({
                           );
                         }}
                       >
-                        {!usePlan?.[0]?.monthlyPriceCheckoutButton ||
-                        !usePlan?.[0]?.yearlyPriceCheckoutButton
+                        {!usePlan[0]
                           ? "Processing..."
                           : usePlan?.[0]?.checkoutButtonName}
                       </button>
@@ -240,10 +241,10 @@ function VariantC({
                       )}
                       <button
                         className={`block mt-6 w-full py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-loose transition duration-200 ${
-                          !usePlan?.[1]?.monthlyPriceCheckoutButton &&
+                          !usePlan[1] &&
                           "disabled:opacity-50 cursor-not-allowed"
                         }`}
-                        disabled={!usePlan?.[1]?.monthlyPriceCheckoutButton}
+                        disabled={!usePlan[1]}
                         onClick={() => {
                           initiateCheckout(
                             {
@@ -265,8 +266,7 @@ function VariantC({
                           );
                         }}
                       >
-                        {!usePlan?.[1]?.monthlyPriceCheckoutButton ||
-                        !usePlan?.[1]?.yearlyPriceCheckoutButton
+                        {!usePlan[1]
                           ? "Processing..."
                           : usePlan?.[1]?.checkoutButtonName}
                       </button>

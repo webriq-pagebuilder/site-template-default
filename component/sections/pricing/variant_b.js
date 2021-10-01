@@ -17,60 +17,61 @@ function VariantB({
   const [pKeyError, setPKError] = React.useState(false);
   const comma = Intl.NumberFormat("en-us");
 
-  React.useEffect(() => {
-    async function getPriceId(plans) {
-      let i = 0;
-      for (; i < plans?.length; ) {
-        const productPayload = {
-          credentials: {
-            hashKey,
-            stripeSecretKey,
-            apiVersion,
-          },
-          id: `dxpstudio-pricing-${plans[i]?._key}-${plans[
-            i
-          ]?.planType?.replace(/ /g, "-")}-oneTimePrice-${plans[i]?.price}`,
-        };
+  async function getPriceId(plans) {
+    let i = 0;
+    for (; i < plans?.length; ) {
+      const productPayload = {
+        credentials: {
+          hashKey,
+          stripeSecretKey,
+          apiVersion,
+        },
+        id: `dxpstudio-pricing-${plans[i]?._key}-${plans[i]?.planType?.replace(
+          / /g,
+          "-"
+        )}-oneTimePrice-${plans[i]?.price}`,
+      };
 
-        const pricePayload = {
-          credentials: {
-            hashKey,
-            stripeSecretKey,
-            apiVersion,
-          },
-        };
-        try {
-          const product = await axios.post(
-            `${NEXT_PUBLIC_DXP_STUDIO_ADDRESS}/api/payments/stripe?resource=products&action=retrieve`,
-            productPayload
-          );
-          const productData = await product.data;
-          // plansResponse.push(data.data);
+      const pricePayload = {
+        credentials: {
+          hashKey,
+          stripeSecretKey,
+          apiVersion,
+        },
+      };
+      try {
+        const product = await axios.post(
+          `${NEXT_PUBLIC_DXP_STUDIO_ADDRESS}/api/payments/stripe?resource=products&action=retrieve`,
+          productPayload
+        );
+        const productData = await product.data;
+        // plansResponse.push(data.data);
 
-          const prices = await axios.post(
-            `${NEXT_PUBLIC_DXP_STUDIO_ADDRESS}/api/payments/stripe?resource=prices&action=list`,
-            pricePayload
-          );
-          const pricesData = await prices.data;
+        const prices = await axios.post(
+          `${NEXT_PUBLIC_DXP_STUDIO_ADDRESS}/api/payments/stripe?resource=prices&action=list`,
+          pricePayload
+        );
+        const pricesData = await prices.data;
 
-          pricesData.data.map((price) => {
-            if (
-              price.product === productData.id &&
-              productData.name === plans[i].planType
-            ) {
-              plans[i]["checkoutButton"] = price.id;
-            }
-          });
+        pricesData.data.map((price) => {
+          if (
+            price.product === productData.id &&
+            productData.name === plans[i].planType
+          ) {
+            plans[i]["checkoutButton"] = price.id;
+          }
+        });
 
-          setUsePlan(plans);
-        } catch (error) {
-          console.log(error);
-        }
-        i++;
+        setUsePlan(plans);
+      } catch (error) {
+        console.log(error);
       }
+      i++;
     }
+  }
+  React.useEffect(() => {
     getPriceId(usePlan);
-  }, [plans]);
+  }, [plans, usePlan]);
 
   return (
     <section>
@@ -171,10 +172,9 @@ function VariantB({
                   <div className="w-full lg:w-1/5 px-3">
                     <button
                       className={`inline-block mt-4 lg:mt-0 py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-loose transition duration-200  ${
-                        !usePlan?.[0]?.checkoutButton &&
-                        "disabled:opacity-50 cursor-not-allowed"
+                        !usePlan[0] && "disabled:opacity-50 cursor-not-allowed"
                       }`}
-                      disabled={!usePlan?.[0]?.checkoutButton}
+                      disabled={!usePlan[0]}
                       onClick={() => {
                         initiateCheckout(
                           {
@@ -193,7 +193,7 @@ function VariantB({
                         );
                       }}
                     >
-                      {!usePlan?.[0]?.checkoutButton
+                      {!usePlan[0]
                         ? "Processing..."
                         : usePlan?.[0]?.checkoutButtonName}
                     </button>
@@ -238,10 +238,9 @@ function VariantB({
                   <div className="w-full lg:w-1/5 px-3">
                     <button
                       className={`inline-block mt-4 lg:mt-0 py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-loose transition duration-200 ${
-                        !usePlan?.[1]?.checkoutButton &&
-                        "disabled:opacity-50 cursor-not-allowed"
+                        !usePlan[1] && "disabled:opacity-50 cursor-not-allowed"
                       }`}
-                      disabled={!usePlan?.[1]?.checkoutButton}
+                      disabled={!usePlan[1]}
                       onClick={() => {
                         initiateCheckout(
                           {
@@ -260,7 +259,7 @@ function VariantB({
                         );
                       }}
                     >
-                      {!usePlan?.[1]?.checkoutButton
+                      {!usePlan[1]
                         ? "Processing..."
                         : usePlan?.[1]?.checkoutButtonName}
                     </button>
@@ -303,14 +302,13 @@ function VariantB({
                     </span>
                   </div>
                   <div className="w-full lg:w-1/5 px-3">
-                    {usePlan?.[2]?.primaryButton === undefined ||
-                    usePlan?.[2]?.checkoutButtonName === undefined ? null : (
+                    {!usePlan?.[2]?.primaryButton ||
+                    !usePlan?.[2]?.checkoutButtonName ? null : (
                       <button
                         className={`inline-block mt-4 lg:mt-0 py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-loose transition duration-200   ${
-                          !subscriptionProducts &&
-                          "disabled:opacity-50 cursor-not-allowed"
+                          !usePlan && "disabled:opacity-50 cursor-not-allowed"
                         }`}
-                        disabled={!subscriptionProducts}
+                        disabled={!usePlan}
                         onClick={() => {
                           initiateCheckout(
                             {
@@ -329,7 +327,9 @@ function VariantB({
                           );
                         }}
                       >
-                        {usePlan?.[2]?.checkoutButtonName}
+                        {!usePlan[2]
+                          ? "Processing..."
+                          : usePlan?.[2]?.checkoutButtonName}
                       </button>
                     )}
                   </div>
