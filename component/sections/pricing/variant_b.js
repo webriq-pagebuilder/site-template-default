@@ -27,11 +27,9 @@ function VariantB({
             stripeSecretKey,
             apiVersion,
           },
-          StripeParams: {
-            id: `dxpstudio-pricing-${plans[i]?._key}-${plans[
-              i
-            ]?.planType?.replace(/ /g, "-")}-oneTimePrice-${plans[i]?.price}`,
-          },
+          id: `dxpstudio-pricing-${plans[i]?._key}-${plans[
+            i
+          ]?.planType?.replace(/ /g, "-")}-oneTimePrice-${plans[i]?.price}`,
         };
 
         const pricePayload = {

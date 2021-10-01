@@ -28,13 +28,11 @@ function VariantA({
             stripeSecretKey,
             apiVersion,
           },
-          StripeParams: {
-            id: `dxpstudio-pricing-${plans[i]?._key}-${plans[
-              i
-            ]?.planType?.replace(/ /g, "-")}-recurring-monthlyPrice-${
-              plans[i]?.monthlyPrice
-            }-yearlyPrice-${plans[i]?.yearlyPrice}`,
-          },
+          id: `dxpstudio-pricing-${plans[i]?._key}-${plans[
+            i
+          ]?.planType?.replace(/ /g, "-")}-recurring-monthlyPrice-${
+            plans[i]?.monthlyPrice
+          }-yearlyPrice-${plans[i]?.yearlyPrice}`,
         };
 
         const pricePayload = {
@@ -79,8 +77,8 @@ function VariantA({
       }
     }
     getPriceId(usePlan);
-  }, [plans]);
-
+  }, [plans, usePlan]);
+  console.log(usePlan);
   return (
     <section>
       <div className="skew skew-top mr-for-radius">
