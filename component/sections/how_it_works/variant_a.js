@@ -18,7 +18,7 @@ function VariantA({ subtitle, title, text, video, steps }) {
               </div>
             </div>
             <div className="relative w-full lg:w-1/4">
-              {video && (
+              {video ? (
                 <iframe
                   //className="rounded-3xl md:rounded-6xl md:rounded-br-none border-4 border-webriq-blue"
                   className="relative rounded-lg"
@@ -32,14 +32,37 @@ function VariantA({ subtitle, title, text, video, steps }) {
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen
                 ></iframe>
+              ) : (
+                <>
+                  <img
+                    className="relative rounded-lg"
+                    src="https://images.unsplash.com/photo-1607556772227-fe3868023d27?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=1050&q=80"
+                    alt=""
+                  />
+                  <button className="text-white hover:text-gray-50">
+                    <svg
+                      className="absolute w-16 h-16"
+                      style={{ top: "38%", left: "45%" }}
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  </button>
+                </>
               )}
             </div>
           </div>
-          <div className="flex flex-wrap -mx-4 px-4">
+          <div className="flex flex-wrap px-16">
             {steps &&
               steps?.map((step, index) => (
                 <div
-                  className="mb-12 lg:mb-0 w-full md:w-1/2 lg:w-1/3 px-4"
+                  className="mb-12 lg:mb-0 w-full md:w-1/2 lg:w-1/3 px-5"
                   key={index}
                 >
                   <span className="mt-6 mb-6 w-12 h-12 flex justify-center items-center bg-webriq-lightblue rounded text-webriq-darkblue font-bold">

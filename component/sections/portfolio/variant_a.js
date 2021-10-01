@@ -2,45 +2,31 @@ import React from "react";
 import { urlFor } from "lib/sanity";
 
 
+
 function VariantA({ caption, title, portfolios, buttonLabel }) {
   let portfolioLength = 8; //set initial number of portfolios to display for this variant
   const [activeTab, setActiveTab] = React.useState(portfolios?.[0]?.category); //set the first index category as initial value
   const [viewPortfolios, setViewPortfolios] = React.useState(portfolioLength);
+  const [showMore, setShowMore] = React.useState(false); // show all blogs posts
 
   //creates new array of items filtered by active tab
-  const filteredData = portfolios?.filter(data => data?.category === activeTab)
-
-  const handleViewMoreProjects = () => {
-    viewPortfolios !== filteredData?.[0]?.content?.length  // Check index length
-      ? setViewPortfolios(filteredData?.[0]?.content?.length)
-      : setViewPortfolios(portfolioLength);
-  };
+  const filteredData = portfolios?.filter(
+    (data) => data?.category === activeTab
+  );
 
   return (
     <section>
-      <div className="skew skew-top mr-for-radius">
-        <svg
-          className="h-8 md:h-12 lg:h-20 w-full text-gray-50"
-          viewBox="0 0 10 10"
-          preserveAspectRatio="none"
-        >
-          <polygon fill="currentColor" points="0 0 10 10 0 10" />
-        </svg>
-      </div>
-      <div className="skew skew-top ml-for-radius">
-        <svg
-          className="h-8 md:h-12 lg:h-20 w-full text-gray-50"
-          viewBox="0 0 10 10"
-          preserveAspectRatio="none"
-        >
-          <polygon fill="currentColor" points="0 10 10 0 10 10" />
-        </svg>
-      </div>
       <div className="py-20 bg-gray-50 radius-for-skewed">
         <div className="container mx-auto px-4">
           <div className="mb-8 md:mb-16 max-w-lg mx-auto text-center">
-            {caption && <span className="text-webriq-darkblue font-bold">{caption}</span>}
-            {title && <h2 className="mb-6 text-4xl lg:text-5xl font-bold font-heading">{title}</h2>}
+            {caption && (
+              <span className="text-webriq-darkblue font-bold">{caption}</span>
+            )}
+            {title && (
+              <h2 className="mb-6 text-4xl lg:text-5xl font-bold font-heading">
+                {title}
+              </h2>
+            )}
             {portfolios && (
               <div className="inline-flex flex-wrap py-1 sm:px-1 sm:space-x-1 bg-white rounded text-sm">
                 {portfolios?.map((content, index) => (
@@ -60,74 +46,60 @@ function VariantA({ caption, title, portfolios, buttonLabel }) {
             )}
           </div>
           <div className="flex flex-wrap mb-8 -mx-4">
-            {filteredData?.[0]?.content?.slice(0, viewPortfolios)?.map((content, index) => (
-              <div className="w-1/4 mb-8 px-4" key={index}>
-                {content?.mainImage && (
-                  <div className="relative mx-auto h-64 w-full rounded-lg">
-                    <img 
-                      className="mx-auto h-64 w-full rounded object-cover" 
-                      src={urlFor(content?.mainImage)} 
-                    />
-                    <div className="opacity-0 hover:opacity-75 duration-300 absolute inset-0 z-10 bg-gray-900 flex justify-center items-center rounded-lg">
-                      <a 
-                        className="inline-block py-2 px-4 border-2 border-gray-400 hover:border-white hover:opacity-100 text-gray-50 hover:bg-white hover:text-gray-900 transition duration-200 rounded-l-xl rounded-t-xl font-bold leading-loose" 
-                        target={content?.primaryButton?.linkTarget}
-                        rel={
-                          content?.primaryButton?.linkTarget === "_blank"
-                            ? "noopener noreferrer"
-                            : null
-                        }
-                        href={
-                          content?.primaryButton?.type === "linkExternal"
-                            ? content?.primaryButton?.externalLink
-                            : content?.primaryButton?.type === "linkInternal"
-                              ? content?.primaryButton?.internalLink === "Home" ||
+            {filteredData?.[0]?.content
+              ?.slice(0, viewPortfolios)
+              ?.map((content, index) => (
+                <div className="w-1/4 mb-8 px-4" key={index}>
+                  {content?.mainImage && (
+                    <div className="relative mx-auto h-64 w-full rounded-lg">
+                      <img
+                        className="mx-auto h-64 w-full rounded object-cover"
+                        src={urlFor(content?.mainImage)}
+                      />
+                      <div className="opacity-0 hover:opacity-75 duration-300 absolute inset-0 z-10 bg-gray-900 flex justify-center items-center rounded-lg">
+                        <a
+                          className="inline-block py-2 px-4 border-2 border-gray-400 hover:border-white hover:opacity-100 text-gray-50 hover:bg-white hover:text-gray-900 transition duration-200 rounded-l-xl rounded-t-xl font-bold leading-loose"
+                          target={content?.primaryButton?.linkTarget}
+                          rel={
+                            content?.primaryButton?.linkTarget === "_blank"
+                              ? "noopener noreferrer"
+                              : null
+                          }
+                          href={
+                            content?.primaryButton?.type === "linkExternal"
+                              ? content?.primaryButton?.externalLink
+                              : content?.primaryButton?.type === "linkInternal"
+                              ? content?.primaryButton?.internalLink ===
+                                  "Home" ||
                                 content?.primaryButton?.internalLink === "home"
                                 ? "/"
                                 : content?.primaryButton?.internalLink
                               : "page-not-found"
-                        }
-                      >
-                        {content?.primaryButton?.label ?? "View Project"}
-                      </a>
+                          }
+                        >
+                          {content?.primaryButton?.label ?? "View Project"}
+                        </a>
+                      </div>
                     </div>
-                  </div>
-                )}
-              </div>
-            ))}
+                  )}
+                </div>
+              ))}
           </div>
-          {filteredData?.[0]?.content && (
-            <div className="text-center">
-              {filteredData?.[0]?.content?.length === viewPortfolios || filteredData?.[0]?.content?.length > portfolioLength && (
-                <button 
-                  className="inline-block py-2 px-6 leading-loose rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-gray-50 font-bold" 
-                  id={filteredData?.[0]?._key}
-                  onClick={handleViewMoreProjects}
+          <div className="text-center">
+            {filteredData?.[0]?.content?.length > portfolioLength &&
+              !showMore && (
+                <button
+                  className="inline-block py-2 px-6 leading-loose rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-gray-50 font-bold"
+                  onClick={() => {
+                    setViewPortfolios(filteredData?.[0]?.content?.length);
+                    setShowMore(true);
+                  }}
                 >
                   {buttonLabel ?? "View More Projects"}
                 </button>
               )}
-            </div>
-          )}
+          </div>
         </div>
-      </div>
-      <div className="skew skew-bottom mr-for-radius">
-        <svg
-          className="h-8 md:h-12 lg:h-20 w-full text-gray-50"
-          viewBox="0 0 10 10"
-          preserveAspectRatio="none"
-        >
-          <polygon fill="currentColor" points="0 0 10 0 0 10" />
-        </svg>
-      </div>
-      <div className="skew skew-bottom ml-for-radius">
-        <svg
-          className="h-8 md:h-12 lg:h-20 w-full text-gray-50"
-          viewBox="0 0 10 10"
-          preserveAspectRatio="none"
-        >
-          <polygon fill="currentColor" points="0 0 10 0 10 10" />
-        </svg>
       </div>
     </section>
   );

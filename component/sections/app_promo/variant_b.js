@@ -1,5 +1,7 @@
 import React, { useState } from "react";
-import { urlFor } from "../../../lib/sanity";
+import { urlFor } from "lib/sanity";
+
+
 
 function VariantB({ subtitle, title, description, statistics, images }) {
   //for image carousel
@@ -19,17 +21,17 @@ function VariantB({ subtitle, title, description, statistics, images }) {
   return (
     <section>
       <div className="py-20 bg-gray-50 radius-for-skewed">
-        <div className="container mx-auto px-4">
-          <div className="flex flex-wrap -mx-4">
+        <div className="container mx-auto px-10">
+          <div className="flex flex-wrap mx-4">
             <div className="w-full lg:w-1/2 px-4">
-              <div className="max-w-md">
-                <span className="text-webriq-darkblue font-bold">
+              <div className="mt-8 max-w-xl">
+                <span className="mb-5 text-webriq-darkblue font-bold">
                   {subtitle}
                 </span>
-                <h2 className="text-4xl lg:text-5xl font-bold font-heading">
+                <h2 className="mb-5 text-xl md:text-4xl lg:text-5xl font-bold font-heading">
                   {title}
                 </h2>
-                <p className="mb-16 text-gray-500 leading-loose">
+                <p className="mb-10 text-gray-500 leading-loose">
                   {description}
                 </p>
                 <div className="flex flex-wrap">
@@ -37,7 +39,7 @@ function VariantB({ subtitle, title, description, statistics, images }) {
                     statistics.map((items, index) => (
                       <div className="mb-8 w-full lg:w-1/2" key={index}>
                         <h4 className="text-gray-500">{items?.label}</h4>
-                        <span className="text-3xl lg:text-4xl font-bold">
+                        <span className="text-xl md:text-3xl lg:text-4xl font-bold">
                           {items?.value}
                         </span>
                       </div>
@@ -45,12 +47,12 @@ function VariantB({ subtitle, title, description, statistics, images }) {
                 </div>
               </div>
             </div>
-            <div className="flex flex-wrap items-center justify-center w-full lg:w-1/2 px-4">
+            <div className="flex flex-wrap items-center justify-center w-full lg:w-1/2 xl:w-1/2 2xl:w-1/2">
               {images &&
                 (images.length > 1 ? (
                   <>
                     <button
-                      className="order-1 xl:order-0 mr-12 inline-block p-6 bg-white rounded-full shadow text-webriq-darkblue hover:text-webriq-babyblue focus:outline-none"
+                      className="order-0 md:order-0 lg:order-0 xl:order-1 2xl:order-1 mx-2 md:mr-12 lg:mr-12 xl:mr-12 2xl:mr-12 inline-block p-2 md:p-4 lg:p-4 xl:p-4 2xl:p-4 bg-white rounded-full shadow text-webriq-darkblue hover:text-webriq-babyblue focus:outline-none"
                       onClick={arrowLeftClick}
                     >
                       <svg
@@ -68,14 +70,18 @@ function VariantB({ subtitle, title, description, statistics, images }) {
                         />
                       </svg>
                     </button>
-                    <div className="object-contain h-96 md:w-2/5 xl:w-2/5 order-0 xl:order-1">
+                    <div className="order-1 md:order-1 lg:order-1 xl:order-0 2xl:order-0 mr-2 object-contain w-1/2">
                       <img
-                        className="h-96 mx-auto mb-8 xl:mb-0"
-                        src={urlFor(images?.[currentPosition])}
+                        className="mx-auto mb-8 xl:mb-0"
+                        src={urlFor(images?.[currentPosition])
+                          .width(500)
+                          .height(850)
+                          .url()}
+                        alt={`appPromo-variantB-image${currentPosition}`}
                       />
                     </div>
                     <button
-                      className="order-2 xl:order-2 ml-12 inline-block p-6 bg-white rounded-full shadow text-webriq-darkblue hover:text-webriq-babyblue focus:outline-none"
+                      className="order-2 md:ml-12 lg:ml-12 xl:ml-12 2xl:ml-12 inline-block p-2 md:p-4 lg:p-4 xl:p-4 2xl:p-4 bg-white rounded-full shadow text-webriq-darkblue hover:text-webriq-babyblue focus:outline-none"
                       onClick={arrowRightClick}
                     >
                       <svg
@@ -95,10 +101,11 @@ function VariantB({ subtitle, title, description, statistics, images }) {
                     </button>
                   </>
                 ) : (
-                  <div className="object-contain h-96 md:w-2/5 xl:w-2/5 order-0 xl:order-1">
+                  <div className="object-contain md:w-2/5 xl:w-2/5">
                     <img
-                      className="h-96 mx-auto mb-8 xl:mb-0"
-                      src={urlFor(images?.[0])}
+                      className="mx-auto mb-8 xl:mb-0"
+                      src={urlFor(images?.[0]).width(500).height(850).url()}
+                      alt={`appPromo-variantB-image${currentPosition}`}
                     />
                   </div>
                 ))}

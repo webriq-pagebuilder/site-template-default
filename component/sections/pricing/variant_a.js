@@ -7,7 +7,6 @@ function VariantA({
   title,
   description,
   plans,
-  sanityToken,
   hashKey,
   apiVersion,
   stripeSecretKey,
@@ -15,63 +14,72 @@ function VariantA({
   NEXT_PUBLIC_DXP_STUDIO_ADDRESS,
 }) {
   const [plan, setPlan] = React.useState("monthly");
-  const [subscriptionProducts, setSubscriptionProducts] = React.useState([]);
   const [usePlan, setUsePlan] = React.useState(plans);
+  const [pKeyError, setPKError] = React.useState(false);
+  const comma = Intl.NumberFormat("en-us");
 
   async function getPriceId(plans) {
-    let plansResponse = [];
     let i = 0;
     for (; i < plans?.length; ) {
-      const payload = {
+      const productPayload = {
+        credentials: {
+          hashKey,
+          stripeSecretKey,
+          apiVersion,
+        },
         id: `dxpstudio-pricing-${plans[i]?._key}-${plans[i]?.planType?.replace(
           / /g,
           "-"
         )}-recurring-monthlyPrice-${plans[i]?.monthlyPrice}-yearlyPrice-${
           plans[i]?.yearlyPrice
         }`,
-        sanityToken,
-        hashKey,
-        stripeSecretKey,
-        apiVersion,
+      };
+
+      const pricePayload = {
+        credentials: {
+          hashKey,
+          stripeSecretKey,
+          apiVersion,
+        },
       };
       try {
-        const response = await axios.post(
-          `${NEXT_PUBLIC_DXP_STUDIO_ADDRESS}/api/stripe-account/get-product-by-id`,
-          payload
+        const product = await axios.post(
+          `${NEXT_PUBLIC_DXP_STUDIO_ADDRESS}/api/payments/stripe?resource=products&action=retrieve`,
+          productPayload
         );
-        const data = await response.data;
-        plansResponse.push(data.data);
+        const productData = await product.data;
+        // plansResponse.push(data.data);
+
+        const prices = await axios.post(
+          `${NEXT_PUBLIC_DXP_STUDIO_ADDRESS}/api/payments/stripe?resource=prices&action=list`,
+          pricePayload
+        );
+        const pricesData = await prices.data;
+
+        pricesData.data.map((price) => {
+          if (
+            price.product === productData.id &&
+            productData.name === plans[i].planType
+          ) {
+            if (price.recurring.interval === "month") {
+              plans[i]["monthlyPriceCheckoutButton"] = price.id;
+            } else {
+              plans[i]["yearlyPriceCheckoutButton"] = price.id;
+            }
+          }
+        });
+
+        setUsePlan(plans);
       } catch (error) {
         console.log(error);
       }
       i++;
     }
-    setSubscriptionProducts(plansResponse);
-    return plansResponse;
   }
 
   React.useEffect(() => {
     getPriceId(usePlan);
-  }, [plans]);
-
-  React.useEffect(() => {
-    if (subscriptionProducts?.length === plans?.length) {
-      plans.forEach((plan) => {
-        subscriptionProducts.forEach((subs) => {
-          if (plan.planType === subs.product.name) {
-            subs.price.map((price) => {
-              if (price.recurring == "month") {
-                plan["monthlyPriceCheckoutButton"] = price.id;
-              } else {
-                plan["yearlyPriceCheckoutButton"] = price.id;
-              }
-            });
-          }
-        });
-      });
-    }
-    setUsePlan(plans);
-  }, [subscriptionProducts, plans]);
+  }, [plans, plan, usePlan]);
 
   return (
     <section>
@@ -128,6 +136,22 @@ function VariantA({
               </div>
             )}
           </div>
+          {pKeyError && (
+            <div>
+              <p
+                style={{
+                  fontSize: 9,
+                  color: "red",
+                  textAlign: "center",
+                  padding: 20,
+                }}
+              >
+                Stripe Checkout won't work because of an Invalid
+                <strong> Stripe Public Key</strong>, please fix it in your
+                studio under webriq-payments to get rid of this error message.
+              </p>
+            </div>
+          )}
           <div className="flex flex-wrap -mx-4">
             {usePlan?.[0]?.monthlyPrice && (
               <div className="w-full md:w-1/2 lg:w-1/3 px-4 mb-8 lg:mb-0">
@@ -140,8 +164,8 @@ function VariantA({
                       ? usePlan?.[0]?.monthlyPrice
                       : `$${
                           plan === "yearly"
-                            ? usePlan?.[0]?.yearlyPrice
-                            : usePlan?.[0]?.monthlyPrice
+                            ? comma.format(usePlan?.[0]?.yearlyPrice)
+                            : comma.format(usePlan?.[0]?.monthlyPrice)
                         }`}
                   </span>
                   {!isNaN(parseInt(usePlan?.[0]?.monthlyPrice)) && (
@@ -171,10 +195,10 @@ function VariantA({
                   </ul>
                   <button
                     className={`inline-block text-center py-2 px-4 w-full rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-loose transition duration-200 cursor-pointer ${
-                      !usePlan?.[0]?.monthlyPriceCheckoutButton &&
+                      !usePlan[0] &&
                       "disabled:opacity-50 cursor-not-allowed bg-webriq-darkblue"
                     }`}
-                    disabled={!usePlan?.[0]?.monthlyPriceCheckoutButton}
+                    disabled={!usePlan[0]}
                     onClick={() => {
                       initiateCheckout(
                         {
@@ -191,12 +215,12 @@ function VariantA({
                         stripePKey,
                         window.location.origin + "/success",
                         window.location.href,
-                        true
+                        true,
+                        setPKError
                       );
                     }}
                   >
-                    {!usePlan?.[0]?.monthlyPriceCheckoutButton ||
-                    !usePlan?.[0]?.yearlyPriceCheckoutButton
+                    {!usePlan[0]
                       ? "Processing..."
                       : usePlan?.[0]?.checkoutButtonName}
                   </button>
@@ -214,8 +238,8 @@ function VariantA({
                       ? usePlan?.[1]?.monthlyPrice
                       : `$${
                           plan === "yearly"
-                            ? usePlan?.[1]?.yearlyPrice
-                            : usePlan?.[1]?.monthlyPrice
+                            ? comma.format(usePlan?.[1]?.yearlyPrice)
+                            : comma.format(usePlan?.[1]?.monthlyPrice)
                         }`}
                   </span>
                   {!isNaN(parseInt(usePlan?.[1]?.monthlyPrice)) && (
@@ -245,10 +269,9 @@ function VariantA({
                   </ul>
                   <button
                     className={`inline-block text-center py-2 px-4 w-full rounded-l-xl rounded-t-xl bg-white hover:bg-gray-50 font-bold leading-loose transition duration-200 cursor-pointer ${
-                      !usePlan?.[1]?.monthlyPriceCheckoutButton &&
-                      "disabled:opacity-50 cursor-not-allowed"
+                      !usePlan[1] && "disabled:opacity-50 cursor-not-allowed"
                     }`}
-                    disabled={!usePlan?.[1]?.monthlyPriceCheckoutButton}
+                    disabled={!usePlan[1]}
                     onClick={() => {
                       initiateCheckout(
                         {
@@ -265,12 +288,12 @@ function VariantA({
                         stripePKey,
                         window.location.origin + "/success",
                         window.location.href,
-                        true
+                        true,
+                        setPKError
                       );
                     }}
                   >
-                    {!usePlan?.[1]?.monthlyPriceCheckoutButton ||
-                    !usePlan?.[1]?.yearlyPriceCheckoutButton
+                    {!usePlan[1]
                       ? "Processing..."
                       : usePlan?.[1]?.checkoutButtonName}
                   </button>
@@ -288,8 +311,8 @@ function VariantA({
                       ? usePlan?.[2]?.monthlyPrice
                       : `$${
                           plan === "yearly"
-                            ? usePlan?.[2]?.yearlyPrice
-                            : usePlan?.[2]?.monthlyPrice
+                            ? comma.format(usePlan?.[2]?.yearlyPrice)
+                            : comma.format(usePlan?.[2]?.monthlyPrice)
                         }`}
                   </span>
                   {!isNaN(parseInt(usePlan?.[2]?.monthlyPrice)) && (
@@ -319,10 +342,9 @@ function VariantA({
                   </ul>
                   <button
                     className={`inline-block text-center py-2 px-4 w-full rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-loose transition duration-200 cursor-pointer ${
-                      !usePlan[2]?.monthlyPriceCheckoutButton &&
-                      "disabled:opacity-50 cursor-not-allowed"
+                      !usePlan[2] && "disabled:opacity-50 cursor-not-allowed"
                     }`}
-                    disabled={!usePlan[2]?.monthlyPriceCheckoutButton}
+                    disabled={!usePlan[2]}
                     onClick={() => {
                       initiateCheckout(
                         {
@@ -339,12 +361,12 @@ function VariantA({
                         stripePKey,
                         window.location.origin + "/success",
                         window.location.href,
-                        true
+                        true,
+                        setPKError
                       );
                     }}
                   >
-                    {!usePlan[2]?.monthlyPriceCheckoutButton ||
-                    !usePlan[2]?.yearlyPriceCheckoutButton
+                    {!usePlan[2]
                       ? "Processing..."
                       : usePlan?.[2]?.checkoutButtonName}
                   </button>

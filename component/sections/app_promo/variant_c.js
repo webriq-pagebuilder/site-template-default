@@ -1,18 +1,20 @@
 import React from "react";
-import { urlFor } from "../../../lib/sanity";
+import { urlFor } from "lib/sanity";
+
+
 
 function VariantC({ subtitle, title, description, features, images }) {
   return (
     <section>
-      <div className="py-20 bg-gray-50 radius-for-skewed">
+      <div className="p-20 bg-gray-50 radius-for-skewed">
         <div className="container mx-auto px-4">
-          <div className="flex flex-wrap items-center mx-5">
+          <div className="flex flex-wrap items-center">
             <div className="mb-12 lg:mb-0 w-full lg:w-1/2 px-4">
-              <div className="max-w-md">
-                <span className="text-webriq-darkblue font-bold">
+              <div className="max-w-xl">
+                <span className="mb-5 text-webriq-darkblue font-bold">
                   {subtitle}
                 </span>
-                <h2 className="text-4xl lg:text-5xl font-bold font-heading">
+                <h2 className="mb-4 text-2xl md:text-4xl lg:text-5xl font-bold font-heading">
                   {title}
                 </h2>
                 <p className="mb-6 text-gray-500 leading-loose">
@@ -40,16 +42,16 @@ function VariantC({ subtitle, title, description, features, images }) {
                 </ul>
               </div>
             </div>
-            <div className="transform -rotate-12 flex items-center w-full lg:w-1/2 px-4">
-              <div className="w-1/3">
-                {images?.[0] && <img src={urlFor(images[0])} />}
+            <div className="transform -rotate-12 flex items-center w-full lg:w-1/2">
+              <div className="w-full">
+                {images?.[0] && <img src={urlFor(images[0])} alt="appPromo-variantC-image1"/>}
               </div>
-              <div className="w-1/3">
-                {images?.[1] && <img src={urlFor(images[1])} />}
-                {images?.[2] && <img src={urlFor(images[2])} />}
+              <div className="w-full">
+                {images?.[1] && <img src={urlFor(images[1])} alt="appPromo-variantC-image2"/>}
+                {images?.[2] && <img src={urlFor(images[2])} alt="appPromo-variantC-image3"/>}
               </div>
-              <div className="w-1/3">
-                {images?.[3] && <img src={urlFor(images[3])} />}
+              <div className="w-full">
+                {images?.[3] && <img src={urlFor(images[3])} alt="appPromo-variantC-image4"/>}
               </div>
             </div>
           </div>

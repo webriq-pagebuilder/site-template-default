@@ -25,7 +25,7 @@ function VariantB({
                 <img
                   className="h-12 mx-auto"
                   src={urlFor(logo?.image)}
-                  alt={logo?.alt}
+                  alt={logo?.alt ?? "signUp-variantB-logo"}
                   width="auto"
                 />
               </a>
@@ -43,7 +43,7 @@ function VariantB({
                 name={formName}
                 className="form-signup"
                 data-thankyou-url="/thank-you"
-                scriptSrc="https://pagebuilderforms.webriq.com/js/initReactForms"
+                scriptsrc="https://pagebuilderforms.webriq.com/js/initReactForms"
               >
                 <div className="flex flex-wrap -mx-2">
                   {formFields?.[0] && formFields[0]?.name && (

@@ -28,7 +28,6 @@ function Pricing({ data }) {
     stripeSecretKey: data?.variants?.[variant]?.stripeAccount?.stripeSKey,
     hashKey: data?.variants?.[variant]?.stripeAccount?.hashKey,
     apiVersion: data?.variants?.[variant]?.stripeAccount?.apiVersion,
-    sanityToken: "studio",
     NEXT_PUBLIC_DXP_STUDIO_ADDRESS:
       NEXT_PUBLIC_DXP_STUDIO_ADDRESS || "https://dxpstudio.webriq.com",
     block: data?.variants?.[variant]?.block,
