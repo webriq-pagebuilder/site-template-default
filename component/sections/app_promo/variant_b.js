@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { urlFor } from "lib/sanity";
 
-
-
 function VariantB({ subtitle, title, description, statistics, images }) {
   //for image carousel
   let [currentPosition, setCurrentPosition] = useState(0); // Initial image index value
@@ -52,6 +50,7 @@ function VariantB({ subtitle, title, description, statistics, images }) {
                 (images.length > 1 ? (
                   <>
                     <button
+                      aria-label="Left Arrow button"
                       className="order-0 md:order-0 lg:order-0 xl:order-1 2xl:order-1 mx-2 md:mr-12 lg:mr-12 xl:mr-12 2xl:mr-12 inline-block p-2 md:p-4 lg:p-4 xl:p-4 2xl:p-4 bg-white rounded-full shadow text-webriq-darkblue hover:text-webriq-babyblue focus:outline-none"
                       onClick={arrowLeftClick}
                     >
@@ -81,6 +80,7 @@ function VariantB({ subtitle, title, description, statistics, images }) {
                       />
                     </div>
                     <button
+                      aria-label="Right Arrow button"
                       className="order-2 md:ml-12 lg:ml-12 xl:ml-12 2xl:ml-12 inline-block p-2 md:p-4 lg:p-4 xl:p-4 2xl:p-4 bg-white rounded-full shadow text-webriq-darkblue hover:text-webriq-babyblue focus:outline-none"
                       onClick={arrowRightClick}
                     >

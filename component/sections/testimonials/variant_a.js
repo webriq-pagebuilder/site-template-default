@@ -59,6 +59,7 @@ function VariantA({ testimonials }) {
                     <div>
                       {testimonials.map((item, index) => (
                         <button
+                          aria-label={`Show Testimonial ${index}`}
                           key={index}
                           className={`mr-1 ${
                             index === testimony

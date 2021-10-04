@@ -112,6 +112,7 @@ function VariantC({ subtitle, title, posts, buttonLabel }) {
           >
             {activePage > startPage && (
               <button
+                aria-label="Show Previous Blog button"
                 className="px-4 text-gray-400 hover:text-gray-500"
                 onClick={() => {
                   activePage !== startPage
@@ -139,6 +140,7 @@ function VariantC({ subtitle, title, posts, buttonLabel }) {
             <div className="p-2 border-r border-l text-gray-500">
               {pageButtons?.map((buttonNumber) => (
                 <button
+                  aria-label={`Page ${buttonNumber + 1} button`}
                   className={`"mx-1 px-2 rounded hover:bg-webriq-lightblue hover:text-webriq-blue text-webriq-darkblue" ${
                     activePage === buttonNumber
                       ? "bg-webriq-lightblue text-webriq-blue"
@@ -156,6 +158,7 @@ function VariantC({ subtitle, title, posts, buttonLabel }) {
             </div>
             {activePage !== pageButtons?.length && (
               <button
+                aria-label="Show Next Blog button"
                 className="px-4 text-gray-400 hover:text-gray-500"
                 onClick={() => {
                   changePage(pageButtons[activePage]);
@@ -206,6 +209,7 @@ function VariantC({ subtitle, title, posts, buttonLabel }) {
             {posts?.length > blogsPerPage && buttonLabel && (
               <div className="hidden lg:block text-right w-1/2">
                 <button
+                  aria-label="View More Blogs button"
                   className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-gray-50 font-bold leading-loose transition duration-200"
                   onClick={() => {
                     setBlogsPerPage(posts?.length);

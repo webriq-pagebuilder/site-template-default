@@ -1,8 +1,6 @@
 import React from "react";
 import { urlFor } from "lib/sanity";
 
-
-
 function VariantA({ caption, title, portfolios, buttonLabel }) {
   let portfolioLength = 8; //set initial number of portfolios to display for this variant
   const [activeTab, setActiveTab] = React.useState(portfolios?.[0]?.category); //set the first index category as initial value
@@ -31,6 +29,7 @@ function VariantA({ caption, title, portfolios, buttonLabel }) {
               <div className="inline-flex flex-wrap py-1 sm:px-1 sm:space-x-1 bg-white rounded text-sm">
                 {portfolios?.map((content, index) => (
                   <button
+                    aria-label={`Portfolio ${content?.category} tab`}
                     key={index}
                     className={`w-full sm:w-auto mb-1 sm:mb-0 mx-1 sm:mx-0 py-2 px-4 ${
                       activeTab === content?.category
@@ -86,18 +85,18 @@ function VariantA({ caption, title, portfolios, buttonLabel }) {
               ))}
           </div>
           <div className="text-center">
-            {filteredData?.[0]?.content?.length > portfolioLength &&
-              !showMore && (
-                <button
-                  className="inline-block py-2 px-6 leading-loose rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-gray-50 font-bold"
-                  onClick={() => {
-                    setViewPortfolios(filteredData?.[0]?.content?.length);
-                    setShowMore(true);
-                  }}
-                >
-                  {buttonLabel ?? "View More Projects"}
-                </button>
-              )}
+            {filteredData?.[0]?.content?.length > portfolioLength && !showMore && (
+              <button
+                aria-label="View More Portfolios button"
+                className="inline-block py-2 px-6 leading-loose rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-gray-50 font-bold"
+                onClick={() => {
+                  setViewPortfolios(filteredData?.[0]?.content?.length);
+                  setShowMore(true);
+                }}
+              >
+                {buttonLabel ?? "View More Projects"}
+              </button>
+            )}
           </div>
         </div>
       </div>

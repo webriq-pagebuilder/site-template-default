@@ -1,7 +1,6 @@
 import React from "react";
 import { urlFor } from "lib/sanity";
 
-
 function VariantD({ caption, title, portfolios, buttonLabel }) {
   let portfoliosPerPage = 6,
     count = 0; // default number of portfolios per category
@@ -53,6 +52,7 @@ function VariantD({ caption, title, portfolios, buttonLabel }) {
               <div className="inline-flex flex-wrap py-1 sm:px-1 sm:space-x-1 bg-white rounded text-sm">
                 {portfolios?.map((content, index) => (
                   <button
+                    aria-label={`Portfolios ${content?.category} tab`}
                     key={index}
                     onClick={() => setActiveTab(content?.category)}
                     className={`w-full sm:w-auto mb-1 sm:mb-0 mx-1 sm:mx-0 py-2 px-4 ${
@@ -380,6 +380,7 @@ function VariantD({ caption, title, portfolios, buttonLabel }) {
             {portfoliosPerCategory?.[0]?.content?.length > portfoliosPerPage &&
               !showMore && (
                 <button
+                  aria-label="View More Portfolios button"
                   className="inline-block py-2 px-6 leading-loose rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-gray-50 font-bold"
                   onClick={() => {
                     setPortfoliosToShow(newArray?.length);

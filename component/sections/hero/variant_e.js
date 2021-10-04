@@ -305,6 +305,7 @@ function VariantE({
                       </div>
                       <div className="text-center">
                         <button
+                          aria-label="Header Sign Up button"
                           className="mb-2 w-full py-4 bg-webriq-blue hover:bg-webriq-darkblue rounded text-sm font-bold text-gray-50 transition duration-200"
                           type="submit"
                         >

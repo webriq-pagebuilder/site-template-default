@@ -1,7 +1,6 @@
 import React from "react";
 import { urlFor } from "lib/sanity";
 
-
 function VariantC({ caption, title, portfolios, buttonLabel }) {
   const portfolioLength = 6; //set initial number of portfolios to display for this variant
   const [viewPortfolios, setViewPortfolios] = React.useState(portfolioLength);
@@ -24,18 +23,18 @@ function VariantC({ caption, title, portfolios, buttonLabel }) {
                 )}
               </div>
               <div>
-                {portfolios?.length > portfolioLength &&
-                  !showMore && (
-                    <button
-                      className="hidden md:inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-gray-50 font-bold leading-loose transition duration-200"
-                      onClick={() => {
-                        setViewPortfolios(portfolios?.length);
-                        setShowMore(true);
-                      }}
-                    >
-                      {buttonLabel ?? "View More Projects"}
-                    </button>
-                  )}
+                {portfolios?.length > portfolioLength && !showMore && (
+                  <button
+                    aria-label="View More Portfolios button"
+                    className="hidden md:inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-gray-50 font-bold leading-loose transition duration-200"
+                    onClick={() => {
+                      setViewPortfolios(portfolios?.length);
+                      setShowMore(true);
+                    }}
+                  >
+                    {buttonLabel ?? "View More Projects"}
+                  </button>
+                )}
               </div>
             </div>
             <div className="flex flex-wrap -mx-4 mb-4">
@@ -67,10 +66,12 @@ function VariantC({ caption, title, portfolios, buttonLabel }) {
                             href={
                               content?.primaryButton?.type === "linkExternal"
                                 ? content?.primaryButton?.externalLink
-                                : content?.primaryButton?.type === "linkInternal"
+                                : content?.primaryButton?.type ===
+                                  "linkInternal"
                                 ? content?.primaryButton?.internalLink ===
                                     "Home" ||
-                                  content?.primaryButton?.internalLink === "home"
+                                  content?.primaryButton?.internalLink ===
+                                    "home"
                                   ? "/"
                                   : content?.primaryButton?.internalLink
                                 : "page-not-found"

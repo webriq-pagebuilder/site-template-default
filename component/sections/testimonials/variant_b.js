@@ -26,6 +26,7 @@ function VariantB({ caption, title, testimonials }) {
           <div className="pt-8 pb-16 flex flex-wrap justify-center items-center">
             {testimony?.length >= 4 && (
               <button
+                aria-label="Show Previous Testimonial button"
                 className="focus:outline-none mr-3 lg:mr-0 order-last lg:order-first bg-white p-4 rounded-full shadow-md text-webriq-darkblue hover:text-webriq-babyblue transition duration-200"
                 onClick={() => slider("prev")}
               >
@@ -53,6 +54,7 @@ function VariantB({ caption, title, testimonials }) {
             </div>
             {testimony?.length >= 4 && (
               <button
+                aria-label="Show Next Testimonial button"
                 className="focus:outline-none order-last bg-white p-4 rounded-full shadow-md text-webriq-darkblue hover:text-webriq-babyblue transition duration-200"
                 onClick={() => slider("next")}
               >

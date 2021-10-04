@@ -1,7 +1,6 @@
 import React from "react";
 import { urlFor } from "lib/sanity";
 
-
 function VariantC({ caption, title, testimonials }) {
   const [testimony, setTestimony] = React.useState(testimonials);
 
@@ -35,6 +34,7 @@ function VariantC({ caption, title, testimonials }) {
             <div className="w-full lg:w-1/5">
               {testimony?.length >= 4 && (
                 <button
+                  aria-label="Show Previous Testimonial button"
                   className="mr-4 bg-white p-5 rounded-full shadow-md text-webriq-darkblue hover:text-webriq-darkblue transition duration-200"
                   onClick={() => slider("prev")}
                 >
@@ -56,6 +56,7 @@ function VariantC({ caption, title, testimonials }) {
               )}
               {testimony?.length >= 4 && (
                 <button
+                  aria-label="Show Next Testimonial button"
                   className="bg-white p-5 rounded-full shadow-md text-webriq-darkblue hover:text-webriq-darkblue transition duration-200"
                   onClick={() => slider("next")}
                 >
@@ -79,28 +80,29 @@ function VariantC({ caption, title, testimonials }) {
           </div>
         </div>
         <div className="relative flex">
-          {testimony && testimony?.map((item, index) => (
-            <div className="flex max-w-6xl px-2 mx-auto" key={index}>
-              <div className="mb-4 min-w-full lg:w-1/3 px-3">
-                <div className="p-8 bg-white rounded shadow text-center">
-                  <div>
-                    <p className="mb-8 text-gray-500 leading-loose">
-                      {item?.testimony}
-                    </p>
-                    <img
-                      className="mb-2 mx-auto w-12 h-12 rounded-full object-cover"
-                      src={urlFor(item?.mainImage)}
-                      alt=""
-                    />
-                    <h4 className="mb-1 text-2xl font-bold font-heading">
-                      {item?.name}
-                    </h4>
-                    <p className="text-gray-500">{item?.jobTitle}</p>
+          {testimony &&
+            testimony?.map((item, index) => (
+              <div className="flex max-w-6xl px-2 mx-auto" key={index}>
+                <div className="mb-4 min-w-full lg:w-1/3 px-3">
+                  <div className="p-8 bg-white rounded shadow text-center">
+                    <div>
+                      <p className="mb-8 text-gray-500 leading-loose">
+                        {item?.testimony}
+                      </p>
+                      <img
+                        className="mb-2 mx-auto w-12 h-12 rounded-full object-cover"
+                        src={urlFor(item?.mainImage)}
+                        alt=""
+                      />
+                      <h4 className="mb-1 text-2xl font-bold font-heading">
+                        {item?.name}
+                      </h4>
+                      <p className="text-gray-500">{item?.jobTitle}</p>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
         </div>
       </div>
     </section>

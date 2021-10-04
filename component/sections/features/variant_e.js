@@ -23,6 +23,7 @@ function VariantE({ featuredItems }) {
               <div className="xl:absolute inset-y-0 left-0 -ml-6 xl:flex items-center">
                 {featuredItems?.length >= 2 && (
                   <button
+                    aria-label="Show Previous Feature button"
                     className="p-4 bg-webriq-blue hover:bg-webriq-darkblue focus:outline-none rounded-l-xl rounded-t-xl text-white z-10"
                     onClick={() => slider("prev")}
                   >
@@ -69,6 +70,7 @@ function VariantE({ featuredItems }) {
               <div className="xl:absolute inset-y-0 right-0 -mr-8 xl:flex items-center">
                 {featuredItems?.length >= 2 && (
                   <button
+                    aria-label="Show Next Feature button"
                     className="p-4 bg-webriq-blue hover:bg-webriq-darkblue focus:outline-none rounded-r-xl rounded-t-xl text-white"
                     onClick={() => slider("next")}
                   >

@@ -142,6 +142,7 @@ function VariantD({ subtitle, title, posts, buttonLabel }) {
               {activeTab === "All" ? (
                 posts?.length > blogsPerPage ? (
                   <button
+                    aria-label="View All Blogs button"
                     className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-gray-50 font-bold leading-loose transition duration-200"
                     onClick={() => setBlogsPerPage(posts?.length)}
                   >
@@ -150,6 +151,7 @@ function VariantD({ subtitle, title, posts, buttonLabel }) {
                 ) : null
               ) : postsPerCategory?.length > blogsPerPage ? (
                 <button
+                  aria-label={`View All Blogs For ${activeTab} button`}
                   className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-gray-50 font-bold leading-loose transition duration-200"
                   onClick={() => setBlogsPerPage(postsPerCategory?.length)}
                 >
@@ -173,6 +175,7 @@ function VariantD({ subtitle, title, posts, buttonLabel }) {
                         }`}
                       >
                         <button
+                          aria-label="All Blogs tab"
                           className={`block py-2 px-3 mb-4 ${
                             activeTab === "All"
                               ? "font-bold focus:outline-none text-webriq-darkblue"
@@ -192,6 +195,7 @@ function VariantD({ subtitle, title, posts, buttonLabel }) {
                         key={index}
                       >
                         <button
+                          aria-label={`${category} Blogs tab`}
                           className={`block py-2 px-3 mb-4 focus:outline-none ${
                             activeTab === category
                               ? "font-bold focus:outline-none text-webriq-darkblue"

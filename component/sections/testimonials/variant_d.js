@@ -1,8 +1,6 @@
 import React from "react";
 import { urlFor } from "lib/sanity";
 
-
-
 function VariantD({ testimonials }) {
   const [testimony, setTestimony] = React.useState(0);
   const [testimonial, setTestimonial] = React.useState(testimonials);
@@ -29,6 +27,7 @@ function VariantD({ testimonials }) {
             <div className="mb-10 text-center lg:hidden">
               {testimonials?.length > 1 && (
                 <button
+                  aria-label="Show Previous Testimonial button"
                   className="mr-6 lg:mr-0 bg-white p-4 rounded-full shadow-md text-webriq-darkblue hover:text-webriq-babyblue transition duration-200"
                   onClick={() => slider("prev")}
                 >
@@ -50,6 +49,7 @@ function VariantD({ testimonials }) {
               )}
               {testimonials?.length > 1 && (
                 <button
+                  aria-label="Show Next Testimonial button"
                   className="bg-white p-4 rounded-full shadow-md text-webriq-darkblue hover:text-webriq-babyblue transition duration-200"
                   onClick={() => slider("next")}
                 >
@@ -72,6 +72,7 @@ function VariantD({ testimonials }) {
             </div>
             {testimonial?.length > 1 && (
               <button
+                aria-label="Show Previous Testimonial button"
                 className="hidden lg:block lg:mr-0 bg-white p-5 rounded-full focus:outline-none  shadow-md text-webriq-darkblue hover:text-webriq-babyblue transition duration-200"
                 onClick={() => slider("prev")}
               >
@@ -197,6 +198,7 @@ function VariantD({ testimonials }) {
             )}
             {testimonial?.length > 1 && (
               <button
+                aria-label="Show Next Testimonial button"
                 className="hidden lg:block bg-white p-5 rounded-full shadow-md focus:outline-none text-webriq-darkblue hover:text-webriq-babyblue transition duration-200"
                 onClick={() => slider("next")}
               >

@@ -51,6 +51,7 @@ function VariantA({ logo, title, description, formFields, formId, formName }) {
                     <div className="webriq-recaptcha" />
                   </div>
                   <button
+                    aria-label="Submit Newsletter Form button"
                     className="w-auto py-2 px-6 rounded-t-xl rounded-l-xl bg-webriq-blue hover:bg-webriq-darkblue text-gray-50 font-bold leading-loose transition duration-200"
                     type="submit"
                   >

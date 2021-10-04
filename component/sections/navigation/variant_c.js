@@ -150,6 +150,7 @@ function VariantC({
           </div>
           <div className="lg:hidden ml-auto">
             <button
+              aria-label="Navbar Menu button"
               className="navbar-burger flex items-center text-webriq-darkblue p-3"
               onClick={showMenu}
             >
@@ -175,7 +176,11 @@ function VariantC({
             <a className="mr-auto text-3xl font-bold leading-none" href="#">
               <img className="h-10" src="" alt="" width="auto" />
             </a>
-            <button className="navbar-close" onClick={showMenu}>
+            <button
+              aria-label="Navbar Menu button"
+              className="navbar-close"
+              onClick={showMenu}
+            >
               <svg
                 className="h-6 w-6 text-gray-400 cursor-pointer hover:text-gray-500"
                 xmlns="http://www.w3.org/2000/svg"

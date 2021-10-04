@@ -158,7 +158,10 @@ function VariantD({
                             type="password"
                             placeholder={field.name}
                           />
-                          <button className="ml-4">
+                          <button
+                            aria-label="Show Password button"
+                            className="ml-4"
+                          >
                             <svg
                               className="h-6 w-6 my-auto text-gray-300"
                               xmlns="http://www.w3.org/2000/svg"
@@ -200,6 +203,7 @@ function VariantD({
                     </label>
                   </div>
                   <button
+                    aria-label="Submit Pricing Form button"
                     type="submit"
                     className={`block w-full p-4 text-center text-white font-bold leading-none bg-webriq-blue hover:bg-webriq-darkblue rounded-l-xl rounded-t-xl transition duration-200 ${
                       billing.billType === "" &&
@@ -248,6 +252,7 @@ function VariantD({
               <div className="text-center">
                 {banner?.map((item, index) => (
                   <button
+                    aria-label={`Page ${index} button`}
                     key={item?._key}
                     className={` ${
                       banners === index

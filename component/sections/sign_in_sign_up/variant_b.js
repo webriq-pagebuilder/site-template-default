@@ -253,6 +253,7 @@ function VariantB({
                 {formFields && (
                   <div className="text-center">
                     <button
+                      aria-label="Sign Up button"
                       className="mb-2 w-full py-4 bg-webriq-blue hover:bg-webriq-darkblue rounded text-sm font-bold text-gray-50 transition duration-200"
                       type="submit"
                     >
@@ -263,10 +264,15 @@ function VariantB({
                       <a
                         className="text-webriq-darkblue hover:underline"
                         target={signInLink?.linkTarget}
-                        rel={signInLink?.linkTarget === "_blank" ? "noopener noreferrer" : null}
-                        href={signInLink?.type === "linkExternal"
-                          ? signInLink?.externalLink
-                          : signInLink?.type === "linkInternal"
+                        rel={
+                          signInLink?.linkTarget === "_blank"
+                            ? "noopener noreferrer"
+                            : null
+                        }
+                        href={
+                          signInLink?.type === "linkExternal"
+                            ? signInLink?.externalLink
+                            : signInLink?.type === "linkInternal"
                             ? signInLink?.internalLink === "Home" ||
                               signInLink?.internalLink === "home"
                               ? "/"

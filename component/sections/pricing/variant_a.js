@@ -114,6 +114,7 @@ function VariantA({
             {plans?.[0]?.monthlyPrice && (
               <div className="inline-block py-1 px-1 bg-white rounded-lg">
                 <button
+                  aria-label="Monthly Plan tab"
                   className={`mr-1 text-sm py-2 px-4 ${
                     plan === "monthly"
                       ? "text-gray-900 bg-gray-50 rounded-lg shadow"
@@ -124,6 +125,7 @@ function VariantA({
                   Monthly
                 </button>
                 <button
+                  aria-label="Yearly Plan tab"
                   className={`text-sm py-2 px-4 ${
                     plan === "yearly"
                       ? "text-gray-900 bg-gray-50 rounded-lg shadow"
@@ -194,6 +196,7 @@ function VariantA({
                     ))}
                   </ul>
                   <button
+                    aria-label="First Plan Checkout button"
                     className={`inline-block text-center py-2 px-4 w-full rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-loose transition duration-200 cursor-pointer ${
                       !usePlan[0] &&
                       "disabled:opacity-50 cursor-not-allowed bg-webriq-darkblue"
@@ -268,6 +271,7 @@ function VariantA({
                     ))}
                   </ul>
                   <button
+                    aria-label="Second Plan Checkout button"
                     className={`inline-block text-center py-2 px-4 w-full rounded-l-xl rounded-t-xl bg-white hover:bg-gray-50 font-bold leading-loose transition duration-200 cursor-pointer ${
                       !usePlan[1] && "disabled:opacity-50 cursor-not-allowed"
                     }`}
@@ -341,6 +345,7 @@ function VariantA({
                     ))}
                   </ul>
                   <button
+                    aria-label="Third Plan Checkout button"
                     className={`inline-block text-center py-2 px-4 w-full rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-loose transition duration-200 cursor-pointer ${
                       !usePlan[2] && "disabled:opacity-50 cursor-not-allowed"
                     }`}

@@ -263,6 +263,7 @@ function VariantB({ subtitle, title, posts, buttonLabel }) {
             <div>
               {posts?.length > blogsPerPage && !showMore && buttonLabel && (
                 <button
+                  aria-label="View More Blogs button"
                   className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-gray-50 font-bold leading-loose outline-none transition duration-200"
                   onClick={() => {
                     setBlogsToShow(newArray?.length);

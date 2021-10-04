@@ -1,28 +1,29 @@
-import React from "react"
-import { urlFor } from "../../../lib/sanity"
+import React from "react";
+import { urlFor } from "../../../lib/sanity";
 
 function VariantB({ team }) {
   const [member, setMember] = React.useState({
     name: "",
     jobTitle: "",
     image: "",
-  })
+  });
 
   React.useEffect(() => {
-    team && team.map(item =>
-          item.team === team[0].team
-            ? setMember({
-                name: item.name && item.name,
-                jobTitle: item.jobTitle && item.jobTitle,
-                image: item.mainImage && item.mainImage
-              })
-            : null
-        )
-  }, [])
+    team &&
+      team.map((item) =>
+        item.team === team[0].team
+          ? setMember({
+              name: item.name && item.name,
+              jobTitle: item.jobTitle && item.jobTitle,
+              image: item.mainImage && item.mainImage,
+            })
+          : null
+      );
+  }, []);
 
   const choosenMember = (name, jobTitle, img) => {
-    setMember({ name, jobTitle, image: img })
-  }
+    setMember({ name, jobTitle, image: img });
+  };
   return (
     <section>
       <div className="skew skew-top mr-for-radius">
@@ -49,26 +50,28 @@ function VariantB({ team }) {
             <div className="flex flex-wrap items-center -mx-3">
               <div className="w-full lg:w-1/3 px-3 mb-8 lg:mb-0">
                 <ul className="flex flex-wrap flex-row lg:flex-col justify-center lg:justify-start space-x-6 lg:space-x-0">
-                  {team && team.map(item => (
-                        <li key={item.name}>
-                          <button
-                            className={`text-2xl lg:text-4xl mb-4 ${
-                              item.name === member.name
-                                ? "text-gray-900"
-                                : "text-gray-300"
-                            } hover:text-gray-400 font-bold focus:outline-none`}
-                            onClick={() =>
-                              choosenMember(
-                                item.name,
-                                item.jobTitle,
-                                item.mainImage
-                              )
-                            }
-                          >
-                            {item.name}
-                          </button>
-                        </li>
-                      ))}
+                  {team &&
+                    team.map((item) => (
+                      <li key={item.name}>
+                        <button
+                          aria-label={`Team member ${item?.name}`}
+                          className={`text-2xl lg:text-4xl mb-4 ${
+                            item.name === member.name
+                              ? "text-gray-900"
+                              : "text-gray-300"
+                          } hover:text-gray-400 font-bold focus:outline-none`}
+                          onClick={() =>
+                            choosenMember(
+                              item.name,
+                              item.jobTitle,
+                              item.mainImage
+                            )
+                          }
+                        >
+                          {item.name}
+                        </button>
+                      </li>
+                    ))}
                 </ul>
               </div>
               {team.length === 0 ? null : (
@@ -114,6 +117,6 @@ function VariantB({ team }) {
         </svg>
       </div>
     </section>
-  )
+  );
 }
-export default React.memo(VariantB)
+export default React.memo(VariantB);

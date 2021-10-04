@@ -116,6 +116,7 @@ function VariantC({
             {usePlan && (
               <div className="inline-block py-1 px-1 bg-white rounded-lg">
                 <button
+                  aria-label="Monthly Plan tab"
                   className={`mr-1 text-sm py-2 px-4 ${
                     plan === "monthly"
                       ? "text-gray-900 bg-gray-50 rounded-lg shadow"
@@ -126,6 +127,7 @@ function VariantC({
                   Monthly
                 </button>
                 <button
+                  aria-label="Yearly Plan tab"
                   className={`text-sm py-2 px-4 ${
                     plan === "yearly"
                       ? "text-gray-900 bg-gray-50 rounded-lg shadow"
@@ -181,6 +183,7 @@ function VariantC({
                         <span className="text-gray-500">{`/${plan}`}</span>
                       )}
                       <button
+                        aria-label="First Plan Checkout button"
                         className={`block mt-6 w-full py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-loose transition duration-200 ${
                           !usePlan[0] &&
                           "disabled:opacity-50 cursor-not-allowed"
@@ -240,6 +243,7 @@ function VariantC({
                         <span className="text-gray-500">{`/${plan}`}</span>
                       )}
                       <button
+                        aria-label="Second Plan Checkout button"
                         className={`block mt-6 w-full py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-loose transition duration-200 ${
                           !usePlan[1] &&
                           "disabled:opacity-50 cursor-not-allowed"

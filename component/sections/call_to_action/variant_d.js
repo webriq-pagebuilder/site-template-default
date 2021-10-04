@@ -11,7 +11,7 @@ function VariantD({
   formId,
   formName,
   links,
-  signInLink
+  signInLink,
 }) {
   return (
     <section className="py-20 px-10 bg-gray-50">
@@ -46,11 +46,11 @@ function VariantD({
                   button.type === "linkExternal"
                     ? button?.externalLink
                     : button.type === "linkInternal"
-                      ? button.internalLink === "Home" ||
-                        button.internalLink === "home"
-                        ? "/"
-                        : button?.internalLink
-                      : "page-not-found"
+                    ? button.internalLink === "Home" ||
+                      button.internalLink === "home"
+                      ? "/"
+                      : button?.internalLink
+                    : "page-not-found"
                 }
               >
                 {button?.label}
@@ -99,15 +99,15 @@ function VariantD({
                                 formFields[0].type === "inputEmail"
                                   ? "email"
                                   : formFields[0].type === "inputPassword"
-                                    ? "password"
-                                    : "text"
+                                  ? "password"
+                                  : "text"
                               }
                               placeholder={
                                 formFields[0].type === "inputEmail"
                                   ? "name@email.com"
                                   : formFields[0].type === "inputPassword"
-                                    ? "Enter your password"
-                                    : formFields[0]?.name
+                                  ? "Enter your password"
+                                  : formFields[0]?.name
                               }
                               name={formFields[0]?.name}
                             />
@@ -139,15 +139,15 @@ function VariantD({
                                 formFields[1].type === "inputEmail"
                                   ? "email"
                                   : formFields[1].type === "inputPassword"
-                                    ? "password"
-                                    : "text"
+                                  ? "password"
+                                  : "text"
                               }
                               placeholder={
                                 formFields[1].type === "inputEmail"
                                   ? "name@email.com"
                                   : formFields[1].type === "inputPassword"
-                                    ? "Enter your password"
-                                    : formFields[1]?.name
+                                  ? "Enter your password"
+                                  : formFields[1]?.name
                               }
                               name={formFields[1]?.name}
                             />
@@ -182,15 +182,15 @@ function VariantD({
                             formFields[2].type === "inputEmail"
                               ? "email"
                               : formFields[2].type === "inputPassword"
-                                ? "password"
-                                : "text"
+                              ? "password"
+                              : "text"
                           }
                           placeholder={
                             formFields[2].type === "inputEmail"
                               ? "name@email.com"
                               : formFields[2].type === "inputPassword"
-                                ? "Enter your password"
-                                : formFields[2]?.name
+                              ? "Enter your password"
+                              : formFields[2]?.name
                           }
                           name={formFields[2]?.name}
                         />
@@ -222,15 +222,15 @@ function VariantD({
                             formFields[3].type === "inputEmail"
                               ? "email"
                               : formFields[3].type === "inputPassword"
-                                ? "password"
-                                : "text"
+                              ? "password"
+                              : "text"
                           }
                           placeholder={
                             formFields[3].type === "inputEmail"
                               ? "name@email.com"
                               : formFields[3].type === "inputPassword"
-                                ? "Enter your password"
-                                : formFields[3]?.name
+                              ? "Enter your password"
+                              : formFields[3]?.name
                           }
                           name={formFields[3]?.name}
                         />
@@ -262,15 +262,15 @@ function VariantD({
                             formFields[4].type === "inputEmail"
                               ? "email"
                               : formFields[4].type === "inputPassword"
-                                ? "password"
-                                : "text"
+                              ? "password"
+                              : "text"
                           }
                           placeholder={
                             formFields[4].type === "inputEmail"
                               ? "name@email.com"
                               : formFields[4].type === "inputPassword"
-                                ? "Enter your password"
-                                : formFields[4]?.name
+                              ? "Enter your password"
+                              : formFields[4]?.name
                           }
                           name={formFields[4]?.name}
                         />
@@ -279,6 +279,7 @@ function VariantD({
                       <div className="webriq-recaptcha" />
                     </div>
                     <button
+                      aria-label="Call to Action Sign Up button"
                       className="mb-4 py-4 w-full rounded text-sm bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-normal transition duration-200"
                       type="submit"
                     >
@@ -287,13 +288,18 @@ function VariantD({
                   </WebriQForm>
                   <p className="text-xs text-gray-400">
                     <span>Already have an account?</span>
-                    <a 
-                      className="text-webriq-blue" 
+                    <a
+                      className="text-webriq-blue"
                       target={signInLink?.linkTarget}
-                      rel={signInLink?.linkTarget === "_blank" ? "noopener noreferrer" : null}
-                      href={signInLink?.type === "linkExternal"
-                        ? signInLink?.externalLink
-                        : signInLink?.type === "linkInternal"
+                      rel={
+                        signInLink?.linkTarget === "_blank"
+                          ? "noopener noreferrer"
+                          : null
+                      }
+                      href={
+                        signInLink?.type === "linkExternal"
+                          ? signInLink?.externalLink
+                          : signInLink?.type === "linkInternal"
                           ? signInLink?.internalLink === "Home" ||
                             signInLink?.internalLink === "home"
                             ? "/"
@@ -323,11 +329,11 @@ function VariantD({
                           link?.type === "linkExternal"
                             ? link?.externalLink
                             : link?.type === "linkInternal"
-                              ? link?.internalLink === "Home" ||
-                                link?.internalLink === "home"
-                                ? "/"
-                                : link?.internalLink
-                              : "page-not-found"
+                            ? link?.internalLink === "Home" ||
+                              link?.internalLink === "home"
+                              ? "/"
+                              : link?.internalLink
+                            : "page-not-found"
                         }
                       >
                         {link?.label}

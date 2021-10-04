@@ -171,6 +171,7 @@ function VariantB({
                   </div>
                   <div className="w-full lg:w-1/5 px-3">
                     <button
+                      aria-label="First Plan Checkout button"
                       className={`inline-block mt-4 lg:mt-0 py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-loose transition duration-200  ${
                         !usePlan[0] && "disabled:opacity-50 cursor-not-allowed"
                       }`}
@@ -237,6 +238,7 @@ function VariantB({
                   </div>
                   <div className="w-full lg:w-1/5 px-3">
                     <button
+                      aria-label="Second Plan Checkout button"
                       className={`inline-block mt-4 lg:mt-0 py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-loose transition duration-200 ${
                         !usePlan[1] && "disabled:opacity-50 cursor-not-allowed"
                       }`}
@@ -305,6 +307,7 @@ function VariantB({
                     {!usePlan?.[2]?.primaryButton ||
                     !usePlan?.[2]?.checkoutButtonName ? null : (
                       <button
+                        aria-label="Third Plan Checkout button"
                         className={`inline-block mt-4 lg:mt-0 py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-loose transition duration-200   ${
                           !usePlan && "disabled:opacity-50 cursor-not-allowed"
                         }`}
