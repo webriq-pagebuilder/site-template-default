@@ -15,7 +15,7 @@ function VariantA({ logo, title, text, button }) {
                 <img
                   className="h-12"
                   src={urlFor(logo?.image)}
-                  alt={logo?.alt ?? "callToAction-variantA-logo"}
+                  alt={logo?.alt ?? "callToAction-logo"}
                   width="auto"
                 />
               </a>
@@ -37,11 +37,11 @@ function VariantA({ logo, title, text, button }) {
                   button?.type === "linkExternal"
                     ? button?.externalLink
                     : button?.type === "linkInternal"
-                      ? button?.internalLink === "Home" ||
-                        button?.internalLink === "home"
-                        ? "/"
-                        : button?.internalLink
-                      : "page-not-found"
+                    ? button?.internalLink === "Home" ||
+                      button?.internalLink === "home"
+                      ? "/"
+                      : button?.internalLink
+                    : "page-not-found"
                 }
               >
                 {button?.label}

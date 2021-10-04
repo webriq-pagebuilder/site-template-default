@@ -54,6 +54,7 @@ function VariantA({ caption, title, portfolios, buttonLabel }) {
                       <img
                         className="mx-auto h-64 w-full rounded object-cover"
                         src={urlFor(content?.mainImage)}
+                        alt={`portfolio-image${index}`}
                       />
                       <div className="opacity-0 hover:opacity-75 duration-300 absolute inset-0 z-10 bg-gray-900 flex justify-center items-center rounded-lg">
                         <a

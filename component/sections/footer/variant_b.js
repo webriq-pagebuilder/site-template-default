@@ -16,7 +16,7 @@ function VariantB({ logo, copyright, socialMedia, menu }) {
                   <img
                     className="h-14"
                     src={urlFor(logo?.image)}
-                    alt={logo?.alt}
+                    alt={logo?.alt ?? "footer-logo"}
                     width="auto"
                   />
                 </a>

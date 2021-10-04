@@ -86,36 +86,36 @@ function VariantA({
             </div>
             <div className="w-full lg:w-1/2 px-4 flex items-center justify-center">
               <div className="relative" style={{ zIndex: 0 }}>
-                {image === undefined ? null : (
+                {image && (
                   <img
                     className="h-128 w-full max-w-lg object-cover rounded-3xl md:rounded-br-none"
                     src={urlFor(image)}
-                    alt=""
+                    alt="header-main-image"
                   />
                 )}
                 <img
                   className="hidden md:block absolute h-28 w-28"
                   style={{ top: "-2rem", right: "3rem", zIndex: "-1" }}
                   src="assets/elements/webriq-blue-dark-up.png"
-                  alt=""
+                  alt="webriq-blue-dark-up-mainImage-element"
                 />
                 <img
                   className="hidden md:block absolute h-36 w-36"
                   style={{ bottom: "-2rem", right: "-2rem", zIndex: "-1" }}
                   src="assets/elements/wing-webriq-blue-down.png"
-                  alt=""
+                  alt="wing-webriq-blue-down-mainImage-element"
                 />
                 <img
                   className="hidden md:block absolute"
                   style={{ top: "3rem", right: "-3rem", zIndex: "-1" }}
                   src="assets/elements/bullets-gray-right.svg"
-                  alt=""
+                  alt="bullets-gray-right-mainImage-element"
                 />
                 <img
                   className="hidden md:block absolute"
                   style={{ bottom: "2.5rem", left: "-4.5rem", zIndex: "-1" }}
                   src="assets/elements/bullets-gray-left.svg"
-                  alt=""
+                  alt="bullets-gray-left-mainImage-element"
                 />
               </div>
             </div>

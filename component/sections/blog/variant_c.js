@@ -237,7 +237,7 @@ function VariantC({ subtitle, title, posts, buttonLabel }) {
                             <img
                               className="object-cover"
                               src={urlFor(post?.mainImage)}
-                              alt=""
+                              alt={`blog-variantC-image-${key}`}
                             />
                           )}
                         </div>
@@ -357,7 +357,7 @@ function VariantC({ subtitle, title, posts, buttonLabel }) {
                             <img
                               className="object-cover"
                               src={urlFor(post?.mainImage)}
-                              alt=""
+                              alt={`blog-variantC-image-${key}`}
                             />
                           )}
                         </div>

@@ -46,7 +46,7 @@ function VariantA({ caption, title, team }) {
                       <img
                         className="mx-auto mb-8 w-24 h-24 rounded-full object-cover"
                         src={urlFor(member.mainImage)}
-                        alt=""
+                        alt={`team-member-${member?.name}-profile-image`}
                       />
                     )}
                     <h4 className="mb-2 text-2xl font-bold font-heading">

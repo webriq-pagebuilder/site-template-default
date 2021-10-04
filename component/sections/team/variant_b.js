@@ -76,12 +76,13 @@ function VariantB({ team }) {
               </div>
               {team.length === 0 ? null : (
                 <div className="w-full lg:w-2/3 px-3">
-                  {member === undefined ? null : (
+                  {member && (
                     <div className="flex p-6 flex-wrap bg-white rounded-lg shadow">
                       <div className="w-full lg:w-1/2 lg:pr-3">
                         <img
                           className="h-80 lg:h-auto w-full lg:w-auto object-cover rounded-lg"
                           src={urlFor(member.image)}
+                          alt={`team-member-${member?.name}-profile-image`}
                         />
                       </div>
                       <div className="w-full lg:w-1/2 lg:pl-3 lg:mt-6 order-first lg:order-last">

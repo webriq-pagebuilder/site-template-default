@@ -1,8 +1,6 @@
 import React from "react";
 import { urlFor } from "lib/sanity";
 
-
-
 function VariantB({ title, text, images }) {
   return (
     <section className="py-20">
@@ -24,7 +22,7 @@ function VariantB({ title, text, images }) {
                     <img
                       className="mx-auto h-48 w-48 object-scale-down"
                       src={urlFor(image)}
-                      alt={`logoCloud-variantB-image${index}`}
+                      alt={`logoCloud-image${index}`}
                     />
                   </div>
                 </div>

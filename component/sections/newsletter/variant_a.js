@@ -16,7 +16,7 @@ function VariantA({ logo, title, description, formFields, formId, formName }) {
                 <img
                   className="h-12"
                   src={urlFor(logo?.image)}
-                  alt={logo?.alt ?? "newsletter-variantA-logo"}
+                  alt={logo?.alt ?? "newsletter-logo"}
                   width="auto"
                 />
               </a>

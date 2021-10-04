@@ -20,7 +20,7 @@ function VariantA({ testimonials }) {
                     <img
                       className="mb-6 mx-auto w-32 h-32 rounded-full object-cover"
                       src={urlFor(testimonials?.[testimony]?.mainImage)}
-                      alt=""
+                      alt={`testimonial-source-${testimonials?.[testimony]?.name}-profile-image`}
                     />
                   )}
                   {testimonials?.[testimony]?.name && (

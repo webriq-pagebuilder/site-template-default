@@ -1,7 +1,6 @@
 import React from "react";
 import { urlFor } from "lib/sanity";
 
-
 function VariantC({ title, images, button }) {
   return (
     <section className="relative pt-32 pb-12 lg:pb-80 overflow-hidden">
@@ -39,7 +38,7 @@ function VariantC({ title, images, button }) {
               <img
                 className="mx-auto w-16 h-24 rounded-full object-scale-down"
                 src={urlFor(images[0])}
-                alt="logoCloud-variantC-image1"
+                alt="logoCloud-image1"
               />
             </div>
           )}
@@ -48,7 +47,7 @@ function VariantC({ title, images, button }) {
               <img
                 className="mx-auto w-20 h-24 rounded-full object-scale-down"
                 src={urlFor(images[1])}
-                alt="logoCloud-variantC-image2"
+                alt="logoCloud-image2"
               />
             </div>
           )}
@@ -60,7 +59,7 @@ function VariantC({ title, images, button }) {
               <img
                 className="mx-auto w-36 h-36 rounded-full object-scale-down"
                 src={urlFor(images[2])}
-                alt="logoCloud-variantC-image3"
+                alt="logoCloud-image3"
               />
             </div>
           )}
@@ -72,7 +71,7 @@ function VariantC({ title, images, button }) {
               <img
                 className="mx-auto w-36 h-36 rounded-full object-scale-down"
                 src={urlFor(images[3])}
-                alt="logoCloud-variantC-image4"
+                alt="logoCloud-image4"
               />
             </div>
           )}
@@ -84,7 +83,7 @@ function VariantC({ title, images, button }) {
               <img
                 className="mx-auto w-28 h-28 rounded-full object-scale-down"
                 src={urlFor(images[4])}
-                alt="logoCloud-variantC-image5"
+                alt="logoCloud-image5"
               />
             </div>
           )}
@@ -96,7 +95,7 @@ function VariantC({ title, images, button }) {
               <img
                 className="mx-auto w-24 h-24 rounded-full object-scale-down"
                 src={urlFor(images[5])}
-                alt="logoCloud-variantC-image6"
+                alt="logoCloud-image6"
               />
             </div>
           )}
@@ -104,7 +103,11 @@ function VariantC({ title, images, button }) {
         <div className="lg:hidden mt-16 flex flex-wrap justify-center">
           {images?.[6] && (
             <div className="h-24 w-24 mx-4 mb-8 flex items-center justify-center bg-gray-50 rounded-full">
-              <img className="w-16" src={urlFor(images[6])} />
+              <img
+                className="w-16"
+                src={urlFor(images[6])}
+                alt="logoCloud-image7"
+              />
             </div>
           )}
         </div>

@@ -48,7 +48,7 @@ function VariantB({ caption, title, portfolios, buttonLabel }) {
                       <img
                         className="h-80 w-full relative rounded object-cover"
                         src={urlFor(content?.mainImage)}
-                        alt=""
+                        alt={`portfolio-image${index}`}
                       />
                       <div className="opacity-0 hover:opacity-75 duration-300 absolute inset-0 z-10 bg-gray-900 p-6 flex flex-col items-start rounded">
                         <span className="text-gray-400">

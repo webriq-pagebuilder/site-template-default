@@ -49,7 +49,10 @@ function VariantE({ featuredItems }) {
                   <img
                     className="md:max-w-xl xl:max-w-4xl mx-auto relative object-cover rounded"
                     src={urlFor(featuredItems?.[item]?.mainImage)}
-                    // alt={image[currentImage].alt}
+                    alt={
+                      image[currentImage]?.alt ??
+                      `features-variantE-image-${item}`
+                    }
                   />
                 )}
                 <div className="xl:absolute top-0 left-0 mt-12 xl:mt-20 max-w-xl mx-auto xl:mx-0 p-6 xl:py-24 rounded bg-white border-gray-50 shadow text-center">

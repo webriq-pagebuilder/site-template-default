@@ -45,7 +45,7 @@ function VariantC({ caption, title, portfolios, buttonLabel }) {
                       <img
                         className="rounded-t h-80 w-full relative object-cover"
                         src={urlFor(content?.mainImage)}
-                        alt=""
+                        alt={`portfolio-image${index}`}
                       />
                       <div className="p-6">
                         <span className="text-gray-400">

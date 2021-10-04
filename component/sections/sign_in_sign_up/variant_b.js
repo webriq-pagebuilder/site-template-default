@@ -25,7 +25,7 @@ function VariantB({
                 <img
                   className="h-12 mx-auto"
                   src={urlFor(logo?.image)}
-                  alt={logo?.alt ?? "signUp-variantB-logo"}
+                  alt={logo?.alt ?? "signUp-logo"}
                   width="auto"
                 />
               </a>

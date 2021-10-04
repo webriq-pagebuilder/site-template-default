@@ -128,14 +128,14 @@ function VariantH({ caption, title, features, images }) {
                     <img
                       className="mb-6 w-full h-64 object-cover rounded-lg"
                       src={urlFor(images?.[0])}
-                      alt=""
+                      alt="features-variantH-image-1"
                     />
                   )}
                   {images?.[1] && (
                     <img
                       className="w-full h-64 object-cover rounded-lg"
                       src={urlFor(images?.[1])}
-                      alt=""
+                      alt="features-variantH-image-2"
                     />
                   )}
                 </div>
@@ -144,7 +144,7 @@ function VariantH({ caption, title, features, images }) {
                     <img
                       className="w-full h-64 object-cover rounded-lg"
                       src={urlFor(images?.[2])}
-                      alt=""
+                      alt="features-variantH-image-3"
                     />
                   )}
                 </div>

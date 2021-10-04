@@ -57,7 +57,7 @@ function VariantA({ subtitle, title, posts, buttonLabel }) {
                               <img
                                 className="relative h-full w-full rounded object-cover"
                                 src={urlFor(post?.mainImage)}
-                                alt=""
+                                alt={`blog-variantA-image-${key}`}
                               />
                             )}
                             <div className="absolute inset-0 bg-gray-700 opacity-75 rounded" />
@@ -124,7 +124,7 @@ function VariantA({ subtitle, title, posts, buttonLabel }) {
                               <img
                                 className="relative h-full w-full rounded object-cover"
                                 src={urlFor(post?.mainImage)}
-                                alt=""
+                                alt={`blog-variantA-image-${key}`}
                               />
                             )}
                             <div className="absolute inset-0 bg-gray-700 opacity-75 rounded" />
@@ -193,7 +193,7 @@ function VariantA({ subtitle, title, posts, buttonLabel }) {
                               <img
                                 className="relative h-full w-full rounded object-cover"
                                 src={urlFor(post?.mainImage)}
-                                alt=""
+                                alt={`blog-variantA-image-${key}`}
                               />
                             )}
                             <div className="absolute inset-0 bg-gray-700 opacity-75 rounded" />
@@ -260,7 +260,7 @@ function VariantA({ subtitle, title, posts, buttonLabel }) {
                               <img
                                 className="relative h-full w-full rounded object-cover"
                                 src={urlFor(post?.mainImage)}
-                                alt=""
+                                alt={`blog-variantA-image-${key}`}
                               />
                             )}
                             <div className="absolute inset-0 bg-gray-700 opacity-75 rounded" />

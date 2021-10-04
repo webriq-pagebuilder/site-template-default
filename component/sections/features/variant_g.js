@@ -103,7 +103,7 @@ function VariantG({ caption, title, description, images, featureItems }) {
                       <img
                         className="w-full h-32 lg:h-48 object-cover rounded"
                         src={urlFor(images?.[0])}
-                        alt=""
+                        alt="features-variantG-image-1"
                       />
                     </div>
                   )}
@@ -112,7 +112,7 @@ function VariantG({ caption, title, description, images, featureItems }) {
                       <img
                         className="w-full h-32 object-cover rounded"
                         src={urlFor(images?.[1])}
-                        alt=""
+                        alt="features-variantG-image-2"
                       />
                     </div>
                   )}
@@ -123,7 +123,7 @@ function VariantG({ caption, title, description, images, featureItems }) {
                       <img
                         className="w-full h-32 object-cover rounded"
                         src={urlFor(images?.[2])}
-                        alt=""
+                        alt="features-variantG-image-3"
                       />
                     </div>
                   )}
@@ -132,7 +132,7 @@ function VariantG({ caption, title, description, images, featureItems }) {
                       <img
                         className="w-full h-32 lg:h-48 object-cover rounded"
                         src={urlFor(images?.[3])}
-                        alt=""
+                        alt="features-variantG-image-4"
                       />
                     </div>
                   )}

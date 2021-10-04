@@ -19,7 +19,12 @@ function VariantB({
         <div className="container mx-auto px-4 flex justify-between items-center">
           {logo && (
             <a className="text-3xl font-bold leading-none" href="/">
-              <img className="h-12" src={urlFor(logo)} alt="" width="auto" />
+              <img
+                className="h-12"
+                src={urlFor(logo)}
+                alt="navigation-logo"
+                width="auto"
+              />
             </a>
           )}
           <div className="lg:hidden">
@@ -171,9 +176,6 @@ function VariantB({
         ></div>
         <nav className="fixed top-0 left-0 bottom-0 flex flex-col w-5/6 max-w-sm py-6 px-6 bg-white border-r overflow-y-auto">
           <div className="flex items-center mb-8">
-            <a className="mr-auto text-3xl font-bold leading-none" href="#">
-              <img className="h-10" src="" alt="" width="auto" />
-            </a>
             <button
               aria-label="Navbar Menu button"
               className="navbar-close"
@@ -279,17 +281,6 @@ function VariantB({
             <p className="my-4 text-xs text-center text-gray-400">
               <span>© 2020 All rights reserved.</span>
             </p>
-            <div className="text-center">
-              <a className="inline-block px-1" href="#">
-                <img src="" alt="" />
-              </a>
-              <a className="inline-block px-1" href="#">
-                <img src="" alt="" />
-              </a>
-              <a className="inline-block px-1" href="#">
-                <img src="" alt="" />
-              </a>
-            </div>
           </div>
         </nav>
       </div>

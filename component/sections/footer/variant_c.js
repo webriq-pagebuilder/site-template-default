@@ -44,11 +44,11 @@ function VariantC({ logo, menu, copyright, socialMedia }) {
                           links?.type === "linkExternal"
                             ? links?.externalLink
                             : links?.type === "linkInternal"
-                              ? links?.internalLink === "Home" ||
-                                links?.internalLink === "home"
-                                ? "/"
-                                : links?.internalLink
-                              : "page-not-found"
+                            ? links?.internalLink === "Home" ||
+                              links?.internalLink === "home"
+                              ? "/"
+                              : links?.internalLink
+                            : "page-not-found"
                         }
                       >
                         {links?.label}
@@ -67,7 +67,7 @@ function VariantC({ logo, menu, copyright, socialMedia }) {
                   <img
                     className="h-14"
                     src={urlFor(logo?.image)}
-                    alt={logo?.alt}
+                    alt={logo?.alt ?? "footer-logo"}
                     width="auto"
                   />
                 </a>
@@ -77,7 +77,12 @@ function VariantC({ logo, menu, copyright, socialMedia }) {
           {socialMedia && (
             <div className="flex justify-center">
               {socialMedia?.fbLink && (
-                <a className="mr-3" target="_blank" rel="noopener noreferrer" href={socialMedia?.fbLink}>
+                <a
+                  className="mr-3"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href={socialMedia?.fbLink}
+                >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"
@@ -92,7 +97,12 @@ function VariantC({ logo, menu, copyright, socialMedia }) {
                 </a>
               )}
               {socialMedia?.twitterLink && (
-                <a className="mr-3" target="_blank" rel="noopener noreferrer" href={socialMedia?.twitterLink}>
+                <a
+                  className="mr-3"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href={socialMedia?.twitterLink}
+                >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"
@@ -107,7 +117,12 @@ function VariantC({ logo, menu, copyright, socialMedia }) {
                 </a>
               )}
               {socialMedia?.instagramLink && (
-                <a className="mr-3" target="_blank" rel="noopener noreferrer" href={socialMedia?.instagramLink}>
+                <a
+                  className="mr-3"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href={socialMedia?.instagramLink}
+                >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"

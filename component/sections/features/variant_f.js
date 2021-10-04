@@ -73,7 +73,7 @@ function VariantF({ caption, title, description, images, primaryButton }) {
                     <img
                       className="w-full h-32 lg:h-48 object-cover rounded"
                       src={urlFor(images[0])}
-                      alt=""
+                      alt="features-variantF-image-1"
                     />
                   </div>
                 )}
@@ -82,7 +82,7 @@ function VariantF({ caption, title, description, images, primaryButton }) {
                     <img
                       className="w-full h-32 object-cover rounded"
                       src={urlFor(images[1])}
-                      alt=""
+                      alt="features-variantF-image-2"
                     />
                   </div>
                 )}
@@ -93,7 +93,7 @@ function VariantF({ caption, title, description, images, primaryButton }) {
                     <img
                       className="w-full h-32 object-cover rounded"
                       src={urlFor(images[2])}
-                      alt=""
+                      alt="features-variantF-image-3"
                     />
                   </div>
                 )}
@@ -102,7 +102,7 @@ function VariantF({ caption, title, description, images, primaryButton }) {
                     <img
                       className="w-full h-32 lg:h-48 object-cover rounded"
                       src={urlFor(images[3])}
-                      alt=""
+                      alt="features-variantF-image-4"
                     />
                   </div>
                 )}

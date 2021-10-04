@@ -163,7 +163,7 @@ function VariantD({ testimonials }) {
                       <img
                         className="mb-6 mx-auto w-24 h-32 rounded-full object-contain"
                         src={urlFor(testimonial[testimony]?.mainImage)}
-                        alt={`testimonials-variantD-image${testimony}`}
+                        alt={`testimonial-source-profile-image${testimony}`}
                       />
                     )}
                   </div>

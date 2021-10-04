@@ -26,7 +26,7 @@ function VariantD({
                 <img
                   className="h-12"
                   src={urlFor(logo?.image)}
-                  alt={logo?.alt ?? "callToAction-variantD-logo"}
+                  alt={logo?.alt ?? "callToAction-logo"}
                   width="auto"
                 />
               </a>

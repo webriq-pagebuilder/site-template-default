@@ -92,7 +92,7 @@ function VariantC({ caption, title, testimonials }) {
                       <img
                         className="mb-2 mx-auto w-12 h-12 rounded-full object-cover"
                         src={urlFor(item?.mainImage)}
-                        alt=""
+                        alt={`testimonial-source-${item?.name}-profile-image`}
                       />
                       <h4 className="mb-1 text-2xl font-bold font-heading">
                         {item?.name}

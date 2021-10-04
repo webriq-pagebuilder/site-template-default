@@ -15,11 +15,6 @@ function VariantD({
           <div className="flex flex-wrap -mx-4">
             <div className="w-full lg:w-1/2 px-4 flex items-center">
               <div className="w-full text-center lg:text-left">
-                <img
-                  className="hidden lg:block absolute inset-0 w-full"
-                  src=""
-                  alt=""
-                />
                 <div className="relative max-w-md mx-auto lg:mx-0">
                   <h2 className="mb-3 text-4xl lg:text-5xl font-bold font-heading">
                     {title && <span>{title}</span>}
@@ -79,11 +74,11 @@ function VariantD({
               </div>
             </div>
             <div className="w-full lg:w-1/2 px-4">
-              {image === undefined ? null : (
+              {image && (
                 <img
                   className="lg:absolute top-0 my-12 lg:my-0 h-full w-full lg:w-1/2 rounded-3xl lg:rounded-none object-cover"
                   src={urlFor(image)}
-                  alt=""
+                  alt="header-mainImage"
                 />
               )}
             </div>

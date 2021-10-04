@@ -83,7 +83,7 @@ function VariantD({ caption, title, portfolios, buttonLabel }) {
                             <img
                               className="h-64 w-full rounded-lg object-cover"
                               src={urlFor(content?.mainImage)}
-                              alt=""
+                              alt={`portfolio-image-${content?._key}`}
                             />
                             <div className="opacity-0 hover:opacity-80 duration-300 absolute inset-0 z-10 p-6 bg-gray-900 justify-center rounded-lg">
                               <div className="max-w-md my-auto text-xs">
@@ -138,7 +138,7 @@ function VariantD({ caption, title, portfolios, buttonLabel }) {
                             <img
                               className="h-96 w-full rounded-lg object-cover"
                               src={urlFor(content?.mainImage)}
-                              alt=""
+                              alt={`portfolio-image-${content?._key}`}
                             />
                             <div className="opacity-0 hover:opacity-80 duration-300 absolute inset-0 z-10 p-6 bg-gray-900 justify-center rounded-lg">
                               <div className="max-w-md my-auto text-sm">
@@ -195,7 +195,7 @@ function VariantD({ caption, title, portfolios, buttonLabel }) {
                             <img
                               className="h-96 w-full rounded-lg object-cover"
                               src={urlFor(content?.mainImage)}
-                              alt=""
+                              alt={`portfolio-image-${content?._key}`}
                             />
                             <div className="opacity-0 hover:opacity-80 duration-300 absolute inset-0 z-10 p-6 bg-gray-900 justify-center rounded-lg">
                               <div className="max-w-md my-auto text-sm">
@@ -256,7 +256,7 @@ function VariantD({ caption, title, portfolios, buttonLabel }) {
                                 <img
                                   className="h-64 w-full rounded-lg object-cover"
                                   src={urlFor(content?.mainImage)}
-                                  alt=""
+                                  alt={`portfolio-image${content?._key}`}
                                 />
                                 <div className="opacity-0 hover:opacity-80 duration-300 absolute inset-0 z-10 p-6 bg-gray-900 justify-center rounded-lg">
                                   <div className="max-w-md my-auto text-xs">
@@ -320,7 +320,7 @@ function VariantD({ caption, title, portfolios, buttonLabel }) {
                                 <img
                                   className="h-64 w-full rounded-lg object-cover"
                                   src={urlFor(content?.mainImage)}
-                                  alt=""
+                                  alt={`portfolio-image-${content?._key}`}
                                 />
                                 <div className="opacity-0 hover:opacity-80 duration-300 absolute inset-0 z-10 p-6 bg-gray-900 justify-center rounded-lg">
                                   <div className="max-w-md my-auto text-xs">

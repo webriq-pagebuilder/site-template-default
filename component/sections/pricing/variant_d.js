@@ -244,7 +244,7 @@ function VariantD({
               <img
                 className="w-full md:max-w-xs mx-auto my-auto"
                 src={urlFor(banner?.[banners]?.mainImage)}
-                alt=""
+                alt={`pricing-image-${banners}`}
               />
               <h3 className="mb-4 max-w-sm mx-auto text-center text-xl text-white">
                 {banner?.[banners]?.heading}

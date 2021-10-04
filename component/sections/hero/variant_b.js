@@ -90,14 +90,14 @@ function VariantB({
                       <img
                         className="w-full md:w-1/2 lg:w-1/3 h-64 p-2 object-cover rounded-3xl rounded-br-none"
                         src={urlFor(images?.[0])}
-                        alt=""
+                        alt="header-image-1"
                       />
                     )}
                     {images?.[1] && (
                       <img
                         className="w-full md:w-1/2 lg:w-2/3 h-64 p-2 object-cover rounded-3xl rounded-bl-none"
                         src={urlFor(images?.[1])}
-                        alt=""
+                        alt="header-image-2"
                       />
                     )}
                   </div>
@@ -106,14 +106,14 @@ function VariantB({
                       <img
                         className="w-full md:w-1/2 lg:w-2/3 h-64 p-2 object-cover rounded-3xl rounded-br-none"
                         src={urlFor(images?.[2])}
-                        alt=""
+                        alt="header-image-3"
                       />
                     )}
                     {images?.[3] && (
                       <img
                         className="w-full md:w-1/2 lg:w-1/3 h-64 p-2 object-cover rounded-3xl rounded-bl-none"
                         src={urlFor(images?.[3])}
-                        alt=""
+                        alt="header-image-4"
                       />
                     )}
                   </div>

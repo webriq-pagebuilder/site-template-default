@@ -137,7 +137,7 @@ function VariantB({ subtitle, title, posts, buttonLabel }) {
                           <img
                             className="rounded-t object-cover h-80 lg:h-full w-full"
                             src={urlFor(post?.mainImage)}
-                            alt=""
+                            alt={`blog-variantB-image-${key}`}
                           />
                         )}
                         <div className="mt-auto p-6 rounded-b bg-white">
@@ -204,7 +204,7 @@ function VariantB({ subtitle, title, posts, buttonLabel }) {
                             <img
                               className="h-80 lg:h-full w-full rounded-t object-cover"
                               src={urlFor(post?.mainImage)}
-                              alt=""
+                              alt={`blog-variantB-image-${key}`}
                             />
                           )}
                           <div className="p-6 rounded-b bg-white">

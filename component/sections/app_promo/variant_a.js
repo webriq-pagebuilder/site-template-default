@@ -1,7 +1,6 @@
 import React from "react";
 import { urlFor } from "lib/sanity";
 
-
 function VariantA({ logo, subtitle, title, images }) {
   return (
     <section>
@@ -16,7 +15,7 @@ function VariantA({ logo, subtitle, title, images }) {
                 <img
                   className="h-12"
                   src={urlFor(logo?.image)}
-                  alt={logo?.alt ?? "appPromo-variantA-logo"}
+                  alt={logo?.alt ?? "appPromo-logo"}
                 />
               </a>
             )}
@@ -29,21 +28,21 @@ function VariantA({ logo, subtitle, title, images }) {
                 <img
                   className="absolute bottom-0 left-1/2 transform -translate-x-1/2 -mb-10 h-80 z-20"
                   src={urlFor(images[0])}
-                  alt="image-1"
+                  alt="appPromo-variantA-image-1"
                 />
               )}
               {images?.[1] && (
                 <img
                   className="absolute bottom-0 left-0 -mb-24 h-80"
                   src={urlFor(images[1])}
-                  alt="image-2"
+                  alt="appPromo-variantA-image-2"
                 />
               )}
               {images?.[2] && (
                 <img
                   className="absolute bottom-0 right-0 -mb-24 h-80"
                   src={urlFor(images[2])}
-                  alt="image-3"
+                  alt="appPromo-variantA-image-3"
                 />
               )}
             </div>

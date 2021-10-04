@@ -13,7 +13,7 @@ function VariantB({ logo, title, text, formFields, formId, formName }) {
                 <img
                   className="h-12"
                   src={urlFor(logo?.image)}
-                  alt={logo?.alt ?? "callToAction-variantB-logo"}
+                  alt={logo?.alt ?? "callToAction-logo"}
                   width="auto"
                 />
               </span>

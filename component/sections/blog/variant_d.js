@@ -224,7 +224,7 @@ function VariantD({ subtitle, title, posts, buttonLabel }) {
                             <img
                               className="w-full h-full object-cover rounded"
                               src={urlFor(post?.mainImage)}
-                              alt=""
+                              alt={`blog-variantD-image-${key}`}
                             />
                           )}
                         </div>
@@ -283,7 +283,7 @@ function VariantD({ subtitle, title, posts, buttonLabel }) {
                             <img
                               className="w-full h-full object-cover rounded"
                               src={urlFor(post?.mainImage)}
-                              alt=""
+                              alt={`blog-variantD-image-${key}`}
                             />
                           )}
                         </div>

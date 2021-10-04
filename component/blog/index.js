@@ -168,7 +168,7 @@ function BlogPage({ data, preview, navAndFooter }) {
                             <img
                               className="w-12 h-12 object-cover object-top rounded-full"
                               src={urlFor(author?.image)}
-                              alt=""
+                              alt="Blog Page author image"
                             />
                           ) : (
                             <svg
