@@ -33,9 +33,9 @@ function VariantG({ caption, title, description, images, featureItems }) {
                   </span>
                 )}
                 {title && (
-                  <h2 className="mb-3 text-4xl lg:text-5xl font-bold font-heading">
+                  <h1 className="mb-3 text-4xl lg:text-5xl font-bold font-heading">
                     {title}
-                  </h2>
+                  </h1>
                 )}
                 {description && (
                   <p className="mb-6 max-w-sm text-gray-400 leading-loose">

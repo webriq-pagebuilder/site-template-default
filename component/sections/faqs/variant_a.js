@@ -120,10 +120,11 @@ function VariantA({ subtitle, title, faqs }) {
             <span className="text-webriq-darkblue font-bold font-heading">
               {subtitle}
             </span>
-            <h2 className="mb-6 text-5xl font-bold font-heading">{title}</h2>
+            <h1 className="mb-6 text-5xl font-bold font-heading">{title}</h1>
             {faqs && faqs?.length > 1 && (
               <form className="flex justify-center">
                 <input
+                  aria-label="Enter question keyword to search"
                   className="w-2/3 p-4 text-xs font-heading bg-white focus:border-gray-500 focus:outline-none rounded-l"
                   placeholder="Search, find any question you want to ask..."
                   onChange={(e) => setSearchTerm(e.target.value.toLowerCase())}

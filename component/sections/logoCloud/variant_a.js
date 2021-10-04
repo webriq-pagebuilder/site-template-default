@@ -5,7 +5,7 @@ function VariantA({ title, images }) {
   return (
     <section className="py-20">
       <div className="container mx-auto px-4 text-center">
-        <h3 className="mb-12 text-2xl font-heading">{title}</h3>
+        <h1 className="mb-12 text-2xl font-heading">{title}</h1>
         <div className="flex flex-wrap items-center justify-center -mx-2">
           {images &&
             images?.map((image, index) => (

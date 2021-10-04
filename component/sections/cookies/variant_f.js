@@ -15,7 +15,8 @@ function VariantF({ title, block, allowCookieBtn, denyCookieBtn }) {
     marks: {
       internalLink: ({ children, mark }) => (
         <a
-          className="hover:text-webriq-blue text-webriq-babyblue"
+          aria-label={children ?? "internal link"}
+          className="hover:text-webriq-blue text-webriq-darkblue"
           href={mark.slug.current}
         >
           {children}
@@ -23,12 +24,18 @@ function VariantF({ title, block, allowCookieBtn, denyCookieBtn }) {
       ),
       link: ({ children, mark }) =>
         mark.blank ? (
-          <a href={mark.href} target="_blank" rel="noopener noreferrer">
+          <a
+            aria-label={children ?? "external link"}
+            href={mark.href}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             {children}
           </a>
         ) : (
           <a
-            className="hover:text-webriq-darkblue text-webriq-blue"
+            aria-label={children ?? "external link"}
+            className="hover:text-webriq-blue text-webriq-darkblue"
             href={mark.href}
             target="_blank"
             rel="noopener noreferrer"
@@ -68,7 +75,7 @@ function VariantF({ title, block, allowCookieBtn, denyCookieBtn }) {
                   <button
                     aria-label="Allow Cookies button"
                     type="button"
-                    className="inline-block w-1/2 py-4 text-sm rounded-br-lg text-webriq-blue font-bold hover:bg-webriq-darkblue transition duration-200"
+                    className="inline-block w-1/2 py-4 text-sm rounded-br-lg text-webriq-darkblue font-bold hover:bg-webriq-blue transition duration-200"
                     onClick={() => {
                       setCookie("allow");
                       setShowCookie(!showCookie);

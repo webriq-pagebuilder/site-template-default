@@ -20,15 +20,24 @@ function VariantA({ logo, title, text, button }) {
                 />
               </a>
             )}
-            <h2 className="mb-4 text-4xl lg:text-5xl font-bold font-heading">
+            <h1 className="mb-4 text-4xl lg:text-5xl font-bold font-heading">
               {title}
-            </h2>
-            <p className="max-w-md mx-auto mb-6 text-gray-500 leading-loose">
+            </h1>
+            <p className="max-w-md mx-auto mb-6 text-gray-700 leading-loose">
               {text}
             </p>
             {button && (
               <a
-                className="inline-block py-2 px-6 bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-loose rounded-l-xl rounded-t-xl transition duration-200"
+                aria-label={`Call to action ${
+                  button?.label ?? "primary"
+                } button which directs to ${
+                  button?.type === "linkExternal"
+                    ? button?.externalLink
+                    : button?.type === "linkInternal"
+                    ? button?.internalLink
+                    : "not found"
+                } page`}
+                className="inline-block py-2 px-6 bg-webriq-darkblue hover:bg-webriq-blue text-white font-bold leading-loose rounded-l-xl rounded-t-xl transition duration-200"
                 target={button?.linkTarget}
                 rel={
                   button?.linkTarget === "_blank" ? "noopener noreferrer" : null

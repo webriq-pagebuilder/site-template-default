@@ -39,9 +39,9 @@ function VariantA({ subtitle, title, posts, buttonLabel }) {
               <span className="text-webriq-darkblue font-bold">{subtitle}</span>
             )}
             {title && (
-              <h2 className="text-4xl lg:text-5xl font-bold font-heading">
+              <h1 className="text-4xl lg:text-5xl font-bold font-heading">
                 {title}
-              </h2>
+              </h1>
             )}
           </div>
           {newArray &&
@@ -51,7 +51,7 @@ function VariantA({ subtitle, title, posts, buttonLabel }) {
                   {posts?.slice(count, count + 1)?.map((post, key) => (
                     <div className="w-full px-3 mb-5" key={key}>
                       <Link href={`/${post?.slug?.current}`}>
-                        <a>
+                        <a aria-label={`blog post ${key}`}>
                           <div className="relative h-64 mx-auto rounded transform hover:scale-110 motion-reduce:transform-none">
                             {post?.mainImage && (
                               <img
@@ -118,7 +118,7 @@ function VariantA({ subtitle, title, posts, buttonLabel }) {
                   {posts?.slice(count + 1, count + 3)?.map((post, key) => (
                     <div className="w-full lg:w-1/2 px-3 mb-5" key={key}>
                       <Link href={`/${post?.slug?.current}`}>
-                        <a>
+                        <a aria-label={`blog post ${key}`}>
                           <div className="relative mx-auto rounded h-128 transform hover:scale-110 motion-reduce:transform-none">
                             {post?.mainImage && (
                               <img
@@ -187,7 +187,7 @@ function VariantA({ subtitle, title, posts, buttonLabel }) {
                   {posts?.slice(count + 3, count + 5)?.map((post, key) => (
                     <div className="w-full lg:w-1/2 px-3 mb-5" key={key}>
                       <Link href={`/${post?.slug?.current}`}>
-                        <a>
+                        <a aria-label={`blog post ${key}`}>
                           <div className="relative mx-auto rounded h-128 transform hover:scale-110 motion-reduce:transform-none">
                             {post?.mainImage && (
                               <img
@@ -254,7 +254,7 @@ function VariantA({ subtitle, title, posts, buttonLabel }) {
                   {posts?.slice(count + 5, blogsPerPage)?.map((post, key) => (
                     <div className="w-full px-3 mb-5" key={key}>
                       <Link href={`/${post?.slug?.current}`}>
-                        <a>
+                        <a aria-label={`blog post ${key}`}>
                           <div className="relative mx-auto rounded h-64 transform hover:scale-110 motion-reduce:transform-none">
                             {post?.mainImage && (
                               <img

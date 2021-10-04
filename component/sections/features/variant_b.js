@@ -33,10 +33,10 @@ function VariantB({ caption, title, description, features, featureItems }) {
                   </span>
                 )}
                 {title === undefined ? null : (
-                  <h2 className="my-2 text-4xl lg:text-5xl font-bold font-heading">
+                  <h1 className="my-2 text-4xl lg:text-5xl font-bold font-heading">
                     {/* Build &amp; Launch without problems */}
                     {title}
-                  </h2>
+                  </h1>
                 )}
                 {description === undefined ? null : (
                   <p className="mb-6 text-gray-500 leading-loose">

@@ -19,7 +19,7 @@ const blockStyle = {
         case "h1":
           return <h1 className="mb-6 leading-loose text-gray-900"></h1>;
         case "h2":
-          return <h2 className="mb-6 leading-loose text-gray-900"></h2>;
+          return <h1 className="mb-6 leading-loose text-gray-900"></h1>;
         case "h3":
           return <h3 className="mb-6 leading-loose text-gray-900"></h3>;
         case "h4":
@@ -75,6 +75,7 @@ const blockStyle = {
     code: (props) => <code>{props.children}</code>,
     link: ({ children, mark }) => (
       <a
+        aria-label={children ?? "external link"}
         className="hover:text-webriq-darkorange text-webriq-lightorange"
         href={mark.href}
         target="_blank"
@@ -155,9 +156,9 @@ function BlogPage({ data, preview, navAndFooter }) {
               )}
               <div className="mt-2">
                 {title && (
-                  <h2 className="mb-6 text-4xl lg:text-5xl text-white font-bold">
+                  <h1 className="mb-6 text-4xl lg:text-5xl text-white font-bold">
                     {title}
-                  </h2>
+                  </h1>
                 )}
                 <div className="flex justify-center">
                   {authors &&
@@ -182,9 +183,9 @@ function BlogPage({ data, preview, navAndFooter }) {
                           )}
                         </div>
                         <div className="text-left">
-                          <h3 className="text-webriq-blue font-bold">
+                          <p className="text-webriq-blue font-bold">
                             {author?.name}
-                          </h3>
+                          </p>
                           {index + 1 !== length ? (
                             <span>&nbsp;and&nbsp;</span>
                           ) : null}

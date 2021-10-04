@@ -108,9 +108,9 @@ function VariantC({
               <span className="text-webriq-darkblue font-bold">{caption}</span>
             )}
             {title && (
-              <h2 className="mb-2 text-4xl lg:text-5xl font-bold font-heading">
+              <h1 className="mb-2 text-4xl lg:text-5xl font-bold font-heading">
                 {title}
-              </h2>
+              </h1>
             )}
             {description && <p className="mb-6 text-gray-500">{description}</p>}
             {usePlan && (
@@ -162,9 +162,9 @@ function VariantC({
                 <div className="w-full lg:w-1/2 px-4 mb-8 lg:mb-0">
                   <div className="py-8 px-10 max-w-md mx-auto bg-white shadow rounded text-center">
                     <div className="mb-12">
-                      <h3 className="mb-4 text-2xl font-bold font-heading">
+                      <p className="mb-4 text-2xl font-bold font-heading">
                         {usePlan?.[0]?.planType}
-                      </h3>
+                      </p>
                       <p className="mb-6 text-gray-500">
                         {usePlan?.[0]?.description}
                       </p>
@@ -222,9 +222,9 @@ function VariantC({
                 <div className="w-full lg:w-1/2 px-4">
                   <div className="py-8 px-10 max-w-md mx-auto bg-white shadow rounded text-center">
                     <div className="mb-12">
-                      <h3 className="mb-4 text-2xl font-bold font-heading">
+                      <p className="mb-4 text-2xl font-bold font-heading">
                         {usePlan?.[1].planType}
-                      </h3>
+                      </p>
                       <p className="mb-6 text-gray-500">
                         {usePlan?.[1].description}
                       </p>

@@ -60,10 +60,10 @@ function VariantE({ featuredItems }) {
                     {featuredItems?.[item]?.subtitle &&
                       featuredItems?.[item]?.subtitle}
                   </span>
-                  <h2 className="text-5xl font-bold font-heading">
+                  <h1 className="text-5xl font-bold font-heading">
                     {featuredItems?.[item]?.heading &&
                       featuredItems?.[item]?.heading}
-                  </h2>
+                  </h1>
                   <p className="max-w-xs mx-auto text-gray-500 leading-loose">
                     {featuredItems?.[item]?.description &&
                       featuredItems?.[item]?.description}

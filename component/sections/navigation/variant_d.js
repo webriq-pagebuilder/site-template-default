@@ -31,6 +31,15 @@ function VariantD({ links, primaryButton, secondaryButton, logo }) {
                         }`}
                       >
                         <a
+                          aria-label={`Navigation ${
+                            link?.label ?? "Menu"
+                          } links which directs to ${
+                            link?.type === "linkExternal"
+                              ? link?.externalLink
+                              : link?.type === "linkInternal"
+                              ? link?.internalLink
+                              : "not found"
+                          } page`}
                           className={`text-sm text-gray-400 hover:text-gray-500`}
                           target={link?.linkTarget}
                           rel={
@@ -56,6 +65,15 @@ function VariantD({ links, primaryButton, secondaryButton, logo }) {
                         }`}
                       >
                         <a
+                          aria-label={`Navigation ${
+                            link?.label ?? "Menu"
+                          } links which directs to ${
+                            link?.type === "linkExternal"
+                              ? link?.externalLink
+                              : link?.type === "linkInternal"
+                              ? link?.internalLink
+                              : "not found"
+                          } page`}
                           className={`text-sm text-gray-400 hover:text-gray-500`}
                           target={link?.linkTarget}
                           rel={
@@ -102,6 +120,15 @@ function VariantD({ links, primaryButton, secondaryButton, logo }) {
           </div>
           {primaryButton && (
             <a
+              aria-label={`Navigation ${
+                primaryButton?.label ?? "Primary"
+              } button which directs to ${
+                primaryButton?.type === "linkExternal"
+                  ? primaryButton?.externalLink
+                  : primaryButton?.type === "linkInternal"
+                  ? primaryButton?.internalLink
+                  : "not found"
+              } page`}
               className="hidden lg:inline-block lg:ml-auto lg:mr-3 py-2 px-6 bg-gray-50 hover:bg-gray-100 text-sm text-gray-900 font-bold rounded-l-xl rounded-t-xl transition duration-200"
               target={primaryButton?.linkTarget}
               rel={
@@ -125,6 +152,15 @@ function VariantD({ links, primaryButton, secondaryButton, logo }) {
           )}
           {secondaryButton && (
             <a
+              aria-label={`Navigation ${
+                secondaryButton?.label ?? "Secondary"
+              } button which directs to ${
+                secondaryButton?.type === "linkExternal"
+                  ? secondaryButton?.externalLink
+                  : secondaryButton?.type === "linkInternal"
+                  ? secondaryButton?.internalLink
+                  : "not found"
+              } page`}
               className="hidden lg:inline-block py-2 px-6 bg-webriq-blue hover:bg-webriq-darkblue text-sm text-white font-bold rounded-l-xl rounded-t-xl transition duration-200"
               target={secondaryButton?.linkTarget}
               rel={
@@ -210,7 +246,18 @@ function VariantD({ links, primaryButton, secondaryButton, logo }) {
                               }`
                         }`}
                       >
-                        <a className="block p-4 text-sm font-semibold text-gray-400 hover:bg-webriq-lightblue hover:text-webriq-darkblue rounded">
+                        <a
+                          aria-label={`Navigation ${
+                            link?.label ?? "Menu"
+                          } links which directs to ${
+                            link?.type === "linkExternal"
+                              ? link?.externalLink
+                              : link?.type === "linkInternal"
+                              ? link?.internalLink
+                              : "not found"
+                          } page`}
+                          className="block p-4 text-sm font-semibold text-gray-400 hover:bg-webriq-lightblue hover:text-webriq-darkblue rounded"
+                        >
                           {link.label}
                         </a>
                       </Link>
@@ -227,7 +274,18 @@ function VariantD({ links, primaryButton, secondaryButton, logo }) {
                               }`
                         }`}
                       >
-                        <a className="block p-4 text-sm font-semibold text-gray-400 hover:bg-webriq-lightblue hover:text-webriq-darkblue rounded">
+                        <a
+                          aria-label={`Navigation ${
+                            link?.label ?? "Menu"
+                          } links which directs to ${
+                            link?.type === "linkExternal"
+                              ? link?.externalLink
+                              : link?.type === "linkInternal"
+                              ? link?.internalLink
+                              : "not found"
+                          } page`}
+                          className="block p-4 text-sm font-semibold text-gray-400 hover:bg-webriq-lightblue hover:text-webriq-darkblue rounded"
+                        >
                           {link.label}
                         </a>
                       </Link>
@@ -240,6 +298,15 @@ function VariantD({ links, primaryButton, secondaryButton, logo }) {
             <div className="pt-6">
               {primaryButton && (
                 <a
+                  aria-label={`Navigation ${
+                    primaryButton?.label ?? "Primary"
+                  } button which directs to ${
+                    primaryButton?.type === "linkExternal"
+                      ? primaryButton?.externalLink
+                      : primaryButton?.type === "linkInternal"
+                      ? primaryButton?.internalLink
+                      : "not found"
+                  } page`}
                   className="block px-4 py-3 mb-3 leading-loose text-xs text-center font-semibold bg-gray-50 hover:bg-gray-100 rounded-l-xl rounded-t-xl"
                   href={
                     primaryButton.type === "linkInternal"
@@ -257,6 +324,15 @@ function VariantD({ links, primaryButton, secondaryButton, logo }) {
               )}
               {secondaryButton && (
                 <a
+                  aria-label={`Navigation ${
+                    secondaryButton?.label ?? "Secondary"
+                  } button which directs to ${
+                    secondaryButton?.type === "linkExternal"
+                      ? secondaryButton?.externalLink
+                      : secondaryButton?.type === "linkInternal"
+                      ? secondaryButton?.internalLink
+                      : "not found"
+                  } page`}
                   className="block px-4 py-3 mb-3 leading-loose text-xs text-center font-semibold bg-gray-50 hover:bg-gray-100 rounded-l-xl rounded-t-xl"
                   href={
                     secondaryButton.type === "linkInternal"
@@ -274,7 +350,7 @@ function VariantD({ links, primaryButton, secondaryButton, logo }) {
               )}
             </div>
             <p className="my-4 text-xs text-center text-gray-400">
-              <span>© 2020 All rights reserved.</span>
+              <span>{`© ${new Date().getFullYear()} All rights reserved.`}</span>
             </p>
           </div>
         </nav>

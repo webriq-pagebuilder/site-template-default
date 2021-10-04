@@ -21,9 +21,9 @@ function VariantA({ caption, title, portfolios, buttonLabel }) {
               <span className="text-webriq-darkblue font-bold">{caption}</span>
             )}
             {title && (
-              <h2 className="mb-6 text-4xl lg:text-5xl font-bold font-heading">
+              <h1 className="mb-6 text-4xl lg:text-5xl font-bold font-heading">
                 {title}
-              </h2>
+              </h1>
             )}
             {portfolios && (
               <div className="inline-flex flex-wrap py-1 sm:px-1 sm:space-x-1 bg-white rounded text-sm">
@@ -34,7 +34,7 @@ function VariantA({ caption, title, portfolios, buttonLabel }) {
                     className={`w-full sm:w-auto mb-1 sm:mb-0 mx-1 sm:mx-0 py-2 px-4 ${
                       activeTab === content?.category
                         ? "bg-gray-50 text-webriq-darkblue shadow rounded font-bold focus:outline-none transition duration-200"
-                        : "hover:bg-webriq-lightblue text-gray-500 hover:text-webriq-blue rounded hover:shadow font-bold focus:outline-none transition duration-200"
+                        : "hover:bg-webriq-lightblue text-gray-700 hover:text-webriq-blue rounded hover:shadow font-bold focus:outline-none transition duration-200"
                     }`}
                     onClick={() => setActiveTab(content?.category)}
                   >
@@ -58,6 +58,15 @@ function VariantA({ caption, title, portfolios, buttonLabel }) {
                       />
                       <div className="opacity-0 hover:opacity-75 duration-300 absolute inset-0 z-10 bg-gray-900 flex justify-center items-center rounded-lg">
                         <a
+                          aria-label={`Portfolio ${
+                            content?.primaryButton?.label ?? "View Project"
+                          } button which directs to ${
+                            content?.primaryButton?.type === "linkExternal"
+                              ? content?.primaryButton?.externalLink
+                              : content?.primaryButton?.type === "linkInternal"
+                              ? content?.primaryButton?.internalLink
+                              : "not found"
+                          } page`}
                           className="inline-block py-2 px-4 border-2 border-gray-400 hover:border-white hover:opacity-100 text-gray-50 hover:bg-white hover:text-gray-900 transition duration-200 rounded-l-xl rounded-t-xl font-bold leading-loose"
                           target={content?.primaryButton?.linkTarget}
                           rel={
@@ -89,7 +98,7 @@ function VariantA({ caption, title, portfolios, buttonLabel }) {
             {filteredData?.[0]?.content?.length > portfolioLength && !showMore && (
               <button
                 aria-label="View More Portfolios button"
-                className="inline-block py-2 px-6 leading-loose rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-gray-50 font-bold"
+                className="inline-block py-2 px-6 leading-loose rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold"
                 onClick={() => {
                   setViewPortfolios(filteredData?.[0]?.content?.length);
                   setShowMore(true);

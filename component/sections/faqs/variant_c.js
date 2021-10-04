@@ -7,7 +7,7 @@ function VariantC({ subtitle, title, faqs }) {
         <div className="container mx-auto px-4">
           <div className="mb-16 max-w-xl mx-auto text-center">
             <span className="text-webriq-darkblue font-bold">{subtitle}</span>
-            <h2 className="text-5xl font-bold">{title}</h2>
+            <h1 className="text-5xl font-bold">{title}</h1>
           </div>
           <div className="flex flex-wrap -mx-4 -mb-8">
             {faqs &&

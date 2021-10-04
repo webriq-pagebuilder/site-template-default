@@ -26,9 +26,9 @@ function VariantB({ subtitle, title, description, statistics, images }) {
                 <span className="mb-5 text-webriq-darkblue font-bold">
                   {subtitle}
                 </span>
-                <h2 className="mb-5 text-xl md:text-4xl lg:text-5xl font-bold font-heading">
+                <h1 className="mb-5 text-xl md:text-4xl lg:text-5xl font-bold font-heading">
                   {title}
-                </h2>
+                </h1>
                 <p className="mb-10 text-gray-500 leading-loose">
                   {description}
                 </p>

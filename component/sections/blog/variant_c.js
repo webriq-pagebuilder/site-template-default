@@ -69,6 +69,7 @@ const blockStyle = {
     code: (props) => <code>{props.children}</code>,
     link: ({ children, mark }) => (
       <a
+        aria-label={children ?? "external link"}
         className="hover:text-webriq-darkorange text-webriq-lightorange"
         href={mark.href}
         target="_blank"
@@ -201,9 +202,9 @@ function VariantC({ subtitle, title, posts, buttonLabel }) {
                 </span>
               )}
               {title && (
-                <h2 className="text-4xl lg:text-5xl font-bold font-heading">
+                <h1 className="text-4xl lg:text-5xl font-bold font-heading">
                   {title}
-                </h2>
+                </h1>
               )}
             </div>
             {posts?.length > blogsPerPage && buttonLabel && (
@@ -260,9 +261,9 @@ function VariantC({ subtitle, title, posts, buttonLabel }) {
                             </span>
                           )}
                           {post?.title && (
-                            <h2 className="my-4 text-2xl font-bold">
+                            <h1 className="my-4 text-2xl font-bold">
                               {post?.title}
-                            </h2>
+                            </h1>
                           )}
                           {post?.authors && (
                             <div className="flex mb-10">
@@ -290,7 +291,10 @@ function VariantC({ subtitle, title, posts, buttonLabel }) {
                             />
                           )}
                           <Link href={`/${post?.slug?.current}`}>
-                            <a className="text-webriq-blue hover:text-webriq-darkblue font-bold">
+                            <a
+                              aria-label={`Go to ${post?.slug?.current} blog page`}
+                              className="text-webriq-darkblue hover:text-webriq-blue font-bold"
+                            >
                               Learn More
                             </a>
                           </Link>
@@ -317,9 +321,9 @@ function VariantC({ subtitle, title, posts, buttonLabel }) {
                             </span>
                           )}
                           {post?.title && (
-                            <h2 className="my-4 text-2xl font-bold">
+                            <h1 className="my-4 text-2xl font-bold">
                               {post?.title}
-                            </h2>
+                            </h1>
                           )}
                           {post?.authors && (
                             <div className="flex mb-10">
@@ -347,7 +351,10 @@ function VariantC({ subtitle, title, posts, buttonLabel }) {
                             />
                           )}
                           <Link href={`/${post?.slug?.current}`}>
-                            <a className="text-webriq-blue hover:text-webriq-darkblue font-bold">
+                            <a
+                              aria-label={`Go to ${post?.slug?.current} blog page`}
+                              className="text-webriq-darkblue hover:text-webriq-blue font-bold"
+                            >
                               Learn More
                             </a>
                           </Link>

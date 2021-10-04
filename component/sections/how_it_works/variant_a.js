@@ -11,16 +11,16 @@ function VariantA({ subtitle, title, text, video, steps }) {
                 <span className="text-webriq-darkblue font-bold">
                   {subtitle}
                 </span>
-                <h2 className="mb-2 text-4xl lg:text-5xl font-bold font-heading">
+                <h1 className="mb-2 text-4xl lg:text-5xl font-bold font-heading">
                   {title}
-                </h2>
+                </h1>
                 <p className="max-w-xs text-gray-500 leading-loose">{text}</p>
               </div>
             </div>
             <div className="relative w-full lg:w-1/4">
               {video && (
                 <iframe
-                  //className="rounded-3xl md:rounded-6xl md:rounded-br-none border-4 border-webriq-blue"
+                  aria-label="Show Video Frame"
                   className="relative rounded-lg"
                   width="550"
                   height="355"
@@ -45,9 +45,9 @@ function VariantA({ subtitle, title, text, video, steps }) {
                   <span className="mt-6 mb-6 w-12 h-12 flex justify-center items-center bg-webriq-lightblue rounded text-webriq-darkblue font-bold">
                     {index + 1}
                   </span>
-                  <h3 className="mb-2 text-2xl font-bold font-heading">
+                  <p className="mb-2 text-2xl font-bold font-heading">
                     {step?.title}
-                  </h3>
+                  </p>
                   <p className="text-gray-500 leading-loose">{step?.content}</p>
                 </div>
               ))}

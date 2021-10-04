@@ -31,10 +31,10 @@ function VariantA({ caption, title, features }) {
               </span>
             )}
             {title && (
-              <h2 className="text-4xl md:text-5xl font-bold">
+              <h1 className="text-4xl md:text-5xl font-bold">
                 {/* Build &amp; Launch without problems */}
                 {title}
-              </h2>
+              </h1>
             )}
           </div>
           <div className="flex flex-wrap -mx-4">

@@ -21,8 +21,8 @@ function VariantB({ logo, title, description, formFields, formId, formName }) {
               </div>
             </div>
             <div className="mb-6 w-full lg:w-auto max-w-lg mx-auto lg:ml-0 mr-auto text-center lg:text-left">
-              <h2 className="text-4xl font-bold">{title}</h2>
-              <p className="text-gray-400">{description}</p>
+              <h1 className="text-4xl font-bold">{title}</h1>
+              <p className="text-gray-700">{description}</p>
             </div>
             {formFields?.[0] && formFields[0]?.name && (
               <div className="w-full lg:w-2/5">
@@ -36,6 +36,11 @@ function VariantB({ logo, title, description, formFields, formId, formName }) {
                 >
                   <div className="max-w-md lg:max-w-sm mx-auto flex flex-wrap items-center">
                     <input
+                      aria-label={`${
+                        formFields[0]?.type === "inputText"
+                          ? `Input ${formFields[0]?.name}`
+                          : `${formFields[0]?.type}`
+                      }`}
                       className="flex-grow py-3 px-4 mr-4 text-xs rounded leading-loose"
                       type={
                         formFields[0].type === "inputEmail" ? "email" : "text"
@@ -52,7 +57,7 @@ function VariantB({ logo, title, description, formFields, formId, formName }) {
                     </div>
                     <button
                       aria-label="Submit Newsletter Form button"
-                      className="flex-none py-2 px-6 rounded-t-xl rounded-l-xl bg-webriq-blue hover:bg-webriq-darkblue text-gray-50 font-bold leading-loose transition duration-200"
+                      className="flex-none py-2 px-6 rounded-t-xl rounded-l-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose transition duration-200"
                       type="submit"
                     >
                       Get Started

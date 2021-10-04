@@ -21,10 +21,10 @@ function VariantA({ logo, title, description, formFields, formId, formName }) {
                 />
               </a>
             )}
-            <h2 className="mb-2 text-4xl lg:text-5xl font-bold font-heading">
+            <h1 className="mb-2 text-4xl lg:text-5xl font-bold font-heading">
               {title}
-            </h2>
-            <p className="mb-8 text-gray-400 leading-loose">{description}</p>
+            </h1>
+            <p className="mb-8 text-gray-700 leading-loose">{description}</p>
             {formFields?.[0] && formFields[0]?.name && (
               <WebriQForm
                 method="POST"
@@ -36,6 +36,11 @@ function VariantA({ logo, title, description, formFields, formId, formName }) {
               >
                 <div className="max-w-md mx-auto flex flex-wrap items-center">
                   <input
+                    aria-label={`${
+                      formFields[0]?.type === "inputText"
+                        ? `Input ${formFields[0]?.name}`
+                        : `${formFields[0]?.type}`
+                    }`}
                     className="flex-grow py-3 px-4 mr-4 text-xs rounded leading-loose"
                     type={
                       formFields[0].type === "inputEmail" ? "email" : "text"
@@ -52,7 +57,7 @@ function VariantA({ logo, title, description, formFields, formId, formName }) {
                   </div>
                   <button
                     aria-label="Submit Newsletter Form button"
-                    className="w-auto py-2 px-6 rounded-t-xl rounded-l-xl bg-webriq-blue hover:bg-webriq-darkblue text-gray-50 font-bold leading-loose transition duration-200"
+                    className="w-auto py-2 px-6 rounded-t-xl rounded-l-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose transition duration-200"
                     type="submit"
                   >
                     Get Started

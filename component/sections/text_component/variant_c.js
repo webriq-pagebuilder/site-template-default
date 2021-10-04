@@ -1,6 +1,5 @@
-import React from "react"
-import BlockContent from "@sanity/block-content-to-react"
-
+import React from "react";
+import BlockContent from "@sanity/block-content-to-react";
 
 function VariantC({ heading, firstColumn, secondColumn, thirdColumn }) {
   // block styling as props to `serializers` of the BlockContent component
@@ -68,6 +67,7 @@ function VariantC({ heading, firstColumn, secondColumn, thirdColumn }) {
       code: (props) => <code>{props.children}</code>,
       link: ({ children, mark }) => (
         <a
+          aria-label={children ?? "external link"}
           className="hover:text-webriq-darkorange text-webriq-lightorange"
           href={mark.href}
           target="_blank"
@@ -81,9 +81,9 @@ function VariantC({ heading, firstColumn, secondColumn, thirdColumn }) {
 
   return (
     <section className="py-20 px-4">
-      <h2 className="text-3xl mb-5 font-semibold font-heading text-center">
+      <h1 className="text-3xl mb-5 font-semibold font-heading text-center">
         {heading}
-      </h2>
+      </h1>
       <div className="flex flex-wrap -mx-3 justify-center">
         {firstColumn && (
           <div className="md:w-1/4 px-3 mb-6 md:mb-0 text-gray-500 text-justify leading-relaxed">
@@ -103,6 +103,5 @@ function VariantC({ heading, firstColumn, secondColumn, thirdColumn }) {
       </div>
     </section>
   );
-
 }
-export default React.memo(VariantC)
+export default React.memo(VariantC);

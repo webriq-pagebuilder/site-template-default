@@ -8,9 +8,9 @@ function VariantB({ title, text, images }) {
         <div className="flex flex-wrap items-center">
           <div className="mb-12 lg:mb-0 w-full lg:w-1/2">
             <div className="max-w-md">
-              <h2 className="mb-4 text-4xl lg:text-5xl font-bold font-heading">
+              <h1 className="mb-4 text-4xl lg:text-5xl font-bold font-heading">
                 {title}
-              </h2>
+              </h1>
               <p className="text-gray-500 leading-loose">{text}</p>
             </div>
           </div>

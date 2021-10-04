@@ -69,6 +69,7 @@ const blockStyle = {
     code: (props) => <code>{props.children}</code>,
     link: ({ children, mark }) => (
       <a
+        aria-label={children ?? "external link"}
         className="hover:text-webriq-darkorange text-webriq-lightorange"
         href={mark.href}
         target="_blank"
@@ -133,9 +134,9 @@ function VariantD({ subtitle, title, posts, buttonLabel }) {
                 </span>
               )}
               {title && (
-                <h2 className="text-4xl lg:text-5xl font-bold font-heading">
+                <h1 className="text-4xl lg:text-5xl font-bold font-heading">
                   {title}
-                </h2>
+                </h1>
               )}
             </div>
             <div className="hidden lg:block text-right w-1/2">
@@ -231,10 +232,13 @@ function VariantD({ subtitle, title, posts, buttonLabel }) {
                         <div className="w-full lg:w-3/4 px-3">
                           {post?.title && (
                             <Link href={`/${post?.slug?.current}`}>
-                              <a className="hover:text-webriq-babyblue">
-                                <h3 className="mb-1 text-2xl font-bold font-heading">
+                              <a
+                                aria-label={`Go to ${post?.slug?.current} blog page`}
+                                className="hover:text-webriq-babyblue"
+                              >
+                                <p className="mb-1 text-2xl font-bold font-heading">
                                   {post?.title}
-                                </h3>
+                                </p>
                               </a>
                             </Link>
                           )}
@@ -290,10 +294,13 @@ function VariantD({ subtitle, title, posts, buttonLabel }) {
                         <div className="w-full lg:w-3/4 px-3">
                           {post?.title && (
                             <Link href={`/${post?.slug?.current}`}>
-                              <a className="hover:text-webriq-babyblue">
-                                <h3 className="mb-1 text-2xl font-bold font-heading">
+                              <a
+                                aria-label={`Go to ${post?.slug?.current} blog page`}
+                                className="hover:text-webriq-babyblue"
+                              >
+                                <p className="mb-1 text-2xl font-bold font-heading">
                                   {post?.title}
-                                </h3>
+                                </p>
                               </a>
                             </Link>
                           )}

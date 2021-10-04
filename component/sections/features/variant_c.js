@@ -31,10 +31,10 @@ function VariantC({ caption, title, features }) {
               </span>
             )}
             {title && (
-              <h2 className="text-4xl lg:text-5xl font-bold font-heading">
+              <h1 className="text-4xl lg:text-5xl font-bold font-heading">
                 {/* Build &amp; Launch without problems */}
                 {title}
-              </h2>
+              </h1>
             )}
           </div>
           <div className="flex flex-wrap -mx-3 justify-center">
@@ -60,9 +60,9 @@ function VariantC({ caption, title, features }) {
                     </span>
                   </div>
                   <div className="w-full lg:w-2/3">
-                    <h3 className="mb-2 text-2xl font-bold font-heading">
+                    <p className="mb-2 text-2xl font-bold font-heading">
                       {features?.[0]?.heading}
-                    </h3>
+                    </p>
                     <p className="text-gray-500">
                       {features?.[0]?.description}
                     </p>
@@ -86,9 +86,9 @@ function VariantC({ caption, title, features }) {
                     </span>
                   </div>
                   <div className="w-full lg:w-2/3">
-                    <h3 className="mb-2 text-2xl font-bold font-heading">
+                    <p className="mb-2 text-2xl font-bold font-heading">
                       {features?.[1]?.heading}
-                    </h3>
+                    </p>
                     <p className="text-gray-500">
                       {features?.[1]?.description}
                     </p>
@@ -118,9 +118,9 @@ function VariantC({ caption, title, features }) {
                     </span>
                   </div>
                   <div className="w-full lg:w-2/3">
-                    <h3 className="mb-2 text-2xl font-bold font-heading">
+                    <p className="mb-2 text-2xl font-bold font-heading">
                       {features?.[2]?.heading}
-                    </h3>
+                    </p>
                     <p className="text-gray-500">
                       {features?.[2]?.description}
                     </p>
@@ -149,9 +149,9 @@ function VariantC({ caption, title, features }) {
                     </span>
                   </div>
                   <div className="w-full lg:w-2/3">
-                    <h3 className="mb-2 text-2xl font-bold font-heading">
+                    <p className="mb-2 text-2xl font-bold font-heading">
                       {features?.[3]?.heading}
-                    </h3>
+                    </p>
                     <p className="text-gray-500">
                       {features?.[3]?.description}
                     </p>

@@ -21,20 +21,29 @@ function VariantE({
               <div className="w-full text-center lg:text-left">
                 <div className="max-w-md mx-auto lg:mx-0">
                   {title && (
-                    <h2 className="mb-3 text-4xl lg:text-5xl font-bold font-heading">
+                    <h1 className="mb-3 text-4xl lg:text-5xl font-bold font-heading">
                       <span>{String(title).split("*")[0]}</span>
-                      <span className={`text-${template.color}-600`}>
+                      <span className={`text-${template.color}-900`}>
                         {String(title).split("*")[1]}
                       </span>
-                    </h2>
+                    </h1>
                   )}
                 </div>
                 <div className="max-w-sm mx-auto lg:mx-0">
-                  <p className="mb-6 text-gray-400 leading-loose">{text}</p>
+                  <p className="mb-6 text-gray-700 leading-loose">{text}</p>
                   <div>
                     {primaryButton && (
                       <a
-                        className="inline-block mb-3 lg:mb-0 lg:mr-3 w-full lg:w-auto py-2 px-6 bg-webriq-blue hover:bg-webriq-darkblue text-white font-semibold leading-loose rounded-l-xl rounded-t-xl transition duration-200"
+                        aria-label={`Header ${
+                          primaryButton?.label ?? "Primary"
+                        } button which directs to ${
+                          primaryButton?.type === "linkExternal"
+                            ? primaryButton?.externalLink
+                            : primaryButton?.type === "linkInternal"
+                            ? primaryButton?.internalLink
+                            : "not found"
+                        } page`}
+                        className="inline-block mb-3 lg:mb-0 lg:mr-3 w-full lg:w-auto py-2 px-6 bg-webriq-darkblue hover:bg-webriq-blue text-white font-semibold leading-loose rounded-l-xl rounded-t-xl transition duration-200"
                         target={primaryButton?.linkTarget}
                         rel={
                           primaryButton?.linkTarget === "_blank"
@@ -57,6 +66,15 @@ function VariantE({
                     )}
                     {secondaryButton && (
                       <a
+                        aria-label={`Header ${
+                          secondaryButton?.label ?? "Secondary"
+                        } button which directs to ${
+                          secondaryButton?.type === "linkExternal"
+                            ? secondaryButton?.externalLink
+                            : secondaryButton?.type === "linkInternal"
+                            ? secondaryButton?.internalLink
+                            : "not found"
+                        } page`}
                         className="inline-block w-full lg:w-auto py-2 px-6 font-semibold bg-white hover:bg-gray-50 rounded-l-xl rounded-t-xl transition duration-200"
                         target={secondaryButton?.linkTarget}
                         rel={
@@ -88,7 +106,7 @@ function VariantE({
                   <div className="mb-4 px-6 py-8 bg-white rounded-xl shadow-md">
                     <div className="mb-6">
                       <span className="text-sm text-gray-500">Sign Up</span>
-                      <h3 className="text-2xl font-bold">Create an account</h3>
+                      <p className="text-2xl font-bold">Create an account</p>
                     </div>
                     <WebriQForm
                       method="POST"
@@ -103,6 +121,7 @@ function VariantE({
                           <div className="mb-3 w-full lg:w-1/2 px-2">
                             {formFields[0].type === "textarea" ? (
                               <textarea
+                                aria-label={`${formFields[0]?.name} text area`}
                                 className="w-full p-4 text-xs bg-gray-100 outline-none rounded"
                                 type="text"
                                 placeholder={formFields[0]?.name}
@@ -111,6 +130,7 @@ function VariantE({
                             ) : formFields[0].type === "inputFile" ? (
                               <label className="flex px-2 bg-gray-100 rounded">
                                 <input
+                                  aria-label="Add file"
                                   className="w-full p-4 text-xs bg-gray-100 outline-none rounded"
                                   type="file"
                                   placeholder="Choose file.."
@@ -119,6 +139,11 @@ function VariantE({
                               </label>
                             ) : (
                               <input
+                                aria-label={`${
+                                  formFields[0]?.type === "inputText"
+                                    ? `Input ${formFields[0]?.name}`
+                                    : `${formFields[0]?.type}`
+                                }`}
                                 className="w-full p-4 text-xs bg-gray-100 outline-none rounded"
                                 type={
                                   formFields[0].type === "inputEmail"
@@ -143,6 +168,7 @@ function VariantE({
                           <div className="mb-3 w-full lg:w-1/2 px-2">
                             {formFields[1].type === "textarea" ? (
                               <textarea
+                                aria-label={`${formFields[1]?.name} text area`}
                                 className="w-full p-4 text-xs bg-gray-100 outline-none rounded"
                                 type="text"
                                 placeholder={formFields[1]?.name}
@@ -151,6 +177,7 @@ function VariantE({
                             ) : formFields[1].type === "inputFile" ? (
                               <label className="flex px-2 bg-gray-100 rounded">
                                 <input
+                                  aria-label="Add file"
                                   className="w-full p-4 text-xs bg-gray-100 outline-none rounded"
                                   type="file"
                                   placeholder="Choose file.."
@@ -159,6 +186,11 @@ function VariantE({
                               </label>
                             ) : (
                               <input
+                                aria-label={`${
+                                  formFields[1]?.type === "inputText"
+                                    ? `Input ${formFields[1]?.name}`
+                                    : `${formFields[1]?.type}`
+                                }`}
                                 className="w-full p-4 text-xs bg-gray-100 outline-none rounded"
                                 type={
                                   formFields[1].type === "inputEmail"
@@ -184,6 +216,7 @@ function VariantE({
                         formFields[2]?.name &&
                         (formFields[2].type === "textarea" ? (
                           <textarea
+                            aria-label={`${formFields[2]?.name} text area`}
                             className="mb-3 w-full p-4 text-xs bg-gray-100 outline-none rounded"
                             type="text"
                             placeholder={formFields[2]?.name}
@@ -193,6 +226,7 @@ function VariantE({
                           <div className="mb-4">
                             <label className="flex px-2 bg-gray-100 rounded">
                               <input
+                                aria-label="Add file"
                                 className="w-full p-4 text-xs bg-gray-100 outline-none rounded"
                                 type="file"
                                 placeholder="Choose file.."
@@ -202,6 +236,11 @@ function VariantE({
                           </div>
                         ) : (
                           <input
+                            aria-label={`${
+                              formFields[2]?.type === "inputText"
+                                ? `Input ${formFields[2]?.name}`
+                                : `${formFields[2]?.type}`
+                            }`}
                             className="mb-3 w-full p-4 text-xs bg-gray-100 outline-none rounded"
                             type={
                               formFields[2].type === "inputEmail"
@@ -224,6 +263,7 @@ function VariantE({
                         formFields[3]?.name &&
                         (formFields[3].type === "textarea" ? (
                           <textarea
+                            aria-label={`${formFields[3]?.name} text area`}
                             className="mb-3 w-full p-4 text-xs bg-gray-100 outline-none rounded"
                             type="text"
                             placeholder={formFields[3]?.name}
@@ -233,6 +273,7 @@ function VariantE({
                           <div className="mb-4">
                             <label className="flex px-2 bg-gray-100 rounded">
                               <input
+                                aria-label="Add file"
                                 className="w-full p-4 text-xs bg-gray-100 outline-none rounded"
                                 type="file"
                                 placeholder="Choose file.."
@@ -242,6 +283,11 @@ function VariantE({
                           </div>
                         ) : (
                           <input
+                            aria-label={`${
+                              formFields[3]?.type === "inputText"
+                                ? `Input ${formFields[3]?.name}`
+                                : `${formFields[3]?.type}`
+                            }`}
                             className="mb-3 w-full p-4 text-xs bg-gray-100 outline-none rounded"
                             type={
                               formFields[3].type === "inputEmail"
@@ -264,6 +310,7 @@ function VariantE({
                         formFields[4]?.name &&
                         (formFields[4].type === "textarea" ? (
                           <textarea
+                            aria-label={`${formFields[4]?.name} text area`}
                             className="mb-3 w-full p-4 text-xs bg-gray-100 outline-none rounded"
                             type="text"
                             placeholder={formFields[4]?.name}
@@ -273,6 +320,7 @@ function VariantE({
                           <div className="mb-4">
                             <label className="flex px-2 bg-gray-100 rounded">
                               <input
+                                aria-label="Add file"
                                 className="w-full p-4 text-xs bg-gray-100 outline-none rounded"
                                 type="file"
                                 placeholder="Choose file.."
@@ -282,6 +330,11 @@ function VariantE({
                           </div>
                         ) : (
                           <input
+                            aria-label={`${
+                              formFields[4]?.type === "inputText"
+                                ? `Input ${formFields[4]?.name}`
+                                : `${formFields[4]?.type}`
+                            }`}
                             className="mb-3 w-full p-4 text-xs bg-gray-100 outline-none rounded"
                             type={
                               formFields[4].type === "inputEmail"
@@ -306,7 +359,7 @@ function VariantE({
                       <div className="text-center">
                         <button
                           aria-label="Header Sign Up button"
-                          className="mb-2 w-full py-4 bg-webriq-blue hover:bg-webriq-darkblue rounded text-sm font-bold text-gray-50 transition duration-200"
+                          className="mb-2 w-full py-4 bg-webriq-darkblue hover:bg-webriq-blue rounded text-sm font-bold text-gray-50 transition duration-200"
                           type="submit"
                         >
                           Sign Up
@@ -314,6 +367,7 @@ function VariantE({
                         <span className="text-gray-400 text-xs">
                           Already have an account?{" "}
                           <a
+                            aria-label="Header Sign in link"
                             className="text-webriq-darkblue hover:underline"
                             href="#"
                           >
@@ -329,7 +383,16 @@ function VariantE({
                     {links?.map((link, index, { length }) => (
                       <>
                         <a
-                          className="underline text-webriq-darkblue hover:text-webriq-darkblue"
+                          aria-label={`Header ${
+                            link?.label ?? "Terms and Policies"
+                          } links which directs to ${
+                            link?.type === "linkExternal"
+                              ? link?.externalLink
+                              : link?.type === "linkInternal"
+                              ? link?.internalLink
+                              : "not found"
+                          } page`}
+                          className="underline text-webriq-darkblue hover:text-webriq-blue"
                           target={
                             link?.linkTarget === "_blank" ? "_blank" : null
                           }
@@ -359,72 +422,6 @@ function VariantE({
                     ))}
                   </p>
                 )}
-                {/* {links &&
-                  (links.length > 1 ? (
-                    <p className="text-xs text-gray-500">
-                      {links?.[0] && (
-                        <a
-                          className="underline text-webriq-darkblue hover:text-webriq-darkblue"
-                          target={links?.[0]?.linkTarget === "_blank" ? "_blank" : null}
-                          rel={links?.[0]?.linkTarget === "_blank" ? "noopener noreferrer" : ""}
-                          href={
-                            links[0].type === "linkExternal"
-                              ? links[0]?.externalLink
-                              : links[0].type === "linkInternal"
-                                ? links[0].internalLink === "Home" ||
-                                  links[0].internalLink === "home"
-                                  ? "/"
-                                  : links[0]?.internalLink
-                                : "page-not-found"
-                          }
-                        >
-                          {links[0]?.label}
-                        </a>
-                      )}
-                      <span>&nbsp;and&nbsp;</span>
-                      {links?.[1] && (
-                        <a
-                          className="underline text-webriq-darkblue hover:text-webriq-darkblue"
-                          target={links?.[1]?.linkTarget === "_blank" ? "_blank" : null}
-                          rel={links?.[1]?.linkTarget === "_blank" ? "noopener noreferrer" : ""}
-                          href={
-                            links[1].type === "linkExternal"
-                              ? links[1]?.externalLink
-                              : links[1].type === "linkInternal"
-                                ? links[1].internalLink === "Home" ||
-                                  links[1].internalLink === "home"
-                                  ? "/"
-                                  : links[1]?.internalLink
-                                : "page-not-found"
-                          }
-                        >
-                          {links[1]?.label}
-                        </a>
-                      )}
-                    </p>
-                  ) : (
-                    <p className="text-xs text-gray-500">
-                      {links?.[0] && (
-                        <a
-                          className="underline text-webriq-darkblue hover:text-webriq-darkblue"
-                          target={links?.[0]?.linkTarget === "_blank" ? "_blank" : null}
-                          rel={links?.[0]?.linkTarget === "_blank" ? "noopener noreferrer" : ""}
-                          href={
-                            links[0].type === "linkExternal"
-                              ? links[0]?.externalLink
-                              : links[0].type === "linkInternal"
-                                ? links[0].internalLink === "Home" ||
-                                  links[0].internalLink === "home"
-                                  ? "/"
-                                  : links[0]?.internalLink
-                                : "page-not-found"
-                          }
-                        >
-                          {links[0]?.label}
-                        </a>
-                      )}
-                    </p>
-                  ))} */}
               </div>
             </div>
           </div>

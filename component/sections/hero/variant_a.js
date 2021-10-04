@@ -20,27 +20,36 @@ function VariantA({
             <div className="w-full lg:w-1/2 px-4 mb-12 md:mb-20 lg:mb-0 flex items-center">
               <div className="w-full text-center lg:text-left">
                 <div className="max-w-md mx-auto lg:mx-0">
-                  <h2 className="mb-3 text-4xl lg:text-5xl font-bold font-heading">
-                    {title === undefined ? null : (
+                  <h1 className="mb-3 text-4xl lg:text-5xl font-bold font-heading">
+                    {title && (
                       <>
                         <span>{String(title).split("*")[0]}</span>
-                        <span className={`text-${template.color}-600`}>
+                        <span className={`text-${template.color}-900`}>
                           {String(title).split("*")[1]}
                         </span>
                       </>
                     )}
-                  </h2>
+                  </h1>
                 </div>
                 <div className="max-w-sm mx-auto lg:mx-0">
-                  {description === undefined ? null : (
-                    <p className="mb-6 text-gray-400 leading-loose">
+                  {description && (
+                    <p className="mb-6 text-gray-700 leading-loose">
                       {description}
                     </p>
                   )}
                   <div>
                     {primaryButton?.label && (
                       <a
-                        className={`inline-block mb-3 lg:mb-0 lg:mr-3 w-full lg:w-auto py-2 px-6 leading-loose bg-${template.color}-blue hover:bg-${template.color}-darkblue text-white font-semibold rounded-l-xl rounded-t-xl transition duration-200`}
+                        aria-label={`Header ${
+                          primaryButton?.label ?? "Primary"
+                        } button which directs to ${
+                          primaryButton?.type === "linkExternal"
+                            ? primaryButton?.externalLink
+                            : primaryButton?.type === "linkInternal"
+                            ? primaryButton?.internalLink
+                            : "not found"
+                        } page`}
+                        className={`inline-block mb-3 lg:mb-0 lg:mr-3 w-full lg:w-auto py-2 px-6 leading-loose bg-${template.color}-darkblue hover:bg-${template.color}-blue text-white font-semibold rounded-l-xl rounded-t-xl transition duration-200`}
                         target={primaryButton?.linkTarget}
                         rel={
                           primaryButton?.linkTarget === "_blank"
@@ -61,6 +70,15 @@ function VariantA({
                     )}
                     {secondaryButton?.label && (
                       <a
+                        aria-label={`Header ${
+                          secondaryButton?.label ?? "Secondary"
+                        } button which directs to ${
+                          secondaryButton?.type === "linkExternal"
+                            ? secondaryButton?.externalLink
+                            : secondaryButton?.type === "linkInternal"
+                            ? secondaryButton?.internalLink
+                            : "not found"
+                        } page`}
                         className="inline-block w-full lg:w-auto py-2 px-6 leading-loose font-semibold bg-white hover:bg-gray-50 rounded-l-xl rounded-t-xl transition duration-200"
                         target={secondaryButton?.linkTarget}
                         rel={

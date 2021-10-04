@@ -13,13 +13,22 @@ function VariantC({
       <div className="relative pt-12 md:pt-16 pb-32 md:pb-64 bg-gray-50">
         <div className="relative container mx-auto px-4">
           <div className="max-w-2xl mx-auto text-center mb-12 md:mb-20">
-            <h2 className="mb-10 text-lg md:text-4xl lg:text-5xl font-bold">
+            <h1 className="mb-10 text-lg md:text-4xl lg:text-5xl font-bold">
               {title && <span>{title}</span>}
-            </h2>
+            </h1>
             <div>
               {primaryButton && (
                 <a
-                  className="inline-block mb-3 lg:mb-0 lg:mr-3 w-full lg:w-auto py-2 px-6 bg-webriq-blue hover:bg-webriq-darkblue text-white font-semibold leading-loose rounded-l-xl rounded-t-xl transition duration-200"
+                  aria-label={`Header ${
+                    primaryButton?.label ?? "Primary"
+                  } button which directs to ${
+                    primaryButton?.type === "linkExternal"
+                      ? primaryButton?.externalLink
+                      : primaryButton?.type === "linkInternal"
+                      ? primaryButton?.internalLink
+                      : "not found"
+                  } page`}
+                  className="inline-block mb-3 lg:mb-0 lg:mr-3 w-full lg:w-auto py-2 px-6 bg-webriq-darkblue hover:bg-webriq-blue text-white font-semibold leading-loose rounded-l-xl rounded-t-xl transition duration-200"
                   target={primaryButton?.linkTarget}
                   rel={
                     primaryButton?.linkTarget === "_blank"
@@ -38,8 +47,17 @@ function VariantC({
                   {primaryButton.label}
                 </a>
               )}
-              {secondaryButton === undefined ? null : (
+              {secondaryButton && (
                 <a
+                  aria-label={`Header ${
+                    secondaryButton?.label ?? "Secondary"
+                  } button which directs to ${
+                    secondaryButton?.type === "linkExternal"
+                      ? secondaryButton?.externalLink
+                      : secondaryButton?.type === "linkInternal"
+                      ? secondaryButton?.internalLink
+                      : "not found"
+                  } page`}
                   className="inline-block w-full lg:w-auto py-2 px-6 font-semibold bg-white hover:bg-gray-50 rounded-l-xl rounded-t-xl transition duration-200"
                   target={secondaryButton?.linkTarget}
                   rel={
@@ -68,7 +86,8 @@ function VariantC({
               String(videoLink).includes("https://www.youtube.com/watch?")) ||
             String(videoLink).includes("youtube.com/watch?") ? (
               <iframe
-                className="absolute top-0 left-0 w-full h-full rounded-3xl border-4 border-webriq-blue"
+                aria-label="Show Video Frame"
+                className="absolute top-0 left-0 w-full h-full rounded-3xl border-4 border-webriq-darkblue"
                 src={`https://www.youtube.com/embed/${
                   String(videoLink).split("=")[1].split("&")[0]
                 }`}
@@ -79,23 +98,6 @@ function VariantC({
             ) : null}
           </div>
         </div>
-
-        {/* <div className="absolute inset-0 flex items-center justify-center">
-            <button className="flex items-center justify-center bg-white rounded-full">
-              <svg
-                className="w-16 h-16 text-webriq-darkblue hover:text-webriq-darkblue transition duration-200"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z"
-                  clipRule="evenodd"
-                ></path>
-              </svg>
-            </button>
-          </div> */}
       </div>
     </section>
   );

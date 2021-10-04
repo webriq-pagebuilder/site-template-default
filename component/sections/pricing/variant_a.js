@@ -107,9 +107,9 @@ function VariantA({
             <span className="text-webriq-darkblue font-bold">
               {caption && caption}
             </span>
-            <h2 className="mb-2 text-4xl lg:text-5xl font-bold font-heading">
+            <h1 className="mb-2 text-4xl lg:text-5xl font-bold font-heading">
               {title && title}
-            </h2>
+            </h1>
             <p className="mb-6 text-gray-500">{description && description}</p>
             {plans?.[0]?.monthlyPrice && (
               <div className="inline-block py-1 px-1 bg-white rounded-lg">

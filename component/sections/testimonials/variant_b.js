@@ -48,9 +48,9 @@ function VariantB({ caption, title, testimonials }) {
             )}
             <div className="mb-10 max-w-lg text-center mx-auto">
               <span className="text-webriq-darkblue font-bold">{caption}</span>
-              <h2 className="mt-4 text-4xl lg:text-5xl font-bold font-heading">
+              <h1 className="mt-4 text-4xl lg:text-5xl font-bold font-heading">
                 {title}
-              </h2>
+              </h1>
             </div>
             {testimony?.length >= 4 && (
               <button

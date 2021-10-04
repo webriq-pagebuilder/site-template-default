@@ -29,9 +29,9 @@ function VariantD({ caption, title, team }) {
               <span className="text-webriq-darkblue font-bold">{caption}</span>
             )}
             {title && (
-              <h2 className="text-4xl lg:text-5xl font-bold font-heading">
+              <h1 className="text-4xl lg:text-5xl font-bold font-heading">
                 {title}
-              </h2>
+              </h1>
             )}
           </div>
           <div className="flex flex-wrap -mx-4">

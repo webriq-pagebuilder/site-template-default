@@ -1,8 +1,6 @@
 import React from "react";
 import { urlFor } from "lib/sanity";
 
-
-
 function VariantC({ subtitle, title, description, features, images }) {
   return (
     <section>
@@ -14,9 +12,9 @@ function VariantC({ subtitle, title, description, features, images }) {
                 <span className="mb-5 text-webriq-darkblue font-bold">
                   {subtitle}
                 </span>
-                <h2 className="mb-4 text-2xl md:text-4xl lg:text-5xl font-bold font-heading">
+                <h1 className="mb-4 text-2xl md:text-4xl lg:text-5xl font-bold font-heading">
                   {title}
-                </h2>
+                </h1>
                 <p className="mb-6 text-gray-500 leading-loose">
                   {description}
                 </p>
@@ -44,14 +42,22 @@ function VariantC({ subtitle, title, description, features, images }) {
             </div>
             <div className="transform -rotate-12 flex items-center w-full lg:w-1/2">
               <div className="w-full">
-                {images?.[0] && <img src={urlFor(images[0])} alt="appPromo-variantC-image1"/>}
+                {images?.[0] && (
+                  <img src={urlFor(images[0])} alt="appPromo-variantC-image1" />
+                )}
               </div>
               <div className="w-full">
-                {images?.[1] && <img src={urlFor(images[1])} alt="appPromo-variantC-image2"/>}
-                {images?.[2] && <img src={urlFor(images[2])} alt="appPromo-variantC-image3"/>}
+                {images?.[1] && (
+                  <img src={urlFor(images[1])} alt="appPromo-variantC-image2" />
+                )}
+                {images?.[2] && (
+                  <img src={urlFor(images[2])} alt="appPromo-variantC-image3" />
+                )}
               </div>
               <div className="w-full">
-                {images?.[3] && <img src={urlFor(images[3])} alt="appPromo-variantC-image4"/>}
+                {images?.[3] && (
+                  <img src={urlFor(images[3])} alt="appPromo-variantC-image4" />
+                )}
               </div>
             </div>
           </div>

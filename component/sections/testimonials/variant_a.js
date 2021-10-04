@@ -52,9 +52,9 @@ function VariantA({ testimonials }) {
                       fill="currentColor"
                     />
                   </svg>
-                  <h3 className="mb-6 text-3xl lg:text-4xl font-bold font-heading">
+                  <p className="mb-6 text-3xl lg:text-4xl font-bold font-heading">
                     {testimonials?.[testimony]?.testimony}
-                  </h3>
+                  </p>
                   {testimonials?.length > 1 && (
                     <div>
                       {testimonials.map((item, index) => (

@@ -14,19 +14,21 @@ function VariantC({ caption, title, portfolios, buttonLabel }) {
             <div className="mb-16 flex flex-wrap justify-center md:justify-between items-center">
               <div className="text-center lg:text-left">
                 {caption && (
-                  <span className="text-webriq-blue font-bold">{caption}</span>
+                  <span className="text-webriq-darkblue font-bold">
+                    {caption}
+                  </span>
                 )}
                 {title && (
-                  <h2 className="text-4xl lg:text-5xl font-bold font-heading">
+                  <h1 className="text-4xl lg:text-5xl font-bold font-heading">
                     {title}
-                  </h2>
+                  </h1>
                 )}
               </div>
               <div>
                 {portfolios?.length > portfolioLength && !showMore && (
                   <button
                     aria-label="View More Portfolios button"
-                    className="hidden md:inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-gray-50 font-bold leading-loose transition duration-200"
+                    className="hidden md:inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose transition duration-200"
                     onClick={() => {
                       setViewPortfolios(portfolios?.length);
                       setShowMore(true);
@@ -48,15 +50,25 @@ function VariantC({ caption, title, portfolios, buttonLabel }) {
                         alt={`portfolio-image${index}`}
                       />
                       <div className="p-6">
-                        <span className="text-gray-400">
+                        <span className="text-gray-700">
                           {content?.dateAdded}
                         </span>
-                        <h3 className="mb-4 text-2xl font-bold font-heading">
+                        <p className="mb-4 text-2xl font-bold font-heading">
                           {content?.heading}
-                        </h3>
+                        </p>
                         {content?.primaryButton?.label && (
                           <a
-                            className="flex text-webriq-blue hover:text-webriq-darkblue font-bold"
+                            aria-label={`Portfolio ${
+                              content?.primaryButton?.label ?? "View Project"
+                            } button which directs to ${
+                              content?.primaryButton?.type === "linkExternal"
+                                ? content?.primaryButton?.externalLink
+                                : content?.primaryButton?.type ===
+                                  "linkInternal"
+                                ? content?.primaryButton?.internalLink
+                                : "not found"
+                            } page`}
+                            className="flex text-webriq-darkblue hover:text-webriq-blue font-bold"
                             target={content?.primaryButton?.linkTarget}
                             rel={
                               content?.primaryButton?.linkTarget === "_blank"

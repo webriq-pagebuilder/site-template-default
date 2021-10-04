@@ -31,13 +31,22 @@ function VariantD({
                 />
               </a>
             )}
-            <h2 className="mb-4 text-4xl md:text-5xl font-bold font-heading">
+            <h1 className="mb-4 text-4xl md:text-5xl font-bold font-heading">
               {title}
-            </h2>
-            <p className="mb-8 text-gray-500 leading-loose">{text}</p>
+            </h1>
+            <p className="mb-8 text-gray-700 leading-loose">{text}</p>
             {button && (
               <a
-                className="inline-block py-2 px-6 bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-loose transition duration-250 rounded-l-xl rounded-t-xl"
+                aria-label={`Call to action ${
+                  button?.label ?? "primary"
+                } button which directs to ${
+                  button?.type === "linkExternal"
+                    ? button?.externalLink
+                    : button?.type === "linkInternal"
+                    ? button?.internalLink
+                    : "not found"
+                } page`}
+                className="inline-block py-2 px-6 bg-webriq-darkblue hover:bg-webriq-blue text-white font-bold leading-loose transition duration-250 rounded-l-xl rounded-t-xl"
                 target={button?.linkTarget}
                 rel={
                   button?.linkTarget === "_blank" ? "noopener noreferrer" : null
@@ -78,6 +87,7 @@ function VariantD({
                         <div className="w-full lg:w-1/2 px-2">
                           {formFields[0].type === "textarea" ? (
                             <textarea
+                              aria-label={`${formFields[0]?.name} text area`}
                               className="w-full p-4 text-xs bg-gray-100 outline-none rounded"
                               type="text"
                               placeholder={formFields[0]?.name}
@@ -86,6 +96,7 @@ function VariantD({
                           ) : formFields[0].type === "inputFile" ? (
                             <label className="flex px-2 bg-gray-100 rounded">
                               <input
+                                aria-label="Add file"
                                 className="w-full p-4 text-xs bg-gray-100 outline-none rounded"
                                 type="file"
                                 placeholder="Choose file.."
@@ -94,6 +105,11 @@ function VariantD({
                             </label>
                           ) : (
                             <input
+                              aria-label={`${
+                                formFields[0]?.type === "inputText"
+                                  ? `Input ${formFields[0]?.name}`
+                                  : `${formFields[0]?.type}`
+                              }`}
                               className="w-full p-4 text-xs bg-gray-100 outline-none rounded"
                               type={
                                 formFields[0].type === "inputEmail"
@@ -118,6 +134,7 @@ function VariantD({
                         <div className="w-full lg:w-1/2 px-2">
                           {formFields[1].type === "textarea" ? (
                             <textarea
+                              aria-label={`${formFields[1]?.name} text area`}
                               className="w-full p-4 text-xs bg-gray-100 outline-none rounded"
                               type="text"
                               placeholder={formFields[1]?.name}
@@ -126,6 +143,7 @@ function VariantD({
                           ) : formFields[1].type === "inputFile" ? (
                             <label className="flex px-2 bg-gray-100 rounded">
                               <input
+                                aria-label="Add file"
                                 className="w-full p-4 text-xs bg-gray-100 outline-none rounded"
                                 type="file"
                                 placeholder="Choose file.."
@@ -134,6 +152,11 @@ function VariantD({
                             </label>
                           ) : (
                             <input
+                              aria-label={`${
+                                formFields[1]?.type === "inputText"
+                                  ? `Input ${formFields[1]?.name}`
+                                  : `${formFields[1]?.type}`
+                              }`}
                               className="w-full p-4 text-xs bg-gray-100 outline-none rounded"
                               type={
                                 formFields[1].type === "inputEmail"
@@ -159,6 +182,7 @@ function VariantD({
                       formFields[2]?.name &&
                       (formFields[2].type === "textarea" ? (
                         <textarea
+                          aria-label={`${formFields[2]?.name} text area`}
                           className="mb-3 w-full p-4 text-xs bg-gray-100 outline-none rounded"
                           type="text"
                           placeholder={formFields[2]?.name}
@@ -168,6 +192,7 @@ function VariantD({
                         <div className="mb-3">
                           <label className="flex px-2 bg-gray-100 rounded">
                             <input
+                              aria-label="Add file"
                               className="w-full p-4 text-xs bg-gray-100 outline-none rounded"
                               type="file"
                               placeholder="Choose file.."
@@ -177,6 +202,11 @@ function VariantD({
                         </div>
                       ) : (
                         <input
+                          aria-label={`${
+                            formFields[2]?.type === "inputText"
+                              ? `Input ${formFields[2]?.name}`
+                              : `${formFields[2]?.type}`
+                          }`}
                           className="mb-3 w-full p-4 text-xs bg-gray-100 outline-none rounded"
                           type={
                             formFields[2].type === "inputEmail"
@@ -199,6 +229,7 @@ function VariantD({
                       formFields[3]?.name &&
                       (formFields[3].type === "textarea" ? (
                         <textarea
+                          aria-label={`${formFields[3]?.name} text area`}
                           className="mb-3 w-full p-4 text-xs bg-gray-100 outline-none rounded"
                           type="text"
                           placeholder={formFields[3]?.name}
@@ -208,6 +239,7 @@ function VariantD({
                         <div className="mb-3">
                           <label className="flex px-2 bg-gray-100 rounded">
                             <input
+                              aria-label="Add file"
                               className="w-full p-4 text-xs bg-gray-100 outline-none rounded"
                               type="file"
                               placeholder="Choose file.."
@@ -217,6 +249,11 @@ function VariantD({
                         </div>
                       ) : (
                         <input
+                          aria-label={`${
+                            formFields[3]?.type === "inputText"
+                              ? `Input ${formFields[3]?.name}`
+                              : `${formFields[3]?.type}`
+                          }`}
                           className="mb-3 w-full p-4 text-xs bg-gray-100 outline-none rounded"
                           type={
                             formFields[3].type === "inputEmail"
@@ -239,6 +276,7 @@ function VariantD({
                       formFields[4]?.name &&
                       (formFields[4].type === "textarea" ? (
                         <textarea
+                          aria-label={`${formFields[0]?.name} text area`}
                           className="mb-3 w-full p-4 text-xs bg-gray-100 outline-none rounded"
                           type="text"
                           placeholder={formFields[4]?.name}
@@ -248,6 +286,7 @@ function VariantD({
                         <div className="mb-3">
                           <label className="flex px-2 bg-gray-100 rounded">
                             <input
+                              aria-label="Add file"
                               className="w-full p-4 text-xs bg-gray-100 outline-none rounded"
                               type="file"
                               placeholder="Choose file.."
@@ -257,6 +296,11 @@ function VariantD({
                         </div>
                       ) : (
                         <input
+                          aria-label={`${
+                            formFields[4]?.type === "inputText"
+                              ? `Input ${formFields[4]?.name}`
+                              : `${formFields[4]?.type}`
+                          }`}
                           className="mb-3 w-full p-4 text-xs bg-gray-100 outline-none rounded"
                           type={
                             formFields[4].type === "inputEmail"
@@ -289,7 +333,10 @@ function VariantD({
                   <p className="text-xs text-gray-400">
                     <span>Already have an account?</span>
                     <a
-                      className="text-webriq-blue"
+                      aria-label={`Call to action ${
+                        signInLink?.label ?? "Sign In"
+                      } link`}
+                      className="text-webriq-darkblue hover:text-webriq-babyblue"
                       target={signInLink?.linkTarget}
                       rel={
                         signInLink?.linkTarget === "_blank"
@@ -317,7 +364,16 @@ function VariantD({
                   {links?.map((link, index, { length }) => (
                     <>
                       <a
-                        className="text-webriq-darkblue hover:text-webriq-darkblue font-bold"
+                        aria-label={`Call to action ${
+                          link?.label ?? "Terms and Policies"
+                        } links which directs to ${
+                          link?.type === "linkExternal"
+                            ? link?.externalLink
+                            : link?.type === "linkInternal"
+                            ? link?.internalLink
+                            : "not found"
+                        } page`}
+                        className="text-webriq-darkblue hover:text-webriq-blue font-bold"
                         target={link?.linkTarget}
                         rel={
                           link?.linkTarget === "_blank"

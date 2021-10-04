@@ -30,9 +30,9 @@ function VariantH({ caption, title, features, images }) {
                 <span className="text-webriq-darkblue font-bold">
                   {caption && caption}
                 </span>
-                <h2 className="mb-6 text-4xl lg:text-5xl font-bold font-heading">
+                <h1 className="mb-6 text-4xl lg:text-5xl font-bold font-heading">
                   {title && title}
-                </h2>
+                </h1>
                 <ul>
                   {features?.[0] && (
                     <li className="flex mb-4">
@@ -53,9 +53,9 @@ function VariantH({ caption, title, features, images }) {
                         </svg>
                       </div>
                       <div className="max-w-xs">
-                        <h3 className="font-bold font-heading">
+                        <p className="font-bold font-heading">
                           {features?.[0]?.heading}
-                        </h3>
+                        </p>
                         <p className="text-gray-500 leading-loose">
                           {features?.[0]?.description}
                         </p>
@@ -81,9 +81,9 @@ function VariantH({ caption, title, features, images }) {
                         </svg>
                       </div>
                       <div className="max-w-xs">
-                        <h3 className="font-bold font-heading">
+                        <p className="font-bold font-heading">
                           {features?.[1]?.heading}
-                        </h3>
+                        </p>
                         <p className="text-gray-500 leading-loose">
                           {features?.[1]?.description}
                         </p>
@@ -109,9 +109,9 @@ function VariantH({ caption, title, features, images }) {
                         </svg>
                       </div>
                       <div className="max-w-xs">
-                        <h3 className="font-bold font-heading">
+                        <p className="font-bold font-heading">
                           {features?.[2]?.heading}
-                        </h3>
+                        </p>
                         <p className="text-gray-500 leading-loose">
                           {features?.[2]?.description}
                         </p>

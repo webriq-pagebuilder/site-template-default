@@ -32,9 +32,9 @@ function VariantF({ caption, title, description, images, primaryButton }) {
                   {caption}
                 </span>
                 {title && (
-                  <h2 className="mb-6 text-4xl lg:text-5xl font-bold font-heading">
+                  <h1 className="mb-6 text-4xl lg:text-5xl font-bold font-heading">
                     {title}
-                  </h2>
+                  </h1>
                 )}
                 {description && (
                   <div className="mb-6 max-w-sm">
@@ -44,7 +44,16 @@ function VariantF({ caption, title, description, images, primaryButton }) {
                 {primaryButton && (
                   <div className="flex flex-wrap lg:-ml-5">
                     <a
-                      className="lg:w-auto py-2 px-6 leading-loose lg:ml-5 text-gray-50 font-bold bg-webriq-blue hover:bg-webriq-darkblue transition duration-200 rounded-l-xl rounded-t-xl"
+                      aria-label={`Features ${
+                        primaryButton?.label ?? "Primary"
+                      } button which directs to ${
+                        primaryButton?.type === "linkExternal"
+                          ? primaryButton?.externalLink
+                          : primaryButton?.type === "linkInternal"
+                          ? primaryButton?.internalLink
+                          : "not found"
+                      } page`}
+                      className="lg:w-auto py-2 px-6 leading-loose lg:ml-5 text-gray-50 font-bold bg-webriq-darkblue hover:bg-webriq-blue transition duration-200 rounded-l-xl rounded-t-xl"
                       target={primaryButton?.linkTarget}
                       rel={
                         primaryButton?.linkTarget === "_blank"

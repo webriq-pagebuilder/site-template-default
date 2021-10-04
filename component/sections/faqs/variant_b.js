@@ -34,9 +34,9 @@ function VariantB({ subtitle, title, faqsWithCategories }) {
         <div className="border-b">
           <div className="mb-16 max-w-xl mx-auto px-4 text-center">
             <span className="text-webriq-darkblue font-bold">{subtitle}</span>
-            <h2 className="text-4xl lg:text-5xl font-bold font-heading">
+            <h1 className="text-4xl lg:text-5xl font-bold font-heading">
               {title}
-            </h2>
+            </h1>
           </div>
           <div className="max-w-3xl mx-auto">
             <div className="flex flex-wrap px-4 text-center lg:-mx-4 lg:space-x-4 text-base lg:text-xl">

@@ -103,9 +103,9 @@ function VariantB({
                 </span>
               )}
               {title && (
-                <h2 className="mb-2 text-4xl lg:text-5xl font-bold font-heading">
+                <h1 className="mb-2 text-4xl lg:text-5xl font-bold font-heading">
                   {title}
-                </h2>
+                </h1>
               )}
             </div>
             <div className="w-full lg:w-1/2">
@@ -137,9 +137,9 @@ function VariantB({
               {usePlan?.[0] && (
                 <div className="mb-8 w-full p-8 flex flex-wrap items-center bg-white rounded shadow">
                   <div className="w-full lg:w-1/5 px-3 self-start">
-                    <h3 className="mb-4 text-2xl font-bold font-heading">
+                    <p className="mb-4 text-2xl font-bold font-heading">
                       {usePlan?.[0]?.planType}
-                    </h3>
+                    </p>
                   </div>
                   <div className="w-full lg:w-2/5 px-3">
                     <ul className="mb-4 text-gray-500">
@@ -204,9 +204,9 @@ function VariantB({
               {usePlan?.[1] && (
                 <div className="mb-8 w-full p-8 flex flex-wrap items-center bg-white rounded shadow">
                   <div className="w-full lg:w-1/5 px-3 self-start">
-                    <h3 className="mb-4 text-2xl font-bold font-heading">
+                    <p className="mb-4 text-2xl font-bold font-heading">
                       {usePlan?.[1]?.planType}
-                    </h3>
+                    </p>
                   </div>
                   <div className="w-full lg:w-2/5 px-3">
                     <ul className="mb-4 text-gray-500">
@@ -271,9 +271,9 @@ function VariantB({
               {usePlan?.[2] && (
                 <div className="w-full p-8 flex flex-wrap items-center bg-white rounded shadow">
                   <div className="w-full lg:w-1/5 px-3 self-start">
-                    <h3 className="mb-4 text-2xl font-bold font-heading">
+                    <p className="mb-4 text-2xl font-bold font-heading">
                       {usePlan?.[2]?.planType}
-                    </h3>
+                    </p>
                   </div>
                   <div className="w-full lg:w-2/5 px-3">
                     <ul className="mb-4 text-gray-500">

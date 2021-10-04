@@ -27,9 +27,9 @@ function VariantC({ caption, title, testimonials }) {
           <div className="flex flex-wrap justify-center lg:justify-between items-center text-center lg:text-left">
             <div className="w-full lg:w-4/5 mb-4 lg:mb-0">
               <span className="text-webriq-darkblue font-bold">{caption}</span>
-              <h2 className="text-4xl lg:text-5xl font-bold font-heading">
+              <h1 className="text-4xl lg:text-5xl font-bold font-heading">
                 {title}
-              </h2>
+              </h1>
             </div>
             <div className="w-full lg:w-1/5">
               {testimony?.length >= 4 && (

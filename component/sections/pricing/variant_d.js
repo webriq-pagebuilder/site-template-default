@@ -29,17 +29,27 @@ function VariantD({
     },
     marks: {
       internalLink: ({ children, mark }) => (
-        <a className="hover:text-red-400 text-red-800" href={mark.slug.current}>
+        <a
+          aria-label={children ?? "internal link"}
+          className="hover:text-red-400 text-red-800"
+          href={mark.slug.current}
+        >
           {children}
         </a>
       ),
       link: ({ children, mark }) =>
         mark.blank ? (
-          <a href={mark.href} target="_blank" rel="noopener noreferrer">
+          <a
+            aria-label={children ?? "external link"}
+            href={mark.href}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             {children}
           </a>
         ) : (
           <a
+            aria-label={children ?? "external link"}
             className="text-webriq-darkblue font-bold hover:text-webriq-darkblue"
             href={mark.href}
           >
@@ -74,14 +84,15 @@ function VariantD({
           <div className="mb-16 max-w-2xl mx-auto text-center">
             <div className="max-w-lg mx-auto">
               <span className="text-webriq-darkblue font-bold">{caption}</span>
-              <h2 className="mb-2 text-4xl lg:text-5xl font-bold font-heading">
+              <h1 className="mb-2 text-4xl lg:text-5xl font-bold font-heading">
                 {title}
-              </h2>
+              </h1>
               <p className="mb-8 text-gray-500">{description}</p>
             </div>
             <div className="flex flex-wrap justify-center">
               <label className="md:mr-4 w-full sm:w-auto flex items-center mr-8 mb-2">
                 <input
+                  aria-label={`Select ${monthlyBilling}`}
                   type="radio"
                   name="billing"
                   defaultValue={monthlyBilling}
@@ -94,6 +105,7 @@ function VariantD({
               </label>
               <label className="flex w-full sm:w-auto items-center mb-2">
                 <input
+                  aria-label={`Select ${annualBilling}`}
                   type="radio"
                   name="billing"
                   defaultValue={annualBilling}
@@ -109,7 +121,7 @@ function VariantD({
           <div className="flex flex-wrap bg-white rounded shadow">
             <form className="w-full md:w-1/2 mb-8 md:mb-0">
               <div className="px-6 py-8 lg:px-8 text-center">
-                <span className="text-gray-400">Sign In</span>
+                <span className="text-gray-700">Sign In</span>
                 <h4 className="mb-8 text-2xl font-heading">
                   Finish your payment
                 </h4>
@@ -131,6 +143,11 @@ function VariantD({
                           key={field?._key}
                         >
                           <input
+                            aria-label={`${
+                              field?.type === "inputText"
+                                ? `Input ${formFields[0]?.name}`
+                                : `${field?.type}`
+                            }`}
                             className="w-full py-4 text-xs placeholder-gray-400 font-semibold leading-none bg-gray-50 focus:outline-none"
                             type="email"
                             placeholder={field.name}
@@ -154,6 +171,11 @@ function VariantD({
                         String(field?.name).toLowerCase() === "password" ? (
                         <div className="flex mb-6 px-4 bg-gray-50 rounded">
                           <input
+                            aria-label={`${
+                              field?.type === "inputText"
+                                ? `Input ${field?.name}`
+                                : `${field?.type}`
+                            }`}
                             className="w-full py-4 text-xs placeholder-gray-400 font-semibold leading-none bg-gray-50 focus:outline-none"
                             type="password"
                             placeholder={field.name}
@@ -194,6 +216,7 @@ function VariantD({
                   <div className="text-left mb-5 text-sm text-gray-400">
                     <label className="inline-flex">
                       <input
+                        aria-label={`Agree to ${block}?`}
                         className="mr-2"
                         type="checkbox"
                         name="terms"
@@ -217,6 +240,9 @@ function VariantD({
                 <p className="text-xs text-gray-400">
                   Already have an account?{" "}
                   <a
+                    aria-label={`Pricing ${
+                      signInLink?.label ?? "Sign in"
+                    } link`}
                     className="text-webriq-darkblue hover:underline"
                     target={signInLink?.linkTarget}
                     rel={
@@ -246,9 +272,9 @@ function VariantD({
                 src={urlFor(banner?.[banners]?.mainImage)}
                 alt={`pricing-image-${banners}`}
               />
-              <h3 className="mb-4 max-w-sm mx-auto text-center text-xl text-white">
+              <p className="mb-4 max-w-sm mx-auto text-center text-xl text-white">
                 {banner?.[banners]?.heading}
-              </h3>
+              </p>
               <div className="text-center">
                 {banner?.map((item, index) => (
                   <button

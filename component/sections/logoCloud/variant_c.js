@@ -6,11 +6,20 @@ function VariantC({ title, images, button }) {
     <section className="relative pt-32 pb-12 lg:pb-80 overflow-hidden">
       <div className="container mx-auto px-4">
         <div className="max-w-md mx-auto text-center">
-          <h2 className="mb-8 text-4xl lg:text-5xl font-bold font-heading">
+          <h1 className="mb-8 text-4xl lg:text-5xl font-bold font-heading">
             {title}
-          </h2>
+          </h1>
           {button && (
             <a
+              aria-label={`Logo Cloud ${
+                button?.label ?? "Primary"
+              } button which directs to ${
+                button?.type === "linkExternal"
+                  ? button?.externalLink
+                  : button?.type === "linkInternal"
+                  ? button?.internalLink
+                  : "not found"
+              } page`}
               className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-gray-50 font-bold leading-loose"
               target={button?.linkTarget}
               rel={button?.linkTarget === "_blank" ? "noopener noreferrer" : ""}

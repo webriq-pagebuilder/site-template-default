@@ -187,9 +187,9 @@ function VariantD({ testimonials }) {
                   <p className="mb-10 text-xl lg:text-2xl leading-loose text-gray-500">
                     {testimonial[testimony]?.testimony}
                   </p>
-                  <h4 className="text-2xl font-bold font-heading">
+                  <p className="text-2xl font-bold font-heading">
                     {testimonial[testimony]?.name}
-                  </h4>
+                  </p>
                   <p className="text-gray-500">
                     {testimonial[testimony]?.jobTitle}
                   </p>

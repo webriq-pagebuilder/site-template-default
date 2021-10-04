@@ -44,9 +44,9 @@ function VariantD({ caption, title, portfolios, buttonLabel }) {
               <span className="text-webriq-darkblue font-bold">{caption}</span>
             )}
             {title && (
-              <h2 className="mb-6 text-4xl lg:text-5xl font-bold font-heading">
+              <h1 className="mb-6 text-4xl lg:text-5xl font-bold font-heading">
                 {title}
-              </h2>
+              </h1>
             )}
             {portfolios && (
               <div className="inline-flex flex-wrap py-1 sm:px-1 sm:space-x-1 bg-white rounded text-sm">
@@ -90,15 +90,27 @@ function VariantD({ caption, title, portfolios, buttonLabel }) {
                                 <span className="text-webriq-blue font-bold">
                                   {content?.subtitle}
                                 </span>
-                                <h2 className="text-white font-bold my-5">
+                                <h1 className="text-white font-bold my-5">
                                   {content?.heading}
-                                </h2>
+                                </h1>
                                 <div className="max-w-xs my-5">
                                   <p className="mb-6 text-gray-400">
                                     {content?.description}
                                   </p>
                                   <a
-                                    className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-gray-50 font-bold leading-loose"
+                                    aria-label={`Portfolio ${
+                                      content?.primaryButton?.label ??
+                                      "View Project"
+                                    } button which directs to ${
+                                      content?.primaryButton?.type ===
+                                      "linkExternal"
+                                        ? content?.primaryButton?.externalLink
+                                        : content?.primaryButton?.type ===
+                                          "linkInternal"
+                                        ? content?.primaryButton?.internalLink
+                                        : "not found"
+                                    } page`}
+                                    className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose"
                                     target={content?.primaryButton?.linkTarget}
                                     rel={
                                       content?.primaryButton?.linkTarget ===
@@ -145,15 +157,27 @@ function VariantD({ caption, title, portfolios, buttonLabel }) {
                                 <span className="text-webriq-blue font-bold">
                                   {content?.subtitle}
                                 </span>
-                                <h2 className="text-4xl text-white font-bold my-5">
+                                <h1 className="text-4xl text-white font-bold my-5">
                                   {content?.heading}
-                                </h2>
+                                </h1>
                                 <div className="max-w-xs my-5">
                                   <p className="mb-6 text-gray-400">
                                     {content?.description}
                                   </p>
                                   <a
-                                    className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-gray-50 font-bold leading-loose"
+                                    aria-label={`Portfolio ${
+                                      content?.primaryButton?.label ??
+                                      "View Project"
+                                    } button which directs to ${
+                                      content?.primaryButton?.type ===
+                                      "linkExternal"
+                                        ? content?.primaryButton?.externalLink
+                                        : content?.primaryButton?.type ===
+                                          "linkInternal"
+                                        ? content?.primaryButton?.internalLink
+                                        : "not found"
+                                    } page`}
+                                    className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose"
                                     target={content?.primaryButton?.linkTarget}
                                     rel={
                                       content?.primaryButton?.linkTarget ===
@@ -202,15 +226,27 @@ function VariantD({ caption, title, portfolios, buttonLabel }) {
                                 <span className="text-webriq-blue font-bold">
                                   {content?.subtitle}
                                 </span>
-                                <h2 className="text-4xl text-white font-bold my-5">
+                                <h1 className="text-4xl text-white font-bold my-5">
                                   {content?.heading}
-                                </h2>
+                                </h1>
                                 <div className="max-w-xs my-5">
                                   <p className="mb-6 text-gray-400">
                                     {content?.description}
                                   </p>
                                   <a
-                                    className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-gray-50 font-bold leading-loose"
+                                    aria-label={`Portfolio ${
+                                      content?.primaryButton?.label ??
+                                      "View Project"
+                                    } button which directs to ${
+                                      content?.primaryButton?.type ===
+                                      "linkExternal"
+                                        ? content?.primaryButton?.externalLink
+                                        : content?.primaryButton?.type ===
+                                          "linkInternal"
+                                        ? content?.primaryButton?.internalLink
+                                        : "not found"
+                                    } page`}
+                                    className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose"
                                     target={content?.primaryButton?.linkTarget}
                                     rel={
                                       content?.primaryButton?.linkTarget ===
@@ -263,15 +299,29 @@ function VariantD({ caption, title, portfolios, buttonLabel }) {
                                     <span className="text-webriq-blue font-bold">
                                       {content?.subtitle}
                                     </span>
-                                    <h2 className="text-white font-bold my-5">
+                                    <h1 className="text-white font-bold my-5">
                                       {content?.heading}
-                                    </h2>
+                                    </h1>
                                     <div className="max-w-xs my-5">
                                       <p className="mb-6 text-gray-400">
                                         {content?.description}
                                       </p>
                                       <a
-                                        className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-gray-50 font-bold leading-loose"
+                                        aria-label={`Portfolio ${
+                                          content?.primaryButton?.label ??
+                                          "View Project"
+                                        } button which directs to ${
+                                          content?.primaryButton?.type ===
+                                          "linkExternal"
+                                            ? content?.primaryButton
+                                                ?.externalLink
+                                            : content?.primaryButton?.type ===
+                                              "linkInternal"
+                                            ? content?.primaryButton
+                                                ?.internalLink
+                                            : "not found"
+                                        } page`}
+                                        className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose"
                                         target={
                                           content?.primaryButton?.linkTarget
                                         }
@@ -324,18 +374,32 @@ function VariantD({ caption, title, portfolios, buttonLabel }) {
                                 />
                                 <div className="opacity-0 hover:opacity-80 duration-300 absolute inset-0 z-10 p-6 bg-gray-900 justify-center rounded-lg">
                                   <div className="max-w-md my-auto text-xs">
-                                    <span className="text-webriq-blue font-bold">
+                                    <span className="text-webriq-darkblue font-bold">
                                       {content?.subtitle}
                                     </span>
-                                    <h2 className="text-white font-bold my-5">
+                                    <h1 className="text-white font-bold my-5">
                                       {content?.heading}
-                                    </h2>
+                                    </h1>
                                     <div className="max-w-xs my-5">
                                       <p className="mb-6 text-gray-400">
                                         {content?.description}
                                       </p>
                                       <a
-                                        className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-gray-50 font-bold leading-loose"
+                                        aria-label={`Portfolio ${
+                                          content?.primaryButton?.label ??
+                                          "View Project"
+                                        } button which directs to ${
+                                          content?.primaryButton?.type ===
+                                          "linkExternal"
+                                            ? content?.primaryButton
+                                                ?.externalLink
+                                            : content?.primaryButton?.type ===
+                                              "linkInternal"
+                                            ? content?.primaryButton
+                                                ?.internalLink
+                                            : "not found"
+                                        } page`}
+                                        className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose"
                                         target={
                                           content?.primaryButton?.linkTarget
                                         }
@@ -381,7 +445,7 @@ function VariantD({ caption, title, portfolios, buttonLabel }) {
               !showMore && (
                 <button
                   aria-label="View More Portfolios button"
-                  className="inline-block py-2 px-6 leading-loose rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-gray-50 font-bold"
+                  className="inline-block py-2 px-6 leading-loose rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold"
                   onClick={() => {
                     setPortfoliosToShow(newArray?.length);
                     setShowMore(true);

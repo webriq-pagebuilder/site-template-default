@@ -20,9 +20,9 @@ function VariantA({ logo, subtitle, title, images }) {
               </a>
             )}
             <p className="text-gray-50 font-bold">{subtitle}</p>
-            <h2 className="text-5xl lg:text-4xl text-white font-bold">
+            <h1 className="text-5xl lg:text-4xl text-white font-bold">
               {title}
-            </h2>
+            </h1>
             <div className="h-80">
               {images?.[0] && (
                 <img
