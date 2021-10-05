@@ -1,7 +1,6 @@
-import { urlFor } from "lib/sanity";
+import { urlFor, PortableText } from "lib/sanity";
 import React from "react";
 import WebriQForm from "@webriq/gatsby-webriq-form";
-import PortableText from "@sanity/block-content-to-react";
 
 function VariantD({
   caption,

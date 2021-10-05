@@ -1,6 +1,6 @@
 import React from "react";
 import WebriQForm from "@webriq/gatsby-webriq-form";
-import PortableText from "@sanity/block-content-to-react";
+import { PortableText } from "lib/sanity";
 
 function VariantA({
   contactDescription,

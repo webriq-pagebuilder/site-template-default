@@ -1,16 +1,15 @@
 import React from "react";
 import Head from "next/head";
-import { urlFor, usePreviewSubscription } from "lib/sanity";
+import { urlFor, usePreviewSubscription, PortableText } from "lib/sanity";
 import { blogQuery } from "pages/api/query";
 import { format } from "date-fns";
-import BlockContent from "@sanity/block-content-to-react";
 import PageNotFound from "pages/404";
 import dynamic from "next/dynamic";
 
 const Navigation = dynamic(() => import("component/sections/navigation"));
 const Footer = dynamic(() => import("component/sections/footer"));
 
-// block styling as props to `serializers` of the BlockContent component
+// block styling as props to `serializers` of the PortableText component
 const blockStyle = {
   types: {
     block: (props) => {
@@ -203,7 +202,7 @@ function BlogPage({ data, preview, navAndFooter }) {
         <div className="container mx-auto px-4">
           {body && (
             <div className="max-w-4xl mx-auto">
-              <BlockContent blocks={body} serializers={blockStyle} />
+              <PortableText blocks={body} serializers={blockStyle} />
             </div>
           )}
         </div>

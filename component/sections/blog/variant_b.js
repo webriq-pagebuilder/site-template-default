@@ -1,10 +1,9 @@
 import React from "react";
 import Link from "next/link";
-import { urlFor } from "lib/sanity";
+import { PortableText, urlFor } from "lib/sanity";
 import { format } from "date-fns";
-import BlockContent from "@sanity/block-content-to-react";
 
-// block styling as props to `serializers` of the BlockContent component
+// block styling as props to `serializers` of the PortableText component
 const blockStyle = {
   types: {
     block: (props) => {
@@ -183,7 +182,7 @@ function VariantB({ subtitle, title, posts, buttonLabel }) {
                             </div>
                           )}
                           {post?.excerpt && (
-                            <BlockContent
+                            <PortableText
                               blocks={post?.excerpt}
                               serializers={blockStyle}
                             />
@@ -193,7 +192,7 @@ function VariantB({ subtitle, title, posts, buttonLabel }) {
                               aria-label={`Go to ${post?.slug?.current} blog page`}
                               className="text-webriq-darkblue hover:text-webriq-babyblue font-bold"
                             >
-                              Learn More
+                              View Blog Post
                             </a>
                           </Link>
                         </div>
@@ -257,7 +256,7 @@ function VariantB({ subtitle, title, posts, buttonLabel }) {
                                 aria-label={`Go to ${post?.slug?.current} blog page`}
                                 className="text-webriq-darkblue hover:text-webriq-babyblue font-bold"
                               >
-                                Learn More
+                                View Blog Post
                               </a>
                             </Link>
                           </div>

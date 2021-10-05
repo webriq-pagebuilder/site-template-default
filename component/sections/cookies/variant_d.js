@@ -1,5 +1,5 @@
 import React from "react";
-import PortableText from "@sanity/block-content-to-react";
+import { PortableText } from "lib/sanity";
 import { setCookie, getCookie } from "utils/cookies";
 
 function VariantD({ title, block, allowCookieBtn, denyCookieBtn }) {
@@ -16,7 +16,7 @@ function VariantD({ title, block, allowCookieBtn, denyCookieBtn }) {
       internalLink: ({ children, mark }) => (
         <a
           aria-label={children ?? "internal link"}
-          className="hover:text-webriq-blue text-webriq-darkblue"
+          className="hover:text-webriq-lightblue text-blue-400"
           href={mark.slug.current}
         >
           {children}
@@ -35,7 +35,7 @@ function VariantD({ title, block, allowCookieBtn, denyCookieBtn }) {
         ) : (
           <a
             aria-label={children ?? "external link"}
-            className="hover:text-webriq-blue text-webriq-darkblue"
+            className="hover:text-webriq-lightblue text-blue-400"
             href={mark.href}
             target="_blank"
             rel="noopener noreferrer"
@@ -52,18 +52,18 @@ function VariantD({ title, block, allowCookieBtn, denyCookieBtn }) {
         ? title && (
             <div className="max-w-md lg:max-w-3xl mx-4 md:mx-0 md:ml-10 mb-6 py-6 pl-6 pr-16 bg-gray-800 text-white rounded-lg">
               <div className="flex flex-wrap items-center -mx-4">
-                <div className="w-full lg:w-1/2 px-4">
+                <div className="w-full lg:w-2/3 px-4">
                   <p className="font-bold font-heading">{title}</p>
                   {block && (
                     <PortableText blocks={block} serializers={serializers} />
                   )}
                 </div>
-                <div className="w-full lg:w-1/2 px-4 lg:text-right">
+                <div className="w-full lg:w-1/3 px-4 lg:text-right">
                   {allowCookieBtn && (
                     <button
                       aria-label="Allow Cookies button"
                       type="button"
-                      className="mr-4 py-2 px-4 rounded-l-xl rounded-t-xl border-2 border-webriq-darkblue bg-webriq-darkblue hover:bg-webriq-blue transition duration-500"
+                      className="mr-4 py-2 px-4 rounded-l-xl rounded-t-xl border-2 border-webriq-darkblue bg-webriq-darkblue hover:bg-webriq-blue hover:border-webriq-blue transition duration-500"
                       onClick={() => {
                         setCookie("allow");
                         setShowCookie(!showCookie);

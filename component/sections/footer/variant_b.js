@@ -38,7 +38,7 @@ function VariantB({ logo, copyright, socialMedia, menu }) {
                               ? links?.internalLink
                               : "not found"
                           } page`}
-                          className="lg:text-sm text-gray-700 hover:text-gray-900"
+                          className="lg:text-sm text-gray-500 hover:text-gray-700"
                           target={links?.linkTarget}
                           rel={
                             links?.linkTarget === "_blank"
@@ -84,7 +84,7 @@ function VariantB({ logo, copyright, socialMedia, menu }) {
             )}
           </div>
           <div className="mt-8 flex flex-wrap justify-between items-center mx-20">
-            <p className="order-last text-sm text-gray-400">{copyright}</p>
+            <p className="order-last text-sm text-gray-500">{copyright}</p>
             {socialMedia && (
               <div className="mb-4 lg:mb-0 order-first lg:order-last">
                 {socialMedia?.fbLink && (

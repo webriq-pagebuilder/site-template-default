@@ -30,7 +30,7 @@ function VariantE({
                   )}
                 </div>
                 <div className="max-w-sm mx-auto lg:mx-0">
-                  <p className="mb-6 text-gray-700 leading-loose">{text}</p>
+                  <p className="mb-6 text-gray-500 leading-loose">{text}</p>
                   <div>
                     {primaryButton && (
                       <a

@@ -1,0 +1,6 @@
+# Allow all user agents.
+User-agent: *
+Allow: /*
+
+# User agent "Googlebot" should not crawl the `pages` folder or any of its subdirectories.
+Disallow: /pages/*

@@ -1,10 +1,9 @@
 import React from "react";
 import Link from "next/link";
-import { urlFor } from "lib/sanity";
+import { PortableText, urlFor } from "lib/sanity";
 import { format } from "date-fns";
-import BlockContent from "@sanity/block-content-to-react";
 
-// block styling as props to `serializers` of the BlockContent component
+// block styling as props to `serializers` of the PortableText component
 const blockStyle = {
   types: {
     block: (props) => {
@@ -269,7 +268,7 @@ function VariantD({ subtitle, title, posts, buttonLabel }) {
                             )}
                           </div>
                           {post?.excerpt && (
-                            <BlockContent
+                            <PortableText
                               blocks={post?.excerpt}
                               serializers={blockStyle}
                             />
@@ -331,7 +330,7 @@ function VariantD({ subtitle, title, posts, buttonLabel }) {
                             )}
                           </div>
                           {post?.excerpt && (
-                            <BlockContent
+                            <PortableText
                               blocks={post?.excerpt}
                               serializers={blockStyle}
                             />

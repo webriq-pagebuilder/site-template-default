@@ -50,7 +50,7 @@ function VariantC({ caption, title, portfolios, buttonLabel }) {
                         alt={`portfolio-image${index}`}
                       />
                       <div className="p-6">
-                        <span className="text-gray-700">
+                        <span className="text-gray-500">
                           {content?.dateAdded}
                         </span>
                         <p className="mb-4 text-2xl font-bold font-heading">
@@ -101,7 +101,10 @@ function VariantC({ caption, title, portfolios, buttonLabel }) {
                                 clipRule="evenodd"
                               />
                             </svg>
-                            <span>{content?.primaryButton?.label}</span>
+                            <span>
+                              {content?.primaryButton?.label ??
+                                "View this project"}
+                            </span>
                           </a>
                         )}
                       </div>

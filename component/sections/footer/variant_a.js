@@ -20,7 +20,7 @@ function VariantA({ logo, text, contacts, copyright, socialMedia }) {
               )}
             </div>
             <div className="mb-5 w-full lg:w-1/5">
-              <p className="text-gray-700 leading-loose">{text}</p>
+              <p className="text-gray-500 leading-loose">{text}</p>
             </div>
             {contacts && (
               <div className="w-full lg:w-3/5 flex flex-wrap -mx-3 justify-end">
@@ -31,13 +31,13 @@ function VariantA({ logo, text, contacts, copyright, socialMedia }) {
                     ) : (
                       <p className="leading-loose mb-4 font-bold">Address</p>
                     )}
-                    <p className="text-gray-700 leading-loose mb-5">
+                    <p className="text-gray-500 leading-loose mb-5">
                       {contacts[0]?.addressInfo}
                     </p>
-                    <p className="text-gray-700 leading-loose mb-5">
+                    <p className="text-gray-500 leading-loose mb-5">
                       {contacts[1]?.addressInfo}
                     </p>
-                    <p className="text-gray-700 leading-loose mb-5">
+                    <p className="text-gray-500 leading-loose mb-5">
                       {contacts[2]?.addressInfo}
                     </p>
                   </div>
@@ -49,13 +49,13 @@ function VariantA({ logo, text, contacts, copyright, socialMedia }) {
                     ) : (
                       <p className="mb-4 font-bold">Email</p>
                     )}
-                    <p className="text-gray-700 mb-5">
+                    <p className="text-gray-500 mb-5">
                       {contacts[0]?.emailInfo}
                     </p>
-                    <p className="text-gray-700 mb-5">
+                    <p className="text-gray-500 mb-5">
                       {contacts[1]?.emailInfo}
                     </p>
-                    <p className="text-gray-700 mb-5">
+                    <p className="text-gray-500 mb-5">
                       {contacts[2]?.emailInfo}
                     </p>
                   </div>
@@ -67,13 +67,13 @@ function VariantA({ logo, text, contacts, copyright, socialMedia }) {
                     ) : (
                       <p className="mb-4 font-bold">Number</p>
                     )}
-                    <p className="text-gray-700 mb-5">
+                    <p className="text-gray-500 mb-5">
                       {contacts[0]?.contactInfo}
                     </p>
-                    <p className="text-gray-700 mb-5">
+                    <p className="text-gray-500 mb-5">
                       {contacts[1]?.contactInfo}
                     </p>
-                    <p className="text-gray-700 mb-5">
+                    <p className="text-gray-500 mb-5">
                       {contacts[2]?.contactInfo}
                     </p>
                   </div>
@@ -82,7 +82,7 @@ function VariantA({ logo, text, contacts, copyright, socialMedia }) {
             )}
           </div>
           <div className="w-full flex justify-between">
-            <p className="text-sm text-gray-700">{copyright}</p>
+            <p className="text-sm text-gray-500">{copyright}</p>
             {socialMedia && (
               <div className="flex space-x-2 lg:space-x-4 mx-24">
                 {socialMedia?.fbLink && (

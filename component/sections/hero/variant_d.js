@@ -22,7 +22,7 @@ function VariantD({
                 </div>
                 <div className="relative max-w-sm mx-auto lg:mx-0">
                   {description && (
-                    <p className="mb-6 text-gray-700 leading-loose">
+                    <p className="mb-6 text-gray-500 leading-loose">
                       {description}
                     </p>
                   )}
@@ -95,7 +95,7 @@ function VariantD({
               {image && (
                 <img
                   className="lg:absolute top-0 my-12 lg:my-0 h-full w-full lg:w-1/2 rounded-3xl lg:rounded-none object-cover"
-                  src={urlFor(image)}
+                  src={urlFor(image).url()}
                   alt="header-mainImage"
                 />
               )}

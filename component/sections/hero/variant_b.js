@@ -31,7 +31,7 @@ function VariantB({
                   </div>
                   <div className="max-w-sm mx-auto lg:mx-0">
                     {description && (
-                      <p className="mb-6 text-gray-700 leading-loose">
+                      <p className="mb-6 text-gray-500 leading-loose">
                         {description}
                       </p>
                     )}

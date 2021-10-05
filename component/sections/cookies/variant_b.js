@@ -1,5 +1,5 @@
 import React from "react";
-import PortableText from "@sanity/block-content-to-react";
+import { PortableText } from "lib/sanity";
 import { setCookie, getCookie } from "utils/cookies";
 
 function VariantB({ title, block, allowCookieBtn, denyCookieBtn }) {
@@ -16,7 +16,7 @@ function VariantB({ title, block, allowCookieBtn, denyCookieBtn }) {
       internalLink: ({ children, mark }) => (
         <a
           aria-label={children ?? "internal link"}
-          className="hover:text-webriq-blue text-webriq-darkblue"
+          className="hover:text-webriq-lightblue text-blue-400"
           href={mark.slug.current}
         >
           {children}
@@ -35,7 +35,7 @@ function VariantB({ title, block, allowCookieBtn, denyCookieBtn }) {
         ) : (
           <a
             aria-label={children ?? "external link"}
-            className="hover:text-webriq-blue text-webriq-darkblue"
+            className="hover:text-webriq-lightblue text-blue-400"
             href={mark.href}
             target="_blank"
             rel="noopener noreferrer"
@@ -64,7 +64,7 @@ function VariantB({ title, block, allowCookieBtn, denyCookieBtn }) {
                       <button
                         aria-label="Allow Cookies button"
                         type="button"
-                        className="inline-block m-2 py-2 px-4 rounded-l-xl rounded-t-xl border-2 border-webriq-darkblue bg-webriq-darkblue hover:bg-webriq-blue transition duration-500"
+                        className="inline-block m-2 py-2 px-4 rounded-l-xl rounded-t-xl border-2 border-webriq-darkblue bg-webriq-darkblue hover:bg-webriq-blue hover:border-webriq-blue transition duration-500"
                         onClick={() => {
                           setCookie("allow");
                           setShowCookie(!showCookie);

@@ -53,7 +53,7 @@ function VariantB({ caption, title, portfolios, buttonLabel }) {
                         alt={`portfolio-image${index}`}
                       />
                       <div className="opacity-0 hover:opacity-75 duration-300 absolute inset-0 z-10 bg-gray-900 p-6 flex flex-col items-start rounded">
-                        <span className="text-gray-400">
+                        <span className="text-gray-500">
                           {content?.dateAdded}
                         </span>
                         <p className="mb-auto text-xl lg:text-2xl text-white font-bold">

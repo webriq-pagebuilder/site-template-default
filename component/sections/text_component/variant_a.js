@@ -1,8 +1,8 @@
 import React from "react";
-import BlockContent from "@sanity/block-content-to-react";
+import { PortableText } from "lib/sanity";
 
 function VariantA({ heading, singleColumn }) {
-  // block styling as props to `serializers` of the BlockContent component
+  // block styling as props to `serializers` of the PortableText component
   const serializers = {
     types: {
       block: (props) => {
@@ -86,7 +86,7 @@ function VariantA({ heading, singleColumn }) {
       </h1>
       <div className="flex flex-wrap -mx-3 justify-center">
         <div className="md:w-1/2 mb-6 md:mb-0">
-          <BlockContent blocks={singleColumn} serializers={serializers} />
+          <PortableText blocks={singleColumn} serializers={serializers} />
         </div>
       </div>
     </section>
