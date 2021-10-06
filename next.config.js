@@ -12,6 +12,7 @@ module.exports = {
   },
   images: {
     domains: ["cdn.sanity.io"], // allow loading images from the Sanity.io CDN
+    deviceSizes: [600, 640, 750, 828, 1024, 1080, 1200, 1366, 1920, 2048, 3840],
   },
   async redirects() {
     return [
@@ -37,7 +38,7 @@ module.exports = {
             "form-action": "'self'",
             "frame-ancestors": "'none'",
             "frame-src": "*",
-            "img-src": "*",
+            "img-src": "'self' data:",
             "manifest-src": "'self'",
             "object-src": "'none'",
             "prefetch-src": "'self'",

@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 import { urlFor } from "lib/sanity";
 
 function VariantD({ testimonials }) {
@@ -158,11 +159,14 @@ function VariantD({ testimonials }) {
                       ))
                     )}
                   </div>
-                  <div>
+                  <div className="mb-6 mx-auto w-24 h-32 rounded-full object-contain">
                     {testimonial[testimony]?.mainImage && (
-                      <img
-                        className="mb-6 mx-auto w-24 h-32 rounded-full object-contain"
-                        src={urlFor(testimonial[testimony]?.mainImage)}
+                      <Image
+                        src={urlFor(testimonial[testimony]?.mainImage).url()}
+                        layout="fixed"
+                        width="96px"
+                        height="128px"
+                        objectFit="scale-down"
                         alt={`testimonial-source-profile-image${testimony}`}
                       />
                     )}

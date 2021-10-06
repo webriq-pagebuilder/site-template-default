@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 import { urlFor } from "lib/sanity";
 
 function VariantB({ caption, title, portfolios, buttonLabel }) {
@@ -47,13 +48,16 @@ function VariantB({ caption, title, portfolios, buttonLabel }) {
                 >
                   {content?.mainImage && (
                     <div className="relative h-80 mb-5 mx-auto rounded">
-                      <img
-                        className="h-80 w-full relative rounded object-cover"
-                        src={urlFor(content?.mainImage)}
+                      <Image
+                        src={urlFor(content?.mainImage).url()}
+                        layout="responsive"
+                        width="480px"
+                        height="320px"
+                        objectFit="cover"
                         alt={`portfolio-image${index}`}
                       />
                       <div className="opacity-0 hover:opacity-75 duration-300 absolute inset-0 z-10 bg-gray-900 p-6 flex flex-col items-start rounded">
-                        <span className="text-gray-500">
+                        <span className="text-webriq-lightblue">
                           {content?.dateAdded}
                         </span>
                         <p className="mb-auto text-xl lg:text-2xl text-white font-bold">
@@ -71,7 +75,7 @@ function VariantB({ caption, title, portfolios, buttonLabel }) {
                                 ? content?.primaryButton?.internalLink
                                 : "not found"
                             } page`}
-                            className="inline-block py-2 px-4 border-2 border-gray-400 hover:border-white bg-transparent text-gray-50 hover:bg-white hover:text-gray-900 transition duration-200 rounded-l-xl rounded-t-xl font-bold leading-loose"
+                            className="inline-block py-2 px-4 border-2 border-gray-400 hover:border-webriq-darkblue bg-transparent text-gray-50 hover:bg-webriq-darkblue hover:text-white transition duration-200 rounded-l-xl rounded-t-xl font-bold leading-loose"
                             target={content?.primaryButton?.linkTarget}
                             rel={
                               content?.primaryButton?.linkTarget === "_blank"

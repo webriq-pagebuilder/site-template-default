@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 import { urlFor } from "lib/sanity";
 
 function VariantA({ testimonials }) {
@@ -17,16 +18,19 @@ function VariantA({ testimonials }) {
               {testimonials?.[testimony] && (
                 <div className="mb-6 w-full lg:w-1/3 text-center">
                   {testimonials?.[testimony]?.mainImage && (
-                    <img
-                      className="mb-6 mx-auto w-32 h-32 rounded-full object-cover"
-                      src={urlFor(testimonials?.[testimony]?.mainImage)}
-                      alt={`testimonial-source-${testimonials?.[testimony]?.name}-profile-image`}
-                    />
+                    <div className="mb-6 mx-auto">
+                      <Image
+                        src={urlFor(testimonials?.[testimony]?.mainImage).url()}
+                        layout="fixed"
+                        width="128px"
+                        height="128px"
+                        objectFit="cover"
+                        alt={`testimonial-source-${testimonials?.[testimony]?.name}-profile-image`}
+                      />
+                    </div>
                   )}
                   {testimonials?.[testimony]?.name && (
-                    <h4 className="text-xl">
-                      {testimonials?.[testimony]?.name}
-                    </h4>
+                    <p className="text-xl">{testimonials?.[testimony]?.name}</p>
                   )}
                   {testimonials?.[testimony]?.jobTitle && (
                     <p className="text-webriq-darkblue">
@@ -52,7 +56,7 @@ function VariantA({ testimonials }) {
                       fill="currentColor"
                     />
                   </svg>
-                  <p className="mb-6 text-3xl lg:text-4xl font-bold font-heading">
+                  <p className="mb-6 text-md lg:text-4xl font-bold font-heading">
                     {testimonials?.[testimony]?.testimony}
                   </p>
                   {testimonials?.length > 1 && (

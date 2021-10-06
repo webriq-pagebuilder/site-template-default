@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { urlFor } from "lib/sanity";
 
 function VariantA({ template, links, primaryButton, secondaryButton, logo }) {
@@ -12,11 +13,13 @@ function VariantA({ template, links, primaryButton, secondaryButton, logo }) {
       <nav className="relative px-6 py-6 flex justify-between items-center bg-white">
         {logo && (
           <a className="text-3xl font-bold leading-none" href="/">
-            <img
-              className="h-12"
-              src={urlFor(logo)}
+            <Image
+              src={urlFor(logo).url()}
+              layout="fixed"
+              width="113px"
+              height="48px"
+              objectFit="contain"
               alt="navigation-logo"
-              width="auto"
             />
           </a>
         )}
@@ -112,7 +115,7 @@ function VariantA({ template, links, primaryButton, secondaryButton, logo }) {
                   )}
                 </li>
                 {links.length !== index + 1 ? (
-                  <li className="text-gray-300">
+                  <li className="text-gray-400">
                     <svg
                       className="w-4 h-4 current-fill"
                       xmlns="http://www.w3.org/2000/svg"

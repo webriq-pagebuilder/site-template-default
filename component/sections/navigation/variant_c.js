@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { urlFor } from "lib/sanity";
 
 function VariantC({
@@ -45,7 +46,7 @@ function VariantC({
                               ? link?.internalLink
                               : "not found"
                           } page`}
-                          className={`text-sm text-gray-700 hover:text-gray-400`}
+                          className={`text-sm text-gray-500 hover:text-gray-900`}
                           target={link?.linkTarget}
                           rel={
                             link?.linkTarget === "_blank"
@@ -79,7 +80,7 @@ function VariantC({
                               ? link?.internalLink
                               : "not found"
                           } page`}
-                          className={`text-sm text-gray-700 hover:text-gray-400`}
+                          className={`text-sm text-gray-500 hover:text-gray-900`}
                           target={link?.linkTarget}
                           rel={
                             link?.linkTarget === "_blank"
@@ -114,14 +115,18 @@ function VariantC({
               ))}
           </ul>
           <div className="lg:absolute lg:top-1/2 lg:left-1/2 lg:transform lg:-translate-y-1/2 lg:-translate-x-1/2">
-            <a className="text-3xl font-bold leading-none" href="/">
-              <img
-                className="h-12"
-                src={urlFor(logo)}
-                alt="navigation-logo"
-                width="auto"
-              />
-            </a>
+            {logo && (
+              <a className="text-3xl font-bold leading-none" href="/">
+                <Image
+                  src={urlFor(logo).url()}
+                  layout="fixed"
+                  width="113px"
+                  height="48px"
+                  objectFit="contain"
+                  alt="navigation-logo"
+                />
+              </a>
+            )}
           </div>
           <div className="hidden lg:ml-auto lg:block lg:w-1/3 text-right">
             {primaryButton && (

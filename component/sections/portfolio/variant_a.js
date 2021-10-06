@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 import { urlFor } from "lib/sanity";
 
 function VariantA({ caption, title, portfolios, buttonLabel }) {
@@ -51,9 +52,12 @@ function VariantA({ caption, title, portfolios, buttonLabel }) {
                 <div className="w-1/4 mb-8 px-4" key={index}>
                   {content?.mainImage && (
                     <div className="relative mx-auto h-64 w-full rounded-lg">
-                      <img
-                        className="mx-auto h-64 w-full rounded object-cover"
-                        src={urlFor(content?.mainImage)}
+                      <Image
+                        src={urlFor(content?.mainImage).url()}
+                        layout="responsive"
+                        width="352px"
+                        height="256px"
+                        objectFit="cover"
                         alt={`portfolio-image${index}`}
                       />
                       <div className="opacity-0 hover:opacity-75 duration-300 absolute inset-0 z-10 bg-gray-900 flex justify-center items-center rounded-lg">

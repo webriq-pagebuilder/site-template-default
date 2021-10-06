@@ -1,4 +1,5 @@
 import { urlFor } from "lib/sanity";
+import Image from "next/image";
 import React from "react";
 
 function VariantC({ logo, menu, copyright, socialMedia }) {
@@ -71,13 +72,15 @@ function VariantC({ logo, menu, copyright, socialMedia }) {
               {logo && (
                 <a
                   className="inline-block text-xl font-bold leading-none"
-                  href="#"
+                  href="/"
                 >
-                  <img
-                    className="h-14"
-                    src={urlFor(logo?.image)}
+                  <Image
+                    src={urlFor(logo?.image).url()}
+                    layout="fixed"
+                    width="132px"
+                    height="56px"
+                    objectFit="scale-down"
                     alt={logo?.alt ?? "footer-logo"}
-                    width="auto"
                   />
                 </a>
               )}

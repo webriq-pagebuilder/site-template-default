@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 import { urlFor } from "lib/sanity";
 
 function VariantC({ caption, title, testimonials }) {
@@ -80,29 +81,35 @@ function VariantC({ caption, title, testimonials }) {
           </div>
         </div>
         <div className="relative flex">
-          {testimony &&
-            testimony?.map((item, index) => (
-              <div className="flex max-w-6xl px-2 mx-auto" key={index}>
-                <div className="mb-4 min-w-full lg:w-1/3 px-3">
+          {testimony && (
+            <div className="flex px-2 mx-auto">
+              {testimony?.map((item, index) => (
+                <div className="mb-4 w-1/2 px-3" key={index}>
                   <div className="p-8 bg-white rounded shadow text-center">
-                    <div>
-                      <p className="mb-8 text-gray-500 leading-loose">
-                        {item?.testimony}
-                      </p>
-                      <img
-                        className="mb-2 mx-auto w-12 h-12 rounded-full object-cover"
-                        src={urlFor(item?.mainImage)}
+                    <p className="mb-8 text-xs md:text-base lg:text-base text-gray-500 leading-loose">
+                      {item?.testimony}
+                    </p>
+                    <div className="mb-2 mx-auto">
+                      <Image
+                        src={urlFor(item?.mainImage).url()}
+                        layout="fixed"
+                        width="48px"
+                        height="48px"
+                        objectFit="cover"
                         alt={`testimonial-source-${item?.name}-profile-image`}
                       />
-                      <h4 className="mb-1 text-2xl font-bold font-heading">
-                        {item?.name}
-                      </h4>
-                      <p className="text-gray-500">{item?.jobTitle}</p>
                     </div>
+                    <h4 className="mb-1 text-xs md:text-2xl lg:text-2xl font-bold font-heading">
+                      {item?.name}
+                    </h4>
+                    <p className="text-xs md:text-base lg:text-base text-gray-500">
+                      {item?.jobTitle}
+                    </p>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </section>

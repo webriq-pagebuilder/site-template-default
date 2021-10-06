@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 
 function VariantC({
   // template,
@@ -102,14 +101,4 @@ function VariantC({
     </section>
   );
 }
-
-VariantC.propTypes = {
-  template: PropTypes.object,
-  images: PropTypes.object,
-  title: PropTypes.string,
-  description: PropTypes.string,
-  primaryButton: PropTypes.object,
-  secondaryButton: PropTypes.object,
-  videoLink: PropTypes.string,
-};
 export default React.memo(VariantC);

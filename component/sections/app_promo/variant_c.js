@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 import { urlFor } from "lib/sanity";
 
 function VariantC({ subtitle, title, description, features, images }) {
@@ -9,13 +10,13 @@ function VariantC({ subtitle, title, description, features, images }) {
           <div className="flex flex-wrap items-center">
             <div className="mb-12 lg:mb-0 w-full lg:w-1/2 px-4">
               <div className="max-w-xl">
-                <span className="mb-5 text-webriq-darkblue font-bold">
+                <p className="text-center md:text-left lg:text-left mb-5 text-sm md:text-lg lg:text-xl text-webriq-darkblue font-bold">
                   {subtitle}
-                </span>
-                <h1 className="mb-4 text-2xl md:text-4xl lg:text-5xl font-bold font-heading">
+                </p>
+                <h1 className="text-center md:text-left lg:text-left mb-4 text-xl md:text-4xl lg:text-5xl font-bold font-heading">
                   {title}
                 </h1>
-                <p className="mb-6 text-gray-500 leading-loose">
+                <p className="text-center md:text-left lg:text-left mb-6 text-sm md:text-lg lg:text-xl text-gray-500 leading-loose">
                   {description}
                 </p>
                 <ul className="mb-8 text-gray-500 font-bold">
@@ -34,7 +35,9 @@ function VariantC({ subtitle, title, description, features, images }) {
                             clipRule="evenodd"
                           />
                         </svg>
-                        <span>{feature}</span>
+                        <span className="text-sm md:text-lg lg:text-xl">
+                          {feature}
+                        </span>
                       </li>
                     ))}
                 </ul>
@@ -43,20 +46,48 @@ function VariantC({ subtitle, title, description, features, images }) {
             <div className="transform -rotate-12 flex items-center w-full lg:w-1/2">
               <div className="w-full">
                 {images?.[0] && (
-                  <img src={urlFor(images[0])} alt="appPromo-variantC-image1" />
+                  <Image
+                    src={urlFor(images[0]).url()}
+                    layout="responsive"
+                    width="500px"
+                    height="850px"
+                    objectFit="cover"
+                    alt="appPromo-variantC-image1"
+                  />
                 )}
               </div>
               <div className="w-full">
                 {images?.[1] && (
-                  <img src={urlFor(images[1])} alt="appPromo-variantC-image2" />
+                  <Image
+                    src={urlFor(images[1]).url()}
+                    layout="responsive"
+                    width="500px"
+                    height="850px"
+                    objectFit="cover"
+                    alt="appPromo-variantC-image2"
+                  />
                 )}
                 {images?.[2] && (
-                  <img src={urlFor(images[2])} alt="appPromo-variantC-image3" />
+                  <Image
+                    src={urlFor(images[2]).url()}
+                    layout="responsive"
+                    width="500px"
+                    height="850px"
+                    objectFit="cover"
+                    alt="appPromo-variantC-image3"
+                  />
                 )}
               </div>
               <div className="w-full">
                 {images?.[3] && (
-                  <img src={urlFor(images[3])} alt="appPromo-variantC-image4" />
+                  <Image
+                    src={urlFor(images[3]).url()}
+                    layout="responsive"
+                    width="500px"
+                    height="850px"
+                    objectFit="cover"
+                    alt="appPromo-variantC-image4"
+                  />
                 )}
               </div>
             </div>

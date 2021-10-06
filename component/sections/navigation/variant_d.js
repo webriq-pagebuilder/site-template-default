@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { urlFor } from "lib/sanity";
 
 function VariantD({ links, primaryButton, secondaryButton, logo }) {
@@ -40,7 +41,7 @@ function VariantD({ links, primaryButton, secondaryButton, logo }) {
                               ? link?.internalLink
                               : "not found"
                           } page`}
-                          className={`text-sm text-gray-400 hover:text-gray-500`}
+                          className={`text-sm text-gray-500 hover:text-gray-900`}
                           target={link?.linkTarget}
                           rel={
                             link?.linkTarget === "_blank"
@@ -74,7 +75,7 @@ function VariantD({ links, primaryButton, secondaryButton, logo }) {
                               ? link?.internalLink
                               : "not found"
                           } page`}
-                          className={`text-sm text-gray-400 hover:text-gray-500`}
+                          className={`text-sm text-gray-500 hover:text-gray-900`}
                           target={link?.linkTarget}
                           rel={
                             link?.linkTarget === "_blank"
@@ -88,7 +89,7 @@ function VariantD({ links, primaryButton, secondaryButton, logo }) {
                     )}
                   </li>
                   {links.length !== index + 1 ? (
-                    <li className="text-gray-300">
+                    <li className="text-gray-400">
                       <svg
                         className="w-4 h-4 current-fill"
                         xmlns="http://www.w3.org/2000/svg"
@@ -109,14 +110,18 @@ function VariantD({ links, primaryButton, secondaryButton, logo }) {
               ))}
           </ul>
           <div className="lg:absolute lg:top-1/2 lg:left-1/2 lg:transform lg:-translate-y-1/2 lg:-translate-x-1/2">
-            <a className="text-3xl font-bold leading-none" href="/">
-              <img
-                className="h-12"
-                src={urlFor(logo)}
-                alt="navigation-logo"
-                width="auto"
-              />
-            </a>
+            {logo && (
+              <a className="text-3xl font-bold leading-none" href="/">
+                <Image
+                  src={urlFor(logo).url()}
+                  layout="fixed"
+                  width="113px"
+                  height="48px"
+                  objectFit="contain"
+                  alt="navigation-logo"
+                />
+              </a>
+            )}
           </div>
           {primaryButton && (
             <a
@@ -161,7 +166,7 @@ function VariantD({ links, primaryButton, secondaryButton, logo }) {
                   ? secondaryButton?.internalLink
                   : "not found"
               } page`}
-              className="hidden lg:inline-block py-2 px-6 bg-webriq-blue hover:bg-webriq-darkblue text-sm text-white font-bold rounded-l-xl rounded-t-xl transition duration-200"
+              className="hidden lg:inline-block py-2 px-6 bg-webriq-darkblue hover:bg-webriq-blue text-sm text-white font-bold rounded-l-xl rounded-t-xl transition duration-200"
               target={secondaryButton?.linkTarget}
               rel={
                 secondaryButton?.linkTarget === "_blank"
@@ -256,7 +261,7 @@ function VariantD({ links, primaryButton, secondaryButton, logo }) {
                               ? link?.internalLink
                               : "not found"
                           } page`}
-                          className="block p-4 text-sm font-semibold text-gray-400 hover:bg-webriq-lightblue hover:text-webriq-darkblue rounded"
+                          className="block p-4 text-sm font-semibold text-gray-700 hover:bg-webriq-lightblue hover:text-webriq-darkblue rounded"
                         >
                           {link.label}
                         </a>
@@ -284,7 +289,7 @@ function VariantD({ links, primaryButton, secondaryButton, logo }) {
                               ? link?.internalLink
                               : "not found"
                           } page`}
-                          className="block p-4 text-sm font-semibold text-gray-400 hover:bg-webriq-lightblue hover:text-webriq-darkblue rounded"
+                          className="block p-4 text-sm font-semibold text-gray-700 hover:bg-webriq-lightblue hover:text-webriq-darkblue rounded"
                         >
                           {link.label}
                         </a>
@@ -333,7 +338,7 @@ function VariantD({ links, primaryButton, secondaryButton, logo }) {
                       ? secondaryButton?.internalLink
                       : "not found"
                   } page`}
-                  className="block px-4 py-3 mb-3 leading-loose text-xs text-center font-semibold bg-gray-50 hover:bg-gray-100 rounded-l-xl rounded-t-xl"
+                  className="block px-4 py-3 mb-3 leading-loose text-xs text-center font-semibold text-white bg-webriq-darkblue hover:bg-webriq-blue rounded-l-xl rounded-t-xl"
                   href={
                     secondaryButton.type === "linkInternal"
                       ? secondaryButton.internalLink === "Home" ||

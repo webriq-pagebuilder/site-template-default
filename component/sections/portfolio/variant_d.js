@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 import { urlFor } from "lib/sanity";
 
 function VariantD({ caption, title, portfolios, buttonLabel }) {
@@ -80,9 +81,12 @@ function VariantD({ caption, title, portfolios, buttonLabel }) {
                       >
                         {content?.mainImage && (
                           <div className="relative">
-                            <img
-                              className="h-64 w-full rounded-lg object-cover"
-                              src={urlFor(content?.mainImage)}
+                            <Image
+                              src={urlFor(content?.mainImage).url()}
+                              layout="responsive"
+                              width="352px"
+                              height="256px"
+                              objectFit="cover"
                               alt={`portfolio-image-${content?._key}`}
                             />
                             <div className="opacity-0 hover:opacity-80 duration-300 absolute inset-0 z-10 p-6 bg-gray-900 justify-center rounded-lg">
@@ -147,9 +151,12 @@ function VariantD({ caption, title, portfolios, buttonLabel }) {
                       <div className="w-full px-4" key={content?._key}>
                         {content?.mainImage && (
                           <div className="relative">
-                            <img
-                              className="h-96 w-full rounded-lg object-cover"
-                              src={urlFor(content?.mainImage)}
+                            <Image
+                              src={urlFor(content?.mainImage).url()}
+                              layout="responsive"
+                              width="736px"
+                              height="384px"
+                              objectFit="cover"
                               alt={`portfolio-image-${content?._key}`}
                             />
                             <div className="opacity-0 hover:opacity-80 duration-300 absolute inset-0 z-10 p-6 bg-gray-900 justify-center rounded-lg">
@@ -216,9 +223,12 @@ function VariantD({ caption, title, portfolios, buttonLabel }) {
                       <div className="w-full px-4 mb-8" key={content?._key}>
                         {content?.mainImage && (
                           <div className="relative">
-                            <img
-                              className="h-96 w-full rounded-lg object-cover"
-                              src={urlFor(content?.mainImage)}
+                            <Image
+                              src={urlFor(content?.mainImage).url()}
+                              layout="responsive"
+                              width="736px"
+                              height="384px"
+                              objectFit="cover"
                               alt={`portfolio-image-${content?._key}`}
                             />
                             <div className="opacity-0 hover:opacity-80 duration-300 absolute inset-0 z-10 p-6 bg-gray-900 justify-center rounded-lg">
@@ -289,9 +299,12 @@ function VariantD({ caption, title, portfolios, buttonLabel }) {
                           >
                             {content?.mainImage && (
                               <div className="relative">
-                                <img
-                                  className="h-64 w-full rounded-lg object-cover"
-                                  src={urlFor(content?.mainImage)}
+                                <Image
+                                  src={urlFor(content?.mainImage).url()}
+                                  layout="responsive"
+                                  width="352px"
+                                  height="256px"
+                                  objectFit="cover"
                                   alt={`portfolio-image${content?._key}`}
                                 />
                                 <div className="opacity-0 hover:opacity-80 duration-300 absolute inset-0 z-10 p-6 bg-gray-900 justify-center rounded-lg">
@@ -367,9 +380,12 @@ function VariantD({ caption, title, portfolios, buttonLabel }) {
                           >
                             {content?.mainImage && (
                               <div className="relative">
-                                <img
-                                  className="h-64 w-full rounded-lg object-cover"
-                                  src={urlFor(content?.mainImage)}
+                                <Image
+                                  src={urlFor(content?.mainImage).url()}
+                                  layout="responsive"
+                                  width="352px"
+                                  height="256px"
+                                  objectFit="cover"
                                   alt={`portfolio-image-${content?._key}`}
                                 />
                                 <div className="opacity-0 hover:opacity-80 duration-300 absolute inset-0 z-10 p-6 bg-gray-900 justify-center rounded-lg">

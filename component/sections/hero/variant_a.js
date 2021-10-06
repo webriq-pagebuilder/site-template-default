@@ -1,7 +1,6 @@
 import React from "react";
-import PropTypes from "prop-types";
 import { urlFor } from "lib/sanity";
-
+import Image from "next/image";
 function VariantA({
   template,
   image,
@@ -18,8 +17,8 @@ function VariantA({
         <div className="container mx-auto px-4">
           <div className="flex flex-wrap -mx-4">
             <div className="w-full lg:w-1/2 px-4 mb-12 md:mb-20 lg:mb-0 flex items-center">
-              <div className="w-full text-center lg:text-left">
-                <div className="max-w-md mx-auto lg:mx-0">
+              <div className="w-full text-center lg:text-left xl:text-left 2xl:text-left">
+                <div className="max-w-md mx-auto">
                   <h1 className="mb-3 text-4xl lg:text-5xl font-bold font-heading">
                     {title && (
                       <>
@@ -31,7 +30,7 @@ function VariantA({
                     )}
                   </h1>
                 </div>
-                <div className="max-w-sm mx-auto lg:mx-0">
+                <div className="max-w-md mx-auto">
                   {description && (
                     <p className="mb-6 text-gray-500 leading-loose">
                       {description}
@@ -103,39 +102,70 @@ function VariantA({
               </div>
             </div>
             <div className="w-full lg:w-1/2 px-4 flex items-center justify-center">
-              <div className="relative" style={{ zIndex: 0 }}>
-                {image && (
-                  <img
-                    className="h-128 w-full max-w-lg object-cover rounded-3xl md:rounded-br-none"
-                    src={urlFor(image)}
+              {image && (
+                <div className="relative h-128 w-full max-w-md rounded-3xl md:rounded-br-none">
+                  <Image
+                    src={urlFor(image).url()}
+                    layout="responsive"
+                    width="512px"
+                    height="512px"
+                    objectFit="cover"
                     alt="header-main-image"
                   />
-                )}
-                <img
-                  className="hidden md:block absolute h-28 w-28"
-                  style={{ top: "-2rem", right: "3rem", zIndex: "-1" }}
-                  src="assets/elements/webriq-blue-dark-up.png"
-                  alt="webriq-blue-dark-up-mainImage-element"
-                />
-                <img
-                  className="hidden md:block absolute h-36 w-36"
-                  style={{ bottom: "-2rem", right: "-2rem", zIndex: "-1" }}
-                  src="assets/elements/wing-webriq-blue-down.png"
-                  alt="wing-webriq-blue-down-mainImage-element"
-                />
-                <img
-                  className="hidden md:block absolute"
-                  style={{ top: "3rem", right: "-3rem", zIndex: "-1" }}
-                  src="assets/elements/bullets-gray-right.svg"
-                  alt="bullets-gray-right-mainImage-element"
-                />
-                <img
-                  className="hidden md:block absolute"
-                  style={{ bottom: "2.5rem", left: "-4.5rem", zIndex: "-1" }}
-                  src="assets/elements/bullets-gray-left.svg"
-                  alt="bullets-gray-left-mainImage-element"
-                />
-              </div>
+                  <div
+                    className="hidden md:block absolute"
+                    style={{ top: "-2rem", right: "3rem", zIndex: "-1" }}
+                  >
+                    <Image
+                      src="/assets/elements/webriq-blue-dark-up.png"
+                      layout="fixed"
+                      width="112px"
+                      height="112px"
+                      alt="webriq-blue-dark-up-mainImage-element"
+                    />
+                  </div>
+                  <div
+                    className="hidden md:block absolute"
+                    style={{ bottom: "-2rem", right: "-2rem", zIndex: "-1" }}
+                  >
+                    <Image
+                      src="/assets/elements/wing-webriq-blue-down.png"
+                      layout="fixed"
+                      width="144px"
+                      height="144px"
+                      alt="wing-webriq-blue-down-mainImage-element"
+                    />
+                  </div>
+                  <div
+                    className="hidden md:block absolute"
+                    style={{ top: "3rem", right: "-3rem", zIndex: "-1" }}
+                  >
+                    <Image
+                      src="/assets/elements/bullets-gray-right.svg"
+                      layout="fixed"
+                      width="115px"
+                      height="157px"
+                      alt="bullets-gray-right-mainImage-element"
+                    />
+                  </div>
+                  <div
+                    className="hidden md:block absolute"
+                    style={{
+                      bottom: "2.5rem",
+                      left: "-4.5rem",
+                      zIndex: "-1",
+                    }}
+                  >
+                    <Image
+                      src="/assets/elements/bullets-gray-left.svg"
+                      layout="fixed"
+                      width="157px"
+                      height="115px"
+                      alt="bullets-gray-left-mainImage-element"
+                    />
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
