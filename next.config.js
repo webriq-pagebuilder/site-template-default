@@ -2,14 +2,16 @@
 // Next.JS next-safe package source: https://github.com/trezy/next-safe
 const nextSafe = require("next-safe");
 const { nanoid } = require("nanoid");
+const withPWA = require("next-pwa");
+const development = process.env.NODE_ENV === "development";
 
-module.exports = {
-  target: "serverless",
-  //add the [lang] attribute to the <html> tag
-  i18n: {
-    locales: ["en"],
-    defaultLocale: "en",
+module.exports = withPWA({
+  pwa: {
+    dest: "public", // generate the service worker and workbox files into the public folder
+    disable: false, // [default] generate service worker in both development and production environments
+    sw: "service_worker.js", // service worker script file
   },
+  target: "serverless",
   images: {
     domains: ["cdn.sanity.io"], // allow loading images from the Sanity.io CDN
     deviceSizes: [600, 640, 750, 828, 1024, 1080, 1200, 1366, 1920, 2048, 3840],
@@ -44,13 +46,13 @@ module.exports = {
             "prefetch-src": "'self'",
             "script-src": [
               `${
-                typeof window !== "undefined"
-                  ? `'strict-dynamic' 'nonce-${nanoid(
-                      10
-                    )}' 'unsafe-inline' http: https:`
-                  : `'nonce-${nanoid(
+                development
+                  ? `'nonce-${nanoid(
                       10
                     )}' 'unsafe-inline' 'unsafe-eval' http: https:`
+                  : `'strict-dynamic' 'nonce-${nanoid(
+                      10
+                    )}' 'unsafe-inline' http: https:`
               }`,
             ],
             "style-src": "'unsafe-inline'",
@@ -67,4 +69,4 @@ module.exports = {
       },
     ];
   },
-};
+});
