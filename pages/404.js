@@ -24,11 +24,6 @@ function PageNotFound() {
         </div>
         <div className="py-20 bg-gray-50 radius-for-skewed">
           <div className="container mx-auto px-4">
-            <img
-              className="mx-auto"
-              src="atis-assets/illustrations/pablo.png"
-              alt=""
-            />
             <div className="text-center">
               <span className="mb-6 text-4xl text-webriq-darkblue font-bold">
                 Whoops!

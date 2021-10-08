@@ -40,7 +40,7 @@ function VariantB({ subtitle, title, description, statistics, images }) {
                         className="mb-8 w-full lg:w-1/2 text-center md:text-left lg:text-left"
                         key={index}
                       >
-                        <h4 className="mb-3 text-gray-500">{items?.label}</h4>
+                        <p className="mb-3 text-gray-500">{items?.label}</p>
                         <span className="text-xl md:text-3xl lg:text-4xl font-bold">
                           {items?.value}
                         </span>
@@ -76,7 +76,7 @@ function VariantB({ subtitle, title, description, statistics, images }) {
                     <div className="order-1 md:order-1 lg:order-1 xl:order-0 2xl:order-0 mr-2 object-contain w-1/2">
                       <div className="mx-auto mb-8 xl:mb-0">
                         <Image
-                          src={urlFor(images?.[currentPosition]).url()}
+                          src={urlFor(images?.[currentPosition])}
                           layout="responsive"
                           width="500px"
                           height="850px"
@@ -110,7 +110,7 @@ function VariantB({ subtitle, title, description, statistics, images }) {
                   <div className="object-contain md:w-2/5 xl:w-2/5">
                     <div className="mx-auto mb-8 xl:mb-0">
                       <Image
-                        src={urlFor(images?.[currentPosition]).url()}
+                        src={urlFor(images?.[currentPosition])}
                         layout="responsive"
                         width="500px"
                         height="850px"

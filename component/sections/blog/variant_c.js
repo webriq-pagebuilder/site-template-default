@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { PortableText, urlFor } from "lib/sanity";
 import { format } from "date-fns";
 
@@ -234,9 +235,12 @@ function VariantC({ subtitle, title, posts, buttonLabel }) {
                       <>
                         <div className="w-full lg:w-1/2 rounded-l">
                           {post?.mainImage && (
-                            <img
-                              className="object-cover"
+                            <Image
                               src={urlFor(post?.mainImage)}
+                              layout="responsive"
+                              width="554px"
+                              height="416px"
+                              objectFit="cover"
                               alt={`blog-variantC-image-${key}`}
                             />
                           )}
@@ -245,7 +249,7 @@ function VariantC({ subtitle, title, posts, buttonLabel }) {
                           {post?.categories &&
                             post?.categories?.map((category, index) => (
                               <span
-                                className="mb-auto py-1 px-3 text-sm bg-webriq-lightblue rounded-full text-webriq-darkblue uppercase font-bold"
+                                className="mb-auto py-1 px-3 mr-3 text-sm bg-webriq-lightblue rounded-full text-webriq-darkblue uppercase font-bold"
                                 key={index}
                               >
                                 {category?.title}
@@ -305,7 +309,7 @@ function VariantC({ subtitle, title, posts, buttonLabel }) {
                           {post?.categories &&
                             post?.categories?.map((category, index) => (
                               <span
-                                className="mb-auto py-1 px-3 text-sm bg-webriq-lightblue rounded-full text-webriq-darkblue uppercase font-bold"
+                                className="mb-auto py-1 px-3 mr-3 text-sm bg-webriq-lightblue rounded-full text-webriq-darkblue uppercase font-bold"
                                 key={index}
                               >
                                 {category?.title}
@@ -360,9 +364,12 @@ function VariantC({ subtitle, title, posts, buttonLabel }) {
                         </div>
                         <div className="w-full lg:w-1/2 rounded-l order-0 lg:order-1">
                           {post?.mainImage && (
-                            <img
-                              className="object-cover"
+                            <Image
                               src={urlFor(post?.mainImage)}
+                              layout="responsive"
+                              width="554px"
+                              height="416px"
+                              objectFit="cover"
                               alt={`blog-variantC-image-${key}`}
                             />
                           )}

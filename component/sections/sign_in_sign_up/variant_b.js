@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 import WebriQForm from "@webriq/gatsby-webriq-form";
 import { urlFor } from "lib/sanity";
 
@@ -17,16 +18,18 @@ function VariantB({
       <div className="container mx-auto px-4">
         <div className="max-w-xl mx-auto">
           <div className="mb-10">
-            {logo && (
+            {logo?.image && (
               <a
                 className="text-white text-3xl font-bold leading-none"
-                href="#"
+                href="/"
               >
-                <img
-                  className="h-12 mx-auto"
+                <Image
                   src={urlFor(logo?.image)}
+                  layout="fixed"
+                  width="132px"
+                  height="48px"
+                  objectFit="contain"
                   alt={logo?.alt ?? "signUp-logo"}
-                  width="auto"
                 />
               </a>
             )}

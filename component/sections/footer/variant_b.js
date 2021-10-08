@@ -9,13 +9,13 @@ function VariantB({ logo, copyright, socialMedia, menu }) {
         <div className="container mx-auto px-4">
           <div className="pb-12 flex flex-wrap items-center justify-between border-b border-gray-100">
             <div className="w-full lg:w-1/5 mb-12 lg:mb-4 mx-20">
-              {logo && (
+              {logo?.image && (
                 <a
                   className="inline-block text-3xl font-bold leading-none"
                   href="/"
                 >
                   <Image
-                    src={urlFor(logo?.image).url()}
+                    src={urlFor(logo?.image)}
                     layout="fixed"
                     width="132px"
                     height="56px"
@@ -65,7 +65,7 @@ function VariantB({ logo, copyright, socialMedia, menu }) {
                       {index + 1 !== length ? (
                         <li className="hidden md:block">
                           <svg
-                            className="mx-4 w-4 h-4 text-gray-300"
+                            className="mx-4 w-4 h-4 text-gray-400"
                             xmlns="http://www.w3.org/2000/svg"
                             fill="none"
                             viewBox="0 0 24 24"

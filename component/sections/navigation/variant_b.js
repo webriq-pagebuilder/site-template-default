@@ -21,7 +21,7 @@ function VariantB({
           {logo && (
             <a className="text-3xl font-bold leading-none" href="/">
               <Image
-                src={urlFor(logo).url()}
+                src={urlFor(logo)}
                 layout="fixed"
                 width="113px"
                 height="48px"

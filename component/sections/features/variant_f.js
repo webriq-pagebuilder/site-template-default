@@ -1,28 +1,10 @@
 import React from "react";
-import PropTypes from "prop-types";
-import { urlFor } from "../../../lib/sanity";
+import Image from "next/image";
+import { urlFor } from "lib/sanity";
 
 function VariantF({ caption, title, description, images, primaryButton }) {
   return (
     <section>
-      <div className="skew skew-top mr-for-radius">
-        <svg
-          className="h-8 md:h-12 lg:h-20 w-full text-gray-50"
-          viewBox="0 0 10 10"
-          preserveAspectRatio="none"
-        >
-          <polygon fill="currentColor" points="0 0 10 10 0 10" />
-        </svg>
-      </div>
-      <div className="skew skew-top ml-for-radius">
-        <svg
-          className="h-8 md:h-12 lg:h-20 w-full text-gray-50"
-          viewBox="0 0 10 10"
-          preserveAspectRatio="none"
-        >
-          <polygon fill="currentColor" points="0 10 10 0 10 10" />
-        </svg>
-      </div>
       <div className="py-20 bg-gray-50 radius-for-skewed">
         <div className="container mx-auto px-4">
           <div className="flex flex-wrap items-center -mx-4">
@@ -75,42 +57,54 @@ function VariantF({ caption, title, description, images, primaryButton }) {
                 )}
               </div>
             </div>
-            <div className="w-full lg:w-1/2">
+            <div className="w-full lg:w-1/2 px-4">
               <div className="mb-4 flex flex-wrap items-end">
                 {images?.[0] && (
-                  <div className="mb-4 lg:mb-0 w-full lg:w-2/3 px-3">
-                    <img
-                      className="w-full h-32 lg:h-48 object-cover rounded"
+                  <div className="w-2/3 px-3 h-full rounded">
+                    <Image
                       src={urlFor(images[0])}
+                      layout="responsive"
+                      width="356px"
+                      height="192px"
+                      objectFit="cover"
                       alt="features-variantF-image-1"
                     />
                   </div>
                 )}
                 {images?.[1] && (
-                  <div className="w-full lg:w-1/3 px-3">
-                    <img
-                      className="w-full h-32 object-cover rounded"
+                  <div className="w-1/3 px-3 h-full rounded">
+                    <Image
                       src={urlFor(images[1])}
+                      layout="responsive"
+                      width="166px"
+                      height="128px"
+                      objectFit="cover"
                       alt="features-variantF-image-2"
                     />
                   </div>
                 )}
               </div>
-              <div className="flex flex-wrap items-start">
+              <div className="mb-4 flex flex-wrap items-start">
                 {images?.[2] && (
-                  <div className="mb-4 lg:mb-0 w-full lg:w-1/3 px-3">
-                    <img
-                      className="w-full h-32 object-cover rounded"
+                  <div className="w-1/3 px-3 h-full rounded">
+                    <Image
                       src={urlFor(images[2])}
+                      layout="responsive"
+                      width="166px"
+                      height="128px"
+                      objectFit="cover"
                       alt="features-variantF-image-3"
                     />
                   </div>
                 )}
                 {images?.[3] && (
-                  <div className="w-full lg:w-2/3 px-3">
-                    <img
-                      className="w-full h-32 lg:h-48 object-cover rounded"
+                  <div className="w-2/3 px-3 h-full rounded">
+                    <Image
                       src={urlFor(images[3])}
+                      layout="responsive"
+                      width="356px"
+                      height="192px"
+                      objectFit="cover"
                       alt="features-variantF-image-4"
                     />
                   </div>
@@ -120,33 +114,7 @@ function VariantF({ caption, title, description, images, primaryButton }) {
           </div>
         </div>
       </div>
-      <div className="skew skew-bottom mr-for-radius">
-        <svg
-          className="h-8 md:h-12 lg:h-20 w-full text-gray-50"
-          viewBox="0 0 10 10"
-          preserveAspectRatio="none"
-        >
-          <polygon fill="currentColor" points="0 0 10 0 0 10" />
-        </svg>
-      </div>
-      <div className="skew skew-bottom ml-for-radius">
-        <svg
-          className="h-8 md:h-12 lg:h-20 w-full text-gray-50"
-          viewBox="0 0 10 10"
-          preserveAspectRatio="none"
-        >
-          <polygon fill="currentColor" points="0 0 10 0 10 10" />
-        </svg>
-      </div>
     </section>
   );
 }
-VariantF.propTypes = {
-  caption: PropTypes.string,
-  title: PropTypes.string,
-  description: PropTypes.string,
-  features: PropTypes.array,
-  images: PropTypes.array,
-  button: PropTypes.object,
-};
 export default React.memo(VariantF);

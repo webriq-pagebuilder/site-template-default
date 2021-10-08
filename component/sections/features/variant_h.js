@@ -1,27 +1,10 @@
 import React from "react";
-import { urlFor } from "../../../lib/sanity";
+import Image from "next/image";
+import { urlFor } from "lib/sanity";
 
 function VariantH({ caption, title, features, images }) {
   return (
     <section>
-      <div className="skew skew-top mr-for-radius">
-        <svg
-          className="h-8 md:h-12 lg:h-20 w-full text-gray-50"
-          viewBox="0 0 10 10"
-          preserveAspectRatio="none"
-        >
-          <polygon fill="currentColor" points="0 0 10 10 0 10" />
-        </svg>
-      </div>
-      <div className="skew skew-top ml-for-radius">
-        <svg
-          className="h-8 md:h-12 lg:h-20 w-full text-gray-50"
-          viewBox="0 0 10 10"
-          preserveAspectRatio="none"
-        >
-          <polygon fill="currentColor" points="0 10 10 0 10 10" />
-        </svg>
-      </div>
       <div className="py-20 bg-gray-50 radius-for-skewed">
         <div className="container mx-auto px-4">
           <div className="flex flex-wrap items-center -mx-4">
@@ -123,27 +106,38 @@ function VariantH({ caption, title, features, images }) {
             </div>
             {images && (
               <div className="flex flex-wrap items-center w-full lg:w-1/2 px-4">
-                <div className="mb-6 w-full lg:w-1/2 px-3">
+                <div className="w-1/2 px-3 rounded-lg">
                   {images?.[0] && (
-                    <img
-                      className="mb-6 w-full h-64 object-cover rounded-lg"
+                    <Image
                       src={urlFor(images?.[0])}
+                      layout="responsive"
+                      width="245px"
+                      height="256px"
+                      objectFit="cover"
                       alt="features-variantH-image-1"
                     />
                   )}
                   {images?.[1] && (
-                    <img
-                      className="w-full h-64 object-cover rounded-lg"
-                      src={urlFor(images?.[1])}
-                      alt="features-variantH-image-2"
-                    />
+                    <div className="mt-6">
+                      <Image
+                        src={urlFor(images?.[1])}
+                        layout="responsive"
+                        width="245px"
+                        height="256px"
+                        objectFit="cover"
+                        alt="features-variantH-image-2"
+                      />
+                    </div>
                   )}
                 </div>
-                <div className="w-full lg:w-1/2 px-3">
+                <div className="w-1/2 px-3 rounded-lg">
                   {images?.[2] && (
-                    <img
-                      className="w-full h-64 object-cover rounded-lg"
+                    <Image
                       src={urlFor(images?.[2])}
+                      layout="responsive"
+                      width="245px"
+                      height="256px"
+                      objectFit="cover"
                       alt="features-variantH-image-3"
                     />
                   )}
@@ -152,24 +146,6 @@ function VariantH({ caption, title, features, images }) {
             )}
           </div>
         </div>
-      </div>
-      <div className="skew skew-bottom mr-for-radius">
-        <svg
-          className="h-8 md:h-12 lg:h-20 w-full text-gray-50"
-          viewBox="0 0 10 10"
-          preserveAspectRatio="none"
-        >
-          <polygon fill="currentColor" points="0 0 10 0 0 10" />
-        </svg>
-      </div>
-      <div className="skew skew-bottom ml-for-radius">
-        <svg
-          className="h-8 md:h-12 lg:h-20 w-full text-gray-50"
-          viewBox="0 0 10 10"
-          preserveAspectRatio="none"
-        >
-          <polygon fill="currentColor" points="0 0 10 0 10 10" />
-        </svg>
       </div>
     </section>
   );

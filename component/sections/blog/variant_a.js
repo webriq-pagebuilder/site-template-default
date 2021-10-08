@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { urlFor } from "lib/sanity";
 import { format } from "date-fns";
 
@@ -11,14 +12,14 @@ function VariantA({ subtitle, title, posts, buttonLabel }) {
 
   // split array into groups of 6 posts
   const splitPosts = (arr, size, numberOfGroups) => {
-    const chunks = arr.reduce(
+    const chunks = arr?.reduce(
       (chunks, items, i) =>
         (i % size
           ? chunks[chunks?.length - 1].push(items)
           : chunks.push([items])) && chunks,
       []
     );
-    if (chunks[chunks?.length - 1]?.length < numberOfGroups) {
+    if (chunks?.[chunks?.length - 1]?.length < numberOfGroups) {
       chunks.pop();
     }
     return chunks;
@@ -32,7 +33,7 @@ function VariantA({ subtitle, title, posts, buttonLabel }) {
 
   return (
     <section>
-      <div className="p-20 bg-gray-50 radius-for-skewed">
+      <div className="py-20 md:p-20 lg:p-20 xl:p-20 bg-gray-50 radius-for-skewed">
         <div className="container mx-auto px-4">
           <div className="mb-16 text-center">
             {subtitle && (
@@ -52,26 +53,34 @@ function VariantA({ subtitle, title, posts, buttonLabel }) {
                     <div className="w-full px-3 mb-5" key={key}>
                       <Link href={`/${post?.slug?.current}`}>
                         <a aria-label={`blog post ${key}`}>
-                          <div className="relative h-64 mx-auto rounded transform hover:scale-110 motion-reduce:transform-none">
+                          <div className="relative h-64 md:h-full lg:w-full xl:w-full mx-auto rounded transform hover:scale-110 motion-reduce:transform-none">
                             {post?.mainImage && (
-                              <img
-                                className="relative h-full w-full rounded object-cover"
+                              <Image
                                 src={urlFor(post?.mainImage)}
+                                layout="responsive"
+                                width="542px"
+                                height="256px"
+                                objectFit="cover"
                                 alt={`blog-variantA-image-${key}`}
                               />
                             )}
                             <div className="absolute inset-0 bg-gray-700 opacity-75 rounded" />
                             <div className="absolute inset-0 p-6 flex flex-col items-start">
-                              {post?.categories &&
-                                post?.categories?.map((category, index) => (
-                                  <span
-                                    className="mb-auto py-1 px-3 text-sm bg-white rounded-full text-webriq-darkblue uppercase font-bold"
-                                    key={index}
-                                  >
-                                    {category?.title}
-                                  </span>
-                                ))}
-                              <div className="flex">
+                              {post?.categories && (
+                                <div className="flex absolute top-5 left-5">
+                                  {post?.categories?.map(
+                                    (category, index, { length }) => (
+                                      <span
+                                        className="mb-auto py-1 px-3 text-sm mr-3 bg-white rounded-full text-webriq-darkblue uppercase font-bold"
+                                        key={index}
+                                      >
+                                        {category?.title}
+                                      </span>
+                                    )
+                                  )}
+                                </div>
+                              )}
+                              <div className="flex absolute bottom-14 left-5">
                                 {post?.authors && (
                                   <div className="flex">
                                     {post?.authors?.map(
@@ -91,12 +100,12 @@ function VariantA({ subtitle, title, posts, buttonLabel }) {
                                   </div>
                                 )}
                                 {post?.publishedAt && post?.authors && (
-                                  <span className="text-sm text-gray-400 mx-2">
+                                  <span className="text-sm text-gray-500 mx-2">
                                     •
                                   </span>
                                 )}
                                 {post?.publishedAt && (
-                                  <span className="text-sm text-gray-400">
+                                  <span className="text-sm text-gray-500">
                                     {format(
                                       new Date(post?.publishedAt),
                                       "dd MMM, yyyy"
@@ -105,7 +114,7 @@ function VariantA({ subtitle, title, posts, buttonLabel }) {
                                 )}
                               </div>
                               {post?.title && (
-                                <p className="text-xl lg:text-2xl text-white font-bold">
+                                <p className="absolute bottom-5 left-5 text-xl lg:text-2xl text-white font-bold">
                                   {post?.title}
                                 </p>
                               )}
@@ -119,26 +128,32 @@ function VariantA({ subtitle, title, posts, buttonLabel }) {
                     <div className="w-full lg:w-1/2 px-3 mb-5" key={key}>
                       <Link href={`/${post?.slug?.current}`}>
                         <a aria-label={`blog post ${key}`}>
-                          <div className="relative mx-auto rounded h-128 transform hover:scale-110 motion-reduce:transform-none">
+                          <div className="relative mx-auto rounded h-64 md:h-full lg:w-full xl:w-full transform hover:scale-110 motion-reduce:transform-none">
                             {post?.mainImage && (
-                              <img
-                                className="relative h-full w-full rounded object-cover"
+                              <Image
                                 src={urlFor(post?.mainImage)}
+                                layout="responsive"
+                                width="259px"
+                                height="512px"
+                                objectFit="cover"
                                 alt={`blog-variantA-image-${key}`}
                               />
                             )}
                             <div className="absolute inset-0 bg-gray-700 opacity-75 rounded" />
                             <div className="absolute inset-0 p-6 flex flex-col items-start">
-                              {post?.categories &&
-                                post?.categories?.map((category, index) => (
-                                  <span
-                                    className="mb-auto py-1 px-3 text-sm bg-white rounded-full text-webriq-darkblue uppercase font-bold"
-                                    key={index}
-                                  >
-                                    {category?.title}
-                                  </span>
-                                ))}
-                              <div className="flex">
+                              {post?.categories && (
+                                <div className="flex absolute top-5 left-5">
+                                  {post?.categories?.map((category, index) => (
+                                    <span
+                                      className="mb-auto py-1 px-3 mr-3 text-sm bg-white rounded-full text-webriq-darkblue uppercase font-bold"
+                                      key={index}
+                                    >
+                                      {category?.title}
+                                    </span>
+                                  ))}
+                                </div>
+                              )}
+                              <div className="flex absolute bottom-14 left-5">
                                 {post?.authors && (
                                   <div className="flex">
                                     {post?.authors?.map(
@@ -172,7 +187,7 @@ function VariantA({ subtitle, title, posts, buttonLabel }) {
                                 )}
                               </div>
                               {post?.title && (
-                                <p className="text-xl lg:text-2xl text-white font-bold overflow-ellipsis overflow-hidden">
+                                <p className="absolute bottom-5 left-5 text-xl lg:text-2xl text-white font-bold overflow-ellipsis overflow-hidden">
                                   {post?.title}...
                                 </p>
                               )}
@@ -188,26 +203,32 @@ function VariantA({ subtitle, title, posts, buttonLabel }) {
                     <div className="w-full lg:w-1/2 px-3 mb-5" key={key}>
                       <Link href={`/${post?.slug?.current}`}>
                         <a aria-label={`blog post ${key}`}>
-                          <div className="relative mx-auto rounded h-128 transform hover:scale-110 motion-reduce:transform-none">
+                          <div className="relative mx-auto rounded h-64 md:h-full lg:w-full xl:w-full transform hover:scale-110 motion-reduce:transform-none">
                             {post?.mainImage && (
-                              <img
-                                className="relative h-full w-full rounded object-cover"
+                              <Image
                                 src={urlFor(post?.mainImage)}
+                                layout="responsive"
+                                width="259px"
+                                height="512px"
+                                objectFit="cover"
                                 alt={`blog-variantA-image-${key}`}
                               />
                             )}
                             <div className="absolute inset-0 bg-gray-700 opacity-75 rounded" />
                             <div className="absolute inset-0 p-6 flex flex-col items-start">
-                              {post?.categories &&
-                                post?.categories?.map((category, index) => (
-                                  <span
-                                    className="mb-auto py-1 px-3 text-sm bg-white rounded-full text-webriq-darkblue uppercase font-bold"
-                                    key={index}
-                                  >
-                                    {category?.title}
-                                  </span>
-                                ))}
-                              <div className="flex">
+                              {post?.categories && (
+                                <div className="flex absolute top-5 left-5">
+                                  {post?.categories?.map((category, index) => (
+                                    <span
+                                      className="mb-auto py-1 px-3 mr-3 text-sm bg-white rounded-full text-webriq-darkblue uppercase font-bold"
+                                      key={index}
+                                    >
+                                      {category?.title}
+                                    </span>
+                                  ))}
+                                </div>
+                              )}
+                              <div className="flex absolute bottom-14 left-5">
                                 {post?.authors && (
                                   <div className="flex">
                                     {post?.authors?.map(
@@ -241,7 +262,7 @@ function VariantA({ subtitle, title, posts, buttonLabel }) {
                                 )}
                               </div>
                               {post?.title && (
-                                <p className="text-xl lg:text-2xl text-white font-bold overflow-ellipsis overflow-hidden">
+                                <p className="absolute bottom-5 left-5 text-xl lg:text-2xl text-white font-bold overflow-ellipsis overflow-hidden">
                                   {post?.title}...
                                 </p>
                               )}
@@ -255,26 +276,32 @@ function VariantA({ subtitle, title, posts, buttonLabel }) {
                     <div className="w-full px-3 mb-5" key={key}>
                       <Link href={`/${post?.slug?.current}`}>
                         <a aria-label={`blog post ${key}`}>
-                          <div className="relative mx-auto rounded h-64 transform hover:scale-110 motion-reduce:transform-none">
+                          <div className="mx-auto rounded h-64 md:h-full lg:w-full xl:w-full transform hover:scale-110 motion-reduce:transform-none">
                             {post?.mainImage && (
-                              <img
-                                className="relative h-full w-full rounded object-cover"
+                              <Image
                                 src={urlFor(post?.mainImage)}
+                                layout="responsive"
+                                width="542px"
+                                height="256px"
+                                objectFit="cover"
                                 alt={`blog-variantA-image-${key}`}
                               />
                             )}
                             <div className="absolute inset-0 bg-gray-700 opacity-75 rounded" />
                             <div className="absolute inset-0 p-6 flex flex-col items-start">
-                              {post?.categories &&
-                                post?.categories?.map((category, index) => (
-                                  <span
-                                    className="mb-auto py-1 px-3 text-sm bg-white rounded-full text-webriq-darkblue uppercase font-bold"
-                                    key={index}
-                                  >
-                                    {category?.title}
-                                  </span>
-                                ))}
-                              <div className="flex">
+                              {post?.categories && (
+                                <div className="flex absolute top-5 left-5">
+                                  {post?.categories?.map((category, index) => (
+                                    <span
+                                      className="mb-auto py-1 px-3 mr-3 text-sm bg-white rounded-full text-webriq-darkblue uppercase font-bold"
+                                      key={index}
+                                    >
+                                      {category?.title}
+                                    </span>
+                                  ))}
+                                </div>
+                              )}
+                              <div className="flex absolute bottom-14 left-5">
                                 {post?.authors && (
                                   <div className="flex">
                                     {post?.authors?.map(
@@ -308,7 +335,7 @@ function VariantA({ subtitle, title, posts, buttonLabel }) {
                                 )}
                               </div>
                               {post?.title && (
-                                <p className="text-xl lg:text-2xl text-white font-bold">
+                                <p className="absolute bottom-5 left-5 text-xl lg:text-2xl text-white font-bold">
                                   {post?.title}
                                 </p>
                               )}

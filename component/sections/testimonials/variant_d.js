@@ -162,7 +162,7 @@ function VariantD({ testimonials }) {
                   <div className="mb-6 mx-auto w-24 h-32 rounded-full object-contain">
                     {testimonial[testimony]?.mainImage && (
                       <Image
-                        src={urlFor(testimonial[testimony]?.mainImage).url()}
+                        src={urlFor(testimonial[testimony]?.mainImage)}
                         layout="fixed"
                         width="96px"
                         height="128px"

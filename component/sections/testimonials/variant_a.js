@@ -20,7 +20,7 @@ function VariantA({ testimonials }) {
                   {testimonials?.[testimony]?.mainImage && (
                     <div className="mb-6 mx-auto">
                       <Image
-                        src={urlFor(testimonials?.[testimony]?.mainImage).url()}
+                        src={urlFor(testimonials?.[testimony]?.mainImage)}
                         layout="fixed"
                         width="128px"
                         height="128px"

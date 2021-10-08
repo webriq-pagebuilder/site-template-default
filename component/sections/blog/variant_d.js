@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { PortableText, urlFor } from "lib/sanity";
 import { format } from "date-fns";
 
@@ -219,12 +220,15 @@ function VariantD({ subtitle, title, posts, buttonLabel }) {
                         className="flex flex-wrap -mx-3 mb-8 lg:mb-6"
                         key={index}
                       >
-                        <div className="mb-4 lg:mb-0 w-full lg:w-1/4 px-3">
+                        <div className="mb-4 lg:mb-0 w-full h-full lg:w-1/4 px-3 rounded overflow-hidden">
                           {post?.mainImage && (
-                            <img
-                              className="w-full h-full object-cover rounded"
+                            <Image
                               src={urlFor(post?.mainImage)}
-                              alt={`blog-variantD-image-${key}`}
+                              layout="responsive"
+                              width="188px"
+                              height="129px"
+                              objectFit="cover"
+                              alt={`blog-variantD-image-${index}`}
                             />
                           )}
                         </div>
@@ -281,12 +285,15 @@ function VariantD({ subtitle, title, posts, buttonLabel }) {
                         className="flex flex-wrap -mx-3 mb-8 lg:mb-6"
                         key={index}
                       >
-                        <div className="mb-4 lg:mb-0 w-full lg:w-1/4 px-3">
+                        <div className="mb-4 lg:mb-0 h-full w-full lg:w-1/4 px-3 rounded overflow-hidden">
                           {post?.mainImage && (
-                            <img
-                              className="w-full h-full object-cover rounded"
+                            <Image
                               src={urlFor(post?.mainImage)}
-                              alt={`blog-variantD-image-${key}`}
+                              layout="responsive"
+                              width="188px"
+                              height="129px"
+                              objectFit="cover"
+                              alt={`blog-variantD-image-${index}`}
                             />
                           )}
                         </div>

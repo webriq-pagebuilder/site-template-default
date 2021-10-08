@@ -5,18 +5,18 @@ import { urlFor } from "lib/sanity";
 function VariantC({ subtitle, title, description, features, images }) {
   return (
     <section>
-      <div className="p-20 bg-gray-50 radius-for-skewed">
+      <div className="py-20 bg-gray-50 radius-for-skewed">
         <div className="container mx-auto px-4">
           <div className="flex flex-wrap items-center">
             <div className="mb-12 lg:mb-0 w-full lg:w-1/2 px-4">
               <div className="max-w-xl">
-                <p className="text-center md:text-left lg:text-left mb-5 text-sm md:text-lg lg:text-xl text-webriq-darkblue font-bold">
+                <p className="text-left mb-5 text-sm md:text-lg lg:text-xl text-webriq-darkblue font-bold">
                   {subtitle}
                 </p>
-                <h1 className="text-center md:text-left lg:text-left mb-4 text-xl md:text-4xl lg:text-5xl font-bold font-heading">
+                <h1 className="text-left mb-4 text-xl md:text-4xl lg:text-5xl font-bold font-heading">
                   {title}
                 </h1>
-                <p className="text-center md:text-left lg:text-left mb-6 text-sm md:text-lg lg:text-xl text-gray-500 leading-loose">
+                <p className="text-left mb-6 text-sm md:text-lg lg:text-xl text-gray-500 leading-loose">
                   {description}
                 </p>
                 <ul className="mb-8 text-gray-500 font-bold">
@@ -47,7 +47,7 @@ function VariantC({ subtitle, title, description, features, images }) {
               <div className="w-full">
                 {images?.[0] && (
                   <Image
-                    src={urlFor(images[0]).url()}
+                    src={urlFor(images[0])}
                     layout="responsive"
                     width="500px"
                     height="850px"
@@ -59,7 +59,7 @@ function VariantC({ subtitle, title, description, features, images }) {
               <div className="w-full">
                 {images?.[1] && (
                   <Image
-                    src={urlFor(images[1]).url()}
+                    src={urlFor(images[1])}
                     layout="responsive"
                     width="500px"
                     height="850px"
@@ -69,7 +69,7 @@ function VariantC({ subtitle, title, description, features, images }) {
                 )}
                 {images?.[2] && (
                   <Image
-                    src={urlFor(images[2]).url()}
+                    src={urlFor(images[2])}
                     layout="responsive"
                     width="500px"
                     height="850px"
@@ -81,7 +81,7 @@ function VariantC({ subtitle, title, description, features, images }) {
               <div className="w-full">
                 {images?.[3] && (
                   <Image
-                    src={urlFor(images[3]).url()}
+                    src={urlFor(images[3])}
                     layout="responsive"
                     width="500px"
                     height="850px"

@@ -91,7 +91,7 @@ function VariantC({ caption, title, testimonials }) {
                     </p>
                     <div className="mb-2 mx-auto">
                       <Image
-                        src={urlFor(item?.mainImage).url()}
+                        src={urlFor(item?.mainImage)}
                         layout="fixed"
                         width="48px"
                         height="48px"
@@ -99,9 +99,9 @@ function VariantC({ caption, title, testimonials }) {
                         alt={`testimonial-source-${item?.name}-profile-image`}
                       />
                     </div>
-                    <h4 className="mb-1 text-xs md:text-2xl lg:text-2xl font-bold font-heading">
+                    <p className="mb-1 text-xs md:text-2xl lg:text-2xl font-bold font-heading">
                       {item?.name}
-                    </h4>
+                    </p>
                     <p className="text-xs md:text-base lg:text-base text-gray-500">
                       {item?.jobTitle}
                     </p>

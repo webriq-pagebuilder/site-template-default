@@ -9,10 +9,10 @@ function VariantA({ logo, text, contacts, copyright, socialMedia }) {
         <div className="container mx-auto px-4">
           <div className="flex flex-wrap mb-6 lg:mb-20">
             <div className="mb-6 w-full lg:w-1/5">
-              {logo && (
+              {logo?.image && (
                 <a className="text-3xl font-bold leading-none" href="#">
                   <Image
-                    src={urlFor(logo?.image).url()}
+                    src={urlFor(logo?.image)}
                     layout="fixed"
                     width="132px"
                     height="56px"

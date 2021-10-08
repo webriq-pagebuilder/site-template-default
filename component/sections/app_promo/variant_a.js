@@ -8,10 +8,10 @@ function VariantA({ logo, subtitle, title, images }) {
       <div className="pt-16 bg-webriq-darkblue overflow-hidden radius-for-skewed">
         <div className="container mx-auto px-4">
           <div className="relative max-w-md mx-auto text-center">
-            {logo && (
+            {logo?.image && (
               <a className="mb-8 inline-block p-5 bg-white rounded-lg" href="/">
                 <Image
-                  src={urlFor(logo?.image).url()}
+                  src={urlFor(logo?.image)}
                   layout="fixed"
                   width="38px"
                   height="48px"
@@ -28,7 +28,7 @@ function VariantA({ logo, subtitle, title, images }) {
               {images?.[0] && (
                 <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 -mb-10 h-80 z-20">
                   <Image
-                    src={urlFor(images[0]).url()}
+                    src={urlFor(images[0])}
                     layout="fixed"
                     width="218px"
                     height="320px"
@@ -40,7 +40,7 @@ function VariantA({ logo, subtitle, title, images }) {
               {images?.[1] && (
                 <div className="absolute bottom-0 left-0 -mb-24 h-80">
                   <Image
-                    src={urlFor(images[1]).url()}
+                    src={urlFor(images[1])}
                     layout="fixed"
                     width="218px"
                     height="320px"
@@ -52,7 +52,7 @@ function VariantA({ logo, subtitle, title, images }) {
               {images?.[2] && (
                 <div className="absolute bottom-0 right-0 -mb-24 h-80">
                   <Image
-                    src={urlFor(images[2]).url()}
+                    src={urlFor(images[2])}
                     layout="fixed"
                     width="218px"
                     height="320px"

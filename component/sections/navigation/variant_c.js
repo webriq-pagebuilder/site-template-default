@@ -94,7 +94,7 @@ function VariantC({
                     )}
                   </li>
                   {links.length !== index + 1 ? (
-                    <li className="text-gray-300">
+                    <li className="text-gray-400">
                       <svg
                         className="w-4 h-4 current-fill"
                         xmlns="http://www.w3.org/2000/svg"
@@ -118,7 +118,7 @@ function VariantC({
             {logo && (
               <a className="text-3xl font-bold leading-none" href="/">
                 <Image
-                  src={urlFor(logo).url()}
+                  src={urlFor(logo)}
                   layout="fixed"
                   width="113px"
                   height="48px"

@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { PortableText, urlFor } from "lib/sanity";
 import { format } from "date-fns";
 
@@ -88,15 +89,15 @@ function VariantB({ subtitle, title, posts, buttonLabel }) {
 
   // split array into groups of 5 posts
   const splitPosts = (arr, size, numberOfGroups) => {
-    const chunks = arr.reduce(
+    const chunks = arr?.reduce(
       (chunks, items, i) =>
         (i % size
           ? chunks[chunks?.length - 1].push(items)
           : chunks.push([items])) && chunks,
       []
     );
-    if (chunks[chunks?.length - 1]?.length < numberOfGroups) {
-      chunks[chunks?.length - 2].push(...chunks.pop());
+    if (chunks?.[chunks?.length - 1]?.length < numberOfGroups) {
+      chunks?.[chunks?.length - 2].push(...chunks.pop());
     }
     return chunks;
   };
@@ -130,17 +131,20 @@ function VariantB({ subtitle, title, posts, buttonLabel }) {
                   <div className="mb-6 lg:mb-0 w-full lg:w-1/2 px-3">
                     {posts?.slice(count, count + 1)?.map((post, key) => (
                       <div
-                        className="h-full flex flex-col rounded shadow"
+                        className="h-full flex flex-col rounded overflow-hidden"
                         key={key}
                       >
                         {post?.mainImage && (
-                          <img
-                            className="rounded-t object-cover h-80 lg:h-full w-full"
+                          <Image
                             src={urlFor(post?.mainImage)}
+                            layout="responsive"
+                            width="542px"
+                            height="496px"
+                            objectFit="cover"
                             alt={`blog-variantB-image-${key}`}
                           />
                         )}
-                        <div className="mt-auto p-6 rounded-b bg-white">
+                        <div className="mt-0 p-6 rounded-b bg-white rounded shadow">
                           {post?.categories &&
                             post?.categories?.map((category, index) => (
                               <span
@@ -202,11 +206,14 @@ function VariantB({ subtitle, title, posts, buttonLabel }) {
                   <div className="flex flex-wrap w-full lg:w-1/2">
                     {posts?.slice(count + 1, blogsPerPage)?.map((post, key) => (
                       <div className="mb-6 w-full lg:w-1/2 px-3" key={key}>
-                        <div className="rounded overflow-hidden shadow">
+                        <div className="h-full rounded shadow overflow-hidden">
                           {post?.mainImage && (
-                            <img
-                              className="h-80 lg:h-full w-full rounded-t object-cover"
+                            <Image
                               src={urlFor(post?.mainImage)}
+                              layout="responsive"
+                              width="259px"
+                              height="192px"
+                              objectFit="cover"
                               alt={`blog-variantB-image-${key}`}
                             />
                           )}

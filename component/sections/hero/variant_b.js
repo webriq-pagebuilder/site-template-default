@@ -106,9 +106,9 @@ function VariantB({
                 <div className="w-full lg:w-1/2 px-4">
                   <div className="flex flex-wrap lg:ml-6 mb-3 md:mb-5 lg:mb-5">
                     {images?.[0] && (
-                      <div className="w-1/3 h-full px-2 rounded-3xl">
+                      <div className="w-1/3 h-full px-2 rounded-3xl overflow-hidden">
                         <Image
-                          src={urlFor(images?.[0]).url()}
+                          src={urlFor(images?.[0])}
                           layout="responsive"
                           width="155px"
                           height="235px"
@@ -118,9 +118,9 @@ function VariantB({
                       </div>
                     )}
                     {images?.[1] && (
-                      <div className="w-2/3 h-full px-2 rounded-3xl">
+                      <div className="w-2/3 h-full px-2 rounded-3xl overflow-hidden">
                         <Image
-                          src={urlFor(images?.[1]).url()}
+                          src={urlFor(images?.[1])}
                           layout="responsive"
                           width="327px"
                           height="240px"
@@ -132,9 +132,9 @@ function VariantB({
                   </div>
                   <div className="flex flex-wrap lg:mb-4 lg:mr-6">
                     {images?.[2] && (
-                      <div className="w-2/3 h-full px-2 rounded-3xl">
+                      <div className="w-2/3 h-full px-2 rounded-3xl overflow-hidden">
                         <Image
-                          src={urlFor(images?.[2]).url()}
+                          src={urlFor(images?.[2])}
                           layout="responsive"
                           width="327px"
                           height="240px"
@@ -144,9 +144,9 @@ function VariantB({
                       </div>
                     )}
                     {images?.[3] && (
-                      <div className="w-1/3 h-full px-2 rounded-3xl">
+                      <div className="w-1/3 h-full px-2 rounded-3xl overflow-hidden">
                         <Image
-                          src={urlFor(images?.[3]).url()}
+                          src={urlFor(images?.[3])}
                           layout="responsive"
                           width="155px"
                           height="235px"

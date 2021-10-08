@@ -25,11 +25,11 @@ function VariantC({ caption, title, portfolios, buttonLabel }) {
                   </h1>
                 )}
               </div>
-              <div>
+              <div className="mt-5 md:mt-0 lg:mt-0 xl:mt-0">
                 {portfolios?.length > portfolioLength && !showMore && (
                   <button
                     aria-label="View More Portfolios button"
-                    className="hidden md:inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose transition duration-200"
+                    className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose transition duration-200"
                     onClick={() => {
                       setViewPortfolios(portfolios?.length);
                       setShowMore(true);
@@ -46,7 +46,7 @@ function VariantC({ caption, title, portfolios, buttonLabel }) {
                   {content?.mainImage && (
                     <div className="bg-white rounded">
                       <Image
-                        src={urlFor(content?.mainImage).url()}
+                        src={urlFor(content?.mainImage)}
                         layout="responsive"
                         width="480px"
                         height="320px"

@@ -158,9 +158,9 @@ function VariantA({
             {usePlan?.[0]?.monthlyPrice && (
               <div className="w-full md:w-1/2 lg:w-1/3 px-4 mb-8 lg:mb-0">
                 <div className="p-8 bg-white shadow rounded">
-                  <h4 className="mb-2 text-2xl font-bold font-heading">
+                  <p className="mb-2 text-2xl font-bold font-heading">
                     {usePlan?.[0]?.planType}
-                  </h4>
+                  </p>
                   <span className="text-6xl font-bold">
                     {isNaN(parseInt(usePlan?.[0]?.monthlyPrice))
                       ? usePlan?.[0]?.monthlyPrice
@@ -233,9 +233,9 @@ function VariantA({
             {usePlan?.[1] && (
               <div className="w-full md:w-1/2 lg:w-1/3 px-4 mb-8 lg:mb-0">
                 <div className="p-8 bg-webriq-darkblue shadow rounded">
-                  <h4 className="mb-2 text-2xl font-bold text-white">
+                  <p className="mb-2 text-2xl font-bold text-white">
                     {usePlan?.[1]?.planType}
-                  </h4>
+                  </p>
                   <span className="text-6xl font-bold text-white">
                     {isNaN(parseInt(usePlan?.[1]?.monthlyPrice))
                       ? usePlan?.[1]?.monthlyPrice
@@ -307,9 +307,9 @@ function VariantA({
             {usePlan?.[2] && (
               <div className="w-full lg:w-1/3 px-4">
                 <div className="p-8 bg-white shadow rounded">
-                  <h4 className="mb-2 text-2xl font-bold font-heading">
+                  <p className="mb-2 text-2xl font-bold font-heading">
                     {usePlan?.[2]?.planType}
-                  </h4>
+                  </p>
                   <span className="text-6xl font-bold">
                     {isNaN(parseInt(usePlan?.[2]?.monthlyPrice))
                       ? usePlan?.[2]?.monthlyPrice

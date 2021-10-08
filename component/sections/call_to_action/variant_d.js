@@ -1,5 +1,6 @@
 import { urlFor } from "lib/sanity";
 import React from "react";
+import Image from "next/image";
 import WebriQForm from "@webriq/gatsby-webriq-form";
 
 function VariantD({
@@ -18,16 +19,18 @@ function VariantD({
       <div className="container mx-auto px-4">
         <div className="flex flex-wrap items-center justify-center -mx-4">
           <div className="mb-16 lg:mb-0 max-w-2xl lg:w-1/2 px-4">
-            {logo && (
+            {logo?.image && (
               <a
                 className="mb-6 inline-block text-3xl font-bold leading-none"
-                href="#"
+                href="/"
               >
-                <img
-                  className="h-12"
+                <Image
                   src={urlFor(logo?.image)}
+                  layout="fixed"
+                  width="132px"
+                  height="48px"
+                  objectFit="contain"
                   alt={logo?.alt ?? "callToAction-logo"}
-                  width="auto"
                 />
               </a>
             )}
@@ -80,7 +83,7 @@ function VariantD({
                   >
                     <div className="mb-6">
                       <span className="text-sm text-gray-400">Sign Up</span>
-                      <h4 className="text-2xl">Create an account</h4>
+                      <p className="text-2xl">Create an account</p>
                     </div>
                     <div className="mb-3 flex flex-wrap -mx-2">
                       {formFields?.[0] && formFields[0]?.name && (

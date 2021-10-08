@@ -104,9 +104,9 @@ function VariantB({ caption, title, testimonials }) {
                       <p className="text-gray-500 leading-loose mb-4">
                         {testimonial?.testimony}
                       </p>
-                      <h4 className="font-bold font-heading">
+                      <p className="font-bold font-heading">
                         {testimonial?.name}
-                      </h4>
+                      </p>
                       <p className="text-gray-500">{testimonial?.jobTitle}</p>
                     </div>
                   </div>

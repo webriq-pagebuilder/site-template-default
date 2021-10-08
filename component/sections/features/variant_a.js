@@ -50,10 +50,10 @@ function VariantA({ caption, title, features }) {
                     <path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z" />
                   </svg>
                 </span>
-                <h4 className="mb-4 text-2xl font-bold font-heading">
+                <p className="mb-4 text-2xl font-bold font-heading">
                   {/* Lorem ipsum dolor sit amet consectutar */}
                   {features?.[0]?.heading}
-                </h4>
+                </p>
                 <p className="text-gray-500 leading-loose">
                   {/* Fusce quam tellus, placerat eu metus ut, viverra aliquet purus.
                   Suspendisse potenti. Nulla non nibh feugiat. */}
@@ -77,10 +77,10 @@ function VariantA({ caption, title, features }) {
                     />
                   </svg>
                 </span>
-                <h4 className="mb-4 text-2xl font-bold font-heading">
+                <p className="mb-4 text-2xl font-bold font-heading">
                   {/* Ut congue nec leo eget aliquam */}
                   {features?.[1]?.heading}
-                </h4>
+                </p>
                 <p className="text-gray-500 leading-loose">
                   {/* Ut tempus tellus ac nisi vestibulum tempus. Nunc tincidunt
                     lectus libero, ac ultricies augue elementum at. */}
@@ -106,10 +106,10 @@ function VariantA({ caption, title, features }) {
                     />
                   </svg>
                 </span>
-                <h4 className="mb-4 text-2xl font-bold font-heading">
+                <p className="mb-4 text-2xl font-bold font-heading">
                   {/* Proin fringilla eleifend justo pellentesque */}
                   {features?.[2]?.heading}
-                </h4>
+                </p>
 
                 <p className="text-gray-500 leading-loose">
                   {/* Donec ut ligula nunc. Mauris blandit vel est et facilisis.
@@ -136,10 +136,10 @@ function VariantA({ caption, title, features }) {
                     <path d="M2 13.692V16a2 2 0 002 2h12a2 2 0 002-2v-2.308A24.974 24.974 0 0110 15c-2.796 0-5.487-.46-8-1.308z" />
                   </svg>
                 </span>
-                <h4 className="mb-4 text-2xl font-bold font-heading">
+                <p className="mb-4 text-2xl font-bold font-heading">
                   {/* Morbi sagittis ligula sit amet elit maximus */}
                   {features?.[3]?.heading}
-                </h4>
+                </p>
                 <p className="text-gray-500 leading-loose">
                   {/* Duis ut facilisis orci. Morbi lacinia nunc a augue eleifend, sed
                     placerat ex faucibus. Duis ante arcu, pretium ac luctus

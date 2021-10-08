@@ -4,9 +4,11 @@ import { urlFor } from "lib/sanity";
 function SEO({ data, slug }) {
   const seo = data?.seo;
   const title = data?.title;
-  const url = `${typeof window !== "undefined"
-    ? process.env.NEXT_PUBLIC_SITE_URL
-    : "http://localhost:3000"}/${slug ?? ""}`;
+  const url = `${
+    typeof window !== "undefined"
+      ? process.env.NEXT_PUBLIC_SITE_URL
+      : "http://localhost:3000"
+  }/${slug ?? ""}`;
 
   return (
     <>
@@ -19,13 +21,13 @@ function SEO({ data, slug }) {
       <meta property="og:title" content={seo?.seoTitle ?? title} />
       <meta property="og:url" content={url} />
       <meta property="og:description" content={seo?.seoDescription} />
-      <meta property="og:image" content={urlFor(seo?.seoImage)?.width(500)?.url()} />
+      <meta property="og:image" content={urlFor(seo?.seoImage)} />
       {/* Twitter */}
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:url" content={url} />
       <meta name="twitter:title" content={seo?.seoTitle ?? title} />
       <meta name="twitter:description" content={seo?.seoDescription} />
-      <meta name="twitter:image" content={urlFor(seo?.seoImage)?.width(500)?.url()} />
+      <meta name="twitter:image" content={urlFor(seo?.seoImage)} />
     </>
   );
 }

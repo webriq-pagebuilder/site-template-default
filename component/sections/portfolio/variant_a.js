@@ -49,11 +49,14 @@ function VariantA({ caption, title, portfolios, buttonLabel }) {
             {filteredData?.[0]?.content
               ?.slice(0, viewPortfolios)
               ?.map((content, index) => (
-                <div className="w-1/4 mb-8 px-4" key={index}>
+                <div
+                  className="w-full md:w-1/4 lg:w-1/4 xl:w-1/4 md:mb-8 lg:mb-8 xl:mb-8 px-4"
+                  key={index}
+                >
                   {content?.mainImage && (
-                    <div className="relative mx-auto h-64 w-full rounded-lg">
+                    <div className="relative mx-auto md:h-64 lg:h-64 h-full w-full rounded-lg">
                       <Image
-                        src={urlFor(content?.mainImage).url()}
+                        src={urlFor(content?.mainImage)}
                         layout="responsive"
                         width="352px"
                         height="256px"

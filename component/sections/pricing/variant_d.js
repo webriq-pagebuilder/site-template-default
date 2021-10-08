@@ -1,5 +1,6 @@
 import { urlFor, PortableText } from "lib/sanity";
 import React from "react";
+import Image from "next/image";
 import WebriQForm from "@webriq/gatsby-webriq-form";
 
 function VariantD({
@@ -121,9 +122,9 @@ function VariantD({
             <form className="w-full md:w-1/2 mb-8 md:mb-0">
               <div className="px-6 py-8 lg:px-8 text-center">
                 <span className="text-gray-700">Sign In</span>
-                <h4 className="mb-8 text-2xl font-heading">
+                <p className="mb-8 text-2xl font-heading">
                   Finish your payment
-                </h4>
+                </p>
 
                 <WebriQForm
                   className="mb-4"
@@ -152,7 +153,7 @@ function VariantD({
                             placeholder={field.name}
                           />
                           <svg
-                            className="h-6 w-6 ml-4 my-auto text-gray-300"
+                            className="h-6 w-6 ml-4 my-auto text-gray-400"
                             xmlns="http://www.w3.org/2000/svg"
                             fill="none"
                             viewBox="0 0 24 24"
@@ -184,7 +185,7 @@ function VariantD({
                             className="ml-4"
                           >
                             <svg
-                              className="h-6 w-6 my-auto text-gray-300"
+                              className="h-6 w-6 my-auto text-gray-400"
                               xmlns="http://www.w3.org/2000/svg"
                               fill="none"
                               viewBox="0 0 24 24"
@@ -266,11 +267,16 @@ function VariantD({
               </div>
             </form>
             <div className="py-10 w-full md:w-1/2 bg-webriq-darkblue lg:rounded-r overflow-hidden flex flex-col">
-              <img
-                className="w-full md:max-w-xs mx-auto my-auto"
-                src={urlFor(banner?.[banners]?.mainImage)}
-                alt={`pricing-image-${banners}`}
-              />
+              <div className="w-full md:max-w-xs mx-auto my-auto">
+                <Image
+                  src={urlFor(banner?.[banners]?.mainImage)}
+                  layout="responsive"
+                  width="320px"
+                  height="296px"
+                  objectFit="cover"
+                  alt={`pricing-image-${banners}`}
+                />
+              </div>
               <p className="mb-4 max-w-sm mx-auto text-center text-xl text-white">
                 {banner?.[banners]?.heading}
               </p>

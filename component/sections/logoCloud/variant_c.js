@@ -46,7 +46,7 @@ function VariantC({ title, images, button }) {
               style={{ top: "-120px", left: "-10px" }}
             >
               <Image
-                src={urlFor(images[0]).url()}
+                src={urlFor(images[0])}
                 layout="fixed"
                 width="96px"
                 height="96px"
@@ -58,7 +58,7 @@ function VariantC({ title, images, button }) {
           {images?.[1] && (
             <div className="h-24 w-24 mx-auto absolute left-0 top-0 mt-20 flex items-center justify-center bg-gray-50 rounded-full">
               <Image
-                src={urlFor(images[1]).url()}
+                src={urlFor(images[1])}
                 layout="fixed"
                 width="80px"
                 height="96px"
@@ -73,7 +73,7 @@ function VariantC({ title, images, button }) {
               style={{ bottom: "-250px", left: "20%" }}
             >
               <Image
-                src={urlFor(images[2]).url()}
+                src={urlFor(images[2])}
                 layout="fixed"
                 width="144px"
                 height="144px"
@@ -88,7 +88,7 @@ function VariantC({ title, images, button }) {
               style={{ top: "20px", right: "20%" }}
             >
               <Image
-                src={urlFor(images[3]).url()}
+                src={urlFor(images[3])}
                 layout="fixed"
                 width="144px"
                 height="144px"
@@ -103,7 +103,7 @@ function VariantC({ title, images, button }) {
               style={{ bottom: "-250px", right: 0 }}
             >
               <Image
-                src={urlFor(images[4]).url()}
+                src={urlFor(images[4])}
                 layout="fixed"
                 width="112px"
                 height="112px"
@@ -118,7 +118,7 @@ function VariantC({ title, images, button }) {
               style={{ top: "-150px" }}
             >
               <Image
-                src={urlFor(images[5]).url()}
+                src={urlFor(images[5])}
                 layout="fixed"
                 width="96px"
                 height="96px"

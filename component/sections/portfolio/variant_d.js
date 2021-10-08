@@ -23,7 +23,7 @@ function VariantD({ caption, title, portfolios, buttonLabel }) {
           : array?.push([items])) && array,
       []
     );
-    if (chunks[chunks?.length - 1]?.length < groups) {
+    if (chunks?.[chunks?.length - 1]?.length < groups) {
       chunks?.pop();
     }
     return chunks;
@@ -82,7 +82,7 @@ function VariantD({ caption, title, portfolios, buttonLabel }) {
                         {content?.mainImage && (
                           <div className="relative">
                             <Image
-                              src={urlFor(content?.mainImage).url()}
+                              src={urlFor(content?.mainImage)}
                               layout="responsive"
                               width="352px"
                               height="256px"
@@ -152,7 +152,7 @@ function VariantD({ caption, title, portfolios, buttonLabel }) {
                         {content?.mainImage && (
                           <div className="relative">
                             <Image
-                              src={urlFor(content?.mainImage).url()}
+                              src={urlFor(content?.mainImage)}
                               layout="responsive"
                               width="736px"
                               height="384px"
@@ -224,7 +224,7 @@ function VariantD({ caption, title, portfolios, buttonLabel }) {
                         {content?.mainImage && (
                           <div className="relative">
                             <Image
-                              src={urlFor(content?.mainImage).url()}
+                              src={urlFor(content?.mainImage)}
                               layout="responsive"
                               width="736px"
                               height="384px"
@@ -300,7 +300,7 @@ function VariantD({ caption, title, portfolios, buttonLabel }) {
                             {content?.mainImage && (
                               <div className="relative">
                                 <Image
-                                  src={urlFor(content?.mainImage).url()}
+                                  src={urlFor(content?.mainImage)}
                                   layout="responsive"
                                   width="352px"
                                   height="256px"
@@ -381,7 +381,7 @@ function VariantD({ caption, title, portfolios, buttonLabel }) {
                             {content?.mainImage && (
                               <div className="relative">
                                 <Image
-                                  src={urlFor(content?.mainImage).url()}
+                                  src={urlFor(content?.mainImage)}
                                   layout="responsive"
                                   width="352px"
                                   height="256px"
@@ -461,7 +461,7 @@ function VariantD({ caption, title, portfolios, buttonLabel }) {
               !showMore && (
                 <button
                   aria-label="View More Portfolios button"
-                  className="inline-block py-2 px-6 leading-loose rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold"
+                  className="inline-block p-2 md:py-3 md:px-6 lg:py-3 lg:px-6 text-sm md:text-lg lg:text-lg xl:text-lg leading-loose rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold "
                   onClick={() => {
                     setPortfoliosToShow(newArray?.length);
                     setShowMore(true);

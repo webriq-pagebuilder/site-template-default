@@ -21,7 +21,7 @@ function VariantB({ title, text, images }) {
                 <div className="mb-4 w-full lg:w-1/3 px-2" key={index}>
                   <div className="bg-gray-50 mx-auto rounded">
                     <Image
-                      src={urlFor(image).url()}
+                      src={urlFor(image)}
                       layout="responsive"
                       width="192px"
                       height="192px"

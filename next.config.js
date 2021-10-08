@@ -14,7 +14,6 @@ module.exports = withPWA({
   target: "serverless",
   images: {
     domains: ["cdn.sanity.io"], // allow loading images from the Sanity.io CDN
-    deviceSizes: [600, 640, 750, 828, 1024, 1080, 1200, 1366, 1920, 2048, 3840],
   },
   async redirects() {
     return [
@@ -38,7 +37,7 @@ module.exports = withPWA({
             "default-src": "'self'",
             "font-src": "'self'",
             "form-action": "'self'",
-            "frame-ancestors": "'none'",
+            "frame-ancestors": "'self' https: http:",
             "frame-src": "*",
             "img-src": "'self' data:",
             "manifest-src": "'self'",

@@ -105,7 +105,7 @@ function VariantA({
               {image && (
                 <div className="relative h-128 w-full max-w-md rounded-3xl md:rounded-br-none">
                   <Image
-                    src={urlFor(image).url()}
+                    src={urlFor(image)}
                     layout="responsive"
                     width="512px"
                     height="512px"

@@ -69,13 +69,13 @@ function VariantC({ logo, menu, copyright, socialMedia }) {
               </div>
             )}
             <div className="mb-12 lg:mb-0 lg:ml-auto w-full lg:w-auto order-first lg:order-last text-center lg:text-left">
-              {logo && (
+              {logo?.image && (
                 <a
                   className="inline-block text-xl font-bold leading-none"
                   href="/"
                 >
                   <Image
-                    src={urlFor(logo?.image).url()}
+                    src={urlFor(logo?.image)}
                     layout="fixed"
                     width="132px"
                     height="56px"

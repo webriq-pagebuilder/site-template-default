@@ -1,5 +1,6 @@
 import React from "react";
 import Head from "next/head";
+import Image from "next/image";
 import { urlFor, usePreviewSubscription, PortableText } from "lib/sanity";
 import { blogQuery } from "pages/api/query";
 import { format } from "date-fns";
@@ -163,11 +164,14 @@ function BlogPage({ data, preview, navAndFooter }) {
                   {authors &&
                     authors?.map((author, index, { length }) => (
                       <div className="flex justify-center" key={index}>
-                        <div className="mr-4">
+                        <div className="mr-4 rounded-full overflow-hidden">
                           {author?.image ? (
-                            <img
-                              className="w-12 h-12 object-cover object-top rounded-full"
+                            <Image
                               src={urlFor(author?.image)}
+                              layout="fixed"
+                              width="48px"
+                              height="48px"
+                              objectFit="cover"
                               alt="Blog Page author image"
                             />
                           ) : (
