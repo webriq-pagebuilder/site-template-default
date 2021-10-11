@@ -8,6 +8,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@netlify/plugin-nextjs": "^3.9.0",
     "@stripe/stripe-js": "^1.17.1",
     "@tailwindcss/aspect-ratio": "^0.2.1",
     "@webriq/gatsby-webriq-form": "^1.0.2",
