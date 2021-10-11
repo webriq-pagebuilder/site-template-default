@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 import WebriQForm from "@webriq/gatsby-webriq-form";
 
 function VariantE({
@@ -32,65 +33,117 @@ function VariantE({
                 <div className="max-w-sm mx-auto lg:mx-0">
                   <p className="mb-6 text-gray-500 leading-loose">{text}</p>
                   <div>
-                    {primaryButton && (
+                    {primaryButton?.label &&
+                    primaryButton?.type === "linkInternal" ? (
+                      <Link
+                        href={
+                          primaryButton?.internalLink === "Home" ||
+                          primaryButton?.internalLink === "home"
+                            ? "/"
+                            : `/${
+                                primaryButton.internalLink === undefined
+                                  ? "page-not-found"
+                                  : primaryButton.internalLink
+                              }`
+                        }
+                      >
+                        <a
+                          aria-label={`Header ${
+                            primaryButton?.label ?? "Primary"
+                          } button which directs to ${
+                            primaryButton?.internalLink === undefined
+                              ? "page-not-found"
+                              : primaryButton?.internalLink
+                          }`}
+                          className={`inline-block mb-3 lg:mb-0 lg:mr-3 w-full lg:w-auto py-2 px-6 leading-loose bg-${template.color}-darkblue hover:bg-${template.color}-blue text-white font-semibold rounded-l-xl rounded-t-xl transition duration-200`}
+                          target={primaryButton?.linkTarget}
+                          rel={
+                            primaryButton?.linkTarget === "_blank"
+                              ? "noopener noreferrer"
+                              : null
+                          }
+                        >
+                          {primaryButton?.label}
+                        </a>
+                      </Link>
+                    ) : (
                       <a
                         aria-label={`Header ${
                           primaryButton?.label ?? "Primary"
                         } button which directs to ${
-                          primaryButton?.type === "linkExternal"
-                            ? primaryButton?.externalLink
-                            : primaryButton?.type === "linkInternal"
-                            ? primaryButton?.internalLink
-                            : "not found"
-                        } page`}
-                        className="inline-block mb-3 lg:mb-0 lg:mr-3 w-full lg:w-auto py-2 px-6 bg-webriq-darkblue hover:bg-webriq-blue text-white font-semibold leading-loose rounded-l-xl rounded-t-xl transition duration-200"
+                          primaryButton?.externalLink === undefined
+                            ? "link-not-found"
+                            : primaryButton?.externalLink
+                        }`}
+                        className={`inline-block mb-3 lg:mb-0 lg:mr-3 w-full lg:w-auto py-2 px-6 leading-loose bg-${template.color}-darkblue hover:bg-${template.color}-blue text-white font-semibold rounded-l-xl rounded-t-xl transition duration-200`}
                         target={primaryButton?.linkTarget}
+                        href={`/${
+                          primaryButton.externalLink === undefined
+                            ? "link-not-found"
+                            : primaryButton.externalLink
+                        }`}
                         rel={
                           primaryButton?.linkTarget === "_blank"
                             ? "noopener noreferrer"
                             : null
                         }
-                        href={
-                          primaryButton.type === "linkExternal"
-                            ? primaryButton?.externalLink
-                            : primaryButton.type === "linkInternal"
-                            ? primaryButton.internalLink === "Home" ||
-                              primaryButton.internalLink === "home"
-                              ? "/"
-                              : primaryButton?.internalLink
-                            : "page-not-found"
-                        }
                       >
                         {primaryButton?.label}
                       </a>
                     )}
-                    {secondaryButton && (
+                    {secondaryButton?.label &&
+                    secondaryButton?.type === "linkInternal" ? (
+                      <Link
+                        href={
+                          secondaryButton?.internalLink === "Home" ||
+                          secondaryButton?.internalLink === "home"
+                            ? "/"
+                            : `/${
+                                secondaryButton.internalLink === undefined
+                                  ? "page-not-found"
+                                  : secondaryButton.internalLink
+                              }`
+                        }
+                      >
+                        <a
+                          aria-label={`Header ${
+                            secondaryButton?.label ?? "Secondary"
+                          } button which directs to ${
+                            secondaryButton?.internalLink === undefined
+                              ? "page-not-found"
+                              : secondaryButton?.internalLink
+                          }`}
+                          className="inline-block w-full lg:w-auto py-2 px-6 leading-loose font-semibold bg-white hover:bg-gray-50 rounded-l-xl rounded-t-xl transition duration-200"
+                          target={secondaryButton?.linkTarget}
+                          rel={
+                            secondaryButton?.linkTarget === "_blank"
+                              ? "noopener noreferrer"
+                              : null
+                          }
+                        >
+                          {secondaryButton?.label}
+                        </a>
+                      </Link>
+                    ) : (
                       <a
                         aria-label={`Header ${
                           secondaryButton?.label ?? "Secondary"
                         } button which directs to ${
-                          secondaryButton?.type === "linkExternal"
-                            ? secondaryButton?.externalLink
-                            : secondaryButton?.type === "linkInternal"
-                            ? secondaryButton?.internalLink
-                            : "not found"
-                        } page`}
-                        className="inline-block w-full lg:w-auto py-2 px-6 font-semibold bg-white hover:bg-gray-50 rounded-l-xl rounded-t-xl transition duration-200"
+                          secondaryButton?.externalLink === undefined
+                            ? "link-not-found"
+                            : secondaryButton?.externalLink
+                        }`}
+                        className="inline-block w-full lg:w-auto py-2 px-6 leading-loose font-semibold bg-white hover:bg-gray-50 rounded-l-xl rounded-t-xl transition duration-200"
                         target={secondaryButton?.linkTarget}
+                        href={`/${
+                          secondaryButton.externalLink === undefined
+                            ? "link-not-found"
+                            : secondaryButton.externalLink
+                        }`}
                         rel={
                           secondaryButton?.linkTarget === "_blank"
                             ? "noopener noreferrer"
                             : null
-                        }
-                        href={
-                          secondaryButton.type === "linkExternal"
-                            ? secondaryButton?.externalLink
-                            : secondaryButton.type === "linkInternal"
-                            ? secondaryButton.internalLink === "Home" ||
-                              secondaryButton.internalLink === "home"
-                              ? "/"
-                              : secondaryButton?.internalLink
-                            : "page-not-found"
                         }
                       >
                         {secondaryButton?.label}
@@ -366,13 +419,14 @@ function VariantE({
                         </button>
                         <span className="text-gray-400 text-xs">
                           Already have an account?{" "}
-                          <a
-                            aria-label="Header Sign in link"
-                            className="text-webriq-darkblue hover:underline"
-                            href="#"
-                          >
-                            Sign In
-                          </a>
+                          <Link href="#">
+                            <a
+                              aria-label="Header Sign in link"
+                              className="text-webriq-darkblue hover:underline"
+                            >
+                              Sign In
+                            </a>
+                          </Link>
                         </span>
                       </div>
                     </WebriQForm>
@@ -382,39 +436,69 @@ function VariantE({
                   <p className="text-xs text-gray-500">
                     {links?.map((link, index, { length }) => (
                       <>
-                        <a
-                          aria-label={`Header ${
-                            link?.label ?? "Terms and Policies"
-                          } links which directs to ${
-                            link?.type === "linkExternal"
-                              ? link?.externalLink
-                              : link?.type === "linkInternal"
-                              ? link?.internalLink
-                              : "not found"
-                          } page`}
-                          className="underline text-webriq-darkblue hover:text-webriq-blue"
-                          target={
-                            link?.linkTarget === "_blank" ? "_blank" : null
-                          }
-                          rel={
-                            link?.linkTarget === "_blank"
-                              ? "noopener noreferrer"
-                              : null
-                          }
-                          key={index}
-                          href={
-                            link?.type === "linkExternal"
-                              ? link?.externalLink
-                              : link?.type === "linkInternal"
-                              ? link?.internalLink === "Home" ||
-                                link?.internalLink === "home"
+                        {link?.type === "linkInternal" ? (
+                          <Link
+                            href={
+                              link?.internalLink === "Home" ||
+                              link?.internalLink === "home"
                                 ? "/"
-                                : link?.internalLink
-                              : "page-not-found"
-                          }
-                        >
-                          {link?.label}
-                        </a>
+                                : `/${
+                                    link.internalLink === undefined
+                                      ? "page-not-found"
+                                      : link.internalLink
+                                  }`
+                            }
+                          >
+                            <a
+                              aria-label={`Header ${
+                                link?.label ?? "Terms and Policies"
+                              } links which directs to ${
+                                link?.internalLink === undefined
+                                  ? "page-not-found"
+                                  : link?.internalLink
+                              }`}
+                              className="underline text-webriq-darkblue hover:text-webriq-blue"
+                              target={
+                                link?.linkTarget === "_blank" ? "_blank" : null
+                              }
+                              rel={
+                                link?.linkTarget === "_blank"
+                                  ? "noopener noreferrer"
+                                  : null
+                              }
+                              key={index}
+                            >
+                              {link?.label}
+                            </a>
+                          </Link>
+                        ) : (
+                          <a
+                            aria-label={`Header ${
+                              link?.label ?? "Terms and Policies"
+                            } links which directs to ${
+                              link?.externalLink === undefined
+                                ? "link-not-found"
+                                : link?.externalLink
+                            }`}
+                            className="underline text-webriq-darkblue hover:text-webriq-blue"
+                            target={
+                              link?.linkTarget === "_blank" ? "_blank" : null
+                            }
+                            href={`/${
+                              link.externalLink === undefined
+                                ? "link-not-found"
+                                : link.externalLink
+                            }`}
+                            rel={
+                              link?.linkTarget === "_blank"
+                                ? "noopener noreferrer"
+                                : null
+                            }
+                            key={index}
+                          >
+                            {link?.label}
+                          </a>
+                        )}
                         {index + 1 !== length ? (
                           <span>&nbsp;and&nbsp;</span>
                         ) : null}

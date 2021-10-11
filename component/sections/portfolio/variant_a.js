@@ -1,5 +1,6 @@
 import React from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { urlFor } from "lib/sanity";
 
 function VariantA({ caption, title, portfolios, buttonLabel }) {
@@ -64,37 +65,66 @@ function VariantA({ caption, title, portfolios, buttonLabel }) {
                         alt={`portfolio-image${index}`}
                       />
                       <div className="opacity-0 hover:opacity-75 duration-300 absolute inset-0 z-10 bg-gray-900 flex justify-center items-center rounded-lg">
-                        <a
-                          aria-label={`Portfolio ${
-                            content?.primaryButton?.label ?? "View Project"
-                          } button which directs to ${
-                            content?.primaryButton?.type === "linkExternal"
-                              ? content?.primaryButton?.externalLink
-                              : content?.primaryButton?.type === "linkInternal"
-                              ? content?.primaryButton?.internalLink
-                              : "not found"
-                          } page`}
-                          className="inline-block py-2 px-4 border-2 border-gray-400 hover:border-white hover:opacity-100 text-gray-50 hover:bg-white hover:text-gray-900 transition duration-200 rounded-l-xl rounded-t-xl font-bold leading-loose"
-                          target={content?.primaryButton?.linkTarget}
-                          rel={
-                            content?.primaryButton?.linkTarget === "_blank"
-                              ? "noopener noreferrer"
-                              : null
-                          }
-                          href={
-                            content?.primaryButton?.type === "linkExternal"
-                              ? content?.primaryButton?.externalLink
-                              : content?.primaryButton?.type === "linkInternal"
-                              ? content?.primaryButton?.internalLink ===
-                                  "Home" ||
-                                content?.primaryButton?.internalLink === "home"
+                        {content?.primaryButton?.label &&
+                        content?.primaryButton?.type === "linkInternal" ? (
+                          <Link
+                            href={
+                              content?.primaryButton?.internalLink === "Home" ||
+                              content?.primaryButton?.internalLink === "home"
                                 ? "/"
-                                : content?.primaryButton?.internalLink
-                              : "page-not-found"
-                          }
-                        >
-                          {content?.primaryButton?.label ?? "View Project"}
-                        </a>
+                                : `/${
+                                    content?.primaryButton?.internalLink ===
+                                    undefined
+                                      ? "page-not-found"
+                                      : content?.primaryButton?.internalLink
+                                  }`
+                            }
+                          >
+                            <a
+                              aria-label={`Call to action ${
+                                content?.primaryButton?.label ?? "primary"
+                              } button which directs to ${
+                                content?.primaryButton?.internalLink ===
+                                undefined
+                                  ? "page-not-found"
+                                  : content?.primaryButton?.internalLink
+                              }`}
+                              className="inline-block py-2 px-4 border-2 border-gray-400 hover:border-white hover:opacity-100 text-gray-50 hover:bg-white hover:text-gray-900 transition duration-200 rounded-l-xl rounded-t-xl font-bold leading-loose"
+                              target={content?.primaryButton?.linkTarget}
+                              rel={
+                                content?.primaryButton?.linkTarget === "_blank"
+                                  ? "noopener noreferrer"
+                                  : null
+                              }
+                            >
+                              {content?.primaryButton?.label ?? "View Project"}
+                            </a>
+                          </Link>
+                        ) : (
+                          <a
+                            aria-label={`Call to action ${
+                              content?.primaryButton?.label ?? "primary"
+                            } button which directs to ${
+                              content?.primaryButton?.externalLink === undefined
+                                ? "link-not-found"
+                                : content?.primaryButton?.externalLink
+                            }`}
+                            className="inline-block py-2 px-4 border-2 border-gray-400 hover:border-white hover:opacity-100 text-gray-50 hover:bg-white hover:text-gray-900 transition duration-200 rounded-l-xl rounded-t-xl font-bold leading-loose"
+                            target={content?.primaryButton?.linkTarget}
+                            href={`/${
+                              content?.primaryButton?.externalLink === undefined
+                                ? "link-not-found"
+                                : content?.primaryButton?.externalLink
+                            }`}
+                            rel={
+                              content?.primaryButton?.linkTarget === "_blank"
+                                ? "noopener noreferrer"
+                                : null
+                            }
+                          >
+                            {content?.primaryButton?.label ?? "View Project"}
+                          </a>
+                        )}
                       </div>
                     </div>
                   )}

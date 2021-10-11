@@ -71,8 +71,8 @@ const blockStyle = {
       <a
         aria-label={children ?? "external link"}
         className="hover:text-webriq-darkorange text-webriq-lightorange"
-        href={mark.href}
         target="_blank"
+        href={mark.href}
         rel="noopener noreferrer"
       >
         {children}
@@ -234,7 +234,11 @@ function VariantD({ subtitle, title, posts, buttonLabel }) {
                         </div>
                         <div className="w-full lg:w-3/4 px-3">
                           {post?.title && (
-                            <Link href={`/${post?.slug?.current}`}>
+                            <Link
+                              href={`/${
+                                post?.slug?.current ?? "page-not-added"
+                              }`}
+                            >
                               <a
                                 aria-label={`Go to ${post?.slug?.current} blog page`}
                                 className="hover:text-webriq-babyblue"
@@ -299,7 +303,11 @@ function VariantD({ subtitle, title, posts, buttonLabel }) {
                         </div>
                         <div className="w-full lg:w-3/4 px-3">
                           {post?.title && (
-                            <Link href={`/${post?.slug?.current}`}>
+                            <Link
+                              href={
+                                `/${post?.slug?.current}` ?? "/page-not-found"
+                              }
+                            >
                               <a
                                 aria-label={`Go to ${post?.slug?.current} blog page`}
                                 className="hover:text-webriq-babyblue"

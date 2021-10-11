@@ -7,30 +7,74 @@ import { blogQuery, blogNavAndFooter, slugQuery } from "./api/query";
 import { groq } from "next-sanity";
 
 const Components = {
-  navigation: dynamic(() => import("component/sections/navigation")),
-  header: dynamic(() => import("component/sections/hero")),
-  features: dynamic(() => import("component/sections/features")),
-  portfolio: dynamic(() => import("component/sections/portfolio")),
-  blog: dynamic(() => import("component/sections/blog")),
-  contact: dynamic(() => import("component/sections/contact")),
-  pricing: dynamic(() => import("component/sections/pricing")),
-  testimonial: dynamic(() => import("component/sections/testimonials")),
-  team: dynamic(() => import("component/sections/team")),
-  howItWorks: dynamic(() => import("component/sections/how_it_works")),
-  newsletter: dynamic(() => import("component/sections/newsletter")),
-  faqs: dynamic(() => import("component/sections/faqs")),
-  callToAction: dynamic(() => import("component/sections/call_to_action")),
-  stats: dynamic(() => import("component/sections/stats")),
-  cookies: dynamic(() => import("component/sections/cookies")),
-  appPromo: dynamic(() => import("component/sections/app_promo")),
-  logoCloud: dynamic(() => import("component/sections/logoCloud")),
-  footer: dynamic(() => import("component/sections/footer")),
-  signInSignUp: dynamic(() => import("component/sections/sign_in_sign_up")),
-  textComponent: dynamic(() => import("component/sections/text_component")),
+  navigation: dynamic(() => import("component/sections/navigation"), {
+    ssr: false,
+  }),
+  header: dynamic(() => import("component/sections/hero"), {
+    ssr: false,
+  }),
+  features: dynamic(() => import("component/sections/features"), {
+    ssr: false,
+  }),
+  portfolio: dynamic(() => import("component/sections/portfolio"), {
+    ssr: false,
+  }),
+  blog: dynamic(() => import("component/sections/blog"), {
+    ssr: false,
+  }),
+  contact: dynamic(() => import("component/sections/contact"), {
+    ssr: false,
+  }),
+  pricing: dynamic(() => import("component/sections/pricing"), {
+    ssr: false,
+  }),
+  testimonial: dynamic(() => import("component/sections/testimonials"), {
+    ssr: false,
+  }),
+  team: dynamic(() => import("component/sections/team"), {
+    ssr: false,
+  }),
+  howItWorks: dynamic(() => import("component/sections/how_it_works"), {
+    ssr: false,
+  }),
+  newsletter: dynamic(() => import("component/sections/newsletter"), {
+    ssr: false,
+  }),
+  faqs: dynamic(() => import("component/sections/faqs"), {
+    ssr: false,
+  }),
+  callToAction: dynamic(() => import("component/sections/call_to_action"), {
+    ssr: false,
+  }),
+  stats: dynamic(() => import("component/sections/stats"), {
+    ssr: false,
+  }),
+  cookies: dynamic(() => import("component/sections/cookies"), {
+    ssr: false,
+  }),
+  appPromo: dynamic(() => import("component/sections/app_promo"), {
+    ssr: false,
+  }),
+  logoCloud: dynamic(() => import("component/sections/logoCloud"), {
+    ssr: false,
+  }),
+  footer: dynamic(() => import("component/sections/footer"), {
+    ssr: false,
+  }),
+  signInSignUp: dynamic(() => import("component/sections/sign_in_sign_up"), {
+    ssr: false,
+  }),
+  textComponent: dynamic(() => import("component/sections/text_component"), {
+    ssr: false,
+  }),
 };
 
-const SEO = dynamic(() => import("component/SEO"));
-const BlogPage = dynamic(() => import("component/blog/"));
+const SEO = dynamic(() => import("component/SEO"), {
+  ssr: false,
+});
+const BlogPage = dynamic(() => import("component/blog/"), {
+  ssr: false,
+});
 
 function page({ data, preview }) {
   const router = useRouter();

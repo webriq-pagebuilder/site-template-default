@@ -1,5 +1,6 @@
 import React from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { urlFor } from "lib/sanity";
 
 function VariantC({ title, images, button }) {
@@ -10,30 +11,53 @@ function VariantC({ title, images, button }) {
           <h1 className="mb-8 text-4xl lg:text-5xl font-bold font-heading">
             {title}
           </h1>
-          {button && (
+          {button && button?.type === "linkInternal" ? (
+            <Link
+              href={
+                button?.internalLink === "Home" ||
+                button?.internalLink === "home"
+                  ? "/"
+                  : `/${
+                      button.internalLink === undefined
+                        ? "page-not-found"
+                        : button.internalLink
+                    }`
+              }
+            >
+              <a
+                aria-label={`Logo Cloud ${
+                  button?.label ?? "Primary"
+                } button which directs to ${
+                  button?.internalLink === undefined
+                    ? "page-not-found"
+                    : button?.internalLink
+                }`}
+                className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-gray-50 font-bold leading-loose"
+                target={button?.linkTarget}
+                rel={
+                  button?.linkTarget === "_blank" ? "noopener noreferrer" : ""
+                }
+              >
+                {button?.label}
+              </a>
+            </Link>
+          ) : (
             <a
               aria-label={`Logo Cloud ${
                 button?.label ?? "Primary"
               } button which directs to ${
-                button?.type === "linkExternal"
-                  ? button?.externalLink
-                  : button?.type === "linkInternal"
-                  ? button?.internalLink
-                  : "not found"
-              } page`}
+                button?.externalLink === undefined
+                  ? "link-not-found"
+                  : button?.externalLink
+              }`}
               className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-gray-50 font-bold leading-loose"
               target={button?.linkTarget}
+              href={`/${
+                button.externalLink === undefined
+                  ? "link-not-found"
+                  : button.externalLink
+              }`}
               rel={button?.linkTarget === "_blank" ? "noopener noreferrer" : ""}
-              href={
-                button.type === "linkExternal"
-                  ? button?.externalLink
-                  : button.type === "linkInternal"
-                  ? button.internalLink === "Home" ||
-                    button.internalLink === "home"
-                    ? "/"
-                    : button?.internalLink
-                  : "page-not-found"
-              }
             >
               {button?.label}
             </a>

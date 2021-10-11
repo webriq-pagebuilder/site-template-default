@@ -13,36 +13,17 @@ function VariantE({ title, block, allowCookieBtn, denyCookieBtn }) {
       ),
     },
     marks: {
-      internalLink: ({ children, mark }) => (
+      link: ({ children, mark }) => (
         <a
-          aria-label={children ?? "internal link"}
-          className="hover:text-webriq-lightblue text-blue-500"
-          href={mark.slug.current}
+          aria-label={children ?? "external link"}
+          className="hover:text-webriq-lightblue text-blue-400"
+          target="_blank"
+          href={mark.href}
+          rel="noopener noreferrer"
         >
           {children}
         </a>
       ),
-      link: ({ children, mark }) =>
-        mark.blank ? (
-          <a
-            aria-label={children ?? "external link"}
-            href={mark.href}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {children}
-          </a>
-        ) : (
-          <a
-            aria-label={children ?? "external link"}
-            className="hover:text-webriq-lightblue text-blue-400"
-            href={mark.href}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {children}
-          </a>
-        ),
     },
   };
 

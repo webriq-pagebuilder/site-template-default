@@ -1,5 +1,6 @@
 import { urlFor } from "lib/sanity";
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 function VariantB({ logo, copyright, socialMedia, menu }) {
@@ -10,19 +11,18 @@ function VariantB({ logo, copyright, socialMedia, menu }) {
           <div className="pb-12 flex flex-wrap items-center justify-between border-b border-gray-100">
             <div className="w-full lg:w-1/5 mb-12 lg:mb-4 mx-20">
               {logo?.image && (
-                <a
-                  className="inline-block text-3xl font-bold leading-none"
-                  href="/"
-                >
-                  <Image
-                    src={urlFor(logo?.image)}
-                    layout="fixed"
-                    width="132px"
-                    height="56px"
-                    objectFit="scale-down"
-                    alt={logo?.alt ?? "footer-logo"}
-                  />
-                </a>
+                <Link href="/">
+                  <a className="inline-block text-3xl font-bold leading-none">
+                    <Image
+                      src={urlFor(logo?.image)}
+                      layout="fixed"
+                      width="132px"
+                      height="56px"
+                      objectFit="scale-down"
+                      alt={logo?.alt ?? "footer-logo"}
+                    />
+                  </a>
+                </Link>
               )}
             </div>
             {menu && (
@@ -31,36 +31,63 @@ function VariantB({ logo, copyright, socialMedia, menu }) {
                   {menu?.map((links, index, { length }) => (
                     <React.Fragment key={links?._key || index}>
                       <li className="w-full md:w-auto mb-2 md:mb-0" key={index}>
-                        <a
-                          aria-label={`Footer ${
-                            links?.label ?? "Menu"
-                          } links which directs to ${
-                            links?.type === "linkExternal"
-                              ? links?.externalLink
-                              : links?.type === "linkInternal"
-                              ? links?.internalLink
-                              : "not found"
-                          } page`}
-                          className="lg:text-sm text-gray-500 hover:text-gray-700"
-                          target={links?.linkTarget}
-                          rel={
-                            links?.linkTarget === "_blank"
-                              ? "noopener noreferrer"
-                              : null
-                          }
-                          href={
-                            links?.type === "linkExternal"
-                              ? links?.externalLink
-                              : links?.type === "linkInternal"
-                              ? links?.internalLink === "Home" ||
-                                links?.internalLink === "home"
+                        {links?.type === "linkInternal" ? (
+                          <Link
+                            href={
+                              links?.internalLink === "Home" ||
+                              links?.internalLink === "home"
                                 ? "/"
-                                : links?.internalLink
-                              : "page-not-found"
-                          }
-                        >
-                          {links?.label}
-                        </a>
+                                : `/${
+                                    links.internalLink === undefined
+                                      ? "page-not-found"
+                                      : links.internalLink
+                                  }`
+                            }
+                          >
+                            <a
+                              aria-label={`Footer ${
+                                links?.label ?? "Menu"
+                              } links which directs to ${
+                                links?.internalLink === undefined
+                                  ? "page-not-found"
+                                  : links?.internalLink
+                              }`}
+                              className="lg:text-sm text-gray-500 hover:text-gray-700"
+                              target={links?.linkTarget}
+                              rel={
+                                links?.linkTarget === "_blank"
+                                  ? "noopener noreferrer"
+                                  : null
+                              }
+                            >
+                              {links?.label}
+                            </a>
+                          </Link>
+                        ) : (
+                          <a
+                            aria-label={`Footer ${
+                              links?.label ?? "Menu"
+                            } links which directs to ${
+                              links?.externalLink === undefined
+                                ? "link-not-found"
+                                : links?.externalLink
+                            }`}
+                            className="lg:text-sm text-gray-500 hover:text-gray-700"
+                            target={links?.linkTarget}
+                            rel={
+                              links?.linkTarget === "_blank"
+                                ? "noopener noreferrer"
+                                : null
+                            }
+                            href={`/${
+                              links.externalLink === undefined
+                                ? "link-not-found"
+                                : links.externalLink
+                            }`}
+                          >
+                            {links?.label}
+                          </a>
+                        )}
                       </li>
                       {index + 1 !== length ? (
                         <li className="hidden md:block">

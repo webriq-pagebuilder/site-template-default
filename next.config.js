@@ -41,7 +41,7 @@ module.exports = withPWA({
             "frame-src": "*",
             "img-src": "'self' data:",
             "manifest-src": "'self'",
-            "object-src": "'none'",
+            "object-src": "'self' data:",
             "prefetch-src": "'self'",
             "script-src": [
               `${
@@ -49,12 +49,11 @@ module.exports = withPWA({
                   ? `'nonce-${nanoid(
                       10
                     )}' 'unsafe-inline' 'unsafe-eval' http: https:`
-                  : `'strict-dynamic' 'nonce-${nanoid(
-                      10
-                    )}' 'unsafe-inline' http: https:`
+                  : `'nonce-${nanoid(10)}' 'unsafe-inline' http: https:`
               }`,
             ],
             "style-src": "'unsafe-inline'",
+            "style-src-elem": "'self'",
             "worker-src": "'self'",
             reportOnly: false,
           },

@@ -1,5 +1,6 @@
 import React from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { urlFor } from "lib/sanity";
 
 function VariantF({ caption, title, description, images, primaryButton }) {
@@ -25,34 +26,63 @@ function VariantF({ caption, title, description, images, primaryButton }) {
                 )}
                 {primaryButton && (
                   <div className="flex flex-wrap lg:-ml-5">
-                    <a
-                      aria-label={`Features ${
-                        primaryButton?.label ?? "Primary"
-                      } button which directs to ${
-                        primaryButton?.type === "linkExternal"
-                          ? primaryButton?.externalLink
-                          : primaryButton?.type === "linkInternal"
-                          ? primaryButton?.internalLink
-                          : "not found"
-                      } page`}
-                      className="lg:w-auto py-2 px-6 leading-loose lg:ml-5 text-gray-50 font-bold bg-webriq-darkblue hover:bg-webriq-blue transition duration-200 rounded-l-xl rounded-t-xl"
-                      target={primaryButton?.linkTarget}
-                      rel={
-                        primaryButton?.linkTarget === "_blank"
-                          ? "noopener noreferrer"
-                          : null
-                      }
-                      href={
-                        primaryButton.type === "linkInternal"
-                          ? primaryButton.internalLink === "Home" ||
-                            primaryButton.internalLink === "home"
+                    {primaryButton?.type === "linkInternal" ? (
+                      <Link
+                        href={
+                          primaryButton?.internalLink === "Home" ||
+                          primaryButton?.internalLink === "home"
                             ? "/"
-                            : primaryButton?.internalLink
-                          : "page-not-found"
-                      }
-                    >
-                      {primaryButton.label}
-                    </a>
+                            : `/${
+                                primaryButton.internalLink === undefined
+                                  ? "page-not-found"
+                                  : primaryButton.internalLink
+                              }`
+                        }
+                      >
+                        <a
+                          aria-label={`Features ${
+                            primaryButton?.label ?? "Primary"
+                          } button which directs to ${
+                            primaryButton?.internalLink === undefined
+                              ? "page-not-found"
+                              : primaryButton?.internalLink
+                          }`}
+                          className="lg:w-auto py-2 px-6 leading-loose lg:ml-5 text-gray-50 font-bold bg-webriq-darkblue hover:bg-webriq-blue transition duration-200 rounded-l-xl rounded-t-xl"
+                          target={primaryButton?.linkTarget}
+                          rel={
+                            primaryButton?.linkTarget === "_blank"
+                              ? "noopener noreferrer"
+                              : null
+                          }
+                        >
+                          {primaryButton?.label}
+                        </a>
+                      </Link>
+                    ) : (
+                      <a
+                        aria-label={`Features ${
+                          primaryButton?.label ?? "Primary"
+                        } button which directs to ${
+                          primaryButton?.externalLink === undefined
+                            ? "link-not-found"
+                            : primaryButton?.externalLink
+                        }`}
+                        className="lg:w-auto py-2 px-6 leading-loose lg:ml-5 text-gray-50 font-bold bg-webriq-darkblue hover:bg-webriq-blue transition duration-200 rounded-l-xl rounded-t-xl"
+                        target={primaryButton?.linkTarget}
+                        href={`/${
+                          primaryButton.externalLink === undefined
+                            ? "link-not-found"
+                            : primaryButton.externalLink
+                        }`}
+                        rel={
+                          primaryButton?.linkTarget === "_blank"
+                            ? "noopener noreferrer"
+                            : null
+                        }
+                      >
+                        {primaryButton?.label}
+                      </a>
+                    )}
                   </div>
                 )}
               </div>

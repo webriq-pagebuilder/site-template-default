@@ -1,6 +1,7 @@
 import { urlFor } from "lib/sanity";
 import React from "react";
 import Image from "next/image";
+import Link from "next/link";
 import WebriQForm from "@webriq/gatsby-webriq-form";
 
 function VariantD({
@@ -20,49 +21,73 @@ function VariantD({
         <div className="flex flex-wrap items-center justify-center -mx-4">
           <div className="mb-16 lg:mb-0 max-w-2xl lg:w-1/2 px-4">
             {logo?.image && (
-              <a
-                className="mb-6 inline-block text-3xl font-bold leading-none"
-                href="/"
-              >
-                <Image
-                  src={urlFor(logo?.image)}
-                  layout="fixed"
-                  width="132px"
-                  height="48px"
-                  objectFit="contain"
-                  alt={logo?.alt ?? "callToAction-logo"}
-                />
-              </a>
+              <Link href="/">
+                <a className="mb-6 inline-block text-3xl font-bold leading-none">
+                  <Image
+                    src={urlFor(logo?.image)}
+                    layout="fixed"
+                    width="132px"
+                    height="48px"
+                    objectFit="contain"
+                    alt={logo?.alt ?? "callToAction-logo"}
+                  />
+                </a>
+              </Link>
             )}
             <h1 className="mb-4 text-4xl md:text-5xl font-bold font-heading">
               {title}
             </h1>
             <p className="mb-8 text-gray-700 leading-loose">{text}</p>
-            {button && (
+            {button && button?.type === "linkInternal" ? (
+              <Link
+                href={
+                  button?.internalLink === "Home" ||
+                  button?.internalLink === "home"
+                    ? "/"
+                    : `/${
+                        button.internalLink === undefined
+                          ? "page-not-found"
+                          : button.internalLink
+                      }`
+                }
+              >
+                <a
+                  aria-label={`Call to action ${
+                    button?.label ?? "primary"
+                  } button which directs to ${
+                    button?.internalLink === undefined
+                      ? "page-not-found"
+                      : button?.internalLink
+                  }`}
+                  className="inline-block py-2 px-6 bg-webriq-darkblue hover:bg-webriq-blue text-white font-bold leading-loose transition duration-250 rounded-l-xl rounded-t-xl"
+                  target={button?.linkTarget}
+                  rel={
+                    button?.linkTarget === "_blank"
+                      ? "noopener noreferrer"
+                      : null
+                  }
+                >
+                  {button?.label}
+                </a>
+              </Link>
+            ) : (
               <a
                 aria-label={`Call to action ${
                   button?.label ?? "primary"
                 } button which directs to ${
-                  button?.type === "linkExternal"
-                    ? button?.externalLink
-                    : button?.type === "linkInternal"
-                    ? button?.internalLink
-                    : "not found"
-                } page`}
+                  button?.externalLink === undefined
+                    ? "link-not-found"
+                    : button?.externalLink
+                }`}
                 className="inline-block py-2 px-6 bg-webriq-darkblue hover:bg-webriq-blue text-white font-bold leading-loose transition duration-250 rounded-l-xl rounded-t-xl"
                 target={button?.linkTarget}
+                href={`/${
+                  button.externalLink === undefined
+                    ? "link-not-found"
+                    : button.externalLink
+                }`}
                 rel={
                   button?.linkTarget === "_blank" ? "noopener noreferrer" : null
-                }
-                href={
-                  button.type === "linkExternal"
-                    ? button?.externalLink
-                    : button.type === "linkInternal"
-                    ? button.internalLink === "Home" ||
-                      button.internalLink === "home"
-                      ? "/"
-                      : button?.internalLink
-                    : "page-not-found"
                 }
               >
                 {button?.label}
@@ -333,70 +358,125 @@ function VariantD({
                       Sign Up
                     </button>
                   </WebriQForm>
-                  <p className="text-xs text-gray-400">
-                    <span>Already have an account?</span>
-                    <a
-                      aria-label={`Call to action ${
-                        signInLink?.label ?? "Sign In"
-                      } link`}
-                      className="text-webriq-darkblue hover:text-webriq-babyblue"
-                      target={signInLink?.linkTarget}
-                      rel={
-                        signInLink?.linkTarget === "_blank"
-                          ? "noopener noreferrer"
-                          : null
-                      }
-                      href={
-                        signInLink?.type === "linkExternal"
-                          ? signInLink?.externalLink
-                          : signInLink?.type === "linkInternal"
-                          ? signInLink?.internalLink === "Home" ||
+                  {signInLink?.label && (
+                    <p className="text-xs text-gray-400">
+                      <span>Already have an account?</span>
+                      {signInLink?.type === "linkInternal" ? (
+                        <Link
+                          href={
+                            signInLink?.internalLink === "Home" ||
                             signInLink?.internalLink === "home"
-                            ? "/"
-                            : signInLink?.internalLink
-                          : "page-not-found"
-                      }
-                    >
-                      &nbsp;{signInLink?.label}
-                    </a>
-                  </p>
+                              ? "/"
+                              : `/${
+                                  signInLink.internalLink === undefined
+                                    ? "page-not-found"
+                                    : signInLink.internalLink
+                                }`
+                          }
+                        >
+                          <a
+                            aria-label={`Call to action ${
+                              signInLink?.label ?? "Sign In"
+                            } link`}
+                            className="text-webriq-darkblue hover:text-webriq-babyblue"
+                            target={signInLink?.linkTarget}
+                            rel={
+                              signInLink?.linkTarget === "_blank"
+                                ? "noopener noreferrer"
+                                : null
+                            }
+                          >
+                            &nbsp;{signInLink?.label}
+                          </a>
+                        </Link>
+                      ) : (
+                        <a
+                          aria-label={`Call to action ${
+                            signInLink?.label ?? "Sign In"
+                          } link`}
+                          className="text-webriq-darkblue hover:text-webriq-babyblue"
+                          target={signInLink?.linkTarget}
+                          href={`/${
+                            signInLink.externalLink === undefined
+                              ? "link-not-found"
+                              : signInLink.externalLink
+                          }`}
+                          rel={
+                            signInLink?.linkTarget === "_blank"
+                              ? "noopener noreferrer"
+                              : null
+                          }
+                        >
+                          &nbsp;{signInLink?.label}
+                        </a>
+                      )}
+                    </p>
+                  )}
                 </div>
               )}
               {links && (
                 <p className="text-center text-gray-400">
                   {links?.map((link, index, { length }) => (
                     <>
-                      <a
-                        aria-label={`Call to action ${
-                          link?.label ?? "Terms and Policies"
-                        } links which directs to ${
-                          link?.type === "linkExternal"
-                            ? link?.externalLink
-                            : link?.type === "linkInternal"
-                            ? link?.internalLink
-                            : "not found"
-                        } page`}
-                        className="text-webriq-darkblue hover:text-webriq-blue font-bold"
-                        target={link?.linkTarget}
-                        rel={
-                          link?.linkTarget === "_blank"
-                            ? "noopener noreferrer"
-                            : null
-                        }
-                        key={index}
-                        href={
-                          link?.type === "linkExternal"
-                            ? link?.externalLink
-                            : link?.type === "linkInternal"
-                            ? link?.internalLink === "Home" ||
-                              link?.internalLink === "home"
+                      {link?.type === "linkInternal" ? (
+                        <Link
+                          href={
+                            link?.internalLink === "Home" ||
+                            link?.internalLink === "home"
                               ? "/"
-                              : link?.internalLink
-                            : "page-not-found"
-                        }
-                      >
-                        {link?.label}
-                      </a>
+                              : `/${
+                                  link.internalLink === undefined
+                                    ? "page-not-found"
+                                    : link.internalLink
+                                }`
+                          }
+                        >
+                          <a
+                            aria-label={`Call to action ${
+                              link?.label ?? "Terms and Policies"
+                            } links which directs to ${
+                              link?.internalLink === undefined
+                                ? "page-not-found"
+                                : link?.internalLink
+                            }`}
+                            className="text-webriq-darkblue hover:text-webriq-blue font-bold"
+                            target={link?.linkTarget}
+                            rel={
+                              link?.linkTarget === "_blank"
+                                ? "noopener noreferrer"
+                                : null
+                            }
+                            key={index}
+                          >
+                            {link?.label}
+                          </a>
+                        </Link>
+                      ) : (
+                        <a
+                          aria-label={`Call to action ${
+                            link?.label ?? "Terms and Policies"
+                          } links which directs to ${
+                            link?.externalLink === undefined
+                              ? "link-not-found"
+                              : link?.externalLink
+                          }`}
+                          className="text-webriq-darkblue hover:text-webriq-blue font-bold"
+                          target={link?.linkTarget}
+                          href={`/${
+                            link.externalLink === undefined
+                              ? "link-not-found"
+                              : link.externalLink
+                          }`}
+                          rel={
+                            link?.linkTarget === "_blank"
+                              ? "noopener noreferrer"
+                              : null
+                          }
+                          key={index}
+                        >
+                          {link?.label}
+                        </a>
+                      )}
                       {index + 1 !== length ? (
                         <span>&nbsp;and&nbsp;</span>
                       ) : null}

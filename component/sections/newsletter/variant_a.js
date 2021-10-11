@@ -1,6 +1,7 @@
 import React from "react";
 import { urlFor } from "lib/sanity";
 import Image from "next/image";
+import Link from "next/link";
 import WebriQForm from "@webriq/gatsby-webriq-form";
 
 function VariantA({ logo, title, description, formFields, formId, formName }) {
@@ -10,19 +11,18 @@ function VariantA({ logo, title, description, formFields, formId, formName }) {
         <div className="container mx-auto px-4">
           <div className="max-w-xl mx-auto text-center">
             {logo?.image && (
-              <a
-                className="mb-6 inline-block text-3xl font-bold leading-none"
-                href="/"
-              >
-                <Image
-                  src={urlFor(logo?.image)}
-                  layout="fixed"
-                  width="132px"
-                  height="48px"
-                  objectFit="contain"
-                  alt={logo?.alt ?? "newsletter-logo"}
-                />
-              </a>
+              <Link prefetch={false} href="/">
+                <a className="mb-6 inline-block text-3xl font-bold leading-none">
+                  <Image
+                    src={urlFor(logo?.image)}
+                    layout="fixed"
+                    width="132px"
+                    height="48px"
+                    objectFit="contain"
+                    alt={logo?.alt ?? "newsletter-logo"}
+                  />
+                </a>
+              </Link>
             )}
             <h1 className="mb-2 text-4xl lg:text-5xl font-bold font-heading">
               {title}

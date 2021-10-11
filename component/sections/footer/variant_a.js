@@ -1,5 +1,6 @@
 import { urlFor } from "lib/sanity";
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 function VariantA({ logo, text, contacts, copyright, socialMedia }) {
@@ -10,16 +11,18 @@ function VariantA({ logo, text, contacts, copyright, socialMedia }) {
           <div className="flex flex-wrap mb-6 lg:mb-20">
             <div className="mb-6 w-full lg:w-1/5">
               {logo?.image && (
-                <a className="text-3xl font-bold leading-none" href="#">
-                  <Image
-                    src={urlFor(logo?.image)}
-                    layout="fixed"
-                    width="132px"
-                    height="56px"
-                    objectFit="scale-down"
-                    alt={logo?.alt ?? "footer-logo"}
-                  />
-                </a>
+                <Link href="/">
+                  <a className="text-3xl font-bold leading-none">
+                    <Image
+                      src={urlFor(logo?.image)}
+                      layout="fixed"
+                      width="132px"
+                      height="56px"
+                      objectFit="scale-down"
+                      alt={logo?.alt ?? "footer-logo"}
+                    />
+                  </a>
+                </Link>
               )}
             </div>
             <div className="mb-5 w-full lg:w-1/5">

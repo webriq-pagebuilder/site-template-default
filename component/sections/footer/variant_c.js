@@ -1,5 +1,6 @@
 import { urlFor } from "lib/sanity";
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 function VariantC({ logo, menu, copyright, socialMedia }) {
@@ -33,36 +34,63 @@ function VariantC({ logo, menu, copyright, socialMedia }) {
                 <ul className="flex flex-wrap lg:space-x-5 justify-between items-center mx-20">
                   {menu?.map((links, index) => (
                     <li className="w-full md:w-auto mb-2 md:mb-0" key={index}>
-                      <a
-                        aria-label={`Footer ${
-                          links?.label ?? "Menu"
-                        } links which directs to ${
-                          links?.type === "linkExternal"
-                            ? links?.externalLink
-                            : links?.type === "linkInternal"
-                            ? links?.internalLink
-                            : "not found"
-                        } page`}
-                        className="mr-6 text-sm hover:text-gray-500"
-                        target={links?.linkTarget}
-                        rel={
-                          links?.linkTarget === "_blank"
-                            ? "noopener noreferrer"
-                            : null
-                        }
-                        href={
-                          links?.type === "linkExternal"
-                            ? links?.externalLink
-                            : links?.type === "linkInternal"
-                            ? links?.internalLink === "Home" ||
-                              links?.internalLink === "home"
+                      {links?.type === "linkInternal" ? (
+                        <Link
+                          href={
+                            links?.internalLink === "Home" ||
+                            links?.internalLink === "home"
                               ? "/"
-                              : links?.internalLink
-                            : "page-not-found"
-                        }
-                      >
-                        {links?.label}
-                      </a>
+                              : `/${
+                                  links.internalLink === undefined
+                                    ? "page-not-found"
+                                    : links.internalLink
+                                }`
+                          }
+                        >
+                          <a
+                            aria-label={`Footer ${
+                              links?.label ?? "Menu"
+                            } links which directs to ${
+                              links?.internalLink === undefined
+                                ? "page-not-found"
+                                : links?.internalLink
+                            }`}
+                            className="mr-6 text-sm hover:text-gray-500"
+                            target={links?.linkTarget}
+                            rel={
+                              links?.linkTarget === "_blank"
+                                ? "noopener noreferrer"
+                                : null
+                            }
+                          >
+                            {links?.label}
+                          </a>
+                        </Link>
+                      ) : (
+                        <a
+                          aria-label={`Footer ${
+                            links?.label ?? "Menu"
+                          } links which directs to ${
+                            links?.externalLink === undefined
+                              ? "page-not-found"
+                              : links?.externalLink
+                          }`}
+                          className="mr-6 text-sm hover:text-gray-500"
+                          target={links?.linkTarget}
+                          rel={
+                            links?.linkTarget === "_blank"
+                              ? "noopener noreferrer"
+                              : null
+                          }
+                          href={`/${
+                            links.externalLink === undefined
+                              ? "link-not-found"
+                              : links.externalLink
+                          }`}
+                        >
+                          {links?.label}
+                        </a>
+                      )}
                     </li>
                   ))}
                 </ul>
@@ -70,19 +98,18 @@ function VariantC({ logo, menu, copyright, socialMedia }) {
             )}
             <div className="mb-12 lg:mb-0 lg:ml-auto w-full lg:w-auto order-first lg:order-last text-center lg:text-left">
               {logo?.image && (
-                <a
-                  className="inline-block text-xl font-bold leading-none"
-                  href="/"
-                >
-                  <Image
-                    src={urlFor(logo?.image)}
-                    layout="fixed"
-                    width="132px"
-                    height="56px"
-                    objectFit="scale-down"
-                    alt={logo?.alt ?? "footer-logo"}
-                  />
-                </a>
+                <Link href="/">
+                  <a className="inline-block text-xl font-bold leading-none">
+                    <Image
+                      src={urlFor(logo?.image)}
+                      layout="fixed"
+                      width="132px"
+                      height="56px"
+                      objectFit="scale-down"
+                      alt={logo?.alt ?? "footer-logo"}
+                    />
+                  </a>
+                </Link>
               )}
             </div>
           </div>

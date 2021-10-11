@@ -1,5 +1,6 @@
 import React from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { urlFor } from "lib/sanity";
 
 function VariantA({ logo, subtitle, title, images }) {
@@ -9,16 +10,18 @@ function VariantA({ logo, subtitle, title, images }) {
         <div className="container mx-auto px-4">
           <div className="relative max-w-md mx-auto text-center">
             {logo?.image && (
-              <a className="mb-8 inline-block p-5 bg-white rounded-lg" href="/">
-                <Image
-                  src={urlFor(logo?.image)}
-                  layout="fixed"
-                  width="38px"
-                  height="48px"
-                  objectFit="contain"
-                  alt={logo?.alt ?? "appPromo-logo"}
-                />
-              </a>
+              <Link href="/">
+                <a className="mb-8 inline-block p-5 bg-white rounded-lg">
+                  <Image
+                    src={urlFor(logo?.image)}
+                    layout="fixed"
+                    width="38px"
+                    height="48px"
+                    objectFit="contain"
+                    alt={logo?.alt ?? "appPromo-logo"}
+                  />
+                </a>
+              </Link>
             )}
             <p className="text-gray-50 mb-3">{subtitle}</p>
             <h1 className="text-3xl lg:text-5xl text-white font-bold mb-8">

@@ -71,8 +71,8 @@ const blockStyle = {
       <a
         aria-label={children ?? "external link"}
         className="hover:text-webriq-darkorange text-webriq-lightorange"
-        href={mark.href}
         target="_blank"
+        href={mark.href}
         rel="noopener noreferrer"
       >
         {children}
@@ -293,7 +293,11 @@ function VariantC({ subtitle, title, posts, buttonLabel }) {
                               serializers={blockStyle}
                             />
                           )}
-                          <Link href={`/${post?.slug?.current}`}>
+                          <Link
+                            href={
+                              `/${post?.slug?.current}` ?? "/page-not-found"
+                            }
+                          >
                             <a
                               aria-label={`Go to ${post?.slug?.current} blog page`}
                               className="text-webriq-darkblue hover:text-webriq-blue font-bold"
@@ -353,7 +357,11 @@ function VariantC({ subtitle, title, posts, buttonLabel }) {
                               serializers={blockStyle}
                             />
                           )}
-                          <Link href={`/${post?.slug?.current}`}>
+                          <Link
+                            href={
+                              `/${post?.slug?.current}` ?? "/page-not-found"
+                            }
+                          >
                             <a
                               aria-label={`Go to ${post?.slug?.current} blog page`}
                               className="text-webriq-darkblue hover:text-webriq-blue font-bold"
