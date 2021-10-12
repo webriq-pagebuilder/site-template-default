@@ -12,7 +12,10 @@ function VariantB({ logo, title, text, formFields, formId, formName }) {
           <div className="max-w-xl mx-auto text-center">
             {logo?.image && (
               <Link prefetch={false} href="/">
-                <a className="mb-6 inline-block p-3 rounded">
+                <a
+                  aria-label="Call to Action logo"
+                  className="mb-6 inline-block p-3 rounded"
+                >
                   <Image
                     src={urlFor(logo?.image)}
                     layout="fixed"

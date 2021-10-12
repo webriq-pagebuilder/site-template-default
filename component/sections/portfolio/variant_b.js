@@ -1,5 +1,6 @@
 import React from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { urlFor } from "lib/sanity";
 
 function VariantB({ caption, title, portfolios, buttonLabel }) {
@@ -63,37 +64,61 @@ function VariantB({ caption, title, portfolios, buttonLabel }) {
                         <p className="mb-auto text-xl lg:text-2xl text-white font-bold">
                           {content?.heading}
                         </p>
-                        {content?.primaryButton?.label && (
+                        {content?.primaryButton?.label &&
+                        content?.primaryButton?.type === "linkInternal" ? (
+                          <Link
+                            href={
+                              content?.primaryButton?.internalLink === "Home" ||
+                              content?.primaryButton?.internalLink === "home"
+                                ? "/"
+                                : `/${
+                                    content?.primaryButton?.internalLink ===
+                                    undefined
+                                      ? "page-not-found"
+                                      : content?.primaryButton?.internalLink
+                                  }`
+                            }
+                          >
+                            <a
+                              aria-label={`Portfolio ${
+                                content?.primaryButton?.label ?? "View Project"
+                              } button which directs to ${
+                                content?.primaryButton?.internalLink ===
+                                undefined
+                                  ? "page-not-found"
+                                  : content?.primaryButton?.internalLink
+                              }`}
+                              className="inline-block py-2 px-4 border-2 border-gray-400 hover:border-webriq-darkblue bg-transparent text-gray-50 hover:bg-webriq-darkblue hover:text-white transition duration-200 rounded-l-xl rounded-t-xl font-bold leading-loose"
+                              target={content?.primaryButton?.linkTarget}
+                              rel={
+                                content?.primaryButton?.linkTarget === "_blank"
+                                  ? "noopener noreferrer"
+                                  : null
+                              }
+                            >
+                              {content?.primaryButton?.label}
+                            </a>
+                          </Link>
+                        ) : (
                           <a
                             aria-label={`Portfolio ${
                               content?.primaryButton?.label ?? "View Project"
                             } button which directs to ${
-                              content?.primaryButton?.type === "linkExternal"
-                                ? content?.primaryButton?.externalLink
-                                : content?.primaryButton?.type ===
-                                  "linkInternal"
-                                ? content?.primaryButton?.internalLink
-                                : "not found"
-                            } page`}
+                              content?.primaryButton?.externalLink === undefined
+                                ? "link-not-found"
+                                : content?.primaryButton?.externalLink
+                            }`}
                             className="inline-block py-2 px-4 border-2 border-gray-400 hover:border-webriq-darkblue bg-transparent text-gray-50 hover:bg-webriq-darkblue hover:text-white transition duration-200 rounded-l-xl rounded-t-xl font-bold leading-loose"
                             target={content?.primaryButton?.linkTarget}
+                            href={`${
+                              content?.primaryButton?.externalLink === undefined
+                                ? "link-not-found"
+                                : content?.primaryButton?.externalLink
+                            }`}
                             rel={
                               content?.primaryButton?.linkTarget === "_blank"
                                 ? "noopener noreferrer"
                                 : null
-                            }
-                            href={
-                              content?.primaryButton?.type === "linkExternal"
-                                ? content?.primaryButton?.externalLink
-                                : content?.primaryButton?.type ===
-                                  "linkInternal"
-                                ? content?.primaryButton?.internalLink ===
-                                    "Home" ||
-                                  content?.primaryButton?.internalLink ===
-                                    "home"
-                                  ? "/"
-                                  : content?.primaryButton?.internalLink
-                                : "page-not-found"
                             }
                           >
                             {content?.primaryButton?.label}

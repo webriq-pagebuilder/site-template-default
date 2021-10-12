@@ -14,7 +14,10 @@ function VariantB({ logo, title, description, formFields, formId, formName }) {
               <div className="mb-4 inline-block px-5 py-5 bg-white rounded-lg">
                 {logo?.image && (
                   <Link prefetch={false} href="/">
-                    <a className="mb-6 inline-block text-3xl font-bold leading-none">
+                    <a
+                      aria-label="Newsletter logo"
+                      className="mb-6 inline-block text-3xl font-bold leading-none"
+                    >
                       <Image
                         src={urlFor(logo?.image)}
                         layout="fixed"

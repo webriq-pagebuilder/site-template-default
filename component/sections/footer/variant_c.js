@@ -41,9 +41,9 @@ function VariantC({ logo, menu, copyright, socialMedia }) {
                             links?.internalLink === "home"
                               ? "/"
                               : `/${
-                                  links.internalLink === undefined
+                                  links?.internalLink === undefined
                                     ? "page-not-found"
-                                    : links.internalLink
+                                    : links?.internalLink
                                 }`
                           }
                         >
@@ -82,10 +82,10 @@ function VariantC({ logo, menu, copyright, socialMedia }) {
                               ? "noopener noreferrer"
                               : null
                           }
-                          href={`/${
-                            links.externalLink === undefined
+                          href={`${
+                            links?.externalLink === undefined
                               ? "link-not-found"
-                              : links.externalLink
+                              : links?.externalLink
                           }`}
                         >
                           {links?.label}
@@ -99,7 +99,10 @@ function VariantC({ logo, menu, copyright, socialMedia }) {
             <div className="mb-12 lg:mb-0 lg:ml-auto w-full lg:w-auto order-first lg:order-last text-center lg:text-left">
               {logo?.image && (
                 <Link href="/">
-                  <a className="inline-block text-xl font-bold leading-none">
+                  <a
+                    aria-label="Footer logo"
+                    className="inline-block text-xl font-bold leading-none"
+                  >
                     <Image
                       src={urlFor(logo?.image)}
                       layout="fixed"

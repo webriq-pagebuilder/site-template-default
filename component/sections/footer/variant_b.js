@@ -12,7 +12,10 @@ function VariantB({ logo, copyright, socialMedia, menu }) {
             <div className="w-full lg:w-1/5 mb-12 lg:mb-4 mx-20">
               {logo?.image && (
                 <Link href="/">
-                  <a className="inline-block text-3xl font-bold leading-none">
+                  <a
+                    aria-label="Footer logo"
+                    className="inline-block text-3xl font-bold leading-none"
+                  >
                     <Image
                       src={urlFor(logo?.image)}
                       layout="fixed"
@@ -38,9 +41,9 @@ function VariantB({ logo, copyright, socialMedia, menu }) {
                               links?.internalLink === "home"
                                 ? "/"
                                 : `/${
-                                    links.internalLink === undefined
+                                    links?.internalLink === undefined
                                       ? "page-not-found"
-                                      : links.internalLink
+                                      : links?.internalLink
                                   }`
                             }
                           >
@@ -79,10 +82,10 @@ function VariantB({ logo, copyright, socialMedia, menu }) {
                                 ? "noopener noreferrer"
                                 : null
                             }
-                            href={`/${
-                              links.externalLink === undefined
+                            href={`${
+                              links?.externalLink === undefined
                                 ? "link-not-found"
-                                : links.externalLink
+                                : links?.externalLink
                             }`}
                           >
                             {links?.label}

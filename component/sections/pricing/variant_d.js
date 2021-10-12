@@ -1,6 +1,7 @@
 import { urlFor, PortableText } from "lib/sanity";
 import React from "react";
 import Image from "next/image";
+import Link from "next/link";
 import WebriQForm from "@webriq/gatsby-webriq-form";
 
 function VariantD({
@@ -28,34 +29,15 @@ function VariantD({
       block: (props) => <p className="text-xs">{props.children}</p>,
     },
     marks: {
-      internalLink: ({ children, mark }) => (
+      link: ({ children, mark }) => (
         <a
-          aria-label={children ?? "internal link"}
-          className="hover:text-red-400 text-red-800"
-          href={mark.slug.current}
+          aria-label={children ?? "external link"}
+          className="text-webriq-darkblue font-bold hover:text-webriq-darkblue"
+          href={mark.href}
         >
           {children}
         </a>
       ),
-      link: ({ children, mark }) =>
-        mark.blank ? (
-          <a
-            aria-label={children ?? "external link"}
-            href={mark.href}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {children}
-          </a>
-        ) : (
-          <a
-            aria-label={children ?? "external link"}
-            className="text-webriq-darkblue font-bold hover:text-webriq-darkblue"
-            href={mark.href}
-          >
-            {children}
-          </a>
-        ),
     },
   };
 
@@ -237,33 +219,60 @@ function VariantD({
                     Buy {billing.billType} Supply
                   </button>
                 </WebriQForm>
-                <p className="text-xs text-gray-400">
-                  Already have an account?{" "}
-                  <a
-                    aria-label={`Pricing ${
-                      signInLink?.label ?? "Sign in"
-                    } link`}
-                    className="text-webriq-darkblue hover:underline"
-                    target={signInLink?.linkTarget}
-                    rel={
-                      signInLink?.linkTarget === "_blank"
-                        ? "noopener noreferrer"
-                        : null
-                    }
-                    href={
-                      signInLink?.type === "linkExternal"
-                        ? signInLink?.externalLink
-                        : signInLink?.type === "linkInternal"
-                        ? signInLink?.internalLink === "Home" ||
+                {signInLink?.label && (
+                  <p className="text-xs text-gray-400">
+                    Already have an account?{" "}
+                    {signInLink?.type === "linkInternal" ? (
+                      <Link
+                        href={
+                          signInLink?.internalLink === "Home" ||
                           signInLink?.internalLink === "home"
-                          ? "/"
-                          : signInLink?.internalLink
-                        : "page-not-found"
-                    }
-                  >
-                    &nbsp;{signInLink?.label}
-                  </a>
-                </p>
+                            ? "/"
+                            : `/${
+                                signInLink?.internalLink === undefined
+                                  ? "page-not-found"
+                                  : signInLink?.internalLink
+                              }`
+                        }
+                      >
+                        <a
+                          aria-label={`Pricing ${
+                            signInLink?.label ?? "Sign In"
+                          } link`}
+                          className="text-webriq-darkblue hover:underline"
+                          target={signInLink?.linkTarget}
+                          rel={
+                            signInLink?.linkTarget === "_blank"
+                              ? "noopener noreferrer"
+                              : null
+                          }
+                        >
+                          &nbsp;{signInLink?.label}
+                        </a>
+                      </Link>
+                    ) : (
+                      <a
+                        aria-label={`Pricing ${
+                          signInLink?.label ?? "Sign In"
+                        } link`}
+                        className="text-webriq-darkblue hover:underline"
+                        target={signInLink?.linkTarget}
+                        href={`${
+                          signInLink.externalLink === undefined
+                            ? "link-not-found"
+                            : signInLink.externalLink
+                        }`}
+                        rel={
+                          signInLink?.linkTarget === "_blank"
+                            ? "noopener noreferrer"
+                            : null
+                        }
+                      >
+                        &nbsp;{signInLink?.label}
+                      </a>
+                    )}
+                  </p>
+                )}
               </div>
             </form>
             <div className="py-10 w-full md:w-1/2 bg-webriq-darkblue lg:rounded-r overflow-hidden flex flex-col">

@@ -13,7 +13,10 @@ function VariantA({ template, links, primaryButton, secondaryButton, logo }) {
       <nav className="relative px-6 py-6 flex justify-between items-center bg-white">
         {logo && (
           <Link href="/">
-            <a className="text-3xl font-bold leading-none">
+            <a
+              aria-label="Navigation logo"
+              className="text-3xl font-bold leading-none"
+            >
               <Image
                 src={urlFor(logo)}
                 layout="fixed"
@@ -44,7 +47,7 @@ function VariantA({ template, links, primaryButton, secondaryButton, logo }) {
         <ul className="hidden absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2 lg:flex lg:mx-auto lg:items-center lg:w-auto lg:space-x-6">
           {links &&
             links?.map((link, index) => (
-              <React.Fragment key={link?.label}>
+              <React.Fragment key={index}>
                 <li>
                   {link.type === "linkInternal" ? (
                     <Link
@@ -146,7 +149,7 @@ function VariantA({ template, links, primaryButton, secondaryButton, logo }) {
                   ? "page-not-found"
                   : primaryButton?.internalLink
               }`}
-              className="inline-block w-full lg:w-auto py-2 px-6 leading-loose font-semibold bg-white hover:bg-gray-50 rounded-l-xl rounded-t-xl transition duration-200"
+              className="hidden lg:inline-block lg:ml-auto lg:mr-3 py-2 px-6 bg-gray-50 hover:bg-gray-100 text-sm text-gray-900 font-bold rounded-l-xl rounded-t-xl transition duration-200"
               target={primaryButton?.linkTarget}
               rel={
                 primaryButton?.linkTarget === "_blank"
@@ -166,12 +169,12 @@ function VariantA({ template, links, primaryButton, secondaryButton, logo }) {
                 ? "link-not-found"
                 : primaryButton?.externalLink
             }`}
-            className="inline-block w-full lg:w-auto py-2 px-6 leading-loose font-semibold bg-white hover:bg-gray-50 rounded-l-xl rounded-t-xl transition duration-200"
+            className="hidden lg:inline-block lg:ml-auto lg:mr-3 py-2 px-6 bg-gray-50 hover:bg-gray-100 text-sm text-gray-900 font-bold rounded-l-xl rounded-t-xl transition duration-200"
             target={primaryButton?.linkTarget}
-            href={`/${
-              primaryButton.externalLink === undefined
+            href={`${
+              primaryButton?.externalLink === undefined
                 ? "link-not-found"
-                : primaryButton.externalLink
+                : primaryButton?.externalLink
             }`}
             rel={
               primaryButton?.linkTarget === "_blank"
@@ -189,9 +192,9 @@ function VariantA({ template, links, primaryButton, secondaryButton, logo }) {
               secondaryButton?.internalLink === "home"
                 ? "/"
                 : `/${
-                    secondaryButton.internalLink === undefined
+                    secondaryButton?.internalLink === undefined
                       ? "page-not-found"
-                      : secondaryButton.internalLink
+                      : secondaryButton?.internalLink
                   }`
             }
           >
@@ -203,7 +206,7 @@ function VariantA({ template, links, primaryButton, secondaryButton, logo }) {
                   ? "page-not-found"
                   : secondaryButton?.internalLink
               }`}
-              className={`inline-block mb-3 lg:mb-0 lg:mr-3 w-full lg:w-auto py-2 px-6 leading-loose bg-${template.color}-darkblue hover:bg-${template.color}-blue text-white font-semibold rounded-l-xl rounded-t-xl transition duration-200`}
+              className={`hidden lg:inline-block py-2 px-6 bg-${template.color}-darkblue hover:bg-${template.color}-blue text-sm text-white font-bold rounded-l-xl rounded-t-xl transition duration-200`}
               target={secondaryButton?.linkTarget}
               rel={
                 secondaryButton?.linkTarget === "_blank"
@@ -223,12 +226,12 @@ function VariantA({ template, links, primaryButton, secondaryButton, logo }) {
                 ? "link-not-found"
                 : secondaryButton?.externalLink
             }`}
-            className={`inline-block mb-3 lg:mb-0 lg:mr-3 w-full lg:w-auto py-2 px-6 leading-loose bg-${template.color}-darkblue hover:bg-${template.color}-blue text-white font-semibold rounded-l-xl rounded-t-xl transition duration-200`}
+            className={`hidden lg:inline-block py-2 px-6 bg-${template.color}-darkblue hover:bg-${template.color}-blue text-sm text-white font-bold rounded-l-xl rounded-t-xl transition duration-200`}
             target={secondaryButton?.linkTarget}
-            href={`/${
-              secondaryButton.externalLink === undefined
+            href={`${
+              secondaryButton?.externalLink === undefined
                 ? "link-not-found"
-                : secondaryButton.externalLink
+                : secondaryButton?.externalLink
             }`}
             rel={
               secondaryButton?.linkTarget === "_blank"
@@ -271,8 +274,8 @@ function VariantA({ template, links, primaryButton, secondaryButton, logo }) {
           <div>
             <ul>
               {links &&
-                links?.map((link) => (
-                  <li className="mb-1" key={link?.label}>
+                links?.map((link, index) => (
+                  <li className="mb-1" key={index}>
                     {link?.type === "linkInternal" ? (
                       <Link
                         href={`${
@@ -344,9 +347,9 @@ function VariantA({ template, links, primaryButton, secondaryButton, logo }) {
                     primaryButton?.internalLink === "home"
                       ? "/"
                       : `/${
-                          primaryButton.internalLink === undefined
+                          primaryButton?.internalLink === undefined
                             ? "page-not-found"
-                            : primaryButton.internalLink
+                            : primaryButton?.internalLink
                         }`
                   }
                 >
@@ -358,7 +361,7 @@ function VariantA({ template, links, primaryButton, secondaryButton, logo }) {
                         ? "page-not-found"
                         : primaryButton?.internalLink
                     }`}
-                    className="inline-block w-full lg:w-auto py-2 px-6 leading-loose font-semibold bg-white hover:bg-gray-50 rounded-l-xl rounded-t-xl transition duration-200"
+                    className="block px-4 py-3 mb-3 leading-loose text-xs text-center font-semibold bg-gray-50 hover:bg-gray-100 rounded-l-xl rounded-t-xl"
                     target={primaryButton?.linkTarget}
                     rel={
                       primaryButton?.linkTarget === "_blank"
@@ -378,12 +381,12 @@ function VariantA({ template, links, primaryButton, secondaryButton, logo }) {
                       ? "link-not-found"
                       : primaryButton?.externalLink
                   }`}
-                  className="inline-block w-full lg:w-auto py-2 px-6 leading-loose font-semibold bg-white hover:bg-gray-50 rounded-l-xl rounded-t-xl transition duration-200"
+                  className="block px-4 py-3 mb-3 leading-loose text-xs text-center font-semibold bg-gray-50 hover:bg-gray-100 rounded-l-xl rounded-t-xl"
                   target={primaryButton?.linkTarget}
-                  href={`/${
-                    primaryButton.externalLink === undefined
+                  href={`${
+                    primaryButton?.externalLink === undefined
                       ? "link-not-found"
-                      : primaryButton.externalLink
+                      : primaryButton?.externalLink
                   }`}
                   rel={
                     primaryButton?.linkTarget === "_blank"
@@ -402,9 +405,9 @@ function VariantA({ template, links, primaryButton, secondaryButton, logo }) {
                     secondaryButton?.internalLink === "home"
                       ? "/"
                       : `/${
-                          secondaryButton.internalLink === undefined
+                          secondaryButton?.internalLink === undefined
                             ? "page-not-found"
-                            : secondaryButton.internalLink
+                            : secondaryButton?.internalLink
                         }`
                   }
                 >
@@ -416,7 +419,7 @@ function VariantA({ template, links, primaryButton, secondaryButton, logo }) {
                         ? "page-not-found"
                         : secondaryButton?.internalLink
                     }`}
-                    className={`inline-block mb-3 lg:mb-0 lg:mr-3 w-full lg:w-auto py-2 px-6 leading-loose bg-${template.color}-darkblue hover:bg-${template.color}-blue text-white font-semibold rounded-l-xl rounded-t-xl transition duration-200`}
+                    className={`block px-4 py-3 mb-2 leading-loose text-xs text-center text-white font-semibold bg-${template.color}-darkblue hover:bg-${template.color}-blue rounded-l-xl rounded-t-xl`}
                     target={secondaryButton?.linkTarget}
                     rel={
                       secondaryButton?.linkTarget === "_blank"
@@ -436,12 +439,12 @@ function VariantA({ template, links, primaryButton, secondaryButton, logo }) {
                       ? "link-not-found"
                       : secondaryButton?.externalLink
                   }`}
-                  className={`inline-block mb-3 lg:mb-0 lg:mr-3 w-full lg:w-auto py-2 px-6 leading-loose bg-${template.color}-darkblue hover:bg-${template.color}-blue text-white font-semibold rounded-l-xl rounded-t-xl transition duration-200`}
+                  className={`block px-4 py-3 mb-2 leading-loose text-xs text-center text-white font-semibold bg-${template.color}-darkblue hover:bg-${template.color}-blue rounded-l-xl rounded-t-xl`}
                   target={secondaryButton?.linkTarget}
-                  href={`/${
-                    secondaryButton.externalLink === undefined
+                  href={`${
+                    secondaryButton?.externalLink === undefined
                       ? "link-not-found"
-                      : secondaryButton.externalLink
+                      : secondaryButton?.externalLink
                   }`}
                   rel={
                     secondaryButton?.linkTarget === "_blank"

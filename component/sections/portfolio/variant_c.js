@@ -1,5 +1,6 @@
 import React from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { urlFor } from "lib/sanity";
 
 function VariantC({ caption, title, portfolios, buttonLabel }) {
@@ -60,37 +61,76 @@ function VariantC({ caption, title, portfolios, buttonLabel }) {
                         <p className="mb-4 text-2xl font-bold font-heading">
                           {content?.heading}
                         </p>
-                        {content?.primaryButton?.label && (
+                        {content?.primaryButton?.label &&
+                        content?.primaryButton?.type === "linkInternal" ? (
+                          <Link
+                            href={
+                              content?.primaryButton?.internalLink === "Home" ||
+                              content?.primaryButton?.internalLink === "home"
+                                ? "/"
+                                : `/${
+                                    content?.primaryButton?.internalLink ===
+                                    undefined
+                                      ? "page-not-found"
+                                      : content?.primaryButton?.internalLink
+                                  }`
+                            }
+                          >
+                            <a
+                              aria-label={`Portfolio ${
+                                content?.primaryButton?.label ?? "View Project"
+                              } button which directs to ${
+                                content?.primaryButton?.internalLink ===
+                                undefined
+                                  ? "page-not-found"
+                                  : content?.primaryButton?.internalLink
+                              }`}
+                              className="flex text-webriq-darkblue hover:text-webriq-blue font-bold"
+                              target={content?.primaryButton?.linkTarget}
+                              rel={
+                                content?.primaryButton?.linkTarget === "_blank"
+                                  ? "noopener noreferrer"
+                                  : null
+                              }
+                            >
+                              <svg
+                                className="mr-3 w-6 h-6"
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 20 20"
+                                fill="currentColor"
+                              >
+                                <path
+                                  fillRule="evenodd"
+                                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.707l-3-3a1 1 0 00-1.414 1.414L10.586 9H7a1 1 0 100 2h3.586l-1.293 1.293a1 1 0 101.414 1.414l3-3a1 1 0 000-1.414z"
+                                  clipRule="evenodd"
+                                />
+                              </svg>
+                              <span>
+                                {content?.primaryButton?.label ??
+                                  "View this project"}
+                              </span>
+                            </a>
+                          </Link>
+                        ) : (
                           <a
                             aria-label={`Portfolio ${
                               content?.primaryButton?.label ?? "View Project"
                             } button which directs to ${
-                              content?.primaryButton?.type === "linkExternal"
-                                ? content?.primaryButton?.externalLink
-                                : content?.primaryButton?.type ===
-                                  "linkInternal"
-                                ? content?.primaryButton?.internalLink
-                                : "not found"
-                            } page`}
+                              content?.primaryButton?.externalLink === undefined
+                                ? "page-not-found"
+                                : content?.primaryButton?.externalLink
+                            }`}
                             className="flex text-webriq-darkblue hover:text-webriq-blue font-bold"
                             target={content?.primaryButton?.linkTarget}
+                            href={`${
+                              content?.primaryButton?.externalLink === undefined
+                                ? "link-not-found"
+                                : content?.primaryButton?.externalLink
+                            }`}
                             rel={
                               content?.primaryButton?.linkTarget === "_blank"
                                 ? "noopener noreferrer"
                                 : null
-                            }
-                            href={
-                              content?.primaryButton?.type === "linkExternal"
-                                ? content?.primaryButton?.externalLink
-                                : content?.primaryButton?.type ===
-                                  "linkInternal"
-                                ? content?.primaryButton?.internalLink ===
-                                    "Home" ||
-                                  content?.primaryButton?.internalLink ===
-                                    "home"
-                                  ? "/"
-                                  : content?.primaryButton?.internalLink
-                                : "page-not-found"
                             }
                           >
                             <svg

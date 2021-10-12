@@ -11,7 +11,10 @@ function VariantA({ logo, subtitle, title, images }) {
           <div className="relative max-w-md mx-auto text-center">
             {logo?.image && (
               <Link href="/">
-                <a className="mb-8 inline-block p-5 bg-white rounded-lg">
+                <a
+                  aria-label="App Promo logo"
+                  className="mb-8 inline-block p-5 bg-white rounded-lg"
+                >
                   <Image
                     src={urlFor(logo?.image)}
                     layout="fixed"

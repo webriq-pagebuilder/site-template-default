@@ -12,7 +12,10 @@ function VariantA({ logo, text, contacts, copyright, socialMedia }) {
             <div className="mb-6 w-full lg:w-1/5">
               {logo?.image && (
                 <Link href="/">
-                  <a className="text-3xl font-bold leading-none">
+                  <a
+                    aria-label="Footer logo"
+                    className="text-3xl font-bold leading-none"
+                  >
                     <Image
                       src={urlFor(logo?.image)}
                       layout="fixed"

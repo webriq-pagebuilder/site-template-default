@@ -20,7 +20,10 @@ function VariantB({
         <div className="container mx-auto px-4 flex justify-between items-center">
           {logo && (
             <Link href="/">
-              <a className="text-3xl font-bold leading-none">
+              <a
+                aria-label="Navigation logo"
+                className="text-3xl font-bold leading-none"
+              >
                 <Image
                   src={urlFor(logo)}
                   layout="fixed"
@@ -51,7 +54,7 @@ function VariantB({
           <ul className="hidden absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2 lg:flex lg:mx-auto lg:items-center lg:w-auto lg:space-x-6">
             {links &&
               links?.map((link, index) => (
-                <React.Fragment key={link?.label}>
+                <React.Fragment key={index}>
                   <li>
                     {link.type === "linkInternal" ? (
                       <Link
@@ -139,9 +142,9 @@ function VariantB({
                 primaryButton?.internalLink === "home"
                   ? "/"
                   : `/${
-                      primaryButton.internalLink === undefined
+                      primaryButton?.internalLink === undefined
                         ? "page-not-found"
-                        : primaryButton.internalLink
+                        : primaryButton?.internalLink
                     }`
               }
             >
@@ -175,10 +178,10 @@ function VariantB({
               }`}
               className="hidden lg:inline-block lg:ml-auto lg:mr-3 py-2 px-6 bg-gray-50 hover:bg-gray-100 text-sm text-gray-900 font-bold rounded-l-xl rounded-t-xl transition duration-200"
               target={primaryButton?.linkTarget}
-              href={`/${
-                primaryButton.externalLink === undefined
+              href={`${
+                primaryButton?.externalLink === undefined
                   ? "link-not-found"
-                  : primaryButton.externalLink
+                  : primaryButton?.externalLink
               }`}
               rel={
                 primaryButton?.linkTarget === "_blank"
@@ -197,9 +200,9 @@ function VariantB({
                 secondaryButton?.internalLink === "home"
                   ? "/"
                   : `/${
-                      secondaryButton.internalLink === undefined
+                      secondaryButton?.internalLink === undefined
                         ? "page-not-found"
-                        : secondaryButton.internalLink
+                        : secondaryButton?.internalLink
                     }`
               }
             >
@@ -233,10 +236,10 @@ function VariantB({
               }`}
               className="hidden lg:inline-block py-2 px-6 bg-webriq-darkblue hover:bg-webriq-blue text-sm text-white font-bold rounded-l-xl rounded-t-xl transition duration-200"
               target={secondaryButton?.linkTarget}
-              href={`/${
-                secondaryButton.externalLink === undefined
+              href={`${
+                secondaryButton?.externalLink === undefined
                   ? "link-not-found"
-                  : secondaryButton.externalLink
+                  : secondaryButton?.externalLink
               }`}
               rel={
                 secondaryButton?.linkTarget === "_blank"
@@ -280,18 +283,18 @@ function VariantB({
           <div>
             <ul>
               {links &&
-                links?.map((link) => (
-                  <li className="mb-1" key={link?.label}>
+                links?.map((link, index) => (
+                  <li className="mb-1" key={index}>
                     {link.type === "linkInternal" ? (
                       <Link
                         href={`${
-                          link.internalLink === "Home" ||
-                          link.internalLink === "home"
+                          link?.internalLink === "Home" ||
+                          link?.internalLink === "home"
                             ? "/"
                             : `/${
-                                link.internalLink === undefined
+                                link?.internalLink === undefined
                                   ? "page-not-found"
-                                  : link.internalLink
+                                  : link?.internalLink
                               }`
                         }`}
                       >
@@ -328,7 +331,7 @@ function VariantB({
                         href={`${
                           link?.externalLink === undefined
                             ? "link-not-found"
-                            : link.externalLink
+                            : link?.externalLink
                         }`}
                         rel={
                           link?.linkTarget === "_blank"
@@ -353,9 +356,9 @@ function VariantB({
                     primaryButton?.internalLink === "home"
                       ? "/"
                       : `/${
-                          primaryButton.internalLink === undefined
+                          primaryButton?.internalLink === undefined
                             ? "page-not-found"
-                            : primaryButton.internalLink
+                            : primaryButton?.internalLink
                         }`
                   }
                 >
@@ -389,10 +392,10 @@ function VariantB({
                   }`}
                   className="block px-4 py-3 mb-3 leading-loose text-xs text-center font-semibold bg-gray-50 hover:bg-gray-100 rounded-l-xl rounded-t-xl"
                   target={primaryButton?.linkTarget}
-                  href={`/${
-                    primaryButton.externalLink === undefined
+                  href={`${
+                    primaryButton?.externalLink === undefined
                       ? "link-not-found"
-                      : primaryButton.externalLink
+                      : primaryButton?.externalLink
                   }`}
                   rel={
                     primaryButton?.linkTarget === "_blank"
@@ -411,9 +414,9 @@ function VariantB({
                     secondaryButton?.internalLink === "home"
                       ? "/"
                       : `/${
-                          secondaryButton.internalLink === undefined
+                          secondaryButton?.internalLink === undefined
                             ? "page-not-found"
-                            : secondaryButton.internalLink
+                            : secondaryButton?.internalLink
                         }`
                   }
                 >
@@ -447,10 +450,10 @@ function VariantB({
                   }`}
                   className="block px-4 py-3 mb-2 leading-loose text-xs text-center text-white font-semibold bg-webriq-darkblue hover:bg-webriq-blue rounded-l-xl rounded-t-xl"
                   target={secondaryButton?.linkTarget}
-                  href={`/${
-                    secondaryButton.externalLink === undefined
+                  href={`${
+                    secondaryButton?.externalLink === undefined
                       ? "link-not-found"
-                      : secondaryButton.externalLink
+                      : secondaryButton?.externalLink
                   }`}
                   rel={
                     secondaryButton?.linkTarget === "_blank"

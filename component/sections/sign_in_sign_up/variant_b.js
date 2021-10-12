@@ -1,5 +1,6 @@
 import React from "react";
 import Image from "next/image";
+import Link from "next/link";
 import WebriQForm from "@webriq/gatsby-webriq-form";
 import { urlFor } from "lib/sanity";
 
@@ -19,19 +20,21 @@ function VariantB({
         <div className="max-w-xl mx-auto">
           <div className="mb-10">
             {logo?.image && (
-              <a
-                className="text-white text-3xl font-bold leading-none"
-                href="/"
-              >
-                <Image
-                  src={urlFor(logo?.image)}
-                  layout="fixed"
-                  width="132px"
-                  height="48px"
-                  objectFit="contain"
-                  alt={logo?.alt ?? "signUp-logo"}
-                />
-              </a>
+              <Link href="/">
+                <a
+                  aria-label="Sign Up logo"
+                  className="text-white text-3xl font-bold leading-none"
+                >
+                  <Image
+                    src={urlFor(logo?.image)}
+                    layout="fixed"
+                    width="132px"
+                    height="48px"
+                    objectFit="contain"
+                    alt={logo?.alt ?? "signUp-logo"}
+                  />
+                </a>
+              </Link>
             )}
           </div>
           {subtitle && (
@@ -297,120 +300,121 @@ function VariantB({
                     >
                       Sign Up
                     </button>
-                    <span className="text-gray-900 text-xs">
-                      <span>Already have an account?</span>
-                      <a
-                        aria-label={`${signInLink?.label ?? "Sign in"} link`}
-                        className="text-webriq-darkblue hover:underline"
-                        target={signInLink?.linkTarget}
-                        rel={
-                          signInLink?.linkTarget === "_blank"
-                            ? "noopener noreferrer"
-                            : null
-                        }
-                        href={
-                          signInLink?.type === "linkExternal"
-                            ? signInLink?.externalLink
-                            : signInLink?.type === "linkInternal"
-                            ? signInLink?.internalLink === "Home" ||
+                    {signInLink?.label && (
+                      <span className="text-gray-900 text-xs">
+                        <span>Already have an account?</span>
+                        {signInLink?.type === "linkInternal" ? (
+                          <Link
+                            href={
+                              signInLink?.internalLink === "Home" ||
                               signInLink?.internalLink === "home"
-                              ? "/"
-                              : signInLink?.internalLink
-                            : "page-not-found"
-                        }
-                      >
-                        &nbsp;{signInLink?.label}
-                      </a>
-                    </span>
+                                ? "/"
+                                : `/${
+                                    signInLink?.internalLink === undefined
+                                      ? "page-not-found"
+                                      : signInLink?.internalLink
+                                  }`
+                            }
+                          >
+                            <a
+                              aria-label={`${
+                                signInLink?.label ?? "Sign in"
+                              } link`}
+                              className="text-webriq-darkblue hover:underline"
+                              target={signInLink?.linkTarget}
+                              rel={
+                                signInLink?.linkTarget === "_blank"
+                                  ? "noopener noreferrer"
+                                  : null
+                              }
+                            >
+                              &nbsp;{signInLink?.label}
+                            </a>
+                          </Link>
+                        ) : (
+                          <a
+                            aria-label={`${
+                              signInLink?.label ?? "Sign in"
+                            } link`}
+                            className="text-webriq-darkblue hover:underline"
+                            target={signInLink?.linkTarget}
+                            href={`${
+                              signInLink?.externalLink === undefined
+                                ? "link-not-found"
+                                : signInLink?.externalLink
+                            }`}
+                            rel={
+                              signInLink?.linkTarget === "_blank"
+                                ? "noopener noreferrer"
+                                : null
+                            }
+                          >
+                            &nbsp;{signInLink?.label}
+                          </a>
+                        )}
+                      </span>
+                    )}
                   </div>
                 )}
               </WebriQForm>
             </div>
           )}
-          {links &&
-            (links.length > 1 ? (
-              <p className="text-xs text-center text-gray-700">
-                {links?.[0] && (
-                  <a
-                    aria-label={`${
-                      links[0]?.label ?? "Sign in"
-                    } external link which directs to ${
-                      links[0]?.type === "linkExternal"
-                        ? links[0]?.externalLink
-                        : links[0]?.type === "linkInternal"
-                        ? links[0]?.internalLink
-                        : "not found"
-                    } page`}
-                    className="underline hover:text-gray-400"
-                    href={
-                      links[0].type === "linkExternal"
-                        ? links[0]?.externalLink
-                        : links[0].type === "linkInternal"
-                        ? links[0].internalLink.match(/home/gi)
+          {links && (
+            <p className="text-xs text-center text-gray-700">
+              {links?.map((link, index, { length }) => (
+                <>
+                  {link?.type === "linkInternal" ? (
+                    <Link
+                      href={
+                        link?.internalLink === "Home" ||
+                        link?.internalLink === "home"
                           ? "/"
-                          : links[0]?.internalLink
-                        : "page-not-found"
-                    }
-                  >
-                    {links[0]?.label}
-                  </a>
-                )}
-                &nbsp;and&nbsp;
-                {links?.[1] && (
-                  <a
-                    aria-label={`${
-                      links[1]?.label ?? "Sign in"
-                    } external link which directs to ${
-                      links[1]?.type === "linkExternal"
-                        ? links[1]?.externalLink
-                        : links[1]?.type === "linkInternal"
-                        ? links[1]?.internalLink
-                        : "not found"
-                    } page`}
-                    className="underline hover:text-gray-400"
-                    href={
-                      links[1].type === "linkExternal"
-                        ? links[1]?.externalLink
-                        : links[1].type === "linkInternal"
-                        ? links[1].internalLink.match(/home/gi)
-                          ? "/"
-                          : links[1]?.internalLink
-                        : "page-not-found"
-                    }
-                  >
-                    {links[1]?.label}
-                  </a>
-                )}
-              </p>
-            ) : (
-              <p className="text-xs text-center text-gray-700">
-                {links?.[0] && (
-                  <a
-                    aria-label={`${
-                      links[0]?.label ?? "Sign in"
-                    } external link which directs to ${
-                      links[0]?.type === "linkExternal"
-                        ? links[0]?.externalLink
-                        : links[0]?.type === "linkInternal"
-                        ? links[0]?.internalLink
-                        : "not found"
-                    } page`}
-                    className="underline hover:text-gray-400"
-                    href={
-                      links[0].type === "linkExternal"
-                        ? links[0]?.externalLink
-                        : links[0].type === "linkInternal"
-                        ? links[0].internalLink.match(/home/gi)
-                          ? "/"
-                          : links[0]?.internalLink
-                        : "page-not-found"
-                    }
-                  >
-                    {links[0]?.label}
-                  </a>
-                )}
-              </p>
-            ))}
+                          : `/${
+                              link.internalLink === undefined
+                                ? "page-not-found"
+                                : link.internalLink
+                            }`
+                      }
+                    >
+                      <a
+                        aria-label={`${signInLink?.label ?? "Sign in"} link`}
+                        className="underline hover:text-gray-500"
+                        target={link?.linkTarget}
+                        rel={
+                          link?.linkTarget === "_blank"
+                            ? "noopener noreferrer"
+                            : null
+                        }
+                        key={index}
+                      >
+                        {link?.label}
+                      </a>
+                    </Link>
+                  ) : (
+                    <a
+                      aria-label={`${signInLink?.label ?? "Sign in"} link`}
+                      className="underline hover:text-gray-500"
+                      target={link?.linkTarget}
+                      href={`${
+                        link.externalLink === undefined
+                          ? "link-not-found"
+                          : link.externalLink
+                      }`}
+                      rel={
+                        link?.linkTarget === "_blank"
+                          ? "noopener noreferrer"
+                          : null
+                      }
+                      key={index}
+                    >
+                      {link?.label}
+                    </a>
+                  )}
+                  {index + 1 !== length ? <span>&nbsp;and&nbsp;</span> : null}
+                </>
+              ))}
+            </p>
+          )}
         </div>
       </div>
     </section>

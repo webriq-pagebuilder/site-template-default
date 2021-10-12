@@ -22,7 +22,10 @@ function VariantD({
           <div className="mb-16 lg:mb-0 max-w-2xl lg:w-1/2 px-4">
             {logo?.image && (
               <Link href="/">
-                <a className="mb-6 inline-block text-3xl font-bold leading-none">
+                <a
+                  aria-label="Call to Action logo"
+                  className="mb-6 inline-block text-3xl font-bold leading-none"
+                >
                   <Image
                     src={urlFor(logo?.image)}
                     layout="fixed"
@@ -81,10 +84,10 @@ function VariantD({
                 }`}
                 className="inline-block py-2 px-6 bg-webriq-darkblue hover:bg-webriq-blue text-white font-bold leading-loose transition duration-250 rounded-l-xl rounded-t-xl"
                 target={button?.linkTarget}
-                href={`/${
-                  button.externalLink === undefined
+                href={`${
+                  button?.externalLink === undefined
                     ? "link-not-found"
-                    : button.externalLink
+                    : button?.externalLink
                 }`}
                 rel={
                   button?.linkTarget === "_blank" ? "noopener noreferrer" : null
@@ -368,9 +371,9 @@ function VariantD({
                             signInLink?.internalLink === "home"
                               ? "/"
                               : `/${
-                                  signInLink.internalLink === undefined
+                                  signInLink?.internalLink === undefined
                                     ? "page-not-found"
-                                    : signInLink.internalLink
+                                    : signInLink?.internalLink
                                 }`
                           }
                         >
@@ -396,7 +399,7 @@ function VariantD({
                           } link`}
                           className="text-webriq-darkblue hover:text-webriq-babyblue"
                           target={signInLink?.linkTarget}
-                          href={`/${
+                          href={`${
                             signInLink.externalLink === undefined
                               ? "link-not-found"
                               : signInLink.externalLink
@@ -462,7 +465,7 @@ function VariantD({
                           }`}
                           className="text-webriq-darkblue hover:text-webriq-blue font-bold"
                           target={link?.linkTarget}
-                          href={`/${
+                          href={`${
                             link.externalLink === undefined
                               ? "link-not-found"
                               : link.externalLink

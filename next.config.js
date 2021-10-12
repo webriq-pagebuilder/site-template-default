@@ -53,7 +53,7 @@ module.exports = withPWA({
               }`,
             ],
             "style-src": "'unsafe-inline'",
-            "style-src-elem": "'self'",
+            "style-src-elem": "'unsafe-inline'",
             "worker-src": "'self'",
             reportOnly: false,
           },

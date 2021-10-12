@@ -18,9 +18,9 @@ function VariantC({ title, images, button }) {
                 button?.internalLink === "home"
                   ? "/"
                   : `/${
-                      button.internalLink === undefined
+                      button?.internalLink === undefined
                         ? "page-not-found"
-                        : button.internalLink
+                        : button?.internalLink
                     }`
               }
             >
@@ -52,10 +52,10 @@ function VariantC({ title, images, button }) {
               }`}
               className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-gray-50 font-bold leading-loose"
               target={button?.linkTarget}
-              href={`/${
-                button.externalLink === undefined
+              href={`${
+                button?.externalLink === undefined
                   ? "link-not-found"
-                  : button.externalLink
+                  : button?.externalLink
               }`}
               rel={button?.linkTarget === "_blank" ? "noopener noreferrer" : ""}
             >

@@ -11,7 +11,10 @@ function VariantA({ logo, title, text, button }) {
           <div className="max-w-xl mx-auto text-center">
             {logo?.image && (
               <Link href="/">
-                <a className="mb-6 inline-block text-3xl font-bold leading-none">
+                <a
+                  aria-label="Call to Action logo"
+                  className="mb-6 inline-block text-3xl font-bold leading-none"
+                >
                   <Image
                     src={urlFor(logo?.image)}
                     layout="fixed"
@@ -36,9 +39,9 @@ function VariantA({ logo, title, text, button }) {
                   button?.internalLink === "home"
                     ? "/"
                     : `/${
-                        button.internalLink === undefined
+                        button?.internalLink === undefined
                           ? "page-not-found"
-                          : button.internalLink
+                          : button?.internalLink
                       }`
                 }
               >
@@ -72,10 +75,10 @@ function VariantA({ logo, title, text, button }) {
                 }`}
                 className="inline-block py-2 px-6 bg-webriq-darkblue hover:bg-webriq-blue text-white font-bold leading-loose rounded-l-xl rounded-t-xl transition duration-200"
                 target={button?.linkTarget}
-                href={`/${
-                  button.externalLink === undefined
+                href={`${
+                  button?.externalLink === undefined
                     ? "link-not-found"
-                    : button.externalLink
+                    : button?.externalLink
                 }`}
                 rel={
                   button?.linkTarget === "_blank" ? "noopener noreferrer" : null

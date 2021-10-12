@@ -81,8 +81,8 @@ function VariantA({ caption, title, portfolios, buttonLabel }) {
                             }
                           >
                             <a
-                              aria-label={`Call to action ${
-                                content?.primaryButton?.label ?? "primary"
+                              aria-label={`Portfolio ${
+                                content?.primaryButton?.label ?? "View Project"
                               } button which directs to ${
                                 content?.primaryButton?.internalLink ===
                                 undefined
@@ -102,8 +102,8 @@ function VariantA({ caption, title, portfolios, buttonLabel }) {
                           </Link>
                         ) : (
                           <a
-                            aria-label={`Call to action ${
-                              content?.primaryButton?.label ?? "primary"
+                            aria-label={`Portfolio ${
+                              content?.primaryButton?.label ?? "View Project"
                             } button which directs to ${
                               content?.primaryButton?.externalLink === undefined
                                 ? "link-not-found"
@@ -111,7 +111,7 @@ function VariantA({ caption, title, portfolios, buttonLabel }) {
                             }`}
                             className="inline-block py-2 px-4 border-2 border-gray-400 hover:border-white hover:opacity-100 text-gray-50 hover:bg-white hover:text-gray-900 transition duration-200 rounded-l-xl rounded-t-xl font-bold leading-loose"
                             target={content?.primaryButton?.linkTarget}
-                            href={`/${
+                            href={`${
                               content?.primaryButton?.externalLink === undefined
                                 ? "link-not-found"
                                 : content?.primaryButton?.externalLink
