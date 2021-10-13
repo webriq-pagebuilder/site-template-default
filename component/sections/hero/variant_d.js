@@ -154,7 +154,6 @@ function VariantD({
               {image && (
                 <div className="lg:absolute xl:absolute 2xl:absolute top-0 my-12 lg:my-0 xl:my-0 2xl:my-0 h-full w-full lg:w-1/2 xl:w-1/2 2xl:w-1/2 rounded-none">
                   <Image
-                    priority={true}
                     src={urlFor(image)}
                     layout="responsive"
                     width="1050px"

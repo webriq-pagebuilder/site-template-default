@@ -20,7 +20,7 @@ function VariantA({
             <div className="w-full lg:w-1/2 px-4 mb-12 md:mb-20 lg:mb-0 flex items-center">
               <div className="w-full text-center lg:text-left xl:text-left 2xl:text-left">
                 <div className="max-w-md mx-auto">
-                  <h1 className="mb-3 text-4xl lg:text-5xl font-bold font-heading">
+                  <h1 className="mb-3 text-2xl md:text-4xl lg:text-5xl font-bold font-heading">
                     {title && (
                       <>
                         <span>{String(title).split("*")[0]}</span>
@@ -33,7 +33,7 @@ function VariantA({
                 </div>
                 <div className="max-w-md mx-auto">
                   {description && (
-                    <p className="mb-6 text-gray-500 leading-loose">
+                    <p className="my-6 text-xs md:text-base lg:text-base text-gray-500 leading-loose">
                       {description}
                     </p>
                   )}
@@ -80,7 +80,7 @@ function VariantA({
                               ? "link-not-found"
                               : primaryButton?.externalLink
                           }`}
-                          className={`inline-block mb-3 lg:mb-0 lg:mr-3 w-full lg:w-auto py-2 px-6 leading-loose bg-${template.color}-darkblue hover:bg-${template.color}-blue text-white font-semibold rounded-l-xl rounded-t-xl transition duration-200`}
+                          className={`inline-block mb-3 lg:mb-0 lg:mr-3 w-full lg:w-auto p-2 md:py-2 md:px-6 lg:py-2 lg:px-6 leading-loose bg-${template.color}-darkblue hover:bg-${template.color}-blue text-white font-semibold rounded-l-xl rounded-t-xl transition duration-200`}
                           target={primaryButton?.linkTarget}
                           href={`${
                             primaryButton?.externalLink === undefined

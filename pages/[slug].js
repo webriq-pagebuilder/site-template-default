@@ -1,5 +1,4 @@
 import React from "react";
-import Head from "next/head";
 import { useRouter } from "next/router";
 import { getClient, usePreviewSubscription } from "../lib/sanity";
 import dynamic from "next/dynamic";
@@ -69,12 +68,7 @@ const Components = {
   }),
 };
 
-const SEO = dynamic(() => import("component/SEO"), {
-  ssr: false,
-});
-const BlogPage = dynamic(() => import("component/blog/"), {
-  ssr: false,
-});
+const BlogPage = dynamic(() => import("component/blog/"), { ssr: false });
 
 function page({ data, preview }) {
   const router = useRouter();
@@ -99,14 +93,10 @@ function page({ data, preview }) {
   if (!pageData) {
     return null;
   }
-  const { sections, title, seo } = pageData;
+  const { sections } = pageData;
 
   return (
     <>
-      <Head>
-        <title>{seo?.seoTitle || title}</title>
-        <SEO data={pageData} slug={slug} />
-      </Head>
       {sections &&
         sections?.map((section) => {
           const Component = Components[section._type];

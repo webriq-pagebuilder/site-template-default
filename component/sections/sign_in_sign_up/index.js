@@ -2,8 +2,8 @@ import React from "react";
 import dynamic from "next/dynamic";
 
 const Variants = {
-  variant_a: dynamic(() => import("./variant_a")),
-  variant_b: dynamic(() => import("./variant_b")),
+  variant_a: dynamic(() => import("./variant_a"), { ssr: false }),
+  variant_b: dynamic(() => import("./variant_b"), { ssr: false }),
 };
 
 function SignUpForm({ data }) {

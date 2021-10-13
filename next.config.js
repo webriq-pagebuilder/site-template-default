@@ -3,18 +3,28 @@
 const nextSafe = require("next-safe");
 const { nanoid } = require("nanoid");
 const withPWA = require("next-pwa");
-const development = process.env.NODE_ENV === "development";
+const isDev = process.env.NODE_ENV === "development";
 
 module.exports = withPWA({
   pwa: {
     dest: "public", // generate the service worker and workbox files into the public folder
-    disable: false, // [default] generate service worker in both development and production environments
+    mode: "production", // force next-pwa to generate worker box production build
+    buildExcludes: [/chunks\/.*/], // Don't precache files under .next/static/chunks
     sw: "service_worker.js", // service worker script file
+    skipWaiting: true, // installs new SW when available without a promt, we only need to send a reload request to user.
+    dynamicStartUrl: false, // recommended: set to false if your start url always returns same HTML document, then start url will be precached, this will help to speed up first load.
+    reloadOnOnline: false, // prevents reloads on offline/online switch
+    sourcemap: false,
   },
   target: "serverless",
   images: {
     domains: ["cdn.sanity.io"], // allow loading images from the Sanity.io CDN
   },
+  i18n: {
+    locales: ["en"],
+    defaultLocale: "en",
+  },
+
   async redirects() {
     return [
       {
@@ -39,21 +49,17 @@ module.exports = withPWA({
             "form-action": "'self'",
             "frame-ancestors": "'self' https: http:",
             "frame-src": "*",
-            "img-src": "'self' data:",
+            "img-src": "'self' https: data:",
             "manifest-src": "'self'",
-            "object-src": "'self' data:",
+            "object-src": "'none'",
             "prefetch-src": "'self'",
             "script-src": [
-              `${
-                development
-                  ? `'nonce-${nanoid(
-                      10
-                    )}' 'unsafe-inline' 'unsafe-eval' http: https:`
-                  : `'nonce-${nanoid(10)}' 'unsafe-inline' http: https:`
-              }`,
+              `${`'nonce-${nanoid(
+                10
+              )}' 'unsafe-inline' 'unsafe-eval' http: https:`}`,
             ],
             "style-src": "'unsafe-inline'",
-            "style-src-elem": "'unsafe-inline'",
+            "style-src-elem": `${isDev ? "'unsafe-inline'" : "'self'"}`,
             "worker-src": "'self'",
             reportOnly: false,
           },

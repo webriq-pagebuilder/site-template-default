@@ -1,8 +1,8 @@
-import React from "react"
-import Head from "next/head"
-import dynamic from "next/dynamic"
-import { homeQuery } from "./api/query"
-import { getClient, usePreviewSubscription } from "../lib/sanity"
+import React from "react";
+import Head from "next/head";
+import dynamic from "next/dynamic";
+import { homeQuery } from "./api/query";
+import { getClient, usePreviewSubscription } from "../lib/sanity";
 
 const Components = {
   navigation: dynamic(() => import("../component/sections/navigation")),
@@ -24,10 +24,8 @@ const Components = {
   cookies: dynamic(() => import("../component/sections/cookies")),
   footer: dynamic(() => import("../component/sections/footer")),
   signInSignUp: dynamic(() => import("component/sections/sign_in_sign_up")),
-  textComponent: dynamic(() => import("component/sections/text_component"))
+  textComponent: dynamic(() => import("component/sections/text_component")),
 };
-
-const SEO = dynamic(() => import("component/SEO"))
 
 function Home({ data, preview }) {
   const { data: page } = usePreviewSubscription(homeQuery, {
@@ -40,13 +38,12 @@ function Home({ data, preview }) {
     return null;
   }
 
-  const { sections, title, seo } = pageData
+  const { sections, title, seo } = pageData;
 
   return (
     <>
       <Head>
         <title>{seo?.seoTitle ?? title}</title>
-        <SEO data={pageData} />
       </Head>
       {sections?.map((section) => {
         const Component = Components[section._type];

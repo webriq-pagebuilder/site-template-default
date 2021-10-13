@@ -2,12 +2,12 @@ import React from "react";
 import dynamic from "next/dynamic";
 
 const Variants = {
-  variant_a: dynamic(() => import("./variant_a")),
-  variant_b: dynamic(() => import("./variant_b")),
-  variant_c: dynamic(() => import("./variant_c")),
-  variant_d: dynamic(() => import("./variant_d")),
-  variant_e: dynamic(() => import("./variant_e")),
-  variant_f: dynamic(() => import("./variant_f")),
+  variant_a: dynamic(() => import("./variant_a"), { ssr: false }),
+  variant_b: dynamic(() => import("./variant_b"), { ssr: false }),
+  variant_c: dynamic(() => import("./variant_c"), { ssr: false }),
+  variant_d: dynamic(() => import("./variant_d"), { ssr: false }),
+  variant_e: dynamic(() => import("./variant_e"), { ssr: false }),
+  variant_f: dynamic(() => import("./variant_f"), { ssr: false }),
 };
 
 function Cookies({ data }) {
