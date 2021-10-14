@@ -142,6 +142,8 @@ function VariantB({ subtitle, title, posts, buttonLabel }) {
                             height="496px"
                             objectFit="cover"
                             alt={`blog-variantB-image-${key}`}
+                            blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                            placeholder="blur"
                           />
                         )}
                         <div className="mt-0 p-6 rounded-b bg-white rounded shadow">
@@ -219,6 +221,8 @@ function VariantB({ subtitle, title, posts, buttonLabel }) {
                               height="192px"
                               objectFit="cover"
                               alt={`blog-variantB-image-${key}`}
+                              blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                              placeholder="blur"
                             />
                           )}
                           <div className="p-6 rounded-b bg-white">

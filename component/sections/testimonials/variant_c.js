@@ -97,6 +97,8 @@ function VariantC({ caption, title, testimonials }) {
                         height="48px"
                         objectFit="cover"
                         alt={`testimonial-source-${item?.name}-profile-image`}
+                        blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                        placeholder="blur"
                       />
                     </div>
                     <p className="mb-1 text-xs md:text-2xl lg:text-2xl font-bold font-heading">

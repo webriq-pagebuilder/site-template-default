@@ -58,6 +58,8 @@ function VariantG({ caption, title, description, images, featureItems }) {
                         height="192px"
                         objectFit="cover"
                         alt="features-variantG-image-1"
+                        blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                        placeholder="blur"
                       />
                     </div>
                   )}
@@ -70,6 +72,8 @@ function VariantG({ caption, title, description, images, featureItems }) {
                         height="128px"
                         objectFit="cover"
                         alt="features-variantG-image-2"
+                        blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                        placeholder="blur"
                       />
                     </div>
                   )}
@@ -84,6 +88,8 @@ function VariantG({ caption, title, description, images, featureItems }) {
                         height="128px"
                         objectFit="cover"
                         alt="features-variantG-image-3"
+                        blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                        placeholder="blur"
                       />
                     </div>
                   )}
@@ -96,6 +102,8 @@ function VariantG({ caption, title, description, images, featureItems }) {
                         height="192px"
                         objectFit="cover"
                         alt="features-variantG-image-4"
+                        blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                        placeholder="blur"
                       />
                     </div>
                   )}

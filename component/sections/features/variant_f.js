@@ -98,6 +98,8 @@ function VariantF({ caption, title, description, images, primaryButton }) {
                       height="192px"
                       objectFit="cover"
                       alt="features-variantF-image-1"
+                      blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                      placeholder="blur"
                     />
                   </div>
                 )}
@@ -110,6 +112,8 @@ function VariantF({ caption, title, description, images, primaryButton }) {
                       height="128px"
                       objectFit="cover"
                       alt="features-variantF-image-2"
+                      blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                      placeholder="blur"
                     />
                   </div>
                 )}
@@ -124,6 +128,8 @@ function VariantF({ caption, title, description, images, primaryButton }) {
                       height="128px"
                       objectFit="cover"
                       alt="features-variantF-image-3"
+                      blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                      placeholder="blur"
                     />
                   </div>
                 )}
@@ -136,6 +142,8 @@ function VariantF({ caption, title, description, images, primaryButton }) {
                       height="192px"
                       objectFit="cover"
                       alt="features-variantF-image-4"
+                      blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                      placeholder="blur"
                     />
                   </div>
                 )}

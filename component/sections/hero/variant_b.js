@@ -171,6 +171,8 @@ function VariantB({
                           height="235px"
                           objectFit="cover"
                           alt="header-image-1"
+                          blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                          placeholder="blur"
                         />
                       </div>
                     )}
@@ -183,6 +185,8 @@ function VariantB({
                           height="240px"
                           objectFit="cover"
                           alt="header-image-2"
+                          blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                          placeholder="blur"
                         />
                       </div>
                     )}
@@ -197,6 +201,8 @@ function VariantB({
                           height="240px"
                           objectFit="cover"
                           alt="header-image-3"
+                          blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                          placeholder="blur"
                         />
                       </div>
                     )}
@@ -209,6 +215,8 @@ function VariantB({
                           height="235px"
                           objectFit="cover"
                           alt="header-image-4"
+                          blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                          placeholder="blur"
                         />
                       </div>
                     )}

@@ -115,6 +115,8 @@ function VariantH({ caption, title, features, images }) {
                       height="256px"
                       objectFit="cover"
                       alt="features-variantH-image-1"
+                      blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                      placeholder="blur"
                     />
                   )}
                   {images?.[1] && (
@@ -126,6 +128,8 @@ function VariantH({ caption, title, features, images }) {
                         height="256px"
                         objectFit="cover"
                         alt="features-variantH-image-2"
+                        blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                        placeholder="blur"
                       />
                     </div>
                   )}
@@ -139,6 +143,8 @@ function VariantH({ caption, title, features, images }) {
                       height="256px"
                       objectFit="cover"
                       alt="features-variantH-image-3"
+                      blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                      placeholder="blur"
                     />
                   )}
                 </div>

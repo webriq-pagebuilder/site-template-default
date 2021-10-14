@@ -160,6 +160,8 @@ function VariantD({
                     height="700px"
                     objectFit="contain"
                     alt="header-mainImage"
+                    blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                    placeholder="blur"
                   />
                 </div>
               )}

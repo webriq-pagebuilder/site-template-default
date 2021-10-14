@@ -26,6 +26,8 @@ function VariantA({ testimonials }) {
                         height="128px"
                         objectFit="cover"
                         alt={`testimonial-source-${testimonials?.[testimony]?.name}-profile-image`}
+                        blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                        placeholder="blur"
                       />
                     </div>
                   )}

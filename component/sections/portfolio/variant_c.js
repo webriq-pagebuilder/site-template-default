@@ -53,6 +53,8 @@ function VariantC({ caption, title, portfolios, buttonLabel }) {
                         height="320px"
                         objectFit="cover"
                         alt={`portfolio-image${index}`}
+                        blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                        placeholder="blur"
                       />
                       <div className="p-6">
                         <span className="text-gray-500">

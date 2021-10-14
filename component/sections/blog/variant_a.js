@@ -64,6 +64,8 @@ function VariantA({ subtitle, title, posts, buttonLabel }) {
                                 height="256px"
                                 objectFit="cover"
                                 alt={`blog-variantA-image-${key}`}
+                                blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                                placeholder="blur"
                               />
                             )}
                             <div className="absolute inset-0 bg-gray-700 opacity-75 rounded" />
@@ -141,6 +143,8 @@ function VariantA({ subtitle, title, posts, buttonLabel }) {
                                 height="512px"
                                 objectFit="cover"
                                 alt={`blog-variantA-image-${key}`}
+                                blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                                placeholder="blur"
                               />
                             )}
                             <div className="absolute inset-0 bg-gray-700 opacity-75 rounded" />
@@ -218,6 +222,8 @@ function VariantA({ subtitle, title, posts, buttonLabel }) {
                                 height="512px"
                                 objectFit="cover"
                                 alt={`blog-variantA-image-${key}`}
+                                blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                                placeholder="blur"
                               />
                             )}
                             <div className="absolute inset-0 bg-gray-700 opacity-75 rounded" />
@@ -293,6 +299,8 @@ function VariantA({ subtitle, title, posts, buttonLabel }) {
                                 height="256px"
                                 objectFit="cover"
                                 alt={`blog-variantA-image-${key}`}
+                                blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                                placeholder="blur"
                               />
                             )}
                             <div className="absolute inset-0 bg-gray-700 opacity-75 rounded" />

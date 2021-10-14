@@ -168,6 +168,8 @@ function VariantA({
                     height="512px"
                     objectFit="cover"
                     alt="header-main-image"
+                    blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                    placeholder="blur"
                   />
                   <div
                     className="hidden md:block absolute"
@@ -179,6 +181,8 @@ function VariantA({
                       width="112px"
                       height="112px"
                       alt="webriq-blue-dark-up-mainImage-element"
+                      blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                      placeholder="blur"
                     />
                   </div>
                   <div
@@ -191,6 +195,8 @@ function VariantA({
                       width="144px"
                       height="144px"
                       alt="wing-webriq-blue-down-mainImage-element"
+                      blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                      placeholder="blur"
                     />
                   </div>
                   <div
@@ -203,6 +209,8 @@ function VariantA({
                       width="115px"
                       height="157px"
                       alt="bullets-gray-right-mainImage-element"
+                      blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                      placeholder="blur"
                     />
                   </div>
                   <div
@@ -219,6 +227,8 @@ function VariantA({
                       width="157px"
                       height="115px"
                       alt="bullets-gray-left-mainImage-element"
+                      blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                      placeholder="blur"
                     />
                   </div>
                 </div>

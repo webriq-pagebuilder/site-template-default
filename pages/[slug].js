@@ -32,7 +32,7 @@ const Components = {
 const SEO = dynamic(() => import("component/SEO"));
 const BlogPage = dynamic(() => import("component/blog/"));
 
-function page({ data, preview }) {
+function Page({ data, preview }) {
   const router = useRouter();
   if (!router.isFallback && !data?.page?.slug) {
     return (
@@ -119,4 +119,4 @@ export async function getStaticPaths() {
   };
 }
 
-export default React.memo(page);
+export default React.memo(Page);

@@ -19,6 +19,8 @@ function VariantA({ title, images }) {
                     height="192px"
                     objectFit="scale-down"
                     alt={`logoCloud-image${index}`}
+                    blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                    placeholder="blur"
                   />
                 </div>
               </div>

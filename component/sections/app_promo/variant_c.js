@@ -53,6 +53,8 @@ function VariantC({ subtitle, title, description, features, images }) {
                     height="850px"
                     objectFit="cover"
                     alt="appPromo-variantC-image1"
+                    blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                    placeholder="blur"
                   />
                 )}
               </div>
@@ -65,6 +67,8 @@ function VariantC({ subtitle, title, description, features, images }) {
                     height="850px"
                     objectFit="cover"
                     alt="appPromo-variantC-image2"
+                    blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                    placeholder="blur"
                   />
                 )}
                 {images?.[2] && (
@@ -75,6 +79,8 @@ function VariantC({ subtitle, title, description, features, images }) {
                     height="850px"
                     objectFit="cover"
                     alt="appPromo-variantC-image3"
+                    blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                    placeholder="blur"
                   />
                 )}
               </div>
@@ -87,6 +93,8 @@ function VariantC({ subtitle, title, description, features, images }) {
                     height="850px"
                     objectFit="cover"
                     alt="appPromo-variantC-image4"
+                    blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                    placeholder="blur"
                   />
                 )}
               </div>

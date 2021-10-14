@@ -22,6 +22,8 @@ function VariantA({ logo, subtitle, title, images }) {
                     height="48px"
                     objectFit="contain"
                     alt={logo?.alt ?? "appPromo-logo"}
+                    blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                    placeholder="blur"
                   />
                 </a>
               </Link>
@@ -40,6 +42,8 @@ function VariantA({ logo, subtitle, title, images }) {
                     height="320px"
                     objectFit="contain"
                     alt="appPromo-variantA-image-1"
+                    blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                    placeholder="blur"
                   />
                 </div>
               )}
@@ -52,6 +56,8 @@ function VariantA({ logo, subtitle, title, images }) {
                     height="320px"
                     objectFit="contain"
                     alt="appPromo-variantA-image-2"
+                    blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                    placeholder="blur"
                   />
                 </div>
               )}
@@ -64,6 +70,8 @@ function VariantA({ logo, subtitle, title, images }) {
                     height="320px"
                     objectFit="contain"
                     alt="appPromo-variantA-image-3"
+                    blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                    placeholder="blur"
                   />
                 </div>
               )}

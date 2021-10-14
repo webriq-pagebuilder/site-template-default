@@ -23,6 +23,8 @@ function VariantB({ logo, title, text, formFields, formId, formName }) {
                     height="48px"
                     objectFit="contain"
                     alt={logo?.alt ?? "callToAction-logo"}
+                    blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                    placeholder="blur"
                   />
                 </a>
               </Link>

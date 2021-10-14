@@ -76,6 +76,8 @@ function VariantC({ title, images, button }) {
                 height="96px"
                 objectFit="scale-down"
                 alt="logoCloud-image1"
+                blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                placeholder="blur"
               />
             </div>
           )}
@@ -88,6 +90,8 @@ function VariantC({ title, images, button }) {
                 height="96px"
                 objectFit="scale-down"
                 alt="logoCloud-image2"
+                blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                placeholder="blur"
               />
             </div>
           )}
@@ -103,6 +107,8 @@ function VariantC({ title, images, button }) {
                 height="144px"
                 objectFit="scale-down"
                 alt="logoCloud-image3"
+                blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                placeholder="blur"
               />
             </div>
           )}
@@ -118,6 +124,8 @@ function VariantC({ title, images, button }) {
                 height="144px"
                 objectFit="scale-down"
                 alt="logoCloud-image4"
+                blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                placeholder="blur"
               />
             </div>
           )}
@@ -133,6 +141,8 @@ function VariantC({ title, images, button }) {
                 height="112px"
                 objectFit="scale-down"
                 alt="logoCloud-image5"
+                blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                placeholder="blur"
               />
             </div>
           )}
@@ -148,6 +158,8 @@ function VariantC({ title, images, button }) {
                 height="96px"
                 objectFit="scale-down"
                 alt="logoCloud-image6"
+                blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                placeholder="blur"
               />
             </div>
           )}

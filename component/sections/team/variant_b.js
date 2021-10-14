@@ -48,6 +48,8 @@ function VariantB({ team }) {
                           height="494px"
                           objectFit="cover"
                           alt={`team-member-${member?.name}-profile-image`}
+                          blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                          placeholder="blur"
                         />
                       </div>
                       <div className="w-full lg:w-1/2 lg:pl-3 lg:mt-6 order-first lg:order-last">

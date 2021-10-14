@@ -82,6 +82,8 @@ function VariantB({ subtitle, title, description, statistics, images }) {
                           height="850px"
                           objectFit="cover"
                           alt={`appPromo-variantB-image${currentPosition}`}
+                          blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                          placeholder="blur"
                         />
                       </div>
                     </div>
@@ -116,6 +118,8 @@ function VariantB({ subtitle, title, description, statistics, images }) {
                         height="850px"
                         objectFit="cover"
                         alt={`appPromo-variantB-image${currentPosition}`}
+                        blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                        placeholder="blur"
                       />
                     </div>
                   </div>

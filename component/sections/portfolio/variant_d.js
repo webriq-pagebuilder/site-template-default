@@ -89,6 +89,8 @@ function VariantD({ caption, title, portfolios, buttonLabel }) {
                               height="256px"
                               objectFit="cover"
                               alt={`portfolio-image-${content?._key}`}
+                              blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                              placeholder="blur"
                             />
                             <div className="opacity-0 hover:opacity-80 duration-300 absolute inset-0 z-10 p-6 bg-gray-900 justify-center rounded-lg">
                               <div className="max-w-md my-auto text-xs">
@@ -197,6 +199,8 @@ function VariantD({ caption, title, portfolios, buttonLabel }) {
                               height="384px"
                               objectFit="cover"
                               alt={`portfolio-image-${content?._key}`}
+                              blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                              placeholder="blur"
                             />
                             <div className="opacity-0 hover:opacity-80 duration-300 absolute inset-0 z-10 p-6 bg-gray-900 justify-center rounded-lg">
                               <div className="max-w-md my-auto text-sm">
@@ -307,6 +311,8 @@ function VariantD({ caption, title, portfolios, buttonLabel }) {
                               height="384px"
                               objectFit="cover"
                               alt={`portfolio-image-${content?._key}`}
+                              blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                              placeholder="blur"
                             />
                             <div className="opacity-0 hover:opacity-80 duration-300 absolute inset-0 z-10 p-6 bg-gray-900 justify-center rounded-lg">
                               <div className="max-w-md my-auto text-sm">
@@ -421,6 +427,8 @@ function VariantD({ caption, title, portfolios, buttonLabel }) {
                                   height="256px"
                                   objectFit="cover"
                                   alt={`portfolio-image${content?._key}`}
+                                  blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                                  placeholder="blur"
                                 />
                                 <div className="opacity-0 hover:opacity-80 duration-300 absolute inset-0 z-10 p-6 bg-gray-900 justify-center rounded-lg">
                                   <div className="max-w-md my-auto text-xs">
@@ -536,6 +544,8 @@ function VariantD({ caption, title, portfolios, buttonLabel }) {
                                   height="256px"
                                   objectFit="cover"
                                   alt={`portfolio-image-${content?._key}`}
+                                  blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                                  placeholder="blur"
                                 />
                                 <div className="opacity-0 hover:opacity-80 duration-300 absolute inset-0 z-10 p-6 bg-gray-900 justify-center rounded-lg">
                                   <div className="max-w-md my-auto text-xs">

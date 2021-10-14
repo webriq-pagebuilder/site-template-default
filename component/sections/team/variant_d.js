@@ -31,6 +31,8 @@ function VariantD({ caption, title, team }) {
                           height="320px"
                           objectFit="cover"
                           alt={`team-member-${member?.name}-profile-image`}
+                          blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                          placeholder="blur"
                         />
                       </div>
                     )}

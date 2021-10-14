@@ -229,6 +229,8 @@ function VariantD({ subtitle, title, posts, buttonLabel }) {
                               height="129px"
                               objectFit="cover"
                               alt={`blog-variantD-image-${index}`}
+                              blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                              placeholder="blur"
                             />
                           )}
                         </div>
@@ -298,6 +300,8 @@ function VariantD({ subtitle, title, posts, buttonLabel }) {
                               height="129px"
                               objectFit="cover"
                               alt={`blog-variantD-image-${index}`}
+                              blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                              placeholder="blur"
                             />
                           )}
                         </div>

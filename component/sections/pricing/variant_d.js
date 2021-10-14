@@ -264,6 +264,8 @@ function VariantD({
                   height="296px"
                   objectFit="cover"
                   alt={`pricing-image-${banners}`}
+                  blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                  placeholder="blur"
                 />
               </div>
               <p className="mb-4 max-w-sm mx-auto text-center text-xl text-white">

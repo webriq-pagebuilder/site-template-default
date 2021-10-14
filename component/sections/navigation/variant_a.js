@@ -24,6 +24,8 @@ function VariantA({ template, links, primaryButton, secondaryButton, logo }) {
                 height="48px"
                 objectFit="contain"
                 alt="navigation-logo"
+                blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                placeholder="blur"
               />
             </a>
           </Link>

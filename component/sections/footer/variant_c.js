@@ -110,6 +110,8 @@ function VariantC({ logo, menu, copyright, socialMedia }) {
                       height="56px"
                       objectFit="scale-down"
                       alt={logo?.alt ?? "footer-logo"}
+                      blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                      placeholder="blur"
                     />
                   </a>
                 </Link>
