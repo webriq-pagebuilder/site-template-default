@@ -1,5 +1,5 @@
 module.exports = {
-  target: "serverless",
+  target: "experimental-serverless-trace",
   async redirects() {
     return [
       {
@@ -7,6 +7,6 @@ module.exports = {
         destination: "/",
         permanent: true,
       },
-    ]
+    ];
   },
-}
+};
