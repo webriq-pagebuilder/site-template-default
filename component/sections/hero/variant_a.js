@@ -1,7 +1,7 @@
 import React from "react";
-import PropTypes from "prop-types";
+import Link from "next/link";
 import { urlFor } from "lib/sanity";
-
+import Image from "next/image";
 function VariantA({
   template,
   image,
@@ -18,106 +18,211 @@ function VariantA({
         <div className="container mx-auto px-4">
           <div className="flex flex-wrap -mx-4">
             <div className="w-full lg:w-1/2 px-4 mb-12 md:mb-20 lg:mb-0 flex items-center">
-              <div className="w-full text-center lg:text-left">
-                <div className="max-w-md mx-auto lg:mx-0">
-                  <h2 className="mb-3 text-4xl lg:text-5xl font-bold font-heading">
-                    {title === undefined ? null : (
+              <div className="w-full text-center lg:text-left xl:text-left 2xl:text-left">
+                <div className="max-w-md mx-auto">
+                  <h1 className="mb-3 text-2xl md:text-4xl lg:text-5xl font-bold font-heading">
+                    {title && (
                       <>
                         <span>{String(title).split("*")[0]}</span>
-                        <span className={`text-${template.color}-600`}>
+                        <span className={`text-${template.color}-900`}>
                           {String(title).split("*")[1]}
                         </span>
                       </>
                     )}
-                  </h2>
+                  </h1>
                 </div>
-                <div className="max-w-sm mx-auto lg:mx-0">
-                  {description === undefined ? null : (
-                    <p className="mb-6 text-gray-400 leading-loose">
+                <div className="max-w-md mx-auto">
+                  {description && (
+                    <p className="my-6 text-xs md:text-base lg:text-base text-gray-500 leading-loose">
                       {description}
                     </p>
                   )}
-                  <div>
-                    {primaryButton?.label && (
-                      <a
-                        className={`inline-block mb-3 lg:mb-0 lg:mr-3 w-full lg:w-auto py-2 px-6 leading-loose bg-${template.color}-blue hover:bg-${template.color}-darkblue text-white font-semibold rounded-l-xl rounded-t-xl transition duration-200`}
-                        target={primaryButton?.linkTarget}
-                        rel={
-                          primaryButton?.linkTarget === "_blank"
-                            ? "noopener noreferrer"
-                            : null
-                        }
-                        href={
-                          primaryButton.type === "linkInternal"
-                            ? primaryButton.internalLink === "Home" ||
-                              primaryButton.internalLink === "home"
+                  {primaryButton?.label || secondaryButton?.label ? (
+                    <div>
+                      {primaryButton?.type === "linkInternal" ? (
+                        <Link
+                          href={
+                            primaryButton?.internalLink === "Home" ||
+                            primaryButton?.internalLink === "home"
                               ? "/"
-                              : primaryButton.internalLink
-                            : primaryButton.externalLink
-                        }
-                      >
-                        {primaryButton.label}
-                      </a>
-                    )}
-                    {secondaryButton?.label && (
-                      <a
-                        className="inline-block w-full lg:w-auto py-2 px-6 leading-loose font-semibold bg-white hover:bg-gray-50 rounded-l-xl rounded-t-xl transition duration-200"
-                        target={secondaryButton?.linkTarget}
-                        rel={
-                          secondaryButton?.linkTarget === "_blank"
-                            ? "noopener noreferrer"
-                            : null
-                        }
-                        href={
-                          secondaryButton.type === "linkInternal"
-                            ? secondaryButton.internalLink === "Home" ||
-                              secondaryButton.internalLink === "home"
+                              : `/${
+                                  primaryButton?.internalLink === undefined
+                                    ? "page-not-found"
+                                    : primaryButton?.internalLink
+                                }`
+                          }
+                        >
+                          <a
+                            aria-label={`Header ${
+                              primaryButton?.label ?? "Primary"
+                            } button which directs to ${
+                              primaryButton?.internalLink === undefined
+                                ? "page-not-found"
+                                : primaryButton?.internalLink
+                            }`}
+                            className={`inline-block mb-3 lg:mb-0 lg:mr-3 w-full lg:w-auto py-2 px-6 leading-loose bg-${template.color}-darkblue hover:bg-${template.color}-blue text-white font-semibold rounded-l-xl rounded-t-xl transition duration-200`}
+                            target={primaryButton?.linkTarget}
+                            rel={
+                              primaryButton?.linkTarget === "_blank"
+                                ? "noopener noreferrer"
+                                : null
+                            }
+                          >
+                            {primaryButton?.label}
+                          </a>
+                        </Link>
+                      ) : (
+                        <a
+                          aria-label={`Header ${
+                            primaryButton?.label ?? "Primary"
+                          } button which directs to ${
+                            primaryButton?.externalLink === undefined
+                              ? "link-not-found"
+                              : primaryButton?.externalLink
+                          }`}
+                          className={`inline-block mb-3 lg:mb-0 lg:mr-3 w-full lg:w-auto p-2 md:py-2 md:px-6 lg:py-2 lg:px-6 leading-loose bg-${template.color}-darkblue hover:bg-${template.color}-blue text-white font-semibold rounded-l-xl rounded-t-xl transition duration-200`}
+                          target={primaryButton?.linkTarget}
+                          href={`${
+                            primaryButton?.externalLink === undefined
+                              ? "link-not-found"
+                              : primaryButton?.externalLink
+                          }`}
+                          rel={
+                            primaryButton?.linkTarget === "_blank"
+                              ? "noopener noreferrer"
+                              : null
+                          }
+                        >
+                          {primaryButton?.label}
+                        </a>
+                      )}
+                      {secondaryButton?.type === "linkInternal" ? (
+                        <Link
+                          href={
+                            secondaryButton?.internalLink === "Home" ||
+                            secondaryButton?.internalLink === "home"
                               ? "/"
-                              : secondaryButton.internalLink
-                            : secondaryButton.externalLink
-                        }
-                      >
-                        {secondaryButton.label}
-                      </a>
-                    )}
-                  </div>
+                              : `/${
+                                  secondaryButton?.internalLink === undefined
+                                    ? "page-not-found"
+                                    : secondaryButton?.internalLink
+                                }`
+                          }
+                        >
+                          <a
+                            aria-label={`Header ${
+                              secondaryButton?.label ?? "Secondary"
+                            } button which directs to ${
+                              secondaryButton?.internalLink === undefined
+                                ? "page-not-found"
+                                : secondaryButton?.internalLink
+                            }`}
+                            className="inline-block w-full lg:w-auto py-2 px-6 leading-loose font-semibold bg-white hover:bg-gray-50 rounded-l-xl rounded-t-xl transition duration-200"
+                            target={secondaryButton?.linkTarget}
+                            rel={
+                              secondaryButton?.linkTarget === "_blank"
+                                ? "noopener noreferrer"
+                                : null
+                            }
+                          >
+                            {secondaryButton?.label}
+                          </a>
+                        </Link>
+                      ) : (
+                        <a
+                          aria-label={`Header ${
+                            secondaryButton?.label ?? "Secondary"
+                          } button which directs to ${
+                            secondaryButton?.externalLink === undefined
+                              ? "link-not-found"
+                              : secondaryButton?.externalLink
+                          }`}
+                          className="inline-block w-full lg:w-auto py-2 px-6 leading-loose font-semibold bg-white hover:bg-gray-50 rounded-l-xl rounded-t-xl transition duration-200"
+                          target={secondaryButton?.linkTarget}
+                          href={`${
+                            secondaryButton?.externalLink === undefined
+                              ? "link-not-found"
+                              : secondaryButton?.externalLink
+                          }`}
+                          rel={
+                            secondaryButton?.linkTarget === "_blank"
+                              ? "noopener noreferrer"
+                              : null
+                          }
+                        >
+                          {secondaryButton?.label}
+                        </a>
+                      )}
+                    </div>
+                  ) : null}
                 </div>
               </div>
             </div>
             <div className="w-full lg:w-1/2 px-4 flex items-center justify-center">
-              <div className="relative" style={{ zIndex: 0 }}>
-                {image === undefined ? null : (
-                  <img
-                    className="h-128 w-full max-w-lg object-cover rounded-3xl md:rounded-br-none"
+              {image && (
+                <div className="relative h-128 w-full max-w-md rounded-3xl md:rounded-br-none">
+                  <Image
                     src={urlFor(image)}
-                    alt=""
+                    layout="responsive"
+                    width="512px"
+                    height="512px"
+                    objectFit="cover"
+                    alt="header-main-image"
                   />
-                )}
-                <img
-                  className="hidden md:block absolute h-28 w-28"
-                  style={{ top: "-2rem", right: "3rem", zIndex: "-1" }}
-                  src="assets/elements/webriq-blue-dark-up.png"
-                  alt=""
-                />
-                <img
-                  className="hidden md:block absolute h-36 w-36"
-                  style={{ bottom: "-2rem", right: "-2rem", zIndex: "-1" }}
-                  src="assets/elements/wing-webriq-blue-down.png"
-                  alt=""
-                />
-                <img
-                  className="hidden md:block absolute"
-                  style={{ top: "3rem", right: "-3rem", zIndex: "-1" }}
-                  src="assets/elements/bullets-gray-right.svg"
-                  alt=""
-                />
-                <img
-                  className="hidden md:block absolute"
-                  style={{ bottom: "2.5rem", left: "-4.5rem", zIndex: "-1" }}
-                  src="assets/elements/bullets-gray-left.svg"
-                  alt=""
-                />
-              </div>
+                  <div
+                    className="hidden md:block absolute"
+                    style={{ top: "-2rem", right: "3rem", zIndex: "-1" }}
+                  >
+                    <Image
+                      src="/assets/elements/webriq-blue-dark-up.png"
+                      layout="fixed"
+                      width="112px"
+                      height="112px"
+                      alt="webriq-blue-dark-up-mainImage-element"
+                    />
+                  </div>
+                  <div
+                    className="hidden md:block absolute"
+                    style={{ bottom: "-2rem", right: "-2rem", zIndex: "-1" }}
+                  >
+                    <Image
+                      src="/assets/elements/wing-webriq-blue-down.png"
+                      layout="fixed"
+                      width="144px"
+                      height="144px"
+                      alt="wing-webriq-blue-down-mainImage-element"
+                    />
+                  </div>
+                  <div
+                    className="hidden md:block absolute"
+                    style={{ top: "3rem", right: "-3rem", zIndex: "-1" }}
+                  >
+                    <Image
+                      src="/assets/elements/bullets-gray-right.svg"
+                      layout="fixed"
+                      width="115px"
+                      height="157px"
+                      alt="bullets-gray-right-mainImage-element"
+                    />
+                  </div>
+                  <div
+                    className="hidden md:block absolute"
+                    style={{
+                      bottom: "2.5rem",
+                      left: "-4.5rem",
+                      zIndex: "-1",
+                    }}
+                  >
+                    <Image
+                      src="/assets/elements/bullets-gray-left.svg"
+                      layout="fixed"
+                      width="157px"
+                      height="115px"
+                      alt="bullets-gray-left-mainImage-element"
+                    />
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>

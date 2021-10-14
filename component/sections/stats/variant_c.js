@@ -18,7 +18,7 @@ function VariantC({ stats }) {
                     <path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z" />
                   </svg>
                 </span>
-                <h3 className="text-2xl font-bold">{stats[0]?.value}</h3>
+                <p className="text-2xl font-bold">{stats[0]?.value}</p>
                 <p className="text-gray-500">{stats[0]?.label}</p>
               </div>
             )}
@@ -40,7 +40,7 @@ function VariantC({ stats }) {
                     />
                   </svg>
                 </span>
-                <h3 className="text-2xl font-bold">{stats[1]?.value}</h3>
+                <p className="text-2xl font-bold">{stats[1]?.value}</p>
                 <p className="text-gray-500">{stats[1]?.label}</p>
               </div>
             )}
@@ -62,7 +62,7 @@ function VariantC({ stats }) {
                     />
                   </svg>
                 </span>
-                <h3 className="text-2xl font-bold">{stats[2]?.value}</h3>
+                <p className="text-2xl font-bold">{stats[2]?.value}</p>
                 <p className="text-gray-500">{stats[2]?.label}</p>
               </div>
             )}
@@ -83,7 +83,7 @@ function VariantC({ stats }) {
                     <path d="M2 13.692V16a2 2 0 002 2h12a2 2 0 002-2v-2.308A24.974 24.974 0 0110 15c-2.796 0-5.487-.46-8-1.308z" />
                   </svg>
                 </span>
-                <h3 className="text-2xl font-bold">{stats[3]?.value}</h3>
+                <p className="text-2xl font-bold">{stats[3]?.value}</p>
                 <p className="text-gray-500">{stats[3]?.label}</p>
               </div>
             )}

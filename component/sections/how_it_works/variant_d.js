@@ -7,9 +7,9 @@ function VariantD({ subtitle, title, steps }) {
         <div className="container mx-auto px-4">
           <div className="mb-20 max-w-md text-center mx-auto">
             <span className="text-webriq-darkblue font-bold">{subtitle}</span>
-            <h2 className="text-4xl lg:text-5xl font-bold font-heading">
+            <h1 className="text-4xl lg:text-5xl font-bold font-heading">
               {title}
-            </h2>
+            </h1>
           </div>
           {steps && (
             <div className="flex flex-wrap mx-10 justify-center">
@@ -29,7 +29,7 @@ function VariantD({ subtitle, title, steps }) {
                       fill="currentColor"
                     />
                   </svg>
-                  <h3 className="text-2xl font-bold">{steps[0]?.title}</h3>
+                  <p className="text-2xl font-bold">{steps[0]?.title}</p>
                   <p className="text-gray-500 leading-loose">
                     {steps[0]?.content}
                   </p>
@@ -51,7 +51,7 @@ function VariantD({ subtitle, title, steps }) {
                       fill="currentColor"
                     />
                   </svg>
-                  <h3 className="text-2xl font-bold">{steps[1]?.title}</h3>
+                  <p className="text-2xl font-bold">{steps[1]?.title}</p>
                   <p className="text-gray-500 leading-loose">
                     {steps[1]?.content}
                   </p>
@@ -73,7 +73,7 @@ function VariantD({ subtitle, title, steps }) {
                       fill="currentColor"
                     />
                   </svg>
-                  <h3 className="text-2xl font-bold">{steps[2]?.title}</h3>
+                  <p className="text-2xl font-bold">{steps[2]?.title}</p>
                   <p className="text-gray-500 leading-loose">
                     {steps[2]?.content}
                   </p>

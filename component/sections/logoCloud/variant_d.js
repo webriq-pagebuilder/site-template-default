@@ -1,6 +1,6 @@
 import React from "react";
+import Image from "next/image";
 import { urlFor } from "lib/sanity";
-
 
 function VariantD({ images }) {
   return (
@@ -10,11 +10,14 @@ function VariantD({ images }) {
           {images &&
             images?.map((image, index) => (
               <div className="mb-4 w-full md:w-1/3 lg:w-1/6 px-2" key={index}>
-                <div className="bg-gray-50 rounded">
-                  <img
-                    className="mx-auto h-48 w-48 object-scale-down"
+                <div className="bg-gray-50 mx-auto rounded">
+                  <Image
                     src={urlFor(image)}
-                    alt={`logoCloud-variantD-image${index}`}
+                    layout="responsive"
+                    width="192px"
+                    height="192px"
+                    objectFit="scale-down"
+                    alt={`logoCloud-image${index}`}
                   />
                 </div>
               </div>

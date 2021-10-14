@@ -1,9 +1,8 @@
-import React from "react"
-import BlockContent from "@sanity/block-content-to-react"
-
+import React from "react";
+import { PortableText } from "lib/sanity";
 
 function VariantB({ heading, firstColumn, secondColumn }) {
-  // block styling as props to `serializers` of the BlockContent component
+  // block styling as props to `serializers` of the PortableText component
   const serializers = {
     types: {
       block: (props) => {
@@ -68,6 +67,7 @@ function VariantB({ heading, firstColumn, secondColumn }) {
       code: (props) => <code>{props.children}</code>,
       link: ({ children, mark }) => (
         <a
+          aria-label={children ?? "external link"}
           className="hover:text-webriq-darkorange text-webriq-lightorange"
           href={mark.href}
           target="_blank"
@@ -81,22 +81,22 @@ function VariantB({ heading, firstColumn, secondColumn }) {
 
   return (
     <section className="py-20">
-      <h2 className="text-3xl mb-5 font-semibold font-heading text-center">
+      <h1 className="text-3xl mb-5 font-semibold font-heading text-center">
         {heading}
-      </h2>
+      </h1>
       <div className="flex flex-wrap -mx-10 justify-center">
         {firstColumn && (
           <div className="w-1/4 px-5 mb-6 text-gray-500 text-justify leading-relaxed">
-            <BlockContent blocks={firstColumn} serializers={serializers} />
+            <PortableText blocks={firstColumn} serializers={serializers} />
           </div>
         )}
         {secondColumn && (
           <div className="w-1/4 px-5 mb-6 md:mb-0 text-gray-500 text-justify leading-relaxed">
-            <BlockContent blocks={secondColumn} serializers={serializers} />
+            <PortableText blocks={secondColumn} serializers={serializers} />
           </div>
         )}
       </div>
     </section>
   );
 }
-export default React.memo(VariantB)
+export default React.memo(VariantB);

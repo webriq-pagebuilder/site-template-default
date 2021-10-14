@@ -3,38 +3,16 @@ import React from "react";
 function VariantC({ caption, title, features }) {
   return (
     <section>
-      <div className="skew skew-top mr-for-radius">
-        <svg
-          className="h-8 md:h-12 lg:h-20 w-full text-gray-50"
-          viewBox="0 0 10 10"
-          preserveAspectRatio="none"
-        >
-          <polygon fill="currentColor" points="0 0 10 10 0 10" />
-        </svg>
-      </div>
-      <div className="skew skew-top ml-for-radius">
-        <svg
-          className="h-8 md:h-12 lg:h-20 w-full text-gray-50"
-          viewBox="0 0 10 10"
-          preserveAspectRatio="none"
-        >
-          <polygon fill="currentColor" points="0 10 10 0 10 10" />
-        </svg>
-      </div>
       <div className="py-20 bg-gray-50 radius-for-skewed">
         <div className="container mx-auto px-4">
           <div className="mb-16 max-w-md mx-auto text-center">
             {caption && (
-              <span className="text-webriq-darkblue font-bold">
-                {/* Dolor sit amet consectutar */}
-                {caption}
-              </span>
+              <span className="text-webriq-darkblue font-bold">{caption}</span>
             )}
             {title && (
-              <h2 className="text-4xl lg:text-5xl font-bold font-heading">
-                {/* Build &amp; Launch without problems */}
+              <h1 className="text-4xl lg:text-5xl font-bold font-heading">
                 {title}
-              </h2>
+              </h1>
             )}
           </div>
           <div className="flex flex-wrap -mx-3 justify-center">
@@ -60,9 +38,9 @@ function VariantC({ caption, title, features }) {
                     </span>
                   </div>
                   <div className="w-full lg:w-2/3">
-                    <h3 className="mb-2 text-2xl font-bold font-heading">
+                    <p className="mb-2 text-2xl font-bold font-heading">
                       {features?.[0]?.heading}
-                    </h3>
+                    </p>
                     <p className="text-gray-500">
                       {features?.[0]?.description}
                     </p>
@@ -86,9 +64,9 @@ function VariantC({ caption, title, features }) {
                     </span>
                   </div>
                   <div className="w-full lg:w-2/3">
-                    <h3 className="mb-2 text-2xl font-bold font-heading">
+                    <p className="mb-2 text-2xl font-bold font-heading">
                       {features?.[1]?.heading}
-                    </h3>
+                    </p>
                     <p className="text-gray-500">
                       {features?.[1]?.description}
                     </p>
@@ -118,9 +96,9 @@ function VariantC({ caption, title, features }) {
                     </span>
                   </div>
                   <div className="w-full lg:w-2/3">
-                    <h3 className="mb-2 text-2xl font-bold font-heading">
+                    <p className="mb-2 text-2xl font-bold font-heading">
                       {features?.[2]?.heading}
-                    </h3>
+                    </p>
                     <p className="text-gray-500">
                       {features?.[2]?.description}
                     </p>
@@ -149,9 +127,9 @@ function VariantC({ caption, title, features }) {
                     </span>
                   </div>
                   <div className="w-full lg:w-2/3">
-                    <h3 className="mb-2 text-2xl font-bold font-heading">
+                    <p className="mb-2 text-2xl font-bold font-heading">
                       {features?.[3]?.heading}
-                    </h3>
+                    </p>
                     <p className="text-gray-500">
                       {features?.[3]?.description}
                     </p>
@@ -161,24 +139,6 @@ function VariantC({ caption, title, features }) {
             )}
           </div>
         </div>
-      </div>
-      <div className="skew skew-bottom mr-for-radius">
-        <svg
-          className="h-8 md:h-12 lg:h-20 w-full text-gray-50"
-          viewBox="0 0 10 10"
-          preserveAspectRatio="none"
-        >
-          <polygon fill="currentColor" points="0 0 10 0 0 10" />
-        </svg>
-      </div>
-      <div className="skew skew-bottom ml-for-radius">
-        <svg
-          className="h-8 md:h-12 lg:h-20 w-full text-gray-50"
-          viewBox="0 0 10 10"
-          preserveAspectRatio="none"
-        >
-          <polygon fill="currentColor" points="0 0 10 0 10 10" />
-        </svg>
       </div>
     </section>
   );

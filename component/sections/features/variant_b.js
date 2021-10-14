@@ -3,24 +3,6 @@ import React from "react";
 function VariantB({ caption, title, description, features, featureItems }) {
   return (
     <section>
-      <div className="skew skew-top mr-for-radius">
-        <svg
-          className="h-8 md:h-12 lg:h-20 w-full text-gray-50"
-          viewBox="0 0 10 10"
-          preserveAspectRatio="none"
-        >
-          <polygon fill="currentColor" points="0 0 10 10 0 10" />
-        </svg>
-      </div>
-      <div className="skew skew-top ml-for-radius">
-        <svg
-          className="h-8 md:h-12 lg:h-20 w-full text-gray-50"
-          viewBox="0 0 10 10"
-          preserveAspectRatio="none"
-        >
-          <polygon fill="currentColor" points="0 10 10 0 10 10" />
-        </svg>
-      </div>
       <div className="py-20 bg-gray-50 radius-for-skewed">
         <div className="container mx-auto px-4">
           <div className="flex flex-wrap items-center">
@@ -33,10 +15,10 @@ function VariantB({ caption, title, description, features, featureItems }) {
                   </span>
                 )}
                 {title === undefined ? null : (
-                  <h2 className="my-2 text-4xl lg:text-5xl font-bold font-heading">
+                  <h1 className="my-2 text-4xl lg:text-5xl font-bold font-heading">
                     {/* Build &amp; Launch without problems */}
                     {title}
-                  </h2>
+                  </h1>
                 )}
                 {description === undefined ? null : (
                   <p className="mb-6 text-gray-500 leading-loose">
@@ -118,9 +100,9 @@ function VariantB({ caption, title, description, features, featureItems }) {
                         />
                       </svg>
                     </span>
-                    <h4 className="mb-2 text-2xl font-bold font-heading">
+                    <p className="mb-2 text-2xl font-bold font-heading">
                       {features?.[0]?.heading}
-                    </h4>
+                    </p>
                     <p className="text-gray-500 leading-loose">
                       {features?.[0]?.description}
                     </p>
@@ -138,9 +120,9 @@ function VariantB({ caption, title, description, features, featureItems }) {
                         <path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z" />
                       </svg>
                     </span>
-                    <h4 className="mb-2 text-2xl font-bold font-heading">
+                    <p className="mb-2 text-2xl font-bold font-heading">
                       {features?.[1]?.heading}
-                    </h4>
+                    </p>
                     <p className="text-gray-500 leading-loose">
                       {features?.[1]?.description}
                     </p>
@@ -166,9 +148,9 @@ function VariantB({ caption, title, description, features, featureItems }) {
                         />
                       </svg>
                     </span>
-                    <h4 className="mb-2 text-2xl font-bold font-heading">
+                    <p className="mb-2 text-2xl font-bold font-heading">
                       {features?.[2]?.heading}
-                    </h4>
+                    </p>
                     <p className="text-gray-500 leading-loose">
                       {features?.[2]?.description}
                     </p>
@@ -191,9 +173,9 @@ function VariantB({ caption, title, description, features, featureItems }) {
                         <path d="M2 13.692V16a2 2 0 002 2h12a2 2 0 002-2v-2.308A24.974 24.974 0 0110 15c-2.796 0-5.487-.46-8-1.308z" />
                       </svg>
                     </span>
-                    <h4 className="mb-2 text-2xl font-bold font-heading">
+                    <p className="mb-2 text-2xl font-bold font-heading">
                       {features?.[3]?.heading}
-                    </h4>
+                    </p>
                     <p className="text-gray-500 leading-loose">
                       {features?.[3]?.description}
                     </p>
@@ -203,24 +185,6 @@ function VariantB({ caption, title, description, features, featureItems }) {
             </div>
           </div>
         </div>
-      </div>
-      <div className="skew skew-bottom mr-for-radius">
-        <svg
-          className="h-8 md:h-12 lg:h-20 w-full text-gray-50"
-          viewBox="0 0 10 10"
-          preserveAspectRatio="none"
-        >
-          <polygon fill="currentColor" points="0 0 10 0 0 10" />
-        </svg>
-      </div>
-      <div className="skew skew-bottom ml-for-radius">
-        <svg
-          className="h-8 md:h-12 lg:h-20 w-full text-gray-50"
-          viewBox="0 0 10 10"
-          preserveAspectRatio="none"
-        >
-          <polygon fill="currentColor" points="0 0 10 0 10 10" />
-        </svg>
       </div>
     </section>
   );

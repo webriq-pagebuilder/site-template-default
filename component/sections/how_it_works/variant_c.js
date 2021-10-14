@@ -7,9 +7,9 @@ function VariantC({ subtitle, title, steps }) {
         <div className="container mx-auto px-4">
           <div className="mb-16 mx-auto max-w-md text-center">
             <span className="text-webriq-darkblue font-bold">{subtitle}</span>
-            <h2 className="text-4xl lg:text-5xl font-bold font-heading">
+            <h1 className="text-4xl lg:text-5xl font-bold font-heading">
               {title}
-            </h2>
+            </h1>
           </div>
           <div className="flex flex-wrap -mx-4 justify-center">
             {steps &&
@@ -22,9 +22,9 @@ function VariantC({ subtitle, title, steps }) {
                     <span className="mb-6 w-16 h-16 inline-flex justify-center items-center bg-webriq-lightblue rounded text-2xl text-webriq-darkblue font-bold">
                       {index + 1}
                     </span>
-                    <h3 className="mb-4 text-2xl font-bold font-heading">
+                    <p className="mb-4 text-2xl font-bold font-heading">
                       {step?.title}
-                    </h3>
+                    </p>
                     <p className="text-gray-500 leading-loose">
                       {step?.content}
                     </p>

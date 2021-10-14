@@ -1,10 +1,10 @@
 import React from "react";
 import Link from "next/link";
-import { urlFor } from "lib/sanity";
+import Image from "next/image";
+import { PortableText, urlFor } from "lib/sanity";
 import { format } from "date-fns";
-import BlockContent from "@sanity/block-content-to-react";
 
-// block styling as props to `serializers` of the BlockContent component
+// block styling as props to `serializers` of the PortableText component
 const blockStyle = {
   types: {
     block: (props) => {
@@ -69,9 +69,10 @@ const blockStyle = {
     code: (props) => <code>{props.children}</code>,
     link: ({ children, mark }) => (
       <a
+        aria-label={children ?? "external link"}
         className="hover:text-webriq-darkorange text-webriq-lightorange"
-        href={mark.href}
         target="_blank"
+        href={mark.href}
         rel="noopener noreferrer"
       >
         {children}
@@ -133,15 +134,16 @@ function VariantD({ subtitle, title, posts, buttonLabel }) {
                 </span>
               )}
               {title && (
-                <h2 className="text-4xl lg:text-5xl font-bold font-heading">
+                <h1 className="text-4xl lg:text-5xl font-bold font-heading">
                   {title}
-                </h2>
+                </h1>
               )}
             </div>
             <div className="hidden lg:block text-right w-1/2">
               {activeTab === "All" ? (
                 posts?.length > blogsPerPage ? (
                   <button
+                    aria-label="View All Blogs button"
                     className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-gray-50 font-bold leading-loose transition duration-200"
                     onClick={() => setBlogsPerPage(posts?.length)}
                   >
@@ -150,6 +152,7 @@ function VariantD({ subtitle, title, posts, buttonLabel }) {
                 ) : null
               ) : postsPerCategory?.length > blogsPerPage ? (
                 <button
+                  aria-label={`View All Blogs For ${activeTab} button`}
                   className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-gray-50 font-bold leading-loose transition duration-200"
                   onClick={() => setBlogsPerPage(postsPerCategory?.length)}
                 >
@@ -173,6 +176,7 @@ function VariantD({ subtitle, title, posts, buttonLabel }) {
                         }`}
                       >
                         <button
+                          aria-label="All Blogs tab"
                           className={`block py-2 px-3 mb-4 ${
                             activeTab === "All"
                               ? "font-bold focus:outline-none text-webriq-darkblue"
@@ -192,6 +196,7 @@ function VariantD({ subtitle, title, posts, buttonLabel }) {
                         key={index}
                       >
                         <button
+                          aria-label={`${category} Blogs tab`}
                           className={`block py-2 px-3 mb-4 focus:outline-none ${
                             activeTab === category
                               ? "font-bold focus:outline-none text-webriq-darkblue"
@@ -215,22 +220,32 @@ function VariantD({ subtitle, title, posts, buttonLabel }) {
                         className="flex flex-wrap -mx-3 mb-8 lg:mb-6"
                         key={index}
                       >
-                        <div className="mb-4 lg:mb-0 w-full lg:w-1/4 px-3">
+                        <div className="mb-4 lg:mb-0 w-full h-full lg:w-1/4 px-3 rounded overflow-hidden">
                           {post?.mainImage && (
-                            <img
-                              className="w-full h-full object-cover rounded"
+                            <Image
                               src={urlFor(post?.mainImage)}
-                              alt=""
+                              layout="responsive"
+                              width="188px"
+                              height="129px"
+                              objectFit="cover"
+                              alt={`blog-variantD-image-${index}`}
                             />
                           )}
                         </div>
                         <div className="w-full lg:w-3/4 px-3">
                           {post?.title && (
-                            <Link href={`/${post?.slug?.current}`}>
-                              <a className="hover:text-webriq-babyblue">
-                                <h3 className="mb-1 text-2xl font-bold font-heading">
+                            <Link
+                              href={`/${
+                                post?.slug?.current ?? "page-not-added"
+                              }`}
+                            >
+                              <a
+                                aria-label={`Go to ${post?.slug?.current} blog page`}
+                                className="hover:text-webriq-babyblue"
+                              >
+                                <p className="mb-1 text-2xl font-bold font-heading">
                                   {post?.title}
-                                </h3>
+                                </p>
                               </a>
                             </Link>
                           )}
@@ -261,7 +276,7 @@ function VariantD({ subtitle, title, posts, buttonLabel }) {
                             )}
                           </div>
                           {post?.excerpt && (
-                            <BlockContent
+                            <PortableText
                               blocks={post?.excerpt}
                               serializers={blockStyle}
                             />
@@ -274,22 +289,32 @@ function VariantD({ subtitle, title, posts, buttonLabel }) {
                         className="flex flex-wrap -mx-3 mb-8 lg:mb-6"
                         key={index}
                       >
-                        <div className="mb-4 lg:mb-0 w-full lg:w-1/4 px-3">
+                        <div className="mb-4 lg:mb-0 h-full w-full lg:w-1/4 px-3 rounded overflow-hidden">
                           {post?.mainImage && (
-                            <img
-                              className="w-full h-full object-cover rounded"
+                            <Image
                               src={urlFor(post?.mainImage)}
-                              alt=""
+                              layout="responsive"
+                              width="188px"
+                              height="129px"
+                              objectFit="cover"
+                              alt={`blog-variantD-image-${index}`}
                             />
                           )}
                         </div>
                         <div className="w-full lg:w-3/4 px-3">
                           {post?.title && (
-                            <Link href={`/${post?.slug?.current}`}>
-                              <a className="hover:text-webriq-babyblue">
-                                <h3 className="mb-1 text-2xl font-bold font-heading">
+                            <Link
+                              href={
+                                `/${post?.slug?.current}` ?? "/page-not-found"
+                              }
+                            >
+                              <a
+                                aria-label={`Go to ${post?.slug?.current} blog page`}
+                                className="hover:text-webriq-babyblue"
+                              >
+                                <p className="mb-1 text-2xl font-bold font-heading">
                                   {post?.title}
-                                </h3>
+                                </p>
                               </a>
                             </Link>
                           )}
@@ -320,7 +345,7 @@ function VariantD({ subtitle, title, posts, buttonLabel }) {
                             )}
                           </div>
                           {post?.excerpt && (
-                            <BlockContent
+                            <PortableText
                               blocks={post?.excerpt}
                               serializers={blockStyle}
                             />

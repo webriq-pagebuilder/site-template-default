@@ -1,10 +1,10 @@
 import React from "react";
 import Link from "next/link";
-import { urlFor } from "lib/sanity";
+import Image from "next/image";
+import { PortableText, urlFor } from "lib/sanity";
 import { format } from "date-fns";
-import BlockContent from "@sanity/block-content-to-react";
 
-// block styling as props to `serializers` of the BlockContent component
+// block styling as props to `serializers` of the PortableText component
 const blockStyle = {
   types: {
     block: (props) => {
@@ -69,9 +69,10 @@ const blockStyle = {
     code: (props) => <code>{props.children}</code>,
     link: ({ children, mark }) => (
       <a
+        aria-label={children ?? "external link"}
         className="hover:text-webriq-darkorange text-webriq-lightorange"
-        href={mark.href}
         target="_blank"
+        href={mark.href}
         rel="noopener noreferrer"
       >
         {children}
@@ -112,6 +113,7 @@ function VariantC({ subtitle, title, posts, buttonLabel }) {
           >
             {activePage > startPage && (
               <button
+                aria-label="Show Previous Blog button"
                 className="px-4 text-gray-400 hover:text-gray-500"
                 onClick={() => {
                   activePage !== startPage
@@ -139,6 +141,7 @@ function VariantC({ subtitle, title, posts, buttonLabel }) {
             <div className="p-2 border-r border-l text-gray-500">
               {pageButtons?.map((buttonNumber) => (
                 <button
+                  aria-label={`Page ${buttonNumber + 1} button`}
                   className={`"mx-1 px-2 rounded hover:bg-webriq-lightblue hover:text-webriq-blue text-webriq-darkblue" ${
                     activePage === buttonNumber
                       ? "bg-webriq-lightblue text-webriq-blue"
@@ -156,6 +159,7 @@ function VariantC({ subtitle, title, posts, buttonLabel }) {
             </div>
             {activePage !== pageButtons?.length && (
               <button
+                aria-label="Show Next Blog button"
                 className="px-4 text-gray-400 hover:text-gray-500"
                 onClick={() => {
                   changePage(pageButtons[activePage]);
@@ -198,14 +202,15 @@ function VariantC({ subtitle, title, posts, buttonLabel }) {
                 </span>
               )}
               {title && (
-                <h2 className="text-4xl lg:text-5xl font-bold font-heading">
+                <h1 className="text-4xl lg:text-5xl font-bold font-heading">
                   {title}
-                </h2>
+                </h1>
               )}
             </div>
             {posts?.length > blogsPerPage && buttonLabel && (
               <div className="hidden lg:block text-right w-1/2">
                 <button
+                  aria-label="View More Blogs button"
                   className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-gray-50 font-bold leading-loose transition duration-200"
                   onClick={() => {
                     setBlogsPerPage(posts?.length);
@@ -230,10 +235,13 @@ function VariantC({ subtitle, title, posts, buttonLabel }) {
                       <>
                         <div className="w-full lg:w-1/2 rounded-l">
                           {post?.mainImage && (
-                            <img
-                              className="object-cover"
+                            <Image
                               src={urlFor(post?.mainImage)}
-                              alt=""
+                              layout="responsive"
+                              width="554px"
+                              height="416px"
+                              objectFit="cover"
+                              alt={`blog-variantC-image-${key}`}
                             />
                           )}
                         </div>
@@ -241,7 +249,7 @@ function VariantC({ subtitle, title, posts, buttonLabel }) {
                           {post?.categories &&
                             post?.categories?.map((category, index) => (
                               <span
-                                className="mb-auto py-1 px-3 text-sm bg-webriq-lightblue rounded-full text-webriq-darkblue uppercase font-bold"
+                                className="mb-auto py-1 px-3 mr-3 text-sm bg-webriq-lightblue rounded-full text-webriq-darkblue uppercase font-bold"
                                 key={index}
                               >
                                 {category?.title}
@@ -256,9 +264,9 @@ function VariantC({ subtitle, title, posts, buttonLabel }) {
                             </span>
                           )}
                           {post?.title && (
-                            <h2 className="my-4 text-2xl font-bold">
+                            <h1 className="my-4 text-2xl font-bold">
                               {post?.title}
-                            </h2>
+                            </h1>
                           )}
                           {post?.authors && (
                             <div className="flex mb-10">
@@ -280,14 +288,21 @@ function VariantC({ subtitle, title, posts, buttonLabel }) {
                             </div>
                           )}
                           {post?.excerpt && (
-                            <BlockContent
+                            <PortableText
                               blocks={post?.excerpt}
                               serializers={blockStyle}
                             />
                           )}
-                          <Link href={`/${post?.slug?.current}`}>
-                            <a className="text-webriq-blue hover:text-webriq-darkblue font-bold">
-                              Learn More
+                          <Link
+                            href={
+                              `/${post?.slug?.current}` ?? "/page-not-found"
+                            }
+                          >
+                            <a
+                              aria-label={`Go to ${post?.slug?.current} blog page`}
+                              className="text-webriq-darkblue hover:text-webriq-blue font-bold"
+                            >
+                              View Blog Post
                             </a>
                           </Link>
                         </div>
@@ -298,7 +313,7 @@ function VariantC({ subtitle, title, posts, buttonLabel }) {
                           {post?.categories &&
                             post?.categories?.map((category, index) => (
                               <span
-                                className="mb-auto py-1 px-3 text-sm bg-webriq-lightblue rounded-full text-webriq-darkblue uppercase font-bold"
+                                className="mb-auto py-1 px-3 mr-3 text-sm bg-webriq-lightblue rounded-full text-webriq-darkblue uppercase font-bold"
                                 key={index}
                               >
                                 {category?.title}
@@ -313,9 +328,9 @@ function VariantC({ subtitle, title, posts, buttonLabel }) {
                             </span>
                           )}
                           {post?.title && (
-                            <h2 className="my-4 text-2xl font-bold">
+                            <h1 className="my-4 text-2xl font-bold">
                               {post?.title}
-                            </h2>
+                            </h1>
                           )}
                           {post?.authors && (
                             <div className="flex mb-10">
@@ -337,23 +352,33 @@ function VariantC({ subtitle, title, posts, buttonLabel }) {
                             </div>
                           )}
                           {post?.excerpt && (
-                            <BlockContent
+                            <PortableText
                               blocks={post?.excerpt}
                               serializers={blockStyle}
                             />
                           )}
-                          <Link href={`/${post?.slug?.current}`}>
-                            <a className="text-webriq-blue hover:text-webriq-darkblue font-bold">
-                              Learn More
+                          <Link
+                            href={
+                              `/${post?.slug?.current}` ?? "/page-not-found"
+                            }
+                          >
+                            <a
+                              aria-label={`Go to ${post?.slug?.current} blog page`}
+                              className="text-webriq-darkblue hover:text-webriq-blue font-bold"
+                            >
+                              View Blog Post
                             </a>
                           </Link>
                         </div>
                         <div className="w-full lg:w-1/2 rounded-l order-0 lg:order-1">
                           {post?.mainImage && (
-                            <img
-                              className="object-cover"
+                            <Image
                               src={urlFor(post?.mainImage)}
-                              alt=""
+                              layout="responsive"
+                              width="554px"
+                              height="416px"
+                              objectFit="cover"
+                              alt={`blog-variantC-image-${key}`}
                             />
                           )}
                         </div>

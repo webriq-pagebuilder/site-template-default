@@ -1,7 +1,6 @@
-import { urlFor } from "lib/sanity";
 import React from "react";
 import WebriQForm from "component/webriq-form";
-import PortableText from "@sanity/block-content-to-react";
+import { PortableText, urlFor } from "lib/sanity";
 
 function VariantD({
   caption,
@@ -28,60 +27,34 @@ function VariantD({
       block: (props) => <p className="text-xs">{props.children}</p>,
     },
     marks: {
-      internalLink: ({ children, mark }) => (
-        <a className="hover:text-red-400 text-red-800" href={mark.slug.current}>
+      link: ({ children, mark }) => (
+        <a
+          aria-label={children ?? "external link"}
+          className="text-webriq-darkblue font-bold hover:text-webriq-darkblue"
+          href={mark.href}
+        >
           {children}
         </a>
       ),
-      link: ({ children, mark }) =>
-        mark.blank ? (
-          <a href={mark.href} target="_blank" rel="noopener noreferrer">
-            {children}
-          </a>
-        ) : (
-          <a
-            className="text-webriq-darkblue font-bold hover:text-webriq-darkblue"
-            href={mark.href}
-          >
-            {children}
-          </a>
-        ),
     },
   };
 
   return (
     <section>
-      <div className="skew skew-top mr-for-radius">
-        <svg
-          className="h-8 md:h-12 lg:h-20 w-full text-gray-50"
-          viewBox="0 0 10 10"
-          preserveAspectRatio="none"
-        >
-          <polygon fill="currentColor" points="0 0 10 10 0 10" />
-        </svg>
-      </div>
-      <div className="skew skew-top ml-for-radius">
-        <svg
-          className="h-8 md:h-12 lg:h-20 w-full text-gray-50"
-          viewBox="0 0 10 10"
-          preserveAspectRatio="none"
-        >
-          <polygon fill="currentColor" points="0 10 10 0 10 10" />
-        </svg>
-      </div>
       <div className="py-20 bg-gray-50 radius-for-skewed">
         <div className="container mx-auto px-4">
           <div className="mb-16 max-w-2xl mx-auto text-center">
             <div className="max-w-lg mx-auto">
               <span className="text-webriq-darkblue font-bold">{caption}</span>
-              <h2 className="mb-2 text-4xl lg:text-5xl font-bold font-heading">
+              <h1 className="mb-2 text-4xl lg:text-5xl font-bold font-heading">
                 {title}
-              </h2>
+              </h1>
               <p className="mb-8 text-gray-500">{description}</p>
             </div>
             <div className="flex flex-wrap justify-center">
               <label className="md:mr-4 w-full sm:w-auto flex items-center mr-8 mb-2">
                 <input
+                  aria-label={`Select ${monthlyBilling}`}
                   type="radio"
                   name="billing"
                   defaultValue={monthlyBilling}
@@ -94,6 +67,7 @@ function VariantD({
               </label>
               <label className="flex w-full sm:w-auto items-center mb-2">
                 <input
+                  aria-label={`Select ${annualBilling}`}
                   type="radio"
                   name="billing"
                   defaultValue={annualBilling}
@@ -109,10 +83,10 @@ function VariantD({
           <div className="flex flex-wrap bg-white rounded shadow">
             <form className="w-full md:w-1/2 mb-8 md:mb-0">
               <div className="px-6 py-8 lg:px-8 text-center">
-                <span className="text-gray-400">Sign In</span>
-                <h4 className="mb-8 text-2xl font-heading">
+                <span className="text-gray-700">Sign In</span>
+                <p className="mb-8 text-2xl font-heading">
                   Finish your payment
-                </h4>
+                </p>
 
                 <WebriQForm
                   className="mb-4"
@@ -131,12 +105,17 @@ function VariantD({
                           key={field?._key}
                         >
                           <input
+                            aria-label={`${
+                              field?.type === "inputText"
+                                ? `Input ${formFields[0]?.name}`
+                                : `${field?.type}`
+                            }`}
                             className="w-full py-4 text-xs placeholder-gray-400 font-semibold leading-none bg-gray-50 focus:outline-none"
                             type="email"
                             placeholder={field.name}
                           />
                           <svg
-                            className="h-6 w-6 ml-4 my-auto text-gray-300"
+                            className="h-6 w-6 ml-4 my-auto text-gray-400"
                             xmlns="http://www.w3.org/2000/svg"
                             fill="none"
                             viewBox="0 0 24 24"
@@ -154,13 +133,21 @@ function VariantD({
                         String(field?.name).toLowerCase() === "password" ? (
                         <div className="flex mb-6 px-4 bg-gray-50 rounded">
                           <input
+                            aria-label={`${
+                              field?.type === "inputText"
+                                ? `Input ${field?.name}`
+                                : `${field?.type}`
+                            }`}
                             className="w-full py-4 text-xs placeholder-gray-400 font-semibold leading-none bg-gray-50 focus:outline-none"
                             type="password"
                             placeholder={field.name}
                           />
-                          <button className="ml-4">
+                          <button
+                            aria-label="Show Password button"
+                            className="ml-4"
+                          >
                             <svg
-                              className="h-6 w-6 my-auto text-gray-300"
+                              className="h-6 w-6 my-auto text-gray-400"
                               xmlns="http://www.w3.org/2000/svg"
                               fill="none"
                               viewBox="0 0 24 24"
@@ -191,6 +178,7 @@ function VariantD({
                   <div className="text-left mb-5 text-sm text-gray-400">
                     <label className="inline-flex">
                       <input
+                        aria-label={`Agree to ${block}?`}
                         className="mr-2"
                         type="checkbox"
                         name="terms"
@@ -200,6 +188,7 @@ function VariantD({
                     </label>
                   </div>
                   <button
+                    aria-label="Submit Pricing Form button"
                     type="submit"
                     className={`block w-full p-4 text-center text-white font-bold leading-none bg-webriq-blue hover:bg-webriq-darkblue rounded-l-xl rounded-t-xl transition duration-200 ${
                       billing.billType === "" &&
@@ -210,44 +199,80 @@ function VariantD({
                     Buy {billing.billType} Supply
                   </button>
                 </WebriQForm>
-                <p className="text-xs text-gray-400">
-                  Already have an account?{" "}
-                  <a
-                    className="text-webriq-darkblue hover:underline"
-                    target={signInLink?.linkTarget}
-                    rel={
-                      signInLink?.linkTarget === "_blank"
-                        ? "noopener noreferrer"
-                        : null
-                    }
-                    href={
-                      signInLink?.type === "linkExternal"
-                        ? signInLink?.externalLink
-                        : signInLink?.type === "linkInternal"
-                        ? signInLink?.internalLink === "Home" ||
+                {signInLink?.label && (
+                  <p className="text-xs text-gray-400">
+                    Already have an account?{" "}
+                    {signInLink?.type === "linkInternal" ? (
+                      <Link
+                        href={
+                          signInLink?.internalLink === "Home" ||
                           signInLink?.internalLink === "home"
-                          ? "/"
-                          : signInLink?.internalLink
-                        : "page-not-found"
-                    }
-                  >
-                    &nbsp;{signInLink?.label}
-                  </a>
-                </p>
+                            ? "/"
+                            : `/${
+                                signInLink?.internalLink === undefined
+                                  ? "page-not-found"
+                                  : signInLink?.internalLink
+                              }`
+                        }
+                      >
+                        <a
+                          aria-label={`Pricing ${
+                            signInLink?.label ?? "Sign In"
+                          } link`}
+                          className="text-webriq-darkblue hover:underline"
+                          target={signInLink?.linkTarget}
+                          rel={
+                            signInLink?.linkTarget === "_blank"
+                              ? "noopener noreferrer"
+                              : null
+                          }
+                        >
+                          &nbsp;{signInLink?.label}
+                        </a>
+                      </Link>
+                    ) : (
+                      <a
+                        aria-label={`Pricing ${
+                          signInLink?.label ?? "Sign In"
+                        } link`}
+                        className="text-webriq-darkblue hover:underline"
+                        target={signInLink?.linkTarget}
+                        href={`${
+                          signInLink.externalLink === undefined
+                            ? "link-not-found"
+                            : signInLink.externalLink
+                        }`}
+                        rel={
+                          signInLink?.linkTarget === "_blank"
+                            ? "noopener noreferrer"
+                            : null
+                        }
+                      >
+                        &nbsp;{signInLink?.label}
+                      </a>
+                    )}
+                  </p>
+                )}
               </div>
             </form>
             <div className="py-10 w-full md:w-1/2 bg-webriq-darkblue lg:rounded-r overflow-hidden flex flex-col">
-              <img
-                className="w-full md:max-w-xs mx-auto my-auto"
-                src={urlFor(banner?.[banners]?.mainImage)}
-                alt=""
-              />
-              <h3 className="mb-4 max-w-sm mx-auto text-center text-xl text-white">
+              <div className="w-full md:max-w-xs mx-auto my-auto">
+                <Image
+                  src={urlFor(banner?.[banners]?.mainImage)}
+                  layout="responsive"
+                  width="320px"
+                  height="296px"
+                  objectFit="cover"
+                  alt={`pricing-image-${banners}`}
+                />
+              </div>
+              <p className="mb-4 max-w-sm mx-auto text-center text-xl text-white">
                 {banner?.[banners]?.heading}
-              </h3>
+              </p>
               <div className="text-center">
                 {banner?.map((item, index) => (
                   <button
+                    aria-label={`Page ${index} button`}
                     key={item?._key}
                     className={` ${
                       banners === index
@@ -261,24 +286,6 @@ function VariantD({
             </div>
           </div>
         </div>
-      </div>
-      <div className="skew skew-bottom mr-for-radius">
-        <svg
-          className="h-8 md:h-12 lg:h-20 w-full text-gray-50"
-          viewBox="0 0 10 10"
-          preserveAspectRatio="none"
-        >
-          <polygon fill="currentColor" points="0 0 10 0 0 10" />
-        </svg>
-      </div>
-      <div className="skew skew-bottom ml-for-radius">
-        <svg
-          className="h-8 md:h-12 lg:h-20 w-full text-gray-50"
-          viewBox="0 0 10 10"
-          preserveAspectRatio="none"
-        >
-          <polygon fill="currentColor" points="0 0 10 0 10 10" />
-        </svg>
       </div>
     </section>
   );

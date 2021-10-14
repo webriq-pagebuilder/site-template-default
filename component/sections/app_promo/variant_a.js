@@ -1,6 +1,7 @@
 import React from "react";
+import Image from "next/image";
+import Link from "next/link";
 import { urlFor } from "lib/sanity";
-
 
 function VariantA({ logo, subtitle, title, images }) {
   return (
@@ -8,43 +9,63 @@ function VariantA({ logo, subtitle, title, images }) {
       <div className="pt-16 bg-webriq-darkblue overflow-hidden radius-for-skewed">
         <div className="container mx-auto px-4">
           <div className="relative max-w-md mx-auto text-center">
-            {logo && (
-              <a
-                className="mb-8 inline-block px-5 py-5 bg-white rounded-lg"
-                href="#"
-              >
-                <img
-                  className="h-12"
-                  src={urlFor(logo?.image)}
-                  alt={logo?.alt ?? "appPromo-variantA-logo"}
-                />
-              </a>
+            {logo?.image && (
+              <Link href="/">
+                <a
+                  aria-label="App Promo logo"
+                  className="mb-8 inline-block p-5 bg-white rounded-lg"
+                >
+                  <Image
+                    src={urlFor(logo?.image)}
+                    layout="fixed"
+                    width="38px"
+                    height="48px"
+                    objectFit="contain"
+                    alt={logo?.alt ?? "appPromo-logo"}
+                  />
+                </a>
+              </Link>
             )}
-            <p className="text-gray-50 font-bold">{subtitle}</p>
-            <h2 className="text-5xl lg:text-4xl text-white font-bold">
+            <p className="text-gray-50 mb-3">{subtitle}</p>
+            <h1 className="text-3xl lg:text-5xl text-white font-bold mb-8">
               {title}
-            </h2>
-            <div className="h-80">
+            </h1>
+            <div className="h-72">
               {images?.[0] && (
-                <img
-                  className="absolute bottom-0 left-1/2 transform -translate-x-1/2 -mb-10 h-80 z-20"
-                  src={urlFor(images[0])}
-                  alt="image-1"
-                />
+                <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 -mb-10 h-80 z-20">
+                  <Image
+                    src={urlFor(images[0])}
+                    layout="fixed"
+                    width="218px"
+                    height="320px"
+                    objectFit="contain"
+                    alt="appPromo-variantA-image-1"
+                  />
+                </div>
               )}
               {images?.[1] && (
-                <img
-                  className="absolute bottom-0 left-0 -mb-24 h-80"
-                  src={urlFor(images[1])}
-                  alt="image-2"
-                />
+                <div className="absolute bottom-0 left-0 -mb-24 h-80">
+                  <Image
+                    src={urlFor(images[1])}
+                    layout="fixed"
+                    width="218px"
+                    height="320px"
+                    objectFit="contain"
+                    alt="appPromo-variantA-image-2"
+                  />
+                </div>
               )}
               {images?.[2] && (
-                <img
-                  className="absolute bottom-0 right-0 -mb-24 h-80"
-                  src={urlFor(images[2])}
-                  alt="image-3"
-                />
+                <div className="absolute bottom-0 right-0 -mb-24 h-80">
+                  <Image
+                    src={urlFor(images[2])}
+                    layout="fixed"
+                    width="218px"
+                    height="320px"
+                    objectFit="contain"
+                    alt="appPromo-variantA-image-3"
+                  />
+                </div>
               )}
             </div>
           </div>

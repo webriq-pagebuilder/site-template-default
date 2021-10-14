@@ -1,4 +1,6 @@
 import { urlFor } from "lib/sanity";
+import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 function VariantC({ logo, menu, copyright, socialMedia }) {
@@ -24,7 +26,7 @@ function VariantC({ logo, menu, copyright, socialMedia }) {
       <div className="container mx-auto px-4">
         <div className="pt-10 pb-12">
           <div className="relative lg:pb-8 mb-8 flex flex-wrap lg:border-b lg:border-gray-300">
-            <p className="w-full lg:w-auto text-gray-400 text-sm text-center lg:text-left order-last lg:order-first">
+            <p className="w-full lg:w-auto text-gray-900 text-sm text-center lg:text-left order-last lg:order-first">
               {copyright}
             </p>
             {menu && (
@@ -32,52 +34,98 @@ function VariantC({ logo, menu, copyright, socialMedia }) {
                 <ul className="flex flex-wrap lg:space-x-5 justify-between items-center mx-20">
                   {menu?.map((links, index) => (
                     <li className="w-full md:w-auto mb-2 md:mb-0" key={index}>
-                      <a
-                        className="mr-6 text-sm hover:text-gray-500"
-                        target={links?.linkTarget}
-                        rel={
-                          links?.linkTarget === "_blank"
-                            ? "noopener noreferrer"
-                            : null
-                        }
-                        href={
-                          links?.type === "linkExternal"
-                            ? links?.externalLink
-                            : links?.type === "linkInternal"
-                              ? links?.internalLink === "Home" ||
-                                links?.internalLink === "home"
-                                ? "/"
+                      {links?.type === "linkInternal" ? (
+                        <Link
+                          href={
+                            links?.internalLink === "Home" ||
+                            links?.internalLink === "home"
+                              ? "/"
+                              : `/${
+                                  links?.internalLink === undefined
+                                    ? "page-not-found"
+                                    : links?.internalLink
+                                }`
+                          }
+                        >
+                          <a
+                            aria-label={`Footer ${
+                              links?.label ?? "Menu"
+                            } links which directs to ${
+                              links?.internalLink === undefined
+                                ? "page-not-found"
                                 : links?.internalLink
-                              : "page-not-found"
-                        }
-                      >
-                        {links?.label}
-                      </a>
+                            }`}
+                            className="mr-6 text-sm hover:text-gray-500"
+                            target={links?.linkTarget}
+                            rel={
+                              links?.linkTarget === "_blank"
+                                ? "noopener noreferrer"
+                                : null
+                            }
+                          >
+                            {links?.label}
+                          </a>
+                        </Link>
+                      ) : (
+                        <a
+                          aria-label={`Footer ${
+                            links?.label ?? "Menu"
+                          } links which directs to ${
+                            links?.externalLink === undefined
+                              ? "page-not-found"
+                              : links?.externalLink
+                          }`}
+                          className="mr-6 text-sm hover:text-gray-500"
+                          target={links?.linkTarget}
+                          rel={
+                            links?.linkTarget === "_blank"
+                              ? "noopener noreferrer"
+                              : null
+                          }
+                          href={`${
+                            links?.externalLink === undefined
+                              ? "link-not-found"
+                              : links?.externalLink
+                          }`}
+                        >
+                          {links?.label}
+                        </a>
+                      )}
                     </li>
                   ))}
                 </ul>
               </div>
             )}
             <div className="mb-12 lg:mb-0 lg:ml-auto w-full lg:w-auto order-first lg:order-last text-center lg:text-left">
-              {logo && (
-                <a
-                  className="inline-block text-xl font-bold leading-none"
-                  href="#"
-                >
-                  <img
-                    className="h-14"
-                    src={urlFor(logo?.image)}
-                    alt={logo?.alt}
-                    width="auto"
-                  />
-                </a>
+              {logo?.image && (
+                <Link href="/">
+                  <a
+                    aria-label="Footer logo"
+                    className="inline-block text-xl font-bold leading-none"
+                  >
+                    <Image
+                      src={urlFor(logo?.image)}
+                      layout="fixed"
+                      width="132px"
+                      height="56px"
+                      objectFit="scale-down"
+                      alt={logo?.alt ?? "footer-logo"}
+                    />
+                  </a>
+                </Link>
               )}
             </div>
           </div>
           {socialMedia && (
             <div className="flex justify-center">
               {socialMedia?.fbLink && (
-                <a className="mr-3" target="_blank" rel="noopener noreferrer" href={socialMedia?.fbLink}>
+                <a
+                  aria-label="Facebook link icon"
+                  className="mr-3"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href={socialMedia?.fbLink}
+                >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"
@@ -92,7 +140,13 @@ function VariantC({ logo, menu, copyright, socialMedia }) {
                 </a>
               )}
               {socialMedia?.twitterLink && (
-                <a className="mr-3" target="_blank" rel="noopener noreferrer" href={socialMedia?.twitterLink}>
+                <a
+                  aria-label="Twitter link icon"
+                  className="mr-3"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href={socialMedia?.twitterLink}
+                >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"
@@ -107,7 +161,13 @@ function VariantC({ logo, menu, copyright, socialMedia }) {
                 </a>
               )}
               {socialMedia?.instagramLink && (
-                <a className="mr-3" target="_blank" rel="noopener noreferrer" href={socialMedia?.instagramLink}>
+                <a
+                  aria-label="Instagram link icon"
+                  className="mr-3"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href={socialMedia?.instagramLink}
+                >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"

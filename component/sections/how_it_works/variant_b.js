@@ -11,9 +11,9 @@ function VariantB({ subtitle, title, text, steps }) {
                 <span className="text-webriq-darkblue font-bold">
                   {subtitle}
                 </span>
-                <h2 className="mb-2 text-4xl lg:text-5xl font-bold font-heading">
+                <h1 className="mb-2 text-4xl lg:text-5xl font-bold font-heading">
                   {title}
-                </h2>
+                </h1>
                 <div className="max-w-xs">
                   <p className="text-gray-500 leading-loose">{text}</p>
                 </div>
@@ -30,9 +30,9 @@ function VariantB({ subtitle, title, text, steps }) {
                       {index + 1}
                     </span>
                     <div className="w-full lg:w-3/4">
-                      <h3 className="mb-4 text-2xl font-bold font-heading">
+                      <p className="mb-4 text-2xl font-bold font-heading">
                         {step?.title}
-                      </h3>
+                      </p>
                       <p className="text-gray-500 leading-loose">
                         {step?.content}
                       </p>

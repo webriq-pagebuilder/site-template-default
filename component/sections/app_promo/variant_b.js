@@ -1,11 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
+import Image from "next/image";
 import { urlFor } from "lib/sanity";
-
-
 
 function VariantB({ subtitle, title, description, statistics, images }) {
   //for image carousel
-  let [currentPosition, setCurrentPosition] = useState(0); // Initial image index value
+  let [currentPosition, setCurrentPosition] = React.useState(0); // Initial image index value
 
   const arrowRightClick = () => {
     currentPosition !== images.length - 1 // Check index length
@@ -25,20 +24,23 @@ function VariantB({ subtitle, title, description, statistics, images }) {
           <div className="flex flex-wrap mx-4">
             <div className="w-full lg:w-1/2 px-4">
               <div className="mt-8 max-w-xl">
-                <span className="mb-5 text-webriq-darkblue font-bold">
+                <p className="text-center md:text-left lg:text-left text-webriq-darkblue font-bold">
                   {subtitle}
-                </span>
-                <h2 className="mb-5 text-xl md:text-4xl lg:text-5xl font-bold font-heading">
+                </p>
+                <h1 className="mt-3 text-center md:text-left lg:text-left text-xl md:text-4xl lg:text-5xl font-bold font-heading">
                   {title}
-                </h2>
-                <p className="mb-10 text-gray-500 leading-loose">
+                </h1>
+                <p className="mt-3 text-center md:text-left lg:text-left mb-10 text-gray-500 leading-loose">
                   {description}
                 </p>
                 <div className="flex flex-wrap">
                   {statistics &&
                     statistics.map((items, index) => (
-                      <div className="mb-8 w-full lg:w-1/2" key={index}>
-                        <h4 className="text-gray-500">{items?.label}</h4>
+                      <div
+                        className="mb-8 w-full lg:w-1/2 text-center md:text-left lg:text-left"
+                        key={index}
+                      >
+                        <p className="mb-3 text-gray-500">{items?.label}</p>
                         <span className="text-xl md:text-3xl lg:text-4xl font-bold">
                           {items?.value}
                         </span>
@@ -52,6 +54,7 @@ function VariantB({ subtitle, title, description, statistics, images }) {
                 (images.length > 1 ? (
                   <>
                     <button
+                      aria-label="Left Arrow button"
                       className="order-0 md:order-0 lg:order-0 xl:order-1 2xl:order-1 mx-2 md:mr-12 lg:mr-12 xl:mr-12 2xl:mr-12 inline-block p-2 md:p-4 lg:p-4 xl:p-4 2xl:p-4 bg-white rounded-full shadow text-webriq-darkblue hover:text-webriq-babyblue focus:outline-none"
                       onClick={arrowLeftClick}
                     >
@@ -71,16 +74,19 @@ function VariantB({ subtitle, title, description, statistics, images }) {
                       </svg>
                     </button>
                     <div className="order-1 md:order-1 lg:order-1 xl:order-0 2xl:order-0 mr-2 object-contain w-1/2">
-                      <img
-                        className="mx-auto mb-8 xl:mb-0"
-                        src={urlFor(images?.[currentPosition])
-                          .width(500)
-                          .height(850)
-                          .url()}
-                        alt={`appPromo-variantB-image${currentPosition}`}
-                      />
+                      <div className="mx-auto mb-8 xl:mb-0">
+                        <Image
+                          src={urlFor(images?.[currentPosition])}
+                          layout="responsive"
+                          width="500px"
+                          height="850px"
+                          objectFit="cover"
+                          alt={`appPromo-variantB-image${currentPosition}`}
+                        />
+                      </div>
                     </div>
                     <button
+                      aria-label="Right Arrow button"
                       className="order-2 md:ml-12 lg:ml-12 xl:ml-12 2xl:ml-12 inline-block p-2 md:p-4 lg:p-4 xl:p-4 2xl:p-4 bg-white rounded-full shadow text-webriq-darkblue hover:text-webriq-babyblue focus:outline-none"
                       onClick={arrowRightClick}
                     >
@@ -102,11 +108,16 @@ function VariantB({ subtitle, title, description, statistics, images }) {
                   </>
                 ) : (
                   <div className="object-contain md:w-2/5 xl:w-2/5">
-                    <img
-                      className="mx-auto mb-8 xl:mb-0"
-                      src={urlFor(images?.[0]).width(500).height(850).url()}
-                      alt={`appPromo-variantB-image${currentPosition}`}
-                    />
+                    <div className="mx-auto mb-8 xl:mb-0">
+                      <Image
+                        src={urlFor(images?.[currentPosition])}
+                        layout="responsive"
+                        width="500px"
+                        height="850px"
+                        objectFit="cover"
+                        alt={`appPromo-variantB-image${currentPosition}`}
+                      />
+                    </div>
                   </div>
                 ))}
             </div>

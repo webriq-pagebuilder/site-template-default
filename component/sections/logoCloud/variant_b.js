@@ -1,7 +1,6 @@
 import React from "react";
+import Image from "next/image";
 import { urlFor } from "lib/sanity";
-
-
 
 function VariantB({ title, text, images }) {
   return (
@@ -10,9 +9,9 @@ function VariantB({ title, text, images }) {
         <div className="flex flex-wrap items-center">
           <div className="mb-12 lg:mb-0 w-full lg:w-1/2">
             <div className="max-w-md">
-              <h2 className="mb-4 text-4xl lg:text-5xl font-bold font-heading">
+              <h1 className="mb-4 text-4xl lg:text-5xl font-bold font-heading">
                 {title}
-              </h2>
+              </h1>
               <p className="text-gray-500 leading-loose">{text}</p>
             </div>
           </div>
@@ -20,11 +19,14 @@ function VariantB({ title, text, images }) {
             {images &&
               images?.map((image, index) => (
                 <div className="mb-4 w-full lg:w-1/3 px-2" key={index}>
-                  <div className="bg-gray-50 rounded">
-                    <img
-                      className="mx-auto h-48 w-48 object-scale-down"
+                  <div className="bg-gray-50 mx-auto rounded">
+                    <Image
                       src={urlFor(image)}
-                      alt={`logoCloud-variantB-image${index}`}
+                      layout="responsive"
+                      width="192px"
+                      height="192px"
+                      objectFit="scale-down"
+                      alt={`logoCloud-image${index}`}
                     />
                   </div>
                 </div>

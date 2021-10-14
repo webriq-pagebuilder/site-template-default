@@ -1,4 +1,6 @@
 import { urlFor } from "lib/sanity";
+import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 function VariantA({ logo, text, contacts, copyright, socialMedia }) {
@@ -8,36 +10,43 @@ function VariantA({ logo, text, contacts, copyright, socialMedia }) {
         <div className="container mx-auto px-4">
           <div className="flex flex-wrap mb-6 lg:mb-20">
             <div className="mb-6 w-full lg:w-1/5">
-              {logo && (
-                <a className="text-3xl font-bold leading-none" href="#">
-                  <img
-                    className="h-14"
-                    src={urlFor(logo?.image)}
-                    alt={logo?.alt}
-                    width="auto"
-                  />
-                </a>
+              {logo?.image && (
+                <Link href="/">
+                  <a
+                    aria-label="Footer logo"
+                    className="text-3xl font-bold leading-none"
+                  >
+                    <Image
+                      src={urlFor(logo?.image)}
+                      layout="fixed"
+                      width="132px"
+                      height="56px"
+                      objectFit="scale-down"
+                      alt={logo?.alt ?? "footer-logo"}
+                    />
+                  </a>
+                </Link>
               )}
             </div>
             <div className="mb-5 w-full lg:w-1/5">
-              <p className="text-gray-400 leading-loose">{text}</p>
+              <p className="text-gray-500 leading-loose">{text}</p>
             </div>
             {contacts && (
               <div className="w-full lg:w-3/5 flex flex-wrap -mx-3 justify-end">
                 {contacts[0].addressInfo && (
                   <div className="mb-6 w-full md:w-1/2 lg:w-1/4 lg:mr-6 px-1">
                     {contacts.length > 1 ? (
-                      <h5 className="mb-4 font-bold">Addresses</h5>
+                      <p className="leading-loose mb-4 font-bold">Addresses</p>
                     ) : (
-                      <h5 className="mb-4 font-bold">Address</h5>
+                      <p className="leading-loose mb-4 font-bold">Address</p>
                     )}
-                    <p className="text-gray-400 leading-loose mb-5">
+                    <p className="text-gray-500 leading-loose mb-5">
                       {contacts[0]?.addressInfo}
                     </p>
-                    <p className="text-gray-400 leading-loose mb-5">
+                    <p className="text-gray-500 leading-loose mb-5">
                       {contacts[1]?.addressInfo}
                     </p>
-                    <p className="text-gray-400 leading-loose mb-5">
+                    <p className="text-gray-500 leading-loose mb-5">
                       {contacts[2]?.addressInfo}
                     </p>
                   </div>
@@ -45,36 +54,53 @@ function VariantA({ logo, text, contacts, copyright, socialMedia }) {
                 {contacts[0].emailInfo && (
                   <div className="mb-6 w-full md:w-1/2 lg:w-1/4 lg:mr-6 px-3">
                     {contacts.length > 1 ? (
-                      <h5 className="mb-4 font-bold">Emails</h5>
+                      <p className="mb-4 font-bold">Emails</p>
                     ) : (
-                      <h5 className="mb-4 font-bold">Email</h5>
+                      <p className="mb-4 font-bold">Email</p>
                     )}
-                    <p className="text-gray-400 mb-5">{contacts[0]?.emailInfo}</p>
-                    <p className="text-gray-400 mb-5">{contacts[1]?.emailInfo}</p>
-                    <p className="text-gray-400 mb-5">{contacts[2]?.emailInfo}</p>
+                    <p className="text-gray-500 mb-5">
+                      {contacts[0]?.emailInfo}
+                    </p>
+                    <p className="text-gray-500 mb-5">
+                      {contacts[1]?.emailInfo}
+                    </p>
+                    <p className="text-gray-500 mb-5">
+                      {contacts[2]?.emailInfo}
+                    </p>
                   </div>
                 )}
                 {contacts[0].contactInfo && (
                   <div className="mb-6 w-full md:w-1/2 lg:w-1/4 lg:mr-6 px-3">
                     {contacts.length > 1 ? (
-                      <h5 className="mb-4 font-bold">Numbers</h5>
+                      <p className="mb-4 font-bold">Numbers</p>
                     ) : (
-                      <h5 className="mb-4 font-bold">Number</h5>
+                      <p className="mb-4 font-bold">Number</p>
                     )}
-                    <p className="text-gray-400 mb-5">{contacts[0]?.contactInfo}</p>
-                    <p className="text-gray-400 mb-5">{contacts[1]?.contactInfo}</p>
-                    <p className="text-gray-400 mb-5">{contacts[2]?.contactInfo}</p>
+                    <p className="text-gray-500 mb-5">
+                      {contacts[0]?.contactInfo}
+                    </p>
+                    <p className="text-gray-500 mb-5">
+                      {contacts[1]?.contactInfo}
+                    </p>
+                    <p className="text-gray-500 mb-5">
+                      {contacts[2]?.contactInfo}
+                    </p>
                   </div>
                 )}
               </div>
             )}
           </div>
           <div className="w-full flex justify-between">
-            <p className="text-sm text-gray-400">{copyright}</p>
+            <p className="text-sm text-gray-500">{copyright}</p>
             {socialMedia && (
               <div className="flex space-x-2 lg:space-x-4 mx-24">
                 {socialMedia?.fbLink && (
-                  <a target="_blank" rel="noopener noreferrer" href={socialMedia?.fbLink}>
+                  <a
+                    aria-label="Facebook link icon"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    href={socialMedia?.fbLink}
+                  >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="24"
@@ -89,7 +115,12 @@ function VariantA({ logo, text, contacts, copyright, socialMedia }) {
                   </a>
                 )}
                 {socialMedia?.twitterLink && (
-                  <a target="_blank" rel="noopener noreferrer" href={socialMedia?.twitterLink}>
+                  <a
+                    aria-label="Twitter link icon"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    href={socialMedia?.twitterLink}
+                  >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="24"
@@ -104,7 +135,12 @@ function VariantA({ logo, text, contacts, copyright, socialMedia }) {
                   </a>
                 )}
                 {socialMedia?.instagramLink && (
-                  <a target="_blank" rel="noopener noreferrer" href={socialMedia?.instagramLink}>
+                  <a
+                    aria-label="Instagram link icon"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    href={socialMedia?.instagramLink}
+                  >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="24"

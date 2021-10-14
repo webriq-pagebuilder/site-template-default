@@ -1,4 +1,6 @@
 import { urlFor } from "lib/sanity";
+import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 function VariantB({ logo, copyright, socialMedia, menu }) {
@@ -8,18 +10,22 @@ function VariantB({ logo, copyright, socialMedia, menu }) {
         <div className="container mx-auto px-4">
           <div className="pb-12 flex flex-wrap items-center justify-between border-b border-gray-100">
             <div className="w-full lg:w-1/5 mb-12 lg:mb-4 mx-20">
-              {logo && (
-                <a
-                  className="inline-block text-3xl font-bold leading-none"
-                  href="#"
-                >
-                  <img
-                    className="h-14"
-                    src={urlFor(logo?.image)}
-                    alt={logo?.alt}
-                    width="auto"
-                  />
-                </a>
+              {logo?.image && (
+                <Link href="/">
+                  <a
+                    aria-label="Footer logo"
+                    className="inline-block text-3xl font-bold leading-none"
+                  >
+                    <Image
+                      src={urlFor(logo?.image)}
+                      layout="fixed"
+                      width="132px"
+                      height="56px"
+                      objectFit="scale-down"
+                      alt={logo?.alt ?? "footer-logo"}
+                    />
+                  </a>
+                </Link>
               )}
             </div>
             {menu && (
@@ -28,32 +34,68 @@ function VariantB({ logo, copyright, socialMedia, menu }) {
                   {menu?.map((links, index, { length }) => (
                     <React.Fragment key={links?._key || index}>
                       <li className="w-full md:w-auto mb-2 md:mb-0" key={index}>
-                        <a
-                          className="lg:text-sm text-gray-400 hover:text-gray-500"
-                          target={links?.linkTarget}
-                          rel={
-                            links?.linkTarget === "_blank"
-                              ? "noopener noreferrer"
-                              : null
-                          }
-                          href={
-                            links?.type === "linkExternal"
-                              ? links?.externalLink
-                              : links?.type === "linkInternal"
-                              ? links?.internalLink === "Home" ||
-                                links?.internalLink === "home"
+                        {links?.type === "linkInternal" ? (
+                          <Link
+                            href={
+                              links?.internalLink === "Home" ||
+                              links?.internalLink === "home"
                                 ? "/"
-                                : links?.internalLink
-                              : "page-not-found"
-                          }
-                        >
-                          {links?.label}
-                        </a>
+                                : `/${
+                                    links?.internalLink === undefined
+                                      ? "page-not-found"
+                                      : links?.internalLink
+                                  }`
+                            }
+                          >
+                            <a
+                              aria-label={`Footer ${
+                                links?.label ?? "Menu"
+                              } links which directs to ${
+                                links?.internalLink === undefined
+                                  ? "page-not-found"
+                                  : links?.internalLink
+                              }`}
+                              className="lg:text-sm text-gray-500 hover:text-gray-700"
+                              target={links?.linkTarget}
+                              rel={
+                                links?.linkTarget === "_blank"
+                                  ? "noopener noreferrer"
+                                  : null
+                              }
+                            >
+                              {links?.label}
+                            </a>
+                          </Link>
+                        ) : (
+                          <a
+                            aria-label={`Footer ${
+                              links?.label ?? "Menu"
+                            } links which directs to ${
+                              links?.externalLink === undefined
+                                ? "link-not-found"
+                                : links?.externalLink
+                            }`}
+                            className="lg:text-sm text-gray-500 hover:text-gray-700"
+                            target={links?.linkTarget}
+                            rel={
+                              links?.linkTarget === "_blank"
+                                ? "noopener noreferrer"
+                                : null
+                            }
+                            href={`${
+                              links?.externalLink === undefined
+                                ? "link-not-found"
+                                : links?.externalLink
+                            }`}
+                          >
+                            {links?.label}
+                          </a>
+                        )}
                       </li>
                       {index + 1 !== length ? (
                         <li className="hidden md:block">
                           <svg
-                            className="mx-4 w-4 h-4 text-gray-300"
+                            className="mx-4 w-4 h-4 text-gray-400"
                             xmlns="http://www.w3.org/2000/svg"
                             fill="none"
                             viewBox="0 0 24 24"
@@ -75,11 +117,12 @@ function VariantB({ logo, copyright, socialMedia, menu }) {
             )}
           </div>
           <div className="mt-8 flex flex-wrap justify-between items-center mx-20">
-            <p className="order-last text-sm text-gray-400">{copyright}</p>
+            <p className="order-last text-sm text-gray-500">{copyright}</p>
             {socialMedia && (
               <div className="mb-4 lg:mb-0 order-first lg:order-last">
                 {socialMedia?.fbLink && (
                   <a
+                    aria-label="Facebook link icon"
                     className="inline-block mr-2 p-2 bg-gray-50 hover:bg-gray-100 rounded"
                     target="_blank"
                     rel="noopener noreferrer"
@@ -100,6 +143,7 @@ function VariantB({ logo, copyright, socialMedia, menu }) {
                 )}
                 {socialMedia?.twitterLink && (
                   <a
+                    aria-label="Twitter link icon"
                     className="inline-block mr-2 p-2 bg-gray-50 hover:bg-gray-100 rounded"
                     target="_blank"
                     rel="noopener noreferrer"
@@ -120,6 +164,7 @@ function VariantB({ logo, copyright, socialMedia, menu }) {
                 )}
                 {socialMedia?.instagramLink && (
                   <a
+                    aria-label="Instagram link icon"
                     className="inline-block mr-2 p-2 bg-gray-50 hover:bg-gray-100 rounded"
                     target="_blank"
                     rel="noopener noreferrer"
