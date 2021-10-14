@@ -1,5 +1,5 @@
 import React from "react";
-import WebriQForm from "@webriq/gatsby-webriq-form";
+import WebriQForm from "component/webriq-form";
 
 function VariantE({
   template,

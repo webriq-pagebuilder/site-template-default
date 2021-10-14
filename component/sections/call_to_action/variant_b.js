@@ -1,6 +1,6 @@
 import { urlFor } from "lib/sanity";
 import React from "react";
-import WebriQForm from "@webriq/gatsby-webriq-form";
+import WebriQForm from "component/webriq-form";
 
 function VariantB({ logo, title, text, formFields, formId, formName }) {
   return (

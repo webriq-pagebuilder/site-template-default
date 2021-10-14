@@ -1,5 +1,5 @@
 import React from "react";
-import WebriQForm from "@webriq/gatsby-webriq-form";
+import WebriQForm from "component/webriq-form";
 import { urlFor } from "lib/sanity";
 
 function VariantA({
@@ -259,10 +259,15 @@ function VariantA({
                     <a
                       className="text-webriq-darkblue hover:underline"
                       target={signInLink?.linkTarget}
-                      rel={signInLink?.linkTarget === "_blank" ? "noopener noreferrer" : null}
-                      href={signInLink?.type === "linkExternal"
-                        ? signInLink?.externalLink
-                        : signInLink?.type === "linkInternal"
+                      rel={
+                        signInLink?.linkTarget === "_blank"
+                          ? "noopener noreferrer"
+                          : null
+                      }
+                      href={
+                        signInLink?.type === "linkExternal"
+                          ? signInLink?.externalLink
+                          : signInLink?.type === "linkInternal"
                           ? signInLink?.internalLink === "Home" ||
                             signInLink?.internalLink === "home"
                             ? "/"

@@ -30,13 +30,6 @@
   dependencies:
     regenerator-runtime "^0.13.4"
 
-"@babel/runtime@^7.0.0":
-  version "7.14.0"
-  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.14.0.tgz#46794bc20b612c5f75e62dd071e24dfd95f1cbe6"
-  integrity sha512-JELkvo/DlpNdJ7dlyw/eY7E0suy5i5GQH+Vlxaq1nsNJ+H7f4Vtv3jMeCEgRhZZQFXTjldYfQgv2qmM6M1v5wA==
-  dependencies:
-    regenerator-runtime "^0.13.4"
-
 "@babel/runtime@^7.12.5":
   version "7.13.10"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.13.10.tgz#47d42a57b6095f4468da440388fdbad8bebf0d7d"
@@ -248,13 +241,6 @@
   version "0.16.1"
   resolved "https://registry.yarnpkg.com/@types/scheduler/-/scheduler-0.16.1.tgz#18845205e86ff0038517aab7a18a62a6b9f71275"
   integrity sha512-EaCxbanVeyxDRTQBkdLb3Bvl/HK7PBK6UJjsSixB0iHKoWxE5uu2Q/DgtpOhPIojN0Zl1whvOd7PoHs2P0s5eA==
-
-"@webriq/gatsby-webriq-form@^1.0.2":
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/@webriq/gatsby-webriq-form/-/gatsby-webriq-form-1.0.2.tgz#86133a1d5c7fad31099ce28b9ac4e3a2b1e4d842"
-  integrity sha512-n9STKgdt4pcyrpcl5DJNMHMOTa1iWt0GlUNQ7D+A7Om7ZQwUwPry044KrU290FQ9aGaAUqffx/f8SlPy+0lj6g==
-  dependencies:
-    "@babel/runtime" "^7.0.0"
 
 acorn-node@^1.6.1:
   version "1.8.2"
