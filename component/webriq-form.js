@@ -2,7 +2,6 @@ import React from "react";
 
 class WebriQForm extends React.Component {
   constructor(props) {
-    super(props);
     this.loadWebriQFormScript = this.loadWebriQFormScript.bind(this);
   }
 
