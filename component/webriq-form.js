@@ -25,7 +25,7 @@ class WebriQForm extends React.Component {
       script.id = "webriqform";
       script.defer = true;
       script.src =
-        this.props.scriptSrc || "https://forms.webriq.com/js/initReactForms";
+        this.props.scriptSrc || "https://pagebuilderforms.webriq.com/js/initReactForms";
       document.body.appendChild(script);
       const headScript = document.getElementsByTagName("script")[0];
       headScript.parentNode.insertBefore(script, headScript);
