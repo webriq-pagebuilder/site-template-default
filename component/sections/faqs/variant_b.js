@@ -48,7 +48,7 @@ function VariantB({ subtitle, title, faqsWithCategories }) {
                   className={
                     tabPane === tab?.category
                       ? "px-4 py-4 w-full md:w-1/2 lg:w-auto font-bold text-webriq-darkblue border-b-2 border-webriq-blue"
-                      : "px-4 py-4 w-full md:w-1/2 lg:w-auto font-bold text-gray-400 hover:text-webriq-darkblue border-b-2 border-transparent hover:border-webriq-blue transition duration-150"
+                      : "px-4 py-4 w-full md:w-1/2 lg:w-auto font-bold text-gray-500 hover:text-webriq-darkblue border-b-2 border-transparent hover:border-webriq-blue transition duration-150"
                   }
                 >
                   {tab?.category}
@@ -90,7 +90,7 @@ function VariantB({ subtitle, title, faqsWithCategories }) {
                       </svg>
                     </button>
                     {view[index].hidden === false && (
-                      <p className="mt-4 text-gray-400 font-normal leading-loose">
+                      <p className="mt-4 text-gray-500 font-normal leading-loose">
                         {content?.answer}
                       </p>
                     )}

@@ -24,7 +24,7 @@ function VariantB({ team }) {
                             item?.name === activeTab
                               ? "text-gray-900"
                               : "text-gray-500"
-                          } hover:text-gray-400 font-bold focus:outline-none`}
+                          } hover:text-gray-500 font-bold focus:outline-none`}
                           onClick={() => setActiveTab(item?.name)}
                         >
                           {item.name}

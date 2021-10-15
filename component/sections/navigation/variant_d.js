@@ -77,7 +77,7 @@ function VariantD({ links, primaryButton, secondaryButton, logo }) {
                     )}
                   </li>
                   {links.length !== index + 1 ? (
-                    <li className="text-gray-400">
+                    <li className="text-gray-500">
                       <svg
                         className="w-4 h-4 current-fill"
                         xmlns="http://www.w3.org/2000/svg"
@@ -264,7 +264,7 @@ function VariantD({ links, primaryButton, secondaryButton, logo }) {
               onClick={showMenu}
             >
               <svg
-                className="h-6 w-6 text-gray-400 cursor-pointer hover:text-gray-500"
+                className="h-6 w-6 text-gray-500 cursor-pointer hover:text-gray-500"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
@@ -464,7 +464,7 @@ function VariantD({ links, primaryButton, secondaryButton, logo }) {
                 </a>
               )}
             </div>
-            <p className="my-4 text-xs text-center text-gray-400">
+            <p className="my-4 text-xs text-center text-gray-500">
               <span>{`© ${new Date().getFullYear()} All rights reserved.`}</span>
             </p>
           </div>

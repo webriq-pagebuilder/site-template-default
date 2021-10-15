@@ -417,7 +417,7 @@ function VariantE({
                         >
                           Sign Up
                         </button>
-                        <span className="text-gray-400 text-xs">
+                        <span className="text-gray-500 text-xs">
                           Already have an account?{" "}
                           <Link href="#">
                             <a

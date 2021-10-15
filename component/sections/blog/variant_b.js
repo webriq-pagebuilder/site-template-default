@@ -20,7 +20,7 @@ const blockStyle = {
           return <h4 className="mb-6 leading-loose text-gray-900"></h4>;
         case "normal":
           return (
-            <p className="mb-6 leading-loose text-justify text-gray-400">
+            <p className="mb-6 leading-loose text-justify text-gray-500">
               {props.children}
             </p>
           );
@@ -157,7 +157,7 @@ function VariantB({ subtitle, title, posts, buttonLabel }) {
                               </span>
                             ))}
                           {post?.publishedAt && (
-                            <span className="text-sm text-gray-400">
+                            <span className="text-sm text-gray-500">
                               {format(
                                 new Date(post?.publishedAt),
                                 " dd MMM, yyyy"
@@ -174,7 +174,7 @@ function VariantB({ subtitle, title, posts, buttonLabel }) {
                               {post?.authors?.map(
                                 (author, index, { length }) => (
                                   <div key={index}>
-                                    <span className="text-webriq-babyblue text-sm italic">
+                                    <span className="text-webriq-blue text-sm italic">
                                       {author?.name}
                                     </span>
                                     {index + 1 !== length ? (
@@ -236,7 +236,7 @@ function VariantB({ subtitle, title, posts, buttonLabel }) {
                                 </span>
                               ))}
                             {post?.publishedAt && (
-                              <span className="text-sm text-gray-400">
+                              <span className="text-sm text-gray-500">
                                 {format(
                                   new Date(post?.publishedAt),
                                   " dd MMM, yyyy"
@@ -253,7 +253,7 @@ function VariantB({ subtitle, title, posts, buttonLabel }) {
                                 {post?.authors?.map(
                                   (author, index, { length }) => (
                                     <div key={index}>
-                                      <span className="text-webriq-babyblue text-sm italic">
+                                      <span className="text-webriq-blue text-sm italic">
                                         {author?.name}
                                       </span>
                                       {index + 1 !== length ? (

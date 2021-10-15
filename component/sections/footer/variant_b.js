@@ -97,7 +97,7 @@ function VariantB({ logo, copyright, socialMedia, menu }) {
                       {index + 1 !== length ? (
                         <li className="hidden md:block">
                           <svg
-                            className="mx-4 w-4 h-4 text-gray-400"
+                            className="mx-4 w-4 h-4 text-gray-500"
                             xmlns="http://www.w3.org/2000/svg"
                             fill="none"
                             viewBox="0 0 24 24"

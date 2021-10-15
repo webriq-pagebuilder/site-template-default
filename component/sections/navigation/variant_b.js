@@ -117,7 +117,7 @@ function VariantB({
                     )}
                   </li>
                   {links.length !== index + 1 ? (
-                    <li className="text-gray-400">
+                    <li className="text-gray-500">
                       <svg
                         className="w-4 h-4 current-fill"
                         xmlns="http://www.w3.org/2000/svg"
@@ -267,7 +267,7 @@ function VariantB({
               onClick={showMenu}
             >
               <svg
-                className="h-6 w-6 text-gray-400 cursor-pointer hover:text-gray-500"
+                className="h-6 w-6 text-gray-500 cursor-pointer hover:text-gray-500"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"

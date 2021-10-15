@@ -26,7 +26,7 @@ function VariantB({
                   <h2 className="mb-8 lg:mb-20 text-3xl font-bold font-heading">
                     Office
                   </h2>
-                  <p className="text-gray-400">{officeInformation}</p>
+                  <p className="text-gray-500">{officeInformation}</p>
                 </div>
               )}
             </div>
@@ -36,8 +36,8 @@ function VariantB({
                   <h2 className="mb-8 lg:mb-20 text-3xl font-bold font-heading">
                     Contacts
                   </h2>
-                  <p className="text-gray-400">{contactEmail}</p>
-                  <p className="text-gray-400">{contactNumber}</p>
+                  <p className="text-gray-500">{contactEmail}</p>
+                  <p className="text-gray-500">{contactNumber}</p>
                 </div>
               ) : null}
             </div>

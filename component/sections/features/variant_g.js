@@ -20,7 +20,7 @@ function VariantG({ caption, title, description, images, featureItems }) {
                   </h1>
                 )}
                 {description && (
-                  <p className="mb-6 max-w-sm text-gray-400 leading-loose">
+                  <p className="mb-6 max-w-sm text-gray-500 leading-loose">
                     {description}
                   </p>
                 )}

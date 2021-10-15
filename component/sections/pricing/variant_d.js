@@ -115,7 +115,7 @@ function VariantD({
                             placeholder={field.name}
                           />
                           <svg
-                            className="h-6 w-6 ml-4 my-auto text-gray-400"
+                            className="h-6 w-6 ml-4 my-auto text-gray-500"
                             xmlns="http://www.w3.org/2000/svg"
                             fill="none"
                             viewBox="0 0 24 24"
@@ -147,7 +147,7 @@ function VariantD({
                             className="ml-4"
                           >
                             <svg
-                              className="h-6 w-6 my-auto text-gray-400"
+                              className="h-6 w-6 my-auto text-gray-500"
                               xmlns="http://www.w3.org/2000/svg"
                               fill="none"
                               viewBox="0 0 24 24"
@@ -175,7 +175,7 @@ function VariantD({
                     </>
                   ))}
 
-                  <div className="text-left mb-5 text-sm text-gray-400">
+                  <div className="text-left mb-5 text-sm text-gray-500">
                     <label className="inline-flex">
                       <input
                         aria-label={`Agree to ${block}?`}
@@ -200,7 +200,7 @@ function VariantD({
                   </button>
                 </WebriQForm>
                 {signInLink?.label && (
-                  <p className="text-xs text-gray-400">
+                  <p className="text-xs text-gray-500">
                     Already have an account?{" "}
                     {signInLink?.type === "linkInternal" ? (
                       <Link

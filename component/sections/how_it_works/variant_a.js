@@ -7,35 +7,40 @@ function VariantA({ subtitle, title, text, video, steps }) {
         <div className="container mx-auto px-4">
           <div className="mb-10 flex flex-wrap">
             <div className="mb-10 lg:mb-0 w-full lg:w-1/2">
-              <div className="max-w-md mx-20">
-                <span className="text-webriq-darkblue font-bold">
+              <div className="max-w-lg mx-10">
+                <span className="text-sm md:text-lg lg:text-lg text-webriq-darkblue font-bold">
                   {subtitle}
                 </span>
-                <h1 className="mb-2 text-4xl lg:text-5xl font-bold font-heading">
+                <h1 className="my-5 text-2xl md:text-4xl lg:text-5xl font-bold font-heading">
                   {title}
                 </h1>
-                <p className="max-w-xs text-gray-500 leading-loose">{text}</p>
+                <p className="text-sm md:text-lg lg:text-lg text-gray-500 md:leading-loose lg:leading-loose">
+                  {text}
+                </p>
               </div>
             </div>
-            <div className="relative w-full lg:w-1/4">
+            <div className="relative w-full md:w-2/5 md:h-96 lg:w-2/5 lg:h-128 px-10 md:px-0 lg:px-0">
               {video && (
                 <iframe
                   aria-label="Show Video Frame"
-                  className="relative rounded-lg"
-                  width="550"
-                  height="355"
+                  className="w-full h-full rounded-lg"
                   src={`https://www.youtube.com/embed/${
                     String(video).split("=")[1].split("&")[0]
                   }`}
-                  title="YouTube video player"
+                  srcDoc={`<style>*{padding:0;margin:0;overflow:hidden;border-radius:8px}html,body{height:100%}img,span{position:absolute;width:100%;top:0;bottom:0;margin:auto}span{height:1.5em;text-align:center;font:48px/1.5 sans-serif;color:white;text-shadow:0 0 0.5em black}</style><a href=${`https://www.youtube.com/embed/${
+                    String(video).split("=")[1].split("&")[0]
+                  }`}><img src=${`https://i.ytimg.com/vi/${video
+                    .split("=")
+                    .pop()}/maxresdefault.jpg`} alt=${title} loading="lazy" /><span>▶</span></a>`}
                   frameBorder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
+                  loading="lazy"
+                  allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen=""
                 ></iframe>
               )}
             </div>
           </div>
-          <div className="flex flex-wrap px-16">
+          <div className="flex flex-wrap px-10">
             {steps &&
               steps?.map((step, index) => (
                 <div
@@ -45,10 +50,12 @@ function VariantA({ subtitle, title, text, video, steps }) {
                   <span className="mt-6 mb-6 w-12 h-12 flex justify-center items-center bg-webriq-lightblue rounded text-webriq-darkblue font-bold">
                     {index + 1}
                   </span>
-                  <p className="mb-2 text-2xl font-bold font-heading">
+                  <p className="mb-2 text-lg md:text-2xl lg:text-2xl font-bold font-heading">
                     {step?.title}
                   </p>
-                  <p className="text-gray-500 leading-loose">{step?.content}</p>
+                  <p className="text-gray-500 text-xs md:text-lg lg:text-lg md:leading-loose lg:leading-loose">
+                    {step?.content}
+                  </p>
                 </div>
               ))}
           </div>

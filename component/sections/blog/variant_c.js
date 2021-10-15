@@ -20,7 +20,7 @@ const blockStyle = {
           return <h4 className="mb-6 leading-loose text-gray-900"></h4>;
         case "normal":
           return (
-            <p className="mb-6 leading-loose text-justify text-gray-400">
+            <p className="mb-6 leading-loose text-justify text-gray-500">
               {props.children}
             </p>
           );
@@ -114,7 +114,7 @@ function VariantC({ subtitle, title, posts, buttonLabel }) {
             {activePage > startPage && (
               <button
                 aria-label="Show Previous Blog button"
-                className="px-4 text-gray-400 hover:text-gray-500"
+                className="px-4 text-gray-500 hover:text-gray-500"
                 onClick={() => {
                   activePage !== startPage
                     ? setActivePage(activePage - startPage)
@@ -160,7 +160,7 @@ function VariantC({ subtitle, title, posts, buttonLabel }) {
             {activePage !== pageButtons?.length && (
               <button
                 aria-label="Show Next Blog button"
-                className="px-4 text-gray-400 hover:text-gray-500"
+                className="px-4 text-gray-500 hover:text-gray-500"
                 onClick={() => {
                   changePage(pageButtons[activePage]);
                   activePage !== pageButtons?.length
@@ -258,7 +258,7 @@ function VariantC({ subtitle, title, posts, buttonLabel }) {
                               </span>
                             ))}
                           {post?.publishedAt && (
-                            <span className="text-sm text-gray-400">
+                            <span className="text-sm text-gray-500">
                               {format(
                                 new Date(post?.publishedAt),
                                 " dd MMM, yyyy"
@@ -322,7 +322,7 @@ function VariantC({ subtitle, title, posts, buttonLabel }) {
                               </span>
                             ))}
                           {post?.publishedAt && (
-                            <span className="text-sm text-gray-400">
+                            <span className="text-sm text-gray-500">
                               {format(
                                 new Date(post?.publishedAt),
                                 " dd MMM, yyyy"

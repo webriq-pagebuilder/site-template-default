@@ -266,10 +266,10 @@ function VariantD({ subtitle, title, posts, buttonLabel }) {
                                 )
                               )}
                             {post?.publishedAt && post?.authors && (
-                              <span className="text-gray-400 mx-2">•</span>
+                              <span className="text-gray-500 mx-2">•</span>
                             )}
                             {post?.publishedAt && (
-                              <span className="text-gray-400">
+                              <span className="text-gray-500">
                                 {format(
                                   new Date(post?.publishedAt),
                                   " dd MMM, yyyy"
@@ -337,10 +337,10 @@ function VariantD({ subtitle, title, posts, buttonLabel }) {
                                 )
                               )}
                             {post?.publishedAt && post?.authors && (
-                              <span className="text-gray-400 mx-2">•</span>
+                              <span className="text-gray-500 mx-2">•</span>
                             )}
                             {post?.publishedAt && (
-                              <span className="text-gray-400">
+                              <span className="text-gray-500">
                                 {format(
                                   new Date(post?.publishedAt),
                                   " dd MMM, yyyy"

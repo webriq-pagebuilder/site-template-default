@@ -34,7 +34,7 @@ function VariantC({ subtitle, title, faqs }) {
                         </span>
                         <p className="text-xl font-bold">{faq?.question}</p>
                       </div>
-                      <p className="text-gray-400 leading-loose">
+                      <p className="text-gray-500 leading-loose">
                         {faq?.answer}
                       </p>
                     </div>

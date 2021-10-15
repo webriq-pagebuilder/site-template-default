@@ -153,7 +153,7 @@ function VariantA({
                         }`}
                   </span>
                   {!isNaN(parseInt(usePlan?.[0]?.monthlyPrice)) && (
-                    <span className="text-gray-400 text-xs">/{plan}</span>
+                    <span className="text-gray-500 text-xs">/{plan}</span>
                   )}
                   <p className="mt-3 mb-6 text-gray-500 leading-loose">
                     {usePlan?.[0]?.description}
@@ -302,7 +302,7 @@ function VariantA({
                         }`}
                   </span>
                   {!isNaN(parseInt(usePlan?.[2]?.monthlyPrice)) && (
-                    <span className="text-gray-400 text-xs">/{plan}</span>
+                    <span className="text-gray-500 text-xs">/{plan}</span>
                   )}
                   <p className="mt-3 mb-6 text-gray-500 leading-loose">
                     {usePlan?.[2]?.description}

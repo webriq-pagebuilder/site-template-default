@@ -2,16 +2,16 @@ import React from "react";
 import Link from "next/link";
 
 function VariantC({
-  // template,
+  template,
   videoLink,
   title,
   primaryButton,
   secondaryButton,
 }) {
   return (
-    <section className="relative pb-56 sm:pb-80">
-      <div className="relative pt-12 md:pt-16 pb-32 md:pb-64 bg-gray-50">
-        <div className="relative container mx-auto px-4">
+    <section>
+      <div className="bg-gray-50 py-20 md:py-52 lg:py-52">
+        <div className="container mx-auto px-4">
           <div className="max-w-2xl mx-auto text-center mb-12 md:mb-20">
             <h1 className="mb-10 text-lg md:text-4xl lg:text-5xl font-bold">
               {title && <span>{title}</span>}
@@ -135,23 +135,27 @@ function VariantC({
               </div>
             ) : null}
           </div>
-        </div>
-        <div className="mx-10 md:mx-20 lg:mx-60 xl:mx-60">
-          <div className="relative aspect-w-16 aspect-h-9">
-            {(videoLink &&
-              String(videoLink).includes("https://www.youtube.com/watch?")) ||
-            String(videoLink).includes("youtube.com/watch?") ? (
-              <iframe
-                aria-label="Show Video Frame"
-                className="absolute top-0 left-0 w-full h-full rounded-3xl border-4 border-webriq-darkblue"
-                src={`https://www.youtube.com/embed/${
-                  String(videoLink).split("=")[1].split("&")[0]
-                }`}
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              ></iframe>
-            ) : null}
+          <div className="md:mx-20 lg:mx-60 xl:mx-60">
+            <div className="aspect-w-16 aspect-h-9">
+              {videoLink && (
+                <iframe
+                  aria-label="Show Video Frame"
+                  className="w-full h-full rounded-3xl border-4 border-webriq-darkblue"
+                  src={`https://www.youtube.com/embed/${
+                    String(videoLink).split("=")[1].split("&")[0]
+                  }`}
+                  srcDoc={`<style>*{padding:0;margin:0;overflow:hidden;border-radius:24px}html,body{height:100%}img,span{position:absolute;width:100%;top:0;bottom:0;margin:auto}span{height:1.5em;text-align:center;font:48px/1.5 sans-serif;color:white;text-shadow:0 0 0.5em black}</style><a href=${`https://www.youtube.com/embed/${
+                    String(videoLink).split("=")[1].split("&")[0]
+                  }`}><img src=${`https://i.ytimg.com/vi/${videoLink
+                    .split("=")
+                    .pop()}/maxresdefault.jpg`} alt=${title} loading="lazy" /><span>▶</span></a>`}
+                  frameBorder="0"
+                  loading="lazy"
+                  allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen=""
+                ></iframe>
+              )}
+            </div>
           </div>
         </div>
       </div>

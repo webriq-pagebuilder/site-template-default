@@ -181,12 +181,12 @@ function VariantA({ subtitle, title, posts, buttonLabel }) {
                                   </div>
                                 )}
                                 {post?.publishedAt && post?.authors && (
-                                  <span className="text-sm text-gray-400 mx-2">
+                                  <span className="text-sm text-gray-500 mx-2">
                                     •
                                   </span>
                                 )}
                                 {post?.publishedAt && (
-                                  <span className="text-sm text-gray-400">
+                                  <span className="text-sm text-gray-500">
                                     {format(
                                       new Date(post?.publishedAt),
                                       "dd MMM, yyyy"
@@ -260,12 +260,12 @@ function VariantA({ subtitle, title, posts, buttonLabel }) {
                                   </div>
                                 )}
                                 {post?.publishedAt && post?.authors && (
-                                  <span className="text-sm text-gray-400 mx-2">
+                                  <span className="text-sm text-gray-500 mx-2">
                                     •
                                   </span>
                                 )}
                                 {post?.publishedAt && (
-                                  <span className="text-sm text-gray-400">
+                                  <span className="text-sm text-gray-500">
                                     {format(
                                       new Date(post?.publishedAt),
                                       "dd MMM, yyyy"
@@ -337,12 +337,12 @@ function VariantA({ subtitle, title, posts, buttonLabel }) {
                                   </div>
                                 )}
                                 {post?.publishedAt && post?.authors && (
-                                  <span className="text-sm text-gray-400 mx-2">
+                                  <span className="text-sm text-gray-500 mx-2">
                                     •
                                   </span>
                                 )}
                                 {post?.publishedAt && (
-                                  <span className="text-sm text-gray-400">
+                                  <span className="text-sm text-gray-500">
                                     {format(
                                       new Date(post?.publishedAt),
                                       "dd MMM, yyyy"

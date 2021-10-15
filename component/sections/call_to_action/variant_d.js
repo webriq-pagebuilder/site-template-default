@@ -112,7 +112,7 @@ function VariantD({
                     scriptsrc="https://pagebuilderforms.webriq.com/js/initReactForms"
                   >
                     <div className="mb-6">
-                      <span className="text-sm text-gray-400">Sign Up</span>
+                      <span className="text-sm text-gray-500">Sign Up</span>
                       <p className="text-2xl">Create an account</p>
                     </div>
                     <div className="mb-3 flex flex-wrap -mx-2">
@@ -364,7 +364,7 @@ function VariantD({
                     </button>
                   </WebriQForm>
                   {signInLink?.label && (
-                    <p className="text-xs text-gray-400">
+                    <p className="text-xs text-gray-500">
                       <span>Already have an account?</span>
                       {signInLink?.type === "linkInternal" ? (
                         <Link
@@ -420,7 +420,7 @@ function VariantD({
                 </div>
               )}
               {links && (
-                <p className="text-center text-gray-400">
+                <p className="text-center text-gray-500">
                   {links?.map((link, index, { length }) => (
                     <>
                       {link?.type === "linkInternal" ? (

@@ -101,7 +101,7 @@ function VariantD({ caption, title, portfolios, buttonLabel }) {
                                   {content?.heading}
                                 </h1>
                                 <div className="max-w-xs my-5">
-                                  <p className="mb-6 text-gray-400">
+                                  <p className="mb-6 text-gray-500">
                                     {content?.description}
                                   </p>
                                   {content?.primaryButton?.label &&
@@ -211,7 +211,7 @@ function VariantD({ caption, title, portfolios, buttonLabel }) {
                                   {content?.heading}
                                 </h1>
                                 <div className="max-w-xs my-5">
-                                  <p className="mb-6 text-gray-400">
+                                  <p className="mb-6 text-gray-500">
                                     {content?.description}
                                   </p>
                                   {content?.primaryButton?.label &&
@@ -323,7 +323,7 @@ function VariantD({ caption, title, portfolios, buttonLabel }) {
                                   {content?.heading}
                                 </h1>
                                 <div className="max-w-xs my-5">
-                                  <p className="mb-6 text-gray-400">
+                                  <p className="mb-6 text-gray-500">
                                     {content?.description}
                                   </p>
                                   {content?.primaryButton?.label &&
@@ -439,7 +439,7 @@ function VariantD({ caption, title, portfolios, buttonLabel }) {
                                       {content?.heading}
                                     </h1>
                                     <div className="max-w-xs my-5">
-                                      <p className="mb-6 text-gray-400">
+                                      <p className="mb-6 text-gray-500">
                                         {content?.description}
                                       </p>
                                       {content?.primaryButton?.label &&
@@ -556,7 +556,7 @@ function VariantD({ caption, title, portfolios, buttonLabel }) {
                                       {content?.heading}
                                     </h1>
                                     <div className="max-w-xs my-5">
-                                      <p className="mb-6 text-gray-400">
+                                      <p className="mb-6 text-gray-500">
                                         {content?.description}
                                       </p>
                                       {content?.primaryButton?.label &&

@@ -9,7 +9,7 @@ function VariantB({ title, block, allowCookieBtn, denyCookieBtn }) {
   const serializers = {
     types: {
       block: (props) => (
-        <p className="text-gray-400 text-sm my-5">{props.children}</p>
+        <p className="text-gray-500 text-sm my-5">{props.children}</p>
       ),
     },
     marks: {

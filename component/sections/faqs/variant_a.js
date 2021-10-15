@@ -72,12 +72,12 @@ function VariantA({ subtitle, title, faqs }) {
               <p
                 className={`${
                   faq?.hidden === false ? "hidden" : null
-                } mt-4 text-gray-400 font-normal leading-loose`}
+                } mt-4 text-gray-500 font-normal leading-loose`}
               >
                 {faq?.answer}
               </p>
             ) : (
-              <p className="mt-4 text-gray-400 font-normal leading-loose">
+              <p className="mt-4 text-gray-500 font-normal leading-loose">
                 {faq?.answer}
               </p>
             )}
