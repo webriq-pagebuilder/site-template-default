@@ -96,8 +96,8 @@ function VariantB({ subtitle, title, posts, buttonLabel }) {
           : chunks.push([items])) && chunks,
       []
     );
-    if (chunks?.[chunks?.length - 1]?.length < numberOfGroups) {
-      chunks?.[chunks?.length - 2].push(...chunks.pop());
+    if (chunks?.[chunks?.length]?.length < numberOfGroups) {
+      chunks?.[chunks?.length].push(...chunks.pop());
     }
     return chunks;
   };
@@ -110,7 +110,7 @@ function VariantB({ subtitle, title, posts, buttonLabel }) {
 
   return (
     <section>
-      <div className="p-20 bg-gray-50 radius-for-skewed">
+      <div className="py-20 bg-gray-50 radius-for-skewed">
         <div className="container mx-auto px-4">
           <div className="mb-6 flex flex-wrap justify-center">
             <div className="mb-16 w-full text-center">
@@ -127,35 +127,26 @@ function VariantB({ subtitle, title, posts, buttonLabel }) {
             </div>
             {newArray &&
               newArray?.slice(count, blogsToShow)?.map((posts, index) => (
-                <div className="flex flex-wrap -mx-3 mb-16" key={index}>
+                <div className="flex flex-wrap mx-3 mb-16" key={index}>
                   <div className="mb-6 lg:mb-0 w-full lg:w-1/2 px-3">
                     {posts?.slice(count, count + 1)?.map((post, key) => (
                       <div
-                        className="h-full flex flex-col rounded overflow-hidden"
+                        className="h-full flex flex-col overflow-hidden rounded shadow"
                         key={key}
                       >
-                        {post?.mainImage && (
+                        <div>
                           <Image
                             src={urlFor(post?.mainImage)}
                             layout="responsive"
-                            width="542px"
-                            height="496px"
+                            width="577px"
+                            height="652px"
                             objectFit="cover"
                             alt={`blog-variantB-image-${key}`}
                             blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
                             placeholder="blur"
                           />
-                        )}
-                        <div className="mt-0 p-6 rounded-b bg-white rounded shadow">
-                          {post?.categories &&
-                            post?.categories?.map((category, index) => (
-                              <span
-                                className="mb-auto py-1 px-3 text-sm bg-webriq-lightblue rounded-full text-webriq-darkblue uppercase font-bold"
-                                key={index}
-                              >
-                                {category?.title}
-                              </span>
-                            ))}
+                        </div>
+                        <div className="mt-auto p-6 rounded-b bg-white">
                           {post?.publishedAt && (
                             <span className="text-sm text-gray-500">
                               {format(
@@ -174,11 +165,11 @@ function VariantB({ subtitle, title, posts, buttonLabel }) {
                               {post?.authors?.map(
                                 (author, index, { length }) => (
                                   <div key={index}>
-                                    <span className="text-webriq-blue text-sm italic">
+                                    <span className="text-gray-700 text-sm italic">
                                       {author?.name}
                                     </span>
                                     {index + 1 !== length ? (
-                                      <span className="text-webriq-darkblue">
+                                      <span className="text-gray-700">
                                         &nbsp;,&nbsp;
                                       </span>
                                     ) : null}
@@ -212,8 +203,8 @@ function VariantB({ subtitle, title, posts, buttonLabel }) {
                   <div className="flex flex-wrap w-full lg:w-1/2">
                     {posts?.slice(count + 1, blogsPerPage)?.map((post, key) => (
                       <div className="mb-6 w-full lg:w-1/2 px-3" key={key}>
-                        <div className="h-full rounded shadow overflow-hidden">
-                          {post?.mainImage && (
+                        <div className="rounded overflow-hidden shadow">
+                          <div className="lg:h-48 rounded-t">
                             <Image
                               src={urlFor(post?.mainImage)}
                               layout="responsive"
@@ -224,17 +215,8 @@ function VariantB({ subtitle, title, posts, buttonLabel }) {
                               blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
                               placeholder="blur"
                             />
-                          )}
+                          </div>
                           <div className="p-6 rounded-b bg-white">
-                            {post?.categories &&
-                              post?.categories?.map((category, index) => (
-                                <span
-                                  className="mb-auto py-1 px-3 text-sm bg-webriq-lightblue rounded-full text-webriq-darkblue uppercase font-bold"
-                                  key={index}
-                                >
-                                  {category?.title}
-                                </span>
-                              ))}
                             {post?.publishedAt && (
                               <span className="text-sm text-gray-500">
                                 {format(
@@ -253,11 +235,11 @@ function VariantB({ subtitle, title, posts, buttonLabel }) {
                                 {post?.authors?.map(
                                   (author, index, { length }) => (
                                     <div key={index}>
-                                      <span className="text-webriq-blue text-sm italic">
+                                      <span className="text-gray-700 text-sm italic">
                                         {author?.name}
                                       </span>
                                       {index + 1 !== length ? (
-                                        <span className="text-webriq-darkblue">
+                                        <span className="text-gray-700">
                                           &nbsp;,&nbsp;
                                         </span>
                                       ) : null}
@@ -265,6 +247,12 @@ function VariantB({ subtitle, title, posts, buttonLabel }) {
                                   )
                                 )}
                               </div>
+                            )}
+                            {post?.excerpt && (
+                              <PortableText
+                                blocks={post?.excerpt}
+                                serializers={blockStyle}
+                              />
                             )}
                             <Link
                               href={
@@ -285,20 +273,20 @@ function VariantB({ subtitle, title, posts, buttonLabel }) {
                   </div>
                 </div>
               ))}
-            <div>
-              {posts?.length > blogsPerPage && !showMore && buttonLabel && (
-                <button
-                  aria-label="View More Blogs button"
-                  className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-gray-50 font-bold leading-loose outline-none transition duration-200"
-                  onClick={() => {
-                    setBlogsToShow(newArray?.length);
-                    setShowMore(true);
-                  }}
-                >
-                  {buttonLabel}
-                </button>
-              )}
-            </div>
+          </div>
+          <div className="text-center">
+            {posts?.length > blogsPerPage && !showMore && buttonLabel && (
+              <button
+                aria-label="View More Blogs button"
+                className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose outline-none transition duration-200"
+                onClick={() => {
+                  setBlogsToShow(newArray?.length);
+                  setShowMore(true);
+                }}
+              >
+                {buttonLabel}
+              </button>
+            )}
           </div>
         </div>
       </div>

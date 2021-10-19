@@ -19,8 +19,8 @@ function VariantA({ subtitle, title, posts, buttonLabel }) {
           : chunks.push([items])) && chunks,
       []
     );
-    if (chunks?.[chunks?.length - 1]?.length < numberOfGroups) {
-      chunks.pop();
+    if (chunks?.[chunks?.length]?.length < numberOfGroups) {
+      chunks?.[chunks?.length].push(...chunks.pop());
     }
     return chunks;
   };
@@ -33,7 +33,7 @@ function VariantA({ subtitle, title, posts, buttonLabel }) {
 
   return (
     <section>
-      <div className="py-20 md:p-20 lg:p-20 xl:p-20 bg-gray-50 radius-for-skewed">
+      <div className="py-20 bg-gray-50 radius-for-skewed">
         <div className="container mx-auto px-4">
           <div className="mb-16 text-center">
             {subtitle && (
@@ -50,78 +50,81 @@ function VariantA({ subtitle, title, posts, buttonLabel }) {
               <div className="flex flex-wrap justify-center -mx-3" key={index}>
                 <div className="flex flex-wrap w-full lg:w-1/2">
                   {posts?.slice(count, count + 1)?.map((post, key) => (
-                    <div className="w-full px-3 mb-5" key={key}>
+                    <div
+                      className="w-full px-3 mb-5 transform hover:scale-110 motion-reduce:transform-none"
+                      key={key}
+                    >
                       <Link
                         href={`/${post?.slug?.current}` ?? "/page-not-found"}
                       >
                         <a aria-label={`blog post ${key}`}>
-                          <div className="relative h-64 md:h-full lg:w-full xl:w-full mx-auto rounded transform hover:scale-110 motion-reduce:transform-none">
-                            {post?.mainImage && (
+                          <div className="relative h-64 mx-auto overflow-hidden rounded">
+                            <div className="relative h-full w-full rounded">
                               <Image
                                 src={urlFor(post?.mainImage)}
-                                layout="responsive"
-                                width="542px"
-                                height="256px"
+                                layout="fill"
                                 objectFit="cover"
                                 alt={`blog-variantA-image-${key}`}
                                 blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
                                 placeholder="blur"
                               />
-                            )}
-                            <div className="absolute inset-0 bg-gray-700 opacity-75 rounded" />
-                            <div className="absolute inset-0 p-6 flex flex-col items-start">
-                              {post?.categories && (
-                                <div className="flex absolute top-5 left-5">
-                                  {post?.categories?.map(
-                                    (category, index, { length }) => (
-                                      <span
-                                        className="mb-auto py-1 px-3 text-sm mr-3 bg-white rounded-full text-webriq-darkblue uppercase font-bold"
-                                        key={index}
-                                      >
-                                        {category?.title}
-                                      </span>
-                                    )
-                                  )}
-                                </div>
-                              )}
-                              <div className="flex absolute bottom-14 left-5">
-                                {post?.authors && (
-                                  <div className="flex">
-                                    {post?.authors?.map(
-                                      (author, index, { length }) => (
-                                        <div key={index}>
-                                          <span className="text-sm text-webriq-babyblue">
-                                            {author?.name}
-                                          </span>
-                                          {index + 1 !== length ? (
-                                            <span className="text-sm text-webriq-babyblue">
-                                              &nbsp;,&nbsp;
-                                            </span>
-                                          ) : null}
-                                        </div>
+                              <div className="absolute inset-0 bg-gray-900 opacity-75 rounded" />
+                              <div className="absolute inset-0 p-6 flex flex-col items-start">
+                                {post?.categories && (
+                                  <div className="flex absolute top-5 left-5">
+                                    {post?.categories?.map(
+                                      (category, index) => (
+                                        <span
+                                          className="mb-auto py-1 px-3 text-sm mr-3 bg-white rounded-full text-webriq-darkblue uppercase font-bold"
+                                          key={index}
+                                        >
+                                          {category?.title}
+                                        </span>
                                       )
                                     )}
                                   </div>
                                 )}
-                                {post?.publishedAt && post?.authors && (
-                                  <span className="text-sm text-gray-500 mx-2">
-                                    •
-                                  </span>
-                                )}
-                                {post?.publishedAt && (
-                                  <span className="text-sm text-gray-500">
-                                    {format(
-                                      new Date(post?.publishedAt),
-                                      "dd MMM, yyyy"
-                                    )}
-                                  </span>
+                                <div className="flex absolute bottom-14 left-5">
+                                  {post?.authors && (
+                                    <div className="flex">
+                                      {post?.authors?.map(
+                                        (author, index, { length }) => (
+                                          <div key={index}>
+                                            <span className="text-sm text-webriq-babyblue">
+                                              {author?.name}
+                                            </span>
+                                            {index + 1 !== length ? (
+                                              <span className="text-sm text-webriq-babyblue">
+                                                &nbsp;,&nbsp;
+                                              </span>
+                                            ) : null}
+                                          </div>
+                                        )
+                                      )}
+                                    </div>
+                                  )}
+                                  {post?.publishedAt && post?.authors && (
+                                    <span className="text-sm text-gray-500 mx-2">
+                                      •
+                                    </span>
+                                  )}
+                                  {post?.publishedAt && (
+                                    <span className="text-sm text-gray-500">
+                                      {format(
+                                        new Date(post?.publishedAt),
+                                        "dd MMM, yyyy"
+                                      )}
+                                    </span>
+                                  )}
+                                </div>
+                                {post?.title && (
+                                  <p className="absolute bottom-5 left-5 text-xl lg:text-2xl text-white font-bold overflow-ellipsis overflow-hidden">
+                                    {post?.title?.length > 30
+                                      ? post?.title.substring(0, 30) + "..."
+                                      : post?.title}
+                                  </p>
                                 )}
                               </div>
-                              {post?.title && (
-                                <p className="absolute bottom-5 left-5 text-xl lg:text-2xl text-white font-bold">
-                                  {post?.title}
-                                </p>
-                              )}
                             </div>
                           </div>
                         </a>
@@ -129,31 +132,34 @@ function VariantA({ subtitle, title, posts, buttonLabel }) {
                     </div>
                   ))}
                   {posts?.slice(count + 1, count + 3)?.map((post, key) => (
-                    <div className="w-full lg:w-1/2 px-3 mb-5" key={key}>
+                    <div
+                      className="w-full lg:w-1/2 px-3 mb-5 transform hover:scale-110 motion-reduce:transform-none"
+                      key={key}
+                    >
                       <Link
                         href={`/${post?.slug?.current}` ?? "/page-not-found"}
                       >
                         <a aria-label={`blog post ${key}`}>
-                          <div className="relative mx-auto rounded h-64 md:h-full lg:w-full xl:w-full transform hover:scale-110 motion-reduce:transform-none">
-                            {post?.mainImage && (
+                          <div className="relative mx-auto overflow-hidden rounded h-128">
+                            <div className="relative h-full w-full rounded">
                               <Image
                                 src={urlFor(post?.mainImage)}
                                 layout="responsive"
-                                width="259px"
-                                height="512px"
+                                width="358px"
+                                height="237px"
                                 objectFit="cover"
                                 alt={`blog-variantA-image-${key}`}
                                 blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
                                 placeholder="blur"
                               />
-                            )}
-                            <div className="absolute inset-0 bg-gray-700 opacity-75 rounded" />
+                            </div>
+                            <div className="absolute inset-0 bg-gray-900 opacity-75 rounded" />
                             <div className="absolute inset-0 p-6 flex flex-col items-start">
                               {post?.categories && (
                                 <div className="flex absolute top-5 left-5">
                                   {post?.categories?.map((category, index) => (
                                     <span
-                                      className="mb-auto py-1 px-3 mr-3 text-sm bg-white rounded-full text-webriq-darkblue uppercase font-bold"
+                                      className="mb-auto py-1 px-3 text-sm mr-3 bg-white rounded-full text-webriq-darkblue uppercase font-bold"
                                       key={index}
                                     >
                                       {category?.title}
@@ -196,7 +202,9 @@ function VariantA({ subtitle, title, posts, buttonLabel }) {
                               </div>
                               {post?.title && (
                                 <p className="absolute bottom-5 left-5 text-xl lg:text-2xl text-white font-bold overflow-ellipsis overflow-hidden">
-                                  {post?.title}...
+                                  {post?.title?.length > 30
+                                    ? post?.title.substring(0, 30) + "..."
+                                    : post?.title}
                                 </p>
                               )}
                             </div>
@@ -208,31 +216,34 @@ function VariantA({ subtitle, title, posts, buttonLabel }) {
                 </div>
                 <div className="flex flex-wrap w-full lg:w-1/2">
                   {posts?.slice(count + 3, count + 5)?.map((post, key) => (
-                    <div className="w-full lg:w-1/2 px-3 mb-5" key={key}>
+                    <div
+                      className="w-full lg:w-1/2 px-3 mb-5 transform hover:scale-110 motion-reduce:transform-none"
+                      key={key}
+                    >
                       <Link
                         href={`/${post?.slug?.current}` ?? "/page-not-found"}
                       >
                         <a aria-label={`blog post ${key}`}>
-                          <div className="relative mx-auto rounded h-64 md:h-full lg:w-full xl:w-full transform hover:scale-110 motion-reduce:transform-none">
-                            {post?.mainImage && (
+                          <div className="relative mx-auto overflow-hidden rounded h-128">
+                            <div className="relative h-full w-full rounded">
                               <Image
                                 src={urlFor(post?.mainImage)}
                                 layout="responsive"
-                                width="259px"
-                                height="512px"
+                                width="358px"
+                                height="237px"
                                 objectFit="cover"
                                 alt={`blog-variantA-image-${key}`}
                                 blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
                                 placeholder="blur"
                               />
-                            )}
-                            <div className="absolute inset-0 bg-gray-700 opacity-75 rounded" />
+                            </div>
+                            <div className="absolute inset-0 bg-gray-900 opacity-75 rounded" />
                             <div className="absolute inset-0 p-6 flex flex-col items-start">
                               {post?.categories && (
                                 <div className="flex absolute top-5 left-5">
                                   {post?.categories?.map((category, index) => (
                                     <span
-                                      className="mb-auto py-1 px-3 mr-3 text-sm bg-white rounded-full text-webriq-darkblue uppercase font-bold"
+                                      className="mb-auto py-1 px-3 text-sm mr-3 bg-white rounded-full text-webriq-darkblue uppercase font-bold"
                                       key={index}
                                     >
                                       {category?.title}
@@ -275,7 +286,9 @@ function VariantA({ subtitle, title, posts, buttonLabel }) {
                               </div>
                               {post?.title && (
                                 <p className="absolute bottom-5 left-5 text-xl lg:text-2xl text-white font-bold overflow-ellipsis overflow-hidden">
-                                  {post?.title}...
+                                  {post?.title?.length > 30
+                                    ? post?.title.substring(0, 30) + "..."
+                                    : post?.title}
                                 </p>
                               )}
                             </div>
@@ -285,25 +298,24 @@ function VariantA({ subtitle, title, posts, buttonLabel }) {
                     </div>
                   ))}
                   {posts?.slice(count + 5, blogsPerPage)?.map((post, key) => (
-                    <div className="w-full px-3 mb-5" key={key}>
+                    <div
+                      className="w-full px-3 mb-5 transform hover:scale-110 motion-reduce:transform-none"
+                      key={key}
+                    >
                       <Link
                         href={`/${post?.slug?.current}` ?? "/page-not-found"}
                       >
                         <a aria-label={`blog post ${key}`}>
-                          <div className="mx-auto rounded h-64 md:h-full lg:w-full xl:w-full transform hover:scale-110 motion-reduce:transform-none">
-                            {post?.mainImage && (
-                              <Image
-                                src={urlFor(post?.mainImage)}
-                                layout="responsive"
-                                width="542px"
-                                height="256px"
-                                objectFit="cover"
-                                alt={`blog-variantA-image-${key}`}
-                                blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                                placeholder="blur"
-                              />
-                            )}
-                            <div className="absolute inset-0 bg-gray-700 opacity-75 rounded" />
+                          <div className="relative mx-auto overflow-hidden rounded h-64">
+                            <Image
+                              src={urlFor(post?.mainImage)}
+                              layout="fill"
+                              objectFit="cover"
+                              alt={`blog-variantA-image-${key}`}
+                              blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                              placeholder="blur"
+                            />
+                            <div className="absolute inset-0 bg-gray-900 opacity-75 rounded" />
                             <div className="absolute inset-0 p-6 flex flex-col items-start">
                               {post?.categories && (
                                 <div className="flex absolute top-5 left-5">
@@ -352,7 +364,9 @@ function VariantA({ subtitle, title, posts, buttonLabel }) {
                               </div>
                               {post?.title && (
                                 <p className="absolute bottom-5 left-5 text-xl lg:text-2xl text-white font-bold">
-                                  {post?.title}
+                                  {post?.title?.length > 30
+                                    ? post?.title.substring(0, 30) + "..."
+                                    : post?.title}
                                 </p>
                               )}
                             </div>
@@ -362,22 +376,22 @@ function VariantA({ subtitle, title, posts, buttonLabel }) {
                     </div>
                   ))}
                 </div>
+                <div className="mt-10">
+                  {!showMore && buttonLabel && (
+                    <button
+                      aria-label="View More Blogs button"
+                      className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose outline-none transition duration-200"
+                      onClick={() => {
+                        setBlogsToShow(newArray?.length);
+                        setShowMore(true);
+                      }}
+                    >
+                      {buttonLabel}
+                    </button>
+                  )}
+                </div>
               </div>
             ))}
-          <div className="mt-10 text-center">
-            {posts?.length > blogsPerPage && !showMore && buttonLabel && (
-              <button
-                aria-label="View More Blogs button"
-                className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-gray-50 font-bold leading-loose outline-none transition duration-200"
-                onClick={() => {
-                  setBlogsToShow(newArray?.length);
-                  setShowMore(true);
-                }}
-              >
-                {buttonLabel}
-              </button>
-            )}
-          </div>
         </div>
       </div>
     </section>

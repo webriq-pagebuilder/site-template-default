@@ -29,9 +29,9 @@ function VariantD({
                       {description}
                     </p>
                   )}
-                  {primaryButton?.label || secondaryButton?.label ? (
-                    <div>
-                      {primaryButton?.type === "linkInternal" ? (
+                  <div>
+                    {primaryButton?.label &&
+                      (primaryButton?.type === "linkInternal" ? (
                         <Link
                           href={
                             primaryButton?.internalLink === "Home" ||
@@ -52,7 +52,7 @@ function VariantD({
                                 ? "page-not-found"
                                 : primaryButton?.internalLink
                             }`}
-                            className={`inline-block mb-3 lg:mb-0 lg:mr-3 w-full lg:w-auto py-2 px-6 leading-loose bg-${template.color}-darkblue hover:bg-${template.color}-blue text-white font-semibold rounded-l-xl rounded-t-xl transition duration-200`}
+                            className={`inline-block mb-3 lg:mb-0 lg:mr-3 w-auto py-2 px-6 leading-loose bg-${template.color}-darkblue hover:bg-${template.color}-blue text-white font-semibold rounded-l-xl rounded-t-xl transition duration-200`}
                             target={primaryButton?.linkTarget}
                             rel={
                               primaryButton?.linkTarget === "_blank"
@@ -72,7 +72,7 @@ function VariantD({
                               ? "link-not-found"
                               : primaryButton?.externalLink
                           }`}
-                          className={`inline-block mb-3 lg:mb-0 lg:mr-3 w-full lg:w-auto py-2 px-6 leading-loose bg-${template.color}-darkblue hover:bg-${template.color}-blue text-white font-semibold rounded-l-xl rounded-t-xl transition duration-200`}
+                          className={`inline-block mb-3 lg:mb-0 lg:mr-3 w-auto py-2 px-6 leading-loose bg-${template.color}-darkblue hover:bg-${template.color}-blue text-white font-semibold rounded-l-xl rounded-t-xl transition duration-200`}
                           target={primaryButton?.linkTarget}
                           href={`${
                             primaryButton?.externalLink === undefined
@@ -87,8 +87,9 @@ function VariantD({
                         >
                           {primaryButton?.label}
                         </a>
-                      )}
-                      {secondaryButton?.type === "linkInternal" ? (
+                      ))}
+                    {secondaryButton?.label &&
+                      (secondaryButton?.type === "linkInternal" ? (
                         <Link
                           href={
                             secondaryButton?.internalLink === "Home" ||
@@ -109,7 +110,7 @@ function VariantD({
                                 ? "page-not-found"
                                 : secondaryButton?.internalLink
                             }`}
-                            className="inline-block w-full lg:w-auto py-2 px-6 leading-loose font-semibold bg-white hover:bg-gray-50 rounded-l-xl rounded-t-xl transition duration-200"
+                            className="inline-block w-auto py-2 px-6 leading-loose font-semibold bg-white hover:bg-gray-50 rounded-l-xl rounded-t-xl transition duration-200"
                             target={secondaryButton?.linkTarget}
                             rel={
                               secondaryButton?.linkTarget === "_blank"
@@ -129,7 +130,7 @@ function VariantD({
                               ? "link-not-found"
                               : secondaryButton?.externalLink
                           }`}
-                          className="inline-block w-full lg:w-auto py-2 px-6 leading-loose font-semibold bg-white hover:bg-gray-50 rounded-l-xl rounded-t-xl transition duration-200"
+                          className="inline-block w-auto py-2 px-6 leading-loose font-semibold bg-white hover:bg-gray-50 rounded-l-xl rounded-t-xl transition duration-200"
                           target={secondaryButton?.linkTarget}
                           href={`${
                             secondaryButton?.externalLink === undefined
@@ -144,9 +145,8 @@ function VariantD({
                         >
                           {secondaryButton?.label}
                         </a>
-                      )}
-                    </div>
-                  ) : null}
+                      ))}
+                  </div>
                 </div>
               </div>
             </div>
