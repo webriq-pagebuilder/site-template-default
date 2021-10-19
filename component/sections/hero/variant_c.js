@@ -146,9 +146,9 @@ function VariantC({
                   }`}
                   srcDoc={`<style>*{padding:0;margin:0;overflow:hidden;border-radius:24px}html,body{height:100%}img,span{position:absolute;width:100%;top:0;bottom:0;margin:auto}span{height:1.5em;text-align:center;font:48px/1.5 sans-serif;color:white;text-shadow:0 0 0.5em black}</style><a href=${`https://www.youtube.com/embed/${
                     String(videoLink).split("=")[1].split("&")[0]
-                  }`}><img src=${`https://i.ytimg.com/vi/${videoLink
+                  }`}><img src=${`https://i.ytimg.com/vi_webp/${videoLink
                     .split("=")
-                    .pop()}/maxresdefault.jpg`} alt=${title} loading="lazy" /><span>▶</span></a>`}
+                    .pop()}/maxresdefault.webp`} alt=${title} loading="lazy" /><span>▶</span></a>`}
                   frameBorder="0"
                   loading="lazy"
                   allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
