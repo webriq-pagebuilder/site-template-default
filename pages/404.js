@@ -1,5 +1,5 @@
 import React from "react";
-
+import Link from "next/link";
 function PageNotFound() {
   return (
     <>
@@ -24,11 +24,6 @@ function PageNotFound() {
         </div>
         <div className="py-20 bg-gray-50 radius-for-skewed">
           <div className="container mx-auto px-4">
-            <img
-              className="mx-auto"
-              src="atis-assets/illustrations/pablo.png"
-              alt=""
-            />
             <div className="text-center">
               <span className="mb-6 text-4xl text-webriq-darkblue font-bold">
                 Whoops!
@@ -38,12 +33,11 @@ function PageNotFound() {
                 Sorry, but we are unable to open this page
               </p>
               <div>
-                <a
-                  className="w-full lg:w-auto mb-2 lg:mb-0 lg:mr-4 inline-block py-2 px-6 rounded-l-xl rounded-t-xl font-bold leading-loose text-gray-50 bg-webriq-blue hover:bg-webriq-darkblue"
-                  href="/"
-                >
-                  Go back to Homepage
-                </a>
+                <Link href="/">
+                  <a className="w-full lg:w-auto mb-2 lg:mb-0 lg:mr-4 inline-block py-2 px-6 rounded-l-xl rounded-t-xl font-bold leading-loose text-gray-50 bg-webriq-blue hover:bg-webriq-darkblue">
+                    Go back to Homepage
+                  </a>
+                </Link>
                 <a
                   className="w-full lg:w-auto inline-block py-2 px-6 rounded-l-xl rounded-t-xl font-bold leading-loose bg-white hover:bg-gray-50"
                   href="#"

@@ -7,7 +7,7 @@ function VariantC({ subtitle, title, faqs }) {
         <div className="container mx-auto px-4">
           <div className="mb-16 max-w-xl mx-auto text-center">
             <span className="text-webriq-darkblue font-bold">{subtitle}</span>
-            <h2 className="text-5xl font-bold">{title}</h2>
+            <h1 className="text-5xl font-bold">{title}</h1>
           </div>
           <div className="flex flex-wrap -mx-4 -mb-8">
             {faqs &&
@@ -32,9 +32,9 @@ function VariantC({ subtitle, title, faqs }) {
                             />
                           </svg>
                         </span>
-                        <h3 className="text-xl font-bold">{faq?.question}</h3>
+                        <p className="text-xl font-bold">{faq?.question}</p>
                       </div>
-                      <p className="text-gray-400 leading-loose">
+                      <p className="text-gray-500 leading-loose">
                         {faq?.answer}
                       </p>
                     </div>

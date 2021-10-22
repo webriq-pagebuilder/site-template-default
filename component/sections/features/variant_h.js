@@ -1,27 +1,10 @@
 import React from "react";
-import { urlFor } from "../../../lib/sanity";
+import Image from "next/image";
+import { urlFor } from "lib/sanity";
 
 function VariantH({ caption, title, features, images }) {
   return (
     <section>
-      <div className="skew skew-top mr-for-radius">
-        <svg
-          className="h-8 md:h-12 lg:h-20 w-full text-gray-50"
-          viewBox="0 0 10 10"
-          preserveAspectRatio="none"
-        >
-          <polygon fill="currentColor" points="0 0 10 10 0 10" />
-        </svg>
-      </div>
-      <div className="skew skew-top ml-for-radius">
-        <svg
-          className="h-8 md:h-12 lg:h-20 w-full text-gray-50"
-          viewBox="0 0 10 10"
-          preserveAspectRatio="none"
-        >
-          <polygon fill="currentColor" points="0 10 10 0 10 10" />
-        </svg>
-      </div>
       <div className="py-20 bg-gray-50 radius-for-skewed">
         <div className="container mx-auto px-4">
           <div className="flex flex-wrap items-center -mx-4">
@@ -30,9 +13,9 @@ function VariantH({ caption, title, features, images }) {
                 <span className="text-webriq-darkblue font-bold">
                   {caption && caption}
                 </span>
-                <h2 className="mb-6 text-4xl lg:text-5xl font-bold font-heading">
+                <h1 className="mb-6 text-4xl lg:text-5xl font-bold font-heading">
                   {title && title}
-                </h2>
+                </h1>
                 <ul>
                   {features?.[0] && (
                     <li className="flex mb-4">
@@ -53,9 +36,9 @@ function VariantH({ caption, title, features, images }) {
                         </svg>
                       </div>
                       <div className="max-w-xs">
-                        <h3 className="font-bold font-heading">
+                        <p className="font-bold font-heading">
                           {features?.[0]?.heading}
-                        </h3>
+                        </p>
                         <p className="text-gray-500 leading-loose">
                           {features?.[0]?.description}
                         </p>
@@ -81,9 +64,9 @@ function VariantH({ caption, title, features, images }) {
                         </svg>
                       </div>
                       <div className="max-w-xs">
-                        <h3 className="font-bold font-heading">
+                        <p className="font-bold font-heading">
                           {features?.[1]?.heading}
-                        </h3>
+                        </p>
                         <p className="text-gray-500 leading-loose">
                           {features?.[1]?.description}
                         </p>
@@ -109,9 +92,9 @@ function VariantH({ caption, title, features, images }) {
                         </svg>
                       </div>
                       <div className="max-w-xs">
-                        <h3 className="font-bold font-heading">
+                        <p className="font-bold font-heading">
                           {features?.[2]?.heading}
-                        </h3>
+                        </p>
                         <p className="text-gray-500 leading-loose">
                           {features?.[2]?.description}
                         </p>
@@ -123,28 +106,45 @@ function VariantH({ caption, title, features, images }) {
             </div>
             {images && (
               <div className="flex flex-wrap items-center w-full lg:w-1/2 px-4">
-                <div className="mb-6 w-full lg:w-1/2 px-3">
+                <div className="w-1/2 px-3 rounded-lg">
                   {images?.[0] && (
-                    <img
-                      className="mb-6 w-full h-64 object-cover rounded-lg"
+                    <Image
                       src={urlFor(images?.[0])}
-                      alt=""
+                      layout="responsive"
+                      width="245px"
+                      height="256px"
+                      objectFit="cover"
+                      alt="features-variantH-image-1"
+                      blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                      placeholder="blur"
                     />
                   )}
                   {images?.[1] && (
-                    <img
-                      className="w-full h-64 object-cover rounded-lg"
-                      src={urlFor(images?.[1])}
-                      alt=""
-                    />
+                    <div className="mt-6">
+                      <Image
+                        src={urlFor(images?.[1])}
+                        layout="responsive"
+                        width="245px"
+                        height="256px"
+                        objectFit="cover"
+                        alt="features-variantH-image-2"
+                        blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                        placeholder="blur"
+                      />
+                    </div>
                   )}
                 </div>
-                <div className="w-full lg:w-1/2 px-3">
+                <div className="w-1/2 px-3 rounded-lg">
                   {images?.[2] && (
-                    <img
-                      className="w-full h-64 object-cover rounded-lg"
+                    <Image
                       src={urlFor(images?.[2])}
-                      alt=""
+                      layout="responsive"
+                      width="245px"
+                      height="256px"
+                      objectFit="cover"
+                      alt="features-variantH-image-3"
+                      blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                      placeholder="blur"
                     />
                   )}
                 </div>
@@ -152,24 +152,6 @@ function VariantH({ caption, title, features, images }) {
             )}
           </div>
         </div>
-      </div>
-      <div className="skew skew-bottom mr-for-radius">
-        <svg
-          className="h-8 md:h-12 lg:h-20 w-full text-gray-50"
-          viewBox="0 0 10 10"
-          preserveAspectRatio="none"
-        >
-          <polygon fill="currentColor" points="0 0 10 0 0 10" />
-        </svg>
-      </div>
-      <div className="skew skew-bottom ml-for-radius">
-        <svg
-          className="h-8 md:h-12 lg:h-20 w-full text-gray-50"
-          viewBox="0 0 10 10"
-          preserveAspectRatio="none"
-        >
-          <polygon fill="currentColor" points="0 0 10 0 10 10" />
-        </svg>
       </div>
     </section>
   );

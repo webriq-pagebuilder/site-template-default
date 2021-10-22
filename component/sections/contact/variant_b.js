@@ -1,4 +1,4 @@
-import React from "react"
+import React from "react";
 
 function VariantB({
   contactDescription,
@@ -13,7 +13,9 @@ function VariantB({
         <div className="container mx-auto px-4">
           {contactDescription && (
             <div className="mb-16 max-w-md mx-auto text-center">
-              <h2 className="mb-5 text-4xl lg:text-5xl font-bold font-heading">Contact</h2>
+              <h1 className="mb-5 text-4xl lg:text-5xl font-bold font-heading">
+                Contact
+              </h1>
               <p className="text-gray-500">{contactDescription}</p>
             </div>
           )}
@@ -21,27 +23,34 @@ function VariantB({
             <div className="mb-8 lg:mb-0 w-full lg:w-1/3 px-4">
               {officeInformation && (
                 <div className="p-12 lg:p-20 rounded bg-white shadow text-center">
-                  <h3 className="mb-8 lg:mb-20 text-3xl font-bold font-heading">Office</h3>
-                  <p className="text-gray-400">{officeInformation}</p>
+                  <h2 className="mb-8 lg:mb-20 text-3xl font-bold font-heading">
+                    Office
+                  </h2>
+                  <p className="text-gray-500">{officeInformation}</p>
                 </div>
               )}
             </div>
             <div className="mb-8 lg:mb-0 w-full lg:w-1/3 px-4">
               {contactEmail || contactNumber ? (
                 <div className="py-12 lg:py-20 rounded bg-white shadow text-center">
-                  <h3 className="mb-8 lg:mb-20 text-3xl font-bold font-heading">Contacts</h3>
-                  <p className="text-gray-400">{contactEmail}</p>
-                  <p className="text-gray-400">{contactNumber}</p>
+                  <h2 className="mb-8 lg:mb-20 text-3xl font-bold font-heading">
+                    Contacts
+                  </h2>
+                  <p className="text-gray-500">{contactEmail}</p>
+                  <p className="text-gray-500">{contactNumber}</p>
                 </div>
               ) : null}
             </div>
             <div className="w-full lg:w-1/3 px-4 flex items-stretch">
               {socialLinks && (
                 <div className="py-12 lg:py-20 w-full rounded bg-white shadow text-center">
-                  <h3 className="mb-8 lg:mb-20 text-3xl font-bold font-heading">Socials</h3>
+                  <h2 className="mb-8 lg:mb-20 text-3xl font-bold font-heading">
+                    Socials
+                  </h2>
                   <div className="flex justify-center">
                     {socialLinks?.fbLink && (
                       <a
+                        aria-label="Facebook link icon"
                         className="inline-block mr-4 hover:bg-gray-100 rounded"
                         target="_blank"
                         rel="noopener noreferrer"
@@ -62,6 +71,7 @@ function VariantB({
                     )}
                     {socialLinks?.twitterLink && (
                       <a
+                        aria-label="Twitter link icon"
                         className="inline-block mr-4 hover:bg-gray-100 rounded"
                         target="_blank"
                         rel="noopener noreferrer"
@@ -82,6 +92,7 @@ function VariantB({
                     )}
                     {socialLinks?.instagramLink && (
                       <a
+                        aria-label="Instagram link icon"
                         className="inline-block mr-3 hover:bg-gray-100 rounded"
                         target="_blank"
                         rel="noopener noreferrer"
@@ -108,7 +119,7 @@ function VariantB({
         </div>
       </div>
     </section>
-  )
+  );
 }
 
-export default React.memo(VariantB)
+export default React.memo(VariantB);

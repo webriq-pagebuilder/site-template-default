@@ -1,7 +1,7 @@
 import React from "react";
+import Image from "next/image";
+import Link from "next/link";
 import { urlFor } from "lib/sanity";
-
-
 
 function VariantB({ caption, title, portfolios, buttonLabel }) {
   const portfolioLength = 6; //set initial number of portfolios to display for this variant
@@ -16,68 +16,111 @@ function VariantB({ caption, title, portfolios, buttonLabel }) {
             <div className="mb-16 flex flex-wrap justify-center md:justify-between items-center">
               <div className="text-center lg:text-left">
                 {caption && (
-                  <span className="text-webriq-blue font-bold">{caption}</span>
+                  <span className="text-webriq-darkblue font-bold">
+                    {caption}
+                  </span>
                 )}
                 {title && (
-                  <h2 className="text-4xl lg:text-5xl font-bold font-heading">
+                  <h1 className="text-4xl lg:text-5xl font-bold font-heading">
                     {title}
-                  </h2>
+                  </h1>
                 )}
               </div>
-              <div>
-                {portfolios?.length > portfolioLength &&
-                  !showMore && (
-                    <button
-                      className="hidden md:inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-gray-50 font-bold leading-loose transition duration-200"
-                      onClick={() => {
-                        setViewPortfolios(portfolios?.length);
-                        setShowMore(true);
-                      }}
-                    >
-                      {buttonLabel ?? "View More Projects"}
-                    </button>
-                  )}
+              <div className="mt-5 md:mt-0 lg:mt-0 xl:mt-0">
+                {portfolios?.length > portfolioLength && !showMore && (
+                  <button
+                    aria-label="View More Portfolios button"
+                    className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose transition duration-200"
+                    onClick={() => {
+                      setViewPortfolios(portfolios?.length);
+                      setShowMore(true);
+                    }}
+                  >
+                    {buttonLabel ?? "View More Projects"}
+                  </button>
+                )}
               </div>
             </div>
             <div className="flex flex-wrap -mx-4 mb-4">
               {portfolios?.slice(0, viewPortfolios).map((content, index) => (
                 <div
-                  className="relative mb-4 w-full md:w-1/2 lg:w-1/3 px-4"
+                  className="relative md:mb-4 lg:mb-4 xl:mb-4 w-full md:w-1/2 lg:w-1/3 px-4"
                   key={index}
                 >
                   {content?.mainImage && (
-                    <div className="relative h-80 mb-5 mx-auto rounded">
-                      <img
-                        className="h-80 w-full relative rounded object-cover"
+                    <div className="relative h-80 md:mb-5 lg:mb-5 xl:mb-5 mx-auto rounded">
+                      <Image
                         src={urlFor(content?.mainImage)}
-                        alt=""
+                        layout="responsive"
+                        width="480px"
+                        height="320px"
+                        objectFit="cover"
+                        alt={`portfolio-image${index}`}
+                        blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                        placeholder="blur"
                       />
                       <div className="opacity-0 hover:opacity-75 duration-300 absolute inset-0 z-10 bg-gray-900 p-6 flex flex-col items-start rounded">
-                        <span className="text-gray-400">
+                        <span className="text-webriq-lightblue">
                           {content?.dateAdded}
                         </span>
                         <p className="mb-auto text-xl lg:text-2xl text-white font-bold">
                           {content?.heading}
                         </p>
-                        {content?.primaryButton?.label && (
+                        {content?.primaryButton?.label &&
+                        content?.primaryButton?.type === "linkInternal" ? (
+                          <Link
+                            href={
+                              content?.primaryButton?.internalLink === "Home" ||
+                              content?.primaryButton?.internalLink === "home"
+                                ? "/"
+                                : `/${
+                                    content?.primaryButton?.internalLink ===
+                                    undefined
+                                      ? "page-not-found"
+                                      : content?.primaryButton?.internalLink
+                                  }`
+                            }
+                          >
+                            <a
+                              aria-label={`Portfolio ${
+                                content?.primaryButton?.label ?? "View Project"
+                              } button which directs to ${
+                                content?.primaryButton?.internalLink ===
+                                undefined
+                                  ? "page-not-found"
+                                  : content?.primaryButton?.internalLink
+                              }`}
+                              className="inline-block py-2 px-4 border-2 border-gray-400 hover:border-webriq-darkblue bg-transparent text-gray-50 hover:bg-webriq-darkblue hover:text-white transition duration-200 rounded-l-xl rounded-t-xl font-bold leading-loose"
+                              target={content?.primaryButton?.linkTarget}
+                              rel={
+                                content?.primaryButton?.linkTarget === "_blank"
+                                  ? "noopener noreferrer"
+                                  : null
+                              }
+                            >
+                              {content?.primaryButton?.label}
+                            </a>
+                          </Link>
+                        ) : (
                           <a
-                            className="inline-block py-2 px-4 border-2 border-gray-400 hover:border-white bg-transparent text-gray-50 hover:bg-white hover:text-gray-900 transition duration-200 rounded-l-xl rounded-t-xl font-bold leading-loose"
+                            aria-label={`Portfolio ${
+                              content?.primaryButton?.label ?? "View Project"
+                            } button which directs to ${
+                              content?.primaryButton?.externalLink === undefined
+                                ? "link-not-found"
+                                : content?.primaryButton?.externalLink
+                            }`}
+                            className="inline-block py-2 px-4 border-2 border-gray-400 hover:border-webriq-darkblue bg-transparent text-gray-50 hover:bg-webriq-darkblue hover:text-white transition duration-200 rounded-l-xl rounded-t-xl font-bold leading-loose"
                             target={content?.primaryButton?.linkTarget}
+                            href={`${
+                              content?.primaryButton?.externalLink === undefined
+                                ? "link-not-found"
+                                : content?.primaryButton?.externalLink
+                            }`}
                             rel={
                               content?.primaryButton?.linkTarget === "_blank"
                                 ? "noopener noreferrer"
                                 : null
-                            }
-                            href={
-                              content?.primaryButton?.type === "linkExternal"
-                                ? content?.primaryButton?.externalLink
-                                : content?.primaryButton?.type === "linkInternal"
-                                ? content?.primaryButton?.internalLink ===
-                                    "Home" ||
-                                  content?.primaryButton?.internalLink === "home"
-                                  ? "/"
-                                  : content?.primaryButton?.internalLink
-                                : "page-not-found"
                             }
                           >
                             {content?.primaryButton?.label}

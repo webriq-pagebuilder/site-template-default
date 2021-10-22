@@ -26,6 +26,7 @@ function VariantB({ caption, title, testimonials }) {
           <div className="pt-8 pb-16 flex flex-wrap justify-center items-center">
             {testimony?.length >= 4 && (
               <button
+                aria-label="Show Previous Testimonial button"
                 className="focus:outline-none mr-3 lg:mr-0 order-last lg:order-first bg-white p-4 rounded-full shadow-md text-webriq-darkblue hover:text-webriq-babyblue transition duration-200"
                 onClick={() => slider("prev")}
               >
@@ -47,12 +48,13 @@ function VariantB({ caption, title, testimonials }) {
             )}
             <div className="mb-10 max-w-lg text-center mx-auto">
               <span className="text-webriq-darkblue font-bold">{caption}</span>
-              <h2 className="mt-4 text-4xl lg:text-5xl font-bold font-heading">
+              <h1 className="mt-4 text-4xl lg:text-5xl font-bold font-heading">
                 {title}
-              </h2>
+              </h1>
             </div>
             {testimony?.length >= 4 && (
               <button
+                aria-label="Show Next Testimonial button"
                 className="focus:outline-none order-last bg-white p-4 rounded-full shadow-md text-webriq-darkblue hover:text-webriq-babyblue transition duration-200"
                 onClick={() => slider("next")}
               >
@@ -102,9 +104,9 @@ function VariantB({ caption, title, testimonials }) {
                       <p className="text-gray-500 leading-loose mb-4">
                         {testimonial?.testimony}
                       </p>
-                      <h4 className="font-bold font-heading">
+                      <p className="font-bold font-heading">
                         {testimonial?.name}
-                      </h4>
+                      </p>
                       <p className="text-gray-500">{testimonial?.jobTitle}</p>
                     </div>
                   </div>

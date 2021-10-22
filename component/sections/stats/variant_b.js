@@ -19,7 +19,7 @@ function VariantB({ stats }) {
                   </svg>
                 </span>
                 <div>
-                  <h3 className="text-2xl font-bold">{stats[0]?.value}</h3>
+                  <p className="text-2xl font-bold">{stats[0]?.value}</p>
                   <p className="text-gray-500">{stats[0]?.label}</p>
                 </div>
               </div>
@@ -43,7 +43,7 @@ function VariantB({ stats }) {
                   </svg>
                 </span>
                 <div>
-                  <h3 className="text-2xl font-bold">{stats[1]?.value}</h3>
+                  <p className="text-2xl font-bold">{stats[1]?.value}</p>
                   <p className="text-gray-500">{stats[1]?.label}</p>
                 </div>
               </div>
@@ -67,7 +67,7 @@ function VariantB({ stats }) {
                   </svg>
                 </span>
                 <div>
-                  <h3 className="text-2xl font-bold">{stats[2]?.value}</h3>
+                  <p className="text-2xl font-bold">{stats[2]?.value}</p>
                   <p className="text-gray-500">{stats[2]?.label}</p>
                 </div>
               </div>
@@ -90,7 +90,7 @@ function VariantB({ stats }) {
                   </svg>
                 </span>
                 <div>
-                  <h3 className="text-2xl font-bold">{stats[3]?.value}</h3>
+                  <p className="text-2xl font-bold">{stats[3]?.value}</p>
                   <p className="text-gray-500">{stats[3]?.label}</p>
                 </div>
               </div>

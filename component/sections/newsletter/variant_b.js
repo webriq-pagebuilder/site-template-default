@@ -1,6 +1,8 @@
 import React from "react";
 import { urlFor } from "lib/sanity";
-import WebriQForm from "@webriq/gatsby-webriq-form";
+import Image from "next/image";
+import Link from "next/link";
+import WebriQForm from "component/webriq-form";
 
 function VariantB({ logo, title, description, formFields, formId, formName }) {
   return (
@@ -9,20 +11,31 @@ function VariantB({ logo, title, description, formFields, formId, formName }) {
         <div className="container mx-auto px-4">
           <div className="flex flex-wrap items-center">
             <div className="mb-4 w-full lg:w-auto lg:mr-8 text-center">
-              <div className="mb-8 inline-block px-5 py-5 bg-white rounded-lg">
-                {logo && (
-                  <img
-                    className="h-10"
-                    src={urlFor(logo?.image)}
-                    alt={logo?.alt ?? "newsletter-variantB-logo"}
-                    width="auto"
-                  />
+              <div className="mb-4 inline-block px-5 py-5 bg-white rounded-lg">
+                {logo?.image && (
+                  <Link prefetch={false} href="/">
+                    <a
+                      aria-label="Newsletter logo"
+                      className="mb-6 inline-block text-3xl font-bold leading-none"
+                    >
+                      <Image
+                        src={urlFor(logo?.image)}
+                        layout="fixed"
+                        width="38px"
+                        height="48px"
+                        objectFit="contain"
+                        alt={logo?.alt ?? "newsletter-logo"}
+                        blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                        placeholder="blur"
+                      />
+                    </a>
+                  </Link>
                 )}
               </div>
             </div>
             <div className="mb-6 w-full lg:w-auto max-w-lg mx-auto lg:ml-0 mr-auto text-center lg:text-left">
-              <h2 className="text-4xl font-bold">{title}</h2>
-              <p className="text-gray-400">{description}</p>
+              <h1 className="text-4xl font-bold">{title}</h1>
+              <p className="text-gray-700">{description}</p>
             </div>
             {formFields?.[0] && formFields[0]?.name && (
               <div className="w-full lg:w-2/5">
@@ -36,6 +49,11 @@ function VariantB({ logo, title, description, formFields, formId, formName }) {
                 >
                   <div className="max-w-md lg:max-w-sm mx-auto flex flex-wrap items-center">
                     <input
+                      aria-label={`${
+                        formFields[0]?.type === "inputText"
+                          ? `Input ${formFields[0]?.name}`
+                          : `${formFields[0]?.type}`
+                      }`}
                       className="flex-grow py-3 px-4 mr-4 text-xs rounded leading-loose"
                       type={
                         formFields[0].type === "inputEmail" ? "email" : "text"
@@ -51,7 +69,8 @@ function VariantB({ logo, title, description, formFields, formId, formName }) {
                       <div className="webriq-recaptcha" />
                     </div>
                     <button
-                      className="flex-none py-2 px-6 rounded-t-xl rounded-l-xl bg-webriq-blue hover:bg-webriq-darkblue text-gray-50 font-bold leading-loose transition duration-200"
+                      aria-label="Submit Newsletter Form button"
+                      className="flex-none py-2 px-6 rounded-t-xl rounded-l-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose transition duration-200"
                       type="submit"
                     >
                       Get Started

@@ -1,7 +1,6 @@
 import React from "react";
+import Image from "next/image";
 import { urlFor } from "lib/sanity";
-
-
 
 function VariantD({ testimonials }) {
   const [testimony, setTestimony] = React.useState(0);
@@ -29,6 +28,7 @@ function VariantD({ testimonials }) {
             <div className="mb-10 text-center lg:hidden">
               {testimonials?.length > 1 && (
                 <button
+                  aria-label="Show Previous Testimonial button"
                   className="mr-6 lg:mr-0 bg-white p-4 rounded-full shadow-md text-webriq-darkblue hover:text-webriq-babyblue transition duration-200"
                   onClick={() => slider("prev")}
                 >
@@ -50,6 +50,7 @@ function VariantD({ testimonials }) {
               )}
               {testimonials?.length > 1 && (
                 <button
+                  aria-label="Show Next Testimonial button"
                   className="bg-white p-4 rounded-full shadow-md text-webriq-darkblue hover:text-webriq-babyblue transition duration-200"
                   onClick={() => slider("next")}
                 >
@@ -72,6 +73,7 @@ function VariantD({ testimonials }) {
             </div>
             {testimonial?.length > 1 && (
               <button
+                aria-label="Show Previous Testimonial button"
                 className="hidden lg:block lg:mr-0 bg-white p-5 rounded-full focus:outline-none  shadow-md text-webriq-darkblue hover:text-webriq-babyblue transition duration-200"
                 onClick={() => slider("prev")}
               >
@@ -157,12 +159,17 @@ function VariantD({ testimonials }) {
                       ))
                     )}
                   </div>
-                  <div>
+                  <div className="mb-6 mx-auto w-24 h-32 rounded-full object-contain">
                     {testimonial[testimony]?.mainImage && (
-                      <img
-                        className="mb-6 mx-auto w-24 h-32 rounded-full object-contain"
+                      <Image
                         src={urlFor(testimonial[testimony]?.mainImage)}
-                        alt={`testimonials-variantD-image${testimony}`}
+                        layout="fixed"
+                        width="96px"
+                        height="128px"
+                        objectFit="scale-down"
+                        alt={`testimonial-source-profile-image${testimony}`}
+                        blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                        placeholder="blur"
                       />
                     )}
                   </div>
@@ -186,9 +193,9 @@ function VariantD({ testimonials }) {
                   <p className="mb-10 text-xl lg:text-2xl leading-loose text-gray-500">
                     {testimonial[testimony]?.testimony}
                   </p>
-                  <h4 className="text-2xl font-bold font-heading">
+                  <p className="text-2xl font-bold font-heading">
                     {testimonial[testimony]?.name}
-                  </h4>
+                  </p>
                   <p className="text-gray-500">
                     {testimonial[testimony]?.jobTitle}
                   </p>
@@ -197,6 +204,7 @@ function VariantD({ testimonials }) {
             )}
             {testimonial?.length > 1 && (
               <button
+                aria-label="Show Next Testimonial button"
                 className="hidden lg:block bg-white p-5 rounded-full shadow-md focus:outline-none text-webriq-darkblue hover:text-webriq-babyblue transition duration-200"
                 onClick={() => slider("next")}
               >
