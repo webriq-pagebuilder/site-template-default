@@ -83,24 +83,6 @@ function VariantA({
 
   return (
     <section>
-      <div className="skew skew-top mr-for-radius">
-        <svg
-          className="h-8 md:h-12 lg:h-20 w-full text-gray-50"
-          viewBox="0 0 10 10"
-          preserveAspectRatio="none"
-        >
-          <polygon fill="currentColor" points="0 0 10 10 0 10" />
-        </svg>
-      </div>
-      <div className="skew skew-top ml-for-radius">
-        <svg
-          className="h-8 md:h-12 lg:h-20 w-full text-gray-50"
-          viewBox="0 0 10 10"
-          preserveAspectRatio="none"
-        >
-          <polygon fill="currentColor" points="0 10 10 0 10 10" />
-        </svg>
-      </div>
       <div className="py-20 bg-gray-50 radius-for-skewed">
         <div className="container mx-auto px-4">
           <div className="max-w-2xl mx-auto text-center mb-16">
@@ -114,6 +96,7 @@ function VariantA({
             {plans?.[0]?.monthlyPrice && (
               <div className="inline-block py-1 px-1 bg-white rounded-lg">
                 <button
+                  aria-label="Monthly Plan"
                   className={`mr-1 text-sm py-2 px-4 ${
                     plan === "monthly"
                       ? "text-gray-900 bg-gray-50 rounded-lg shadow"
@@ -124,6 +107,7 @@ function VariantA({
                   Monthly
                 </button>
                 <button
+                  aria-label="Yearly Plan"
                   className={`text-sm py-2 px-4 ${
                     plan === "yearly"
                       ? "text-gray-900 bg-gray-50 rounded-lg shadow"
@@ -169,7 +153,7 @@ function VariantA({
                         }`}
                   </span>
                   {!isNaN(parseInt(usePlan?.[0]?.monthlyPrice)) && (
-                    <span className="text-gray-400 text-xs">/{plan}</span>
+                    <span className="text-gray-500 text-xs">/{plan}</span>
                   )}
                   <p className="mt-3 mb-6 text-gray-500 leading-loose">
                     {usePlan?.[0]?.description}
@@ -194,6 +178,7 @@ function VariantA({
                     ))}
                   </ul>
                   <button
+                    aria-label={`${usePlan?.[0]?.checkoutButtonName} button`}
                     className={`inline-block text-center py-2 px-4 w-full rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-loose transition duration-200 cursor-pointer ${
                       !usePlan[0] &&
                       "disabled:opacity-50 cursor-not-allowed bg-webriq-darkblue"
@@ -268,6 +253,7 @@ function VariantA({
                     ))}
                   </ul>
                   <button
+                    aria-label={`${usePlan?.[1]?.checkoutButtonName} button`}
                     className={`inline-block text-center py-2 px-4 w-full rounded-l-xl rounded-t-xl bg-white hover:bg-gray-50 font-bold leading-loose transition duration-200 cursor-pointer ${
                       !usePlan[1] && "disabled:opacity-50 cursor-not-allowed"
                     }`}
@@ -316,7 +302,7 @@ function VariantA({
                         }`}
                   </span>
                   {!isNaN(parseInt(usePlan?.[2]?.monthlyPrice)) && (
-                    <span className="text-gray-400 text-xs">/{plan}</span>
+                    <span className="text-gray-500 text-xs">/{plan}</span>
                   )}
                   <p className="mt-3 mb-6 text-gray-500 leading-loose">
                     {usePlan?.[2]?.description}
@@ -341,6 +327,7 @@ function VariantA({
                     ))}
                   </ul>
                   <button
+                    aria-label={`${usePlan?.[2]?.checkoutButtonName} button`}
                     className={`inline-block text-center py-2 px-4 w-full rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-loose transition duration-200 cursor-pointer ${
                       !usePlan[2] && "disabled:opacity-50 cursor-not-allowed"
                     }`}
@@ -375,24 +362,6 @@ function VariantA({
             )}
           </div>
         </div>
-      </div>
-      <div className="skew skew-bottom mr-for-radius">
-        <svg
-          className="h-8 md:h-12 lg:h-20 w-full text-gray-50"
-          viewBox="0 0 10 10"
-          preserveAspectRatio="none"
-        >
-          <polygon fill="currentColor" points="0 0 10 0 0 10" />
-        </svg>
-      </div>
-      <div className="skew skew-bottom ml-for-radius">
-        <svg
-          className="h-8 md:h-12 lg:h-20 w-full text-gray-50"
-          viewBox="0 0 10 10"
-          preserveAspectRatio="none"
-        >
-          <polygon fill="currentColor" points="0 0 10 0 10 10" />
-        </svg>
       </div>
     </section>
   );

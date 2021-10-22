@@ -1,113 +1,165 @@
 import React from "react";
-import PropTypes from "prop-types";
+import Link from "next/link";
 
 function VariantC({
-  // template,
+  template,
   videoLink,
   title,
   primaryButton,
   secondaryButton,
 }) {
   return (
-    <section className="relative pb-56 sm:pb-80">
-      <div className="relative pt-12 md:pt-16 pb-32 md:pb-64 bg-gray-50">
-        <div className="relative container mx-auto px-4">
+    <section>
+      <div className="bg-gray-50 py-20 md:py-52 lg:py-52">
+        <div className="container mx-auto px-4">
           <div className="max-w-2xl mx-auto text-center mb-12 md:mb-20">
-            <h2 className="mb-10 text-lg md:text-4xl lg:text-5xl font-bold">
+            <h1 className="mb-10 text-lg md:text-4xl lg:text-5xl font-bold">
               {title && <span>{title}</span>}
-            </h2>
+            </h1>
             <div>
-              {primaryButton && (
-                <a
-                  className="inline-block mb-3 lg:mb-0 lg:mr-3 w-full lg:w-auto py-2 px-6 bg-webriq-blue hover:bg-webriq-darkblue text-white font-semibold leading-loose rounded-l-xl rounded-t-xl transition duration-200"
-                  target={primaryButton?.linkTarget}
-                  rel={
-                    primaryButton?.linkTarget === "_blank"
-                      ? "noopener noreferrer"
-                      : null
-                  }
-                  href={
-                    primaryButton.type === "linkInternal"
-                      ? primaryButton.internalLink === "Home" ||
-                        primaryButton.internalLink === "home"
+              {primaryButton?.label &&
+                (primaryButton?.type === "linkInternal" ? (
+                  <Link
+                    href={
+                      primaryButton?.internalLink === "Home" ||
+                      primaryButton?.internalLink === "home"
                         ? "/"
-                        : primaryButton.internalLink
-                      : primaryButton.externalLink
-                  }
-                >
-                  {primaryButton.label}
-                </a>
-              )}
-              {secondaryButton === undefined ? null : (
-                <a
-                  className="inline-block w-full lg:w-auto py-2 px-6 font-semibold bg-white hover:bg-gray-50 rounded-l-xl rounded-t-xl transition duration-200"
-                  target={secondaryButton?.linkTarget}
-                  rel={
-                    secondaryButton?.linkTarget === "_blank"
-                      ? "noopener noreferrer"
-                      : null
-                  }
-                  href={
-                    secondaryButton.type === "linkInternal"
-                      ? secondaryButton.internalLink === "Home" ||
-                        secondaryButton.internalLink === "home"
+                        : `/${
+                            primaryButton?.internalLink === undefined
+                              ? "page-not-found"
+                              : primaryButton?.internalLink
+                          }`
+                    }
+                  >
+                    <a
+                      aria-label={`Header ${
+                        primaryButton?.label ?? "Primary"
+                      } button which directs to ${
+                        primaryButton?.internalLink === undefined
+                          ? "page-not-found"
+                          : primaryButton?.internalLink
+                      }`}
+                      className={`inline-block mb-3 lg:mb-0 lg:mr-3 w-auto py-2 px-6 leading-loose bg-${template.color}-darkblue hover:bg-${template.color}-blue text-white font-semibold rounded-l-xl rounded-t-xl transition duration-200`}
+                      target={primaryButton?.linkTarget}
+                      rel={
+                        primaryButton?.linkTarget === "_blank"
+                          ? "noopener noreferrer"
+                          : null
+                      }
+                    >
+                      {primaryButton?.label}
+                    </a>
+                  </Link>
+                ) : (
+                  <a
+                    aria-label={`Header ${
+                      primaryButton?.label ?? "Primary"
+                    } button which directs to ${
+                      primaryButton?.externalLink === undefined
+                        ? "link-not-found"
+                        : primaryButton?.externalLink
+                    }`}
+                    className={`inline-block mb-3 lg:mb-0 lg:mr-3 w-auto py-2 px-6 leading-loose bg-${template.color}-darkblue hover:bg-${template.color}-blue text-white font-semibold rounded-l-xl rounded-t-xl transition duration-200`}
+                    target={primaryButton?.linkTarget}
+                    href={`${
+                      primaryButton?.externalLink === undefined
+                        ? "link-not-found"
+                        : primaryButton?.externalLink
+                    }`}
+                    rel={
+                      primaryButton?.linkTarget === "_blank"
+                        ? "noopener noreferrer"
+                        : null
+                    }
+                  >
+                    {primaryButton?.label}
+                  </a>
+                ))}
+              {secondaryButton?.label &&
+                (secondaryButton?.type === "linkInternal" ? (
+                  <Link
+                    href={
+                      secondaryButton?.internalLink === "Home" ||
+                      secondaryButton?.internalLink === "home"
                         ? "/"
-                        : secondaryButton.internalLink
-                      : secondaryButton.externalLink
-                  }
-                >
-                  {secondaryButton.label}
-                </a>
+                        : `/${
+                            secondaryButton?.internalLink === undefined
+                              ? "page-not-found"
+                              : secondaryButton?.internalLink
+                          }`
+                    }
+                  >
+                    <a
+                      aria-label={`Header ${
+                        secondaryButton?.label ?? "Secondary"
+                      } button which directs to ${
+                        secondaryButton?.internalLink === undefined
+                          ? "page-not-found"
+                          : secondaryButton?.internalLink
+                      }`}
+                      className="inline-block w-auto py-2 px-6 leading-loose font-semibold bg-white hover:bg-gray-50 rounded-l-xl rounded-t-xl transition duration-200"
+                      target={secondaryButton?.linkTarget}
+                      rel={
+                        secondaryButton?.linkTarget === "_blank"
+                          ? "noopener noreferrer"
+                          : null
+                      }
+                    >
+                      {secondaryButton?.label}
+                    </a>
+                  </Link>
+                ) : (
+                  <a
+                    aria-label={`Header ${
+                      secondaryButton?.label ?? "Secondary"
+                    } button which directs to ${
+                      secondaryButton?.externalLink === undefined
+                        ? "link-not-found"
+                        : secondaryButton?.externalLink
+                    }`}
+                    className="inline-block w-auto py-2 px-6 leading-loose font-semibold bg-white hover:bg-gray-50 rounded-l-xl rounded-t-xl transition duration-200"
+                    target={secondaryButton?.linkTarget}
+                    href={`${
+                      secondaryButton?.externalLink === undefined
+                        ? "link-not-found"
+                        : secondaryButton?.externalLink
+                    }`}
+                    rel={
+                      secondaryButton?.linkTarget === "_blank"
+                        ? "noopener noreferrer"
+                        : null
+                    }
+                  >
+                    {secondaryButton?.label}
+                  </a>
+                ))}
+            </div>
+          </div>
+          <div className="md:mx-20 lg:mx-60 xl:mx-60">
+            <div className="aspect-w-16 aspect-h-9">
+              {videoLink && (
+                <iframe
+                  aria-label="Show Video Frame"
+                  className="w-full h-full rounded-3xl border-4 border-webriq-darkblue"
+                  src={`https://www.youtube.com/embed/${
+                    String(videoLink).split("=")[1].split("&")[0]
+                  }`}
+                  srcDoc={`<style>*{padding:0;margin:0;overflow:hidden;border-radius:24px}html,body{height:100%}img,span{position:absolute;width:100%;top:0;bottom:0;margin:auto}span{height:1.5em;text-align:center;font:48px/1.5 sans-serif;color:white;text-shadow:0 0 0.5em black}</style><a href=${`https://www.youtube.com/embed/${
+                    String(videoLink).split("=")[1].split("&")[0]
+                  }`}><img src=${`https://i.ytimg.com/vi_webp/${videoLink
+                    .split("=")
+                    .pop()}/maxresdefault.webp`} alt=${title} loading="lazy" /><span>▶</span></a>`}
+                  frameBorder="0"
+                  loading="lazy"
+                  allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen=""
+                ></iframe>
               )}
             </div>
           </div>
         </div>
-        <div className="mx-10 md:mx-20 lg:mx-60 xl:mx-60">
-          <div className="relative aspect-w-16 aspect-h-9">
-            {(videoLink &&
-              String(videoLink).includes("https://www.youtube.com/watch?")) ||
-            String(videoLink).includes("youtube.com/watch?") ? (
-              <iframe
-                className="absolute top-0 left-0 w-full h-full rounded-3xl border-4 border-webriq-blue"
-                src={`https://www.youtube.com/embed/${
-                  String(videoLink).split("=")[1].split("&")[0]
-                }`}
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              ></iframe>
-            ) : null}
-          </div>
-        </div>
-
-        {/* <div className="absolute inset-0 flex items-center justify-center">
-            <button className="flex items-center justify-center bg-white rounded-full">
-              <svg
-                className="w-16 h-16 text-webriq-darkblue hover:text-webriq-darkblue transition duration-200"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z"
-                  clipRule="evenodd"
-                ></path>
-              </svg>
-            </button>
-          </div> */}
       </div>
     </section>
   );
 }
-
-VariantC.propTypes = {
-  template: PropTypes.object,
-  images: PropTypes.object,
-  title: PropTypes.string,
-  description: PropTypes.string,
-  primaryButton: PropTypes.object,
-  secondaryButton: PropTypes.object,
-  videoLink: PropTypes.string,
-};
 export default React.memo(VariantC);

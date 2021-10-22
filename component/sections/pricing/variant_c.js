@@ -83,24 +83,6 @@ function VariantC({
 
   return (
     <section>
-      <div className="skew skew-top mr-for-radius">
-        <svg
-          className="h-8 md:h-12 lg:h-20 w-full text-gray-50"
-          viewBox="0 0 10 10"
-          preserveAspectRatio="none"
-        >
-          <polygon fill="currentColor" points="0 0 10 10 0 10" />
-        </svg>
-      </div>
-      <div className="skew skew-top ml-for-radius">
-        <svg
-          className="h-8 md:h-12 lg:h-20 w-full text-gray-50"
-          viewBox="0 0 10 10"
-          preserveAspectRatio="none"
-        >
-          <polygon fill="currentColor" points="0 10 10 0 10 10" />
-        </svg>
-      </div>
       <div className="py-20 bg-gray-50 radius-for-skewed">
         <div className="container mx-auto px-4">
           <div className="mb-16 max-w-lg mx-auto text-center">
@@ -116,6 +98,7 @@ function VariantC({
             {usePlan && (
               <div className="inline-block py-1 px-1 bg-white rounded-lg">
                 <button
+                  aria-label="Monthly Plan"
                   className={`mr-1 text-sm py-2 px-4 ${
                     plan === "monthly"
                       ? "text-gray-900 bg-gray-50 rounded-lg shadow"
@@ -126,6 +109,7 @@ function VariantC({
                   Monthly
                 </button>
                 <button
+                  aria-label="Yearly Plan"
                   className={`text-sm py-2 px-4 ${
                     plan === "yearly"
                       ? "text-gray-900 bg-gray-50 rounded-lg shadow"
@@ -181,6 +165,7 @@ function VariantC({
                         <span className="text-gray-500">{`/${plan}`}</span>
                       )}
                       <button
+                        aria-label={`${usePlan?.[0]?.checkoutButtonName} button`}
                         className={`block mt-6 w-full py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-loose transition duration-200 ${
                           !usePlan[0] &&
                           "disabled:opacity-50 cursor-not-allowed"
@@ -240,6 +225,7 @@ function VariantC({
                         <span className="text-gray-500">{`/${plan}`}</span>
                       )}
                       <button
+                        aria-label={`${usePlan?.[1]?.checkoutButtonName} button`}
                         className={`block mt-6 w-full py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-loose transition duration-200 ${
                           !usePlan[1] &&
                           "disabled:opacity-50 cursor-not-allowed"
@@ -277,24 +263,6 @@ function VariantC({
             </div>
           )}
         </div>
-      </div>
-      <div className="skew skew-bottom mr-for-radius">
-        <svg
-          className="h-8 md:h-12 lg:h-20 w-full text-gray-50"
-          viewBox="0 0 10 10"
-          preserveAspectRatio="none"
-        >
-          <polygon fill="currentColor" points="0 0 10 0 0 10" />
-        </svg>
-      </div>
-      <div className="skew skew-bottom ml-for-radius">
-        <svg
-          className="h-8 md:h-12 lg:h-20 w-full text-gray-50"
-          viewBox="0 0 10 10"
-          preserveAspectRatio="none"
-        >
-          <polygon fill="currentColor" points="0 0 10 0 10 10" />
-        </svg>
       </div>
     </section>
   );

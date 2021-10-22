@@ -140,7 +140,7 @@ function BlogPage({ data, preview, navAndFooter }) {
                   </span>
                 ))}
               {categories && post?.publishedAt && (
-                <span className="uppercase text-base lg:text-xl text-gray-400 mx-2">
+                <span className="uppercase text-base lg:text-xl text-gray-500 mx-2">
                   •
                 </span>
               )}

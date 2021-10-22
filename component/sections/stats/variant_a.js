@@ -9,7 +9,7 @@ function VariantA({ stats }) {
             stats.map((items, index) => (
               <div className="mb-8 w-full lg:w-1/4 px-4" key={index}>
                 <div className="relative py-10 bg-white shadow rounded">
-                  <h4 className="mb-1 text-webriq-darkblue">{items?.label}</h4>
+                  <p className="mb-1 text-webriq-darkblue">{items?.label}</p>
                   <span className="text-3xl lg:text-4xl font-bold">
                     {items?.value}
                   </span>

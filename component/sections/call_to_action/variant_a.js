@@ -1,4 +1,6 @@
 import { urlFor } from "lib/sanity";
+import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 function VariantA({ logo, title, text, button }) {
@@ -7,41 +9,81 @@ function VariantA({ logo, title, text, button }) {
       <div className="py-20 bg-gray-50 radius-for-skewed">
         <div className="container mx-auto px-4">
           <div className="max-w-xl mx-auto text-center">
-            {logo && (
-              <a
-                className="mb-6 inline-block text-3xl font-bold leading-none"
-                href="#"
-              >
-                <img
-                  className="h-12"
-                  src={urlFor(logo?.image)}
-                  alt={logo?.alt ?? "callToAction-variantA-logo"}
-                  width="auto"
-                />
-              </a>
+            {logo?.image && (
+              <Link href="/">
+                <a
+                  aria-label="Call to Action logo"
+                  className="mb-6 inline-block text-3xl font-bold leading-none"
+                >
+                  <Image
+                    src={urlFor(logo?.image)}
+                    layout="fixed"
+                    width="132px"
+                    height="48px"
+                    objectFit="contain"
+                    alt={logo?.alt ?? "callToAction-logo"}
+                    blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                    placeholder="blur"
+                  />
+                </a>
+              </Link>
             )}
-            <h2 className="mb-4 text-4xl lg:text-5xl font-bold font-heading">
+            <h1 className="mb-4 text-4xl lg:text-5xl font-bold font-heading">
               {title}
-            </h2>
-            <p className="max-w-md mx-auto mb-6 text-gray-500 leading-loose">
+            </h1>
+            <p className="max-w-md mx-auto mb-6 text-gray-700 leading-loose">
               {text}
             </p>
-            {button && (
+            {button && button?.type === "linkInternal" ? (
+              <Link
+                href={
+                  button?.internalLink === "Home" ||
+                  button?.internalLink === "home"
+                    ? "/"
+                    : `/${
+                        button?.internalLink === undefined
+                          ? "page-not-found"
+                          : button?.internalLink
+                      }`
+                }
+              >
+                <a
+                  aria-label={`Call to action ${
+                    button?.label ?? "primary"
+                  } button which directs to ${
+                    button?.internalLink === undefined
+                      ? "page-not-found"
+                      : button?.internalLink
+                  }`}
+                  className="inline-block py-2 px-6 bg-webriq-darkblue hover:bg-webriq-blue text-white font-bold leading-loose rounded-l-xl rounded-t-xl transition duration-200"
+                  target={button?.linkTarget}
+                  rel={
+                    button?.linkTarget === "_blank"
+                      ? "noopener noreferrer"
+                      : null
+                  }
+                >
+                  {button?.label}
+                </a>
+              </Link>
+            ) : (
               <a
-                className="inline-block py-2 px-6 bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-loose rounded-l-xl rounded-t-xl transition duration-200"
+                aria-label={`Call to action ${
+                  button?.label ?? "primary"
+                } button which directs to ${
+                  button?.externalLink === undefined
+                    ? "link-not-found"
+                    : button?.externalLink
+                }`}
+                className="inline-block py-2 px-6 bg-webriq-darkblue hover:bg-webriq-blue text-white font-bold leading-loose rounded-l-xl rounded-t-xl transition duration-200"
                 target={button?.linkTarget}
+                href={`${
+                  button?.externalLink === undefined
+                    ? "link-not-found"
+                    : button?.externalLink
+                }`}
                 rel={
                   button?.linkTarget === "_blank" ? "noopener noreferrer" : null
-                }
-                href={
-                  button?.type === "linkExternal"
-                    ? button?.externalLink
-                    : button?.type === "linkInternal"
-                      ? button?.internalLink === "Home" ||
-                        button?.internalLink === "home"
-                        ? "/"
-                        : button?.internalLink
-                      : "page-not-found"
                 }
               >
                 {button?.label}

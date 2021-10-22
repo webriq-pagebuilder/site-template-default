@@ -1,23 +1,22 @@
 import React from "react";
+import Image from "next/image";
 import { urlFor } from "lib/sanity";
-
-
 
 function VariantC({ subtitle, title, description, features, images }) {
   return (
     <section>
-      <div className="p-20 bg-gray-50 radius-for-skewed">
+      <div className="py-20 bg-gray-50 radius-for-skewed">
         <div className="container mx-auto px-4">
           <div className="flex flex-wrap items-center">
             <div className="mb-12 lg:mb-0 w-full lg:w-1/2 px-4">
               <div className="max-w-xl">
-                <span className="mb-5 text-webriq-darkblue font-bold">
+                <p className="text-left mb-5 text-sm md:text-lg lg:text-xl text-webriq-darkblue font-bold">
                   {subtitle}
-                </span>
-                <h2 className="mb-4 text-2xl md:text-4xl lg:text-5xl font-bold font-heading">
+                </p>
+                <h1 className="text-left mb-4 text-xl md:text-4xl lg:text-5xl font-bold font-heading">
                   {title}
-                </h2>
-                <p className="mb-6 text-gray-500 leading-loose">
+                </h1>
+                <p className="text-left mb-6 text-sm md:text-lg lg:text-xl text-gray-500 leading-loose">
                   {description}
                 </p>
                 <ul className="mb-8 text-gray-500 font-bold">
@@ -36,7 +35,9 @@ function VariantC({ subtitle, title, description, features, images }) {
                             clipRule="evenodd"
                           />
                         </svg>
-                        <span>{feature}</span>
+                        <span className="text-sm md:text-lg lg:text-xl">
+                          {feature}
+                        </span>
                       </li>
                     ))}
                 </ul>
@@ -44,14 +45,58 @@ function VariantC({ subtitle, title, description, features, images }) {
             </div>
             <div className="transform -rotate-12 flex items-center w-full lg:w-1/2">
               <div className="w-full">
-                {images?.[0] && <img src={urlFor(images[0])} alt="appPromo-variantC-image1"/>}
+                {images?.[0] && (
+                  <Image
+                    src={urlFor(images[0])}
+                    layout="responsive"
+                    width="500px"
+                    height="850px"
+                    objectFit="cover"
+                    alt="appPromo-variantC-image1"
+                    blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                    placeholder="blur"
+                  />
+                )}
               </div>
               <div className="w-full">
-                {images?.[1] && <img src={urlFor(images[1])} alt="appPromo-variantC-image2"/>}
-                {images?.[2] && <img src={urlFor(images[2])} alt="appPromo-variantC-image3"/>}
+                {images?.[1] && (
+                  <Image
+                    src={urlFor(images[1])}
+                    layout="responsive"
+                    width="500px"
+                    height="850px"
+                    objectFit="cover"
+                    alt="appPromo-variantC-image2"
+                    blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                    placeholder="blur"
+                  />
+                )}
+                {images?.[2] && (
+                  <Image
+                    src={urlFor(images[2])}
+                    layout="responsive"
+                    width="500px"
+                    height="850px"
+                    objectFit="cover"
+                    alt="appPromo-variantC-image3"
+                    blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                    placeholder="blur"
+                  />
+                )}
               </div>
               <div className="w-full">
-                {images?.[3] && <img src={urlFor(images[3])} alt="appPromo-variantC-image4"/>}
+                {images?.[3] && (
+                  <Image
+                    src={urlFor(images[3])}
+                    layout="responsive"
+                    width="500px"
+                    height="850px"
+                    objectFit="cover"
+                    alt="appPromo-variantC-image4"
+                    blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                    placeholder="blur"
+                  />
+                )}
               </div>
             </div>
           </div>

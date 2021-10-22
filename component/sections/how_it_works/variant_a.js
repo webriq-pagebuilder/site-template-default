@@ -7,58 +7,40 @@ function VariantA({ subtitle, title, text, video, steps }) {
         <div className="container mx-auto px-4">
           <div className="mb-10 flex flex-wrap">
             <div className="mb-10 lg:mb-0 w-full lg:w-1/2">
-              <div className="max-w-md mx-20">
-                <span className="text-webriq-darkblue font-bold">
+              <div className="max-w-lg mx-10">
+                <span className="text-sm md:text-lg lg:text-lg text-webriq-darkblue font-bold">
                   {subtitle}
                 </span>
-                <h2 className="mb-2 text-4xl lg:text-5xl font-bold font-heading">
+                <h1 className="my-5 text-2xl md:text-4xl lg:text-5xl font-bold font-heading">
                   {title}
-                </h2>
-                <p className="max-w-xs text-gray-500 leading-loose">{text}</p>
+                </h1>
+                <p className="text-sm md:text-lg lg:text-lg text-gray-500 md:leading-loose lg:leading-loose">
+                  {text}
+                </p>
               </div>
             </div>
-            <div className="relative w-full lg:w-1/4">
-              {video ? (
+            <div className="relative w-full md:w-2/5 md:h-96 lg:w-2/5 lg:h-128 px-10 md:px-0 lg:px-0">
+              {video && (
                 <iframe
-                  //className="rounded-3xl md:rounded-6xl md:rounded-br-none border-4 border-webriq-blue"
-                  className="relative rounded-lg"
-                  width="550"
-                  height="355"
+                  aria-label="Show Video Frame"
+                  className="w-full h-full rounded-lg"
                   src={`https://www.youtube.com/embed/${
                     String(video).split("=")[1].split("&")[0]
                   }`}
-                  title="YouTube video player"
+                  srcDoc={`<style>*{padding:0;margin:0;overflow:hidden;border-radius:8px}html,body{height:100%}img,span{position:absolute;width:100%;top:0;bottom:0;margin:auto}span{height:1.5em;text-align:center;font:48px/1.5 sans-serif;color:white;text-shadow:0 0 0.5em black}</style><a href=${`https://www.youtube.com/embed/${
+                    String(video).split("=")[1].split("&")[0]
+                  }`}><img src=${`https://i.ytimg.com/vi_webp/${video
+                    .split("=")
+                    .pop()}/maxresdefault.webp`} alt=${title} loading="lazy" /><span>▶</span></a>`}
                   frameBorder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
+                  loading="lazy"
+                  allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen=""
                 ></iframe>
-              ) : (
-                <>
-                  <img
-                    className="relative rounded-lg"
-                    src="https://images.unsplash.com/photo-1607556772227-fe3868023d27?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=1050&q=80"
-                    alt=""
-                  />
-                  <button className="text-white hover:text-gray-50">
-                    <svg
-                      className="absolute w-16 h-16"
-                      style={{ top: "38%", left: "45%" }}
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                  </button>
-                </>
               )}
             </div>
           </div>
-          <div className="flex flex-wrap px-16">
+          <div className="flex flex-wrap px-10">
             {steps &&
               steps?.map((step, index) => (
                 <div
@@ -68,10 +50,12 @@ function VariantA({ subtitle, title, text, video, steps }) {
                   <span className="mt-6 mb-6 w-12 h-12 flex justify-center items-center bg-webriq-lightblue rounded text-webriq-darkblue font-bold">
                     {index + 1}
                   </span>
-                  <h3 className="mb-2 text-2xl font-bold font-heading">
+                  <p className="mb-2 text-lg md:text-2xl lg:text-2xl font-bold font-heading">
                     {step?.title}
-                  </h3>
-                  <p className="text-gray-500 leading-loose">{step?.content}</p>
+                  </p>
+                  <p className="text-gray-500 text-xs md:text-lg lg:text-lg md:leading-loose lg:leading-loose">
+                    {step?.content}
+                  </p>
                 </div>
               ))}
           </div>
