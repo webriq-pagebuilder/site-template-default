@@ -29,7 +29,6 @@ const Components = {
   textComponent: dynamic(() => import("component/sections/text_component")),
 };
 
-const SEO = dynamic(() => import("component/SEO"));
 const BlogPage = dynamic(() => import("component/blog/"));
 
 function Page({ data, preview }) {
@@ -61,7 +60,6 @@ function Page({ data, preview }) {
     <>
       <Head>
         <title>{seo?.seoTitle || title}</title>
-        <SEO data={pageData} slug={slug} />
       </Head>
       {sections &&
         sections?.map((section) => {
