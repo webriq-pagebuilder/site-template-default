@@ -3,25 +3,27 @@ import { urlFor } from "lib/sanity";
 import { NextSeo } from "next-seo";
 
 function SEO({ data }) {
-  const url = process.env.NEXT_PUBLIC_DXP_STUDIO_ADDRESS;
+  const url = process.env.NEXT_PUBLIC_DXP_SITE_ADDRESS;
+  const seo = data?.blogData?.seo ?? data?.page?.seo;
+  const title = data?.blogData?.title ?? data?.page?.title;
 
   return (
     <>
       <NextSeo
         openGraph={{
-          title: data?.seoTitle || data?.title,
-          description: data?.seoDescription,
-          url: `${url}/${data?.slug || ""}`,
+          title: seo?.seoTitle || title,
+          description: seo?.seoDescription,
+          url: `${url}/${seo?.slug || ""}`,
           images: [
             {
-              url: urlFor(data?.seoImage),
+              url: urlFor(seo?.seoImage),
               width: 800,
               height: 600,
               alt: "Page thumbnail image for SEO",
               type: "image/webp",
             },
           ],
-          site_name: data?.seoTitle || data?.title,
+          site_name: seo?.seoTitle || title,
         }} // Twitter will read the og:title, og:image and og:description tags for their card. next-seo omits twitter:title, twitter:image and twitter:description to avoid duplication.
         twitter={{
           handle: "@handle",
@@ -31,11 +33,11 @@ function SEO({ data }) {
         additionalMetaTags={[
           {
             name: "keywords",
-            content: data?.seoKeywords,
+            content: seo?.seoKeywords,
           },
           {
             name: "synonyms",
-            content: data?.seoSynonyms,
+            content: seo?.seoSynonyms,
           },
         ]}
         additionalLinkTags={[
