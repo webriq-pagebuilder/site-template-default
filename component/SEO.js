@@ -3,7 +3,7 @@ import { urlFor } from "lib/sanity";
 import { NextSeo } from "next-seo";
 
 function SEO({ data }) {
-  const url = process.env.NEXT_PUBLIC_DXP_SITE_ADDRESS;
+  const url = process.env.NEXT_PUBLIC_SITE_URL;
   const seo = data?.blogData?.seo ?? data?.page?.seo;
   const title = data?.blogData?.title ?? data?.page?.title;
 
