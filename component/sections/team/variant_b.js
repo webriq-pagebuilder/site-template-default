@@ -57,6 +57,9 @@ function VariantB({ team }) {
                           {member?.name}
                         </p>
                         <p className="mb-6 text-gray-500">{member?.jobTitle}</p>
+                        <p className="mb-6 text-gray-500">
+                          {member?.plainText}
+                        </p>
                       </div>
                     </div>
                   ))}

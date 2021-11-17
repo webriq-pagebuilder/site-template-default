@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import { urlFor } from "lib/sanity";
-function VariantG({ caption, title, description, images, featureItems }) {
+function VariantG({ caption, title, description, images, tags }) {
   return (
     <section>
       <div className="py-20 bg-gray-50 radius-for-skewed">
@@ -25,8 +25,8 @@ function VariantG({ caption, title, description, images, featureItems }) {
                   </p>
                 )}
                 <ul className="text-gray-500 font-bold">
-                  {featureItems &&
-                    featureItems.map((item) => (
+                  {tags &&
+                    tags.map((item) => (
                       <li className="mb-2 flex items-center" key={item}>
                         <svg
                           className="mr-2 w-5 h-5 text-webriq-blue"

@@ -147,7 +147,7 @@ function VariantB({
                   <div className="w-full lg:w-1/5 px-3 lg:text-center">
                     <span className="text-4xl font-bold">
                       {isNaN(parseInt(usePlan?.[0]?.price))
-                        ? comma.format(usePlan?.[0]?.price)
+                        ? usePlan?.[0]?.price
                         : `$${comma.format(usePlan?.[0]?.price)}`}
                     </span>
                   </div>
@@ -214,7 +214,7 @@ function VariantB({
                   <div className="w-full lg:w-1/5 px-3 lg:text-center">
                     <span className="text-4xl font-bold">
                       {isNaN(parseInt(usePlan?.[1]?.price))
-                        ? comma.format(usePlan?.[1]?.price)
+                        ? usePlan?.[1]?.price
                         : `$${comma.format(usePlan?.[1]?.price)}`}
                     </span>
                   </div>
@@ -281,7 +281,7 @@ function VariantB({
                   <div className="w-full lg:w-1/5 px-3 lg:text-center">
                     <span className="text-4xl font-bold">
                       {isNaN(parseInt(usePlan?.[2]?.price))
-                        ? comma.format(usePlan?.[2]?.price)
+                        ? usePlan?.[2]?.price
                         : `$${comma.format(usePlan?.[2]?.price)}`}
                     </span>
                   </div>

@@ -10,9 +10,9 @@ const Variants = {
 };
 
 function Header({ template, data }) {
-  const variant = data?.variants?.variant;
-
+  const variant = data?.variant;
   const Variant = Variants?.[variant];
+
   const props = {
     template,
     image: data?.variants?.[variant]?.mainImage,
