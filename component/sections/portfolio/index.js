@@ -9,15 +9,15 @@ const Variants = {
 };
 
 function Portfolio({ template, data }) {
-  const variant = data?.variants?.variant;
-
+  const variant = data?.variant;
   const Variant = Variants?.[variant];
+
   const props = {
     template,
     caption: data?.variants?.[variant]?.subtitle,
     title: data?.variants?.[variant]?.heading,
     portfolios: data?.variants?.[variant]?.portfolios,
-    buttonLabel: data?.variants?.[variant]?.changeButtonLabel,
+    buttonLabel: data?.variants?.[variant]?.button,
   };
 
   return Variant ? <Variant {...props} /> : null;

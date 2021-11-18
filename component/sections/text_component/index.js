@@ -8,9 +8,9 @@ const Variants = {
 };
 
 function TextComponent({ data }) {
-  const variant = data?.variants?.variant;
-
+  const variant = data?.variant;
   const Variant = Variants?.[variant];
+
   const props = {
     heading: data?.variants?.[variant]?.heading,
     singleColumn: data?.variants?.[variant]?.singleColumn,
