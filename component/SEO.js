@@ -1,5 +1,5 @@
 import React from "react";
-import { urlFor } from "lib/sanity";
+import { seoImageUrl } from "lib/sanity";
 import { NextSeo } from "next-seo";
 
 function SEO({ data }) {
@@ -16,9 +16,9 @@ function SEO({ data }) {
           url: `${url}/${seo?.slug || ""}`,
           images: [
             {
-              url: urlFor(seo?.seoImage),
-              width: 800,
-              height: 600,
+              url: seoImageUrl(seo?.seoImage),
+              width: 520,
+              height: 320,
               alt: "Page thumbnail image for SEO",
               type: "image/webp",
             },
