@@ -60,15 +60,19 @@ function VariantA({ subtitle, title, posts, buttonLabel }) {
                         <a aria-label={`blog post ${key}`}>
                           <div className="relative h-64 mx-auto overflow-hidden rounded">
                             <div className="relative h-full w-full rounded">
-                              <Image
-                                src={urlFor(post?.mainImage)}
-                                layout="fill"
-                                objectFit="cover"
-                                alt={`blog-variantA-image-${key}`}
-                                blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                                placeholder="blur"
-                              />
-                              <div className="absolute inset-0 bg-gray-900 opacity-75 rounded" />
+                              {post?.mainImage && (
+                                <>
+                                  <Image
+                                    src={urlFor(post?.mainImage)}
+                                    layout="fill"
+                                    objectFit="cover"
+                                    alt={`blog-variantA-image-${key}`}
+                                    blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                                    placeholder="blur"
+                                  />
+                                  <div className="absolute inset-0 bg-gray-900 opacity-75 rounded" />
+                                </>
+                              )}
                               <div className="absolute inset-0 p-6 flex flex-col items-start">
                                 {post?.categories && (
                                   <div className="flex absolute top-5 left-5">
@@ -141,19 +145,23 @@ function VariantA({ subtitle, title, posts, buttonLabel }) {
                       >
                         <a aria-label={`blog post ${key}`}>
                           <div className="relative mx-auto overflow-hidden rounded h-128">
-                            <div className="relative h-full w-full rounded">
-                              <Image
-                                src={urlFor(post?.mainImage)}
-                                layout="responsive"
-                                width="358px"
-                                height="237px"
-                                objectFit="cover"
-                                alt={`blog-variantA-image-${key}`}
-                                blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                                placeholder="blur"
-                              />
-                            </div>
-                            <div className="absolute inset-0 bg-gray-900 opacity-75 rounded" />
+                            {post?.mainImage && (
+                              <>
+                                <div className="relative h-full w-full rounded">
+                                  <Image
+                                    src={urlFor(post?.mainImage)}
+                                    layout="responsive"
+                                    width="358px"
+                                    height="237px"
+                                    objectFit="cover"
+                                    alt={`blog-variantA-image-${key}`}
+                                    blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                                    placeholder="blur"
+                                  />
+                                </div>
+                                <div className="absolute inset-0 bg-gray-900 opacity-75 rounded" />
+                              </>
+                            )}
                             <div className="absolute inset-0 p-6 flex flex-col items-start">
                               {post?.categories && (
                                 <div className="flex absolute top-5 left-5">
@@ -225,19 +233,23 @@ function VariantA({ subtitle, title, posts, buttonLabel }) {
                       >
                         <a aria-label={`blog post ${key}`}>
                           <div className="relative mx-auto overflow-hidden rounded h-128">
-                            <div className="relative h-full w-full rounded">
-                              <Image
-                                src={urlFor(post?.mainImage)}
-                                layout="responsive"
-                                width="358px"
-                                height="237px"
-                                objectFit="cover"
-                                alt={`blog-variantA-image-${key}`}
-                                blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                                placeholder="blur"
-                              />
-                            </div>
-                            <div className="absolute inset-0 bg-gray-900 opacity-75 rounded" />
+                            {post?.mainImage && (
+                              <>
+                                <div className="relative h-full w-full rounded">
+                                  <Image
+                                    src={urlFor(post?.mainImage)}
+                                    layout="responsive"
+                                    width="358px"
+                                    height="237px"
+                                    objectFit="cover"
+                                    alt={`blog-variantA-image-${key}`}
+                                    blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                                    placeholder="blur"
+                                  />
+                                </div>
+                                <div className="absolute inset-0 bg-gray-900 opacity-75 rounded" />
+                              </>
+                            )}
                             <div className="absolute inset-0 p-6 flex flex-col items-start">
                               {post?.categories && (
                                 <div className="flex absolute top-5 left-5">
@@ -307,15 +319,19 @@ function VariantA({ subtitle, title, posts, buttonLabel }) {
                       >
                         <a aria-label={`blog post ${key}`}>
                           <div className="relative mx-auto overflow-hidden rounded h-64">
-                            <Image
-                              src={urlFor(post?.mainImage)}
-                              layout="fill"
-                              objectFit="cover"
-                              alt={`blog-variantA-image-${key}`}
-                              blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                              placeholder="blur"
-                            />
-                            <div className="absolute inset-0 bg-gray-900 opacity-75 rounded" />
+                            {post?.mainImage && (
+                              <>
+                                <Image
+                                  src={urlFor(post?.mainImage)}
+                                  layout="fill"
+                                  objectFit="cover"
+                                  alt={`blog-variantA-image-${key}`}
+                                  blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                                  placeholder="blur"
+                                />
+                                <div className="absolute inset-0 bg-gray-900 opacity-75 rounded" />
+                              </>
+                            )}
                             <div className="absolute inset-0 p-6 flex flex-col items-start">
                               {post?.categories && (
                                 <div className="flex absolute top-5 left-5">
