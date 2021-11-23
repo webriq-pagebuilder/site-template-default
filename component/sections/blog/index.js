@@ -9,7 +9,7 @@ const Variants = {
 };
 
 function Blog({ data }) {
-  const variant = data?.variants?.variant;
+  const variant = data?.variant;
   const Variant = Variants?.[variant];
 
   const props = {
