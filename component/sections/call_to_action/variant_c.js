@@ -7,53 +7,51 @@ function VariantC({ title, text, features, formFields, formId, formName }) {
       <div className="container mx-auto px-4">
         <div className="flex flex-wrap items-center -mx-4">
           <div className="w-full lg:w-1/2 px-4 mb-8 lg:mb-0">
-            <h1 className="text-4xl lg:text-5xl font-bold font-heading">
+            <h1 className="mb-4 text-4xl lg:text-5xl font-bold font-heading">
               {title}
             </h1>
             <p className="max-w-lg text-gray-700 leading-loose">{text}</p>
           </div>
           <div className="w-full lg:w-1/2 px-4">
             {formFields && (
-              <div className="mb-4 flex items-center lg:justify-end">
-                <WebriQForm
-                  method="POST"
-                  data-form-id={formId}
-                  name={formName}
-                  className="form-callToAction"
-                  data-thankyou-url="/thank-you"
-                  scriptsrc="https://pagebuilderforms.webriq.com/js/initReactForms"
+              <WebriQForm
+                method="POST"
+                data-form-id={formId}
+                name={formName}
+                className="form-callToAction flex mb-4 items-center lg:justify-end"
+                data-thankyou-url="/thank-you"
+                scriptsrc="https://pagebuilderforms.webriq.com/js/initReactForms"
+              >
+                {formFields?.[0] && formFields[0]?.type && (
+                  <input
+                    aria-label={`${
+                      formFields[0]?.type === "inputText"
+                        ? `Input ${formFields[0]?.name}`
+                        : `${formFields[0]?.type}`
+                    }`}
+                    className="mr-2 py-2 px-4 bg-white rounded leading-loose"
+                    type={
+                      formFields[0].type === "inputEmail" ? "email" : "text"
+                    }
+                    placeholder={
+                      formFields[0].type === "inputEmail"
+                        ? "hello@example.com"
+                        : formFields[0]?.name
+                    }
+                    name={formFields[0]?.name}
+                  />
+                )}
+                <div>
+                  <div className="webriq-recaptcha" />
+                </div>
+                <button
+                  aria-label="Submit Call to Action Form button"
+                  className="inline-block py-2 px-6 bg-webriq-darkblue hover:bg-webriq-blue text-white font-bold leading-loose rounded-l-xl rounded-t-xl transition duration-200"
+                  type="submit"
                 >
-                  {formFields?.[0] && formFields[0]?.type && (
-                    <input
-                      aria-label={`${
-                        formFields[0]?.type === "inputText"
-                          ? `Input ${formFields[0]?.name}`
-                          : `${formFields[0]?.type}`
-                      }`}
-                      className="mr-2 py-2 px-4 bg-white rounded leading-loose"
-                      type={
-                        formFields[0].type === "inputEmail" ? "email" : "text"
-                      }
-                      placeholder={
-                        formFields[0].type === "inputEmail"
-                          ? "hello@example.com"
-                          : formFields[0]?.name
-                      }
-                      name={formFields[0]?.name}
-                    />
-                  )}
-                  <div>
-                    <div className="webriq-recaptcha" />
-                  </div>
-                  <button
-                    aria-label="Submit Call to Action Form button"
-                    className="inline-block py-2 px-6 bg-webriq-darkblue hover:bg-webriq-blue text-white font-bold leading-loose rounded-l-xl rounded-t-xl transition duration-200"
-                    type="submit"
-                  >
-                    Get Started
-                  </button>
-                </WebriQForm>
-              </div>
+                  Get Started
+                </button>
+              </WebriQForm>
             )}
             <div>
               <ul className="flex items-center lg:justify-end text-gray-500">

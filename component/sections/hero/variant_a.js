@@ -160,17 +160,19 @@ function VariantA({
             </div>
             <div className="w-full lg:w-1/2 px-4 flex items-center justify-center">
               {image && (
-                <div className="relative h-128 w-full max-w-md rounded-3xl md:rounded-br-none">
-                  <Image
-                    src={urlFor(image)}
-                    layout="responsive"
-                    width="512px"
-                    height="512px"
-                    objectFit="cover"
-                    alt="header-main-image"
-                    blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                    placeholder="blur"
-                  />
+                <div className="relative h-128 w-full max-w-md">
+                  <div className="rounded-3xl md:rounded-br-none overflow-hidden">
+                    <Image
+                      src={urlFor(image)}
+                      layout="responsive"
+                      width="512px"
+                      height="512px"
+                      objectFit="cover"
+                      alt="header-main-image"
+                      blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                      placeholder="blur"
+                    />
+                  </div>
                   <div
                     className="hidden md:block absolute"
                     style={{ top: "-2rem", right: "3rem", zIndex: "-1" }}

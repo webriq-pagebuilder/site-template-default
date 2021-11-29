@@ -1,5 +1,6 @@
 import React from "react";
 import WebriQForm from "component/webriq-form";
+import Image from "next/image";
 import { PortableText, urlFor } from "lib/sanity";
 
 function VariantD({
@@ -81,7 +82,7 @@ function VariantD({
             </div>
           </div>
           <div className="flex flex-wrap bg-white rounded shadow">
-            <form className="w-full md:w-1/2 mb-8 md:mb-0">
+            <div className="w-full md:w-1/2 mb-8 md:mb-0">
               <div className="px-6 py-8 lg:px-8 text-center">
                 <span className="text-gray-700">Sign In</span>
                 <p className="mb-8 text-2xl font-heading">
@@ -93,7 +94,7 @@ function VariantD({
                   method="POST"
                   data-form-id={form?.id}
                   data-thankyou-url={"/"}
-                  scriptSrc="https://pagebuilderforms.webriq.com/js/initReactForms"
+                  scriptsrc="https://pagebuilderforms.webriq.com/js/initReactForms"
                 >
                   {form?.fields?.map((field) => (
                     <>
@@ -254,20 +255,22 @@ function VariantD({
                   </p>
                 )}
               </div>
-            </form>
+            </div>
             <div className="py-10 w-full md:w-1/2 bg-webriq-darkblue lg:rounded-r overflow-hidden flex flex-col">
-              <div className="w-full md:max-w-xs mx-auto my-auto">
-                <Image
-                  src={urlFor(banner?.[banners]?.mainImage)}
-                  layout="responsive"
-                  width="320px"
-                  height="296px"
-                  objectFit="cover"
-                  alt={`pricing-image-${banners}`}
-                  blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                  placeholder="blur"
-                />
-              </div>
+              {banner?.[banners]?.mainImage && (
+                <div className="w-full md:max-w-xs mx-auto my-auto">
+                  <Image
+                    src={urlFor(banner?.[banners]?.mainImage)}
+                    layout="responsive"
+                    width="320px"
+                    height="296px"
+                    objectFit="cover"
+                    alt={`pricing-image-${banners}`}
+                    blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                    placeholder="blur"
+                  />
+                </div>
+              )}
               <p className="mb-4 max-w-sm mx-auto text-center text-xl text-white">
                 {banner?.[banners]?.heading}
               </p>

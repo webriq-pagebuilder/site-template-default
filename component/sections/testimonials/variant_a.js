@@ -18,10 +18,10 @@ function VariantA({ testimonials }) {
               {testimonials?.[testimony] && (
                 <div className="mb-6 w-full lg:w-1/3 text-center">
                   {testimonials?.[testimony]?.mainImage && (
-                    <div className="mb-6 mx-auto">
+                    <div className="relative mb-6 mx-auto w-32 h-32 rounded-full overflow-hidden">
                       <Image
                         src={urlFor(testimonials?.[testimony]?.mainImage)}
-                        layout="fixed"
+                        layout="responsive"
                         width="128px"
                         height="128px"
                         objectFit="cover"
