@@ -80,19 +80,19 @@ function VariantB({
           <div className="mb-16 w-full flex flex-wrap items-center">
             <div className="w-full lg:w-1/2">
               {caption && (
-                <span className="text-webriq-darkblue font-bold">
+                <span className="text-webriq-darkblue text-sm lg:text=base xl:text-base 2xl:text-base font-bold">
                   {caption}
                 </span>
               )}
               {title && (
-                <h2 className="mb-2 text-4xl lg:text-5xl font-bold font-heading">
+                <h1 className="mb-2 text-2xl lg:text-5xl xl:text-5xl 2xl:text-5xl font-bold font-heading">
                   {title}
-                </h2>
+                </h1>
               )}
             </div>
             <div className="w-full lg:w-1/2">
               {!description ? null : (
-                <p className="max-w-xs lg:mx-auto text-gray-500 leading-loose">
+                <p className="max-w-xs lg:mx-auto text-gray-500 text-sm lg:text-base xl:text-base 2xl:text-base leading-loose">
                   {description}
                 </p>
               )}
@@ -119,7 +119,7 @@ function VariantB({
               {usePlan?.[0] && (
                 <div className="mb-8 w-full p-8 flex flex-wrap items-center bg-white rounded shadow">
                   <div className="w-full lg:w-1/5 px-3 self-start">
-                    <h3 className="mb-4 text-2xl font-bold font-heading">
+                    <h3 className="mb-4 text-xl lg:text-2xl xl:text-2xl 2xl:text-2xl font-bold font-heading">
                       {usePlan?.[0]?.planType}
                     </h3>
                   </div>
@@ -128,7 +128,7 @@ function VariantB({
                       {usePlan?.[0]?.planIncludes?.map((include) => (
                         <li className="mb-4 flex" key={include}>
                           <svg
-                            className="mr-2 w-5 h-5 text-webriq-blue"
+                            className="mr-2 w-5 h-5 text-webriq-darkblue"
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 20 20"
                             fill="currentColor"
@@ -139,7 +139,9 @@ function VariantB({
                               clipRule="evenodd"
                             />
                           </svg>
-                          <span>{include}</span>
+                          <span className="text-sm lg:text-base xl:text-base 2xl:text-base">
+                            {include}
+                          </span>
                         </li>
                       ))}
                     </ul>
@@ -152,41 +154,44 @@ function VariantB({
                     </span>
                   </div>
                   <div className="w-full lg:w-1/5 px-3">
-                    <button
-                      aria-label={`${usePlan?.[0]?.checkoutButtonName} button`}
-                      className={`inline-block mt-4 lg:mt-0 py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-loose transition duration-200  ${
-                        !usePlan[0] && "disabled:opacity-50 cursor-not-allowed"
-                      }`}
-                      disabled={!usePlan[0]}
-                      onClick={() => {
-                        initiateCheckout(
-                          {
-                            lineItems: [
-                              {
-                                price: usePlan[0].checkoutButton,
-                                quantity: 1,
-                              },
-                            ],
-                          },
-                          stripePKey,
-                          window.location.origin + "/success",
-                          window.location.href,
-                          false,
-                          setPKError
-                        );
-                      }}
-                    >
-                      {!usePlan[0]
-                        ? "Processing..."
-                        : usePlan?.[0]?.checkoutButtonName}
-                    </button>
+                    {usePlan?.[0]?.checkoutButtonName && (
+                      <button
+                        aria-label={`${usePlan?.[0]?.checkoutButtonName} button`}
+                        className={`inline-block mt-4 lg:mt-0 py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-white font-bold leading-loose transition duration-200  ${
+                          !usePlan[0] &&
+                          "disabled:opacity-50 cursor-not-allowed"
+                        }`}
+                        disabled={!usePlan[0]}
+                        onClick={() => {
+                          initiateCheckout(
+                            {
+                              lineItems: [
+                                {
+                                  price: usePlan[0].checkoutButton,
+                                  quantity: 1,
+                                },
+                              ],
+                            },
+                            stripePKey,
+                            window.location.origin + "/success",
+                            window.location.href,
+                            false,
+                            setPKError
+                          );
+                        }}
+                      >
+                        {!usePlan[0]
+                          ? "Processing..."
+                          : usePlan?.[0]?.checkoutButtonName}
+                      </button>
+                    )}
                   </div>
                 </div>
               )}
               {usePlan?.[1] && (
                 <div className="mb-8 w-full p-8 flex flex-wrap items-center bg-white rounded shadow">
                   <div className="w-full lg:w-1/5 px-3 self-start">
-                    <h3 className="mb-4 text-2xl font-bold font-heading">
+                    <h3 className="mb-4 text-xl lg:text-2xl xl:text-2xl 2xl:text-2xl font-bold font-heading">
                       {usePlan?.[1]?.planType}
                     </h3>
                   </div>
@@ -195,7 +200,7 @@ function VariantB({
                       {usePlan?.[1].planIncludes?.map((include) => (
                         <li className="mb-4 flex" key={include}>
                           <svg
-                            className="mr-2 w-5 h-5 text-webriq-blue"
+                            className="mr-2 w-5 h-5 text-webriq-darkblue"
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 20 20"
                             fill="currentColor"
@@ -206,7 +211,9 @@ function VariantB({
                               clipRule="evenodd"
                             />
                           </svg>
-                          <span>{include}</span>
+                          <span className="text-sm lg:text-base xl:text-base 2xl:text-base">
+                            {include}
+                          </span>
                         </li>
                       ))}
                     </ul>
@@ -219,41 +226,44 @@ function VariantB({
                     </span>
                   </div>
                   <div className="w-full lg:w-1/5 px-3">
-                    <button
-                      aria-label={`${usePlan?.[1]?.checkoutButtonName} button`}
-                      className={`inline-block mt-4 lg:mt-0 py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-loose transition duration-200 ${
-                        !usePlan[1] && "disabled:opacity-50 cursor-not-allowed"
-                      }`}
-                      disabled={!usePlan[1]}
-                      onClick={() => {
-                        initiateCheckout(
-                          {
-                            lineItems: [
-                              {
-                                price: usePlan[1].checkoutButton,
-                                quantity: 1,
-                              },
-                            ],
-                          },
-                          stripePKey,
-                          window.location.origin + "/success",
-                          window.location.href,
-                          false,
-                          setPKError
-                        );
-                      }}
-                    >
-                      {!usePlan[1]
-                        ? "Processing..."
-                        : usePlan?.[1]?.checkoutButtonName}
-                    </button>
+                    {usePlan?.[1]?.checkoutButtonName && (
+                      <button
+                        aria-label={`${usePlan?.[1]?.checkoutButtonName} button`}
+                        className={`inline-block mt-4 lg:mt-0 py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-white font-bold leading-loose transition duration-200 ${
+                          !usePlan[1] &&
+                          "disabled:opacity-50 cursor-not-allowed"
+                        }`}
+                        disabled={!usePlan[1]}
+                        onClick={() => {
+                          initiateCheckout(
+                            {
+                              lineItems: [
+                                {
+                                  price: usePlan[1].checkoutButton,
+                                  quantity: 1,
+                                },
+                              ],
+                            },
+                            stripePKey,
+                            window.location.origin + "/success",
+                            window.location.href,
+                            false,
+                            setPKError
+                          );
+                        }}
+                      >
+                        {!usePlan[1]
+                          ? "Processing..."
+                          : usePlan?.[1]?.checkoutButtonName}
+                      </button>
+                    )}
                   </div>
                 </div>
               )}
               {usePlan?.[2] && (
                 <div className="w-full p-8 flex flex-wrap items-center bg-white rounded shadow">
                   <div className="w-full lg:w-1/5 px-3 self-start">
-                    <h3 className="mb-4 text-2xl font-bold font-heading">
+                    <h3 className="mb-4 text-xl lg:text-2xl xl:text-2xl 2xl:text-2xl font-bold font-heading">
                       {usePlan?.[2]?.planType}
                     </h3>
                   </div>
@@ -262,7 +272,7 @@ function VariantB({
                       {usePlan?.[2]?.planIncludes?.map((include) => (
                         <li className="mb-4 flex" key={include}>
                           <svg
-                            className="mr-2 w-5 h-5 text-webriq-blue"
+                            className="mr-2 w-5 h-5 text-webriq-darkblue"
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 20 20"
                             fill="currentColor"
@@ -273,7 +283,9 @@ function VariantB({
                               clipRule="evenodd"
                             />
                           </svg>
-                          <span>{include}</span>
+                          <span className="text-sm lg:text-base xl:text-base 2xl:text-base">
+                            {include}
+                          </span>
                         </li>
                       ))}
                     </ul>
@@ -286,11 +298,10 @@ function VariantB({
                     </span>
                   </div>
                   <div className="w-full lg:w-1/5 px-3">
-                    {!usePlan?.[2]?.primaryButton ||
-                    !usePlan?.[2]?.checkoutButtonName ? null : (
+                    {usePlan?.[2]?.checkoutButtonName && (
                       <button
                         aria-label={`${usePlan?.[2]?.checkoutButtonName} button`}
-                        className={`inline-block mt-4 lg:mt-0 py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-loose transition duration-200   ${
+                        className={`inline-block mt-4 lg:mt-0 py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-white font-bold leading-loose transition duration-200   ${
                           !usePlan && "disabled:opacity-50 cursor-not-allowed"
                         }`}
                         disabled={!usePlan}

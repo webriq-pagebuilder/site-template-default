@@ -166,7 +166,7 @@ function VariantC({
                       )}
                       <button
                         aria-label={`${usePlan?.[0]?.checkoutButtonName} button`}
-                        className={`block mt-6 w-full py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-loose transition duration-200 ${
+                        className={`block mt-6 w-full py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-white font-bold leading-loose transition duration-200 ${
                           !usePlan[0] &&
                           "disabled:opacity-50 cursor-not-allowed"
                         }`}
@@ -226,7 +226,7 @@ function VariantC({
                       )}
                       <button
                         aria-label={`${usePlan?.[1]?.checkoutButtonName} button`}
-                        className={`block mt-6 w-full py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-loose transition duration-200 ${
+                        className={`block mt-6 w-full py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-white font-bold leading-loose transition duration-200 ${
                           !usePlan[1] &&
                           "disabled:opacity-50 cursor-not-allowed"
                         }`}

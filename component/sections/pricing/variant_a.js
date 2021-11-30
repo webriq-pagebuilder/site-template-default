@@ -179,7 +179,7 @@ function VariantA({
                   </ul>
                   <button
                     aria-label={`${usePlan?.[0]?.checkoutButtonName} button`}
-                    className={`inline-block text-center py-2 px-4 w-full rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-loose transition duration-200 cursor-pointer ${
+                    className={`inline-block text-center py-2 px-4 w-full rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-white font-bold leading-loose transition duration-200 cursor-pointer ${
                       !usePlan[0] &&
                       "disabled:opacity-50 cursor-not-allowed bg-webriq-darkblue"
                     }`}
@@ -328,7 +328,7 @@ function VariantA({
                   </ul>
                   <button
                     aria-label={`${usePlan?.[2]?.checkoutButtonName} button`}
-                    className={`inline-block text-center py-2 px-4 w-full rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-loose transition duration-200 cursor-pointer ${
+                    className={`inline-block text-center py-2 px-4 w-full rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-white font-bold leading-loose transition duration-200 cursor-pointer ${
                       !usePlan[2] && "disabled:opacity-50 cursor-not-allowed"
                     }`}
                     disabled={!usePlan[2]}
