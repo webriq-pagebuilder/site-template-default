@@ -51,7 +51,7 @@ function VariantE({ featuredItems }) {
                     src={urlFor(featuredItems?.[item]?.mainImage)}
                     layout="responsive"
                     width="896px"
-                    height="599px"
+                    height="575px"
                     objectPosition="relative"
                     objectFit="cover"
                     alt={`features-variantE-image-${item}`}
