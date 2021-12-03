@@ -105,22 +105,24 @@ function VariantH({ caption, title, features, images }) {
               </div>
             </div>
             {images && (
-              <div className="flex flex-wrap items-center w-full lg:w-1/2 px-4">
-                <div className="w-1/2 px-3 rounded-lg">
+              <div className="flex items-center w-full lg:w-1/2">
+                <div className="w-1/2 mx-3">
                   {images?.[0] && (
-                    <Image
-                      src={urlFor(images?.[0])}
-                      layout="responsive"
-                      width="245px"
-                      height="256px"
-                      objectFit="cover"
-                      alt="features-variantH-image-1"
-                      blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                      placeholder="blur"
-                    />
+                    <div className="rounded-xl overflow-hidden">
+                      <Image
+                        src={urlFor(images?.[0])}
+                        layout="responsive"
+                        width="245px"
+                        height="256px"
+                        objectFit="cover"
+                        alt="features-variantH-image-1"
+                        blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                        placeholder="blur"
+                      />
+                    </div>
                   )}
                   {images?.[1] && (
-                    <div className="mt-6">
+                    <div className="mt-6 rounded-xl overflow-hidden">
                       <Image
                         src={urlFor(images?.[1])}
                         layout="responsive"
@@ -134,7 +136,7 @@ function VariantH({ caption, title, features, images }) {
                     </div>
                   )}
                 </div>
-                <div className="w-1/2 px-3 rounded-lg">
+                <div className="w-1/2 mx-3 rounded-xl overflow-hidden">
                   {images?.[2] && (
                     <Image
                       src={urlFor(images?.[2])}

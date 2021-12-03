@@ -160,9 +160,9 @@ function VariantB({
               </div>
               {images && (
                 <div className="w-full lg:w-1/2 px-4">
-                  <div className="flex flex-wrap lg:ml-6 mb-3 md:mb-5 lg:mb-5">
+                  <div className="flex mb-3 lg:mb-4 lg:ml-6">
                     {images?.[0] && (
-                      <div className="w-1/3 h-full px-2 rounded-3xl overflow-hidden">
+                      <div className="w-1/3 h-full mr-2 rounded-3xl lg:rounded-br-none overflow-hidden">
                         <Image
                           src={urlFor(images?.[0])}
                           layout="responsive"
@@ -176,12 +176,12 @@ function VariantB({
                       </div>
                     )}
                     {images?.[1] && (
-                      <div className="w-2/3 h-full px-2 rounded-3xl overflow-hidden">
+                      <div className="w-2/3 h-full ml-2 rounded-3xl lg:rounded-bl-none overflow-hidden">
                         <Image
                           src={urlFor(images?.[1])}
                           layout="responsive"
                           width="327px"
-                          height="240px"
+                          height="248px"
                           objectFit="cover"
                           alt="header-image-2"
                           blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
@@ -190,14 +190,14 @@ function VariantB({
                       </div>
                     )}
                   </div>
-                  <div className="flex flex-wrap lg:mb-4 lg:mr-6">
+                  <div className="flex mb-3 lg:mb-4 lg:mr-6">
                     {images?.[2] && (
-                      <div className="w-2/3 h-full px-2 rounded-3xl overflow-hidden">
+                      <div className="w-2/3 h-full mr-2 rounded-3xl lg:rounded-br-none overflow-hidden">
                         <Image
                           src={urlFor(images?.[2])}
                           layout="responsive"
                           width="327px"
-                          height="240px"
+                          height="248px"
                           objectFit="cover"
                           alt="header-image-3"
                           blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
@@ -206,7 +206,7 @@ function VariantB({
                       </div>
                     )}
                     {images?.[3] && (
-                      <div className="w-1/3 h-full px-2 rounded-3xl overflow-hidden">
+                      <div className="w-1/3 h-full ml-2 rounded-3xl lg:rounded-bl-none overflow-hidden">
                         <Image
                           src={urlFor(images?.[3])}
                           layout="responsive"

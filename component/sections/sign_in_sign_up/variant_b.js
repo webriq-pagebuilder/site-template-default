@@ -364,7 +364,7 @@ function VariantB({
           {links && (
             <p className="text-xs text-center text-gray-700">
               {links?.map((link, index, { length }) => (
-                <>
+                <span key={index}>
                   {link?.type === "linkInternal" ? (
                     <Link
                       href={
@@ -387,7 +387,6 @@ function VariantB({
                             ? "noopener noreferrer"
                             : null
                         }
-                        key={index}
                       >
                         {link?.label}
                       </a>
@@ -413,7 +412,7 @@ function VariantB({
                     </a>
                   )}
                   {index + 1 !== length ? <span>&nbsp;and&nbsp;</span> : null}
-                </>
+                </span>
               ))}
             </p>
           )}

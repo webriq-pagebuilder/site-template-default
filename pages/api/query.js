@@ -349,7 +349,6 @@ const allProjections = `
     ...,
     variants {
       ...,
-      "variant": condition,
       ${variant_a}
       ${variant_b}
       ${variant_c}
@@ -386,7 +385,6 @@ export const blogNavAndFooter = groq`
     ...,
     variants {
       ...,
-      "variant": condition,
       variant_a {
         ...,
         primaryButton {

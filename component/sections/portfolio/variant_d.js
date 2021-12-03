@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { urlFor } from "lib/sanity";
 
-function VariantD({ caption, title, portfolios, buttonLabel }) {
+function VariantD({ caption, title, portfolios }) {
   let portfoliosPerPage = 6,
     count = 0; // default number of portfolios per category
   const [activeTab, setActiveTab] = React.useState(portfolios?.[0]?.category); // set the first index category as initial value
@@ -660,7 +660,7 @@ function VariantD({ caption, title, portfolios, buttonLabel }) {
                     setShowMore(true);
                   }}
                 >
-                  {buttonLabel ?? "View More Projects"}
+                  {portfoliosPerCategory?.[0]?.button ?? "View More Projects"}
                 </button>
               )}
           </div>

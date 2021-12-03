@@ -7,7 +7,10 @@ function VariantA({ stats }) {
         <div className="flex flex-wrap items-center justify-center text-center -mx-4">
           {stats &&
             stats.map((items, index) => (
-              <div className="mb-8 w-full lg:w-1/4 px-4" key={index}>
+              <div
+                className="mb-8 w-full sm:w-1/4 md:w-1/2 lg:w-1/4 px-4"
+                key={index}
+              >
                 <div className="relative py-10 bg-white shadow rounded">
                   <p className="mb-1 text-webriq-darkblue">{items?.label}</p>
                   <span className="text-3xl lg:text-4xl font-bold">

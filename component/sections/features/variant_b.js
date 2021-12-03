@@ -1,6 +1,6 @@
 import React from "react";
 
-function VariantB({ caption, title, description, features, featureItems }) {
+function VariantB({ caption, title, description, features, tags }) {
   return (
     <section>
       <div className="py-20 bg-gray-50 radius-for-skewed">
@@ -28,8 +28,8 @@ function VariantB({ caption, title, description, features, featureItems }) {
                   </p>
                 )}
                 <ul className="text-gray-500 font-bold">
-                  {featureItems &&
-                    featureItems.map((item) => (
+                  {tags &&
+                    tags.map((item) => (
                       <li className="flex mb-4" key={item}>
                         <svg
                           className="mr-2 w-6 h-6 text-webriq-babyblue"

@@ -25,7 +25,7 @@ function VariantA({ subtitle, title, posts, buttonLabel }) {
     return chunks;
   };
 
-  const newArray = splitPosts(
+  const groupedBlogsArray = splitPosts(
     posts,
     blogsPerPage,
     Math.ceil(posts?.length / blogsPerPage)
@@ -45,369 +45,251 @@ function VariantA({ subtitle, title, posts, buttonLabel }) {
               </h1>
             )}
           </div>
-          {newArray &&
-            newArray?.slice(count, blogsToShow)?.map((posts, index) => (
-              <div className="flex flex-wrap justify-center -mx-3" key={index}>
-                <div className="flex flex-wrap w-full lg:w-1/2">
-                  {posts?.slice(count, count + 1)?.map((post, key) => (
-                    <div
-                      className="w-full px-3 mb-5 transform hover:scale-110 motion-reduce:transform-none"
-                      key={key}
-                    >
-                      <Link
-                        href={`/${post?.slug?.current}` ?? "/page-not-found"}
-                      >
-                        <a aria-label={`blog post ${key}`}>
-                          <div className="relative h-64 mx-auto overflow-hidden rounded">
-                            <div className="relative h-full w-full rounded">
-                              {post?.mainImage && (
-                                <>
-                                  <Image
-                                    src={urlFor(post?.mainImage)}
-                                    layout="fill"
-                                    objectFit="cover"
-                                    alt={`blog-variantA-image-${key}`}
-                                    blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                                    placeholder="blur"
-                                  />
-                                  <div className="absolute inset-0 bg-gray-900 opacity-75 rounded" />
-                                </>
-                              )}
-                              <div className="absolute inset-0 p-6 flex flex-col items-start">
-                                {post?.categories && (
-                                  <div className="flex absolute top-5 left-5">
-                                    {post?.categories?.map(
-                                      (category, index) => (
-                                        <span
-                                          className="mb-auto py-1 px-3 text-sm mr-3 bg-white rounded-full text-webriq-darkblue uppercase font-bold"
-                                          key={index}
-                                        >
-                                          {category?.title}
-                                        </span>
-                                      )
-                                    )}
-                                  </div>
-                                )}
-                                <div className="flex absolute bottom-14 left-5">
-                                  {post?.authors && (
-                                    <div className="flex">
-                                      {post?.authors?.map(
-                                        (author, index, { length }) => (
-                                          <div key={index}>
-                                            <span className="text-sm text-webriq-babyblue">
-                                              {author?.name}
-                                            </span>
-                                            {index + 1 !== length ? (
-                                              <span className="text-sm text-webriq-babyblue">
-                                                &nbsp;,&nbsp;
-                                              </span>
-                                            ) : null}
-                                          </div>
-                                        )
-                                      )}
-                                    </div>
-                                  )}
-                                  {post?.publishedAt && post?.authors && (
-                                    <span className="text-sm text-gray-500 mx-2">
-                                      •
+          {groupedBlogsArray &&
+            groupedBlogsArray
+              ?.slice(count, blogsToShow)
+              ?.map((posts, index) => (
+                <div
+                  className="flex flex-wrap justify-center -mx-3"
+                  key={index}
+                >
+                  <div className="flex flex-wrap w-full lg:w-1/2">
+                    {posts &&
+                      posts?.slice(count, count + 1)?.map((post, key) => (
+                        <div className="w-full px-3 mb-5" key={key}>
+                          <div className="relative h-64 mx-auto rounded">
+                            <div className="relative h-full w-full rounded overflow-hidden">
+                              <Image
+                                src={urlFor(post?.mainImage)}
+                                layout="fill"
+                                objectFit="cover"
+                                alt={`blog-variantA-image-${key}`}
+                                blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                                placeholder="blur"
+                              />
+                            </div>
+                            <div className="absolute inset-0 bg-gray-900 opacity-75 rounded" />
+                            <div className="absolute inset-0 p-6 flex flex-col items-start">
+                              {post?.categories && (
+                                <div className="flex absolute top-5 left-5">
+                                  {post?.categories?.map((category, index) => (
+                                    <span
+                                      className="py-1 px-3 text-sm mr-3 bg-white rounded-full text-webriq-darkblue uppercase font-bold"
+                                      key={index}
+                                    >
+                                      {category?.title}
                                     </span>
-                                  )}
-                                  {post?.publishedAt && (
-                                    <span className="text-sm text-gray-500">
-                                      {format(
-                                        new Date(post?.publishedAt),
-                                        "dd MMM, yyyy"
-                                      )}
-                                    </span>
-                                  )}
+                                  ))}
                                 </div>
-                                {post?.title && (
-                                  <p className="absolute bottom-5 left-5 text-xl lg:text-2xl text-white font-bold overflow-ellipsis overflow-hidden">
-                                    {post?.title?.length > 30
-                                      ? post?.title.substring(0, 30) + "..."
+                              )}
+                              {post?.publishedAt && (
+                                <span className="mt-auto text-sm text-gray-500">
+                                  {format(
+                                    new Date(post?.publishedAt),
+                                    "dd MMM, yyyy"
+                                  )}
+                                </span>
+                              )}
+                              {post?.title && (
+                                <Link
+                                  href={
+                                    `/${post?.slug?.current}` ??
+                                    "/page-not-found"
+                                  }
+                                >
+                                  <a
+                                    aria-label={`blog post ${key}`}
+                                    className="text-xl lg:text-2xl text-white font-bold hover:text-webriq-babyblue transform hover:scale-110 motion-reduce:transform-none"
+                                  >
+                                    {post?.title?.length > 50
+                                      ? post?.title.substring(0, 50) + "..."
                                       : post?.title}
-                                  </p>
-                                )}
-                              </div>
+                                  </a>
+                                </Link>
+                              )}
                             </div>
                           </div>
-                        </a>
-                      </Link>
-                    </div>
-                  ))}
-                  {posts?.slice(count + 1, count + 3)?.map((post, key) => (
-                    <div
-                      className="w-full lg:w-1/2 px-3 mb-5 transform hover:scale-110 motion-reduce:transform-none"
-                      key={key}
-                    >
-                      <Link
-                        href={`/${post?.slug?.current}` ?? "/page-not-found"}
-                      >
-                        <a aria-label={`blog post ${key}`}>
-                          <div className="relative mx-auto overflow-hidden rounded h-128">
-                            {post?.mainImage && (
-                              <>
-                                <div className="relative h-full w-full rounded">
-                                  <Image
-                                    src={urlFor(post?.mainImage)}
-                                    layout="responsive"
-                                    width="358px"
-                                    height="237px"
-                                    objectFit="cover"
-                                    alt={`blog-variantA-image-${key}`}
-                                    blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                                    placeholder="blur"
-                                  />
-                                </div>
-                                <div className="absolute inset-0 bg-gray-900 opacity-75 rounded" />
-                              </>
+                        </div>
+                      ))}
+                    {posts?.slice(count + 1, count + 3)?.map((post, key) => (
+                      <div className="w-full lg:w-1/2 px-3 mb-5" key={key}>
+                        <div className="relative mx-auto rounded h-64 md:h-128 lg:h-128 xl:h-128 2xl:h-128">
+                          <div className="relative h-full w-full rounded overflow-hidden">
+                            <Image
+                              src={urlFor(post?.mainImage)}
+                              layout="fixed"
+                              width="358px"
+                              height="256px"
+                              objectFit="cover"
+                              alt={`blog-variantA-image-${key}`}
+                              blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                              placeholder="blur"
+                            />
+                          </div>
+                          <div className="absolute inset-0 bg-gray-900 opacity-75 rounded" />
+                          <div className="absolute inset-0 p-6 flex flex-col items-start">
+                            {post?.categories && (
+                              <div className="flex absolute top-5 left-5">
+                                {post?.categories?.map((category, index) => (
+                                  <span
+                                    className="mb-auto py-1 px-3 text-sm mr-3 bg-white rounded-full text-webriq-darkblue uppercase font-bold"
+                                    key={index}
+                                  >
+                                    {category?.title}
+                                  </span>
+                                ))}
+                              </div>
                             )}
-                            <div className="absolute inset-0 p-6 flex flex-col items-start">
-                              {post?.categories && (
-                                <div className="flex absolute top-5 left-5">
-                                  {post?.categories?.map((category, index) => (
-                                    <span
-                                      className="mb-auto py-1 px-3 text-sm mr-3 bg-white rounded-full text-webriq-darkblue uppercase font-bold"
-                                      key={index}
-                                    >
-                                      {category?.title}
-                                    </span>
-                                  ))}
-                                </div>
-                              )}
-                              <div className="flex absolute bottom-14 left-5">
-                                {post?.authors && (
-                                  <div className="flex">
-                                    {post?.authors?.map(
-                                      (author, index, { length }) => (
-                                        <div key={index}>
-                                          <span className="text-sm text-webriq-babyblue">
-                                            {author?.name}
-                                          </span>
-                                          {index + 1 !== length ? (
-                                            <span className="text-sm text-webriq-babyblue">
-                                              &nbsp;,&nbsp;
-                                            </span>
-                                          ) : null}
-                                        </div>
-                                      )
-                                    )}
-                                  </div>
+                            {post?.publishedAt && (
+                              <span className="mt-auto text-sm text-gray-500">
+                                {format(
+                                  new Date(post?.publishedAt),
+                                  "dd MMM, yyyy"
                                 )}
-                                {post?.publishedAt && post?.authors && (
-                                  <span className="text-sm text-gray-500 mx-2">
-                                    •
-                                  </span>
-                                )}
-                                {post?.publishedAt && (
-                                  <span className="text-sm text-gray-500">
-                                    {format(
-                                      new Date(post?.publishedAt),
-                                      "dd MMM, yyyy"
-                                    )}
-                                  </span>
-                                )}
-                              </div>
-                              {post?.title && (
-                                <p className="absolute bottom-5 left-5 text-xl lg:text-2xl text-white font-bold overflow-ellipsis overflow-hidden">
-                                  {post?.title?.length > 30
-                                    ? post?.title.substring(0, 30) + "..."
-                                    : post?.title}
-                                </p>
-                              )}
-                            </div>
-                          </div>
-                        </a>
-                      </Link>
-                    </div>
-                  ))}
-                </div>
-                <div className="flex flex-wrap w-full lg:w-1/2">
-                  {posts?.slice(count + 3, count + 5)?.map((post, key) => (
-                    <div
-                      className="w-full lg:w-1/2 px-3 mb-5 transform hover:scale-110 motion-reduce:transform-none"
-                      key={key}
-                    >
-                      <Link
-                        href={`/${post?.slug?.current}` ?? "/page-not-found"}
-                      >
-                        <a aria-label={`blog post ${key}`}>
-                          <div className="relative mx-auto overflow-hidden rounded h-128">
-                            {post?.mainImage && (
-                              <>
-                                <div className="relative h-full w-full rounded">
-                                  <Image
-                                    src={urlFor(post?.mainImage)}
-                                    layout="responsive"
-                                    width="358px"
-                                    height="237px"
-                                    objectFit="cover"
-                                    alt={`blog-variantA-image-${key}`}
-                                    blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                                    placeholder="blur"
-                                  />
-                                </div>
-                                <div className="absolute inset-0 bg-gray-900 opacity-75 rounded" />
-                              </>
+                              </span>
                             )}
-                            <div className="absolute inset-0 p-6 flex flex-col items-start">
-                              {post?.categories && (
-                                <div className="flex absolute top-5 left-5">
-                                  {post?.categories?.map((category, index) => (
-                                    <span
-                                      className="mb-auto py-1 px-3 text-sm mr-3 bg-white rounded-full text-webriq-darkblue uppercase font-bold"
-                                      key={index}
-                                    >
-                                      {category?.title}
-                                    </span>
-                                  ))}
-                                </div>
-                              )}
-                              <div className="flex absolute bottom-14 left-5">
-                                {post?.authors && (
-                                  <div className="flex">
-                                    {post?.authors?.map(
-                                      (author, index, { length }) => (
-                                        <div key={index}>
-                                          <span className="text-sm text-webriq-babyblue">
-                                            {author?.name}
-                                          </span>
-                                          {index + 1 !== length ? (
-                                            <span className="text-sm text-webriq-babyblue">
-                                              &nbsp;,&nbsp;
-                                            </span>
-                                          ) : null}
-                                        </div>
-                                      )
-                                    )}
-                                  </div>
-                                )}
-                                {post?.publishedAt && post?.authors && (
-                                  <span className="text-sm text-gray-500 mx-2">
-                                    •
-                                  </span>
-                                )}
-                                {post?.publishedAt && (
-                                  <span className="text-sm text-gray-500">
-                                    {format(
-                                      new Date(post?.publishedAt),
-                                      "dd MMM, yyyy"
-                                    )}
-                                  </span>
-                                )}
-                              </div>
-                              {post?.title && (
-                                <p className="absolute bottom-5 left-5 text-xl lg:text-2xl text-white font-bold overflow-ellipsis overflow-hidden">
-                                  {post?.title?.length > 30
-                                    ? post?.title.substring(0, 30) + "..."
+                            {post?.title && (
+                              <Link
+                                href={
+                                  `/${post?.slug?.current}` ?? "/page-not-found"
+                                }
+                              >
+                                <a className="text-xl lg:text-2xl text-white font-bold hover:text-webriq-babyblue transform hover:scale-110 motion-reduce:transform-none">
+                                  {post?.title?.length > 50
+                                    ? post?.title.substring(0, 50) + "..."
                                     : post?.title}
-                                </p>
-                              )}
-                            </div>
-                          </div>
-                        </a>
-                      </Link>
-                    </div>
-                  ))}
-                  {posts?.slice(count + 5, blogsPerPage)?.map((post, key) => (
-                    <div
-                      className="w-full px-3 mb-5 transform hover:scale-110 motion-reduce:transform-none"
-                      key={key}
-                    >
-                      <Link
-                        href={`/${post?.slug?.current}` ?? "/page-not-found"}
-                      >
-                        <a aria-label={`blog post ${key}`}>
-                          <div className="relative mx-auto overflow-hidden rounded h-64">
-                            {post?.mainImage && (
-                              <>
-                                <Image
-                                  src={urlFor(post?.mainImage)}
-                                  layout="fill"
-                                  objectFit="cover"
-                                  alt={`blog-variantA-image-${key}`}
-                                  blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                                  placeholder="blur"
-                                />
-                                <div className="absolute inset-0 bg-gray-900 opacity-75 rounded" />
-                              </>
+                                </a>
+                              </Link>
                             )}
-                            <div className="absolute inset-0 p-6 flex flex-col items-start">
-                              {post?.categories && (
-                                <div className="flex absolute top-5 left-5">
-                                  {post?.categories?.map((category, index) => (
-                                    <span
-                                      className="mb-auto py-1 px-3 mr-3 text-sm bg-white rounded-full text-webriq-darkblue uppercase font-bold"
-                                      key={index}
-                                    >
-                                      {category?.title}
-                                    </span>
-                                  ))}
-                                </div>
-                              )}
-                              <div className="flex absolute bottom-14 left-5">
-                                {post?.authors && (
-                                  <div className="flex">
-                                    {post?.authors?.map(
-                                      (author, index, { length }) => (
-                                        <div key={index}>
-                                          <span className="text-sm text-webriq-babyblue">
-                                            {author?.name}
-                                          </span>
-                                          {index + 1 !== length ? (
-                                            <span className="text-sm text-webriq-babyblue">
-                                              &nbsp;,&nbsp;
-                                            </span>
-                                          ) : null}
-                                        </div>
-                                      )
-                                    )}
-                                  </div>
-                                )}
-                                {post?.publishedAt && post?.authors && (
-                                  <span className="text-sm text-gray-500 mx-2">
-                                    •
-                                  </span>
-                                )}
-                                {post?.publishedAt && (
-                                  <span className="text-sm text-gray-500">
-                                    {format(
-                                      new Date(post?.publishedAt),
-                                      "dd MMM, yyyy"
-                                    )}
-                                  </span>
-                                )}
-                              </div>
-                              {post?.title && (
-                                <p className="absolute bottom-5 left-5 text-xl lg:text-2xl text-white font-bold">
-                                  {post?.title?.length > 30
-                                    ? post?.title.substring(0, 30) + "..."
-                                    : post?.title}
-                                </p>
-                              )}
-                            </div>
                           </div>
-                        </a>
-                      </Link>
-                    </div>
-                  ))}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="flex flex-wrap w-full lg:w-1/2">
+                    {posts?.slice(count + 3, count + 5)?.map((post, key) => (
+                      <div className="w-full lg:w-1/2 px-3 mb-5" key={key}>
+                        <div className="relative mx-auto rounded h-64 md:h-128 lg:h-128 xl:h-128 2xl:h-128">
+                          <div className="relative h-full w-full rounded overflow-hidden">
+                            <Image
+                              src={urlFor(post?.mainImage)}
+                              layout="fixed"
+                              width="358px"
+                              height="256px"
+                              objectFit="cover"
+                              alt={`blog-variantA-image-${key}`}
+                              blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                              placeholder="blur"
+                            />
+                          </div>
+                          <div className="absolute inset-0 bg-gray-900 opacity-75 rounded" />
+                          <div className="absolute inset-0 p-6 flex flex-col items-start">
+                            {post?.categories && (
+                              <div className="flex absolute top-5 left-5">
+                                {post?.categories?.map((category, index) => (
+                                  <span
+                                    className="mb-auto py-1 px-3 text-sm mr-3 bg-white rounded-full text-webriq-darkblue uppercase font-bold"
+                                    key={index}
+                                  >
+                                    {category?.title}
+                                  </span>
+                                ))}
+                              </div>
+                            )}
+                            {post?.publishedAt && (
+                              <span className="mt-auto text-sm text-gray-500">
+                                {format(
+                                  new Date(post?.publishedAt),
+                                  "dd MMM, yyyy"
+                                )}
+                              </span>
+                            )}
+                            {post?.title && (
+                              <Link
+                                href={
+                                  `/${post?.slug?.current}` ?? "/page-not-found"
+                                }
+                              >
+                                <a className="text-xl lg:text-2xl text-white font-bold hover:text-webriq-babyblue transform hover:scale-110 motion-reduce:transform-none">
+                                  {post?.title?.length > 50
+                                    ? post?.title.substring(0, 50) + "..."
+                                    : post?.title}
+                                </a>
+                              </Link>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                    {posts?.slice(count + 5, blogsPerPage)?.map((post, key) => (
+                      <div className="w-full px-3 mb-5" key={key}>
+                        <div className="relative mx-auto rounded h-64">
+                          <div className="relative h-full w-full rounded overflow-hidden">
+                            <Image
+                              src={urlFor(post?.mainImage)}
+                              layout="fill"
+                              objectFit="cover"
+                              alt={`blog-variantA-image-${key}`}
+                              blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                              placeholder="blur"
+                            />
+                          </div>
+                          <div className="absolute inset-0 bg-gray-900 opacity-75 rounded" />
+                          <div className="absolute inset-0 p-6 flex flex-col items-start">
+                            {post?.categories && (
+                              <div className="flex absolute top-5 left-5">
+                                {post?.categories?.map((category, index) => (
+                                  <span
+                                    className="mb-auto py-1 px-3 mr-3 text-sm bg-white rounded-full text-webriq-darkblue uppercase font-bold"
+                                    key={index}
+                                  >
+                                    {category?.title}
+                                  </span>
+                                ))}
+                              </div>
+                            )}
+                            {post?.publishedAt && (
+                              <span className="mt-auto text-sm text-gray-500">
+                                {format(
+                                  new Date(post?.publishedAt),
+                                  "dd MMM, yyyy"
+                                )}
+                              </span>
+                            )}
+                            {post?.title && (
+                              <Link
+                                href={
+                                  `/${post?.slug?.current}` ?? "/page-not-found"
+                                }
+                              >
+                                <a className="text-xl lg:text-2xl text-white font-bold hover:text-webriq-babyblue transform hover:scale-110 motion-reduce:transform-none">
+                                  {post?.title?.length > 50
+                                    ? post?.title.substring(0, 50) + "..."
+                                    : post?.title}
+                                </a>
+                              </Link>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="mt-10">
+                    {posts?.length > blogsPerPage && !showMore && buttonLabel && (
+                      <button
+                        aria-label="View More Blogs button"
+                        className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose outline-none transition duration-200"
+                        onClick={() => {
+                          setBlogsToShow(groupedBlogsArray?.length);
+                          setShowMore(true);
+                        }}
+                      >
+                        {buttonLabel}
+                      </button>
+                    )}
+                  </div>
                 </div>
-                <div className="mt-10">
-                  {!showMore && buttonLabel && (
-                    <button
-                      aria-label="View More Blogs button"
-                      className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose outline-none transition duration-200"
-                      onClick={() => {
-                        setBlogsToShow(newArray?.length);
-                        setShowMore(true);
-                      }}
-                    >
-                      {buttonLabel}
-                    </button>
-                  )}
-                </div>
-              </div>
-            ))}
+              ))}
         </div>
       </div>
     </section>

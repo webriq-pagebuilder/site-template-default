@@ -47,7 +47,7 @@ function VariantD({ subtitle, title, posts, buttonLabel }) {
 
   return (
     <section>
-      <div className="p-20 bg-gray-50 radius-for-skewed">
+      <div className="py-20 bg-gray-50 radius-for-skewed">
         <div className="container mx-auto px-4">
           <div className="mb-16 flex flex-wrap items-center">
             <div className="w-full lg:w-1/2">
@@ -67,7 +67,7 @@ function VariantD({ subtitle, title, posts, buttonLabel }) {
                 posts?.length > blogsPerPage ? (
                   <button
                     aria-label="View All Blogs button"
-                    className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-gray-50 font-bold leading-loose transition duration-200"
+                    className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose transition duration-200"
                     onClick={() => setBlogsPerPage(posts?.length)}
                   >
                     {buttonLabel}
@@ -76,7 +76,7 @@ function VariantD({ subtitle, title, posts, buttonLabel }) {
               ) : postsPerCategory?.length > blogsPerPage ? (
                 <button
                   aria-label={`View All Blogs For ${activeTab} button`}
-                  className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-gray-50 font-bold leading-loose transition duration-200"
+                  className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose transition duration-200"
                   onClick={() => setBlogsPerPage(postsPerCategory?.length)}
                 >
                   {buttonLabel}
@@ -87,51 +87,55 @@ function VariantD({ subtitle, title, posts, buttonLabel }) {
           <div className="flex flex-wrap -mx-3">
             <div className="mb-8 lg:mb-0 w-full lg:w-1/4 px-3">
               <div className="py-4 px-6 bg-white shadow rounded">
-                <h4 className="mb-4 text-gray-500 font-bold uppercase">
-                  Topics
-                </h4>
                 {categories && (
-                  <ul>
-                    {categories?.length > 1 && (
-                      <li
-                        className={`hover:text-webriq-darkblue hover:bg-webriq-lightblue rounded ${
-                          activeTab === "All" ? "bg-webriq-lightblue" : null
-                        }`}
-                      >
-                        <button
-                          aria-label="All Blogs tab"
-                          className={`block py-2 px-3 mb-4 ${
-                            activeTab === "All"
-                              ? "font-bold focus:outline-none text-webriq-darkblue"
-                              : null
+                  <>
+                    <h1 className="mb-4 text-gray-500 font-bold uppercase">
+                      Topics
+                    </h1>
+                    <ul>
+                      {categories?.length > 1 && (
+                        <li
+                          className={`hover:text-webriq-darkblue hover:bg-webriq-lightblue rounded ${
+                            activeTab === "All" ? "bg-webriq-lightblue" : null
                           }`}
-                          onClick={() => setActiveTab("All")}
                         >
-                          All
-                        </button>
-                      </li>
-                    )}
-                    {categories?.map((category, index) => (
-                      <li
-                        className={`hover:text-webriq-darkblue hover:bg-webriq-lightblue rounded ${
-                          activeTab === category ? "bg-webriq-lightblue" : null
-                        }`}
-                        key={index}
-                      >
-                        <button
-                          aria-label={`${category} Blogs tab`}
-                          className={`block py-2 px-3 mb-4 focus:outline-none ${
+                          <button
+                            aria-label="All Blogs tab"
+                            className={`block py-2 px-3 mb-4 focus:outline-none ${
+                              activeTab === "All"
+                                ? "font-bold focus:outline-none text-webriq-darkblue"
+                                : null
+                            }`}
+                            onClick={() => setActiveTab("All")}
+                          >
+                            All
+                          </button>
+                        </li>
+                      )}
+                      {categories?.map((category, index) => (
+                        <li
+                          className={`hover:text-webriq-darkblue hover:bg-webriq-lightblue rounded ${
                             activeTab === category
-                              ? "font-bold focus:outline-none text-webriq-darkblue"
+                              ? "bg-webriq-lightblue"
                               : null
                           }`}
-                          onClick={() => setActiveTab(category)}
+                          key={index}
                         >
-                          {category}
-                        </button>
-                      </li>
-                    ))}
-                  </ul>
+                          <button
+                            aria-label={`${category} Blogs tab`}
+                            className={`block py-2 px-3 mb-4 focus:outline-none ${
+                              activeTab === category
+                                ? "font-bold focus:outline-none text-webriq-darkblue"
+                                : null
+                            }`}
+                            onClick={() => setActiveTab(category)}
+                          >
+                            {category}
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                  </>
                 )}
               </div>
             </div>
@@ -143,18 +147,20 @@ function VariantD({ subtitle, title, posts, buttonLabel }) {
                         className="flex flex-wrap -mx-3 mb-8 lg:mb-6"
                         key={index}
                       >
-                        <div className="mb-4 lg:mb-0 w-full h-full lg:w-1/4 px-3 rounded overflow-hidden">
+                        <div className="mb-4 lg:mb-0 w-full h-full lg:w-1/4 px-3">
                           {post?.mainImage && (
-                            <Image
-                              src={urlFor(post?.mainImage)}
-                              layout="responsive"
-                              width="188px"
-                              height="129px"
-                              objectFit="cover"
-                              alt={`blog-variantD-image-${index}`}
-                              blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                              placeholder="blur"
-                            />
+                            <div className="rounded overflow-hidden">
+                              <Image
+                                src={urlFor(post?.mainImage)}
+                                layout="responsive"
+                                width="188px"
+                                height="129px"
+                                objectFit="cover"
+                                alt={`blog-variantD-image-${index}`}
+                                blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                                placeholder="blur"
+                              />
+                            </div>
                           )}
                         </div>
                         <div className="w-full lg:w-3/4 px-3">
@@ -213,18 +219,20 @@ function VariantD({ subtitle, title, posts, buttonLabel }) {
                         className="flex flex-wrap -mx-3 mb-8 lg:mb-6"
                         key={index}
                       >
-                        <div className="mb-4 lg:mb-0 h-full w-full lg:w-1/4 px-3 rounded overflow-hidden">
+                        <div className="mb-4 lg:mb-0 h-full w-full lg:w-1/4 px-3">
                           {post?.mainImage && (
-                            <Image
-                              src={urlFor(post?.mainImage)}
-                              layout="responsive"
-                              width="188px"
-                              height="129px"
-                              objectFit="cover"
-                              alt={`blog-variantD-image-${index}`}
-                              blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                              placeholder="blur"
-                            />
+                            <div className="rounded overflow-hidden">
+                              <Image
+                                src={urlFor(post?.mainImage)}
+                                layout="responsive"
+                                width="188px"
+                                height="129px"
+                                objectFit="cover"
+                                alt={`blog-variantD-image-${index}`}
+                                blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                                placeholder="blur"
+                              />
+                            </div>
                           )}
                         </div>
                         <div className="w-full lg:w-3/4 px-3">

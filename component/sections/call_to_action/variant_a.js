@@ -5,8 +5,17 @@ import React from "react";
 
 function VariantA({ logo, title, text, button }) {
   return (
-    <section className="skewed-top-left skewed-bottom-right">
-      <div className="py-20 bg-gray-50 radius-for-skewed">
+    <section>
+      <div>
+        <svg
+          className="h-8 md:h-12 lg:h-20 w-full text-gray-50"
+          viewBox="0 0 10 10"
+          preserveAspectRatio="none"
+        >
+          <polygon fill="currentColor" points="0 10 10 0 10 10"></polygon>
+        </svg>
+      </div>
+      <div className="py-20 bg-gray-50 rounded-tl-3xl rounded-br-3xl">
         <div className="container mx-auto px-4">
           <div className="max-w-xl mx-auto text-center">
             {logo?.image && (
@@ -91,6 +100,15 @@ function VariantA({ logo, title, text, button }) {
             )}
           </div>
         </div>
+      </div>
+      <div>
+        <svg
+          className="h-8 md:h-12 lg:h-20 w-full text-gray-50"
+          viewBox="0 0 10 10"
+          preserveAspectRatio="none"
+        >
+          <polygon fill="currentColor" points="0 0 10 0 0 10"></polygon>
+        </svg>
       </div>
     </section>
   );

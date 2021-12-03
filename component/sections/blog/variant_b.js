@@ -25,7 +25,7 @@ function VariantB({ subtitle, title, posts, buttonLabel }) {
     return chunks;
   };
 
-  const newArray = splitPosts(
+  const groupedBlogsArray = splitPosts(
     posts,
     blogsPerPage,
     Math.ceil(posts?.length / blogsPerPage)
@@ -48,97 +48,30 @@ function VariantB({ subtitle, title, posts, buttonLabel }) {
                 </h1>
               )}
             </div>
-            {newArray &&
-              newArray?.slice(count, blogsToShow)?.map((posts, index) => (
-                <div className="flex flex-wrap mx-3 mb-16" key={index}>
-                  <div className="mb-6 lg:mb-0 w-full lg:w-1/2 px-3">
-                    {posts?.slice(count, count + 1)?.map((post, key) => (
-                      <div
-                        className="h-full flex flex-col overflow-hidden rounded shadow"
-                        key={key}
-                      >
-                        <div>
-                          <Image
-                            src={urlFor(post?.mainImage)}
-                            layout="responsive"
-                            width="577px"
-                            height="652px"
-                            objectFit="cover"
-                            alt={`blog-variantB-image-${key}`}
-                            blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                            placeholder="blur"
-                          />
-                        </div>
-                        <div className="mt-auto p-6 rounded-b bg-white">
-                          {post?.publishedAt && (
-                            <span className="text-sm text-gray-500">
-                              {format(
-                                new Date(post?.publishedAt),
-                                " dd MMM, yyyy"
-                              )}
-                            </span>
-                          )}
-                          {post?.title && (
-                            <h1 className="my-2 text-2xl font-bold">
-                              {post?.title}
-                            </h1>
-                          )}
-                          {post?.authors && (
-                            <div className="flex mb-5">
-                              {post?.authors?.map(
-                                (author, index, { length }) => (
-                                  <div key={index}>
-                                    <span className="text-gray-700 text-sm italic">
-                                      {author?.name}
-                                    </span>
-                                    {index + 1 !== length ? (
-                                      <span className="text-gray-700">
-                                        &nbsp;,&nbsp;
-                                      </span>
-                                    ) : null}
-                                  </div>
-                                )
-                              )}
-                            </div>
-                          )}
-                          {post?.excerpt && (
-                            <p className="mb-6 leading-loose text-justify text-gray-500">
-                              {post?.excerpt}
-                            </p>
-                          )}
-                          <Link
-                            href={
-                              `/${post?.slug?.current}` ?? "/page-not-found"
-                            }
-                          >
-                            <a
-                              aria-label={`Go to ${post?.slug?.current} blog page`}
-                              className="text-webriq-darkblue hover:text-webriq-babyblue font-bold"
-                            >
-                              View Blog Post
-                            </a>
-                          </Link>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                  <div className="flex flex-wrap w-full lg:w-1/2">
-                    {posts?.slice(count + 1, blogsPerPage)?.map((post, key) => (
-                      <div className="mb-6 w-full lg:w-1/2 px-3" key={key}>
-                        <div className="rounded overflow-hidden shadow">
-                          <div className="lg:h-48 rounded-t">
+            {groupedBlogsArray &&
+              groupedBlogsArray
+                ?.slice(count, blogsToShow)
+                ?.map((posts, index) => (
+                  <div className="flex flex-wrap -mx-3 mb-16" key={index}>
+                    <div className="mb-6 lg:mb-0 w-full lg:w-1/2 px-3">
+                      {posts?.slice(count, count + 1)?.map((post, key) => (
+                        <div
+                          className="rounded overflow-hidden shadow"
+                          key={key}
+                        >
+                          <div className="h-full rounded-t overflow-hidden">
                             <Image
                               src={urlFor(post?.mainImage)}
                               layout="responsive"
-                              width="259px"
-                              height="192px"
+                              width="271px"
+                              height="248px"
                               objectFit="cover"
                               alt={`blog-variantB-image-${key}`}
                               blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
                               placeholder="blur"
                             />
                           </div>
-                          <div className="p-6 rounded-b bg-white">
+                          <div className="mt-auto p-6 rounded-b bg-white">
                             {post?.publishedAt && (
                               <span className="text-sm text-gray-500">
                                 {format(
@@ -148,30 +81,12 @@ function VariantB({ subtitle, title, posts, buttonLabel }) {
                               </span>
                             )}
                             {post?.title && (
-                              <h1 className="my-2 text-2xl font-bold">
+                              <h1 className="my-2 text-lg lg:text-2xl xl:text-2xl 2xl:text-2xl font-bold">
                                 {post?.title}
                               </h1>
                             )}
-                            {post?.authors && (
-                              <div className="flex mb-5">
-                                {post?.authors?.map(
-                                  (author, index, { length }) => (
-                                    <div key={index}>
-                                      <span className="text-gray-700 text-sm italic">
-                                        {author?.name}
-                                      </span>
-                                      {index + 1 !== length ? (
-                                        <span className="text-gray-700">
-                                          &nbsp;,&nbsp;
-                                        </span>
-                                      ) : null}
-                                    </div>
-                                  )
-                                )}
-                              </div>
-                            )}
                             {post?.excerpt && (
-                              <p className="mb-6 leading-loose text-justify text-gray-500">
+                              <p className="mb-6 leading-loose text-xs lg:text-base xl:text-base 2xl:text-base text-justify text-gray-500">
                                 {post?.excerpt}
                               </p>
                             )}
@@ -189,25 +104,79 @@ function VariantB({ subtitle, title, posts, buttonLabel }) {
                             </Link>
                           </div>
                         </div>
-                      </div>
-                    ))}
+                      ))}
+                    </div>
+                    <div className="flex flex-wrap w-full lg:w-1/2">
+                      {posts
+                        ?.slice(count + 1, blogsPerPage)
+                        ?.map((post, key) => (
+                          <div className="mb-6 w-full lg:w-1/2 px-3" key={key}>
+                            <div className="rounded overflow-hidden shadow">
+                              <div className="h-full rounded-t overflow-hidden">
+                                <Image
+                                  src={urlFor(post?.mainImage)}
+                                  layout="responsive"
+                                  width="259px"
+                                  height="192px"
+                                  objectFit="cover"
+                                  alt={`blog-variantB-image-${key}`}
+                                  blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                                  placeholder="blur"
+                                />
+                              </div>
+                              <div className="mt-auto p-6 rounded-b bg-white">
+                                {post?.publishedAt && (
+                                  <span className="text-sm text-gray-500">
+                                    {format(
+                                      new Date(post?.publishedAt),
+                                      " dd MMM, yyyy"
+                                    )}
+                                  </span>
+                                )}
+                                {post?.title && (
+                                  <h1 className="my-2 text-lg lg:text-2xl xl:text-2xl 2xl:text-2xl font-bold">
+                                    {post?.title}
+                                  </h1>
+                                )}
+                                {post?.excerpt && (
+                                  <p className="mb-6 leading-loose text-justify text-gray-500">
+                                    {post?.excerpt}
+                                  </p>
+                                )}
+                                <Link
+                                  href={
+                                    `/${post?.slug?.current}` ??
+                                    "/page-not-found"
+                                  }
+                                >
+                                  <a
+                                    aria-label={`Go to ${post?.slug?.current} blog page`}
+                                    className="text-webriq-darkblue hover:text-webriq-babyblue font-bold"
+                                  >
+                                    View Blog Post
+                                  </a>
+                                </Link>
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                    </div>
                   </div>
-                </div>
-              ))}
-          </div>
-          <div className="text-center">
-            {posts?.length > blogsPerPage && !showMore && buttonLabel && (
-              <button
-                aria-label="View More Blogs button"
-                className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose outline-none transition duration-200"
-                onClick={() => {
-                  setBlogsToShow(newArray?.length);
-                  setShowMore(true);
-                }}
-              >
-                {buttonLabel}
-              </button>
-            )}
+                ))}
+            <div className="text-center">
+              {posts?.length > blogsPerPage && !showMore && buttonLabel && (
+                <button
+                  aria-label="View More Blogs button"
+                  className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose outline-none transition duration-200"
+                  onClick={() => {
+                    setBlogsToShow(groupedBlogsArray?.length);
+                    setShowMore(true);
+                  }}
+                >
+                  {buttonLabel}
+                </button>
+              )}
+            </div>
           </div>
         </div>
       </div>

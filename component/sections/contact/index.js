@@ -7,9 +7,9 @@ const Variants = {
 };
 
 function Contact({ data }) {
-  const variant = data?.variants?.variant;
-
+  const variant = data?.variant;
   const Variant = Variants?.[variant];
+
   const props = {
     contactDescription: data?.variants?.[variant]?.contactDescription,
     officeInformation: data?.variants?.[variant]?.officeInformation,

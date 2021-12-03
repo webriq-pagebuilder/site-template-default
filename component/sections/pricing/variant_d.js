@@ -1,5 +1,6 @@
 import React from "react";
 import WebriQForm from "component/webriq-form";
+import Image from "next/image";
 import { PortableText, urlFor } from "lib/sanity";
 
 function VariantD({
@@ -10,6 +11,8 @@ function VariantD({
   monthlyBilling,
   banner,
   form,
+  formId,
+  formName,
   block,
   signInLink,
 }) {
@@ -81,39 +84,34 @@ function VariantD({
             </div>
           </div>
           <div className="flex flex-wrap bg-white rounded shadow">
-            <form className="w-full md:w-1/2 mb-8 md:mb-0">
+            <div className="w-full md:w-1/2 mb-8 md:mb-0">
               <div className="px-6 py-8 lg:px-8 text-center">
                 <span className="text-gray-700">Sign In</span>
                 <p className="mb-8 text-2xl font-heading">
                   Finish your payment
                 </p>
 
-                <WebriQForm
-                  className="mb-4"
-                  method="POST"
-                  data-form-id={form?.id}
-                  data-thankyou-url={"/"}
-                  scriptSrc="https://pagebuilderforms.webriq.com/js/initReactForms"
-                >
-                  {form?.fields?.map((field) => (
-                    <>
-                      {field.type === "inputText" &&
-                      String(field?.name).split(" ")[0].toLowerCase() ===
-                        "email" ? (
-                        <div
-                          className="flex mb-4 px-4 bg-gray-50 rounded"
-                          key={field?._key}
-                        >
-                          <input
-                            aria-label={`${
-                              field?.type === "inputText"
-                                ? `Input ${formFields[0]?.name}`
-                                : `${field?.type}`
-                            }`}
-                            className="w-full py-4 text-xs placeholder-gray-400 font-semibold leading-none bg-gray-50 focus:outline-none"
-                            type="email"
-                            placeholder={field.name}
-                          />
+                {form?.fields && (
+                  <WebriQForm
+                    method="POST"
+                    data-form-id={formId}
+                    name={formName}
+                    className="mb-4 form-pricing"
+                    data-thankyou-url={"/"}
+                    scriptsrc="https://pagebuilderforms.webriq.com/js/initReactForms"
+                  >
+                    {form?.fields?.map((field) => (
+                      <div
+                        className="flex mb-4 px-4 bg-gray-50 rounded"
+                        key={field?._key}
+                      >
+                        <input
+                          aria-label={field?.type}
+                          className="w-full py-4 text-xs placeholder-gray-400 font-semibold leading-none bg-gray-50 focus:outline-none"
+                          type={field?.type}
+                          placeholder={field.name}
+                        />
+                        {field?.type === "inputEmail" && (
                           <svg
                             className="h-6 w-6 ml-4 my-auto text-gray-500"
                             xmlns="http://www.w3.org/2000/svg"
@@ -128,20 +126,8 @@ function VariantD({
                               d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207"
                             />
                           </svg>
-                        </div>
-                      ) : field.type === "inputText" &&
-                        String(field?.name).toLowerCase() === "password" ? (
-                        <div className="flex mb-6 px-4 bg-gray-50 rounded">
-                          <input
-                            aria-label={`${
-                              field?.type === "inputText"
-                                ? `Input ${field?.name}`
-                                : `${field?.type}`
-                            }`}
-                            className="w-full py-4 text-xs placeholder-gray-400 font-semibold leading-none bg-gray-50 focus:outline-none"
-                            type="password"
-                            placeholder={field.name}
-                          />
+                        )}
+                        {field?.type === "inputPassword" && (
                           <button
                             aria-label="Show Password button"
                             className="ml-4"
@@ -167,38 +153,37 @@ function VariantD({
                               />
                             </svg>
                           </button>
-                        </div>
-                      ) : // field.type === "card" ? <div className="p-3 mb-4">
-                      //   <CardElement options={cardElementOptions}/>
-                      // </div> :
-                      null}
-                    </>
-                  ))}
-
-                  <div className="text-left mb-5 text-sm text-gray-500">
-                    <label className="inline-flex">
-                      <input
-                        aria-label={`Agree to ${block}?`}
-                        className="mr-2"
-                        type="checkbox"
-                        name="terms"
-                        defaultValue={1}
-                      />
-                      <PortableText blocks={block} serializers={serializers} />
-                    </label>
-                  </div>
-                  <button
-                    aria-label="Submit Pricing Form button"
-                    type="submit"
-                    className={`block w-full p-4 text-center text-white font-bold leading-none bg-webriq-blue hover:bg-webriq-darkblue rounded-l-xl rounded-t-xl transition duration-200 ${
-                      billing.billType === "" &&
-                      "disabled:opacity-50 cursor-not-allowed"
-                    }`}
-                    disabled={billing.billType === ""}
-                  >
-                    Buy {billing.billType} Supply
-                  </button>
-                </WebriQForm>
+                        )}
+                      </div>
+                    ))}
+                    <div className="text-left mb-5 text-sm text-gray-500">
+                      <label className="inline-flex">
+                        <input
+                          aria-label={`Agree to ${block}?`}
+                          className="mr-2"
+                          type="checkbox"
+                          name="terms"
+                          defaultValue={1}
+                        />
+                        <PortableText
+                          blocks={block}
+                          serializers={serializers}
+                        />
+                      </label>
+                    </div>
+                    <button
+                      aria-label="Submit Pricing Form button"
+                      type="submit"
+                      className={`block w-full p-4 text-center text-white font-bold leading-none bg-webriq-darkblue hover:bg-webriq-blue rounded-l-xl rounded-t-xl transition duration-200 ${
+                        billing.billType === "" &&
+                        "disabled:opacity-50 cursor-not-allowed"
+                      }`}
+                      disabled={billing.billType === ""}
+                    >
+                      Buy {billing.billType} Supply
+                    </button>
+                  </WebriQForm>
+                )}
                 {signInLink?.label && (
                   <p className="text-xs text-gray-500">
                     Already have an account?{" "}
@@ -254,20 +239,22 @@ function VariantD({
                   </p>
                 )}
               </div>
-            </form>
+            </div>
             <div className="py-10 w-full md:w-1/2 bg-webriq-darkblue lg:rounded-r overflow-hidden flex flex-col">
-              <div className="w-full md:max-w-xs mx-auto my-auto">
-                <Image
-                  src={urlFor(banner?.[banners]?.mainImage)}
-                  layout="responsive"
-                  width="320px"
-                  height="296px"
-                  objectFit="cover"
-                  alt={`pricing-image-${banners}`}
-                  blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                  placeholder="blur"
-                />
-              </div>
+              {banner?.[banners]?.mainImage && (
+                <div className="w-full md:max-w-xs mx-auto my-auto">
+                  <Image
+                    src={urlFor(banner?.[banners]?.mainImage)}
+                    layout="responsive"
+                    width="320px"
+                    height="296px"
+                    objectFit="contain"
+                    alt={`pricing-image-${banners}`}
+                    blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                    placeholder="blur"
+                  />
+                </div>
+              )}
               <p className="mb-4 max-w-sm mx-auto text-center text-xl text-white">
                 {banner?.[banners]?.heading}
               </p>

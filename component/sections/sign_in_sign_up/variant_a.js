@@ -360,7 +360,7 @@ function VariantA({
           {links && (
             <p className="mt-16 text-xs text-center text-gray-700">
               {links?.map((link, index, { length }) => (
-                <>
+                <span key={index}>
                   {link?.type === "linkInternal" ? (
                     <Link
                       href={
@@ -403,13 +403,12 @@ function VariantA({
                           ? "noopener noreferrer"
                           : null
                       }
-                      key={index}
                     >
                       {link?.label}
                     </a>
                   )}
                   {index + 1 !== length ? <span>&nbsp;and&nbsp;</span> : null}
-                </>
+                </span>
               ))}
             </p>
           )}
