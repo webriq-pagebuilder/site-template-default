@@ -8,8 +8,8 @@ function VariantA({ logo, text, contacts, copyright, socialMedia }) {
     <section>
       <div className="py-20 bg-gray-50 radius-for-skewed">
         <div className="container mx-auto px-4">
-          <div className="flex flex-wrap mb-6 lg:mb-20">
-            <div className="mb-6 w-full lg:w-1/5">
+          <div className="flex flex-wrap mb-5 lg:mb-20">
+            <div className="mb-5 w-full lg:w-1/5">
               {logo?.image && (
                 <Link href="/">
                   <a
@@ -36,25 +36,25 @@ function VariantA({ logo, text, contacts, copyright, socialMedia }) {
             {contacts && (
               <div className="w-full lg:w-3/5 flex flex-wrap -mx-3 justify-end">
                 {contacts[0].addressInfo && (
-                  <div className="mb-6 w-full md:w-1/2 lg:w-1/4 lg:mr-6 px-1">
+                  <div className="mb-5 w-full md:w-1/2 lg:w-1/4 lg:mr-6 px-3">
                     {contacts.length > 1 ? (
-                      <p className="leading-loose mb-4 font-bold">Addresses</p>
+                      <p className="mb-4 font-bold">Addresses</p>
                     ) : (
-                      <p className="leading-loose mb-4 font-bold">Address</p>
+                      <p className="mb-4 font-bold">Address</p>
                     )}
-                    <p className="text-gray-500 leading-loose mb-5">
+                    <p className="text-gray-500 mb-5">
                       {contacts[0]?.addressInfo}
                     </p>
-                    <p className="text-gray-500 leading-loose mb-5">
+                    <p className="text-gray-500 mb-5">
                       {contacts[1]?.addressInfo}
                     </p>
-                    <p className="text-gray-500 leading-loose mb-5">
+                    <p className="text-gray-500 mb-5">
                       {contacts[2]?.addressInfo}
                     </p>
                   </div>
                 )}
                 {contacts[0].emailInfo && (
-                  <div className="mb-6 w-full md:w-1/2 lg:w-1/4 lg:mr-6 px-3">
+                  <div className="mb-5 w-full md:w-1/2 lg:w-1/4 lg:mr-6 px-3">
                     {contacts.length > 1 ? (
                       <p className="mb-4 font-bold">Emails</p>
                     ) : (
@@ -72,7 +72,7 @@ function VariantA({ logo, text, contacts, copyright, socialMedia }) {
                   </div>
                 )}
                 {contacts[0].contactInfo && (
-                  <div className="mb-6 w-full md:w-1/2 lg:w-1/4 lg:mr-6 px-3">
+                  <div className="mb-5 w-full md:w-1/2 lg:w-1/4 lg:mr-6 px-3">
                     {contacts.length > 1 ? (
                       <p className="mb-4 font-bold">Numbers</p>
                     ) : (
@@ -92,10 +92,10 @@ function VariantA({ logo, text, contacts, copyright, socialMedia }) {
               </div>
             )}
           </div>
-          <div className="w-full flex justify-between">
-            <p className="text-sm text-gray-500">{copyright}</p>
+          <div className="w-full mx-auto lg:flex justify-between">
+            <p className="text-sm text-gray-500 mb-6">{copyright}</p>
             {socialMedia && (
-              <div className="flex space-x-2 lg:space-x-4 mx-24">
+              <div className="flex space-x-2 lg:space-x-4 lg:mx-24">
                 {socialMedia?.fbLink && (
                   <a
                     aria-label="Facebook link icon"

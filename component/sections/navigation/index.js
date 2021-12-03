@@ -9,9 +9,9 @@ const Variants = {
 };
 
 function Navigation({ template, data }) {
-  const variant = data?.variants?.variant;
-
+  const variant = data?.variant;
   const Variant = Variants?.[variant];
+
   const props = {
     template,
     logo: data?.variants?.[variant]?.logo?.image,

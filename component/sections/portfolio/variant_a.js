@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { urlFor } from "lib/sanity";
 
-function VariantA({ caption, title, portfolios, buttonLabel }) {
+function VariantA({ caption, title, portfolios }) {
   let portfolioLength = 8; //set initial number of portfolios to display for this variant
   const [activeTab, setActiveTab] = React.useState(portfolios?.[0]?.category); //set the first index category as initial value
   const [viewPortfolios, setViewPortfolios] = React.useState(portfolioLength);
@@ -143,7 +143,7 @@ function VariantA({ caption, title, portfolios, buttonLabel }) {
                   setShowMore(true);
                 }}
               >
-                {buttonLabel ?? "View More Projects"}
+                {filteredData?.[0]?.button ?? "View More Projects"}
               </button>
             )}
           </div>

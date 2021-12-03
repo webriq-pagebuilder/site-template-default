@@ -1,85 +1,8 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { PortableText, urlFor } from "lib/sanity";
+import { urlFor } from "lib/sanity";
 import { format } from "date-fns";
-
-// block styling as props to `serializers` of the PortableText component
-const blockStyle = {
-  types: {
-    block: (props) => {
-      const style = props.node.style || "normal";
-      switch (style) {
-        case "h1":
-          return <h1 className="mb-6 leading-loose text-gray-900"></h1>;
-        case "h2":
-          return <h2 className="mb-6 leading-loose text-gray-900"></h2>;
-        case "h3":
-          return <h3 className="mb-6 leading-loose text-gray-900"></h3>;
-        case "h4":
-          return <h4 className="mb-6 leading-loose text-gray-900"></h4>;
-        case "normal":
-          return (
-            <p className="mb-6 leading-loose text-justify text-gray-500">
-              {props.children}
-            </p>
-          );
-        case "blockquote":
-          return (
-            <blockquote className="mb-6 px-14 leading-loose italic text-gray-500">
-              - {props.children}
-            </blockquote>
-          );
-      }
-
-      if (/^h\d/.test(style)) {
-        const level = style.replace(/[^\d]/g, "");
-        return React.createElement(
-          style,
-          { className: `heading-${level}` },
-          props.children
-        );
-      }
-    },
-    code: (props) => {
-      <pre data-language={props.node.language}>
-        <code>{props.node.code}</code>
-      </pre>;
-    },
-  },
-  list: (props) =>
-    props.type === "bullet" ? (
-      <ul className="mb-6 pl-10 leading-loose text-gray-900 list-disc">
-        {props.children}
-      </ul>
-    ) : (
-      <ol className="mb-6 leading-loose text-gray-900 list-decimal">
-        {props.children}
-      </ol>
-    ),
-  listItem: (props) =>
-    props.type === "bullet" ? (
-      <li className="mb-6 leading-loose text-gray-900">{props.children}</li>
-    ) : (
-      <li className="mb-6 leading-loose text-gray-900">{props.children}</li>
-    ),
-  marks: {
-    strong: (props) => <strong>{props.children}</strong>,
-    em: (props) => <em>{props.children}</em>,
-    code: (props) => <code>{props.children}</code>,
-    link: ({ children, mark }) => (
-      <a
-        aria-label={children ?? "external link"}
-        className="hover:text-webriq-darkorange text-webriq-lightorange"
-        target="_blank"
-        href={mark.href}
-        rel="noopener noreferrer"
-      >
-        {children}
-      </a>
-    ),
-  },
-};
 
 function VariantC({ subtitle, title, posts, buttonLabel }) {
   let blogs = 5,
@@ -290,10 +213,9 @@ function VariantC({ subtitle, title, posts, buttonLabel }) {
                             </div>
                           )}
                           {post?.excerpt && (
-                            <PortableText
-                              blocks={post?.excerpt}
-                              serializers={blockStyle}
-                            />
+                            <p className="mb-6 leading-loose text-justify text-gray-500">
+                              {post?.excerpt}
+                            </p>
                           )}
                           <Link
                             href={
@@ -354,10 +276,9 @@ function VariantC({ subtitle, title, posts, buttonLabel }) {
                             </div>
                           )}
                           {post?.excerpt && (
-                            <PortableText
-                              blocks={post?.excerpt}
-                              serializers={blockStyle}
-                            />
+                            <p className="mb-6 leading-loose text-justify text-gray-500">
+                              {post?.excerpt}
+                            </p>
                           )}
                           <Link
                             href={

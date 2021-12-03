@@ -9,9 +9,9 @@ const Variants = {
 };
 
 function Testimonial({ data }) {
-  const variant = data?.variants?.variant;
-
+  const variant = data?.variant;
   const Variant = Variants?.[variant];
+
   const props = {
     caption: data?.variants?.[variant]?.subtitle,
     title: data?.variants?.[variant]?.heading,

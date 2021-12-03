@@ -99,7 +99,7 @@ function VariantD({ testimonials }) {
                   <span className="text-5xl lg:text-6xl font-bold">
                     {testimonial?.[testimony]?.rating}.0
                   </span>
-                  <div className="mb-6 lg:mb-12 flex text-webriq-darkblue justify-center">
+                  <div className="mb-6 flex text-webriq-darkblue justify-center">
                     {testimonial?.[testimony]?.rating === "1" ? (
                       <svg
                         className="w-6 h-6"
@@ -159,13 +159,13 @@ function VariantD({ testimonials }) {
                       ))
                     )}
                   </div>
-                  <div className="mb-6 mx-auto w-24 h-32 rounded-full object-contain">
+                  <div className="mb-6 mx-auto w-32 h-24 rounded-full object-contain">
                     {testimonial[testimony]?.mainImage && (
                       <Image
                         src={urlFor(testimonial[testimony]?.mainImage)}
                         layout="fixed"
-                        width="96px"
-                        height="128px"
+                        width="128px"
+                        height="96px"
                         objectFit="scale-down"
                         alt={`testimonial-source-profile-image${testimony}`}
                         blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="

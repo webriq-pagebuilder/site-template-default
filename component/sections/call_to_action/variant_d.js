@@ -24,12 +24,12 @@ function VariantD({
               <Link href="/">
                 <a
                   aria-label="Call to Action logo"
-                  className="mb-6 inline-block text-3xl font-bold leading-none"
+                  className="mb-10 inline-block text-3xl font-bold leading-none"
                 >
                   <Image
                     src={urlFor(logo?.image)}
                     layout="fixed"
-                    width="132px"
+                    width="48px"
                     height="48px"
                     objectFit="contain"
                     alt={logo?.alt ?? "callToAction-logo"}
@@ -420,9 +420,9 @@ function VariantD({
                 </div>
               )}
               {links && (
-                <p className="text-center text-gray-500">
+                <div className="flex justify-center items-center text-gray-500">
                   {links?.map((link, index, { length }) => (
-                    <>
+                    <div key={index}>
                       {link?.type === "linkInternal" ? (
                         <Link
                           href={
@@ -451,7 +451,6 @@ function VariantD({
                                 ? "noopener noreferrer"
                                 : null
                             }
-                            key={index}
                           >
                             {link?.label}
                           </a>
@@ -485,9 +484,9 @@ function VariantD({
                       {index + 1 !== length ? (
                         <span>&nbsp;and&nbsp;</span>
                       ) : null}
-                    </>
+                    </div>
                   ))}
-                </p>
+                </div>
               )}
             </div>
           </div>
