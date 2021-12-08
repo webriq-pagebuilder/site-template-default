@@ -9,7 +9,7 @@ const Variants = {
 };
 
 function Navigation({ template, data }) {
-  const variant = data?.variant;
+  const variant = data?.variant || data?.variants?.condition;
   const Variant = Variants?.[variant];
 
   const props = {

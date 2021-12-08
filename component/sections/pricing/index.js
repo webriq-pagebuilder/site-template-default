@@ -11,7 +11,7 @@ const Variants = {
 const { NEXT_PUBLIC_DXP_STUDIO_ADDRESS } = process.env;
 
 function Pricing({ data }) {
-  const variant = data?.variant;
+  const variant = data?.variant || data?.variants?.condition;
   const Variant = Variants?.[variant];
 
   const props = {
