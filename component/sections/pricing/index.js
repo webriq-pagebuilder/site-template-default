@@ -23,7 +23,9 @@ function Pricing({ data }) {
     annualBilling: data?.variants?.[variant]?.annualBilling,
     monthlyBilling: data?.variants?.[variant]?.monthlyBilling,
     banner: data?.variants?.[variant]?.banner,
-    form: data?.variants?.[variant]?.form,
+    formFields: data?.variants?.[variant]?.form?.fields,
+    formId: data?.variants?.[variant]?.form?.id,
+    formName: data?.variants?.[variant]?.form?.name,
     stripePKey: data?.variants?.[variant]?.stripeAccount?.stripePKey,
     stripeSecretKey: data?.variants?.[variant]?.stripeAccount?.stripeSKey,
     hashKey: data?.variants?.[variant]?.stripeAccount?.hashKey,
@@ -32,6 +34,7 @@ function Pricing({ data }) {
       NEXT_PUBLIC_DXP_STUDIO_ADDRESS || "https://dxpstudio.webriq.com",
     block: data?.variants?.[variant]?.block,
     signInLink: data?.variants?.[variant]?.signinLink,
+    _key: data._key,
   };
 
   return Variant ? <Variant {...props} /> : null;
