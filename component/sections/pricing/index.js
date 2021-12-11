@@ -14,7 +14,6 @@ function Pricing({ data }) {
   const variant = data?.variants?.variant;
 
   const Variant = Variants?.[variant];
-
   const props = {
     caption: data?.variants?.[variant]?.subtitle,
     title: data?.variants?.[variant]?.heading,
