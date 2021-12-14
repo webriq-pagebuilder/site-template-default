@@ -205,13 +205,7 @@ function VariantE({
                                     ? "password"
                                     : "text"
                                 }
-                                placeholder={
-                                  formFields[0].type === "inputEmail"
-                                    ? "name@email.com"
-                                    : formFields[0].type === "inputPassword"
-                                    ? "Enter your password"
-                                    : formFields[0]?.name
-                                }
+                                placeholder={formFields[0]?.name}
                                 name={formFields[0]?.name}
                               />
                             )}
@@ -252,13 +246,7 @@ function VariantE({
                                     ? "password"
                                     : "text"
                                 }
-                                placeholder={
-                                  formFields[1].type === "inputEmail"
-                                    ? "name@email.com"
-                                    : formFields[1].type === "inputPassword"
-                                    ? "Enter your password"
-                                    : formFields[1]?.name
-                                }
+                                placeholder={formFields[1]?.name}
                                 name={formFields[1]?.name}
                               />
                             )}
@@ -302,13 +290,7 @@ function VariantE({
                                 ? "password"
                                 : "text"
                             }
-                            placeholder={
-                              formFields[2].type === "inputEmail"
-                                ? "name@email.com"
-                                : formFields[2].type === "inputPassword"
-                                ? "Enter your password"
-                                : formFields[2]?.name
-                            }
+                            placeholder={formFields[2]?.name}
                             name={formFields[2]?.name}
                           />
                         ))}
@@ -349,13 +331,7 @@ function VariantE({
                                 ? "password"
                                 : "text"
                             }
-                            placeholder={
-                              formFields[3].type === "inputEmail"
-                                ? "name@email.com"
-                                : formFields[3].type === "inputPassword"
-                                ? "Enter your password"
-                                : formFields[3]?.name
-                            }
+                            placeholder={formFields[3]?.name}
                             name={formFields[3]?.name}
                           />
                         ))}
@@ -396,13 +372,7 @@ function VariantE({
                                 ? "password"
                                 : "text"
                             }
-                            placeholder={
-                              formFields[4].type === "inputEmail"
-                                ? "name@email.com"
-                                : formFields[4].type === "inputPassword"
-                                ? "Enter your password"
-                                : formFields[4]?.name
-                            }
+                            placeholder={formFields[4]?.name}
                             name={formFields[4]?.name}
                           />
                         ))}

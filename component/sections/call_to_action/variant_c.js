@@ -31,13 +31,13 @@ function VariantC({ title, text, features, formFields, formId, formName }) {
                     }`}
                     className="mr-2 py-2 px-4 bg-white rounded leading-loose"
                     type={
-                      formFields[0].type === "inputEmail" ? "email" : "text"
+                      formFields[0]?.type === "inputEmail"
+                        ? "email"
+                        : formFields[0]?.type === "inputPassword"
+                        ? "password"
+                        : "text"
                     }
-                    placeholder={
-                      formFields[0].type === "inputEmail"
-                        ? "hello@example.com"
-                        : formFields[0]?.name
-                    }
+                    placeholder={formFields[0]?.name}
                     name={formFields[0]?.name}
                   />
                 )}

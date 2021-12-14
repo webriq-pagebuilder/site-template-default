@@ -58,16 +58,18 @@ function VariantA({ subtitle, title, posts, buttonLabel }) {
                       posts?.slice(count, count + 1)?.map((post, key) => (
                         <div className="w-full px-3 mb-5" key={key}>
                           <div className="relative h-64 mx-auto rounded">
-                            <div className="relative h-full w-full rounded overflow-hidden">
-                              <Image
-                                src={urlFor(post?.mainImage)}
-                                layout="fill"
-                                objectFit="cover"
-                                alt={`blog-variantA-image-${key}`}
-                                blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                                placeholder="blur"
-                              />
-                            </div>
+                            {post?.mainImage && (
+                              <div className="relative h-full w-full rounded overflow-hidden">
+                                <Image
+                                  src={urlFor(post?.mainImage)}
+                                  layout="fill"
+                                  objectFit="cover"
+                                  alt={`blog-variantA-image-${key}`}
+                                  blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                                  placeholder="blur"
+                                />
+                              </div>
+                            )}
                             <div className="absolute inset-0 bg-gray-900 opacity-75 rounded" />
                             <div className="absolute inset-0 p-6 flex flex-col items-start">
                               {post?.categories && (
@@ -114,18 +116,20 @@ function VariantA({ subtitle, title, posts, buttonLabel }) {
                     {posts?.slice(count + 1, count + 3)?.map((post, key) => (
                       <div className="w-full lg:w-1/2 px-3 mb-5" key={key}>
                         <div className="relative mx-auto rounded h-64 md:h-128 lg:h-128 xl:h-128 2xl:h-128">
-                          <div className="relative h-full w-full rounded overflow-hidden">
-                            <Image
-                              src={urlFor(post?.mainImage)}
-                              layout="fixed"
-                              width="358px"
-                              height="256px"
-                              objectFit="cover"
-                              alt={`blog-variantA-image-${key}`}
-                              blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                              placeholder="blur"
-                            />
-                          </div>
+                          {post?.mainImage && (
+                            <div className="relative h-full w-full rounded overflow-hidden">
+                              <Image
+                                src={urlFor(post?.mainImage)}
+                                layout="fixed"
+                                width="358px"
+                                height="256px"
+                                objectFit="cover"
+                                alt={`blog-variantA-image-${key}`}
+                                blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                                placeholder="blur"
+                              />
+                            </div>
+                          )}
                           <div className="absolute inset-0 bg-gray-900 opacity-75 rounded" />
                           <div className="absolute inset-0 p-6 flex flex-col items-start">
                             {post?.categories && (
@@ -170,18 +174,20 @@ function VariantA({ subtitle, title, posts, buttonLabel }) {
                     {posts?.slice(count + 3, count + 5)?.map((post, key) => (
                       <div className="w-full lg:w-1/2 px-3 mb-5" key={key}>
                         <div className="relative mx-auto rounded h-64 md:h-128 lg:h-128 xl:h-128 2xl:h-128">
-                          <div className="relative h-full w-full rounded overflow-hidden">
-                            <Image
-                              src={urlFor(post?.mainImage)}
-                              layout="fixed"
-                              width="358px"
-                              height="256px"
-                              objectFit="cover"
-                              alt={`blog-variantA-image-${key}`}
-                              blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                              placeholder="blur"
-                            />
-                          </div>
+                          {post?.mainImage && (
+                            <div className="relative h-full w-full rounded overflow-hidden">
+                              <Image
+                                src={urlFor(post?.mainImage)}
+                                layout="fixed"
+                                width="358px"
+                                height="256px"
+                                objectFit="cover"
+                                alt={`blog-variantA-image-${key}`}
+                                blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                                placeholder="blur"
+                              />
+                            </div>
+                          )}
                           <div className="absolute inset-0 bg-gray-900 opacity-75 rounded" />
                           <div className="absolute inset-0 p-6 flex flex-col items-start">
                             {post?.categories && (
@@ -224,16 +230,18 @@ function VariantA({ subtitle, title, posts, buttonLabel }) {
                     {posts?.slice(count + 5, blogsPerPage)?.map((post, key) => (
                       <div className="w-full px-3 mb-5" key={key}>
                         <div className="relative mx-auto rounded h-64">
-                          <div className="relative h-full w-full rounded overflow-hidden">
-                            <Image
-                              src={urlFor(post?.mainImage)}
-                              layout="fill"
-                              objectFit="cover"
-                              alt={`blog-variantA-image-${key}`}
-                              blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                              placeholder="blur"
-                            />
-                          </div>
+                          {post?.mainImage && (
+                            <div className="relative h-full w-full rounded overflow-hidden">
+                              <Image
+                                src={urlFor(post?.mainImage)}
+                                layout="fill"
+                                objectFit="cover"
+                                alt={`blog-variantA-image-${key}`}
+                                blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                                placeholder="blur"
+                              />
+                            </div>
+                          )}
                           <div className="absolute inset-0 bg-gray-900 opacity-75 rounded" />
                           <div className="absolute inset-0 p-6 flex flex-col items-start">
                             {post?.categories && (
