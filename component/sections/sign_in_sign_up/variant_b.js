@@ -332,7 +332,7 @@ function VariantB({
             </div>
           )}
           {links && (
-            <p className="text-xs text-center text-gray-700">
+            <p className="text-xs text-center text-webriq-lightblue">
               {links?.map((link, index, { length }) => (
                 <span key={index}>
                   {link?.type === "linkInternal" ? (
