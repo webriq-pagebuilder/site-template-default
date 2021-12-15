@@ -31,7 +31,8 @@ function VariantD({ caption, title, portfolios }) {
   };
 
   // pass values to splitPortfolios functional component
-  const newArray = splitPortfolios(
+  // use 'updatedPortfoliosArray' below to display portfolios
+  const updatedPortfoliosArray = splitPortfolios(
     portfoliosPerCategory?.[0]?.content, // portfoliosPerCategory content array
     portfoliosPerPage,
     Math.ceil(portfoliosPerCategory?.length / portfoliosPerPage)
@@ -69,8 +70,8 @@ function VariantD({ caption, title, portfolios }) {
               </div>
             )}
           </div>
-          {newArray &&
-            newArray
+          {updatedPortfoliosArray &&
+            updatedPortfoliosArray
               ?.slice(count, portfoliosToShow)
               ?.map((portfolio, index) => (
                 <div className="flex -mx-4 mb-12" key={index}>
@@ -81,12 +82,12 @@ function VariantD({ caption, title, portfolios }) {
                         key={content?._key}
                       >
                         {content?.mainImage && (
-                          <div className="relative">
+                          <div className="relative rounded overflow-hidden">
                             <Image
                               src={urlFor(content?.mainImage)}
                               layout="responsive"
                               width="352px"
-                              height="256px"
+                              height="280px"
                               objectFit="cover"
                               alt={`portfolio-image-${content?._key}`}
                               blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
@@ -189,28 +190,31 @@ function VariantD({ caption, title, portfolios }) {
                       </div>
                     ))}
                     {portfolio?.slice(count + 2, count + 3)?.map((content) => (
-                      <div className="w-full px-4" key={content?._key}>
+                      <div
+                        className="w-full px-4 mb-8 lg:w-full lg:px-4 xl:w-full xl:px-4"
+                        key={content?._key}
+                      >
                         {content?.mainImage && (
-                          <div className="relative">
+                          <div className="relative rounded overflow-hidden">
                             <Image
                               src={urlFor(content?.mainImage)}
                               layout="responsive"
-                              width="736px"
-                              height="384px"
+                              width="352px"
+                              height="256px"
                               objectFit="cover"
                               alt={`portfolio-image-${content?._key}`}
                               blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
                               placeholder="blur"
                             />
                             <div className="opacity-0 hover:opacity-80 duration-300 absolute inset-0 z-10 p-6 bg-gray-900 justify-center rounded-lg">
-                              <div className="max-w-md my-auto text-sm">
+                              <div className="lg:mt-10 xl:mt-10 2xl:mt-10 max-w-md my-auto text-xs lg:text-sm xl:text-sm 2xl:text-sm">
                                 <span className="text-webriq-blue font-bold">
                                   {content?.subtitle}
                                 </span>
-                                <h1 className="text-4xl text-white font-bold my-5">
+                                <h1 className="lg:text-4xl xl:text-4xl 2xl:text-4xl text-white font-bold my-5">
                                   {content?.heading}
                                 </h1>
-                                <div className="max-w-xs my-5">
+                                <div className="max-w-sm my-5">
                                   <p className="mb-6 text-gray-500">
                                     {content?.description}
                                   </p>
@@ -301,25 +305,28 @@ function VariantD({ caption, title, portfolios }) {
                   </div>
                   <div className="w-full lg:w-1/2">
                     {portfolio?.slice(count + 3, count + 4)?.map((content) => (
-                      <div className="w-full px-4 mb-8" key={content?._key}>
+                      <div
+                        className="w-full px-4 mb-8 lg:w-full lg:px-4 xl:w-full xl:px-4"
+                        key={content?._key}
+                      >
                         {content?.mainImage && (
-                          <div className="relative">
+                          <div className="relative rounded overflow-hidden">
                             <Image
                               src={urlFor(content?.mainImage)}
                               layout="responsive"
-                              width="736px"
-                              height="384px"
+                              width="352px"
+                              height="256px"
                               objectFit="cover"
                               alt={`portfolio-image-${content?._key}`}
                               blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
                               placeholder="blur"
                             />
                             <div className="opacity-0 hover:opacity-80 duration-300 absolute inset-0 z-10 p-6 bg-gray-900 justify-center rounded-lg">
-                              <div className="max-w-md my-auto text-sm">
+                              <div className="lg:mt-10 xl:mt-10 2xl:mt-10 max-w-md my-auto text-xs lg:text-sm xl:text-sm 2xl:text-sm">
                                 <span className="text-webriq-blue font-bold">
                                   {content?.subtitle}
                                 </span>
-                                <h1 className="text-4xl text-white font-bold my-5">
+                                <h1 className="lg:text-4xl xl:text-4xl 2xl:text-4xl text-white font-bold my-5">
                                   {content?.heading}
                                 </h1>
                                 <div className="max-w-xs my-5">
@@ -419,12 +426,12 @@ function VariantD({ caption, title, portfolios }) {
                             key={content?._key}
                           >
                             {content?.mainImage && (
-                              <div className="relative">
+                              <div className="relative rounded overflow-hidden">
                                 <Image
                                   src={urlFor(content?.mainImage)}
                                   layout="responsive"
                                   width="352px"
-                                  height="256px"
+                                  height="280px"
                                   objectFit="cover"
                                   alt={`portfolio-image${content?._key}`}
                                   blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
@@ -536,12 +543,12 @@ function VariantD({ caption, title, portfolios }) {
                             key={content?._key}
                           >
                             {content?.mainImage && (
-                              <div className="relative">
+                              <div className="relative rounded overflow-hidden">
                                 <Image
                                   src={urlFor(content?.mainImage)}
                                   layout="responsive"
                                   width="352px"
-                                  height="256px"
+                                  height="280px"
                                   objectFit="cover"
                                   alt={`portfolio-image-${content?._key}`}
                                   blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
@@ -656,7 +663,7 @@ function VariantD({ caption, title, portfolios }) {
                   aria-label="View More Portfolios button"
                   className="inline-block p-2 md:py-3 md:px-6 lg:py-3 lg:px-6 text-sm md:text-lg lg:text-lg xl:text-lg leading-loose rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold "
                   onClick={() => {
-                    setPortfoliosToShow(newArray?.length);
+                    setPortfoliosToShow(updatedPortfoliosArray?.length);
                     setShowMore(true);
                   }}
                 >

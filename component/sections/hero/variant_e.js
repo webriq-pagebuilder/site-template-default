@@ -12,6 +12,7 @@ function VariantE({
   formId,
   formName,
   links,
+  signInLink,
 }) {
   return (
     <section className="relative bg-gray-100 px-10">
@@ -387,25 +388,68 @@ function VariantE({
                         >
                           Sign Up
                         </button>
-                        <span className="text-gray-500 text-xs">
-                          Already have an account?{" "}
-                          <Link href="#">
-                            <a
-                              aria-label="Header Sign in link"
-                              className="text-webriq-darkblue hover:underline"
-                            >
-                              Sign In
-                            </a>
-                          </Link>
-                        </span>
+                        {signInLink?.label && (
+                          <span className="text-gray-500 text-xs">
+                            <span>Already have an account?</span>
+                            {signInLink?.type === "linkInternal" ? (
+                              <Link
+                                href={
+                                  signInLink?.internalLink === "Home" ||
+                                  signInLink?.internalLink === "home"
+                                    ? "/"
+                                    : `/${
+                                        signInLink?.internalLink === undefined
+                                          ? "page-not-found"
+                                          : signInLink?.internalLink
+                                      }`
+                                }
+                              >
+                                <a
+                                  aria-label={`Header ${
+                                    signInLink?.label ?? "Sign In"
+                                  } link`}
+                                  className="text-webriq-darkblue hover:text-webriq-babyblue"
+                                  target={signInLink?.linkTarget}
+                                  rel={
+                                    signInLink?.linkTarget === "_blank"
+                                      ? "noopener noreferrer"
+                                      : null
+                                  }
+                                >
+                                  &nbsp;{signInLink?.label}
+                                </a>
+                              </Link>
+                            ) : (
+                              <a
+                                aria-label={`Header ${
+                                  signInLink?.label ?? "Sign In"
+                                } link`}
+                                className="text-webriq-darkblue hover:text-webriq-babyblue"
+                                target={signInLink?.linkTarget}
+                                href={`${
+                                  signInLink.externalLink === undefined
+                                    ? "link-not-found"
+                                    : signInLink.externalLink
+                                }`}
+                                rel={
+                                  signInLink?.linkTarget === "_blank"
+                                    ? "noopener noreferrer"
+                                    : null
+                                }
+                              >
+                                &nbsp;{signInLink?.label}
+                              </a>
+                            )}
+                          </span>
+                        )}
                       </div>
                     </WebriQForm>
                   </div>
                 )}
                 {links && (
-                  <p className="text-xs text-gray-500">
+                  <div className="text-xs text-gray-500">
                     {links?.map((link, index, { length }) => (
-                      <>
+                      <span key={index}>
                         {link?.type === "linkInternal" ? (
                           <Link
                             href={
@@ -436,7 +480,6 @@ function VariantE({
                                   ? "noopener noreferrer"
                                   : null
                               }
-                              key={index}
                             >
                               {link?.label}
                             </a>
@@ -472,9 +515,9 @@ function VariantE({
                         {index + 1 !== length ? (
                           <span>&nbsp;and&nbsp;</span>
                         ) : null}
-                      </>
+                      </span>
                     ))}
-                  </p>
+                  </div>
                 )}
               </div>
             </div>

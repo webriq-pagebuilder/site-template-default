@@ -324,6 +324,12 @@ const variant_e = `
       "externalLink": linkExternal,
       "internalLink": linkInternal->slug.current
     },
+    signinLink {
+      ...,
+      "type": linkType,
+      "externalLink": linkExternal,
+      "internalLink": linkInternal->slug.current
+    },
   },
 `;
 

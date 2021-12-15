@@ -229,13 +229,7 @@ function VariantA({
                                 ? "password"
                                 : "text"
                             }
-                            placeholder={
-                              formFields[0].type === "inputEmail"
-                                ? "name@email.com"
-                                : formFields[0].type === "inputPassword"
-                                ? "Enter your password"
-                                : formFields[0]?.name
-                            }
+                            placeholder={formFields[0]?.name}
                             name={formFields[0]?.name}
                           />
                         </div>
@@ -283,13 +277,7 @@ function VariantA({
                                 ? "password"
                                 : "text"
                             }
-                            placeholder={
-                              formFields[1].type === "inputEmail"
-                                ? "name@email.com"
-                                : formFields[1].type === "inputPassword"
-                                ? "Enter your password"
-                                : formFields[1]?.name
-                            }
+                            placeholder={formFields[1]?.name}
                             name={formFields[1]?.name}
                           />
                         </div>
@@ -337,13 +325,7 @@ function VariantA({
                                 ? "password"
                                 : "text"
                             }
-                            placeholder={
-                              formFields[2].type === "inputEmail"
-                                ? "name@email.com"
-                                : formFields[2].type === "inputPassword"
-                                ? "Enter your password"
-                                : formFields[2]?.name
-                            }
+                            placeholder={formFields[2]?.name}
                             name={formFields[2]?.name}
                           />
                         </div>
@@ -391,13 +373,7 @@ function VariantA({
                                 ? "password"
                                 : "text"
                             }
-                            placeholder={
-                              formFields[3].type === "inputEmail"
-                                ? "name@email.com"
-                                : formFields[3].type === "inputPassword"
-                                ? "Enter your password"
-                                : formFields[3]?.name
-                            }
+                            placeholder={formFields[3]?.name}
                             name={formFields[3]?.name}
                           />
                         </div>
@@ -445,13 +421,7 @@ function VariantA({
                                 ? "password"
                                 : "text"
                             }
-                            placeholder={
-                              formFields[4].type === "inputEmail"
-                                ? "name@email.com"
-                                : formFields[4].type === "inputPassword"
-                                ? "Enter your password"
-                                : formFields[4]?.name
-                            }
+                            placeholder={formFields[4]?.name}
                             name={formFields[4]?.name}
                           />
                         </div>
@@ -484,7 +454,7 @@ function VariantA({
                           className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-white font-bold leading-loose transition duration-200"
                           type="submit"
                         >
-                          Get Started
+                          {button ?? "Get Started"}
                         </button>
                       )}
                     </div>
