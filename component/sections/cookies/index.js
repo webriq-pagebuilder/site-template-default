@@ -11,7 +11,7 @@ const Variants = {
 };
 
 function Cookies({ data }) {
-  const variant = data?.variant;
+  const variant = data?.variant || data?.variants?.condition;
   const Variant = Variants?.[variant];
 
   const props = {

@@ -4,20 +4,15 @@ import { urlFor } from "lib/sanity";
 
 function VariantD({ testimonials }) {
   const [testimony, setTestimony] = React.useState(0);
-  const [testimonial, setTestimonial] = React.useState(testimonials);
-
-  React.useEffect(() => {
-    setTestimonial(testimonials);
-  }, []);
 
   const slider = (stats) => {
     stats === "next"
-      ? testimony !== testimonial?.length - 1
+      ? testimony !== testimonials?.length - 1
         ? setTestimony((prevState) => prevState + 1)
         : setTestimony(0)
       : testimony >= 1
       ? setTestimony((prevState) => prevState - 1)
-      : setTestimony(testimonial?.length - 1);
+      : setTestimony(testimonials?.length - 1);
   };
 
   return (
@@ -71,7 +66,7 @@ function VariantD({ testimonials }) {
                 </button>
               )}
             </div>
-            {testimonial?.length > 1 && (
+            {testimonials?.length > 1 && (
               <button
                 aria-label="Show Previous Testimonial button"
                 className="hidden lg:block lg:mr-0 bg-white p-5 rounded-full focus:outline-none  shadow-md text-webriq-darkblue hover:text-webriq-babyblue transition duration-200"
@@ -93,26 +88,16 @@ function VariantD({ testimonials }) {
                 </svg>
               </button>
             )}
-            {testimonial?.[testimony] && (
+            {testimonials?.[testimony] && (
               <div className="flex w-full flex-wrap bg-white shadow rounded">
-                <div className="py-10 text-center w-full lg:w-1/3 border-r">
-                  <span className="text-5xl lg:text-6xl font-bold">
-                    {testimonial?.[testimony]?.rating}.0
-                  </span>
-                  <div className="mb-6 flex text-webriq-darkblue justify-center">
-                    {testimonial?.[testimony]?.rating === "1" ? (
-                      <svg
-                        className="w-6 h-6"
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 20 20"
-                        fill="currentColor"
-                      >
-                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                      </svg>
-                    ) : testimonial?.[testimony]?.rating === "2" ? (
-                      [1, 2].map((rate) => (
+                {testimonials?.[testimony]?.rating && (
+                  <div className="py-10 text-center w-full lg:w-1/3 border-r">
+                    <span className="text-5xl lg:text-6xl font-bold">
+                      {`${testimonials?.[testimony]?.rating}.0`}
+                    </span>
+                    <div className="mb-6 flex text-webriq-darkblue justify-center">
+                      {testimonials?.[testimony]?.rating === "1" ? (
                         <svg
-                          key={rate}
                           className="w-6 h-6"
                           xmlns="http://www.w3.org/2000/svg"
                           viewBox="0 0 20 20"
@@ -120,60 +105,72 @@ function VariantD({ testimonials }) {
                         >
                           <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                         </svg>
-                      ))
-                    ) : testimonial?.[testimony]?.rating === "3" ? (
-                      [1, 2, 3].map((rate) => (
-                        <svg
-                          key={rate}
-                          className="w-6 h-6"
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 20 20"
-                          fill="currentColor"
-                        >
-                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                        </svg>
-                      ))
-                    ) : testimonial?.[testimony]?.rating === "4" ? (
-                      [1, 2, 3, 4].map((rate) => (
-                        <svg
-                          key={rate}
-                          className="w-6 h-6"
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 20 20"
-                          fill="currentColor"
-                        >
-                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                        </svg>
-                      ))
-                    ) : (
-                      [1, 2, 3, 4, 5].map((rate) => (
-                        <svg
-                          key={rate}
-                          className="w-6 h-6"
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 20 20"
-                          fill="currentColor"
-                        >
-                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                        </svg>
-                      ))
-                    )}
+                      ) : testimonials?.[testimony]?.rating === "2" ? (
+                        [1, 2].map((rate) => (
+                          <svg
+                            key={rate}
+                            className="w-6 h-6"
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 20 20"
+                            fill="currentColor"
+                          >
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                          </svg>
+                        ))
+                      ) : testimonials?.[testimony]?.rating === "3" ? (
+                        [1, 2, 3].map((rate) => (
+                          <svg
+                            key={rate}
+                            className="w-6 h-6"
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 20 20"
+                            fill="currentColor"
+                          >
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                          </svg>
+                        ))
+                      ) : testimonials?.[testimony]?.rating === "4" ? (
+                        [1, 2, 3, 4].map((rate) => (
+                          <svg
+                            key={rate}
+                            className="w-6 h-6"
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 20 20"
+                            fill="currentColor"
+                          >
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                          </svg>
+                        ))
+                      ) : (
+                        [1, 2, 3, 4, 5].map((rate) => (
+                          <svg
+                            key={rate}
+                            className="w-6 h-6"
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 20 20"
+                            fill="currentColor"
+                          >
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                          </svg>
+                        ))
+                      )}
+                    </div>
+                    <div className="mb-6 mx-auto w-32 h-24 rounded-full object-contain">
+                      {testimonials[testimony]?.mainImage && (
+                        <Image
+                          src={urlFor(testimonials[testimony]?.mainImage)}
+                          layout="fixed"
+                          width="128px"
+                          height="96px"
+                          objectFit="scale-down"
+                          alt={`testimonial-source-profile-image${testimony}`}
+                          blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                          placeholder="blur"
+                        />
+                      )}
+                    </div>
                   </div>
-                  <div className="mb-6 mx-auto w-32 h-24 rounded-full object-contain">
-                    {testimonial[testimony]?.mainImage && (
-                      <Image
-                        src={urlFor(testimonial[testimony]?.mainImage)}
-                        layout="fixed"
-                        width="128px"
-                        height="96px"
-                        objectFit="scale-down"
-                        alt={`testimonial-source-profile-image${testimony}`}
-                        blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                        placeholder="blur"
-                      />
-                    )}
-                  </div>
-                </div>
+                )}
                 <div className="py-10 px-6 w-full lg:w-2/3">
                   <svg
                     className="mb-4 text-webriq-darkblue h-10"
@@ -191,18 +188,18 @@ function VariantD({ testimonials }) {
                     />
                   </svg>
                   <p className="mb-10 text-xl lg:text-2xl leading-loose text-gray-500">
-                    {testimonial[testimony]?.testimony}
+                    {testimonials[testimony]?.testimony}
                   </p>
                   <p className="text-2xl font-bold font-heading">
-                    {testimonial[testimony]?.name}
+                    {testimonials[testimony]?.name}
                   </p>
                   <p className="text-gray-500">
-                    {testimonial[testimony]?.jobTitle}
+                    {testimonials[testimony]?.jobTitle}
                   </p>
                 </div>
               </div>
             )}
-            {testimonial?.length > 1 && (
+            {testimonials?.length > 1 && (
               <button
                 aria-label="Show Next Testimonial button"
                 className="hidden lg:block bg-white p-5 rounded-full shadow-md focus:outline-none text-webriq-darkblue hover:text-webriq-babyblue transition duration-200"

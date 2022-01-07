@@ -117,22 +117,23 @@ function VariantD({
                     </div>
                     <div className="mb-3 flex flex-wrap -mx-2">
                       {formFields?.[0] && formFields[0]?.name && (
-                        <div className="w-full lg:w-1/2 px-2">
+                        <div className="w-full lg:w-1/2 px-2 mb-3 lg:mb-0 xl:mb-0 2xl:mb-0">
                           {formFields[0].type === "textarea" ? (
                             <textarea
                               aria-label={`${formFields[0]?.name} text area`}
                               className="w-full p-4 text-xs bg-gray-100 outline-none rounded"
-                              type="text"
                               placeholder={formFields[0]?.name}
                               name={formFields[0]?.name}
                             />
                           ) : formFields[0].type === "inputFile" ? (
                             <label className="flex px-2 bg-gray-100 rounded">
                               <input
-                                aria-label="Add file"
+                                aria-label={formFields[0]?.name}
                                 className="w-full p-4 text-xs bg-gray-100 outline-none rounded"
                                 type="file"
-                                placeholder="Choose file.."
+                                placeholder={
+                                  formFields[0]?.name ?? "Choose file.."
+                                }
                                 name={formFields[0]?.name}
                               />
                             </label>
@@ -145,19 +146,13 @@ function VariantD({
                               }`}
                               className="w-full p-4 text-xs bg-gray-100 outline-none rounded"
                               type={
-                                formFields[0].type === "inputEmail"
+                                formFields[0]?.type === "inputEmail"
                                   ? "email"
-                                  : formFields[0].type === "inputPassword"
+                                  : formFields[0]?.type === "inputPassword"
                                   ? "password"
                                   : "text"
                               }
-                              placeholder={
-                                formFields[0].type === "inputEmail"
-                                  ? "name@email.com"
-                                  : formFields[0].type === "inputPassword"
-                                  ? "Enter your password"
-                                  : formFields[0]?.name
-                              }
+                              placeholder={formFields[0]?.name}
                               name={formFields[0]?.name}
                             />
                           )}
@@ -169,7 +164,6 @@ function VariantD({
                             <textarea
                               aria-label={`${formFields[1]?.name} text area`}
                               className="w-full p-4 text-xs bg-gray-100 outline-none rounded"
-                              type="text"
                               placeholder={formFields[1]?.name}
                               name={formFields[1]?.name}
                             />
@@ -179,7 +173,9 @@ function VariantD({
                                 aria-label="Add file"
                                 className="w-full p-4 text-xs bg-gray-100 outline-none rounded"
                                 type="file"
-                                placeholder="Choose file.."
+                                placeholder={
+                                  formFields[1]?.name ?? "Choose file.."
+                                }
                                 name={formFields[1]?.name}
                               />
                             </label>
@@ -192,19 +188,13 @@ function VariantD({
                               }`}
                               className="w-full p-4 text-xs bg-gray-100 outline-none rounded"
                               type={
-                                formFields[1].type === "inputEmail"
+                                formFields[1]?.type === "inputEmail"
                                   ? "email"
-                                  : formFields[1].type === "inputPassword"
+                                  : formFields[1]?.type === "inputPassword"
                                   ? "password"
                                   : "text"
                               }
-                              placeholder={
-                                formFields[1].type === "inputEmail"
-                                  ? "name@email.com"
-                                  : formFields[1].type === "inputPassword"
-                                  ? "Enter your password"
-                                  : formFields[1]?.name
-                              }
+                              placeholder={formFields[1]?.name}
                               name={formFields[1]?.name}
                             />
                           )}
@@ -217,7 +207,6 @@ function VariantD({
                         <textarea
                           aria-label={`${formFields[2]?.name} text area`}
                           className="mb-3 w-full p-4 text-xs bg-gray-100 outline-none rounded"
-                          type="text"
                           placeholder={formFields[2]?.name}
                           name={formFields[2]?.name}
                         />
@@ -228,7 +217,9 @@ function VariantD({
                               aria-label="Add file"
                               className="w-full p-4 text-xs bg-gray-100 outline-none rounded"
                               type="file"
-                              placeholder="Choose file.."
+                              placeholder={
+                                formFields[2]?.name ?? "Choose file.."
+                              }
                               name={formFields[2]?.name}
                             />
                           </label>
@@ -242,19 +233,13 @@ function VariantD({
                           }`}
                           className="mb-3 w-full p-4 text-xs bg-gray-100 outline-none rounded"
                           type={
-                            formFields[2].type === "inputEmail"
+                            formFields[2]?.type === "inputEmail"
                               ? "email"
-                              : formFields[2].type === "inputPassword"
+                              : formFields[2]?.type === "inputPassword"
                               ? "password"
                               : "text"
                           }
-                          placeholder={
-                            formFields[2].type === "inputEmail"
-                              ? "name@email.com"
-                              : formFields[2].type === "inputPassword"
-                              ? "Enter your password"
-                              : formFields[2]?.name
-                          }
+                          placeholder={formFields[2]?.name}
                           name={formFields[2]?.name}
                         />
                       ))}
@@ -264,7 +249,6 @@ function VariantD({
                         <textarea
                           aria-label={`${formFields[3]?.name} text area`}
                           className="mb-3 w-full p-4 text-xs bg-gray-100 outline-none rounded"
-                          type="text"
                           placeholder={formFields[3]?.name}
                           name={formFields[3]?.name}
                         />
@@ -275,7 +259,9 @@ function VariantD({
                               aria-label="Add file"
                               className="w-full p-4 text-xs bg-gray-100 outline-none rounded"
                               type="file"
-                              placeholder="Choose file.."
+                              placeholder={
+                                formFields[2]?.name ?? "Choose file.."
+                              }
                               name={formFields[3]?.name}
                             />
                           </label>
@@ -289,19 +275,13 @@ function VariantD({
                           }`}
                           className="mb-3 w-full p-4 text-xs bg-gray-100 outline-none rounded"
                           type={
-                            formFields[3].type === "inputEmail"
+                            formFields[3]?.type === "inputEmail"
                               ? "email"
-                              : formFields[3].type === "inputPassword"
+                              : formFields[3]?.type === "inputPassword"
                               ? "password"
                               : "text"
                           }
-                          placeholder={
-                            formFields[3].type === "inputEmail"
-                              ? "name@email.com"
-                              : formFields[3].type === "inputPassword"
-                              ? "Enter your password"
-                              : formFields[3]?.name
-                          }
+                          placeholder={formFields[3]?.name}
                           name={formFields[3]?.name}
                         />
                       ))}
@@ -311,7 +291,6 @@ function VariantD({
                         <textarea
                           aria-label={`${formFields[0]?.name} text area`}
                           className="mb-3 w-full p-4 text-xs bg-gray-100 outline-none rounded"
-                          type="text"
                           placeholder={formFields[4]?.name}
                           name={formFields[4]?.name}
                         />
@@ -322,7 +301,9 @@ function VariantD({
                               aria-label="Add file"
                               className="w-full p-4 text-xs bg-gray-100 outline-none rounded"
                               type="file"
-                              placeholder="Choose file.."
+                              placeholder={
+                                formFields[4]?.name ?? "Choose file.."
+                              }
                               name={formFields[4]?.name}
                             />
                           </label>
@@ -336,19 +317,13 @@ function VariantD({
                           }`}
                           className="mb-3 w-full p-4 text-xs bg-gray-100 outline-none rounded"
                           type={
-                            formFields[4].type === "inputEmail"
+                            formFields[4]?.type === "inputEmail"
                               ? "email"
-                              : formFields[4].type === "inputPassword"
+                              : formFields[4]?.type === "inputPassword"
                               ? "password"
                               : "text"
                           }
-                          placeholder={
-                            formFields[4].type === "inputEmail"
-                              ? "name@email.com"
-                              : formFields[4].type === "inputPassword"
-                              ? "Enter your password"
-                              : formFields[4]?.name
-                          }
+                          placeholder={formFields[4]?.name}
                           name={formFields[4]?.name}
                         />
                       ))}

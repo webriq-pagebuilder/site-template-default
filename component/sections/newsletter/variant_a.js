@@ -53,11 +53,7 @@ function VariantA({ logo, title, description, formFields, formId, formName }) {
                     type={
                       formFields[0].type === "inputEmail" ? "email" : "text"
                     }
-                    placeholder={
-                      formFields[0].type === "inputEmail"
-                        ? "sample@email.com"
-                        : formFields[0]?.name
-                    }
+                    placeholder={formFields[0]?.name}
                     name={formFields[0]?.name}
                   />
                   <div>

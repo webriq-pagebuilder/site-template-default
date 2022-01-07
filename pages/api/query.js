@@ -7,36 +7,36 @@ const variant_a = `
     "arrImages": images,
     primaryButton {
       ...,
-      "type": link.condition,
-      "internalLink": link.linkInternal->slug.current,
-      "externalLink": link.linkExternal
+      "type": linkType,
+      "internalLink": linkInternal->slug.current,
+      "externalLink": linkExternal
     },
     secondaryButton {
       ...,
-      "type": link.condition,
-      "internalLink": link.linkInternal->slug.current,
-      "externalLink": link.linkExternal
+      "type": linkType,
+      "internalLink": linkInternal->slug.current,
+      "externalLink": linkExternal
     },
     routes[] {
       ...,
-      "type": link.condition,
-      "internalLink": link.linkInternal->slug.current,
-      "externalLink": link.linkExternal
+      "type": linkType,
+      "internalLink": linkInternal->slug.current,
+      "externalLink": linkExternal
     },
     plans[] {
       ...,
       primaryButton {
         ...,
-        "type": link.condition,
-        "internalLink": link.linkInternal->slug.current,
-        "externalLink": link.linkExternal
+        "type": linkType,
+        "internalLink": linkInternal->slug.current,
+        "externalLink": linkExternal
       },
     },
     formLinks[] {
       ...,
-      "type": link.condition,
-      "externalLink": link.linkExternal,
-      "internalLink": link.linkInternal->slug.current
+      "type": linkType,
+      "externalLink": linkExternal,
+      "internalLink": linkInternal->slug.current
     },
     arrayOfTitleAndText[] {
       ...,
@@ -45,9 +45,9 @@ const variant_a = `
     },
     menu[] {
       ...,
-      "type": link.condition,
-      "externalLink": link.linkExternal,
-      "internalLink": link.linkInternal->slug.current
+      "type": linkType,
+      "externalLink": linkExternal,
+      "internalLink": linkInternal->slug.current
     },
     portfolios[] {
       ...,
@@ -55,17 +55,17 @@ const variant_a = `
         ...,
         primaryButton {
           ...,
-          "type": link.condition,
-          "internalLink": link.linkInternal->slug.current,
-          "externalLink": link.linkExternal
+          "type": linkType,
+          "internalLink": linkInternal->slug.current,
+          "externalLink": linkExternal
         },
       },
     },
     signinLink {
       ...,
-      "type": link.condition,
-      "externalLink": link.linkExternal,
-      "internalLink": link.linkInternal->slug.current
+      "type": linkType,
+      "externalLink": linkExternal,
+      "internalLink": linkInternal->slug.current
     },
     blogPosts[]->{
       ...,
@@ -85,43 +85,43 @@ const variant_b = `
     "arrImages": images,
     routes[] {
       ...,
-      "type": link.condition,
-      "internalLink": link.linkInternal->slug.current,
-      "externalLink": link.linkExternal
+      "type": linkType,
+      "internalLink": linkInternal->slug.current,
+      "externalLink": linkExternal
     },
     primaryButton {
       ...,
-      "type": link.condition,
-      "internalLink": link.linkInternal->slug.current,
-      "externalLink": link.linkExternal
+      "type": linkType,
+      "internalLink": linkInternal->slug.current,
+      "externalLink": linkExternal
     },
     secondaryButton {
       ...,
-      "type": link.condition,
-      "internalLink": link.linkInternal->slug.current,
-      "externalLink": link.linkExternal
+      "type": linkType,
+      "internalLink": linkInternal->slug.current,
+      "externalLink": linkExternal
     },
     "featuredItems": arrayOfTitleAndDescription,
     plans[] {
       ...,
       primaryButton {
         ...,
-        "type": link.condition,
-        "internalLink": link.linkInternal->slug.current,
-        "externalLink": link.linkExternal
+        "type": linkType,
+        "internalLink": linkInternal->slug.current,
+        "externalLink": linkExternal
       },
     },
     formLinks[] {
       ...,
-      "type": link.condition,
-      "externalLink": link.linkExternal,
-      "internalLink": link.linkInternal->slug.current
+      "type": linkType,
+      "externalLink": linkExternal,
+      "internalLink": linkInternal->slug.current
     },
     menu[] {
       ...,
-      "type": link.condition,
-      "externalLink": link.linkExternal,
-      "internalLink": link.linkInternal->slug.current
+      "type": linkType,
+      "externalLink": linkExternal,
+      "internalLink": linkInternal->slug.current
     },
     arrayOfTitleAndText[] {
       ...,
@@ -132,16 +132,16 @@ const variant_b = `
       ...,
       primaryButton {
         ...,
-        "type": link.condition,
-        "internalLink": link.linkInternal->slug.current,
-        "externalLink": link.linkExternal
+        "type": linkType,
+        "internalLink": linkInternal->slug.current,
+        "externalLink": linkExternal
       },
     },
     signinLink {
       ...,
-      "type": link.condition,
-      "externalLink": link.linkExternal,
-      "internalLink": link.linkInternal->slug.current
+      "type": linkType,
+      "externalLink": linkExternal,
+      "internalLink": linkInternal->slug.current
     },
     blogPosts[]->{
       ...,
@@ -161,43 +161,43 @@ const variant_c = `
     "arrImages": images,
     routes[] {
       ...,
-      "type": link.condition,
-      "internalLink": link.linkInternal->slug.current,
-      "externalLink": link.linkExternal
+      "type": linkType,
+      "internalLink": linkInternal->slug.current,
+      "externalLink": linkExternal
     },
     primaryButton {
       ...,
-      "type": link.condition,
-      "internalLink": link.linkInternal->slug.current,
-      "externalLink": link.linkExternal
+      "type": linkType,
+      "internalLink": linkInternal->slug.current,
+      "externalLink": linkExternal
     },
     secondaryButton {
       ...,
-      "type": link.condition,
-      "internalLink": link.linkInternal->slug.current,
-      "externalLink": link.linkExternal
+      "type": linkType,
+      "internalLink": linkInternal->slug.current,
+      "externalLink": linkExternal
     },
     "featuredItems": arrayOfTitleAndDescription,
     plans[] {
       ...,
       primaryButton {
         ...,
-        "type": link.condition,
-        "internalLink": link.linkInternal->slug.current,
-        "externalLink": link.linkExternal
+        "type": linkType,
+        "internalLink": linkInternal->slug.current,
+        "externalLink": linkExternal
       },
     },
     formLinks[] {
       ...,
-      "type": link.condition,
-      "externalLink": link.linkExternal,
-      "internalLink": link.linkInternal->slug.current
+      "type": linkType,
+      "externalLink": linkExternal,
+      "internalLink": linkInternal->slug.current
     },
     menu[] {
       ...,
-      "type": link.condition,
-      "externalLink": link.linkExternal,
-      "internalLink": link.linkInternal->slug.current
+      "type": linkType,
+      "externalLink": linkExternal,
+      "internalLink": linkInternal->slug.current
     },
     arrayOfTitleAndText[] {
       ...,
@@ -208,9 +208,9 @@ const variant_c = `
       ...,
       primaryButton {
         ...,
-        "type": link.condition,
-        "internalLink": link.linkInternal->slug.current,
-        "externalLink": link.linkExternal
+        "type": linkType,
+        "internalLink": linkInternal->slug.current,
+        "externalLink": linkExternal
       },
     },
     blogPosts[]->{
@@ -230,35 +230,35 @@ const variant_d = `
     ...,
     routes[] {
       ...,
-      "type": link.condition,
-      "internalLink": link.linkInternal->slug.current,
-      "externalLink": link.linkExternal
+      "type": linkType,
+      "internalLink": linkInternal->slug.current,
+      "externalLink": linkExternal
     },
     primaryButton {
       ...,
-      "type": link.condition,
-      "internalLink": link.linkInternal->slug.current,
-      "externalLink": link.linkExternal
+      "type": linkType,
+      "internalLink": linkInternal->slug.current,
+      "externalLink": linkExternal
     },  
     secondaryButton {
       ...,
-      "type": link.condition,
-      "internalLink": link.linkInternal->slug.current,
-      "externalLink": link.linkExternal
+      "type": linkType,
+      "internalLink": linkInternal->slug.current,
+      "externalLink": linkExternal
     },
     "arrImages": images,
     "featuredItems": arrayOfTitleAndDescription,
     formLinks[] {
       ...,
-      "type": link.condition,
-      "externalLink": link.linkExternal,
-      "internalLink": link.linkInternal->slug.current
+      "type": linkType,
+      "externalLink": linkExternal,
+      "internalLink": linkInternal->slug.current
     },
     menu[] {
       ...,
-      "type": link.condition,
-      "externalLink": link.linkExternal,
-      "internalLink": link.linkInternal->slug.current
+      "type": linkType,
+      "externalLink": linkExternal,
+      "internalLink": linkInternal->slug.current
     },
     arrayOfTitleAndText[] {
       ...,
@@ -271,17 +271,17 @@ const variant_d = `
         ...,
         primaryButton {
           ...,
-          "type": link.condition,
-          "internalLink": link.linkInternal->slug.current,
-          "externalLink": link.linkExternal
+          "type": linkType,
+          "internalLink": linkInternal->slug.current,
+          "externalLink": linkExternal
         },
       },
     },
     signinLink {
       ...,
-      "type": link.condition,
-      "externalLink": link.linkExternal,
-      "internalLink": link.linkInternal->slug.current
+      "type": linkType,
+      "externalLink": linkExternal,
+      "internalLink": linkInternal->slug.current
     },  
     blogPosts[]->{
       ...,
@@ -308,21 +308,27 @@ const variant_e = `
     },
     primaryButton {
       ...,
-      "type": link.condition,
-      "internalLink": link.linkInternal->slug.current,
-      "externalLink": link.linkExternal
+      "type": linkType,
+      "internalLink": linkInternal->slug.current,
+      "externalLink": linkExternal
     },
     secondaryButton {
       ...,
-      "type": link.condition,
-      "internalLink": link.linkInternal->slug.current,
-      "externalLink": link.linkExternal
+      "type": linkType,
+      "internalLink": linkInternal->slug.current,
+      "externalLink": linkExternal
     },
     formLinks[] {
       ...,
-      "type": link.condition,
-      "externalLink": link.linkExternal,
-      "internalLink": link.linkInternal->slug.current
+      "type": linkType,
+      "externalLink": linkExternal,
+      "internalLink": linkInternal->slug.current
+    },
+    signinLink {
+      ...,
+      "type": linkType,
+      "externalLink": linkExternal,
+      "internalLink": linkInternal->slug.current
     },
   },
 `;
@@ -332,9 +338,9 @@ const variant_f = `
     ...,
     primaryButton {
       ...,
-      "type": link.condition,
-      "internalLink": link.linkInternal->slug.current,
-      "externalLink": link.linkExternal
+      "type": linkType,
+      "internalLink": linkInternal->slug.current,
+      "externalLink": linkExternal
     },
   },
 `;
@@ -389,108 +395,108 @@ export const blogNavAndFooter = groq`
         ...,
         primaryButton {
           ...,
-          "type": link.condition,
-          "internalLink": link.linkInternal->slug.current,
-          "externalLink": link.linkExternal
+          "type": linkType,
+          "internalLink": linkInternal->slug.current,
+          "externalLink": linkExternal
         },
         secondaryButton {
           ...,
-          "type": link.condition,
-          "internalLink": link.linkInternal->slug.current,
-          "externalLink": link.linkExternal
+          "type": linkType,
+          "internalLink": linkInternal->slug.current,
+          "externalLink": linkExternal
         },
         routes[] {
           ...,
-          "type": link.condition,
-          "internalLink": link.linkInternal->slug.current,
-          "externalLink": link.linkExternal
+          "type": linkType,
+          "internalLink": linkInternal->slug.current,
+          "externalLink": linkExternal
         },
         menu[] {
           ...,
-          "type": link.condition,
-          "externalLink": link.linkExternal,
-          "internalLink": link.linkInternal->slug.current
+          "type": linkType,
+          "externalLink": linkExternal,
+          "internalLink": linkInternal->slug.current
         },
       },
       variant_b {
         ...,
         primaryButton {
           ...,
-          "type": link.condition,
-          "internalLink": link.linkInternal->slug.current,
-          "externalLink": link.linkExternal
+          "type": linkType,
+          "internalLink": linkInternal->slug.current,
+          "externalLink": linkExternal
         },
         secondaryButton {
           ...,
-          "type": link.condition,
-          "internalLink": link.linkInternal->slug.current,
-          "externalLink": link.linkExternal
+          "type": linkType,
+          "internalLink": linkInternal->slug.current,
+          "externalLink": linkExternal
         },
         routes[] {
           ...,
-          "type": link.condition,
-          "internalLink": link.linkInternal->slug.current,
-          "externalLink": link.linkExternal
+          "type": linkType,
+          "internalLink": linkInternal->slug.current,
+          "externalLink": linkExternal
         },
         menu[] {
           ...,
-          "type": link.condition,
-          "externalLink": link.linkExternal,
-          "internalLink": link.linkInternal->slug.current
+          "type": linkType,
+          "externalLink": linkExternal,
+          "internalLink": linkInternal->slug.current
         },
       },
       variant_c {
         ...,
         primaryButton {
           ...,
-          "type": link.condition,
-          "internalLink": link.linkInternal->slug.current,
-          "externalLink": link.linkExternal
+          "type": linkType,
+          "internalLink": linkInternal->slug.current,
+          "externalLink": linkExternal
         },
         secondaryButton {
           ...,
-          "type": link.condition,
-          "internalLink": link.linkInternal->slug.current,
-          "externalLink": link.linkExternal
+          "type": linkType,
+          "internalLink": linkInternal->slug.current,
+          "externalLink": linkExternal
         },
         routes[] {
           ...,
-          "type": link.condition,
-          "internalLink": link.linkInternal->slug.current,
-          "externalLink": link.linkExternal
+          "type": linkType,
+          "internalLink": linkInternal->slug.current,
+          "externalLink": linkExternal
         },
         menu[] {
           ...,
-          "type": link.condition,
-          "externalLink": link.linkExternal,
-          "internalLink": link.linkInternal->slug.current
+          "type": linkType,
+          "externalLink": linkExternal,
+          "internalLink": linkInternal->slug.current
         },
       },
       variant_d {
         ...,
         primaryButton {
           ...,
-          "type": link.condition,
-          "internalLink": link.linkInternal->slug.current,
-          "externalLink": link.linkExternal
+          "type": linkType,
+          "internalLink": linkInternal->slug.current,
+          "externalLink": linkExternal
         },
         secondaryButton {
           ...,
-          "type": link.condition,
-          "internalLink": link.linkInternal->slug.current,
-          "externalLink": link.linkExternal
+          "type": linkType,
+          "internalLink": linkInternal->slug.current,
+          "externalLink": linkExternal
         },
         routes[] {
           ...,
-          "type": link.condition,
-          "internalLink": link.linkInternal->slug.current,
-          "externalLink": link.linkExternal
+          "type": linkType,
+          "internalLink": linkInternal->slug.current,
+          "externalLink": linkExternal
         },
         menu[] {
           ...,
-          "type": link.condition,
-          "externalLink": link.linkExternal,
-          "internalLink": link.linkInternal->slug.current
+          "type": linkType,
+          "externalLink": linkExternal,
+          "internalLink": linkInternal->slug.current
         },
       },
     },

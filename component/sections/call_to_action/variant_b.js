@@ -51,44 +51,22 @@ function VariantB({ logo, title, text, formFields, formId, formName }) {
                 data-thankyou-url="/thank-you"
                 scriptsrc="https://pagebuilderforms.webriq.com/js/initReactForms"
               >
-                {formFields?.[0] && formFields[0]?.type && (
+                {formFields.slice(0, 2).map((field) => (
                   <input
-                    aria-label={`${
-                      formFields[0]?.type === "inputText"
-                        ? `Input ${formFields[0]?.name}`
-                        : `${formFields[0]?.type}`
-                    }`}
+                    key={field?._key}
+                    aria-label={`Input ${field?.type}`}
                     className="w-full md:w-auto mb-3 md:mb-0 md:mr-4 py-2 px-4 bg-white rounded leading-loose"
                     type={
-                      formFields[0].type === "inputEmail" ? "email" : "text"
+                      field?.type === "inputEmail"
+                        ? "email"
+                        : field?.type === "inputPassword"
+                        ? "password"
+                        : "text"
                     }
-                    placeholder={
-                      formFields[0].type === "inputEmail"
-                        ? "hello@example.com"
-                        : formFields[0]?.name
-                    }
-                    name={formFields[0]?.name}
+                    placeholder={field?.name}
+                    name={field?.name}
                   />
-                )}
-                {formFields?.[1] && formFields[1]?.type && (
-                  <input
-                    aria-label={`${
-                      formFields[1]?.type === "inputText"
-                        ? `Input ${formFields[1]?.name}`
-                        : `${formFields[1]?.type}`
-                    }`}
-                    className="w-full md:w-auto mb-3 md:mb-0 md:mr-4 py-2 px-4 bg-white rounded leading-loose"
-                    type={
-                      formFields[1].type === "inputEmail" ? "email" : "text"
-                    }
-                    placeholder={
-                      formFields[1].type === "inputEmail"
-                        ? "hello@example.com"
-                        : formFields[1]?.name
-                    }
-                    name={formFields[1]?.name}
-                  />
-                )}
+                ))}
                 <div>
                   <div className="webriq-recaptcha" />
                 </div>

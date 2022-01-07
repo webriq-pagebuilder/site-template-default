@@ -125,7 +125,7 @@ function VariantC({ subtitle, title, posts, buttonLabel }) {
                 </span>
               )}
               {title && (
-                <h1 className="text-4xl lg:text-5xl font-bold font-heading">
+                <h1 className="text-4xl lg:text-5xl xl:text-5xl font-bold font-heading">
                   {title}
                 </h1>
               )}
@@ -189,7 +189,7 @@ function VariantC({ subtitle, title, posts, buttonLabel }) {
                             </span>
                           )}
                           {post?.title && (
-                            <h1 className="my-4 text-2xl font-bold">
+                            <h1 className="my-4 text-xl lg:text-2xl xl:text-2xl 2xl:text-2xl font-bold">
                               {post?.title}
                             </h1>
                           )}
@@ -213,22 +213,24 @@ function VariantC({ subtitle, title, posts, buttonLabel }) {
                             </div>
                           )}
                           {post?.excerpt && (
-                            <p className="mb-6 leading-loose text-justify text-gray-500">
+                            <p className="mb-6 text-sm lg:text-base xl:text-base 2xl:text-base lg:leading-loose xl:leading-loose 2xl:leading-loose text-justify text-gray-500">
                               {post?.excerpt}
                             </p>
                           )}
-                          <Link
-                            href={
-                              `/${post?.slug?.current}` ?? "/page-not-found"
-                            }
-                          >
-                            <a
-                              aria-label={`Go to ${post?.slug?.current} blog page`}
-                              className="text-webriq-darkblue hover:text-webriq-blue font-bold"
+                          {post?.slug?.current && (
+                            <Link
+                              href={
+                                `/${post?.slug?.current}` ?? "/page-not-found"
+                              }
                             >
-                              View Blog Post
-                            </a>
-                          </Link>
+                              <a
+                                aria-label={`Go to ${post?.slug?.current} blog page`}
+                                className="text-webriq-darkblue hover:text-webriq-blue font-bold"
+                              >
+                                View Blog Post
+                              </a>
+                            </Link>
+                          )}
                         </div>
                       </>
                     ) : (
@@ -252,7 +254,7 @@ function VariantC({ subtitle, title, posts, buttonLabel }) {
                             </span>
                           )}
                           {post?.title && (
-                            <h1 className="my-4 text-2xl font-bold">
+                            <h1 className="my-4 text-xl lg:text-2xl xl:text-2xl 2xl:text-2xl font-bold">
                               {post?.title}
                             </h1>
                           )}
@@ -276,22 +278,24 @@ function VariantC({ subtitle, title, posts, buttonLabel }) {
                             </div>
                           )}
                           {post?.excerpt && (
-                            <p className="mb-6 leading-loose text-justify text-gray-500">
+                            <p className="mb-6 text-sm lg:text-base xl:text-base 2xl:text-base lg:leading-loose xl:leading-loose 2xl:leading-loose text-justify text-gray-500">
                               {post?.excerpt}
                             </p>
                           )}
-                          <Link
-                            href={
-                              `/${post?.slug?.current}` ?? "/page-not-found"
-                            }
-                          >
-                            <a
-                              aria-label={`Go to ${post?.slug?.current} blog page`}
-                              className="text-webriq-darkblue hover:text-webriq-blue font-bold"
+                          {post?.slug?.current && (
+                            <Link
+                              href={
+                                `/${post?.slug?.current}` ?? "/page-not-found"
+                              }
                             >
-                              View Blog Post
-                            </a>
-                          </Link>
+                              <a
+                                aria-label={`Go to ${post?.slug?.current} blog page`}
+                                className="text-webriq-darkblue hover:text-webriq-blue font-bold"
+                              >
+                                View Blog Post
+                              </a>
+                            </Link>
+                          )}
                         </div>
                         <div className="w-full lg:w-1/2 rounded-l order-0 lg:order-1">
                           {post?.mainImage && (
