@@ -395,7 +395,7 @@ function VariantD({
                 </div>
               )}
               {links && (
-                <div className="flex justify-center items-center text-gray-500">
+                <div className="flex flex-wrap text-sm justify-center items-center text-gray-500">
                   {links?.map((link, index, { length }) => (
                     <div key={index}>
                       {link?.type === "linkInternal" ? (
@@ -456,9 +456,11 @@ function VariantD({
                           {link?.label}
                         </a>
                       )}
-                      {index + 1 !== length ? (
+                      {index === length - 1 ? null : index === length - 2 ? (
                         <span>&nbsp;and&nbsp;</span>
-                      ) : null}
+                      ) : (
+                        <span>&nbsp;,&nbsp;</span>
+                      )}
                     </div>
                   ))}
                 </div>
