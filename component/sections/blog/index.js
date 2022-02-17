@@ -17,6 +17,7 @@ function Blog({ data }) {
     title: data?.variants?.[variant]?.heading,
     posts: data?.variants?.[variant]?.blogPosts,
     buttonLabel: data?.variants?.[variant]?.changeButtonLabel,
+    primaryButton: data?.variants?.[variant]?.primaryButton,
   };
 
   return Variant ? <Variant {...props} /> : null;

@@ -3,10 +3,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { urlFor } from "lib/sanity";
 
-function VariantB({ caption, title, portfolios, buttonLabel }) {
+function VariantB({ caption, title, portfolios, primaryButton }) {
   const portfolioLength = 6; //set initial number of portfolios to display for this variant
-  const [viewPortfolios, setViewPortfolios] = React.useState(portfolioLength);
-  const [showMore, setShowMore] = React.useState(false); // show all blogs posts
 
   return (
     <section>
@@ -26,23 +24,62 @@ function VariantB({ caption, title, portfolios, buttonLabel }) {
                   </h1>
                 )}
               </div>
-              <div className="mt-5 md:mt-0 lg:mt-0 xl:mt-0">
-                {portfolios?.length > portfolioLength && !showMore && (
-                  <button
-                    aria-label="View More Portfolios button"
-                    className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose transition duration-200"
-                    onClick={() => {
-                      setViewPortfolios(portfolios?.length);
-                      setShowMore(true);
-                    }}
-                  >
-                    {buttonLabel ?? "View More Projects"}
-                  </button>
-                )}
-              </div>
+              {primaryButton?.label && (
+                <div className="mt-5 md:mt-0 lg:mt-0 xl:mt-0">
+                  {primaryButton?.type === "linkInternal" ? (
+                    <Link
+                      href={
+                        primaryButton?.internalLink === "Home" ||
+                        primaryButton?.internalLink === "home"
+                          ? "/"
+                          : `/${
+                              primaryButton?.internalLink === undefined
+                                ? "page-not-found"
+                                : primaryButton?.internalLink
+                            }`
+                      }
+                    >
+                      <a
+                        aria-label={`Click here to ${
+                          primaryButton?.label ?? "View More Projects"
+                        }`}
+                        className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose outline-none transition duration-200"
+                        target={primaryButton?.linkTarget}
+                        rel={
+                          primaryButton?.linkTarget === "_blank"
+                            ? "noopener noreferrer"
+                            : null
+                        }
+                      >
+                        {primaryButton?.label}
+                      </a>
+                    </Link>
+                  ) : (
+                    <a
+                      aria-label={`Click here to ${
+                        primaryButton?.label ?? "View More Projects"
+                      }`}
+                      className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose outline-none transition duration-200"
+                      target={primaryButton?.linkTarget}
+                      href={`${
+                        primaryButton?.externalLink === undefined
+                          ? "link-not-found"
+                          : primaryButton?.externalLink
+                      }`}
+                      rel={
+                        primaryButton?.linkTarget === "_blank"
+                          ? "noopener noreferrer"
+                          : null
+                      }
+                    >
+                      {primaryButton?.label}
+                    </a>
+                  )}
+                </div>
+              )}
             </div>
             <div className="flex flex-wrap -mx-4 mb-4">
-              {portfolios?.slice(0, viewPortfolios).map((content, index) => (
+              {portfolios?.slice(0, portfolioLength).map((content, index) => (
                 <div
                   className="relative mb-4 w-full md:w-1/2 lg:w-1/3 px-4"
                   key={index}

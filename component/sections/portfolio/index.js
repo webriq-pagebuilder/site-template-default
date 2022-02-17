@@ -18,6 +18,7 @@ function Portfolio({ template, data }) {
     title: data?.variants?.[variant]?.heading,
     portfolios: data?.variants?.[variant]?.portfolios,
     buttonLabel: data?.variants?.[variant]?.button,
+    primaryButton: data?.variants?.[variant]?.primaryButton,
   };
 
   return Variant ? <Variant {...props} /> : null;
