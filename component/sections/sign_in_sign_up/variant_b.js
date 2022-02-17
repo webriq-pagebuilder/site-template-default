@@ -381,7 +381,11 @@ function VariantB({
                       {link?.label}
                     </a>
                   )}
-                  {index + 1 !== length ? <span>&nbsp;and&nbsp;</span> : null}
+                  {index === length - 1 ? null : index === length - 2 ? (
+                    <span>&nbsp;and&nbsp;</span>
+                  ) : (
+                    <span>&nbsp;,&nbsp;</span>
+                  )}
                 </span>
               ))}
             </p>
