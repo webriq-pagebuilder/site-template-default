@@ -51,11 +51,11 @@ function VariantA({ caption, title, portfolios }) {
               ?.slice(0, viewPortfolios)
               ?.map((content, index) => (
                 <div
-                  className="w-full md:w-1/4 lg:w-1/4 xl:w-1/4 md:mb-8 lg:mb-8 xl:mb-8 px-4"
+                  className="w-full sm:w-1/2 md:w-1/2 lg:w-1/4 xl:w-1/4 mb-8 px-4"
                   key={index}
                 >
                   {content?.mainImage && (
-                    <div className="relative mx-auto md:h-64 lg:h-64 h-full w-full rounded-lg">
+                    <div className="relative mx-auto rounded-lg overflow-hidden">
                       <Image
                         src={urlFor(content?.mainImage)}
                         layout="responsive"

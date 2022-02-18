@@ -27,6 +27,7 @@ function Header({ template, data }) {
     formId: data?.variants?.[variant]?.form?.id,
     formName: data?.variants?.[variant]?.form?.name,
     links: data?.variants?.[variant]?.formLinks,
+    signInLink: data?.variants?.[variant]?.signinLink,
   };
 
   return Variant ? <Variant {...props} /> : null;

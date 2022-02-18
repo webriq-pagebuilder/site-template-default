@@ -65,6 +65,11 @@ function Page({ data, preview }) {
         sections?.map((section) => {
           const Component = Components[section._type];
 
+          // skip rendering unknown components
+          if (!Component) {
+            return null;
+          }
+
           return (
             <Component
               key={section._key}

@@ -59,18 +59,20 @@ function VariantB({ subtitle, title, posts, buttonLabel }) {
                           className="rounded overflow-hidden shadow"
                           key={key}
                         >
-                          <div className="h-full rounded-t overflow-hidden">
-                            <Image
-                              src={urlFor(post?.mainImage)}
-                              layout="responsive"
-                              width="271px"
-                              height="248px"
-                              objectFit="cover"
-                              alt={`blog-variantB-image-${key}`}
-                              blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                              placeholder="blur"
-                            />
-                          </div>
+                          {post?.mainImage && (
+                            <div className="h-full rounded-t overflow-hidden">
+                              <Image
+                                src={urlFor(post?.mainImage)}
+                                layout="responsive"
+                                width="271px"
+                                height="248px"
+                                objectFit="cover"
+                                alt={`blog-variantB-image-${key}`}
+                                blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                                placeholder="blur"
+                              />
+                            </div>
+                          )}
                           <div className="mt-auto p-6 rounded-b bg-white">
                             {post?.publishedAt && (
                               <span className="text-sm text-gray-500">
@@ -90,18 +92,20 @@ function VariantB({ subtitle, title, posts, buttonLabel }) {
                                 {post?.excerpt}
                               </p>
                             )}
-                            <Link
-                              href={
-                                `/${post?.slug?.current}` ?? "/page-not-found"
-                              }
-                            >
-                              <a
-                                aria-label={`Go to ${post?.slug?.current} blog page`}
-                                className="text-webriq-darkblue hover:text-webriq-babyblue font-bold"
+                            {post?.slug?.current && (
+                              <Link
+                                href={
+                                  `/${post?.slug?.current}` ?? "/page-not-found"
+                                }
                               >
-                                View Blog Post
-                              </a>
-                            </Link>
+                                <a
+                                  aria-label={`Go to ${post?.slug?.current} blog page`}
+                                  className="text-webriq-darkblue hover:text-webriq-babyblue font-bold"
+                                >
+                                  View Blog Post
+                                </a>
+                              </Link>
+                            )}
                           </div>
                         </div>
                       ))}
@@ -112,18 +116,20 @@ function VariantB({ subtitle, title, posts, buttonLabel }) {
                         ?.map((post, key) => (
                           <div className="mb-6 w-full lg:w-1/2 px-3" key={key}>
                             <div className="rounded overflow-hidden shadow">
-                              <div className="h-full rounded-t overflow-hidden">
-                                <Image
-                                  src={urlFor(post?.mainImage)}
-                                  layout="responsive"
-                                  width="259px"
-                                  height="192px"
-                                  objectFit="cover"
-                                  alt={`blog-variantB-image-${key}`}
-                                  blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                                  placeholder="blur"
-                                />
-                              </div>
+                              {post?.mainImage && (
+                                <div className="h-full rounded-t overflow-hidden">
+                                  <Image
+                                    src={urlFor(post?.mainImage)}
+                                    layout="responsive"
+                                    width="259px"
+                                    height="192px"
+                                    objectFit="cover"
+                                    alt={`blog-variantB-image-${key}`}
+                                    blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                                    placeholder="blur"
+                                  />
+                                </div>
+                              )}
                               <div className="mt-auto p-6 rounded-b bg-white">
                                 {post?.publishedAt && (
                                   <span className="text-sm text-gray-500">
@@ -143,19 +149,21 @@ function VariantB({ subtitle, title, posts, buttonLabel }) {
                                     {post?.excerpt}
                                   </p>
                                 )}
-                                <Link
-                                  href={
-                                    `/${post?.slug?.current}` ??
-                                    "/page-not-found"
-                                  }
-                                >
-                                  <a
-                                    aria-label={`Go to ${post?.slug?.current} blog page`}
-                                    className="text-webriq-darkblue hover:text-webriq-babyblue font-bold"
+                                {post?.slug?.current && (
+                                  <Link
+                                    href={
+                                      `/${post?.slug?.current}` ??
+                                      "/page-not-found"
+                                    }
                                   >
-                                    View Blog Post
-                                  </a>
-                                </Link>
+                                    <a
+                                      aria-label={`Go to ${post?.slug?.current} blog page`}
+                                      className="text-webriq-darkblue hover:text-webriq-babyblue font-bold"
+                                    >
+                                      View Blog Post
+                                    </a>
+                                  </Link>
+                                )}
                               </div>
                             </div>
                           </div>
