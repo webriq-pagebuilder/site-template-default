@@ -110,7 +110,7 @@ function VariantH({ caption, title, features, images }) {
                   {images?.[0] && (
                     <div className="rounded-xl overflow-hidden">
                       <Image
-                        src={urlFor(images?.[0])}
+                        src={urlFor(images?.[0]?.image)}
                         layout="responsive"
                         width="245px"
                         height="256px"
@@ -124,7 +124,7 @@ function VariantH({ caption, title, features, images }) {
                   {images?.[1] && (
                     <div className="mt-6 rounded-xl overflow-hidden">
                       <Image
-                        src={urlFor(images?.[1])}
+                        src={urlFor(images?.[1]?.image)}
                         layout="responsive"
                         width="245px"
                         height="256px"
@@ -139,7 +139,7 @@ function VariantH({ caption, title, features, images }) {
                 <div className="w-1/2 mx-3 rounded-xl overflow-hidden">
                   {images?.[2] && (
                     <Image
-                      src={urlFor(images?.[2])}
+                      src={urlFor(images?.[2]?.image)}
                       layout="responsive"
                       width="245px"
                       height="256px"

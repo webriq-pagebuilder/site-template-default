@@ -14,10 +14,10 @@ function Portfolio({ template, data }) {
 
   const props = {
     template,
-    caption: data?.variants?.[variant]?.subtitle,
-    title: data?.variants?.[variant]?.heading,
-    portfolios: data?.variants?.[variant]?.portfolios,
-    buttonLabel: data?.variants?.[variant]?.button,
+    caption: data?.variants?.subtitle,
+    title: data?.variants?.title,
+    portfolios: data?.variants?.portfolios,
+    primaryButton: data?.variants?.primaryButton,
   };
 
   return Variant ? <Variant {...props} /> : null;

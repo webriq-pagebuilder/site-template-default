@@ -11,7 +11,7 @@ function VariantA({
   formFields,
   formId,
   formName,
-  links,
+  formLinks,
   signInLink,
 }) {
   return (
@@ -327,9 +327,9 @@ function VariantA({
               )}
             </WebriQForm>
           </div>
-          {links && (
+          {formLinks && (
             <p className="mt-16 text-xs text-center text-gray-700">
-              {links?.map((link, index, { length }) => (
+              {formLinks?.map((link, index, { length }) => (
                 <span key={index}>
                   {link?.type === "linkInternal" ? (
                     <Link

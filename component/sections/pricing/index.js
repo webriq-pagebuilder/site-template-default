@@ -15,24 +15,24 @@ function Pricing({ data }) {
   const Variant = Variants?.[variant];
 
   const props = {
-    caption: data?.variants?.[variant]?.subtitle,
-    title: data?.variants?.[variant]?.heading,
-    description: data?.variants?.[variant]?.description,
-    plans: data?.variants?.[variant]?.plans,
-    annualBilling: data?.variants?.[variant]?.annualBilling,
-    monthlyBilling: data?.variants?.[variant]?.monthlyBilling,
-    banner: data?.variants?.[variant]?.banner,
-    form: data?.variants?.[variant]?.form,
-    formId: data?.variants?.[variant]?.form?.id,
-    formName: data?.variants?.[variant]?.form?.name,
-    stripePKey: data?.variants?.[variant]?.stripeAccount?.stripePKey,
-    stripeSecretKey: data?.variants?.[variant]?.stripeAccount?.stripeSKey,
-    hashKey: data?.variants?.[variant]?.stripeAccount?.hashKey,
-    apiVersion: data?.variants?.[variant]?.stripeAccount?.apiVersion,
+    caption: data?.variants?.subtitle,
+    title: data?.variants?.title,
+    description: data?.variants?.description,
+    plans: data?.variants?.plans,
+    annualBilling: data?.variants?.annualBilling,
+    monthlyBilling: data?.variants?.monthlyBilling,
+    banner: data?.variants?.banner,
+    form: data?.variants?.form,
+    formId: data?.variants?.form?.id,
+    formName: data?.variants?.form?.name,
+    stripePKey: data?.variants?.stripeAccount?.stripePKey,
+    stripeSecretKey: data?.variants?.stripeAccount?.stripeSKey,
+    hashKey: data?.variants?.stripeAccount?.hashKey,
+    apiVersion: data?.variants?.stripeAccount?.apiVersion,
     NEXT_PUBLIC_DXP_STUDIO_ADDRESS:
       NEXT_PUBLIC_DXP_STUDIO_ADDRESS || "https://dxpstudio.webriq.com",
-    block: data?.variants?.[variant]?.block,
-    signInLink: data?.variants?.[variant]?.signinLink,
+    block: data?.variants?.block,
+    signInLink: data?.variants?.signinLink,
   };
 
   return Variant ? <Variant {...props} /> : null;

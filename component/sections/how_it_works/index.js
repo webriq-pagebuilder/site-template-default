@@ -14,11 +14,11 @@ function HowItWorks({ data }) {
   const Variant = Variants?.[variant];
 
   const props = {
-    subtitle: data?.variants?.[variant]?.subtitle,
-    title: data?.variants?.[variant]?.heading,
-    text: data?.variants?.[variant]?.plainText,
-    video: data?.variants?.[variant]?.url,
-    steps: data?.variants?.[variant]?.arrayOfTitleAndText,
+    subtitle: data?.variants?.subtitle,
+    title: data?.variants?.title,
+    text: data?.variants?.plainText,
+    video: data?.variants?.url,
+    steps: data?.variants?.arrayOfTitleAndText,
   };
 
   return Variant ? <Variant {...props} /> : null;

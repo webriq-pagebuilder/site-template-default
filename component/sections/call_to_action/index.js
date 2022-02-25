@@ -13,16 +13,16 @@ function CallToAction({ data }) {
   const Variant = Variants?.[variant];
 
   const props = {
-    logo: data?.variants?.[variant]?.logo,
-    title: data?.variants?.[variant]?.heading,
-    text: data?.variants?.[variant]?.plainText,
-    button: data?.variants?.[variant]?.primaryButton,
-    features: data?.variants?.[variant]?.tags,
-    formFields: data?.variants?.[variant]?.form?.fields,
-    formId: data?.variants?.[variant]?.form?.id,
-    formName: data?.variants?.[variant]?.form?.name,
-    links: data?.variants?.[variant]?.formLinks,
-    signInLink: data?.variants?.[variant]?.signinLink,
+    logo: data?.variants?.logo,
+    title: data?.variants?.title,
+    text: data?.variants?.plainText,
+    button: data?.variants?.primaryButton,
+    features: data?.variants?.tags,
+    formFields: data?.variants?.form?.fields,
+    formId: data?.variants?.form?.id,
+    formName: data?.variants?.form?.name,
+    formLinks: data?.variants?.formLinks,
+    signInLink: data?.variants?.signinLink,
   };
 
   return Variant ? <Variant {...props} /> : null;

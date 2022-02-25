@@ -45,7 +45,7 @@ function Home({ data, preview }) {
       <Head>
         <title>{seo?.seoTitle ?? title}</title>
       </Head>
-      {sections?.map((section) => {
+      {sections?.map((section, index) => {
         const Component = Components[section._type];
 
         // skip rendering unknown components
@@ -55,7 +55,7 @@ function Home({ data, preview }) {
 
         return (
           <Component
-            key={section._key}
+            key={index}
             template={{
               bg: "gray",
               color: "webriq",
