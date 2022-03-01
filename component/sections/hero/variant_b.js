@@ -157,10 +157,11 @@ function VariantB({
                 </div>
               </div>
             </div>
+            {console.log(images)}
             {images && (
               <div className="w-full lg:w-1/2 px-4">
                 <div className="flex mb-3 lg:mb-4 lg:ml-6">
-                  {images?.[0] && (
+                  {images?.[0]?.image && (
                     <div className="w-1/3 h-full mr-2 rounded-3xl lg:rounded-br-none overflow-hidden">
                       <Image
                         src={urlFor(images?.[0]?.image)}
@@ -174,7 +175,7 @@ function VariantB({
                       />
                     </div>
                   )}
-                  {images?.[1] && (
+                  {images?.[1]?.image && (
                     <div className="w-2/3 h-full ml-2 rounded-3xl lg:rounded-bl-none overflow-hidden">
                       <Image
                         src={urlFor(images?.[1]?.image)}
@@ -190,7 +191,7 @@ function VariantB({
                   )}
                 </div>
                 <div className="flex mb-3 lg:mb-4 lg:mr-6">
-                  {images?.[2] && (
+                  {images?.[2]?.image && (
                     <div className="w-2/3 h-full mr-2 rounded-3xl lg:rounded-br-none overflow-hidden">
                       <Image
                         src={urlFor(images?.[2]?.image)}
@@ -204,7 +205,7 @@ function VariantB({
                       />
                     </div>
                   )}
-                  {images?.[3] && (
+                  {images?.[3]?.image && (
                     <div className="w-1/3 h-full ml-2 rounded-3xl lg:rounded-bl-none overflow-hidden">
                       <Image
                         src={urlFor(images?.[3]?.image)}
