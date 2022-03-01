@@ -14,7 +14,6 @@ const allProjections = `
     ...,
     variants {
       ...,
-      "featuredItems": arrayOfTitleAndDescription,
       arrayOfTitleAndText[] {
         ...,
         "title": heading,
@@ -108,7 +107,6 @@ export const blogNavAndFooter = groq`
     ...,
     variants {
       ...,
-      "featuredItems": arrayOfTitleAndDescription,
       "arrImages": images,
       arrayOfTitleAndText[] {
         ...,

@@ -16,7 +16,8 @@ function Portfolio({ template, data }) {
     template,
     caption: data?.variants?.subtitle,
     title: data?.variants?.title,
-    portfolios: data?.variants?.portfolios,
+    portfolio: data?.variants?.portfolio,
+    portfoliosWithCategory: data?.variants?.portfolios,
     primaryButton: data?.variants?.primaryButton,
   };
 

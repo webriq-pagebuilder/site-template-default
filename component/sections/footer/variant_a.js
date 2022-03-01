@@ -33,9 +33,9 @@ function VariantA({ logo, text, contacts, copyright, socialMedia }) {
               {logo?.image && (
                 <Link href={logoLink}>
                   <a
-                    aria-label={`Go to ${
-                      logoLink === "/" ? "home page" : logoLink
-                    }`}
+                    aria-label={
+                      logoLink === "/" ? "Go to home page" : `Go to ${logoLink}`
+                    }
                     className="text-3xl font-bold leading-none"
                   >
                     <Image
