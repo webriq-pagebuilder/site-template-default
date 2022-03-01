@@ -15,7 +15,7 @@ function Cookies({ data }) {
   const Variant = Variants?.[variant];
 
   const props = {
-    title: data?.variants?.title,
+    title: data?.variants?.heading,
     allowCookieBtn: data?.variants?.acceptButtonLabel,
     denyCookieBtn: data?.variants?.declineButtonLabel,
     block: data?.variants?.block,

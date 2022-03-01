@@ -13,7 +13,6 @@ function TextComponent({ data }) {
 
   const props = {
     heading: data?.variants?.title,
-    singleColumn: data?.variants?.singleColumn,
     firstColumn: data?.variants?.firstColumn,
     secondColumn: data?.variants?.secondColumn,
     thirdColumn: data?.variants?.thirdColumn,

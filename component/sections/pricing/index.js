@@ -23,8 +23,6 @@ function Pricing({ data }) {
     monthlyBilling: data?.variants?.monthlyBilling,
     banner: data?.variants?.banner,
     form: data?.variants?.form,
-    formId: data?.variants?.form?.id,
-    formName: data?.variants?.form?.name,
     stripePKey: data?.variants?.stripeAccount?.stripePKey,
     stripeSecretKey: data?.variants?.stripeAccount?.stripeSKey,
     hashKey: data?.variants?.stripeAccount?.hashKey,

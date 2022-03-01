@@ -4,13 +4,11 @@ import Image from "next/image";
 import { urlFor } from "lib/sanity";
 import { format } from "date-fns";
 
-function VariantC({ subtitle, title, posts, buttonLabel }) {
-  let blogs = 5,
+function VariantC({ subtitle, title, posts, primaryButton }) {
+  let blogsPerPage = 5,
     startPage = 1;
   let [numberOfPages, setNumberOfPages] = React.useState(startPage); // number of pages
-  let [blogsPerPage, setBlogsPerPage] = React.useState(blogs); // sets the number of blogs to initially show on page
   let [activePage, setActivePage] = React.useState(startPage); // the current page
-  const [showMore, setShowMore] = React.useState(false); // show all blogs posts
 
   // get blog list for page
   const indexOfLastPost = numberOfPages * blogsPerPage;
@@ -130,18 +128,57 @@ function VariantC({ subtitle, title, posts, buttonLabel }) {
                 </h1>
               )}
             </div>
-            {posts?.length > blogsPerPage && buttonLabel && (
+            {primaryButton?.label && (
               <div className="hidden lg:block text-right w-1/2">
-                <button
-                  aria-label="View More Blogs button"
-                  className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-gray-50 font-bold leading-loose transition duration-200"
-                  onClick={() => {
-                    setBlogsPerPage(posts?.length);
-                    setShowMore(true);
-                  }}
-                >
-                  {buttonLabel}
-                </button>
+                {primaryButton?.type === "linkInternal" ? (
+                  <Link
+                    href={
+                      primaryButton?.internalLink === "Home" ||
+                      primaryButton?.internalLink === "home"
+                        ? "/"
+                        : `/${
+                            primaryButton.internalLink === undefined
+                              ? "page-not-found"
+                              : primaryButton.internalLink
+                          }`
+                    }
+                  >
+                    <a
+                      aria-label={`Click here to ${
+                        primaryButton?.label ?? "View More Articles"
+                      }`}
+                      className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose outline-none transition duration-200"
+                      target={primaryButton?.linkTarget}
+                      rel={
+                        primaryButton?.linkTarget === "_blank"
+                          ? "noopener noreferrer"
+                          : null
+                      }
+                    >
+                      {primaryButton?.label}
+                    </a>
+                  </Link>
+                ) : (
+                  <a
+                    aria-label={`Click here to ${
+                      primaryButton?.label ?? "View More Articles"
+                    }`}
+                    className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose outline-none transition duration-200"
+                    target={primaryButton?.linkTarget}
+                    href={`${
+                      primaryButton?.externalLink === undefined
+                        ? "link-not-found"
+                        : primaryButton?.externalLink
+                    }`}
+                    rel={
+                      primaryButton?.linkTarget === "_blank"
+                        ? "noopener noreferrer"
+                        : null
+                    }
+                  >
+                    {primaryButton?.label}
+                  </a>
+                )}
               </div>
             )}
           </div>
@@ -315,7 +352,7 @@ function VariantC({ subtitle, title, posts, buttonLabel }) {
                     )}
                   </div>
                 ))}
-              {posts?.length > 10 && !showMore && (
+              {posts?.length > 10 && (
                 <Pagination
                   blogsPerPage={blogsPerPage}
                   changePage={changePage}

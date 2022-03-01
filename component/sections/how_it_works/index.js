@@ -17,7 +17,7 @@ function HowItWorks({ data }) {
     subtitle: data?.variants?.subtitle,
     title: data?.variants?.title,
     text: data?.variants?.plainText,
-    video: data?.variants?.url,
+    video: data?.variants?.youtubeLink,
     steps: data?.variants?.arrayOfTitleAndText,
   };
 
