@@ -40,6 +40,7 @@ function VariantA({ subtitle, title, text, video, steps }) {
               )}
             </div>
           </div>
+
           <div className="flex flex-wrap px-10">
             {steps &&
               steps?.map((step, index) => (
@@ -54,7 +55,7 @@ function VariantA({ subtitle, title, text, video, steps }) {
                     {step?.title}
                   </p>
                   <p className="text-gray-500 text-xs md:text-lg lg:text-lg md:leading-loose lg:leading-loose">
-                    {step?.content}
+                    {step?.plainText}
                   </p>
                 </div>
               ))}

@@ -11,13 +11,14 @@ const Variants = {
 function Portfolio({ template, data }) {
   const variant = data?.variant || data?.variants?.condition;
   const Variant = Variants?.[variant];
-
+  console.log(data?.variants);
   const props = {
     template,
     caption: data?.variants?.subtitle,
     title: data?.variants?.title,
     portfolio: data?.variants?.portfolio,
-    portfoliosWithCategory: data?.variants?.portfolios,
+    portfoliosWithCategory: data?.variants?.portfoliosWithCategories,
+    portfolios: data?.variants?.portfolios,
     primaryButton: data?.variants?.primaryButton,
   };
 

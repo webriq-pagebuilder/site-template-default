@@ -6,6 +6,11 @@ const conditionalLink = `
   "externalLink": linkExternal
 `;
 
+// ArrayOfTitleAndText[]{
+//   "title": heading,
+//   "content": plainText
+// }
+
 const allProjections = `
 {
   ...,
@@ -15,9 +20,7 @@ const allProjections = `
     variants {
       ...,
       arrayOfTitleAndText[] {
-        ...,
-        "title": heading,
-        "content": plainText
+        ...,       
       },
       logo {
         image,

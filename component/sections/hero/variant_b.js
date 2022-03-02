@@ -157,7 +157,6 @@ function VariantB({
                 </div>
               </div>
             </div>
-            {console.log(images)}
             {images && (
               <div className="w-full lg:w-1/2 px-4">
                 <div className="flex mb-3 lg:mb-4 lg:ml-6">
