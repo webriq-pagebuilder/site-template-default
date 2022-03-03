@@ -6,11 +6,6 @@ const conditionalLink = `
   "externalLink": linkExternal
 `;
 
-// ArrayOfTitleAndText[]{
-//   "title": heading,
-//   "content": plainText
-// }
-
 const allProjections = `
 {
   ...,
