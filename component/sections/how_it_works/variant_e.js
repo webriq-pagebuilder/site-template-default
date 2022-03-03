@@ -24,7 +24,9 @@ function VariantD({ subtitle, title, steps }) {
                   <h3 className="mb-4 text-2xl font-bold font-heading">
                     {step?.title}
                   </h3>
-                  <p className="text-gray-500 leading-loose">{step?.content}</p>
+                  <p className="text-gray-500 leading-loose">
+                    {step?.plainText}
+                  </p>
                 </div>
               ))}
             </div>

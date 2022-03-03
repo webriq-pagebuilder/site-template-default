@@ -25,7 +25,9 @@ function VariantD({ subtitle, title, steps }) {
                     {index + 1}
                   </p>
                   <p className="text-2xl font-bold">{step?.title}</p>
-                  <p className="text-gray-500 leading-loose">{step?.content}</p>
+                  <p className="text-gray-500 leading-loose">
+                    {step?.plainText}
+                  </p>
                 </div>
               ))}
             </div>

@@ -15,9 +15,7 @@ const allProjections = `
     variants {
       ...,
       arrayOfTitleAndText[] {
-        ...,
-        "title": heading,
-        "content": plainText
+        ...,       
       },
       logo {
         image,

@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { urlFor } from "lib/sanity";
 
-function VariantC({ caption, title, portfolio, primaryButton }) {
+function VariantC({ caption, title, portfolios, primaryButton }) {
   const portfolioLength = 6; //set initial number of portfolios to display for this variant
 
   return (
@@ -73,7 +73,7 @@ function VariantC({ caption, title, portfolio, primaryButton }) {
             </div>
           </div>
           <div className="flex flex-wrap -mx-4 mb-4">
-            {portfolio?.slice(0, portfolioLength)?.map((content, index) => (
+            {portfolios?.slice(0, portfolioLength)?.map((content, index) => (
               <div className="mb-8 w-full md:w-1/2 lg:w-1/3 px-4" key={index}>
                 {content?.mainImage?.image && (
                   <div className="bg-white rounded">

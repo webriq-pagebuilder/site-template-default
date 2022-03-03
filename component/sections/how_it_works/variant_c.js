@@ -26,7 +26,7 @@ function VariantC({ subtitle, title, steps }) {
                       {step?.title}
                     </p>
                     <p className="text-gray-500 leading-loose">
-                      {step?.content}
+                      {step?.plainText}
                     </p>
                   </div>
                 </div>
