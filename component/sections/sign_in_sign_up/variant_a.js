@@ -44,7 +44,7 @@ function VariantA({
               <Link href={logoLink}>
                 <a
                   aria-label="Sign Up logo"
-                  className="text-3xl mx-auto font-bold leading-none"
+                  className="text-3xl mx-auto font-bold leading-none flex justify-center"
                 >
                   <Image
                     src={urlFor(logo?.image)}
