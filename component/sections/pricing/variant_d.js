@@ -1,8 +1,8 @@
 import React from "react";
 import WebriQForm from "component/webriq-form";
+import Image from "next/image";
 import Link from "next/link";
 import { PortableText, urlFor } from "lib/sanity";
-import Image from "next/image";
 import { initiateCheckout } from "lib/checkout";
 import {
   CardElement,
@@ -43,7 +43,8 @@ function VariantD({
   });
   const [banners, setBanners] = React.useState(0);
   const [billing, setBilling] = React.useState({ amount: 0, billType: "" });
-  const [paymentOngoing, setPaymentOngoing] = React.useState(false)
+  const [showPassword, setShowPassword] = React.useState(false);
+  const [paymentOngoing, setPaymentOngoing] = React.useState(false);
   const stripePromise = loadStripe(stripePKey);
 
   const handleChange = (e) => {
@@ -127,15 +128,13 @@ function VariantD({
     const handleSubmit = async (event) => {
       event.preventDefault();
       let data = {};
-
       formFields.forEach((field) => {
         const formData = new FormData(
           document.querySelector(`form[name='${formName}']`)
-        ).get(field.name);        
-        data?.[field.name] = formData
+        ).get(field.name);
+        data[field.name] = formData;
       });
-      
-      setPaymentOngoing(true)
+      setPaymentOngoing(true);
       if (elements == null) {
         return;
       }
@@ -171,19 +170,19 @@ function VariantD({
         }
       );
       if (error) {
-        console.log(error);       
+        console.log(error);
       }
-      if(paymentIntent){
+      if (paymentIntent) {
         const response = await fetch("/api/submitForm", {
           method: "POST",
           body: JSON.stringify({ data, id: formId }),
         });
         const responseData = await response.json();
-        setPaymentOngoing(false)
-        if(responseData.message === "OK"){
-          router.push('/success')
+        setPaymentOngoing(false);
+        if (responseData.message === "OK") {
+          router.push("/success");
         }
-      }    
+      }
       // setPaymentOngoing(false)
     };
 
@@ -191,7 +190,7 @@ function VariantD({
       <form className="w-full md:w-1/2 mb-8 md:mb-0" id="webriqForm">
         <div className="px-6 py-8 lg:px-8 text-center">
           {/* <span className="text-gray-700">{title}</span> */}
-          <p className="mb-8 text-2xl font-heading">{formName}</p>          
+          <p className="mb-8 text-2xl font-heading">{formName}</p>
           {formFields && (
             <div className="max-w-md lg:mx-auto">
               <WebriQForm
@@ -203,72 +202,69 @@ function VariantD({
                 // data-thankyou-url="/thank-you"
                 scriptsrc="https://pagebuilderforms.webriq.com/js/initReactForms"
               >
-                {
-                  formFields?.map(field => {
-                    return (
-                      <div>
-                      {
-                      field.type === "textarea" ? (
-                      <div className="mb-4">
-                        <textarea
-                          aria-label={`${field?.name} text area`}
-                          className="w-full h-24 p-4 text-xs font-semibold leading-none resize-none bg-white rounded outline-none"
-                          type="text"
-                          placeholder={field?.name}
-                          name={field?.name}
-                        />
-                      </div>
-                    ) : field.type === "inputFile" ? (
-                      <div className="mb-4">
-                        <label className="flex px-2 bg-white rounded">
-                          <input
-                            aria-label="Add file"
-                            className="hidden"
-                            type="file"
-                            placeholder="Choose file.."
+                {formFields?.map((field) => {
+                  return (
+                    <div>
+                      {field.type === "textarea" ? (
+                        <div className="mb-4">
+                          <textarea
+                            aria-label={`${field?.name} text area`}
+                            className="w-full h-24 p-4 text-xs font-semibold leading-none resize-none bg-white rounded outline-none"
+                            type="text"
+                            placeholder={field?.name}
                             name={field?.name}
                           />
-                          <div className="my-1 ml-auto px-4 py-3 text-xs text-white font-semibold leading-none bg-gray-500 hover:bg-gray-600 rounded cursor-pointer transition duration-200">
-                            Browse
-                          </div>
-                        </label>
-                      </div>
-                    ) : field.type === "inputCard" ? (
-                      <div className="mb-4">
-                        <CardElement />
-                        {/* {paymentOngoing && <div style={{textAlign: 'left', marginTop: 12, fontSize: 12}}>Please provide a correct card details</div>} */}
-                      </div>
-                    ) : (
-                      <div className="mb-4">
-                        <input
-                          aria-label={`${
-                            field?.type === "inputText"
-                              ? `Input ${field?.name}`
-                              : `${field?.type}`
-                          }`}
-                          className="w-full p-4 text-xs font-semibold leading-none bg-white rounded outline-none"
-                          type={
-                            field.type === "inputEmail"
-                              ? "email"
-                              : field.type === "inputPassword"
-                              ? "password"
-                              : "text"
-                          }
-                          placeholder={
-                            field.type === "inputEmail"
-                              ? "name@email.com"
-                              : field.type === "inputPassword"
-                              ? "Enter your password"
-                              : field?.name
-                          }
-                          name={field?.name}
-                        />
-                      </div>
+                        </div>
+                      ) : field.type === "inputFile" ? (
+                        <div className="mb-4">
+                          <label className="flex px-2 bg-white rounded">
+                            <input
+                              aria-label="Add file"
+                              className="hidden"
+                              type="file"
+                              placeholder="Choose file.."
+                              name={field?.name}
+                            />
+                            <div className="my-1 ml-auto px-4 py-3 text-xs text-white font-semibold leading-none bg-gray-500 hover:bg-gray-600 rounded cursor-pointer transition duration-200">
+                              Browse
+                            </div>
+                          </label>
+                        </div>
+                      ) : field.type === "inputCard" ? (
+                        <div className="mb-4">
+                          <CardElement />
+                          {/* {paymentOngoing && <div style={{textAlign: 'left', marginTop: 12, fontSize: 12}}>Please provide a correct card details</div>} */}
+                        </div>
+                      ) : (
+                        <div className="mb-4">
+                          <input
+                            aria-label={`${
+                              field?.type === "inputText"
+                                ? `Input ${field?.name}`
+                                : `${field?.type}`
+                            }`}
+                            className="w-full p-4 text-xs font-semibold leading-none bg-white rounded outline-none"
+                            type={
+                              field.type === "inputEmail"
+                                ? "email"
+                                : field.type === "inputPassword"
+                                ? "password"
+                                : "text"
+                            }
+                            placeholder={
+                              field.type === "inputEmail"
+                                ? "name@email.com"
+                                : field.type === "inputPassword"
+                                ? "Enter your password"
+                                : field?.name
+                            }
+                            name={field?.name}
+                          />
+                        </div>
                       )}
-                  </div>
-                    )
-                  })
-                }               
+                    </div>
+                  );
+                })}
                 <div className="text-left mb-5 text-sm text-gray-500">
                   <label className="inline-flex">
                     <input
@@ -422,7 +418,7 @@ function VariantD({
               )}
             </div>
           </div>
-          <div className="flex flex-wrap bg-white rounded shadow">           
+          <div className="flex flex-wrap bg-white rounded shadow">
             <Elements stripe={stripePromise}>
               <Form />
             </Elements>
