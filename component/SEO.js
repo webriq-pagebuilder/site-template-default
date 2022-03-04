@@ -4,8 +4,11 @@ import { NextSeo } from "next-seo";
 
 function SEO({ data }) {
   const url = process.env.NEXT_PUBLIC_SITE_URL;
-  const seo = data?.blogData?.seo ?? data?.page?.seo;
+  const seo = data?.blogData?.seo ?? (data?.page?.seo || data?.page?.[0]?.seo);
   const title = data?.blogData?.title ?? data?.page?.title;
+  const slug =
+    (data?.page?.[0]?.slug || data?.page?.slug) ??
+    data?.blogData?.slug?.current;
 
   return (
     <>
@@ -13,7 +16,7 @@ function SEO({ data }) {
         openGraph={{
           title: seo?.seoTitle || title,
           description: seo?.seoDescription,
-          url: `${url}/${seo?.slug || ""}`,
+          url: `${url}/${slug === "home" ? "" : slug}`,
           images: [
             {
               url: seoImageUrl(seo?.seoImage),
