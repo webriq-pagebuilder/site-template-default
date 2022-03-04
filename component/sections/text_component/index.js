@@ -12,11 +12,10 @@ function TextComponent({ data }) {
   const Variant = Variants?.[variant];
 
   const props = {
-    heading: data?.variants?.[variant]?.heading,
-    singleColumn: data?.variants?.[variant]?.singleColumn,
-    firstColumn: data?.variants?.[variant]?.firstColumn,
-    secondColumn: data?.variants?.[variant]?.secondColumn,
-    thirdColumn: data?.variants?.[variant]?.thirdColumn,
+    heading: data?.variants?.title,
+    firstColumn: data?.variants?.firstColumn,
+    secondColumn: data?.variants?.secondColumn,
+    thirdColumn: data?.variants?.thirdColumn,
   };
 
   return Variant ? <Variant {...props} /> : null;

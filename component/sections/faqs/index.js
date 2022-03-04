@@ -12,10 +12,10 @@ function FAQs({ data }) {
   const Variant = Variants?.[variant];
 
   const props = {
-    subtitle: data?.variants?.[variant]?.subtitle,
-    title: data?.variants?.[variant]?.heading,
-    faqs: data?.variants?.[variant]?.askedQuestions,
-    faqsWithCategories: data?.variants?.[variant]?.faqsWithCategory,
+    subtitle: data?.variants?.subtitle,
+    title: data?.variants?.title,
+    faqs: data?.variants?.askedQuestions,
+    faqsWithCategories: data?.variants?.faqsWithCategory,
   };
 
   return Variant ? <Variant {...props} /> : null;

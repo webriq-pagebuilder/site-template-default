@@ -13,10 +13,10 @@ function Blog({ data }) {
   const Variant = Variants?.[variant];
 
   const props = {
-    subtitle: data?.variants?.[variant]?.subtitle,
-    title: data?.variants?.[variant]?.heading,
-    posts: data?.variants?.[variant]?.blogPosts,
-    buttonLabel: data?.variants?.[variant]?.changeButtonLabel,
+    subtitle: data?.variants?.subtitle,
+    title: data?.variants?.title,
+    posts: data?.variants?.blogPosts,
+    primaryButton: data?.variants?.primaryButton,
   };
 
   return Variant ? <Variant {...props} /> : null;

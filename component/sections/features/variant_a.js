@@ -34,7 +34,7 @@ function VariantA({ caption, title, features }) {
                 </span>
                 <p className="mb-4 text-2xl font-bold font-heading">
                   {/* Lorem ipsum dolor sit amet consectutar */}
-                  {features?.[0]?.heading}
+                  {features?.[0]?.title}
                 </p>
                 <p className="text-gray-500 leading-loose">
                   {/* Fusce quam tellus, placerat eu metus ut, viverra aliquet purus.
@@ -61,7 +61,7 @@ function VariantA({ caption, title, features }) {
                 </span>
                 <p className="mb-4 text-2xl font-bold font-heading">
                   {/* Ut congue nec leo eget aliquam */}
-                  {features?.[1]?.heading}
+                  {features?.[1]?.title}
                 </p>
                 <p className="text-gray-500 leading-loose">
                   {/* Ut tempus tellus ac nisi vestibulum tempus. Nunc tincidunt
@@ -90,7 +90,7 @@ function VariantA({ caption, title, features }) {
                 </span>
                 <p className="mb-4 text-2xl font-bold font-heading">
                   {/* Proin fringilla eleifend justo pellentesque */}
-                  {features?.[2]?.heading}
+                  {features?.[2]?.title}
                 </p>
 
                 <p className="text-gray-500 leading-loose">
@@ -120,7 +120,7 @@ function VariantA({ caption, title, features }) {
                 </span>
                 <p className="mb-4 text-2xl font-bold font-heading">
                   {/* Morbi sagittis ligula sit amet elit maximus */}
-                  {features?.[3]?.heading}
+                  {features?.[3]?.title}
                 </p>
                 <p className="text-gray-500 leading-loose">
                   {/* Duis ut facilisis orci. Morbi lacinia nunc a augue eleifend, sed

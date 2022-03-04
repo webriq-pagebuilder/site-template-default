@@ -12,8 +12,6 @@ function VariantD({
   monthlyBilling,
   banner,
   form,
-  formId,
-  formName,
   block,
   signInLink,
 }) {
@@ -103,8 +101,8 @@ function VariantD({
                 {form?.fields && (
                   <WebriQForm
                     method="POST"
-                    data-form-id={formId}
-                    name={formName}
+                    data-form-id={form?.name}
+                    name={form?.name}
                     className="mb-4 form-pricing"
                     data-thankyou-url={"/"}
                     scriptsrc="https://pagebuilderforms.webriq.com/js/initReactForms"
@@ -260,22 +258,25 @@ function VariantD({
               </div>
             </div>
             <div className="py-10 w-full md:w-1/2 bg-webriq-darkblue lg:rounded-r overflow-hidden flex flex-col">
-              {banner?.[banners]?.mainImage && (
+              {banner?.[banners]?.mainImage?.image && (
                 <div className="w-full md:max-w-xs mx-auto my-auto">
                   <Image
-                    src={urlFor(banner?.[banners]?.mainImage)}
+                    src={urlFor(banner?.[banners]?.mainImage?.image)}
                     layout="responsive"
                     width="320px"
                     height="296px"
                     objectFit="contain"
-                    alt={`pricing-image-${banners}`}
+                    alt={
+                      banner?.[banners]?.mainImage?.alt ??
+                      `pricing-image-${banners}`
+                    }
                     blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
                     placeholder="blur"
                   />
                 </div>
               )}
               <p className="mb-4 max-w-sm mx-auto text-center text-xl text-white">
-                {banner?.[banners]?.heading}
+                {banner?.[banners]?.title}
               </p>
               <div className="text-center">
                 {banner?.map((item, index) => (

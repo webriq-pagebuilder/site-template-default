@@ -12,12 +12,12 @@ function Footer({ data }) {
   const Variant = Variants?.[variant];
 
   const props = {
-    logo: data?.variants?.[variant]?.logo,
-    text: data?.variants?.[variant]?.plainText,
-    contacts: data?.variants?.[variant]?.contactDetails,
-    copyright: data?.variants?.[variant]?.copyright,
-    socialMedia: data?.variants?.[variant]?.socialLinks,
-    menu: data?.variants?.[variant]?.menu,
+    logo: data?.variants?.logo,
+    text: data?.variants?.plainText,
+    contacts: data?.variants?.contactDetails,
+    copyright: data?.variants?.copyright,
+    socialMedia: data?.variants?.socialLinks,
+    menu: data?.variants?.menu,
   };
 
   return Variant ? <Variant {...props} /> : null;

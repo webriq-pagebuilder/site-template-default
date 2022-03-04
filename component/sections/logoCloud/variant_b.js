@@ -24,12 +24,12 @@ function VariantB({ title, text, images }) {
                 >
                   <div className="bg-gray-50 mx-auto rounded">
                     <Image
-                      src={urlFor(image)}
+                      src={urlFor(image?.image)}
                       layout="responsive"
                       width="192px"
                       height="192px"
                       objectFit="scale-down"
-                      alt={`logoCloud-image${index}`}
+                      alt={image?.alt ?? `logoCloud-image${index}`}
                       blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
                       placeholder="blur"
                     />

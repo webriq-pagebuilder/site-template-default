@@ -5,6 +5,26 @@ import Link from "next/link";
 import WebriQForm from "component/webriq-form";
 
 function VariantB({ logo, title, text, formFields, formId, formName }) {
+  let logoLink;
+
+  if (logo.type === "linkInternal") {
+    if (logo.internalLink === undefined) {
+      logoLink = `/`; // default to root page when not defined
+    } else {
+      if (logo.internalLink === "Home" || logo.internalLink === "home") {
+        logoLink = `/`;
+      } else {
+        logoLink = `/${logo.internalLink}`;
+      }
+    }
+  } else {
+    if (logo.externalLink === undefined) {
+      logoLink = `/`;
+    } else {
+      logoLink = logo.externalLink;
+    }
+  }
+
   return (
     <section>
       <div>
@@ -20,9 +40,11 @@ function VariantB({ logo, title, text, formFields, formId, formName }) {
         <div className="container mx-auto px-4">
           <div className="max-w-xl mx-auto text-center">
             {logo?.image && (
-              <Link prefetch={false} href="/">
+              <Link href={logoLink}>
                 <a
-                  aria-label="Call to Action logo"
+                  aria-label={`Go to ${
+                    logo?.internalLink ?? logo?.externalLink
+                  }`}
                   className="mb-6 inline-block p-3 rounded"
                 >
                   <Image

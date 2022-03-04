@@ -15,6 +15,7 @@ function VariantE({ featuredItems }) {
       ? setItem((prevState) => prevState - 1)
       : setItem(featuredItems.length - 1);
   };
+
   return (
     <section>
       <div className="py-20 bg-gray-50 radius-for-skewed overflow-x-auto">
@@ -45,16 +46,19 @@ function VariantE({ featuredItems }) {
               )}
             </div>
             <div className="order-1 w-full xl:w-4/5 ml-auto">
-              {featuredItems?.[item]?.mainImage && (
+              {featuredItems?.[item]?.mainImage?.image && (
                 <div className="md:max-w-xl xl:max-w-4xl mx-auto rounded-md overflow-hidden">
                   <Image
-                    src={urlFor(featuredItems?.[item]?.mainImage)}
+                    src={urlFor(featuredItems?.[item]?.mainImage?.image)}
                     layout="responsive"
                     width="896px"
                     height="575px"
                     objectPosition="relative"
                     objectFit="cover"
-                    alt={`features-variantE-image-${item}`}
+                    alt={
+                      featuredItems?.[item]?.mainImage?.alt ??
+                      `features-variantE-image-${item}`
+                    }
                     blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
                     placeholder="blur"
                   />
@@ -66,8 +70,7 @@ function VariantE({ featuredItems }) {
                     featuredItems?.[item]?.subtitle}
                 </span>
                 <h1 className="md:mt-5 lg:mt-5 text-lg md:text-3xl lg:text-5xl font-bold font-heading">
-                  {featuredItems?.[item]?.heading &&
-                    featuredItems?.[item]?.heading}
+                  {featuredItems?.[item]?.title && featuredItems?.[item]?.title}
                 </h1>
                 <p className="md:mt-5 lg:mt-5 text-xs md:text-sm lg:text-sm mx-auto text-gray-500 leading-loose">
                   {featuredItems?.[item]?.description &&

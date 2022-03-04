@@ -4,7 +4,7 @@ import Image from "next/image";
 import { urlFor } from "lib/sanity";
 import { format } from "date-fns";
 
-function VariantD({ subtitle, title, posts, buttonLabel }) {
+function VariantD({ subtitle, title, posts, primaryButton }) {
   let blogs = 5;
   let [blogsPerPage, setBlogsPerPage] = React.useState(blogs); // sets the number of blogs to initially show on page
   const [activeTab, setActiveTab] = React.useState("All"); //set the first index category as initial value
@@ -63,25 +63,56 @@ function VariantD({ subtitle, title, posts, buttonLabel }) {
               )}
             </div>
             <div className="hidden lg:block text-right w-1/2">
-              {activeTab === "All" ? (
-                posts?.length > blogsPerPage ? (
-                  <button
-                    aria-label="View All Blogs button"
-                    className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose transition duration-200"
-                    onClick={() => setBlogsPerPage(posts?.length)}
+              {primaryButton?.label &&
+                (primaryButton?.type === "linkInternal" ? (
+                  <Link
+                    href={
+                      primaryButton?.internalLink === "Home" ||
+                      primaryButton?.internalLink === "home"
+                        ? "/"
+                        : `/${
+                            primaryButton.internalLink === undefined
+                              ? "page-not-found"
+                              : primaryButton.internalLink
+                          }`
+                    }
                   >
-                    {buttonLabel}
-                  </button>
-                ) : null
-              ) : postsPerCategory?.length > blogsPerPage ? (
-                <button
-                  aria-label={`View All Blogs For ${activeTab} button`}
-                  className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose transition duration-200"
-                  onClick={() => setBlogsPerPage(postsPerCategory?.length)}
-                >
-                  {buttonLabel}
-                </button>
-              ) : null}
+                    <a
+                      aria-label={`Click here to ${
+                        primaryButton?.label ?? "View More Articles"
+                      }`}
+                      className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose outline-none transition duration-200"
+                      target={primaryButton?.linkTarget}
+                      rel={
+                        primaryButton?.linkTarget === "_blank"
+                          ? "noopener noreferrer"
+                          : null
+                      }
+                    >
+                      {primaryButton?.label}
+                    </a>
+                  </Link>
+                ) : (
+                  <a
+                    aria-label={`Click here to ${
+                      primaryButton?.label ?? "View More Articles"
+                    }`}
+                    className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose outline-none transition duration-200"
+                    target={primaryButton?.linkTarget}
+                    href={`${
+                      primaryButton?.externalLink === undefined
+                        ? "link-not-found"
+                        : primaryButton?.externalLink
+                    }`}
+                    rel={
+                      primaryButton?.linkTarget === "_blank"
+                        ? "noopener noreferrer"
+                        : null
+                    }
+                  >
+                    {primaryButton?.label}
+                  </a>
+                ))}
             </div>
           </div>
           <div className="flex flex-wrap -mx-3">

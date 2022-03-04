@@ -12,13 +12,13 @@ function AppPromo({ data }) {
   const Variant = Variants?.[variant];
 
   const props = {
-    logo: data?.variants?.[variant]?.logo,
-    subtitle: data?.variants?.[variant]?.subtitle,
-    title: data?.variants?.[variant]?.heading,
-    description: data?.variants?.[variant]?.description,
-    statistics: data?.variants?.[variant]?.statItems,
-    features: data?.variants?.[variant]?.tags,
-    images: data?.variants?.[variant]?.arrImages,
+    logo: data?.variants?.logo,
+    subtitle: data?.variants?.subtitle,
+    title: data?.variants?.title,
+    description: data?.variants?.description,
+    statistics: data?.variants?.statItems,
+    features: data?.variants?.tags,
+    images: data?.variants?.images,
   };
 
   return Variant ? <Variant {...props} /> : null;

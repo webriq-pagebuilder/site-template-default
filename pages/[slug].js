@@ -62,7 +62,7 @@ function Page({ data, preview }) {
         <title>{seo?.seoTitle || title}</title>
       </Head>
       {sections &&
-        sections?.map((section) => {
+        sections?.map((section, index) => {
           const Component = Components[section._type];
 
           // skip rendering unknown components
@@ -72,7 +72,7 @@ function Page({ data, preview }) {
 
           return (
             <Component
-              key={section._key}
+              key={index}
               template={{
                 bg: "gray",
                 color: "webriq",

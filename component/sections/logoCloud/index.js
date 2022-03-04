@@ -13,10 +13,10 @@ function LogoCloud({ data }) {
   const Variant = Variants?.[variant];
 
   const props = {
-    title: data?.variants?.[variant]?.heading,
-    images: data?.variants?.[variant]?.arrImages,
-    text: data?.variants?.[variant]?.plainText,
-    button: data?.variants?.[variant]?.primaryButton,
+    title: data?.variants?.title,
+    images: data?.variants?.images,
+    text: data?.variants?.plainText,
+    button: data?.variants?.primaryButton,
   };
 
   return Variant ? <Variant {...props} /> : null;

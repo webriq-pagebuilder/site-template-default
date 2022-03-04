@@ -12,12 +12,12 @@ function VariantD({ images }) {
               <div className="mb-4 w-full md:w-1/3 lg:w-1/6 px-2" key={index}>
                 <div className="bg-gray-50 mx-auto rounded">
                   <Image
-                    src={urlFor(image)}
+                    src={urlFor(image?.image)}
                     layout="responsive"
                     width="192px"
                     height="192px"
                     objectFit="scale-down"
-                    alt={`logoCloud-image${index}`}
+                    alt={image?.alt ?? `logoCloud-image${index}`}
                     blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
                     placeholder="blur"
                   />

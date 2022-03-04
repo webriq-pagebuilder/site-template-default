@@ -39,7 +39,7 @@ function VariantC({ caption, title, features }) {
                   </div>
                   <div className="w-full lg:w-2/3">
                     <p className="mb-2 text-2xl font-bold font-heading">
-                      {features?.[0]?.heading}
+                      {features?.[0]?.title}
                     </p>
                     <p className="text-gray-500">
                       {features?.[0]?.description}
@@ -65,7 +65,7 @@ function VariantC({ caption, title, features }) {
                   </div>
                   <div className="w-full lg:w-2/3">
                     <p className="mb-2 text-2xl font-bold font-heading">
-                      {features?.[1]?.heading}
+                      {features?.[1]?.title}
                     </p>
                     <p className="text-gray-500">
                       {features?.[1]?.description}
@@ -97,7 +97,7 @@ function VariantC({ caption, title, features }) {
                   </div>
                   <div className="w-full lg:w-2/3">
                     <p className="mb-2 text-2xl font-bold font-heading">
-                      {features?.[2]?.heading}
+                      {features?.[2]?.title}
                     </p>
                     <p className="text-gray-500">
                       {features?.[2]?.description}
@@ -128,7 +128,7 @@ function VariantC({ caption, title, features }) {
                   </div>
                   <div className="w-full lg:w-2/3">
                     <p className="mb-2 text-2xl font-bold font-heading">
-                      {features?.[3]?.heading}
+                      {features?.[3]?.title}
                     </p>
                     <p className="text-gray-500">
                       {features?.[3]?.description}
