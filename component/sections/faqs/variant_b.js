@@ -69,9 +69,11 @@ function VariantB({ subtitle, title, faqsWithCategories }) {
                       className="w-full flex justify-between focus:outline-none items-center text-left font-bold font-heading hover:text-gray-600"
                       onClick={() => toggleView(index)}
                     >
-                      <span className="text-xl">{content?.question}</span>
+                      <span className="text-xs lg:text-xl xl:text-xl 2xl:text-xl w-3/4">
+                        {content?.question}
+                      </span>
                       <svg
-                        className="w-4 h-4 text-webriq-darkblue"
+                        className="w-4 h-4 lg:w-6 lg:h-6 xl:w-6 xl:h-6 2xl:w-6 2xl:h-6 text-webriq-darkblue"
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
                         viewBox="0 0 24 24"
@@ -90,7 +92,7 @@ function VariantB({ subtitle, title, faqsWithCategories }) {
                       </svg>
                     </button>
                     {view[index].hidden === false && (
-                      <p className="mt-4 text-gray-500 font-normal leading-loose">
+                      <p className="mt-4 text-gray-500 font-normal leading-loose text-xs lg:text-xl xl:text-xl 2xl:text-xl">
                         {content?.answer}
                       </p>
                     )}

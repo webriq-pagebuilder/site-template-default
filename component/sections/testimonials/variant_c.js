@@ -23,7 +23,7 @@ function VariantC({ caption, title, testimonials }) {
 
   return (
     <section>
-      <div className="p-20 bg-gray-50 radius-for-skewed overflow-hidden">
+      <div className="py-10 lg:py-20 bg-gray-50 radius-for-skewed overflow-hidden">
         <div className="max-w-6xl mx-auto px-4 pb-6 lg:pb-16">
           <div className="flex flex-wrap justify-center lg:justify-between items-center text-center lg:text-left">
             <div className="w-full lg:w-4/5 mb-4 lg:mb-0">
@@ -36,7 +36,7 @@ function VariantC({ caption, title, testimonials }) {
               {testimony?.length >= 4 && (
                 <button
                   aria-label="Show Previous Testimonial button"
-                  className="mr-4 bg-white p-5 rounded-full shadow-md text-webriq-darkblue hover:text-webriq-darkblue transition duration-200"
+                  className="mr-4 bg-white p-5 rounded-full shadow-md text-webriq-darkblue hover:text-webriq-babyblue transition duration-200"
                   onClick={() => slider("prev")}
                 >
                   <svg
@@ -58,7 +58,7 @@ function VariantC({ caption, title, testimonials }) {
               {testimony?.length >= 4 && (
                 <button
                   aria-label="Show Next Testimonial button"
-                  className="bg-white p-5 rounded-full shadow-md text-webriq-darkblue hover:text-webriq-darkblue transition duration-200"
+                  className="bg-white p-5 rounded-full shadow-md text-webriq-darkblue hover:text-webriq-babyblue transition duration-200"
                   onClick={() => slider("next")}
                 >
                   <svg
@@ -82,31 +82,32 @@ function VariantC({ caption, title, testimonials }) {
         </div>
         <div className="relative flex">
           {testimony && (
-            <div className="flex px-2 mx-auto">
-              {testimony?.map((item, index) => (
-                <div className="mb-4 w-1/2 px-3" key={index}>
+            <div className="flex flex-wrap max-w-6xl px-2 mx-auto">
+              {testimony?.slice(0, 3)?.map((item, index) => (
+                <div className="mb-4 w-full lg:w-1/3 px-3" key={index}>
                   <div className="p-8 bg-white rounded shadow text-center">
-                    <p className="mb-8 text-xs md:text-base lg:text-base text-gray-500 leading-loose">
+                    <p className="mb-8 text-gray-500 leading-loose">
                       {item?.testimony}
                     </p>
-                    <div className="mb-2 mx-auto">
+                    <div className="mb-2 mx-auto w-12 h-12 rounded-full overflow-hidden">
                       <Image
-                        src={urlFor(item?.mainImage)}
-                        layout="fixed"
-                        width="48px"
-                        height="48px"
+                        src={urlFor(item?.mainImage?.image)}
+                        layout="responsive"
+                        width="128px"
+                        height="128px"
                         objectFit="cover"
-                        alt={`testimonial-source-${item?.name}-profile-image`}
+                        alt={
+                          item?.mainImage?.alt ??
+                          `testimonial-source-${item?.name}-profile-image`
+                        }
                         blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
                         placeholder="blur"
                       />
                     </div>
-                    <p className="mb-1 text-xs md:text-2xl lg:text-2xl font-bold font-heading">
+                    <p className="mb-1 text-2xl font-bold font-heading">
                       {item?.name}
                     </p>
-                    <p className="text-xs md:text-base lg:text-base text-gray-500">
-                      {item?.jobTitle}
-                    </p>
+                    <p className="text-gray-500">{item?.jobTitle}</p>
                   </div>
                 </div>
               ))}

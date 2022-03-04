@@ -1,5 +1,7 @@
 import React from "react";
 import WebriQForm from "component/webriq-form";
+import Image from "next/image";
+import Link from "next/link";
 import { PortableText, urlFor } from "lib/sanity";
 import Image from "next/image";
 import { initiateCheckout } from "lib/checkout";
@@ -126,12 +128,14 @@ function VariantD({
     const handleSubmit = async (event) => {
       event.preventDefault();
       let data = {};
+
       formFields.forEach((field) => {
         const formData = new FormData(
           document.querySelector(`form[name='${formName}']`)
         ).get(field.name);        
-        data.[field.name] = formData
+        data?.[field.name] = formData
       });
+      
       setPaymentOngoing(true)
       if (elements == null) {
         return;
@@ -439,7 +443,7 @@ function VariantD({
                 </div>
               )}
               <p className="mb-4 max-w-sm mx-auto text-center text-xl text-white">
-                {banner?.[banners]?.heading}
+                {banner?.[banners]?.title}
               </p>
               <div className="text-center">
                 {banner?.map((item, index) => (

@@ -36,27 +36,32 @@ function VariantB({ team }) {
               {team && (
                 <div className="w-full lg:w-2/3 px-3">
                   {filterMember?.map((member, index) => (
-                    <div
-                      className="flex p-6 flex-wrap bg-white rounded-lg shadow"
-                      key={index}
-                    >
-                      <div className="w-full lg:w-1/2 lg:pr-3 h-80 lg:h-auto object-cover rounded-lg overflow-hidden">
-                        <Image
-                          src={urlFor(member?.mainImage)}
-                          layout="responsive"
-                          width="329px"
-                          height="494px"
-                          objectFit="cover"
-                          alt={`team-member-${member?.name}-profile-image`}
-                          blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                          placeholder="blur"
-                        />
-                      </div>
-                      <div className="w-full lg:w-1/2 lg:pl-3 lg:mt-6 order-first lg:order-last">
+                    <div className="flex p-6 bg-white shadow" key={index}>
+                      {member?.mainImage?.image && (
+                        <div className="w-1/2 h-auto rounded-lg overflow-hidden">
+                          <Image
+                            src={urlFor(member?.mainImage?.image)}
+                            layout="responsive"
+                            width="329px"
+                            height="494px"
+                            objectFit="cover"
+                            alt={
+                              member?.mainImage?.alt ??
+                              `team-member-${member?.name}-profile-image`
+                            }
+                            blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                            placeholder="blur"
+                          />
+                        </div>
+                      )}
+                      <div className="w-1/2 pt-6 pl-6 mt-6 order-last">
                         <p className="text-2xl font-bold font-heading">
                           {member?.name}
                         </p>
                         <p className="mb-6 text-gray-500">{member?.jobTitle}</p>
+                        <p className="mb-6 text-gray-500 text-justify">
+                          {member?.plainText}
+                        </p>
                       </div>
                     </div>
                   ))}

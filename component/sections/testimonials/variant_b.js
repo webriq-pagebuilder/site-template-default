@@ -27,7 +27,7 @@ function VariantB({ caption, title, testimonials }) {
             {testimony?.length >= 4 && (
               <button
                 aria-label="Show Previous Testimonial button"
-                className="focus:outline-none mr-3 lg:mr-0 order-last lg:order-first bg-white p-4 rounded-full shadow-md text-webriq-darkblue hover:text-webriq-babyblue transition duration-200"
+                className="mr-3 lg:mr-0 order-last lg:order-first bg-white p-4 rounded-full shadow-md text-webriq-darkblue hover:text-webriq-babyblue transition duration-200"
                 onClick={() => slider("prev")}
               >
                 <svg
@@ -55,7 +55,7 @@ function VariantB({ caption, title, testimonials }) {
             {testimony?.length >= 4 && (
               <button
                 aria-label="Show Next Testimonial button"
-                className="focus:outline-none order-last bg-white p-4 rounded-full shadow-md text-webriq-darkblue hover:text-webriq-babyblue transition duration-200"
+                className="order-last bg-white p-4 rounded-full shadow-md text-webriq-darkblue hover:text-webriq-babyblue transition duration-200"
                 onClick={() => slider("next")}
               >
                 <svg
@@ -76,9 +76,9 @@ function VariantB({ caption, title, testimonials }) {
             )}
           </div>
           <div className="flex w-full relative">
-            <div className="flex justify-center mx-auto">
+            <div className="flex flex-wrap justify-center mx-auto">
               {testimonials &&
-                testimony?.map((testimonial, index) => (
+                testimony?.slice(0, 3)?.map((testimonial, index) => (
                   <div
                     key={index}
                     className={`mb-4 w-full ${

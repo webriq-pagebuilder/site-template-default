@@ -31,7 +31,7 @@ function VariantA({ title, block, allowCookieBtn, denyCookieBtn }) {
     <div className="fixed bottom-0 inset-x-0 z-50">
       {!showCookie ? (
         <div className="container mx-auto px-4">
-          {title && (
+          {(title || block) && (
             <div className="flex flex-wrap items-center mb-6 p-6 bg-gray-800 text-white rounded-lg">
               <div className="w-full lg:w-2/3 px-4">
                 <p className="font-bold font-heading">{title}</p>

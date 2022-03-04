@@ -9,13 +9,13 @@ const Variants = {
 };
 
 function Team({ data }) {
-  const variant = data?.variants?.variant;
-
+  const variant = data?.variant || data?.variants?.condition;
   const Variant = Variants?.[variant];
+
   const props = {
-    caption: data?.variants?.[variant]?.subtitle,
-    title: data?.variants?.[variant]?.heading,
-    team: data?.variants?.[variant]?.teams,
+    caption: data?.variants?.subtitle,
+    title: data?.variants?.title,
+    team: data?.variants?.teams,
   };
 
   return Variant ? <Variant {...props} /> : null;

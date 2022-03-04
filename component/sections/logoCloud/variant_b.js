@@ -18,15 +18,18 @@ function VariantB({ title, text, images }) {
           <div className="w-full lg:w-1/2 flex flex-wrap -mx-2">
             {images &&
               images?.map((image, index) => (
-                <div className="mb-4 w-full lg:w-1/3 px-2" key={index}>
+                <div
+                  className="mb-4 w-1/2 md:w-1/3 lg:w-1/3 xl:w-1/3 2xl:w-1/3 px-2"
+                  key={index}
+                >
                   <div className="bg-gray-50 mx-auto rounded">
                     <Image
-                      src={urlFor(image)}
+                      src={urlFor(image?.image)}
                       layout="responsive"
                       width="192px"
                       height="192px"
                       objectFit="scale-down"
-                      alt={`logoCloud-image${index}`}
+                      alt={image?.alt ?? `logoCloud-image${index}`}
                       blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
                       placeholder="blur"
                     />

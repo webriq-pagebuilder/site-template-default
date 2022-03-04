@@ -1,7 +1,7 @@
 import React from "react";
 import { PortableText } from "lib/sanity";
 
-function VariantA({ heading, singleColumn }) {
+function VariantA({ heading, firstColumn }) {
   // block styling as props to `serializers` of the PortableText component
   const serializers = {
     types: {
@@ -81,12 +81,16 @@ function VariantA({ heading, singleColumn }) {
 
   return (
     <section className="py-20">
-      <h1 className="text-3xl mb-5 font-semibold font-heading text-center">
-        {heading}
-      </h1>
-      <div className="flex flex-wrap -mx-3 justify-center">
-        <div className="md:w-1/2 mb-6 md:mb-0">
-          <PortableText blocks={singleColumn} serializers={serializers} />
+      <div className="container mx-auto px-4">
+        <h1 className="text-xl lg:text-3xl mb-5 font-semibold font-heading text-center">
+          {heading}
+        </h1>
+        <div className="flex flex-wrap mx-auto justify-center">
+          {firstColumn && (
+            <div className="md:w-1/2 mb-2 md:mb-0 text-xs lg:text-base">
+              <PortableText blocks={firstColumn} serializers={serializers} />
+            </div>
+          )}
         </div>
       </div>
     </section>

@@ -9,13 +9,13 @@ const Variants = {
 };
 
 function Testimonial({ data }) {
-  const variant = data?.variants?.variant;
-
+  const variant = data?.variant || data?.variants?.condition;
   const Variant = Variants?.[variant];
+
   const props = {
-    caption: data?.variants?.[variant]?.subtitle,
-    title: data?.variants?.[variant]?.heading,
-    testimonials: data?.variants?.[variant]?.testimonials,
+    caption: data?.variants?.subtitle,
+    title: data?.variants?.title,
+    testimonials: data?.variants?.testimonials,
   };
 
   return Variant ? <Variant {...props} /> : null;

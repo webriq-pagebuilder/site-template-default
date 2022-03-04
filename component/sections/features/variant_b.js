@@ -1,6 +1,6 @@
 import React from "react";
 
-function VariantB({ caption, title, description, features, featureItems }) {
+function VariantB({ caption, title, description, features, tags }) {
   return (
     <section>
       <div className="py-20 bg-gray-50 radius-for-skewed">
@@ -8,19 +8,19 @@ function VariantB({ caption, title, description, features, featureItems }) {
           <div className="flex flex-wrap items-center">
             <div className="w-full lg:w-1/2 mb-12 lg:mb-0">
               <div className="max-w-md lg:mx-auto">
-                {caption === undefined ? null : (
+                {caption && (
                   <span className="text-webriq-darkblue font-bold">
                     {/* Dolor sit amet consectutar */}
                     {caption}
                   </span>
                 )}
-                {title === undefined ? null : (
+                {title && (
                   <h1 className="my-2 text-4xl lg:text-5xl font-bold font-heading">
                     {/* Build &amp; Launch without problems */}
                     {title}
                   </h1>
                 )}
-                {description === undefined ? null : (
+                {description && (
                   <p className="mb-6 text-gray-500 leading-loose">
                     {/* Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                   Pellentesque efficitur nisl sodales egestas lobortis. */}
@@ -28,8 +28,8 @@ function VariantB({ caption, title, description, features, featureItems }) {
                   </p>
                 )}
                 <ul className="text-gray-500 font-bold">
-                  {featureItems &&
-                    featureItems.map((item) => (
+                  {tags &&
+                    tags.map((item) => (
                       <li className="flex mb-4" key={item}>
                         <svg
                           className="mr-2 w-6 h-6 text-webriq-babyblue"
@@ -101,7 +101,7 @@ function VariantB({ caption, title, description, features, featureItems }) {
                       </svg>
                     </span>
                     <p className="mb-2 text-2xl font-bold font-heading">
-                      {features?.[0]?.heading}
+                      {features?.[0]?.title}
                     </p>
                     <p className="text-gray-500 leading-loose">
                       {features?.[0]?.description}
@@ -121,7 +121,7 @@ function VariantB({ caption, title, description, features, featureItems }) {
                       </svg>
                     </span>
                     <p className="mb-2 text-2xl font-bold font-heading">
-                      {features?.[1]?.heading}
+                      {features?.[1]?.title}
                     </p>
                     <p className="text-gray-500 leading-loose">
                       {features?.[1]?.description}
@@ -149,7 +149,7 @@ function VariantB({ caption, title, description, features, featureItems }) {
                       </svg>
                     </span>
                     <p className="mb-2 text-2xl font-bold font-heading">
-                      {features?.[2]?.heading}
+                      {features?.[2]?.title}
                     </p>
                     <p className="text-gray-500 leading-loose">
                       {features?.[2]?.description}
@@ -174,7 +174,7 @@ function VariantB({ caption, title, description, features, featureItems }) {
                       </svg>
                     </span>
                     <p className="mb-2 text-2xl font-bold font-heading">
-                      {features?.[3]?.heading}
+                      {features?.[3]?.title}
                     </p>
                     <p className="text-gray-500 leading-loose">
                       {features?.[3]?.description}

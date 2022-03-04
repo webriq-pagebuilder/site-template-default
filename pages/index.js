@@ -45,11 +45,17 @@ function Home({ data, preview }) {
       <Head>
         <title>{seo?.seoTitle ?? title}</title>
       </Head>
-      {sections?.map((section) => {
+      {sections?.map((section, index) => {
         const Component = Components[section._type];
+
+        // skip rendering unknown components
+        if (!Component) {
+          return null;
+        }
+
         return (
           <Component
-            key={section._key}
+            key={index}
             template={{
               bg: "gray",
               color: "webriq",

@@ -12,20 +12,19 @@ const Variants = {
   variant_h: dynamic(() => import("./variant_h")),
 };
 
-function Features({ /* template*/ data }) {
-  const variant = data?.variants?.variant;
-
+function Features({ data }) {
+  const variant = data?.variant || data?.variants?.condition;
   const Variant = Variants?.[variant];
+
   const props = {
-    caption: data?.variants?.[variant]?.subtitle,
-    title: data?.variants?.[variant]?.heading,
-    description: data?.variants?.[variant]?.description,
-    features: data?.variants?.[variant]?.arrayOfTitleAndDescription,
-    featureItems: data?.variants?.[variant]?.tags,
-    featuredItems: data?.variants?.[variant]?.featuredItems,
-    image: data?.variants?.[variant]?.images?.[0],
-    images: data?.variants?.[variant]?.images,
-    primaryButton: data?.variants?.[variant]?.primaryButton,
+    caption: data?.variants?.subtitle,
+    title: data?.variants?.title,
+    description: data?.variants?.description,
+    features: data?.variants?.arrayOfTitleAndDescription,
+    tags: data?.variants?.tags,
+    featuredItems: data?.variants?.featuredItems,
+    images: data?.variants?.images,
+    primaryButton: data?.variants?.primaryButton,
   };
 
   return Variant ? <Variant {...props} /> : null;

@@ -10,23 +10,24 @@ const Variants = {
 };
 
 function Header({ template, data }) {
-  const variant = data?.variants?.variant;
-
+  const variant = data?.variant || data?.variants?.condition;
   const Variant = Variants?.[variant];
+
   const props = {
     template,
-    image: data?.variants?.[variant]?.mainImage,
-    images: data?.variants?.[variant]?.arrImages,
-    title: data?.variants?.[variant]?.heading,
-    description: data?.variants?.[variant]?.description,
-    text: data?.variants?.[variant]?.plainText,
-    primaryButton: data?.variants?.[variant]?.primaryButton,
-    secondaryButton: data?.variants?.[variant]?.secondaryButton,
-    videoLink: data?.variants?.[variant]?.youtubeLink,
-    formFields: data?.variants?.[variant]?.form?.fields,
-    formId: data?.variants?.[variant]?.form?.id,
-    formName: data?.variants?.[variant]?.form?.name,
-    links: data?.variants?.[variant]?.formLinks,
+    mainImage: data?.variants?.mainImage,
+    images: data?.variants?.images,
+    title: data?.variants?.title,
+    description: data?.variants?.description,
+    text: data?.variants?.plainText,
+    primaryButton: data?.variants?.primaryButton,
+    secondaryButton: data?.variants?.secondaryButton,
+    videoLink: data?.variants?.youtubeLink,
+    formFields: data?.variants?.form?.fields,
+    formId: data?.variants?.form?.id,
+    formName: data?.variants?.form?.name,
+    formLinks: data?.variants?.formLinks,
+    signInLink: data?.variants?.signinLink,
   };
 
   return Variant ? <Variant {...props} /> : null;

@@ -3,71 +3,102 @@ import Image from "next/image";
 import Link from "next/link";
 import { urlFor } from "lib/sanity";
 
-function VariantB({ caption, title, portfolios, buttonLabel }) {
+function VariantB({ caption, title, portfolios, primaryButton }) {
   const portfolioLength = 6; //set initial number of portfolios to display for this variant
-  const [viewPortfolios, setViewPortfolios] = React.useState(portfolioLength);
-  const [showMore, setShowMore] = React.useState(false); // show all blogs posts
 
   return (
     <section>
       <div className="py-20 bg-gray-50 radius-for-skewed">
-        {portfolios && (
-          <div className="container px-4 mx-auto">
-            <div className="mb-16 flex flex-wrap justify-center md:justify-between items-center">
-              <div className="text-center lg:text-left">
-                {caption && (
-                  <span className="text-webriq-darkblue font-bold">
-                    {caption}
-                  </span>
-                )}
-                {title && (
-                  <h1 className="text-4xl lg:text-5xl font-bold font-heading">
-                    {title}
-                  </h1>
-                )}
-              </div>
-              <div className="mt-5 md:mt-0 lg:mt-0 xl:mt-0">
-                {portfolios?.length > portfolioLength && !showMore && (
-                  <button
-                    aria-label="View More Portfolios button"
-                    className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose transition duration-200"
-                    onClick={() => {
-                      setViewPortfolios(portfolios?.length);
-                      setShowMore(true);
-                    }}
-                  >
-                    {buttonLabel ?? "View More Projects"}
-                  </button>
-                )}
-              </div>
+        <div className="container px-4 mx-auto">
+          <div className="mb-16 flex flex-wrap justify-center md:justify-between items-center">
+            <div className="text-center lg:text-left">
+              {caption && (
+                <span className="text-webriq-darkblue font-bold">
+                  {caption}
+                </span>
+              )}
+              {title && (
+                <h1 className="text-4xl lg:text-5xl font-bold font-heading">
+                  {title}
+                </h1>
+              )}
             </div>
-            <div className="flex flex-wrap -mx-4 mb-4">
-              {portfolios?.slice(0, viewPortfolios).map((content, index) => (
-                <div
-                  className="relative md:mb-4 lg:mb-4 xl:mb-4 w-full md:w-1/2 lg:w-1/3 px-4"
-                  key={index}
-                >
-                  {content?.mainImage && (
-                    <div className="relative h-80 md:mb-5 lg:mb-5 xl:mb-5 mx-auto rounded">
-                      <Image
-                        src={urlFor(content?.mainImage)}
-                        layout="responsive"
-                        width="480px"
-                        height="320px"
-                        objectFit="cover"
-                        alt={`portfolio-image${index}`}
-                        blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                        placeholder="blur"
-                      />
-                      <div className="opacity-0 hover:opacity-75 duration-300 absolute inset-0 z-10 bg-gray-900 p-6 flex flex-col items-start rounded">
-                        <span className="text-webriq-lightblue">
-                          {content?.dateAdded}
-                        </span>
-                        <p className="mb-auto text-xl lg:text-2xl text-white font-bold">
-                          {content?.heading}
-                        </p>
-                        {content?.primaryButton?.label &&
-                        content?.primaryButton?.type === "linkInternal" ? (
+            <div className="mt-5 md:mt-0 lg:mt-0 xl:mt-0">
+              {primaryButton?.label &&
+                (primaryButton?.type === "linkInternal" ? (
+                  <Link
+                    href={
+                      primaryButton?.internalLink === "Home" ||
+                      primaryButton?.internalLink === "home"
+                        ? "/"
+                        : `/${
+                            primaryButton?.internalLink === undefined
+                              ? "page-not-found"
+                              : primaryButton?.internalLink
+                          }`
+                    }
+                  >
+                    <a
+                      aria-label={`Click here to ${primaryButton?.label}`}
+                      className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose transition duration-200"
+                      target={primaryButton?.linkTarget}
+                      rel={
+                        primaryButton?.linkTarget === "_blank"
+                          ? "noopener noreferrer"
+                          : null
+                      }
+                    >
+                      {primaryButton?.label}
+                    </a>
+                  </Link>
+                ) : (
+                  <a
+                    aria-label={`Click here to ${primaryButton?.label}`}
+                    className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose transition duration-200"
+                    target={primaryButton?.linkTarget}
+                    href={`${
+                      primaryButton?.externalLink === undefined
+                        ? "link-not-found"
+                        : primaryButton?.externalLink
+                    }`}
+                    rel={
+                      primaryButton?.linkTarget === "_blank"
+                        ? "noopener noreferrer"
+                        : null
+                    }
+                  >
+                    {primaryButton?.label}
+                  </a>
+                ))}
+            </div>
+          </div>
+          <div className="flex flex-wrap -mx-4 mb-4">
+            {portfolios?.slice(0, portfolioLength).map((content, index) => (
+              <div
+                className="relative mb-4 w-full md:w-1/2 lg:w-1/3 px-4"
+                key={index}
+              >
+                {content?.mainImage?.image && (
+                  <div className="relative md:mb-5 lg:mb-5 xl:mb-5 mx-auto rounded overflow-hidden">
+                    <Image
+                      src={urlFor(content?.mainImage?.image)}
+                      layout="responsive"
+                      width="480px"
+                      height="320px"
+                      objectFit="cover"
+                      alt={content?.mainImage?.alt ?? `portfolio-image${index}`}
+                      blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                      placeholder="blur"
+                    />
+                    <div className="opacity-0 hover:opacity-75 duration-300 absolute inset-0 z-10 bg-gray-900 p-6 flex flex-col items-start rounded">
+                      <span className="text-webriq-lightblue">
+                        {content?.dateAdded}
+                      </span>
+                      <p className="mb-auto md:text-xl lg:text-2xl text-white font-bold">
+                        {content?.title}
+                      </p>
+                      {content?.primaryButton?.label &&
+                        (content?.primaryButton?.type === "linkInternal" ? (
                           <Link
                             href={
                               content?.primaryButton?.internalLink === "Home" ||
@@ -82,14 +113,7 @@ function VariantB({ caption, title, portfolios, buttonLabel }) {
                             }
                           >
                             <a
-                              aria-label={`Portfolio ${
-                                content?.primaryButton?.label ?? "View Project"
-                              } button which directs to ${
-                                content?.primaryButton?.internalLink ===
-                                undefined
-                                  ? "page-not-found"
-                                  : content?.primaryButton?.internalLink
-                              }`}
+                              aria-label={`Click here to ${content?.primaryButton?.label}`}
                               className="inline-block py-2 px-4 border-2 border-gray-400 hover:border-webriq-darkblue bg-transparent text-gray-50 hover:bg-webriq-darkblue hover:text-white transition duration-200 rounded-l-xl rounded-t-xl font-bold leading-loose"
                               target={content?.primaryButton?.linkTarget}
                               rel={
@@ -103,13 +127,7 @@ function VariantB({ caption, title, portfolios, buttonLabel }) {
                           </Link>
                         ) : (
                           <a
-                            aria-label={`Portfolio ${
-                              content?.primaryButton?.label ?? "View Project"
-                            } button which directs to ${
-                              content?.primaryButton?.externalLink === undefined
-                                ? "link-not-found"
-                                : content?.primaryButton?.externalLink
-                            }`}
+                            aria-label={`Click here to ${content?.primaryButton?.label}`}
                             className="inline-block py-2 px-4 border-2 border-gray-400 hover:border-webriq-darkblue bg-transparent text-gray-50 hover:bg-webriq-darkblue hover:text-white transition duration-200 rounded-l-xl rounded-t-xl font-bold leading-loose"
                             target={content?.primaryButton?.linkTarget}
                             href={`${
@@ -125,15 +143,14 @@ function VariantB({ caption, title, portfolios, buttonLabel }) {
                           >
                             {content?.primaryButton?.label}
                           </a>
-                        )}
-                      </div>
+                        ))}
                     </div>
-                  )}
-                </div>
-              ))}
-            </div>
+                  </div>
+                )}
+              </div>
+            ))}
           </div>
-        )}
+        </div>
       </div>
     </section>
   );

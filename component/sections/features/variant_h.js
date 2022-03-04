@@ -37,7 +37,7 @@ function VariantH({ caption, title, features, images }) {
                       </div>
                       <div className="max-w-xs">
                         <p className="font-bold font-heading">
-                          {features?.[0]?.heading}
+                          {features?.[0]?.title}
                         </p>
                         <p className="text-gray-500 leading-loose">
                           {features?.[0]?.description}
@@ -65,7 +65,7 @@ function VariantH({ caption, title, features, images }) {
                       </div>
                       <div className="max-w-xs">
                         <p className="font-bold font-heading">
-                          {features?.[1]?.heading}
+                          {features?.[1]?.title}
                         </p>
                         <p className="text-gray-500 leading-loose">
                           {features?.[1]?.description}
@@ -93,7 +93,7 @@ function VariantH({ caption, title, features, images }) {
                       </div>
                       <div className="max-w-xs">
                         <p className="font-bold font-heading">
-                          {features?.[2]?.heading}
+                          {features?.[2]?.title}
                         </p>
                         <p className="text-gray-500 leading-loose">
                           {features?.[2]?.description}
@@ -105,44 +105,46 @@ function VariantH({ caption, title, features, images }) {
               </div>
             </div>
             {images && (
-              <div className="flex flex-wrap items-center w-full lg:w-1/2 px-4">
-                <div className="w-1/2 px-3 rounded-lg">
-                  {images?.[0] && (
-                    <Image
-                      src={urlFor(images?.[0])}
-                      layout="responsive"
-                      width="245px"
-                      height="256px"
-                      objectFit="cover"
-                      alt="features-variantH-image-1"
-                      blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                      placeholder="blur"
-                    />
-                  )}
-                  {images?.[1] && (
-                    <div className="mt-6">
+              <div className="flex items-center w-full lg:w-1/2">
+                <div className="w-1/2 mx-3">
+                  {images?.[0]?.image && (
+                    <div className="rounded-xl overflow-hidden">
                       <Image
-                        src={urlFor(images?.[1])}
+                        src={urlFor(images?.[0]?.image)}
                         layout="responsive"
                         width="245px"
                         height="256px"
                         objectFit="cover"
-                        alt="features-variantH-image-2"
+                        alt={images?.[0]?.alt ?? "features-variantH-image-1"}
+                        blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                        placeholder="blur"
+                      />
+                    </div>
+                  )}
+                  {images?.[1]?.image && (
+                    <div className="mt-6 rounded-xl overflow-hidden">
+                      <Image
+                        src={urlFor(images?.[1]?.image)}
+                        layout="responsive"
+                        width="245px"
+                        height="256px"
+                        objectFit="cover"
+                        alt={images?.[1]?.alt ?? "features-variantH-image-2"}
                         blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
                         placeholder="blur"
                       />
                     </div>
                   )}
                 </div>
-                <div className="w-1/2 px-3 rounded-lg">
-                  {images?.[2] && (
+                <div className="w-1/2 mx-3 rounded-xl overflow-hidden">
+                  {images?.[2]?.image && (
                     <Image
-                      src={urlFor(images?.[2])}
+                      src={urlFor(images?.[2]?.image)}
                       layout="responsive"
                       width="245px"
                       height="256px"
                       objectFit="cover"
-                      alt="features-variantH-image-3"
+                      alt={images?.[2]?.alt ?? "features-variantH-image-3"}
                       blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
                       placeholder="blur"
                     />

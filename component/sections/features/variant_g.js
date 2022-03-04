@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import { urlFor } from "lib/sanity";
-function VariantG({ caption, title, description, images, featureItems }) {
+function VariantG({ caption, title, description, images, tags }) {
   return (
     <section>
       <div className="py-20 bg-gray-50 radius-for-skewed">
@@ -25,8 +25,8 @@ function VariantG({ caption, title, description, images, featureItems }) {
                   </p>
                 )}
                 <ul className="text-gray-500 font-bold">
-                  {featureItems &&
-                    featureItems.map((item) => (
+                  {tags &&
+                    tags.map((item) => (
                       <li className="mb-2 flex items-center" key={item}>
                         <svg
                           className="mr-2 w-5 h-5 text-webriq-blue"
@@ -48,65 +48,73 @@ function VariantG({ caption, title, description, images, featureItems }) {
             </div>
             {images && (
               <div className="w-full lg:w-1/2">
-                <div className="mb-4 flex flex-wrap items-end">
-                  {images?.[0] && (
-                    <div className="w-2/3 h-full px-3 rounded">
-                      <Image
-                        src={urlFor(images?.[0])}
-                        layout="responsive"
-                        width="356px"
-                        height="192px"
-                        objectFit="cover"
-                        alt="features-variantG-image-1"
-                        blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                        placeholder="blur"
-                      />
-                    </div>
-                  )}
-                  {images?.[1] && (
-                    <div className="w-1/3 h-full px-3 rounded">
-                      <Image
-                        src={urlFor(images?.[1])}
-                        layout="responsive"
-                        width="166px"
-                        height="128px"
-                        objectFit="cover"
-                        alt="features-variantG-image-2"
-                        blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                        placeholder="blur"
-                      />
-                    </div>
-                  )}
+                <div className="mb-4 items-end lg:flex lg:flex-wrap xl:flex xl:flex-wrap 2xl:flex 2xl:flex-wrap">
+                  <div className="mb-4 lg:mb-0 xl:mb-0 2xl:mb-0 lg:w-2/3 xl:w-2/3 2xl:w-2/3 h-full px-3">
+                    {images?.[0]?.image && (
+                      <div className="rounded overflow-hidden">
+                        <Image
+                          src={urlFor(images[0]?.image)}
+                          layout="responsive"
+                          width="356px"
+                          height="192px"
+                          objectFit="cover"
+                          alt={images[0]?.alt ?? "features-variantF-image-1"}
+                          blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                          placeholder="blur"
+                        />
+                      </div>
+                    )}
+                  </div>
+                  <div className="lg:w-1/3 xl:w-1/3 2xl:w-1/3 h-full px-3">
+                    {images?.[1]?.image && (
+                      <div className="rounded overflow-hidden">
+                        <Image
+                          src={urlFor(images[1]?.image)}
+                          layout="responsive"
+                          width="166px"
+                          height="128px"
+                          objectFit="cover"
+                          alt={images[1]?.alt ?? "features-variantF-image-2"}
+                          blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                          placeholder="blur"
+                        />
+                      </div>
+                    )}
+                  </div>
                 </div>
-                <div className="mb-4 flex flex-wrap items-start">
-                  {images?.[2] && (
-                    <div className="w-1/3 h-full px-3 rounded">
-                      <Image
-                        src={urlFor(images?.[2])}
-                        layout="responsive"
-                        width="166px"
-                        height="128px"
-                        objectFit="cover"
-                        alt="features-variantG-image-3"
-                        blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                        placeholder="blur"
-                      />
-                    </div>
-                  )}
-                  {images?.[3] && (
-                    <div className="w-2/3 h-full px-3 rounded">
-                      <Image
-                        src={urlFor(images?.[3])}
-                        layout="responsive"
-                        width="356px"
-                        height="192px"
-                        objectFit="cover"
-                        alt="features-variantG-image-4"
-                        blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                        placeholder="blur"
-                      />
-                    </div>
-                  )}
+                <div className="mb-4 items-start lg:flex lg:flex-wrap xl:flex xl:flex-wrap 2xl:flex 2xl:flex-wrap">
+                  <div className="mb-4 lg:mb-0 xl:mb-0 2xl:mb-0 lg:w-1/3 xl:w-1/3 2xl:w-1/3 h-full px-3">
+                    {images?.[2]?.image && (
+                      <div className="rounded overflow-hidden">
+                        <Image
+                          src={urlFor(images[2]?.image)}
+                          layout="responsive"
+                          width="166px"
+                          height="128px"
+                          objectFit="cover"
+                          alt={images[2]?.alt ?? "features-variantF-image-3"}
+                          blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                          placeholder="blur"
+                        />
+                      </div>
+                    )}
+                  </div>
+                  <div className="lg:w-2/3 xl:w-2/3 2xl:w-2/3 h-full px-3">
+                    {images?.[3]?.image && (
+                      <div className="rounded overflow-hidden">
+                        <Image
+                          src={urlFor(images[3]?.image)}
+                          layout="responsive"
+                          width="356px"
+                          height="192px"
+                          objectFit="cover"
+                          alt={images[3]?.alt ?? "features-variantF-image-4"}
+                          blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                          placeholder="blur"
+                        />
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
             )}

@@ -36,7 +36,7 @@ function VariantD({ caption, title, features }) {
                     </svg>
                   </span>
                   <p className="px-8 mb-4 text-2xl font-bold font-heading">
-                    {features?.[0]?.heading}
+                    {features?.[0]?.title}
                   </p>
                   <p className="text-gray-500">{features?.[0]?.description}</p>
                 </div>
@@ -56,7 +56,7 @@ function VariantD({ caption, title, features }) {
                     </svg>
                   </span>
                   <p className="px-8 mb-4 text-2xl font-bold font-heading">
-                    {features?.[1]?.heading}
+                    {features?.[1]?.title}
                   </p>
                   <p className="text-gray-500">{features?.[1]?.description}</p>
                 </div>
@@ -82,7 +82,7 @@ function VariantD({ caption, title, features }) {
                     </svg>
                   </span>
                   <p className="px-8 mb-4 text-2xl font-bold font-heading">
-                    {features?.[2]?.heading}
+                    {features?.[2]?.title}
                   </p>
                   <p className="text-gray-500">{features?.[2]?.description}</p>
                 </div>

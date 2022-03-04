@@ -11,25 +11,20 @@ function VariantB({ logo, title, description, formFields, formId, formName }) {
         <div className="container mx-auto px-4">
           <div className="flex flex-wrap items-center">
             <div className="mb-4 w-full lg:w-auto lg:mr-8 text-center">
-              <div className="mb-4 inline-block px-5 py-5 bg-white rounded-lg">
+              <div className="flex justify-center items-center p-5 mx-auto w-16 h-16 bg-white rounded">
                 {logo?.image && (
-                  <Link prefetch={false} href="/">
-                    <a
-                      aria-label="Newsletter logo"
-                      className="mb-6 inline-block text-3xl font-bold leading-none"
-                    >
-                      <Image
-                        src={urlFor(logo?.image)}
-                        layout="fixed"
-                        width="38px"
-                        height="48px"
-                        objectFit="contain"
-                        alt={logo?.alt ?? "newsletter-logo"}
-                        blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                        placeholder="blur"
-                      />
-                    </a>
-                  </Link>
+                  <div className="h-10">
+                    <Image
+                      src={urlFor(logo?.image)}
+                      layout="fixed"
+                      width="44px"
+                      height="42px"
+                      objectFit="contain"
+                      alt={logo?.alt ?? "newsletter-logo"}
+                      blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                      placeholder="blur"
+                    />
+                  </div>
                 )}
               </div>
             </div>
@@ -58,11 +53,7 @@ function VariantB({ logo, title, description, formFields, formId, formName }) {
                       type={
                         formFields[0].type === "inputEmail" ? "email" : "text"
                       }
-                      placeholder={
-                        formFields[0].type === "inputEmail"
-                          ? "sample@email.com"
-                          : formFields[0]?.name
-                      }
+                      placeholder={formFields[0]?.name}
                       name={formFields[0]?.name}
                     />
                     <div>
