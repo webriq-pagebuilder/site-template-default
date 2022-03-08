@@ -85,7 +85,7 @@ export const homeQuery = groq`
 `;
 
 export const slugQuery = groq`
-  *[_type == "page" && slug.current == $slug][0] ${allProjections}
+  *[_type == "page" && slug.current == $slug] ${allProjections}
 `;
 
 export const blogQuery = groq`

@@ -3,6 +3,7 @@ import Head from "next/head";
 import dynamic from "next/dynamic";
 import { homeQuery } from "./api/query";
 import { getClient, usePreviewSubscription } from "../lib/sanity";
+import NoPreview from "pages/no-preview";
 
 const Components = {
   navigation: dynamic(() => import("../component/sections/navigation")),
@@ -27,18 +28,69 @@ const Components = {
   textComponent: dynamic(() => import("component/sections/text_component")),
 };
 
+/**
+ * Helper function to return the correct version of the document
+ * If we're in "preview mode" and have multiple documents, return the draft
+ *
+ * Reference: https://www.sanity.io/guides/nextjs-live-preview
+ */
+function filterDataToSingleItem(data, preview) {
+  if (!Array.isArray(data)) {
+    return data[0];
+  }
+
+  if (data.length === 1) {
+    return data[0];
+  } else if (data.length === 2) {
+    // Published document with unpublished edits returns 2 ids (1 with draft prefix and 1 without) so array length is 2
+
+    // add flag to differentiate a never published document from one with unpublished edits since either would have "drafts" in their ids
+    data[1].hasUnpublishedEdits = true;
+
+    // return the draft document to show live preview updates
+    return data[1];
+  }
+
+  if (preview) {
+    return data.find((item) => item._id.startsWith(`drafts.`)) || data[0];
+  }
+
+  return data[0];
+}
 function Home({ data, preview }) {
+  let pageData;
   const { data: page } = usePreviewSubscription(homeQuery, {
     initialData: data,
     enabled: preview,
   });
 
-  const pageData = page?.page?.[0] || page[0];
+  // for never published pages, assign the draft data to the pageData
+  if (!data?.pages?.hasUnpublishedEdits) {
+    pageData = data?.page;
+  } else {
+    pageData = page?.page?.[0] || page?.[0];
+  }
+
   if (!pageData) {
     return null;
   }
 
   const { sections, title, seo } = pageData;
+
+  /*
+   *  For new unpublished pages, return page telling user that the page needs to be published first before it can be previewed
+   *  This prevents showing 404 page when the page is not published yet
+   */
+  if (!pageData?.hasUnpublishedEdits && pageData?._id?.includes("drafts")) {
+    return (
+      <>
+        <Head>
+          <title>Unpublished Page</title>
+        </Head>
+        <NoPreview />
+      </>
+    );
+  }
 
   return (
     <>
@@ -69,7 +121,14 @@ function Home({ data, preview }) {
 }
 
 export async function getStaticProps({ preview = false }) {
-  const page = await getClient(preview).fetch(homeQuery);
+  const indexPage = await getClient(preview).fetch(homeQuery);
+
+  // pass page data and preview to helper function
+  const page = filterDataToSingleItem(indexPage, preview);
+
+  // if our query failed to return data
+  // Reference: https://www.sanity.io/guides/nextjs-live-preview
+  if (!page) return { notFound: true };
 
   return {
     props: {
