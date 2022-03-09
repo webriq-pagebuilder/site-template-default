@@ -24,19 +24,6 @@ function NoPreview() {
             <p className="my-8 text-gray-700">
               Publish your page first to preview LIVE site
             </p>
-            <div>
-              <Link href="/">
-                <a className="w-full lg:w-auto mb-2 lg:mb-0 lg:mr-4 inline-block py-2 px-6 rounded-l-xl rounded-t-xl font-bold leading-loose text-white bg-webriq-darkblue hover:bg-webriq-blue">
-                  Go back to Homepage
-                </a>
-              </Link>
-              <button
-                className="w-full lg:w-auto inline-block py-2 px-6 rounded-l-xl rounded-t-xl font-bold leading-loose bg-white hover:bg-gray-100"
-                onClick={() => window.location.reload(true)}
-              >
-                Try Again
-              </button>
-            </div>
           </div>
         </div>
       </div>
