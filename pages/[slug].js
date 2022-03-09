@@ -156,16 +156,22 @@ export async function getStaticProps({ params, preview = false }) {
   // pass page data and preview to helper function
   const pages = filterDataToSingleItem(page, preview);
 
-  // if our query failed to return data
+  // if our query failed to return data for page, return data for blog page
   // Reference: https://www.sanity.io/guides/nextjs-live-preview
-  if (!pages) return { notFound: true };
+  if (!pages) {
+    return {
+      props: {
+        preview,
+        data: { blogData },
+      },
+    };
+  }
 
   return {
     props: {
       preview,
       data: {
         pages,
-        blogData,
         navAndFooter,
       },
     },
