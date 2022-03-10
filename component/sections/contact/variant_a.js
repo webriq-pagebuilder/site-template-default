@@ -7,6 +7,7 @@ function VariantA({
   contactDescription,
   officeInformation,
   contactEmail,
+  contactNumber,
   socialLinks,
   formFields,
   formId,
@@ -71,14 +72,15 @@ function VariantA({
                     <p className="text-gray-700">{officeInformation}</p>
                   </div>
                 )}
-                {contactEmail && (
+                {contactEmail || contactNumber ? (
                   <div className="mb-12 px-10 w-full md:w-1/2">
                     <h2 className="mb-5 text-3xl lg:text-4xl font-bold">
                       Contacts
                     </h2>
-                    <p className="text-gray-700">{contactEmail}</p>
+                    <p className="text-gray-700 mb-5">{contactEmail}</p>
+                    <p className="text-gray-700">{contactNumber}</p>
                   </div>
-                )}
+                ) : null}
                 {socialLinks && (
                   <div className="w-full md:w-1/3 lg:w-full">
                     <h2 className="mb-5 text-3xl lg:text-4xl font-bold">
