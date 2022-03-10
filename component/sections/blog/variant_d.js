@@ -5,8 +5,7 @@ import { urlFor } from "lib/sanity";
 import { format } from "date-fns";
 
 function VariantD({ subtitle, title, posts, primaryButton }) {
-  let blogs = 5;
-  let [blogsPerPage, setBlogsPerPage] = React.useState(blogs); // sets the number of blogs to initially show on page
+  let blogsPerPage = 6;
   const [activeTab, setActiveTab] = React.useState("All"); //set the first index category as initial value
   const [newArray, setNewArray] = React.useState([]);
 
