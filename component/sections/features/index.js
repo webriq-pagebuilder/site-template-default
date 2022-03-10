@@ -15,7 +15,7 @@ const Variants = {
 function Features({ data }) {
   const variant = data?.variant || data?.variants?.condition;
   const Variant = Variants?.[variant];
-  console.log(data?.variants);
+
   const props = {
     caption: data?.variants?.subtitle,
     title: data?.variants?.title,

@@ -5,7 +5,7 @@ import { urlFor } from "lib/sanity";
 import { format } from "date-fns";
 
 function VariantC({ subtitle, title, posts, primaryButton }) {
-  let blogsPerPage = 3;
+  let blogsPerPage = 6;
 
   return (
     <section>

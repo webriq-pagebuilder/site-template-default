@@ -134,16 +134,14 @@ function VariantA({
                             </svg>
                           ) : (
                             social?.socialMediaIcon?.image && (
-                              <div className="w-6 h-6">
-                                <Image
-                                  src={urlFor(social?.socialMediaIcon?.image)}
-                                  layout="responsive"
-                                  width="40px"
-                                  height="40px"
-                                  objectFit="contain"
-                                  alt={social?.socialMediaIcon?.alt}
-                                />
-                              </div>
+                              <img
+                                className="h-6"
+                                src={urlFor(social?.socialMediaIcon?.image)}
+                                alt={
+                                  social?.socialMediaIcon?.alt ??
+                                  "contact-socialMedia-icon"
+                                }
+                              />
                             )
                           )}
                         </a>
