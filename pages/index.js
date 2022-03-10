@@ -40,6 +40,11 @@ function filterDataToSingleItem(data, preview) {
   }
 
   if (data.length === 1) {
+    // To help identify never published pages from published ones since on preview, no document with _id `drafts` is returned
+    if (data[0]._id.includes("drafts")) {
+      data[0].hasNeverPublished = true;
+    }
+
     return data[0];
   } else if (data.length === 2) {
     // Published document with unpublished edits returns 2 ids (1 with draft prefix and 1 without) so array length is 2
@@ -52,7 +57,7 @@ function filterDataToSingleItem(data, preview) {
   }
 
   if (preview) {
-    return data.find((item) => item._id.startsWith(`drafts.`)) || data[0];
+    return data.find((item) => item._id.includes("drafts")) || data[0];
   }
 
   return data[0];
@@ -64,10 +69,11 @@ function Home({ data, preview }) {
     enabled: preview,
   });
 
-  // for never published pages, assign the draft data to the pageData
-  if (!data?.pages?.hasUnpublishedEdits) {
+  // for never published pages
+  if (data?.pages?.hasNeverPublished) {
     pageData = data?.page;
   } else {
+    // for published pages and pages with unpublished edits
     pageData = page?.page?.[0] || page?.[0];
   }
 
