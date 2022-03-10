@@ -8,7 +8,7 @@ function VariantA({ stats }) {
           {stats &&
             stats.map((items, index) => (
               <div
-                className="mb-8 w-full sm:w-1/4 md:w-1/2 lg:w-1/4 px-4"
+                className="my-8 w-full sm:w-1/4 md:w-1/2 lg:w-1/4 px-4"
                 key={index}
               >
                 <div className="relative py-10 bg-white shadow rounded">

@@ -6,8 +6,11 @@ function VariantB({ stats }) {
       <div className="container mx-auto px-4">
         {stats && (
           <div className="flex flex-wrap items-center justify-center -mx-4">
-            {stats[0] && (
-              <div className="mb-8 flex items-center lg:justify-center w-full md:w-1/2 lg:w-1/4 px-4">
+            {stats?.map((stats, index) => (
+              <div
+                className="my-8 flex items-center lg:justify-center w-full md:w-1/2 lg:w-1/4 px-4"
+                key={index}
+              >
                 <span className="mr-4 inline-block p-4 rounded bg-webriq-lightblue">
                   <svg
                     className="w-6 h-6 text-webriq-darkblue"
@@ -19,82 +22,11 @@ function VariantB({ stats }) {
                   </svg>
                 </span>
                 <div>
-                  <p className="text-2xl font-bold">{stats[0]?.value}</p>
-                  <p className="text-gray-500">{stats[0]?.label}</p>
+                  <p className="text-2xl font-bold">{stats?.value}</p>
+                  <p className="text-gray-500">{stats?.label}</p>
                 </div>
               </div>
-            )}
-            {stats[1] && (
-              <div className="mb-8 flex items-center lg:justify-center w-full md:w-1/2 lg:w-1/4 px-4">
-                <span className="mr-4 inline-block p-4 rounded bg-webriq-lightblue">
-                  <svg
-                    className="w-6 h-6 text-webriq-darkblue"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M16 4v12l-4-2-4 2V4M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
-                    />
-                  </svg>
-                </span>
-                <div>
-                  <p className="text-2xl font-bold">{stats[1]?.value}</p>
-                  <p className="text-gray-500">{stats[1]?.label}</p>
-                </div>
-              </div>
-            )}
-            {stats[2] && (
-              <div className="mb-8 flex items-center lg:justify-center w-full md:w-1/2 lg:w-1/4 px-4">
-                <span className="mr-4 inline-block p-4 rounded bg-webriq-lightblue">
-                  <svg
-                    className="w-6 h-6 text-webriq-darkblue"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
-                    />
-                  </svg>
-                </span>
-                <div>
-                  <p className="text-2xl font-bold">{stats[2]?.value}</p>
-                  <p className="text-gray-500">{stats[2]?.label}</p>
-                </div>
-              </div>
-            )}
-            {stats[3] && (
-              <div className="mb-8 flex items-center lg:justify-center w-full md:w-1/2 lg:w-1/4 px-4">
-                <span className="mr-4 inline-block p-4 rounded bg-webriq-lightblue">
-                  <svg
-                    className="w-6 h-6 text-webriq-darkblue"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M6 6V5a3 3 0 013-3h2a3 3 0 013 3v1h2a2 2 0 012 2v3.57A22.952 22.952 0 0110 13a22.95 22.95 0 01-8-1.43V8a2 2 0 012-2h2zm2-1a1 1 0 011-1h2a1 1 0 011 1v1H8V5zm1 5a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z"
-                      clipRule="evenodd"
-                    />
-                    <path d="M2 13.692V16a2 2 0 002 2h12a2 2 0 002-2v-2.308A24.974 24.974 0 0110 15c-2.796 0-5.487-.46-8-1.308z" />
-                  </svg>
-                </span>
-                <div>
-                  <p className="text-2xl font-bold">{stats[3]?.value}</p>
-                  <p className="text-gray-500">{stats[3]?.label}</p>
-                </div>
-              </div>
-            )}
+            ))}
           </div>
         )}
       </div>
