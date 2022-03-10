@@ -15,12 +15,12 @@ const Variants = {
 function Features({ data }) {
   const variant = data?.variant || data?.variants?.condition;
   const Variant = Variants?.[variant];
-
+  console.log(data?.variants);
   const props = {
     caption: data?.variants?.subtitle,
     title: data?.variants?.title,
     description: data?.variants?.description,
-    features: data?.variants?.arrayOfTitleAndDescription,
+    features: data?.variants?.arrayOfImageTitleAndText,
     tags: data?.variants?.tags,
     featuredItems: data?.variants?.featuredItems,
     images: data?.variants?.images,
