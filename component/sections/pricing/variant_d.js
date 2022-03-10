@@ -202,9 +202,9 @@ function VariantD({
                 // data-thankyou-url="/thank-you"
                 scriptsrc="https://pagebuilderforms.webriq.com/js/initReactForms"
               >
-                {formFields?.map((field) => {
+                {formFields?.map((field, index) => {
                   return (
-                    <div>
+                    <div key={index}>
                       {field.type === "textarea" ? (
                         <div className="mb-4">
                           <textarea
@@ -423,10 +423,10 @@ function VariantD({
               <Form />
             </Elements>
             <div className="py-10 w-full md:w-1/2 bg-webriq-darkblue lg:rounded-r overflow-hidden flex flex-col">
-              {banner?.[banners]?.mainImage && (
+              {banner?.[banners]?.mainImage?.image?.asset && (
                 <div className="w-full md:max-w-xs mx-auto my-auto">
                   <Image
-                    src={urlFor(banner?.[banners]?.mainImage)}
+                    src={urlFor(banner?.[banners]?.mainImage.image)}
                     layout="responsive"
                     width="320px"
                     height="296px"
