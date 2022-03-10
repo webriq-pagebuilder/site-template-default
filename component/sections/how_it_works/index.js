@@ -10,15 +10,15 @@ const Variants = {
 };
 
 function HowItWorks({ data }) {
-  const variant = data?.variant || data?.data?.condition;
+  const variant = data?.variant || data?.variants?.condition;
   const Variant = Variants?.[variant];
 
   const props = {
-    subtitle: data?.data?.subtitle,
-    title: data?.data?.title,
-    text: data?.data?.plainText,
-    video: data?.data?.youtubeLink,
-    steps: data?.data?.arrayOfTitleAndText,
+    subtitle: data?.variants?.subtitle,
+    title: data?.variants?.title,
+    text: data?.variants?.plainText,
+    video: data?.variants?.youtubeLink,
+    steps: data?.variants?.arrayOfTitleAndText,
   };
 
   return Variant ? <Variant {...props} /> : null;

@@ -11,27 +11,27 @@ const Variants = {
 const { NEXT_PUBLIC_DXP_STUDIO_ADDRESS } = process.env;
 
 function Pricing({ data }) {
-  const variant = data?.variant || data?.data?.condition;
+  const variant = data?.variant || data?.variants?.condition;
   const Variant = Variants?.[variant];
   const props = {
-    caption: data?.data?.[variant]?.subtitle,
-    title: data?.data?.[variant]?.heading,
-    description: data?.data?.[variant]?.description,
-    plans: data?.data?.[variant]?.plans,
-    annualBilling: data?.data?.[variant]?.annualBilling,
-    monthlyBilling: data?.data?.[variant]?.monthlyBilling,
-    banner: data?.data?.[variant]?.banner,
-    formFields: data?.data?.[variant]?.form?.fields,
-    formId: data?.data?.[variant]?.form?.id,
-    formName: data?.data?.[variant]?.form?.name,
-    stripePKey: data?.data?.[variant]?.stripeAccount?.stripePKey,
-    stripeSecretKey: data?.data?.[variant]?.stripeAccount?.stripeSKey,
-    hashKey: data?.data?.[variant]?.stripeAccount?.hashKey,
-    apiVersion: data?.data?.[variant]?.stripeAccount?.apiVersion,
+    caption: data?.variants?.[variant]?.subtitle,
+    title: data?.variants?.[variant]?.heading,
+    description: data?.variants?.[variant]?.description,
+    plans: data?.variants?.[variant]?.plans,
+    annualBilling: data?.variants?.[variant]?.annualBilling,
+    monthlyBilling: data?.variants?.[variant]?.monthlyBilling,
+    banner: data?.variants?.[variant]?.banner,
+    formFields: data?.variants?.[variant]?.form?.fields,
+    formId: data?.variants?.[variant]?.form?.id,
+    formName: data?.variants?.[variant]?.form?.name,
+    stripePKey: data?.variants?.[variant]?.stripeAccount?.stripePKey,
+    stripeSecretKey: data?.variants?.[variant]?.stripeAccount?.stripeSKey,
+    hashKey: data?.variants?.[variant]?.stripeAccount?.hashKey,
+    apiVersion: data?.variants?.[variant]?.stripeAccount?.apiVersion,
     NEXT_PUBLIC_DXP_STUDIO_ADDRESS:
       NEXT_PUBLIC_DXP_STUDIO_ADDRESS || "https://dxpstudio.webriq.com",
-    block: data?.data?.[variant]?.block,
-    signInLink: data?.data?.[variant]?.signinLink,
+    block: data?.variants?.[variant]?.block,
+    signInLink: data?.variants?.[variant]?.signinLink,
     _key: data._key,
   };
 

@@ -7,20 +7,20 @@ const Variants = {
 };
 
 function Contact({ data }) {
-  const variant = data?.variant || data?.data?.condition;
+  const variant = data?.variant || data?.variants?.condition;
   const Variant = Variants?.[variant];
 
   const props = {
-    title: data?.data?.title,
-    contactDescription: data?.data?.contactDescription,
-    officeInformation: data?.data?.officeInformation,
-    contactEmail: data?.data?.contactEmail,
-    contactNumber: data?.data?.contactNumber,
-    socialLinks: data?.data?.socialLinks,
-    formFields: data?.data?.form?.fields,
-    formId: data?.data?.form?.id,
-    formName: data?.data?.form?.name,
-    block: data?.data?.block,
+    title: data?.variants?.title,
+    contactDescription: data?.variants?.contactDescription,
+    officeInformation: data?.variants?.officeInformation,
+    contactEmail: data?.variants?.contactEmail,
+    contactNumber: data?.variants?.contactNumber,
+    socialLinks: data?.variants?.socialLinks,
+    formFields: data?.variants?.form?.fields,
+    formId: data?.variants?.form?.id,
+    formName: data?.variants?.form?.name,
+    block: data?.variants?.block,
   };
 
   return Variant ? <Variant {...props} /> : null;

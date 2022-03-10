@@ -13,18 +13,18 @@ const Variants = {
 };
 
 function Features({ data }) {
-  const variant = data?.variant || data?.data?.condition;
+  const variant = data?.variant || data?.variants?.condition;
   const Variant = Variants?.[variant];
 
   const props = {
-    caption: data?.data?.subtitle,
-    title: data?.data?.title,
-    description: data?.data?.description,
-    features: data?.data?.arrayOfTitleAndDescription,
-    tags: data?.data?.tags,
-    featuredItems: data?.data?.featuredItems,
-    images: data?.data?.images,
-    primaryButton: data?.data?.primaryButton,
+    caption: data?.variants?.subtitle,
+    title: data?.variants?.title,
+    description: data?.variants?.description,
+    features: data?.variants?.arrayOfTitleAndDescription,
+    tags: data?.variants?.tags,
+    featuredItems: data?.variants?.featuredItems,
+    images: data?.variants?.images,
+    primaryButton: data?.variants?.primaryButton,
   };
 
   return Variant ? <Variant {...props} /> : null;

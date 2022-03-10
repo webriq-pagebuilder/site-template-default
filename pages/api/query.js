@@ -12,7 +12,7 @@ const allProjections = `
   "slug": slug.current,
   sections[]-> {
     ...,
-    data {
+    variants {
       ...,
       arrayOfTitleAndText[] {
         ...,       
@@ -103,7 +103,7 @@ export const blogNavAndFooter = groq`
 *[_type=="page" && slug.current == $slug]{
   sections[]-> {
     ...,
-    data {
+    variants {
       ...,
       "arrImages": images,
       arrayOfTitleAndText[] {

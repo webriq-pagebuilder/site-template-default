@@ -11,14 +11,14 @@ const Variants = {
 };
 
 function Cookies({ data }) {
-  const variant = data?.variant || data?.data?.condition;
+  const variant = data?.variant || data?.variants?.condition;
   const Variant = Variants?.[variant];
 
   const props = {
-    title: data?.data?.heading,
-    allowCookieBtn: data?.data?.acceptButtonLabel,
-    denyCookieBtn: data?.data?.declineButtonLabel,
-    block: data?.data?.block,
+    title: data?.variants?.heading,
+    allowCookieBtn: data?.variants?.acceptButtonLabel,
+    denyCookieBtn: data?.variants?.declineButtonLabel,
+    block: data?.variants?.block,
   };
 
   return Variant ? <Variant {...props} /> : null;

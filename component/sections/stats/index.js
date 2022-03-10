@@ -8,11 +8,11 @@ const Variants = {
 };
 
 function Stats({ data }) {
-  const variant = data?.variant || data?.data?.condition;
+  const variant = data?.variant || data?.variants?.condition;
   const Variant = Variants?.[variant];
 
   const props = {
-    stats: data?.data?.statItems,
+    stats: data?.variants?.statItems,
   };
 
   return Variant ? <Variant {...props} /> : null;

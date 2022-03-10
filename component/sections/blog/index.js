@@ -9,14 +9,14 @@ const Variants = {
 };
 
 function Blog({ data }) {
-  const variant = data?.variant || data?.data?.condition;
+  const variant = data?.variant || data?.variants?.condition;
   const Variant = Variants?.[variant];
 
   const props = {
-    subtitle: data?.data?.subtitle,
-    title: data?.data?.title,
-    posts: data?.data?.blogPosts,
-    primaryButton: data?.data?.primaryButton,
+    subtitle: data?.variants?.subtitle,
+    title: data?.variants?.title,
+    posts: data?.variants?.blogPosts,
+    primaryButton: data?.variants?.primaryButton,
   };
 
   return Variant ? <Variant {...props} /> : null;
