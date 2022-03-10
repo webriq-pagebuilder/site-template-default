@@ -8,16 +8,16 @@ const Variants = {
 };
 
 function Footer({ data }) {
-  const variant = data?.variant || data?.variants?.condition;
+  const variant = data?.variant || data?.data?.condition;
   const Variant = Variants?.[variant];
 
   const props = {
-    logo: data?.variants?.logo,
-    text: data?.variants?.plainText,
-    contacts: data?.variants?.contactDetails,
-    copyright: data?.variants?.copyright,
-    socialMedia: data?.variants?.socialLinks,
-    menu: data?.variants?.menu,
+    logo: data?.data?.logo,
+    text: data?.data?.plainText,
+    contacts: data?.data?.contactDetails,
+    copyright: data?.data?.copyright,
+    socialMedia: data?.data?.socialLinks,
+    menu: data?.data?.menu,
   };
 
   return Variant ? <Variant {...props} /> : null;

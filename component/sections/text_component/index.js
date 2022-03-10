@@ -8,14 +8,14 @@ const Variants = {
 };
 
 function TextComponent({ data }) {
-  const variant = data?.variant || data?.variants?.condition;
+  const variant = data?.variant || data?.data?.condition;
   const Variant = Variants?.[variant];
 
   const props = {
-    heading: data?.variants?.title,
-    firstColumn: data?.variants?.firstColumn,
-    secondColumn: data?.variants?.secondColumn,
-    thirdColumn: data?.variants?.thirdColumn,
+    heading: data?.data?.title,
+    firstColumn: data?.data?.firstColumn,
+    secondColumn: data?.data?.secondColumn,
+    thirdColumn: data?.data?.thirdColumn,
   };
 
   return Variant ? <Variant {...props} /> : null;

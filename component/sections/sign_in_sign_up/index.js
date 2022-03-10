@@ -7,21 +7,21 @@ const Variants = {
 };
 
 function SignUpForm({ data }) {
-  const variant = data?.variant || data?.variants?.condition;
+  const variant = data?.variant || data?.data?.condition;
   const Variant = Variants?.[variant];
 
   const props = {
-    logo: data?.variants?.logo,
-    title: data?.variants?.title,
-    subtitle: data?.variants?.subtitle,
-    text: data?.variants?.plainText,
-    firstButton: data?.variants?.primaryButton,
-    secondButton: data?.variants?.secondaryButton,
-    formFields: data?.variants?.form?.fields,
-    formId: data?.variants?.form?.id,
-    formName: data?.variants?.form?.name,
-    formLinks: data?.variants?.formLinks,
-    signInLink: data?.variants?.signinLink,
+    logo: data?.data?.logo,
+    title: data?.data?.title,
+    subtitle: data?.data?.subtitle,
+    text: data?.data?.plainText,
+    firstButton: data?.data?.primaryButton,
+    secondButton: data?.data?.secondaryButton,
+    formFields: data?.data?.form?.fields,
+    formId: data?.data?.form?.id,
+    formName: data?.data?.form?.name,
+    formLinks: data?.data?.formLinks,
+    signInLink: data?.data?.signinLink,
   };
 
   return Variant ? <Variant {...props} /> : null;

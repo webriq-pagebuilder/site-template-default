@@ -10,24 +10,24 @@ const Variants = {
 };
 
 function Header({ template, data }) {
-  const variant = data?.variant || data?.variants?.condition;
+  const variant = data?.variant || data?.data?.condition;
   const Variant = Variants?.[variant];
 
   const props = {
     template,
-    mainImage: data?.variants?.mainImage,
-    images: data?.variants?.images,
-    title: data?.variants?.title,
-    description: data?.variants?.description,
-    text: data?.variants?.plainText,
-    primaryButton: data?.variants?.primaryButton,
-    secondaryButton: data?.variants?.secondaryButton,
-    videoLink: data?.variants?.youtubeLink,
-    formFields: data?.variants?.form?.fields,
-    formId: data?.variants?.form?.id,
-    formName: data?.variants?.form?.name,
-    formLinks: data?.variants?.formLinks,
-    signInLink: data?.variants?.signinLink,
+    mainImage: data?.data?.mainImage,
+    images: data?.data?.images,
+    title: data?.data?.title,
+    description: data?.data?.description,
+    text: data?.data?.plainText,
+    primaryButton: data?.data?.primaryButton,
+    secondaryButton: data?.data?.secondaryButton,
+    videoLink: data?.data?.youtubeLink,
+    formFields: data?.data?.form?.fields,
+    formId: data?.data?.form?.id,
+    formName: data?.data?.form?.name,
+    formLinks: data?.data?.formLinks,
+    signInLink: data?.data?.signinLink,
   };
 
   return Variant ? <Variant {...props} /> : null;

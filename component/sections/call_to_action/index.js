@@ -9,20 +9,20 @@ const Variants = {
 };
 
 function CallToAction({ data }) {
-  const variant = data?.variant || data?.variants?.condition;
+  const variant = data?.variant || data?.data?.condition;
   const Variant = Variants?.[variant];
 
   const props = {
-    logo: data?.variants?.logo,
-    title: data?.variants?.title,
-    text: data?.variants?.plainText,
-    button: data?.variants?.primaryButton,
-    features: data?.variants?.tags,
-    formFields: data?.variants?.form?.fields,
-    formId: data?.variants?.form?.id,
-    formName: data?.variants?.form?.name,
-    formLinks: data?.variants?.formLinks,
-    signInLink: data?.variants?.signinLink,
+    logo: data?.data?.logo,
+    title: data?.data?.title,
+    text: data?.data?.plainText,
+    button: data?.data?.primaryButton,
+    features: data?.data?.tags,
+    formFields: data?.data?.form?.fields,
+    formId: data?.data?.form?.id,
+    formName: data?.data?.form?.name,
+    formLinks: data?.data?.formLinks,
+    signInLink: data?.data?.signinLink,
   };
 
   return Variant ? <Variant {...props} /> : null;
