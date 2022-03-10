@@ -1,6 +1,5 @@
 import React from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { urlFor } from "lib/sanity";
 
 function VariantA({ template, links, primaryButton, secondaryButton, logo }) {
@@ -31,21 +30,16 @@ function VariantA({ template, links, primaryButton, secondaryButton, logo }) {
   return (
     <section>
       <nav className="relative px-6 py-6 flex justify-between items-center bg-white">
-        {logo && (
+        {logo?.image && (
           <Link href={logoLink}>
             <a
               aria-label={`Go to ${logoLink === "/" ? "home page" : logoLink}`}
               className="text-3xl font-bold leading-none"
             >
-              <Image
+              <img
+                className="h-12"
                 src={urlFor(logo?.image)}
-                layout="fixed"
-                width="113px"
-                height="48px"
-                objectFit="contain"
                 alt={logo?.alt ?? "navigation-logo"}
-                blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                placeholder="blur"
               />
             </a>
           </Link>

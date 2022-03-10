@@ -32,18 +32,15 @@ function VariantA({ logo, subtitle, title, images }) {
             {logo?.image && (
               <Link href={logoLink}>
                 <a
-                  aria-label="App Promo logo"
+                  aria-label={
+                    logoLink === "/" ? "Go to home page" : `Go to ${logoLink}`
+                  }
                   className="mb-8 inline-block p-5 bg-white rounded-lg"
                 >
-                  <Image
+                  <img
+                    className="h-14"
                     src={urlFor(logo?.image)}
-                    layout="fixed"
-                    width="38px"
-                    height="48px"
-                    objectFit="contain"
                     alt={logo?.alt ?? "appPromo-logo"}
-                    blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                    placeholder="blur"
                   />
                 </a>
               </Link>

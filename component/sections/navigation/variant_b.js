@@ -1,6 +1,5 @@
 import React from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { urlFor } from "lib/sanity";
 
 function VariantB({
@@ -37,7 +36,7 @@ function VariantB({
     <section>
       <nav className="relative py-6 bg-white">
         <div className="container mx-auto px-4 flex justify-between items-center">
-          {logo && (
+          {logo?.image && (
             <Link href={logoLink}>
               <a
                 aria-label={`Go to ${
@@ -45,15 +44,10 @@ function VariantB({
                 }`}
                 className="text-3xl font-bold leading-none"
               >
-                <Image
+                <img
+                  className="h-12"
                   src={urlFor(logo?.image)}
-                  layout="fixed"
-                  width="113px"
-                  height="48px"
-                  objectFit="contain"
                   alt={logo?.alt ?? "navigation-logo"}
-                  blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                  placeholder="blur"
                 />
               </a>
             </Link>

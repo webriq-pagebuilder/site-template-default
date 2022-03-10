@@ -1,6 +1,5 @@
 import { urlFor } from "lib/sanity";
 import React from "react";
-import Image from "next/image";
 import Link from "next/link";
 import WebriQForm from "component/webriq-form";
 
@@ -42,20 +41,15 @@ function VariantB({ logo, title, text, formFields, formId, formName }) {
             {logo?.image && (
               <Link href={logoLink}>
                 <a
-                  aria-label={`Go to ${
-                    logo?.internalLink ?? logo?.externalLink
-                  }`}
+                  aria-label={
+                    logoLink === "/" ? "Go to home page" : `Go to ${logoLink}`
+                  }
                   className="mb-6 inline-block p-3 rounded"
                 >
-                  <Image
+                  <img
+                    className="h-14"
                     src={urlFor(logo?.image)}
-                    layout="fixed"
-                    width="132px"
-                    height="48px"
-                    objectFit="contain"
                     alt={logo?.alt ?? "callToAction-logo"}
-                    blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                    placeholder="blur"
                   />
                 </a>
               </Link>

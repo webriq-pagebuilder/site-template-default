@@ -1,30 +1,53 @@
 import React from "react";
 import { urlFor } from "lib/sanity";
-import Image from "next/image";
 import Link from "next/link";
 import WebriQForm from "component/webriq-form";
 
 function VariantB({ logo, title, description, formFields, formId, formName }) {
+  let logoLink;
+
+  if (logo.type === "linkInternal") {
+    if (logo.internalLink === undefined) {
+      logoLink = `/`;
+    } else {
+      if (logo.internalLink === "Home" || logo.internalLink === "home") {
+        logoLink = `/`;
+      } else {
+        logoLink = `/${logo.internalLink}`;
+      }
+    }
+  } else {
+    if (logo.externalLink === undefined) {
+      logoLink = `/`;
+    } else {
+      logoLink = logo.externalLink;
+    }
+  }
+
   return (
     <section>
       <div className="py-20 bg-gray-50 radius-for-skewed">
         <div className="container mx-auto px-4">
           <div className="flex flex-wrap items-center">
             <div className="mb-4 w-full lg:w-auto lg:mr-8 text-center">
-              <div className="flex justify-center items-center p-5 mx-auto w-16 h-16 bg-white rounded">
+              <div className="flex justify-center items-center mx-auto">
                 {logo?.image && (
-                  <div className="h-10">
-                    <Image
-                      src={urlFor(logo?.image)}
-                      layout="fixed"
-                      width="44px"
-                      height="42px"
-                      objectFit="contain"
-                      alt={logo?.alt ?? "newsletter-logo"}
-                      blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                      placeholder="blur"
-                    />
-                  </div>
+                  <Link href={logoLink}>
+                    <a
+                      aria-label={
+                        logoLink === "/"
+                          ? "Go to home page"
+                          : `Go to ${logoLink}`
+                      }
+                      className="mb-8 inline-block p-5 bg-white rounded"
+                    >
+                      <img
+                        className="h-10"
+                        src={urlFor(logo?.image)}
+                        alt={logo?.alt ?? "newsletter-logo"}
+                      />
+                    </a>
+                  </Link>
                 )}
               </div>
             </div>

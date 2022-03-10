@@ -1,6 +1,5 @@
 import React from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { urlFor } from "lib/sanity";
 
 function VariantC({
@@ -122,7 +121,7 @@ function VariantC({
               ))}
           </ul>
           <div className="lg:absolute lg:top-1/2 lg:left-1/2 lg:transform lg:-translate-y-1/2 lg:-translate-x-1/2">
-            {logo && (
+            {logo?.image && (
               <Link href={logoLink}>
                 <a
                   aria-label={`Go to ${
@@ -130,15 +129,10 @@ function VariantC({
                   }`}
                   className="text-3xl font-bold leading-none"
                 >
-                  <Image
+                  <img
+                    className="h-12"
                     src={urlFor(logo?.image)}
-                    layout="fixed"
-                    width="113px"
-                    height="48px"
-                    objectFit="contain"
                     alt={logo?.alt ?? "navigation-logo"}
-                    blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                    placeholder="blur"
                   />
                 </a>
               </Link>

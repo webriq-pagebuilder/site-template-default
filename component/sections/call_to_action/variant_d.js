@@ -1,6 +1,5 @@
 import { urlFor } from "lib/sanity";
 import React from "react";
-import Image from "next/image";
 import Link from "next/link";
 import WebriQForm from "component/webriq-form";
 
@@ -44,18 +43,15 @@ function VariantD({
             {logo?.image && (
               <Link href={logoLink}>
                 <a
-                  aria-label="Call to Action logo"
+                  aria-label={
+                    logoLink === "/" ? "Go to home page" : `Go to ${logoLink}`
+                  }
                   className="mb-10 inline-block text-3xl font-bold leading-none"
                 >
-                  <Image
+                  <img
+                    className="h-14"
                     src={urlFor(logo?.image)}
-                    layout="fixed"
-                    width="48px"
-                    height="48px"
-                    objectFit="contain"
                     alt={logo?.alt ?? "callToAction-logo"}
-                    blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                    placeholder="blur"
                   />
                 </a>
               </Link>

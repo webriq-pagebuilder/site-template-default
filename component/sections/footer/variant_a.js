@@ -29,7 +29,7 @@ function VariantA({ logo, text, contacts, copyright, socialMedia }) {
       <div className="py-20 bg-gray-50 radius-for-skewed">
         <div className="container mx-auto px-4">
           <div className="flex flex-wrap mb-5 lg:mb-20">
-            <div className="mb-5 w-full lg:w-1/5">
+            <div className="mb-5 w-full lg:w-1/5 mx-auto">
               {logo?.image && (
                 <Link href={logoLink}>
                   <a
@@ -38,15 +38,10 @@ function VariantA({ logo, text, contacts, copyright, socialMedia }) {
                     }
                     className="text-3xl font-bold leading-none"
                   >
-                    <Image
+                    <img
+                      className="h-14"
                       src={urlFor(logo?.image)}
-                      layout="fixed"
-                      width="132px"
-                      height="56px"
-                      objectFit="scale-down"
                       alt={logo?.alt ?? "footer-logo"}
-                      blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                      placeholder="blur"
                     />
                   </a>
                 </Link>
@@ -167,14 +162,18 @@ function VariantA({ logo, text, contacts, copyright, socialMedia }) {
                         />
                       </svg>
                     ) : (
-                      <Image
-                        src={urlFor(social?.socialMediaIcon?.image)}
-                        layout="fixed"
-                        width="40px"
-                        height="40px"
-                        objectFit="contain"
-                        alt={social?.socialMediaIcon?.alt}
-                      />
+                      social?.socialMediaIcon?.image && (
+                        <div className="w-6 h-6">
+                          <Image
+                            src={urlFor(social?.socialMediaIcon?.image)}
+                            layout="responsive"
+                            width="40px"
+                            height="40px"
+                            objectFit="contain"
+                            alt={social?.socialMediaIcon?.alt}
+                          />
+                        </div>
+                      )
                     )}
                   </a>
                 ))}

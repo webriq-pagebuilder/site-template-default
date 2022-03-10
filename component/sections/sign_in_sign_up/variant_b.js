@@ -1,5 +1,4 @@
 import React from "react";
-import Image from "next/image";
 import Link from "next/link";
 import WebriQForm from "component/webriq-form";
 import { urlFor } from "lib/sanity";
@@ -43,18 +42,15 @@ function VariantB({
             {logo?.image && (
               <Link href={logoLink}>
                 <a
-                  aria-label="Sign Up logo"
+                  aria-label={`Go to ${
+                    logoLink === "/" ? "home page" : logoLink
+                  }`}
                   className="text-white text-3xl font-bold leading-none  flex justify-center"
                 >
-                  <Image
+                  <img
+                    className="h-12"
                     src={urlFor(logo?.image)}
-                    layout="fixed"
-                    width="132px"
-                    height="48px"
-                    objectFit="contain"
                     alt={logo?.alt ?? "signUp-logo"}
-                    blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                    placeholder="blur"
                   />
                 </a>
               </Link>

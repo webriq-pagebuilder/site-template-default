@@ -1,5 +1,4 @@
 import { urlFor } from "lib/sanity";
-import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
@@ -41,20 +40,15 @@ function VariantA({ logo, title, text, button }) {
             {logo?.image && (
               <Link href={logoLink}>
                 <a
-                  aria-label={`Go to ${
-                    logo?.internalLink ?? logo?.externalLink
-                  }`}
+                  aria-label={
+                    logoLink === "/" ? "Go to home page" : `Go to ${logoLink}`
+                  }
                   className="mb-6 inline-block text-3xl font-bold leading-none"
                 >
-                  <Image
+                  <img
+                    className="h-14"
                     src={urlFor(logo?.image)}
-                    layout="fixed"
-                    width="132px"
-                    height="48px"
-                    objectFit="contain"
                     alt={logo?.alt ?? "callToAction-logo"}
-                    blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                    placeholder="blur"
                   />
                 </a>
               </Link>
