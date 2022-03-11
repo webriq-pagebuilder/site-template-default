@@ -19,7 +19,6 @@ function Header({ template, data }) {
     images: data?.variants?.images,
     title: data?.variants?.title,
     description: data?.variants?.description,
-    text: data?.variants?.plainText,
     primaryButton: data?.variants?.primaryButton,
     secondaryButton: data?.variants?.secondaryButton,
     videoLink: data?.variants?.youtubeLink,

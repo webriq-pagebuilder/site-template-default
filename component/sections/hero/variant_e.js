@@ -5,7 +5,7 @@ import WebriQForm from "component/webriq-form";
 function VariantE({
   template,
   title,
-  text,
+  description,
   primaryButton,
   secondaryButton,
   formFields,
@@ -34,7 +34,9 @@ function VariantE({
                   )}
                 </div>
                 <div className="max-w-sm mx-auto lg:mx-0">
-                  <p className="mb-6 text-gray-500 leading-loose">{text}</p>
+                  <p className="mb-6 text-gray-500 leading-loose">
+                    {description}
+                  </p>
                   <div>
                     {primaryButton?.label &&
                       (primaryButton?.type === "linkInternal" ? (

@@ -13,6 +13,7 @@ function Stats({ data }) {
 
   const props = {
     stats: data?.variants?.statItems,
+    statsWithImage: data?.variants?.statItemsWithImage,
   };
 
   return Variant ? <Variant {...props} /> : null;
