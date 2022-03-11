@@ -6,21 +6,21 @@ function VariantB({ subtitle, title, faqsWithCategories }) {
     faqsWithCategories?.[0]?.category
   );
 
-  React.useState(() => {
-    faqsWithCategories?.map((faqs) => {
-      faqs?.askedQuestions?.map((items) =>
-        setView((prevState) => [
-          ...prevState,
-          {
+  React.useEffect(() => {
+    let tempFaqs = [];
+    faqsWithCategories &&
+      faqsWithCategories?.map((faqs) => {
+        faqs?.askedQuestions?.map((items) =>
+          tempFaqs.push({
             category: faqs?.category,
             question: items?.question,
             answer: items?.answer,
             hidden: true,
-          },
-        ])
-      );
-    });
-  }, []);
+          })
+        );
+      });
+    setView(tempFaqs);
+  }, [faqsWithCategories]);
 
   const toggleView = (position) => {
     let newFaq = [...view];
