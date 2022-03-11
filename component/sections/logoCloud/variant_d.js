@@ -14,7 +14,7 @@ function VariantD({ images }) {
                   <div className="bg-gray-50 mx-auto rounded">
                     <Image
                       src={urlFor(image?.image)}
-                      layout="responsive"
+                      layout="intrinsic" // scale down to fit width of container, up to image size
                       width="192px"
                       height="192px"
                       objectFit="scale-down"
