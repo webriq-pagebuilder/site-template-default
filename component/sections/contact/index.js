@@ -17,6 +17,7 @@ function Contact({ data }) {
     contactEmail: data?.variants?.contactEmail,
     contactNumber: data?.variants?.contactNumber,
     socialLinks: data?.variants?.socialLinks,
+    form: data?.variants?.form,
     formFields: data?.variants?.form?.fields,
     formId: data?.variants?.form?.id,
     formName: data?.variants?.form?.name,

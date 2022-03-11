@@ -9,9 +9,7 @@ function VariantA({
   contactEmail,
   contactNumber,
   socialLinks,
-  formFields,
-  formId,
-  formName,
+  form,
   block,
 }) {
   const serializers = {
@@ -46,6 +44,8 @@ function VariantA({
         ),
     },
   };
+
+  const { id, fields, buttonLabel } = form;
 
   return (
     <section>
@@ -154,12 +154,12 @@ function VariantA({
               </div>
             </div>
             <div className="pl-10 w-full lg:w-1/2">
-              {formFields && (
+              {fields && (
                 <div className="max-w-md lg:mx-auto">
                   <WebriQForm
                     method="POST"
-                    data-form-id={formId}
-                    name={formName}
+                    data-form-id={id}
+                    name="Contact-VariantA-Form"
                     className="form-contacts"
                     data-thankyou-url="/thank-you"
                     scriptsrc="https://pagebuilderforms.webriq.com/js/initReactForms"
@@ -186,7 +186,7 @@ function VariantA({
                         <span>Sales</span>
                       </label>
                     </div> */}
-                    {formFields?.map((formFields, index) => (
+                    {fields?.map((formFields, index) => (
                       <div key={index}>
                         {formFields?.type === "textarea" ? (
                           <div className="mb-4">
@@ -196,6 +196,7 @@ function VariantA({
                               type="text"
                               placeholder={formFields?.name}
                               name={formFields?.name}
+                              required={formFields?.isRequired}
                             />
                           </div>
                         ) : formFields?.type === "inputFile" ? (
@@ -207,6 +208,7 @@ function VariantA({
                                 type="file"
                                 placeholder="Choose file.."
                                 name={formFields?.name}
+                                required={formFields?.isRequired}
                               />
                               <div className="my-1 ml-auto px-4 py-3 text-xs text-white font-semibold leading-none bg-gray-500 hover:bg-gray-600 rounded cursor-pointer transition duration-200">
                                 Browse
@@ -231,6 +233,7 @@ function VariantA({
                               }
                               placeholder={formFields?.name}
                               name={formFields?.name}
+                              required={formFields?.isRequired}
                             />
                           </div>
                         )}
@@ -258,13 +261,17 @@ function VariantA({
                       <div>
                         <div className="webriq-recaptcha" />
                       </div>
-                      <button
-                        aria-label="Submit Contact Form button"
-                        className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-white font-bold leading-loose transition duration-200"
-                        type="submit"
-                      >
-                        Get Started
-                      </button>
+                      {buttonLabel && (
+                        <button
+                          aria-label={
+                            buttonLabel ?? "Contact form submit button"
+                          }
+                          className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-white font-bold leading-loose transition duration-200"
+                          type="submit"
+                        >
+                          {buttonLabel}
+                        </button>
+                      )}
                     </div>
                   </WebriQForm>
                 </div>
