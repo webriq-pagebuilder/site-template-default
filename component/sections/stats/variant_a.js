@@ -4,7 +4,7 @@ function VariantA({ stats }) {
   return (
     <section className="py-20 bg-gray-50">
       <div className="container mx-auto px-4">
-        <div className="flex flex-wrap items-center justify-center text-center -mx-4">
+        <div className="flex flex-wrap items-center justify-left text-center -mx-4">
           {stats &&
             stats.map((items, index) => (
               <div
