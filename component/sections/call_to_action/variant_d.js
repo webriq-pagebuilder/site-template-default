@@ -3,19 +3,10 @@ import React from "react";
 import Link from "next/link";
 import WebriQForm from "component/webriq-form";
 
-function VariantD({
-  logo,
-  title,
-  text,
-  button,
-  formFields,
-  formId,
-  formName,
-  formLinks,
-  signInLink,
-}) {
+function VariantD({ logo, title, text, button, form, formLinks, signInLink }) {
   let logoLink;
   const [showPassword, setShowPassword] = React.useState(false);
+  const { id, name, subtitle, fields, buttonLabel } = form;
 
   if (logo.type === "linkInternal") {
     if (logo.internalLink === undefined) {
@@ -118,22 +109,22 @@ function VariantD({
           </div>
           <div className="w-full lg:w-1/2">
             <div className="max-w-sm mx-auto lg:mr-0 lg:ml-auto">
-              {formFields && (
+              {fields && (
                 <div className="mb-6 py-8 px-6 bg-white shadow rounded-t-3xl rounded-bl-3xl text-center">
                   <WebriQForm
                     method="POST"
-                    data-form-id={formId}
-                    name={formName}
+                    data-form-id={id}
+                    name="Calltoaction-VariantD-Form"
                     className="form-callToAction"
                     data-thankyou-url="/thank-you"
                     scriptsrc="https://pagebuilderforms.webriq.com/js/initReactForms"
                   >
                     <div className="mb-6">
-                      <span className="text-sm text-gray-500">Sign Up</span>
-                      <p className="text-2xl">Create an account</p>
+                      <span className="text-sm text-gray-500">{subtitle}</span>
+                      <p className="text-2xl">{name}</p>
                     </div>
                     <div className="mb-3 flex flex-wrap -mx-2">
-                      {formFields?.slice(0, 2)?.map((formFields, index) => (
+                      {fields?.slice(0, 2)?.map((formFields, index) => (
                         <div
                           className="w-full lg:w-1/2 px-2 mb-3 lg:mb-0 xl:mb-0 2xl:mb-0"
                           key={index}
@@ -144,6 +135,7 @@ function VariantD({
                               className="w-full p-4 text-xs bg-gray-100 outline-none rounded"
                               placeholder={formFields?.name}
                               name={formFields?.name}
+                              required={formFields?.IsRequired}
                             />
                           ) : formFields.type === "inputFile" ? (
                             <label className="flex px-2 bg-gray-100 rounded">
@@ -155,6 +147,7 @@ function VariantD({
                                   formFields?.name ?? "Choose file.."
                                 }
                                 name={formFields?.name}
+                                required={formFields?.IsRequired}
                               />
                             </label>
                           ) : (
@@ -174,12 +167,13 @@ function VariantD({
                               }
                               placeholder={formFields?.name}
                               name={formFields?.name}
+                              required={formFields?.IsRequired}
                             />
                           )}
                         </div>
                       ))}
                     </div>
-                    {formFields?.slice(2, 4)?.map((formFields, index) => (
+                    {fields?.slice(2, 4)?.map((formFields, index) => (
                       <div key={index}>
                         {formFields?.type === "textarea" ? (
                           <textarea
@@ -187,6 +181,7 @@ function VariantD({
                             className="mb-3 w-full p-4 text-xs bg-gray-100 outline-none rounded"
                             placeholder={formFields?.name}
                             name={formFields?.name}
+                            required={formFields?.IsRequired}
                           />
                         ) : formFields?.type === "inputFile" ? (
                           <div className="mb-3">
@@ -199,6 +194,7 @@ function VariantD({
                                   formFields?.name ?? "Choose file.."
                                 }
                                 name={formFields?.name}
+                                required={formFields?.IsRequired}
                               />
                             </label>
                           </div>
@@ -210,6 +206,7 @@ function VariantD({
                               type={showPassword ? "text" : "password"}
                               placeholder={formFields?.name}
                               name={formFields?.name}
+                              required={formFields?.IsRequired}
                             />
                             {/* SVG icon on the right of the password input field */}
                             <button
@@ -271,24 +268,8 @@ function VariantD({
                               }
                               placeholder={formFields?.name}
                               name={formFields?.name}
+                              required={formFields?.IsRequired}
                             />
-                            {/* SVG icon on the right of the email input field */}
-                            {formFields?.type === "inputEmail" && (
-                              <svg
-                                className="h-6 w-6 ml-4 my-auto text-gray-500"
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                              >
-                                <path
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                  strokeWidth={2}
-                                  d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207"
-                                />
-                              </svg>
-                            )}
                           </div>
                         )}
                       </div>
@@ -296,13 +277,17 @@ function VariantD({
                     <div>
                       <div className="webriq-recaptcha" />
                     </div>
-                    <button
-                      aria-label="Call to Action Sign Up button"
-                      className="mb-4 py-4 w-full rounded text-sm bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-normal transition duration-200"
-                      type="submit"
-                    >
-                      Sign Up
-                    </button>
+                    {buttonLabel && (
+                      <button
+                        aria-label={
+                          buttonLabel ?? "Call to action form submit button"
+                        }
+                        className="mb-4 py-4 w-full rounded text-sm bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-normal transition duration-200"
+                        type="submit"
+                      >
+                        {buttonLabel}
+                      </button>
+                    )}
                   </WebriQForm>
                   {signInLink?.label && (
                     <p className="text-xs text-gray-500">

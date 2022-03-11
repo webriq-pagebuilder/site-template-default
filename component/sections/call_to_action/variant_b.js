@@ -3,8 +3,9 @@ import React from "react";
 import Link from "next/link";
 import WebriQForm from "component/webriq-form";
 
-function VariantB({ logo, title, text, formFields, formId, formName }) {
+function VariantB({ logo, title, text, form }) {
   let logoLink;
+  const { id, fields, buttonLabel } = form;
 
   if (logo.type === "linkInternal") {
     if (logo.internalLink === undefined) {
@@ -58,16 +59,16 @@ function VariantB({ logo, title, text, formFields, formId, formName }) {
               {title}
             </h1>
             <p className="mb-6 text-gray-700">{text}</p>
-            {formFields && (
+            {fields && (
               <WebriQForm
                 method="POST"
-                data-form-id={formId}
-                name={formName}
+                data-form-id={id}
+                name="Calltoaction-VariantB-Form"
                 className="form-callToAction flex flex-wrap justify-center items-center"
                 data-thankyou-url="/thank-you"
                 scriptsrc="https://pagebuilderforms.webriq.com/js/initReactForms"
               >
-                {formFields.slice(0, 2).map((field) => (
+                {fields.slice(0, 2).map((field) => (
                   <input
                     key={field?._key}
                     aria-label={`Input ${field?.type}`}
@@ -81,18 +82,23 @@ function VariantB({ logo, title, text, formFields, formId, formName }) {
                     }
                     placeholder={field?.name}
                     name={field?.name}
+                    required={field?.isRequired}
                   />
                 ))}
                 <div>
                   <div className="webriq-recaptcha" />
                 </div>
-                <button
-                  aria-label="Submit Call to Action Form button"
-                  className="w-full md:w-auto py-2 px-4 bg-webriq-darkblue hover:bg-webriq-blue text-white font-bold leading-loose rounded-l-xl rounded-t-xl transition duration-200"
-                  type="submit"
-                >
-                  Get&nbsp;Started
-                </button>
+                {buttonLabel && (
+                  <button
+                    aria-label={
+                      buttonLabel ?? "Call to action form submit button"
+                    }
+                    className="w-full md:w-auto py-2 px-4 bg-webriq-darkblue hover:bg-webriq-blue text-white font-bold leading-loose rounded-l-xl rounded-t-xl transition duration-200"
+                    type="submit"
+                  >
+                    {buttonLabel}
+                  </button>
+                )}
               </WebriQForm>
             )}
           </div>

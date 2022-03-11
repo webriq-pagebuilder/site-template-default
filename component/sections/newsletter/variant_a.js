@@ -3,8 +3,9 @@ import { urlFor } from "lib/sanity";
 import Link from "next/link";
 import WebriQForm from "component/webriq-form";
 
-function VariantA({ logo, title, description, formFields, formId, formName }) {
+function VariantA({ logo, title, description, form }) {
   let logoLink;
+  const { id, fields, buttonLabel } = form;
 
   if (logo.type === "linkInternal") {
     if (logo.internalLink === undefined) {
@@ -49,11 +50,11 @@ function VariantA({ logo, title, description, formFields, formId, formName }) {
               {title}
             </h1>
             <p className="mb-8 text-gray-700 leading-loose">{description}</p>
-            {formFields?.[0] && formFields[0]?.name && (
+            {fields?.[0] && fields[0]?.name && (
               <WebriQForm
                 method="POST"
-                data-form-id={formId}
-                name={formName}
+                data-form-id={id}
+                name="Newsletter-VariantA-Form"
                 className="form-newsletter"
                 data-thankyou-url="/thank-you"
                 scriptsrc="https://pagebuilderforms.webriq.com/js/initReactForms"
@@ -61,27 +62,30 @@ function VariantA({ logo, title, description, formFields, formId, formName }) {
                 <div className="max-w-md mx-auto flex flex-wrap items-center">
                   <input
                     aria-label={`${
-                      formFields[0]?.type === "inputText"
-                        ? `Input ${formFields[0]?.name}`
-                        : `${formFields[0]?.type}`
+                      fields[0]?.type === "inputText"
+                        ? `Input ${fields[0]?.name}`
+                        : `${fields[0]?.type}`
                     }`}
                     className="flex-grow py-3 px-4 mr-4 text-xs rounded leading-loose"
-                    type={
-                      formFields[0].type === "inputEmail" ? "email" : "text"
-                    }
-                    placeholder={formFields[0]?.name}
-                    name={formFields[0]?.name}
+                    type={fields[0].type === "inputEmail" ? "email" : "text"}
+                    placeholder={fields[0]?.name}
+                    name={fields[0]?.name}
+                    required={fields[0]?.isRequired}
                   />
                   <div>
                     <div className="webriq-recaptcha" />
                   </div>
-                  <button
-                    aria-label="Submit Newsletter Form button"
-                    className="w-auto py-2 px-6 rounded-t-xl rounded-l-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose transition duration-200"
-                    type="submit"
-                  >
-                    Get Started
-                  </button>
+                  {buttonLabel && (
+                    <button
+                      aria-label={
+                        buttonLabel ?? "Newsletter form submit button"
+                      }
+                      className="w-auto py-2 px-6 rounded-t-xl rounded-l-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose transition duration-200"
+                      type="submit"
+                    >
+                      {buttonLabel}
+                    </button>
+                  )}
                 </div>
               </WebriQForm>
             )}

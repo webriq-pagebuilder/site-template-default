@@ -14,9 +14,7 @@ function Newsletter({ data }) {
     logo: data?.variants?.logo,
     title: data?.variants?.title,
     description: data?.variants?.description,
-    formFields: data?.variants?.form?.fields,
-    formId: data?.variants?.form?.id,
-    formName: data?.variants?.form?.name,
+    form: data?.variants?.form,
   };
 
   return Variant ? <Variant {...props} /> : null;

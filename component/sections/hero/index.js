@@ -22,11 +22,8 @@ function Header({ template, data }) {
     primaryButton: data?.variants?.primaryButton,
     secondaryButton: data?.variants?.secondaryButton,
     videoLink: data?.variants?.youtubeLink,
-    formFields: data?.variants?.form?.fields,
-    formId: data?.variants?.form?.id,
-    formName: data?.variants?.form?.name,
     formLinks: data?.variants?.formLinks,
-    signInLink: data?.variants?.signinLink,
+    form: data?.variants?.form,
   };
 
   return Variant ? <Variant {...props} /> : null;

@@ -18,11 +18,9 @@ function CallToAction({ data }) {
     text: data?.variants?.plainText,
     button: data?.variants?.primaryButton,
     features: data?.variants?.tags,
-    formFields: data?.variants?.form?.fields,
-    formId: data?.variants?.form?.id,
-    formName: data?.variants?.form?.name,
     formLinks: data?.variants?.formLinks,
-    signInLink: data?.variants?.signinLink,
+    form: data?.variants?.form,
+    signInLink: data?.variants?.signInLink,
   };
 
   return Variant ? <Variant {...props} /> : null;

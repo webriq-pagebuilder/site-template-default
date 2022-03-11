@@ -17,11 +17,9 @@ function SignUpForm({ data }) {
     text: data?.variants?.plainText,
     firstButton: data?.variants?.primaryButton,
     secondButton: data?.variants?.secondaryButton,
-    formFields: data?.variants?.form?.fields,
-    formId: data?.variants?.form?.id,
-    formName: data?.variants?.form?.name,
     formLinks: data?.variants?.formLinks,
     signInLink: data?.variants?.signinLink,
+    form: data?.variants?.form,
   };
 
   return Variant ? <Variant {...props} /> : null;

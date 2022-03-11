@@ -8,13 +8,11 @@ function VariantE({
   description,
   primaryButton,
   secondaryButton,
-  formFields,
-  formId,
-  formName,
   formLinks,
-  signInLink,
+  form,
 }) {
   const [showPassword, setShowPassword] = React.useState(false);
+  const { id, name, subtitle, fields, buttonLabel } = form;
 
   return (
     <section className="relative bg-gray-100 px-10">
@@ -160,22 +158,22 @@ function VariantE({
             </div>
             <div className="w-full lg:w-1/2">
               <div className="max-w-sm text-center mx-auto">
-                {formFields && (
+                {fields && (
                   <div className="mb-4 px-6 py-8 bg-white rounded-xl shadow-md">
                     <div className="mb-6">
-                      <span className="text-sm text-gray-500">Sign Up</span>
-                      <p className="text-2xl font-bold">Create an account</p>
+                      <span className="text-sm text-gray-500">{subtitle}</span>
+                      <p className="text-2xl font-bold">{name}</p>
                     </div>
                     <WebriQForm
                       method="POST"
-                      data-form-id={formId}
-                      name={formName}
+                      data-form-id={id}
+                      name="Header-VariantE-Form"
                       className="form-header"
                       data-thankyou-url="/thank-you"
                       scriptsrc="https://pagebuilderforms.webriq.com/js/initReactForms"
                     >
                       <div className="flex flex-wrap -mx-2">
-                        {formFields?.slice(0, 2)?.map((formFields, index) => (
+                        {fields?.slice(0, 2)?.map((formFields, index) => (
                           <div
                             className="mb-3 w-full lg:w-1/2 px-2"
                             key={index}
@@ -187,6 +185,7 @@ function VariantE({
                                 type="text"
                                 placeholder={formFields?.name}
                                 name={formFields?.name}
+                                required={formFields?.isRequired}
                               />
                             ) : formFields?.type === "inputFile" ? (
                               <label className="flex px-2 bg-gray-100 rounded">
@@ -196,6 +195,7 @@ function VariantE({
                                   type="file"
                                   placeholder="Choose file.."
                                   name={formFields?.name}
+                                  required={formFields?.isRequired}
                                 />
                               </label>
                             ) : (
@@ -215,12 +215,13 @@ function VariantE({
                                 }
                                 placeholder={formFields?.name}
                                 name={formFields?.name}
+                                required={formFields?.isRequired}
                               />
                             )}
                           </div>
                         ))}
                       </div>
-                      {formFields?.slice(2, 4)?.map((formFields, index) => (
+                      {fields?.slice(2, 4)?.map((formFields, index) => (
                         <div key={index}>
                           {formFields?.type === "textarea" ? (
                             <textarea
@@ -229,6 +230,7 @@ function VariantE({
                               type="text"
                               placeholder={formFields[2]?.name}
                               name={formFields[2]?.name}
+                              required={formFields?.isRequired}
                             />
                           ) : formFields?.type === "inputFile" ? (
                             <div className="mb-4">
@@ -239,6 +241,7 @@ function VariantE({
                                   type="file"
                                   placeholder="Choose file.."
                                   name={formFields?.name}
+                                  required={formFields?.isRequired}
                                 />
                               </label>
                             </div>
@@ -250,6 +253,7 @@ function VariantE({
                                 type={showPassword ? "text" : "password"}
                                 placeholder={formFields?.name}
                                 name={formFields?.name}
+                                required={formFields?.isRequired}
                               />
                               {/* SVG icon on the right of the password input field */}
                               <button
@@ -313,6 +317,7 @@ function VariantE({
                                 }
                                 placeholder={formFields?.name}
                                 name={formFields?.name}
+                                required={formFields?.isRequired}
                               />
                               {/* SVG icon on the right of the email input field */}
                               {formFields?.type === "inputEmail" && (
@@ -339,66 +344,16 @@ function VariantE({
                         <div className="webriq-recaptcha" />
                       </div>
                       <div className="text-center">
-                        <button
-                          aria-label="Header Sign Up button"
-                          className="mb-2 w-full py-4 bg-webriq-darkblue hover:bg-webriq-blue rounded text-sm font-bold text-gray-50 transition duration-200"
-                          type="submit"
-                        >
-                          Sign Up
-                        </button>
-                        {signInLink?.label && (
-                          <span className="text-gray-500 text-xs">
-                            <span>Already have an account?</span>
-                            {signInLink?.type === "linkInternal" ? (
-                              <Link
-                                href={
-                                  signInLink?.internalLink === "Home" ||
-                                  signInLink?.internalLink === "home"
-                                    ? "/"
-                                    : `/${
-                                        signInLink?.internalLink === undefined
-                                          ? "page-not-found"
-                                          : signInLink?.internalLink
-                                      }`
-                                }
-                              >
-                                <a
-                                  aria-label={`Header ${
-                                    signInLink?.label ?? "Sign In"
-                                  } link`}
-                                  className="text-webriq-darkblue hover:text-webriq-babyblue"
-                                  target={signInLink?.linkTarget}
-                                  rel={
-                                    signInLink?.linkTarget === "_blank"
-                                      ? "noopener noreferrer"
-                                      : null
-                                  }
-                                >
-                                  &nbsp;{signInLink?.label}
-                                </a>
-                              </Link>
-                            ) : (
-                              <a
-                                aria-label={`Header ${
-                                  signInLink?.label ?? "Sign In"
-                                } link`}
-                                className="text-webriq-darkblue hover:text-webriq-babyblue"
-                                target={signInLink?.linkTarget}
-                                href={`${
-                                  signInLink.externalLink === undefined
-                                    ? "link-not-found"
-                                    : signInLink.externalLink
-                                }`}
-                                rel={
-                                  signInLink?.linkTarget === "_blank"
-                                    ? "noopener noreferrer"
-                                    : null
-                                }
-                              >
-                                &nbsp;{signInLink?.label}
-                              </a>
-                            )}
-                          </span>
+                        {buttonLabel && (
+                          <button
+                            aria-label={
+                              buttonLabel ?? "Header form submit button"
+                            }
+                            className="mb-2 w-full py-4 bg-webriq-darkblue hover:bg-webriq-blue rounded text-sm font-bold text-gray-50 transition duration-200"
+                            type="submit"
+                          >
+                            {buttonLabel}
+                          </button>
                         )}
                       </div>
                     </WebriQForm>
