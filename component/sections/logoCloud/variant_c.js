@@ -64,7 +64,7 @@ function VariantC({ title, images, button }) {
           )}
         </div>
         <div className="hidden lg:block relative">
-          {images?.[0]?.image && (
+          {images?.[0]?.image?.asset && (
             <div
               className="h-24 w-24 absolute flex items-center justify-center bg-gray-50 rounded-full overflow-hidden"
               style={{ top: "-120px", left: "-10px" }}
@@ -83,7 +83,7 @@ function VariantC({ title, images, button }) {
               </div>
             </div>
           )}
-          {images?.[1]?.image && (
+          {images?.[1]?.image?.asset && (
             <div className="h-24 w-24 absolute left-0 top-0 mt-20 flex items-center justify-center bg-gray-50 rounded-full">
               <div className="h-16 w-16">
                 <Image
@@ -99,7 +99,7 @@ function VariantC({ title, images, button }) {
               </div>
             </div>
           )}
-          {images?.[2]?.image && (
+          {images?.[2]?.image?.asset && (
             <div
               className="h-40 w-40 absolute flex items-center justify-center bg-gray-50 rounded-full"
               style={{ bottom: "-250px", left: "20%" }}
@@ -118,7 +118,7 @@ function VariantC({ title, images, button }) {
               </div>
             </div>
           )}
-          {images?.[3]?.image && (
+          {images?.[3]?.image?.asset && (
             <div
               className="h-40 w-40 absolute flex items-center justify-center bg-gray-50 rounded-full"
               style={{ top: "20px", right: "20%" }}
@@ -137,7 +137,7 @@ function VariantC({ title, images, button }) {
               </div>
             </div>
           )}
-          {images?.[4]?.image && (
+          {images?.[4]?.image?.asset && (
             <div
               className="h-32 w-32 absolute flex items-center justify-center bg-gray-50 rounded-full"
               style={{ bottom: "-250px", right: 0 }}
@@ -156,7 +156,7 @@ function VariantC({ title, images, button }) {
               </div>
             </div>
           )}
-          {images?.[5]?.image && (
+          {images?.[5]?.image?.asset && (
             <div
               className="h-24 w-24 absolute right-0 flex items-center justify-center bg-gray-50 rounded-full"
               style={{ top: "-150px" }}
@@ -177,7 +177,7 @@ function VariantC({ title, images, button }) {
           )}
         </div>
         <div className="lg:hidden mt-16 flex flex-wrap justify-center">
-          {images?.[0]?.image && (
+          {images?.[0]?.image?.asset && (
             <div className="h-24 w-24 mx-4 mb-8 flex items-center justify-center bg-gray-50 rounded-full">
               <div className="h-16 w-16">
                 <Image
@@ -193,7 +193,7 @@ function VariantC({ title, images, button }) {
               </div>
             </div>
           )}
-          {images?.[1]?.image && (
+          {images?.[1]?.image?.asset && (
             <div className="h-24 w-24 mx-4 mb-8 flex items-center justify-center bg-gray-50 rounded-full">
               <div className="h-16 w-16">
                 <Image
@@ -209,7 +209,7 @@ function VariantC({ title, images, button }) {
               </div>
             </div>
           )}
-          {images?.[2]?.image && (
+          {images?.[2]?.image?.asset && (
             <div className="h-24 w-24 mx-4 mb-8 flex items-center justify-center bg-gray-50 rounded-full">
               <div className="h-16 w-16">
                 <Image
@@ -225,7 +225,7 @@ function VariantC({ title, images, button }) {
               </div>
             </div>
           )}
-          {images?.[3]?.image && (
+          {images?.[3]?.image?.asset && (
             <div className="h-24 w-24 mx-4 mb-8 flex items-center justify-center bg-gray-50 rounded-full">
               <div className="h-16 w-16">
                 <Image
@@ -241,7 +241,7 @@ function VariantC({ title, images, button }) {
               </div>
             </div>
           )}
-          {images?.[4]?.image && (
+          {images?.[4]?.image?.asset && (
             <div className="h-24 w-24 mx-4 mb-8 flex items-center justify-center bg-gray-50 rounded-full">
               <div className="h-16 w-16">
                 <Image
@@ -257,7 +257,7 @@ function VariantC({ title, images, button }) {
               </div>
             </div>
           )}
-          {images?.[5]?.image && (
+          {images?.[5]?.image?.asset && (
             <div className="h-24 w-24 mx-4 mb-8 flex items-center justify-center bg-gray-50 rounded-full">
               <div className="h-16 w-16">
                 <Image
