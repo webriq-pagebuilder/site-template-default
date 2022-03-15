@@ -1,6 +1,7 @@
 import React from "react";
 import Head from "next/head";
 import dynamic from "next/dynamic";
+import { useRouter } from "next/router";
 import { homeQuery } from "./api/query";
 import { getClient, usePreviewSubscription } from "../lib/sanity";
 import NoPreview from "pages/no-preview";
@@ -63,6 +64,15 @@ function filterDataToSingleItem(data, preview) {
   return data[0];
 }
 function Home({ data, preview }) {
+  const router = useRouter();
+  /*
+   *  For new unpublished pages, return page telling user that the page needs to be published first before it can be previewed
+   *  This prevents showing 404 page when the page is not published yet
+   */
+  if ((!router.isFallback && !data?.page) || data?.page?.hasNeverPublished) {
+    return <NoPreview />;
+  }
+
   let pageData;
   const { data: page } = usePreviewSubscription(homeQuery, {
     initialData: data,
@@ -82,21 +92,6 @@ function Home({ data, preview }) {
   }
 
   const { sections, title, seo } = pageData;
-
-  /*
-   *  For new unpublished pages, return page telling user that the page needs to be published first before it can be previewed
-   *  This prevents showing 404 page when the page is not published yet
-   */
-  if (!pageData?.hasUnpublishedEdits && pageData?._id?.includes("drafts")) {
-    return (
-      <>
-        <Head>
-          <title>Unpublished Page</title>
-        </Head>
-        <NoPreview />
-      </>
-    );
-  }
 
   return (
     <>
@@ -132,9 +127,15 @@ export async function getStaticProps({ preview = false }) {
   // pass page data and preview to helper function
   const page = filterDataToSingleItem(indexPage, preview);
 
-  // if our query failed to return data
-  // Reference: https://www.sanity.io/guides/nextjs-live-preview
-  if (!page) return { notFound: true };
+  // if our query failed, then return null to display custom no-preview page
+  if (!page) {
+    return {
+      props: {
+        preview,
+        data: { page: null },
+      },
+    };
+  }
 
   return {
     props: {
