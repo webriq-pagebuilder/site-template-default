@@ -29,7 +29,7 @@ function VariantA({ logo, text, contacts, copyright, socialMedia }) {
       <div className="py-20 bg-gray-50 radius-for-skewed">
         <div className="container mx-auto px-4">
           <div className="flex flex-wrap mb-5 lg:mb-20">
-            <div className="mb-5 w-full lg:w-1/5 mx-auto">
+            <div className="mb-5 w-full lg:w-1/5">
               {logo?.image && (
                 <Link href={logoLink}>
                   <a
@@ -51,61 +51,30 @@ function VariantA({ logo, text, contacts, copyright, socialMedia }) {
               <p className="text-gray-500 leading-loose">{text}</p>
             </div>
             {contacts && (
-              <div className="w-full lg:w-3/5 flex flex-wrap -mx-3 justify-end">
-                {contacts[0].addressInfo && (
-                  <div className="mb-5 w-full md:w-1/2 lg:w-1/4 lg:mr-6 px-3">
-                    {contacts.length > 1 ? (
-                      <p className="mb-4 font-bold">Addresses</p>
-                    ) : (
-                      <p className="mb-4 font-bold">Address</p>
-                    )}
-                    <p className="text-gray-500 mb-5">
-                      {contacts[0]?.addressInfo}
-                    </p>
-                    <p className="text-gray-500 mb-5">
-                      {contacts[1]?.addressInfo}
-                    </p>
-                    <p className="text-gray-500 mb-5">
-                      {contacts[2]?.addressInfo}
-                    </p>
+              <div className="mt-1 w-full lg:w-1/2 ml-auto">
+                {contacts.length > 1 ? (
+                  <div className="grid grid-cols-3 grid-flow-col gap-10">
+                    <p className="mb-4 font-bold">Addresses</p>
+                    <p className="mb-4 font-bold">Emails</p>
+                    <p className="mb-4 font-bold">Numbers</p>
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-3 grid-flow-col gap-10">
+                    <p className="mb-4 font-bold">Address</p>
+                    <p className="mb-4 font-bold">Email</p>
+                    <p className="mb-4 font-bold">Number</p>
                   </div>
                 )}
-                {contacts[0].emailInfo && (
-                  <div className="mb-5 w-full md:w-1/2 lg:w-1/4 lg:mr-6 px-3">
-                    {contacts.length > 1 ? (
-                      <p className="mb-4 font-bold">Emails</p>
-                    ) : (
-                      <p className="mb-4 font-bold">Email</p>
-                    )}
-                    <p className="text-gray-500 mb-5">
-                      {contacts[0]?.emailInfo}
-                    </p>
-                    <p className="text-gray-500 mb-5">
-                      {contacts[1]?.emailInfo}
-                    </p>
-                    <p className="text-gray-500 mb-5">
-                      {contacts[2]?.emailInfo}
-                    </p>
+                {contacts.map((contact) => (
+                  <div
+                    className="grid grid-cols-3 grid-flow-col gap-10"
+                    key={contact?._key}
+                  >
+                    <p className="text-gray-500 mb-5">{contact?.addressInfo}</p>
+                    <p className="text-gray-500 mb-5">{contact?.emailInfo}</p>
+                    <p className="text-gray-500 mb-5">{contact?.contactInfo}</p>
                   </div>
-                )}
-                {contacts[0].contactInfo && (
-                  <div className="mb-5 w-full md:w-1/2 lg:w-1/4 lg:mr-6 px-3">
-                    {contacts.length > 1 ? (
-                      <p className="mb-4 font-bold">Numbers</p>
-                    ) : (
-                      <p className="mb-4 font-bold">Number</p>
-                    )}
-                    <p className="text-gray-500 mb-5">
-                      {contacts[0]?.contactInfo}
-                    </p>
-                    <p className="text-gray-500 mb-5">
-                      {contacts[1]?.contactInfo}
-                    </p>
-                    <p className="text-gray-500 mb-5">
-                      {contacts[2]?.contactInfo}
-                    </p>
-                  </div>
-                )}
+                ))}
               </div>
             )}
           </div>
