@@ -107,7 +107,7 @@ function VariantB({ logo, form, formLinks, signInLink }) {
                   </div>
                 ))}
               </div>
-              {fields?.slice(2, 4)?.map((formFields, index) => (
+              {fields?.slice(2)?.map((formFields, index) => (
                 <div key={index}>
                   {formFields?.type === "textarea" ? (
                     <textarea
