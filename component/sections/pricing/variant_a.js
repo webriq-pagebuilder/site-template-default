@@ -137,6 +137,124 @@ function VariantA({
             </div>
           )}
           <div className="flex flex-wrap -mx-4">
+            {usePlan?.map((planDetail, index) => {
+              return (
+                <div
+                  className="w-full md:w-1/2 lg:w-1/3 px-4 mb-8 lg:mb-5"
+                  key={planDetail._key}
+                >
+                  <div
+                    className={`p-8 ${
+                      index % 2 !== 0
+                        ? "bg-webriq-darkblue text-white"
+                        : "bg-white"
+                    } shadow rounded`}
+                  >
+                    <h4
+                      className={`mb-2 text-2xl font-bold font-heading ${
+                        index % 2 !== 0 && "text-white"
+                      }`}
+                    >
+                      {planDetail.planType}
+                    </h4>
+                    <span
+                      className={`text-6xl font-bold ${
+                        index % 2 !== 0 && "text-white"
+                      }`}
+                    >
+                      {isNaN(parseInt(planDetail.monthlyPrice))
+                        ? planDetail.monthlyPrice
+                        : `$${
+                            plan === "yearly"
+                              ? comma.format(planDetail.yearlyPrice)
+                              : comma.format(planDetail.monthlyPrice)
+                          }`}
+                    </span>
+                    {!isNaN(parseInt(planDetail.monthlyPrice)) && (
+                      <span
+                        className={` text-xs ${
+                          index % 2 !== 0 ? "text-white" : "text-gray-500"
+                        }`}
+                      >
+                        /{plan}
+                      </span>
+                    )}
+                    <p
+                      className={`mt-3 mb-6 ${
+                        index % 2 !== 0 ? "text-white" : "text-gray-500"
+                      } leading-loose`}
+                    >
+                      {planDetail.description}
+                    </p>
+                    <ul
+                      className={`mb-6 ${
+                        index % 2 !== 0 ? "text-white" : "text-gray-500"
+                      }`}
+                    >
+                      {planDetail.planIncludes?.map((include) => (
+                        <li className="mb-2 flex" key={include}>
+                          <svg
+                            className={`mr-2 w-5 h-5 ${
+                              index % 2 !== 0
+                                ? "text-baby-darkblue"
+                                : "text-webriq-darkblue"
+                            }`}
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 20 20"
+                            fill="currentColor"
+                          >
+                            <path
+                              fillRule="evenodd"
+                              d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                              clipRule="evenodd"
+                            />
+                          </svg>
+                          <span>{include}</span>
+                        </li>
+                      ))}
+                    </ul>
+                    <button
+                      aria-label={`${planDetail.checkoutButtonName} button`}
+                      className={`inline-block text-center py-2 px-4 w-full rounded-l-xl rounded-t-xl ${
+                        index % 2 !== 0
+                          ? "bg-white text-black"
+                          : "bg-webriq-darkblue hover:bg-webriq-blue  text-white"
+                      } font-bold leading-loose transition duration-200 cursor-pointer ${
+                        !usePlan[0] &&
+                        "disabled:opacity-50 cursor-not-allowed bg-webriq-darkblue"
+                      }`}
+                      disabled={!usePlan[0]}
+                      onClick={() => {
+                        initiateCheckout(
+                          {
+                            lineItems: [
+                              {
+                                price:
+                                  plan === "monthly"
+                                    ? planDetail.monthlyPriceCheckoutButton
+                                    : planDetail.yearlyPriceCheckoutButton,
+                                quantity: 1,
+                              },
+                            ],
+                          },
+                          stripePKey,
+                          window.location.origin + "/success",
+                          window.location.href,
+                          true,
+                          setPKError
+                        );
+                      }}
+                    >
+                      {!usePlan[0]
+                        ? "Processing..."
+                        : planDetail.checkoutButtonName}
+                    </button>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+          {/* <div className="flex flex-wrap -mx-4">
             {usePlan?.[0]?.monthlyPrice && (
               <div className="w-full md:w-1/2 lg:w-1/3 px-4 mb-8 lg:mb-0">
                 <div className="p-8 bg-white shadow rounded">
@@ -360,7 +478,7 @@ function VariantA({
                 </div>
               </div>
             )}
-          </div>
+          </div> */}
         </div>
       </div>
     </section>
