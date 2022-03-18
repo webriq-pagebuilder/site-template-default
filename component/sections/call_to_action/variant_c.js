@@ -36,6 +36,8 @@ function VariantC({ title, text, features, form }) {
                         ? "email"
                         : fields[0]?.type === "inputPassword"
                         ? "password"
+                        : fields[0]?.type === "inputNumber"
+                        ? "number"
                         : "text"
                     }
                     placeholder={fields[0]?.name}

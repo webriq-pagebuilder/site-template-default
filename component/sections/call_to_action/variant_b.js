@@ -78,6 +78,8 @@ function VariantB({ logo, title, text, form }) {
                         ? "email"
                         : field?.type === "inputPassword"
                         ? "password"
+                        : field?.type === "inputNumber"
+                        ? "number"
                         : "text"
                     }
                     placeholder={field?.name}

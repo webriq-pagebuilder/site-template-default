@@ -67,7 +67,13 @@ function VariantA({ logo, title, description, form }) {
                         : `${fields[0]?.type}`
                     }`}
                     className="flex-grow py-3 px-4 mr-4 text-xs rounded leading-loose"
-                    type={fields[0].type === "inputEmail" ? "email" : "text"}
+                    type={
+                      fields[0].type === "inputEmail"
+                        ? "email"
+                        : "inputNumber"
+                        ? "number"
+                        : "text"
+                    }
                     placeholder={fields[0]?.name}
                     name={fields[0]?.name}
                     required={fields[0]?.isRequired}

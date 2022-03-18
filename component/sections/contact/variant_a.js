@@ -219,6 +219,15 @@ function VariantA({
                               </div>
                             </label>
                           </div>
+                        ) : formFields.type === "inputNumber" ? (
+                          <input
+                            aria-label={formFields?.name}
+                            className="mb-4 w-full p-4 text-xs font-semibold leading-none bg-white rounded outline-none"
+                            type="number"
+                            placeholder={formFields?.name}
+                            name={formFields?.name}
+                            required={formFields?.IsRequired}
+                          />
                         ) : (
                           <div className="mb-4">
                             <input

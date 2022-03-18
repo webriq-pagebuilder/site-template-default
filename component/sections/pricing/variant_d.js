@@ -235,6 +235,16 @@ function VariantD({
                           <CardElement />
                           {/* {paymentOngoing && <div style={{textAlign: 'left', marginTop: 12, fontSize: 12}}>Please provide a correct card details</div>} */}
                         </div>
+                      ) : field.type === "inputNumber" ? (
+                        <div className="mb-4">
+                          <input
+                            aria-label={field?.name}
+                            className="w-full p-4 text-xs font-semibold leading-none bg-white rounded outline-none"
+                            type="number"
+                            placeholder={field?.name}
+                            name={field?.name}
+                          />
+                        </div>
                       ) : (
                         <div className="mb-4">
                           <input
