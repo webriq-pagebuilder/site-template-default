@@ -87,7 +87,7 @@ function VariantA({ logo, form, formLinks, signInLink }) {
                     ) : formFields?.type === "inputNumber" ? (
                       <input
                         aria-label={formFields?.name}
-                        className="mb-4 w-full p-4 text-xs bg-gray-100 outline-none rounded"
+                        className="w-full p-4 text-xs bg-gray-100 outline-none rounded"
                         type="number"
                         placeholder={formFields?.name}
                         name={formFields?.name}
@@ -195,14 +195,16 @@ function VariantA({ logo, form, formLinks, signInLink }) {
                       </button>
                     </div>
                   ) : formFields?.type === "inputNumber" ? (
-                    <input
-                      aria-label={formFields?.name}
-                      className="mb-4 w-full text-xs bg-gray-100 outline-none"
-                      type="number"
-                      placeholder={formFields?.name}
-                      name={formFields?.name}
-                      required={formFields?.isRequired}
-                    />
+                    <div className="mb-4 p-4 bg-gray-100 rounded">
+                      <input
+                        aria-label={formFields?.name}
+                        className="w-full text-xs bg-gray-100 outline-none"
+                        type="number"
+                        placeholder={formFields?.name}
+                        name={formFields?.name}
+                        required={formFields?.isRequired}
+                      />
+                    </div>
                   ) : (
                     <div className="mb-4 flex p-4 bg-gray-100 rounded">
                       <input

@@ -124,6 +124,7 @@ function VariantD({
   const Form = () => {
     const elements = useElements();
     const stripe = useStripe();
+    const [showPassword, setShowPassword] = React.useState(false);
 
     const handleSubmit = async (event) => {
       event.preventDefault();
@@ -192,139 +193,212 @@ function VariantD({
           {/* <span className="text-gray-700">{title}</span> */}
           <p className="mb-8 text-2xl font-heading">{formName}</p>
           {formFields && (
-            <div className="max-w-md lg:mx-auto">
-              <WebriQForm
-                stripePKey={stripePKey}
-                method="POST"
-                data-form-id={formId}
-                name={formName}
-                className="form-contacts"
-                // data-thankyou-url="/thank-you"
-                scriptsrc="https://pagebuilderforms.webriq.com/js/initReactForms"
-              >
-                {formFields?.map((field, index) => {
-                  return (
-                    <div key={index}>
-                      {field.type === "textarea" ? (
-                        <div className="mb-4">
-                          <textarea
-                            aria-label={`${field?.name} text area`}
-                            className="w-full h-24 p-4 text-xs font-semibold leading-none resize-none bg-white rounded outline-none"
-                            type="text"
-                            placeholder={field?.name}
+            <WebriQForm
+              stripePKey={stripePKey}
+              method="POST"
+              data-form-id={formId}
+              name={formName}
+              className="form-contacts"
+              // data-thankyou-url="/thank-you"
+              scriptsrc="https://pagebuilderforms.webriq.com/js/initReactForms"
+            >
+              {formFields?.map((field, index) => {
+                return (
+                  <div key={index}>
+                    {field.type === "textarea" ? (
+                      <div className="mb-4">
+                        <textarea
+                          aria-label={`${field?.name} text area`}
+                          className="w-full h-24 p-4 text-xs font-semibold leading-none resize-none bg-gray-50 rounded outline-none"
+                          type="text"
+                          placeholder={field?.name}
+                          name={field?.name}
+                          required={field?.isRequired}
+                        />
+                      </div>
+                    ) : field.type === "inputFile" ? (
+                      <div className="mb-4">
+                        <label className="flex px-2 bg-white rounded">
+                          <input
+                            aria-label="Add file"
+                            className="hidden"
+                            type="file"
+                            placeholder="Choose file.."
                             name={field?.name}
+                            required={field?.isRequired}
                           />
-                        </div>
-                      ) : field.type === "inputFile" ? (
-                        <div className="mb-4">
-                          <label className="flex px-2 bg-white rounded">
-                            <input
-                              aria-label="Add file"
-                              className="hidden"
-                              type="file"
-                              placeholder="Choose file.."
-                              name={field?.name}
+                          <div className="my-1 ml-auto px-4 py-3 text-xs text-white font-semibold leading-none bg-gray-500 hover:bg-gray-600 rounded cursor-pointer transition duration-200">
+                            Browse
+                          </div>
+                        </label>
+                      </div>
+                    ) : field.type === "inputCard" ? (
+                      <div className="mb-4">
+                        <CardElement />
+                        {/* {paymentOngoing && <div style={{textAlign: 'left', marginTop: 12, fontSize: 12}}>Please provide a correct card details</div>} */}
+                      </div>
+                    ) : field.type === "inputNumber" ? (
+                      <div className="mb-4">
+                        <input
+                          aria-label={field?.name}
+                          className="w-full p-4 text-xs font-semibold leading-none bg-gray-50 rounded outline-none"
+                          type="number"
+                          placeholder={field?.name}
+                          name={field?.name}
+                          required={field?.isRequired}
+                        />
+                      </div>
+                    ) : field.type === "inputPassword" ? (
+                      <div className="mb-4 flex bg-gray-50 rounded">
+                        <input
+                          aria-label={field?.type}
+                          className="w-full p-4 text-xs font-semibold leading-none bg-gray-50 rounded outline-none"
+                          type={showPassword ? "text" : "password"}
+                          placeholder={field?.name}
+                          name={field?.name}
+                          required={field?.isRequired}
+                        />
+                        {/* SVG icon on the right of the password input field */}
+                        <button
+                          aria-label={
+                            showPassword ? "Show password" : "Hide password"
+                          }
+                          className="pr-4 focus:outline-none"
+                          onClick={() => setShowPassword(!showPassword)}
+                        >
+                          {showPassword ? (
+                            <svg
+                              className="h-5 w-5 ml-4 my-auto text-gray-500"
+                              xmlns="http://www.w3.org/2000/svg"
+                              aria-hidden="true"
+                              role="img"
+                              width="1em"
+                              height="1em"
+                              preserveAspectRatio="xMidYMid meet"
+                              viewBox="0 0 16 16"
+                            >
+                              <g fill="currentColor">
+                                <path d="M13.359 11.238C15.06 9.72 16 8 16 8s-3-5.5-8-5.5a7.028 7.028 0 0 0-2.79.588l.77.771A5.944 5.944 0 0 1 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.134 13.134 0 0 1 14.828 8c-.058.087-.122.183-.195.288c-.335.48-.83 1.12-1.465 1.755c-.165.165-.337.328-.517.486l.708.709z" />
+                                <path d="M11.297 9.176a3.5 3.5 0 0 0-4.474-4.474l.823.823a2.5 2.5 0 0 1 2.829 2.829l.822.822zm-2.943 1.299l.822.822a3.5 3.5 0 0 1-4.474-4.474l.823.823a2.5 2.5 0 0 0 2.829 2.829z" />
+                                <path d="M3.35 5.47c-.18.16-.353.322-.518.487A13.134 13.134 0 0 0 1.172 8l.195.288c.335.48.83 1.12 1.465 1.755C4.121 11.332 5.881 12.5 8 12.5c.716 0 1.39-.133 2.02-.36l.77.772A7.029 7.029 0 0 1 8 13.5C3 13.5 0 8 0 8s.939-1.721 2.641-3.238l.708.709zm10.296 8.884l-12-12l.708-.708l12 12l-.708.708z" />
+                              </g>
+                            </svg>
+                          ) : (
+                            <svg
+                              className="h-5 w-5 ml-4 my-auto text-gray-500"
+                              xmlns="http://www.w3.org/2000/svg"
+                              aria-hidden="true"
+                              role="img"
+                              width="1em"
+                              height="1em"
+                              preserveAspectRatio="xMidYMid meet"
+                              viewBox="0 0 16 16"
+                            >
+                              <g fill="currentColor">
+                                <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z" />
+                                <path d="M8 5.5a2.5 2.5 0 1 0 0 5a2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0a3.5 3.5 0 0 1-7 0z" />
+                              </g>
+                            </svg>
+                          )}
+                        </button>
+                      </div>
+                    ) : (
+                      <div className="mb-4 flex bg-gray-50 rounded">
+                        <input
+                          aria-label={`${
+                            field?.type === "inputText"
+                              ? `Input ${field?.name}`
+                              : `${field?.type}`
+                          }`}
+                          className="w-full p-4 text-xs font-semibold leading-none bg-gray-50 rounded outline-none"
+                          type={
+                            field.type === "inputEmail"
+                              ? "email"
+                              : field.type === "inputPassword"
+                              ? "password"
+                              : "text"
+                          }
+                          placeholder={
+                            field.type === "inputEmail"
+                              ? "name@email.com"
+                              : field.type === "inputPassword"
+                              ? "Enter your password"
+                              : field?.name
+                          }
+                          name={field?.name}
+                          required={field?.isRequired}
+                        />
+                        {/* SVG icon on the right of the email input field */}
+                        {field?.type === "inputEmail" && (
+                          <svg
+                            className="h-6 w-6 ml-4 mr-4 my-auto text-gray-500"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207"
                             />
-                            <div className="my-1 ml-auto px-4 py-3 text-xs text-white font-semibold leading-none bg-gray-500 hover:bg-gray-600 rounded cursor-pointer transition duration-200">
-                              Browse
-                            </div>
-                          </label>
-                        </div>
-                      ) : field.type === "inputCard" ? (
-                        <div className="mb-4">
-                          <CardElement />
-                          {/* {paymentOngoing && <div style={{textAlign: 'left', marginTop: 12, fontSize: 12}}>Please provide a correct card details</div>} */}
-                        </div>
-                      ) : field.type === "inputNumber" ? (
-                        <div className="mb-4">
-                          <input
-                            aria-label={field?.name}
-                            className="w-full p-4 text-xs font-semibold leading-none bg-white rounded outline-none"
-                            type="number"
-                            placeholder={field?.name}
-                            name={field?.name}
-                          />
-                        </div>
-                      ) : (
-                        <div className="mb-4">
-                          <input
-                            aria-label={`${
-                              field?.type === "inputText"
-                                ? `Input ${field?.name}`
-                                : `${field?.type}`
-                            }`}
-                            className="w-full p-4 text-xs font-semibold leading-none bg-white rounded outline-none"
-                            type={
-                              field.type === "inputEmail"
-                                ? "email"
-                                : field.type === "inputPassword"
-                                ? "password"
-                                : "text"
-                            }
-                            placeholder={
-                              field.type === "inputEmail"
-                                ? "name@email.com"
-                                : field.type === "inputPassword"
-                                ? "Enter your password"
-                                : field?.name
-                            }
-                            name={field?.name}
-                          />
-                        </div>
-                      )}
-                    </div>
-                  );
-                })}
-                <div className="text-left mb-5 text-sm text-gray-500">
-                  <label className="inline-flex">
-                    <input
-                      aria-label={`Agree to ${block}?`}
-                      className="mr-2"
-                      type="checkbox"
-                      name="terms"
-                      defaultValue={1}
-                    />
-                    <PortableText blocks={block} serializers={serializers} />
-                  </label>
-                </div>
-                <div>
-                  <div className="webriq-recaptcha" />
-                </div>
-                <button
-                  id="submitBtn"
-                  aria-label="Submit Pricing Form button"
-                  onClick={(e) => handleSubmit(e)}
-                  // type="submit"
-                  // onClick={() =>
-                  //   initiateCheckout(
-                  //     {
-                  //       lineItems: [
-                  //         {
-                  //           price:
-                  //             billing.billType === "Monthly"
-                  //               ? useCheckout.monthlyCheckout
-                  //               : useCheckout.yearlyCheckout,
-                  //           quantity: 1,
-                  //         },
-                  //       ],
-                  //     },
-                  //     stripePKey,
-                  //     window.location.origin + "/success",
-                  //     window.location.href,
-                  //     true,
-                  //     setPKError
-                  //   )
-                  // }
-                  className={`block w-full p-4 text-center text-white font-bold leading-none bg-webriq-blue hover:bg-webriq-darkblue rounded-l-xl rounded-t-xl transition duration-200 ${
-                    billing.billType === "" &&
-                    "disabled:opacity-50 cursor-not-allowed"
-                  }`}
-                  disabled={billing.billType === ""}
-                >
-                  Buy {billing.billType} Supply
-                </button>
-              </WebriQForm>
-            </div>
+                          </svg>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+              <div className="text-left mb-5 text-sm text-gray-500">
+                <label className="inline-flex">
+                  <input
+                    aria-label={`Agree to ${block}?`}
+                    className="mr-2"
+                    type="checkbox"
+                    name="terms"
+                    defaultValue={1}
+                  />
+                  <PortableText blocks={block} serializers={serializers} />
+                </label>
+              </div>
+              <div>
+                <div className="webriq-recaptcha" />
+              </div>
+              <button
+                id="submitBtn"
+                aria-label="Submit Pricing Form button"
+                onClick={(e) => handleSubmit(e)}
+                // type="submit"
+                // onClick={() =>
+                //   initiateCheckout(
+                //     {
+                //       lineItems: [
+                //         {
+                //           price:
+                //             billing.billType === "Monthly"
+                //               ? useCheckout.monthlyCheckout
+                //               : useCheckout.yearlyCheckout,
+                //           quantity: 1,
+                //         },
+                //       ],
+                //     },
+                //     stripePKey,
+                //     window.location.origin + "/success",
+                //     window.location.href,
+                //     true,
+                //     setPKError
+                //   )
+                // }
+                className={`block w-full p-4 text-center text-white font-bold leading-none bg-webriq-blue hover:bg-webriq-darkblue rounded-l-xl rounded-t-xl transition duration-200 ${
+                  billing.billType === "" &&
+                  "disabled:opacity-50 cursor-not-allowed"
+                }`}
+                disabled={billing.billType === ""}
+              >
+                Buy {billing.billType} Supply
+              </button>
+            </WebriQForm>
           )}
           {signInLink?.label && (
             <p className="text-xs text-gray-500">
