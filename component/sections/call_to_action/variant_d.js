@@ -137,7 +137,7 @@ function VariantD({ logo, title, text, button, form, formLinks, signInLink }) {
                               className="w-full p-4 text-xs bg-gray-100 outline-none rounded"
                               placeholder={formFields?.name}
                               name={formFields?.name}
-                              required={formFields?.IsRequired}
+                              required={formFields?.isRequired}
                             />
                           ) : formFields.type === "inputFile" ? (
                             <label className="flex px-2 bg-gray-100 rounded">
@@ -149,7 +149,7 @@ function VariantD({ logo, title, text, button, form, formLinks, signInLink }) {
                                   formFields?.name ?? "Choose file.."
                                 }
                                 name={formFields?.name}
-                                required={formFields?.IsRequired}
+                                required={formFields?.isRequired}
                               />
                             </label>
                           ) : formFields.type === "inputNumber" ? (
@@ -159,7 +159,7 @@ function VariantD({ logo, title, text, button, form, formLinks, signInLink }) {
                               type="number"
                               placeholder={formFields?.name}
                               name={formFields?.name}
-                              required={formFields?.IsRequired}
+                              required={formFields?.isRequired}
                             />
                           ) : (
                             <input
@@ -178,7 +178,7 @@ function VariantD({ logo, title, text, button, form, formLinks, signInLink }) {
                               }
                               placeholder={formFields?.name}
                               name={formFields?.name}
-                              required={formFields?.IsRequired}
+                              required={formFields?.isRequired}
                             />
                           )}
                         </div>
@@ -192,7 +192,7 @@ function VariantD({ logo, title, text, button, form, formLinks, signInLink }) {
                             className="mb-3 w-full p-4 text-xs bg-gray-100 outline-none rounded"
                             placeholder={formFields?.name}
                             name={formFields?.name}
-                            required={formFields?.IsRequired}
+                            required={formFields?.isRequired}
                           />
                         ) : formFields?.type === "inputFile" ? (
                           <div className="mb-3">
@@ -205,7 +205,7 @@ function VariantD({ logo, title, text, button, form, formLinks, signInLink }) {
                                   formFields?.name ?? "Choose file.."
                                 }
                                 name={formFields?.name}
-                                required={formFields?.IsRequired}
+                                required={formFields?.isRequired}
                               />
                             </label>
                           </div>
@@ -216,7 +216,7 @@ function VariantD({ logo, title, text, button, form, formLinks, signInLink }) {
                             type="number"
                             placeholder={formFields?.name}
                             name={formFields?.name}
-                            required={formFields?.IsRequired}
+                            required={formFields?.isRequired}
                           />
                         ) : (
                           <div className="mb-4 flex p-4 bg-gray-100 rounded">
@@ -236,7 +236,7 @@ function VariantD({ logo, title, text, button, form, formLinks, signInLink }) {
                               }
                               placeholder={formFields?.name}
                               name={formFields?.name}
-                              required={formFields?.IsRequired}
+                              required={formFields?.isRequired}
                             />
                           </div>
                         )}

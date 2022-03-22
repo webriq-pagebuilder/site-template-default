@@ -35,7 +35,7 @@ function VariantE({ form, formLinks, signInLink }) {
                           className="w-full p-4 text-xs bg-gray-100 outline-none rounded"
                           placeholder={formFields?.name}
                           name={formFields?.name}
-                          required={formFields?.IsRequired}
+                          required={formFields?.isRequired}
                         />
                       ) : formFields.type === "inputFile" ? (
                         <label className="flex px-2 bg-gray-100 rounded">
@@ -45,7 +45,7 @@ function VariantE({ form, formLinks, signInLink }) {
                             type="file"
                             placeholder={formFields?.name ?? "Choose file.."}
                             name={formFields?.name}
-                            required={formFields?.IsRequired}
+                            required={formFields?.isRequired}
                           />
                         </label>
                       ) : formFields.type === "inputNumber" ? (
@@ -55,7 +55,7 @@ function VariantE({ form, formLinks, signInLink }) {
                           type="number"
                           placeholder={formFields?.name}
                           name={formFields?.name}
-                          required={formFields?.IsRequired}
+                          required={formFields?.isRequired}
                         />
                       ) : (
                         <input
@@ -74,7 +74,7 @@ function VariantE({ form, formLinks, signInLink }) {
                           }
                           placeholder={formFields?.name}
                           name={formFields?.name}
-                          required={formFields?.IsRequired}
+                          required={formFields?.isRequired}
                         />
                       )}
                     </div>
@@ -88,7 +88,7 @@ function VariantE({ form, formLinks, signInLink }) {
                         className="mb-3 w-full p-4 text-xs bg-gray-100 outline-none rounded"
                         placeholder={formFields?.name}
                         name={formFields?.name}
-                        required={formFields?.IsRequired}
+                        required={formFields?.isRequired}
                       />
                     ) : formFields?.type === "inputFile" ? (
                       <div className="mb-3">
@@ -99,7 +99,7 @@ function VariantE({ form, formLinks, signInLink }) {
                             type="file"
                             placeholder={formFields?.name ?? "Choose file.."}
                             name={formFields?.name}
-                            required={formFields?.IsRequired}
+                            required={formFields?.isRequired}
                           />
                         </label>
                       </div>
@@ -111,7 +111,7 @@ function VariantE({ form, formLinks, signInLink }) {
                           type="password"
                           placeholder={formFields?.name}
                           name={formFields?.name}
-                          required={formFields?.IsRequired}
+                          required={formFields?.isRequired}
                         />
                       </div>
                     ) : formFields.type === "inputNumber" ? (
@@ -121,7 +121,7 @@ function VariantE({ form, formLinks, signInLink }) {
                         type="number"
                         placeholder={formFields?.name}
                         name={formFields?.name}
-                        required={formFields?.IsRequired}
+                        required={formFields?.isRequired}
                       />
                     ) : (
                       <div className="mb-4 flex p-4 bg-gray-100 rounded">
@@ -137,7 +137,7 @@ function VariantE({ form, formLinks, signInLink }) {
                           }
                           placeholder={formFields?.name}
                           name={formFields?.name}
-                          required={formFields?.IsRequired}
+                          required={formFields?.isRequired}
                         />
                       </div>
                     )}
