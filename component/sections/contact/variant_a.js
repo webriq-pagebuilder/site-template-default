@@ -226,7 +226,7 @@ function VariantA({
                             type="number"
                             placeholder={formFields?.name}
                             name={formFields?.name}
-                            required={formFields?.IsRequired}
+                            required={formFields?.isRequired}
                           />
                         ) : (
                           <div className="mb-4">

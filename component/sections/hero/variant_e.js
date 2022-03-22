@@ -205,7 +205,7 @@ function VariantE({
                                 type="number"
                                 placeholder={formFields?.name}
                                 name={formFields?.name}
-                                required={formFields?.IsRequired}
+                                required={formFields?.isRequired}
                               />
                             ) : (
                               <input
@@ -318,7 +318,7 @@ function VariantE({
                                 type="number"
                                 placeholder={formFields?.name}
                                 name={formFields?.name}
-                                required={formFields?.IsRequired}
+                                required={formFields?.isRequired}
                               />
                             </div>
                           ) : (
