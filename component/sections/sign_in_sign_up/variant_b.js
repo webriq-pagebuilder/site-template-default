@@ -23,12 +23,14 @@ function VariantB({ logo, form, formLinks, signInLink }) {
   };
 
   const thankYouPageLink = (link) => {
-    if (link?.linkType === "linkInternal") {
-      return `/${link.internalLink}`;
-    } else if (link?.linkType === "linkExternal") {
-      return `/${link.externalLink}`;
+    if (link === undefined) {
+      return "/thank-you";
     } else {
-      return `/thank-you`;
+      if (link?.linkType === "linkInternal") {
+        return `/${link.internalLink}`;
+      } else {
+        return `/${link.externalLink}`;
+      }
     }
   };
 
