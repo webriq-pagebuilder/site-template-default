@@ -27,6 +27,7 @@ function VariantD({
   formFields,
   formId,
   formName,
+  formThankYouPage,
   block,
   signInLink,
   hashKey,
@@ -201,6 +202,16 @@ function VariantD({
       // setPaymentOngoing(false)
     };
 
+    const thankYouPageLink = (link) => {
+      if (link?.linkType === "linkInternal") {
+        return `/${link.internalLink}`;
+      } else if (link?.linkType === "linkExternal") {
+        return `/${link.externalLink}`;
+      } else {
+        return `/thank-you`;
+      }
+    };
+
     return (
       <form className="w-full md:w-1/2 mb-8 md:mb-0" id="webriqForm">
         <div className="px-6 py-8 lg:px-8 text-center">
@@ -213,7 +224,7 @@ function VariantD({
               data-form-id={formId}
               name={formName}
               className="form-contacts"
-              // data-thankyou-url="/thank-you"
+              data-thankyou-url={thankYouPageLink(formThankYouPage)}
               scriptsrc="https://pagebuilderforms.webriq.com/js/initReactForms"
             >
               {formFields?.map((field, index) => {

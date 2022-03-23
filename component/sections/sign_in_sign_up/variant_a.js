@@ -5,7 +5,7 @@ import { urlFor } from "lib/sanity";
 
 function VariantA({ logo, form, formLinks, signInLink }) {
   let logoLink;
-  const { id, name, subtitle, fields, buttonLabel } = form;
+  const { id, name, subtitle, fields, buttonLabel, thankYouPage } = form;
   const [showPassword, setShowPassword] = React.useState(false); // show or hide password field value
   const [value, setValue] = React.useState(null); // setting selected value for input field radio type
   const [checked, setChecked] = React.useState([]); // setting selected value for input field checkbox type
@@ -20,6 +20,16 @@ function VariantA({ logo, form, formLinks, signInLink }) {
     setChecked((prev) =>
       checked ? [...prev, value] : prev.filter((v) => v !== value)
     );
+  };
+
+  const thankYouPageLink = (link) => {
+    if (link?.linkType === "linkInternal") {
+      return `/${link.internalLink}`;
+    } else if (link?.linkType === "linkExternal") {
+      return `/${link.externalLink}`;
+    } else {
+      return `/thank-you`;
+    }
   };
 
   if (logo.type === "linkInternal") {
@@ -72,7 +82,7 @@ function VariantA({ logo, form, formLinks, signInLink }) {
               data-form-id={id}
               name="SignUp-VariantA-Form"
               className="form-signup"
-              data-thankyou-url="/thank-you"
+              data-thankyou-url={thankYouPageLink(thankYouPage)}
               scriptsrc="https://pagebuilderforms.webriq.com/js/initReactForms"
             >
               <div className="flex flex-wrap -mx-2">

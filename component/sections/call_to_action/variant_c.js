@@ -2,7 +2,18 @@ import React from "react";
 import WebriQForm from "component/webriq-form";
 
 function VariantC({ title, text, features, form }) {
-  const { id, fields, buttonLabel } = form;
+  const { id, fields, buttonLabel, thankYouPage } = form;
+
+  const thankYouPageLink = (link) => {
+    if (link?.linkType === "linkInternal") {
+      return `/${link.internalLink}`;
+    } else if (link?.linkType === "linkExternal") {
+      return `/${link.externalLink}`;
+    } else {
+      return `/thank-you`;
+    }
+  };
+
   return (
     <section className="py-20 bg-gray-50">
       <div className="container mx-auto px-4">
@@ -20,7 +31,7 @@ function VariantC({ title, text, features, form }) {
                 data-form-id={id}
                 name="Calltoaction-VariantC-Form"
                 className="form-callToAction flex mb-4 items-center lg:justify-end"
-                data-thankyou-url="/thank-you"
+                data-thankyou-url={thankYouPageLink(thankYouPage)}
                 scriptsrc="https://pagebuilderforms.webriq.com/js/initReactForms"
               >
                 {fields?.[0] && fields[0]?.type && (

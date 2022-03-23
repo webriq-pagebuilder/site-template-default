@@ -3,7 +3,16 @@ import React from "react";
 import Link from "next/link";
 import WebriQForm from "component/webriq-form";
 
-function VariantD({ logo, title, text, button, form, formLinks, signInLink }) {
+function VariantD({
+  logo,
+  title,
+  text,
+  button,
+  form,
+  formLinks,
+  signInLink,
+  thankYouPage,
+}) {
   let logoLink;
   const { id, name, subtitle, fields, buttonLabel } = form;
   const [value, setValue] = React.useState(null); // setting selected value for input field radio type
@@ -38,6 +47,16 @@ function VariantD({ logo, title, text, button, form, formLinks, signInLink }) {
       logoLink = logo.externalLink;
     }
   }
+
+  const thankYouPageLink = (link) => {
+    if (link?.linkType === "linkInternal") {
+      return `/${link.internalLink}`;
+    } else if (link?.linkType === "linkExternal") {
+      return `/${link.externalLink}`;
+    } else {
+      return `/thank-you`;
+    }
+  };
 
   return (
     <section className="py-20 px-10 bg-gray-50">
@@ -132,7 +151,7 @@ function VariantD({ logo, title, text, button, form, formLinks, signInLink }) {
                     data-form-id={id}
                     name="Calltoaction-VariantD-Form"
                     className="form-callToAction"
-                    data-thankyou-url="/thank-you"
+                    data-thankyou-url={thankYouPageLink(thankYouPage)}
                     scriptsrc="https://pagebuilderforms.webriq.com/js/initReactForms"
                   >
                     <div className="mb-6">

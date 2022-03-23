@@ -5,7 +5,17 @@ import WebriQForm from "component/webriq-form";
 
 function VariantB({ logo, title, text, form }) {
   let logoLink;
-  const { id, fields, buttonLabel } = form;
+  const { id, fields, buttonLabel, thankYouPage } = form;
+
+  const thankYouPageLink = (link) => {
+    if (link?.linkType === "linkInternal") {
+      return `/${link.internalLink}`;
+    } else if (link?.linkType === "linkExternal") {
+      return `/${link.externalLink}`;
+    } else {
+      return `/thank-you`;
+    }
+  };
 
   if (logo.type === "linkInternal") {
     if (logo.internalLink === undefined) {
@@ -65,7 +75,7 @@ function VariantB({ logo, title, text, form }) {
                 data-form-id={id}
                 name="Calltoaction-VariantB-Form"
                 className="form-callToAction flex flex-wrap justify-center items-center"
-                data-thankyou-url="/thank-you"
+                data-thankyou-url={thankYouPageLink(thankYouPage)}
                 scriptsrc="https://pagebuilderforms.webriq.com/js/initReactForms"
               >
                 {fields.slice(0, 2).map((field) => (

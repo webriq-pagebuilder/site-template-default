@@ -25,6 +25,7 @@ function Pricing({ data }) {
     formFields: data?.variants?.form?.fields,
     formId: data?.variants?.form?.id,
     formName: data?.variants?.form?.name,
+    formThankYouPage: data?.variants?.form?.thankYouPage,
     stripePKey: data?.variants?.stripeAccount?.stripePKey,
     stripeSecretKey: data?.variants?.stripeAccount?.stripeSKey,
     hashKey: data?.variants?.stripeAccount?.hashKey,

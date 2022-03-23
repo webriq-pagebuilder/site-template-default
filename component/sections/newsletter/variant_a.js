@@ -5,7 +5,17 @@ import WebriQForm from "component/webriq-form";
 
 function VariantA({ logo, title, description, form }) {
   let logoLink;
-  const { id, fields, buttonLabel } = form;
+  const { id, fields, buttonLabel, thankYouPage } = form;
+
+  const thankYouPageLink = (link) => {
+    if (link?.linkType === "linkInternal") {
+      return `/${link.internalLink}`;
+    } else if (link?.linkType === "linkExternal") {
+      return `/${link.externalLink}`;
+    } else {
+      return `/thank-you`;
+    }
+  };
 
   if (logo.type === "linkInternal") {
     if (logo.internalLink === undefined) {
@@ -56,7 +66,7 @@ function VariantA({ logo, title, description, form }) {
                 data-form-id={id}
                 name="Newsletter-VariantA-Form"
                 className="form-newsletter"
-                data-thankyou-url="/thank-you"
+                data-thankyou-url={thankYouPageLink(thankYouPage)}
                 scriptsrc="https://pagebuilderforms.webriq.com/js/initReactForms"
               >
                 <div className="max-w-md mx-auto flex flex-wrap items-center">

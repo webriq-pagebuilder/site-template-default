@@ -11,7 +11,7 @@ function VariantE({
   formLinks,
   form,
 }) {
-  const { id, name, subtitle, fields, buttonLabel } = form;
+  const { id, name, subtitle, fields, buttonLabel, thankYouPage } = form;
   const [showPassword, setShowPassword] = React.useState(false);
   const [value, setValue] = React.useState(null); // setting selected value for input field radio type
   const [checked, setChecked] = React.useState([]); // setting selected value for input field checkbox type
@@ -26,6 +26,16 @@ function VariantE({
     setChecked((prev) =>
       checked ? [...prev, value] : prev.filter((v) => v !== value)
     );
+  };
+
+  const thankYouPageLink = (link) => {
+    if (link?.linkType === "linkInternal") {
+      return `/${link.internalLink}`;
+    } else if (link?.linkType === "linkExternal") {
+      return `/${link.externalLink}`;
+    } else {
+      return `/thank-you`;
+    }
   };
 
   return (
@@ -183,7 +193,7 @@ function VariantE({
                       data-form-id={id}
                       name="Header-VariantE-Form"
                       className="form-header"
-                      data-thankyou-url="/thank-you"
+                      data-thankyou-url={thankYouPageLink(thankYouPage)}
                       scriptsrc="https://pagebuilderforms.webriq.com/js/initReactForms"
                     >
                       <div className="flex flex-wrap -mx-2">

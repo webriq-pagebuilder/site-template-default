@@ -74,7 +74,14 @@ const allProjections = `
           "link": slug.current
         },
         categories[]->
-      },       
+      },
+      form {
+        ...,
+        thankYouPage {
+          ...,
+          ${conditionalLink}
+        }
+      }       
     }
   }
 }
