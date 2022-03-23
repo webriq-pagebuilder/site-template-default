@@ -3,17 +3,22 @@ import { seoImageUrl } from "lib/sanity";
 import { NextSeo } from "next-seo";
 
 function SEO({ data }) {
+  const blog = data?.blogData;
+  const page = data?.page || data?.page?.[0] || data?.pages;
+  const blogDescription = blogPostBody(blog?.excerpt || blog?.body);
+
   const url = process.env.NEXT_PUBLIC_SITE_URL;
-  const seo = data?.blogData?.seo ?? data?.page?.seo;
-  const title = data?.blogData?.title ?? data?.page?.title;
+  const seo = blog?.seo ?? page?.seo;
+  const title = blog?.title ?? page?.title;
+  const slug = page?.slug ?? blog?.slug?.current;
 
   return (
     <>
       <NextSeo
         openGraph={{
           title: seo?.seoTitle || title,
-          description: seo?.seoDescription,
-          url: `${url}/${seo?.slug || ""}`,
+          description: blogDescription || seo?.seoDescription,
+          url: `${url}/${slug === "home" ? "" : slug}`,
           images: [
             {
               url: seoImageUrl(seo?.seoImage),
@@ -54,6 +59,20 @@ function SEO({ data }) {
       />
     </>
   );
+}
+
+// this function returns the first 100 characters of the blog post body or excerpt when an SEO description for the blog post is not provided
+function blogPostBody(body) {
+  let description;
+
+  if (typeof body === "object" && Array.isArray(body)) {
+    const block = body?.find((content) => content._type === "block");
+    description = block?.children?.[0]?.text?.substring(0, 100);
+  } else {
+    description = body?.substring(0, 100);
+  }
+
+  return description;
 }
 
 export default React.memo(SEO);
