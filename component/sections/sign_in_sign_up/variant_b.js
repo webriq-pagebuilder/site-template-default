@@ -95,7 +95,7 @@ function VariantB({ logo, form, formLinks, signInLink }) {
                         aria-label={`${formFields?.name} text area`}
                         className="w-full p-4 text-xs bg-gray-100 outline-none rounded"
                         type="text"
-                        placeholder={formFields?.name}
+                        placeholder={formFields?.placeholder}
                         name={formFields?.name}
                         required={formFields?.isRequired}
                       />
@@ -115,7 +115,7 @@ function VariantB({ logo, form, formLinks, signInLink }) {
                         aria-label={formFields?.name}
                         className="mb-4 w-full p-4 text-xs bg-gray-100 outline-none rounded"
                         type="number"
-                        placeholder={formFields?.name}
+                        placeholder={formFields?.placeholder}
                         name={formFields?.name}
                         required={formFields?.isRequired}
                       />
@@ -213,7 +213,7 @@ function VariantB({ logo, form, formLinks, signInLink }) {
                             ? "password"
                             : "text"
                         }
-                        placeholder={formFields?.name}
+                        placeholder={formFields?.placeholder}
                         name={formFields?.name}
                         required={formFields?.isRequired}
                       />
@@ -228,7 +228,7 @@ function VariantB({ logo, form, formLinks, signInLink }) {
                       aria-label={`${formFields?.name} text area`}
                       className="mb-3 w-full p-4 text-xs bg-gray-100 outline-none rounded"
                       type="text"
-                      placeholder={formFields?.name}
+                      placeholder={formFields?.placeholder}
                       name={formFields?.name}
                       required={formFields?.isRequired}
                     />
@@ -251,7 +251,7 @@ function VariantB({ logo, form, formLinks, signInLink }) {
                         aria-label={formFields?.type}
                         className="w-full text-xs bg-gray-100 outline-none"
                         type={showPassword ? "text" : "password"}
-                        placeholder={formFields?.name}
+                        placeholder={formFields?.placeholder}
                         name={formFields?.name}
                         required={formFields?.isRequired}
                       />
@@ -305,7 +305,7 @@ function VariantB({ logo, form, formLinks, signInLink }) {
                         aria-label={formFields?.name}
                         className="w-full text-xs bg-gray-100 outline-none"
                         type="number"
-                        placeholder={formFields?.name}
+                        placeholder={formFields?.placeholder}
                         name={formFields?.name}
                         required={formFields?.isRequired}
                       />
@@ -401,7 +401,7 @@ function VariantB({ logo, form, formLinks, signInLink }) {
                         type={
                           formFields?.type === "inputEmail" ? "email" : "text"
                         }
-                        placeholder={formFields?.name}
+                        placeholder={formFields?.placeholder}
                         name={formFields?.name}
                         required={formFields?.isRequired}
                       />

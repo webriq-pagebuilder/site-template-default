@@ -209,7 +209,7 @@ function VariantE({
                                 aria-label={`${formFields?.name} text area`}
                                 className="w-full p-4 text-xs bg-gray-100 outline-none rounded"
                                 type="text"
-                                placeholder={formFields?.name}
+                                placeholder={formFields?.placeholder}
                                 name={formFields?.name}
                                 required={formFields?.isRequired}
                               />
@@ -229,7 +229,7 @@ function VariantE({
                                 aria-label={formFields?.name}
                                 className="w-full p-4 text-xs bg-gray-100 outline-none rounded"
                                 type="number"
-                                placeholder={formFields?.name}
+                                placeholder={formFields?.placeholder}
                                 name={formFields?.name}
                                 required={formFields?.isRequired}
                               />
@@ -336,7 +336,7 @@ function VariantE({
                                     ? "password"
                                     : "text"
                                 }
-                                placeholder={formFields?.name}
+                                placeholder={formFields?.placeholder}
                                 name={formFields?.name}
                                 required={formFields?.isRequired}
                               />
@@ -374,7 +374,7 @@ function VariantE({
                                 aria-label={formFields?.type}
                                 className="w-full text-xs bg-gray-100 outline-none"
                                 type={showPassword ? "text" : "password"}
-                                placeholder={formFields?.name}
+                                placeholder={formFields?.placeholder}
                                 name={formFields?.name}
                                 required={formFields?.isRequired}
                               />
@@ -430,7 +430,7 @@ function VariantE({
                                 aria-label={formFields?.name}
                                 className="w-full text-xs bg-gray-100 outline-none"
                                 type="number"
-                                placeholder={formFields?.name}
+                                placeholder={formFields?.placeholder}
                                 name={formFields?.name}
                                 required={formFields?.isRequired}
                               />
@@ -528,7 +528,7 @@ function VariantE({
                                     ? "email"
                                     : "text"
                                 }
-                                placeholder={formFields?.name}
+                                placeholder={formFields?.placeholder}
                                 name={formFields?.name}
                                 required={formFields?.isRequired}
                               />
