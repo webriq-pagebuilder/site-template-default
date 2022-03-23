@@ -6,6 +6,20 @@ import WebriQForm from "component/webriq-form";
 function VariantD({ logo, title, text, button, form, formLinks, signInLink }) {
   let logoLink;
   const { id, name, subtitle, fields, buttonLabel } = form;
+  const [value, setValue] = React.useState(null); // setting selected value for input field radio type
+  const [checked, setChecked] = React.useState([]); // setting selected value for input field checkbox type
+
+  const handleRadioChange = (e) => {
+    setValue(e.target.value);
+  };
+
+  const handleCheckboxChange = (e) => {
+    const { checked, value } = e.target;
+
+    setChecked((prev) =>
+      checked ? [...prev, value] : prev.filter((v) => v !== value)
+    );
+  };
 
   if (logo.type === "linkInternal") {
     if (logo.internalLink === undefined) {
@@ -161,6 +175,85 @@ function VariantD({ logo, title, text, button, form, formLinks, signInLink }) {
                               name={formFields?.name}
                               required={formFields?.isRequired}
                             />
+                          ) : formFields.type === "inputSelect" ? (
+                            <div className="mb-4 flex">
+                              <label
+                                className="text-left text-xs text-gray-500 m-auto"
+                                htmlFor={formFields?.name}
+                              >
+                                {formFields?.label}
+                              </label>
+                              <select
+                                className="p-3 w-full text-xs bg-gray-100 outline-none rounded"
+                                name={formFields?.name}
+                                id={formFields?.name}
+                                defaultValue={"default-value"}
+                                required={formFields?.isRequired}
+                              >
+                                <option name="default-value" value=""></option>
+                                {formFields?.items?.map((item, index) => (
+                                  <option key={index} name={item} value={item}>
+                                    {item}
+                                  </option>
+                                ))}
+                              </select>
+                            </div>
+                          ) : formFields?.type === "inputRadio" ? (
+                            <div className="mb-4 text-left">
+                              <label
+                                className="text-left text-xs text-gray-500 m-auto"
+                                htmlFor={formFields?.name}
+                              >
+                                {formFields?.label}
+                              </label>
+                              <div>
+                                {formFields?.items?.map((item, index) => (
+                                  <label
+                                    className="text-xs text-gray-500 mr-4"
+                                    key={index}
+                                  >
+                                    <input
+                                      id={item}
+                                      className="mr-2"
+                                      name={item}
+                                      value={item}
+                                      type="radio"
+                                      onChange={handleRadioChange}
+                                      checked={value === item}
+                                    />
+                                    {item}
+                                  </label>
+                                ))}
+                              </div>
+                            </div>
+                          ) : formFields?.type === "inputCheckbox" ? (
+                            <div className="mb-4 text-left">
+                              <label
+                                className="text-left text-xs text-gray-500 m-auto"
+                                htmlFor={formFields?.name}
+                              >
+                                {formFields?.label}
+                              </label>
+                              <div>
+                                {formFields?.items?.map((item, index) => (
+                                  <label
+                                    className="text-xs text-gray-500 mr-4"
+                                    key={index}
+                                  >
+                                    <input
+                                      id={item}
+                                      className="mr-2"
+                                      name={item}
+                                      value={item}
+                                      type="checkbox"
+                                      onChange={handleCheckboxChange}
+                                      checked={checked.some((v) => v === item)}
+                                    />
+                                    {item}
+                                  </label>
+                                ))}
+                              </div>
+                            </div>
                           ) : (
                             <input
                               aria-label={`${
@@ -218,6 +311,85 @@ function VariantD({ logo, title, text, button, form, formLinks, signInLink }) {
                             name={formFields?.name}
                             required={formFields?.isRequired}
                           />
+                        ) : formFields.type === "inputSelect" ? (
+                          <div className="mb-4 flex">
+                            <label
+                              className="text-left text-xs text-gray-500 m-auto"
+                              htmlFor={formFields?.name}
+                            >
+                              {formFields?.label}
+                            </label>
+                            <select
+                              className="p-3 w-full text-xs bg-gray-100 outline-none rounded"
+                              name={formFields?.name}
+                              id={formFields?.name}
+                              defaultValue={"default-value"}
+                              required={formFields?.isRequired}
+                            >
+                              <option name="default-value" value=""></option>
+                              {formFields?.items?.map((item, index) => (
+                                <option key={index} name={item} value={item}>
+                                  {item}
+                                </option>
+                              ))}
+                            </select>
+                          </div>
+                        ) : formFields?.type === "inputRadio" ? (
+                          <div className="mb-4 text-left">
+                            <label
+                              className="text-left text-xs text-gray-500 m-auto"
+                              htmlFor={formFields?.name}
+                            >
+                              {formFields?.label}
+                            </label>
+                            <div>
+                              {formFields?.items?.map((item, index) => (
+                                <label
+                                  className="text-xs text-gray-500 mr-4"
+                                  key={index}
+                                >
+                                  <input
+                                    id={item}
+                                    className="mr-2"
+                                    name={item}
+                                    value={item?.value}
+                                    type="radio"
+                                    onChange={handleRadioChange}
+                                    checked={value === item?.value}
+                                  />
+                                  {item}
+                                </label>
+                              ))}
+                            </div>
+                          </div>
+                        ) : formFields?.type === "inputCheckbox" ? (
+                          <div className="mb-4 text-left">
+                            <label
+                              className="text-left text-xs text-gray-500 m-auto"
+                              htmlFor={formFields?.name}
+                            >
+                              {formFields?.label}
+                            </label>
+                            <div>
+                              {formFields?.items?.map((item, index) => (
+                                <label
+                                  className="text-xs text-gray-500 mr-4"
+                                  key={index}
+                                >
+                                  <input
+                                    id={item}
+                                    className="mr-2"
+                                    name={item}
+                                    value={item}
+                                    type="checkbox"
+                                    onChange={handleCheckboxChange}
+                                    checked={checked.some((v) => v === item)}
+                                  />
+                                  {item}
+                                </label>
+                              ))}
+                            </div>
+                          </div>
                         ) : (
                           <div className="mb-4 flex p-4 bg-gray-100 rounded">
                             <input

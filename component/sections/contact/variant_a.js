@@ -1,7 +1,6 @@
 import React from "react";
 import WebriQForm from "component/webriq-form";
 import { PortableText, urlFor } from "lib/sanity";
-import Image from "next/image";
 
 function VariantA({
   contactDescription,
@@ -46,6 +45,20 @@ function VariantA({
   };
 
   const { id, fields, buttonLabel } = form;
+  const [value, setValue] = React.useState(null); // setting selected value for input field radio type
+  const [checked, setChecked] = React.useState([]); // setting selected value for input field checkbox type
+
+  const handleRadioChange = (e) => {
+    setValue(e.target.value);
+  };
+
+  const handleCheckboxChange = (e) => {
+    const { checked, value } = e.target;
+
+    setChecked((prev) =>
+      checked ? [...prev, value] : prev.filter((v) => v !== value)
+    );
+  };
 
   return (
     <section>
@@ -168,28 +181,6 @@ function VariantA({
                     data-thankyou-url="/thank-you"
                     scriptsrc="https://pagebuilderforms.webriq.com/js/initReactForms"
                   >
-                    {/* <div className="mb-4 text-sm">
-                      <span className="mr-4 font-semibold">Department:</span>
-                      <label className="mr-4">
-                        <input
-                          className="mr-1"
-                          type="radio"
-                          name="department"
-                          defaultValue={1}
-                          defaultChecked
-                        />
-                        <span>Support</span>
-                      </label>
-                      <label>
-                        <input
-                          className="mr-1"
-                          type="radio"
-                          name="department"
-                          defaultValue={2}
-                        />
-                        <span>Sales</span>
-                      </label>
-                    </div> */}
                     {fields?.map((formFields, index) => (
                       <div key={index}>
                         {formFields?.type === "textarea" ? (
@@ -228,6 +219,85 @@ function VariantA({
                             name={formFields?.name}
                             required={formFields?.isRequired}
                           />
+                        ) : formFields.type === "inputSelect" ? (
+                          <div className="mb-4 flex">
+                            <label
+                              className="text-left text-xs text-gray-500 font-semibold leading-none m-auto"
+                              htmlFor={formFields?.name}
+                            >
+                              {formFields?.label}
+                            </label>
+                            <select
+                              className="p-3 w-full text-xs text-gray-500 font-semibold bg-white rounded outline-none"
+                              name={formFields?.name}
+                              id={formFields?.name}
+                              defaultValue={"default-value"}
+                              required={formFields?.isRequired}
+                            >
+                              <option name="default-value" value=""></option>
+                              {formFields?.items?.map((item, index) => (
+                                <option key={index} name={item} value={item}>
+                                  {item}
+                                </option>
+                              ))}
+                            </select>
+                          </div>
+                        ) : formFields?.type === "inputRadio" ? (
+                          <div className="mb-4 text-left">
+                            <label
+                              className="text-left text-xs text-gray-500 font-semibold m-auto"
+                              htmlFor={formFields?.name}
+                            >
+                              {formFields?.label}
+                            </label>
+                            <div>
+                              {formFields?.items?.map((item, index) => (
+                                <label
+                                  className="text-xs text-gray-500 font-semibold mr-4"
+                                  key={index}
+                                >
+                                  <input
+                                    id={item?.name}
+                                    className="mr-2"
+                                    name={item}
+                                    value={item}
+                                    type="radio"
+                                    onChange={handleRadioChange}
+                                    checked={value === item}
+                                  />
+                                  {item}
+                                </label>
+                              ))}
+                            </div>
+                          </div>
+                        ) : formFields?.type === "inputCheckbox" ? (
+                          <div className="mb-4 text-left">
+                            <label
+                              className="text-left text-xs text-gray-500 font-semibold m-auto"
+                              htmlFor={formFields?.name}
+                            >
+                              {formFields?.label}
+                            </label>
+                            <div>
+                              {formFields?.items?.map((item, index) => (
+                                <label
+                                  className="text-xs text-gray-500 font-semibold mr-4"
+                                  key={index}
+                                >
+                                  <input
+                                    id={item}
+                                    className="mr-2"
+                                    name={item}
+                                    value={item}
+                                    type="checkbox"
+                                    onChange={handleCheckboxChange}
+                                    checked={checked.some((v) => v === item)}
+                                  />
+                                  {item}
+                                </label>
+                              ))}
+                            </div>
+                          </div>
                         ) : (
                           <div className="mb-4">
                             <input

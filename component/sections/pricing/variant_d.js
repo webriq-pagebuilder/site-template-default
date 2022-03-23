@@ -124,7 +124,21 @@ function VariantD({
   const Form = () => {
     const elements = useElements();
     const stripe = useStripe();
-    const [showPassword, setShowPassword] = React.useState(false);
+    const [showPassword, setShowPassword] = React.useState(false); // show or hide password field value
+    const [value, setValue] = React.useState(null); // setting selected value for input field radio type
+    const [checked, setChecked] = React.useState([]); // setting selected value for input field checkbox type
+
+    const handleRadioChange = (e) => {
+      setValue(e.target.value);
+    };
+
+    const handleCheckboxChange = (e) => {
+      const { checked, value } = e.target;
+
+      setChecked((prev) =>
+        checked ? [...prev, value] : prev.filter((v) => v !== value)
+      );
+    };
 
     const handleSubmit = async (event) => {
       event.preventDefault();
@@ -301,6 +315,87 @@ function VariantD({
                             </svg>
                           )}
                         </button>
+                      </div>
+                    ) : field.type === "inputSelect" ? (
+                      <div className="mb-4 flex">
+                        <label
+                          className="text-left text-xs text-gray-500 m-auto"
+                          htmlFor={field?.name}
+                        >
+                          {field?.label}
+                        </label>
+                        <select
+                          className="p-3 w-full text-xs bg-gray-50 outline-none rounded"
+                          name={field?.name}
+                          id={field?.name}
+                          defaultValue={"default-value"}
+                          required={field?.isRequired}
+                        >
+                          <option name="default-value" value=""></option>
+                          {field?.items?.map((item, index) => (
+                            <option key={index} name={item} value={item}>
+                              {item}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    ) : field?.type === "inputRadio" ? (
+                      <div className="mb-4 text-left">
+                        <label
+                          className="text-left text-xs text-gray-500 m-auto"
+                          htmlFor={field?.name}
+                        >
+                          {field?.label}
+                        </label>
+                        <div>
+                          {field?.items?.map((item, index) => (
+                            <label
+                              className="text-xs text-gray-500 mr-4"
+                              key={index}
+                            >
+                              <input
+                                id={item?.name}
+                                className="mr-2"
+                                name={item?.name}
+                                value={item?.value}
+                                type="radio"
+                                onChange={handleRadioChange}
+                                checked={value === item?.value}
+                                required={field?.isRequired}
+                              />
+                              {item?.label}
+                            </label>
+                          ))}
+                        </div>
+                      </div>
+                    ) : field?.type === "inputCheckbox" ? (
+                      <div className="mb-4 text-left">
+                        <label
+                          className="text-left text-xs text-gray-500 m-auto"
+                          htmlFor={field?.name}
+                        >
+                          {field?.label}
+                        </label>
+                        <div>
+                          {field?.items?.map((item, index) => (
+                            <label
+                              className="text-xs text-gray-500 mr-4"
+                              key={index}
+                            >
+                              <input
+                                id={item?.name}
+                                className="mr-2"
+                                name={item?.name}
+                                value={item?.value}
+                                type="checkbox"
+                                onChange={handleCheckboxChange}
+                                checked={checked.some((v) => v === item?.value)}
+                                required={field?.isRequired}
+                              />
+                              {item?.label}
+                            </label>
+                          ))}
+                        </div>
                       </div>
                     ) : (
                       <div className="mb-4 flex bg-gray-50 rounded">
