@@ -53,7 +53,7 @@ function VariantC({ title, text, features, form }) {
                         ? "number"
                         : "text"
                     }
-                    placeholder={fields[0]?.name}
+                    placeholder={fields[0]?.placeholder}
                     name={fields[0]?.name}
                     required={fields[0]?.isRequired}
                   />
