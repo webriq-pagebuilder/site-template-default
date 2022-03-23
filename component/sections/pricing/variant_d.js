@@ -211,7 +211,7 @@ function VariantD({
                           aria-label={`${field?.name} text area`}
                           className="w-full h-24 p-4 text-xs font-semibold leading-none resize-none bg-gray-50 rounded outline-none"
                           type="text"
-                          placeholder={field?.name}
+                          placeholder={field?.placeholder}
                           name={field?.name}
                           required={field?.isRequired}
                         />
@@ -243,7 +243,7 @@ function VariantD({
                           aria-label={field?.name}
                           className="w-full p-4 text-xs font-semibold leading-none bg-gray-50 rounded outline-none"
                           type="number"
-                          placeholder={field?.name}
+                          placeholder={field?.placeholder}
                           name={field?.name}
                           required={field?.isRequired}
                         />
@@ -254,7 +254,7 @@ function VariantD({
                           aria-label={field?.type}
                           className="w-full p-4 text-xs font-semibold leading-none bg-gray-50 rounded outline-none"
                           type={showPassword ? "text" : "password"}
-                          placeholder={field?.name}
+                          placeholder={field?.placeholder}
                           name={field?.name}
                           required={field?.isRequired}
                         />
@@ -320,7 +320,7 @@ function VariantD({
                           }
                           placeholder={
                             field.type === "inputEmail"
-                              ? "name@email.com"
+                              ? field?.placeholder
                               : field.type === "inputPassword"
                               ? "Enter your password"
                               : field?.name

@@ -82,7 +82,7 @@ function VariantB({ logo, title, text, form }) {
                         ? "number"
                         : "text"
                     }
-                    placeholder={field?.name}
+                    placeholder={field?.placeholder}
                     name={field?.name}
                     required={field?.isRequired}
                   />
