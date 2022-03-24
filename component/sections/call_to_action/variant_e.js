@@ -40,7 +40,7 @@ function VariantE({ form, formLinks, signInLink }) {
               <WebriQForm
                 method="POST"
                 data-form-id={id}
-                name="Calltoaction-VariantD-Form"
+                name="Calltoaction-VariantE-Form"
                 className="form-callToAction"
                 data-thankyou-url={thankYouPageLink(thankYouPage)}
                 scriptsrc="https://pagebuilderforms.webriq.com/js/initReactForms"
