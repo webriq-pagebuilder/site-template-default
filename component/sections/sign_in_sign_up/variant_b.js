@@ -162,11 +162,12 @@ function VariantB({ logo, form, formLinks, signInLink }) {
                             >
                               <input
                                 className="mr-2"
-                                name={`${formFields?.type}-${index}`}
+                                name={`signup-${formFields?.type}`}
                                 value={item}
                                 type="radio"
                                 onChange={handleRadioChange}
                                 checked={value === item}
+                                required={formFields?.isRequired}
                               />
                               {item}
                             </label>
@@ -189,11 +190,12 @@ function VariantB({ logo, form, formLinks, signInLink }) {
                             >
                               <input
                                 className="mr-2"
-                                name={`${formFields?.type}-${index}`}
+                                name={`signup-${formFields?.type}-${index}`}
                                 value={item}
                                 type="checkbox"
                                 onChange={handleCheckboxChange}
                                 checked={checked.some((v) => v === item)}
+                                required={formFields?.isRequired}
                               />
                               {item}
                             </label>
@@ -355,11 +357,12 @@ function VariantB({ logo, form, formLinks, signInLink }) {
                           >
                             <input
                               className="mr-2"
-                              name={`${formFields?.type}-${index}`}
+                              name={`signup-${formFields?.type}`}
                               value={item}
                               type="radio"
                               onChange={handleRadioChange}
                               checked={value === item}
+                              required={formFields?.isRequired}
                             />
                             {item}
                           </label>
@@ -382,11 +385,12 @@ function VariantB({ logo, form, formLinks, signInLink }) {
                           >
                             <input
                               className="mr-2"
-                              name={`${formFields?.type}-${index}`}
+                              name={`signup-${formFields?.type}-${index}`}
                               value={item}
                               type="checkbox"
                               onChange={handleCheckboxChange}
                               checked={checked.some((v) => v === item)}
+                              required={formFields?.isRequired}
                             />
                             {item}
                           </label>

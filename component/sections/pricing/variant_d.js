@@ -372,7 +372,7 @@ function VariantD({
                             >
                               <input
                                 className="mr-2"
-                                name={`${formFields?.type}-${index}`}
+                                name={`pricing-${field?.type}`}
                                 value={item}
                                 type="radio"
                                 onChange={handleRadioChange}
@@ -400,7 +400,7 @@ function VariantD({
                             >
                               <input
                                 className="mr-2"
-                                name={`${formFields?.type}-${index}`}
+                                name={`pricing-${formFields?.type}-${index}`}
                                 value={item}
                                 type="checkbox"
                                 onChange={handleCheckboxChange}

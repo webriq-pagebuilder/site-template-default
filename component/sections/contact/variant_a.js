@@ -274,11 +274,12 @@ function VariantA({
                                 >
                                   <input
                                     className="mr-2"
-                                    name={`${formFields?.type}-${index}`}
+                                    name={`contact-${formFields?.type}`}
                                     value={item}
                                     type="radio"
                                     onChange={handleRadioChange}
                                     checked={value === item}
+                                    required={formFields?.isRequired}
                                   />
                                   {item}
                                 </label>
@@ -301,11 +302,12 @@ function VariantA({
                                 >
                                   <input
                                     className="mr-2"
-                                    name={`${formFields?.type}-${index}`}
+                                    name={`contact-${formFields?.type}-${index}`}
                                     value={item}
                                     type="checkbox"
                                     onChange={handleCheckboxChange}
                                     checked={checked.some((v) => v === item)}
+                                    required={formFields?.isRequired}
                                   />
                                   {item}
                                 </label>
@@ -346,6 +348,7 @@ function VariantA({
                             id="terms"
                             name="terms"
                             defaultValue={1}
+                            required
                           />
                           <span className="text-sm font-semibold">
                             <PortableText

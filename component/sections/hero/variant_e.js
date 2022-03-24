@@ -279,11 +279,12 @@ function VariantE({
                                     >
                                       <input
                                         className="mr-2"
-                                        name={`${formFields?.type}-${index}`}
+                                        name={`header-${formFields?.type}`}
                                         value={item}
                                         type="radio"
                                         onChange={handleRadioChange}
                                         checked={value === item}
+                                        required={formFields?.isRequired}
                                       />
                                       {item?.label}
                                     </label>
@@ -306,13 +307,14 @@ function VariantE({
                                     >
                                       <input
                                         className="mr-2"
-                                        name={`${formFields?.type}-${index}`}
+                                        name={`header-${formFields?.type}-${index}`}
                                         value={item}
                                         type="checkbox"
                                         onChange={handleCheckboxChange}
                                         checked={checked.some(
                                           (v) => v === item
                                         )}
+                                        required={formFields?.isRequired}
                                       />
                                       {item?.label}
                                     </label>
@@ -476,11 +478,12 @@ function VariantE({
                                   >
                                     <input
                                       className="mr-2"
-                                      name={`${formFields?.type}-${index}`}
+                                      name={`header-${formFields?.type}`}
                                       value={item}
                                       type="radio"
                                       onChange={handleRadioChange}
                                       checked={value === item}
+                                      required={formFields?.isRequired}
                                     />
                                     {item}
                                   </label>
@@ -503,13 +506,14 @@ function VariantE({
                                   >
                                     <input
                                       className="mr-2"
-                                      name={`${formFields?.type}-${index}`}
+                                      name={`header-${formFields?.type}-${index}`}
                                       value={item}
                                       type="checkbox"
                                       onChange={handleCheckboxChange}
                                       checked={checked.some((v) => v === item)}
+                                      required={formFields?.isRequired}
                                     />
-                                    {item?.label}
+                                    {item}
                                   </label>
                                 ))}
                               </div>

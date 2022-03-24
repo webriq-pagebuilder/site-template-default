@@ -126,11 +126,12 @@ function VariantE({ form, formLinks, signInLink }) {
                               >
                                 <input
                                   className="mr-2"
-                                  name={`${formFields?.type}-${index}`}
+                                  name={`cta-${formFields?.type}`}
                                   value={item}
                                   type="radio"
                                   onChange={handleRadioChange}
                                   checked={value === item}
+                                  required={formFields?.isRequired}
                                 />
                                 {item}
                               </label>
@@ -153,11 +154,12 @@ function VariantE({ form, formLinks, signInLink }) {
                               >
                                 <input
                                   className="mr-2"
-                                  name={`${formFields?.type}-${index}`}
+                                  name={`cta-${formFields?.type}-${index}`}
                                   value={item}
                                   type="checkbox"
                                   onChange={handleCheckboxChange}
                                   checked={checked.some((v) => v === item)}
+                                  required={formFields?.isRequired}
                                 />
                                 {item}
                               </label>
@@ -262,11 +264,12 @@ function VariantE({ form, formLinks, signInLink }) {
                             >
                               <input
                                 className="mr-2"
-                                name={`${formFields?.type}-${index}`}
+                                name={`cta-${formFields?.type}`}
                                 value={item}
                                 type="radio"
                                 onChange={handleRadioChange}
                                 checked={value === item}
+                                required={formFields?.isRequired}
                               />
                               {item}
                             </label>
@@ -289,11 +292,12 @@ function VariantE({ form, formLinks, signInLink }) {
                             >
                               <input
                                 className="mr-2"
-                                name={`${formFields?.type}-${index}`}
+                                name={`cta-${formFields?.type}-${index}`}
                                 value={item}
                                 type="checkbox"
                                 onChange={handleCheckboxChange}
                                 checked={checked.some((v) => v === item)}
+                                required={formFields?.isRequired}
                               />
                               {item}
                             </label>
