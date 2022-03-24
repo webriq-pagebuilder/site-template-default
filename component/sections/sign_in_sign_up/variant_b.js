@@ -29,7 +29,7 @@ function VariantB({ logo, form, formLinks, signInLink }) {
       if (link?.linkType === "linkInternal") {
         return `/${link.internalLink}`;
       } else {
-        return `/${link.externalLink}`;
+        return link.externalLink;
       }
     }
   };

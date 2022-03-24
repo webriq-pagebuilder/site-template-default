@@ -11,7 +11,7 @@ function VariantC({ title, text, features, form }) {
       if (link?.linkType === "linkInternal") {
         return `/${link.internalLink}`;
       } else {
-        return `/${link.externalLink}`;
+        return link.externalLink;
       }
     }
   };

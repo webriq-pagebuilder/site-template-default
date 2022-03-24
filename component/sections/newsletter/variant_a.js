@@ -14,7 +14,7 @@ function VariantA({ logo, title, description, form }) {
       if (link?.linkType === "linkInternal") {
         return `/${link.internalLink}`;
       } else {
-        return `/${link.externalLink}`;
+        return link.externalLink;
       }
     }
   };
