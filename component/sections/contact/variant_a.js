@@ -201,7 +201,7 @@ function VariantA({
                               aria-label={`${formFields?.name} text area`}
                               className="w-full h-24 p-4 text-xs font-semibold leading-none resize-none bg-white rounded outline-none"
                               type="text"
-                              placeholder={formFields?.name}
+                              placeholder={formFields?.placeholder}
                               name={formFields?.name}
                               required={formFields?.isRequired}
                             />
@@ -213,7 +213,7 @@ function VariantA({
                                 aria-label="Add file"
                                 className="hidden"
                                 type="file"
-                                placeholder="Choose file.."
+                                placeholder={formFields?.placeholder}
                                 name={formFields?.name}
                                 required={formFields?.isRequired}
                               />
@@ -227,7 +227,7 @@ function VariantA({
                             aria-label={formFields?.name}
                             className="mb-4 w-full p-4 text-xs font-semibold leading-none bg-white rounded outline-none"
                             type="number"
-                            placeholder={formFields?.name}
+                            placeholder={formFields?.placeholder}
                             name={formFields?.name}
                             required={formFields?.isRequired}
                           />
@@ -326,7 +326,7 @@ function VariantA({
                                   ? "password"
                                   : "text"
                               }
-                              placeholder={formFields?.name}
+                              placeholder={formFields?.placeholder}
                               name={formFields?.name}
                               required={formFields?.isRequired}
                             />
