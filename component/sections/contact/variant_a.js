@@ -241,8 +241,7 @@ function VariantA({
                             </label>
                             <select
                               className="p-3 w-full text-xs text-gray-500 font-semibold bg-white rounded outline-none"
-                              name={formFields?.name}
-                              id={formFields?.name}
+                              name={`contact-${formFields?.name}`}
                               defaultValue={"default-value"}
                               required={formFields?.isRequired}
                             >
@@ -250,7 +249,7 @@ function VariantA({
                               {formFields?.items?.map((item, index) => (
                                 <option
                                   key={index}
-                                  name={`${formFields?.type}-${index}`}
+                                  name={`contact-${formFields?.type}-${index}`}
                                   value={item}
                                 >
                                   {item}
@@ -307,7 +306,11 @@ function VariantA({
                                     type="checkbox"
                                     onChange={handleCheckboxChange}
                                     checked={checked.some((v) => v === item)}
-                                    required={formFields?.isRequired}
+                                    required={
+                                      formFields?.isRequired && index === 0
+                                        ? true
+                                        : false
+                                    }
                                   />
                                   {item}
                                 </label>

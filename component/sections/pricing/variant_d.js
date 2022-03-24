@@ -339,8 +339,7 @@ function VariantD({
                         </label>
                         <select
                           className="p-3 w-full text-xs bg-gray-50 outline-none rounded"
-                          name={field?.name}
-                          id={field?.name}
+                          name={`pricing-${field?.name}`}
                           defaultValue={"default-value"}
                           required={field?.isRequired}
                         >
@@ -348,7 +347,7 @@ function VariantD({
                           {field?.items?.map((item, index) => (
                             <option
                               key={index}
-                              name={`${formFields?.type}-${index}`}
+                              name={`pricing-${formFields?.type}-${index}`}
                               value={item}
                             >
                               {item}
@@ -405,7 +404,11 @@ function VariantD({
                                 type="checkbox"
                                 onChange={handleCheckboxChange}
                                 checked={checked.some((v) => v === item)}
-                                required={field?.isRequired}
+                                required={
+                                  field?.isRequired && index === 0
+                                    ? true
+                                    : false
+                                }
                               />
                               {item}
                             </label>

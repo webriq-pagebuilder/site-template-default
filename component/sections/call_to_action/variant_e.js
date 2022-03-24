@@ -93,8 +93,7 @@ function VariantE({ form, formLinks, signInLink }) {
                           </label>
                           <select
                             className="p-3 w-full text-xs bg-gray-100 outline-none rounded"
-                            name={formFields?.name}
-                            id={formFields?.name}
+                            name={`cta-${formFields?.name}`}
                             defaultValue={"default-value"}
                             required={formFields?.isRequired}
                           >
@@ -102,7 +101,7 @@ function VariantE({ form, formLinks, signInLink }) {
                             {formFields?.items?.map((item, index) => (
                               <option
                                 key={index}
-                                name={`${formFields?.type}-${index}`}
+                                name={`cta-${formFields?.type}-${index}`}
                                 value={item}
                               >
                                 {item}
@@ -159,7 +158,11 @@ function VariantE({ form, formLinks, signInLink }) {
                                   type="checkbox"
                                   onChange={handleCheckboxChange}
                                   checked={checked.some((v) => v === item)}
-                                  required={formFields?.isRequired}
+                                  required={
+                                    formFields?.isRequired && index === 0
+                                      ? true
+                                      : false
+                                  }
                                 />
                                 {item}
                               </label>
@@ -231,8 +234,7 @@ function VariantE({ form, formLinks, signInLink }) {
                         </label>
                         <select
                           className="p-3 w-full text-xs bg-gray-100 outline-none rounded"
-                          name={formFields?.name}
-                          id={formFields?.name}
+                          name={`cta-${formFields?.name}`}
                           defaultValue={"default-value"}
                           required={formFields?.isRequired}
                         >
@@ -240,7 +242,7 @@ function VariantE({ form, formLinks, signInLink }) {
                           {formFields?.items?.map((item, index) => (
                             <option
                               key={index}
-                              name={`${formFields?.type}-${index}`}
+                              name={`cta-${formFields?.type}-${index}`}
                               value={item}
                             >
                               {item}
@@ -297,7 +299,11 @@ function VariantE({ form, formLinks, signInLink }) {
                                 type="checkbox"
                                 onChange={handleCheckboxChange}
                                 checked={checked.some((v) => v === item)}
-                                required={formFields?.isRequired}
+                                required={
+                                  formFields?.isRequired && index === 0
+                                    ? true
+                                    : false
+                                }
                               />
                               {item}
                             </label>

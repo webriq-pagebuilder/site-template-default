@@ -243,8 +243,7 @@ function VariantE({
                                 </label>
                                 <select
                                   className="p-3 w-full text-xs bg-gray-100 outline-none rounded"
-                                  name={formFields?.name}
-                                  id={formFields?.name}
+                                  name={`header-${formFields?.name}`}
                                   defaultValue={"default-value"}
                                   required={formFields?.isRequired}
                                 >
@@ -314,7 +313,11 @@ function VariantE({
                                         checked={checked.some(
                                           (v) => v === item
                                         )}
-                                        required={formFields?.isRequired}
+                                        required={
+                                          formFields?.isRequired && index === 0
+                                            ? true
+                                            : false
+                                        }
                                       />
                                       {item?.label}
                                     </label>
@@ -445,8 +448,7 @@ function VariantE({
                               </label>
                               <select
                                 className="p-3 w-full text-xs bg-gray-100 outline-none rounded"
-                                name={formFields?.name}
-                                id={formFields?.name}
+                                name={`header-${formFields?.name}`}
                                 defaultValue={"default-value"}
                                 required={formFields?.isRequired}
                               >
@@ -454,7 +456,7 @@ function VariantE({
                                 {formFields?.items?.map((item, index) => (
                                   <option
                                     key={index}
-                                    name={`${formFields?.type}-${index}`}
+                                    name={`header-${formFields?.type}-${index}`}
                                     value={item}
                                   >
                                     {item}
@@ -511,7 +513,11 @@ function VariantE({
                                       type="checkbox"
                                       onChange={handleCheckboxChange}
                                       checked={checked.some((v) => v === item)}
-                                      required={formFields?.isRequired}
+                                      required={
+                                        formFields?.isRequired && index === 0
+                                          ? true
+                                          : false
+                                      }
                                     />
                                     {item}
                                   </label>
