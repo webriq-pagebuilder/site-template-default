@@ -67,9 +67,10 @@ function blogPostBody(body) {
 
   if (typeof body === "object" && Array.isArray(body)) {
     const block = body?.find((content) => content._type === "block");
-    description = block?.children?.[0]?.text?.substring(0, 100);
+    description =
+      block?.children?.[0]?.text?.split(". ").slice(0, 2).join(".") + ".";
   } else {
-    description = body?.substring(0, 100);
+    description = body?.split(". ").slice(0, 2).join(".");
   }
 
   return description;
