@@ -248,7 +248,11 @@ function VariantA({
                             >
                               <option name="default-value" value=""></option>
                               {formFields?.items?.map((item, index) => (
-                                <option key={index} name={item} value={item}>
+                                <option
+                                  key={index}
+                                  name={`${formFields?.type}-${index}`}
+                                  value={item}
+                                >
                                   {item}
                                 </option>
                               ))}
@@ -269,9 +273,8 @@ function VariantA({
                                   key={index}
                                 >
                                   <input
-                                    id={item?.name}
                                     className="mr-2"
-                                    name={item}
+                                    name={`${formFields?.type}-${index}`}
                                     value={item}
                                     type="radio"
                                     onChange={handleRadioChange}
@@ -297,9 +300,8 @@ function VariantA({
                                   key={index}
                                 >
                                   <input
-                                    id={item}
                                     className="mr-2"
-                                    name={item}
+                                    name={`${formFields?.type}-${index}`}
                                     value={item}
                                     type="checkbox"
                                     onChange={handleCheckboxChange}

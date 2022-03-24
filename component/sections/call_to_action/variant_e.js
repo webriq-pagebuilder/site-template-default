@@ -100,7 +100,11 @@ function VariantE({ form, formLinks, signInLink }) {
                           >
                             <option name="default-value" value=""></option>
                             {formFields?.items?.map((item, index) => (
-                              <option key={index} name={item} value={item}>
+                              <option
+                                key={index}
+                                name={`${formFields?.type}-${index}`}
+                                value={item}
+                              >
                                 {item}
                               </option>
                             ))}
@@ -121,9 +125,8 @@ function VariantE({ form, formLinks, signInLink }) {
                                 key={index}
                               >
                                 <input
-                                  id={item}
                                   className="mr-2"
-                                  name={item}
+                                  name={`${formFields?.type}-${index}`}
                                   value={item}
                                   type="radio"
                                   onChange={handleRadioChange}
@@ -149,9 +152,8 @@ function VariantE({ form, formLinks, signInLink }) {
                                 key={index}
                               >
                                 <input
-                                  id={item}
                                   className="mr-2"
-                                  name={item}
+                                  name={`${formFields?.type}-${index}`}
                                   value={item}
                                   type="checkbox"
                                   onChange={handleCheckboxChange}
@@ -208,17 +210,6 @@ function VariantE({ form, formLinks, signInLink }) {
                           />
                         </label>
                       </div>
-                    ) : formFields?.type === "inputPassword" ? (
-                      <div className="mb-4 p-4 bg-gray-100 rounded">
-                        <input
-                          aria-label={formFields?.type}
-                          className="w-full text-xs bg-gray-100 outline-none"
-                          type="password"
-                          placeholder={formFields?.placeholder}
-                          name={formFields?.name}
-                          required={formFields?.isRequired}
-                        />
-                      </div>
                     ) : formFields.type === "inputNumber" ? (
                       <input
                         aria-label={formFields?.name}
@@ -245,7 +236,11 @@ function VariantE({ form, formLinks, signInLink }) {
                         >
                           <option name="default-value" value=""></option>
                           {formFields?.items?.map((item, index) => (
-                            <option key={index} name={item} value={item}>
+                            <option
+                              key={index}
+                              name={`${formFields?.type}-${index}`}
+                              value={item}
+                            >
                               {item}
                             </option>
                           ))}
@@ -266,13 +261,12 @@ function VariantE({ form, formLinks, signInLink }) {
                               key={index}
                             >
                               <input
-                                id={item}
                                 className="mr-2"
-                                name={item}
-                                value={item?.value}
+                                name={`${formFields?.type}-${index}`}
+                                value={item}
                                 type="radio"
                                 onChange={handleRadioChange}
-                                checked={value === item?.value}
+                                checked={value === item}
                               />
                               {item}
                             </label>
@@ -294,9 +288,8 @@ function VariantE({ form, formLinks, signInLink }) {
                               key={index}
                             >
                               <input
-                                id={item}
                                 className="mr-2"
-                                name={item}
+                                name={`${formFields?.type}-${index}`}
                                 value={item}
                                 type="checkbox"
                                 onChange={handleCheckboxChange}

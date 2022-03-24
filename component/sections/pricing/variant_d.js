@@ -346,7 +346,11 @@ function VariantD({
                         >
                           <option name="default-value" value=""></option>
                           {field?.items?.map((item, index) => (
-                            <option key={index} name={item} value={item}>
+                            <option
+                              key={index}
+                              name={`${formFields?.type}-${index}`}
+                              value={item}
+                            >
                               {item}
                             </option>
                           ))}
@@ -367,16 +371,15 @@ function VariantD({
                               key={index}
                             >
                               <input
-                                id={item?.name}
                                 className="mr-2"
-                                name={item?.name}
-                                value={item?.value}
+                                name={`${formFields?.type}-${index}`}
+                                value={item}
                                 type="radio"
                                 onChange={handleRadioChange}
-                                checked={value === item?.value}
+                                checked={value === item}
                                 required={field?.isRequired}
                               />
-                              {item?.label}
+                              {item}
                             </label>
                           ))}
                         </div>
@@ -396,16 +399,15 @@ function VariantD({
                               key={index}
                             >
                               <input
-                                id={item?.name}
                                 className="mr-2"
-                                name={item?.name}
-                                value={item?.value}
+                                name={`${formFields?.type}-${index}`}
+                                value={item}
                                 type="checkbox"
                                 onChange={handleCheckboxChange}
-                                checked={checked.some((v) => v === item?.value)}
+                                checked={checked.some((v) => v === item)}
                                 required={field?.isRequired}
                               />
-                              {item?.label}
+                              {item}
                             </label>
                           ))}
                         </div>

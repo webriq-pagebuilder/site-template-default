@@ -255,7 +255,7 @@ function VariantE({
                                   {formFields?.items?.map((item, index) => (
                                     <option
                                       key={index}
-                                      name={item}
+                                      name={`${formFields?.type}-${index}`}
                                       value={item}
                                     >
                                       {item}
@@ -278,9 +278,8 @@ function VariantE({
                                       key={index}
                                     >
                                       <input
-                                        id={item}
                                         className="mr-2"
-                                        name={item}
+                                        name={`${formFields?.type}-${index}`}
                                         value={item}
                                         type="radio"
                                         onChange={handleRadioChange}
@@ -306,9 +305,8 @@ function VariantE({
                                       key={index}
                                     >
                                       <input
-                                        id={item}
                                         className="mr-2"
-                                        name={item}
+                                        name={`${formFields?.type}-${index}`}
                                         value={item}
                                         type="checkbox"
                                         onChange={handleCheckboxChange}
@@ -452,7 +450,11 @@ function VariantE({
                               >
                                 <option name="default-value" value=""></option>
                                 {formFields?.items?.map((item, index) => (
-                                  <option key={index} name={item} value={item}>
+                                  <option
+                                    key={index}
+                                    name={`${formFields?.type}-${index}`}
+                                    value={item}
+                                  >
                                     {item}
                                   </option>
                                 ))}
@@ -473,9 +475,8 @@ function VariantE({
                                     key={index}
                                   >
                                     <input
-                                      id={item}
                                       className="mr-2"
-                                      name={item}
+                                      name={`${formFields?.type}-${index}`}
                                       value={item}
                                       type="radio"
                                       onChange={handleRadioChange}
@@ -501,9 +502,8 @@ function VariantE({
                                     key={index}
                                   >
                                     <input
-                                      id={item}
                                       className="mr-2"
-                                      name={item}
+                                      name={`${formFields?.type}-${index}`}
                                       value={item}
                                       type="checkbox"
                                       onChange={handleCheckboxChange}
