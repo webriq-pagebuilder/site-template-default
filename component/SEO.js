@@ -17,7 +17,7 @@ function SEO({ data }) {
       <NextSeo
         openGraph={{
           title: seo?.seoTitle || title,
-          description: blogDescription || seo?.seoDescription,
+          description: seo?.seoDescription || blogDescription,
           url: `${url}/${slug === "home" ? "" : slug}`,
           images: [
             {
