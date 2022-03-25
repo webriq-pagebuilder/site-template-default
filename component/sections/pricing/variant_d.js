@@ -345,11 +345,7 @@ function VariantD({
                         >
                           <option name="default-value" value=""></option>
                           {field?.items?.map((item, index) => (
-                            <option
-                              key={index}
-                              name={`pricing-${formFields?.type}-${index}`}
-                              value={item}
-                            >
+                            <option key={index} name={field?.name} value={item}>
                               {item}
                             </option>
                           ))}
@@ -371,7 +367,7 @@ function VariantD({
                             >
                               <input
                                 className="mr-2"
-                                name={`pricing-${field?.type}`}
+                                name={field?.name}
                                 value={item}
                                 type="radio"
                                 onChange={handleRadioChange}
@@ -399,13 +395,13 @@ function VariantD({
                             >
                               <input
                                 className="mr-2"
-                                name={`pricing-${formFields?.type}-${index}`}
+                                name={field?.name}
                                 value={item}
                                 type="checkbox"
                                 onChange={handleCheckboxChange}
                                 checked={checked.some((v) => v === item)}
                                 required={
-                                  field?.isRequired && index === 0
+                                  field?.isRequired && checked.length === 0
                                     ? true
                                     : false
                                 }

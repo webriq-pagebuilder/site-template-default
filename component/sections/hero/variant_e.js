@@ -254,7 +254,7 @@ function VariantE({
                                   {formFields?.items?.map((item, index) => (
                                     <option
                                       key={index}
-                                      name={`${formFields?.type}-${index}`}
+                                      name={formFields?.name}
                                       value={item}
                                     >
                                       {item}
@@ -278,7 +278,7 @@ function VariantE({
                                     >
                                       <input
                                         className="mr-2"
-                                        name={`header-${formFields?.type}`}
+                                        name={formFields?.name}
                                         value={item}
                                         type="radio"
                                         onChange={handleRadioChange}
@@ -306,7 +306,7 @@ function VariantE({
                                     >
                                       <input
                                         className="mr-2"
-                                        name={`header-${formFields?.type}-${index}`}
+                                        name={formFields?.name}
                                         value={item}
                                         type="checkbox"
                                         onChange={handleCheckboxChange}
@@ -314,7 +314,8 @@ function VariantE({
                                           (v) => v === item
                                         )}
                                         required={
-                                          formFields?.isRequired && index === 0
+                                          formFields?.isRequired &&
+                                          checked.length === 0
                                             ? true
                                             : false
                                         }
@@ -456,7 +457,7 @@ function VariantE({
                                 {formFields?.items?.map((item, index) => (
                                   <option
                                     key={index}
-                                    name={`header-${formFields?.type}-${index}`}
+                                    name={formFields?.name}
                                     value={item}
                                   >
                                     {item}
@@ -480,7 +481,7 @@ function VariantE({
                                   >
                                     <input
                                       className="mr-2"
-                                      name={`header-${formFields?.type}`}
+                                      name={formFields?.name}
                                       value={item}
                                       type="radio"
                                       onChange={handleRadioChange}
@@ -508,13 +509,14 @@ function VariantE({
                                   >
                                     <input
                                       className="mr-2"
-                                      name={`header-${formFields?.type}-${index}`}
+                                      name={formFields?.name}
                                       value={item}
                                       type="checkbox"
                                       onChange={handleCheckboxChange}
                                       checked={checked.some((v) => v === item)}
                                       required={
-                                        formFields?.isRequired && index === 0
+                                        formFields?.isRequired &&
+                                        checked.length === 0
                                           ? true
                                           : false
                                       }

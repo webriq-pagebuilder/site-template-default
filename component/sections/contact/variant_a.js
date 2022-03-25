@@ -249,7 +249,7 @@ function VariantA({
                               {formFields?.items?.map((item, index) => (
                                 <option
                                   key={index}
-                                  name={`contact-${formFields?.type}-${index}`}
+                                  name={formFields?.name}
                                   value={item}
                                 >
                                   {item}
@@ -273,7 +273,7 @@ function VariantA({
                                 >
                                   <input
                                     className="mr-2"
-                                    name={`contact-${formFields?.type}`}
+                                    name={formFields?.name}
                                     value={item}
                                     type="radio"
                                     onChange={handleRadioChange}
@@ -301,13 +301,14 @@ function VariantA({
                                 >
                                   <input
                                     className="mr-2"
-                                    name={`contact-${formFields?.type}-${index}`}
+                                    name={formFields?.name}
                                     value={item}
                                     type="checkbox"
                                     onChange={handleCheckboxChange}
                                     checked={checked.some((v) => v === item)}
                                     required={
-                                      formFields?.isRequired && index === 0
+                                      formFields?.isRequired &&
+                                      checked.length === 0
                                         ? true
                                         : false
                                     }

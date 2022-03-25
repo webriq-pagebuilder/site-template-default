@@ -180,9 +180,7 @@ function VariantD({
                                 aria-label={formFields?.name}
                                 className="w-full p-4 text-xs bg-gray-100 outline-none rounded"
                                 type="file"
-                                placeholder={
-                                  formFields?.name ?? "Choose file.."
-                                }
+                                placeholder="Choose file.."
                                 name={formFields?.name}
                                 required={formFields?.isRequired}
                               />
@@ -214,7 +212,7 @@ function VariantD({
                                 {formFields?.items?.map((item, index) => (
                                   <option
                                     key={index}
-                                    name={`cta-${formFields?.type}-${index}`}
+                                    name={formFields?.name}
                                     value={item}
                                   >
                                     {item}
@@ -238,7 +236,7 @@ function VariantD({
                                   >
                                     <input
                                       className="mr-2"
-                                      name={`cta-${formFields?.type}`}
+                                      name={formFields?.name}
                                       value={item}
                                       type="radio"
                                       onChange={handleRadioChange}
@@ -266,13 +264,14 @@ function VariantD({
                                   >
                                     <input
                                       className="mr-2"
-                                      name={`cta-${formFields?.type}-${index}`}
+                                      name={formFields?.name}
                                       value={item}
                                       type="checkbox"
                                       onChange={handleCheckboxChange}
                                       checked={checked.some((v) => v === item)}
                                       required={
-                                        formFields?.isRequired && index === 0
+                                        formFields?.isRequired &&
+                                        checked.length === 0
                                           ? true
                                           : false
                                       }
@@ -322,9 +321,7 @@ function VariantD({
                                 aria-label="Add file"
                                 className="w-full p-4 text-xs bg-gray-100 outline-none rounded"
                                 type="file"
-                                placeholder={
-                                  formFields?.name ?? "Choose file.."
-                                }
+                                placeholder="Choose file.."
                                 name={formFields?.name}
                                 required={formFields?.isRequired}
                               />
@@ -357,7 +354,7 @@ function VariantD({
                               {formFields?.items?.map((item, index) => (
                                 <option
                                   key={index}
-                                  name={`cta-${formFields?.type}-${index}`}
+                                  name={formFields?.name}
                                   value={item}
                                 >
                                   {item}
@@ -381,7 +378,7 @@ function VariantD({
                                 >
                                   <input
                                     className="mr-2"
-                                    name={`cta-${formFields?.type}`}
+                                    name={formFields?.name}
                                     value={item}
                                     type="radio"
                                     onChange={handleRadioChange}
@@ -409,13 +406,14 @@ function VariantD({
                                 >
                                   <input
                                     className="mr-2"
-                                    name={`cta-${formFields?.type}-${index}`}
+                                    name={formFields?.name}
                                     value={item}
                                     type="checkbox"
                                     onChange={handleCheckboxChange}
                                     checked={checked.some((v) => v === item)}
                                     required={
-                                      formFields?.isRequired && index === 0
+                                      formFields?.isRequired &&
+                                      checked.length === 0
                                         ? true
                                         : false
                                     }

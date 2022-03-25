@@ -101,7 +101,7 @@ function VariantE({ form, formLinks, signInLink }) {
                             {formFields?.items?.map((item, index) => (
                               <option
                                 key={index}
-                                name={`cta-${formFields?.type}-${index}`}
+                                name={formFields?.name}
                                 value={item}
                               >
                                 {item}
@@ -125,7 +125,7 @@ function VariantE({ form, formLinks, signInLink }) {
                               >
                                 <input
                                   className="mr-2"
-                                  name={`cta-${formFields?.type}`}
+                                  name={formFields?.name}
                                   value={item}
                                   type="radio"
                                   onChange={handleRadioChange}
@@ -153,13 +153,14 @@ function VariantE({ form, formLinks, signInLink }) {
                               >
                                 <input
                                   className="mr-2"
-                                  name={`cta-${formFields?.type}-${index}`}
+                                  name={formFields?.name}
                                   value={item}
                                   type="checkbox"
                                   onChange={handleCheckboxChange}
                                   checked={checked.some((v) => v === item)}
                                   required={
-                                    formFields?.isRequired && index === 0
+                                    formFields?.isRequired &&
+                                    checked.length === 0
                                       ? true
                                       : false
                                   }
@@ -242,7 +243,7 @@ function VariantE({ form, formLinks, signInLink }) {
                           {formFields?.items?.map((item, index) => (
                             <option
                               key={index}
-                              name={`cta-${formFields?.type}-${index}`}
+                              name={formFields?.name}
                               value={item}
                             >
                               {item}
@@ -266,7 +267,7 @@ function VariantE({ form, formLinks, signInLink }) {
                             >
                               <input
                                 className="mr-2"
-                                name={`cta-${formFields?.type}`}
+                                name={formFields?.name}
                                 value={item}
                                 type="radio"
                                 onChange={handleRadioChange}
@@ -294,13 +295,13 @@ function VariantE({ form, formLinks, signInLink }) {
                             >
                               <input
                                 className="mr-2"
-                                name={`cta-${formFields?.type}-${index}`}
+                                name={formFields?.name}
                                 value={item}
                                 type="checkbox"
                                 onChange={handleCheckboxChange}
                                 checked={checked.some((v) => v === item)}
                                 required={
-                                  formFields?.isRequired && index === 0
+                                  formFields?.isRequired && checked.length === 0
                                     ? true
                                     : false
                                 }
