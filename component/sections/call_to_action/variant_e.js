@@ -69,7 +69,7 @@ function VariantE({ form, formLinks, signInLink }) {
                             aria-label={formFields?.name}
                             className="w-full p-4 text-xs bg-gray-100 outline-none rounded"
                             type="file"
-                            placeholder={formFields?.name ?? "Choose file.."}
+                            placeholder="Choose file.."
                             name={formFields?.name}
                             required={formFields?.isRequired}
                           />
@@ -210,7 +210,7 @@ function VariantE({ form, formLinks, signInLink }) {
                             aria-label="Add file"
                             className="w-full p-4 text-xs bg-gray-100 outline-none rounded"
                             type="file"
-                            placeholder={formFields?.name ?? "Choose file.."}
+                            placeholder="Choose file.."
                             name={formFields?.name}
                             required={formFields?.isRequired}
                           />

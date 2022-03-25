@@ -213,7 +213,7 @@ function VariantA({
                                 aria-label="Add file"
                                 className="hidden"
                                 type="file"
-                                placeholder={formFields?.placeholder}
+                                placeholder="Choose file.."
                                 name={formFields?.name}
                                 required={formFields?.isRequired}
                               />
