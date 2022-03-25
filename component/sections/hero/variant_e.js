@@ -285,7 +285,7 @@ function VariantE({
                                         checked={value === item}
                                         required={formFields?.isRequired}
                                       />
-                                      {item?.label}
+                                      {item}
                                     </label>
                                   ))}
                                 </div>
@@ -320,7 +320,7 @@ function VariantE({
                                             : false
                                         }
                                       />
-                                      {item?.label}
+                                      {item}
                                     </label>
                                   ))}
                                 </div>
