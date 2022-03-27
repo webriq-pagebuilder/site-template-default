@@ -10,7 +10,6 @@ export default async (req, res) => {
 
   const { data, id } = JSON.parse(payload);
   data["_nonce"] = nanoid(23);
-  data["Card"] = "************************";
 
   const response = await fetch(
     `https://ndzsixva5l.execute-api.us-west-2.amazonaws.com/pagebuilder/forms/${id}/submissions`,
@@ -25,6 +24,7 @@ export default async (req, res) => {
     }
   );
   const responseData = await response.json();
+
   if (responseData.id) {
     res.json({ message: "OK" });
   } else {
