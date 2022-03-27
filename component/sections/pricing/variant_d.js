@@ -85,8 +85,6 @@ function VariantD({
       const pricesData = await prices.data;
 
       pricesData.data.map((price) => {
-        console.log(price.product);
-        console.log(data.id);
         if (price.product === data.id && price.recurring.interval === "month") {
           useCheckout["monthlyCheckout"] = price.id;
         } else if (
@@ -101,10 +99,10 @@ function VariantD({
       console.log(error);
     }
   }
-  console.log(useCheckout);
+
   React.useEffect(() => {
     getPriceId();
-  }, [annualBilling, monthlyBilling]);
+  }, []);
 
   const serializers = {
     types: {
@@ -149,9 +147,13 @@ function VariantD({
         const formData = new FormData(
           document.querySelector(`form[name='${formName}']`)
         ).get(field.name);
-        data[field.name] = formData;
+        if (field.name === "Credit Card") {
+          data["creditCard"] = "************************";
+        } else {
+          data[field.name] = formData;
+        }
       });
-      setPaymentOngoing(true);
+
       if (elements == null) {
         return;
       }
@@ -178,29 +180,28 @@ function VariantD({
         card: elements.getElement(CardElement),
       });
 
-      const { error, paymentIntent } = await stripe.confirmCardPayment(
-        billing.billType === "Monthly"
-          ? monthlyBilling_ClientSecret
-          : yearlyBilling_ClientSecret,
-        {
-          payment_method: paymentMethod?.id,
+      if (paymentMethod) {
+        const { error, paymentIntent } = await stripe.confirmCardPayment(
+          billing.billType === "Monthly"
+            ? monthlyBilling_ClientSecret
+            : yearlyBilling_ClientSecret,
+          {
+            payment_method: paymentMethod.id,
+          }
+        );
+        if (paymentIntent) {
+          const response = await fetch("/api/submitForm", {
+            method: "POST",
+            body: JSON.stringify({ data, id: formId }),
+          });
+          const responseData = await response.json();
+
+          setPaymentOngoing(true);
+          if (response.statusText === "OK") {
+            router.push("/success");
+          }
         }
-      );
-      if (error) {
-        console.log(error);
       }
-      if (paymentIntent) {
-        const response = await fetch("/api/submitForm", {
-          method: "POST",
-          body: JSON.stringify({ data, id: formId }),
-        });
-        const responseData = await response.json();
-        setPaymentOngoing(false);
-        if (responseData.message === "OK") {
-          router.push("/success");
-        }
-      }
-      // setPaymentOngoing(false)
     };
 
     const thankYouPageLink = (link) => {
@@ -263,7 +264,18 @@ function VariantD({
                     ) : field.type === "inputCard" ? (
                       <div className="mb-4">
                         <CardElement className="w-full p-4 text-xs font-semibold leading-none bg-gray-50 rounded outline-none" />
-                        {/* {paymentOngoing && <div style={{textAlign: 'left', marginTop: 12, fontSize: 12}}>Please provide a correct card details</div>} */}
+                        {paymentOngoing && (
+                          <div
+                            style={{
+                              textAlign: "left",
+                              marginTop: 12,
+                              fontSize: 12,
+                              color: "green",
+                            }}
+                          >
+                            Payment Success!
+                          </div>
+                        )}
                       </div>
                     ) : field.type === "inputNumber" ? (
                       <div className="mb-4">
@@ -506,6 +518,9 @@ function VariantD({
                 }`}
                 disabled={billing.billType === ""}
               >
+                {/* {paymentOngoing
+                  ? "Processing Payment...."
+                  : `Buy ${billing.billType} Supply`} */}
                 Buy {billing.billType} Supply
               </button>
             </WebriQForm>

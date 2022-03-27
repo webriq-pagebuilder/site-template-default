@@ -17,7 +17,7 @@ function Pricing({ data }) {
   if (data.variants.stripeAccount) {
     stripeAccount = JSON.parse(data.variants.stripeAccount);
   }
-  console.log(stripeAccount);
+
   const props = {
     caption: data?.variants?.subtitle,
     title: data?.variants?.title,
@@ -34,8 +34,8 @@ function Pricing({ data }) {
     stripeSKey: stripeAccount?.stripeSKey,
     hashKey: stripeAccount?.hashKey,
     apiVersion: stripeAccount?.apiVersion,
-    NEXT_PUBLIC_DXP_STUDIO_ADDRESS: NEXT_PUBLIC_DXP_STUDIO_ADDRESS,
-    // NEXT_PUBLIC_DXP_STUDIO_ADDRESS || "https://dxpstudio.webriq.com",
+    NEXT_PUBLIC_DXP_STUDIO_ADDRESS:
+      NEXT_PUBLIC_DXP_STUDIO_ADDRESS || "https://dxpstudio.webriq.com",
     block: data?.variants?.block,
     signInLink: data?.variants?.signinLink,
     _key: data._key,
