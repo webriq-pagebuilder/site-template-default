@@ -9,7 +9,7 @@ function VariantA({
   plans,
   hashKey,
   apiVersion,
-  stripeSecretKey,
+  stripeSKey,
   stripePKey,
   NEXT_PUBLIC_DXP_STUDIO_ADDRESS,
 }) {
@@ -24,50 +24,54 @@ function VariantA({
       const productPayload = {
         credentials: {
           hashKey,
-          stripeSecretKey,
+          stripeSKey,
           apiVersion,
         },
-        id: `dxpstudio-pricing-${plans[i]?._key}-${plans[i]?.planType?.replace(
-          / /g,
-          "-"
-        )}-recurring-monthlyPrice-${plans[i]?.monthlyPrice}-yearlyPrice-${
-          plans[i]?.yearlyPrice
-        }`,
+        stripeParams: {
+          id: `webriq-studio-pricing-${plans[i]._key}-${i + 1}-${plans[
+            i
+          ].planType.replace(/ /g, "-")}-recurring-monthlyPrice-${
+            plans[i].monthlyPrice
+          }-yearlyPrice-${plans[i].yearlyPrice}`,
+        },
       };
 
       const pricePayload = {
         credentials: {
           hashKey,
-          stripeSecretKey,
+          stripeSKey,
           apiVersion,
         },
+        stripeParams: {},
       };
       try {
         const product = await axios.post(
           `${NEXT_PUBLIC_DXP_STUDIO_ADDRESS}/api/payments/stripe?resource=products&action=retrieve`,
           productPayload
         );
-        const productData = await product.data;
+        const productResponse = await product.data;
         // plansResponse.push(data.data);
 
-        const prices = await axios.post(
+        const { data } = await axios.post(
           `${NEXT_PUBLIC_DXP_STUDIO_ADDRESS}/api/payments/stripe?resource=prices&action=list`,
           pricePayload
         );
-        const pricesData = await prices.data;
 
-        pricesData.data.map((price) => {
-          if (
-            price.product === productData.id &&
-            productData.name === plans[i].planType
-          ) {
-            if (price.recurring.interval === "month") {
-              plans[i]["monthlyPriceCheckoutButton"] = price.id;
-            } else {
-              plans[i]["yearlyPriceCheckoutButton"] = price.id;
+        if (data) {
+          data?.data?.forEach((item) => {
+            if (
+              item.product === productResponse.data.id &&
+              item.recurring.interval === "month"
+            ) {
+              plans[i]["variant_a_monthlyPriceCheckoutButton"] = item.id;
+            } else if (
+              item.product === productResponse.data.id &&
+              item.recurring.interval === "year"
+            ) {
+              plans[i]["variant_a_yearlyPriceCheckoutButton"] = item.id;
             }
-          }
-        });
+          });
+        }
 
         setUsePlan(plans);
       } catch (error) {
@@ -231,8 +235,8 @@ function VariantA({
                               {
                                 price:
                                   plan === "monthly"
-                                    ? planDetail.monthlyPriceCheckoutButton
-                                    : planDetail.yearlyPriceCheckoutButton,
+                                    ? planDetail.variant_a_monthlyPriceCheckoutButton
+                                    : planDetail.variant_a_yearlyPriceCheckoutButton,
                                 quantity: 1,
                               },
                             ],
@@ -309,8 +313,8 @@ function VariantA({
                             {
                               price:
                                 plan === "monthly"
-                                  ? usePlan?.[0]?.monthlyPriceCheckoutButton
-                                  : usePlan?.[0]?.yearlyPriceCheckoutButton,
+                                  ? usePlan?.[0]?.variant_a_monthlyPriceCheckoutButton
+                                  : usePlan?.[0]?.variant_a_yearlyPriceCheckoutButton,
                               quantity: 1,
                             },
                           ],
@@ -383,8 +387,8 @@ function VariantA({
                             {
                               price:
                                 plan === "monthly"
-                                  ? usePlan?.[1]?.monthlyPriceCheckoutButton
-                                  : usePlan?.[1]?.yearlyPriceCheckoutButton,
+                                  ? usePlan?.[1]?.variant_a_monthlyPriceCheckoutButton
+                                  : usePlan?.[1]?.variant_a_yearlyPriceCheckoutButton,
                               quantity: 1,
                             },
                           ],
@@ -457,8 +461,8 @@ function VariantA({
                             {
                               price:
                                 plan === "monthly"
-                                  ? usePlan[2]?.monthlyPriceCheckoutButton
-                                  : usePlan[2]?.yearlyPriceCheckoutButton,
+                                  ? usePlan[2]?.variant_a_monthlyPriceCheckoutButton
+                                  : usePlan[2]?.variant_a_yearlyPriceCheckoutButton,
                               quantity: 1,
                             },
                           ],

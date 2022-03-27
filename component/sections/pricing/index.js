@@ -13,7 +13,11 @@ const { NEXT_PUBLIC_DXP_STUDIO_ADDRESS } = process.env;
 function Pricing({ data }) {
   const variant = data?.variant || data?.variants?.condition;
   const Variant = Variants?.[variant];
-
+  let stripeAccount;
+  if (data.variants.stripeAccount) {
+    stripeAccount = JSON.parse(data.variants.stripeAccount);
+  }
+  console.log(stripeAccount);
   const props = {
     caption: data?.variants?.subtitle,
     title: data?.variants?.title,
@@ -26,12 +30,12 @@ function Pricing({ data }) {
     formId: data?.variants?.form?.id,
     formName: data?.variants?.form?.name,
     formThankYouPage: data?.variants?.form?.thankYouPage,
-    stripePKey: data?.variants?.stripeAccount?.stripePKey,
-    stripeSecretKey: data?.variants?.stripeAccount?.stripeSKey,
-    hashKey: data?.variants?.stripeAccount?.hashKey,
-    apiVersion: data?.variants?.stripeAccount?.apiVersion,
-    NEXT_PUBLIC_DXP_STUDIO_ADDRESS:
-      NEXT_PUBLIC_DXP_STUDIO_ADDRESS || "https://dxpstudio.webriq.com",
+    stripePKey: stripeAccount?.stripePKey,
+    stripeSKey: stripeAccount?.stripeSKey,
+    hashKey: stripeAccount?.hashKey,
+    apiVersion: stripeAccount?.apiVersion,
+    NEXT_PUBLIC_DXP_STUDIO_ADDRESS: NEXT_PUBLIC_DXP_STUDIO_ADDRESS,
+    // NEXT_PUBLIC_DXP_STUDIO_ADDRESS || "https://dxpstudio.webriq.com",
     block: data?.variants?.block,
     signInLink: data?.variants?.signinLink,
     _key: data._key,

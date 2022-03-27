@@ -7,9 +7,6 @@ import { initiateCheckout } from "lib/checkout";
 import {
   CardElement,
   Elements,
-  CardCvcElement,
-  CardExpiryElement,
-  PaymentElement,
   useElements,
   useStripe,
 } from "@stripe/react-stripe-js";
@@ -32,7 +29,7 @@ function VariantD({
   signInLink,
   hashKey,
   apiVersion,
-  stripeSecretKey,
+  stripeSKey,
   stripePKey,
   _key,
   NEXT_PUBLIC_DXP_STUDIO_ADDRESS,
@@ -58,16 +55,18 @@ function VariantD({
     const productPayload = {
       credentials: {
         hashKey,
-        stripeSecretKey,
+        stripeSKey,
         apiVersion,
       },
-      id: `dxpstudio-pricing-${_key}-FormPayment-recurring-monthlyPrice-${monthlyBilling}-yearlyPrice-${annualBilling}`,
+      stripeParams: {
+        id: `webriq-studio-pricing-formPayment-${formId}-recurring-monthlyPrice-${monthlyBilling}-yearlyPrice-${annualBilling}`,
+      },
     };
 
     const pricePayload = {
       credentials: {
         hashKey,
-        stripeSecretKey,
+        stripeSKey,
         apiVersion,
       },
     };
@@ -77,33 +76,35 @@ function VariantD({
         `${NEXT_PUBLIC_DXP_STUDIO_ADDRESS}/api/payments/stripe?resource=products&action=retrieve`,
         productPayload
       );
-      const productData = await product.data;
-      // plansResponse.push(data.data);
+      const { data } = await product.data;
 
       const prices = await axios.post(
         `${NEXT_PUBLIC_DXP_STUDIO_ADDRESS}/api/payments/stripe?resource=prices&action=list`,
         pricePayload
       );
       const pricesData = await prices.data;
+
       pricesData.data.map((price) => {
-        if (price.product === productData.id) {
-          if (price.recurring.interval === "month") {
-            useCheckout["monthlyCheckout"] = price.id;
-            setUseCheckout((prevState) => ({ ...prevState }));
-          } else {
-            useCheckout["yearlyCheckout"] = price.id;
-            setUseCheckout((prevState) => ({ ...prevState }));
-          }
+        console.log(price.product);
+        console.log(data.id);
+        if (price.product === data.id && price.recurring.interval === "month") {
+          useCheckout["monthlyCheckout"] = price.id;
+        } else if (
+          price.product === data.id &&
+          price.recurring.interval === "year"
+        ) {
+          useCheckout["yearlyCheckout"] = price.id;
+          setUseCheckout((prevState) => ({ ...prevState }));
         }
       });
     } catch (error) {
       console.log(error);
     }
   }
-
+  console.log(useCheckout);
   React.useEffect(() => {
     getPriceId();
-  }, []);
+  }, [annualBilling, monthlyBilling]);
 
   const serializers = {
     types: {
@@ -158,7 +159,7 @@ function VariantD({
         "/api/paymentIntent",
         {
           amount: monthlyBilling * 100,
-          stripeSKey: stripeSecretKey,
+          stripeSKey: stripeSKey,
           hashKey,
         }
       );
@@ -167,7 +168,7 @@ function VariantD({
         "/api/paymentIntent",
         {
           amount: annualBilling * 100,
-          stripeSKey: stripeSecretKey,
+          stripeSKey: stripeSKey,
           hashKey,
         }
       );
@@ -261,7 +262,7 @@ function VariantD({
                       </div>
                     ) : field.type === "inputCard" ? (
                       <div className="mb-4">
-                        <CardElement />
+                        <CardElement className="w-full p-4 text-xs font-semibold leading-none bg-gray-50 rounded outline-none" />
                         {/* {paymentOngoing && <div style={{textAlign: 'left', marginTop: 12, fontSize: 12}}>Please provide a correct card details</div>} */}
                       </div>
                     ) : field.type === "inputNumber" ? (

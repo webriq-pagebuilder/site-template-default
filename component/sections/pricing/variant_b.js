@@ -9,7 +9,7 @@ function VariantB({
   plans,
   hashKey,
   apiVersion,
-  stripeSecretKey,
+  stripeSKey,
   stripePKey,
   NEXT_PUBLIC_DXP_STUDIO_ADDRESS,
 }) {
@@ -23,44 +23,45 @@ function VariantB({
       const productPayload = {
         credentials: {
           hashKey,
-          stripeSecretKey,
+          stripeSKey,
           apiVersion,
         },
-        id: `dxpstudio-pricing-${plans[i]?._key}-${plans[i]?.planType?.replace(
-          / /g,
-          "-"
-        )}-oneTimePrice-${plans[i]?.price}`,
+        stripeParams: {
+          id: `webriq-studio-pricing-${plans[i]._key}-${i + 1}-${plans[
+            i
+          ].planType.replace(/ /g, "-")}-oneTime-Payment-${plans[i].price}`,
+        },
       };
 
       const pricePayload = {
         credentials: {
           hashKey,
-          stripeSecretKey,
+          stripeSKey,
           apiVersion,
         },
+        stripeParams: {},
       };
+
       try {
         const product = await axios.post(
           `${NEXT_PUBLIC_DXP_STUDIO_ADDRESS}/api/payments/stripe?resource=products&action=retrieve`,
           productPayload
         );
-        const productData = await product.data;
+        const productResponse = await product.data;
         // plansResponse.push(data.data);
 
-        const prices = await axios.post(
+        const { data } = await axios.post(
           `${NEXT_PUBLIC_DXP_STUDIO_ADDRESS}/api/payments/stripe?resource=prices&action=list`,
           pricePayload
         );
-        const pricesData = await prices.data;
 
-        pricesData.data.map((price) => {
-          if (
-            price.product === productData.id &&
-            productData.name === plans[i].planType
-          ) {
-            plans[i]["checkoutButton"] = price.id;
-          }
-        });
+        if (data) {
+          data?.data?.forEach((item) => {
+            if (item.product === productResponse.data.id) {
+              plans[i]["variant_b_checkoutButton"] = item.id;
+            }
+          });
+        }
 
         setUsePlan(plans);
       } catch (error) {
@@ -114,6 +115,7 @@ function VariantB({
               </p>
             </div>
           )}
+
           {usePlan &&
             usePlan.map((plan) => {
               return (
@@ -158,16 +160,15 @@ function VariantB({
                       <button
                         aria-label={`${plan.checkoutButtonName} button`}
                         className={`inline-block mt-4 lg:mt-0 py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-white font-bold leading-loose transition duration-200  ${
-                          !usePlan[0] &&
-                          "disabled:opacity-50 cursor-not-allowed"
+                          !usePlan && "disabled:opacity-50 cursor-not-allowed"
                         }`}
-                        disabled={!usePlan[0]}
+                        disabled={!usePlan}
                         onClick={() => {
                           initiateCheckout(
                             {
                               lineItems: [
                                 {
-                                  price: usePlan[0].checkoutButton,
+                                  price: plan.variant_b_checkoutButton,
                                   quantity: 1,
                                 },
                               ],
@@ -180,9 +181,7 @@ function VariantB({
                           );
                         }}
                       >
-                        {!usePlan[0]
-                          ? "Processing..."
-                          : plan.checkoutButtonName}
+                        {!usePlan ? "Processing..." : plan.checkoutButtonName}
                       </button>
                     )}
                   </div>

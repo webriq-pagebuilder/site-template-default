@@ -9,7 +9,7 @@ function VariantC({
   plans,
   hashKey,
   apiVersion,
-  stripeSecretKey,
+  stripeSKey,
   stripePKey,
   NEXT_PUBLIC_DXP_STUDIO_ADDRESS,
 }) {
@@ -24,50 +24,54 @@ function VariantC({
       const productPayload = {
         credentials: {
           hashKey,
-          stripeSecretKey,
+          stripeSKey,
           apiVersion,
         },
-        id: `dxpstudio-pricing-${plans[i]?._key}-${plans[i]?.planType?.replace(
-          / /g,
-          "-"
-        )}-recurring-monthlyPrice-${plans[i]?.monthlyPrice}-yearlyPrice-${
-          plans[i]?.yearlyPrice
-        }`,
+        stripeParams: {
+          id: `webriq-studio-pricing-${plans[i]._key}-${i + 1}-${plans[
+            i
+          ].planType.replace(/ /g, "-")}-recurring-monthlyPrice-${
+            plans[i].monthlyPrice
+          }-yearlyPrice-${plans[i].yearlyPrice}`,
+        },
       };
 
       const pricePayload = {
         credentials: {
           hashKey,
-          stripeSecretKey,
+          stripeSKey,
           apiVersion,
         },
+        stripeParams: {},
       };
       try {
         const product = await axios.post(
           `${NEXT_PUBLIC_DXP_STUDIO_ADDRESS}/api/payments/stripe?resource=products&action=retrieve`,
           productPayload
         );
-        const productData = await product.data;
+        const productResponse = await product.data;
         // plansResponse.push(data.data);
-
-        const prices = await axios.post(
+        console.log(productResponse);
+        const { data } = await axios.post(
           `${NEXT_PUBLIC_DXP_STUDIO_ADDRESS}/api/payments/stripe?resource=prices&action=list`,
           pricePayload
         );
-        const pricesData = await prices.data;
-
-        pricesData.data.map((price) => {
-          if (
-            price.product === productData.id &&
-            productData.name === plans[i].planType
-          ) {
-            if (price.recurring.interval === "month") {
-              plans[i]["monthlyPriceCheckoutButton"] = price.id;
-            } else {
-              plans[i]["yearlyPriceCheckoutButton"] = price.id;
+        console.log(data);
+        if (data) {
+          data?.data?.forEach((item) => {
+            if (
+              item.product === productResponse.data.id &&
+              item.recurring.interval === "month"
+            ) {
+              plans[i]["variant_c_monthlyPriceCheckoutButton"] = item.id;
+            } else if (
+              item.product === productResponse.data.id &&
+              item.recurring.interval === "year"
+            ) {
+              plans[i]["variant_c_yearlyPriceCheckoutButton"] = item.id;
             }
-          }
-        });
+          });
+        }
 
         setUsePlan(plans);
       } catch (error) {
@@ -80,7 +84,7 @@ function VariantC({
   React.useEffect(() => {
     getPriceId(usePlan);
   }, [plans, usePlan]);
-
+  console.log(usePlan);
   return (
     <section>
       <div className="py-20 bg-gray-50 radius-for-skewed">
@@ -140,10 +144,13 @@ function VariantC({
           )}
           <div className="flex flex-wrap -mx-4">
             {usePlan &&
-              usePlan?.map((planDescription) => {
+              usePlan?.map((planDescription, index) => {
                 console.log(plans);
                 return (
-                  <div className="w-full md:w-1/2 lg:w-1/3 px-4 mb-8 lg:mb-8">
+                  <div
+                    className="w-full md:w-1/2 lg:w-1/3 px-4 mb-8 lg:mb-8"
+                    key={index}
+                  >
                     <div className="py-8 px-10 max-w-md mx-auto bg-white shadow rounded text-center">
                       <div className="mb-12">
                         <h3 className="mb-4 text-2xl font-bold font-heading">
@@ -180,10 +187,8 @@ function VariantC({
                                   {
                                     price:
                                       plan === "monthly"
-                                        ? usePlan?.[0]
-                                            ?.monthlyPriceCheckoutButton
-                                        : usePlan?.[0]
-                                            ?.yearlyPriceCheckoutButton,
+                                        ? planDescription?.variant_c_monthlyPriceCheckoutButton
+                                        : planDescription?.variant_c_yearlyPriceCheckoutButton,
                                     quantity: 1,
                                   },
                                 ],
