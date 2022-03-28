@@ -119,7 +119,10 @@ function VariantB({
           {usePlan &&
             usePlan.map((plan) => {
               return (
-                <div className="mb-8 w-full p-8 flex flex-wrap items-center bg-white rounded shadow">
+                <div
+                  className="mb-8 w-full p-8 flex flex-wrap items-center bg-white rounded shadow"
+                  key={plan._key}
+                >
                   <div className="w-full lg:w-1/5 px-3 self-start">
                     <h3 className="mb-4 text-xl lg:text-2xl xl:text-2xl 2xl:text-2xl font-bold font-heading">
                       {plan.planType}
@@ -160,9 +163,11 @@ function VariantB({
                       <button
                         aria-label={`${plan.checkoutButtonName} button`}
                         className={`inline-block mt-4 lg:mt-0 py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-white font-bold leading-loose transition duration-200  ${
-                          !usePlan && "disabled:opacity-50 cursor-not-allowed"
+                          !plan ||
+                          (!plan?.variant_b_checkoutButton &&
+                            "disabled:opacity-50 cursor-not-allowed bg-gray-100")
                         }`}
-                        disabled={!usePlan}
+                        disabled={!plan || !plan?.variant_b_checkoutButton}
                         onClick={() => {
                           initiateCheckout(
                             {
