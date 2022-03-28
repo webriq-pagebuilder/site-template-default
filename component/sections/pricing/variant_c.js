@@ -51,12 +51,12 @@ function VariantC({
         );
         const productResponse = await product.data;
         // plansResponse.push(data.data);
-        console.log(productResponse);
+
         const { data } = await axios.post(
           `${NEXT_PUBLIC_DXP_STUDIO_ADDRESS}/api/payments/stripe?resource=prices&action=list`,
           pricePayload
         );
-        console.log(data);
+
         if (data) {
           data?.data?.forEach((item) => {
             if (
@@ -176,10 +176,14 @@ function VariantC({
                         <button
                           aria-label={`${planDescription?.checkoutButtonName} button`}
                           className={`block mt-6 w-full py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-white font-bold leading-loose transition duration-200 ${
-                            !usePlan[0] &&
-                            "disabled:opacity-50 cursor-not-allowed"
+                            !planDescription ||
+                            (!planDescription?.variant_c_monthlyPriceCheckoutButton &&
+                              "disabled:opacity-50 cursor-not-allowed bg-gray-100")
                           }`}
-                          disabled={!usePlan[0]}
+                          disabled={
+                            !planDescription ||
+                            !planDescription?.variant_c_monthlyPriceCheckoutButton
+                          }
                           onClick={() => {
                             initiateCheckout(
                               {
