@@ -84,7 +84,7 @@ function VariantC({
   React.useEffect(() => {
     getPriceId(usePlan);
   }, [plans, usePlan]);
-  console.log(usePlan);
+
   return (
     <section>
       <div className="py-20 bg-gray-50 radius-for-skewed">
@@ -145,7 +145,6 @@ function VariantC({
           <div className="flex flex-wrap -mx-4">
             {usePlan &&
               usePlan?.map((planDescription, index) => {
-                console.log(plans);
                 return (
                   <div
                     className="w-full md:w-1/2 lg:w-1/3 px-4 mb-8 lg:mb-8"

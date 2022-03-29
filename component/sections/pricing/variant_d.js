@@ -41,7 +41,6 @@ function VariantD({
   });
   const [banners, setBanners] = React.useState(0);
   const [billing, setBilling] = React.useState({ amount: 0, billType: "" });
-  const [showPassword, setShowPassword] = React.useState(false);
   const [paymentOngoing, setPaymentOngoing] = React.useState(false);
   const stripePromise = loadStripe(stripePKey);
 
@@ -217,24 +216,23 @@ function VariantD({
     };
 
     return (
-      <form className="w-full md:w-1/2 mb-8 md:mb-0" id="webriqForm">
+      <div className="w-full md:w-1/2 mb-8 md:mb-0">
         <div className="px-6 py-8 lg:px-8 text-center">
-          {/* <span className="text-gray-700">{title}</span> */}
           <p className="mb-8 text-2xl font-heading">{formName}</p>
           {formFields && (
             <WebriQForm
-              stripePKey={stripePKey}
+              stripepkey={stripePKey}
               method="POST"
               data-form-id={formId}
               name={formName}
-              className="form-contacts"
+              className="form-pricing"
               data-thankyou-url={thankYouPageLink(formThankYouPage)}
               scriptsrc="https://pagebuilderforms.webriq.com/js/initReactForms"
             >
               {formFields?.map((field, index) => {
                 return (
                   <div key={index}>
-                    {field.type === "textarea" ? (
+                    {field.pricingType === "textarea" ? (
                       <div className="mb-4">
                         <textarea
                           aria-label={`${field?.name} text area`}
@@ -245,7 +243,7 @@ function VariantD({
                           required={field?.isRequired}
                         />
                       </div>
-                    ) : field.type === "inputFile" ? (
+                    ) : field.pricingType === "inputFile" ? (
                       <div className="mb-4">
                         <label className="flex px-2 bg-white rounded">
                           <input
@@ -261,7 +259,7 @@ function VariantD({
                           </div>
                         </label>
                       </div>
-                    ) : field.type === "inputCard" ? (
+                    ) : field.pricingType === "inputCard" ? (
                       <div className="mb-4">
                         <CardElement className="w-full p-4 text-xs font-semibold leading-none bg-gray-50 rounded outline-none" />
                         {paymentOngoing && (
@@ -277,7 +275,7 @@ function VariantD({
                           </div>
                         )}
                       </div>
-                    ) : field.type === "inputNumber" ? (
+                    ) : field.pricingType === "inputNumber" ? (
                       <div className="mb-4">
                         <input
                           aria-label={field?.name}
@@ -288,7 +286,7 @@ function VariantD({
                           required={field?.isRequired}
                         />
                       </div>
-                    ) : field.type === "inputPassword" ? (
+                    ) : field.pricingType === "inputPassword" ? (
                       <div className="mb-4 flex bg-gray-50 rounded">
                         <input
                           aria-label={field?.type}
@@ -342,7 +340,7 @@ function VariantD({
                           )}
                         </button>
                       </div>
-                    ) : field.type === "inputSelect" ? (
+                    ) : field.pricingType === "inputSelect" ? (
                       <div className="mb-4 flex">
                         <label
                           className="text-left text-xs text-gray-500 m-auto"
@@ -434,16 +432,16 @@ function VariantD({
                           }`}
                           className="w-full p-4 text-xs font-semibold leading-none bg-gray-50 rounded outline-none"
                           type={
-                            field.type === "inputEmail"
+                            field.pricingType === "inputEmail"
                               ? "email"
-                              : field.type === "inputPassword"
+                              : field.pricingType === "inputPassword"
                               ? "password"
                               : "text"
                           }
                           placeholder={
-                            field.type === "inputEmail"
+                            field.pricingType === "inputEmail"
                               ? field?.placeholder
-                              : field.type === "inputPassword"
+                              : field.pricingType === "inputPassword"
                               ? "Enter your password"
                               : field?.name
                           }
@@ -578,7 +576,7 @@ function VariantD({
             </p>
           )}
         </div>
-      </form>
+      </div>
     );
   };
 
