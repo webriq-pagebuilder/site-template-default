@@ -346,7 +346,7 @@ function VariantA({
                       {block && (
                         <div className="inline-flex">
                           <input
-                            aria-label={`Agree to ${block}?`}
+                            aria-label="Agree to terms"
                             className="mr-2 mt-1"
                             type="checkbox"
                             id="terms"

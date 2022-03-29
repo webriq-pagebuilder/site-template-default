@@ -146,7 +146,7 @@ function VariantD({
         const formData = new FormData(
           document.querySelector(`form[name='${formName}']`)
         ).get(field.name);
-        if (field.name === "Credit Card") {
+        if (field.name === "Card number") {
           data["creditCard"] = "************************";
         } else {
           data[field.name] = formData;
@@ -438,18 +438,12 @@ function VariantD({
                               ? "password"
                               : "text"
                           }
-                          placeholder={
-                            field.pricingType === "inputEmail"
-                              ? field?.placeholder
-                              : field.pricingType === "inputPassword"
-                              ? "Enter your password"
-                              : field?.name
-                          }
+                          placeholder={field?.placeholder}
                           name={field?.name}
                           required={field?.isRequired}
                         />
                         {/* SVG icon on the right of the email input field */}
-                        {field?.type === "inputEmail" && (
+                        {field?.pricingType === "inputEmail" && (
                           <svg
                             className="h-6 w-6 ml-4 mr-4 my-auto text-gray-500"
                             xmlns="http://www.w3.org/2000/svg"
@@ -473,7 +467,7 @@ function VariantD({
               <div className="text-left mb-5 text-sm text-gray-500">
                 <label className="inline-flex">
                   <input
-                    aria-label={`Agree to ${block}?`}
+                    aria-label="Agree to terms"
                     className="mr-2"
                     type="checkbox"
                     name="terms"
