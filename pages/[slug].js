@@ -7,7 +7,7 @@ import { blogQuery, blogNavAndFooter, slugQuery } from "./api/query";
 import { groq } from "next-sanity";
 import NoPreview from "pages/no-preview";
 
-const Components = {
+export const Components = {
   navigation: dynamic(() => import("component/sections/navigation")),
   header: dynamic(() => import("component/sections/hero")),
   features: dynamic(() => import("component/sections/features")),
@@ -38,7 +38,7 @@ const BlogPage = dynamic(() => import("component/blog/"));
  *
  * Reference: https://www.sanity.io/guides/nextjs-live-preview
  */
-function filterDataToSingleItem(data, preview) {
+export function filterDataToSingleItem(data, preview) {
   if (!Array.isArray(data)) {
     return data[0];
   }
