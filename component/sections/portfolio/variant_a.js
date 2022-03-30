@@ -55,7 +55,7 @@ function VariantA({ caption, title, portfoliosWithCategory }) {
                     className="w-full sm:w-1/2 md:w-1/2 lg:w-1/4 xl:w-1/4 mb-8 px-4"
                     key={index}
                   >
-                    {content?.mainImage?.image && (
+                    {content?.mainImage?.image?.asset?._ref && (
                       <div className="relative mx-auto rounded-lg overflow-hidden">
                         <Image
                           src={urlFor(content?.mainImage?.image)}

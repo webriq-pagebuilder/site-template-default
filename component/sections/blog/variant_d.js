@@ -4,7 +4,7 @@ import Image from "next/image";
 import { urlFor } from "lib/sanity";
 import { format } from "date-fns";
 
-function VariantD({ subtitle, title, posts, primaryButton }) {
+function VariantD({ subtitle, title, posts }) {
   let blogsPerPage = 6;
   const [activeTab, setActiveTab] = React.useState("All"); //set the first index category as initial value
   const [newArray, setNewArray] = React.useState([]);
@@ -60,58 +60,6 @@ function VariantD({ subtitle, title, posts, primaryButton }) {
                   {title}
                 </h1>
               )}
-            </div>
-            <div className="hidden lg:block text-right w-1/2">
-              {primaryButton?.label &&
-                (primaryButton?.type === "linkInternal" ? (
-                  <Link
-                    href={
-                      primaryButton?.internalLink === "Home" ||
-                      primaryButton?.internalLink === "home"
-                        ? "/"
-                        : `/${
-                            primaryButton.internalLink === undefined
-                              ? "page-not-found"
-                              : primaryButton.internalLink
-                          }`
-                    }
-                  >
-                    <a
-                      aria-label={`Click here to ${
-                        primaryButton?.label ?? "View More Articles"
-                      }`}
-                      className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose outline-none transition duration-200"
-                      target={primaryButton?.linkTarget}
-                      rel={
-                        primaryButton?.linkTarget === "_blank"
-                          ? "noopener noreferrer"
-                          : null
-                      }
-                    >
-                      {primaryButton?.label}
-                    </a>
-                  </Link>
-                ) : (
-                  <a
-                    aria-label={`Click here to ${
-                      primaryButton?.label ?? "View More Articles"
-                    }`}
-                    className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose outline-none transition duration-200"
-                    target={primaryButton?.linkTarget}
-                    href={`${
-                      primaryButton?.externalLink === undefined
-                        ? "link-not-found"
-                        : primaryButton?.externalLink
-                    }`}
-                    rel={
-                      primaryButton?.linkTarget === "_blank"
-                        ? "noopener noreferrer"
-                        : null
-                    }
-                  >
-                    {primaryButton?.label}
-                  </a>
-                ))}
             </div>
           </div>
           <div className="flex flex-wrap -mx-3">

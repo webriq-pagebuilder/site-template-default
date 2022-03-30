@@ -78,7 +78,7 @@ function VariantB({ caption, title, portfolios, primaryButton }) {
                 className="relative mb-4 w-full md:w-1/2 lg:w-1/3 px-4"
                 key={index}
               >
-                {content?.mainImage?.image && (
+                {content?.mainImage?.image?.asset?._ref && (
                   <div className="relative md:mb-5 lg:mb-5 xl:mb-5 mx-auto rounded overflow-hidden">
                     <Image
                       src={urlFor(content?.mainImage?.image)}

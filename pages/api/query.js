@@ -62,6 +62,20 @@ const allProjections = `
           ${conditionalLink}
         },
       },
+      portfoliosWithCategories[] {
+        ...,
+        content[] {
+          ...,
+          primaryButton {
+            label,
+            ${conditionalLink}
+          },
+        },
+        primaryButton {
+          label,
+          ${conditionalLink}
+        },
+      },
       signinLink {
         ...,
         ${conditionalLink}
@@ -160,6 +174,20 @@ export const blogNavAndFooter = groq`
         },
         primaryButton {
           ...,
+          ${conditionalLink}
+        },
+      },
+      portfoliosWithCategories[] {
+        ...,
+        content[] {
+          ...,
+          primaryButton {
+            label,
+            ${conditionalLink}
+          },
+        },
+        primaryButton {
+          label,
           ${conditionalLink}
         },
       },

@@ -5,7 +5,7 @@ function VariantC({ subtitle, title, steps }) {
     <section>
       <div className="py-20 bg-gray-50 radius-for-skewed">
         <div className="container mx-auto px-4">
-          <div className="mb-16 mx-auto max-w-md text-center">
+          <div className="mb-8 mx-auto max-w-md text-center">
             <span className="text-webriq-darkblue font-bold">{subtitle}</span>
             <h1 className="text-4xl lg:text-5xl font-bold font-heading">
               {title}
@@ -15,7 +15,7 @@ function VariantC({ subtitle, title, steps }) {
             {steps &&
               steps?.map((step, index) => (
                 <div
-                  className="mb-8 lg:mb-0 w-full md:w-1/2 lg:w-1/3 px-4"
+                  className="mt-8 lg:mb-0 w-full md:w-1/2 lg:w-1/3 px-4"
                   key={index}
                 >
                   <div className="py-10 px-6 bg-white shadow rounded text-center">

@@ -5,7 +5,7 @@ function VariantD({ subtitle, title, steps }) {
     <section>
       <div className="py-20 bg-gray-50 radius-for-skewed">
         <div className="container mx-auto px-4">
-          <div className="mb-20 max-w-md text-center mx-auto">
+          <div className="mb-8 max-w-md text-center mx-auto">
             <span className="text-webriq-darkblue font-bold">{subtitle}</span>
             <h1 className="text-4xl lg:text-5xl font-bold font-heading">
               {title}
@@ -15,11 +15,11 @@ function VariantD({ subtitle, title, steps }) {
             <div className="flex flex-wrap mx-10 justify-center">
               {steps?.map((step, index) => (
                 <div
-                  className="mb-16 lg:mb-0 relative w-full md:w-1/2 lg:w-1/3 px-4"
+                  className="mt-20 lg:mb-0 relative w-full md:w-1/2 lg:w-1/3 px-10"
                   key={index}
                 >
                   <p
-                    className="absolute top-0 left-0 -mt-14 ml-4 text-webriq-darkblue opacity-20 text-9xl font-semibold"
+                    className="absolute top-0 left-0 -mt-14 ml-10 text-webriq-darkblue opacity-20 text-9xl font-semibold"
                     style={{ width: "69px", height: "103px" }}
                   >
                     {index + 1}

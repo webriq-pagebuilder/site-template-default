@@ -9,14 +9,14 @@ function VariantE({ title, block, allowCookieBtn, denyCookieBtn }) {
   const serializers = {
     types: {
       block: (props) => (
-        <p className="text-gray-500 text-sm my-5">{props.children}</p>
+        <p className="text-gray-500 text-sm my-7">{props.children}</p>
       ),
     },
     marks: {
       link: ({ children, mark }) => (
         <a
           aria-label={children ?? "external link"}
-          className="hover:text-webriq-lightblue text-blue-400"
+          className="hover:text-webriq-lightblue text-blue-500"
           target="_blank"
           href={mark.href}
           rel="noopener noreferrer"
@@ -31,36 +31,38 @@ function VariantE({ title, block, allowCookieBtn, denyCookieBtn }) {
     <div className="fixed bottom-0 inset-x-0 z-50">
       {!showCookie
         ? title && (
-            <div className="max-w-md mx-4 md:mx-0 md:ml-10 mb-6 p-8 bg-gray-800 text-white rounded-lg">
-              <div className="text-center">
+            <div className="max-w-md mx-4 md:mx-0 md:ml-10 mb-6 pt-8 bg-gray-800 text-white rounded-lg">
+              <div className="px-8 text-center">
                 <p className="font-bold font-heading">{title}</p>
                 {block && (
                   <PortableText blocks={block} serializers={serializers} />
                 )}
-                {allowCookieBtn && (
-                  <button
-                    aria-label="Allow Cookies button"
-                    type="button"
-                    className="inline-block mr-3 py-2 px-4 rounded-l-xl rounded-t-xl border-2 border-webriq-darkblue bg-webriq-darkblue hover:bg-webriq-blue hover:border-webriq-blue transition duration-500"
-                    onClick={() => {
-                      setCookie("allow");
-                      setShowCookie(!showCookie);
-                    }}
-                  >
-                    {allowCookieBtn}
-                  </button>
-                )}
+              </div>
+              <div className="flex border-t border-gray-700 text-center">
                 {denyCookieBtn && (
                   <button
                     aria-label="Deny Cookies button"
                     type="button"
-                    className="inline-block mr-4 py-2 px-4 rounded-r-xl rounded-t-xl border-2 border-gray-400 hover:bg-gray-700 transition duration-500"
+                    className="inline-block w-1/2 py-4 text-sm rounded-bl-lg border-r border-gray-700 font-bold hover:bg-gray-700 transition duration-200"
                     onClick={() => {
                       setCookie("dismiss");
                       setShowCookie(!showCookie);
                     }}
                   >
                     {denyCookieBtn}
+                  </button>
+                )}
+                {allowCookieBtn && (
+                  <button
+                    aria-label="Allow Cookies button"
+                    type="button"
+                    className="inline-block w-1/2 py-4 text-sm rounded-br-lg text-webriq-lightblue font-bold hover:bg-webriq-babyblue transition duration-200"
+                    onClick={() => {
+                      setCookie("allow");
+                      setShowCookie(!showCookie);
+                    }}
+                  >
+                    {allowCookieBtn}
                   </button>
                 )}
               </div>

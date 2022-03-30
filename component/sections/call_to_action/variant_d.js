@@ -3,18 +3,9 @@ import React from "react";
 import Link from "next/link";
 import WebriQForm from "component/webriq-form";
 
-function VariantD({
-  logo,
-  title,
-  text,
-  button,
-  form,
-  formLinks,
-  signInLink,
-  thankYouPage,
-}) {
+function VariantD({ logo, title, text, button, form, formLinks, signInLink }) {
   let logoLink;
-  const { id, name, subtitle, fields, buttonLabel } = form;
+  const { id, name, subtitle, fields, buttonLabel, thankYouPage } = form;
   const [value, setValue] = React.useState(null); // setting selected value for input field radio type
   const [checked, setChecked] = React.useState([]); // setting selected value for input field checkbox type
 

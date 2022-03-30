@@ -390,6 +390,7 @@ function VariantE({
                                     : "Hide password"
                                 }
                                 className="focus:outline-none"
+                                type="button"
                                 onClick={() => setShowPassword(!showPassword)}
                               >
                                 {showPassword ? (

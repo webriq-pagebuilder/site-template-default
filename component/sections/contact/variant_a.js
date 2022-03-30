@@ -47,6 +47,7 @@ function VariantA({
   const { id, fields, buttonLabel, thankYouPage } = form;
   const [value, setValue] = React.useState(null); // setting selected value for input field radio type
   const [checked, setChecked] = React.useState([]); // setting selected value for input field checkbox type
+  const [filename, setFilename] = React.useState(null); // setting input field filename
 
   const handleRadioChange = (e) => {
     setValue(e.target.value);
@@ -58,6 +59,12 @@ function VariantA({
     setChecked((prev) =>
       checked ? [...prev, value] : prev.filter((v) => v !== value)
     );
+  };
+
+  const handleShowFileName = (e) => {
+    if (e.target.files.length > 0) {
+      setFilename(e.target.files[0].name);
+    }
   };
 
   const thankYouPageLink = (link) => {
@@ -216,7 +223,11 @@ function VariantA({
                                 placeholder="Choose file.."
                                 name={formFields?.name}
                                 required={formFields?.isRequired}
+                                onChange={handleShowFileName}
                               />
+                              <span className="px-2 py-4 w-full text-xs font-semibold leading-none">
+                                {filename}
+                              </span>
                               <div className="my-1 ml-auto px-4 py-3 text-xs text-white font-semibold leading-none bg-gray-500 hover:bg-gray-600 rounded cursor-pointer transition duration-200">
                                 Browse
                               </div>

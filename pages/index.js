@@ -23,7 +23,7 @@ function Home({ data, preview }) {
   });
 
   // for never published pages
-  if (data?.pages?.hasNeverPublished) {
+  if (data?.page?.hasNeverPublished) {
     pageData = data?.page;
   } else {
     // for published pages and pages with unpublished edits
