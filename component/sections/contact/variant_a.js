@@ -218,7 +218,7 @@ function VariantA({
                             <label className="flex px-2 bg-white rounded">
                               <input
                                 aria-label="Add file"
-                                className="hidden"
+                                className="absolute opacity-0"
                                 type="file"
                                 placeholder="Choose file.."
                                 name={formFields?.name}
