@@ -23,7 +23,7 @@ function VariantC({ caption, title, portfolios, primaryButton }) {
                 </h1>
               )}
             </div>
-            <div className="mt-5 md:mt-0 lg:mt-0 xl:mt-0">
+            <div className="hidden lg:block mt-5 md:mt-0 lg:mt-0 xl:mt-0">
               {primaryButton?.label &&
                 (primaryButton?.type === "linkInternal" ? (
                   <Link
@@ -176,6 +176,54 @@ function VariantC({ caption, title, portfolios, primaryButton }) {
                 )}
               </div>
             ))}
+          </div>
+          <div className="block text-center lg:hidden mt-5 md:mt-0 lg:mt-0 xl:mt-0">
+            {primaryButton?.label &&
+              (primaryButton?.type === "linkInternal" ? (
+                <Link
+                  href={
+                    primaryButton?.internalLink === "Home" ||
+                    primaryButton?.internalLink === "home"
+                      ? "/"
+                      : `/${
+                          primaryButton?.internalLink === undefined
+                            ? "page-not-found"
+                            : primaryButton?.internalLink
+                        }`
+                  }
+                >
+                  <a
+                    aria-label={`Click here to ${primaryButton?.label}`}
+                    className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose transition duration-200"
+                    target={primaryButton?.linkTarget}
+                    rel={
+                      primaryButton?.linkTarget === "_blank"
+                        ? "noopener noreferrer"
+                        : null
+                    }
+                  >
+                    {primaryButton?.label}
+                  </a>
+                </Link>
+              ) : (
+                <a
+                  aria-label={`Click here to ${primaryButton?.label}`}
+                  className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose transition duration-200"
+                  target={primaryButton?.linkTarget}
+                  href={`${
+                    primaryButton?.externalLink === undefined
+                      ? "link-not-found"
+                      : primaryButton?.externalLink
+                  }`}
+                  rel={
+                    primaryButton?.linkTarget === "_blank"
+                      ? "noopener noreferrer"
+                      : null
+                  }
+                >
+                  {primaryButton?.label}
+                </a>
+              ))}
           </div>
         </div>
       </div>

@@ -244,6 +244,59 @@ function VariantC({ subtitle, title, posts, primaryButton }) {
               ))}
             </div>
           )}
+          {primaryButton?.label && (
+            <div className="block text-center lg:hidden lg:w-1/2">
+              {primaryButton?.type === "linkInternal" ? (
+                <Link
+                  href={
+                    primaryButton?.internalLink === "Home" ||
+                    primaryButton?.internalLink === "home"
+                      ? "/"
+                      : `/${
+                          primaryButton.internalLink === undefined
+                            ? "page-not-found"
+                            : primaryButton.internalLink
+                        }`
+                  }
+                >
+                  <a
+                    aria-label={`Click here to ${
+                      primaryButton?.label ?? "View More Articles"
+                    }`}
+                    className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose outline-none transition duration-200"
+                    target={primaryButton?.linkTarget}
+                    rel={
+                      primaryButton?.linkTarget === "_blank"
+                        ? "noopener noreferrer"
+                        : null
+                    }
+                  >
+                    {primaryButton?.label}
+                  </a>
+                </Link>
+              ) : (
+                <a
+                  aria-label={`Click here to ${
+                    primaryButton?.label ?? "View More Articles"
+                  }`}
+                  className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose outline-none transition duration-200"
+                  target={primaryButton?.linkTarget}
+                  href={`${
+                    primaryButton?.externalLink === undefined
+                      ? "link-not-found"
+                      : primaryButton?.externalLink
+                  }`}
+                  rel={
+                    primaryButton?.linkTarget === "_blank"
+                      ? "noopener noreferrer"
+                      : null
+                  }
+                >
+                  {primaryButton?.label}
+                </a>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </section>
