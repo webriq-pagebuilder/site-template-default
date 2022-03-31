@@ -25,7 +25,10 @@ function VariantA({ caption, title, features }) {
             {features &&
               features?.map((feature, index) => {
                 return (
-                  <div className="mb-12 mt-16 lg:mb-0 w-full md:w-1/2 lg:w-1/4 px-4">
+                  <div
+                    className="mb-12 mt-16 lg:mb-0 w-full md:w-1/2 lg:w-1/4 px-4"
+                    key={index}
+                  >
                     {feature?.mainImage?.image && (
                       <span className="mb-4 md:mb-6 inline-block bg-webriq-lightblue p-3 text-webriq-blue rounded">
                         {/* <svg

@@ -27,7 +27,7 @@ function Home({ data, preview }) {
     pageData = data?.page;
   } else {
     // for published pages and pages with unpublished edits
-    pageData = page?.page?.[0] || page?.[0];
+    pageData = page?.page?.[0] || page?.page || page?.[0];
   }
 
   if (!pageData) {
