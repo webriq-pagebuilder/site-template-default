@@ -11,7 +11,7 @@ function VariantC({
   apiVersion,
   stripeSKey,
   stripePKey,
-  NEXT_PUBLIC_DXP_STUDIO_ADDRESS,
+  NEXT_PUBLIC_APP_URL,
 }) {
   const [plan, setPlan] = React.useState("monthly");
   const [usePlan, setUsePlan] = React.useState(plans);
@@ -46,14 +46,14 @@ function VariantC({
       };
       try {
         const product = await axios.post(
-          `${NEXT_PUBLIC_DXP_STUDIO_ADDRESS}/api/payments/stripe?resource=products&action=retrieve`,
+          `${NEXT_PUBLIC_APP_URL}/api/payments/stripe?resource=products&action=retrieve`,
           productPayload
         );
         const productResponse = await product.data;
         // plansResponse.push(data.data);
 
         const { data } = await axios.post(
-          `${NEXT_PUBLIC_DXP_STUDIO_ADDRESS}/api/payments/stripe?resource=prices&action=list`,
+          `${NEXT_PUBLIC_APP_URL}/api/payments/stripe?resource=prices&action=list`,
           pricePayload
         );
 

@@ -8,7 +8,7 @@ const Variants = {
   variant_d: dynamic(() => import("./variant_d")),
 };
 
-const { NEXT_PUBLIC_DXP_STUDIO_ADDRESS } = process.env;
+const { NEXT_PUBLIC_APP_URL } = process.env;
 
 function Pricing({ data }) {
   const variant = data?.variant || data?.variants?.condition;
@@ -34,8 +34,7 @@ function Pricing({ data }) {
     stripeSKey: stripeAccount?.stripeSKey,
     hashKey: stripeAccount?.hashKey,
     apiVersion: stripeAccount?.apiVersion,
-    NEXT_PUBLIC_DXP_STUDIO_ADDRESS:
-      NEXT_PUBLIC_DXP_STUDIO_ADDRESS || "https://dxpstudio.webriq.com",
+    NEXT_PUBLIC_APP_URL: NEXT_PUBLIC_APP_URL || "https://dxpstudio.webriq.com",
     block: data?.variants?.block,
     signInLink: data?.variants?.signinLink,
     _key: data._key,

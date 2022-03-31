@@ -32,7 +32,7 @@ function VariantD({
   stripeSKey,
   stripePKey,
   _key,
-  NEXT_PUBLIC_DXP_STUDIO_ADDRESS,
+  NEXT_PUBLIC_APP_URL,
 }) {
   // const [pKeyError, setPKError] = React.useState(false);
   const [useCheckout, setUseCheckout] = React.useState({
@@ -72,13 +72,13 @@ function VariantD({
 
     try {
       const product = await axios.post(
-        `${NEXT_PUBLIC_DXP_STUDIO_ADDRESS}/api/payments/stripe?resource=products&action=retrieve`,
+        `${NEXT_PUBLIC_APP_URL}/api/payments/stripe?resource=products&action=retrieve`,
         productPayload
       );
       const { data } = await product.data;
 
       const prices = await axios.post(
-        `${NEXT_PUBLIC_DXP_STUDIO_ADDRESS}/api/payments/stripe?resource=prices&action=list`,
+        `${NEXT_PUBLIC_APP_URL}/api/payments/stripe?resource=prices&action=list`,
         pricePayload
       );
       const pricesData = await prices.data;
