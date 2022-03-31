@@ -46,7 +46,7 @@ function VariantE({ featuredItems }) {
               )}
             </div>
             <div className="order-1 w-full xl:w-4/5 ml-auto">
-              {featuredItems?.[item]?.mainImage?.image && (
+              {featuredItems?.[item]?.mainImage?.image?.asset?._ref && (
                 <div className="md:max-w-xl xl:max-w-4xl mx-auto rounded-md overflow-hidden">
                   <Image
                     src={urlFor(featuredItems?.[item]?.mainImage?.image)}

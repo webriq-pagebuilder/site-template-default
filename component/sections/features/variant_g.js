@@ -50,7 +50,7 @@ function VariantG({ caption, title, description, images, tags }) {
               <div className="w-full lg:w-1/2">
                 <div className="mb-4 items-end lg:flex lg:flex-wrap xl:flex xl:flex-wrap 2xl:flex 2xl:flex-wrap">
                   <div className="mb-4 lg:mb-0 xl:mb-0 2xl:mb-0 lg:w-2/3 xl:w-2/3 2xl:w-2/3 h-full px-3">
-                    {images?.[0]?.image && (
+                    {images?.[0]?.image?.asset?._ref && (
                       <div className="rounded overflow-hidden">
                         <Image
                           src={urlFor(images[0]?.image)}
@@ -66,7 +66,7 @@ function VariantG({ caption, title, description, images, tags }) {
                     )}
                   </div>
                   <div className="lg:w-1/3 xl:w-1/3 2xl:w-1/3 h-full px-3">
-                    {images?.[1]?.image && (
+                    {images?.[1]?.image?.asset?._ref && (
                       <div className="rounded overflow-hidden">
                         <Image
                           src={urlFor(images[1]?.image)}
@@ -84,7 +84,7 @@ function VariantG({ caption, title, description, images, tags }) {
                 </div>
                 <div className="mb-4 items-start lg:flex lg:flex-wrap xl:flex xl:flex-wrap 2xl:flex 2xl:flex-wrap">
                   <div className="mb-4 lg:mb-0 xl:mb-0 2xl:mb-0 lg:w-1/3 xl:w-1/3 2xl:w-1/3 h-full px-3">
-                    {images?.[2]?.image && (
+                    {images?.[2]?.image?.asset?._ref && (
                       <div className="rounded overflow-hidden">
                         <Image
                           src={urlFor(images[2]?.image)}
@@ -100,7 +100,7 @@ function VariantG({ caption, title, description, images, tags }) {
                     )}
                   </div>
                   <div className="lg:w-2/3 xl:w-2/3 2xl:w-2/3 h-full px-3">
-                    {images?.[3]?.image && (
+                    {images?.[3]?.image?.asset?._ref && (
                       <div className="rounded overflow-hidden">
                         <Image
                           src={urlFor(images[3]?.image)}

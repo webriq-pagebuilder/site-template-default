@@ -50,7 +50,7 @@ function VariantA({ logo, subtitle, title, images }) {
               {title}
             </h1>
             <div className="h-72">
-              {images?.[0]?.image && (
+              {images?.[0]?.image?.asset?._ref && (
                 <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 -mb-10 h-80 z-20">
                   <Image
                     src={urlFor(images[0]?.image)}
@@ -64,7 +64,7 @@ function VariantA({ logo, subtitle, title, images }) {
                   />
                 </div>
               )}
-              {images?.[1]?.image && (
+              {images?.[1]?.image?.asset?._ref && (
                 <div className="absolute bottom-0 left-0 -mb-24 h-80">
                   <Image
                     src={urlFor(images[1]?.image)}
@@ -78,7 +78,7 @@ function VariantA({ logo, subtitle, title, images }) {
                   />
                 </div>
               )}
-              {images?.[2]?.image && (
+              {images?.[2]?.image?.asset?._ref && (
                 <div className="absolute bottom-0 right-0 -mb-24 h-80">
                   <Image
                     src={urlFor(images[2]?.image)}

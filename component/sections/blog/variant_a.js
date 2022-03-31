@@ -28,7 +28,7 @@ function VariantA({ subtitle, title, posts, primaryButton }) {
                 {posts?.slice(count, count + 1)?.map((post, key) => (
                   <div className="w-full px-3 mb-5" key={key}>
                     <div className="relative h-64 mx-auto rounded">
-                      {post?.mainImage && (
+                      {post?.mainImage?.asset?._ref && (
                         <div className="relative h-full w-full rounded overflow-hidden">
                           <Image
                             src={urlFor(post?.mainImage)}
@@ -85,7 +85,7 @@ function VariantA({ subtitle, title, posts, primaryButton }) {
                 {posts?.slice(count + 1, count + 3)?.map((post, key) => (
                   <div className="w-full lg:w-1/2 px-3 mb-5" key={key}>
                     <div className="relative mx-auto rounded h-64">
-                      {post?.mainImage && (
+                      {post?.mainImage?.asset?._ref && (
                         <div className="relative h-full w-full rounded overflow-hidden">
                           <Image
                             src={urlFor(post?.mainImage)}
@@ -141,7 +141,7 @@ function VariantA({ subtitle, title, posts, primaryButton }) {
                 {posts?.slice(count + 3, count + 5)?.map((post, key) => (
                   <div className="w-full lg:w-1/2 px-3 mb-5" key={key}>
                     <div className="relative mx-auto rounded h-64">
-                      {post?.mainImage && (
+                      {post?.mainImage?.asset?._ref && (
                         <div className="relative h-full w-full rounded overflow-hidden">
                           <Image
                             src={urlFor(post?.mainImage)}
@@ -195,7 +195,7 @@ function VariantA({ subtitle, title, posts, primaryButton }) {
                 {posts?.slice(count + 5, blogsPerPage)?.map((post, key) => (
                   <div className="w-full px-3 mb-5" key={key}>
                     <div className="relative mx-auto rounded h-64">
-                      {post?.mainImage && (
+                      {post?.mainImage?.asset?._ref && (
                         <div className="relative h-full w-full rounded overflow-hidden">
                           <Image
                             src={urlFor(post?.mainImage)}

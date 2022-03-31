@@ -29,7 +29,7 @@ function VariantB({ subtitle, title, posts, primaryButton }) {
               <div className="mb-6 lg:mb-0 w-full lg:w-1/2 px-3">
                 {posts?.slice(count, count + 1)?.map((post, key) => (
                   <div className="rounded overflow-hidden shadow" key={key}>
-                    {post?.mainImage && (
+                    {post?.mainImage?.asset?._ref && (
                       <div className="h-full rounded-t overflow-hidden">
                         <Image
                           src={urlFor(post?.mainImage)}
@@ -79,7 +79,7 @@ function VariantB({ subtitle, title, posts, primaryButton }) {
                 {posts?.slice(count + 1, blogsPerPage)?.map((post, key) => (
                   <div className="mb-6 w-full lg:w-1/2 px-3" key={key}>
                     <div className="rounded overflow-hidden shadow">
-                      {post?.mainImage && (
+                      {post?.mainImage?.asset?._ref && (
                         <div className="h-full rounded-t overflow-hidden">
                           <Image
                             src={urlFor(post?.mainImage)}

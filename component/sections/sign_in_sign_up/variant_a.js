@@ -93,17 +93,17 @@ function VariantA({ logo, form, formLinks, signInLink }) {
                     {formFields?.type === "textarea" ? (
                       <textarea
                         aria-label={`${formFields?.name} text area`}
-                        className="w-full p-4 text-xs bg-gray-100 outline-none rounded"
+                        className="w-full p-4 text-xs bg-white outline-none rounded"
                         type="text"
                         placeholder={formFields?.placeholder}
                         name={formFields?.name}
                         required={formFields?.isRequired}
                       />
                     ) : formFields?.type === "inputFile" ? (
-                      <label className="flex px-2 bg-gray-100 rounded">
+                      <label className="flex px-2 bg-white rounded">
                         <input
                           aria-label="Add file"
-                          className="w-full p-4 text-xs bg-gray-100 outline-none rounded"
+                          className="w-full p-4 text-xs bg-white outline-none rounded"
                           type="file"
                           placeholder="Choose file.."
                           name={formFields?.name}
@@ -113,7 +113,7 @@ function VariantA({ logo, form, formLinks, signInLink }) {
                     ) : formFields?.type === "inputNumber" ? (
                       <input
                         aria-label={formFields?.name}
-                        className="w-full p-4 text-xs bg-gray-100 outline-none rounded"
+                        className="w-full p-4 text-xs bg-white outline-none rounded"
                         type="number"
                         placeholder={formFields?.placeholder}
                         name={formFields?.name}
@@ -128,7 +128,7 @@ function VariantA({ logo, form, formLinks, signInLink }) {
                           {formFields?.label}
                         </label>
                         <select
-                          className="p-3 w-full text-xs bg-gray-100 outline-none rounded"
+                          className="p-3 w-full text-xs bg-white outline-none rounded"
                           name={`signup-${formFields?.name}`}
                           defaultValue={"default-value"}
                           required={formFields?.isRequired}
@@ -212,7 +212,7 @@ function VariantA({ logo, form, formLinks, signInLink }) {
                             ? `Input ${formFields?.name}`
                             : `${formFields?.type}`
                         }`}
-                        className="w-full p-4 text-xs bg-gray-100 outline-none rounded"
+                        className="w-full p-4 text-xs bg-white outline-none rounded"
                         type={
                           formFields?.type === "inputEmail"
                             ? "email"
@@ -233,7 +233,7 @@ function VariantA({ logo, form, formLinks, signInLink }) {
                   {formFields?.type === "textarea" ? (
                     <textarea
                       aria-label={`${formFields?.name} text area`}
-                      className="mb-3 w-full p-4 text-xs bg-gray-100 outline-none rounded"
+                      className="mb-3 w-full p-4 text-xs bg-white outline-none rounded"
                       type="text"
                       placeholder={formFields?.placeholder}
                       name={formFields?.name}
@@ -241,10 +241,10 @@ function VariantA({ logo, form, formLinks, signInLink }) {
                     />
                   ) : formFields?.type === "inputFile" ? (
                     <div className="mb-4">
-                      <label className="flex px-2 bg-gray-100 rounded">
+                      <label className="flex px-2 bg-white rounded">
                         <input
                           aria-label="Add file"
-                          className="w-full p-4 text-xs bg-gray-100 outline-none rounded"
+                          className="w-full p-4 text-xs bg-white outline-none rounded"
                           type="file"
                           placeholder="Choose file.."
                           name={formFields?.name}
@@ -253,10 +253,10 @@ function VariantA({ logo, form, formLinks, signInLink }) {
                       </label>
                     </div>
                   ) : formFields?.type === "inputPassword" ? (
-                    <div className="mb-4 flex p-4 bg-gray-100 rounded">
+                    <div className="mb-4 flex p-4 bg-white rounded">
                       <input
                         aria-label={formFields?.type}
-                        className="w-full text-xs bg-gray-100 outline-none"
+                        className="w-full text-xs bg-white outline-none"
                         type={showPassword ? "text" : "password"}
                         placeholder={formFields?.placeholder}
                         name={formFields?.name}
@@ -268,6 +268,7 @@ function VariantA({ logo, form, formLinks, signInLink }) {
                           showPassword ? "Show password" : "Hide password"
                         }
                         className="focus:outline-none"
+                        type="button"
                         onClick={() => setShowPassword(!showPassword)}
                       >
                         {showPassword ? (
@@ -307,10 +308,10 @@ function VariantA({ logo, form, formLinks, signInLink }) {
                       </button>
                     </div>
                   ) : formFields?.type === "inputNumber" ? (
-                    <div className="mb-4 p-4 bg-gray-100 rounded">
+                    <div className="mb-4 p-4 bg-white rounded">
                       <input
                         aria-label={formFields?.name}
-                        className="w-full text-xs bg-gray-100 outline-none"
+                        className="w-full text-xs bg-white outline-none"
                         type="number"
                         placeholder={formFields?.placeholder}
                         name={formFields?.name}
@@ -326,7 +327,7 @@ function VariantA({ logo, form, formLinks, signInLink }) {
                         {formFields?.label}
                       </label>
                       <select
-                        className="p-3 w-full text-xs bg-gray-100 outline-none rounded"
+                        className="p-3 w-full text-xs bg-white outline-none rounded"
                         name={`signup-${formFields?.name}`}
                         defaultValue={"default-value"}
                         required={formFields?.isRequired}
@@ -404,14 +405,14 @@ function VariantA({ logo, form, formLinks, signInLink }) {
                       </div>
                     </div>
                   ) : (
-                    <div className="mb-4 flex p-4 bg-gray-100 rounded">
+                    <div className="mb-4 flex p-4 bg-white rounded">
                       <input
                         aria-label={`${
                           formFields?.type === "inputText"
                             ? `Input ${formFields?.name}`
                             : `${formFields?.type}`
                         }`}
-                        className="w-full text-xs bg-gray-100 outline-none"
+                        className="w-full text-xs bg-white outline-none"
                         type={
                           formFields?.type === "inputEmail" ? "email" : "text"
                         }

@@ -268,6 +268,7 @@ function VariantB({ logo, form, formLinks, signInLink }) {
                           showPassword ? "Show password" : "Hide password"
                         }
                         className="focus:outline-none"
+                        type="button"
                         onClick={() => setShowPassword(!showPassword)}
                       >
                         {showPassword ? (

@@ -56,7 +56,7 @@ function VariantB({ caption, title, description, features, tags }) {
                 {features?.[0] && (
                   <div className="mb-8 py-6 pl-6 pr-4 shadow rounded bg-white">
                     <span className="mb-4 inline-block p-3 rounded-lg bg-webriq-lightblue">
-                      {features?.[0]?.mainImage?.image?.asset && (
+                      {features?.[0]?.mainImage?.image?.asset?._ref && (
                         <Image
                           src={urlFor(features?.[0]?.mainImage?.image)}
                           layout="intrinsic"
@@ -88,7 +88,7 @@ function VariantB({ caption, title, description, features, tags }) {
                       >
                         <path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z" />
                       </svg> */}
-                      {features?.[1]?.mainImage?.image?.asset && (
+                      {features?.[1]?.mainImage?.image?.asset?._ref && (
                         <Image
                           src={urlFor(features?.[1]?.mainImage?.image)}
                           layout="intrinsic"
@@ -114,7 +114,7 @@ function VariantB({ caption, title, description, features, tags }) {
                 {features?.[2] && (
                   <div className="mb-8 py-6 pl-6 pr-4 shadow rounded-lg bg-white">
                     <span className="mb-4 inline-block p-3 rounded bg-webriq-lightblue">
-                      {features?.[2]?.mainImage?.image?.asset && (
+                      {features?.[2]?.mainImage?.image?.asset?._ref && (
                         <Image
                           src={urlFor(features?.[2]?.mainImage?.image)}
                           layout="intrinsic"
@@ -138,7 +138,7 @@ function VariantB({ caption, title, description, features, tags }) {
                 {features?.[3] && (
                   <div className="py-6 pl-6 pr-4 shadow rounded-lg bg-white">
                     <span className="mb-4 inline-block p-3 rounded bg-webriq-lightblue">
-                      {features?.[3]?.mainImage?.image?.asset && (
+                      {features?.[3]?.mainImage?.image?.asset?._ref && (
                         <Image
                           src={urlFor(features?.[3]?.mainImage?.image)}
                           layout="intrinsic"

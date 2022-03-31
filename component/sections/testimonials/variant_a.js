@@ -17,7 +17,7 @@ function VariantA({ testimonials }) {
             <div className="max-w-5xl p-4 flex flex-wrap justify-center items-center">
               {testimonials?.[testimony] && (
                 <div className="mb-6 w-full lg:w-1/3 text-center">
-                  {testimonials?.[testimony]?.mainImage?.image && (
+                  {testimonials?.[testimony]?.mainImage?.image?.asset?._ref && (
                     <div className="relative mb-6 mx-auto w-32 h-32 rounded-full overflow-hidden">
                       <Image
                         src={urlFor(

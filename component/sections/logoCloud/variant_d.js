@@ -10,7 +10,7 @@ function VariantD({ images }) {
           {images &&
             images?.map((image, index) => (
               <div className="mb-4 w-full md:w-1/3 lg:w-1/6 px-2" key={index}>
-                {image?.image?.asset && (
+                {image?.image?.asset?._ref && (
                   <div className="bg-gray-50 mx-auto rounded">
                     <Image
                       src={urlFor(image?.image)}

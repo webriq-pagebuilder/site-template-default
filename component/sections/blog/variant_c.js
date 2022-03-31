@@ -88,7 +88,7 @@ function VariantC({ subtitle, title, posts, primaryButton }) {
                   {key % 2 === 0 ? (
                     <>
                       <div className="w-full lg:w-1/2 rounded-l">
-                        {post?.mainImage && (
+                        {post?.mainImage?.asset?._ref && (
                           <Image
                             src={urlFor(post?.mainImage)}
                             layout="responsive"
@@ -225,7 +225,7 @@ function VariantC({ subtitle, title, posts, primaryButton }) {
                         )}
                       </div>
                       <div className="w-full lg:w-1/2 rounded-l order-0 lg:order-1">
-                        {post?.mainImage && (
+                        {post?.mainImage?.asset?._ref && (
                           <Image
                             src={urlFor(post?.mainImage)}
                             layout="responsive"

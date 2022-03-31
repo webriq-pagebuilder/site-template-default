@@ -37,7 +37,7 @@ function VariantB({ team }) {
                 <div className="w-full lg:w-2/3 px-3">
                   {filterMember?.map((member, index) => (
                     <div className="flex p-6 bg-white shadow" key={index}>
-                      {member?.mainImage?.image && (
+                      {member?.mainImage?.image?.asset?._ref && (
                         <div className="w-1/2 h-auto rounded-lg overflow-hidden">
                           <Image
                             src={urlFor(member?.mainImage?.image)}

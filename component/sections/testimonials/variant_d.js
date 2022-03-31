@@ -156,7 +156,8 @@ function VariantD({ testimonials }) {
                       )}
                     </div>
                     <div className="mb-6 mx-auto w-32 h-24 rounded-full object-contain">
-                      {testimonials[testimony]?.mainImage?.image && (
+                      {testimonials[testimony]?.mainImage?.image?.asset
+                        ?._ref && (
                         <Image
                           src={urlFor(
                             testimonials[testimony]?.mainImage?.image

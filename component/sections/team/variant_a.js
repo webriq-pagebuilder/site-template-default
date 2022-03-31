@@ -25,7 +25,7 @@ function VariantA({ caption, title, team }) {
                   key={member?.name}
                 >
                   <div className="py-24 bg-white rounded shadow text-center">
-                    {member?.mainImage?.image && (
+                    {member?.mainImage?.image?.asset?._ref && (
                       <div className="mx-auto mb-8 h-24 w-24 rounded-full overflow-hidden">
                         <Image
                           src={urlFor(member?.mainImage?.image)}

@@ -22,7 +22,7 @@ function VariantB({ title, text, images }) {
                   className="mb-4 w-1/2 md:w-1/3 lg:w-1/3 xl:w-1/3 2xl:w-1/3 px-2"
                   key={index}
                 >
-                  {image?.image?.asset && (
+                  {image?.image?.asset?._ref && (
                     <div>
                       <div className="bg-gray-50 mx-auto rounded">
                         <Image

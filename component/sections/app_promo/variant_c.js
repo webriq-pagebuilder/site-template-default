@@ -45,7 +45,7 @@ function VariantC({ subtitle, title, description, features, images }) {
             </div>
             <div className="transform -rotate-12 flex items-center w-full lg:w-1/2">
               <div className="w-full">
-                {images?.[0]?.image && (
+                {images?.[0]?.image?.asset?._ref && (
                   <Image
                     src={urlFor(images[0]?.image)}
                     layout="responsive"
@@ -59,7 +59,7 @@ function VariantC({ subtitle, title, description, features, images }) {
                 )}
               </div>
               <div className="w-full">
-                {images?.[1]?.image && (
+                {images?.[1]?.image?.asset?._ref && (
                   <Image
                     src={urlFor(images[1]?.image)}
                     layout="responsive"
@@ -71,7 +71,7 @@ function VariantC({ subtitle, title, description, features, images }) {
                     placeholder="blur"
                   />
                 )}
-                {images?.[2]?.image && (
+                {images?.[2]?.image?.asset?._ref && (
                   <Image
                     src={urlFor(images[2]?.image)}
                     layout="responsive"
@@ -85,7 +85,7 @@ function VariantC({ subtitle, title, description, features, images }) {
                 )}
               </div>
               <div className="w-full">
-                {images?.[3]?.image && (
+                {images?.[3]?.image?.asset?._ref && (
                   <Image
                     src={urlFor(images[3]?.image)}
                     layout="responsive"

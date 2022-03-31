@@ -126,7 +126,7 @@ function VariantD({ subtitle, title, posts }) {
                         key={index}
                       >
                         <div className="mb-4 lg:mb-0 w-full h-full lg:w-1/4 px-3">
-                          {post?.mainImage && (
+                          {post?.mainImage?.asset?._ref && (
                             <div className="rounded overflow-hidden">
                               <Image
                                 src={urlFor(post?.mainImage)}
@@ -198,7 +198,7 @@ function VariantD({ subtitle, title, posts }) {
                         key={index}
                       >
                         <div className="mb-4 lg:mb-0 h-full w-full lg:w-1/4 px-3">
-                          {post?.mainImage && (
+                          {post?.mainImage?.asset?._ref && (
                             <div className="rounded overflow-hidden">
                               <Image
                                 src={urlFor(post?.mainImage)}

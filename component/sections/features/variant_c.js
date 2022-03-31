@@ -25,7 +25,7 @@ function VariantC({ caption, title, features }) {
                     <div className="p-6 flex flex-wrap bg-white shadow rounded-lg min-h-full">
                       <div>
                         <span className="mb-4 lg:mb-0 mr-6 inline-block p-3 md:p-5 rounded-lg bg-webriq-lightblue">
-                          {feature?.mainImage?.image?.asset && (
+                          {feature?.mainImage?.image?.asset?._ref && (
                             <Image
                               src={urlFor(feature?.mainImage?.image)}
                               layout="intrinsic"

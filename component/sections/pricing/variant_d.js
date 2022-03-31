@@ -624,7 +624,7 @@ function VariantD({
               <Form />
             </Elements>
             <div className="py-10 w-full md:w-1/2 bg-webriq-darkblue lg:rounded-r overflow-hidden flex flex-col">
-              {banner?.[banners]?.mainImage?.image?.asset && (
+              {banner?.[banners]?.mainImage?.image?.asset?._ref && (
                 <div className="w-full md:max-w-xs mx-auto my-auto">
                   <Image
                     src={urlFor(banner?.[banners]?.mainImage.image)}

@@ -22,7 +22,7 @@ function VariantD({ caption, title, team }) {
               team.map((member, index) => (
                 <div className="mb-6 w-full lg:w-1/2 px-4" key={index}>
                   <div className="flex flex-wrap items-center bg-white rounded shadow overflow-hidden">
-                    {member.mainImage?.image && (
+                    {member.mainImage?.image?.asset?._ref && (
                       <div className="w-1/3">
                         <Image
                           src={urlFor(member?.mainImage?.image)}

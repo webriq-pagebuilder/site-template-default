@@ -22,7 +22,7 @@ function VariantD({ caption, title, features }) {
               <div className="mb-8 lg:mb-0 w-full lg:w-1/3 px-4">
                 <div className="py-12 px-6 bg-white rounded shadow text-center">
                   <span className="mb-6 inline-block p-2 rounded-lg bg-webriq-lightblue">
-                    {features?.[0]?.mainImage?.image?.asset && (
+                    {features?.[0]?.mainImage?.image?.asset?._ref && (
                       <Image
                         src={urlFor(features?.[0]?.mainImage?.image)}
                         layout="intrinsic"
@@ -46,7 +46,7 @@ function VariantD({ caption, title, features }) {
               <div className="mb-8 lg:mb-0 w-full lg:w-1/3 px-4">
                 <div className="py-12 px-6 bg-white rounded shadow text-center">
                   <span className="mb-6 inline-block p-2 rounded-lg bg-webriq-lightblue">
-                    {features?.[1]?.mainImage?.image?.asset && (
+                    {features?.[1]?.mainImage?.image?.asset?._ref && (
                       <Image
                         src={urlFor(features?.[1]?.mainImage?.image)}
                         layout="intrinsic"
@@ -70,7 +70,7 @@ function VariantD({ caption, title, features }) {
               <div className="w-full lg:w-1/3 px-4">
                 <div className="py-12 px-6 bg-white rounded shadow text-center">
                   <span className="mb-6 inline-block p-2 rounded bg-webriq-lightblue">
-                    {features?.[2]?.mainImage?.image?.asset && (
+                    {features?.[2]?.mainImage?.image?.asset?._ref && (
                       <Image
                         src={urlFor(features?.[2]?.mainImage?.image)}
                         layout="intrinsic"
