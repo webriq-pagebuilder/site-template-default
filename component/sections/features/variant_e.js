@@ -57,7 +57,7 @@ function VariantE({ featuredItems }) {
                     objectFit="cover"
                     alt={
                       featuredItems?.[item]?.mainImage?.alt ??
-                      `features-variantE-image-${item}`
+                      `features-image-${item}`
                     }
                     blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
                     placeholder="blur"

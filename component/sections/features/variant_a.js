@@ -23,7 +23,7 @@ function VariantA({ caption, title, features }) {
           </div>
           <div className="flex flex-wrap -mx-4">
             {features &&
-              features?.map((feature) => {
+              features?.map((feature, index) => {
                 return (
                   <div className="mb-12 mt-16 lg:mb-0 w-full md:w-1/2 lg:w-1/4 px-4">
                     {feature?.mainImage?.image && (
@@ -43,7 +43,10 @@ function VariantA({ caption, title, features }) {
                             width="40"
                             height="40"
                             objectFit="scale-down"
-                            // alt={mainImage?.alt ?? "header-main-image"}
+                            alt={
+                              feature?.mainImage?.alt ??
+                              `features-image-${index}`
+                            }
                             blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
                             placeholder="blur"
                           />

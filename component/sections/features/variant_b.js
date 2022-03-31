@@ -63,7 +63,9 @@ function VariantB({ caption, title, description, features, tags }) {
                           width="40"
                           height="40"
                           objectFit="scale-down"
-                          // alt={mainImage?.alt ?? "header-main-image"}
+                          alt={
+                            features?.[0]?.mainImage?.alt ?? "features-image-1"
+                          }
                           blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
                           placeholder="blur"
                         />
@@ -95,7 +97,9 @@ function VariantB({ caption, title, description, features, tags }) {
                           width="40"
                           height="40"
                           objectFit="scale-down"
-                          // alt={mainImage?.alt ?? "header-main-image"}
+                          alt={
+                            features?.[1]?.mainImage?.alt ?? "features-image-2"
+                          }
                           blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
                           placeholder="blur"
                         />
@@ -121,7 +125,9 @@ function VariantB({ caption, title, description, features, tags }) {
                           width="40"
                           height="40"
                           objectFit="scale-down"
-                          // alt={mainImage?.alt ?? "header-main-image"}
+                          alt={
+                            features?.[2]?.mainImage?.alt ?? "features-image-3"
+                          }
                           blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
                           placeholder="blur"
                         />
@@ -145,7 +151,9 @@ function VariantB({ caption, title, description, features, tags }) {
                           width="40"
                           height="40"
                           objectFit="scale-down"
-                          // alt={mainImage?.alt ?? "header-main-image"}
+                          alt={
+                            features?.[3]?.mainImage?.alt ?? "features-image-4"
+                          }
                           blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
                           placeholder="blur"
                         />

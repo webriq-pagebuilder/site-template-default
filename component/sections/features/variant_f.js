@@ -99,7 +99,7 @@ function VariantF({ caption, title, description, images, primaryButton }) {
                           width="356px"
                           height="192px"
                           objectFit="cover"
-                          alt={images[0]?.alt ?? "features-variantF-image-1"}
+                          alt={images[0]?.alt ?? "features-image-1"}
                           blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
                           placeholder="blur"
                         />
@@ -115,7 +115,7 @@ function VariantF({ caption, title, description, images, primaryButton }) {
                           width="166px"
                           height="128px"
                           objectFit="cover"
-                          alt={images[1]?.alt ?? "features-variantF-image-2"}
+                          alt={images[1]?.alt ?? "features-image-2"}
                           blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
                           placeholder="blur"
                         />
@@ -133,7 +133,7 @@ function VariantF({ caption, title, description, images, primaryButton }) {
                           width="166px"
                           height="128px"
                           objectFit="cover"
-                          alt={images[2]?.alt ?? "features-variantF-image-3"}
+                          alt={images[2]?.alt ?? "features-image-3"}
                           blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
                           placeholder="blur"
                         />
@@ -149,7 +149,7 @@ function VariantF({ caption, title, description, images, primaryButton }) {
                           width="356px"
                           height="192px"
                           objectFit="cover"
-                          alt={images[3]?.alt ?? "features-variantF-image-4"}
+                          alt={images[3]?.alt ?? "features-image-4"}
                           blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
                           placeholder="blur"
                         />

@@ -115,7 +115,7 @@ function VariantH({ caption, title, features, images }) {
                         width="245px"
                         height="256px"
                         objectFit="cover"
-                        alt={images?.[0]?.alt ?? "features-variantH-image-1"}
+                        alt={images?.[0]?.alt ?? "features-image-1"}
                         blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
                         placeholder="blur"
                       />
@@ -129,7 +129,7 @@ function VariantH({ caption, title, features, images }) {
                         width="245px"
                         height="256px"
                         objectFit="cover"
-                        alt={images?.[1]?.alt ?? "features-variantH-image-2"}
+                        alt={images?.[1]?.alt ?? "features-image-2"}
                         blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
                         placeholder="blur"
                       />
@@ -144,7 +144,7 @@ function VariantH({ caption, title, features, images }) {
                       width="245px"
                       height="256px"
                       objectFit="cover"
-                      alt={images?.[2]?.alt ?? "features-variantH-image-3"}
+                      alt={images?.[2]?.alt ?? "features-image-3"}
                       blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
                       placeholder="blur"
                     />

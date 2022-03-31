@@ -32,7 +32,9 @@ function VariantC({ caption, title, features }) {
                               width="40"
                               height="40"
                               objectFit="scale-down"
-                              // alt={mainImage?.alt ?? "header-main-image"}
+                              alt={
+                                feature?.mainImage?.alt ?? "features-main-image"
+                              }
                               blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
                               placeholder="blur"
                             />
