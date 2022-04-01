@@ -45,54 +45,54 @@ function VariantC({ subtitle, title, description, features, images }) {
             </div>
             <div className="transform -rotate-12 flex items-center w-full lg:w-1/2">
               <div className="w-full">
-                {images?.[0] && (
+                {images?.[0]?.image?.asset?._ref && (
                   <Image
-                    src={urlFor(images[0])}
+                    src={urlFor(images[0]?.image)}
                     layout="responsive"
                     width="500px"
                     height="850px"
                     objectFit="cover"
-                    alt="appPromo-variantC-image1"
+                    alt={images[0]?.alt ?? "appPromo-variantC-image1"}
                     blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
                     placeholder="blur"
                   />
                 )}
               </div>
               <div className="w-full">
-                {images?.[1] && (
+                {images?.[1]?.image?.asset?._ref && (
                   <Image
-                    src={urlFor(images[1])}
+                    src={urlFor(images[1]?.image)}
                     layout="responsive"
                     width="500px"
                     height="850px"
                     objectFit="cover"
-                    alt="appPromo-variantC-image2"
+                    alt={images[1]?.alt ?? "appPromo-variantC-image2"}
                     blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
                     placeholder="blur"
                   />
                 )}
-                {images?.[2] && (
+                {images?.[2]?.image?.asset?._ref && (
                   <Image
-                    src={urlFor(images[2])}
+                    src={urlFor(images[2]?.image)}
                     layout="responsive"
                     width="500px"
                     height="850px"
                     objectFit="cover"
-                    alt="appPromo-variantC-image3"
+                    alt={images[2]?.alt ?? "appPromo-variantC-image3"}
                     blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
                     placeholder="blur"
                   />
                 )}
               </div>
               <div className="w-full">
-                {images?.[3] && (
+                {images?.[3]?.image?.asset?._ref && (
                   <Image
-                    src={urlFor(images[3])}
+                    src={urlFor(images[3]?.image)}
                     layout="responsive"
                     width="500px"
                     height="850px"
                     objectFit="cover"
-                    alt="appPromo-variantC-image4"
+                    alt={images[3]?.alt ?? "appPromo-variantC-image4"}
                     blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
                     placeholder="blur"
                   />

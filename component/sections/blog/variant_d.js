@@ -4,9 +4,8 @@ import Image from "next/image";
 import { urlFor } from "lib/sanity";
 import { format } from "date-fns";
 
-function VariantD({ subtitle, title, posts, buttonLabel }) {
-  let blogs = 5;
-  let [blogsPerPage, setBlogsPerPage] = React.useState(blogs); // sets the number of blogs to initially show on page
+function VariantD({ subtitle, title, posts }) {
+  let blogsPerPage = 6;
   const [activeTab, setActiveTab] = React.useState("All"); //set the first index category as initial value
   const [newArray, setNewArray] = React.useState([]);
 
@@ -61,27 +60,6 @@ function VariantD({ subtitle, title, posts, buttonLabel }) {
                   {title}
                 </h1>
               )}
-            </div>
-            <div className="hidden lg:block text-right w-1/2">
-              {activeTab === "All" ? (
-                posts?.length > blogsPerPage ? (
-                  <button
-                    aria-label="View All Blogs button"
-                    className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose transition duration-200"
-                    onClick={() => setBlogsPerPage(posts?.length)}
-                  >
-                    {buttonLabel}
-                  </button>
-                ) : null
-              ) : postsPerCategory?.length > blogsPerPage ? (
-                <button
-                  aria-label={`View All Blogs For ${activeTab} button`}
-                  className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose transition duration-200"
-                  onClick={() => setBlogsPerPage(postsPerCategory?.length)}
-                >
-                  {buttonLabel}
-                </button>
-              ) : null}
             </div>
           </div>
           <div className="flex flex-wrap -mx-3">
@@ -148,7 +126,7 @@ function VariantD({ subtitle, title, posts, buttonLabel }) {
                         key={index}
                       >
                         <div className="mb-4 lg:mb-0 w-full h-full lg:w-1/4 px-3">
-                          {post?.mainImage && (
+                          {post?.mainImage?.asset?._ref && (
                             <div className="rounded overflow-hidden">
                               <Image
                                 src={urlFor(post?.mainImage)}
@@ -220,7 +198,7 @@ function VariantD({ subtitle, title, posts, buttonLabel }) {
                         key={index}
                       >
                         <div className="mb-4 lg:mb-0 h-full w-full lg:w-1/4 px-3">
-                          {post?.mainImage && (
+                          {post?.mainImage?.asset?._ref && (
                             <div className="rounded overflow-hidden">
                               <Image
                                 src={urlFor(post?.mainImage)}

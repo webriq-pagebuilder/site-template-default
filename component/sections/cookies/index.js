@@ -7,7 +7,6 @@ const Variants = {
   variant_c: dynamic(() => import("./variant_c")),
   variant_d: dynamic(() => import("./variant_d")),
   variant_e: dynamic(() => import("./variant_e")),
-  variant_f: dynamic(() => import("./variant_f")),
 };
 
 function Cookies({ data }) {
@@ -15,10 +14,10 @@ function Cookies({ data }) {
   const Variant = Variants?.[variant];
 
   const props = {
-    title: data?.variants?.[variant]?.heading,
-    allowCookieBtn: data?.variants?.[variant]?.acceptButtonLabel,
-    denyCookieBtn: data?.variants?.[variant]?.declineButtonLabel,
-    block: data?.variants?.[variant]?.block,
+    title: data?.variants?.heading,
+    allowCookieBtn: data?.variants?.acceptButtonLabel,
+    denyCookieBtn: data?.variants?.declineButtonLabel,
+    block: data?.variants?.block,
   };
 
   return Variant ? <Variant {...props} /> : null;

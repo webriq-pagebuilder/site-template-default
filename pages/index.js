@@ -1,39 +1,35 @@
 import React from "react";
 import Head from "next/head";
-import dynamic from "next/dynamic";
+import { useRouter } from "next/router";
 import { homeQuery } from "./api/query";
 import { getClient, usePreviewSubscription } from "../lib/sanity";
-
-const Components = {
-  navigation: dynamic(() => import("../component/sections/navigation")),
-  header: dynamic(() => import("../component/sections/hero")),
-  pricing: dynamic(() => import("../component/sections/pricing")),
-  features: dynamic(() => import("../component/sections/features")),
-  team: dynamic(() => import("../component/sections/team")),
-  blog: dynamic(() => import("../component/sections/blog")),
-  portfolio: dynamic(() => import("../component/sections/portfolio")),
-  callToAction: dynamic(() => import("../component/sections/call_to_action")),
-  newsletter: dynamic(() => import("../component/sections/newsletter")),
-  testimonial: dynamic(() => import("../component/sections/testimonials")),
-  logoCloud: dynamic(() => import("../component/sections/logoCloud")),
-  howItWorks: dynamic(() => import("../component/sections/how_it_works")),
-  faqs: dynamic(() => import("../component/sections/faqs")),
-  contact: dynamic(() => import("../component/sections/contact")),
-  appPromo: dynamic(() => import("../component/sections/app_promo")),
-  stats: dynamic(() => import("../component/sections/stats")),
-  cookies: dynamic(() => import("../component/sections/cookies")),
-  footer: dynamic(() => import("../component/sections/footer")),
-  signInSignUp: dynamic(() => import("component/sections/sign_in_sign_up")),
-  textComponent: dynamic(() => import("component/sections/text_component")),
-};
+import NoPreview from "pages/no-preview";
+import { Components, filterDataToSingleItem } from "./[slug]";
 
 function Home({ data, preview }) {
+  const router = useRouter();
+  /*
+   *  For new unpublished pages, return page telling user that the page needs to be published first before it can be previewed
+   *  This prevents showing 404 page when the page is not published yet
+   */
+  if ((!router.isFallback && !data?.page) || data?.page?.hasNeverPublished) {
+    return <NoPreview />;
+  }
+
+  let pageData;
   const { data: page } = usePreviewSubscription(homeQuery, {
     initialData: data,
     enabled: preview,
   });
 
-  const pageData = page?.page?.[0] || page[0];
+  // for never published pages
+  if (data?.page?.hasNeverPublished) {
+    pageData = data?.page;
+  } else {
+    // for published pages and pages with unpublished edits
+    pageData = page?.page?.[0] || page?.page || page?.[0];
+  }
+
   if (!pageData) {
     return null;
   }
@@ -45,7 +41,7 @@ function Home({ data, preview }) {
       <Head>
         <title>{seo?.seoTitle ?? title}</title>
       </Head>
-      {sections?.map((section) => {
+      {sections?.map((section, index) => {
         const Component = Components[section._type];
 
         // skip rendering unknown components
@@ -55,7 +51,7 @@ function Home({ data, preview }) {
 
         return (
           <Component
-            key={section._key}
+            key={index}
             template={{
               bg: "gray",
               color: "webriq",
@@ -69,7 +65,20 @@ function Home({ data, preview }) {
 }
 
 export async function getStaticProps({ preview = false }) {
-  const page = await getClient(preview).fetch(homeQuery);
+  const indexPage = await getClient(preview).fetch(homeQuery);
+
+  // pass page data and preview to helper function
+  const page = filterDataToSingleItem(indexPage, preview);
+
+  // if our query failed, then return null to display custom no-preview page
+  if (!page) {
+    return {
+      props: {
+        preview,
+        data: { page: null },
+      },
+    };
+  }
 
   return {
     props: {

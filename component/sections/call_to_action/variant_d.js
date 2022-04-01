@@ -1,40 +1,73 @@
 import { urlFor } from "lib/sanity";
 import React from "react";
-import Image from "next/image";
 import Link from "next/link";
 import WebriQForm from "component/webriq-form";
 
-function VariantD({
-  logo,
-  title,
-  text,
-  button,
-  formFields,
-  formId,
-  formName,
-  links,
-  signInLink,
-}) {
+function VariantD({ logo, title, text, button, form, formLinks, signInLink }) {
+  let logoLink;
+  const { id, name, subtitle, fields, buttonLabel, thankYouPage } = form;
+  const [value, setValue] = React.useState(null); // setting selected value for input field radio type
+  const [checked, setChecked] = React.useState([]); // setting selected value for input field checkbox type
+
+  const handleRadioChange = (e) => {
+    setValue(e.target.value);
+  };
+
+  const handleCheckboxChange = (e) => {
+    const { checked, value } = e.target;
+
+    setChecked((prev) =>
+      checked ? [...prev, value] : prev.filter((v) => v !== value)
+    );
+  };
+
+  if (logo.type === "linkInternal") {
+    if (logo.internalLink === undefined) {
+      logoLink = `/`;
+    } else {
+      if (logo.internalLink === "Home" || logo.internalLink === "home") {
+        logoLink = `/`;
+      } else {
+        logoLink = `/${logo.internalLink}`;
+      }
+    }
+  } else {
+    if (logo.externalLink === undefined) {
+      logoLink = `/`;
+    } else {
+      logoLink = logo.externalLink;
+    }
+  }
+
+  const thankYouPageLink = (link) => {
+    if (link === undefined) {
+      return "/thank-you";
+    } else {
+      if (link?.linkType === "linkInternal") {
+        return `/${link.internalLink}`;
+      } else {
+        return link.externalLink;
+      }
+    }
+  };
+
   return (
     <section className="py-20 px-10 bg-gray-50">
       <div className="container mx-auto px-4">
         <div className="flex flex-wrap items-center justify-center -mx-4">
           <div className="mb-16 lg:mb-0 max-w-2xl lg:w-1/2 px-4">
             {logo?.image && (
-              <Link href="/">
+              <Link href={logoLink}>
                 <a
-                  aria-label="Call to Action logo"
+                  aria-label={
+                    logoLink === "/" ? "Go to home page" : `Go to ${logoLink}`
+                  }
                   className="mb-10 inline-block text-3xl font-bold leading-none"
                 >
-                  <Image
+                  <img
+                    className="h-14"
                     src={urlFor(logo?.image)}
-                    layout="fixed"
-                    width="48px"
-                    height="48px"
-                    objectFit="contain"
                     alt={logo?.alt ?? "callToAction-logo"}
-                    blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                    placeholder="blur"
                   />
                 </a>
               </Link>
@@ -43,29 +76,55 @@ function VariantD({
               {title}
             </h1>
             <p className="mb-8 text-gray-700 leading-loose">{text}</p>
-            {button && button?.type === "linkInternal" ? (
-              <Link
-                href={
-                  button?.internalLink === "Home" ||
-                  button?.internalLink === "home"
-                    ? "/"
-                    : `/${
-                        button.internalLink === undefined
-                          ? "page-not-found"
-                          : button.internalLink
-                      }`
-                }
-              >
+            {button.label &&
+              (button?.type === "linkInternal" ? (
+                <Link
+                  href={
+                    button?.internalLink === "Home" ||
+                    button?.internalLink === "home"
+                      ? "/"
+                      : `/${
+                          button.internalLink === undefined
+                            ? "page-not-found"
+                            : button.internalLink
+                        }`
+                  }
+                >
+                  <a
+                    aria-label={`Call to action ${
+                      button?.label ?? "primary"
+                    } button which directs to ${
+                      button?.internalLink === undefined
+                        ? "page-not-found"
+                        : button?.internalLink
+                    }`}
+                    className="inline-block py-2 px-6 bg-webriq-darkblue hover:bg-webriq-blue text-white font-bold leading-loose transition duration-250 rounded-l-xl rounded-t-xl"
+                    target={button?.linkTarget}
+                    rel={
+                      button?.linkTarget === "_blank"
+                        ? "noopener noreferrer"
+                        : null
+                    }
+                  >
+                    {button?.label}
+                  </a>
+                </Link>
+              ) : (
                 <a
                   aria-label={`Call to action ${
                     button?.label ?? "primary"
                   } button which directs to ${
-                    button?.internalLink === undefined
-                      ? "page-not-found"
-                      : button?.internalLink
+                    button?.externalLink === undefined
+                      ? "link-not-found"
+                      : button?.externalLink
                   }`}
                   className="inline-block py-2 px-6 bg-webriq-darkblue hover:bg-webriq-blue text-white font-bold leading-loose transition duration-250 rounded-l-xl rounded-t-xl"
                   target={button?.linkTarget}
+                  href={`${
+                    button?.externalLink === undefined
+                      ? "link-not-found"
+                      : button?.externalLink
+                  }`}
                   rel={
                     button?.linkTarget === "_blank"
                       ? "noopener noreferrer"
@@ -74,269 +133,325 @@ function VariantD({
                 >
                   {button?.label}
                 </a>
-              </Link>
-            ) : (
-              <a
-                aria-label={`Call to action ${
-                  button?.label ?? "primary"
-                } button which directs to ${
-                  button?.externalLink === undefined
-                    ? "link-not-found"
-                    : button?.externalLink
-                }`}
-                className="inline-block py-2 px-6 bg-webriq-darkblue hover:bg-webriq-blue text-white font-bold leading-loose transition duration-250 rounded-l-xl rounded-t-xl"
-                target={button?.linkTarget}
-                href={`${
-                  button?.externalLink === undefined
-                    ? "link-not-found"
-                    : button?.externalLink
-                }`}
-                rel={
-                  button?.linkTarget === "_blank" ? "noopener noreferrer" : null
-                }
-              >
-                {button?.label}
-              </a>
-            )}
+              ))}
           </div>
           <div className="w-full lg:w-1/2">
             <div className="max-w-sm mx-auto lg:mr-0 lg:ml-auto">
-              {formFields && (
+              {fields && (
                 <div className="mb-6 py-8 px-6 bg-white shadow rounded-t-3xl rounded-bl-3xl text-center">
                   <WebriQForm
                     method="POST"
-                    data-form-id={formId}
-                    name={formName}
+                    data-form-id={id}
+                    name="Calltoaction-VariantD-Form"
                     className="form-callToAction"
-                    data-thankyou-url="/thank-you"
+                    data-thankyou-url={thankYouPageLink(thankYouPage)}
                     scriptsrc="https://pagebuilderforms.webriq.com/js/initReactForms"
                   >
                     <div className="mb-6">
-                      <span className="text-sm text-gray-500">Sign Up</span>
-                      <p className="text-2xl">Create an account</p>
+                      <span className="text-sm text-gray-500">{subtitle}</span>
+                      <p className="text-2xl">{name}</p>
                     </div>
                     <div className="mb-3 flex flex-wrap -mx-2">
-                      {formFields?.[0] && formFields[0]?.name && (
-                        <div className="w-full lg:w-1/2 px-2 mb-3 lg:mb-0 xl:mb-0 2xl:mb-0">
-                          {formFields[0].type === "textarea" ? (
+                      {fields?.slice(0, 2)?.map((formFields, index) => (
+                        <div
+                          className="w-full lg:w-1/2 px-2 mb-3 lg:mb-0 xl:mb-0 2xl:mb-0"
+                          key={index}
+                        >
+                          {formFields.type === "textarea" ? (
                             <textarea
-                              aria-label={`${formFields[0]?.name} text area`}
+                              aria-label={`${formFields?.name} text area`}
                               className="w-full p-4 text-xs bg-gray-100 outline-none rounded"
-                              placeholder={formFields[0]?.name}
-                              name={formFields[0]?.name}
+                              placeholder={formFields?.placeholder}
+                              name={formFields?.name}
+                              required={formFields?.isRequired}
                             />
-                          ) : formFields[0].type === "inputFile" ? (
+                          ) : formFields.type === "inputFile" ? (
                             <label className="flex px-2 bg-gray-100 rounded">
                               <input
-                                aria-label={formFields[0]?.name}
+                                aria-label={formFields?.name}
                                 className="w-full p-4 text-xs bg-gray-100 outline-none rounded"
                                 type="file"
-                                placeholder={
-                                  formFields[0]?.name ?? "Choose file.."
-                                }
-                                name={formFields[0]?.name}
+                                placeholder="Choose file.."
+                                name={formFields?.name}
+                                required={formFields?.isRequired}
                               />
                             </label>
+                          ) : formFields.type === "inputNumber" ? (
+                            <input
+                              aria-label={formFields?.name}
+                              className="w-full p-4 text-xs bg-gray-100 outline-none rounded"
+                              type="number"
+                              placeholder={formFields?.placeholder}
+                              name={formFields?.name}
+                              required={formFields?.isRequired}
+                            />
+                          ) : formFields.type === "inputSelect" ? (
+                            <div className="mb-4 flex">
+                              <label
+                                className="text-left text-xs text-gray-500 m-auto"
+                                htmlFor={formFields?.name}
+                              >
+                                {formFields?.label}
+                              </label>
+                              <select
+                                className="p-3 w-full text-xs bg-gray-100 outline-none rounded"
+                                name={`cta-${formFields?.name}`}
+                                defaultValue={"default-value"}
+                                required={formFields?.isRequired}
+                              >
+                                <option name="default-value" value=""></option>
+                                {formFields?.items?.map((item, index) => (
+                                  <option
+                                    key={index}
+                                    name={formFields?.name}
+                                    value={item}
+                                  >
+                                    {item}
+                                  </option>
+                                ))}
+                              </select>
+                            </div>
+                          ) : formFields?.type === "inputRadio" ? (
+                            <div className="mb-4 text-left">
+                              <label
+                                className="text-left text-xs text-gray-500 m-auto"
+                                htmlFor={formFields?.name}
+                              >
+                                {formFields?.label}
+                              </label>
+                              <div>
+                                {formFields?.items?.map((item, index) => (
+                                  <label
+                                    className="text-xs text-gray-500 mr-4"
+                                    key={index}
+                                  >
+                                    <input
+                                      className="mr-2"
+                                      name={formFields?.name}
+                                      value={item}
+                                      type="radio"
+                                      onChange={handleRadioChange}
+                                      checked={value === item}
+                                      required={formFields?.isRequired}
+                                    />
+                                    {item}
+                                  </label>
+                                ))}
+                              </div>
+                            </div>
+                          ) : formFields?.type === "inputCheckbox" ? (
+                            <div className="mb-4 text-left">
+                              <label
+                                className="text-left text-xs text-gray-500 m-auto"
+                                htmlFor={formFields?.name}
+                              >
+                                {formFields?.label}
+                              </label>
+                              <div>
+                                {formFields?.items?.map((item, index) => (
+                                  <label
+                                    className="text-xs text-gray-500 mr-4"
+                                    key={index}
+                                  >
+                                    <input
+                                      className="mr-2"
+                                      name={formFields?.name}
+                                      value={item}
+                                      type="checkbox"
+                                      onChange={handleCheckboxChange}
+                                      checked={checked.some((v) => v === item)}
+                                      required={
+                                        formFields?.isRequired &&
+                                        checked.length === 0
+                                          ? true
+                                          : false
+                                      }
+                                    />
+                                    {item}
+                                  </label>
+                                ))}
+                              </div>
+                            </div>
                           ) : (
                             <input
                               aria-label={`${
-                                formFields[0]?.type === "inputText"
-                                  ? `Input ${formFields[0]?.name}`
-                                  : `${formFields[0]?.type}`
+                                formFields?.type === "inputText"
+                                  ? `Input ${formFields?.name}`
+                                  : `${formFields?.type}`
                               }`}
                               className="w-full p-4 text-xs bg-gray-100 outline-none rounded"
                               type={
-                                formFields[0]?.type === "inputEmail"
+                                formFields?.type === "inputEmail"
                                   ? "email"
-                                  : formFields[0]?.type === "inputPassword"
+                                  : formFields?.type === "inputPassword"
                                   ? "password"
                                   : "text"
                               }
-                              placeholder={formFields[0]?.name}
-                              name={formFields[0]?.name}
+                              placeholder={formFields?.placeholder}
+                              name={formFields?.name}
+                              required={formFields?.isRequired}
                             />
                           )}
                         </div>
-                      )}
-                      {formFields?.[1] && formFields[1]?.name && (
-                        <div className="w-full lg:w-1/2 px-2">
-                          {formFields[1].type === "textarea" ? (
-                            <textarea
-                              aria-label={`${formFields[1]?.name} text area`}
-                              className="w-full p-4 text-xs bg-gray-100 outline-none rounded"
-                              placeholder={formFields[1]?.name}
-                              name={formFields[1]?.name}
-                            />
-                          ) : formFields[1].type === "inputFile" ? (
+                      ))}
+                    </div>
+                    {fields?.slice(2)?.map((formFields, index) => (
+                      <div key={index}>
+                        {formFields?.type === "textarea" ? (
+                          <textarea
+                            aria-label={`${formFields?.name} text area`}
+                            className="mb-3 w-full p-4 text-xs bg-gray-100 outline-none rounded"
+                            placeholder={formFields?.placeholder}
+                            name={formFields?.name}
+                            required={formFields?.isRequired}
+                          />
+                        ) : formFields?.type === "inputFile" ? (
+                          <div className="mb-3">
                             <label className="flex px-2 bg-gray-100 rounded">
                               <input
                                 aria-label="Add file"
                                 className="w-full p-4 text-xs bg-gray-100 outline-none rounded"
                                 type="file"
-                                placeholder={
-                                  formFields[1]?.name ?? "Choose file.."
-                                }
-                                name={formFields[1]?.name}
+                                placeholder="Choose file.."
+                                name={formFields?.name}
+                                required={formFields?.isRequired}
                               />
                             </label>
-                          ) : (
+                          </div>
+                        ) : formFields.type === "inputNumber" ? (
+                          <input
+                            aria-label={formFields?.name}
+                            className="mb-4 w-full p-4 text-xs bg-gray-100 outline-none rounded"
+                            type="number"
+                            placeholder={formFields?.placeholder}
+                            name={formFields?.name}
+                            required={formFields?.isRequired}
+                          />
+                        ) : formFields.type === "inputSelect" ? (
+                          <div className="mb-4 flex">
+                            <label
+                              className="text-left text-xs text-gray-500 m-auto"
+                              htmlFor={formFields?.name}
+                            >
+                              {formFields?.label}
+                            </label>
+                            <select
+                              className="p-3 w-full text-xs bg-gray-100 outline-none rounded"
+                              name={`cta-${formFields?.name}`}
+                              defaultValue={"default-value"}
+                              required={formFields?.isRequired}
+                            >
+                              <option name="default-value" value=""></option>
+                              {formFields?.items?.map((item, index) => (
+                                <option
+                                  key={index}
+                                  name={formFields?.name}
+                                  value={item}
+                                >
+                                  {item}
+                                </option>
+                              ))}
+                            </select>
+                          </div>
+                        ) : formFields?.type === "inputRadio" ? (
+                          <div className="mb-4 text-left">
+                            <label
+                              className="text-left text-xs text-gray-500 m-auto"
+                              htmlFor={formFields?.name}
+                            >
+                              {formFields?.label}
+                            </label>
+                            <div>
+                              {formFields?.items?.map((item, index) => (
+                                <label
+                                  className="text-xs text-gray-500 mr-4"
+                                  key={index}
+                                >
+                                  <input
+                                    className="mr-2"
+                                    name={formFields?.name}
+                                    value={item}
+                                    type="radio"
+                                    onChange={handleRadioChange}
+                                    checked={value === item}
+                                    required={formFields?.isRequired}
+                                  />
+                                  {item}
+                                </label>
+                              ))}
+                            </div>
+                          </div>
+                        ) : formFields?.type === "inputCheckbox" ? (
+                          <div className="mb-4 text-left">
+                            <label
+                              className="text-left text-xs text-gray-500 m-auto"
+                              htmlFor={formFields?.name}
+                            >
+                              {formFields?.label}
+                            </label>
+                            <div>
+                              {formFields?.items?.map((item, index) => (
+                                <label
+                                  className="text-xs text-gray-500 mr-4"
+                                  key={index}
+                                >
+                                  <input
+                                    className="mr-2"
+                                    name={formFields?.name}
+                                    value={item}
+                                    type="checkbox"
+                                    onChange={handleCheckboxChange}
+                                    checked={checked.some((v) => v === item)}
+                                    required={
+                                      formFields?.isRequired &&
+                                      checked.length === 0
+                                        ? true
+                                        : false
+                                    }
+                                  />
+                                  {item}
+                                </label>
+                              ))}
+                            </div>
+                          </div>
+                        ) : (
+                          <div className="mb-4 flex p-4 bg-gray-100 rounded">
                             <input
                               aria-label={`${
-                                formFields[1]?.type === "inputText"
-                                  ? `Input ${formFields[1]?.name}`
-                                  : `${formFields[1]?.type}`
+                                formFields?.type === "inputText"
+                                  ? `Input ${formFields?.name}`
+                                  : `${formFields?.type}`
                               }`}
-                              className="w-full p-4 text-xs bg-gray-100 outline-none rounded"
+                              className="w-full text-xs bg-gray-100 outline-none"
                               type={
-                                formFields[1]?.type === "inputEmail"
+                                formFields?.type === "inputEmail"
                                   ? "email"
-                                  : formFields[1]?.type === "inputPassword"
+                                  : formFields?.type === "inputPassword"
                                   ? "password"
                                   : "text"
                               }
-                              placeholder={formFields[1]?.name}
-                              name={formFields[1]?.name}
+                              placeholder={formFields?.placeholder}
+                              name={formFields?.name}
+                              required={formFields?.isRequired}
                             />
-                          )}
-                        </div>
-                      )}
-                    </div>
-                    {formFields?.[2] &&
-                      formFields[2]?.name &&
-                      (formFields[2].type === "textarea" ? (
-                        <textarea
-                          aria-label={`${formFields[2]?.name} text area`}
-                          className="mb-3 w-full p-4 text-xs bg-gray-100 outline-none rounded"
-                          placeholder={formFields[2]?.name}
-                          name={formFields[2]?.name}
-                        />
-                      ) : formFields[2].type === "inputFile" ? (
-                        <div className="mb-3">
-                          <label className="flex px-2 bg-gray-100 rounded">
-                            <input
-                              aria-label="Add file"
-                              className="w-full p-4 text-xs bg-gray-100 outline-none rounded"
-                              type="file"
-                              placeholder={
-                                formFields[2]?.name ?? "Choose file.."
-                              }
-                              name={formFields[2]?.name}
-                            />
-                          </label>
-                        </div>
-                      ) : (
-                        <input
-                          aria-label={`${
-                            formFields[2]?.type === "inputText"
-                              ? `Input ${formFields[2]?.name}`
-                              : `${formFields[2]?.type}`
-                          }`}
-                          className="mb-3 w-full p-4 text-xs bg-gray-100 outline-none rounded"
-                          type={
-                            formFields[2]?.type === "inputEmail"
-                              ? "email"
-                              : formFields[2]?.type === "inputPassword"
-                              ? "password"
-                              : "text"
-                          }
-                          placeholder={formFields[2]?.name}
-                          name={formFields[2]?.name}
-                        />
-                      ))}
-                    {formFields?.[3] &&
-                      formFields[3]?.name &&
-                      (formFields[3].type === "textarea" ? (
-                        <textarea
-                          aria-label={`${formFields[3]?.name} text area`}
-                          className="mb-3 w-full p-4 text-xs bg-gray-100 outline-none rounded"
-                          placeholder={formFields[3]?.name}
-                          name={formFields[3]?.name}
-                        />
-                      ) : formFields[3].type === "inputFile" ? (
-                        <div className="mb-3">
-                          <label className="flex px-2 bg-gray-100 rounded">
-                            <input
-                              aria-label="Add file"
-                              className="w-full p-4 text-xs bg-gray-100 outline-none rounded"
-                              type="file"
-                              placeholder={
-                                formFields[2]?.name ?? "Choose file.."
-                              }
-                              name={formFields[3]?.name}
-                            />
-                          </label>
-                        </div>
-                      ) : (
-                        <input
-                          aria-label={`${
-                            formFields[3]?.type === "inputText"
-                              ? `Input ${formFields[3]?.name}`
-                              : `${formFields[3]?.type}`
-                          }`}
-                          className="mb-3 w-full p-4 text-xs bg-gray-100 outline-none rounded"
-                          type={
-                            formFields[3]?.type === "inputEmail"
-                              ? "email"
-                              : formFields[3]?.type === "inputPassword"
-                              ? "password"
-                              : "text"
-                          }
-                          placeholder={formFields[3]?.name}
-                          name={formFields[3]?.name}
-                        />
-                      ))}
-                    {formFields?.[4] &&
-                      formFields[4]?.name &&
-                      (formFields[4].type === "textarea" ? (
-                        <textarea
-                          aria-label={`${formFields[0]?.name} text area`}
-                          className="mb-3 w-full p-4 text-xs bg-gray-100 outline-none rounded"
-                          placeholder={formFields[4]?.name}
-                          name={formFields[4]?.name}
-                        />
-                      ) : formFields[4].type === "inputFile" ? (
-                        <div className="mb-3">
-                          <label className="flex px-2 bg-gray-100 rounded">
-                            <input
-                              aria-label="Add file"
-                              className="w-full p-4 text-xs bg-gray-100 outline-none rounded"
-                              type="file"
-                              placeholder={
-                                formFields[4]?.name ?? "Choose file.."
-                              }
-                              name={formFields[4]?.name}
-                            />
-                          </label>
-                        </div>
-                      ) : (
-                        <input
-                          aria-label={`${
-                            formFields[4]?.type === "inputText"
-                              ? `Input ${formFields[4]?.name}`
-                              : `${formFields[4]?.type}`
-                          }`}
-                          className="mb-3 w-full p-4 text-xs bg-gray-100 outline-none rounded"
-                          type={
-                            formFields[4]?.type === "inputEmail"
-                              ? "email"
-                              : formFields[4]?.type === "inputPassword"
-                              ? "password"
-                              : "text"
-                          }
-                          placeholder={formFields[4]?.name}
-                          name={formFields[4]?.name}
-                        />
-                      ))}
+                          </div>
+                        )}
+                      </div>
+                    ))}
                     <div>
                       <div className="webriq-recaptcha" />
                     </div>
-                    <button
-                      aria-label="Call to Action Sign Up button"
-                      className="mb-4 py-4 w-full rounded text-sm bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-normal transition duration-200"
-                      type="submit"
-                    >
-                      Sign Up
-                    </button>
+                    {buttonLabel && (
+                      <button
+                        aria-label={
+                          buttonLabel ?? "Call to action form submit button"
+                        }
+                        className="mb-4 py-4 w-full rounded text-sm bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-normal transition duration-200"
+                        type="submit"
+                      >
+                        {buttonLabel}
+                      </button>
+                    )}
                   </WebriQForm>
                   {signInLink?.label && (
                     <p className="text-xs text-gray-500">
@@ -394,9 +509,9 @@ function VariantD({
                   )}
                 </div>
               )}
-              {links && (
+              {formLinks && (
                 <div className="flex flex-wrap text-sm justify-center items-center text-gray-500">
-                  {links?.map((link, index, { length }) => (
+                  {formLinks?.map((link, index, { length }) => (
                     <div key={index}>
                       {link?.type === "linkInternal" ? (
                         <Link

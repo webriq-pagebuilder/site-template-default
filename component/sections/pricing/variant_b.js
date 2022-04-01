@@ -9,9 +9,9 @@ function VariantB({
   plans,
   hashKey,
   apiVersion,
-  stripeSecretKey,
+  stripeSKey,
   stripePKey,
-  NEXT_PUBLIC_DXP_STUDIO_ADDRESS,
+  NEXT_PUBLIC_APP_URL,
 }) {
   const [usePlan, setUsePlan] = React.useState(plans);
   const [pKeyError, setPKError] = React.useState(false);
@@ -23,44 +23,45 @@ function VariantB({
       const productPayload = {
         credentials: {
           hashKey,
-          stripeSecretKey,
+          stripeSKey,
           apiVersion,
         },
-        id: `dxpstudio-pricing-${plans[i]?._key}-${plans[i]?.planType?.replace(
-          / /g,
-          "-"
-        )}-oneTimePrice-${plans[i]?.price}`,
+        stripeParams: {
+          id: `webriq-studio-pricing-${plans[i]._key}-${i + 1}-${plans[
+            i
+          ].planType.replace(/ /g, "-")}-oneTime-Payment-${plans[i].price}`,
+        },
       };
 
       const pricePayload = {
         credentials: {
           hashKey,
-          stripeSecretKey,
+          stripeSKey,
           apiVersion,
         },
+        stripeParams: {},
       };
+
       try {
         const product = await axios.post(
-          `${NEXT_PUBLIC_DXP_STUDIO_ADDRESS}/api/payments/stripe?resource=products&action=retrieve`,
+          `${NEXT_PUBLIC_APP_URL}/api/payments/stripe?resource=products&action=retrieve`,
           productPayload
         );
-        const productData = await product.data;
+        const productResponse = await product.data;
         // plansResponse.push(data.data);
 
-        const prices = await axios.post(
-          `${NEXT_PUBLIC_DXP_STUDIO_ADDRESS}/api/payments/stripe?resource=prices&action=list`,
+        const { data } = await axios.post(
+          `${NEXT_PUBLIC_APP_URL}/api/payments/stripe?resource=prices&action=list`,
           pricePayload
         );
-        const pricesData = await prices.data;
 
-        pricesData.data.map((price) => {
-          if (
-            price.product === productData.id &&
-            productData.name === plans[i].planType
-          ) {
-            plans[i]["checkoutButton"] = price.id;
-          }
-        });
+        if (data) {
+          data?.data?.forEach((item) => {
+            if (item.product === productResponse.data.id) {
+              plans[i]["variant_b_checkoutButton"] = item.id;
+            }
+          });
+        }
 
         setUsePlan(plans);
       } catch (error) {
@@ -114,18 +115,22 @@ function VariantB({
               </p>
             </div>
           )}
-          {!usePlan ? null : (
-            <div className="flex flex-wrap">
-              {usePlan?.[0] && (
-                <div className="mb-8 w-full p-8 flex flex-wrap items-center bg-white rounded shadow">
+
+          {usePlan &&
+            usePlan.map((plan) => {
+              return (
+                <div
+                  className="mb-8 w-full p-8 flex flex-wrap items-center bg-white rounded shadow"
+                  key={plan._key}
+                >
                   <div className="w-full lg:w-1/5 px-3 self-start">
                     <h3 className="mb-4 text-xl lg:text-2xl xl:text-2xl 2xl:text-2xl font-bold font-heading">
-                      {usePlan?.[0]?.planType}
+                      {plan.planType}
                     </h3>
                   </div>
                   <div className="w-full lg:w-2/5 px-3">
                     <ul className="mb-4 text-gray-500">
-                      {usePlan?.[0]?.planIncludes?.map((include) => (
+                      {plan.planIncludes?.map((include) => (
                         <li className="mb-4 flex" key={include}>
                           <svg
                             className="mr-2 w-5 h-5 text-webriq-darkblue"
@@ -148,26 +153,27 @@ function VariantB({
                   </div>
                   <div className="w-full lg:w-1/5 px-3 lg:text-center">
                     <span className="text-4xl font-bold">
-                      {isNaN(parseInt(usePlan?.[0]?.price))
-                        ? usePlan?.[0]?.price
-                        : `$${comma.format(usePlan?.[0]?.price)}`}
+                      {isNaN(parseInt(plan.price))
+                        ? plan.price
+                        : `$${comma.format(plan.price)}`}
                     </span>
                   </div>
                   <div className="w-full lg:w-1/5 px-3">
-                    {usePlan?.[0]?.checkoutButtonName && (
+                    {plan.checkoutButtonName && (
                       <button
-                        aria-label={`${usePlan?.[0]?.checkoutButtonName} button`}
+                        aria-label={`${plan.checkoutButtonName} button`}
                         className={`inline-block mt-4 lg:mt-0 py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-white font-bold leading-loose transition duration-200  ${
-                          !usePlan[0] &&
-                          "disabled:opacity-50 cursor-not-allowed"
+                          !plan ||
+                          (!plan?.variant_b_checkoutButton &&
+                            "disabled:opacity-50 cursor-not-allowed bg-gray-100")
                         }`}
-                        disabled={!usePlan[0]}
+                        disabled={!plan || !plan?.variant_b_checkoutButton}
                         onClick={() => {
                           initiateCheckout(
                             {
                               lineItems: [
                                 {
-                                  price: usePlan[0].checkoutButton,
+                                  price: plan.variant_b_checkoutButton,
                                   quantity: 1,
                                 },
                               ],
@@ -180,159 +186,13 @@ function VariantB({
                           );
                         }}
                       >
-                        {!usePlan[0]
-                          ? "Processing..."
-                          : usePlan?.[0]?.checkoutButtonName}
+                        {!usePlan ? "Processing..." : plan.checkoutButtonName}
                       </button>
                     )}
                   </div>
                 </div>
-              )}
-              {usePlan?.[1] && (
-                <div className="mb-8 w-full p-8 flex flex-wrap items-center bg-white rounded shadow">
-                  <div className="w-full lg:w-1/5 px-3 self-start">
-                    <h3 className="mb-4 text-xl lg:text-2xl xl:text-2xl 2xl:text-2xl font-bold font-heading">
-                      {usePlan?.[1]?.planType}
-                    </h3>
-                  </div>
-                  <div className="w-full lg:w-2/5 px-3">
-                    <ul className="mb-4 text-gray-500">
-                      {usePlan?.[1].planIncludes?.map((include) => (
-                        <li className="mb-4 flex" key={include}>
-                          <svg
-                            className="mr-2 w-5 h-5 text-webriq-darkblue"
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 20 20"
-                            fill="currentColor"
-                          >
-                            <path
-                              fillRule="evenodd"
-                              d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                              clipRule="evenodd"
-                            />
-                          </svg>
-                          <span className="text-sm lg:text-base xl:text-base 2xl:text-base">
-                            {include}
-                          </span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                  <div className="w-full lg:w-1/5 px-3 lg:text-center">
-                    <span className="text-4xl font-bold">
-                      {isNaN(parseInt(usePlan?.[1]?.price))
-                        ? usePlan?.[1]?.price
-                        : `$${comma.format(usePlan?.[1]?.price)}`}
-                    </span>
-                  </div>
-                  <div className="w-full lg:w-1/5 px-3">
-                    {usePlan?.[1]?.checkoutButtonName && (
-                      <button
-                        aria-label={`${usePlan?.[1]?.checkoutButtonName} button`}
-                        className={`inline-block mt-4 lg:mt-0 py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-white font-bold leading-loose transition duration-200 ${
-                          !usePlan[1] &&
-                          "disabled:opacity-50 cursor-not-allowed"
-                        }`}
-                        disabled={!usePlan[1]}
-                        onClick={() => {
-                          initiateCheckout(
-                            {
-                              lineItems: [
-                                {
-                                  price: usePlan[1].checkoutButton,
-                                  quantity: 1,
-                                },
-                              ],
-                            },
-                            stripePKey,
-                            window.location.origin + "/success",
-                            window.location.href,
-                            false,
-                            setPKError
-                          );
-                        }}
-                      >
-                        {!usePlan[1]
-                          ? "Processing..."
-                          : usePlan?.[1]?.checkoutButtonName}
-                      </button>
-                    )}
-                  </div>
-                </div>
-              )}
-              {usePlan?.[2] && (
-                <div className="w-full p-8 flex flex-wrap items-center bg-white rounded shadow">
-                  <div className="w-full lg:w-1/5 px-3 self-start">
-                    <h3 className="mb-4 text-xl lg:text-2xl xl:text-2xl 2xl:text-2xl font-bold font-heading">
-                      {usePlan?.[2]?.planType}
-                    </h3>
-                  </div>
-                  <div className="w-full lg:w-2/5 px-3">
-                    <ul className="mb-4 text-gray-500">
-                      {usePlan?.[2]?.planIncludes?.map((include) => (
-                        <li className="mb-4 flex" key={include}>
-                          <svg
-                            className="mr-2 w-5 h-5 text-webriq-darkblue"
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 20 20"
-                            fill="currentColor"
-                          >
-                            <path
-                              fillRule="evenodd"
-                              d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                              clipRule="evenodd"
-                            />
-                          </svg>
-                          <span className="text-sm lg:text-base xl:text-base 2xl:text-base">
-                            {include}
-                          </span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                  <div className="w-full lg:w-1/5 px-3 lg:text-center">
-                    <span className="text-4xl font-bold">
-                      {isNaN(parseInt(usePlan?.[2]?.price))
-                        ? usePlan?.[2]?.price
-                        : `$${comma.format(usePlan?.[2]?.price)}`}
-                    </span>
-                  </div>
-                  <div className="w-full lg:w-1/5 px-3">
-                    {usePlan?.[2]?.checkoutButtonName && (
-                      <button
-                        aria-label={`${usePlan?.[2]?.checkoutButtonName} button`}
-                        className={`inline-block mt-4 lg:mt-0 py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-white font-bold leading-loose transition duration-200   ${
-                          !usePlan && "disabled:opacity-50 cursor-not-allowed"
-                        }`}
-                        disabled={!usePlan}
-                        onClick={() => {
-                          initiateCheckout(
-                            {
-                              lineItems: [
-                                {
-                                  price: usePlan[2].checkout,
-                                  quantity: 1,
-                                },
-                              ],
-                            },
-                            stripePKey,
-                            window.location.origin + "/success",
-                            window.location.href,
-                            false,
-                            setPKError
-                          );
-                        }}
-                      >
-                        {!usePlan[2]
-                          ? "Processing..."
-                          : usePlan?.[2]?.checkoutButtonName}
-                      </button>
-                    )}
-                  </div>
-                </div>
-              )}
-            </div>
-          )}
+              );
+            })}
         </div>
       </div>
     </section>

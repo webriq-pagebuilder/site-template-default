@@ -8,31 +8,36 @@ const Variants = {
   variant_d: dynamic(() => import("./variant_d")),
 };
 
-const { NEXT_PUBLIC_DXP_STUDIO_ADDRESS } = process.env;
+const { NEXT_PUBLIC_APP_URL } = process.env;
 
 function Pricing({ data }) {
   const variant = data?.variant || data?.variants?.condition;
   const Variant = Variants?.[variant];
+  let stripeAccount;
+  if (data.variants.stripeAccount) {
+    stripeAccount = JSON.parse(data.variants.stripeAccount);
+  }
 
   const props = {
-    caption: data?.variants?.[variant]?.subtitle,
-    title: data?.variants?.[variant]?.heading,
-    description: data?.variants?.[variant]?.description,
-    plans: data?.variants?.[variant]?.plans,
-    annualBilling: data?.variants?.[variant]?.annualBilling,
-    monthlyBilling: data?.variants?.[variant]?.monthlyBilling,
-    banner: data?.variants?.[variant]?.banner,
-    form: data?.variants?.[variant]?.form,
-    formId: data?.variants?.[variant]?.form?.id,
-    formName: data?.variants?.[variant]?.form?.name,
-    stripePKey: data?.variants?.[variant]?.stripeAccount?.stripePKey,
-    stripeSecretKey: data?.variants?.[variant]?.stripeAccount?.stripeSKey,
-    hashKey: data?.variants?.[variant]?.stripeAccount?.hashKey,
-    apiVersion: data?.variants?.[variant]?.stripeAccount?.apiVersion,
-    NEXT_PUBLIC_DXP_STUDIO_ADDRESS:
-      NEXT_PUBLIC_DXP_STUDIO_ADDRESS || "https://dxpstudio.webriq.com",
-    block: data?.variants?.[variant]?.block,
-    signInLink: data?.variants?.[variant]?.signinLink,
+    caption: data?.variants?.subtitle,
+    title: data?.variants?.title,
+    description: data?.variants?.description,
+    plans: data?.variants?.plans,
+    annualBilling: data?.variants?.annualBilling,
+    monthlyBilling: data?.variants?.monthlyBilling,
+    banner: data?.variants?.banner,
+    formFields: data?.variants?.form?.fields,
+    formId: data?.variants?.form?.id,
+    formName: data?.variants?.form?.name,
+    formThankYouPage: data?.variants?.form?.thankYouPage,
+    stripePKey: stripeAccount?.stripePKey,
+    stripeSKey: stripeAccount?.stripeSKey,
+    hashKey: stripeAccount?.hashKey,
+    apiVersion: stripeAccount?.apiVersion,
+    NEXT_PUBLIC_APP_URL: NEXT_PUBLIC_APP_URL || "https://dxpstudio.webriq.com",
+    block: data?.variants?.block,
+    signInLink: data?.variants?.signinLink,
+    _key: data._key,
   };
 
   return Variant ? <Variant {...props} /> : null;

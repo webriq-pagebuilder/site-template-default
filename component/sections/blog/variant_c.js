@@ -4,114 +4,8 @@ import Image from "next/image";
 import { urlFor } from "lib/sanity";
 import { format } from "date-fns";
 
-function VariantC({ subtitle, title, posts, buttonLabel }) {
-  let blogs = 5,
-    startPage = 1;
-  let [numberOfPages, setNumberOfPages] = React.useState(startPage); // number of pages
-  let [blogsPerPage, setBlogsPerPage] = React.useState(blogs); // sets the number of blogs to initially show on page
-  let [activePage, setActivePage] = React.useState(startPage); // the current page
-  const [showMore, setShowMore] = React.useState(false); // show all blogs posts
-
-  // get blog list for page
-  const indexOfLastPost = numberOfPages * blogsPerPage;
-  const indexOfFirstPost = indexOfLastPost - blogsPerPage;
-
-  // change page
-  const changePage = (buttonNumber) => setNumberOfPages(buttonNumber);
-
-  // pagination
-  const Pagination = ({ blogsPerPage, changePage }) => {
-    const pageButtons = [];
-
-    for (let i = 1; i <= Math.ceil(posts?.length / blogsPerPage); i++) {
-      pageButtons.push(i);
-    }
-
-    return (
-      <div className="mb-16 flex justify-center space-x-4">
-        <div className="flex justify-center">
-          <nav
-            className="flex items-center bg-white shadow rounded"
-            aria-label="Pagination"
-          >
-            {activePage > startPage && (
-              <button
-                aria-label="Show Previous Blog button"
-                className="px-4 text-gray-500 hover:text-gray-500"
-                onClick={() => {
-                  activePage !== startPage
-                    ? setActivePage(activePage - startPage)
-                    : setActivePage(startPage);
-                  changePage(activePage - 1);
-                }}
-              >
-                <svg
-                  className="w-4 h-4"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M10 19l-7-7m0 0l7-7m-7 7h18"
-                  />
-                </svg>
-              </button>
-            )}
-            <div className="p-2 border-r border-l text-gray-500">
-              {pageButtons?.map((buttonNumber) => (
-                <button
-                  aria-label={`Page ${buttonNumber + 1} button`}
-                  className={`"mx-1 px-2 rounded hover:bg-webriq-lightblue hover:text-webriq-blue text-webriq-darkblue" ${
-                    activePage === buttonNumber
-                      ? "bg-webriq-lightblue text-webriq-blue"
-                      : null
-                  }`}
-                  key={buttonNumber}
-                  onClick={() => {
-                    changePage(buttonNumber);
-                    setActivePage(buttonNumber);
-                  }}
-                >
-                  {buttonNumber}
-                </button>
-              ))}
-            </div>
-            {activePage !== pageButtons?.length && (
-              <button
-                aria-label="Show Next Blog button"
-                className="px-4 text-gray-500 hover:text-gray-500"
-                onClick={() => {
-                  changePage(pageButtons[activePage]);
-                  activePage !== pageButtons?.length
-                    ? setActivePage(activePage + 1)
-                    : setActivePage(startPage);
-                }}
-              >
-                <svg
-                  className="w-4 h-4"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M14 5l7 7m0 0l-7 7m7-7H3"
-                  />
-                </svg>
-              </button>
-            )}
-          </nav>
-        </div>
-      </div>
-    );
-  };
+function VariantC({ subtitle, title, posts, primaryButton }) {
+  let blogsPerPage = 3;
 
   return (
     <section>
@@ -130,196 +24,276 @@ function VariantC({ subtitle, title, posts, buttonLabel }) {
                 </h1>
               )}
             </div>
-            {posts?.length > blogsPerPage && buttonLabel && (
+            {primaryButton?.label && (
               <div className="hidden lg:block text-right w-1/2">
-                <button
-                  aria-label="View More Blogs button"
-                  className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue text-gray-50 font-bold leading-loose transition duration-200"
-                  onClick={() => {
-                    setBlogsPerPage(posts?.length);
-                    setShowMore(true);
-                  }}
-                >
-                  {buttonLabel}
-                </button>
+                {primaryButton?.type === "linkInternal" ? (
+                  <Link
+                    href={
+                      primaryButton?.internalLink === "Home" ||
+                      primaryButton?.internalLink === "home"
+                        ? "/"
+                        : `/${
+                            primaryButton.internalLink === undefined
+                              ? "page-not-found"
+                              : primaryButton.internalLink
+                          }`
+                    }
+                  >
+                    <a
+                      aria-label={`Click here to ${
+                        primaryButton?.label ?? "View More Articles"
+                      }`}
+                      className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose outline-none transition duration-200"
+                      target={primaryButton?.linkTarget}
+                      rel={
+                        primaryButton?.linkTarget === "_blank"
+                          ? "noopener noreferrer"
+                          : null
+                      }
+                    >
+                      {primaryButton?.label}
+                    </a>
+                  </Link>
+                ) : (
+                  <a
+                    aria-label={`Click here to ${
+                      primaryButton?.label ?? "View More Articles"
+                    }`}
+                    className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose outline-none transition duration-200"
+                    target={primaryButton?.linkTarget}
+                    href={`${
+                      primaryButton?.externalLink === undefined
+                        ? "link-not-found"
+                        : primaryButton?.externalLink
+                    }`}
+                    rel={
+                      primaryButton?.linkTarget === "_blank"
+                        ? "noopener noreferrer"
+                        : null
+                    }
+                  >
+                    {primaryButton?.label}
+                  </a>
+                )}
               </div>
             )}
           </div>
           {posts && (
             <div>
-              {posts
-                ?.slice(indexOfFirstPost, indexOfLastPost)
-                ?.map((post, key) => (
-                  <div
-                    className="mb-8 flex flex-wrap rounded-lg shadow overflow-hidden"
-                    key={key}
+              {posts?.slice(0, blogsPerPage)?.map((post, key) => (
+                <div
+                  className="mb-8 flex flex-wrap rounded-lg shadow overflow-hidden"
+                  key={key}
+                >
+                  {key % 2 === 0 ? (
+                    <>
+                      <div className="w-full lg:w-1/2 rounded-l">
+                        {post?.mainImage?.asset?._ref && (
+                          <Image
+                            src={urlFor(post?.mainImage)}
+                            layout="responsive"
+                            width="554px"
+                            height="416px"
+                            objectFit="cover"
+                            alt={`blog-variantC-image-${key}`}
+                            blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                            placeholder="blur"
+                          />
+                        )}
+                      </div>
+                      <div className="w-full lg:w-1/2 py-6 lg:pt-10 px-6 rounded-r bg-white">
+                        {post?.categories &&
+                          post?.categories?.map((category, index) => (
+                            <span
+                              className="mb-auto py-1 px-3 mr-3 text-sm bg-webriq-lightblue rounded-full text-webriq-darkblue uppercase font-bold"
+                              key={index}
+                            >
+                              {category?.title}
+                            </span>
+                          ))}
+                        {post?.publishedAt && (
+                          <span className="text-sm text-gray-500">
+                            {format(
+                              new Date(post?.publishedAt),
+                              " dd MMM, yyyy"
+                            )}
+                          </span>
+                        )}
+                        {post?.title && (
+                          <h1 className="my-4 text-xl lg:text-2xl xl:text-2xl 2xl:text-2xl font-bold">
+                            {post?.title}
+                          </h1>
+                        )}
+                        {post?.authors && (
+                          <div className="flex mb-10">
+                            <span className="text-webriq-darkblue italic">
+                              By&nbsp;
+                            </span>
+                            {post?.authors?.map((author, index, { length }) => (
+                              <div key={index}>
+                                <span className="text-webriq-darkblue italic">
+                                  {author?.name}
+                                </span>
+                                {index + 1 !== length ? (
+                                  <span>&nbsp;,&nbsp;</span>
+                                ) : null}
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                        {post?.excerpt && (
+                          <p className="mb-6 text-sm lg:text-base xl:text-base 2xl:text-base lg:leading-loose xl:leading-loose 2xl:leading-loose text-justify text-gray-500">
+                            {post?.excerpt}
+                          </p>
+                        )}
+                        {post?.slug?.current && (
+                          <Link
+                            href={
+                              `/${post?.slug?.current}` ?? "/page-not-found"
+                            }
+                          >
+                            <a
+                              aria-label={`Go to ${post?.slug?.current} blog page`}
+                              className="text-webriq-darkblue hover:text-webriq-blue font-bold"
+                            >
+                              View Blog Post
+                            </a>
+                          </Link>
+                        )}
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <div className="w-full lg:w-1/2 py-6 lg:pt-10 px-6 rounded-r bg-white">
+                        {post?.categories &&
+                          post?.categories?.map((category, index) => (
+                            <span
+                              className="mb-auto py-1 px-3 mr-3 text-sm bg-webriq-lightblue rounded-full text-webriq-darkblue uppercase font-bold"
+                              key={index}
+                            >
+                              {category?.title}
+                            </span>
+                          ))}
+                        {post?.publishedAt && (
+                          <span className="text-sm text-gray-500">
+                            {format(
+                              new Date(post?.publishedAt),
+                              " dd MMM, yyyy"
+                            )}
+                          </span>
+                        )}
+                        {post?.title && (
+                          <h1 className="my-4 text-xl lg:text-2xl xl:text-2xl 2xl:text-2xl font-bold">
+                            {post?.title}
+                          </h1>
+                        )}
+                        {post?.authors && (
+                          <div className="flex mb-10">
+                            <span className="text-webriq-darkblue italic">
+                              By&nbsp;
+                            </span>
+                            {post?.authors?.map((author, index, { length }) => (
+                              <div key={index}>
+                                <span className="text-webriq-darkblue italic">
+                                  {author?.name}
+                                </span>
+                                {index + 1 !== length ? (
+                                  <span>&nbsp;,&nbsp;</span>
+                                ) : null}
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                        {post?.excerpt && (
+                          <p className="mb-6 text-sm lg:text-base xl:text-base 2xl:text-base lg:leading-loose xl:leading-loose 2xl:leading-loose text-justify text-gray-500">
+                            {post?.excerpt}
+                          </p>
+                        )}
+                        {post?.slug?.current && (
+                          <Link
+                            href={
+                              `/${post?.slug?.current}` ?? "/page-not-found"
+                            }
+                          >
+                            <a
+                              aria-label={`Go to ${post?.slug?.current} blog page`}
+                              className="text-webriq-darkblue hover:text-webriq-blue font-bold"
+                            >
+                              View Blog Post
+                            </a>
+                          </Link>
+                        )}
+                      </div>
+                      <div className="w-full lg:w-1/2 rounded-l order-0 lg:order-1">
+                        {post?.mainImage?.asset?._ref && (
+                          <Image
+                            src={urlFor(post?.mainImage)}
+                            layout="responsive"
+                            width="554px"
+                            height="416px"
+                            objectFit="cover"
+                            alt={`blog-variantC-image-${key}`}
+                            blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                            placeholder="blur"
+                          />
+                        )}
+                      </div>
+                    </>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
+          {primaryButton?.label && (
+            <div className="block text-center lg:hidden lg:w-1/2">
+              {primaryButton?.type === "linkInternal" ? (
+                <Link
+                  href={
+                    primaryButton?.internalLink === "Home" ||
+                    primaryButton?.internalLink === "home"
+                      ? "/"
+                      : `/${
+                          primaryButton.internalLink === undefined
+                            ? "page-not-found"
+                            : primaryButton.internalLink
+                        }`
+                  }
+                >
+                  <a
+                    aria-label={`Click here to ${
+                      primaryButton?.label ?? "View More Articles"
+                    }`}
+                    className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose outline-none transition duration-200"
+                    target={primaryButton?.linkTarget}
+                    rel={
+                      primaryButton?.linkTarget === "_blank"
+                        ? "noopener noreferrer"
+                        : null
+                    }
                   >
-                    {key % 2 === 0 ? (
-                      <>
-                        <div className="w-full lg:w-1/2 rounded-l">
-                          {post?.mainImage && (
-                            <Image
-                              src={urlFor(post?.mainImage)}
-                              layout="responsive"
-                              width="554px"
-                              height="416px"
-                              objectFit="cover"
-                              alt={`blog-variantC-image-${key}`}
-                              blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                              placeholder="blur"
-                            />
-                          )}
-                        </div>
-                        <div className="w-full lg:w-1/2 py-6 lg:pt-10 px-6 rounded-r bg-white">
-                          {post?.categories &&
-                            post?.categories?.map((category, index) => (
-                              <span
-                                className="mb-auto py-1 px-3 mr-3 text-sm bg-webriq-lightblue rounded-full text-webriq-darkblue uppercase font-bold"
-                                key={index}
-                              >
-                                {category?.title}
-                              </span>
-                            ))}
-                          {post?.publishedAt && (
-                            <span className="text-sm text-gray-500">
-                              {format(
-                                new Date(post?.publishedAt),
-                                " dd MMM, yyyy"
-                              )}
-                            </span>
-                          )}
-                          {post?.title && (
-                            <h1 className="my-4 text-xl lg:text-2xl xl:text-2xl 2xl:text-2xl font-bold">
-                              {post?.title}
-                            </h1>
-                          )}
-                          {post?.authors && (
-                            <div className="flex mb-10">
-                              <span className="text-webriq-darkblue italic">
-                                By&nbsp;
-                              </span>
-                              {post?.authors?.map(
-                                (author, index, { length }) => (
-                                  <div key={index}>
-                                    <span className="text-webriq-darkblue italic">
-                                      {author?.name}
-                                    </span>
-                                    {index + 1 !== length ? (
-                                      <span>&nbsp;,&nbsp;</span>
-                                    ) : null}
-                                  </div>
-                                )
-                              )}
-                            </div>
-                          )}
-                          {post?.excerpt && (
-                            <p className="mb-6 text-sm lg:text-base xl:text-base 2xl:text-base lg:leading-loose xl:leading-loose 2xl:leading-loose text-justify text-gray-500">
-                              {post?.excerpt}
-                            </p>
-                          )}
-                          {post?.slug?.current && (
-                            <Link
-                              href={
-                                `/${post?.slug?.current}` ?? "/page-not-found"
-                              }
-                            >
-                              <a
-                                aria-label={`Go to ${post?.slug?.current} blog page`}
-                                className="text-webriq-darkblue hover:text-webriq-blue font-bold"
-                              >
-                                View Blog Post
-                              </a>
-                            </Link>
-                          )}
-                        </div>
-                      </>
-                    ) : (
-                      <>
-                        <div className="w-full lg:w-1/2 py-6 lg:pt-10 px-6 rounded-r bg-white">
-                          {post?.categories &&
-                            post?.categories?.map((category, index) => (
-                              <span
-                                className="mb-auto py-1 px-3 mr-3 text-sm bg-webriq-lightblue rounded-full text-webriq-darkblue uppercase font-bold"
-                                key={index}
-                              >
-                                {category?.title}
-                              </span>
-                            ))}
-                          {post?.publishedAt && (
-                            <span className="text-sm text-gray-500">
-                              {format(
-                                new Date(post?.publishedAt),
-                                " dd MMM, yyyy"
-                              )}
-                            </span>
-                          )}
-                          {post?.title && (
-                            <h1 className="my-4 text-xl lg:text-2xl xl:text-2xl 2xl:text-2xl font-bold">
-                              {post?.title}
-                            </h1>
-                          )}
-                          {post?.authors && (
-                            <div className="flex mb-10">
-                              <span className="text-webriq-darkblue italic">
-                                By&nbsp;
-                              </span>
-                              {post?.authors?.map(
-                                (author, index, { length }) => (
-                                  <div key={index}>
-                                    <span className="text-webriq-darkblue italic">
-                                      {author?.name}
-                                    </span>
-                                    {index + 1 !== length ? (
-                                      <span>&nbsp;,&nbsp;</span>
-                                    ) : null}
-                                  </div>
-                                )
-                              )}
-                            </div>
-                          )}
-                          {post?.excerpt && (
-                            <p className="mb-6 text-sm lg:text-base xl:text-base 2xl:text-base lg:leading-loose xl:leading-loose 2xl:leading-loose text-justify text-gray-500">
-                              {post?.excerpt}
-                            </p>
-                          )}
-                          {post?.slug?.current && (
-                            <Link
-                              href={
-                                `/${post?.slug?.current}` ?? "/page-not-found"
-                              }
-                            >
-                              <a
-                                aria-label={`Go to ${post?.slug?.current} blog page`}
-                                className="text-webriq-darkblue hover:text-webriq-blue font-bold"
-                              >
-                                View Blog Post
-                              </a>
-                            </Link>
-                          )}
-                        </div>
-                        <div className="w-full lg:w-1/2 rounded-l order-0 lg:order-1">
-                          {post?.mainImage && (
-                            <Image
-                              src={urlFor(post?.mainImage)}
-                              layout="responsive"
-                              width="554px"
-                              height="416px"
-                              objectFit="cover"
-                              alt={`blog-variantC-image-${key}`}
-                              blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                              placeholder="blur"
-                            />
-                          )}
-                        </div>
-                      </>
-                    )}
-                  </div>
-                ))}
-              {posts?.length > 10 && !showMore && (
-                <Pagination
-                  blogsPerPage={blogsPerPage}
-                  changePage={changePage}
-                />
+                    {primaryButton?.label}
+                  </a>
+                </Link>
+              ) : (
+                <a
+                  aria-label={`Click here to ${
+                    primaryButton?.label ?? "View More Articles"
+                  }`}
+                  className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose outline-none transition duration-200"
+                  target={primaryButton?.linkTarget}
+                  href={`${
+                    primaryButton?.externalLink === undefined
+                      ? "link-not-found"
+                      : primaryButton?.externalLink
+                  }`}
+                  rel={
+                    primaryButton?.linkTarget === "_blank"
+                      ? "noopener noreferrer"
+                      : null
+                  }
+                >
+                  {primaryButton?.label}
+                </a>
               )}
             </div>
           )}

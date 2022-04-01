@@ -12,7 +12,7 @@ function Stats({ data }) {
   const Variant = Variants?.[variant];
 
   const props = {
-    stats: data?.variants?.[variant]?.statItems,
+    stats: data?.variants?.statItems,
   };
 
   return Variant ? <Variant {...props} /> : null;

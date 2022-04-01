@@ -1,10 +1,42 @@
 import { urlFor } from "lib/sanity";
 import React from "react";
-import Image from "next/image";
 import Link from "next/link";
 import WebriQForm from "component/webriq-form";
 
-function VariantB({ logo, title, text, formFields, formId, formName }) {
+function VariantB({ logo, title, text, form }) {
+  let logoLink;
+  const { id, fields, buttonLabel, thankYouPage } = form;
+
+  const thankYouPageLink = (link) => {
+    if (link === undefined) {
+      return "/thank-you";
+    } else {
+      if (link?.linkType === "linkInternal") {
+        return `/${link.internalLink}`;
+      } else {
+        return link.externalLink;
+      }
+    }
+  };
+
+  if (logo.type === "linkInternal") {
+    if (logo.internalLink === undefined) {
+      logoLink = `/`; // default to root page when not defined
+    } else {
+      if (logo.internalLink === "Home" || logo.internalLink === "home") {
+        logoLink = `/`;
+      } else {
+        logoLink = `/${logo.internalLink}`;
+      }
+    }
+  } else {
+    if (logo.externalLink === undefined) {
+      logoLink = `/`;
+    } else {
+      logoLink = logo.externalLink;
+    }
+  }
+
   return (
     <section>
       <div>
@@ -20,20 +52,17 @@ function VariantB({ logo, title, text, formFields, formId, formName }) {
         <div className="container mx-auto px-4">
           <div className="max-w-xl mx-auto text-center">
             {logo?.image && (
-              <Link prefetch={false} href="/">
+              <Link href={logoLink}>
                 <a
-                  aria-label="Call to Action logo"
+                  aria-label={
+                    logoLink === "/" ? "Go to home page" : `Go to ${logoLink}`
+                  }
                   className="mb-6 inline-block p-3 rounded"
                 >
-                  <Image
+                  <img
+                    className="h-14"
                     src={urlFor(logo?.image)}
-                    layout="fixed"
-                    width="132px"
-                    height="48px"
-                    objectFit="contain"
                     alt={logo?.alt ?? "callToAction-logo"}
-                    blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                    placeholder="blur"
                   />
                 </a>
               </Link>
@@ -42,16 +71,16 @@ function VariantB({ logo, title, text, formFields, formId, formName }) {
               {title}
             </h1>
             <p className="mb-6 text-gray-700">{text}</p>
-            {formFields && (
+            {fields && (
               <WebriQForm
                 method="POST"
-                data-form-id={formId}
-                name={formName}
+                data-form-id={id}
+                name="Calltoaction-VariantB-Form"
                 className="form-callToAction flex flex-wrap justify-center items-center"
-                data-thankyou-url="/thank-you"
+                data-thankyou-url={thankYouPageLink(thankYouPage)}
                 scriptsrc="https://pagebuilderforms.webriq.com/js/initReactForms"
               >
-                {formFields.slice(0, 2).map((field) => (
+                {fields.slice(0, 2).map((field) => (
                   <input
                     key={field?._key}
                     aria-label={`Input ${field?.type}`}
@@ -61,22 +90,29 @@ function VariantB({ logo, title, text, formFields, formId, formName }) {
                         ? "email"
                         : field?.type === "inputPassword"
                         ? "password"
+                        : field?.type === "inputNumber"
+                        ? "number"
                         : "text"
                     }
-                    placeholder={field?.name}
+                    placeholder={field?.placeholder}
                     name={field?.name}
+                    required={field?.isRequired}
                   />
                 ))}
                 <div>
                   <div className="webriq-recaptcha" />
                 </div>
-                <button
-                  aria-label="Submit Call to Action Form button"
-                  className="w-full md:w-auto py-2 px-4 bg-webriq-darkblue hover:bg-webriq-blue text-white font-bold leading-loose rounded-l-xl rounded-t-xl transition duration-200"
-                  type="submit"
-                >
-                  Get&nbsp;Started
-                </button>
+                {buttonLabel && (
+                  <button
+                    aria-label={
+                      buttonLabel ?? "Call to action form submit button"
+                    }
+                    className="w-full md:w-auto py-2 px-4 bg-webriq-darkblue hover:bg-webriq-blue text-white font-bold leading-loose rounded-l-xl rounded-t-xl transition duration-200"
+                    type="submit"
+                  >
+                    {buttonLabel}
+                  </button>
+                )}
               </WebriQForm>
             )}
           </div>

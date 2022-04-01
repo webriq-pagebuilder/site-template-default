@@ -1,30 +1,59 @@
 import React from "react";
 import { urlFor } from "lib/sanity";
-import Image from "next/image";
 import Link from "next/link";
 import WebriQForm from "component/webriq-form";
 
-function VariantA({ logo, title, description, formFields, formId, formName }) {
+function VariantA({ logo, title, description, form }) {
+  let logoLink;
+  const { id, fields, buttonLabel, thankYouPage } = form;
+
+  const thankYouPageLink = (link) => {
+    if (link === undefined) {
+      return "/thank-you";
+    } else {
+      if (link?.linkType === "linkInternal") {
+        return `/${link.internalLink}`;
+      } else {
+        return link.externalLink;
+      }
+    }
+  };
+
+  if (logo.type === "linkInternal") {
+    if (logo.internalLink === undefined) {
+      logoLink = `/`;
+    } else {
+      if (logo.internalLink === "Home" || logo.internalLink === "home") {
+        logoLink = `/`;
+      } else {
+        logoLink = `/${logo.internalLink}`;
+      }
+    }
+  } else {
+    if (logo.externalLink === undefined) {
+      logoLink = `/`;
+    } else {
+      logoLink = logo.externalLink;
+    }
+  }
+
   return (
     <section>
       <div className="py-20 bg-gray-50 radius-for-skewed">
         <div className="container mx-auto px-4">
           <div className="max-w-xl mx-auto text-center">
             {logo?.image && (
-              <Link prefetch={false} href="/">
+              <Link href={logoLink}>
                 <a
-                  aria-label="Newsletter logo"
+                  aria-label={
+                    logoLink === "/" ? "Go to home page" : `Go to ${logoLink}`
+                  }
                   className="mb-6 inline-block text-3xl font-bold leading-none"
                 >
-                  <Image
+                  <img
+                    className="h-12"
                     src={urlFor(logo?.image)}
-                    layout="fixed"
-                    width="132px"
-                    height="48px"
-                    objectFit="contain"
                     alt={logo?.alt ?? "newsletter-logo"}
-                    blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                    placeholder="blur"
                   />
                 </a>
               </Link>
@@ -33,39 +62,48 @@ function VariantA({ logo, title, description, formFields, formId, formName }) {
               {title}
             </h1>
             <p className="mb-8 text-gray-700 leading-loose">{description}</p>
-            {formFields?.[0] && formFields[0]?.name && (
+            {fields?.[0] && fields[0]?.name && (
               <WebriQForm
                 method="POST"
-                data-form-id={formId}
-                name={formName}
+                data-form-id={id}
+                name="Newsletter-VariantA-Form"
                 className="form-newsletter"
-                data-thankyou-url="/thank-you"
+                data-thankyou-url={thankYouPageLink(thankYouPage)}
                 scriptsrc="https://pagebuilderforms.webriq.com/js/initReactForms"
               >
                 <div className="max-w-md mx-auto flex flex-wrap items-center">
                   <input
                     aria-label={`${
-                      formFields[0]?.type === "inputText"
-                        ? `Input ${formFields[0]?.name}`
-                        : `${formFields[0]?.type}`
+                      fields[0]?.type === "inputText"
+                        ? `Input ${fields[0]?.name}`
+                        : `${fields[0]?.type}`
                     }`}
                     className="flex-grow py-3 px-4 mr-4 text-xs rounded leading-loose"
                     type={
-                      formFields[0].type === "inputEmail" ? "email" : "text"
+                      fields[0].type === "inputEmail"
+                        ? "email"
+                        : "inputNumber"
+                        ? "number"
+                        : "text"
                     }
-                    placeholder={formFields[0]?.name}
-                    name={formFields[0]?.name}
+                    placeholder={fields[0]?.placeholder}
+                    name={fields[0]?.name}
+                    required={fields[0]?.isRequired}
                   />
                   <div>
                     <div className="webriq-recaptcha" />
                   </div>
-                  <button
-                    aria-label="Submit Newsletter Form button"
-                    className="w-auto py-2 px-6 rounded-t-xl rounded-l-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose transition duration-200"
-                    type="submit"
-                  >
-                    Get Started
-                  </button>
+                  {buttonLabel && (
+                    <button
+                      aria-label={
+                        buttonLabel ?? "Newsletter form submit button"
+                      }
+                      className="w-auto py-2 px-6 rounded-t-xl rounded-l-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose transition duration-200"
+                      type="submit"
+                    >
+                      {buttonLabel}
+                    </button>
+                  )}
                 </div>
               </WebriQForm>
             )}

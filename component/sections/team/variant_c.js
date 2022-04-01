@@ -25,15 +25,18 @@ function VariantC({ caption, title, team }) {
                   key={member?.name}
                 >
                   <div className="pb-8 bg-white w-full rounded shadow text-center overflow-hidden">
-                    {member.mainImage && (
+                    {member.mainImage?.image?.asset?._ref && (
                       <div className="mb-8 w-full h-full">
                         <Image
-                          src={urlFor(member?.mainImage)}
+                          src={urlFor(member?.mainImage?.image)}
                           layout="responsive"
                           width="345px"
                           height="256px"
                           objectFit="cover"
-                          alt={`team-member-${member?.name}-profile-image`}
+                          alt={
+                            member?.mainImage?.alt ??
+                            `team-member-${member?.name}-profile-image`
+                          }
                           blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
                           placeholder="blur"
                         />

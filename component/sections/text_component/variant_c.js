@@ -68,7 +68,7 @@ function VariantC({ heading, firstColumn, secondColumn, thirdColumn }) {
       link: ({ children, mark }) => (
         <a
           aria-label={children ?? "external link"}
-          className="hover:text-webriq-darkorange text-webriq-lightorange"
+          className="hover:text-webriq-lightblue text-webriq-blue"
           href={mark.href}
           target="_blank"
           rel="noopener noreferrer"

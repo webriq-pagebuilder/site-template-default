@@ -11,12 +11,10 @@ function Newsletter({ data }) {
   const Variant = Variants?.[variant];
 
   const props = {
-    logo: data?.variants?.[variant]?.logo,
-    title: data?.variants?.[variant]?.heading,
-    description: data?.variants?.[variant]?.description,
-    formFields: data?.variants?.[variant]?.form?.fields,
-    formId: data?.variants?.[variant]?.form?.id,
-    formName: data?.variants?.[variant]?.form?.name,
+    logo: data?.variants?.logo,
+    title: data?.variants?.title,
+    description: data?.variants?.description,
+    form: data?.variants?.form,
   };
 
   return Variant ? <Variant {...props} /> : null;

@@ -99,12 +99,13 @@ function BlogPage({ data, preview, navAndFooter }) {
     return <PageNotFound statusCode={404} />;
   }
 
-  const { authors, categories, body, mainImage, publishedAt, title } = post;
+  const { authors, categories, body, mainImage, publishedAt, title, seo } =
+    post;
 
   return (
     <>
       <Head>
-        <title>{title}</title>
+        <title>{seo?.seoTitle || title}</title>
       </Head>
       {navAndFooter
         ?.filter((data) => data?._type === "navigation")

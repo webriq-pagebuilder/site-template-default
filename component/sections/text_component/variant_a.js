@@ -1,7 +1,7 @@
 import React from "react";
 import { PortableText } from "lib/sanity";
 
-function VariantA({ heading, singleColumn }) {
+function VariantA({ heading, firstColumn }) {
   // block styling as props to `serializers` of the PortableText component
   const serializers = {
     types: {
@@ -68,7 +68,7 @@ function VariantA({ heading, singleColumn }) {
       link: ({ children, mark }) => (
         <a
           aria-label={children ?? "external link"}
-          className="hover:text-webriq-darkorange text-webriq-lightorange"
+          className="hover:text-webriq-lightblue text-webriq-blue"
           href={mark.href}
           target="_blank"
           rel="noopener noreferrer"
@@ -86,9 +86,9 @@ function VariantA({ heading, singleColumn }) {
           {heading}
         </h1>
         <div className="flex flex-wrap mx-auto justify-center">
-          {singleColumn && (
+          {firstColumn && (
             <div className="md:w-1/2 mb-2 md:mb-0 text-xs lg:text-base">
-              <PortableText blocks={singleColumn} serializers={serializers} />
+              <PortableText blocks={firstColumn} serializers={serializers} />
             </div>
           )}
         </div>

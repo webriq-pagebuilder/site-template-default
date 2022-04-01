@@ -6,16 +6,18 @@ function VariantA({ subtitle, title, faqs }) {
   const [faqsPerPage] = React.useState(6);
   const [searchTerm, setSearchTerm] = React.useState(null);
 
-  // React state that adds the "hidden" property to the existing object
-  React.useState(() => {
+  React.useEffect(() => {
+    let tempFaqs = [];
     faqs &&
-      faqs.map((faq) =>
-        setData((prevState) => [
-          ...prevState,
-          { question: faq?.question, answer: faq?.answer, hidden: false },
-        ])
+      faqs.forEach((faq) =>
+        tempFaqs.push({
+          question: faq?.question,
+          answer: faq?.answer,
+          hidden: false,
+        })
       );
-  }, []);
+    setData(tempFaqs);
+  }, [faqs]);
 
   // toggle view or hide answers on click for each FAQ items
   const toggleView = (position) => {

@@ -1,14 +1,32 @@
 import React from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { urlFor } from "lib/sanity";
 
 function VariantD({ links, primaryButton, secondaryButton, logo }) {
+  let logoLink;
   const [menu, setMenu] = React.useState(false);
-
   const showMenu = () => {
     setMenu((prevState) => !prevState);
   };
+
+  if (logo.type === "linkInternal") {
+    if (logo.internalLink === undefined) {
+      logoLink = `/`;
+    } else {
+      if (logo.internalLink === "Home" || logo.internalLink === "home") {
+        logoLink = `/`;
+      } else {
+        logoLink = `/${logo.internalLink}`;
+      }
+    }
+  } else {
+    if (logo.externalLink === undefined) {
+      logoLink = `/`;
+    } else {
+      logoLink = logo.externalLink;
+    }
+  }
+
   return (
     <section>
       <nav className="relative px-6 py-6 bg-white">
@@ -98,49 +116,72 @@ function VariantD({ links, primaryButton, secondaryButton, logo }) {
               ))}
           </ul>
           <div className="lg:absolute lg:top-1/2 lg:left-1/2 lg:transform lg:-translate-y-1/2 lg:-translate-x-1/2">
-            {logo && (
-              <Link href="/">
+            {logo?.image && (
+              <Link href={logoLink}>
                 <a
-                  aria-label="Navigation logo"
+                  aria-label={`Go to ${
+                    logoLink === "/" ? "home page" : logoLink
+                  }`}
                   className="text-3xl font-bold leading-none"
                 >
-                  <Image
-                    src={urlFor(logo)}
-                    layout="fixed"
-                    width="113px"
-                    height="48px"
-                    objectFit="contain"
-                    alt="navigation-logo"
-                    blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                    placeholder="blur"
+                  <img
+                    className="h-12"
+                    src={urlFor(logo?.image)}
+                    alt={logo?.alt ?? "navigation-logo"}
                   />
                 </a>
               </Link>
             )}
           </div>
-          {primaryButton?.label && primaryButton?.type === "linkInternal" ? (
-            <Link
-              href={
-                primaryButton?.internalLink === "Home" ||
-                primaryButton?.internalLink === "home"
-                  ? "/"
-                  : `/${
-                      primaryButton?.internalLink === undefined
-                        ? "page-not-found"
-                        : primaryButton?.internalLink
-                    }`
-              }
-            >
+          {primaryButton?.label &&
+            (primaryButton?.type === "linkInternal" ? (
+              <Link
+                href={
+                  primaryButton?.internalLink === "Home" ||
+                  primaryButton?.internalLink === "home"
+                    ? "/"
+                    : `/${
+                        primaryButton?.internalLink === undefined
+                          ? "page-not-found"
+                          : primaryButton?.internalLink
+                      }`
+                }
+              >
+                <a
+                  aria-label={`Navigation ${
+                    primaryButton?.label ?? "Primary"
+                  } button which directs to ${
+                    primaryButton?.internalLink === undefined
+                      ? "page-not-found"
+                      : primaryButton?.internalLink
+                  }`}
+                  className="hidden lg:inline-block lg:ml-auto lg:mr-3 py-2 px-6 bg-gray-50 hover:bg-gray-100 text-sm text-gray-900 font-bold rounded-l-xl rounded-t-xl transition duration-200"
+                  target={primaryButton?.linkTarget}
+                  rel={
+                    primaryButton?.linkTarget === "_blank"
+                      ? "noopener noreferrer"
+                      : null
+                  }
+                >
+                  {primaryButton?.label}
+                </a>
+              </Link>
+            ) : (
               <a
                 aria-label={`Navigation ${
                   primaryButton?.label ?? "Primary"
                 } button which directs to ${
-                  primaryButton?.internalLink === undefined
-                    ? "page-not-found"
-                    : primaryButton?.internalLink
+                  primaryButton?.externalLink === undefined
+                    ? "link-not-found"
+                    : primaryButton?.externalLink
                 }`}
                 className="hidden lg:inline-block lg:ml-auto lg:mr-3 py-2 px-6 bg-gray-50 hover:bg-gray-100 text-sm text-gray-900 font-bold rounded-l-xl rounded-t-xl transition duration-200"
                 target={primaryButton?.linkTarget}
+                href={`${
+                  primaryButton?.externalLink === undefined
+                    ? "link-not-found"
+                    : primaryButton?.externalLink
+                }`}
                 rel={
                   primaryButton?.linkTarget === "_blank"
                     ? "noopener noreferrer"
@@ -149,56 +190,56 @@ function VariantD({ links, primaryButton, secondaryButton, logo }) {
               >
                 {primaryButton?.label}
               </a>
-            </Link>
-          ) : (
-            <a
-              aria-label={`Navigation ${
-                primaryButton?.label ?? "Primary"
-              } button which directs to ${
-                primaryButton?.externalLink === undefined
-                  ? "link-not-found"
-                  : primaryButton?.externalLink
-              }`}
-              className="hidden lg:inline-block lg:ml-auto lg:mr-3 py-2 px-6 bg-gray-50 hover:bg-gray-100 text-sm text-gray-900 font-bold rounded-l-xl rounded-t-xl transition duration-200"
-              target={primaryButton?.linkTarget}
-              href={`${
-                primaryButton?.externalLink === undefined
-                  ? "link-not-found"
-                  : primaryButton?.externalLink
-              }`}
-              rel={
-                primaryButton?.linkTarget === "_blank"
-                  ? "noopener noreferrer"
-                  : null
-              }
-            >
-              {primaryButton?.label}
-            </a>
-          )}
+            ))}
           {secondaryButton?.label &&
-          secondaryButton?.type === "linkInternal" ? (
-            <Link
-              href={
-                secondaryButton?.internalLink === "Home" ||
-                secondaryButton?.internalLink === "home"
-                  ? "/"
-                  : `/${
-                      secondaryButton?.internalLink === undefined
-                        ? "page-not-found"
-                        : secondaryButton?.internalLink
-                    }`
-              }
-            >
+            (secondaryButton?.type === "linkInternal" ? (
+              <Link
+                href={
+                  secondaryButton?.internalLink === "Home" ||
+                  secondaryButton?.internalLink === "home"
+                    ? "/"
+                    : `/${
+                        secondaryButton?.internalLink === undefined
+                          ? "page-not-found"
+                          : secondaryButton?.internalLink
+                      }`
+                }
+              >
+                <a
+                  aria-label={`Navigation ${
+                    secondaryButton?.label ?? "Secondary"
+                  } button which directs to ${
+                    secondaryButton?.internalLink === undefined
+                      ? "page-not-found"
+                      : secondaryButton?.internalLink
+                  }`}
+                  className="hidden lg:inline-block py-2 px-6 bg-webriq-darkblue hover:bg-webriq-blue text-sm text-white font-bold rounded-l-xl rounded-t-xl transition duration-200"
+                  target={secondaryButton?.linkTarget}
+                  rel={
+                    secondaryButton?.linkTarget === "_blank"
+                      ? "noopener noreferrer"
+                      : null
+                  }
+                >
+                  {secondaryButton?.label}
+                </a>
+              </Link>
+            ) : (
               <a
                 aria-label={`Navigation ${
                   secondaryButton?.label ?? "Secondary"
                 } button which directs to ${
-                  secondaryButton?.internalLink === undefined
-                    ? "page-not-found"
-                    : secondaryButton?.internalLink
+                  secondaryButton?.externalLink === undefined
+                    ? "link-not-found"
+                    : secondaryButton?.externalLink
                 }`}
                 className="hidden lg:inline-block py-2 px-6 bg-webriq-darkblue hover:bg-webriq-blue text-sm text-white font-bold rounded-l-xl rounded-t-xl transition duration-200"
                 target={secondaryButton?.linkTarget}
+                href={`${
+                  secondaryButton?.externalLink === undefined
+                    ? "link-not-found"
+                    : secondaryButton?.externalLink
+                }`}
                 rel={
                   secondaryButton?.linkTarget === "_blank"
                     ? "noopener noreferrer"
@@ -207,32 +248,7 @@ function VariantD({ links, primaryButton, secondaryButton, logo }) {
               >
                 {secondaryButton?.label}
               </a>
-            </Link>
-          ) : (
-            <a
-              aria-label={`Navigation ${
-                secondaryButton?.label ?? "Secondary"
-              } button which directs to ${
-                secondaryButton?.externalLink === undefined
-                  ? "link-not-found"
-                  : secondaryButton?.externalLink
-              }`}
-              className="hidden lg:inline-block py-2 px-6 bg-webriq-darkblue hover:bg-webriq-blue text-sm text-white font-bold rounded-l-xl rounded-t-xl transition duration-200"
-              target={secondaryButton?.linkTarget}
-              href={`${
-                secondaryButton?.externalLink === undefined
-                  ? "link-not-found"
-                  : secondaryButton?.externalLink
-              }`}
-              rel={
-                secondaryButton?.linkTarget === "_blank"
-                  ? "noopener noreferrer"
-                  : null
-              }
-            >
-              {secondaryButton?.label}
-            </a>
-          )}
+            ))}
           <div className="lg:hidden ml-auto">
             <button
               aria-label="Navbar Menu button"
@@ -348,29 +364,54 @@ function VariantD({ links, primaryButton, secondaryButton, logo }) {
           <div className="mt-auto">
             <div className="pt-6">
               {primaryButton?.label &&
-              primaryButton?.type === "linkInternal" ? (
-                <Link
-                  href={
-                    primaryButton?.internalLink === "Home" ||
-                    primaryButton?.internalLink === "home"
-                      ? "/"
-                      : `/${
-                          primaryButton?.internalLink === undefined
-                            ? "page-not-found"
-                            : primaryButton?.internalLink
-                        }`
-                  }
-                >
+                (primaryButton?.type === "linkInternal" ? (
+                  <Link
+                    href={
+                      primaryButton?.internalLink === "Home" ||
+                      primaryButton?.internalLink === "home"
+                        ? "/"
+                        : `/${
+                            primaryButton?.internalLink === undefined
+                              ? "page-not-found"
+                              : primaryButton?.internalLink
+                          }`
+                    }
+                  >
+                    <a
+                      aria-label={`Navigation ${
+                        primaryButton?.label ?? "Primary"
+                      } button which directs to ${
+                        primaryButton?.internalLink === undefined
+                          ? "page-not-found"
+                          : primaryButton?.internalLink
+                      }`}
+                      className="hidden lg:inline-block lg:ml-auto lg:mr-3 py-2 px-6 bg-gray-50 hover:bg-gray-100 text-sm text-gray-900 font-bold rounded-l-xl rounded-t-xl transition duration-200"
+                      target={primaryButton?.linkTarget}
+                      rel={
+                        primaryButton?.linkTarget === "_blank"
+                          ? "noopener noreferrer"
+                          : null
+                      }
+                    >
+                      {primaryButton?.label}
+                    </a>
+                  </Link>
+                ) : (
                   <a
                     aria-label={`Navigation ${
                       primaryButton?.label ?? "Primary"
                     } button which directs to ${
-                      primaryButton?.internalLink === undefined
-                        ? "page-not-found"
-                        : primaryButton?.internalLink
+                      primaryButton?.externalLink === undefined
+                        ? "link-not-found"
+                        : primaryButton?.externalLink
                     }`}
-                    className="block px-4 py-3 mb-3 leading-loose text-xs text-center font-semibold bg-gray-50 hover:bg-gray-100 rounded-l-xl rounded-t-xl"
+                    className="hidden lg:inline-block lg:ml-auto lg:mr-3 py-2 px-6 bg-gray-50 hover:bg-gray-100 text-sm text-gray-900 font-bold rounded-l-xl rounded-t-xl transition duration-200"
                     target={primaryButton?.linkTarget}
+                    href={`${
+                      primaryButton?.externalLink === undefined
+                        ? "link-not-found"
+                        : primaryButton?.externalLink
+                    }`}
                     rel={
                       primaryButton?.linkTarget === "_blank"
                         ? "noopener noreferrer"
@@ -379,56 +420,56 @@ function VariantD({ links, primaryButton, secondaryButton, logo }) {
                   >
                     {primaryButton?.label}
                   </a>
-                </Link>
-              ) : (
-                <a
-                  aria-label={`Navigation ${
-                    primaryButton?.label ?? "Primary"
-                  } button which directs to ${
-                    primaryButton?.externalLink === undefined
-                      ? "link-not-found"
-                      : primaryButton?.externalLink
-                  }`}
-                  className="block px-4 py-3 mb-3 leading-loose text-xs text-center font-semibold bg-gray-50 hover:bg-gray-100 rounded-l-xl rounded-t-xl"
-                  target={primaryButton?.linkTarget}
-                  href={`${
-                    primaryButton?.externalLink === undefined
-                      ? "link-not-found"
-                      : primaryButton?.externalLink
-                  }`}
-                  rel={
-                    primaryButton?.linkTarget === "_blank"
-                      ? "noopener noreferrer"
-                      : null
-                  }
-                >
-                  {primaryButton?.label}
-                </a>
-              )}
+                ))}
               {secondaryButton?.label &&
-              secondaryButton?.type === "linkInternal" ? (
-                <Link
-                  href={
-                    secondaryButton?.internalLink === "Home" ||
-                    secondaryButton?.internalLink === "home"
-                      ? "/"
-                      : `/${
-                          secondaryButton?.internalLink === undefined
-                            ? "page-not-found"
-                            : secondaryButton?.internalLink
-                        }`
-                  }
-                >
+                (secondaryButton?.type === "linkInternal" ? (
+                  <Link
+                    href={
+                      secondaryButton?.internalLink === "Home" ||
+                      secondaryButton?.internalLink === "home"
+                        ? "/"
+                        : `/${
+                            secondaryButton?.internalLink === undefined
+                              ? "page-not-found"
+                              : secondaryButton?.internalLink
+                          }`
+                    }
+                  >
+                    <a
+                      aria-label={`Navigation ${
+                        secondaryButton?.label ?? "Secondary"
+                      } button which directs to ${
+                        secondaryButton?.internalLink === undefined
+                          ? "page-not-found"
+                          : secondaryButton?.internalLink
+                      }`}
+                      className="block px-4 py-3 mb-3 leading-loose text-xs text-center font-semibold text-white bg-webriq-darkblue hover:bg-webriq-blue rounded-l-xl rounded-t-xl"
+                      target={secondaryButton?.linkTarget}
+                      rel={
+                        secondaryButton?.linkTarget === "_blank"
+                          ? "noopener noreferrer"
+                          : null
+                      }
+                    >
+                      {secondaryButton?.label}
+                    </a>
+                  </Link>
+                ) : (
                   <a
                     aria-label={`Navigation ${
                       secondaryButton?.label ?? "Secondary"
                     } button which directs to ${
-                      secondaryButton?.internalLink === undefined
-                        ? "page-not-found"
-                        : secondaryButton?.internalLink
+                      secondaryButton?.externalLink === undefined
+                        ? "link-not-found"
+                        : secondaryButton?.externalLink
                     }`}
                     className="block px-4 py-3 mb-3 leading-loose text-xs text-center font-semibold text-white bg-webriq-darkblue hover:bg-webriq-blue rounded-l-xl rounded-t-xl"
                     target={secondaryButton?.linkTarget}
+                    href={`${
+                      secondaryButton?.externalLink === undefined
+                        ? "link-not-found"
+                        : secondaryButton?.externalLink
+                    }`}
                     rel={
                       secondaryButton?.linkTarget === "_blank"
                         ? "noopener noreferrer"
@@ -437,32 +478,7 @@ function VariantD({ links, primaryButton, secondaryButton, logo }) {
                   >
                     {secondaryButton?.label}
                   </a>
-                </Link>
-              ) : (
-                <a
-                  aria-label={`Navigation ${
-                    secondaryButton?.label ?? "Secondary"
-                  } button which directs to ${
-                    secondaryButton?.externalLink === undefined
-                      ? "link-not-found"
-                      : secondaryButton?.externalLink
-                  }`}
-                  className="block px-4 py-3 mb-3 leading-loose text-xs text-center font-semibold text-white bg-webriq-darkblue hover:bg-webriq-blue rounded-l-xl rounded-t-xl"
-                  target={secondaryButton?.linkTarget}
-                  href={`${
-                    secondaryButton?.externalLink === undefined
-                      ? "link-not-found"
-                      : secondaryButton?.externalLink
-                  }`}
-                  rel={
-                    secondaryButton?.linkTarget === "_blank"
-                      ? "noopener noreferrer"
-                      : null
-                  }
-                >
-                  {secondaryButton?.label}
-                </a>
-              )}
+                ))}
             </div>
             <p className="my-4 text-xs text-center text-gray-500">
               <span>{`© ${new Date().getFullYear()} All rights reserved.`}</span>

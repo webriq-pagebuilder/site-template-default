@@ -74,18 +74,23 @@ function VariantB({ subtitle, title, description, statistics, images }) {
                       </svg>
                     </button>
                     <div className="order-1 md:order-1 lg:order-1 xl:order-0 2xl:order-0 mr-2 object-contain w-1/2">
-                      <div className="mx-auto mb-8 xl:mb-0">
-                        <Image
-                          src={urlFor(images?.[currentPosition])}
-                          layout="responsive"
-                          width="500px"
-                          height="850px"
-                          objectFit="cover"
-                          alt={`appPromo-variantB-image${currentPosition}`}
-                          blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                          placeholder="blur"
-                        />
-                      </div>
+                      {images?.[currentPosition]?.image?.asset?._ref && (
+                        <div className="mx-auto mb-8 xl:mb-0">
+                          <Image
+                            src={urlFor(images?.[currentPosition]?.image)}
+                            layout="responsive"
+                            width="500px"
+                            height="850px"
+                            objectFit="cover"
+                            alt={
+                              images?.[currentPosition]?.alt ??
+                              `appPromo-variantB-image${currentPosition}`
+                            }
+                            blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                            placeholder="blur"
+                          />
+                        </div>
+                      )}
                     </div>
                     <button
                       aria-label="Right Arrow button"
@@ -110,18 +115,23 @@ function VariantB({ subtitle, title, description, statistics, images }) {
                   </>
                 ) : (
                   <div className="object-contain md:w-2/5 xl:w-2/5">
-                    <div className="mx-auto mb-8 xl:mb-0">
-                      <Image
-                        src={urlFor(images?.[currentPosition])}
-                        layout="responsive"
-                        width="500px"
-                        height="850px"
-                        objectFit="cover"
-                        alt={`appPromo-variantB-image${currentPosition}`}
-                        blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                        placeholder="blur"
-                      />
-                    </div>
+                    {images?.[currentPosition]?.image?.asset?._ref && (
+                      <div className="mx-auto mb-8 xl:mb-0">
+                        <Image
+                          src={urlFor(images?.[currentPosition]?.image)}
+                          layout="responsive"
+                          width="500px"
+                          height="850px"
+                          objectFit="cover"
+                          alt={
+                            images?.[currentPosition]?.alt ??
+                            `appPromo-variantB-image${currentPosition}`
+                          }
+                          blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                          placeholder="blur"
+                        />
+                      </div>
+                    )}
                   </div>
                 ))}
             </div>

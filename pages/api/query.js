@@ -1,368 +1,103 @@
 import { groq } from "next-sanity";
 
-const variant_a = `
-  variant_a {
-    ...,
-    "featuredItems": arrayOfTitleAndDescription,
-    "arrImages": images,
-    primaryButton {
-      ...,
-      "type": linkType,
-      "internalLink": linkInternal->slug.current,
-      "externalLink": linkExternal
-    },
-    secondaryButton {
-      ...,
-      "type": linkType,
-      "internalLink": linkInternal->slug.current,
-      "externalLink": linkExternal
-    },
-    routes[] {
-      ...,
-      "type": linkType,
-      "internalLink": linkInternal->slug.current,
-      "externalLink": linkExternal
-    },
-    plans[] {
-      ...,
-      primaryButton {
-        ...,
-        "type": linkType,
-        "internalLink": linkInternal->slug.current,
-        "externalLink": linkExternal
-      },
-    },
-    formLinks[] {
-      ...,
-      "type": linkType,
-      "externalLink": linkExternal,
-      "internalLink": linkInternal->slug.current
-    },
-    arrayOfTitleAndText[] {
-      ...,
-      "title": heading,
-      "content": plainText
-    },
-    menu[] {
-      ...,
-      "type": linkType,
-      "externalLink": linkExternal,
-      "internalLink": linkInternal->slug.current
-    },
-    portfolios[] {
-      ...,
-      content[] {
-        ...,
-        primaryButton {
-          ...,
-          "type": linkType,
-          "internalLink": linkInternal->slug.current,
-          "externalLink": linkExternal
-        },
-      },
-    },
-    signinLink {
-      ...,
-      "type": linkType,
-      "externalLink": linkExternal,
-      "internalLink": linkInternal->slug.current
-    },
-    blogPosts[]->{
-      ...,
-      "link": slug.current,
-      authors[]->{
-        ...,
-        "link": slug.current
-      },
-      categories[]->
-    }    
-  },
-`;
-
-const variant_b = `
-  variant_b {
-    ...,
-    "arrImages": images,
-    routes[] {
-      ...,
-      "type": linkType,
-      "internalLink": linkInternal->slug.current,
-      "externalLink": linkExternal
-    },
-    primaryButton {
-      ...,
-      "type": linkType,
-      "internalLink": linkInternal->slug.current,
-      "externalLink": linkExternal
-    },
-    secondaryButton {
-      ...,
-      "type": linkType,
-      "internalLink": linkInternal->slug.current,
-      "externalLink": linkExternal
-    },
-    "featuredItems": arrayOfTitleAndDescription,
-    plans[] {
-      ...,
-      primaryButton {
-        ...,
-        "type": linkType,
-        "internalLink": linkInternal->slug.current,
-        "externalLink": linkExternal
-      },
-    },
-    formLinks[] {
-      ...,
-      "type": linkType,
-      "externalLink": linkExternal,
-      "internalLink": linkInternal->slug.current
-    },
-    menu[] {
-      ...,
-      "type": linkType,
-      "externalLink": linkExternal,
-      "internalLink": linkInternal->slug.current
-    },
-    arrayOfTitleAndText[] {
-      ...,
-      "title": heading,
-      "content": plainText
-    },
-    portfolios[] {
-      ...,
-      primaryButton {
-        ...,
-        "type": linkType,
-        "internalLink": linkInternal->slug.current,
-        "externalLink": linkExternal
-      },
-    },
-    signinLink {
-      ...,
-      "type": linkType,
-      "externalLink": linkExternal,
-      "internalLink": linkInternal->slug.current
-    },
-    blogPosts[]->{
-      ...,
-      "link": slug.current,
-      authors[]->{
-        ...,
-        "link": slug.current
-      },
-      categories[]->
-    }    
-  },
-`;
-
-const variant_c = `
-  variant_c {
-    ...,
-    "arrImages": images,
-    routes[] {
-      ...,
-      "type": linkType,
-      "internalLink": linkInternal->slug.current,
-      "externalLink": linkExternal
-    },
-    primaryButton {
-      ...,
-      "type": linkType,
-      "internalLink": linkInternal->slug.current,
-      "externalLink": linkExternal
-    },
-    secondaryButton {
-      ...,
-      "type": linkType,
-      "internalLink": linkInternal->slug.current,
-      "externalLink": linkExternal
-    },
-    "featuredItems": arrayOfTitleAndDescription,
-    plans[] {
-      ...,
-      primaryButton {
-        ...,
-        "type": linkType,
-        "internalLink": linkInternal->slug.current,
-        "externalLink": linkExternal
-      },
-    },
-    formLinks[] {
-      ...,
-      "type": linkType,
-      "externalLink": linkExternal,
-      "internalLink": linkInternal->slug.current
-    },
-    menu[] {
-      ...,
-      "type": linkType,
-      "externalLink": linkExternal,
-      "internalLink": linkInternal->slug.current
-    },
-    arrayOfTitleAndText[] {
-      ...,
-      "title": heading,
-      "content": plainText
-    },
-    portfolios[] {
-      ...,
-      primaryButton {
-        ...,
-        "type": linkType,
-        "internalLink": linkInternal->slug.current,
-        "externalLink": linkExternal
-      },
-    },
-    blogPosts[]->{
-      ...,
-      "link": slug.current,
-      authors[]->{
-        ...,
-        "link": slug.current
-      },
-      categories[]->
-    }          
-  },
-`;
-
-const variant_d = `
-  variant_d {
-    ...,
-    routes[] {
-      ...,
-      "type": linkType,
-      "internalLink": linkInternal->slug.current,
-      "externalLink": linkExternal
-    },
-    primaryButton {
-      ...,
-      "type": linkType,
-      "internalLink": linkInternal->slug.current,
-      "externalLink": linkExternal
-    },  
-    secondaryButton {
-      ...,
-      "type": linkType,
-      "internalLink": linkInternal->slug.current,
-      "externalLink": linkExternal
-    },
-    "arrImages": images,
-    "featuredItems": arrayOfTitleAndDescription,
-    formLinks[] {
-      ...,
-      "type": linkType,
-      "externalLink": linkExternal,
-      "internalLink": linkInternal->slug.current
-    },
-    menu[] {
-      ...,
-      "type": linkType,
-      "externalLink": linkExternal,
-      "internalLink": linkInternal->slug.current
-    },
-    arrayOfTitleAndText[] {
-      ...,
-      "title": heading,
-      "content": plainText
-    },
-    portfolios[] {
-      ...,
-      content[] {
-        ...,
-        primaryButton {
-          ...,
-          "type": linkType,
-          "internalLink": linkInternal->slug.current,
-          "externalLink": linkExternal
-        },
-      },
-    },
-    signinLink {
-      ...,
-      "type": linkType,
-      "externalLink": linkExternal,
-      "internalLink": linkInternal->slug.current
-    },  
-    blogPosts[]->{
-      ...,
-      "link": slug.current,
-      authors[]->{
-        _id,
-        name,
-        bio,
-        image,
-        "link": slug.current,
-      },
-      categories[]->
-    }       
-  },
-`;
-
-const variant_e = `
-  variant_e {
-    ...,
-    arrayOfTitleAndText[] {
-      ...,
-      "title": heading,
-      "content": plainText
-    },
-    primaryButton {
-      ...,
-      "type": linkType,
-      "internalLink": linkInternal->slug.current,
-      "externalLink": linkExternal
-    },
-    secondaryButton {
-      ...,
-      "type": linkType,
-      "internalLink": linkInternal->slug.current,
-      "externalLink": linkExternal
-    },
-    formLinks[] {
-      ...,
-      "type": linkType,
-      "externalLink": linkExternal,
-      "internalLink": linkInternal->slug.current
-    },
-    signinLink {
-      ...,
-      "type": linkType,
-      "externalLink": linkExternal,
-      "internalLink": linkInternal->slug.current
-    },
-  },
-`;
-
-const variant_f = `
-  variant_f {
-    ...,
-    primaryButton {
-      ...,
-      "type": linkType,
-      "internalLink": linkInternal->slug.current,
-      "externalLink": linkExternal
-    },
-  },
+const conditionalLink = `
+  "type": linkType,
+  "internalLink": linkInternal->slug.current,
+  "externalLink": linkExternal
 `;
 
 const allProjections = `
 {
   ...,
-  _id,
-  title,
   "slug": slug.current,
-  sections[] {
+  sections[]-> {
     ...,
     variants {
       ...,
-      ${variant_a}
-      ${variant_b}
-      ${variant_c}
-      ${variant_d}
-      ${variant_e}
-      ${variant_f}
-    },
-  },
+      arrayOfTitleAndText[] {
+        ...,       
+      },
+      logo {
+        image,
+        ${conditionalLink}
+      },
+      primaryButton {
+        label,
+        ${conditionalLink}
+      },
+      secondaryButton {
+        label,
+        ${conditionalLink}
+      },
+      routes[] {
+        ...,
+        ${conditionalLink}
+      },
+      menu[] {
+        ...,
+        ${conditionalLink}
+      },
+      plans[] {
+        ...,
+        primaryButton {
+          label,
+          ${conditionalLink}
+        },
+      },
+      formLinks[] {
+        ...,
+        ${conditionalLink}
+      },
+      portfolios[] {
+        ...,
+        content[] {
+          ...,
+          primaryButton {
+            label,
+            ${conditionalLink}
+          },
+        },
+        primaryButton {
+          label,
+          ${conditionalLink}
+        },
+      },
+      portfoliosWithCategories[] {
+        ...,
+        content[] {
+          ...,
+          primaryButton {
+            label,
+            ${conditionalLink}
+          },
+        },
+        primaryButton {
+          label,
+          ${conditionalLink}
+        },
+      },
+      signinLink {
+        ...,
+        ${conditionalLink}
+      },
+      blogPosts[]->{
+        ...,
+        "link": slug.current,
+        authors[]->{
+          ...,
+          "link": slug.current
+        },
+        categories[]->
+      },
+      form {
+        ...,
+        thankYouPage {
+          ...,
+          ${conditionalLink}
+        }
+      }       
+    }
+  }
 }
 `;
 
@@ -371,7 +106,7 @@ export const homeQuery = groq`
 `;
 
 export const slugQuery = groq`
-  *[_type == "page" && slug.current == $slug][0] ${allProjections}
+  *[_type == "page" && slug.current == $slug] ${allProjections}
 `;
 
 export const blogQuery = groq`
@@ -387,118 +122,88 @@ export const blogQuery = groq`
 
 export const blogNavAndFooter = groq`
 *[_type=="page" && slug.current == $slug]{
-  sections[] {
+  sections[]-> {
     ...,
     variants {
       ...,
-      variant_a {
+      "arrImages": images,
+      arrayOfTitleAndText[] {
+        ...,
+        "title": heading,
+        "content": plainText
+      },
+      logo {
+        ...,
+        ${conditionalLink}
+      },
+      primaryButton {
+        ...,
+        ${conditionalLink}
+      },
+      secondaryButton {
+        ...,
+        ${conditionalLink}
+      },
+      routes[] {
+        ...,
+        ${conditionalLink}
+      },
+      menu[] {
+        ...,
+        ${conditionalLink}
+      },
+      plans[] {
         ...,
         primaryButton {
           ...,
-          "type": linkType,
-          "internalLink": linkInternal->slug.current,
-          "externalLink": linkExternal
-        },
-        secondaryButton {
-          ...,
-          "type": linkType,
-          "internalLink": linkInternal->slug.current,
-          "externalLink": linkExternal
-        },
-        routes[] {
-          ...,
-          "type": linkType,
-          "internalLink": linkInternal->slug.current,
-          "externalLink": linkExternal
-        },
-        menu[] {
-          ...,
-          "type": linkType,
-          "externalLink": linkExternal,
-          "internalLink": linkInternal->slug.current
+          ${conditionalLink}
         },
       },
-      variant_b {
+      formLinks[] {
         ...,
+        ${conditionalLink}
+      },
+      portfolios[] {
+        ...,
+        content[] {
+          ...,
+          primaryButton {
+            ...,
+            ${conditionalLink}
+          },
+        },
         primaryButton {
           ...,
-          "type": linkType,
-          "internalLink": linkInternal->slug.current,
-          "externalLink": linkExternal
-        },
-        secondaryButton {
-          ...,
-          "type": linkType,
-          "internalLink": linkInternal->slug.current,
-          "externalLink": linkExternal
-        },
-        routes[] {
-          ...,
-          "type": linkType,
-          "internalLink": linkInternal->slug.current,
-          "externalLink": linkExternal
-        },
-        menu[] {
-          ...,
-          "type": linkType,
-          "externalLink": linkExternal,
-          "internalLink": linkInternal->slug.current
+          ${conditionalLink}
         },
       },
-      variant_c {
+      portfoliosWithCategories[] {
         ...,
+        content[] {
+          ...,
+          primaryButton {
+            label,
+            ${conditionalLink}
+          },
+        },
         primaryButton {
-          ...,
-          "type": linkType,
-          "internalLink": linkInternal->slug.current,
-          "externalLink": linkExternal
-        },
-        secondaryButton {
-          ...,
-          "type": linkType,
-          "internalLink": linkInternal->slug.current,
-          "externalLink": linkExternal
-        },
-        routes[] {
-          ...,
-          "type": linkType,
-          "internalLink": linkInternal->slug.current,
-          "externalLink": linkExternal
-        },
-        menu[] {
-          ...,
-          "type": linkType,
-          "externalLink": linkExternal,
-          "internalLink": linkInternal->slug.current
+          label,
+          ${conditionalLink}
         },
       },
-      variant_d {
+      signinLink {
         ...,
-        primaryButton {
-          ...,
-          "type": linkType,
-          "internalLink": linkInternal->slug.current,
-          "externalLink": linkExternal
-        },
-        secondaryButton {
-          ...,
-          "type": linkType,
-          "internalLink": linkInternal->slug.current,
-          "externalLink": linkExternal
-        },
-        routes[] {
-          ...,
-          "type": linkType,
-          "internalLink": linkInternal->slug.current,
-          "externalLink": linkExternal
-        },
-        menu[] {
-          ...,
-          "type": linkType,
-          "externalLink": linkExternal,
-          "internalLink": linkInternal->slug.current
-        },
+        ${conditionalLink}
       },
-    },
-  },
+      blogPosts[]->{
+        ...,
+        "link": slug.current,
+        authors[]->{
+          ...,
+          "link": slug.current
+        },
+        categories[]->
+      },       
+    }
+  }
 }`;

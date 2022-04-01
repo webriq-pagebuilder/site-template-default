@@ -15,19 +15,15 @@ function Header({ template, data }) {
 
   const props = {
     template,
-    image: data?.variants?.[variant]?.mainImage,
-    images: data?.variants?.[variant]?.arrImages,
-    title: data?.variants?.[variant]?.heading,
-    description: data?.variants?.[variant]?.description,
-    text: data?.variants?.[variant]?.plainText,
-    primaryButton: data?.variants?.[variant]?.primaryButton,
-    secondaryButton: data?.variants?.[variant]?.secondaryButton,
-    videoLink: data?.variants?.[variant]?.youtubeLink,
-    formFields: data?.variants?.[variant]?.form?.fields,
-    formId: data?.variants?.[variant]?.form?.id,
-    formName: data?.variants?.[variant]?.form?.name,
-    links: data?.variants?.[variant]?.formLinks,
-    signInLink: data?.variants?.[variant]?.signinLink,
+    mainImage: data?.variants?.mainImage,
+    images: data?.variants?.images,
+    title: data?.variants?.title,
+    description: data?.variants?.description,
+    primaryButton: data?.variants?.primaryButton,
+    secondaryButton: data?.variants?.secondaryButton,
+    videoLink: data?.variants?.youtubeLink,
+    formLinks: data?.variants?.formLinks,
+    form: data?.variants?.form,
   };
 
   return Variant ? <Variant {...props} /> : null;
