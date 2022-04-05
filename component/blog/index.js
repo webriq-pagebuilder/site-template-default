@@ -85,7 +85,7 @@ const blockStyle = {
   },
 };
 
-function BlogPage({ data, preview, navAndFooter }) {
+function BlogPage({ data, preview }) {
   const slug = data?.slug;
   const { data: blogData } = usePreviewSubscription(blogQuery, {
     params: { slug },
@@ -99,26 +99,30 @@ function BlogPage({ data, preview, navAndFooter }) {
     return <PageNotFound statusCode={404} />;
   }
 
-  const { authors, categories, body, mainImage, publishedAt, title, seo } =
-    post;
+  const {
+    navigation,
+    footer,
+    authors,
+    categories,
+    body,
+    mainImage,
+    publishedAt,
+    title,
+    seo,
+  } = post;
 
   return (
     <>
       <Head>
         <title>{seo?.seoTitle || title}</title>
       </Head>
-      {navAndFooter
-        ?.filter((data) => data?._type === "navigation")
-        ?.map((nav) => (
-          <Navigation
-            key={nav?._key}
-            data={nav}
-            template={{
-              bg: "gray",
-              color: "webriq",
-            }}
-          />
-        ))}
+      <Navigation
+        template={{
+          bg: "gray",
+          color: "webriq",
+        }}
+        data={navigation}
+      />
       <section className="pb-20">
         <div
           className="p-20 mb-12"
@@ -207,18 +211,7 @@ function BlogPage({ data, preview, navAndFooter }) {
           )}
         </div>
       </section>
-      {navAndFooter
-        ?.filter((data) => data?._type === "footer")
-        ?.map((footer) => (
-          <Footer
-            key={footer?._key}
-            data={footer}
-            template={{
-              bg: "gray",
-              color: "webriq",
-            }}
-          />
-        ))}
+      <Footer data={footer} />
     </>
   );
 }
