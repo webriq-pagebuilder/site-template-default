@@ -24,7 +24,7 @@ function VariantD({ caption, title, features }) {
                   <span className="mb-6 inline-block p-2 rounded-lg bg-webriq-lightblue">
                     {feature?.mainImage?.image?.asset?._ref && (
                       <Image
-                        src={urlFor(features?.[0]?.mainImage?.image)}
+                        src={urlFor(feature?.mainImage?.image)}
                         layout="intrinsic"
                         width="40"
                         height="40"
