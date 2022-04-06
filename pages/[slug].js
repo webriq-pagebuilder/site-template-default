@@ -168,7 +168,10 @@ export async function getStaticProps({ params, preview = false }) {
     return {
       props: {
         preview,
-        data: { blogData },
+        data: {
+          blogData,
+          navAndFooter,
+        },
       },
     };
   }
@@ -176,10 +179,7 @@ export async function getStaticProps({ params, preview = false }) {
   return {
     props: {
       preview,
-      data: {
-        pages,
-        navAndFooter,
-      },
+      data: { pages },
     },
   };
 }
