@@ -9,7 +9,7 @@ import NoPreview from "pages/no-preview";
 
 export const Components = {
   navigation: dynamic(() => import("component/sections/navigation")),
-  header: dynamic(() => import("component/sections/hero")),
+  header: dynamic(() => import("component/sections/header")),
   features: dynamic(() => import("component/sections/features")),
   portfolio: dynamic(() => import("component/sections/portfolio")),
   blog: dynamic(() => import("component/sections/blog")),
@@ -119,6 +119,7 @@ function Page({ data, preview }) {
   return (
     <>
       <Head>
+        <meta name="viewport" content="width=260 initial-scale=1" />
         <title>{seo?.seoTitle || title}</title>
       </Head>
       {sections &&

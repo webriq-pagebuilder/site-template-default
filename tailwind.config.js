@@ -1,11 +1,5 @@
 module.exports = {
-  purge: {
-    content: [
-      "./pages/**/*.{js,ts,jsx,tsx}",
-      "./component/**/*.{js,ts,jsx,tsx}",
-    ],
-  },
-  darkMode: false, // or 'media' or 'class'
+  content: ["./pages/**/*.{js,ts,jsx,tsx}", "./component/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
       colors: {
@@ -16,11 +10,4 @@ module.exports = {
       },
     },
   },
-  variants: {
-    extend: {
-      visibility: ["hover", "focus"],
-      animation: ["motion-reduce"],
-    },
-  },
-  plugins: [require("@tailwindcss/aspect-ratio")],
 };

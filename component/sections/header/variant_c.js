@@ -147,7 +147,7 @@ function VariantC({
             </div>
           </div>
           <div className="md:mx-20 lg:mx-60 xl:mx-60">
-            <div className="aspect-w-16 aspect-h-9">
+            <div className="aspect-video">
               {videoLink && (
                 <iframe
                   aria-label="Show Video Frame"

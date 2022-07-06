@@ -39,6 +39,7 @@ function Home({ data, preview }) {
   return (
     <>
       <Head>
+        <meta name="viewport" content="width=260 initial-scale=1" />
         <title>{seo?.seoTitle ?? title}</title>
       </Head>
       {sections?.map((section, index) => {
