@@ -207,3 +207,12 @@ export const blogNavAndFooter = groq`
     }
   }
 }`;
+
+// query product based on current slug
+export const productsQuery = groq`*[_type == "products" && slug.current == $slug] ${allProjections}`;
+
+// query site settings
+export const siteSettingsQuery = groq`*[_type == "siteSettings"][0] ${allProjections}`;
+
+// query product category based on current slug
+export const productCategoryQuery = groq`*[_type == "categories" && slug.current == $slug] ${allProjections}`;

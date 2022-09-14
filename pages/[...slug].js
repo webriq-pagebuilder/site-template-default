@@ -3,9 +3,14 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { getClient, usePreviewSubscription } from "../lib/sanity";
 import dynamic from "next/dynamic";
-import { blogQuery, blogNavAndFooter, slugQuery } from "./api/query";
+import {
+  blogQuery,
+  blogNavAndFooter,
+  slugQuery,
+  productsQuery,
+  productCategoryQuery,
+} from "./api/query";
 import { groq } from "next-sanity";
-import NoPreview from "pages/no-preview";
 
 export const Components = {
   navigation: dynamic(() => import("component/sections/navigation")),
@@ -31,6 +36,9 @@ export const Components = {
 };
 
 const BlogPage = dynamic(() => import("component/blog/"));
+const ProductPage = dynamic(() => import("component/store/product"));
+const CategoryPage = dynamic(() => import("component/store/category"));
+const NoPreview = dynamic(() => import("pages/no-preview"));
 
 /**
  * Helper function to return the correct version of the document
@@ -69,14 +77,23 @@ export function filterDataToSingleItem(data, preview) {
 
 function Page({ data, preview }) {
   const router = useRouter();
+
   if (!router.isFallback && !data?.pages?.slug) {
-    return (
-      <BlogPage
-        data={data?.blogData}
-        preview={preview}
-        navAndFooter={data?.navAndFooter?.[0]?.sections}
-      />
-    );
+    if (Object.keys(data?.products).length !== 0) {
+      return <ProductPage {...{ data: data?.products?.[0], preview }} />;
+    } else if (Object.keys(data?.categories).length !== 0) {
+      return <CategoryPage {...{ data: data?.categories?.[0], preview }} />;
+    } else {
+      return (
+        <BlogPage
+          {...{
+            data: blogData,
+            preview,
+            navAndFooter: data?.navAndFooter?.[0]?.sections,
+          }}
+        />
+      );
+    }
   }
 
   const slug = data?.pages?.slug;
@@ -148,15 +165,22 @@ function Page({ data, preview }) {
 
 export async function getStaticProps({ params, preview = false }) {
   const page = await getClient(preview).fetch(slugQuery, {
-    slug: params.slug,
+    slug: params.slug?.[0],
   });
 
   const blogData = await getClient(preview).fetch(blogQuery, {
-    slug: params.slug,
+    slug: params.slug?.[0],
   });
 
   const navAndFooter = await getClient(preview).fetch(blogNavAndFooter, {
-    slug: params.slug,
+    slug: params.slug?.[0],
+  });
+
+  const products = await getClient(preview).fetch(productsQuery, {
+    slug: params.slug?.[0],
+  });
+  const categories = await getClient(preview).fetch(productCategoryQuery, {
+    slug: params.slug?.[0],
   });
 
   // pass page data and preview to helper function
@@ -171,6 +195,8 @@ export async function getStaticProps({ params, preview = false }) {
         data: {
           blogData,
           navAndFooter,
+          products,
+          categories,
         },
       },
     };
@@ -185,12 +211,22 @@ export async function getStaticProps({ params, preview = false }) {
 }
 
 export async function getStaticPaths() {
-  const paths = await getClient().fetch(
+  const pages = await getClient().fetch(
     groq`*[_type == "page" && defined(slug.current)][].slug.current`
+  );
+  const products = await getClient().fetch(
+    groq`*[_type == "products" && defined(slug.current)][].slug.current`
+  );
+  const categories = await getClient().fetch(
+    groq`*[_type == "categories" && defined(slug.current)][].slug.current`
   );
 
   return {
-    paths: paths.map((slug) => ({ params: { slug } })),
+    paths: [
+      ...pages.map((slug) => ({ params: { slug: [slug] } })),
+      ...products.map((slug) => ({ params: { slug: [slug] } })),
+      ...categories.map((slug) => ({ params: { slug: [slug] } })),
+    ],
     fallback: true,
   };
 }
