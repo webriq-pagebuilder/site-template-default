@@ -1,12 +1,12 @@
 /** This component displays content for the PRODUCT page */
 
-import { memo, useEffect, useState } from "react";
+import { memo } from "react";
 import Head from "next/head";
-import { productQuery, siteSettingsQuery } from "pages/api/query";
-import { sanityClient, usePreviewSubscription } from "lib/sanity";
+import { productQuery } from "pages/api/query";
+import { usePreviewSubscription } from "lib/sanity";
 import { Components } from "../../pages/[...slug]";
 
-function ProductPage({ data, preview }) {
+function ProductPage({ data, siteSettings, preview }) {
   const slug = data?.slug?.current;
   const { data: products } = usePreviewSubscription(productQuery, {
     params: { slug },
@@ -14,21 +14,29 @@ function ProductPage({ data, preview }) {
     enabled: preview,
   });
 
-  // get site settings page sections
-  const [siteSettings, setSiteSettings] = useState(null);
-  useEffect(() => {
-    async function getSiteSettings() {
-      await sanityClient
-        .fetch(siteSettingsQuery)
-        .then((settings) => setSiteSettings(settings))
-        .catch((error) => console.log(error));
-    }
-
-    getSiteSettings();
-  }, []);
-
   const { name, sections, seo, pid, category, description, productPreview } =
     products;
+
+  if (siteSettings) {
+    if (siteSettings?.sections?.length !== 0 && sections?.length !== 0) {
+      sections?.map((section, idx) => {
+        // For every section, find the array index in siteSettings?.sections where their _types match
+        let getSettingsIndex = siteSettings?.sections
+          ?.map((i) => i?._type)
+          ?.indexOf(section?._type); // make an array of _type
+
+        if (getSettingsIndex !== undefined) {
+          if (getSettingsIndex === -1) {
+            // if we can't find a match, add the _type from sections[] based on their array order
+            siteSettings?.sections?.splice(idx + 1, 0, section);
+          } else {
+            // if there is a matching _type, replace the siteSettings?.sections with that of sections[].
+            siteSettings?.sections?.splice(getSettingsIndex, 1, section);
+          }
+        }
+      });
+    }
+  }
 
   return (
     <>
@@ -39,7 +47,10 @@ function ProductPage({ data, preview }) {
         />
         <title>{seo?.seoTitle ?? siteSettings?.seo?.seoTitle ?? name}</title>
       </Head>
-      {siteSettings?.sections?.map((section, index) => {
+      {(siteSettings?.sections?.length === 0
+        ? sections
+        : siteSettings?.sections
+      )?.map((section, index) => {
         const Component = Components[section._type];
 
         // skip rendering unknown components

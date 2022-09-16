@@ -9,6 +9,7 @@ import {
   slugQuery,
   productsQuery,
   productCategoryQuery,
+  siteSettingsQuery,
 } from "./api/query";
 import { groq } from "next-sanity";
 
@@ -80,9 +81,25 @@ function Page({ data, preview }) {
 
   if (!router.isFallback && !data?.pages?.slug) {
     if (Object.keys(data?.products).length !== 0) {
-      return <ProductPage {...{ data: data?.products?.[0], preview }} />;
+      return (
+        <ProductPage
+          {...{
+            data: data?.products?.[0],
+            siteSettings: data?.siteSettings,
+            preview,
+          }}
+        />
+      );
     } else if (Object.keys(data?.categories).length !== 0) {
-      return <CategoryPage {...{ data: data?.categories?.[0], preview }} />;
+      return (
+        <CategoryPage
+          {...{
+            data: data?.categories?.[0],
+            siteSettings: data?.siteSettings,
+            preview,
+          }}
+        />
+      );
     } else {
       return (
         <BlogPage
@@ -183,6 +200,8 @@ export async function getStaticProps({ params, preview = false }) {
     slug: params.slug?.[0],
   });
 
+  const siteSettings = await getClient(preview).fetch(siteSettingsQuery);
+
   // pass page data and preview to helper function
   const pages = filterDataToSingleItem(page, preview);
 
@@ -197,6 +216,7 @@ export async function getStaticProps({ params, preview = false }) {
           navAndFooter,
           products,
           categories,
+          siteSettings,
         },
       },
     };

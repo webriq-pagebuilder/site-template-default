@@ -1,16 +1,30 @@
 import React from "react";
 import { seoImageUrl } from "lib/sanity";
 import { NextSeo } from "next-seo";
+import { useRouter } from "next/router";
 
 function SEO({ data }) {
+  // get data props
+  const siteSettings = data?.siteSettings; // for store pages (products, categories)
   const blog = data?.blogData;
   const page = data?.page || data?.page?.[0] || data?.pages;
+  const products = data?.products?.[0];
+  const categories = data?.categories?.[0];
   const blogDescription = blogPostBody(blog?.excerpt || blog?.body);
 
   const url = process.env.NEXT_PUBLIC_SITE_URL;
-  const seo = blog?.seo ?? page?.seo;
-  const title = blog?.title ?? page?.title;
-  const slug = page?.slug ?? blog?.slug?.current;
+  const router = useRouter();
+
+  // set store SEO
+  const productSEO = products?.seo ?? siteSettings?.seo;
+  const categorySEO = categories?.seo ?? siteSettings?.seo;
+
+  // determine SEO value based on props from active page
+  const seo = blog?.seo ?? page?.seo ?? productSEO ?? categorySEO;
+
+  // determine title based on props from active page
+  const title =
+    blog?.title ?? page?.title ?? products?.name ?? categories?.name;
 
   return (
     <>
@@ -18,7 +32,7 @@ function SEO({ data }) {
         openGraph={{
           title: seo?.seoTitle || title,
           description: seo?.seoDescription || blogDescription,
-          url: `${url}/${slug === "home" ? "" : slug}`,
+          url: `${url}${router?.asPath}`,
           images: [
             {
               url: seoImageUrl(seo?.seoImage),
