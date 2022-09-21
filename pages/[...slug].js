@@ -8,7 +8,7 @@ import {
   blogNavAndFooter,
   slugQuery,
   productsQuery,
-  productCategoryQuery,
+  collectionsQuery,
   siteSettingsQuery,
 } from "./api/query";
 import { groq } from "next-sanity";
@@ -34,11 +34,15 @@ export const Components = {
   footer: dynamic(() => import("component/sections/footer")),
   signInSignUp: dynamic(() => import("component/sections/sign_in_sign_up")),
   textComponent: dynamic(() => import("component/sections/text_component")),
+  featuredProducts: dynamic(() =>
+    import("component/sections/featured_products")
+  ),
+  productInfo: dynamic(() => import("component/sections/product_info")),
 };
 
 const BlogPage = dynamic(() => import("component/blog/"));
 const ProductPage = dynamic(() => import("component/store/product"));
-const CategoryPage = dynamic(() => import("component/store/category"));
+const CollectionPage = dynamic(() => import("component/store/collection"));
 const NoPreview = dynamic(() => import("pages/no-preview"));
 
 /**
@@ -80,22 +84,20 @@ function Page({ data, preview }) {
   const router = useRouter();
 
   if (!router.isFallback && !data?.pages?.slug) {
-    if (Object.keys(data?.products).length !== 0) {
+    if (Object?.keys(data?.products).length !== 0) {
       return (
         <ProductPage
           {...{
             data: data?.products?.[0],
-            siteSettings: data?.siteSettings,
             preview,
           }}
         />
       );
-    } else if (Object.keys(data?.categories).length !== 0) {
+    } else if (Object?.keys(data?.collections).length !== 0) {
       return (
-        <CategoryPage
+        <CollectionPage
           {...{
-            data: data?.categories?.[0],
-            siteSettings: data?.siteSettings,
+            data: data?.collections?.[0],
             preview,
           }}
         />
@@ -196,7 +198,7 @@ export async function getStaticProps({ params, preview = false }) {
   const products = await getClient(preview).fetch(productsQuery, {
     slug: params.slug?.[0],
   });
-  const categories = await getClient(preview).fetch(productCategoryQuery, {
+  const collections = await getClient(preview).fetch(collectionsQuery, {
     slug: params.slug?.[0],
   });
 
@@ -215,7 +217,7 @@ export async function getStaticProps({ params, preview = false }) {
           blogData,
           navAndFooter,
           products,
-          categories,
+          collections,
           siteSettings,
         },
       },
