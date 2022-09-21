@@ -18,34 +18,30 @@ function VariantA({
         switch (style) {
           case "h1":
             return (
-              <h1 className="mb-6 leading-loose text-gray-900">
+              <h1 className="mb-8 leading-loose text-7xl font-bold font-heading">
                 {props.children}
               </h1>
             );
           case "h2":
             return (
-              <h2 className="mb-6 leading-loose text-gray-900">
+              <h2 className="mb-8 leading-loose text-5xl font-bold font-heading">
                 {props.children}
               </h2>
             );
           case "h3":
             return (
-              <h3 className="mb-6 leading-loose text-gray-900">
+              <h3 className="mb-8 leading-loose text-3xl font-bold font-heading">
                 {props.children}
               </h3>
             );
           case "h4":
             return (
-              <h4 className="mb-6 leading-loose text-gray-900">
+              <h4 className="mb-6 leading-loose text-xl font-bold font-heading">
                 {props.children}
               </h4>
             );
           case "normal":
-            return (
-              <p className="text-gray-500 text-justify leading-relaxed mb-5">
-                {props.children}
-              </p>
-            );
+            return <p className="max-w-2xl text-gray-500">{props.children}</p>;
           case "blockquote":
             return (
               <blockquote className="mb-6 px-14 leading-loose italic text-gray-500">
@@ -178,7 +174,7 @@ function VariantA({
                     }`}
                     onClick={() => setActiveImage(index)}
                   >
-                    <div className="w-full h-32 object-cover">
+                    <div className="w-full h-32">
                       {item?.image && (
                         <Image
                           layout="responsive"
@@ -365,7 +361,7 @@ function VariantA({
                     className={`inline-block py-6 px-10 font-bold font-heading ${
                       activeTab === index
                         ? "bg-white shadow-2xl text-webriq-darkblue"
-                        : "text-gray-500"
+                        : "text-gray-500 hover:shadow-2xl"
                     }`}
                     onClick={() => setActiveTab(index)}
                     type="button"
@@ -375,15 +371,70 @@ function VariantA({
                 </li>
               ))}
             </ul>
-            <h3 className="mb-8 text-3xl font-bold font-heading">
-              Summer collection and laoreet get
-            </h3>
-            <p className="max-w-2xl text-gray-500 font-custom">
-              I had interdum at ante porta, eleifend feugiat nunc. In semper
-              euismod mi a accums lorem sad. Morbi at auctor nibh. Aliquam
-              tincidunt placerat mollis. Lorem euismod dignissim, felis tortor
-              ollis eros, non ultricies turpis.
-            </p>
+            {productDetails?.[activeTab]?.contentType !== "mediaOnly" ? (
+              <div className="flex flex-wrap gap-x-5">
+                {productDetails?.[activeTab]?.media === "singleImage"
+                  ? productDetails?.[activeTab]?.mainImage?.image && (
+                      <div className="w-1/4 h-full">
+                        <Image
+                          layout="responsive"
+                          width={250}
+                          height={128}
+                          objectFit="cover"
+                          src={urlFor(
+                            productDetails?.[activeTab]?.mainImage?.image
+                          )}
+                        />
+                      </div>
+                    )
+                  : productDetails?.[activeTab]?.url && (
+                      <div className="aspect-video">
+                        <iframe
+                          width={635}
+                          height={357}
+                          loading="lazy"
+                          src={productDetails?.[activeTab]?.url}
+                          frameBorder={0}
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                          allowFullScreen
+                        />
+                      </div>
+                    )}
+                {productDetails?.[activeTab]?.blockContent && (
+                  <PortableText
+                    blocks={productDetails?.[activeTab]?.blockContent}
+                    serializers={blockStyle}
+                  />
+                )}
+              </div>
+            ) : productDetails?.[activeTab]?.media === "singleImage" ? (
+              productDetails?.[activeTab]?.mainImage?.image && (
+                <div className="mx-auto w-1/2 h-full">
+                  <Image
+                    layout="responsive"
+                    width={736}
+                    height={564}
+                    objectFit="cover"
+                    src={urlFor(productDetails?.[activeTab]?.mainImage?.image)}
+                  />
+                </div>
+              )
+            ) : (
+              productDetails?.[activeTab]?.url && (
+                <div className="aspect-video">
+                  <iframe
+                    width={635}
+                    height={357}
+                    loading="lazy"
+                    src={productDetails?.[activeTab]?.url}
+                    frameBorder={0}
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  />
+                </div>
+              )
+            )}
+            {/* @TO DO: ADD VALUE SOURCE FOR CUSTOMER REVIEWS HERE */}
           </div>
         )}
       </div>
