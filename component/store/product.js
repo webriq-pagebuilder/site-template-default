@@ -36,12 +36,6 @@ function ProductPage({ data, preview }) {
   const { name, sections, seo, pid, collections, description, productPreview } =
     products;
 
-  let collectionsToDisplay = collections;
-
-  if (override?.collections !== undefined) {
-    collectionsToDisplay = override?.collections;
-  }
-
   return (
     <>
       <Head>
@@ -69,7 +63,7 @@ function ProductPage({ data, preview }) {
             product={{
               name,
               pid,
-              collectionsToDisplay,
+              collections,
               description,
               productPreview,
             }}
