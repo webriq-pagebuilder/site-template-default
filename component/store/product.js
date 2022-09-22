@@ -1,21 +1,46 @@
 /** This component displays content for the PRODUCT page */
 
-import { memo } from "react";
+import { memo, useEffect, useState } from "react";
 import Head from "next/head";
-import { productQuery } from "pages/api/query";
-import { usePreviewSubscription } from "lib/sanity";
-import { Components } from "../../pages/[...slug]";
+import { productQuery, overrideProducts } from "pages/api/query";
+import { usePreviewSubscription, sanityClient } from "lib/sanity";
+import { Components } from "../../pages/[slug]";
 
 function ProductPage({ data, preview }) {
-  const slug = data?.slug?.current;
+  const slug = data?.slug;
   const { data: products } = usePreviewSubscription(productQuery, {
     params: { slug },
     initialData: data,
     enabled: preview,
   });
 
-  const { name, sections, seo, pid, category, description, productPreview } =
+  // let's get the data that will override what is defined in Settings > Products based on product name
+  const [override, setOverride] = useState(null);
+  useEffect(() => {
+    async function getNewData() {
+      try {
+        // fetch data and pass to override state variable
+        await sanityClient
+          .fetch(overrideProducts, { productName: name })
+          .then((result) => {
+            setOverride(result);
+          });
+      } catch (err) {
+        console.log(err);
+      }
+    }
+
+    getNewData();
+  }, []);
+
+  const { name, sections, seo, pid, collections, description, productPreview } =
     products;
+
+  let collectionsToDisplay = collections;
+
+  if (override?.collections !== undefined) {
+    collectionsToDisplay = override?.collections;
+  }
 
   return (
     <>
@@ -44,7 +69,7 @@ function ProductPage({ data, preview }) {
             product={{
               name,
               pid,
-              category,
+              collectionsToDisplay,
               description,
               productPreview,
             }}

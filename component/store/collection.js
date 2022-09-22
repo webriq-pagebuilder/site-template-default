@@ -1,20 +1,39 @@
 /** This component displays content for the CATEGORY page */
 
-import { memo } from "react";
+import { memo, useEffect, useState } from "react";
 import Head from "next/head";
-import { productCategoryQuery } from "pages/api/query";
-import { usePreviewSubscription } from "lib/sanity";
-import { Components } from "../../pages/[...slug]";
+import { productCategoryQuery, overrideCollections } from "pages/api/query";
+import { usePreviewSubscription, sanityClient } from "lib/sanity";
+import { Components } from "../../pages/[slug]";
 
 function CollectionPage({ data, preview }) {
-  const slug = data?.slug?.current;
+  const slug = data?.slug;
   const { data: categories } = usePreviewSubscription(productCategoryQuery, {
     params: { slug },
     initialData: data,
     enabled: preview,
   });
 
-  const { name, sections, seo, description, categoryID } = categories;
+  // let's get the data that will override what is defined in Settings > Products based on product name
+  const [override, setOverride] = useState(null);
+  useEffect(() => {
+    async function getNewData() {
+      try {
+        // fetch data and pass to override state variable
+        await sanityClient
+          .fetch(overrideCollections, { collectionName: name })
+          .then((result) => {
+            setOverride(result);
+          });
+      } catch (err) {
+        console.log(err);
+      }
+    }
+
+    getNewData();
+  }, []);
+
+  const { name, sections, seo, description, collectionID } = categories;
 
   return (
     <>
@@ -23,7 +42,7 @@ function CollectionPage({ data, preview }) {
           name="viewport"
           content="width=360 initial-scale=1, shrink-to-fit=no"
         />
-        <title>{seo?.seoTitle ?? siteSettings?.seo?.seoTitle ?? name}</title>
+        <title>{seo?.seoTitle ?? name}</title>
       </Head>
       {sections?.map((section, index) => {
         const Component = Components[section._type];
@@ -40,9 +59,9 @@ function CollectionPage({ data, preview }) {
               bg: "gray",
               color: "webriq",
             }}
-            productDetails={{
+            collection={{
               name,
-              categoryID,
+              collectionID,
               description,
             }}
             data={section}

@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { homeQuery } from "./api/query";
 import { getClient, usePreviewSubscription } from "../lib/sanity";
 import NoPreview from "pages/no-preview";
-import { Components, filterDataToSingleItem } from "./[...slug]";
+import { Components, filterDataToSingleItem } from "./[slug]";
 
 function Home({ data, preview }) {
   const router = useRouter();

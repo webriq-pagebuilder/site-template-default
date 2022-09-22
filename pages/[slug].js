@@ -1,4 +1,4 @@
-import React from "react";
+import { memo } from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { getClient, usePreviewSubscription } from "../lib/sanity";
@@ -9,7 +9,6 @@ import {
   slugQuery,
   productsQuery,
   collectionsQuery,
-  siteSettingsQuery,
 } from "./api/query";
 import { groq } from "next-sanity";
 
@@ -184,25 +183,23 @@ function Page({ data, preview }) {
 
 export async function getStaticProps({ params, preview = false }) {
   const page = await getClient(preview).fetch(slugQuery, {
-    slug: params.slug?.[0],
+    slug: params.slug,
   });
 
   const blogData = await getClient(preview).fetch(blogQuery, {
-    slug: params.slug?.[0],
+    slug: params.slug,
   });
 
   const navAndFooter = await getClient(preview).fetch(blogNavAndFooter, {
-    slug: params.slug?.[0],
+    slug: params.slug,
   });
 
   const products = await getClient(preview).fetch(productsQuery, {
-    slug: params.slug?.[0],
+    slug: params.slug,
   });
   const collections = await getClient(preview).fetch(collectionsQuery, {
-    slug: params.slug?.[0],
+    slug: params.slug,
   });
-
-  const siteSettings = await getClient(preview).fetch(siteSettingsQuery);
 
   // pass page data and preview to helper function
   const pages = filterDataToSingleItem(page, preview);
@@ -218,7 +215,6 @@ export async function getStaticProps({ params, preview = false }) {
           navAndFooter,
           products,
           collections,
-          siteSettings,
         },
       },
     };
@@ -237,20 +233,20 @@ export async function getStaticPaths() {
     groq`*[_type == "page" && defined(slug.current)][].slug.current`
   );
   const products = await getClient().fetch(
-    groq`*[_type == "products" && defined(slug.current)][].slug.current`
+    groq`*[_type == "mainProduct" && defined(slug.current)][].slug.current`
   );
-  const categories = await getClient().fetch(
-    groq`*[_type == "categories" && defined(slug.current)][].slug.current`
+  const collections = await getClient().fetch(
+    groq`*[_type == "mainCollection" && defined(slug.current)][].slug.current`
   );
 
   return {
     paths: [
-      ...pages.map((slug) => ({ params: { slug: [slug] } })),
-      ...products.map((slug) => ({ params: { slug: [slug] } })),
-      ...categories.map((slug) => ({ params: { slug: [slug] } })),
+      ...pages.map((slug) => ({ params: { slug } })),
+      ...products.map((slug) => ({ params: { slug } })),
+      ...collections.map((slug) => ({ params: { slug } })),
     ],
     fallback: true,
   };
 }
 
-export default React.memo(Page);
+export default memo(Page);
