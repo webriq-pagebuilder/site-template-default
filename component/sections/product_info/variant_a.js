@@ -1,4 +1,4 @@
-import { memo, useState } from "react";
+import { Fragment, memo, useState } from "react";
 import { urlFor, PortableText } from "lib/sanity";
 import Image from "next/image";
 
@@ -371,35 +371,39 @@ function VariantA({
                 </li>
               ))}
             </ul>
-            {productDetails?.[activeTab]?.contentType !== "mediaOnly" ? (
+            {productDetails?.[activeTab]?.contentType !== "textOnly" ? (
               <div className="flex flex-wrap gap-x-5">
-                {productDetails?.[activeTab]?.media === "singleImage"
-                  ? productDetails?.[activeTab]?.mainImage?.image && (
-                      <div className="w-1/4 h-full">
-                        <Image
-                          layout="responsive"
-                          width={250}
-                          height={128}
-                          objectFit="cover"
-                          src={urlFor(
-                            productDetails?.[activeTab]?.mainImage?.image
-                          )}
-                        />
+                {productDetails?.[activeTab]?.media &&
+                productDetails?.[activeTab]?.media === "imageArray" ? (
+                  <Fragment>
+                    {productDetails?.[activeTab]?.images?.map((item, index) => (
+                      <div className="w-1/4 h-full" key={index}>
+                        {item?.image && (
+                          <Image
+                            layout="responsive"
+                            width={250}
+                            height={128}
+                            objectFit="cover"
+                            src={urlFor(item?.image)}
+                            alt={item?.alt}
+                          />
+                        )}
                       </div>
-                    )
-                  : productDetails?.[activeTab]?.url && (
-                      <div className="aspect-video">
-                        <iframe
-                          width={635}
-                          height={357}
-                          loading="lazy"
-                          src={productDetails?.[activeTab]?.url}
-                          frameBorder={0}
-                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                          allowFullScreen
-                        />
-                      </div>
-                    )}
+                    ))}
+                  </Fragment>
+                ) : (
+                  <div className="aspect-video">
+                    <iframe
+                      width={635}
+                      height={357}
+                      loading="lazy"
+                      src={productDetails?.[activeTab]?.url}
+                      frameBorder={0}
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                    />
+                  </div>
+                )}
                 {productDetails?.[activeTab]?.blockContent && (
                   <PortableText
                     blocks={productDetails?.[activeTab]?.blockContent}
@@ -407,31 +411,12 @@ function VariantA({
                   />
                 )}
               </div>
-            ) : productDetails?.[activeTab]?.media === "singleImage" ? (
-              productDetails?.[activeTab]?.mainImage?.image && (
-                <div className="mx-auto w-1/2 h-full">
-                  <Image
-                    layout="responsive"
-                    width={736}
-                    height={564}
-                    objectFit="cover"
-                    src={urlFor(productDetails?.[activeTab]?.mainImage?.image)}
-                  />
-                </div>
-              )
             ) : (
-              productDetails?.[activeTab]?.url && (
-                <div className="aspect-video">
-                  <iframe
-                    width={635}
-                    height={357}
-                    loading="lazy"
-                    src={productDetails?.[activeTab]?.url}
-                    frameBorder={0}
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                  />
-                </div>
+              productDetails?.[activeTab]?.blockContent && (
+                <PortableText
+                  blocks={productDetails?.[activeTab]?.blockContent}
+                  serializers={blockStyle}
+                />
               )
             )}
             {/* @TO DO: ADD VALUE SOURCE FOR CUSTOMER REVIEWS HERE */}
