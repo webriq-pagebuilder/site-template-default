@@ -42,12 +42,16 @@ export default async (req, res) => {
     return res.send(previewHtml);
   }
 
-  // Redirect to the path from the fetched post
+  // Redirect to the path from the fetched page
   // We don't redirect to req.query.slug as that might lead to open redirect vulnerabilities
   // res.redirect(`/${req.query.slug}`);
 
   // res.writeHead(307, { Location: pathname });
 
   // res.end();
-  res.writeHead(302, { Location: `/${req.query.slug}` }).end();
+  const path = req?.query?.type
+    ? `/${req?.query?.type}/${pathname}`
+    : `/${pathname}`;
+
+  res.writeHead(302, { Location: path }).end();
 };

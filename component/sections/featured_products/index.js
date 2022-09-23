@@ -4,6 +4,7 @@ import dynamic from "next/dynamic";
 const Variants = {
   variant_a: dynamic(() => import("./variant_a")),
   variant_b: dynamic(() => import("./variant_b")),
+  variant_c: dynamic(() => import("./variant_c")),
 };
 
 function FeaturedProducts({ data }) {

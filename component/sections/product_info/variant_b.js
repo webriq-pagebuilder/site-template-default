@@ -22,33 +22,35 @@ function VariantB({
         switch (style) {
           case "h1":
             return (
-              <h1 className="mb-8 leading-loose text-7xl font-bold font-heading">
+              <h1 className="mt-6 leading-loose text-7xl font-bold font-heading">
                 {props.children}
               </h1>
             );
           case "h2":
             return (
-              <h2 className="mb-8 leading-loose text-5xl font-bold font-heading">
+              <h2 className="mt-6 leading-loose text-5xl font-bold font-heading">
                 {props.children}
               </h2>
             );
           case "h3":
             return (
-              <h3 className="mb-8 leading-loose text-3xl font-bold font-heading">
+              <h3 className="mt-6 leading-loose text-3xl font-bold font-heading">
                 {props.children}
               </h3>
             );
           case "h4":
             return (
-              <h4 className="mb-6 leading-loose text-xl font-bold font-heading">
+              <h4 className="mt-6 leading-loose text-xl font-bold font-heading">
                 {props.children}
               </h4>
             );
           case "normal":
-            return <p className="max-w-2xl text-gray-500">{props.children}</p>;
+            return (
+              <p className="my-6 max-w-2xl text-gray-500">{props.children}</p>
+            );
           case "blockquote":
             return (
-              <blockquote className="mb-6 px-14 leading-loose italic text-gray-500">
+              <blockquote className="mt-6 px-14 leading-loose italic text-gray-500">
                 - {props.children}
               </blockquote>
             );
@@ -64,19 +66,19 @@ function VariantB({
     },
     list: (props) =>
       props.type === "bullet" ? (
-        <ul className="mb-6 pl-10 leading-loose text-gray-900 list-disc">
+        <ul className="mt-6 pl-10 leading-loose text-gray-900 list-disc">
           {props.children}
         </ul>
       ) : (
-        <ol className="mb-6 leading-loose text-gray-900 list-decimal">
+        <ol className="mt-6 leading-loose text-gray-900 list-decimal">
           {props.children}
         </ol>
       ),
     listItem: (props) =>
       props.type === "bullet" ? (
-        <li className="mb-6 leading-loose text-gray-900">{props.children}</li>
+        <li className="mt-6 leading-loose text-gray-900">{props.children}</li>
       ) : (
-        <li className="mb-6 leading-loose text-gray-900">{props.children}</li>
+        <li className="mt-6 leading-loose text-gray-900">{props.children}</li>
       ),
     marks: {
       strong: (props) => <strong>{props.children}</strong>,
@@ -97,7 +99,7 @@ function VariantB({
   };
 
   const [activeImage, setActiveImage] = useState(0);
-  const [activeTab, setActiveTab] = useState(0);
+  const [activeTab, setActiveTab] = useState(null);
 
   // view previous and next images
   const arrowRightClick = () => {
@@ -114,13 +116,13 @@ function VariantB({
   return (
     <section className="py-20">
       <div className="container mx-auto px-4">
-        <div className="flex flex-wrap -mx-4">
+        <div className="xl:flex xl:flex-wrap -mx-4">
           <div className="w-full px-4">
             <ul className="flex flex-wrap mb-8 items-center">
               <li className="mr-5">
                 <a
                   className="inline-block mr-5 text-xs font-bold font-heading uppercase"
-                  href="#"
+                  href="/"
                 >
                   HOME
                 </a>
@@ -140,12 +142,14 @@ function VariantB({
                 </span>
               </li>
               <li className="mr-5">
-                <a
-                  className="inline-block mr-5 text-xs font-bold font-heading uppercase"
-                  href="#"
-                >
-                  WATER FILTERS
-                </a>
+                {product?.collections?.name && (
+                  <a
+                    className="inline-block mr-5 text-xs font-bold font-heading uppercase"
+                    href={product?.collections?.slug?.current ?? "/404"}
+                  >
+                    {product?.collections?.name}
+                  </a>
+                )}
                 <span className="inline-block">
                   <svg
                     width={6}
@@ -162,18 +166,17 @@ function VariantB({
                 </span>
               </li>
               <li>
-                <a
-                  className="inline-block text-xs font-bold font-heading uppercase"
-                  href="#"
-                >
-                  BRILE WATER FILTER CARAFE
-                </a>
+                {product?.name && (
+                  <p className="inline-block text-xs font-bold font-heading uppercase">
+                    {product?.name}
+                  </p>
+                )}
               </li>
             </ul>
           </div>
-          <div className="w-full md:w-1/2 px-4 mb-8 md:mb-0">
+          <div className="w-full xl:w-1/2 px-4 mb-8 xl:mb-0">
             <div className="flex flex-wrap -mx-1">
-              <div className="md:w-full lg:w-1/4 px-1 mb-2 lg:mb-0">
+              <div className="order-1 lg:order-0 md:w-full lg:w-1/4 px-1 mb-2 lg:mb-0">
                 <div className="flex lg:flex-col lg:h-full justify-between">
                   {images?.map((item, index) => (
                     <div
@@ -201,8 +204,8 @@ function VariantB({
                   ))}
                 </div>
               </div>
-              <div className="md:w-full lg:w-3/4 px-1">
-                <div className="relative" style={{ height: "564px" }}>
+              <div className="order-0 lg:order-1 w-full lg:w-3/4 lg:h-[564px] px-1">
+                <div className="relative">
                   <button
                     className="absolute z-50 top-1/2 left-0 ml-8"
                     onClick={arrowLeftClick}
@@ -221,7 +224,7 @@ function VariantB({
                       />
                     </svg>
                   </button>
-                  <div className="w-full h-full">
+                  <div className="w-3/4 mx-auto xl:mx-0 xl:w-full h-full">
                     {images?.[activeImage]?.image && (
                       <Image
                         layout="responsive"
@@ -253,7 +256,7 @@ function VariantB({
                   </button>
                 </div>
               </div>
-              <div className="w-full lg:w-3/4 mt-12 ml-auto">
+              <div className="order-2 w-full lg:w-3/4 mt-12 ml-auto">
                 {socialLinks && (
                   <div className="flex items-center">
                     <span className="mr-8 font-bold font-heading uppercase">
@@ -328,7 +331,7 @@ function VariantB({
               </div>
             </div>
           </div>
-          <div className="w-full md:w-1/2 px-4">
+          <div className="w-full pt-20 xl:w-1/2 xl:pt-0 px-4">
             <div>
               <div className="mb-10 pb-10 border-b">
                 {subtitle && (
@@ -392,40 +395,119 @@ function VariantB({
               {productDetails && (
                 <div>
                   {productDetails?.map((details, index) => (
-                    <div
-                      className={`flex items-center justify-between py-6 hover:bg-gray-50 ${
-                        index !== productDetails?.length - 1 && "border-b"
-                      }`}
-                      onClick={() => setActiveTab(index)}
-                      key={index}
-                    >
-                      <p className="text-xl font-bold font-heading">
-                        {details?.tabName}
-                      </p>
-                      <button
-                        className="inline-flex items-center justify-center w-12 h-12 border hover:border-gray-500 rounded-md"
-                        type="button"
+                    <Fragment key={index}>
+                      <div
+                        className={`flex items-center justify-between py-6 hover:bg-webriq-lightblue ${
+                          index !== productDetails?.length - 1 && "border-b"
+                        }`}
+                        onClick={() =>
+                          activeTab !== index
+                            ? setActiveTab(index)
+                            : setActiveTab(null)
+                        }
                       >
-                        <svg
-                          width={12}
-                          height={12}
-                          viewBox="0 0 12 12"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
+                        <p
+                          className={`text-xl font-bold font-heading ${
+                            activeTab === index && "text-webriq-darkblue"
+                          }`}
                         >
-                          <rect x={5} width={2} height={12} fill="#161616" />
-                          <rect
-                            x={12}
-                            y={5}
-                            width={2}
+                          {details?.tabName}
+                        </p>
+                        <button
+                          className="inline-flex items-center justify-center w-12 h-12 border hover:border-gray-500 rounded-md"
+                          type="button"
+                        >
+                          <svg
+                            width={12}
                             height={12}
-                            transform="rotate(90 12 5)"
-                            fill="#161616"
-                          />
-                        </svg>
-                      </button>
-                      {console.log(activeTab)}
-                    </div>
+                            viewBox="0 0 12 12"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            {activeTab !== index && (
+                              <rect
+                                x={5}
+                                width={2}
+                                height={12}
+                                fill="#161616"
+                              />
+                            )}
+                            <rect
+                              x={12}
+                              y={5}
+                              width={2}
+                              height={12}
+                              transform="rotate(90 12 5)"
+                              fill="#161616"
+                            />
+                          </svg>
+                        </button>
+                      </div>
+                      <div
+                        className={`${
+                          activeTab === index ? "h-auto lg:h-52" : "hidden"
+                        }`}
+                      >
+                        {productDetails?.[activeTab]?.contentType !==
+                        "textOnly" ? (
+                          <div className="flex flex-wrap gap-x-5">
+                            {productDetails?.[activeTab]?.media &&
+                            productDetails?.[activeTab]?.media ===
+                              "imageArray" ? (
+                              <Fragment>
+                                {productDetails?.[activeTab]?.images?.map(
+                                  (item, index) => (
+                                    <div
+                                      className="mt-5 w-1/4 h-full"
+                                      key={index}
+                                    >
+                                      {item?.image && (
+                                        <Image
+                                          layout="responsive"
+                                          width={128}
+                                          height={128}
+                                          objectFit="cover"
+                                          src={urlFor(item?.image)}
+                                          alt={item?.alt}
+                                        />
+                                      )}
+                                    </div>
+                                  )
+                                )}
+                              </Fragment>
+                            ) : (
+                              <div className="mt-5 aspect-video">
+                                <iframe
+                                  width={635}
+                                  height={357}
+                                  loading="lazy"
+                                  src={productDetails?.[activeTab]?.url}
+                                  frameBorder={0}
+                                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                  allowFullScreen
+                                />
+                              </div>
+                            )}
+                            {productDetails?.[activeTab]?.blockContent && (
+                              <PortableText
+                                blocks={
+                                  productDetails?.[activeTab]?.blockContent
+                                }
+                                serializers={blockStyle}
+                              />
+                            )}
+                          </div>
+                        ) : (
+                          productDetails?.[activeTab]?.blockContent && (
+                            <PortableText
+                              blocks={productDetails?.[activeTab]?.blockContent}
+                              serializers={blockStyle}
+                            />
+                          )
+                        )}
+                        {/* @TO DO: ADD VALUE SOURCE FOR CUSTOMER REVIEWS HERE */}
+                      </div>
+                    </Fragment>
                   ))}
                 </div>
               )}
