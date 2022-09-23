@@ -19,7 +19,7 @@ function VariantA({ title, featured }) {
                     <span className="absolute bottom-0 left-0 ml-6 mb-6 px-2 py-1 text-xs font-bold font-heading bg-white border-2 border-red-500 rounded-full text-red-500">
                       -15%
                     </span>
-                    <a href={items?.slug?.current}>
+                    <a href={`/products/${items?.slug?.current}`}>
                       <div className="w-full h-96 object-cover">
                         <Image
                           layout="responsive"

@@ -130,11 +130,11 @@ export const blogNavAndFooter = groq`*[_type=="page" && slug.current == $slug]${
 // query main product based on current slug
 export const productsQuery = groq`*[_type == "mainProduct" && slug.current == $slug] ${allProjections}`;
 
-// query products that will override the main
-export const overrideProducts = groq`*[_type == "overridesProduct" && name == $productName][0] ${allProjections}`;
+// query record of products
+export const recordOfProducts = groq`*[_type == "recordOfProducts"]${allProjections}`;
 
-// query collections that will override the main
-export const overrideCollections = groq`*[_type == "overridesProduct" && name == $collectionName][0] ${allProjections}`;
+// query record of collections
+export const recordOfCollections = groq`*[_type == "recordOfCollections"]${allProjections}`;
 
-// query product category based on current slug
+// query product collection based on current slug
 export const collectionsQuery = groq`*[_type == "mainCollection" && slug.current == $slug] ${allProjections}`;

@@ -32,7 +32,7 @@ function VariantB({ title, featured, primaryButton }) {
                       {items?.name && (
                         <a
                           className="text-3xl font-bold"
-                          href={items?.slug?.current}
+                          href={`/products/${items?.slug?.current}`}
                         >
                           {items?.name}
                         </a>
@@ -77,7 +77,7 @@ function VariantB({ title, featured, primaryButton }) {
                     {items?.name && (
                       <a
                         className="text-3xl font-bold font-heading"
-                        href={items?.slug?.current}
+                        href={`/products/${items?.slug?.current}`}
                       >
                         {items?.name}
                       </a>

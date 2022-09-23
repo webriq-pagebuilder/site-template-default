@@ -43,7 +43,10 @@ function VariantC({ title }) {
                 <span className="absolute top-0 left-0 ml-6 mt-6 px-2 py-1 text-xs font-bold font-heading bg-white border-2 border-red-500 rounded-full text-red-500">
                   -15%
                 </span>
-                <a className="block" href={product?.slug?.current}>
+                <a
+                  className="block"
+                  href={`/products/${product?.slug?.current}`}
+                >
                   <img
                     className="w-full h-64 object-cover"
                     src={urlFor(product?.productPreview?.image)}
@@ -51,7 +54,10 @@ function VariantC({ title }) {
                   />
                 </a>
                 <div className="px-6 pb-6 mt-8">
-                  <a className="block mb-2" href={product?.slug?.current}>
+                  <a
+                    className="block mb-2"
+                    href={`/products/${product?.slug?.current}`}
+                  >
                     <h2 className="mb-2 text-xl font-bold font-heading">
                       {product?.name}
                     </h2>

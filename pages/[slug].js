@@ -1,20 +1,15 @@
-import { memo } from "react";
+import React from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { getClient, usePreviewSubscription } from "../lib/sanity";
 import dynamic from "next/dynamic";
-import {
-  blogQuery,
-  blogNavAndFooter,
-  slugQuery,
-  productsQuery,
-  collectionsQuery,
-} from "./api/query";
+import { blogQuery, blogNavAndFooter, slugQuery } from "./api/query";
 import { groq } from "next-sanity";
+import NoPreview from "pages/no-preview";
 
 export const Components = {
   navigation: dynamic(() => import("component/sections/navigation")),
-  header: dynamic(() => import("component/sections/hero")),
+  header: dynamic(() => import("component/sections/header")),
   features: dynamic(() => import("component/sections/features")),
   portfolio: dynamic(() => import("component/sections/portfolio")),
   blog: dynamic(() => import("component/sections/blog")),
@@ -40,9 +35,6 @@ export const Components = {
 };
 
 const BlogPage = dynamic(() => import("component/blog/"));
-const ProductPage = dynamic(() => import("component/store/product"));
-const CollectionPage = dynamic(() => import("component/store/collection"));
-const NoPreview = dynamic(() => import("pages/no-preview"));
 
 /**
  * Helper function to return the correct version of the document
@@ -81,37 +73,14 @@ export function filterDataToSingleItem(data, preview) {
 
 function Page({ data, preview }) {
   const router = useRouter();
-
   if (!router.isFallback && !data?.pages?.slug) {
-    if (Object?.keys(data?.products).length !== 0) {
-      return (
-        <ProductPage
-          {...{
-            data: data?.products?.[0],
-            preview,
-          }}
-        />
-      );
-    } else if (Object?.keys(data?.collections).length !== 0) {
-      return (
-        <CollectionPage
-          {...{
-            data: data?.collections?.[0],
-            preview,
-          }}
-        />
-      );
-    } else {
-      return (
-        <BlogPage
-          {...{
-            data: blogData,
-            preview,
-            navAndFooter: data?.navAndFooter?.[0]?.sections,
-          }}
-        />
-      );
-    }
+    return (
+      <BlogPage
+        data={data?.blogData}
+        preview={preview}
+        navAndFooter={data?.navAndFooter?.[0]?.sections}
+      />
+    );
   }
 
   const slug = data?.pages?.slug;
@@ -154,6 +123,7 @@ function Page({ data, preview }) {
   return (
     <>
       <Head>
+        <meta name="viewport" content="width=260 initial-scale=1" />
         <title>{seo?.seoTitle || title}</title>
       </Head>
       {sections &&
@@ -194,13 +164,6 @@ export async function getStaticProps({ params, preview = false }) {
     slug: params.slug,
   });
 
-  const products = await getClient(preview).fetch(productsQuery, {
-    slug: params.slug,
-  });
-  const collections = await getClient(preview).fetch(collectionsQuery, {
-    slug: params.slug,
-  });
-
   // pass page data and preview to helper function
   const pages = filterDataToSingleItem(page, preview);
 
@@ -213,8 +176,6 @@ export async function getStaticProps({ params, preview = false }) {
         data: {
           blogData,
           navAndFooter,
-          products,
-          collections,
         },
       },
     };
@@ -229,24 +190,14 @@ export async function getStaticProps({ params, preview = false }) {
 }
 
 export async function getStaticPaths() {
-  const pages = await getClient().fetch(
+  const paths = await getClient().fetch(
     groq`*[_type == "page" && defined(slug.current)][].slug.current`
-  );
-  const products = await getClient().fetch(
-    groq`*[_type == "mainProduct" && defined(slug.current)][].slug.current`
-  );
-  const collections = await getClient().fetch(
-    groq`*[_type == "mainCollection" && defined(slug.current)][].slug.current`
   );
 
   return {
-    paths: [
-      ...pages.map((slug) => ({ params: { slug } })),
-      ...products.map((slug) => ({ params: { slug } })),
-      ...collections.map((slug) => ({ params: { slug } })),
-    ],
+    paths: paths.map((slug) => ({ params: { slug } })),
     fallback: true,
   };
 }
 
-export default memo(Page);
+export default React.memo(Page);
