@@ -4,9 +4,9 @@ import { memo } from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { groq } from "next-sanity";
-import { collectionsQuery, recordOfCollections } from "pages/api/query";
+import { collectionsQuery, collectionSettings } from "pages/api/query";
 import { usePreviewSubscription, getClient } from "lib/sanity";
-import { Components, filterDataToSingleItem } from "../../pages/[slug]";
+import { Components, filterDataToSingleItem } from "../[slug]";
 import PageNotFound from "pages/404";
 import NoPreview from "pages/no-preview";
 
@@ -113,7 +113,7 @@ export async function getStaticProps({ params, preview = false }) {
   const collections = filterDataToSingleItem(collectionData, preview);
 
   // check if we have record collections with sections that will replace the main collections section
-  const records = await getClient(preview).fetch(recordOfCollections);
+  const records = await getClient(preview).fetch(collectionSettings);
 
   // if our query failed to return data for page, return data for blog page
   // Reference: https://www.sanity.io/guides/nextjs-live-preview
