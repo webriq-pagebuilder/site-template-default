@@ -1,6 +1,8 @@
 import { Fragment, memo, useState } from "react";
 import { urlFor, PortableText } from "lib/sanity";
 import Image from "next/image";
+import ProductDetail from "component/ecwid/ProductDetail";
+import AddToBag from "component/ecwid/AddToBag";
 
 function VariantA({
   subtitle,
@@ -9,6 +11,8 @@ function VariantA({
   btnLabel,
   product,
   socialLinks,
+  ecwidProducts,
+  displayPriceFormatted,
 }) {
   // block styling as props to `serializers` of the PortableText component
   const blockStyle = {
@@ -207,7 +211,9 @@ function VariantA({
                 <div className="mb-8">{/* Ratings from Ecwid */}</div>
                 <p className="inline-block mb-8 text-2xl font-bold font-heading">
                   {/* Product price from Ecwid */}
-                  <span className="text-webriq-darkblue"></span>
+                  <span className="text-webriq-darkblue">
+                    {displayPriceFormatted}
+                  </span>
                 </p>
                 {product?.description && (
                   <p className="max-w-md text-gray-500 font-custom">
@@ -221,63 +227,64 @@ function VariantA({
                 </div>
                 <div>{/* elements from Ecwid such as Quantity, Size */}</div>
               </div>
-              <div className="flex flex-wrap -mx-4 mb-14 items-center">
-                {btnLabel && (
-                  <div className="w-full xl:w-2/3 px-4 mb-4 xl:mb-0">
+
+              <ProductDetail product={ecwidProducts}>
+                <div className="flex flex-wrap -mx-4 mb-14 items-center">
+                  {btnLabel && (
+                    <div className="w-full xl:w-2/3 px-4 mb-4 xl:mb-0">
+                      <AddToBag classNames="block w-full text-center text-white font-bold font-heading py-5 px-8 rounded-md uppercase transition duration-200 bg-webriq-darkblue">
+                        {btnLabel}
+                      </AddToBag>
+                    </div>
+                  )}
+                  <div className="w-full xl:w-1/3 px-4">
+                    {/* Add to wishlist button */}
                     <button
-                      className="block w-full text-center text-white font-bold font-heading py-5 px-8 rounded-md uppercase transition duration-200 bg-webriq-darkblue"
+                      className="ml-auto sm:ml-0 flex-shrink-0 inline-flex mr-4 items-center justify-center w-16 h-16 rounded-md border hover:border-webriq-darkblue"
                       type="button"
                     >
-                      {btnLabel}
+                      <svg
+                        className="w-6 h-6"
+                        width={27}
+                        height={27}
+                        viewBox="0 0 27 27"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M13.4993 26.2061L4.70067 16.9253C3.9281 16.1443 3.41815 15.1374 3.24307 14.0471C3.06798 12.9568 3.23664 11.8385 3.72514 10.8505V10.8505C4.09415 10.1046 4.63318 9.45803 5.29779 8.96406C5.96241 8.47008 6.73359 8.14284 7.54782 8.00931C8.36204 7.87578 9.19599 7.93978 9.98095 8.19603C10.7659 8.45228 11.4794 8.89345 12.0627 9.48319L13.4993 10.9358L14.9359 9.48319C15.5192 8.89345 16.2327 8.45228 17.0177 8.19603C17.8026 7.93978 18.6366 7.87578 19.4508 8.00931C20.265 8.14284 21.0362 8.47008 21.7008 8.96406C22.3654 9.45803 22.9045 10.1046 23.2735 10.8505V10.8505C23.762 11.8385 23.9306 12.9568 23.7556 14.0471C23.5805 15.1374 23.0705 16.1443 22.298 16.9253L13.4993 26.2061Z"
+                          stroke="black"
+                          strokeWidth="1.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    </button>
+                    {/* Share product */}
+                    <button
+                      className="flex-shrink-0 inline-flex items-center justify-center w-16 h-16 rounded-md border hover:border-webriq-darkblue"
+                      type="button"
+                    >
+                      <svg
+                        className="w-6 h-6"
+                        width={24}
+                        height={23}
+                        viewBox="0 0 24 23"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M2.01328 18.9877C2.05682 16.7902 2.71436 12.9275 6.3326 9.87096L6.33277 9.87116L6.33979 9.86454L6.3398 9.86452C6.34682 9.85809 8.64847 7.74859 13.4997 7.74859C13.6702 7.74859 13.8443 7.75111 14.0206 7.757L14.0213 7.75702L14.453 7.76978L14.6331 7.77511V7.59486V3.49068L21.5728 10.5736L14.6331 17.6562V13.6558V13.5186L14.4998 13.4859L14.1812 13.4077C14.1807 13.4075 14.1801 13.4074 14.1792 13.4072M2.01328 18.9877L14.1792 13.4072M2.01328 18.9877C7.16281 11.8391 14.012 13.3662 14.1792 13.4072M2.01328 18.9877L14.1792 13.4072M23.125 10.6961L23.245 10.5736L23.125 10.4512L13.7449 0.877527L13.4449 0.571334V1V6.5473C8.22585 6.54663 5.70981 8.81683 5.54923 8.96832C-0.317573 13.927 0.931279 20.8573 0.946581 20.938L0.946636 20.9383L1.15618 22.0329L1.24364 22.4898L1.47901 22.0885L2.041 21.1305L2.04103 21.1305C4.18034 17.4815 6.71668 15.7763 8.8873 15.0074C10.9246 14.2858 12.6517 14.385 13.4449 14.4935V20.1473V20.576L13.7449 20.2698L23.125 10.6961Z"
+                          fill="black"
+                          stroke="black"
+                          strokeWidth="0.35"
+                        />
+                      </svg>
                     </button>
                   </div>
-                )}
-                <div className="w-full xl:w-1/3 px-4">
-                  {/* Add to wishlist button */}
-                  <button
-                    className="ml-auto sm:ml-0 flex-shrink-0 inline-flex mr-4 items-center justify-center w-16 h-16 rounded-md border hover:border-webriq-darkblue"
-                    type="button"
-                  >
-                    <svg
-                      className="w-6 h-6"
-                      width={27}
-                      height={27}
-                      viewBox="0 0 27 27"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M13.4993 26.2061L4.70067 16.9253C3.9281 16.1443 3.41815 15.1374 3.24307 14.0471C3.06798 12.9568 3.23664 11.8385 3.72514 10.8505V10.8505C4.09415 10.1046 4.63318 9.45803 5.29779 8.96406C5.96241 8.47008 6.73359 8.14284 7.54782 8.00931C8.36204 7.87578 9.19599 7.93978 9.98095 8.19603C10.7659 8.45228 11.4794 8.89345 12.0627 9.48319L13.4993 10.9358L14.9359 9.48319C15.5192 8.89345 16.2327 8.45228 17.0177 8.19603C17.8026 7.93978 18.6366 7.87578 19.4508 8.00931C20.265 8.14284 21.0362 8.47008 21.7008 8.96406C22.3654 9.45803 22.9045 10.1046 23.2735 10.8505V10.8505C23.762 11.8385 23.9306 12.9568 23.7556 14.0471C23.5805 15.1374 23.0705 16.1443 22.298 16.9253L13.4993 26.2061Z"
-                        stroke="black"
-                        strokeWidth="1.5"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-                  </button>
-                  {/* Share product */}
-                  <button
-                    className="flex-shrink-0 inline-flex items-center justify-center w-16 h-16 rounded-md border hover:border-webriq-darkblue"
-                    type="button"
-                  >
-                    <svg
-                      className="w-6 h-6"
-                      width={24}
-                      height={23}
-                      viewBox="0 0 24 23"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M2.01328 18.9877C2.05682 16.7902 2.71436 12.9275 6.3326 9.87096L6.33277 9.87116L6.33979 9.86454L6.3398 9.86452C6.34682 9.85809 8.64847 7.74859 13.4997 7.74859C13.6702 7.74859 13.8443 7.75111 14.0206 7.757L14.0213 7.75702L14.453 7.76978L14.6331 7.77511V7.59486V3.49068L21.5728 10.5736L14.6331 17.6562V13.6558V13.5186L14.4998 13.4859L14.1812 13.4077C14.1807 13.4075 14.1801 13.4074 14.1792 13.4072M2.01328 18.9877L14.1792 13.4072M2.01328 18.9877C7.16281 11.8391 14.012 13.3662 14.1792 13.4072M2.01328 18.9877L14.1792 13.4072M23.125 10.6961L23.245 10.5736L23.125 10.4512L13.7449 0.877527L13.4449 0.571334V1V6.5473C8.22585 6.54663 5.70981 8.81683 5.54923 8.96832C-0.317573 13.927 0.931279 20.8573 0.946581 20.938L0.946636 20.9383L1.15618 22.0329L1.24364 22.4898L1.47901 22.0885L2.041 21.1305L2.04103 21.1305C4.18034 17.4815 6.71668 15.7763 8.8873 15.0074C10.9246 14.2858 12.6517 14.385 13.4449 14.4935V20.1473V20.576L13.7449 20.2698L23.125 10.6961Z"
-                        fill="black"
-                        stroke="black"
-                        strokeWidth="0.35"
-                      />
-                    </svg>
-                  </button>
                 </div>
-              </div>
+              </ProductDetail>
+
               {socialLinks && (
                 <div className="flex items-center">
                   <span className="mr-8 font-bold font-heading uppercase">
