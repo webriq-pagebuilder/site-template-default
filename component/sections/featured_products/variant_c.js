@@ -12,8 +12,7 @@ function VariantC({ title }) {
   // lets get all the products for a specific collection
   useEffect(() => {
     async function getProducts() {
-      const query =
-        '*[_type == "mainProduct" && collections._ref in *[_type == "mainCollection" && slug.current == $slug ]._id]';
+      const query = '*[_type == "mainProduct"]';
       const params = { slug: router.query.slug };
 
       try {
@@ -29,7 +28,7 @@ function VariantC({ title }) {
   }, []);
 
   return (
-    <section className="py-20 bg-gray-50">
+    <section className="pt-20 pb-10 bg-gray-50">
       <div className="container mx-auto px-4">
         {title && (
           <h1 className="mb-16 md:mb-24 text-4xl md:text-5xl font-bold font-heading">
@@ -98,28 +97,6 @@ function VariantC({ title }) {
                         $40.99
                       </span> */}
                     </p>
-                    <button
-                      className="ml-auto mr-2 flex items-center justify-center w-12 h-12 rounded-md bg-webriq-darkblue"
-                      type="button"
-                    >
-                      <svg
-                        width={12}
-                        height={12}
-                        viewBox="0 0 12 12"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <rect x={5} width={2} height={12} fill="white" />
-                        <rect
-                          x={12}
-                          y={5}
-                          width={2}
-                          height={12}
-                          transform="rotate(90 12 5)"
-                          fill="white"
-                        />
-                      </svg>
-                    </button>
                   </div>
                 </div>
               </div>
