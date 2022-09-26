@@ -17,8 +17,6 @@ function FeaturedProducts({ data }) {
     featured: data?.variants?.featured,
   };
 
-  console.log(data);
-
   return Variant ? <Variant {...props} /> : null;
 }
 export default memo(FeaturedProducts);

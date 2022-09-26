@@ -10,7 +10,8 @@ const Variants = {
 function ProductInfo({ data, product }) {
   const ecwid = useEcwid();
   const ecwid_products = ecwid?.products || null;
-  const getPriceDisplay = ecwid?.getPriceDisplay || 0;
+  const price = ecwid?.price || 0;
+  const getPriceDisplay = ecwid?.getPriceDisplay;
 
   const variant = data?.variant || data?.variants?.condition;
   const Variant = Variants?.[variant];
@@ -31,7 +32,7 @@ function ProductInfo({ data, product }) {
     btnLabel: data?.variants?.btnLabel,
     product,
     ecwidProducts,
-    getPriceDisplay,
+    getPriceDisplay: () => getPriceDisplay(price),
   };
 
   return Variant ? <Variant {...props} /> : null;

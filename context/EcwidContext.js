@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useMemo, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
 const EcwidContext = createContext();
 
@@ -88,11 +88,11 @@ export function EcwidContextProvider({ children }) {
     }
   }, []);
 
-  const getPriceDisplay = () => {
-    let priceFormated = price;
+  const getPriceDisplay = (amount) => {
+    let priceFormated = amount;
     if (typeof Ecwid != "undefined") {
       Ecwid.OnAPILoaded.add(function () {
-        priceFormated = Ecwid.formatCurrency(price);
+        priceFormated = Ecwid.formatCurrency(amount);
       });
     }
     return priceFormated;
