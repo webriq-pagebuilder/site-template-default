@@ -47,7 +47,7 @@ function ProductPage({ data, preview }) {
   const { name, sections, seo, pid, collections, description, productPreview } =
     productData;
 
-  if (Object.keys(records).length !== 0 || records?.pid) {
+  if (records && records?.pid) {
     recordsData = records;
   }
 

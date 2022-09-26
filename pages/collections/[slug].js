@@ -46,7 +46,7 @@ function CollectionPage({ data, preview }) {
 
   const { name, sections, seo, description, collectionID } = collectionsData;
 
-  if (Object.keys(data?.records).length !== 0 || data?.records?.collectionID) {
+  if (records && records?.pid) {
     recordsData = records;
   }
 
