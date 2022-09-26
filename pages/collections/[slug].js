@@ -21,7 +21,14 @@ function CollectionPage({ data, preview }) {
   let collectionsData, recordsData;
   const { data: collections } = usePreviewSubscription(collectionsQuery, {
     params: { slug },
-    initialData: data,
+    initialData: data?.collections,
+    enabled: preview,
+  });
+
+  // enable preview for changes done on Settings > Collections
+  const { data: records } = usePreviewSubscription(collectionSettings, {
+    params: { slug },
+    initialData: data?.records,
     enabled: preview,
   });
 
@@ -39,10 +46,8 @@ function CollectionPage({ data, preview }) {
 
   const { name, sections, seo, description, collectionID } = collectionsData;
 
-  if (data?.records?.length !== 0) {
-    recordsData = data?.records?.filter(
-      (item) => item?.collectionID === collectionID
-    )?.[0];
+  if (Object.keys(data?.records).length !== 0 || data?.records?.collectionID) {
+    recordsData = records;
   }
 
   /*

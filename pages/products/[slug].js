@@ -21,7 +21,14 @@ function ProductPage({ data, preview }) {
   let productData, recordsData;
   const { data: products } = usePreviewSubscription(productsQuery, {
     params: { slug },
-    initialData: data,
+    initialData: data?.products,
+    enabled: preview,
+  });
+
+  // enable preview for changes done on Settings > Products
+  const { data: records } = usePreviewSubscription(productSettings, {
+    params: { slug },
+    initialData: data?.records,
     enabled: preview,
   });
 
@@ -40,8 +47,8 @@ function ProductPage({ data, preview }) {
   const { name, sections, seo, pid, collections, description, productPreview } =
     productData;
 
-  if (data?.records) {
-    recordsData = data?.records?.filter((item) => item?.pid === pid)?.[0];
+  if (Object.keys(records).length !== 0 || records?.pid) {
+    recordsData = records;
   }
 
   /*

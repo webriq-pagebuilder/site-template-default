@@ -131,10 +131,10 @@ export const blogNavAndFooter = groq`*[_type=="page" && slug.current == $slug]${
 export const productsQuery = groq`*[_type == "mainProduct" && slug.current == $slug] ${allProjections}`;
 
 // query record of products
-export const productSettings = groq`*[_type == "productSettings"]${allProjections}`;
+export const productSettings = groq`*[_type == "productSettings"][0] ${allProjections}`;
 
 // query record of collections
-export const collectionSettings = groq`*[_type == "collectionSettings"]${allProjections}`;
+export const collectionSettings = groq`*[_type == "collectionSettings"][0] ${allProjections}`;
 
 // query product collection based on current slug
 export const collectionsQuery = groq`*[_type == "mainCollection" && slug.current == $slug] ${allProjections}`;
