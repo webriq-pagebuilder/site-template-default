@@ -1,6 +1,7 @@
 import { memo, useEffect, useState } from "react";
 import { sanityClient, urlFor } from "lib/sanity";
 import { useRouter } from "next/router";
+import Image from "next/image";
 import { useEcwid } from "context/EcwidContext";
 
 function VariantC({ title }) {
@@ -48,21 +49,18 @@ function VariantC({ title }) {
                 key={index}
               >
                 <div className="relative bg-white shadow-md">
-                  {/* <span className="absolute top-0 left-0 ml-6 mt-6 px-2 py-1 text-xs font-bold font-heading bg-white border-2 border-red-500 rounded-full text-red-500">
-                    -15%
-                  </span> */}
                   <a
                     className="block relative"
                     href={`/products/${product?.slug?.current}`}
                   >
-                    {item && item.inStock ? (
+                    {item && item?.inStock ? (
                       item?.ribbon?.text && (
                         <div className="absolute top-2 right-0 z-50">
                           <p
                             className="inline text-white p-2"
-                            style={{ backgroundColor: item.ribbon.color }}
+                            style={{ backgroundColor: item?.ribbon?.color }}
                           >
-                            {item.ribbon.text}
+                            {item?.ribbon?.text}
                           </p>
                         </div>
                       )
@@ -73,30 +71,40 @@ function VariantC({ title }) {
                         </p>
                       </div>
                     )}
-
-                    <img
-                      className="w-full h-64 object-cover"
-                      src={urlFor(product?.productPreview?.image)}
-                      alt=""
-                    />
+                    {product?.productPreview?.image && (
+                      <div className="w-full">
+                        <Image
+                          layout="responsive"
+                          width={256}
+                          height={200}
+                          src={urlFor(product?.productPreview?.image)}
+                          objectFit="cover"
+                          alt={
+                            product?.productPreview?.alt ??
+                            `product-image-${index}`
+                          }
+                        />
+                      </div>
+                    )}
                   </a>
                   <div className="px-6 pb-6 mt-8">
-                    <a
-                      className="block mb-2"
-                      href={`/products/${product?.slug?.current}`}
-                    >
-                      <h2 className="mb-2 text-xl font-bold font-heading">
-                        {product?.name}
-                      </h2>
-                    </a>
-                    <p className="text-lg font-bold font-heading text-blue-500">
-                      <span className="text-webriq-darkblue">
-                        {item?.defaultDisplayedPriceFormatted}
-                      </span>
-                      {/* <span className="text-xs text-gray-500 font-semibold font-heading line-through">
-                        $40.99
-                      </span> */}
-                    </p>
+                    {product?.name && (
+                      <a
+                        className="block mb-2"
+                        href={`/products/${product?.slug?.current}`}
+                      >
+                        <h1 className="mb-2 text-xl font-bold font-heading">
+                          {product?.name}
+                        </h1>
+                      </a>
+                    )}
+                    {item?.defaultDisplayedPriceFormatted && (
+                      <p className="text-lg font-bold font-heading text-blue-500">
+                        <span className="text-webriq-darkblue">
+                          {item?.defaultDisplayedPriceFormatted}
+                        </span>
+                      </p>
+                    )}
                   </div>
                 </div>
               </div>

@@ -96,10 +96,7 @@ const allProjections = `
           ${conditionalLink}
         }
       },
-      featured {
-        ...,
-        products[]->
-      }       
+      featured[]->
     }
   },
   collections->

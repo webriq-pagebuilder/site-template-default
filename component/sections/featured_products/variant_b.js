@@ -68,7 +68,7 @@ function VariantB({ title, featured, primaryButton }) {
         </div>
         {featured && (
           <div className="flex flex-wrap -mx-3">
-            {featured?.products?.map((items, index) => {
+            {featured?.map((items, index) => {
               let item = null;
               if (items?.pid && ecwid?.products) {
                 item = ecwid.products[parseInt(items.pid)];
@@ -84,14 +84,14 @@ function VariantB({ title, featured, primaryButton }) {
                       className="block relative"
                       href={`/products/${items?.slug?.current}`}
                     >
-                      {item && item.inStock ? (
+                      {item && item?.inStock ? (
                         item?.ribbon?.text && (
                           <div className="absolute top-2 left-0 z-50">
                             <p
                               className="inline text-white p-2"
-                              style={{ backgroundColor: item.ribbon.color }}
+                              style={{ backgroundColor: item?.ribbon?.color }}
                             >
-                              {item.ribbon.text}
+                              {item?.ribbon?.text}
                             </p>
                           </div>
                         )

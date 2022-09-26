@@ -14,12 +14,11 @@ function VariantA({ title, featured }) {
         )}
         {featured && (
           <div className="flex flex-wrap -mx-3">
-            {featured?.products?.map((items, index) => {
+            {featured?.map((items, index) => {
               let item = null;
               if (items?.pid && ecwid?.products) {
                 item = ecwid.products[parseInt(items.pid)];
               }
-              console.log({ item });
 
               return (
                 <div className="w-full lg:w-1/3 px-3 mb-16 lg:mb-0" key={index}>
