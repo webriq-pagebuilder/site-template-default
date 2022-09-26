@@ -21,7 +21,7 @@ function ProductPage({ data, preview }) {
   let productData, recordsData;
   const { data: products } = usePreviewSubscription(productsQuery, {
     params: { slug },
-    initialData: data?.products,
+    initialData: data,
     enabled: preview,
   });
 

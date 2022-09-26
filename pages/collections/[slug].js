@@ -21,7 +21,7 @@ function CollectionPage({ data, preview }) {
   let collectionsData, recordsData;
   const { data: collections } = usePreviewSubscription(collectionsQuery, {
     params: { slug },
-    initialData: data?.collections,
+    initialData: data,
     enabled: preview,
   });
 
@@ -46,7 +46,7 @@ function CollectionPage({ data, preview }) {
 
   const { name, sections, seo, description, collectionID } = collectionsData;
 
-  if (records && records?.pid) {
+  if (records && records?.collectionID) {
     recordsData = records;
   }
 
