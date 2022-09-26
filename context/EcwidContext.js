@@ -28,11 +28,13 @@ export function EcwidContextProvider({ children }) {
   };
 
   useEffect(() => {
+    fetchProducts();
+
     function load_ecwid() {
       if (typeof Ecwid != "undefined") {
-        Ecwid.init();
-
         Ecwid.OnAPILoaded.add(function () {
+          Ecwid.init();
+
           Ecwid.Cart.get(function (cart) {
             console.log("GetCart: ", cart);
             setCart(cart);
@@ -46,7 +48,7 @@ export function EcwidContextProvider({ children }) {
 
         Ecwid.OnPageLoaded.add(function (page) {
           if (page.type === "CATEGORY" || page.type === "PRODUCT") {
-            location.href = "/store";
+            Ecwid.openPage("cart");
           }
         });
       }
@@ -58,7 +60,7 @@ export function EcwidContextProvider({ children }) {
     window.ec.config.storefrontUrls.cleanUrls = true;
     window.ec.config.storefrontUrls.queryBasedCleanUrls = true;
     // window.ec.config.baseUrl = "/store";
-    window.ec.config.store_main_page_url = `${process.env.NEXT_PUBLIC_SITE_URL}/store`;
+    window.ec.config.store_main_page_url = `${process.env.NEXT_PUBLIC_SITE_URL}/cart`;
 
     window.ecwid_script_defer = true;
     // window.ecwid_dynamic_widgets = true;
@@ -84,15 +86,17 @@ export function EcwidContextProvider({ children }) {
     } else {
       load_ecwid();
     }
-
-    fetchProducts();
   }, []);
 
-  const displayPriceFormatted = useMemo(() => {
+  const getPriceDisplay = () => {
+    let priceFormated = price;
     if (typeof Ecwid != "undefined") {
-      return Ecwid.formatCurrency(price);
+      Ecwid.OnAPILoaded.add(function () {
+        priceFormated = Ecwid.formatCurrency(price);
+      });
     }
-  }, [price]);
+    return priceFormated;
+  };
 
   const addToBag = (data, options) => {
     setIsAddingToBag(true);
@@ -113,6 +117,7 @@ export function EcwidContextProvider({ children }) {
 
     setTimeout(() => {
       if (typeof Ecwid != "undefined") {
+        console.log;
         Ecwid.Cart.addProduct(payload);
       }
     }, 1000);
@@ -130,7 +135,7 @@ export function EcwidContextProvider({ children }) {
         setPrice,
         addToBag,
         isAddingToBag,
-        displayPriceFormatted,
+        getPriceDisplay,
       }}
     >
       {children}

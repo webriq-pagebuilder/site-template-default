@@ -1,8 +1,12 @@
 import { memo, useState, Fragment } from "react";
 import Link from "next/link";
 import { urlFor, PortableText } from "lib/sanity";
+import { useEcwid } from "context/EcwidContext";
 
 function VariantE({ banner, logo, links }) {
+  const ecwid = useEcwid();
+  const cartItemCount = ecwid?.cart?.productsQuantity || 0;
+
   // block styling as props to `serializers` of the PortableText component
   const blockStyle = {
     types: {
@@ -200,7 +204,11 @@ function VariantE({ banner, logo, links }) {
               <path d="M15.853 16.56c-1.683 1.517-3.911 2.44-6.353 2.44-5.243 0-9.5-4.257-9.5-9.5s4.257-9.5 9.5-9.5 9.5 4.257 9.5 9.5c0 2.442-.923 4.67-2.44 6.353l7.44 7.44-.707.707-7.44-7.44zm-6.353-15.56c4.691 0 8.5 3.809 8.5 8.5s-3.809 8.5-8.5 8.5-8.5-3.809-8.5-8.5 3.809-8.5 8.5-8.5z" />
             </svg>
           </button>
-          <button aria-label="search button" type="button" className="mx-10">
+          <a
+            href="/cart?store-page=cart"
+            className="mx-10 cart-icon"
+            data-count={cartItemCount}
+          >
             <svg
               width={23}
               height={23}
@@ -223,7 +231,7 @@ function VariantE({ banner, logo, links }) {
                 strokeLinejoin="round"
               />
             </svg>
-          </button>
+          </a>
           <button aria-label="search button" type="button">
             <svg
               width={32}

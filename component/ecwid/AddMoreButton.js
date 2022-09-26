@@ -19,7 +19,7 @@ const AddMoreButton = ({ itemsCount }) => {
           {isAddingToBag ? "Adding..." : "Add More"}
         </button>
         <a
-          href="/cart"
+          href="/cart?store-page=cart"
           className="block w-full text-center text-white font-bold font-heading py-5 px-8 rounded-md uppercase transition duration-200 bg-webriq-darkblue"
         >
           Go to Checkout

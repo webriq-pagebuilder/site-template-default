@@ -12,7 +12,7 @@ function VariantB({
   product,
   socialLinks,
   ecwidProducts,
-  displayPriceFormatted,
+  getPriceDisplay,
 }) {
   // block styling as props to `serializers` of the PortableText component
   const blockStyle = {
@@ -349,7 +349,7 @@ function VariantB({
                 </div>
                 <p className="inline-block mb-8 text-2xl font-bold font-heading text-blue-300">
                   {/* TO DO: ADD PRICING HERE */}
-                  {displayPriceFormatted}
+                  {getPriceDisplay()}
                 </p>
                 {product?.description && (
                   <p className="max-w-md text-gray-500 font-custom">

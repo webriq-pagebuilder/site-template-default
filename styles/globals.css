@@ -6,6 +6,10 @@ html {
   -webkit-text-size-adjust: 100%;
 }
 
+.cart-icon {
+  @apply relative before:content-[attr(data-count)] before:absolute before:flex before:items-center before:justify-center before:bg-webriq-darkblue before:rounded-full before:h-6 before:w-6 before:-top-3 before:-right-3 before:text-white;
+}
+
 /* 
 body {
   padding: 0;
