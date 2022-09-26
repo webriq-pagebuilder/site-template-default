@@ -1,7 +1,6 @@
 import { memo } from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { groq } from "next-sanity";
 import { usePreviewSubscription, getClient } from "lib/sanity";
 import { cartPageQuery } from "pages/api/query";
 import { Components, filterDataToSingleItem } from "../[slug]";
@@ -58,7 +57,6 @@ function CartPage({ data, preview }) {
                 bg: "gray",
                 color: "webriq",
               }}
-              {...{ [section._type]: section }}
               data={section}
             />
           );

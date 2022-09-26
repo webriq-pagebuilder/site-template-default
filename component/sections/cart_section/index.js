@@ -10,6 +10,6 @@ function Cart({ data }) {
   const variant = data?.variant || data?.variants?.condition;
   const Variant = Variants?.[variant];
 
-  return Variant ? <Variant {...props} /> : null;
+  return Variant ? <Variant /> : null;
 }
 export default memo(Cart);
