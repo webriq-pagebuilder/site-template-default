@@ -19,6 +19,7 @@ function VariantA({ title, featured }) {
               if (items?.pid && ecwid?.products) {
                 item = ecwid.products[parseInt(items.pid)];
               }
+              console.log({ item });
 
               return (
                 <div className="w-full lg:w-1/3 px-3 mb-16 lg:mb-0" key={index}>
@@ -29,13 +30,23 @@ function VariantA({ title, featured }) {
                       </span>
                       <a href={`/products/${items?.slug?.current}`}>
                         <div className="w-full h-96 object-cover relative">
-                          {item?.ribbon?.text && (
+                          {item && item.inStock ? (
+                            item?.ribbon?.text && (
+                              <div className="absolute top-2 right-0 z-50">
+                                <p
+                                  className="inline text-white p-2"
+                                  style={{
+                                    backgroundColor: item.ribbon.color,
+                                  }}
+                                >
+                                  {item.ribbon.text}
+                                </p>
+                              </div>
+                            )
+                          ) : (
                             <div className="absolute top-2 right-0 z-50">
-                              <p
-                                className="inline text-white p-2"
-                                style={{ backgroundColor: item.ribbon.color }}
-                              >
-                                {item.ribbon.text}
+                              <p className="inline text-white p-2 bg-red-400">
+                                SOLD OUT
                               </p>
                             </div>
                           )}

@@ -56,13 +56,21 @@ function VariantC({ title }) {
                     className="block relative"
                     href={`/products/${product?.slug?.current}`}
                   >
-                    {item?.ribbon?.text && (
+                    {item && item.inStock ? (
+                      item?.ribbon?.text && (
+                        <div className="absolute top-2 right-0 z-50">
+                          <p
+                            className="inline text-white p-2"
+                            style={{ backgroundColor: item.ribbon.color }}
+                          >
+                            {item.ribbon.text}
+                          </p>
+                        </div>
+                      )
+                    ) : (
                       <div className="absolute top-2 right-0 z-50">
-                        <p
-                          className="inline text-white p-2"
-                          style={{ backgroundColor: item.ribbon.color }}
-                        >
-                          {item.ribbon.text}
+                        <p className="inline text-white p-2 bg-red-400">
+                          SOLD OUT
                         </p>
                       </div>
                     )}

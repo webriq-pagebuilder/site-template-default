@@ -33,13 +33,21 @@ function VariantB({ title, featured, primaryButton }) {
                     }}
                     key={index}
                   >
-                    {item?.ribbon?.text && (
-                      <div className="absolute top-2 left-0 z-50">
-                        <p
-                          className="inline text-white p-2"
-                          style={{ backgroundColor: item.ribbon.color }}
-                        >
-                          {item.ribbon.text}
+                    {item && item.inStock ? (
+                      item?.ribbon?.text && (
+                        <div className="absolute top-2 left-0 z-50">
+                          <p
+                            className="inline text-white p-2"
+                            style={{ backgroundColor: item.ribbon.color }}
+                          >
+                            {item.ribbon.text}
+                          </p>
+                        </div>
+                      )
+                    ) : (
+                      <div className="absolute top-2 right-0 z-50">
+                        <p className="inline text-white p-2 bg-red-400">
+                          SOLD OUT
                         </p>
                       </div>
                     )}
@@ -79,45 +87,72 @@ function VariantB({ title, featured, primaryButton }) {
                 );
               })}
             </div>
-            {featured?.products?.slice(2)?.map((items, i) => (
-              <div className="w-full lg:w-1/2 px-3" key={i}>
-                <div
-                  className="relative inline-block mb-6 h-96 lg:h-full w-full bg-no-repeat bg-cover"
-                  style={{
-                    backgroundImage: `url(${
-                      items?.productPreview?.image &&
-                      urlFor(items?.productPreview?.image)
-                    })`,
-                  }}
-                >
-                  <span className="inline-block px-2 py-1 ml-4 mt-4 text-xs font-bold border-2 rounded-full uppercase border-webriq-darkblue bg-white">
-                    New
-                  </span>
-                  <div className="absolute top-1/2 left-0 pb-20 pl-12">
-                    <p className="text-xl font-bold font-heading mb-3">
-                      Excellent value bike
-                    </p>
-                    {items?.name && (
-                      <a
-                        className="text-3xl font-bold font-heading"
-                        href={`/products/${items?.slug?.current}`}
-                      >
-                        {items?.name}
-                      </a>
+            {featured?.products?.slice(2)?.map((items, i) => {
+              let item = null;
+              if (items?.pid && ecwid?.products) {
+                item = ecwid.products[parseInt(items.pid)];
+              }
+
+              return (
+                <div className="w-full lg:w-1/2 px-3" key={i}>
+                  <div
+                    className="relative inline-block mb-6 h-96 lg:h-full w-full bg-no-repeat bg-cover"
+                    style={{
+                      backgroundImage: `url(${
+                        items?.productPreview?.image &&
+                        urlFor(items?.productPreview?.image)
+                      })`,
+                    }}
+                  >
+                    {item && item.inStock ? (
+                      item?.ribbon?.text && (
+                        <div className="mt-2">
+                          <p
+                            className="inline text-white p-2"
+                            style={{ backgroundColor: item.ribbon.color }}
+                          >
+                            {item.ribbon.text}
+                          </p>
+                        </div>
+                      )
+                    ) : (
+                      <div className="mt-2">
+                        <p className="inline text-white p-2 bg-red-400">
+                          SOLD OUT
+                        </p>
+                      </div>
                     )}
-                    <p className="mt-2 mb-10 font-bold font-heading">$379.90</p>
-                    {featured?.btnLabel && (
-                      <button
-                        className="inline-block font-bold font-heading py-4 px-8 rounded-md uppercase transition duration-200 bg-webriq-darkblue text-white"
-                        type="button"
-                      >
-                        {featured?.btnLabel}
-                      </button>
-                    )}
+                    {/* <span className="inline-block px-2 py-1 ml-4 mt-4 text-xs font-bold border-2 rounded-full uppercase border-webriq-darkblue bg-white">
+                      New
+                    </span> */}
+                    <div className="absolute top-1/2 left-0 pb-20 pl-12">
+                      <p className="text-xl font-bold font-heading mb-3">
+                        Excellent value bike
+                      </p>
+                      {items?.name && (
+                        <a
+                          className="text-3xl font-bold font-heading"
+                          href={`/products/${items?.slug?.current}`}
+                        >
+                          {items?.name}
+                        </a>
+                      )}
+                      <p className="mt-2 mb-10 font-bold font-heading">
+                        {item?.defaultDisplayedPriceFormatted}
+                      </p>
+                      {featured?.btnLabel && (
+                        <button
+                          className="inline-block font-bold font-heading py-4 px-8 rounded-md uppercase transition duration-200 bg-webriq-darkblue text-white"
+                          type="button"
+                        >
+                          {featured?.btnLabel}
+                        </button>
+                      )}
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         )}
         {primaryButton?.label && (
