@@ -12,20 +12,16 @@ function VariantB({ caption, title, description, features, tags }) {
               <div className="max-w-md lg:mx-auto">
                 {caption && (
                   <span className="text-webriq-darkblue font-bold">
-                    {/* Dolor sit amet consectutar */}
                     {caption}
                   </span>
                 )}
                 {title && (
                   <h1 className="my-2 text-4xl lg:text-5xl font-bold font-heading">
-                    {/* Build &amp; Launch without problems */}
                     {title}
                   </h1>
                 )}
                 {description && (
                   <p className="mb-6 text-gray-500 leading-loose">
-                    {/* Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  Pellentesque efficitur nisl sodales egestas lobortis. */}
                     {description}
                   </p>
                 )}
@@ -52,122 +48,69 @@ function VariantB({ caption, title, description, features, tags }) {
               </div>
             </div>
             <div className="w-full lg:w-1/2 flex flex-wrap -mx-4">
-              <div className="mb-8 lg:mb-0 w-full md:w-1/2 px-4">
-                {features?.[0] && (
-                  <div className="mb-8 py-6 pl-6 pr-4 shadow rounded bg-white">
-                    <span className="mb-4 inline-block p-3 rounded-lg bg-webriq-lightblue">
-                      {features?.[0]?.mainImage?.image?.asset?._ref && (
-                        <Image
-                          src={urlFor(features?.[0]?.mainImage?.image)}
-                          layout="intrinsic"
-                          width="40"
-                          height="40"
-                          objectFit="scale-down"
-                          alt={
-                            features?.[0]?.mainImage?.alt ?? "features-image-1"
-                          }
-                          blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                          placeholder="blur"
-                        />
-                      )}
-                    </span>
-                    <p className="mb-2 text-2xl font-bold font-heading">
-                      {features?.[0]?.title}
-                    </p>
-                    <p className="text-gray-500 leading-loose">
-                      {features?.[0]?.plainText}
-                    </p>
-                  </div>
+              {features &&
+                features?.map((feature, index) =>
+                  index % 2 === 0 ? (
+                    <div
+                      className="mb-8 lg:mb-0 w-full md:w-1/2 px-4"
+                      key={index}
+                    >
+                      <div className="mb-8 py-6 pl-6 pr-4 shadow rounded bg-white">
+                        <span className="mb-4 inline-block p-3 rounded-lg bg-webriq-lightblue">
+                          {feature?.mainImage?.image?.asset?._ref && (
+                            <Image
+                              src={urlFor(feature?.mainImage?.image)}
+                              layout="intrinsic"
+                              width="40"
+                              height="40"
+                              objectFit="scale-down"
+                              alt={
+                                feature?.mainImage?.alt ??
+                                `features-image-${index}`
+                              }
+                              blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                              placeholder="blur"
+                            />
+                          )}
+                        </span>
+                        <p className="mb-2 text-2xl font-bold font-heading">
+                          {feature?.title}
+                        </p>
+                        <p className="text-gray-500 leading-loose">
+                          {feature?.plainText}
+                        </p>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="w-full md:w-1/2 lg:mt-12 px-4" key={index}>
+                      <div className="mb-8 lg:mb-0 py-6 pl-6 pr-4 shadow rounded-lg bg-white">
+                        <span className="mb-4 inline-block p-3 rounded bg-webriq-lightblue">
+                          {feature?.mainImage?.image?.asset?._ref && (
+                            <Image
+                              src={urlFor(feature?.mainImage?.image)}
+                              layout="intrinsic"
+                              width="40"
+                              height="40"
+                              objectFit="scale-down"
+                              alt={
+                                feature?.mainImage?.alt ??
+                                `features-image-${index}`
+                              }
+                              blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                              placeholder="blur"
+                            />
+                          )}
+                        </span>
+                        <p className="mb-2 text-2xl font-bold font-heading">
+                          {feature?.title}
+                        </p>
+                        <p className="text-gray-500 leading-loose">
+                          {feature?.plainText}
+                        </p>
+                      </div>
+                    </div>
+                  )
                 )}
-                {features === undefined || features[1] === undefined ? null : (
-                  <div className="py-6 pl-6 pr-4 shadow rounded bg-white">
-                    <span className="mb-4 inline-block p-3 rounded-lg bg-webriq-lightblue">
-                      {/* <svg
-                        className="w-10 h-10 text-webriq-darkblue"
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 20 20"
-                        fill="currentColor"
-                      >
-                        <path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z" />
-                      </svg> */}
-                      {features?.[1]?.mainImage?.image?.asset?._ref && (
-                        <Image
-                          src={urlFor(features?.[1]?.mainImage?.image)}
-                          layout="intrinsic"
-                          width="40"
-                          height="40"
-                          objectFit="scale-down"
-                          alt={
-                            features?.[1]?.mainImage?.alt ?? "features-image-2"
-                          }
-                          blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                          placeholder="blur"
-                        />
-                      )}
-                    </span>
-                    <p className="mb-2 text-2xl font-bold font-heading">
-                      {features?.[1]?.title}
-                    </p>
-                    <p className="text-gray-500 leading-loose">
-                      {features?.[1]?.plainText}
-                    </p>
-                  </div>
-                )}
-              </div>
-              <div className="w-full md:w-1/2 lg:mt-20 px-4">
-                {features?.[2] && (
-                  <div className="mb-8 py-6 pl-6 pr-4 shadow rounded-lg bg-white">
-                    <span className="mb-4 inline-block p-3 rounded bg-webriq-lightblue">
-                      {features?.[2]?.mainImage?.image?.asset?._ref && (
-                        <Image
-                          src={urlFor(features?.[2]?.mainImage?.image)}
-                          layout="intrinsic"
-                          width="40"
-                          height="40"
-                          objectFit="scale-down"
-                          alt={
-                            features?.[2]?.mainImage?.alt ?? "features-image-3"
-                          }
-                          blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                          placeholder="blur"
-                        />
-                      )}
-                    </span>
-                    <p className="mb-2 text-2xl font-bold font-heading">
-                      {features?.[2]?.title}
-                    </p>
-                    <p className="text-gray-500 leading-loose">
-                      {features?.[2]?.plainText}
-                    </p>
-                  </div>
-                )}
-                {features?.[3] && (
-                  <div className="py-6 pl-6 pr-4 shadow rounded-lg bg-white">
-                    <span className="mb-4 inline-block p-3 rounded bg-webriq-lightblue">
-                      {features?.[3]?.mainImage?.image?.asset?._ref && (
-                        <Image
-                          src={urlFor(features?.[3]?.mainImage?.image)}
-                          layout="intrinsic"
-                          width="40"
-                          height="40"
-                          objectFit="scale-down"
-                          alt={
-                            features?.[3]?.mainImage?.alt ?? "features-image-4"
-                          }
-                          blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                          placeholder="blur"
-                        />
-                      )}
-                    </span>
-                    <p className="mb-2 text-2xl font-bold font-heading">
-                      {features?.[3]?.title}
-                    </p>
-                    <p className="text-gray-500 leading-loose">
-                      {features?.[3]?.plainText}
-                    </p>
-                  </div>
-                )}
-              </div>
             </div>
           </div>
         </div>

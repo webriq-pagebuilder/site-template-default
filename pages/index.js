@@ -1,33 +1,32 @@
-import React from "react";
+import React, { lazy, Suspense, useState } from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { homeQuery } from "./api/query";
-import { getClient, usePreviewSubscription } from "../lib/sanity";
+import { getClient } from "lib/sanity.server";
+import { sanityConfig } from "lib/config";
 import NoPreview from "pages/no-preview";
 import { Components, filterDataToSingleItem } from "./[slug]";
 
-function Home({ data, preview }) {
+const PreviewMode = lazy(() => import("next-sanity/preview"));
+
+function Home({ data: initialData = {}, preview, token }) {
+  console.log("🚀 ~ file: index.js ~ line 12 ~ Home ~ data", initialData);
+
   const router = useRouter();
+  const [data, setData] = useState(initialData);
+
+  const pageData = data?.page || data?.[0];
+  const slug = pageData?.slug;
+
   /*
    *  For new unpublished pages, return page telling user that the page needs to be published first before it can be previewed
    *  This prevents showing 404 page when the page is not published yet
    */
-  if ((!router.isFallback && !data?.page) || data?.page?.hasNeverPublished) {
+  if (
+    ((!router.isFallback && !data?.page) || data?.page?.hasNeverPublished) &&
+    !preview
+  ) {
     return <NoPreview />;
-  }
-
-  let pageData;
-  const { data: page } = usePreviewSubscription(homeQuery, {
-    initialData: data,
-    enabled: preview,
-  });
-
-  // for never published pages
-  if (data?.page?.hasNeverPublished) {
-    pageData = data?.page;
-  } else {
-    // for published pages and pages with unpublished edits
-    pageData = page?.page?.[0] || page?.page || page?.[0];
   }
 
   if (!pageData) {
@@ -38,11 +37,23 @@ function Home({ data, preview }) {
 
   return (
     <>
+      {preview && slug && (
+        <Suspense fallback={null}>
+          <PreviewMode
+            projectId={sanityConfig.projectId}
+            dataset={sanityConfig.dataset}
+            initial={initialData}
+            query={homeQuery}
+            onChange={setData}
+            token={token}
+          />
+        </Suspense>
+      )}
       <Head>
         <title>{seo?.seoTitle ?? title}</title>
       </Head>
       {sections?.map((section, index) => {
-        const Component = Components[section._type];
+        const Component = Components?.[section?._type];
 
         // skip rendering unknown components
         if (!Component) {
@@ -64,8 +75,12 @@ function Home({ data, preview }) {
   );
 }
 
-export async function getStaticProps({ preview = false }) {
-  const indexPage = await getClient(preview).fetch(homeQuery);
+export async function getStaticProps({ preview = false, previewData = {} }) {
+  const client =
+    preview && previewData?.token
+      ? getClient(false).withConfig({ token: previewData.token })
+      : getClient(preview);
+  const indexPage = await client.fetch(homeQuery);
 
   // pass page data and preview to helper function
   const page = filterDataToSingleItem(indexPage, preview);
@@ -83,6 +98,7 @@ export async function getStaticProps({ preview = false }) {
   return {
     props: {
       preview,
+      token: (preview && previewData.token) || "",
       data: { page },
     },
   };
