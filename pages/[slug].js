@@ -1,15 +1,16 @@
-import React from "react";
+import React, { lazy, Suspense, useState } from "react";
+import dynamic from "next/dynamic";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { getClient, usePreviewSubscription } from "../lib/sanity";
-import dynamic from "next/dynamic";
 import { blogQuery, blogNavAndFooter, slugQuery } from "./api/query";
 import { groq } from "next-sanity";
 import NoPreview from "pages/no-preview";
+import { sanityConfig } from "lib/config";
+import { getClient, sanityClient } from "lib/sanity.server";
 
 export const Components = {
   navigation: dynamic(() => import("component/sections/navigation")),
-  header: dynamic(() => import("component/sections/header")),
+  header: dynamic(() => import("component/sections/hero")),
   features: dynamic(() => import("component/sections/features")),
   portfolio: dynamic(() => import("component/sections/portfolio")),
   blog: dynamic(() => import("component/sections/blog")),
@@ -31,6 +32,141 @@ export const Components = {
 };
 
 const BlogPage = dynamic(() => import("component/blog/"));
+
+const PreviewMode = lazy(() => import("next-sanity/preview"));
+
+function Page({ data: initialData = {}, preview, token }) {
+  console.log("🚀 ~ file: [slug].js ~ line 39 ~ Page ~ preview", preview);
+  const router = useRouter();
+  const [data, setData] = useState(initialData);
+  console.log("🚀 ~ file: [slug].js ~ line 42 ~ Page ~ data", data);
+
+  const pageData = data?.page || data?.[0];
+  const slug = pageData?.slug;
+
+  if (!router.isFallback && data.blogData) {
+    return (
+      <BlogPage
+        data={data?.blogData}
+        preview={preview}
+        navAndFooter={data?.navAndFooter?.[0]?.sections}
+      />
+    );
+  }
+
+  if (!router.isFallback && !slug) {
+    return null;
+  }
+
+  if (!pageData) {
+    return null;
+  }
+
+  const { sections, title, seo } = pageData;
+  console.log(
+    "🚀 ~ file: [slug].js ~ line 99 ~ Page ~ preview && slug",
+    preview,
+    slug
+  );
+
+  /*
+   *  For new unpublished pages, return page telling user that the page needs to be published first before it can be previewed
+   *  This prevents showing 404 page when the page is not published yet
+   */
+  if (!pageData?.hasUnpublishedEdits && pageData?._id?.includes("drafts")) {
+    return (
+      <>
+        <Head>
+          <title>Unpublished Page</title>
+        </Head>
+        <NoPreview />
+      </>
+    );
+  }
+
+  return (
+    <>
+      {preview && slug && (
+        <Suspense fallback={null}>
+          <PreviewMode
+            projectId={sanityConfig.projectId}
+            dataset={sanityConfig.dataset}
+            initial={initialData}
+            query={slugQuery}
+            onChange={setData}
+            token={token}
+            params={{ slug }}
+          />
+        </Suspense>
+      )}
+      <Head>
+        <title>{seo?.seoTitle ?? title}</title>
+      </Head>
+      {sections &&
+        sections?.map((section, index) => {
+          const Component = Components?.[section?._type];
+
+          // skip rendering unknown components
+          if (!Component) {
+            return null;
+          }
+
+          return (
+            <Component
+              key={index}
+              template={{
+                bg: "gray",
+                color: "webriq",
+              }}
+              {...{ [section._type]: section }}
+              data={section}
+            />
+          );
+        })}
+    </>
+  );
+}
+
+export async function getStaticProps({
+  params,
+  preview = false,
+  previewData = {},
+}) {
+  const client =
+    preview && previewData?.token
+      ? getClient(false).withConfig({ token: previewData.token })
+      : getClient(preview);
+
+  const [page, blogData, navAndFooter] = await Promise.all([
+    client.fetch(slugQuery, { slug: params.slug }),
+    client.fetch(blogQuery, { slug: params.slug }),
+    client.fetch(blogNavAndFooter, { slug: params.slug }),
+  ]);
+
+  // pass page data and preview to helper function
+  const singlePageData = filterDataToSingleItem(page, preview);
+
+  return {
+    props: {
+      preview,
+      token: (preview && previewData.token) || "",
+      data: { page: singlePageData, blogData, navAndFooter },
+    },
+    // If webhooks isn't setup then attempt to re-generate in 1 minute intervals
+    revalidate: process.env.SANITY_REVALIDATE_SECRET ? undefined : 60,
+  };
+}
+
+export async function getStaticPaths() {
+  const paths = await sanityClient.fetch(
+    groq`*[_type == "page" && defined(slug.current)][].slug.current`
+  );
+
+  return {
+    paths: paths.map((slug) => ({ params: { slug } })),
+    fallback: true,
+  };
+}
 
 /**
  * Helper function to return the correct version of the document
@@ -65,135 +201,6 @@ export function filterDataToSingleItem(data, preview) {
   }
 
   return data[0];
-}
-
-function Page({ data, preview }) {
-  const router = useRouter();
-  if (!router.isFallback && !data?.pages?.slug) {
-    return (
-      <BlogPage
-        data={data?.blogData}
-        preview={preview}
-        navAndFooter={data?.navAndFooter?.[0]?.sections}
-      />
-    );
-  }
-
-  const slug = data?.pages?.slug;
-  let pageData;
-  const { data: pages } = usePreviewSubscription(slugQuery, {
-    params: { slug },
-    initialData: data,
-    enabled: preview,
-  });
-
-  // for never published pages
-  if (data?.pages?.hasNeverPublished) {
-    pageData = data?.pages;
-  } else {
-    // for published pages and pages with unpublished edits
-    pageData = pages?.pages || pages?.[0];
-  }
-
-  if (!pageData) {
-    return null;
-  }
-
-  const { sections, title, seo } = pageData;
-
-  /*
-   *  For new unpublished pages, return page telling user that the page needs to be published first before it can be previewed
-   *  This prevents showing 404 page when the page is not published yet
-   */
-  if (!pageData?.hasUnpublishedEdits && pageData?._id?.includes("drafts")) {
-    return (
-      <>
-        <Head>
-          <title>Unpublished Page</title>
-        </Head>
-        <NoPreview />
-      </>
-    );
-  }
-
-  return (
-    <>
-      <Head>
-        <meta name="viewport" content="width=260 initial-scale=1" />
-        <title>{seo?.seoTitle || title}</title>
-      </Head>
-      {sections &&
-        sections?.map((section, index) => {
-          const Component = Components[section._type];
-
-          // skip rendering unknown components
-          if (!Component) {
-            return null;
-          }
-
-          return (
-            <Component
-              key={index}
-              template={{
-                bg: "gray",
-                color: "webriq",
-              }}
-              {...{ [section._type]: section }}
-              data={section}
-            />
-          );
-        })}
-    </>
-  );
-}
-
-export async function getStaticProps({ params, preview = false }) {
-  const page = await getClient(preview).fetch(slugQuery, {
-    slug: params.slug,
-  });
-
-  const blogData = await getClient(preview).fetch(blogQuery, {
-    slug: params.slug,
-  });
-
-  const navAndFooter = await getClient(preview).fetch(blogNavAndFooter, {
-    slug: params.slug,
-  });
-
-  // pass page data and preview to helper function
-  const pages = filterDataToSingleItem(page, preview);
-
-  // if our query failed to return data for page, return data for blog page
-  // Reference: https://www.sanity.io/guides/nextjs-live-preview
-  if (!pages) {
-    return {
-      props: {
-        preview,
-        data: {
-          blogData,
-          navAndFooter,
-        },
-      },
-    };
-  }
-
-  return {
-    props: {
-      preview,
-      data: { pages },
-    },
-  };
-}
-
-export async function getStaticPaths() {
-  const paths = await getClient().fetch(
-    groq`*[_type == "page" && defined(slug.current)][].slug.current`
-  );
-
-  return {
-    paths: paths.map((slug) => ({ params: { slug } })),
-    fallback: true,
-  };
 }
 
 export default React.memo(Page);
