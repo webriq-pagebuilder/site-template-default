@@ -3,6 +3,8 @@ import { urlFor, PortableText } from "lib/sanity";
 import Image from "next/image";
 import ProductDetail from "component/ecwid/ProductDetail";
 import AddToBag from "component/ecwid/AddToBag";
+import Ribbon from "component/ecwid/Ribbon";
+import Description from "component/ecwid/Description";
 
 function VariantB({
   subtitle,
@@ -11,7 +13,7 @@ function VariantB({
   btnLabel,
   product,
   socialLinks,
-  ecwidProducts,
+  ecwidProduct,
   getPriceDisplay,
 }) {
   // block styling as props to `serializers` of the PortableText component
@@ -334,23 +336,35 @@ function VariantB({
           <div className="w-full pt-20 xl:w-1/2 xl:pt-0 px-4">
             <div>
               <div className="mb-10 pb-10 border-b">
+                {product?.pid && (
+                  <div className="mb-3">
+                    <Ribbon data={ecwidProduct} />
+                  </div>
+                )}
+
                 {subtitle && (
                   <span className="font-custom font-bold text-webriq-darkblue">
                     {subtitle}
                   </span>
                 )}
+
                 {product?.name && (
                   <h1 className="mt-2 mb-6 max-w-xl text-5xl md:text-6xl font-bold font-heading">
                     {product?.name}
                   </h1>
                 )}
+
                 <div className="mb-8">
                   {/* TO DO: ADD PRODUCT RATING HERE */}
                 </div>
+
                 <p className="inline-block mb-8 text-2xl font-bold font-heading text-blue-300">
                   {/* TO DO: ADD PRICING HERE */}
                   {getPriceDisplay()}
                 </p>
+
+                <Description data={ecwidProduct} />
+
                 {product?.description && (
                   <p className="max-w-md text-gray-500 font-custom">
                     {product?.description}
@@ -358,10 +372,13 @@ function VariantB({
                 )}
               </div>
 
-              <ProductDetail product={ecwidProducts}>
+              <ProductDetail product={ecwidProduct}>
                 <div className="flex flex-wrap mt-6 mb-14 items-center gap-x-5">
                   {btnLabel && (
-                    <AddToBag classNames="block mb-4 lg:mb-0 text-center text-white font-bold font-heading py-5 px-8 rounded-md uppercase transition duration-200 bg-webriq-darkblue">
+                    <AddToBag
+                      inStock={!ecwidProduct?.inStock}
+                      classNames="block mb-4 lg:mb-0 text-center text-white font-bold font-heading py-5 px-8 rounded-md uppercase transition duration-200 bg-webriq-darkblue"
+                    >
                       {btnLabel}
                     </AddToBag>
                   )}

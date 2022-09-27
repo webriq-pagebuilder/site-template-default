@@ -1,5 +1,5 @@
 import { useEcwid } from "context/EcwidContext";
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import AddMoreButton from "./AddMoreButton";
 
 const ProductDetail = ({ product, children }) => {
@@ -11,6 +11,8 @@ const ProductDetail = ({ product, children }) => {
   const setOptions = ecwid?.setOptions;
   const setPrice = ecwid?.setPrice;
   const cart = ecwid?.cart;
+
+  const [quantity, setQuantity] = useState(1);
 
   useEffect(() => {
     if (product?.id) {
@@ -92,7 +94,7 @@ const ProductDetail = ({ product, children }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    addToBag({ id: product?.id, quantity: 1 }, options);
+    addToBag({ id: product?.id, quantity }, options);
   };
 
   return (
@@ -233,6 +235,22 @@ const ProductDetail = ({ product, children }) => {
 
         return null;
       })}
+
+      <div className="flex flex-col mb-4">
+        <label htmlFor="quantity" className="font-medium text-gray-900 mb-2">
+          Quantity
+        </label>
+        <input
+          type="number"
+          name="quantity"
+          id="quantity"
+          className="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
+          required
+          min={1}
+          value={quantity}
+          onChange={(e) => setQuantity(e.target.value)}
+        />
+      </div>
 
       {itemsCount === 0 ? (
         children

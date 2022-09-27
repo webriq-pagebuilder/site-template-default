@@ -16,7 +16,7 @@ function ProductInfo({ data, product }) {
   const variant = data?.variant || data?.variants?.condition;
   const Variant = Variants?.[variant];
 
-  const ecwidProducts = useMemo(() => {
+  const ecwidProduct = useMemo(() => {
     let data = null;
     if (ecwid_products && product?.pid) {
       data = ecwid_products[Number(product.pid)];
@@ -31,7 +31,7 @@ function ProductInfo({ data, product }) {
     socialLinks: data?.variants?.socialLinks,
     btnLabel: data?.variants?.btnLabel,
     product,
-    ecwidProducts,
+    ecwidProduct,
     getPriceDisplay: () => getPriceDisplay(price),
   };
 
