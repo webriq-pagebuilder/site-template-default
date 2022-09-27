@@ -14,7 +14,7 @@ function VariantA({ title, featured }) {
           <h1 className="mb-16 text-4xl md:text-5xl font-bold">{title}</h1>
         )}
         {featured && (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {featured?.map((items, index) => {
               let item = null;
               if (items?.pid && ecwid?.products) {
@@ -31,7 +31,7 @@ function VariantA({ title, featured }) {
                       <div className="absolute z-10">
                         <Ribbon data={item} />
                       </div>
-                      <div className="w-full h-96 object-cover">
+                      <div className="w-full object-cover">
                         {items?.productPreview?.image && (
                           <Image
                             layout="responsive"

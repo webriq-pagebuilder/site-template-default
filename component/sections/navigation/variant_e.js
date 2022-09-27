@@ -232,7 +232,7 @@ function VariantE({ banner, logo, links }) {
               />
             </svg>
           </a>
-          <button aria-label="search button" type="button">
+          <a href="/cart?store-page=account">
             <svg
               width={32}
               height={31}
@@ -255,7 +255,7 @@ function VariantE({ banner, logo, links }) {
                 strokeLinejoin="round"
               />
             </svg>
-          </button>
+          </a>
         </div>
         {/* nav menu sidebar button on mobile view */}
         <button
