@@ -10,7 +10,7 @@ import { getClient, sanityClient } from "lib/sanity.server";
 
 export const Components = {
   navigation: dynamic(() => import("component/sections/navigation")),
-  header: dynamic(() => import("component/sections/hero")),
+  header: dynamic(() => import("component/sections/header")),
   features: dynamic(() => import("component/sections/features")),
   portfolio: dynamic(() => import("component/sections/portfolio")),
   blog: dynamic(() => import("component/sections/blog")),
@@ -36,10 +36,8 @@ const BlogPage = dynamic(() => import("component/blog/"));
 const PreviewMode = lazy(() => import("next-sanity/preview"));
 
 function Page({ data: initialData = {}, preview, token }) {
-  console.log("🚀 ~ file: [slug].js ~ line 39 ~ Page ~ preview", preview);
   const router = useRouter();
   const [data, setData] = useState(initialData);
-  console.log("🚀 ~ file: [slug].js ~ line 42 ~ Page ~ data", data);
 
   const pageData = data?.page || data?.[0];
   const slug = pageData?.slug;
@@ -77,6 +75,7 @@ function Page({ data: initialData = {}, preview, token }) {
     return (
       <>
         <Head>
+          <meta name="viewport" content="width=260 initial-scale=1" />
           <title>Unpublished Page</title>
         </Head>
         <NoPreview />
@@ -100,6 +99,7 @@ function Page({ data: initialData = {}, preview, token }) {
         </Suspense>
       )}
       <Head>
+        <meta name="viewport" content="width=260 initial-scale=1" />
         <title>{seo?.seoTitle ?? title}</title>
       </Head>
       {sections &&
