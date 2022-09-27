@@ -19,15 +19,17 @@ function SEO({ data }) {
           title: seo?.seoTitle || title,
           description: seo?.seoDescription || blogDescription,
           url: `${url}/${slug === "home" ? "" : slug}`,
-          images: [
-            {
-              url: seoImageUrl(seo?.seoImage),
-              width: 520,
-              height: 320,
-              alt: "Page thumbnail image for SEO",
-              type: "image/webp",
-            },
-          ],
+          images: seo
+            ? [
+                {
+                  url: seoImageUrl(seo?.seoImage),
+                  width: 520,
+                  height: 320,
+                  alt: "Page thumbnail image for SEO",
+                  type: "image/webp",
+                },
+              ]
+            : [],
           site_name: seo?.seoTitle || title,
         }} // Twitter will read the og:title, og:image and og:description tags for their card. next-seo omits twitter:title, twitter:image and twitter:description to avoid duplication.
         twitter={{
