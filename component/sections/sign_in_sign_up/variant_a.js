@@ -23,7 +23,7 @@ function VariantA({ logo, form, formLinks, signInLink }) {
   };
 
   const thankYouPageLink = (link) => {
-    if (link === undefined) {
+    if (!link) {
       return "/thank-you";
     } else {
       if (link?.linkType === "linkInternal") {

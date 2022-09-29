@@ -8,7 +8,7 @@ function VariantA({ logo, title, description, form }) {
   const { id, fields, buttonLabel, thankYouPage } = form;
 
   const thankYouPageLink = (link) => {
-    if (link === undefined) {
+    if (!link) {
       return "/thank-you";
     } else {
       if (link?.linkType === "linkInternal") {
