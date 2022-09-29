@@ -116,16 +116,16 @@ function VariantA({
     <section className="py-20">
       <div className="container mx-auto px-4">
         <div className="flex flex-wrap -mx-4 mb-24">
-          <div className="w-full md:w-1/2 px-4 mb-8 md:mb-0">
-            <div className="relative mb-10" style={{ height: "564px" }}>
+          <div className="w-full lg:w-1/2 px-4 mb-8 md:mb-0">
+            <div className="relative mb-10">
               <button
-                className="absolute z-50 top-1/2 left-0 ml-8"
+                className="absolute z-50 top-1/2 left-0 ml-5 hover:bg-gray-50 hover:opacity-50 rounded-r-sm rounded-l-md px-2 py-5 transition duration-200"
                 onClick={arrowLeftClick}
                 type="button"
               >
                 <svg
-                  width={10}
-                  height={18}
+                  width={36}
+                  height={36}
                   viewBox="0 0 10 18"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
@@ -148,15 +148,14 @@ function VariantA({
                   />
                 )}
               </div>
-
               <button
-                className="absolute z-50 top-1/2 right-0 mr-8"
+                className="absolute z-50 top-1/2 right-0 mr-5 hover:bg-gray-50 hover:opacity-50 rounded-l-sm rounded-r-md px-2 py-5 transition duration-200"
                 onClick={arrowRightClick}
                 type="button"
               >
                 <svg
-                  width={10}
-                  height={18}
+                  width={36}
+                  height={36}
                   viewBox="0 0 10 18"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
@@ -168,9 +167,9 @@ function VariantA({
                 </svg>
               </button>
             </div>
-            <div className="flex flex-wrap -mx-2">
+            <div className="hidden md:flex md:flex-wrap md:-mx-2">
               {images?.map((item, index) => (
-                <div className="w-1/2 sm:w-1/4 p-2" key={index}>
+                <div className="w-1/4 p-2" key={index}>
                   <div
                     className={`block ${
                       activeImage === index
@@ -179,7 +178,7 @@ function VariantA({
                     }`}
                     onClick={() => setActiveImage(index)}
                   >
-                    <div className="w-full h-32">
+                    <div className="w-full h-full">
                       {item?.image && (
                         <Image
                           layout="responsive"
@@ -196,7 +195,7 @@ function VariantA({
               ))}
             </div>
           </div>
-          <div className="w-full md:w-1/2 px-4">
+          <div className="w-full lg:w-1/2 px-4 mt-10">
             <div className="lg:pl-20">
               <div className="mb-10 pb-10 border-b">
                 {product?.pid && (
@@ -212,7 +211,7 @@ function VariantA({
                 )}
 
                 {product?.name && (
-                  <h1 className="mt-2 mb-6 max-w-xl text-5xl md:text-6xl font-bold font-heading">
+                  <h1 className="mt-2 mb-6 lg:max-w-xl text-5xl md:text-6xl font-bold font-heading">
                     {product?.name}
                   </h1>
                 )}
@@ -244,7 +243,7 @@ function VariantA({
               <ProductDetail product={ecwidProduct}>
                 <div className="flex flex-wrap -mx-4 mb-14 items-center">
                   {btnLabel && (
-                    <div className="w-full xl:w-2/3 px-4 mb-4 xl:mb-0">
+                    <div className="w-2/3 px-4 lg:mb-4 xl:mb-0">
                       <AddToBag
                         inStock={!ecwidProduct?.inStock}
                         classNames="block w-full text-center text-white font-bold font-heading py-5 px-8 rounded-md uppercase transition duration-200 bg-webriq-darkblue hover:bg-webriq-blue cursor-pointer"
@@ -253,7 +252,7 @@ function VariantA({
                       </AddToBag>
                     </div>
                   )}
-                  <div className="w-full xl:w-1/3 px-4">
+                  <div className="w-1/3 px-4">
                     {/* Add to wishlist button */}
                     <button
                       className="ml-auto sm:ml-0 flex-shrink-0 inline-flex mr-4 items-center justify-center w-16 h-16 rounded-md border hover:border-webriq-darkblue"
@@ -381,7 +380,7 @@ function VariantA({
               {productDetails?.map((details, index) => (
                 <li className="w-1/2 md:w-auto" key={index}>
                   <button
-                    className={`inline-block py-6 px-10 font-bold font-heading ${
+                    className={`inline-block py-6 px-7 lg:px-10 font-bold font-heading ${
                       activeTab === index
                         ? "bg-white shadow-2xl text-webriq-darkblue"
                         : "text-gray-500 hover:shadow-2xl"

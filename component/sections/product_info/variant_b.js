@@ -206,13 +206,13 @@ function VariantB({
               <div className="order-0 lg:order-1 w-full lg:w-3/4 lg:h-[564px] px-1">
                 <div className="relative">
                   <button
-                    className="absolute z-50 top-1/2 left-0 ml-8"
+                    className="absolute z-50 top-1/2 left-0 ml-5 hover:bg-gray-50 hover:opacity-50 rounded-r-sm rounded-l-md px-2 py-5 transition duration-200"
                     onClick={arrowLeftClick}
                     type="button"
                   >
                     <svg
-                      width={10}
-                      height={18}
+                      width={36}
+                      height={36}
                       viewBox="0 0 10 18"
                       fill="none"
                       xmlns="http://www.w3.org/2000/svg"
@@ -236,13 +236,13 @@ function VariantB({
                     )}
                   </div>
                   <button
-                    className="absolute z-50 top-1/2 right-0 mr-8"
+                    className="absolute z-50 top-1/2 right-0 mr-5 hover:bg-gray-50 hover:opacity-50 rounded-l-sm rounded-r-md px-2 py-5 transition duration-200"
                     onClick={arrowRightClick}
                     type="button"
                   >
                     <svg
-                      width={10}
-                      height={18}
+                      width={36}
+                      height={36}
                       viewBox="0 0 10 18"
                       fill="none"
                       xmlns="http://www.w3.org/2000/svg"
