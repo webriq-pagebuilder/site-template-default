@@ -1,3 +1,22 @@
+function redirectToPreview(res, Location) {
+  const token = process.env.NEXT_PUBLIC_SANITY_API_READ_TOKEN;
+  if (!token) {
+    throw new TypeError(`Missing NEXT_PUBLIC_SANITY_API_READ_TOKEN`);
+  }
+
+  // Set the token in the preview cookie to enable non-chrome browsers
+  res.setPreviewData({
+    title: "Preview Mode: Token",
+    description:
+      "Uses a viewer token and EventSource polyfill, heavy but highest probability of success",
+    authMode: "token",
+    token,
+  });
+  // Redirect to a preview capable route
+  res.writeHead(307, { Location });
+  res.end();
+}
+
 export default async (req, res) => {
   const corsOrigin =
     process.env.SITE_SANITY_STUDIO_URL || "http://localhost:3333";
@@ -21,26 +40,26 @@ export default async (req, res) => {
   }
 
   // Enable Preview Mode by setting the cookies
-  res.setPreviewData({});
+  // res.setPreviewData({});
 
   const pathname = req?.query?.slug ?? `/`;
 
   // Fetch the preview-page's HTML and return as a string
-  if (req?.query?.fetch === "true") {
-    const proto =
-      process.env.NODE_ENV === "development" ? `http://` : `https://`;
-    const host = req.headers.host;
-    const absoluteUrl = new URL(`${proto}${host}/${pathname}`).toString();
+  // if (req?.query?.fetch === "true") {
+  //   const proto =
+  //     process.env.NODE_ENV === "development" ? `http://` : `https://`;
+  //   const host = req.headers.host;
+  //   const absoluteUrl = new URL(`${proto}${host}/${pathname}`).toString();
 
-    const previewHtml = await fetch(absoluteUrl, {
-      credentials: `include`,
-      headers: { Cookie: req.headers.cookie },
-    })
-      .then((previewRes) => previewRes.text())
-      .catch((err) => console.error(err));
+  //   const previewHtml = await fetch(absoluteUrl, {
+  //     credentials: `include`,
+  //     headers: { Cookie: req.headers.cookie },
+  //   })
+  //     .then((previewRes) => previewRes.text())
+  //     .catch((err) => console.error(err));
 
-    return res.send(previewHtml);
-  }
+  //   return res.send(previewHtml);
+  // }
 
   // Redirect to the path from the fetched page
   // We don't redirect to req.query.slug as that might lead to open redirect vulnerabilities
@@ -49,9 +68,10 @@ export default async (req, res) => {
   // res.writeHead(307, { Location: pathname });
 
   // res.end();
+  // res.writeHead(302, { Location: `/${req.query.slug}` }).end();
   const path = req?.query?.type
     ? `/${req?.query?.type}/${pathname}`
     : `/${pathname}`;
 
-  res.writeHead(302, { Location: path }).end();
+  redirectToPreview(res, path);
 };
