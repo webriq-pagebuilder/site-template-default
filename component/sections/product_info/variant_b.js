@@ -1,4 +1,4 @@
-import { memo, useState, Fragment, useMemo } from "react";
+import { memo, useState, Fragment } from "react";
 import { urlFor, PortableText } from "lib/sanity";
 import Image from "next/image";
 import ProductDetail from "component/ecwid/ProductDetail";
@@ -18,79 +18,76 @@ function VariantB({
 }) {
   // block styling as props to `serializers` of the PortableText component
   const blockStyle = {
-    types: {
-      block: (props) => {
-        const style = props.node.style || "normal";
-        switch (style) {
-          case "h1":
-            return (
-              <h1 className="mt-6 leading-loose text-7xl font-bold font-heading">
-                {props.children}
-              </h1>
-            );
-          case "h2":
-            return (
-              <h2 className="mt-6 leading-loose text-5xl font-bold font-heading">
-                {props.children}
-              </h2>
-            );
-          case "h3":
-            return (
-              <h3 className="mt-6 leading-loose text-3xl font-bold font-heading">
-                {props.children}
-              </h3>
-            );
-          case "h4":
-            return (
-              <h4 className="mt-6 leading-loose text-xl font-bold font-heading">
-                {props.children}
-              </h4>
-            );
-          case "normal":
-            return (
-              <p className="my-6 max-w-2xl text-gray-500">{props.children}</p>
-            );
-          case "blockquote":
-            return (
-              <blockquote className="mt-6 px-14 leading-loose italic text-gray-500">
-                - {props.children}
-              </blockquote>
-            );
-        }
-
-        return PortableText.defaultSerializers.types.block(props);
+    block: {
+      h1: ({ children }) => {
+        return (
+          <h1 className="mt-6 leading-loose text-7xl font-bold font-heading">
+            {children}
+          </h1>
+        );
       },
-      code: (props) => {
-        <pre data-language={props.node.language}>
-          <code>{props.node.code}</code>
-        </pre>;
+      h2: ({ children }) => {
+        return (
+          <h2 className="mt-6 leading-loose text-5xl font-bold font-heading">
+            {children}
+          </h2>
+        );
+      },
+      h3: ({ children }) => {
+        return (
+          <h3 className="mt-6 leading-loose text-3xl font-bold font-heading">
+            {children}
+          </h3>
+        );
+      },
+      h4: ({ children }) => {
+        return (
+          <h4 className="mt-6 leading-loose text-xl font-bold font-heading">
+            {children}
+          </h4>
+        );
+      },
+      normal: ({ children }) => {
+        return <p className="my-6 max-w-2xl text-gray-500">{children}</p>;
+      },
+      blockquote: ({ children }) => {
+        return (
+          <blockquote className="mt-6 px-14 leading-loose italic text-gray-500">
+            - {children}
+          </blockquote>
+        );
       },
     },
-    list: (props) =>
-      props.type === "bullet" ? (
-        <ul className="mt-6 pl-10 leading-loose text-gray-900 list-disc">
-          {props.children}
-        </ul>
-      ) : (
-        <ol className="mt-6 leading-loose text-gray-900 list-decimal">
-          {props.children}
-        </ol>
+    list: {
+      bullet: ({ children }) => {
+        return (
+          <ul className="mb-6 pl-10 leading-loose text-gray-900 list-disc">
+            {children}
+          </ul>
+        );
+      },
+      number: ({ children }) => {
+        return (
+          <ol className="mb-6 leading-loose text-gray-900 list-decimal">
+            {children}
+          </ol>
+        );
+      },
+    },
+    listItem: {
+      bullet: ({ children }) => (
+        <li className="mb-6 leading-loose text-gray-900">{props.children}</li>
       ),
-    listItem: (props) =>
-      props.type === "bullet" ? (
-        <li className="mt-6 leading-loose text-gray-900">{props.children}</li>
-      ) : (
-        <li className="mt-6 leading-loose text-gray-900">{props.children}</li>
-      ),
+    },
     marks: {
-      strong: (props) => <strong>{props.children}</strong>,
-      em: (props) => <em>{props.children}</em>,
-      code: (props) => <code>{props.children}</code>,
-      link: ({ children, mark }) => (
+      strong: ({ children }) => <strong>{children}</strong>,
+      em: ({ children }) => <em>{children}</em>,
+      code: ({ children }) => <code>{children}</code>,
+      link: ({ children, value }) => (
         <a
           aria-label={children ?? "external link"}
           className="hover:text-webriq-lightblue text-webriq-blue"
-          href={mark.href}
+          href={value.href}
           target="_blank"
           rel="noopener noreferrer"
         >
@@ -377,7 +374,7 @@ function VariantB({
                   {btnLabel && (
                     <AddToBag
                       inStock={!ecwidProduct?.inStock}
-                      classNames="block mb-4 lg:mb-0 text-center text-white font-bold font-heading py-5 px-8 rounded-md uppercase transition duration-200 bg-webriq-darkblue"
+                      classNames="block mb-4 lg:mb-0 text-center text-white font-bold font-heading py-5 px-8 rounded-md uppercase transition duration-200 bg-webriq-darkblue hover:bg-webriq-blue cursor-pointer"
                     >
                       {btnLabel}
                     </AddToBag>
@@ -507,18 +504,18 @@ function VariantB({
                             )}
                             {productDetails?.[activeTab]?.blockContent && (
                               <PortableText
-                                blocks={
+                                value={
                                   productDetails?.[activeTab]?.blockContent
                                 }
-                                serializers={blockStyle}
+                                components={blockStyle}
                               />
                             )}
                           </div>
                         ) : (
                           productDetails?.[activeTab]?.blockContent && (
                             <PortableText
-                              blocks={productDetails?.[activeTab]?.blockContent}
-                              serializers={blockStyle}
+                              value={productDetails?.[activeTab]?.blockContent}
+                              components={blockStyle}
                             />
                           )
                         )}
