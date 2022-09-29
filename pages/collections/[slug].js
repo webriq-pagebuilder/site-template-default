@@ -75,6 +75,7 @@ function CollectionPage({ data, preview }) {
           name="viewport"
           content="width=360 initial-scale=1, shrink-to-fit=no"
         />
+        <link rel="icon" href="../favicon.ico" />
         <title>{seo?.seoTitle ?? name}</title>
       </Head>
       {(recordsData?.sections === undefined ||
