@@ -19,14 +19,14 @@ function SEO({ data }) {
           title: seo?.seoTitle || title,
           description: seo?.seoDescription || blogDescription,
           url: `${url}/${slug === "home" ? "" : slug}`,
-          images: seo
+          images: seo?.seoImage
             ? [
                 {
                   url: seoImageUrl(seo?.seoImage),
                   width: 520,
                   height: 320,
                   alt: "Page thumbnail image for SEO",
-                  type: "image/webp",
+                  type: "image/jpg",
                 },
               ]
             : [],
