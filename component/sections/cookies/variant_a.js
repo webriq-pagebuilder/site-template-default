@@ -2,30 +2,30 @@ import React from "react";
 import { PortableText } from "lib/sanity";
 import { setCookie, getCookie } from "utils/cookies";
 
+// block styling as props to `components` of the PortableText component
+export const cookiesBlockStyling = {
+  block: {
+    normal: ({ children }) => {
+      return <p className="text-gray-500 text-sm my-5">{children}</p>;
+    },
+  },
+  marks: {
+    link: ({ children, value }) => (
+      <a
+        aria-label={children ?? "external link"}
+        className="hover:text-webriq-lightblue text-blue-400"
+        target="_blank"
+        href={value.href}
+        rel="noopener noreferrer"
+      >
+        {children}
+      </a>
+    ),
+  },
+};
+
 function VariantA({ title, block, allowCookieBtn, denyCookieBtn }) {
   const [showCookie, setShowCookie] = React.useState(() => getCookie());
-
-  //block element styling
-  const serializers = {
-    types: {
-      block: (props) => (
-        <p className="text-gray-500 text-sm my-5">{props.children}</p>
-      ),
-    },
-    marks: {
-      link: ({ children, mark }) => (
-        <a
-          aria-label={children ?? "external link"}
-          className="hover:text-webriq-lightblue text-blue-400"
-          target="_blank"
-          href={mark.href}
-          rel="noopener noreferrer"
-        >
-          {children}
-        </a>
-      ),
-    },
-  };
 
   return (
     <div className="fixed bottom-0 inset-x-0 z-50">
@@ -36,7 +36,10 @@ function VariantA({ title, block, allowCookieBtn, denyCookieBtn }) {
               <div className="w-full lg:w-2/3 px-4">
                 <p className="font-bold font-heading">{title}</p>
                 {block && (
-                  <PortableText blocks={block} serializers={serializers} />
+                  <PortableText
+                    value={block}
+                    components={cookiesBlockStyling}
+                  />
                 )}
               </div>
               <div className="lg:w-1/3 px-4 lg:text-right">
