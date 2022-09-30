@@ -11,22 +11,23 @@ function VariantA({
   form,
   block,
 }) {
-  const serializers = {
+  // block styling as props to `components` of the PortableText component
+  const blockCustomization = {
     marks: {
-      internalLink: ({ children, mark }) => (
+      internalLink: ({ children, value }) => (
         <a
           aria-label={children ?? "internal link"}
           style={{ color: "red" }}
-          href={mark.slug.current}
+          href={value.slug.current}
         >
           {children}
         </a>
       ),
-      link: ({ children, mark }) =>
-        mark.blank ? (
+      link: ({ children, value }) =>
+        value.blank ? (
           <a
             aria-label={children ?? "external link"}
-            href={mark.href}
+            href={value.href}
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -36,7 +37,7 @@ function VariantA({
           <a
             aria-label={children ?? "external link"}
             style={{ color: "blue" }}
-            href={mark.href}
+            href={value.href}
           >
             {children}
           </a>
@@ -367,8 +368,8 @@ function VariantA({
                           />
                           <span className="text-sm font-semibold">
                             <PortableText
-                              blocks={block}
-                              serializers={serializers}
+                              value={block}
+                              components={blockCustomization}
                             />
                           </span>
                         </div>
