@@ -61,17 +61,16 @@ function Page({ data: initialData = {}, preview, token }) {
   }
 
   const { sections, title, seo } = pageData;
-  console.log(
-    "🚀 ~ file: [slug].js ~ line 99 ~ Page ~ preview && slug",
-    preview,
-    slug
-  );
 
   /*
    *  For new unpublished pages, return page telling user that the page needs to be published first before it can be previewed
    *  This prevents showing 404 page when the page is not published yet
    */
-  if (!pageData?.hasUnpublishedEdits && pageData?._id?.includes("drafts")) {
+  if (
+    !pageData?.hasUnpublishedEdits &&
+    pageData?._id?.includes("drafts") &&
+    !preview
+  ) {
     return (
       <>
         <Head>
@@ -142,7 +141,6 @@ export async function getStaticProps({
     client.fetch(blogQuery, { slug: params.slug }),
     client.fetch(blogNavAndFooter, { slug: params.slug }),
   ]);
-
   // pass page data and preview to helper function
   const singlePageData = filterDataToSingleItem(page, preview);
 
@@ -150,7 +148,11 @@ export async function getStaticProps({
     props: {
       preview,
       token: (preview && previewData.token) || "",
-      data: { page: singlePageData, blogData, navAndFooter },
+      data: {
+        page: singlePageData || null,
+        blogData: blogData || null,
+        navAndFooter: navAndFooter || null,
+      },
     },
     // If webhooks isn't setup then attempt to re-generate in 1 minute intervals
     revalidate: process.env.SANITY_REVALIDATE_SECRET ? undefined : 60,
@@ -159,7 +161,7 @@ export async function getStaticProps({
 
 export async function getStaticPaths() {
   const paths = await sanityClient.fetch(
-    groq`*[_type == "page" && defined(slug.current)][].slug.current`
+    groq`*[_type in ["page", "post"] && defined(slug.current)][].slug.current`
   );
 
   return {

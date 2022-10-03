@@ -10,8 +10,6 @@ import { Components, filterDataToSingleItem } from "./[slug]";
 const PreviewMode = lazy(() => import("next-sanity/preview"));
 
 function Home({ data: initialData = {}, preview, token }) {
-  console.log("🚀 ~ file: index.js ~ line 12 ~ Home ~ data", initialData);
-
   const router = useRouter();
   const [data, setData] = useState(initialData);
 
