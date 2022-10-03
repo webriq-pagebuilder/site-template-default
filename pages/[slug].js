@@ -36,6 +36,10 @@ const BlogPage = dynamic(() => import("component/blog/"));
 const PreviewMode = lazy(() => import("next-sanity/preview"));
 
 function Page({ data: initialData = {}, preview, token }) {
+  console.log(
+    "🚀 ~ file: [slug].js ~ line 39 ~ Page ~ initialData",
+    initialData
+  );
   const router = useRouter();
   const [data, setData] = useState(initialData);
 
@@ -61,11 +65,6 @@ function Page({ data: initialData = {}, preview, token }) {
   }
 
   const { sections, title, seo } = pageData;
-  console.log(
-    "🚀 ~ file: [slug].js ~ line 99 ~ Page ~ preview && slug",
-    preview,
-    slug
-  );
 
   /*
    *  For new unpublished pages, return page telling user that the page needs to be published first before it can be previewed
@@ -142,7 +141,6 @@ export async function getStaticProps({
     client.fetch(blogQuery, { slug: params.slug }),
     client.fetch(blogNavAndFooter, { slug: params.slug }),
   ]);
-
   // pass page data and preview to helper function
   const singlePageData = filterDataToSingleItem(page, preview);
 
@@ -151,9 +149,9 @@ export async function getStaticProps({
       preview,
       token: (preview && previewData.token) || "",
       data: {
-        page: singlePageData || [],
-        blogData: blogData || [],
-        navAndFooter: navAndFooter || [],
+        page: singlePageData || null,
+        blogData: blogData || null,
+        navAndFooter: navAndFooter || null,
       },
     },
     // If webhooks isn't setup then attempt to re-generate in 1 minute intervals
