@@ -150,7 +150,11 @@ export async function getStaticProps({
     props: {
       preview,
       token: (preview && previewData.token) || "",
-      data: { page: singlePageData, blogData, navAndFooter },
+      data: {
+        page: singlePageData || [],
+        blogData: blogData || [],
+        navAndFooter: navAndFooter || [],
+      },
     },
     // If webhooks isn't setup then attempt to re-generate in 1 minute intervals
     revalidate: process.env.SANITY_REVALIDATE_SECRET ? undefined : 60,
@@ -159,7 +163,7 @@ export async function getStaticProps({
 
 export async function getStaticPaths() {
   const paths = await sanityClient.fetch(
-    groq`*[_type == "page" && defined(slug.current)][].slug.current`
+    groq`*[_type in ["page", "post"] && defined(slug.current)][].slug.current`
   );
 
   return {
