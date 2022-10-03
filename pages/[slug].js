@@ -36,10 +36,6 @@ const BlogPage = dynamic(() => import("component/blog/"));
 const PreviewMode = lazy(() => import("next-sanity/preview"));
 
 function Page({ data: initialData = {}, preview, token }) {
-  console.log(
-    "🚀 ~ file: [slug].js ~ line 39 ~ Page ~ initialData",
-    initialData
-  );
   const router = useRouter();
   const [data, setData] = useState(initialData);
 
@@ -70,7 +66,11 @@ function Page({ data: initialData = {}, preview, token }) {
    *  For new unpublished pages, return page telling user that the page needs to be published first before it can be previewed
    *  This prevents showing 404 page when the page is not published yet
    */
-  if (!pageData?.hasUnpublishedEdits && pageData?._id?.includes("drafts")) {
+  if (
+    !pageData?.hasUnpublishedEdits &&
+    pageData?._id?.includes("drafts") &&
+    !preview
+  ) {
     return (
       <>
         <Head>
