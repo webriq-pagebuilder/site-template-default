@@ -136,4 +136,8 @@ export const collectionSettings = groq`*[_type == "collectionSettings"][0] ${all
 // query product collection based on current slug
 export const collectionsQuery = groq`*[_type == "mainCollection" && slug.current == $slug] ${allProjections}`;
 
+// query cart page
 export const cartPageQuery = groq`*[_type == "cartPage"] ${allProjections}`;
+
+// query wishlist page
+export const wishlistPageQuery = groq`*[_type == "wishlistPage"] ${allProjections}`;
