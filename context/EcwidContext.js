@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useState, useMemo } from "react";
 import { ToastContainer, toast } from "react-toast";
+import { sanityClient } from "lib/sanity";
 import { includes } from "lodash";
 
 const EcwidContext = createContext();
@@ -13,6 +14,7 @@ export function EcwidContextProvider({ children }) {
   const [wishlist, setWishlist] = useState({ productIds: [] });
   const [favorited, setFavorited] = useState(false);
   const [id, setId] = useState(null);
+  const [favorites, setFavorites] = useState(null);
   const storageName = `PSecwid__${process.env.NEXT_PUBLIC_ECWID_STORE_ID}PSfavorites`;
 
   const fetchProducts = () => {
@@ -31,6 +33,54 @@ export function EcwidContextProvider({ children }) {
         console.error(error);
         setProducts({ error });
       });
+  };
+
+  const fetchFavorites = async () => {
+    const favoriteIds = localStorage.getItem(storageName);
+    const favorites = JSON.parse(favoriteIds);
+    try {
+      const query =
+        '*[_type=="mainProduct" && pid in $ids && !(_id in path("drafts.**"))]';
+      const params = { ids: favorites.productIds.map((id) => id.toString()) };
+
+      const studio = await sanityClient
+        .fetch(query, params)
+        .then((products) => products);
+
+      console.log("studio", studio);
+
+      const productReq = await fetch(
+        `/api/ecwid/products/search?productIds=${favorites.productIds.toString()}`
+      );
+      const productRes = await productReq.json();
+
+      console.log("productRes", productRes);
+
+      const favoriteProducts = studio
+        .map((item) => {
+          return productRes.items
+            .map((prod) => {
+              if (prod.id === +item.pid) {
+                return {
+                  ...item,
+                  ecwidId: prod.id,
+                  price: prod.defaultDisplayedPriceFormatted,
+                  ribbon: prod.ribbon,
+                  productCondition: prod.productCondition,
+                  sku: prod.sku,
+                };
+              }
+            })
+            .flat();
+        })
+        .flat()
+        .filter((item) => item !== undefined);
+
+      console.log("resProd", favoriteProducts);
+      setFavorites(favoriteProducts);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
@@ -142,6 +192,7 @@ export function EcwidContextProvider({ children }) {
           setFavorited(includes(ids.productIds, id) ? true : false);
         }
       }
+      fetchFavorites();
     }
   }, [id]);
 
@@ -187,12 +238,13 @@ export function EcwidContextProvider({ children }) {
           id,
           favorited,
           addWishlist,
+          favorites,
         }}
       >
         {children}
       </EcwidContext.Provider>
       <div style={{ zIndex: 1 }}>
-        <ToastContainer position="top-center" />;
+        <ToastContainer position="top-center" />
       </div>
     </>
   );
