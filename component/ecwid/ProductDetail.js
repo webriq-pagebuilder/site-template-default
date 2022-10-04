@@ -95,6 +95,8 @@ const ProductDetail = ({ product, children }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     addToBag({ id: product?.id, quantity }, options);
+
+    console.log("handleSubmit", product?.id, quantity);
   };
 
   return (
