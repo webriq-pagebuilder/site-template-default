@@ -1,4 +1,4 @@
-import { memo, useState } from "react";
+import { memo, useState, lazy, Suspense } from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { sanityConfig } from "lib/config";
@@ -7,6 +7,8 @@ import { wishlistPageQuery } from "pages/api/query";
 import { Components, filterDataToSingleItem } from "../[slug]";
 import PageNotFound from "pages/404";
 import NoPreview from "pages/no-preview";
+
+const PreviewMode = lazy(() => import("next-sanity/preview"));
 
 function WishlistPage({ data: initialData = {}, preview, token }) {
   const router = useRouter();
