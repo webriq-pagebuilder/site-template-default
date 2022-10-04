@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
+import { ToastContainer, toast } from "react-toast";
 
 const EcwidContext = createContext();
 
@@ -8,6 +9,7 @@ export function EcwidContextProvider({ children }) {
   const [isAddingToBag, setIsAddingToBag] = useState(false);
   const [options, setOptions] = useState({});
   const [price, setPrice] = useState(0);
+  const [success, setSuccess] = useState(null);
 
   const fetchProducts = () => {
     fetch(`/api/ecwid/products`)
@@ -103,12 +105,12 @@ export function EcwidContextProvider({ children }) {
 
     let payload = {
       ...data,
-      callback: function (success, product, cart) {
-        alert(
-          success
-            ? "Product was successfully added to your cart."
-            : "There was an error adding this product to your cart."
-        );
+      callback: function (success, product, cart, error) {
+        if (success) {
+          toast.success("Product was successfully added to your cart");
+        } else {
+          toast.error("There was an error adding this product to your cart.");
+        }
         setIsAddingToBag(false);
       },
     };
@@ -124,22 +126,28 @@ export function EcwidContextProvider({ children }) {
   };
 
   return (
-    <EcwidContext.Provider
-      value={{
-        cart,
-        setCart,
-        products,
-        options,
-        setOptions,
-        price,
-        setPrice,
-        addToBag,
-        isAddingToBag,
-        getPriceDisplay,
-      }}
-    >
-      {children}
-    </EcwidContext.Provider>
+    <>
+      <EcwidContext.Provider
+        value={{
+          cart,
+          setCart,
+          products,
+          options,
+          setOptions,
+          price,
+          setPrice,
+          addToBag,
+          isAddingToBag,
+          getPriceDisplay,
+          success,
+        }}
+      >
+        {children}
+      </EcwidContext.Provider>
+      <div style={{ zIndex: 1 }}>
+        <ToastContainer position="top-center" />;
+      </div>
+    </>
   );
 }
 
