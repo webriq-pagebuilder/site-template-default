@@ -105,7 +105,10 @@ const ProductDetail = ({ product, children }) => {
         if (option?.type === "TEXTFIELD") {
           return (
             <div key={index} className="flex flex-col mb-4">
-              <label htmlFor={index} className="font-medium text-gray-900 mb-2">
+              <label
+                htmlFor={index}
+                className="font-medium text-gray-900 mb-2 uppercase"
+              >
                 {option?.name}
               </label>
               <input
@@ -124,13 +127,16 @@ const ProductDetail = ({ product, children }) => {
         if (option?.type === "SELECT") {
           return (
             <div key={index} className="flex flex-col mb-4">
-              <label htmlFor={index} className="font-medium text-gray-900 mb-2">
+              <label
+                htmlFor={index}
+                className="font-medium text-gray-900 mb-2 uppercase"
+              >
                 {option?.name}
               </label>
               <select
                 name={`name_${option?.name}`}
                 id={index}
-                className="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
+                className="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-3 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
                 required={option?.required}
                 value={value}
                 onChange={(e) => handleChanged(option, null, e)}
@@ -176,7 +182,9 @@ const ProductDetail = ({ product, children }) => {
         if (option?.type === "SIZE") {
           return (
             <div key={index}>
-              <p className="font-medium text-gray-900 mb-2">{option.name}</p>
+              <p className="font-medium text-gray-900 mb-2 uppercase">
+                {option.name}
+              </p>
               <ul className="w-full flex flex-wrap space-x-4">
                 {option?.choices?.map((choice, ii) => (
                   <li key={ii} className="mb-4">
@@ -209,7 +217,9 @@ const ProductDetail = ({ product, children }) => {
         if (option?.type === "CHECKBOX") {
           return (
             <div key={index} className="mb-4">
-              <p className="font-medium text-gray-900 mb-2">{option?.name}</p>
+              <p className="font-medium text-gray-900 mb-2 uppercase">
+                {option?.name}
+              </p>
               {option?.choices?.map((choice, ii) => (
                 <div className="flex items-center" key={ii}>
                   <input
@@ -237,19 +247,37 @@ const ProductDetail = ({ product, children }) => {
       })}
 
       <div className="flex flex-col mb-4">
-        <label htmlFor="quantity" className="font-medium text-gray-900 mb-2">
-          Quantity
+        <label
+          htmlFor="quantity"
+          className="font-medium text-gray-900 mb-2 uppercase"
+        >
+          Qty
         </label>
-        <input
-          type="number"
-          name="quantity"
-          id="quantity"
-          className="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
-          required
-          min={1}
-          value={quantity}
-          onChange={(e) => setQuantity(e.target.value)}
-        />
+        <div className="flex flex-row border border-gray-400 hover:border-gray-500 shadow rounded w-min">
+          <button
+            className="py-2 px-4 text-gray-400 text-xl"
+            type="button"
+            onClick={() => setQuantity((prev) => prev - 1)}
+            disabled={quantity === 1 ? true : false}
+          >
+            -
+          </button>
+          <input
+            type="text"
+            name="quantity"
+            id="quantity"
+            className="block w-12 text-center bg-white focus:outline-none focus:shadow-outline"
+            required
+            value={quantity}
+          />
+          <button
+            className="py-2 px-4 text-gray-400 text-xl"
+            type="button"
+            onClick={() => setQuantity((prev) => prev + 1)}
+          >
+            +
+          </button>
+        </div>
       </div>
 
       {itemsCount === 0 ? (
