@@ -203,28 +203,23 @@ function VariantA({
                     <Ribbon data={ecwidProduct} />
                   </div>
                 )}
-
                 {subtitle && (
                   <span className="font-custom font-bold text-webriq-darkblue">
                     {subtitle}
                   </span>
                 )}
-
                 {product?.name && (
                   <h1 className="mt-2 mb-6 lg:max-w-xl text-5xl md:text-6xl font-bold font-heading">
                     {product?.name}
                   </h1>
                 )}
-
                 <div className="mb-8">{/* Ratings from Ecwid */}</div>
-
                 <p className="inline-block mb-8 text-2xl font-bold font-heading">
                   {/* Product price from Ecwid */}
                   <span className="text-webriq-darkblue">
                     {getPriceDisplay()}
                   </span>
                 </p>
-
                 <Description data={ecwidProduct} />
 
                 {product?.description && (
@@ -241,7 +236,7 @@ function VariantA({
               </div>
 
               <ProductDetail product={ecwidProduct}>
-                <div className="flex flex-wrap -mx-4 mb-14 items-center">
+                <div className="flex flex-wrap -mx-4 mb-14 items-center mt-8">
                   {btnLabel && (
                     <div className="w-2/3 px-4 lg:mb-4 xl:mb-0">
                       <AddToBag
