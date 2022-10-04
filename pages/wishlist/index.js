@@ -1,4 +1,4 @@
-import { memo, useState, Suspense } from "react";
+import { memo, useState, lazy, Suspense } from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { sanityConfig } from "lib/config";
@@ -7,6 +7,8 @@ import { wishlistPageQuery } from "pages/api/query";
 import { Components, filterDataToSingleItem } from "../[slug]";
 import PageNotFound from "pages/404";
 import NoPreview from "pages/no-preview";
+
+const PreviewMode = lazy(() => import("next-sanity/preview"));
 
 function WishlistPage({ data: initialData = {}, preview, token }) {
   const router = useRouter();
@@ -46,7 +48,7 @@ function WishlistPage({ data: initialData = {}, preview, token }) {
 
   return (
     <>
-      {/* {preview && slug && (
+      {preview && slug && (
         <Suspense fallback={null}>
           <PreviewMode
             projectId={sanityConfig.projectId}
@@ -58,7 +60,7 @@ function WishlistPage({ data: initialData = {}, preview, token }) {
             params={{ slug }}
           />
         </Suspense>
-      )} */}
+      )}
       <Head>
         <meta name="viewport" content="width=260 initial-scale=1" />
         <title>{seo?.seoTitle || name}</title>
