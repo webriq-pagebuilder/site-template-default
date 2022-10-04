@@ -16,6 +16,7 @@
     "axios": "^0.23.0",
     "crypto-js": "^4.1.1",
     "date-fns": "^2.24.0",
+    "lodash": "^4.17.21",
     "nanoid": "^3.1.30",
     "next": "^12.3.1",
     "next-sanity": "^0.8.0-new-preview-mode.3",

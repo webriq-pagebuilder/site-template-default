@@ -1,5 +1,6 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState, useMemo } from "react";
 import { ToastContainer, toast } from "react-toast";
+import { includes } from "lodash";
 
 const EcwidContext = createContext();
 
@@ -9,7 +10,10 @@ export function EcwidContextProvider({ children }) {
   const [isAddingToBag, setIsAddingToBag] = useState(false);
   const [options, setOptions] = useState({});
   const [price, setPrice] = useState(0);
-  const [success, setSuccess] = useState(null);
+  const [wishlist, setWishlist] = useState({ productIds: [] });
+  const [favorited, setFavorited] = useState(false);
+  const [id, setId] = useState(null);
+  const storageName = `PSecwid__${process.env.NEXT_PUBLIC_ECWID_STORE_ID}PSfavorites`;
 
   const fetchProducts = () => {
     fetch(`/api/ecwid/products`)
@@ -125,6 +129,44 @@ export function EcwidContextProvider({ children }) {
     }, 1000);
   };
 
+  useEffect(() => {
+    if (typeof window !== undefined) {
+      if (localStorage.getItem(storageName)) {
+        let ids = JSON.parse(localStorage.getItem(storageName));
+
+        if (ids.productIds.length > 0) {
+          setWishlist((prev) => ({
+            ...prev,
+            productIds: ids.productIds,
+          }));
+          setFavorited(includes(ids.productIds, id) ? true : false);
+        }
+      }
+    }
+  }, [id]);
+
+  const addWishlist = (id) => {
+    const productIds = wishlist?.productIds;
+
+    const productId = includes(productIds, id)
+      ? productIds.filter((i) => i !== id)
+      : productIds.concat(id);
+
+    console.log("addwishlist", productId);
+
+    setWishlist((prev) => ({
+      ...prev,
+      productIds: productId,
+    }));
+
+    setFavorited(includes(productIds, id) ? false : true);
+
+    localStorage.setItem(
+      storageName,
+      JSON.stringify({ productIds: productId })
+    );
+  };
+
   return (
     <>
       <EcwidContext.Provider
@@ -139,7 +181,12 @@ export function EcwidContextProvider({ children }) {
           addToBag,
           isAddingToBag,
           getPriceDisplay,
-          success,
+          setWishlist,
+          wishlist,
+          setId,
+          id,
+          favorited,
+          addWishlist,
         }}
       >
         {children}
