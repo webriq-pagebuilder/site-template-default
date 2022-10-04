@@ -3,7 +3,7 @@ function VariantA() {
     <section className="pt-20">
       <div className="container mx-auto px-5">
         <div className="py-8">
-          <div>CART SECTION PLACEHOLDER</div>
+          <div>WISHLIST SECTION PLACEHOLDER</div>
         </div>
       </div>
     </section>

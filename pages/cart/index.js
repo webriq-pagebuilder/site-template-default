@@ -1,19 +1,12 @@
 import { memo } from "react";
 import Head from "next/head";
-import { useRouter } from "next/router";
 import { usePreviewSubscription, getClient } from "lib/sanity";
 import { cartPageQuery } from "pages/api/query";
 import { Components, filterDataToSingleItem } from "../[slug]";
-import PageNotFound from "pages/404";
 
 function CartPage({ data, preview }) {
-  const router = useRouter();
+  const slug = "cart";
 
-  if (!router.isFallback && !data?.cartPage?.slug) {
-    return <PageNotFound />;
-  }
-
-  const slug = data?.cartPage?.slug;
   let cartPageData;
   const { data: cartPage } = usePreviewSubscription(cartPageQuery, {
     params: { slug },
@@ -33,13 +26,13 @@ function CartPage({ data, preview }) {
     return null;
   }
 
-  const { name, sections, seo } = cartPageData;
+  const { sections, seo } = cartPageData;
 
   return (
     <>
       <Head>
         <meta name="viewport" content="width=260 initial-scale=1" />
-        <title>{seo?.seoTitle || name}</title>
+        <title>{seo?.seoTitle || "Cart"}</title>
       </Head>
       {sections &&
         sections?.map((section, index) => {
