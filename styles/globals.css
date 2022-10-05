@@ -23,12 +23,6 @@ html {
 .cart-icon {
    @apply relative before:content-[attr(data-count)] before:absolute before:flex before:items-center before:justify-center before:bg-webriq-darkblue before:rounded-full before:h-6 before:w-6 before:-top-3 before:-right-3 before:text-white;
 }
-.thumb-swiper-B {
-   transform: rotate(90deg);
-}
-.thumb-swiper-B .swiper-slide {
-   transform: rotate(-90deg);
-}
 
 .product-images-swiper.swiper-container {
    height: calc(auto + 1px);

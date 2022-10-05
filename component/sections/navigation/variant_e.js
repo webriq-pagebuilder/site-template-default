@@ -152,7 +152,7 @@ function VariantE({ banner, logo, links }) {
                                              ? "page-not-found"
                                              : link?.internalLink
                                        }`}
-                                       className="mr-12 font-bold font-heading hover:text-gray-600"
+                                       className="xl:mr-12 lg:mr-8 font-bold font-heading hover:text-gray-600"
                                        target={link?.linkTarget}
                                        rel={
                                           link?.linkTarget === "_blank"
