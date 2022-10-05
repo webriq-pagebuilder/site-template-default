@@ -34,6 +34,7 @@ export const Components = {
     import("component/sections/featured_products")
   ),
   productInfo: dynamic(() => import("component/sections/product_info")),
+  wishlistSection: dynamic(() => import("component/sections/wishlist")),
 };
 
 const BlogPage = dynamic(() => import("component/blog/"));
@@ -150,6 +151,12 @@ export async function getStaticProps({
 
   // pass page data and preview to helper function
   const singlePageData = filterDataToSingleItem(page, preview);
+
+  if (!singlePageData) {
+    return {
+      notFound: true,
+    };
+  }
 
   return {
     props: {

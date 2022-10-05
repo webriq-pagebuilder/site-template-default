@@ -1,38 +1,38 @@
 import { memo } from "react";
 import Head from "next/head";
 import { usePreviewSubscription, getClient } from "lib/sanity";
-import { cartPageQuery } from "pages/api/query";
+import { wishlistPageQuery } from "pages/api/query";
 import { Components, filterDataToSingleItem } from "../[slug]";
 
-function CartPage({ data, preview }) {
-  const slug = "cart";
+function WishlistPage({ data, preview }) {
+  const slug = "wishlist";
 
-  let cartPageData;
-  const { data: cartPage } = usePreviewSubscription(cartPageQuery, {
+  let wishlistPageData;
+  const { data: wishlistPage } = usePreviewSubscription(wishlistPageQuery, {
     params: { slug },
     initialData: data,
     enabled: preview,
   });
 
   // for never published pages
-  if (cartPage?.hasNeverPublished) {
-    cartPageData = cartPage;
+  if (wishlistPage?.hasNeverPublished) {
+    wishlistPageData = wishlistPage;
   } else {
     // for published pages and pages with unpublished edits
-    cartPageData = cartPage?.cartPage || cartPage?.[0];
+    wishlistPageData = wishlistPage?.wishlistPage || wishlistPage?.[0];
   }
 
-  if (!cartPageData) {
+  if (!wishlistPageData) {
     return null;
   }
 
-  const { sections, seo } = cartPageData;
+  const { sections, seo } = wishlistPageData;
 
   return (
     <>
       <Head>
         <meta name="viewport" content="width=260 initial-scale=1" />
-        <title>{seo?.seoTitle || "Cart"}</title>
+        <title>{seo?.seoTitle || "Wishlist"}</title>
       </Head>
       {sections &&
         sections?.map((section, index) => {
@@ -59,14 +59,14 @@ function CartPage({ data, preview }) {
 }
 
 export async function getStaticProps({ preview = false }) {
-  const cartData = await getClient(preview).fetch(cartPageQuery);
+  const wishlistData = await getClient(preview).fetch(wishlistPageQuery);
 
   // pass page data and preview to helper function
-  const cartPage = filterDataToSingleItem(cartData, preview);
+  const wishlistPage = filterDataToSingleItem(wishlistData, preview);
 
   // if our query failed to return data for page, return data for blog page
   // Reference: https://www.sanity.io/guides/nextjs-live-preview
-  if (!cartPage) {
+  if (!wishlistPage) {
     return {
       notFound: true,
     };
@@ -75,9 +75,9 @@ export async function getStaticProps({ preview = false }) {
   return {
     props: {
       preview,
-      data: { cartPage },
+      data: { wishlistPage },
     },
   };
 }
 
-export default memo(CartPage);
+export default memo(WishlistPage);
