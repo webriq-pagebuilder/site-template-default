@@ -99,6 +99,13 @@ const ProductDetail = ({ product, children }) => {
     }
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    addToBag({ id: product?.id, quantity }, options);
+
+    console.log("handleSubmit", product?.id, quantity);
+  };
+
   return (
     <>
       <form onSubmit={handleSubmit}>
@@ -139,7 +146,8 @@ const ProductDetail = ({ product, children }) => {
                 <select
                   name={`name_${option?.name}`}
                   id={index}
-                  className="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-3 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
+                  style={{ width: "420px" }}
+                  className="block appearance-none bg-white border border-gray-400 hover:border-gray-500 px-4 py-3 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
                   required={option?.required}
                   value={value}
                   onChange={(e) => handleChanged(option, null, e)}
@@ -249,7 +257,7 @@ const ProductDetail = ({ product, children }) => {
           return null;
         })}
 
-        <div className="flex flex-col mb-8">
+        <div className="flex flex-col mb-4">
           <label
             htmlFor="quantity"
             className="font-medium text-gray-900 mb-2 uppercase"

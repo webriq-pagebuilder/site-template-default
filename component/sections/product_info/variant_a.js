@@ -407,7 +407,7 @@ function VariantA({
               </ProductDetail>
 
               {socialLinks && (
-                <div className="flex items-center">
+                <div className="flex items-center mt-4">
                   <span className="mr-8 font-bold font-heading uppercase">
                     SHARE IT
                   </span>
