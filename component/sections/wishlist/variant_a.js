@@ -1,21 +1,26 @@
+import { memo } from "react";
+import { urlFor } from "lib/sanity";
+import Image from "next/image";
 import { useEcwid } from "context/EcwidContext";
+import Ribbon from "component/ecwid/Ribbon";
 
 function VariantA() {
   const ecwid = useEcwid();
   const { favorites } = ecwid;
+
   return (
     <section className="pt-20">
       <div className="container mx-auto px-5">
         <div className="py-8">
-          <div className="flex flex-row gap-x-4">
-            {favorites !== null ? (
+          <div className="flex flex-col sm:flex-row gap-x-4">
+            {favorites !== null && favorites.length !== 0 ? (
               favorites.map((items, index) => {
                 let item = null;
                 if (items?.pid && ecwid?.products) {
                   item = ecwid.products[parseInt(items.pid)];
                 }
                 return (
-                  <div className="w-full sm:w-1/3" key={index}>
+                  <div className="w-full sm:w-1/2 md:w-1/3 mb-5" key={index}>
                     <a
                       href={`/products/${items?.slug?.current}`}
                       className="flex flex-col gap-4"
@@ -64,4 +69,4 @@ function VariantA() {
     </section>
   );
 }
-export default VariantA;
+export default memo(VariantA);

@@ -1,7 +1,15 @@
-import { createContext, useContext, useEffect, useState, useMemo } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  useMemo,
+  useCallback,
+} from "react";
 import { ToastContainer, toast } from "react-toast";
 import { sanityClient } from "lib/sanity";
 import { includes } from "lodash";
+import AddToWishlist from "component/ecwid/AddToWishlist";
 
 const EcwidContext = createContext();
 
@@ -47,14 +55,10 @@ export function EcwidContextProvider({ children }) {
         .fetch(query, params)
         .then((products) => products);
 
-      console.log("studio", studio);
-
       const productReq = await fetch(
         `/api/ecwid/products/search?productIds=${favorites.productIds.toString()}`
       );
       const productRes = await productReq.json();
-
-      console.log("productRes", productRes);
 
       const favoriteProducts = studio
         .map((item) => {
@@ -76,7 +80,6 @@ export function EcwidContextProvider({ children }) {
         .flat()
         .filter((item) => item !== undefined);
 
-      console.log("resProd", favoriteProducts);
       setFavorites(favoriteProducts);
     } catch (error) {
       console.log(error);
@@ -159,7 +162,7 @@ export function EcwidContextProvider({ children }) {
 
     let payload = {
       ...data,
-      callback: function (success, product, cart, error) {
+      callback: function (success, product, cart) {
         if (success) {
           toast.success("Product was successfully added to your cart");
         } else {
@@ -192,9 +195,12 @@ export function EcwidContextProvider({ children }) {
           setFavorited(includes(ids.productIds, id) ? true : false);
         }
       }
-      fetchFavorites();
     }
   }, [id]);
+
+  useEffect(() => {
+    fetchFavorites();
+  }, [wishlist.productIds]);
 
   const addWishlist = (id) => {
     const productIds = wishlist?.productIds;
@@ -202,8 +208,6 @@ export function EcwidContextProvider({ children }) {
     const productId = includes(productIds, id)
       ? productIds.filter((i) => i !== id)
       : productIds.concat(id);
-
-    console.log("addwishlist", productId);
 
     setWishlist((prev) => ({
       ...prev,
