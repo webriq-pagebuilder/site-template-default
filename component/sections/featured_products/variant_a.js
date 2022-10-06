@@ -53,15 +53,15 @@ function VariantA({ title, featured }) {
                                  </div>
                               </div>
 
-                              <p className="text-2xl xl:text-3xl font-bold">
+                              <p className="text-2xl xl:text-3xl font-bold hover:text-opacity-80">
                                  {items?.name}
                               </p>
-                              <p className="text-xl font-bold font-heading text-white">
-                                 <span className="text-webriq-darkblue mr-2">
-                                    {item?.defaultDisplayedPriceFormatted}
-                                 </span>
-                              </p>
                            </a>
+                           <p className="text-xl font-bold font-heading text-white">
+                              <span className="text-webriq-darkblue mr-2">
+                                 {item?.defaultDisplayedPriceFormatted}
+                              </span>
+                           </p>
                         </div>
                      );
                   })}

@@ -50,7 +50,8 @@ function VariantA({
             );
          },
          normal: ({ children }) => {
-            return <p className="max-w-2xl text-gray-500">{children}</p>;
+            // return <p className="max-w-2xl text-gray-500">{children}</p>;
+            return <p className="text-gray-500">{children}</p>;
          },
          blockquote: ({ children }) => {
             return (
@@ -122,7 +123,7 @@ function VariantA({
       <section className="py-20">
          <div className="container mx-auto px-4">
             <div className="flex flex-wrap -mx-4 mb-24">
-               <div className="w-full lg:w-1/2 px-4 mb-8 md:mb-0">
+               <div className="w-full lg:w-1/2 px-4 mb-8 md:mb-0 mt-14">
                   <div className="relative mb-10">
                      <Swiper
                         navigation={{
@@ -132,6 +133,7 @@ function VariantA({
                         modules={[Thumbs, Navigation, Pagination, A11y]}
                         spaceBetween={20}
                         slidesPerView={1}
+                        loop={true}
                         speed={500}
                         watchSlidesProgress={true}
                         thumbs={{ swiper: thumbsSwiper }}
@@ -305,9 +307,9 @@ function VariantA({
                      ))}
                   </div> */}
                </div>
-               <div className="w-full lg:w-1/2 px-4 mt-10">
+               <div className="w-full lg:w-1/2 px-4">
                   <div className="lg:pl-20">
-                     <div className="mb-10 pb-10 border-b">
+                     <div className="pb-10 border-b">
                         {product?.pid && (
                            <div className="mb-3">
                               <Ribbon data={ecwidProduct} />
@@ -338,7 +340,7 @@ function VariantA({
                            </p>
                         )}
                      </div>
-                     <div className="flex mb-12">
+                     <div className="flex mb-10">
                         <div className="mr-6">
                            {/* elements from Ecwid such as Quantity, Size */}
                         </div>
@@ -383,9 +385,9 @@ function VariantA({
                                  </svg>
                               </button>
                               {/* Share product */}
-                              <button
-                                 className="flex-shrink-0 inline-flex items-center justify-center w-16 h-16 rounded-md border hover:border-webriq-darkblue"
-                                 type="button"
+                              {/* <button
+
+                                 className="flex-shrink-0 inline-flex items-center justify-center w-16 h-16 rounded-md border hover:border-webriq-darkblue"                                 type="button"
                               >
                                  <svg
                                     className="w-6 h-6"
@@ -402,7 +404,7 @@ function VariantA({
                                        strokeWidth="0.35"
                                     />
                                  </svg>
-                              </button>
+                              </button> */}
                            </div>
                         </div>
                      </ProductDetail>

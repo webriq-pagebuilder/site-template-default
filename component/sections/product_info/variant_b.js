@@ -228,6 +228,7 @@ function VariantB({
                         spaceBetween={20}
                         slidesPerView={1}
                         speed={500}
+                        loop={true}
                         watchSlidesProgress={true}
                         thumbs={{ swiper: thumbsSwiper }}
                         className="w-full"
@@ -513,7 +514,7 @@ function VariantB({
                            {productDetails?.map((details, index) => (
                               <Fragment key={index}>
                                  <div
-                                    className={`flex items-center justify-between py-6 hover:bg-webriq-lightblue ${
+                                    className={`flex items-center justify-between px-3 py-6 hover:bg-webriq-lightblue ${
                                        index !== productDetails?.length - 1 &&
                                        "border-b"
                                     }`}
