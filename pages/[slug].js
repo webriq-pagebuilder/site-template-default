@@ -152,6 +152,12 @@ export async function getStaticProps({
   // pass page data and preview to helper function
   const singlePageData = filterDataToSingleItem(page, preview);
 
+  if (!singlePageData) {
+    return {
+      notFound: true,
+    };
+  }
+
   return {
     props: {
       preview,

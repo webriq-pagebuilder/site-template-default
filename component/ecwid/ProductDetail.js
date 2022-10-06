@@ -73,7 +73,10 @@ const ProductDetail = ({ product, children }) => {
 
   const handleChanged = (option, choice, event) => {
     if (option?.type === "TEXTFIELD" || option?.type === "SELECT") {
-      setOptions((prev) => ({ ...prev, [option?.name]: event?.target?.value }));
+      setOptions((prev) => ({
+        ...prev,
+        [option?.name]: event?.target?.value,
+      }));
     } else if (option?.type === "RADIO" || option?.type === "SIZE") {
       setOptions((prev) => ({ ...prev, [option?.name]: choice.text }));
     } else if (option?.type === "CHECKBOX") {
@@ -94,13 +97,6 @@ const ProductDetail = ({ product, children }) => {
         }));
       }
     }
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    addToBag({ id: product?.id, quantity }, options);
-
-    console.log("handleSubmit", product?.id, quantity);
   };
 
   return (

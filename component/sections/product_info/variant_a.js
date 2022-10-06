@@ -6,6 +6,8 @@ import AddToBag from "component/ecwid/AddToBag";
 import AddToWishlist from "component/ecwid/AddToWishlist";
 import Ribbon from "component/ecwid/Ribbon";
 import Description from "component/ecwid/Description";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Thumbs, Pagination, A11y } from "swiper";
 
 function VariantA({
   subtitle,
@@ -49,7 +51,8 @@ function VariantA({
         );
       },
       normal: ({ children }) => {
-        return <p className="max-w-2xl text-gray-500">{children}</p>;
+        // return <p className="max-w-2xl text-gray-500">{children}</p>;
+        return <p className="text-gray-500">{children}</p>;
       },
       blockquote: ({ children }) => {
         return (
@@ -98,109 +101,214 @@ function VariantA({
     },
   };
 
-  const [activeImage, setActiveImage] = useState(0);
+  // const [activeImage, setActiveImage] = useState(0);
   const [activeTab, setActiveTab] = useState(0);
 
   // view previous and next images
-  const arrowRightClick = () => {
-    activeImage !== images.length - 1 // Check index length
-      ? setActiveImage(activeImage + 1)
-      : setActiveImage((activeImage = 0));
-  };
-  const arrowLeftClick = () => {
-    activeImage !== 0 // Check index length
-      ? setActiveImage(activeImage - 1)
-      : setActiveImage((activeImage = images.length - 1));
-  };
+  // const arrowRightClick = () => {
+  //    activeImage !== images.length - 1 // Check index length
+  //       ? setActiveImage(activeImage + 1)
+  //       : setActiveImage((activeImage = 0));
+  // };
+  // const arrowLeftClick = () => {
+  //    activeImage !== 0 // Check index length
+  //       ? setActiveImage(activeImage - 1)
+  //       : setActiveImage((activeImage = images.length - 1));
+  // };
 
-  console.log("ecwidProduct", ecwidProduct);
+  const [thumbsSwiper, setThumbsSwiper] = useState(null);
 
   return (
     <section className="py-20">
       <div className="container mx-auto px-4">
         <div className="flex flex-wrap -mx-4 mb-24">
-          <div className="w-full lg:w-1/2 px-4 mb-8 md:mb-0">
+          <div className="w-full lg:w-1/2 px-4 mb-8 md:mb-0 mt-14">
             <div className="relative mb-10">
-              <button
-                className="absolute z-50 top-1/2 left-0 ml-5 hover:bg-gray-50 hover:opacity-50 rounded-r-sm rounded-l-md px-2 py-5 transition duration-200"
-                onClick={arrowLeftClick}
-                type="button"
+              <Swiper
+                navigation={{
+                  prevEl: "#piprev",
+                  nextEl: "#pinext",
+                }}
+                modules={[Thumbs, Navigation, Pagination, A11y]}
+                spaceBetween={20}
+                slidesPerView={1}
+                loop={true}
+                speed={500}
+                watchSlidesProgress={true}
+                thumbs={{ swiper: thumbsSwiper }}
               >
-                <svg
-                  width={36}
-                  height={36}
-                  viewBox="0 0 10 18"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M9 16.0185C9.268 16.2905 9.268 16.7275 9 16.9975C8.732 17.2675 8.299 17.2685 8.031 16.9975L0.201 9.0895C-0.067 8.8195 -0.067 8.3825 0.201 8.1105L8.031 0.2025C8.299 -0.0675 8.732 -0.0675 9 0.2025C9.268 0.4735 9.268 0.9115 9 1.1815L1.859 8.6005L9 16.0185Z"
-                    fill="#0045d8"
-                  />
-                </svg>
-              </button>
-              <div className="w-full h-full">
-                {images?.[activeImage]?.image && (
-                  <Image
-                    layout="responsive"
-                    width={736}
-                    height={564}
-                    objectFit="cover"
-                    src={urlFor(images?.[activeImage]?.image)}
-                    alt={images?.[activeImage]?.alt}
-                  />
-                )}
-              </div>
-              <button
-                className="absolute z-50 top-1/2 right-0 mr-5 hover:bg-gray-50 hover:opacity-50 rounded-l-sm rounded-r-md px-2 py-5 transition duration-200"
-                onClick={arrowRightClick}
-                type="button"
-              >
-                <svg
-                  width={36}
-                  height={36}
-                  viewBox="0 0 10 18"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M0.19922 1.1817C-0.0687795 0.909696 -0.0687794 0.472695 0.19922 0.202695C0.46722 -0.0673054 0.90022 -0.0683048 1.16822 0.202695L8.99822 8.11069C9.26622 8.3807 9.26622 8.81769 8.99822 9.08969L1.16822 16.9977C0.900219 17.2677 0.467218 17.2677 0.199219 16.9977C-0.0687809 16.7267 -0.0687808 16.2887 0.199219 16.0187L7.34022 8.5997L0.19922 1.1817Z"
-                    fill="#0045d8"
-                  />
-                </svg>
-              </button>
-            </div>
-            <div className="hidden md:flex md:flex-wrap md:-mx-2">
-              {images?.map((item, index) => (
-                <div className="w-1/4 p-2" key={index}>
-                  <div
-                    className={`block ${
-                      activeImage === index
-                        ? "border border-webriq-darkblue"
-                        : "hover:border hover:border-gray-400"
-                    }`}
-                    onClick={() => setActiveImage(index)}
-                  >
-                    <div className="w-full h-full">
-                      {item?.image && (
+                {images &&
+                  images?.map((item, index) => (
+                    <SwiperSlide key={index}>
+                      <div className="w-full h-full">
                         <Image
                           layout="responsive"
-                          width={170}
-                          height={128}
+                          width={736}
+                          height={564}
                           objectFit="cover"
                           src={urlFor(item?.image)}
                           alt={item?.alt}
                         />
-                      )}
+                      </div>
+                    </SwiperSlide>
+                  ))}
+              </Swiper>
+              <Swiper
+                modules={[Thumbs, Navigation, Pagination, A11y]}
+                onSwiper={setThumbsSwiper}
+                spaceBetween={10}
+                slidesPerView={4}
+                freeMode={true}
+                watchSlidesProgress={true}
+                navigation={{
+                  prevEl: "#thumbPrev",
+                  nextEl: "#thumbNext",
+                }}
+                className="hidden md:flex md:flex-wrap md:-mx-2 product-images-thumbs-swiper"
+                pagination={{
+                  clickable: true,
+                }}
+              >
+                {images?.map((item, index) => (
+                  <SwiperSlide className="w-1/4 py-2" key={index}>
+                    <div
+                      className={`block hover:border hover:border-gray-400
+                                 }`}
+                      // onClick={() => setActiveImage(index)}
+                    >
+                      <div className="w-full h-full">
+                        {item?.image && (
+                          <Image
+                            layout="responsive"
+                            width={170}
+                            height={128}
+                            objectFit="cover"
+                            src={urlFor(item?.image)}
+                            alt={item?.alt}
+                          />
+                        )}
+                      </div>
                     </div>
-                  </div>
-                </div>
-              ))}
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+              <div className="mt-5">
+                <button
+                  id="piprev"
+                  className="absolute z-50 top-60 left-0 ml-5 hover:bg-gray-50 hover:opacity-50 rounded-r-sm rounded-l-md px-2 py-5 transition duration-200"
+                >
+                  <svg
+                    width={36}
+                    height={36}
+                    viewBox="0 0 10 18"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M9 16.0185C9.268 16.2905 9.268 16.7275 9 16.9975C8.732 17.2675 8.299 17.2685 8.031 16.9975L0.201 9.0895C-0.067 8.8195 -0.067 8.3825 0.201 8.1105L8.031 0.2025C8.299 -0.0675 8.732 -0.0675 9 0.2025C9.268 0.4735 9.268 0.9115 9 1.1815L1.859 8.6005L9 16.0185Z"
+                      fill="#0045d8"
+                    />
+                  </svg>
+                </button>
+                <button
+                  id="pinext"
+                  className="absolute z-50 top-60 right-0 mr-5 hover:bg-gray-50 hover:opacity-50 rounded-l-sm rounded-r-md px-2 py-5 transition duration-200"
+                >
+                  <svg
+                    width={36}
+                    height={36}
+                    viewBox="0 0 10 18"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M0.19922 1.1817C-0.0687795 0.909696 -0.0687794 0.472695 0.19922 0.202695C0.46722 -0.0673054 0.90022 -0.0683048 1.16822 0.202695L8.99822 8.11069C9.26622 8.3807 9.26622 8.81769 8.99822 9.08969L1.16822 16.9977C0.900219 17.2677 0.467218 17.2677 0.199219 16.9977C-0.0687809 16.7267 -0.0687808 16.2887 0.199219 16.0187L7.34022 8.5997L0.19922 1.1817Z"
+                      fill="#0045d8"
+                    />
+                  </svg>
+                </button>
+              </div>
+
+              {/* <button
+                        className="absolute z-50 top-1/2 left-0 ml-5 hover:bg-gray-50 hover:opacity-50 rounded-r-sm rounded-l-md px-2 py-5 transition duration-200"
+                        onClick={arrowLeftClick}
+                        type="button"
+                     >
+                        <svg
+                           width={36}
+                           height={36}
+                           viewBox="0 0 10 18"
+                           fill="none"
+                           xmlns="http://www.w3.org/2000/svg"
+                        >
+                           <path
+                              d="M9 16.0185C9.268 16.2905 9.268 16.7275 9 16.9975C8.732 17.2675 8.299 17.2685 8.031 16.9975L0.201 9.0895C-0.067 8.8195 -0.067 8.3825 0.201 8.1105L8.031 0.2025C8.299 -0.0675 8.732 -0.0675 9 0.2025C9.268 0.4735 9.268 0.9115 9 1.1815L1.859 8.6005L9 16.0185Z"
+                              fill="#0045d8"
+                           />
+                        </svg>
+                     </button> */}
+              {/* <div className="w-full h-full">
+                        {images?.[activeImage]?.image && (
+                           <Image
+                              layout="responsive"
+                              width={736}
+                              height={564}
+                              objectFit="cover"
+                              src={urlFor(images?.[activeImage]?.image)}
+                              alt={images?.[activeImage]?.alt}
+                           />
+                        )}
+                     </div> */}
+              {/* <button
+                        className="absolute z-50 top-1/2 right-0 mr-5 hover:bg-gray-50 hover:opacity-50 rounded-l-sm rounded-r-md px-2 py-5 transition duration-200"
+                        onClick={arrowRightClick}
+                        type="button"
+                     >
+                        <svg
+                           width={36}
+                           height={36}
+                           viewBox="0 0 10 18"
+                           fill="none"
+                           xmlns="http://www.w3.org/2000/svg"
+                        >
+                           <path
+                              d="M0.19922 1.1817C-0.0687795 0.909696 -0.0687794 0.472695 0.19922 0.202695C0.46722 -0.0673054 0.90022 -0.0683048 1.16822 0.202695L8.99822 8.11069C9.26622 8.3807 9.26622 8.81769 8.99822 9.08969L1.16822 16.9977C0.900219 17.2677 0.467218 17.2677 0.199219 16.9977C-0.0687809 16.7267 -0.0687808 16.2887 0.199219 16.0187L7.34022 8.5997L0.19922 1.1817Z"
+                              fill="#0045d8"
+                           />
+                        </svg>
+                     </button> */}
             </div>
+            {/* <div className="hidden md:flex md:flex-wrap md:-mx-2">
+                     {images?.map((item, index) => (
+                        <div className="w-1/4 p-2" key={index}>
+                           <div
+                              className={`block ${
+                                 activeImage === index
+                                    ? "border border-webriq-darkblue"
+                                    : "hover:border hover:border-gray-400"
+                              }`}
+                              onClick={() => setActiveImage(index)}
+                           >
+                              <div className="w-full h-full">
+                                 {item?.image && (
+                                    <Image
+                                       layout="responsive"
+                                       width={170}
+                                       height={128}
+                                       objectFit="cover"
+                                       src={urlFor(item?.image)}
+                                       alt={item?.alt}
+                                    />
+                                 )}
+                              </div>
+                           </div>
+                        </div>
+                     ))}
+                  </div> */}
           </div>
-          <div className="w-full lg:w-1/2 px-4 mt-10">
+          <div className="w-full lg:w-1/2 px-4">
             <div className="lg:pl-20">
-              <div className="mb-10 pb-10 border-b">
+              <div className="pb-10 border-b">
                 {product?.pid && (
                   <div className="mb-3">
                     <Ribbon data={ecwidProduct} />
@@ -231,7 +339,7 @@ function VariantA({
                   </p>
                 )}
               </div>
-              <div className="flex mb-12">
+              <div className="flex mb-10">
                 <div className="mr-6">
                   {/* elements from Ecwid such as Quantity, Size */}
                 </div>
@@ -239,9 +347,9 @@ function VariantA({
               </div>
 
               <ProductDetail product={ecwidProduct}>
-                <div className="flex flex-col sm:flex-row items-start mt-8 gap-y-4 sm:gap-y-0 sm:gap-x-4">
+                <div className="flex flex-wrap -mx-4 mb-14 items-center mt-8">
                   {btnLabel && (
-                    <div className="w-full lg:mb-4 xl:mb-0">
+                    <div className="w-2/3 px-4 lg:mb-4 xl:mb-0">
                       <AddToBag
                         inStock={!ecwidProduct?.inStock}
                         classNames="block w-full text-center text-white font-bold font-heading py-5 px-8 rounded-md uppercase transition duration-200 bg-webriq-darkblue hover:bg-webriq-blue cursor-pointer"
@@ -250,33 +358,11 @@ function VariantA({
                       </AddToBag>
                     </div>
                   )}
-
-                  {/* Add to wishlist button */}
-                  <AddToWishlist
-                    classNames="ml-auto sm:ml-0 flex-shrink-0 inline-flex items-center justify-center w-full h-16 rounded-md border hover:border-webriq-darkblue"
-                    product={ecwidProduct}
-                  >
-                    <svg
-                      className="w-6 h-6"
-                      width={27}
-                      height={27}
-                      viewBox="0 0 27 27"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M13.4993 26.2061L4.70067 16.9253C3.9281 16.1443 3.41815 15.1374 3.24307 14.0471C3.06798 12.9568 3.23664 11.8385 3.72514 10.8505V10.8505C4.09415 10.1046 4.63318 9.45803 5.29779 8.96406C5.96241 8.47008 6.73359 8.14284 7.54782 8.00931C8.36204 7.87578 9.19599 7.93978 9.98095 8.19603C10.7659 8.45228 11.4794 8.89345 12.0627 9.48319L13.4993 10.9358L14.9359 9.48319C15.5192 8.89345 16.2327 8.45228 17.0177 8.19603C17.8026 7.93978 18.6366 7.87578 19.4508 8.00931C20.265 8.14284 21.0362 8.47008 21.7008 8.96406C22.3654 9.45803 22.9045 10.1046 23.2735 10.8505V10.8505C23.762 11.8385 23.9306 12.9568 23.7556 14.0471C23.5805 15.1374 23.0705 16.1443 22.298 16.9253L13.4993 26.2061Z"
-                        stroke="black"
-                        strokeWidth="1.5"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-                  </AddToWishlist>
-                  {/* <button
+                  <div className="w-1/3 px-4">
+                    {/* Add to wishlist button */}
+                    <button
                       className="ml-auto sm:ml-0 flex-shrink-0 inline-flex mr-4 items-center justify-center w-16 h-16 rounded-md border hover:border-webriq-darkblue"
                       type="button"
-                      {...{ id: ecwidProduct?.id }}
                     >
                       <svg
                         className="w-6 h-6"
@@ -294,33 +380,34 @@ function VariantA({
                           strokeLinejoin="round"
                         />
                       </svg>
-                    </button> */}
-                  {/* Share product */}
-                  {/* <button
-                      className="flex-shrink-0 inline-flex items-center justify-center w-16 h-16 rounded-md border hover:border-webriq-darkblue"
-                      type="button"
-                    >
-                      <svg
-                        className="w-6 h-6"
-                        width={24}
-                        height={23}
-                        viewBox="0 0 24 23"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M2.01328 18.9877C2.05682 16.7902 2.71436 12.9275 6.3326 9.87096L6.33277 9.87116L6.33979 9.86454L6.3398 9.86452C6.34682 9.85809 8.64847 7.74859 13.4997 7.74859C13.6702 7.74859 13.8443 7.75111 14.0206 7.757L14.0213 7.75702L14.453 7.76978L14.6331 7.77511V7.59486V3.49068L21.5728 10.5736L14.6331 17.6562V13.6558V13.5186L14.4998 13.4859L14.1812 13.4077C14.1807 13.4075 14.1801 13.4074 14.1792 13.4072M2.01328 18.9877L14.1792 13.4072M2.01328 18.9877C7.16281 11.8391 14.012 13.3662 14.1792 13.4072M2.01328 18.9877L14.1792 13.4072M23.125 10.6961L23.245 10.5736L23.125 10.4512L13.7449 0.877527L13.4449 0.571334V1V6.5473C8.22585 6.54663 5.70981 8.81683 5.54923 8.96832C-0.317573 13.927 0.931279 20.8573 0.946581 20.938L0.946636 20.9383L1.15618 22.0329L1.24364 22.4898L1.47901 22.0885L2.041 21.1305L2.04103 21.1305C4.18034 17.4815 6.71668 15.7763 8.8873 15.0074C10.9246 14.2858 12.6517 14.385 13.4449 14.4935V20.1473V20.576L13.7449 20.2698L23.125 10.6961Z"
-                          fill="black"
-                          stroke="black"
-                          strokeWidth="0.35"
-                        />
-                      </svg>
-                    </button> */}
+                    </button>
+                    {/* Share product */}
+                    {/* <button
+
+                                 className="flex-shrink-0 inline-flex items-center justify-center w-16 h-16 rounded-md border hover:border-webriq-darkblue"                                 type="button"
+                              >
+                                 <svg
+                                    className="w-6 h-6"
+                                    width={24}
+                                    height={23}
+                                    viewBox="0 0 24 23"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                 >
+                                    <path
+                                       d="M2.01328 18.9877C2.05682 16.7902 2.71436 12.9275 6.3326 9.87096L6.33277 9.87116L6.33979 9.86454L6.3398 9.86452C6.34682 9.85809 8.64847 7.74859 13.4997 7.74859C13.6702 7.74859 13.8443 7.75111 14.0206 7.757L14.0213 7.75702L14.453 7.76978L14.6331 7.77511V7.59486V3.49068L21.5728 10.5736L14.6331 17.6562V13.6558V13.5186L14.4998 13.4859L14.1812 13.4077C14.1807 13.4075 14.1801 13.4074 14.1792 13.4072M2.01328 18.9877L14.1792 13.4072M2.01328 18.9877C7.16281 11.8391 14.012 13.3662 14.1792 13.4072M2.01328 18.9877L14.1792 13.4072M23.125 10.6961L23.245 10.5736L23.125 10.4512L13.7449 0.877527L13.4449 0.571334V1V6.5473C8.22585 6.54663 5.70981 8.81683 5.54923 8.96832C-0.317573 13.927 0.931279 20.8573 0.946581 20.938L0.946636 20.9383L1.15618 22.0329L1.24364 22.4898L1.47901 22.0885L2.041 21.1305L2.04103 21.1305C4.18034 17.4815 6.71668 15.7763 8.8873 15.0074C10.9246 14.2858 12.6517 14.385 13.4449 14.4935V20.1473V20.576L13.7449 20.2698L23.125 10.6961Z"
+                                       fill="black"
+                                       stroke="black"
+                                       strokeWidth="0.35"
+                                    />
+                                 </svg>
+                              </button> */}
+                  </div>
                 </div>
               </ProductDetail>
 
               {socialLinks && (
-                <div className="flex items-center mt-8">
+                <div className="flex items-center">
                   <span className="mr-8 font-bold font-heading uppercase">
                     SHARE IT
                   </span>

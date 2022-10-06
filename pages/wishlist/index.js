@@ -1,69 +1,38 @@
-import { memo, useState, lazy, Suspense } from "react";
+import { memo } from "react";
 import Head from "next/head";
-import { useRouter } from "next/router";
-import { sanityConfig } from "lib/config";
-import { getClient } from "lib/sanity.server";
+import { usePreviewSubscription, getClient } from "lib/sanity";
 import { wishlistPageQuery } from "pages/api/query";
 import { Components, filterDataToSingleItem } from "../[slug]";
-import PageNotFound from "pages/404";
-import NoPreview from "pages/no-preview";
 
-const PreviewMode = lazy(() => import("next-sanity/preview"));
+function WishlistPage({ data, preview }) {
+  const slug = "wishlist";
 
-function WishlistPage({ data: initialData = {}, preview, token }) {
-  const router = useRouter();
-  const [data, setData] = useState(initialData);
+  let wishlistPageData;
+  const { data: wishlistPage } = usePreviewSubscription(wishlistPageQuery, {
+    params: { slug },
+    initialData: data,
+    enabled: preview,
+  });
 
-  const wishlistData = data?.wishlistPage || data?.wishlistPage?.[0];
-  const slug = wishlistData?.slug;
-
-  if (!router.isFallback && !slug) {
-    return <PageNotFound />;
+  // for never published pages
+  if (wishlistPage?.hasNeverPublished) {
+    wishlistPageData = wishlistPage;
+  } else {
+    // for published pages and pages with unpublished edits
+    wishlistPageData = wishlistPage?.wishlistPage || wishlistPage?.[0];
   }
 
-  if (!wishlistData) {
+  if (!wishlistPageData) {
     return null;
   }
 
-  const { name, sections, seo } = wishlistData;
-
-  /*
-   *  For new unpublished pages, return page telling user that the page needs to be published first before it can be previewed
-   *  This prevents showing 404 page when the page is not published yet
-   */
-  if (
-    !wishlistData?.hasUnpublishedEdits &&
-    wishlistData?._id?.includes("drafts")
-  ) {
-    return (
-      <>
-        <Head>
-          <meta name="viewport" content="width=260 initial-scale=1" />
-          <title>Unpublished Page</title>
-        </Head>
-        <NoPreview />
-      </>
-    );
-  }
+  const { sections, seo } = wishlistPageData;
 
   return (
     <>
-      {preview && slug && (
-        <Suspense fallback={null}>
-          <PreviewMode
-            projectId={sanityConfig.projectId}
-            dataset={sanityConfig.dataset}
-            initial={initialData}
-            query={wishlistPageQuery}
-            onChange={setData}
-            token={token}
-            params={{ slug }}
-          />
-        </Suspense>
-      )}
       <Head>
         <meta name="viewport" content="width=260 initial-scale=1" />
-        <title>{seo?.seoTitle || name}</title>
+        <title>{seo?.seoTitle || "Wishlist"}</title>
       </Head>
       {sections &&
         sections?.map((section, index) => {
@@ -89,25 +58,25 @@ function WishlistPage({ data: initialData = {}, preview, token }) {
   );
 }
 
-export async function getStaticProps({ preview = false, previewData = {} }) {
-  const client =
-    preview && previewData?.token
-      ? getClient(false).withConfig({ token: previewData.token })
-      : getClient(preview);
-
-  const wishlistData = await client.fetch(wishlistPageQuery);
+export async function getStaticProps({ preview = false }) {
+  const wishlistData = await getClient(preview).fetch(wishlistPageQuery);
 
   // pass page data and preview to helper function
   const wishlistPage = filterDataToSingleItem(wishlistData, preview);
 
+  // if our query failed to return data for page, return data for blog page
+  // Reference: https://www.sanity.io/guides/nextjs-live-preview
+  if (!wishlistPage) {
+    return {
+      notFound: true,
+    };
+  }
+
   return {
     props: {
       preview,
-      token: (preview && previewData.token) || "",
       data: { wishlistPage },
     },
-    // If webhooks isn't setup then attempt to re-generate in 1 minute intervals
-    revalidate: process.env.SANITY_REVALIDATE_SECRET ? undefined : 60,
   };
 }
 
