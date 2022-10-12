@@ -464,18 +464,21 @@ function VariantB({
               </div>
 
               <ProductDetail product={ecwidProduct}>
-                <div className="flex flex-wrap mt-6 mb-14 items-center gap-x-5">
+                <div className="flex flex-col sm:flex-row items-start mt-8 gap-y-4 sm:gap-y-0 sm:gap-x-4">
                   {btnLabel && (
-                    <AddToBag
-                      inStock={!ecwidProduct?.inStock}
-                      classNames="block mb-4 lg:mb-0 text-center text-white font-bold font-heading py-5 px-8 rounded-md uppercase transition duration-200 bg-webriq-darkblue hover:bg-webriq-blue cursor-pointer"
-                    >
-                      {btnLabel}
-                    </AddToBag>
+                    <div className="w-full lg:mb-4 xl:mb-0">
+                      <AddToBag
+                        inStock={!ecwidProduct?.inStock}
+                        classNames="block w-full mb-4 lg:mb-0 text-center text-white font-bold font-heading py-5 px-8 rounded-md uppercase transition duration-200 bg-webriq-darkblue hover:bg-webriq-blue cursor-pointer"
+                      >
+                        {btnLabel}
+                      </AddToBag>
+                    </div>
                   )}
-                  <button
-                    className="flex-shrink-0 flex flex-wrap items-center justify-center py-5 px-8 rounded-md border hover:border-webriq-darkblue"
-                    type="button"
+                  <AddToWishlist
+                    classNames="w-full flex-shrink-0 flex flex-wrap items-center justify-center py-5 px-8 rounded-md border hover:border-webriq-darkblue"
+                    product={ecwidProduct}
+                    containerClass="w-full"
                   >
                     <svg
                       className="-mt-1 mr-2"
@@ -496,7 +499,7 @@ function VariantB({
                     <span className="font-bold font-heading uppercase">
                       Add to wishlist
                     </span>
-                  </button>
+                  </AddToWishlist>
                 </div>
               </ProductDetail>
 
