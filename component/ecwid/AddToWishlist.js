@@ -2,7 +2,12 @@ import { useEcwid } from "context/EcwidContext";
 import React, { useEffect } from "react";
 import _ from "lodash";
 
-const AddToWishlist = ({ children, classNames, product }) => {
+const AddToWishlist = ({
+  children,
+  classNames,
+  product,
+  containerClass = "w-1/6",
+}) => {
   const ecwid = useEcwid();
   const { addWishlist, setId, favorited } = ecwid;
 
@@ -12,7 +17,7 @@ const AddToWishlist = ({ children, classNames, product }) => {
 
   return (
     <>
-      <div className={favorited ? "w-full" : "w-1/6"}>
+      <div className={favorited ? "w-full" : containerClass}>
         <button
           onClick={() => addWishlist(product?.id)}
           className={classNames}
