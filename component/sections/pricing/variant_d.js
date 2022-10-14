@@ -103,16 +103,19 @@ function VariantD({
     getPriceId();
   }, []);
 
-  const serializers = {
-    types: {
-      block: (props) => <p className="text-xs">{props.children}</p>,
+  // block styling as props to `components` of the PortableText component
+  const blockCustomization = {
+    block: {
+      normal: ({ children }) => {
+        return <p className="text-xs">{children}</p>;
+      },
     },
     marks: {
-      link: ({ children, mark }) => (
+      link: ({ children, value }) => (
         <a
           aria-label={children ?? "external link"}
           className="text-webriq-darkblue font-bold hover:text-webriq-darkblue"
-          href={mark.href}
+          href={value.href}
         >
           {children}
         </a>
@@ -204,7 +207,7 @@ function VariantD({
     };
 
     const thankYouPageLink = (link) => {
-      if (link === undefined) {
+      if (!link) {
         return "/thank-you";
       } else {
         if (link?.linkType === "linkInternal") {
@@ -473,7 +476,7 @@ function VariantD({
                     name="terms"
                     defaultValue={1}
                   />
-                  <PortableText blocks={block} serializers={serializers} />
+                  <PortableText value={block} components={blockCustomization} />
                 </label>
               </div>
               <div>

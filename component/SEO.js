@@ -1,16 +1,34 @@
 import React from "react";
 import { seoImageUrl } from "lib/sanity";
 import { NextSeo } from "next-seo";
+import { useRouter } from "next/router";
 
 function SEO({ data }) {
+  // get data props
   const blog = data?.blogData;
   const page = data?.page || data?.page?.[0] || data?.pages;
+  const products = data?.products?.seo;
+  const collections = data?.collections?.seo;
+  const cartPage = data?.cartPage?.seo;
   const blogDescription = blogPostBody(blog?.excerpt || blog?.body);
 
   const url = process.env.NEXT_PUBLIC_SITE_URL;
-  const seo = blog?.seo ?? page?.seo;
-  const title = blog?.title ?? page?.title;
-  const slug = page?.slug ?? blog?.slug?.current;
+  const router = useRouter();
+
+  // determine SEO value based on props from active page
+  const seo = blog?.seo ?? page?.seo ?? products ?? collections ?? cartPage;
+
+  // determine title based on props from active page
+  const title =
+    blog?.title ??
+    page?.title ??
+    products?.name ??
+    collections?.name ??
+    cartPage?.name;
+
+  // set default image which is replaced only when an SEO image is defined for the page
+  const defaultImage =
+    "https://cdn.sanity.io/images/9itgab5x/production/87847cd1916f808f401597223641e927024e9eca-5750x5000.jpg";
 
   return (
     <>
@@ -18,18 +36,16 @@ function SEO({ data }) {
         openGraph={{
           title: seo?.seoTitle || title,
           description: seo?.seoDescription || blogDescription,
-          url: `${url}/${slug === "home" ? "" : slug}`,
-          images: seo
-            ? [
-                {
-                  url: seoImageUrl(seo?.seoImage),
-                  width: 520,
-                  height: 320,
-                  alt: "Page thumbnail image for SEO",
-                  type: "image/webp",
-                },
-              ]
-            : [],
+          url: `${url}${router?.asPath}`,
+          images: [
+            {
+              url: seoImageUrl(seo?.seoImage ?? defaultImage),
+              width: 520,
+              height: 320,
+              alt: "Page thumbnail image for SEO",
+              type: "image/webp",
+            },
+          ],
           site_name: seo?.seoTitle || title,
         }} // Twitter will read the og:title, og:image and og:description tags for their card. next-seo omits twitter:title, twitter:image and twitter:description to avoid duplication.
         twitter={{

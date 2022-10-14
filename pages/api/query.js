@@ -95,9 +95,11 @@ const allProjections = `
           ...,
           ${conditionalLink}
         }
-      }       
+      },
+      featured[]->
     }
-  }
+  },
+  collections->
 }
 `;
 
@@ -120,90 +122,22 @@ export const blogQuery = groq`
   }
 `;
 
-export const blogNavAndFooter = groq`
-*[_type=="page" && slug.current == $slug]{
-  sections[]-> {
-    ...,
-    variants {
-      ...,
-      "arrImages": images,
-      arrayOfTitleAndText[] {
-        ...,
-        "title": heading,
-        "content": plainText
-      },
-      logo {
-        ...,
-        ${conditionalLink}
-      },
-      primaryButton {
-        ...,
-        ${conditionalLink}
-      },
-      secondaryButton {
-        ...,
-        ${conditionalLink}
-      },
-      routes[] {
-        ...,
-        ${conditionalLink}
-      },
-      menu[] {
-        ...,
-        ${conditionalLink}
-      },
-      plans[] {
-        ...,
-        primaryButton {
-          ...,
-          ${conditionalLink}
-        },
-      },
-      formLinks[] {
-        ...,
-        ${conditionalLink}
-      },
-      portfolios[] {
-        ...,
-        content[] {
-          ...,
-          primaryButton {
-            ...,
-            ${conditionalLink}
-          },
-        },
-        primaryButton {
-          ...,
-          ${conditionalLink}
-        },
-      },
-      portfoliosWithCategories[] {
-        ...,
-        content[] {
-          ...,
-          primaryButton {
-            label,
-            ${conditionalLink}
-          },
-        },
-        primaryButton {
-          label,
-          ${conditionalLink}
-        },
-      },
-      signinLink {
-        ...,
-        ${conditionalLink}
-      },
-      blogPosts[]->{
-        ...,
-        "link": slug.current,
-        authors[]->{
-          ...,
-          "link": slug.current
-        },
-        categories[]->
-      },       
-    }
-  }
-}`;
+export const blogNavAndFooter = groq`*[_type=="page" && slug.current == $slug]${allProjections}`;
+
+// query main product based on current slug
+export const productsQuery = groq`*[_type == "mainProduct" && slug.current == $slug] ${allProjections}`;
+
+// query record of products
+export const productSettings = groq`*[_type == "productSettings"][0] ${allProjections}`;
+
+// query record of collections
+export const collectionSettings = groq`*[_type == "collectionSettings"][0] ${allProjections}`;
+
+// query product collection based on current slug
+export const collectionsQuery = groq`*[_type == "mainCollection" && slug.current == $slug] ${allProjections}`;
+
+// query cart page
+export const cartPageQuery = groq`*[_type == "cartPage"] ${allProjections}`;
+
+// query wishlist page
+export const wishlistPageQuery = groq`*[_type == "wishlistPage"] ${allProjections}`;

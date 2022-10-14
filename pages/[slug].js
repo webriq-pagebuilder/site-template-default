@@ -29,6 +29,12 @@ export const Components = {
   footer: dynamic(() => import("component/sections/footer")),
   signInSignUp: dynamic(() => import("component/sections/sign_in_sign_up")),
   textComponent: dynamic(() => import("component/sections/text_component")),
+  cartSection: dynamic(() => import("component/sections/cart_section")),
+  featuredProducts: dynamic(() =>
+    import("component/sections/featured_products")
+  ),
+  productInfo: dynamic(() => import("component/sections/product_info")),
+  wishlistSection: dynamic(() => import("component/sections/wishlist")),
 };
 
 const BlogPage = dynamic(() => import("component/blog/"));
@@ -145,6 +151,12 @@ export async function getStaticProps({
 
   // pass page data and preview to helper function
   const singlePageData = filterDataToSingleItem(page, preview);
+
+  if (!singlePageData) {
+    return {
+      notFound: true,
+    };
+  }
 
   return {
     props: {
