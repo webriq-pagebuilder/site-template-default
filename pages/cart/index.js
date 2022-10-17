@@ -68,7 +68,10 @@ export async function getStaticProps({ preview = false }) {
   // Reference: https://www.sanity.io/guides/nextjs-live-preview
   if (!cartPage) {
     return {
-      notFound: true,
+      props: {
+        preview,
+        data: { cartPage: null },
+      },
     };
   }
 
