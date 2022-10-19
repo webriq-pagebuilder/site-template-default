@@ -1,5 +1,6 @@
 import JWT from "jsonwebtoken";
-import NextCors from "nextjs-cors";
+import Cors from "cors";
+import corsMiddleware from "lib/cors";
 
 let URL = `https://app.ecwid.com/api/v3/${process.env.NEXT_PUBLIC_ECWID_STORE_ID}/products`;
 const reqHeaders = {
@@ -8,31 +9,35 @@ const reqHeaders = {
   "Content-Type": "application/json",
 };
 
+// Initialize the cors middleware
+const cors = corsMiddleware(
+  // You can read more about the available options here: https://github.com/expressjs/cors#configuration-options
+  Cors({
+    // Only allow requests with GET, POST and OPTIONS
+    methods: ["GET", "POST", "PUT", "OPTIONS"],
+  })
+);
+
 async function handler(req, res) {
-  // run the cors middleware
-  // nextjs-cors uses the cors package: https://github.com/expressjs/cors
-  await NextCors(req, res, {
-    // Options
-    methods: ["GET", "HEAD", "PUT", "POST", "DELETE"],
-    origin: "*",
-    optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
-  });
+  // Run cors
+  await cors(req, res);
 
-  // rest of the API logic
+  try {
+    const token = req.header.Authorization;
+    const decode = JWT.verify(token, process.env.SITE_STORE_PREVIEW_SECRET);
 
-  // TO DO: Add JWT verify secret token
-
-  // process based on request method
-  if (req.method === "GET") {
-    return getEcwidProducts(req, res);
-  } else if (req.method === "POST") {
-    return addEcwidProduct(req, res);
-  } else if (req.method === "PUT") {
-    return updateEcwidProduct(req, res);
-  } else if (req.method === "DELETE") {
-    return deleteEcwidProduct(req, res);
-  } else {
-    return res.status(400).json({ message: "Invalid request!" });
+    // process based on request method
+    if (req.method === "POST") {
+      return addEcwidProduct(req, res);
+    } else if (req.method === "PUT") {
+      return updateEcwidProduct(req, res);
+    } else if (req.method === "DELETE") {
+      return deleteEcwidProduct(req, res);
+    } else {
+      return getEcwidProducts(req, res);
+    }
+  } catch (err) {
+    res.send(401).json({ message: "JWT ERROR: Unauthorized request" });
   }
 }
 
