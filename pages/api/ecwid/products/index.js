@@ -1,9 +1,5 @@
-/**
- * TO DO:
- * 1. Remove the Authorization property from the reqHeaders object, and use the encrypted key from the req.header instead
- * 2. Decrypt this req.header token and should it match the secret token in site then safely proceed requests
- *
- */
+import JWT from "jsonwebtoken";
+import NextCors from "nextjs-cors";
 
 let URL = `https://app.ecwid.com/api/v3/${process.env.NEXT_PUBLIC_ECWID_STORE_ID}/products`;
 const reqHeaders = {
@@ -12,10 +8,21 @@ const reqHeaders = {
   "Content-Type": "application/json",
 };
 
-export default async (req, res) => {
-  // TO DO : Add decrypt req.header token to authenticate the request methods
+async function handler(req, res) {
+  // run the cors middleware
+  // nextjs-cors uses the cors package: https://github.com/expressjs/cors
+  await NextCors(req, res, {
+    // Options
+    methods: ["GET", "HEAD", "PUT", "POST", "DELETE"],
+    origin: "*",
+    optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
+  });
 
-  // return request method functions
+  // rest of the API logic
+
+  // TO DO: Add JWT verify secret token
+
+  // process based on request method
   if (req.method === "GET") {
     return getEcwidProducts(req, res);
   } else if (req.method === "POST") {
@@ -27,7 +34,7 @@ export default async (req, res) => {
   } else {
     return res.status(400).json({ message: "Invalid request!" });
   }
-};
+}
 
 // Get Ecwid products from store
 const getEcwidProducts = async (req, res) => {
@@ -124,6 +131,7 @@ const updateEcwidProduct = async (req, res) => {
         name: name,
         price: price,
         description: description,
+        enabled: true,
       }),
     });
   } catch (error) {
@@ -148,3 +156,5 @@ const deleteEcwidProduct = async (req, res) => {
     res.send(400).json({ error: error });
   }
 };
+
+export default handler;
