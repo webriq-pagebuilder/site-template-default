@@ -97,27 +97,7 @@ const addEcwidProduct = async (req, res) => {
           console.log("Successfully created Ecwid product!");
         }
       });
-    } else {
-      // product already exists so we just update the fields
-      console.log(`Updating Ecwid product ${data?.name}...`);
-
-      const productId = createIfNotExists?.[0]?.id;
-
-      if (productId) {
-        await updateEcwidProduct(
-          productId,
-          data?.name,
-          data?.price,
-          data?.description
-        ).then((res) => {
-          if (!res.ok) {
-            console.log("Failed to update Ecwid product");
-          } else {
-            console.log("Successfully updated Ecwid product details!");
-          }
-        });
-      }
-    }
+    } // else product exists so do nothing
   } catch (err) {
     console.log(err);
     return res.status(400).send({ error: err });
@@ -128,21 +108,36 @@ const addEcwidProduct = async (req, res) => {
 
 // Update existing Ecwid product
 const updateEcwidProduct = async (req, res) => {
-  const product = req;
-
-  console.log(`Updating Ecwid product...`);
+  const data = JSON.parse(req.body);
 
   try {
-    await fetch(`${URL}/${product?.productId}`, {
-      method: "PUT",
-      headers: reqHeaders,
-      body: JSON.stringify({
-        name: product?.name,
-        price: product?.price,
-        description: product?.description,
-        enabled: true,
-      }),
-    });
+    // check if product exists before creating
+    const createIfNotExists = await getEcwidProductByName(data?.name);
+
+    if (createIfNotExists) {
+      const productId = createIfNotExists?.[0]?.id;
+
+      console.log(`Updating Ecwid product ${data?.name}...`);
+
+      await fetch(`${URL}/${productId}`, {
+        method: "PUT",
+        headers: reqHeaders,
+        body: JSON.stringify({
+          name: data?.name,
+          price: data?.price,
+          description: data?.description,
+          enabled: true,
+        }),
+      }).then((res) => {
+        if (!res.ok) {
+          console.log(`Failed to update Ecwid product ${data?.name}`, res);
+        } else {
+          console.log(`Successfully updated Ecwid product ${data?.name}`);
+        }
+      });
+    } else {
+      console.log("Product does not exists in Ecwid");
+    }
   } catch (error) {
     return res.status(400).send({ error: error });
   }
