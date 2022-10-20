@@ -56,6 +56,16 @@ const getEcwidProducts = async (req, res) => {
   }
 };
 
+const getEcwidProductById = async (id) => {
+  return fetch(`${URL}/${id}`, {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      Authorization: `Bearer ${process.env.NEXT_PUBLIC_ECWID_PUBLIC_TOKEN}`,
+    },
+  });
+};
+
 // Get an Ecwid product by name
 const getEcwidProductByName = async (req, res) => {
   const productName = req;
@@ -71,7 +81,8 @@ const getEcwidProductByName = async (req, res) => {
 
 // Add a new Ecwid product
 const addEcwidProduct = async (req, res) => {
-  const data = JSON.parse(req.body);
+  const data = req.body;
+  let product;
 
   try {
     // check if product exists before creating
@@ -81,7 +92,7 @@ const addEcwidProduct = async (req, res) => {
       // product does not exist so create
       console.log("Creating Ecwid product...");
 
-      await fetch(URL, {
+      product = await fetch(URL, {
         method: "POST",
         headers: reqHeaders,
         body: JSON.stringify({
@@ -96,6 +107,8 @@ const addEcwidProduct = async (req, res) => {
         } else {
           console.log("Successfully created Ecwid product!");
         }
+
+        return response.json();
       });
     } // else product exists so do nothing
   } catch (err) {
@@ -103,46 +116,65 @@ const addEcwidProduct = async (req, res) => {
     return res.status(400).send({ error: err });
   }
 
-  return res.status(200).send({ message: "Successfully run API request" });
+  return res
+    .status(200)
+    .send({ message: "Successfully run API request", data: product });
 };
 
 // Update existing Ecwid product
 const updateEcwidProduct = async (req, res) => {
-  const data = JSON.parse(req.body);
+  const data = req.body;
+  const { ecwidProductId, name, price, description } = data;
+  if (!ecwidProductId) {
+    return res
+      .status(400)
+      .json({ message: "Invalid PUT request! `ecwidProductId` is missing..." });
+  }
 
+  let product;
   try {
-    // check if product exists before creating
-    const createIfNotExists = await getEcwidProductByName(data?.name);
+    product = await getEcwidProductById(ecwidProductId).then((res) =>
+      res.json()
+    );
+    console.log("[INFO] ECWID product!", product);
 
-    if (createIfNotExists) {
-      const productId = createIfNotExists?.[0]?.id;
-
-      console.log(`Updating Ecwid product ${data?.name}...`);
-
-      await fetch(`${URL}/${productId}`, {
-        method: "PUT",
-        headers: reqHeaders,
-        body: JSON.stringify({
-          name: data?.name,
-          price: data?.price,
-          description: data?.description,
-          enabled: true,
-        }),
-      }).then((res) => {
-        if (!res.ok) {
-          console.log(`Failed to update Ecwid product ${data?.name}`, res);
-        } else {
-          console.log(`Successfully updated Ecwid product ${data?.name}`);
-        }
+    if (product?.errorMessage) {
+      console.log("Product not found", ecwidProductId);
+      return res.status(404).json({
+        message: "Unable to update product as it does not exist!",
+        data: { id: ecwidProductId },
       });
-    } else {
-      console.log("Product does not exists in Ecwid");
+      return;
     }
+
+    const productId = product.id || ecwidProductId;
+    console.log(`Updating Ecwid product: ecwidProductId - ${data?.name}...`);
+
+    product = await fetch(`${URL}/${productId}`, {
+      method: "PUT",
+      headers: reqHeaders,
+      body: JSON.stringify({
+        name,
+        price,
+        description,
+        enabled: true,
+      }),
+    }).then((res) => {
+      if (!res.ok) {
+        console.log(`Failed to update Ecwid product ${data?.name}`, res);
+      } else {
+        console.log(`Successfully updated Ecwid product ${data?.name}`);
+      }
+
+      return res.json();
+    });
   } catch (error) {
     return res.status(400).send({ error: error });
   }
 
-  return res.status(200).send({ message: "Successfully run API request" });
+  return res
+    .status(200)
+    .send({ message: "Successfully run API request", data: product });
 };
 
 // Delete an Ecwid product
