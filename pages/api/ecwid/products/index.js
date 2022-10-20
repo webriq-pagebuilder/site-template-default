@@ -22,24 +22,17 @@ async function handler(req, res) {
   // Run cors
   await cors(req, res);
 
-  try {
-    const token = req.header.Authorization;
-    const decode = JWT.verify(token, process.env.SITE_STORE_PREVIEW_SECRET);
-
-    // process based on request method
-    if (req.method === "POST") {
-      return addEcwidProduct(req, res);
-    } else if (req.method === "PUT") {
-      return updateEcwidProduct(req, res);
-    } else if (req.method === "DELETE") {
-      return deleteEcwidProduct(req, res);
-    } else if (req.method === "GET") {
-      return getEcwidProducts(req, res);
-    } else {
-      return res.status(400).send("Invalid request!");
-    }
-  } catch (err) {
-    res.status(401).json({ message: "JWT ERROR: Unauthorized request" });
+  // process based on request method
+  if (req.method === "POST") {
+    return addEcwidProduct(req, res);
+  } else if (req.method === "PUT") {
+    return updateEcwidProduct(req, res);
+  } else if (req.method === "DELETE") {
+    return deleteEcwidProduct(req, res);
+  } else if (req.method === "GET") {
+    return getEcwidProducts(req, res);
+  } else {
+    return res.status(400).send("Invalid request!");
   }
 }
 
@@ -48,7 +41,10 @@ const getEcwidProducts = async (req, res) => {
   try {
     await fetch(URL, {
       method: req.method,
-      headers: reqHeaders,
+      headers: {
+        Accept: "application/json",
+        Authorization: `Bearer ${process.env.NEXT_PUBLIC_ECWID_PUBLIC_TOKEN}`,
+      },
     })
       .then((res) => res.json())
       .then((json) => res.status(200).json({ result: json }));
@@ -76,14 +72,17 @@ const getEcwidProductByName = async (req, res) => {
 const addEcwidProduct = async (req, res) => {
   const { name, price, description } = req.body;
 
-  // check if product exists before creating
-  const createIfNotExists = await getEcwidProductByName(name);
+  try {
+    const token = req.header.Authorization;
+    const decode = JWT.verify(token, process.env.SITE_STORE_PREVIEW_SECRET);
 
-  if (!createIfNotExists) {
-    // product does not exist so create
-    console.log("Creating Ecwid product...");
+    // check if product exists before creating
+    const createIfNotExists = await getEcwidProductByName(name);
 
-    try {
+    if (!createIfNotExists) {
+      // product does not exist so create
+      console.log("Creating Ecwid product...");
+
       await fetch(URL, {
         method: req.method,
         headers: reqHeaders,
@@ -93,34 +92,31 @@ const addEcwidProduct = async (req, res) => {
           description: description,
           enabled: true,
         }),
+      }).then((response) => {
+        if (!response.ok) {
+          console.log("Failed to create Ecwid product!");
+        }
+        console.log("Successfully created Ecwid product!");
       });
-    } catch (err) {
-      return res.send(400).json({ error: err });
-    }
+    } else {
+      // product already exists so we just update the fields
+      console.log(`Updating Ecwid product ${name}...`);
 
-    return res
-      .send(200)
-      .json({ message: "Successfully CREATED Ecwid product!" });
-  } else {
-    // product already exists so we just update the fields
-    console.log(`Updating Ecwid product ${name}...`);
+      const productId = createIfNotExists?.[0]?.id;
 
-    const productId = createIfNotExists?.[0]?.id;
-
-    if (productId) {
-      try {
-        await updateEcwidProduct(productId, name, price, description);
-      } catch (error) {
-        console.log(error);
-        return res
-          .send(400)
-          .json({ message: "Failed to update Ecwid product details!" });
+      if (productId) {
+        await updateEcwidProduct(productId, name, price, description).then(
+          (response) => {
+            if (!response.ok) {
+              console.log("Failed to update Ecwid product details!");
+            }
+            console.log("Successfully updated Ecwid product details!");
+          }
+        );
       }
-
-      return res
-        .send(200)
-        .json({ message: "Successfully updated Ecwid product details!" });
     }
+  } catch (err) {
+    res.status(401).json({ message: "JWT ERROR: Unauthorized request" });
   }
 };
 

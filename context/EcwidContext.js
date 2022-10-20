@@ -49,7 +49,9 @@ export function EcwidContextProvider({ children }) {
     try {
       const query =
         '*[_type=="mainProduct" && pid in $ids && !(_id in path("drafts.**"))]';
-      const params = { ids: favorites.productIds.map((id) => id.toString()) };
+      const params = {
+        ids: favorites?.productIds?.map((id) => id?.toString()),
+      };
 
       const studio = await sanityClient
         .fetch(query, params)

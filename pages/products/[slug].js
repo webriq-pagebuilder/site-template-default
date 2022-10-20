@@ -1,55 +1,37 @@
 /** This component displays content for the PRODUCT page */
 
-import { memo } from "react";
+import React, { lazy, Suspense, useState } from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { groq } from "next-sanity";
 import { productsQuery, productSettings } from "pages/api/query";
-import { usePreviewSubscription, getClient } from "lib/sanity";
 import { Components, filterDataToSingleItem } from "../[slug]";
 import PageNotFound from "pages/404";
 import NoPreview from "pages/no-preview";
+import { sanityConfig } from "lib/config";
+import { getClient, sanityClient } from "lib/sanity.server";
 
-function ProductPage({ data, preview }) {
+const PreviewMode = lazy(() => import("next-sanity/preview"));
+
+function ProductPage({ data: initialData = {}, preview, token }) {
   const router = useRouter();
+  const [data, setData] = useState(initialData);
 
-  if (!router.isFallback && !data?.products?.slug) {
+  const productData = data?.products || data?.[0];
+  const productDefaults = data?.defaults || data?.defaults?.[0];
+  const slug = productData?.slug;
+
+  let sectionsToDisplay = productDefaults?.sections;
+
+  if (!router.isFallback && !slug) {
     return <PageNotFound />;
-  }
-
-  const slug = data?.products?.slug;
-  let productData, recordsData;
-  const { data: products } = usePreviewSubscription(productsQuery, {
-    params: { slug },
-    initialData: data,
-    enabled: preview,
-  });
-
-  // enable preview for changes done on Settings > Products
-  const { data: records } = usePreviewSubscription(productSettings, {
-    params: { slug },
-    initialData: data?.records,
-    enabled: preview,
-  });
-
-  // for never published pages
-  if (products?.hasNeverPublished) {
-    productData = products;
-  } else {
-    // for published pages and pages with unpublished edits
-    productData = products?.products || products?.[0];
   }
 
   if (!productData) {
     return null;
   }
 
-  const { name, sections, seo, pid, collections, description, productPreview } =
-    productData;
-
-  if (records && records?.pid) {
-    recordsData = records;
-  }
+  const { sections, name, seo, pid, collections, productPreview } = productData;
 
   /*
    *  For new unpublished pages, return page telling user that the page needs to be published first before it can be previewed
@@ -57,11 +39,13 @@ function ProductPage({ data, preview }) {
    */
   if (
     !productData?.hasUnpublishedEdits &&
-    productData?._id?.includes("drafts")
+    productData?._id?.includes("drafts") &&
+    !preview
   ) {
     return (
       <>
         <Head>
+          <meta name="viewport" content="width=260 initial-scale=1" />
           <title>Unpublished Page</title>
         </Head>
         <NoPreview />
@@ -69,8 +53,23 @@ function ProductPage({ data, preview }) {
     );
   }
 
+  // TO DO : Add condition here to update the array for `sectionsToDisplay`
+
   return (
     <>
+      {preview && slug && (
+        <Suspense fallback={null}>
+          <PreviewMode
+            projectId={sanityConfig.projectId}
+            dataset={sanityConfig.dataset}
+            initial={initialData}
+            query={productsQuery}
+            onChange={setData}
+            token={token}
+            params={{ slug }}
+          />
+        </Suspense>
+      )}
       <Head>
         <meta
           name="viewport"
@@ -79,11 +78,7 @@ function ProductPage({ data, preview }) {
         <link rel="icon" href="../favicon.ico" />
         <title>{seo?.seoTitle ?? name}</title>
       </Head>
-      {(recordsData?.sections === undefined ||
-      recordsData?.sections?.length === 0
-        ? sections
-        : recordsData?.sections
-      )?.map((section, index) => {
+      {sectionsToDisplay?.map((section, index) => {
         const Component = Components[section._type];
 
         // skip rendering unknown components
@@ -102,7 +97,6 @@ function ProductPage({ data, preview }) {
               name,
               pid,
               collections,
-              description,
               productPreview,
             }}
             data={section}
@@ -113,35 +107,40 @@ function ProductPage({ data, preview }) {
   );
 }
 
-export async function getStaticProps({ params, preview = false }) {
-  const productsData = await getClient(preview).fetch(productsQuery, {
-    slug: params.slug,
-  });
+export async function getStaticProps({
+  params,
+  preview = false,
+  previewData = {},
+}) {
+  const client =
+    preview && previewData?.token
+      ? getClient(false).withConfig({ token: previewData.token })
+      : getClient(preview);
 
-  // pass page data and preview to helper function
-  const products = filterDataToSingleItem(productsData, preview);
+  const [products, defaults] = await Promise.all([
+    client.fetch(productsQuery, { slug: params.slug }),
+    client.fetch(productSettings),
+  ]);
 
-  // check if we have record products with sections that will replace the main products section
-  const records = await getClient(preview).fetch(productSettings);
-
-  // if our query failed to return data for page, return data for blog page
-  // Reference: https://www.sanity.io/guides/nextjs-live-preview
-  if (!products) {
-    return {
-      notFound: true,
-    };
-  }
+  // pass products data and preview to helper function
+  const singleProductsData = filterDataToSingleItem(products, preview);
 
   return {
     props: {
       preview,
-      data: { products, records },
+      token: (preview && previewData.token) || "",
+      data: {
+        products: singleProductsData || null,
+        defaults: defaults || null,
+      },
     },
+    // If webhooks isn't setup then attempt to re-generate in 1 minute intervals
+    // revalidate: process.env.SANITY_REVALIDATE_SECRET ? undefined : 60,
   };
 }
 
 export async function getStaticPaths() {
-  const products = await getClient().fetch(
+  const products = await sanityClient.fetch(
     groq`*[_type == "mainProduct" && defined(slug.current)][].slug.current`
   );
 
@@ -151,4 +150,4 @@ export async function getStaticPaths() {
   };
 }
 
-export default memo(ProductPage);
+export default React.memo(ProductPage);
