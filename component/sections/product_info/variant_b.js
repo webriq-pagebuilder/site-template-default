@@ -449,7 +449,7 @@ function VariantB({
                   {/* TO DO: ADD PRODUCT RATING HERE */}
                 </div>
 
-                <p className="inline-block mb-8 text-2xl font-bold font-heading text-blue-300">
+                <p className="inline-block mb-8 text-2xl font-bold font-heading text-webriq-darkblue">
                   {/* TO DO: ADD PRICING HERE */}
                   {getPriceDisplay()}
                 </p>
@@ -504,7 +504,7 @@ function VariantB({
               </ProductDetail>
 
               {productDetails && (
-                <div>
+                <div className="mt-10">
                   {productDetails?.map((details, index) => (
                     <Fragment key={index}>
                       <div
