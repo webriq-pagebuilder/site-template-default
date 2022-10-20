@@ -96,7 +96,27 @@ const allProjections = `
           ${conditionalLink}
         }
       },
-      featured[]->
+      featured[]->,
+      collections[]->{
+        name,
+        "items": sections[_type match "featuredProducts"]->.variants.featured[]-> {
+          name,
+          slug,
+          productPreview,
+          price
+        }
+      },
+      products-> {
+        name, 
+        slug, 
+        price,
+        description,
+        productPreview,
+        "others": sections[_type match "productInfo"]->.variants {
+          btnLabel,
+          socialLinks,
+        },
+      }
     }
   },
   collections->
