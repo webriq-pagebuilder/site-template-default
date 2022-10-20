@@ -59,7 +59,34 @@ function ProductPage({ data: initialData = {}, preview, token }) {
     );
   }
 
-  // TO DO : Add condition here to update the array for `sectionsToDisplay`
+  let sectionsToDisplay = defaultSections;
+
+  if (productSections) {
+    const filtered = productSections?.filter(
+      (section) => section?._type !== "productInfo"
+    );
+
+    if (filtered?.length !== 0) {
+      sectionsToDisplay = productSections;
+    } else {
+      // we only have productInfo section on the product page so we merge this section with the sections in Store > Pages > Products
+      sectionsToDisplay = productSections?.reduce(
+        (defaultsArr, newArr) => {
+          // only need the productInfo section from Store > Products to match
+          const getIndex = defaultSections?.findIndex((item) =>
+            item?._type?.includes("productInfo")
+          );
+
+          if (getIndex !== -1) {
+            defaultsArr[getIndex] = newArr;
+          }
+
+          return defaultsArr;
+        },
+        [...defaultSections]
+      );
+    }
+  }
 
   return (
     <>
@@ -84,7 +111,7 @@ function ProductPage({ data: initialData = {}, preview, token }) {
         <link rel="icon" href="../favicon.ico" />
         <title>{seo?.seoTitle ?? name}</title>
       </Head>
-      {defaultSections?.map((section, index) => {
+      {sectionsToDisplay?.map((section, index) => {
         const Component = Components[section._type];
 
         // skip rendering unknown components
@@ -136,7 +163,7 @@ export async function getStaticProps({
       },
     },
     // If webhooks isn't setup then attempt to re-generate in 1 minute intervals
-    // revalidate: process.env.SANITY_REVALIDATE_SECRET ? undefined : 60,
+    revalidate: process.env.SANITY_REVALIDATE_SECRET ? undefined : 60,
   };
 }
 

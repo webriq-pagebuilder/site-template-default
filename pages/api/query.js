@@ -167,7 +167,19 @@ export const productsQuery = groq`*[_type == "mainProduct" && slug.current == $s
 export const collectionSettings = groq`*[_type == "collectionSettings"][0] ${allProjections}`;
 
 // query product collection based on current slug
-export const collectionsQuery = groq`*[_type == "mainCollection" && slug.current == $slug] ${allProjections}`;
+export const collectionsQuery = groq`*[_type == "mainCollection" && slug.current == $slug] {
+  ...,
+  "slug": slug.current,
+  "collectionSections": sections[]-> {
+    ...,
+    ${variants}
+  },
+  "defaultSections": *[_type == "collectionSettings"][0].sections[]->{
+    ...,
+    ${variants}
+  },
+  collections->,
+}`;
 
 // query cart page
 export const cartPageQuery = groq`*[_type == "cartPage"] ${allProjections}`;
