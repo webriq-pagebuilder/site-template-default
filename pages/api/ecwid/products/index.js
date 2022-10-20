@@ -33,11 +33,13 @@ async function handler(req, res) {
       return updateEcwidProduct(req, res);
     } else if (req.method === "DELETE") {
       return deleteEcwidProduct(req, res);
-    } else {
+    } else if (req.method === "GET") {
       return getEcwidProducts(req, res);
+    } else {
+      return res.status(400).send("Invalid request!");
     }
   } catch (err) {
-    res.send(401).json({ message: "JWT ERROR: Unauthorized request" });
+    res.status(401).json({ message: "JWT ERROR: Unauthorized request" });
   }
 }
 
