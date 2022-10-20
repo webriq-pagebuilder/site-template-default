@@ -3,9 +3,12 @@ import Cors from "cors";
 import corsMiddleware from "lib/cors";
 
 let URL = `https://app.ecwid.com/api/v3/${process.env.NEXT_PUBLIC_ECWID_STORE_ID}/products`;
+const secret =
+  process.env.ECWID_STORE_SECRET_TOKEN ||
+  "secret_gZLupqWKySbqu2GUfuNePrMLuNvCTyun";
 const reqHeaders = {
   Accept: "application/json",
-  Authorization: `Bearer ${process.env.NEXT_PUBLIC_ECWID_SECRET_TOKEN}`, // to be replaced with the decrypted token
+  Authorization: `Bearer ${secret}`, // to be replaced with the decrypted token
   "Content-Type": "application/json",
 };
 
@@ -39,111 +42,112 @@ async function handler(req, res) {
 // Get Ecwid products from store
 const getEcwidProducts = async (req, res) => {
   try {
-    await fetch(URL, {
-      method: req.method,
+    return await fetch(URL, {
+      method: "GET",
       headers: {
         Accept: "application/json",
         Authorization: `Bearer ${process.env.NEXT_PUBLIC_ECWID_PUBLIC_TOKEN}`,
       },
     })
       .then((res) => res.json())
-      .then((json) => res.status(200).json({ result: json }));
+      .then((res) => res);
   } catch (error) {
-    res.status(400).json({ error: err });
+    return res.status(400).send(error);
   }
 };
 
 // Get an Ecwid product by name
 const getEcwidProductByName = async (req, res) => {
-  const { productName } = req.body;
+  const productName = req;
 
   try {
-    await getEcwidProducts().then((result) => {
+    return await getEcwidProducts().then((result) => {
       result?.items?.find((product) => product?.name === productName);
     });
   } catch (error) {
-    return res.send(400).json({ error: error });
+    return res.status(500).send(error);
   }
-
-  res.send(200).json({ message: "Successfully fetched Ecwid product!" });
 };
 
 // Add a new Ecwid product
 const addEcwidProduct = async (req, res) => {
-  const { name, price, description } = req.body;
+  const data = JSON.parse(req.body);
 
   try {
-    const token = req.header.Authorization;
-    const decode = JWT.verify(token, process.env.SITE_STORE_PREVIEW_SECRET);
-
     // check if product exists before creating
-    const createIfNotExists = await getEcwidProductByName(name);
+    const createIfNotExists = await getEcwidProductByName(data?.name);
 
     if (!createIfNotExists) {
       // product does not exist so create
       console.log("Creating Ecwid product...");
 
       await fetch(URL, {
-        method: req.method,
+        method: "POST",
         headers: reqHeaders,
         body: JSON.stringify({
-          name: name,
-          price: price,
-          description: description,
+          name: data?.name,
+          price: data?.price,
+          description: data?.description,
           enabled: true,
         }),
       }).then((response) => {
         if (!response.ok) {
-          console.log("Failed to create Ecwid product!");
+          console.log("Failed to create Ecwid product!", response);
+        } else {
+          console.log("Successfully created Ecwid product!");
         }
-        console.log("Successfully created Ecwid product!");
       });
     } else {
       // product already exists so we just update the fields
-      console.log(`Updating Ecwid product ${name}...`);
+      console.log(`Updating Ecwid product ${data?.name}...`);
 
       const productId = createIfNotExists?.[0]?.id;
 
       if (productId) {
-        await updateEcwidProduct(productId, name, price, description).then(
-          (response) => {
-            if (!response.ok) {
-              console.log("Failed to update Ecwid product details!");
-            }
+        await updateEcwidProduct(
+          productId,
+          data?.name,
+          data?.price,
+          data?.description
+        ).then((res) => {
+          if (!res.ok) {
+            console.log("Failed to update Ecwid product");
+          } else {
             console.log("Successfully updated Ecwid product details!");
           }
-        );
+        });
       }
     }
   } catch (err) {
-    res.status(401).json({ message: "JWT ERROR: Unauthorized request" });
+    console.log(err);
+    return res.status(400).send({ error: err });
   }
+
+  return res.status(200).send({ message: "Successfully run API request" });
 };
 
 // Update existing Ecwid product
 const updateEcwidProduct = async (req, res) => {
-  const { productId, name, price, description } = req.body;
+  const product = req;
 
-  console.log(`Updating Ecwid product ${name}...`);
+  console.log(`Updating Ecwid product...`);
 
   try {
-    await fetch(`${URL}/${productId}`, {
-      method: req.method,
+    await fetch(`${URL}/${product?.productId}`, {
+      method: "PUT",
       headers: reqHeaders,
       body: JSON.stringify({
-        name: name,
-        price: price,
-        description: description,
+        name: product?.name,
+        price: product?.price,
+        description: product?.description,
         enabled: true,
       }),
     });
   } catch (error) {
-    return res.send(400).json({ error: error });
+    return res.status(400).send({ error: error });
   }
 
-  return res
-    .send(200)
-    .json({ message: "Successfully updated Ecwid product details!" });
+  return res.status(200).send({ message: "Successfully run API request" });
 };
 
 // Delete an Ecwid product
@@ -156,7 +160,7 @@ const deleteEcwidProduct = async (req, res) => {
       headers: reqHeaders,
     });
   } catch (error) {
-    res.send(400).json({ error: error });
+    res.status(400).send({ error: error });
   }
 };
 
