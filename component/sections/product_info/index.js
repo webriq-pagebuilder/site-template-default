@@ -1,4 +1,4 @@
-import { memo, useMemo } from "react";
+import { memo, useMemo, useEffect } from "react";
 import dynamic from "next/dynamic";
 import { useEcwid } from "context/EcwidContext";
 
@@ -10,16 +10,20 @@ const Variants = {
 function ProductInfo({ data, product }) {
   const ecwid = useEcwid();
   const ecwid_products = ecwid?.products || null;
-  const price = ecwid?.price || 0;
+  const price = product?.price || 0;
   const getPriceDisplay = ecwid?.getPriceDisplay;
 
   const variant = data?.variant || data?.variants?.condition;
   const Variant = Variants?.[variant];
 
+  useEffect(() => {
+    ecwid.setId(product.ecwidProductId);
+  }, []);
+
   const ecwidProduct = useMemo(() => {
     let data = null;
-    if (ecwid_products && product?.pid) {
-      data = ecwid_products[Number(product.pid)];
+    if (ecwid_products && product?.ecwidProductId) {
+      data = ecwid_products;
     }
     return data;
   }, [ecwid_products, product]);

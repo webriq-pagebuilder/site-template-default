@@ -16,8 +16,8 @@ function VariantA() {
             {favorites !== null && favorites.length !== 0 ? (
               favorites.map((items, index) => {
                 let item = null;
-                if (items?.pid && ecwid?.products) {
-                  item = ecwid.products[parseInt(items.pid)];
+                if (items?.ecwidProductId && ecwid?.products) {
+                  item = ecwid.products[parseInt(items?.ecwidProductId)];
                 }
                 return (
                   <div className="w-full sm:w-1/2 md:w-1/3 mb-5" key={index}>
@@ -51,7 +51,7 @@ function VariantA() {
                       </p>
                       <p className="text-xl font-bold font-heading text-white">
                         <span className="text-webriq-darkblue mr-2">
-                          {item?.defaultDisplayedPriceFormatted}
+                          {items?.price}
                         </span>
                       </p>
                     </a>

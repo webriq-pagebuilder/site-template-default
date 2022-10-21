@@ -19,8 +19,8 @@ function VariantC({ collections }) {
             <div className="flex flex-wrap -mx-3 mb-24">
               {collection?.items?.map((product, index) => {
                 let item = null;
-                if (product?.pid && ecwid?.products) {
-                  item = ecwid.products[parseInt(product.pid)];
+                if (product?.ecwidProductId && ecwid?.products) {
+                  item = ecwid.products[parseInt(product?.ecwidProductId)];
                 }
 
                 return (

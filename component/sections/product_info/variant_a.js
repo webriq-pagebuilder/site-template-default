@@ -309,7 +309,7 @@ function VariantA({
           <div className="w-full lg:w-1/2 px-4">
             <div className="lg:pl-20">
               <div className="pb-10 border-b">
-                {product?.pid && (
+                {product?.ecwidProductId && (
                   <div className="mb-3">
                     <Ribbon data={ecwidProduct} />
                   </div>
@@ -331,13 +331,13 @@ function VariantA({
                     {getPriceDisplay()}
                   </span>
                 </p>
-                <Description data={ecwidProduct} />
+                <Description data={product} />
 
-                {product?.description && (
+                {/* {product?.description && (
                   <p className="max-w-md text-gray-500 font-custom">
                     {product?.description}
                   </p>
-                )}
+                )} */}
               </div>
               <div className="flex mb-10">
                 <div className="mr-6">
@@ -348,7 +348,7 @@ function VariantA({
 
               <ProductDetail product={ecwidProduct}>
                 <div className="flex flex-col sm:flex-row items-start mt-8 gap-y-4 sm:gap-y-0 sm:gap-x-4">
-                  {btnLabel && (
+                  {btnLabel && ecwidProduct?.inStock && (
                     <div className="w-full lg:mb-4 xl:mb-0">
                       <AddToBag
                         inStock={!ecwidProduct?.inStock}

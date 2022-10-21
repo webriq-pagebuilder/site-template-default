@@ -21,8 +21,8 @@ function VariantA({ collections }) {
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {collection?.items?.map((product, index) => {
                   let item = null;
-                  if (product?.pid && ecwid?.products) {
-                    item = ecwid.products[parseInt(product.pid)];
+                  if (product?.ecwidProductId && ecwid?.products) {
+                    item = ecwid.products[parseInt(product?.ecwidProductId)];
                   }
 
                   return (

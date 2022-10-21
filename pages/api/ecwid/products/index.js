@@ -41,8 +41,9 @@ async function handler(req, res) {
 
 // Get Ecwid products from store
 const getEcwidProducts = async (req, res) => {
+  const { id } = req.query;
   try {
-    return await fetch(URL, {
+    return await fetch(URL + `/${+id}`, {
       method: "GET",
       headers: {
         Accept: "application/json",
@@ -50,7 +51,7 @@ const getEcwidProducts = async (req, res) => {
       },
     })
       .then((res) => res.json())
-      .then((res) => res);
+      .then((json) => res.status(200).json({ result: json }));
   } catch (error) {
     return res.status(400).send(error);
   }
