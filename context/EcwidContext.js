@@ -48,7 +48,7 @@ export function EcwidContextProvider({ children }) {
     const favorites = JSON.parse(favoriteIds);
     try {
       const query =
-        '*[_type=="mainProduct" && pid in $ids && !(_id in path("drafts.**"))]';
+        '*[_type=="mainProduct" && ecwidProductId in $ids && !(_id in path("drafts.**"))]';
       const params = {
         ids: favorites?.productIds?.map((id) => id?.toString()),
       };
@@ -66,7 +66,7 @@ export function EcwidContextProvider({ children }) {
         .map((item) => {
           return productRes.items
             .map((prod) => {
-              if (prod.id === +item.pid) {
+              if (prod.id === +item.ecwidProductId) {
                 return {
                   ...item,
                   ecwidId: prod.id,

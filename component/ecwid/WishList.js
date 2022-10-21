@@ -13,8 +13,8 @@ const WishList = () => {
       {favorites !== null ? (
         favorites.map((items, index) => {
           let item = null;
-          if (items?.pid && ecwid?.products) {
-            item = ecwid.products[parseInt(items.pid)];
+          if (items?.ecwidProductId && ecwid?.products) {
+            item = ecwid.products[parseInt(items?.ecwidProductId)];
           }
           return (
             <div className="w-full sm:w-1/3" key={index}>

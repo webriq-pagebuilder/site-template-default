@@ -20,6 +20,7 @@ function VariantA({
   getPriceDisplay,
 }) {
   // block styling as props to `serializers` of the PortableText component
+  console.log("product", product);
   const blockStyle = {
     block: {
       h1: ({ children }) => {
@@ -309,7 +310,7 @@ function VariantA({
           <div className="w-full lg:w-1/2 px-4">
             <div className="lg:pl-20">
               <div className="pb-10 border-b">
-                {product?.pid && (
+                {product?.ecwidProductId && (
                   <div className="mb-3">
                     <Ribbon data={ecwidProduct} />
                   </div>

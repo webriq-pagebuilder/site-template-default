@@ -106,6 +106,7 @@ const variants = `
       slug, 
       price,
       description,
+      ecwidProductId,
       productPreview,
       "others": sections[_type match "productInfo"]->.variants {
         btnLabel,
@@ -118,6 +119,7 @@ const variants = `
 const allProjections = `
 {
   ...,
+  ecwidProductId,
   "slug": slug.current,
   sections[]-> {
     ...,
@@ -151,6 +153,7 @@ export const blogNavAndFooter = groq`*[_type=="page" && slug.current == $slug]${
 // query main product based on current slug
 export const productsQuery = groq`*[_type == "mainProduct" && slug.current == $slug] {
   ...,
+  "ecwidProductId": ecwidProductId,
   "slug": slug.current,
   "productSections": sections[]-> {
     ...,
@@ -169,6 +172,7 @@ export const collectionSettings = groq`*[_type == "collectionSettings"][0] ${all
 // query product collection based on current slug
 export const collectionsQuery = groq`*[_type == "mainCollection" && slug.current == $slug] {
   ...,
+  "ecwidProductId": ecwidProductId,
   "slug": slug.current,
   "collectionSections": sections[]-> {
     ...,

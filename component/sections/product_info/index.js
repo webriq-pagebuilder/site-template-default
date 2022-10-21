@@ -16,10 +16,11 @@ function ProductInfo({ data, product }) {
   const variant = data?.variant || data?.variants?.condition;
   const Variant = Variants?.[variant];
 
+  console.log("product info", data, product);
   const ecwidProduct = useMemo(() => {
     let data = null;
-    if (ecwid_products && product?.pid) {
-      data = ecwid_products[Number(product.pid)];
+    if (ecwid_products && product?.ecwidProductId) {
+      data = ecwid_products[Number(product?.ecwidProductId)];
     }
     return data;
   }, [ecwid_products, product]);
