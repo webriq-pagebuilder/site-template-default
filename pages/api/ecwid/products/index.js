@@ -41,7 +41,6 @@ async function handler(req, res) {
 
 // Get Ecwid products from store
 const getEcwidProducts = async (req, res) => {
-  console.log("getProducts", req.query.id);
   const { id } = req.query;
   try {
     return await fetch(URL + `/${+id}`, {
@@ -59,7 +58,6 @@ const getEcwidProducts = async (req, res) => {
 };
 
 const getEcwidProductById = async (id) => {
-  console.log("getId", req);
   return fetch(`${URL}/${id}`, {
     method: "GET",
     headers: {
