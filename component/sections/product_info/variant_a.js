@@ -348,7 +348,7 @@ function VariantA({
 
               <ProductDetail product={ecwidProduct}>
                 <div className="flex flex-col sm:flex-row items-start mt-8 gap-y-4 sm:gap-y-0 sm:gap-x-4">
-                  {btnLabel && (
+                  {btnLabel && ecwidProduct?.inStock && (
                     <div className="w-full lg:mb-4 xl:mb-0">
                       <AddToBag
                         inStock={!ecwidProduct?.inStock}
