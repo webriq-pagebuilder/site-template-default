@@ -9,7 +9,6 @@ import {
 import { ToastContainer, toast } from "react-toast";
 import { sanityClient } from "lib/sanity";
 import { includes } from "lodash";
-import AddToWishlist from "component/ecwid/AddToWishlist";
 
 const EcwidContext = createContext();
 
@@ -26,31 +25,27 @@ export function EcwidContextProvider({ children }) {
   const storageName = `PSecwid__${process.env.NEXT_PUBLIC_ECWID_STORE_ID}PSfavorites`;
 
   const fetchProducts = () => {
-    fetch(`/api/ecwid/products`)
-      .then((res) => res.json())
-      .then((response) => {
-        setProducts(
-          response.result.total > 0 &&
-            response.result.items.reduce((acc, item) => {
-              acc[item.id] = item;
-              return acc;
-            }, {})
-        );
-      })
-      .catch((error) => {
-        console.error(error);
-        setProducts({ error });
-      });
+    id !== null &&
+      fetch(`/api/ecwid/products?id=${id}`)
+        .then((res) => res.json())
+        .then((response) => {
+          response && setProducts(response.result);
+        })
+        .catch((error) => {
+          console.error(error);
+          setProducts({ error });
+        });
   };
 
   const fetchFavorites = async () => {
     const favoriteIds = localStorage.getItem(storageName);
     const favorites = JSON.parse(favoriteIds);
+
     try {
       const query =
         '*[_type=="mainProduct" && ecwidProductId in $ids && !(_id in path("drafts.**"))]';
       const params = {
-        ids: favorites?.productIds?.map((id) => id?.toString()),
+        ids: favorites?.productIds?.map((id) => id),
       };
 
       const studio = await sanityClient
@@ -58,7 +53,7 @@ export function EcwidContextProvider({ children }) {
         .then((products) => products);
 
       const productReq = await fetch(
-        `/api/ecwid/products/search?productIds=${favorites.productIds.toString()}`
+        `/api/ecwid/products/search?productIds=${favorites.productIds}`
       );
       const productRes = await productReq.json();
 
@@ -66,7 +61,7 @@ export function EcwidContextProvider({ children }) {
         .map((item) => {
           return productRes.items
             .map((prod) => {
-              if (prod.id === +item.ecwidProductId) {
+              if (prod.id === item.ecwidProductId) {
                 return {
                   ...item,
                   ecwidId: prod.id,
@@ -87,10 +82,10 @@ export function EcwidContextProvider({ children }) {
       console.log(error);
     }
   };
-
-  useEffect(() => {
+  useMemo(() => {
     fetchProducts();
-
+  }, [id]);
+  useEffect(() => {
     function load_ecwid() {
       if (typeof Ecwid != "undefined") {
         Ecwid.OnAPILoaded.add(function () {

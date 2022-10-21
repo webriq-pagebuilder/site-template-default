@@ -20,7 +20,6 @@ function VariantA({
   getPriceDisplay,
 }) {
   // block styling as props to `serializers` of the PortableText component
-  console.log("product", product);
   const blockStyle = {
     block: {
       h1: ({ children }) => {

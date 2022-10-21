@@ -51,7 +51,7 @@ function VariantA() {
                       </p>
                       <p className="text-xl font-bold font-heading text-white">
                         <span className="text-webriq-darkblue mr-2">
-                          {item?.defaultDisplayedPriceFormatted}
+                          {items?.price}
                         </span>
                       </p>
                     </a>
