@@ -92,12 +92,12 @@ export function EcwidContextProvider({ children }) {
           Ecwid.init();
 
           Ecwid.Cart.get(function (cart) {
-            console.log("GetCart: ", cart);
+            console.log("GetCart: ", cart?.cartId);
             setCart(cart);
           });
 
           Ecwid.OnCartChanged.add(function (cart) {
-            console.log("OnCartChanged: ", cart);
+            console.log("OnCartChanged: ", cart?.cartId);
             setCart(cart);
           });
         });

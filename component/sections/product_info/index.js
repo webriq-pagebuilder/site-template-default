@@ -10,7 +10,7 @@ const Variants = {
 function ProductInfo({ data, product }) {
   const ecwid = useEcwid();
   const ecwid_products = ecwid?.products || null;
-  const price = ecwid?.price || 0;
+  const price = product?.price || 0;
   const getPriceDisplay = ecwid?.getPriceDisplay;
 
   const variant = data?.variant || data?.variants?.condition;

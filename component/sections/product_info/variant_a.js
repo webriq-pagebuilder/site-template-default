@@ -331,13 +331,13 @@ function VariantA({
                     {getPriceDisplay()}
                   </span>
                 </p>
-                <Description data={ecwidProduct} />
+                <Description data={product} />
 
-                {product?.description && (
+                {/* {product?.description && (
                   <p className="max-w-md text-gray-500 font-custom">
                     {product?.description}
                   </p>
-                )}
+                )} */}
               </div>
               <div className="flex mb-10">
                 <div className="mr-6">

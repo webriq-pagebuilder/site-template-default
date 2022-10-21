@@ -454,13 +454,13 @@ function VariantB({
                   {getPriceDisplay()}
                 </p>
 
-                <Description data={ecwidProduct} />
+                <Description data={product} />
 
-                {product?.description && (
+                {/* {product?.description && (
                   <p className="max-w-md text-gray-500 font-custom">
                     {product?.description}
                   </p>
-                )}
+                )} */}
               </div>
 
               <ProductDetail product={ecwidProduct}>
