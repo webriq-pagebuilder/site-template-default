@@ -99,6 +99,7 @@ const addEcwidProduct = async (req, res) => {
           name: data?.name,
           price: data?.price,
           description: data?.description,
+          unlimited: true,
           enabled: true,
         }),
       }).then((response) => {
