@@ -32,6 +32,7 @@ function ProductPage({ data: initialData = {}, preview, token }) {
     collections, // the collection this product belongs to
     defaultSections, // sections from Store > Pages > Products
     name, // product name
+    ecwidProductId, // the product ID from Ecwid
     price, // product price
     description, // product description
     productPreview, // product preview image
@@ -128,6 +129,9 @@ function ProductPage({ data: initialData = {}, preview, token }) {
             }}
             product={{
               name,
+              ecwidProductId,
+              price,
+              description,
               collections,
               productPreview,
             }}
