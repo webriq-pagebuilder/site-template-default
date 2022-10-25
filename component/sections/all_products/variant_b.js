@@ -15,7 +15,7 @@ function VariantB() {
         // fetch product pages
         await sanityClient
           .fetch(
-            `*[_type == 'mainProduct']{
+            `*[_type == 'mainProduct' && !(_id in path("drafts.**"))]{
             ...,
             collections-> 
           }`
@@ -23,7 +23,7 @@ function VariantB() {
           .then((product) => setProducts(product));
         // fetch collection pages
         await sanityClient
-          .fetch("*[_type == 'mainCollection']")
+          .fetch(`*[_type == 'mainCollection' && !(_id in path("drafts.**"))]`)
           .then((collection) => setCollections(collection));
       } catch (err) {
         console.log(err);
