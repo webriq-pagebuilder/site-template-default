@@ -1,25 +1,30 @@
-import { memo } from "react";
+import React, { lazy, Suspense, useState } from "react";
 import Head from "next/head";
-import { usePreviewSubscription, getClient } from "lib/sanity";
+import { useRouter } from "next/router";
+import { sanityConfig } from "lib/config";
+import { getClient } from "lib/sanity.server";
 import { cartPageQuery } from "pages/api/query";
+import NoPreview from "pages/no-preview";
 import { Components, filterDataToSingleItem } from "../[slug]";
 
-function CartPage({ data, preview }) {
+const PreviewMode = lazy(() => import("next-sanity/preview"));
+
+function CartPage({ data: initialData = {}, preview, token }) {
+  const router = useRouter();
+  const [data, setData] = useState(initialData);
+
+  const cartPageData = data?.cart || data?.[0];
   const slug = "cart";
 
-  let cartPageData;
-  const { data: cartPage } = usePreviewSubscription(cartPageQuery, {
-    params: { slug },
-    initialData: data,
-    enabled: preview,
-  });
-
-  // for never published pages
-  if (cartPage?.hasNeverPublished) {
-    cartPageData = cartPage;
-  } else {
-    // for published pages and pages with unpublished edits
-    cartPageData = cartPage?.cartPage || cartPage?.[0];
+  /*
+   *  For new unpublished pages, return page telling user that the page needs to be published first before it can be previewed
+   *  This prevents showing 404 page when the page is not published yet
+   */
+  if (
+    ((!router.isFallback && !data?.cart) || data?.cart?.hasNeverPublished) &&
+    !preview
+  ) {
+    return <NoPreview />;
   }
 
   if (!cartPageData) {
@@ -30,6 +35,19 @@ function CartPage({ data, preview }) {
 
   return (
     <>
+      {preview && slug && (
+        <Suspense fallback={null}>
+          <PreviewMode
+            projectId={sanityConfig.projectId}
+            dataset={sanityConfig.dataset}
+            initial={initialData}
+            query={cartPageQuery}
+            onChange={setData}
+            token={token}
+            params={{ slug }}
+          />
+        </Suspense>
+      )}
       <Head>
         <meta name="viewport" content="width=260 initial-scale=1" />
         <title>{seo?.seoTitle || "Cart"}</title>
@@ -58,19 +76,22 @@ function CartPage({ data, preview }) {
   );
 }
 
-export async function getStaticProps({ preview = false }) {
-  const cartData = await getClient(preview).fetch(cartPageQuery);
+export async function getStaticProps({ preview = false, previewData = {} }) {
+  const client =
+    preview && previewData?.token
+      ? getClient(false).withConfig({ token: previewData.token })
+      : getClient(preview);
+
+  const cartPage = await client.fetch(cartPageQuery);
 
   // pass page data and preview to helper function
-  const cartPage = filterDataToSingleItem(cartData, preview);
+  const singleCartPageData = filterDataToSingleItem(cartPage, preview);
 
-  // if our query failed to return data for page, return data for blog page
-  // Reference: https://www.sanity.io/guides/nextjs-live-preview
-  if (!cartPage) {
+  if (!singleCartPageData) {
     return {
       props: {
         preview,
-        data: { cartPage: null },
+        data: { cart: null },
       },
     };
   }
@@ -78,9 +99,14 @@ export async function getStaticProps({ preview = false }) {
   return {
     props: {
       preview,
-      data: { cartPage },
+      token: (preview && previewData.token) || "",
+      data: {
+        cart: singleCartPageData || null,
+      },
     },
+    // If webhooks isn't setup then attempt to re-generate in 1 minute intervals
+    revalidate: process.env.SANITY_REVALIDATE_SECRET ? undefined : 60,
   };
 }
 
-export default memo(CartPage);
+export default React.memo(CartPage);

@@ -3,36 +3,36 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { sanityConfig } from "lib/config";
 import { getClient } from "lib/sanity.server";
-import { wishlistPageQuery } from "pages/api/query";
+import { searchPageQuery } from "pages/api/query";
 import NoPreview from "pages/no-preview";
 import { Components, filterDataToSingleItem } from "../[slug]";
 
 const PreviewMode = lazy(() => import("next-sanity/preview"));
 
-function WishlistPage({ data: initialData = {}, preview, token }) {
+function SearchPage({ data: initialData = {}, preview, token }) {
   const router = useRouter();
   const [data, setData] = useState(initialData);
 
-  const wishlistPageData = data?.wishlist || data?.[0];
-  const slug = "wishlist";
+  const searchPageData = data?.search || data?.[0];
+  const slug = "search";
 
   /*
    *  For new unpublished pages, return page telling user that the page needs to be published first before it can be previewed
    *  This prevents showing 404 page when the page is not published yet
    */
   if (
-    ((!router.isFallback && !data?.wishlist) ||
-      data?.wishlist?.hasNeverPublished) &&
+    ((!router.isFallback && !data?.search) ||
+      data?.search?.hasNeverPublished) &&
     !preview
   ) {
     return <NoPreview />;
   }
 
-  if (!wishlistPageData) {
+  if (!searchPageData) {
     return null;
   }
 
-  const { sections, seo } = wishlistPageData;
+  const { sections, seo } = searchPageData;
 
   return (
     <>
@@ -42,7 +42,7 @@ function WishlistPage({ data: initialData = {}, preview, token }) {
             projectId={sanityConfig.projectId}
             dataset={sanityConfig.dataset}
             initial={initialData}
-            query={wishlistPageQuery}
+            query={searchPageQuery}
             onChange={setData}
             token={token}
             params={{ slug }}
@@ -51,7 +51,7 @@ function WishlistPage({ data: initialData = {}, preview, token }) {
       )}
       <Head>
         <meta name="viewport" content="width=260 initial-scale=1" />
-        <title>{seo?.seoTitle || "Wishlist"}</title>
+        <title>{seo?.seoTitle || "Search"}</title>
       </Head>
       {sections &&
         sections?.map((section, index) => {
@@ -83,16 +83,16 @@ export async function getStaticProps({ preview = false, previewData = {} }) {
       ? getClient(false).withConfig({ token: previewData.token })
       : getClient(preview);
 
-  const searchPage = await client.fetch(wishlistPageQuery);
+  const searchPage = await client.fetch(searchPageQuery);
 
   // pass page data and preview to helper function
-  const singleWishlistPage = filterDataToSingleItem(searchPage, preview);
+  const singlePageData = filterDataToSingleItem(searchPage, preview);
 
-  if (!singleWishlistPage) {
+  if (!singlePageData) {
     return {
       props: {
         preview,
-        data: { wishlist: null },
+        data: { search: null },
       },
     };
   }
@@ -102,7 +102,7 @@ export async function getStaticProps({ preview = false, previewData = {} }) {
       preview,
       token: (preview && previewData.token) || "",
       data: {
-        wishlist: singleWishlistPage || null,
+        search: singlePageData || null,
       },
     },
     // If webhooks isn't setup then attempt to re-generate in 1 minute intervals
@@ -110,4 +110,4 @@ export async function getStaticProps({ preview = false, previewData = {} }) {
   };
 }
 
-export default React.memo(WishlistPage);
+export default React.memo(SearchPage);

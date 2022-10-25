@@ -29,6 +29,7 @@ export const Components = {
   footer: dynamic(() => import("component/sections/footer")),
   signInSignUp: dynamic(() => import("component/sections/sign_in_sign_up")),
   textComponent: dynamic(() => import("component/sections/text_component")),
+  // C-Studio
   cartSection: dynamic(() => import("component/sections/cart_section")),
   featuredProducts: dynamic(() =>
     import("component/sections/featured_products")
@@ -41,6 +42,7 @@ export const Components = {
   pages_productInfo: dynamic(() =>
     import("component/sections/pages_productInfo")
   ),
+  allProducts: dynamic(() => import("component/sections/all_products")),
 };
 
 const BlogPage = dynamic(() => import("component/blog/"));
