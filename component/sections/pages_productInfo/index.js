@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect, useMemo } from "react";
 import dynamic from "next/dynamic";
+import { EcwidContextProvider } from "context/EcwidContext";
 
 const Variants = {
   variant_a: dynamic(() => import("./variant_a")),
@@ -7,13 +8,19 @@ const Variants = {
 };
 
 function PagesProductInfo({ data }) {
+  const { products } = data?.variants;
+
   const variant = data?.variant || data?.variants?.condition;
   const Variant = Variants?.[variant];
 
   const props = {
-    products: data?.variants?.products,
+    products: products,
   };
 
-  return Variant ? <Variant {...props} /> : null;
+  return Variant ? (
+    <EcwidContextProvider>
+      <Variant {...props} />
+    </EcwidContextProvider>
+  ) : null;
 }
 export default React.memo(PagesProductInfo);

@@ -1,34 +1,34 @@
 import "../styles/globals.css";
-import React from "react";
+import React, { useEffect } from "react";
 import SEO from "../component/SEO";
 import "swiper/scss";
 import "swiper/scss/navigation";
 import "swiper/scss/pagination";
-import { EcwidContextProvider } from "context/EcwidContext";
-import { useRouter } from "next/router";
+import useScript from "utils/useScript";
 
 function MyApp({ Component, pageProps }) {
-  const { preview } = pageProps;
-  const router = useRouter();
-
-  // patch: cleanup `secret=<secret>&slug=<slug>` when on preview mode as this causes ECWID to refresh indefinitely
-  React.useEffect(() => {
-    if (
-      typeof window !== "undefined" &&
-      preview &&
-      location.search?.includes("secret=") &&
-      location.search?.includes("slug=")
-    ) {
-      router.push(`${window.location.pathname}`);
+  let script_status = useScript(process.env.NEXT_PUBLIC_ECWID_SCRIPT);
+  useEffect(() => {
+    if (script_status === "ready") {
+      try {
+        window.Ecwid.OnAPILoaded.add(function () {
+          window.Ecwid.init();
+        });
+        window.Ecwid.OnPageLoaded.add(function (page) {
+          if (page.type === "CATEGORY" || page.type === "PRODUCT") {
+            Ecwid.openPage("cart");
+          }
+        });
+      } catch (error) {
+        console.log(error);
+      }
     }
-  }, [preview, router]);
+  }, [script_status]);
 
   return (
     <>
-      <EcwidContextProvider>
-        <SEO {...pageProps} />
-        <Component {...pageProps} />
-      </EcwidContextProvider>
+      <SEO {...pageProps} />
+      <Component {...pageProps} />
     </>
   );
 }

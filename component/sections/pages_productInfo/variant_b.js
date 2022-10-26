@@ -1,11 +1,22 @@
-import { memo } from "react";
+import { memo, useEffect } from "react";
 import { urlFor } from "lib/sanity";
 import Image from "next/image";
 import AddToBag from "component/ecwid/AddToBag";
 import AddToWishlist from "component/ecwid/AddToWishlist";
 import Ribbon from "component/ecwid/Ribbon";
+import ProductDetail from "component/ecwid/ProductDetail";
+import { useEcwid } from "context/EcwidContext";
 
 function VariantB({ products }) {
+  const { name, price, description, productPreview, others } = products;
+  const ecwid = useEcwid();
+
+  const ecwidProduct = ecwid?.products;
+
+  useEffect(() => {
+    ecwid.setId(products.ecwidProductId);
+  }, [ecwid.id]);
+
   return (
     <section className="py-20">
       <div className="container mx-auto px-4">
@@ -108,7 +119,12 @@ function VariantB({ products }) {
             <div className="w-full md:w-1/2 px-4">
               <div>
                 <div className="mb-10 pb-10 border-b">
-                  {products?.name && (
+                  {products?.ecwidProductId && (
+                    <div className="mb-3">
+                      <Ribbon data={ecwidProduct} />
+                    </div>
+                  )}
+                  {name && (
                     <h1 className="mt-2 mb-6 max-w-xl text-5xl md:text-6xl font-bold font-heading">
                       {products?.name}
                     </h1>
@@ -116,107 +132,51 @@ function VariantB({ products }) {
                   <div className="mb-8">{/* Add product rating here */}</div>
                   {products?.price && (
                     <p className="inline-block mb-8 text-2xl font-bold font-heading text-webriq-blue">
-                      {products?.price}
+                      {ecwid?.getPriceDisplay(price)}
                     </p>
                   )}
                   {products?.description && <p>{products?.description}</p>}
                 </div>
-                <div className="mb-12">
-                  <div className="mr-6">
-                    <span className="block mb-4 font-bold font-heading uppercase">
-                      QUANTITY
-                    </span>
-                    <div className="inline-flex items-center px-4 font-semibold font-heading text-gray-500 border border-gray-200 focus:ring-blue-300 focus:border-blue-300 rounded-md">
-                      <button className="py-2 hover:text-gray-700">
-                        <svg
-                          width={12}
-                          height={2}
-                          viewBox="0 0 12 2"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
+
+                <ProductDetail product={ecwidProduct}>
+                  <div className="flex flex-col sm:flex-row items-start mt-8 gap-y-4 sm:gap-y-0 sm:gap-x-4">
+                    {others?.[0]?.btnLabel && (
+                      <div className="w-full lg:mb-4 xl:mb-0">
+                        <AddToBag
+                          inStock={!ecwidProduct?.inStock}
+                          classNames="block w-full mb-4 lg:mb-0 text-center text-white font-bold font-heading py-5 px-8 rounded-md uppercase transition duration-200 bg-webriq-darkblue hover:bg-webriq-blue cursor-pointer"
                         >
-                          <g opacity="0.35">
-                            <rect
-                              x={12}
-                              width={2}
-                              height={12}
-                              transform="rotate(90 12 0)"
-                              fill="currentColor"
-                            />
-                          </g>
-                        </svg>
-                      </button>
-                      <input
-                        className="w-72 m-0 px-2 py-4 text-center border-0 focus:ring-transparent focus:outline-none rounded-md"
-                        type="number"
-                        placeholder={1}
-                      />
-                      <button className="py-2 hover:text-gray-700">
-                        <svg
-                          width={12}
-                          height={12}
-                          viewBox="0 0 12 12"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <g opacity="0.35">
-                            <rect
-                              x={5}
-                              width={2}
-                              height={12}
-                              fill="currentColor"
-                            />
-                            <rect
-                              x={12}
-                              y={5}
-                              width={2}
-                              height={12}
-                              transform="rotate(90 12 5)"
-                              fill="currentColor"
-                            />
-                          </g>
-                        </svg>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-                <div className="flex flex-col sm:flex-row items-start mt-8 gap-y-4 sm:gap-y-0 sm:gap-x-4">
-                  {products?.others?.[0]?.btnLabel && (
-                    <div className="w-full lg:mb-4 xl:mb-0">
-                      <AddToBag
-                        //inStock={!ecwidProduct?.inStock}
-                        classNames="block w-full mb-4 lg:mb-0 text-center text-white font-bold font-heading py-5 px-8 rounded-md uppercase transition duration-200 bg-webriq-darkblue hover:bg-webriq-blue cursor-pointer"
-                      >
-                        {products?.others?.[0]?.btnLabel}
-                      </AddToBag>
-                    </div>
-                  )}
-                  <AddToWishlist
-                    classNames="w-full flex-shrink-0 flex flex-wrap items-center justify-center py-5 px-8 rounded-md border hover:border-webriq-darkblue"
-                    //product={ecwidProduct}
-                    containerClass="w-full"
-                  >
-                    <svg
-                      className="-mt-1 mr-2"
-                      width={27}
-                      height={27}
-                      viewBox="0 0 27 27"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
+                          {others?.[0]?.btnLabel}
+                        </AddToBag>
+                      </div>
+                    )}
+                    <AddToWishlist
+                      classNames="w-full flex-shrink-0 flex flex-wrap items-center justify-center py-5 px-8 rounded-md border hover:border-webriq-darkblue"
+                      product={ecwidProduct}
+                      containerClass="w-full"
                     >
-                      <path
-                        d="M13.4993 26.2061L4.70067 16.9253C3.9281 16.1443 3.41815 15.1374 3.24307 14.0471C3.06798 12.9568 3.23664 11.8385 3.72514 10.8505V10.8505C4.09415 10.1046 4.63318 9.45803 5.29779 8.96406C5.96241 8.47008 6.73359 8.14284 7.54782 8.00931C8.36204 7.87578 9.19599 7.93978 9.98095 8.19603C10.7659 8.45228 11.4794 8.89345 12.0627 9.48319L13.4993 10.9358L14.9359 9.48319C15.5192 8.89345 16.2327 8.45228 17.0177 8.19603C17.8026 7.93978 18.6366 7.87578 19.4508 8.00931C20.265 8.14284 21.0362 8.47008 21.7008 8.96406C22.3654 9.45803 22.9045 10.1046 23.2735 10.8505V10.8505C23.762 11.8385 23.9306 12.9568 23.7556 14.0471C23.5805 15.1374 23.0705 16.1443 22.298 16.9253L13.4993 26.2061Z"
-                        stroke="black"
-                        strokeWidth="1.5"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-                    <span className="font-bold font-heading uppercase">
-                      Add to wishlist
-                    </span>
-                  </AddToWishlist>
-                </div>
+                      <svg
+                        className="-mt-1 mr-2"
+                        width={27}
+                        height={27}
+                        viewBox="0 0 27 27"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M13.4993 26.2061L4.70067 16.9253C3.9281 16.1443 3.41815 15.1374 3.24307 14.0471C3.06798 12.9568 3.23664 11.8385 3.72514 10.8505V10.8505C4.09415 10.1046 4.63318 9.45803 5.29779 8.96406C5.96241 8.47008 6.73359 8.14284 7.54782 8.00931C8.36204 7.87578 9.19599 7.93978 9.98095 8.19603C10.7659 8.45228 11.4794 8.89345 12.0627 9.48319L13.4993 10.9358L14.9359 9.48319C15.5192 8.89345 16.2327 8.45228 17.0177 8.19603C17.8026 7.93978 18.6366 7.87578 19.4508 8.00931C20.265 8.14284 21.0362 8.47008 21.7008 8.96406C22.3654 9.45803 22.9045 10.1046 23.2735 10.8505V10.8505C23.762 11.8385 23.9306 12.9568 23.7556 14.0471C23.5805 15.1374 23.0705 16.1443 22.298 16.9253L13.4993 26.2061Z"
+                          stroke="black"
+                          strokeWidth="1.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                      <span className="font-bold font-heading uppercase">
+                        Add to wishlists
+                      </span>
+                    </AddToWishlist>
+                  </div>
+                </ProductDetail>
               </div>
             </div>
           </div>

@@ -10,6 +10,7 @@ import PageNotFound from "pages/404";
 import NoPreview from "pages/no-preview";
 import { sanityConfig } from "lib/config";
 import { getClient, sanityClient } from "lib/sanity.server";
+import { EcwidContextProvider } from "context/EcwidContext";
 
 const PreviewMode = lazy(() => import("next-sanity/preview"));
 
@@ -122,22 +123,23 @@ function ProductPage({ data: initialData = {}, preview, token }) {
           }
 
           return (
-            <Component
-              key={index}
-              template={{
-                bg: "gray",
-                color: "webriq",
-              }}
-              product={{
-                name,
-                ecwidProductId,
-                price,
-                description,
-                collections,
-                productPreview,
-              }}
-              data={section}
-            />
+            <EcwidContextProvider key={index}>
+              <Component
+                template={{
+                  bg: "gray",
+                  color: "webriq",
+                }}
+                product={{
+                  name,
+                  ecwidProductId,
+                  price,
+                  description,
+                  collections,
+                  productPreview,
+                }}
+                data={section}
+              />
+            </EcwidContextProvider>
           );
         })}
     </>
