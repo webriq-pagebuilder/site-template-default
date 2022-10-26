@@ -20,8 +20,29 @@ html {
 .swiper-button-disabled {
   opacity: 0.5 !important;
 }
-.cart-icon {
+/* .cart-icon {
   @apply relative before:content-[attr(data-count)] before:absolute before:flex before:items-center before:justify-center before:bg-webriq-darkblue before:rounded-full before:h-6 before:w-6 before:-top-3 before:-right-3 before:text-white;
+} */
+html#ecwid_html body#ecwid_body .cart-icon {
+  position: relative;
+}
+html#ecwid_html body#ecwid_body .cart-icon .cart-link {
+  display: block;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  z-index: 1;
+}
+html#ecwid_html body#ecwid_body .cart-icon .ec-minicart__icon svg {
+  width: 32px;
+  height: 32px;
+}
+html#ecwid_html body#ecwid_body .ec-minicart__icon .icon-default path[stroke] {
+  stroke-width: 1;
+}
+html#ecwid_html body#ecwid_body .ec-minicart--m .ec-minicart__counter::after {
+  background-color: #007aff !important;
 }
 
 .product-images-swiper.swiper-container {

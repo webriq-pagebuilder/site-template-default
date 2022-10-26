@@ -57,7 +57,7 @@ function VariantA({ title, featured }) {
                   </a>
                   <p className="text-xl font-bold font-heading text-white">
                     <span className="text-webriq-darkblue mr-2">
-                      {item?.defaultDisplayedPriceFormatted}
+                      {item?.defaultDisplayedPriceFormatted} test
                     </span>
                   </p>
                 </div>

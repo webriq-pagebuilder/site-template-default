@@ -11,15 +11,17 @@ const AddToWishlist = ({
   const ecwid = useEcwid();
   const { addWishlist, setId, favorited } = ecwid;
 
+  const productId = product?.id ? product?.id : product?.ecwidProductId;
+
   useEffect(() => {
-    setId(product?.id);
+    setId(productId);
   }, [favorited]);
 
   return (
     <>
       <div className={favorited ? "w-full" : containerClass}>
         <button
-          onClick={() => addWishlist(product?.id)}
+          onClick={() => addWishlist(productId)}
           className={classNames}
           type="button"
         >

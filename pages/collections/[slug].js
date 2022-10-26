@@ -10,6 +10,7 @@ import PageNotFound from "pages/404";
 import NoPreview from "pages/no-preview";
 import { sanityConfig } from "lib/config";
 import { getClient, sanityClient } from "lib/sanity.server";
+import { EcwidContextProvider } from "context/EcwidContext";
 
 const PreviewMode = lazy(() => import("next-sanity/preview"));
 
@@ -116,17 +117,19 @@ function CollectionPage({ data: initialData = {}, preview, token }) {
         }
 
         return (
-          <Component
-            key={index}
-            template={{
-              bg: "gray",
-              color: "webriq",
-            }}
-            collection={{
-              name,
-            }}
-            data={section}
-          />
+          <EcwidContextProvider>
+            <Component
+              key={index}
+              template={{
+                bg: "gray",
+                color: "webriq",
+              }}
+              collection={{
+                name,
+              }}
+              data={section}
+            />
+          </EcwidContextProvider>
         );
       })}
     </>

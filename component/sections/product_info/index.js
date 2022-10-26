@@ -18,7 +18,7 @@ function ProductInfo({ data, product }) {
 
   useEffect(() => {
     ecwid.setId(product.ecwidProductId);
-  }, []);
+  }, [ecwid.id]);
 
   const ecwidProduct = useMemo(() => {
     let data = null;

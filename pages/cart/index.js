@@ -3,6 +3,7 @@ import Head from "next/head";
 import { usePreviewSubscription, getClient } from "lib/sanity";
 import { cartPageQuery } from "pages/api/query";
 import { Components, filterDataToSingleItem } from "../[slug]";
+import { EcwidContextProvider } from "context/EcwidContext";
 
 function CartPage({ data, preview }) {
   const slug = "cart";
@@ -44,14 +45,16 @@ function CartPage({ data, preview }) {
           }
 
           return (
-            <Component
-              key={index}
-              template={{
-                bg: "gray",
-                color: "webriq",
-              }}
-              data={section}
-            />
+            <EcwidContextProvider>
+              <Component
+                key={index}
+                template={{
+                  bg: "gray",
+                  color: "webriq",
+                }}
+                data={section}
+              />
+            </EcwidContextProvider>
           );
         })}
     </>
