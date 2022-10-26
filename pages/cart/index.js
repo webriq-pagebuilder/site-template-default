@@ -54,7 +54,7 @@ function CartPage({ data: initialData = {}, preview, token }) {
       </Head>
       {sections &&
         sections?.map((section, index) => {
-          const Component = Components[section._type];
+          const Component = Components[section?._type];
 
           // skip rendering unknown components
           if (!Component) {
