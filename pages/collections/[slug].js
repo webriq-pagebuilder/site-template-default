@@ -108,30 +108,31 @@ function CollectionPage({ data: initialData = {}, preview, token }) {
         <link rel="icon" href="../favicon.ico" />
         <title>{seo?.seoTitle ?? name}</title>
       </Head>
-      {sectionsToDisplay?.map((section, index) => {
-        const Component = Components[section._type];
+      {sectionsToDisplay &&
+        sectionsToDisplay?.map((section, index) => {
+          const Component = Components[section._type];
 
-        // skip rendering unknown components
-        if (!Component) {
-          return null;
-        }
+          // skip rendering unknown components
+          if (!Component) {
+            return null;
+          }
 
-        return (
-          <EcwidContextProvider>
-            <Component
-              key={index}
-              template={{
-                bg: "gray",
-                color: "webriq",
-              }}
-              collection={{
-                name,
-              }}
-              data={section}
-            />
-          </EcwidContextProvider>
-        );
-      })}
+          return (
+            <EcwidContextProvider>
+              <Component
+                key={index}
+                template={{
+                  bg: "gray",
+                  color: "webriq",
+                }}
+                collection={{
+                  name,
+                }}
+                data={section}
+              />
+            </EcwidContextProvider>
+          );
+        })}
     </>
   );
 }

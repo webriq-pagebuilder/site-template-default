@@ -2,13 +2,13 @@ import JWT from "jsonwebtoken";
 import Cors from "cors";
 import corsMiddleware from "lib/cors";
 
-let URL = `https://app.ecwid.com/api/v3/${process.env.NEXT_PUBLIC_ECWID_STORE_ID}/products`;
-const secret =
-  process.env.ECWID_STORE_SECRET_TOKEN ||
-  "secret_gZLupqWKySbqu2GUfuNePrMLuNvCTyun";
+const storeId = process.env.NEXT_PUBLIC_ECWID_STORE_ID;
+const secret = process.env.ECWID_STORE_SECRET_TOKEN;
+
+let URL = `https://app.ecwid.com/api/v3/${storeId}/products`;
 const reqHeaders = {
   Accept: "application/json",
-  Authorization: `Bearer ${secret}`, // to be replaced with the decrypted token
+  Authorization: `Bearer ${secret}`,
   "Content-Type": "application/json",
 };
 
@@ -41,17 +41,19 @@ async function handler(req, res) {
 
 // Get Ecwid products from store
 const getEcwidProducts = async (req, res) => {
-  const { id } = req.query;
   try {
-    return await fetch(URL + `/${+id}`, {
+    return await fetch(URL, {
       method: "GET",
       headers: {
-        Accept: "application/json",
+        ...reqHeaders,
         Authorization: `Bearer ${process.env.NEXT_PUBLIC_ECWID_PUBLIC_TOKEN}`,
       },
     })
       .then((res) => res.json())
-      .then((json) => res.status(200).json({ result: json }));
+      .then((json) => {
+        console.log("json", json);
+        return res.status(200).json({ result: json });
+      });
   } catch (error) {
     return res.status(400).send(error);
   }
@@ -61,23 +63,10 @@ const getEcwidProductById = async (id) => {
   return fetch(`${URL}/${id}`, {
     method: "GET",
     headers: {
-      Accept: "application/json",
+      ...reqHeaders,
       Authorization: `Bearer ${process.env.NEXT_PUBLIC_ECWID_PUBLIC_TOKEN}`,
     },
   });
-};
-
-// Get an Ecwid product by name
-const getEcwidProductByName = async (req, res) => {
-  const productName = req;
-
-  try {
-    return await getEcwidProducts().then((result) => {
-      result?.items?.find((product) => product?.name === productName);
-    });
-  } catch (error) {
-    return res.status(500).send(error);
-  }
 };
 
 // Add a new Ecwid product
@@ -86,32 +75,28 @@ const addEcwidProduct = async (req, res) => {
   let product;
 
   try {
-    // check if product exists before creating
-    const createIfNotExists = await getEcwidProductByName(data?.name);
+    // product does not exist so create
+    console.log("Creating Ecwid product...");
 
-    if (!createIfNotExists) {
-      // product does not exist so create
-      console.log("Creating Ecwid product...");
+    product = await fetch(URL, {
+      method: "POST",
+      headers: reqHeaders,
+      body: JSON.stringify({
+        name: data?.name,
+        price: data?.price,
+        description: data?.description,
+        unlimited: true,
+        enabled: true,
+      }),
+    }).then((response) => {
+      if (!response.ok) {
+        console.log("Failed to create Ecwid product!", response);
+      } else {
+        console.log("Successfully created Ecwid product!");
+      }
 
-      product = await fetch(URL, {
-        method: "POST",
-        headers: reqHeaders,
-        body: JSON.stringify({
-          name: data?.name,
-          price: data?.price,
-          description: data?.description,
-          enabled: true,
-        }),
-      }).then((response) => {
-        if (!response.ok) {
-          console.log("Failed to create Ecwid product!", response);
-        } else {
-          console.log("Successfully created Ecwid product!");
-        }
-
-        return response.json();
-      });
-    } // else product exists so do nothing
+      return response.json();
+    });
   } catch (err) {
     console.log(err);
     return res.status(400).send({ error: err });
