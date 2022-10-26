@@ -26,15 +26,18 @@ function VariantB({ products }) {
               <div className="flex flex-wrap -mx-1">
                 <div className="md:w-full px-5">
                   <div className="relative">
-                    {productPreview?.image && (
+                    {products?.productPreview?.image && (
                       <div className="w-full h-full">
                         <Image
                           layout="responsive"
                           width={736}
                           height={564}
                           objectFit="cover"
-                          src={urlFor(productPreview?.image)}
-                          alt={productPreview?.alt ?? "product-info-main-image"}
+                          src={urlFor(products?.productPreview?.image)}
+                          alt={
+                            products?.productPreview?.alt ??
+                            "product-info-main-image"
+                          }
                         />
                       </div>
                     )}
@@ -45,7 +48,7 @@ function VariantB({ products }) {
                     <span className="mr-8 font-bold font-heading uppercase">
                       SHARE IT
                     </span>
-                    {others?.[0]?.socialLinks?.map(
+                    {products?.others?.[0]?.socialLinks?.map(
                       (social, index) =>
                         social?.socialMediaLink && (
                           <a
@@ -123,16 +126,16 @@ function VariantB({ products }) {
                   )}
                   {name && (
                     <h1 className="mt-2 mb-6 max-w-xl text-5xl md:text-6xl font-bold font-heading">
-                      {name}
+                      {products?.name}
                     </h1>
                   )}
                   <div className="mb-8">{/* Add product rating here */}</div>
-                  {price && (
+                  {products?.price && (
                     <p className="inline-block mb-8 text-2xl font-bold font-heading text-webriq-blue">
                       {ecwid?.getPriceDisplay(price)}
                     </p>
                   )}
-                  {description && <p>{description}</p>}
+                  {products?.description && <p>{products?.description}</p>}
                 </div>
 
                 <ProductDetail product={ecwidProduct}>

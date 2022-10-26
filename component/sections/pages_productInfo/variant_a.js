@@ -22,15 +22,18 @@ function VariantA({ products }) {
           <div className="flex flex-wrap -mx-4 mb-24">
             <div className="w-full md:w-1/2 px-4 mb-8 md:mb-0">
               <div className="relative mb-10">
-                {productPreview?.image && (
+                {products?.productPreview?.image && (
                   <div className="w-full h-full">
                     <Image
                       layout="responsive"
                       width={736}
                       height={650}
                       objectFit="cover"
-                      src={urlFor(productPreview?.image)}
-                      alt={productPreview?.alt ?? "product-info-main-image"}
+                      src={urlFor(products?.productPreview?.image)}
+                      alt={
+                        products?.productPreview?.alt ??
+                        "product-info-main-image"
+                      }
                     />
                   </div>
                 )}
@@ -44,18 +47,20 @@ function VariantA({ products }) {
                   </div>
                 )}
                 <div className="mb-10 pb-10 border-b">
-                  {name && (
+                  {products?.name && (
                     <h1 className="mt-2 mb-6 lg:max-w-xl text-5xl md:text-6xl font-bold font-heading">
-                      {name}
+                      {products?.name}
                     </h1>
                   )}
                   <div className="mb-8">{/* Add product rating here */}</div>
-                  {price && (
+                  {products?.price && (
                     <p className="inline-block mb-8 text-2xl font-bold font-heading text-webriq-blue">
                       {ecwid && ecwid?.getPriceDisplay(price)}
                     </p>
                   )}
-                  {description && <p className="max-w-md">{description}</p>}
+                  {products?.description && (
+                    <p className="max-w-md">{products?.description}</p>
+                  )}
                 </div>
 
                 <ProductDetail product={ecwidProduct}>
@@ -99,7 +104,7 @@ function VariantA({ products }) {
                   <span className="mr-8 font-bold font-heading uppercase">
                     SHARE IT
                   </span>
-                  {others?.[0]?.socialLinks?.map(
+                  {products?.others?.[0]?.socialLinks?.map(
                     (social, index) =>
                       social?.socialMediaLink && (
                         <a
