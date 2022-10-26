@@ -26,7 +26,7 @@ export function EcwidContextProvider({ children }) {
 
   const fetchProducts = () => {
     id !== null &&
-      fetch(`/api/ecwid/products?id=${id}`)
+      fetch(`/api/ecwid/products/${id}`)
         .then((res) => res.json())
         .then((response) => {
           response && setProducts(response.result);
