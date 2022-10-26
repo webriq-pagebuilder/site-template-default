@@ -63,7 +63,7 @@ function VariantA({ products }) {
                     {others?.[0]?.btnLabel && (
                       <div className="w-full lg:mb-4 xl:mb-0">
                         <AddToBag
-                          //inStock={!ecwidProduct?.inStock}
+                          inStock={!ecwidProduct?.inStock}
                           classNames="block w-full text-center text-white font-bold font-heading py-5 px-8 rounded-md uppercase transition duration-200 bg-webriq-darkblue hover:bg-webriq-blue cursor-pointer"
                         >
                           {others?.[0]?.btnLabel}

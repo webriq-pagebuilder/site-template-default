@@ -123,9 +123,8 @@ function ProductPage({ data: initialData = {}, preview, token }) {
           }
 
           return (
-            <EcwidContextProvider>
+            <EcwidContextProvider key={index}>
               <Component
-                key={index}
                 template={{
                   bg: "gray",
                   color: "webriq",
