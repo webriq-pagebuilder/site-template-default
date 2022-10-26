@@ -114,7 +114,7 @@ function ProductPage({ data: initialData = {}, preview, token }) {
       </Head>
       {sectionsToDisplay &&
         sectionsToDisplay?.map((section, index) => {
-          const Component = Components[section._type];
+          const Component = Components?.[section?._type];
 
           // skip rendering unknown components
           if (!Component) {
