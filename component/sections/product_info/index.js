@@ -24,7 +24,7 @@ function ProductInfo({ data, product }) {
 
   const ecwidProduct = useMemo(() => {
     let data = null;
-    if (ecwid_products && product?.ecwidProductId) {
+    if (product?.ecwidProductId && ecwid_products) {
       data = ecwid_products;
     }
     return data;
