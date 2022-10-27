@@ -23,8 +23,6 @@ function VariantA({
 
   const defaultProduct = ecwidProduct ? ecwidProduct : product;
 
-  console.log("defaultProduct", defaultProduct);
-
   const blockStyle = {
     block: {
       h1: ({ children }) => {

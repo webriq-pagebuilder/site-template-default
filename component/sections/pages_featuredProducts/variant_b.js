@@ -10,9 +10,9 @@ function VariantC({ collections }) {
 
   const ids =
     collections &&
-    collections
-      ?.map(({ items }) => items?.map((i) => i?.ecwidProductId))
-      .flat();
+    collections?.map((item) =>
+      item?.items?.map((i) => i?.ecwidProductId).flat()
+    );
 
   useEffect(() => {
     fetchCollections(ids);
@@ -33,13 +33,13 @@ function VariantC({ collections }) {
                 let items = [];
                 productCollection &&
                   productCollection?.find((prod) => {
-                    if (prod.id === product?.ecwidProductId) {
-                      items.push({ ...prod, ...product });
+                    if (prod?.id === product?.ecwidProductId) {
+                      items?.push({ ...prod, ...product });
                     }
                   });
 
                 return (
-                  items.length > 0 &&
+                  items &&
                   items.map((collect) => (
                     <div
                       className="w-full md:w-1/2 lg:w-1/4 px-3 mb-6 lg:mb-0"
@@ -84,7 +84,7 @@ function VariantC({ collections }) {
                           {product?.price && (
                             <p className="text-lg font-bold font-heading text-blue-500">
                               <span className="text-webriq-darkblue">
-                                {getPriceDisplay(product?.price)} test
+                                {getPriceDisplay(product?.price)}
                               </span>
                             </p>
                           )}

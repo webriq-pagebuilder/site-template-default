@@ -10,9 +10,9 @@ function VariantA({ collections }) {
 
   const ids =
     collections &&
-    collections?.map(({ items }) => items.map((i) => i.ecwidProductId)).flat();
-
-  console.log("getPriceDisplay", ecwid);
+    collections?.map((item) =>
+      item?.items?.map((i) => i?.ecwidProductId).flat()
+    );
 
   useEffect(() => {
     fetchCollections(ids);
@@ -34,13 +34,13 @@ function VariantA({ collections }) {
                   let items = [];
                   productCollection &&
                     productCollection?.find((prod) => {
-                      if (prod.id === product?.ecwidProductId) {
-                        items.push({ ...prod, ...product });
+                      if (prod?.id === product?.ecwidProductId) {
+                        items?.push({ ...prod, ...product });
                       }
                     });
 
                   return (
-                    items?.length > 0 &&
+                    items &&
                     items?.map((collect) => (
                       <div className="w-full my-10 p-6" key={index}>
                         <a

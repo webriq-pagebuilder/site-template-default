@@ -100,12 +100,10 @@ export function EcwidContextProvider({ children }) {
             Ecwid.init();
 
             Ecwid.Cart.get(function (cart) {
-              console.log("GetCart: ", cart);
               setCart(cart);
             });
 
             Ecwid.OnCartChanged.add(function (cart) {
-              console.log("OnCartChanged: ", cart);
               setCart(cart);
             });
           });

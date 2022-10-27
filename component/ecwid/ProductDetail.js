@@ -7,8 +7,6 @@ import ItemInBag from "./ItemInBag";
 const ProductDetail = ({ product, children }) => {
   const productId = product?.id ? product?.id : product?.ecwidProductId;
 
-  console.log("product", productId);
-
   if (!productId) return null;
 
   const ecwid = useEcwid();
