@@ -7,14 +7,15 @@ import Ribbon from "component/ecwid/Ribbon";
 import ProductDetail from "component/ecwid/ProductDetail";
 import { useEcwid } from "context/EcwidContext";
 function VariantA({ products }) {
-  const { name, price, description, productPreview, others } = products;
   const ecwid = useEcwid();
 
   const ecwidProduct = ecwid?.products;
 
   useEffect(() => {
-    ecwid.setId(products.ecwidProductId);
-  }, [ecwid.id]);
+    if (products?.ecwidProductId) {
+      ecwid.setId(products.ecwidProductId);
+    }
+  }, [ecwid, products?.ecwidProductId]);
 
   return (
     <section className="py-20">
@@ -56,7 +57,7 @@ function VariantA({ products }) {
                   <div className="mb-8">{/* Add product rating here */}</div>
                   {products?.price && (
                     <p className="inline-block mb-8 text-2xl font-bold font-heading text-webriq-blue">
-                      {ecwid && ecwid?.getPriceDisplay(price)}
+                      {ecwid && ecwid?.getPriceDisplay(products?.price)}
                     </p>
                   )}
                   {products?.description && (
@@ -66,13 +67,13 @@ function VariantA({ products }) {
 
                 <ProductDetail product={ecwidProduct}>
                   <div className="flex flex-col sm:flex-row items-start my-8 gap-y-4 sm:gap-y-0 sm:gap-x-4">
-                    {others?.[0]?.btnLabel && (
+                    {products?.others?.[0]?.btnLabel && (
                       <div className="w-full lg:mb-4 xl:mb-0">
                         <AddToBag
                           inStock={!ecwidProduct?.inStock}
                           classNames="block w-full text-center text-white font-bold font-heading py-5 px-8 rounded-md uppercase transition duration-200 bg-webriq-darkblue hover:bg-webriq-blue cursor-pointer"
                         >
-                          {others?.[0]?.btnLabel}
+                          {products?.others?.[0]?.btnLabel}
                         </AddToBag>
                       </div>
                     )}

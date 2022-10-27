@@ -8,14 +8,15 @@ import ProductDetail from "component/ecwid/ProductDetail";
 import { useEcwid } from "context/EcwidContext";
 
 function VariantB({ products }) {
-  const { name, price, description, productPreview, others } = products;
   const ecwid = useEcwid();
 
   const ecwidProduct = ecwid?.products;
 
   useEffect(() => {
-    ecwid.setId(products.ecwidProductId);
-  }, [ecwid.id]);
+    if (products?.ecwidProductId) {
+      ecwid.setId(products.ecwidProductId);
+    }
+  }, [ecwid, products?.ecwidProductId]);
 
   return (
     <section className="py-20">
@@ -124,7 +125,7 @@ function VariantB({ products }) {
                       <Ribbon data={ecwidProduct} />
                     </div>
                   )}
-                  {name && (
+                  {products?.name && (
                     <h1 className="mt-2 mb-6 max-w-xl text-5xl md:text-6xl font-bold font-heading">
                       {products?.name}
                     </h1>
@@ -132,7 +133,7 @@ function VariantB({ products }) {
                   <div className="mb-8">{/* Add product rating here */}</div>
                   {products?.price && (
                     <p className="inline-block mb-8 text-2xl font-bold font-heading text-webriq-blue">
-                      {ecwid?.getPriceDisplay(price)}
+                      {ecwid?.getPriceDisplay(products?.price)}
                     </p>
                   )}
                   {products?.description && <p>{products?.description}</p>}
@@ -140,13 +141,13 @@ function VariantB({ products }) {
 
                 <ProductDetail product={ecwidProduct}>
                   <div className="flex flex-col sm:flex-row items-start mt-8 gap-y-4 sm:gap-y-0 sm:gap-x-4">
-                    {others?.[0]?.btnLabel && (
+                    {products?.others?.[0]?.btnLabel && (
                       <div className="w-full lg:mb-4 xl:mb-0">
                         <AddToBag
                           inStock={!ecwidProduct?.inStock}
                           classNames="block w-full mb-4 lg:mb-0 text-center text-white font-bold font-heading py-5 px-8 rounded-md uppercase transition duration-200 bg-webriq-darkblue hover:bg-webriq-blue cursor-pointer"
                         >
-                          {others?.[0]?.btnLabel}
+                          {products?.others?.[0]?.btnLabel}
                         </AddToBag>
                       </div>
                     )}

@@ -8,9 +8,9 @@ function VariantA({ collections }) {
   const ecwid = useEcwid();
   const { getPriceDisplay, fetchCollections, productCollection } = ecwid;
 
-  const ids = collections
-    ?.map(({ items }) => items.map((i) => i.ecwidProductId))
-    .flat();
+  const ids =
+    collections &&
+    collections?.map(({ items }) => items.map((i) => i.ecwidProductId)).flat();
 
   console.log("getPriceDisplay", ecwid);
 
@@ -32,15 +32,16 @@ function VariantA({ collections }) {
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {collection?.items?.map((product, index) => {
                   let items = [];
-                  productCollection?.find((prod) => {
-                    if (prod.id === product?.ecwidProductId) {
-                      items.push({ ...prod, ...product });
-                    }
-                  });
+                  productCollection &&
+                    productCollection?.find((prod) => {
+                      if (prod.id === product?.ecwidProductId) {
+                        items.push({ ...prod, ...product });
+                      }
+                    });
 
                   return (
-                    items.length > 0 &&
-                    items.map((collect) => (
+                    items?.length > 0 &&
+                    items?.map((collect) => (
                       <div className="w-full my-10 p-6" key={index}>
                         <a
                           href={`/products/${product?.slug?.current}`}
@@ -68,15 +69,19 @@ function VariantA({ collections }) {
                             </div>
                           </div>
 
-                          <p className="text-2xl xl:text-3xl font-bold hover:text-opacity-80">
-                            {product?.name}
-                          </p>
+                          {product?.name && (
+                            <p className="text-2xl xl:text-3xl font-bold hover:text-opacity-80">
+                              {product?.name}
+                            </p>
+                          )}
                         </a>
-                        <p className="text-xl font-bold font-heading text-white">
-                          <span className="text-webriq-darkblue mr-2">
-                            {collect.defaultDisplayedPriceFormatted}
-                          </span>
-                        </p>
+                        {collect?.defaultDisplayedPriceFormatted && (
+                          <p className="text-xl font-bold font-heading text-white">
+                            <span className="text-webriq-darkblue mr-2">
+                              {collect?.defaultDisplayedPriceFormatted}
+                            </span>
+                          </p>
+                        )}
                       </div>
                     ))
                   );

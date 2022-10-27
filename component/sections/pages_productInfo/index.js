@@ -8,13 +8,11 @@ const Variants = {
 };
 
 function PagesProductInfo({ data }) {
-  const { products } = data?.variants;
-
   const variant = data?.variant || data?.variants?.condition;
   const Variant = Variants?.[variant];
 
   const props = {
-    products: products,
+    products: data?.variants?.products,
   };
 
   return Variant ? (

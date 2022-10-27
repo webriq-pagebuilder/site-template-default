@@ -8,9 +8,11 @@ function VariantC({ collections }) {
   const ecwid = useEcwid();
   const { getPriceDisplay, fetchCollections, productCollection } = ecwid;
 
-  const ids = collections
-    ?.map(({ items }) => items.map((i) => i.ecwidProductId))
-    .flat();
+  const ids =
+    collections &&
+    collections
+      ?.map(({ items }) => items?.map((i) => i?.ecwidProductId))
+      .flat();
 
   useEffect(() => {
     fetchCollections(ids);
@@ -29,11 +31,12 @@ function VariantC({ collections }) {
             <div className="flex flex-wrap -mx-3 mb-24">
               {collection?.items?.map((product, index) => {
                 let items = [];
-                productCollection?.find((prod) => {
-                  if (prod.id === product?.ecwidProductId) {
-                    items.push({ ...prod, ...product });
-                  }
-                });
+                productCollection &&
+                  productCollection?.find((prod) => {
+                    if (prod.id === product?.ecwidProductId) {
+                      items.push({ ...prod, ...product });
+                    }
+                  });
 
                 return (
                   items.length > 0 &&
