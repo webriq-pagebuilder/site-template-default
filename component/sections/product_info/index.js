@@ -17,12 +17,14 @@ function ProductInfo({ data, product }) {
   const Variant = Variants?.[variant];
 
   useEffect(() => {
-    ecwid.setId(product.ecwidProductId);
+    if (product?.ecwidProductId) {
+      ecwid.setId(product?.ecwidProductId);
+    }
   }, [ecwid.id]);
 
   const ecwidProduct = useMemo(() => {
     let data = null;
-    if (ecwid_products && product?.ecwidProductId) {
+    if (product?.ecwidProductId && ecwid_products) {
       data = ecwid_products;
     }
     return data;

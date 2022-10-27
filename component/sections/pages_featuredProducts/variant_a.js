@@ -12,6 +12,8 @@ function VariantA({ collections }) {
     ?.map(({ items }) => items.map((i) => i.ecwidProductId))
     .flat();
 
+  console.log("getPriceDisplay", ecwid);
+
   useEffect(() => {
     fetchCollections(ids);
   }, []);
@@ -72,7 +74,7 @@ function VariantA({ collections }) {
                         </a>
                         <p className="text-xl font-bold font-heading text-white">
                           <span className="text-webriq-darkblue mr-2">
-                            {getPriceDisplay(product?.price)}
+                            {collect.defaultDisplayedPriceFormatted}
                           </span>
                         </p>
                       </div>

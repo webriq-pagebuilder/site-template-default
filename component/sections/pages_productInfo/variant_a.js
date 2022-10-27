@@ -11,6 +11,7 @@ function VariantA({ products }) {
   const ecwid = useEcwid();
 
   const ecwidProduct = ecwid?.products;
+
   useEffect(() => {
     ecwid.setId(products.ecwidProductId);
   }, [ecwid.id]);
