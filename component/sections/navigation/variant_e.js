@@ -1,4 +1,4 @@
-import { memo, useState, Fragment } from "react";
+import { memo, useState, useEffect, useRef, Fragment } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { urlFor, PortableText } from "lib/sanity";
@@ -9,6 +9,8 @@ function VariantE({ banner, logo, links }) {
   const cartItemCount = ecwid?.cart?.productsQuantity || 0;
   const router = useRouter();
   const [showSearchBar, setShowSearchBar] = useState(false);
+  const [productQuery, setProductQuery] = useState("");
+  const prevQuery = useRef(); // the useRef React hook allows to persist data between renders
 
   // block styling as props to `serializers` of the PortableText component
   const blockStyle = {
@@ -74,6 +76,19 @@ function VariantE({ banner, logo, links }) {
       logoLink = logo.externalLink;
     }
   }
+
+  useEffect(() => {
+    //assign the ref's current value to the productQuery hook
+    prevQuery.current = productQuery;
+  }, [productQuery]); //run this code when the value of productQuery changes
+
+  // Add query param to /search page based on search input
+  const handleSearchRouting = (e) => {
+    const q = document.getElementById("query");
+    e.preventDefault();
+    setProductQuery(q.value);
+    router.push(`/search?q=${productQuery}`, undefined, { shallow: true });
+  };
 
   return (
     <section className="relative">
@@ -213,17 +228,32 @@ function VariantE({ banner, logo, links }) {
             </svg>
           </button>
           {showSearchBar && (
-            <div className="flex mr-auto mb-10 lg:mb-0 items-center pl-8 bg-white rounded-lg">
+            <form
+              id="form"
+              className="flex mr-auto mb-10 lg:mb-0 items-center pl-8 bg-white rounded-lg"
+              method="get"
+              role="search"
+              onSubmit={handleSearchRouting}
+            >
               <input
-                id="cstudio-products"
-                name="cstudio-products"
+                id="query"
+                name="query"
+                aria-label="Search product"
                 className="mt-1 mr-3 block w-full p-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400
           focus:outline-none focus:border-webriq-blue focus:ring-1 focus:ring-webriq-blue"
+                placeholder="Search..."
+                onChange={(e) => setProductQuery(e.target.value)}
                 type="search"
               />
               <button
-                className="inline-flex items-center justify-center w-12 h-8 bg-webriq-darkblue hover:bg-webriq-blue rounded-md transition duration-200"
-                type="button"
+                aria-label="Submit product search"
+                className={`inline-flex items-center justify-center w-12 h-8 bg-webriq-darkblue rounded-md ${
+                  productQuery === ""
+                    ? "cursor-not-allowed opacity-50"
+                    : "hover:bg-webriq-blue transition duration-200"
+                }`}
+                disabled={productQuery === ""}
+                type="submit"
               >
                 <svg
                   width={7}
@@ -238,7 +268,7 @@ function VariantE({ banner, logo, links }) {
                   />
                 </svg>
               </button>
-            </div>
+            </form>
           )}
           <a
             href="/cart?store-page=cart"
