@@ -98,7 +98,6 @@ export function EcwidContextProvider({ children }) {
         try {
           Ecwid.OnAPILoaded.add(function () {
             Ecwid.init();
-
             Ecwid.Cart.get(function (cart) {
               setCart(cart);
             });

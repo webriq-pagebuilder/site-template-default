@@ -14,11 +14,27 @@ const ProductDetail = ({ product, children }) => {
   const options = ecwid?.options;
   const setOptions = ecwid?.setOptions;
   const setPrice = ecwid?.setPrice;
-  const cart = ecwid?.cart;
+  // const cart = ecwid?.cart;
   const favorited = ecwid.favorited;
   const addtowishlist = ecwid.addtowishlist;
 
   const [quantity, setQuantity] = useState(1);
+  const [cart, setCart] = useState(null);
+
+  useEffect(() => {
+    if (typeof Ecwid !== "undefined") {
+      try {
+        Ecwid.Cart.get(function (cart) {
+          setCart(cart);
+        });
+        Ecwid.OnCartChanged.add(function (cart) {
+          setCart(cart);
+        });
+      } catch (error) {
+        console.error();
+      }
+    }
+  }, [ecwid]);
 
   useEffect(() => {
     if (productId) {
