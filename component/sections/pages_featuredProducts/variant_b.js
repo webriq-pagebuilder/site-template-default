@@ -81,7 +81,7 @@ function VariantC({ collections }) {
                           {product?.price && (
                             <p className="text-lg font-bold font-heading text-blue-500">
                               <span className="text-webriq-darkblue">
-                                {getPriceDisplay(product?.price)}
+                                {getPriceDisplay(product?.price)} test
                               </span>
                             </p>
                           )}

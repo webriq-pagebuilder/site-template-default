@@ -17,8 +17,10 @@ function ProductInfo({ data, product }) {
   const Variant = Variants?.[variant];
 
   useEffect(() => {
-    ecwid.setId(product.ecwidProductId);
+    ecwid.setId(product?.ecwidProductId);
   }, [ecwid.id]);
+
+  console.log("ecwid product", ecwid_products);
 
   const ecwidProduct = useMemo(() => {
     let data = null;
