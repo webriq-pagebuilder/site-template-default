@@ -57,7 +57,9 @@ function VariantA({ products }) {
                   <div className="mb-8">{/* Add product rating here */}</div>
                   {products?.price && (
                     <p className="inline-block mb-8 text-2xl font-bold font-heading text-webriq-blue">
-                      {ecwid && ecwid?.getPriceDisplay(products?.price)}
+                      {(ecwid &&
+                        ecwid?.products?.defaultDisplayedPriceFormatted) ||
+                        ecwid?.getPriceDisplay(products?.price)}
                     </p>
                   )}
                   {products?.description && (

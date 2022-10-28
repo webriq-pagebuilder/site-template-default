@@ -39,7 +39,7 @@ function VariantC({ collections }) {
                   });
 
                 return (
-                  items &&
+                  items.length > 0 &&
                   items.map((collect) => (
                     <div
                       className="w-full md:w-1/2 lg:w-1/4 px-3 mb-6 lg:mb-0"

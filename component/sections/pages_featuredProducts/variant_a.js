@@ -40,7 +40,7 @@ function VariantA({ collections }) {
                     });
 
                   return (
-                    items &&
+                    items.length > 0 &&
                     items?.map((collect) => (
                       <div className="w-full my-10 p-6" key={index}>
                         <a
