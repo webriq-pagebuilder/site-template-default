@@ -13,12 +13,13 @@ function VariantA() {
       <div className="container mx-auto px-5">
         <div className="py-8">
           <div className="flex flex-col sm:flex-row gap-x-4">
-            {favorites !== null && favorites.length !== 0 ? (
-              favorites.map((items, index) => {
+            {favorites !== null && favorites?.length !== 0 ? (
+              favorites?.map((items, index) => {
                 let item = null;
                 if (items?.ecwidProductId && ecwid?.products) {
                   item = ecwid.products[parseInt(items?.ecwidProductId)];
                 }
+
                 return (
                   <div className="w-full sm:w-1/2 md:w-1/3 mb-5" key={index}>
                     <a
@@ -27,7 +28,7 @@ function VariantA() {
                     >
                       <div className="relative">
                         <div className="absolute z-10">
-                          <Ribbon data={item} />
+                          <Ribbon data={items} />
                         </div>
                         <div className="w-full object-cover">
                           {items?.productPreview?.image && (

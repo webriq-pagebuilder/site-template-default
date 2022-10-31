@@ -22,11 +22,12 @@ export function EcwidContextProvider({ children }) {
   const [favorited, setFavorited] = useState(false);
   const [id, setId] = useState(null);
   const [favorites, setFavorites] = useState(null);
+  const [productCollection, setProductCollection] = useState(null);
   const storageName = `PSecwid__${process.env.NEXT_PUBLIC_ECWID_STORE_ID}PSfavorites`;
 
   const fetchProducts = () => {
     id !== null &&
-      fetch(`/api/ecwid/products?id=${id}`)
+      fetch(`/api/ecwid/products/${id}`)
         .then((res) => res.json())
         .then((response) => {
           response && setProducts(response.result);
@@ -35,6 +36,14 @@ export function EcwidContextProvider({ children }) {
           console.error(error);
           setProducts({ error });
         });
+  };
+
+  const fetchCollections = async (ids) => {
+    const productReq = await fetch(
+      `/api/ecwid/products/search?productIds=${ids}`
+    ).then((res) => res.json());
+
+    setProductCollection(productReq.items);
   };
 
   const fetchFavorites = async () => {
@@ -64,11 +73,9 @@ export function EcwidContextProvider({ children }) {
               if (prod.id === item.ecwidProductId) {
                 return {
                   ...item,
+                  ...prod,
                   ecwidId: prod.id,
                   price: prod.defaultDisplayedPriceFormatted,
-                  ribbon: prod.ribbon,
-                  productCondition: prod.productCondition,
-                  sku: prod.sku,
                 };
               }
             })
@@ -88,19 +95,20 @@ export function EcwidContextProvider({ children }) {
   useEffect(() => {
     function load_ecwid() {
       if (typeof Ecwid != "undefined") {
-        Ecwid.OnAPILoaded.add(function () {
-          Ecwid.init();
+        try {
+          Ecwid.OnAPILoaded.add(function () {
+            Ecwid.init();
+            Ecwid.Cart.get(function (cart) {
+              setCart(cart);
+            });
 
-          Ecwid.Cart.get(function (cart) {
-            console.log("GetCart: ", cart?.cartId);
-            setCart(cart);
+            Ecwid.OnCartChanged.add(function (cart) {
+              setCart(cart);
+            });
           });
-
-          Ecwid.OnCartChanged.add(function (cart) {
-            console.log("OnCartChanged: ", cart?.cartId);
-            setCart(cart);
-          });
-        });
+        } catch (error) {
+          console.error();
+        }
 
         Ecwid.OnPageLoaded.add(function (page) {
           if (page.type === "CATEGORY" || page.type === "PRODUCT") {
@@ -129,17 +137,7 @@ export function EcwidContextProvider({ children }) {
           arg: ["id=ecwid-shop-store"],
         },
       ];
-    }
 
-    if (!document.getElementById("ecwid-script")) {
-      var script = document.createElement("script");
-      script.charset = "utf-8";
-      script.type = "text/javascript";
-      script.src = process.env.NEXT_PUBLIC_ECWID_SCRIPT;
-      script.id = "ecwid-script";
-      script.onload = load_ecwid;
-      document.body.appendChild(script);
-    } else {
       load_ecwid();
     }
   }, []);
@@ -151,6 +149,7 @@ export function EcwidContextProvider({ children }) {
         priceFormated = Ecwid.formatCurrency(amount);
       });
     }
+
     return priceFormated;
   };
 
@@ -173,7 +172,6 @@ export function EcwidContextProvider({ children }) {
 
     setTimeout(() => {
       if (typeof Ecwid != "undefined") {
-        console.log;
         Ecwid.Cart.addProduct(payload);
       }
     }, 1000);
@@ -240,6 +238,8 @@ export function EcwidContextProvider({ children }) {
           favorited,
           addWishlist,
           favorites,
+          fetchCollections,
+          productCollection,
         }}
       >
         {children}

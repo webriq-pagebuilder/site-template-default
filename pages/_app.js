@@ -1,18 +1,19 @@
 import "../styles/globals.css";
-import React from "react";
+import React, { useEffect } from "react";
 import SEO from "../component/SEO";
 import "swiper/scss";
 import "swiper/scss/navigation";
 import "swiper/scss/pagination";
-import { EcwidContextProvider } from "context/EcwidContext";
+import useScript from "utils/useScript";
 import { useRouter } from "next/router";
 
 function MyApp({ Component, pageProps }) {
+  let script_status = useScript(process.env.NEXT_PUBLIC_ECWID_SCRIPT);
   const { preview } = pageProps;
   const router = useRouter();
 
   // patch: cleanup `secret=<secret>&slug=<slug>` when on preview mode as this causes ECWID to refresh indefinitely
-  React.useEffect(() => {
+  useEffect(() => {
     if (
       typeof window !== "undefined" &&
       preview &&
@@ -23,12 +24,28 @@ function MyApp({ Component, pageProps }) {
     }
   }, [preview, router]);
 
+  // for Ecwid script
+  useEffect(() => {
+    if (script_status === "ready") {
+      try {
+        window.Ecwid.OnAPILoaded.add(function () {
+          window.Ecwid.init();
+        });
+        window.Ecwid.OnPageLoaded.add(function (page) {
+          if (page.type === "CATEGORY" || page.type === "PRODUCT") {
+            Ecwid.openPage("cart");
+          }
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  }, [script_status]);
+
   return (
     <>
-      <EcwidContextProvider>
-        <SEO {...pageProps} />
-        <Component {...pageProps} />
-      </EcwidContextProvider>
+      <SEO {...pageProps} />
+      <Component {...pageProps} />
     </>
   );
 }

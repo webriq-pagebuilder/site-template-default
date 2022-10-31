@@ -5,24 +5,42 @@ import ViewWishlist from "./ViewWishlist";
 import ItemInBag from "./ItemInBag";
 
 const ProductDetail = ({ product, children }) => {
-  if (!product?.id) return null;
+  const productId = product?.id ? product?.id : product?.ecwidProductId;
+
+  if (!productId) return null;
 
   const ecwid = useEcwid();
   const addToBag = ecwid?.addToBag;
   const options = ecwid?.options;
   const setOptions = ecwid?.setOptions;
   const setPrice = ecwid?.setPrice;
-  const cart = ecwid?.cart;
+  // const cart = ecwid?.cart;
   const favorited = ecwid.favorited;
   const addtowishlist = ecwid.addtowishlist;
 
   const [quantity, setQuantity] = useState(1);
+  const [cart, setCart] = useState(null);
 
   useEffect(() => {
-    if (product?.id) {
+    if (typeof Ecwid !== "undefined") {
+      try {
+        Ecwid.Cart.get(function (cart) {
+          setCart(cart);
+        });
+        Ecwid.OnCartChanged.add(function (cart) {
+          setCart(cart);
+        });
+      } catch (error) {
+        console.error();
+      }
+    }
+  }, [ecwid]);
+
+  useEffect(() => {
+    if (productId) {
       let data = {};
 
-      product.options.forEach((option) => {
+      product?.options?.forEach((option) => {
         if (option?.choices && typeof option?.defaultChoice !== "undefined") {
           data[option?.name] = option?.choices[option?.defaultChoice]?.text;
         }
@@ -31,7 +49,7 @@ const ProductDetail = ({ product, children }) => {
       setOptions(data);
       setPrice(product?.defaultDisplayedPrice);
     }
-  }, [product]);
+  }, [productId]);
 
   useEffect(() => {
     if (options && Object.keys(options).length) {
@@ -61,7 +79,7 @@ const ProductDetail = ({ product, children }) => {
   const itemsCount = useMemo(() => {
     let count = 0;
     if (cart?.items?.length) {
-      const item = cart?.items?.filter((el) => el.product.id === product.id);
+      const item = cart?.items?.filter((el) => el.product.id === productId);
       if (item?.length) {
         item?.forEach((element) => {
           count += element.quantity;
@@ -101,7 +119,7 @@ const ProductDetail = ({ product, children }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    addToBag({ id: product?.id, quantity }, options);
+    addToBag({ id: productId, quantity }, options);
   };
 
   return (

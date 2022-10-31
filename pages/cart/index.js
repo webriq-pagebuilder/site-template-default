@@ -6,6 +6,7 @@ import { getClient } from "lib/sanity.server";
 import { cartPageQuery } from "pages/api/query";
 import NoPreview from "pages/no-preview";
 import { Components, filterDataToSingleItem } from "../[slug]";
+import { EcwidContextProvider } from "context/EcwidContext";
 
 const PreviewMode = lazy(() => import("next-sanity/preview"));
 
@@ -54,7 +55,7 @@ function CartPage({ data: initialData = {}, preview, token }) {
       </Head>
       {sections &&
         sections?.map((section, index) => {
-          const Component = Components[section._type];
+          const Component = Components[section?._type];
 
           // skip rendering unknown components
           if (!Component) {
@@ -62,14 +63,15 @@ function CartPage({ data: initialData = {}, preview, token }) {
           }
 
           return (
-            <Component
-              key={index}
-              template={{
-                bg: "gray",
-                color: "webriq",
-              }}
-              data={section}
-            />
+            <EcwidContextProvider key={index}>
+              <Component
+                template={{
+                  bg: "gray",
+                  color: "webriq",
+                }}
+                data={section}
+              />
+            </EcwidContextProvider>
           );
         })}
     </>

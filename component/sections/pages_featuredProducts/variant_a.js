@@ -1,4 +1,4 @@
-import { memo } from "react";
+import { memo, useEffect } from "react";
 import { urlFor } from "lib/sanity";
 import Image from "next/image";
 import { useEcwid } from "context/EcwidContext";
@@ -6,6 +6,17 @@ import Ribbon from "component/ecwid/Ribbon";
 
 function VariantA({ collections }) {
   const ecwid = useEcwid();
+  const { getPriceDisplay, fetchCollections, productCollection } = ecwid;
+
+  const ids =
+    collections &&
+    collections?.map((item) =>
+      item?.items?.map((i) => i?.ecwidProductId).flat()
+    );
+
+  useEffect(() => {
+    fetchCollections(ids);
+  }, []);
 
   return (
     <section className="relative pt-20">
@@ -20,49 +31,59 @@ function VariantA({ collections }) {
             {collection?.items && (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {collection?.items?.map((product, index) => {
-                  let item = null;
-                  if (product?.ecwidProductId && ecwid?.products) {
-                    item = ecwid.products[parseInt(product?.ecwidProductId)];
-                  }
+                  let items = [];
+                  productCollection &&
+                    productCollection?.find((prod) => {
+                      if (prod?.id === product?.ecwidProductId) {
+                        items?.push({ ...prod, ...product });
+                      }
+                    });
 
                   return (
-                    <div className="w-full my-10 p-6" key={index}>
-                      <a
-                        href={`/products/${product?.slug?.current}`}
-                        className="flex flex-col gap-4"
-                      >
-                        <div className="relative">
-                          <div className="absolute z-10">
-                            <Ribbon data={item} />
+                    items.length > 0 &&
+                    items?.map((collect) => (
+                      <div className="w-full my-10 p-6" key={index}>
+                        <a
+                          href={`/products/${product?.slug?.current}`}
+                          className="flex flex-col gap-4"
+                        >
+                          <div className="relative">
+                            <div className="absolute z-10">
+                              <Ribbon data={collect} />
+                            </div>
+                            <div className="w-full object-cover overflow-hidden">
+                              {product?.productPreview?.image && (
+                                <Image
+                                  className="hover:scale-125 transition-all duration-700"
+                                  layout="responsive"
+                                  width={485}
+                                  height={384}
+                                  objectFit="cover"
+                                  src={urlFor(product?.productPreview?.image)}
+                                  alt={
+                                    product?.productPreview?.alt ??
+                                    `product-image-${index}`
+                                  }
+                                />
+                              )}
+                            </div>
                           </div>
-                          <div className="w-full object-cover overflow-hidden">
-                            {product?.productPreview?.image && (
-                              <Image
-                                className="hover:scale-125 transition-all duration-700"
-                                layout="responsive"
-                                width={485}
-                                height={384}
-                                objectFit="cover"
-                                src={urlFor(product?.productPreview?.image)}
-                                alt={
-                                  product?.productPreview?.alt ??
-                                  `product-image-${index}`
-                                }
-                              />
-                            )}
-                          </div>
-                        </div>
 
-                        <p className="text-2xl xl:text-3xl font-bold hover:text-opacity-80">
-                          {product?.name}
-                        </p>
-                      </a>
-                      <p className="text-xl font-bold font-heading text-white">
-                        <span className="text-webriq-darkblue mr-2">
-                          {product?.price}
-                        </span>
-                      </p>
-                    </div>
+                          {product?.name && (
+                            <p className="text-2xl xl:text-3xl font-bold hover:text-opacity-80">
+                              {product?.name}
+                            </p>
+                          )}
+                        </a>
+                        {collect?.defaultDisplayedPriceFormatted && (
+                          <p className="text-xl font-bold font-heading text-white">
+                            <span className="text-webriq-darkblue mr-2">
+                              {collect?.defaultDisplayedPriceFormatted}
+                            </span>
+                          </p>
+                        )}
+                      </div>
+                    ))
                   );
                 })}
               </div>

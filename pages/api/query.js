@@ -98,7 +98,8 @@ const variants = `
         name,
         slug,
         productPreview,
-        price
+        price,
+        ecwidProductId
       }
     },
     products-> {
@@ -107,6 +108,7 @@ const variants = `
       price,
       description,
       productPreview,
+      ecwidProductId,
       "others": sections[_type match "productInfo"]->.variants {
         btnLabel,
         socialLinks,

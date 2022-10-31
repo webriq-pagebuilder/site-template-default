@@ -1,11 +1,20 @@
-import { memo, useState } from "react";
+import { memo, useEffect } from "react";
 import { urlFor } from "lib/sanity";
 import { useEcwid } from "context/EcwidContext";
+import Ribbon from "component/ecwid/Ribbon";
 import Image from "next/image";
 import Link from "next/link";
 
 function VariantB({ title, featured, primaryButton }) {
   const ecwid = useEcwid();
+
+  const { fetchCollections, productCollection } = ecwid;
+
+  const ids = featured && featured?.map((item) => item?.ecwidProductId);
+
+  useEffect(() => {
+    fetchCollections(ids);
+  }, []);
 
   return (
     <section className="py-20 overflow-x-hidden bg-gray-50">
@@ -68,75 +77,66 @@ function VariantB({ title, featured, primaryButton }) {
         </div>
         {featured && (
           <div className="flex flex-wrap -mx-3">
-            {featured?.map((items, index) => {
-              let item = null;
-              if (items?.ecwidProductId && ecwid?.products) {
-                item = ecwid.products[parseInt(items?.ecwidProductId)];
-              }
+            {featured?.map((product, index) => {
+              let items = [];
+              productCollection &&
+                productCollection?.find((prod) => {
+                  if (prod?.id === product?.ecwidProductId) {
+                    items?.push({ ...prod, ...product });
+                  }
+                });
 
               return (
-                <div
-                  className="w-full md:w-1/2 lg:w-1/3 px-3 mb-10 lg:mb-0"
-                  key={index}
-                >
-                  <div className="relative bg-white shadow-md">
-                    <a
-                      className="block relative"
-                      href={`/products/${items?.slug?.current}`}
-                    >
-                      {item && item?.inStock ? (
-                        item?.ribbon?.text && (
-                          <div className="absolute top-2 left-0 z-50">
-                            <p
-                              className="inline text-white p-2"
-                              style={{
-                                backgroundColor: item?.ribbon?.color,
-                              }}
-                            >
-                              {item?.ribbon?.text}
-                            </p>
-                          </div>
-                        )
-                      ) : (
-                        <div className="absolute top-2 left-0 z-50">
-                          <p className="inline text-white p-2 bg-red-400">
-                            SOLD OUT
-                          </p>
+                items?.length > 0 &&
+                items?.map((featuredCollections) => (
+                  <div
+                    className="w-full md:w-1/2 lg:w-1/3 px-3 mb-10 lg:mb-6"
+                    key={index}
+                  >
+                    <div className="relative bg-white shadow-md">
+                      <a
+                        className="block relative"
+                        href={`/products/${product?.slug?.current}`}
+                      >
+                        <div className="absolute z-10">
+                          <Ribbon data={featuredCollections} />
                         </div>
-                      )}
 
-                      {items?.productPreview?.image && (
-                        <Image
-                          className="hover:scale-125 transition-all duration-700"
-                          layout="responsive"
-                          width={485}
-                          height={384}
-                          objectFit="cover"
-                          src={urlFor(items?.productPreview?.image)}
-                          alt={
-                            items?.productPreview?.alt ??
-                            `product-image-${index}`
-                          }
-                        />
-                      )}
-                    </a>
-                    <div className="px-6 pb-6 mt-8">
-                      {items?.name && (
-                        <a
-                          className="text-2xl xl:text-3xl font-bold"
-                          href={`/products/${items?.slug?.current}`}
-                        >
-                          {items?.name}
-                        </a>
-                      )}
-                      <p className="text-lg font-bold font-heading">
-                        <span className="text-webriq-darkblue">
-                          {item?.defaultDisplayedPriceFormatted}
-                        </span>
-                      </p>
+                        {product?.productPreview?.image && (
+                          <Image
+                            className="hover:scale-125 transition-all duration-700"
+                            layout="responsive"
+                            width={485}
+                            height={384}
+                            objectFit="cover"
+                            src={urlFor(product?.productPreview?.image)}
+                            alt={
+                              product?.productPreview?.alt ??
+                              `product-image-${index}`
+                            }
+                          />
+                        )}
+                      </a>
+                      <div className="px-6 pb-6 mt-8">
+                        {product?.name && (
+                          <a
+                            className="text-2xl xl:text-3xl font-bold"
+                            href={`/products/${product?.slug?.current}`}
+                          >
+                            {product?.name}
+                          </a>
+                        )}
+                        <p className="text-lg font-bold font-heading">
+                          <span className="text-webriq-darkblue">
+                            {
+                              featuredCollections?.defaultDisplayedPriceFormatted
+                            }
+                          </span>
+                        </p>
+                      </div>
                     </div>
                   </div>
-                </div>
+                ))
               );
             })}
           </div>
