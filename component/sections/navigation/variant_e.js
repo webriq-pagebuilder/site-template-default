@@ -1,19 +1,10 @@
-import {
-  memo,
-  useState,
-  Fragment,
-  useEffect,
-  useRef,
-  useCallback,
-} from "react";
+import { memo, useState, Fragment, useEffect, useRef } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { urlFor, PortableText } from "lib/sanity";
 import { EcwidContextProvider } from "context/EcwidContext";
 
 function VariantE({ banner, logo, links }) {
-  const ecwid = useEcwid();
-  const cartItemCount = ecwid?.cart?.productsQuantity || 0;
   const router = useRouter();
   const [showSearchBar, setShowSearchBar] = useState(false);
   const [productQuery, setProductQuery] = useState("");
@@ -222,7 +213,11 @@ function VariantE({ banner, logo, links }) {
           {/* larger screens search, cart and account icons/buttons */}
           <div className="hidden xl:flex items-center justify-end mr-12">
             {/* Search button */}
-            <button aria-label="search button" type="button">
+            <button
+              aria-label="search button"
+              type="button"
+              onClick={() => setShowSearchBar(!showSearchBar)}
+            >
               <svg
                 width={24}
                 height={24}
