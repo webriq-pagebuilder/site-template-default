@@ -188,3 +188,6 @@ export const cartPageQuery = groq`*[_type == "cartPage"] ${allProjections}`;
 
 // query wishlist page
 export const wishlistPageQuery = groq`*[_type == "wishlistPage"] ${allProjections}`;
+
+// query search page
+export const searchPageQuery = groq`*[_type == "searchPage"] ${allProjections}`;

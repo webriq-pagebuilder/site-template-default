@@ -1,9 +1,15 @@
-import { memo, useState, Fragment, useEffect, useCallback } from "react";
+import { memo, useState, Fragment, useEffect, useRef } from "react";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { urlFor, PortableText } from "lib/sanity";
 import { EcwidContextProvider } from "context/EcwidContext";
 
 function VariantE({ banner, logo, links }) {
+  const router = useRouter();
+  const [showSearchBar, setShowSearchBar] = useState(false);
+  const [productQuery, setProductQuery] = useState("");
+  const prevQuery = useRef(); // the useRef React hook allows to persist data between renders
+
   // block styling as props to `serializers` of the PortableText component
   const blockStyle = {
     types: {
@@ -68,6 +74,19 @@ function VariantE({ banner, logo, links }) {
       logoLink = logo.externalLink;
     }
   }
+
+  useEffect(() => {
+    //assign the ref's current value to the productQuery hook
+    prevQuery.current = productQuery;
+  }, [productQuery]); //run this code when the value of productQuery changes
+
+  // Add query param to /search page based on search input
+  const handleSearchRouting = (e) => {
+    const q = document.getElementById("query");
+    e.preventDefault();
+    setProductQuery(q.value);
+    router.push(`/search?q=${productQuery}`, undefined, { shallow: true });
+  };
 
   return (
     <EcwidContextProvider>
@@ -193,7 +212,12 @@ function VariantE({ banner, logo, links }) {
           </div>
           {/* larger screens search, cart and account icons/buttons */}
           <div className="hidden xl:flex items-center justify-end mr-12">
-            <button aria-label="search button" type="button">
+            {/* Search button */}
+            <button
+              aria-label="search button"
+              type="button"
+              onClick={() => setShowSearchBar(!showSearchBar)}
+            >
               <svg
                 width={24}
                 height={24}
@@ -204,7 +228,49 @@ function VariantE({ banner, logo, links }) {
                 <path d="M15.853 16.56c-1.683 1.517-3.911 2.44-6.353 2.44-5.243 0-9.5-4.257-9.5-9.5s4.257-9.5 9.5-9.5 9.5 4.257 9.5 9.5c0 2.442-.923 4.67-2.44 6.353l7.44 7.44-.707.707-7.44-7.44zm-6.353-15.56c4.691 0 8.5 3.809 8.5 8.5s-3.809 8.5-8.5 8.5-8.5-3.809-8.5-8.5 3.809-8.5 8.5-8.5z" />
               </svg>
             </button>
-
+            {showSearchBar && (
+              <form
+                id="form"
+                className="flex mr-auto mb-10 lg:mb-0 items-center pl-8 bg-white rounded-lg"
+                method="get"
+                role="search"
+                onSubmit={handleSearchRouting}
+              >
+                <input
+                  id="query"
+                  name="query"
+                  aria-label="Search product"
+                  className="mt-1 mr-3 block w-40 p-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400 focus:outline-none focus:border-webriq-blue focus:ring-1 focus:ring-webriq-blue"
+                  placeholder="Search..."
+                  onChange={(e) => setProductQuery(e.target.value)}
+                  type="search"
+                />
+                <button
+                  aria-label="Submit product search"
+                  className={`inline-flex items-center justify-center w-10 h-9 bg-webriq-darkblue rounded-md ${
+                    productQuery === ""
+                      ? "cursor-not-allowed opacity-50"
+                      : "hover:bg-webriq-blue transition duration-200"
+                  }`}
+                  disabled={productQuery === ""}
+                  type="submit"
+                >
+                  <svg
+                    width={7}
+                    height={12}
+                    viewBox="0 0 7 12"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M4.125 6.00252L0 1.87752L1.17801 0.699219L6.48102 6.00252L1.17801 11.3058L0 10.1275L4.125 6.00252Z"
+                      fill="white"
+                    />
+                  </svg>
+                </button>
+              </form>
+            )}
+            {/* Cart */}
             <div className="mx-10 cart-icon">
               <div data-icon="BAG" className="ec-cart-widget" />
               <a
@@ -213,7 +279,7 @@ function VariantE({ banner, logo, links }) {
                 className="cart-link"
               />
             </div>
-
+            {/* Account */}
             <a href="/cart?store-page=account">
               <svg
                 width={32}

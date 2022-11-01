@@ -6,16 +6,10 @@ const Variants = {
   variant_b: dynamic(() => import("./variant_b")),
 };
 
-function FeaturedProducts({ data }) {
+function AllProducts({ data }) {
   const variant = data?.variant || data?.variants?.condition;
   const Variant = Variants?.[variant];
 
-  const props = {
-    title: data?.variants?.title,
-    primaryButton: data?.variants?.primaryButton,
-    featured: data?.variants?.featured,
-  };
-
-  return Variant ? <Variant {...props} /> : null;
+  return Variant ? <Variant /> : null;
 }
-export default memo(FeaturedProducts);
+export default memo(AllProducts);
