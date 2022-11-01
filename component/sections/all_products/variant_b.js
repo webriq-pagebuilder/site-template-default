@@ -81,55 +81,9 @@ function VariantB() {
     <section className="pt-20">
       <div className="container mx-auto px-4 bg-white">
         <div className="flex flex-wrap -mx-3 mb-24">
-          <div className="w-full lg:hidden px-3">
-            <div className="flex flex-wrap -mx-2">
-              <div className="w-1/2 md:w-1/3 px-2 mb-4">
-                <div className="py-6 px-2 text-center bg-gray-50">
-                  <h1 className="font-bold font-heading">Category</h1>
-                  {collections && (
-                    <ul className="hidden text-left mt-6">
-                      <li
-                        className={`mb-4 ${
-                          activeTab === "All"
-                            ? " font-bold text-webriq-darkblue"
-                            : "hover:text-webriq-blue"
-                        }`}
-                      >
-                        <button
-                          className="text-lg"
-                          type="button"
-                          onClick={() => setActiveTab("All")}
-                        >
-                          All
-                        </button>
-                      </li>
-                      {collections?.map((collection, index) => (
-                        <li
-                          className={`mb-4 ${
-                            activeTab === collection?.name
-                              ? " font-bold text-webriq-darkblue"
-                              : "hover:text-webriq-blue"
-                          }`}
-                          key={index}
-                        >
-                          <button
-                            className="text-lg"
-                            type="button"
-                            onClick={() => setActiveTab(collection?.name)}
-                          >
-                            {collection?.name}
-                          </button>
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                </div>
-              </div>
-            </div>
-          </div>
           {!productQuery && (
-            <div className="hidden lg:block w-1/4 px-3">
-              <div className="mb-6 py-10 px-12 font-custom bg-gray-50">
+            <div className="block w-full sm:w-1/3 lg:w-1/4 px-3">
+              <div className="lg:mb-6 py-5 lg:py-10 px-6 lg:px-12 font-custom bg-gray-50">
                 <h1 className="mb-8 text-2xl font-bold font-heading">
                   Category
                 </h1>
@@ -143,7 +97,7 @@ function VariantB() {
                       }`}
                     >
                       <button
-                        className="text-lg"
+                        className="lg:text-lg"
                         type="button"
                         onClick={() => setActiveTab("All")}
                       >
@@ -160,7 +114,7 @@ function VariantB() {
                         key={index}
                       >
                         <button
-                          className="text-lg"
+                          className="lg:text-lg"
                           type="button"
                           onClick={() => setActiveTab(collection?.name)}
                         >
@@ -191,10 +145,10 @@ function VariantB() {
                     >
                       <div className="p-6">
                         <Link href={`/products/${product?.slug?.current}`}>
-                          <a className="block px-6 mt-6 mb-2">
+                          <a className="block px-6 mt-6 mb-2 text-center">
                             {product?.productPreview?.image ? (
                               <img
-                                className="mb-5 mx-auto h-56 w-full object-contain"
+                                className="mb-5 mx-auto h-56 w-full object-contain hover:scale-110 transition-all duration-700"
                                 src={urlFor(product?.productPreview?.image)}
                                 alt={
                                   product?.productPreview?.alt ??
@@ -203,7 +157,7 @@ function VariantB() {
                               />
                             ) : (
                               <img
-                                className="mb-5 mx-auto h-56 w-full object-contain"
+                                className="mb-5 mx-auto h-56 w-full object-contain hover:scale-110 transition-all duration-700"
                                 src="https://cdn.sanity.io/images/9itgab5x/production/b362a413487c075bc56646b996ffaf5b888b8fd1-1200x1063.png"
                                 alt={
                                   product?.productPreview?.alt ??
@@ -212,7 +166,7 @@ function VariantB() {
                               />
                             )}
                             {product?.name && (
-                              <h2 className="mb-2 text-xl font-bold font-heading">
+                              <h2 className="mb-2 text-xl font-heading">
                                 {product?.name}
                               </h2>
                             )}

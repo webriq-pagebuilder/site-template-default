@@ -13,7 +13,7 @@ function VariantA() {
 
   useEffect(() => {
     // temp: on first render always return to the search page
-    router.push("/search");
+    router.push("/search", undefined, { shallow: true });
   }, []);
 
   // reads the param from the router object to get the query
@@ -86,9 +86,9 @@ function VariantA() {
   return (
     <section className="py-20">
       <div className="container mx-auto px-4">
-        <div className="flex flex-wrap -mx-4 mb-20 items-center justify-between">
-          <div className="w-full lg:w-auto px-4 mb-12 xl:mb-0">
-            <h1 className="text-4xl font-bold font-heading">
+        <div className="flex flex-wrap lg:-mx-4 mb-20 items-center justify-between">
+          <div className="w-full lg:w-auto lg:px-4 mb-12 xl:mb-0">
+            <h1 className="text-2xl sm:text-4xl font-bold font-heading">
               {productQuery
                 ? `Search results for "${productQuery}"`
                 : `Showing ${displayProducts?.length} products`}
@@ -119,15 +119,15 @@ function VariantA() {
                 <div className="flex flex-wrap -mx-3">
                   {displayProducts?.map((product, index) => (
                     <div
-                      className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 px-3 mb-8"
+                      className="w-full sm:w-1/2 lg:w-1/3 xl:w-1/4 px-3 mb-8"
                       key={index}
                     >
-                      <div className="p-6">
+                      <div className="mx-10">
                         <Link href={`/products/${product?.slug?.current}`}>
-                          <a className="block px-6 mt-6 mb-2">
+                          <a className="block md:px-6 mt-6 mb-2">
                             {product?.productPreview?.image ? (
                               <img
-                                className="mb-5 mx-auto h-56 w-full object-contain"
+                                className="mb-3 sm:mb-5 mx-auto h-56 w-full object-contain hover:scale-110 transition-all duration-700"
                                 src={urlFor(product?.productPreview?.image)}
                                 alt={
                                   product?.productPreview?.alt ??
@@ -136,7 +136,7 @@ function VariantA() {
                               />
                             ) : (
                               <img
-                                className="mb-5 mx-auto h-56 w-full object-contain"
+                                className="mb-3 sm:mb-5 mx-auto h-56 w-full object-contain hover:scale-110 transition-all duration-700"
                                 src="https://cdn.sanity.io/images/9itgab5x/production/b362a413487c075bc56646b996ffaf5b888b8fd1-1200x1063.png"
                                 alt={
                                   product?.productPreview?.alt ??
@@ -145,7 +145,7 @@ function VariantA() {
                               />
                             )}
                             {product?.name && (
-                              <h2 className="mb-2 text-xl font-bold font-heading">
+                              <h2 className="mb-2 text-lg sm:text-xl font-heading">
                                 {product?.name}
                               </h2>
                             )}

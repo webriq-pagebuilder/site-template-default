@@ -240,14 +240,14 @@ function VariantE({ banner, logo, links }) {
                   id="query"
                   name="query"
                   aria-label="Search product"
-                  className="mt-1 mr-3 block w-full p-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400 focus:outline-none focus:border-webriq-blue focus:ring-1 focus:ring-webriq-blue"
+                  className="mt-1 mr-3 block w-40 p-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400 focus:outline-none focus:border-webriq-blue focus:ring-1 focus:ring-webriq-blue"
                   placeholder="Search..."
                   onChange={(e) => setProductQuery(e.target.value)}
                   type="search"
                 />
                 <button
                   aria-label="Submit product search"
-                  className={`inline-flex items-center justify-center w-12 h-8 bg-webriq-darkblue rounded-md ${
+                  className={`inline-flex items-center justify-center w-10 h-9 bg-webriq-darkblue rounded-md ${
                     productQuery === ""
                       ? "cursor-not-allowed opacity-50"
                       : "hover:bg-webriq-blue transition duration-200"
