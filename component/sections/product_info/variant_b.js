@@ -149,7 +149,10 @@ function VariantB({
                 {product?.collections?.name && (
                   <a
                     className="inline-block mr-5 text-xs font-bold font-heading uppercase"
-                    href={product?.collections?.slug?.current ?? "/404"}
+                    href={
+                      `/collections/${product?.collections?.slug?.current}` ??
+                      "/404"
+                    }
                   >
                     {product?.collections?.name}
                   </a>
