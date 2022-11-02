@@ -451,7 +451,9 @@ function VariantB({
 
                 <p className="inline-block mb-8 text-2xl font-bold font-heading text-webriq-darkblue">
                   {/* TO DO: ADD PRICING HERE */}
-                  {getPriceDisplay()}
+                  {ecwidProduct
+                    ? ecwidProduct?.defaultDisplayedPriceFormatted
+                    : getPriceDisplay()}
                 </p>
 
                 <Description data={product} />

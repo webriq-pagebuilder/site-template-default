@@ -20,7 +20,6 @@ function VariantA({
   getPriceDisplay,
 }) {
   // block styling as props to `serializers` of the PortableText component
-
   const defaultProduct = ecwidProduct ? ecwidProduct : product;
 
   const blockStyle = {
@@ -331,7 +330,9 @@ function VariantA({
                 <p className="inline-block mb-8 text-2xl font-bold font-heading">
                   {/* Product price from Ecwid */}
                   <span className="text-webriq-darkblue">
-                    {getPriceDisplay()}
+                    {ecwidProduct
+                      ? ecwidProduct?.defaultDisplayedPriceFormatted
+                      : getPriceDisplay()}
                   </span>
                 </p>
                 <Description data={product} />
