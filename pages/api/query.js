@@ -144,11 +144,17 @@ export const blogQuery = groq`
       ...,
       "link": slug.current
     },
-    categories[]->
+    categories[]->,
+    "navigation": *[_type=="page" && slug.current=="home"].sections[_type match "navigation"]->{
+      ...,
+      ${variants}
+    },
+    "footer": *[_type=="page" && slug.current=="home"].sections[_type match "footer"]->{
+      ...,
+      ${variants},
+    },
   }
 `;
-
-export const blogNavAndFooter = groq`*[_type=="page" && slug.current == $slug]${allProjections}`;
 
 // query main product based on current slug
 export const productsQuery = groq`*[_type == "mainProduct" && slug.current == $slug] {

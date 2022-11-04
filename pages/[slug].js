@@ -2,7 +2,7 @@ import React, { lazy, Suspense, useState } from "react";
 import dynamic from "next/dynamic";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { blogQuery, blogNavAndFooter, slugQuery } from "./api/query";
+import { blogQuery, slugQuery } from "./api/query";
 import { groq } from "next-sanity";
 import NoPreview from "pages/no-preview";
 import { sanityConfig } from "lib/config";
@@ -56,18 +56,8 @@ function Page({ data: initialData = {}, preview, token }) {
   const pageData = data?.page || data?.[0];
   const slug = pageData?.slug;
 
-  if (!router.isFallback && data.blogData) {
-    return (
-      <BlogPage
-        data={data?.blogData}
-        preview={preview}
-        navAndFooter={data?.navAndFooter?.[0]?.sections}
-      />
-    );
-  }
-
   if (!router.isFallback && !slug) {
-    return null;
+    return <BlogPage {...{ data: data?.blogData, preview, token }} />;
   }
 
   if (!pageData) {
@@ -150,19 +140,12 @@ export async function getStaticProps({
       ? getClient(false).withConfig({ token: previewData.token })
       : getClient(preview);
 
-  const [page, blogData, navAndFooter] = await Promise.all([
+  const [page, blogData] = await Promise.all([
     client.fetch(slugQuery, { slug: params.slug }),
     client.fetch(blogQuery, { slug: params.slug }),
-    client.fetch(blogNavAndFooter, { slug: params.slug }),
   ]);
   // pass page data and preview to helper function
   const singlePageData = filterDataToSingleItem(page, preview);
-
-  if (!singlePageData) {
-    return {
-      notFound: true,
-    };
-  }
 
   return {
     props: {
@@ -171,7 +154,6 @@ export async function getStaticProps({
       data: {
         page: singlePageData || null,
         blogData: blogData || null,
-        navAndFooter: navAndFooter || null,
       },
     },
     // If webhooks isn't setup then attempt to re-generate in 1 minute intervals

@@ -12,35 +12,29 @@ function VariantE({ banner, logo, links }) {
 
   // block styling as props to `serializers` of the PortableText component
   const blockStyle = {
-    types: {
-      block: (props) => {
-        const style = props.node.style || "normal";
-        switch (style) {
-          case "normal":
-            return (
-              <p className="text-xs text-white font-bold font-heading">
-                {props.children}
-              </p>
-            );
-        }
-
-        return PortableText.defaultSerializers.types.block(props);
-      },
-      code: (props) => {
-        <pre data-language={props.node.language}>
-          <code>{props.node.code}</code>
-        </pre>;
+    block: {
+      normal: ({ children }) => {
+        return (
+          <p className="text-xs text-white font-bold font-heading">
+            {children}
+          </p>
+        );
       },
     },
+    code: ({ value }) => {
+      <pre data-language={value.language}>
+        <code>{value.code}</code>
+      </pre>;
+    },
     marks: {
-      strong: (props) => <strong>{props.children}</strong>,
-      em: (props) => <em>{props.children}</em>,
-      code: (props) => <code>{props.children}</code>,
-      link: ({ children, mark }) => (
+      strong: ({ children }) => <strong>{children}</strong>,
+      em: ({ children }) => <em>{children}</em>,
+      code: ({ children }) => <code>{children}</code>,
+      link: ({ children, value }) => (
         <a
           aria-label={children ?? "external link"}
           className="hover:text-webriq-lightblue text-webriq-blue"
-          href={mark.href}
+          href={value?.href}
           target="_blank"
           rel="noopener noreferrer"
         >
@@ -119,9 +113,7 @@ function VariantE({ banner, logo, links }) {
                 fill="white"
               />
             </svg>
-            {banner && (
-              <PortableText blocks={banner} serializers={blockStyle} />
-            )}
+            {banner && <PortableText value={banner} components={blockStyle} />}
           </div>
         </div>
         <nav className="relative flex justify-between">
@@ -215,6 +207,7 @@ function VariantE({ banner, logo, links }) {
             {/* Search button */}
             <button
               aria-label="search button"
+              className=""
               type="button"
               onClick={() => setShowSearchBar(!showSearchBar)}
             >
