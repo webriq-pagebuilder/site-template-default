@@ -207,7 +207,6 @@ function VariantE({ banner, logo, links }) {
             {/* Search button */}
             <button
               aria-label="search button"
-              className=""
               type="button"
               onClick={() => setShowSearchBar(!showSearchBar)}
             >
