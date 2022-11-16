@@ -107,7 +107,7 @@ function BlogPage({ data: initialData = {}, preview, token }) {
   const slug = blogData?.slug?.current;
 
   if (!router.isFallback && !slug) {
-    return <PageNotFound />;
+    return <PageNotFound data={preview} />;
   }
 
   if (!blogData) {
