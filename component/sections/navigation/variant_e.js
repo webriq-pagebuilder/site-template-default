@@ -1,8 +1,7 @@
-import { memo, useState, Fragment, useEffect, useRef } from "react";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import { urlFor, PortableText } from "lib/sanity";
 import { EcwidContextProvider } from "context/EcwidContext";
+import { PortableText, urlFor } from "lib/sanity";
+import { useRouter } from "next/router";
+import { Fragment, memo, useEffect, useRef, useState } from "react";
 
 function VariantE({ banner, logo, links }) {
   const router = useRouter();
@@ -119,20 +118,19 @@ function VariantE({ banner, logo, links }) {
         <nav className="relative flex justify-between">
           <div className="px-12 py-8 flex w-full items-center">
             {logo?.image && (
-              <Link href={logoLink} prefetch={false}>
-                <a
-                  aria-label={`Go to ${
-                    logoLink === "/" ? "home page" : logoLink
-                  }`}
-                  className="text-3xl font-bold leading-none"
-                >
-                  <img
-                    className="h-12"
-                    src={urlFor(logo?.image)}
-                    alt={logo?.alt ?? "navigation-logo"}
-                  />
-                </a>
-              </Link>
+              <a
+                href={logoLink}
+                aria-label={`Go to ${
+                  logoLink === "/" ? "home page" : logoLink
+                }`}
+                className="text-3xl font-bold leading-none"
+              >
+                <img
+                  className="h-12"
+                  src={urlFor(logo?.image)}
+                  alt={logo?.alt ?? "navigation-logo"}
+                />
+              </a>
             )}
             {/* larger screens navigation menu links */}
             <ul className="hidden lg:flex absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2 lg:items-center lg:w-auto">
@@ -141,7 +139,7 @@ function VariantE({ banner, logo, links }) {
                   <Fragment key={index}>
                     <li>
                       {link.type === "linkInternal" ? (
-                        <Link
+                        <a
                           href={`${
                             link.internalLink === "Home" ||
                             link.internalLink === "home"
@@ -152,26 +150,23 @@ function VariantE({ banner, logo, links }) {
                                     : link.internalLink
                                 }`
                           }`}
+                          aria-label={`Navigation ${
+                            link?.label ?? "Menu"
+                          } links which directs to ${
+                            !link?.internalLink
+                              ? "page-not-found"
+                              : link?.internalLink
+                          }`}
+                          className="xl:mr-12 lg:mr-8 font-bold font-heading hover:text-gray-600"
+                          target={link?.linkTarget}
+                          rel={
+                            link?.linkTarget === "_blank"
+                              ? "noopener noreferrer"
+                              : null
+                          }
                         >
-                          <a
-                            aria-label={`Navigation ${
-                              link?.label ?? "Menu"
-                            } links which directs to ${
-                              link?.internalLink === undefined
-                                ? "page-not-found"
-                                : link?.internalLink
-                            }`}
-                            className="xl:mr-12 lg:mr-8 font-bold font-heading hover:text-gray-600"
-                            target={link?.linkTarget}
-                            rel={
-                              link?.linkTarget === "_blank"
-                                ? "noopener noreferrer"
-                                : null
-                            }
-                          >
-                            {link?.label}
-                          </a>
-                        </Link>
+                          {link?.label}
+                        </a>
                       ) : (
                         <a
                           aria-label={`Navigation ${
@@ -329,20 +324,19 @@ function VariantE({ banner, logo, links }) {
           <nav className="relative flex flex-col py-6 px-6 w-full h-full bg-white border-r overflow-y-auto">
             <div className="flex items-center mb-8">
               {logo?.image && (
-                <Link href={logoLink} prefetch={false}>
-                  <a
-                    aria-label={`Go to ${
-                      logoLink === "/" ? "home page" : logoLink
-                    }`}
-                    className="text-3xl font-bold leading-none"
-                  >
-                    <img
-                      className="h-12"
-                      src={urlFor(logo?.image)}
-                      alt={logo?.alt ?? "navigation-logo"}
-                    />
-                  </a>
-                </Link>
+                <a
+                  href={logoLink}
+                  aria-label={`Go to ${
+                    logoLink === "/" ? "home page" : logoLink
+                  }`}
+                  className="text-3xl font-bold leading-none"
+                >
+                  <img
+                    className="h-12"
+                    src={urlFor(logo?.image)}
+                    alt={logo?.alt ?? "navigation-logo"}
+                  />
+                </a>
               )}
               <button
                 aria-label="Navbar Close button"
@@ -374,7 +368,7 @@ function VariantE({ banner, logo, links }) {
                   <Fragment key={index}>
                     <li className="mb-8">
                       {link.type === "linkInternal" ? (
-                        <Link
+                        <a
                           href={`${
                             link.internalLink === "Home" ||
                             link.internalLink === "home"
@@ -385,26 +379,23 @@ function VariantE({ banner, logo, links }) {
                                     : link.internalLink
                                 }`
                           }`}
+                          aria-label={`Navigation ${
+                            link?.label ?? "Menu"
+                          } links which directs to ${
+                            !link?.internalLink
+                              ? "page-not-found"
+                              : link?.internalLink
+                          }`}
+                          className="font-bold font-heading hover:text-gray-600"
+                          target={link?.linkTarget}
+                          rel={
+                            link?.linkTarget === "_blank"
+                              ? "noopener noreferrer"
+                              : null
+                          }
                         >
-                          <a
-                            aria-label={`Navigation ${
-                              link?.label ?? "Menu"
-                            } links which directs to ${
-                              link?.internalLink === undefined
-                                ? "page-not-found"
-                                : link?.internalLink
-                            }`}
-                            className="font-bold font-heading hover:text-gray-600"
-                            target={link?.linkTarget}
-                            rel={
-                              link?.linkTarget === "_blank"
-                                ? "noopener noreferrer"
-                                : null
-                            }
-                          >
-                            {link?.label}
-                          </a>
-                        </Link>
+                          {link?.label}
+                        </a>
                       ) : (
                         <a
                           aria-label={`Navigation ${

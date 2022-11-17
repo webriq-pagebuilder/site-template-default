@@ -1,7 +1,7 @@
-import React from "react";
-import Link from "next/link";
 import WebriQForm from "component/webriq-form";
 import { urlFor } from "lib/sanity";
+import Link from "next/link";
+import React from "react";
 
 function VariantA({ logo, form, formLinks, signInLink }) {
   let logoLink;
@@ -464,7 +464,7 @@ function VariantA({ logo, form, formLinks, signInLink }) {
                           signInLink?.internalLink === "home"
                             ? "/"
                             : `/${
-                                signInLink?.internalLink === undefined
+                                signInlink?.internalLink
                                   ? "page-not-found"
                                   : signInLink?.internalLink
                               }`
@@ -518,7 +518,7 @@ function VariantA({ logo, form, formLinks, signInLink }) {
                         link?.internalLink === "home"
                           ? "/"
                           : `/${
-                              link.internalLink === undefined
+                              !link.internalLink
                                 ? "page-not-found"
                                 : link.internalLink
                             }`

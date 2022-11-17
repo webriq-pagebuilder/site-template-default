@@ -1,6 +1,6 @@
-import React from "react";
-import Link from "next/link";
 import WebriQForm from "component/webriq-form";
+import Link from "next/link";
+import React from "react";
 
 function VariantE({ form, formLinks, signInLink }) {
   const { id, name, subtitle, fields, buttonLabel, thankYouPage } = form;
@@ -360,7 +360,7 @@ function VariantE({ form, formLinks, signInLink }) {
                         signInLink?.internalLink === "home"
                           ? "/"
                           : `/${
-                              signInLink?.internalLink === undefined
+                              signInlink?.internalLink
                                 ? "page-not-found"
                                 : signInLink?.internalLink
                             }`
@@ -417,7 +417,7 @@ function VariantE({ form, formLinks, signInLink }) {
                         link?.internalLink === "home"
                           ? "/"
                           : `/${
-                              link.internalLink === undefined
+                              !link.internalLink
                                 ? "page-not-found"
                                 : link.internalLink
                             }`
@@ -427,7 +427,7 @@ function VariantE({ form, formLinks, signInLink }) {
                         aria-label={`Call to action ${
                           link?.label ?? "Terms and Policies"
                         } links which directs to ${
-                          link?.internalLink === undefined
+                          !link?.internalLink
                             ? "page-not-found"
                             : link?.internalLink
                         }`}

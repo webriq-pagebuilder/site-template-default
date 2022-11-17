@@ -1,6 +1,13 @@
-import React from "react";
 import Link from "next/link";
+import React, { useEffect, useState } from "react";
 function PageNotFound() {
+  const [preview, setPreview] = useState(null);
+
+  useEffect(() => {
+    const status = localStorage.getItem("preview");
+    setPreview(status);
+  }, []);
+
   return (
     <>
       <section>
@@ -28,9 +35,15 @@ function PageNotFound() {
               <span className="mb-6 text-4xl text-webriq-darkblue font-bold">
                 Whoops!
               </span>
-              <h3 className="mb-2 text-4xl font-bold">Something went wrong!</h3>
+              <h3 className="mb-2 text-4xl font-bold">
+                {preview
+                  ? "It looks like you haven't added a link for your page"
+                  : "Something went wrong!"}
+              </h3>
               <p className="mb-8 text-gray-400">
-                Sorry, but we are unable to open this page
+                {preview
+                  ? "Please go back to Studio and add the link to fix this issue"
+                  : "Sorry, but we are unable to open this page"}
               </p>
               <div>
                 <Link href="/">

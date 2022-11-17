@@ -1,7 +1,7 @@
-import { urlFor } from "lib/sanity";
-import React from "react";
-import Link from "next/link";
 import WebriQForm from "component/webriq-form";
+import { urlFor } from "lib/sanity";
+import Link from "next/link";
+import React from "react";
 
 function VariantD({ logo, title, text, button, form, formLinks, signInLink }) {
   let logoLink;
@@ -463,7 +463,7 @@ function VariantD({ logo, title, text, button, form, formLinks, signInLink }) {
                             signInLink?.internalLink === "home"
                               ? "/"
                               : `/${
-                                  signInLink?.internalLink === undefined
+                                  signInlink?.internalLink
                                     ? "page-not-found"
                                     : signInLink?.internalLink
                                 }`
@@ -520,7 +520,7 @@ function VariantD({ logo, title, text, button, form, formLinks, signInLink }) {
                             link?.internalLink === "home"
                               ? "/"
                               : `/${
-                                  link.internalLink === undefined
+                                  !link.internalLink
                                     ? "page-not-found"
                                     : link.internalLink
                                 }`
@@ -530,7 +530,7 @@ function VariantD({ logo, title, text, button, form, formLinks, signInLink }) {
                             aria-label={`Call to action ${
                               link?.label ?? "Terms and Policies"
                             } links which directs to ${
-                              link?.internalLink === undefined
+                              !link?.internalLink
                                 ? "page-not-found"
                                 : link?.internalLink
                             }`}

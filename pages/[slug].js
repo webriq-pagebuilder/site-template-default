@@ -1,12 +1,12 @@
-import React, { lazy, Suspense, useState } from "react";
+import { sanityConfig } from "lib/config";
+import { getClient, sanityClient } from "lib/sanity.server";
+import { groq } from "next-sanity";
 import dynamic from "next/dynamic";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { blogQuery, slugQuery } from "./api/query";
-import { groq } from "next-sanity";
 import NoPreview from "pages/no-preview";
-import { sanityConfig } from "lib/config";
-import { getClient, sanityClient } from "lib/sanity.server";
+import React, { lazy, Suspense, useEffect, useState } from "react";
+import { blogQuery, slugQuery } from "./api/query";
 
 export const Components = {
   navigation: dynamic(() => import("component/sections/navigation")),
@@ -55,6 +55,10 @@ function Page({ data: initialData = {}, preview, token }) {
 
   const pageData = data?.page || data?.[0];
   const slug = pageData?.slug;
+
+  useEffect(() => {
+    localStorage.setItem("preview", preview);
+  }, []);
 
   if (!router.isFallback && !slug) {
     return <BlogPage {...{ data: data?.blogData, preview, token }} />;

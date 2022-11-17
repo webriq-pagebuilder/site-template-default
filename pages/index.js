@@ -1,10 +1,10 @@
-import React, { lazy, Suspense, useState } from "react";
+import { sanityConfig } from "lib/config";
+import { getClient } from "lib/sanity.server";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { homeQuery } from "./api/query";
-import { getClient } from "lib/sanity.server";
-import { sanityConfig } from "lib/config";
 import NoPreview from "pages/no-preview";
+import React, { lazy, Suspense, useState } from "react";
+import { homeQuery } from "./api/query";
 import { Components, filterDataToSingleItem } from "./[slug]";
 
 const PreviewMode = lazy(() => import("next-sanity/preview"));
@@ -15,6 +15,10 @@ function Home({ data: initialData = {}, preview, token }) {
 
   const pageData = data?.page || data?.[0];
   const slug = pageData?.slug;
+
+  useEffect(() => {
+    localStorage.setItem("preview", preview);
+  }, []);
 
   /*
    *  For new unpublished pages, return page telling user that the page needs to be published first before it can be previewed

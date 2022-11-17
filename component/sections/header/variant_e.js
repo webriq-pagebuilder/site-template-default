@@ -1,6 +1,6 @@
-import React from "react";
-import Link from "next/link";
 import WebriQForm from "component/webriq-form";
+import Link from "next/link";
+import React from "react";
 
 function VariantE({
   template,
@@ -596,7 +596,7 @@ function VariantE({
                               link?.internalLink === "home"
                                 ? "/"
                                 : `/${
-                                    link.internalLink === undefined
+                                    !link.internalLink
                                       ? "page-not-found"
                                       : link.internalLink
                                   }`
@@ -606,7 +606,7 @@ function VariantE({
                               aria-label={`Header ${
                                 link?.label ?? "Terms and Policies"
                               } links which directs to ${
-                                link?.internalLink === undefined
+                                !link?.internalLink
                                   ? "page-not-found"
                                   : link?.internalLink
                               }`}

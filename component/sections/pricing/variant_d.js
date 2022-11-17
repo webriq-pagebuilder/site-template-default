@@ -1,9 +1,3 @@
-import React from "react";
-import WebriQForm from "component/webriq-form";
-import Image from "next/image";
-import Link from "next/link";
-import { PortableText, urlFor } from "lib/sanity";
-import { initiateCheckout } from "lib/checkout";
 import {
   CardElement,
   Elements,
@@ -12,7 +6,12 @@ import {
 } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import axios from "axios";
+import WebriQForm from "component/webriq-form";
+import { PortableText, urlFor } from "lib/sanity";
+import Image from "next/image";
+import Link from "next/link";
 import router from "next/router";
+import React from "react";
 
 function VariantD({
   caption,
@@ -530,7 +529,7 @@ function VariantD({
                     signInLink?.internalLink === "home"
                       ? "/"
                       : `/${
-                          signInLink?.internalLink === undefined
+                          signInlink?.internalLink
                             ? "page-not-found"
                             : signInLink?.internalLink
                         }`
