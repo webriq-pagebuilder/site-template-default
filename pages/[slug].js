@@ -58,7 +58,7 @@ function Page({ data: initialData = {}, preview, token }) {
 
   useEffect(() => {
     localStorage.setItem("preview", preview);
-  }, []);
+  }, [preview]);
 
   if (!router.isFallback && !slug) {
     return <BlogPage {...{ data: data?.blogData, preview, token }} />;

@@ -3,7 +3,7 @@ import { getClient } from "lib/sanity.server";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import NoPreview from "pages/no-preview";
-import React, { lazy, Suspense, useState } from "react";
+import React, { lazy, Suspense, useEffect, useState } from "react";
 import { homeQuery } from "./api/query";
 import { Components, filterDataToSingleItem } from "./[slug]";
 
@@ -18,7 +18,7 @@ function Home({ data: initialData = {}, preview, token }) {
 
   useEffect(() => {
     localStorage.setItem("preview", preview);
-  }, []);
+  }, [preview]);
 
   /*
    *  For new unpublished pages, return page telling user that the page needs to be published first before it can be previewed
