@@ -97,6 +97,15 @@ const blockStyle = {
       </a>
     ),
   },
+  types: {
+    addImage: ({ value }) => (
+      <img
+        className="h-full w-full mb-5"
+        src={urlFor(value?.image)}
+        alt={value?.alt ?? value?.image?.asset?._ref}
+      />
+    ),
+  },
 };
 
 function BlogPage({ data: initialData = {}, preview, token }) {
@@ -190,11 +199,11 @@ function BlogPage({ data: initialData = {}, preview, token }) {
                     authors?.map((author, index, { length }) => (
                       <div className="flex justify-center" key={index}>
                         <div className="mr-4">
-                          {author?.image ? (
+                          {author?.profile?.image ? (
                             <img
                               className="w-12 h-12 object-cover object-top rounded-full"
-                              src={urlFor(author?.image)}
-                              alt=""
+                              src={urlFor(author?.profile?.image)}
+                              alt={author?.profile?.alt ?? author?.name}
                             />
                           ) : (
                             <svg
