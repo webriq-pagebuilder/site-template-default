@@ -160,15 +160,11 @@ export const blogQuery = groq`
 export const productsQuery = groq`*[_type == "mainProduct" && slug.current == $slug] {
   ...,
   "slug": slug.current,
-  "productSections": sections[]-> {
-    ...,
-    ${variants}
-  },
+  sections[]->,
   "defaultSections": *[_type == "productSettings"][0].sections[]->{
     ...,
     ${variants}
   },
-  collections->,
 }`;
 
 // query record of collections
@@ -178,15 +174,12 @@ export const collectionSettings = groq`*[_type == "collectionSettings"][0] ${all
 export const collectionsQuery = groq`*[_type == "mainCollection" && slug.current == $slug] {
   ...,
   "slug": slug.current,
-  "collectionSections": sections[]-> {
-    ...,
-    ${variants}
-  },
+  products[]->,
+  sections[]->,
   "defaultSections": *[_type == "collectionSettings"][0].sections[]->{
     ...,
     ${variants}
   },
-  collections->,
 }`;
 
 // query cart page

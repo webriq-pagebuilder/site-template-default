@@ -32,8 +32,9 @@ function CollectionPage({ data: initialData = {}, preview, token }) {
   const {
     defaultSections, // sections from Store > Pages > Collections
     name, // collection name
-    collectionSections, // sections from the Collection page
     seo, // collection page SEO
+    sections, // sections from the Design field group tab of Collections page
+    products, // array of products for this Collection
   } = collectionData;
 
   /*
@@ -57,27 +58,50 @@ function CollectionPage({ data: initialData = {}, preview, token }) {
   }
 
   let sectionsToDisplay = defaultSections;
+  // if we have "slotCollectionInfo" section, then we have the placeholder for the collections values
+  let placeholderSection = sections?.map((section) => {
+    // only need the dynamic_featuredProducts section from Store > Commerce Pages > Collections to match
+    const getIndex = defaultSections?.findIndex((item) =>
+      item?._type?.includes("dynamic_featuredProducts")
+    );
 
-  if (collectionSections) {
-    const filtered = collectionSections?.filter(
-      (section) => section?._type !== "featuredProducts"
+    const newObj = {
+      variant: sectionsToDisplay[getIndex]?.variant, // the selected variant for the featuredProducts from Store > Commerce Pages > Collections
+      variants: {
+        featured: products,
+      }, // schema fields for the variant
+    };
+
+    // mutate sections array to add the collections details if the section is slotCollectionInfo
+    if (section?._type === "slotCollectionInfo") {
+      return { ...section, ...newObj };
+    }
+    // just return other sections as is
+    return section;
+  });
+
+  if (placeholderSection) {
+    const filtered = placeholderSection?.filter(
+      (section) => section?._type !== "slotCollectionInfo"
     );
 
     if (filtered?.length !== 0) {
-      sectionsToDisplay = collectionSections;
+      sectionsToDisplay = placeholderSection;
     } else {
       // we only have featuredProducts section on the collection page so we merge this section with the sections in Store > Pages > Collections
-      sectionsToDisplay = collectionSections?.reduce(
+      sectionsToDisplay = placeholderSection?.reduce(
         (defaultsArr, newArr) => {
           // only need the featuredProducts section from Store > Collections to match
           const getIndex = defaultSections?.findIndex((item) =>
             item?._type?.includes("featuredProducts")
           );
 
+          // if there is a featuredProducts type section from Store > Commerce Pages > Collections, then replace with the slotCollectionInfo array
           if (getIndex !== -1) {
             defaultsArr[getIndex] = newArr;
           }
 
+          // otherwise return the other sections defined
           return defaultsArr;
         },
         [...defaultSections]
@@ -110,7 +134,11 @@ function CollectionPage({ data: initialData = {}, preview, token }) {
       </Head>
       {sectionsToDisplay &&
         sectionsToDisplay?.map((section, index) => {
-          const Component = Components[section?._type];
+          const sectionType =
+            section?._type === "slotCollectionInfo" // for slotCollectionInfo, apply the variant templates of the featuredProducts section
+              ? "featuredProducts"
+              : section?._type; // otherwise, use the actual section type
+          const Component = Components[sectionType];
 
           // skip rendering unknown components
           if (!Component) {

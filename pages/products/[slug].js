@@ -30,15 +30,15 @@ function ProductPage({ data: initialData = {}, preview, token }) {
   }
 
   const {
-    collections, // the collection this product belongs to
-    defaultSections, // sections from Store > Pages > Products
+    defaultSections, // sections from Store > Commerce Pages > Products
     name, // product name
     ecwidProductId, // the product ID from Ecwid
     price, // product price
     description, // product description
     productPreview, // product preview image
-    productSections, // sections from the Product page
+    sections, // sections from the Design field group tab of Product page
     seo, // product page SEO
+    productInfo, // display other product information
   } = productData;
 
   /*
@@ -62,27 +62,44 @@ function ProductPage({ data: initialData = {}, preview, token }) {
   }
 
   let sectionsToDisplay = defaultSections;
+  // if we have "slotProductInfo" section, then we have the placeholder for the productInfo values
+  let placeholderSection = sections?.map((section) => {
+    const newObj = {
+      variant: productInfo?.variant, // e.g. variant_a
+      variants: productInfo?.variants, // schema fields for the variant
+    };
 
-  if (productSections) {
-    const filtered = productSections?.filter(
-      (section) => section?._type !== "productInfo"
+    // mutate sections array to add the productInfo details if the section is slotProductInfo
+    if (section?._type === "slotProductInfo") {
+      return { ...section, ...newObj };
+    }
+
+    // just return other sections as is
+    return section;
+  });
+
+  if (placeholderSection) {
+    const filtered = placeholderSection?.filter(
+      (section) => section?._type !== "slotProductInfo"
     );
 
     if (filtered?.length !== 0) {
-      sectionsToDisplay = productSections;
+      sectionsToDisplay = placeholderSection;
     } else {
-      // we only have productInfo section on the product page so we merge this section with the sections in Store > Pages > Products
-      sectionsToDisplay = productSections?.reduce(
+      // we only have slotProductInfo section on the product page so we merge this section with the sections in Store > Pages > Products
+      sectionsToDisplay = placeholderSection?.reduce(
         (defaultsArr, newArr) => {
-          // only need the productInfo section from Store > Products to match
+          // only need the slotProductInfo section from Store > Products Design field group to match
           const getIndex = defaultSections?.findIndex((item) =>
             item?._type?.includes("productInfo")
           );
 
+          // if there is a productInfo type section from Store > Commerce Pages > Products, then replace with the slotProductInfo array
           if (getIndex !== -1) {
             defaultsArr[getIndex] = newArr;
           }
 
+          // otherwise return the other sections defined
           return defaultsArr;
         },
         [...defaultSections]
@@ -115,7 +132,11 @@ function ProductPage({ data: initialData = {}, preview, token }) {
       </Head>
       {sectionsToDisplay &&
         sectionsToDisplay?.map((section, index) => {
-          const Component = Components?.[section?._type];
+          const sectionType =
+            section?._type === "slotProductInfo" // for slotProductInfo, apply the variant templates of the former productInfo section
+              ? "productInfo"
+              : section?._type; // otherwise, use the actual section type
+          const Component = Components?.[sectionType];
 
           // skip rendering unknown components
           if (!Component) {
@@ -134,7 +155,6 @@ function ProductPage({ data: initialData = {}, preview, token }) {
                   ecwidProductId,
                   price,
                   description,
-                  collections,
                   productPreview,
                 }}
                 data={section}
