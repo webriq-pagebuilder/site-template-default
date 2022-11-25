@@ -113,6 +113,10 @@ const variants = `
         btnLabel,
         socialLinks,
       },
+    },
+    allProducts-> {
+      ...,
+      products[]->
     }
   }
 `;

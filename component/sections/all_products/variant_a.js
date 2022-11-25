@@ -1,13 +1,9 @@
 import { memo, useState, useEffect } from "react";
 import { urlFor } from "lib/sanity";
-import { sanityClient } from "lib/sanity.server";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-function VariantA() {
-  const [collections, setCollections] = useState([]); // get C-Studio collections pages
-  const [products, setProducts] = useState([]); // get C-Studio products pages
-  const [selectInput, setSelectInput] = useState("All products"); // contain value for the select input
+function VariantA({ title, products }) {
   const [productQuery, setProductQuery] = useState("");
   const router = useRouter();
 
@@ -27,42 +23,7 @@ function VariantA() {
         setProductQuery(q); // pass query to state variable
       }
     }
-  }, [router.query.q]);
-
-  // fetch data on page load
-  useEffect(() => {
-    async function getData() {
-      try {
-        // fetch product pages
-        await sanityClient
-          .fetch(
-            `*[_type == 'mainProduct' && !(_id in path("drafts.**"))]{
-            ...,
-            collections-> 
-          }`
-          )
-          .then((product) => setProducts(product));
-        // fetch collection pages
-        await sanityClient
-          .fetch(`*[_type == 'mainCollection' && !(_id in path("drafts.**"))]`)
-          .then((collection) => setCollections(collection));
-      } catch (err) {
-        console.log(err);
-      }
-    }
-
-    getData(); // run function
-  }, []);
-
-  // get selected input
-  const handleSelectInput = (e) => {
-    setSelectInput(e.target.value);
-  };
-
-  // filtered products array based on select input
-  const filterProductsByCollection =
-    products &&
-    products?.filter((product) => product?.collections?.name === selectInput);
+  }, [router.query.q, productQuery]);
 
   // filtered products array based on search query input
   const filterProductsByQuery =
@@ -75,11 +36,7 @@ function VariantA() {
   let displayProducts = products;
 
   // set array to display
-  if (!productQuery) {
-    if (selectInput !== "All products") {
-      displayProducts = filterProductsByCollection;
-    }
-  } else {
+  if (productQuery) {
     displayProducts = filterProductsByQuery;
   }
 
@@ -89,28 +46,9 @@ function VariantA() {
         <div className="flex flex-wrap lg:-mx-4 mb-20 items-center justify-between">
           <div className="w-full lg:w-auto lg:px-4 mb-12 xl:mb-0">
             <h1 className="text-2xl sm:text-4xl font-bold font-heading">
-              {productQuery
-                ? `Search results for "${productQuery}"`
-                : `Showing ${displayProducts?.length} products`}
+              {productQuery ? `Search results for "${productQuery}"` : title}
             </h1>
           </div>
-          {!productQuery && (
-            <select
-              className="p-4 bg-white text-lg border border-gray-400 focus:ring-webriq-blue focus:border-webriq-blue rounded-md"
-              name="by-collection"
-              value={selectInput}
-              onChange={handleSelectInput}
-            >
-              <option name="default-value" value="All products">
-                All products
-              </option>
-              {collections?.map((collection, index) => (
-                <option value={collection?.name} key={index}>
-                  {collection?.name}
-                </option>
-              ))}
-            </select>
-          )}
         </div>
         {products && (
           <div className="flex flex-wrap -mx-3">

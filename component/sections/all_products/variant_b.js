@@ -1,13 +1,9 @@
 import { memo, useState, useEffect } from "react";
 import { urlFor } from "lib/sanity";
-import { sanityClient } from "lib/sanity.server";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-function VariantB() {
-  const [collections, setCollections] = useState([]); // get C-Studio collections pages
-  const [products, setProducts] = useState([]); // get C-Studio products pages
-  const [activeTab, setActiveTab] = useState("All");
+function VariantB({ title, products }) {
   const [productQuery, setProductQuery] = useState("");
   const router = useRouter();
 
@@ -28,36 +24,6 @@ function VariantB() {
     }
   }, [router.query.q]);
 
-  // fetch data on page load
-  useEffect(() => {
-    async function getData() {
-      try {
-        // fetch product pages
-        await sanityClient
-          .fetch(
-            `*[_type == 'mainProduct' && !(_id in path("drafts.**"))]{
-            ...,
-            collections-> 
-          }`
-          )
-          .then((product) => setProducts(product));
-        // fetch collection pages
-        await sanityClient
-          .fetch(`*[_type == 'mainCollection' && !(_id in path("drafts.**"))]`)
-          .then((collection) => setCollections(collection));
-      } catch (err) {
-        console.log(err);
-      }
-    }
-
-    getData(); // run function
-  }, []);
-
-  // filtered products array based on active collection tab
-  const filterProductsByCollection =
-    products &&
-    products?.filter((product) => product?.collections?.name === activeTab);
-
   // filtered products array based on search query input
   const filterProductsByQuery =
     products &&
@@ -69,11 +35,7 @@ function VariantB() {
   let displayProducts = products;
 
   // set array to display
-  if (!productQuery) {
-    if (activeTab !== "All") {
-      displayProducts = filterProductsByCollection;
-    }
-  } else {
+  if (productQuery) {
     displayProducts = filterProductsByQuery;
   }
 
@@ -87,43 +49,7 @@ function VariantB() {
                 <h1 className="mb-8 text-2xl font-bold font-heading">
                   Category
                 </h1>
-                {collections && (
-                  <ul>
-                    <li
-                      className={`mb-4 ${
-                        activeTab === "All"
-                          ? " font-bold text-webriq-darkblue"
-                          : "hover:text-webriq-blue"
-                      }`}
-                    >
-                      <button
-                        className="lg:text-lg"
-                        type="button"
-                        onClick={() => setActiveTab("All")}
-                      >
-                        All
-                      </button>
-                    </li>
-                    {collections?.map((collection, index) => (
-                      <li
-                        className={`mb-4 ${
-                          activeTab === collection?.name
-                            ? " font-bold text-webriq-darkblue"
-                            : "hover:text-webriq-blue"
-                        }`}
-                        key={index}
-                      >
-                        <button
-                          className="lg:text-lg"
-                          type="button"
-                          onClick={() => setActiveTab(collection?.name)}
-                        >
-                          {collection?.name}
-                        </button>
-                      </li>
-                    ))}
-                  </ul>
-                )}
+                <p className="lg:text-lg">{title}</p>
               </div>
             </div>
           )}

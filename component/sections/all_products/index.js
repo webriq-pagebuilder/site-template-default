@@ -10,6 +10,11 @@ function AllProducts({ data }) {
   const variant = data?.variant || data?.variants?.condition;
   const Variant = Variants?.[variant];
 
-  return Variant ? <Variant /> : null;
+  const props = {
+    title: data?.variants?.allProducts?.name,
+    products: data?.variants?.allProducts?.products,
+  };
+
+  return Variant ? <Variant {...props} /> : null;
 }
 export default memo(AllProducts);
