@@ -78,21 +78,29 @@ function ProductPage({ data: initialData = {}, preview, token }) {
     return section;
   });
 
+  // let us make sure that "placeholderSection" is not empty or undefined, otherwise if its empty then use defaultSections array
   if (placeholderSection) {
+    // check if we have other sections aside from slotProductInfo
     const filtered = placeholderSection?.filter(
       (section) => section?._type !== "slotProductInfo"
     );
 
     if (filtered?.length !== 0) {
+      // if line 83 returns true, then we must replace all the defaultSections from Store > Commerce Pages > Products
       sectionsToDisplay = placeholderSection;
     } else {
-      // we only have slotProductInfo section on the product page so we merge this section with the sections in Store > Pages > Products
+      // if only have slotProductInfo section, then use its value for the Dynamic Product Info section
       sectionsToDisplay = placeholderSection?.reduce(
         (defaultsArr, newArr) => {
           // only need the slotProductInfo section from Store > Products Design field group to match
           const getIndex = defaultSections?.findIndex((item) =>
             item?._type?.includes("productInfo")
           );
+
+          // If placeholderSection variant is "defaultVariant", then use the variant set in defaultSections Dynamic Product Info
+          if (newArr?.variant === "defaultVariant") {
+            newArr.variant = defaultsArr[getIndex]?.variant;
+          }
 
           // if there is a productInfo type section from Store > Commerce Pages > Products, then replace with the slotProductInfo array
           if (getIndex !== -1) {
