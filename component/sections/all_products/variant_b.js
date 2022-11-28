@@ -132,7 +132,7 @@ function VariantB({ products }) {
                               )}
                               {product?.price && (
                                 <p className="text-lg font-bold font-heading text-webriq-darkblue">
-                                  {product?.price}
+                                  ${product?.price}
                                 </p>
                               )}
                             </a>
