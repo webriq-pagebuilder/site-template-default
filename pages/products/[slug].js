@@ -39,6 +39,7 @@ function ProductPage({ data: initialData = {}, preview, token }) {
     sections, // sections from the Design field group tab of Product page
     seo, // product page SEO
     productInfo, // display other product information
+    productInfoVariant, // product info design
   } = productData;
 
   /*
@@ -65,8 +66,8 @@ function ProductPage({ data: initialData = {}, preview, token }) {
   // if we have "slotProductInfo" section, then we have the placeholder for the productInfo values
   let placeholderSection = sections?.map((section) => {
     const newObj = {
-      variant: productInfo?.variant, // e.g. variant_a
-      variants: productInfo?.variants, // schema fields for the variant
+      variant: productInfoVariant?.variant, // e.g. variant_a
+      variants: productInfo, // schema fields for the variant
     };
 
     // mutate sections array to add the productInfo details if the section is slotProductInfo
