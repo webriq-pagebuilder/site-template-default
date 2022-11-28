@@ -114,7 +114,7 @@ const variants = `
         socialLinks,
       },
     },
-    allProducts-> {
+    allProducts[]-> {
       ...,
       products[]->
     }

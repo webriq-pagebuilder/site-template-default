@@ -3,8 +3,10 @@ import { urlFor } from "lib/sanity";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-function VariantB({ title, products }) {
+function VariantB({ products }) {
   const [productQuery, setProductQuery] = useState("");
+  const [activeTab, setActiveTab] = useState(products?.[0]?.name); // initial value will be the first option from the list of collections
+
   const router = useRouter();
 
   useEffect(() => {
@@ -24,12 +26,20 @@ function VariantB({ title, products }) {
     }
   }, [router.query.q]);
 
+  // filtered products array based on select input
+  const filterProductsByCollection =
+    products && products?.filter((product) => product?.name === activeTab);
+
   // filtered products array based on search query input
-  const filterProductsByQuery =
-    products &&
-    products?.filter((product) =>
+  const filterProductsByQuery = products?.reduce((newArr, currArr) => {
+    if (newArr?.indexOf(currArr) === -1) {
+      newArr?.push(...currArr?.products);
+    }
+
+    return newArr?.filter((product) =>
       product?.name?.toLowerCase()?.includes(productQuery?.toLowerCase())
     );
+  }, []);
 
   // set products array to display based on conditions met
   let displayProducts = products;
@@ -37,6 +47,8 @@ function VariantB({ title, products }) {
   // set array to display
   if (productQuery) {
     displayProducts = filterProductsByQuery;
+  } else {
+    displayProducts = filterProductsByCollection?.[0];
   }
 
   return (
@@ -49,63 +61,86 @@ function VariantB({ title, products }) {
                 <h1 className="mb-8 text-2xl font-bold font-heading">
                   Category
                 </h1>
-                <p className="lg:text-lg">{title}</p>
+                {products && (
+                  <ul>
+                    {products?.map((collection, index) => (
+                      <li
+                        className={`mb-4 ${
+                          activeTab === collection?.name
+                            ? " font-bold text-webriq-darkblue"
+                            : "hover:text-webriq-blue"
+                        }`}
+                        key={index}
+                      >
+                        <button
+                          className="lg:text-lg"
+                          type="button"
+                          onClick={() => setActiveTab(collection?.name)}
+                        >
+                          {collection?.name}
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </div>
             </div>
           )}
-          {products && (
+          {displayProducts && (
             <div className={`w-full ${!productQuery && "lg:w-3/4"} px-3`}>
               {productQuery && (
                 <h1 className="text-4xl font-bold font-heading">
-                  {`Search results for "${productQuery}"`}
+                  {`Showing ${displayProducts?.length} results for "${productQuery}"`}
                 </h1>
               )}
               {displayProducts?.length !== 0 ? (
                 <div className="flex flex-wrap -mx-3">
-                  {displayProducts?.map((product, index) => (
-                    <div
-                      className={`w-full sm:w-1/2 ${
-                        !productQuery ? "md:w-1/3" : "md:w-1/4"
-                      } px-3 mb-8`}
-                      key={index}
-                    >
-                      <div className="p-6">
-                        <Link href={`/products/${product?.slug?.current}`}>
-                          <a className="block px-6 mt-6 mb-2 text-center">
-                            {product?.productPreview?.image ? (
-                              <img
-                                className="mb-5 mx-auto h-56 w-full object-contain hover:scale-110 transition-all duration-700"
-                                src={urlFor(product?.productPreview?.image)}
-                                alt={
-                                  product?.productPreview?.alt ??
-                                  `product-image-${index + 1}`
-                                }
-                              />
-                            ) : (
-                              <img
-                                className="mb-5 mx-auto h-56 w-full object-contain hover:scale-110 transition-all duration-700"
-                                src="https://cdn.sanity.io/images/9itgab5x/production/b362a413487c075bc56646b996ffaf5b888b8fd1-1200x1063.png"
-                                alt={
-                                  product?.productPreview?.alt ??
-                                  `product-image-${index + 1}`
-                                }
-                              />
-                            )}
-                            {product?.name && (
-                              <h2 className="mb-2 text-xl font-heading">
-                                {product?.name}
-                              </h2>
-                            )}
-                            {product?.price && (
-                              <p className="text-lg font-bold font-heading text-webriq-darkblue">
-                                {product?.price}
-                              </p>
-                            )}
-                          </a>
-                        </Link>
+                  {(displayProducts?.products ?? displayProducts)?.map(
+                    (product, index) => (
+                      <div
+                        className={`w-full sm:w-1/2 ${
+                          !productQuery ? "md:w-1/3" : "md:w-1/4"
+                        } px-3 mb-8`}
+                        key={index}
+                      >
+                        <div className="p-6">
+                          <Link href={`/products/${product?.slug?.current}`}>
+                            <a className="block px-6 mt-6 mb-2 text-center">
+                              {product?.productPreview?.image ? (
+                                <img
+                                  className="mb-5 mx-auto h-56 w-full object-contain hover:scale-110 transition-all duration-700"
+                                  src={urlFor(product?.productPreview?.image)}
+                                  alt={
+                                    product?.productPreview?.alt ??
+                                    `product-image-${index + 1}`
+                                  }
+                                />
+                              ) : (
+                                <img
+                                  className="mb-5 mx-auto h-56 w-full object-contain hover:scale-110 transition-all duration-700"
+                                  src="https://cdn.sanity.io/images/9itgab5x/production/b362a413487c075bc56646b996ffaf5b888b8fd1-1200x1063.png"
+                                  alt={
+                                    product?.productPreview?.alt ??
+                                    `product-image-${index + 1}`
+                                  }
+                                />
+                              )}
+                              {product?.name && (
+                                <h2 className="mb-2 text-xl font-heading">
+                                  {product?.name}
+                                </h2>
+                              )}
+                              {product?.price && (
+                                <p className="text-lg font-bold font-heading text-webriq-darkblue">
+                                  {product?.price}
+                                </p>
+                              )}
+                            </a>
+                          </Link>
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    )
+                  )}
                 </div>
               ) : (
                 <div className="text-center">

@@ -11,8 +11,7 @@ function AllProducts({ data }) {
   const Variant = Variants?.[variant];
 
   const props = {
-    title: data?.variants?.allProducts?.name,
-    products: data?.variants?.allProducts?.products,
+    products: data?.variants?.allProducts,
   };
 
   return Variant ? <Variant {...props} /> : null;

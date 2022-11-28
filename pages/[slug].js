@@ -36,9 +36,6 @@ export const Components = {
   ),
   productInfo: dynamic(() => import("component/sections/product_info")),
   wishlistSection: dynamic(() => import("component/sections/wishlist")),
-  pages_featuredProducts: dynamic(() =>
-    import("component/sections/pages_featuredProducts")
-  ),
   pages_productInfo: dynamic(() =>
     import("component/sections/pages_productInfo")
   ),
