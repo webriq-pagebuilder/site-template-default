@@ -6,22 +6,21 @@ import Ribbon from "component/ecwid/Ribbon";
 
 function VariantA({ title, featured }) {
   const ecwid = useEcwid();
-
-  const { fetchCollections, productCollection } = ecwid;
-
   const ids = featured && featured?.map((item) => item?.ecwidProductId);
 
   useEffect(() => {
-    fetchCollections(ids);
+    if (ecwid?.fetchCollections) {
+      ecwid?.fetchCollections(ids);
+    }
   }, []);
 
   return (
     <section className="relative pt-20">
       <div className="relative container mx-auto px-4">
         {title && (
-          <h2 className="mb-8 md:mb-16 text-4xl md:text-5xl font-bold">
+          <h1 className="mb-8 md:mb-16 text-4xl md:text-5xl font-bold">
             {title}
-          </h2>
+          </h1>
         )}
         {featured && (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">

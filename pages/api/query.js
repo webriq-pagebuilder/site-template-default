@@ -9,9 +9,7 @@ const conditionalLink = `
 const variants = `
   variants {
     ...,
-    arrayOfTitleAndText[] {
-      ...,       
-    },
+    arrayOfTitleAndText[],
     logo {
       image,
       ${conditionalLink}
@@ -92,15 +90,9 @@ const variants = `
       }
     },
     featured[]->,
-    collections[]->{
-      name,
-      "items": sections[_type match "featuredProducts"]->.variants.featured[]-> {
-        name,
-        slug,
-        productPreview,
-        price,
-        ecwidProductId
-      }
+    collections->{
+      ...,
+      products[]->
     },
     products-> {
       name, 

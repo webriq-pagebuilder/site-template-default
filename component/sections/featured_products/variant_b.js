@@ -1,102 +1,92 @@
 import { memo, useEffect } from "react";
 import { urlFor } from "lib/sanity";
-import Image from "next/image";
-import Ribbon from "component/ecwid/Ribbon";
 import { useEcwid } from "context/EcwidContext";
+import Ribbon from "component/ecwid/Ribbon";
+import Image from "next/image";
 
-function VariantB({ collections }) {
+function VariantB({ title, featured }) {
   const ecwid = useEcwid();
-  const { getPriceDisplay, fetchCollections, productCollection } = ecwid;
-
-  const ids =
-    collections &&
-    collections?.map((item) =>
-      item?.items?.map((i) => i?.ecwidProductId).flat()
-    );
+  const ids = featured && featured?.map((item) => item?.ecwidProductId);
 
   useEffect(() => {
-    fetchCollections(ids);
+    if (ecwid?.fetchCollections) {
+      ecwid?.fetchCollections(ids);
+    }
   }, []);
 
   return (
-    <section className="pt-20 pb-10 bg-gray-50">
-      {collections &&
-        collections?.map((collection, index) => (
-          <div className="container mx-auto px-4" key={index}>
-            {collection?.name && (
-              <h1 className="mb-16 md:mb-24 text-4xl md:text-5xl font-bold font-heading">
-                {collection?.name}
-              </h1>
-            )}
-            <div className="flex flex-wrap -mx-3 mb-24">
-              {collection?.items?.map((product, index) => {
-                let items = [];
-                productCollection &&
-                  productCollection?.find((prod) => {
-                    if (prod?.id === product?.ecwidProductId) {
-                      items?.push({ ...prod, ...product });
-                    }
-                  });
+    <section className="py-20 overflow-x-hidden bg-gray-50">
+      <div className="container mx-auto px-4">
+        <div className="flex flex-wrap justify-between mb-20 md:mb-16 md:">
+          {title && <h1 className="text-4xl md:text-5xl font-bold">{title}</h1>}
+        </div>
+        {featured && (
+          <div className="flex flex-wrap -mx-3">
+            {featured?.map((product, index) => {
+              let items = [];
+              ecwid?.productCollection &&
+                ecwid?.productCollection?.find((prod) => {
+                  if (prod?.id === product?.ecwidProductId) {
+                    items?.push({ ...prod, ...product });
+                  }
+                });
 
-                return (
-                  items.length > 0 &&
-                  items.map((collect) => (
-                    <div
-                      className="w-full md:w-1/2 lg:w-1/4 px-3 mb-6 lg:mb-0"
-                      key={index}
-                    >
-                      <div className="relative bg-white shadow-md xl:h-96 lg:h-80 md:h-96 h-auto">
-                        <a
-                          className="block relative"
-                          href={`/products/${product?.slug?.current}`}
-                        >
-                          <div className="absolute top-2 right-0 z-50">
-                            <Ribbon data={collect} />
-                          </div>
-                          {product?.productPreview?.image && (
-                            <div className="w-full">
-                              <Image
-                                className="hover:scale-125 transition-all duration-700"
-                                layout="responsive"
-                                width={256}
-                                height={200}
-                                src={urlFor(product?.productPreview?.image)}
-                                objectFit="cover"
-                                alt={
-                                  product?.productPreview?.alt ??
-                                  `product-image-${index}`
-                                }
-                              />
-                            </div>
-                          )}
-                        </a>
-                        <div className="px-6 pb-6 mt-8">
-                          {product?.name && (
-                            <a
-                              className="block mb-2"
-                              href={`/products/${product?.slug?.current}`}
-                            >
-                              <h1 className="mb-2 text-xl font-bold font-heading">
-                                {product?.name}
-                              </h1>
-                            </a>
-                          )}
-                          {product?.price && (
-                            <p className="text-lg font-bold font-heading text-blue-500">
-                              <span className="text-webriq-darkblue">
-                                {getPriceDisplay(product?.price)}
-                              </span>
-                            </p>
-                          )}
+              return (
+                items?.length > 0 &&
+                items?.map((featuredCollections) => (
+                  <div
+                    className="w-full md:w-1/2 lg:w-1/3 px-3 mb-10 lg:mb-6"
+                    key={index}
+                  >
+                    <div className="relative bg-white shadow-md">
+                      <a
+                        className="block relative"
+                        href={`/products/${product?.slug?.current}`}
+                      >
+                        <div className="absolute z-10">
+                          <Ribbon data={featuredCollections} />
                         </div>
+
+                        {product?.productPreview?.image && (
+                          <Image
+                            className="hover:scale-125 transition-all duration-700"
+                            layout="responsive"
+                            width={485}
+                            height={384}
+                            objectFit="cover"
+                            src={urlFor(product?.productPreview?.image)}
+                            alt={
+                              product?.productPreview?.alt ??
+                              `product-image-${index}`
+                            }
+                          />
+                        )}
+                      </a>
+                      <div className="px-6 pb-6 mt-8">
+                        {product?.name && (
+                          <a
+                            className="text-2xl xl:text-3xl font-bold"
+                            href={`/products/${product?.slug?.current}`}
+                          >
+                            {product?.name}
+                          </a>
+                        )}
+                        <p className="text-lg font-bold font-heading">
+                          <span className="text-webriq-darkblue">
+                            {
+                              featuredCollections?.defaultDisplayedPriceFormatted
+                            }
+                          </span>
+                        </p>
                       </div>
                     </div>
-                  ))
-                ); // end
-              })}
-            </div>
+                  </div>
+                ))
+              );
+            })}
           </div>
-        ))}
+        )}
+      </div>
     </section>
   );
 }

@@ -11,9 +11,8 @@ function FeaturedProducts({ data }) {
   const Variant = Variants?.[variant];
 
   const props = {
-    title: data?.variants?.title,
-    primaryButton: data?.variants?.primaryButton,
-    featured: data?.variants?.featured,
+    title: data?.variants?.collections?.name,
+    featured: data?.variants?.collections?.products,
   };
 
   return Variant ? <Variant {...props} /> : null;
