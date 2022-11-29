@@ -1,11 +1,4 @@
-import {
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-  useMemo,
-  useCallback,
-} from "react";
+import { createContext, useContext, useEffect, useState, useMemo } from "react";
 import { ToastContainer, toast } from "react-toast";
 import { sanityClient } from "lib/sanity";
 import { includes } from "lodash";
@@ -50,43 +43,46 @@ export function EcwidContextProvider({ children }) {
     const favoriteIds = localStorage.getItem(storageName);
     const favorites = JSON.parse(favoriteIds);
 
-    try {
-      const query =
-        '*[_type=="mainProduct" && ecwidProductId in $ids && !(_id in path("drafts.**"))]';
-      const params = {
-        ids: favorites?.productIds?.map((id) => id),
-      };
+    // only run functions when favorite product ids are available
+    if (favorites?.productIds) {
+      try {
+        const query =
+          '*[_type=="mainProduct" && ecwidProductId in $ids && !(_id in path("drafts.**"))]';
+        const params = {
+          ids: favorites?.productIds?.map((id) => id),
+        };
 
-      const studio = await sanityClient
-        .fetch(query, params)
-        .then((products) => products);
+        const studio = await sanityClient
+          .fetch(query, params)
+          .then((products) => products);
 
-      const productReq = await fetch(
-        `/api/ecwid/products/search?productIds=${favorites.productIds}`
-      );
-      const productRes = await productReq.json();
+        const productReq = await fetch(
+          `/api/ecwid/products/search?productIds=${favorites.productIds}`
+        );
+        const productRes = await productReq.json();
 
-      const favoriteProducts = studio
-        .map((item) => {
-          return productRes.items
-            .map((prod) => {
-              if (prod.id === item.ecwidProductId) {
-                return {
-                  ...item,
-                  ...prod,
-                  ecwidId: prod.id,
-                  price: prod.defaultDisplayedPriceFormatted,
-                };
-              }
-            })
-            .flat();
-        })
-        .flat()
-        .filter((item) => item !== undefined);
+        const favoriteProducts = studio
+          .map((item) => {
+            return productRes.items
+              .map((prod) => {
+                if (prod.id === item.ecwidProductId) {
+                  return {
+                    ...item,
+                    ...prod,
+                    ecwidId: prod.id,
+                    price: prod.defaultDisplayedPriceFormatted,
+                  };
+                }
+              })
+              .flat();
+          })
+          .flat()
+          .filter((item) => item !== undefined);
 
-      setFavorites(favoriteProducts);
-    } catch (error) {
-      console.log(error);
+        setFavorites(favoriteProducts);
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
   useMemo(() => {

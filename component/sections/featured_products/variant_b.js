@@ -17,7 +17,7 @@ function VariantB({ title, featured }) {
   return (
     <section className="py-20 overflow-x-hidden bg-gray-50">
       <div className="container mx-auto px-4">
-        <div className="flex flex-wrap justify-between mb-20 md:mb-16 md:">
+        <div className="flex flex-wrap justify-between mb-20 md:mb-16">
           {title && <h1 className="text-4xl md:text-5xl font-bold">{title}</h1>}
         </div>
         {featured && (
@@ -35,10 +35,10 @@ function VariantB({ title, featured }) {
                 items?.length > 0 &&
                 items?.map((featuredCollections) => (
                   <div
-                    className="w-full md:w-1/2 lg:w-1/3 px-3 mb-10 lg:mb-6"
+                    className="w-full md:w-1/2 lg:w-1/4 px-3 mb-10 lg:mb-6"
                     key={index}
                   >
-                    <div className="relative bg-white shadow-md">
+                    <div className="relative bg-white h-full shadow-md">
                       <a
                         className="block relative"
                         href={`/products/${product?.slug?.current}`}
@@ -65,7 +65,7 @@ function VariantB({ title, featured }) {
                       <div className="px-6 pb-6 mt-8">
                         {product?.name && (
                           <a
-                            className="text-2xl xl:text-3xl font-bold"
+                            className="text-2xl font-bold"
                             href={`/products/${product?.slug?.current}`}
                           >
                             {product?.name}

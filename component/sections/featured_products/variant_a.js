@@ -26,8 +26,8 @@ function VariantA({ title, featured }) {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {featured?.map((product, index) => {
               let items = [];
-              productCollection &&
-                productCollection?.find((prod) => {
+              ecwid?.productCollection &&
+                ecwid?.productCollection?.find((prod) => {
                   if (prod?.id === product?.ecwidProductId) {
                     items?.push({ ...prod, ...product });
                   }
