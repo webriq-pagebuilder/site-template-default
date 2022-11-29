@@ -106,21 +106,23 @@ function VariantB({ products }) {
                         <div className="p-6">
                           <Link href={`/products/${product?.slug?.current}`}>
                             <a className="block px-6 mt-6 mb-2 text-center">
-                              {product?.productPreview?.image ? (
+                              {product?.productInfo?.images ? (
                                 <img
                                   className="mb-5 mx-auto h-56 w-full object-contain hover:scale-110 transition-all duration-700"
-                                  src={urlFor(product?.productPreview?.image)}
+                                  src={urlFor(
+                                    product?.productInfo?.images?.[0]?.image
+                                  )}
                                   alt={
-                                    product?.productPreview?.alt ??
+                                    product?.productInfo?.images?.[0]?.alt ??
                                     `product-image-${index + 1}`
                                   }
                                 />
                               ) : (
                                 <img
                                   className="mb-5 mx-auto h-56 w-full object-contain hover:scale-110 transition-all duration-700"
-                                  src="https://cdn.sanity.io/images/9itgab5x/production/b362a413487c075bc56646b996ffaf5b888b8fd1-1200x1063.png"
+                                  src="https://cdn.sanity.io/images/9itgab5x/production/9523d40461371b7b4948456c57bb663bd8998c4a-500x362.png"
                                   alt={
-                                    product?.productPreview?.alt ??
+                                    product?.productInfo?.images?.[0]?.alt ??
                                     `product-image-${index + 1}`
                                   }
                                 />

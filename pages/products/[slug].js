@@ -35,7 +35,6 @@ function ProductPage({ data: initialData = {}, preview, token }) {
     ecwidProductId, // the product ID from Ecwid
     price, // product price
     description, // product description
-    productPreview, // product preview image
     sections, // sections from the Design field group tab of Product page
     seo, // product page SEO
     productInfo, // display other product information
@@ -164,7 +163,6 @@ function ProductPage({ data: initialData = {}, preview, token }) {
                   ecwidProductId,
                   price,
                   description,
-                  productPreview,
                 }}
                 data={section}
               />

@@ -99,7 +99,6 @@ const variants = `
       slug, 
       price,
       description,
-      productPreview,
       ecwidProductId,
       "others": sections[_type match "productInfo"]->.variants {
         btnLabel,

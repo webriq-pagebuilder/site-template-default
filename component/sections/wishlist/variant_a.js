@@ -31,17 +31,28 @@ function VariantA() {
                           <Ribbon data={items} />
                         </div>
                         <div className="w-full object-cover">
-                          {items?.productPreview?.image && (
+                          {items?.productInfo?.images ? (
                             <Image
                               layout="responsive"
                               width={485}
                               height={384}
                               objectFit="cover"
-                              src={urlFor(items?.productPreview?.image)}
+                              src={urlFor(
+                                items?.productInfo?.images?.[0]?.image
+                              )}
                               alt={
-                                items?.productPreview?.alt ??
+                                items?.productInfo?.images?.[0]?.alt ??
                                 `product-image-${index}`
                               }
+                            />
+                          ) : (
+                            <Image
+                              layout="responsive"
+                              width={485}
+                              height={384}
+                              objectFit="cover"
+                              src="https://cdn.sanity.io/images/9itgab5x/production/9523d40461371b7b4948456c57bb663bd8998c4a-500x362.png"
+                              alt={`default image for product ${index + 1}`}
                             />
                           )}
                         </div>
