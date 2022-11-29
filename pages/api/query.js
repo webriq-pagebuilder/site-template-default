@@ -155,26 +155,52 @@ export const blogQuery = groq`
 export const productsQuery = groq`*[_type == "mainProduct" && slug.current == $slug] {
   ...,
   "slug": slug.current,
-  sections[]->,
-  "defaultSections": *[_type == "productSettings"][0].sections[]->{
+  sections[]->{
     ...,
-    ${variants}
+    _type == "slotProductInfo" => {
+     ...,
+     "variant": *[_type == "mainProduct" && slug.current == $slug][0].productInfoVariant.variant,
+     "variants": *[_type == "mainProduct" && slug.current == $slug][0].productInfo
+   }
+  },
+  "commonSections": *[_type == "productSettings"][0]{
+    _type,
+    sections[]-> {
+      ...,
+      _type == "slotProductInfo" => {
+        ...,
+        "variant": *[_type == "productSettings"][0].defaultProductInfoVariant.variant
+      }
+    },
   },
 }`;
-
-// query record of collections
-export const collectionSettings = groq`*[_type == "collectionSettings"][0] ${allProjections}`;
 
 // query product collection based on current slug
 export const collectionsQuery = groq`*[_type == "mainCollection" && slug.current == $slug] {
   ...,
   "slug": slug.current,
   products[]->,
-  sections[]->,
-  "defaultSections": *[_type == "collectionSettings"][0].sections[]->{
+  sections[]-> {
     ...,
-    ${variants}
+    _type == "slotCollectionInfo" => {
+      ...,
+      "variant": *[_type == "mainCollection" && slug.current == $slug][0].collectionInfoVariant.variant,
+      "variants": {
+        "title": *[_type == "mainCollection" && slug.current == $slug][0].name,
+        "products": *[_type == "mainCollection" && slug.current == $slug][0].products[]->,
+      }
+    }
   },
+  "commonSections": *[_type == "collectionSettings"][0]{
+    _type,
+    sections[]->{
+      ...,
+      _type == "slotCollectionInfo" => {
+        ...,
+        "variant": *[_type == "collectionSettings"][0].defaultCollectionInfoVariant.variant
+      }
+    }
+  }
 }`;
 
 // query cart page

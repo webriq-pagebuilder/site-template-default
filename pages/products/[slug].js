@@ -30,15 +30,13 @@ function ProductPage({ data: initialData = {}, preview, token }) {
   }
 
   const {
-    defaultSections, // sections from Store > Commerce Pages > Products
+    commonSections, // sections from Store > Commerce Pages > Products
     name, // product name
     ecwidProductId, // the product ID from Ecwid
     price, // product price
     description, // product description
     sections, // sections from the Design field group tab of Product page
     seo, // product page SEO
-    productInfo, // display other product information
-    productInfoVariant, // product info design
   } = productData;
 
   /*
@@ -61,56 +59,41 @@ function ProductPage({ data: initialData = {}, preview, token }) {
     );
   }
 
-  let sectionsToDisplay = defaultSections;
-  // if we have "slotProductInfo" section, then we have the placeholder for the productInfo values
-  let placeholderSection = sections?.map((section) => {
-    const newObj = {
-      variant: productInfoVariant?.variant, // e.g. variant_a
-      variants: productInfo, // schema fields for the variant
-    };
+  let sectionsToDisplay = commonSections?.sections;
 
-    // mutate sections array to add the productInfo details if the section is slotProductInfo
-    if (section?._type === "slotProductInfo") {
-      return { ...section, ...newObj };
-    }
-
-    // just return other sections as is
-    return section;
-  });
-
-  // let us make sure that "placeholderSection" is not empty or undefined, otherwise if its empty then use defaultSections array
-  if (placeholderSection) {
-    // check if we have other sections aside from slotProductInfo
-    const filtered = placeholderSection?.filter(
+  // let us make sure that "sections" array is not empty or undefined, otherwise use the default sections from Store > Commerce Pages > Products
+  if (sections) {
+    // check if we have other sections aside from slotProductInfo in a Store > Products product page
+    const filtered = sections?.filter(
       (section) => section?._type !== "slotProductInfo"
     );
 
     if (filtered?.length !== 0) {
-      // if line 83 returns true, then we must replace all the defaultSections from Store > Commerce Pages > Products
-      sectionsToDisplay = placeholderSection;
+      // if line 67 returns true, then replace all the sections from Store > Commerce Pages > Products with sections from Store > Products
+      sectionsToDisplay = sections;
     } else {
-      // if only have slotProductInfo section, then use its value for the Dynamic Product Info section
-      sectionsToDisplay = placeholderSection?.reduce(
+      // there is only "slotProductInfo" section in Store > Products product page
+      sectionsToDisplay = sections?.reduce(
         (defaultsArr, newArr) => {
-          // only need the slotProductInfo section from Store > Products Design field group to match
-          const getIndex = defaultSections?.findIndex((item) =>
-            item?._type?.includes("productInfo")
+          // get the index of the "slotProductInfo" section from Store > Commerce Pages > Products sections
+          const getIndex = commonSections?.sections?.findIndex((item) =>
+            item?._type?.includes("slotProductInfo")
           );
 
-          // If placeholderSection variant is "defaultVariant", then use the variant set in defaultSections Dynamic Product Info
+          // if the variant from the Store > Products page is a "defaultVariant", then replace it with the variant of Store > Commerce Pages > Products "slotProductInfo"
           if (newArr?.variant === "defaultVariant") {
             newArr.variant = defaultsArr[getIndex]?.variant;
           }
 
-          // if there is a productInfo type section from Store > Commerce Pages > Products, then replace with the slotProductInfo array
+          // if there is a "slotProductInfo" section in Store > Commerce Pages > Products, then replace it with the "slotProductInfo" of Store > Pages section
           if (getIndex !== -1) {
             defaultsArr[getIndex] = newArr;
           }
 
-          // otherwise return the other sections defined
+          // otherwise return the sections as defined
           return defaultsArr;
         },
-        [...defaultSections]
+        [...commonSections?.sections]
       );
     }
   }

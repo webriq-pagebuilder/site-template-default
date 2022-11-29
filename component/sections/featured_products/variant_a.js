@@ -9,13 +9,13 @@ function VariantA({ title, featured }) {
   const ids = featured && featured?.map((item) => item?.ecwidProductId);
 
   useEffect(() => {
-    if (ecwid?.fetchCollections) {
+    if (ids) {
       ecwid?.fetchCollections(ids);
     }
   }, []);
 
   return (
-    <section className="relative pt-20">
+    <section className="relative py-20">
       <div className="relative container mx-auto px-4">
         {title && (
           <h1 className="mb-8 md:mb-16 text-4xl md:text-5xl font-bold">

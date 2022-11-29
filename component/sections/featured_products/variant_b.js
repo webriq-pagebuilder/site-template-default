@@ -9,7 +9,7 @@ function VariantB({ title, featured }) {
   const ids = featured && featured?.map((item) => item?.ecwidProductId);
 
   useEffect(() => {
-    if (ecwid?.fetchCollections) {
+    if (ids) {
       ecwid?.fetchCollections(ids);
     }
   }, []);
