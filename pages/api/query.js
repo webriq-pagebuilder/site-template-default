@@ -157,6 +157,7 @@ export const productsQuery = groq`*[_type == "mainProduct" && slug.current == $s
   "slug": slug.current,
   sections[]->{
     ...,
+    ${variants}, 
     _type == "slotProductInfo" => {
      ...,
      "variant": *[_type == "mainProduct" && slug.current == $slug][0].productInfoVariant.variant,
@@ -167,6 +168,7 @@ export const productsQuery = groq`*[_type == "mainProduct" && slug.current == $s
     _type,
     sections[]-> {
       ...,
+      ${variants},
       _type == "slotProductInfo" => {
         ...,
         "variant": *[_type == "productSettings"][0].defaultProductInfoVariant.variant
@@ -182,6 +184,7 @@ export const collectionsQuery = groq`*[_type == "mainCollection" && slug.current
   products[]->,
   sections[]-> {
     ...,
+    ${variants},
     _type == "slotCollectionInfo" => {
       ...,
       "variant": *[_type == "mainCollection" && slug.current == $slug][0].collectionInfoVariant.variant,
@@ -195,6 +198,7 @@ export const collectionsQuery = groq`*[_type == "mainCollection" && slug.current
     _type,
     sections[]->{
       ...,
+      ${variants},
       _type == "slotCollectionInfo" => {
         ...,
         "variant": *[_type == "collectionSettings"][0].defaultCollectionInfoVariant.variant
