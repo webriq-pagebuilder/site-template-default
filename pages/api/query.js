@@ -201,9 +201,11 @@ export const collectionsQuery = groq`*[_type == "mainCollection" && slug.current
     _type == "slotCollectionInfo" => {
       ...,
       "variant": *[_type == "mainCollection" && slug.current == $slug][0].collectionInfoVariant.variant,
-      "variants": {
-        "title": *[_type == "mainCollection" && slug.current == $slug][0].name,
-        "products": *[_type == "mainCollection" && slug.current == $slug][0].products[]->,
+      "variants": *[_type == "mainCollection" && slug.current == $slug][0]{
+        "collections": {
+          "title": name,
+          products[]->,
+        }
       }
     },
     _type == "slotCart" => {

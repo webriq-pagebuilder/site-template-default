@@ -12,8 +12,8 @@ function FeaturedProducts({ data }) {
   const Variant = Variants?.[variant];
 
   const props = {
-    title: data?.variants?.title,
-    featured: data?.variants?.products,
+    title: data?.variants?.collections?.title,
+    featured: data?.variants?.collections?.products,
   };
 
   return Variant ? (
