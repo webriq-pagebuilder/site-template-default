@@ -118,7 +118,11 @@ const allProjections = `
   "slug": slug.current,
   sections[]-> {
     ...,
-    ${variants} 
+    ${variants} ,
+    _type == "slotWishlist" => {
+      ...,
+      "variant": *[_type == "wishlistPage"][0].wishlistSectionVariant.variant,
+    },
   },
   collections->
 }
@@ -162,10 +166,19 @@ export const productsQuery = groq`*[_type == "mainProduct" && slug.current == $s
      ...,
      "variant": *[_type == "mainProduct" && slug.current == $slug][0].productInfoVariant.variant,
      "variants": *[_type == "mainProduct" && slug.current == $slug][0].productInfo
-   }
+   },
+   _type == "slotCart" => {
+      ...,
+      "variant": *[_type == "cartPage"][0].cartSectionVariant.variant,
+    },
+    _type == "slotWishlist" => {
+      ...,
+      "variant": *[_type == "wishlistPage"][0].wishlistSectionVariant.variant,
+    },
   },
   "commonSections": *[_type == "productSettings"][0]{
     _type,
+    seo,
     sections[]-> {
       ...,
       ${variants},
@@ -192,10 +205,19 @@ export const collectionsQuery = groq`*[_type == "mainCollection" && slug.current
         "title": *[_type == "mainCollection" && slug.current == $slug][0].name,
         "products": *[_type == "mainCollection" && slug.current == $slug][0].products[]->,
       }
-    }
+    },
+    _type == "slotCart" => {
+      ...,
+      "variant": *[_type == "cartPage"][0].cartSectionVariant.variant,
+    },
+    _type == "slotWishlist" => {
+      ...,
+      "variant": *[_type == "wishlistPage"][0].wishlistSectionVariant.variant,
+    },
   },
   "commonSections": *[_type == "collectionSettings"][0]{
     _type,
+    seo,
     sections[]->{
       ...,
       ${variants},
@@ -208,10 +230,30 @@ export const collectionsQuery = groq`*[_type == "mainCollection" && slug.current
 }`;
 
 // query cart page
-export const cartPageQuery = groq`*[_type == "cartPage"] ${allProjections}`;
+export const cartPageQuery = groq`*[_type == "cartPage"] {
+  ...,
+  sections[]-> {
+    ...,
+    ${variants},
+    _type == "slotCart" => {
+      ...,
+      "variant": *[_type == "cartPage"][0].cartSectionVariant.variant,
+    }
+  }
+}`;
 
 // query wishlist page
-export const wishlistPageQuery = groq`*[_type == "wishlistPage"] ${allProjections}`;
+export const wishlistPageQuery = groq`*[_type == "wishlistPage"] {
+  ...,
+  sections[]-> {
+    ...,
+    ${variants},
+    _type == "slotWishlist" => {
+      ...,
+      "variant": *[_type == "wishlistPage"][0].wishlistSectionVariant.variant,
+    }
+  }
+}`;
 
 // query search page
 export const searchPageQuery = groq`*[_type == "searchPage"] ${allProjections}`;

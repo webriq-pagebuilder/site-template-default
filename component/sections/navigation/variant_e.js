@@ -313,10 +313,10 @@ function VariantE({ banner, logo, links }) {
           <nav className="relative flex flex-col py-6 px-6 w-full h-full bg-white border-r overflow-y-auto">
             <div className="flex items-center mb-8">
               {logo?.image && (
-                <Link href={logoLink} prefetch={false}>
+                <Link href={logoLink()} prefetch={false}>
                   <a
                     aria-label={`Go to ${
-                      logoLink === "/" ? "home page" : logoLink
+                      logoLink() === "/" ? "home page" : logoLink()
                     }`}
                     className="text-3xl font-bold leading-none"
                   >

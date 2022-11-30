@@ -119,14 +119,19 @@ function ProductPage({ data: initialData = {}, preview, token }) {
           content="width=360 initial-scale=1, shrink-to-fit=no"
         />
         <link rel="icon" href="../favicon.ico" />
-        <title>{seo?.seoTitle ?? name}</title>
+        <title>{seo?.seoTitle ?? commonSections?.seo?.seoTitle ?? name}</title>
       </Head>
       {sectionsToDisplay &&
         sectionsToDisplay?.map((section, index) => {
           const sectionType =
-            section?._type === "slotProductInfo" // for slotProductInfo, apply the variant templates of the former productInfo section
+            section?._type === "slotCart" // for slotCart, apply the variant templates of the cart section
+              ? "cartSection"
+              : section?._type === "slotWishlist" // for slotWishlist, apply the variant templates of the wishlist section
+              ? "wishlistSection"
+              : section?._type === "slotProductInfo" // for slotProductInfo, apply the variant templates of the former productInfo section
               ? "productInfo"
               : section?._type; // otherwise, use the actual section type
+
           const Component = Components?.[sectionType];
 
           // skip rendering unknown components
