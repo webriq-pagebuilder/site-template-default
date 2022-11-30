@@ -5,6 +5,8 @@ import WebriQForm from "component/webriq-form";
 import { logoLink, thankYouPageLink } from "helper";
 
 function VariantB({ logo, title, description, form }) {
+  const { id, fields, buttonLabel, thankYouPage } = form;
+
   return (
     <section>
       <div className="py-20 bg-gray-50 radius-for-skewed">
@@ -36,7 +38,7 @@ function VariantB({ logo, title, description, form }) {
               <h1 className="text-4xl font-bold">{title}</h1>
               <p className="text-gray-700">{description}</p>
             </div>
-            {fields?.[0] && fields[0]?.name && (
+            {fields && fields[0]?.name && (
               <div className="w-full lg:w-2/5">
                 <WebriQForm
                   method="POST"

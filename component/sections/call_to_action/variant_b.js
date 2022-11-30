@@ -52,7 +52,7 @@ function VariantB({ logo, title, text, form }) {
                 data-thankyou-url={thankYouPageLink(thankYouPage)}
                 scriptsrc="https://pagebuilderforms.webriq.com/js/initReactForms"
               >
-                {fields.slice(0, 2).map((field) => (
+                {fields?.slice(0, 2)?.map((field) => (
                   <input
                     key={field?._key}
                     aria-label={`Input ${field?.type}`}
