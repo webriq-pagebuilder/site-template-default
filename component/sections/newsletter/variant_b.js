@@ -2,41 +2,9 @@ import React from "react";
 import { urlFor } from "lib/sanity";
 import Link from "next/link";
 import WebriQForm from "component/webriq-form";
+import { logoLink, thankYouPageLink } from "helper";
 
 function VariantB({ logo, title, description, form }) {
-  let logoLink;
-  const { id, fields, buttonLabel, thankYouPage } = form;
-
-  const thankYouPageLink = (link) => {
-    if (!link) {
-      return "/thank-you";
-    } else {
-      if (link?.linkType === "linkInternal") {
-        return `/${link.internalLink}`;
-      } else {
-        return link.externalLink;
-      }
-    }
-  };
-
-  if (logo.type === "linkInternal") {
-    if (logo.internalLink === undefined) {
-      logoLink = `/`;
-    } else {
-      if (logo.internalLink === "Home" || logo.internalLink === "home") {
-        logoLink = `/`;
-      } else {
-        logoLink = `/${logo.internalLink}`;
-      }
-    }
-  } else {
-    if (logo.externalLink === undefined) {
-      logoLink = `/`;
-    } else {
-      logoLink = logo.externalLink;
-    }
-  }
-
   return (
     <section>
       <div className="py-20 bg-gray-50 radius-for-skewed">
@@ -45,12 +13,12 @@ function VariantB({ logo, title, description, form }) {
             <div className="mb-4 w-full lg:w-auto lg:mr-8 text-center">
               <div className="flex justify-center items-center mx-auto">
                 {logo?.image && (
-                  <Link href={logoLink}>
+                  <Link href={logoLink()}>
                     <a
                       aria-label={
-                        logoLink === "/"
+                        logoLink() === "/"
                           ? "Go to home page"
-                          : `Go to ${logoLink}`
+                          : `Go to ${logoLink()}`
                       }
                       className="mb-8 inline-block p-5 bg-white rounded"
                     >

@@ -2,9 +2,9 @@ import React from "react";
 import Link from "next/link";
 import WebriQForm from "component/webriq-form";
 import { urlFor } from "lib/sanity";
+import { logoLink, thankYouPageLink } from "helper";
 
 function VariantA({ logo, form, formLinks, signInLink }) {
-  let logoLink;
   const { id, name, subtitle, fields, buttonLabel, thankYouPage } = form;
   const [showPassword, setShowPassword] = React.useState(false); // show or hide password field value
   const [value, setValue] = React.useState(null); // setting selected value for input field radio type
@@ -22,46 +22,16 @@ function VariantA({ logo, form, formLinks, signInLink }) {
     );
   };
 
-  const thankYouPageLink = (link) => {
-    if (!link) {
-      return "/thank-you";
-    } else {
-      if (link?.linkType === "linkInternal") {
-        return `/${link.internalLink}`;
-      } else {
-        return link.externalLink;
-      }
-    }
-  };
-
-  if (logo.type === "linkInternal") {
-    if (logo.internalLink === undefined) {
-      logoLink = `/`;
-    } else {
-      if (logo.internalLink === "Home" || logo.internalLink === "home") {
-        logoLink = `/`;
-      } else {
-        logoLink = `/${logo.internalLink}`;
-      }
-    }
-  } else {
-    if (logo.externalLink === undefined) {
-      logoLink = `/`;
-    } else {
-      logoLink = logo.externalLink;
-    }
-  }
-
   return (
     <section className="py-10 lg:py-20 bg-gray-50">
       <div className="container mx-auto px-4">
         <div className="max-w-md mx-auto">
           <div className="mb-10">
             {logo?.image && (
-              <Link href={logoLink}>
+              <Link href={logoLink()}>
                 <a
                   aria-label={`Go to ${
-                    logoLink === "/" ? "home page" : logoLink
+                    logoLink() === "/" ? "home page" : logoLink()
                   }`}
                   className="text-3xl mx-auto font-bold leading-none flex justify-center"
                 >
