@@ -1,18 +1,18 @@
-import { memo, useEffect } from "react";
+import Ribbon from "component/ecwid/Ribbon";
+import { useEcwid } from "context/EcwidContext";
 import { urlFor } from "lib/sanity";
 import Image from "next/image";
-import { useEcwid } from "context/EcwidContext";
-import Ribbon from "component/ecwid/Ribbon";
+import { memo, useEffect } from "react";
 
 function VariantA({ title, featured }) {
   const ecwid = useEcwid();
 
-  const { fetchCollections, productCollection } = ecwid;
+  // const { fetchCollections, productCollection } = ecwid;
 
   const ids = featured && featured?.map((item) => item?.ecwidProductId);
 
   useEffect(() => {
-    fetchCollections(ids);
+    ecwid?.fetchCollections(ids);
   }, []);
 
   return (
@@ -27,8 +27,8 @@ function VariantA({ title, featured }) {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {featured?.map((product, index) => {
               let items = [];
-              productCollection &&
-                productCollection?.find((prod) => {
+              ecwid?.productCollection &&
+                ecwid.productCollection?.find((prod) => {
                   if (prod?.id === product?.ecwidProductId) {
                     items?.push({ ...prod, ...product });
                   }

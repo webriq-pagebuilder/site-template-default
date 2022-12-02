@@ -1,7 +1,6 @@
-import React from "react";
-import Link from "next/link";
 import { urlFor } from "lib/sanity";
 import Image from "next/image";
+import React from "react";
 function VariantA({
   template,
   mainImage,
@@ -40,37 +39,34 @@ function VariantA({
                   <div>
                     {primaryButton?.label &&
                       (primaryButton?.type === "linkInternal" ? (
-                        <Link
+                        <a
                           href={
                             primaryButton?.internalLink === "Home" ||
                             primaryButton?.internalLink === "home"
                               ? "/"
                               : `/${
-                                  primaryButton?.internalLink === undefined
+                                  !primaryButton?.internalLink
                                     ? "page-not-found"
                                     : primaryButton?.internalLink
                                 }`
                           }
+                          aria-label={`Header ${
+                            primaryButton?.label ?? "Primary"
+                          } button which directs to ${
+                            !primaryButton?.internalLink
+                              ? "page-not-found"
+                              : primaryButton?.internalLink
+                          }`}
+                          className={`inline-block mb-3 lg:mb-0 lg:mr-3 w-auto py-2 px-6 leading-loose bg-${template.color}-darkblue hover:bg-${template.color}-blue text-white font-semibold rounded-l-xl rounded-t-xl transition duration-200`}
+                          target={primaryButton?.linkTarget}
+                          rel={
+                            primaryButton?.linkTarget === "_blank"
+                              ? "noopener noreferrer"
+                              : null
+                          }
                         >
-                          <a
-                            aria-label={`Header ${
-                              primaryButton?.label ?? "Primary"
-                            } button which directs to ${
-                              primaryButton?.internalLink === undefined
-                                ? "page-not-found"
-                                : primaryButton?.internalLink
-                            }`}
-                            className={`inline-block mb-3 lg:mb-0 lg:mr-3 w-auto py-2 px-6 leading-loose bg-${template.color}-darkblue hover:bg-${template.color}-blue text-white font-semibold rounded-l-xl rounded-t-xl transition duration-200`}
-                            target={primaryButton?.linkTarget}
-                            rel={
-                              primaryButton?.linkTarget === "_blank"
-                                ? "noopener noreferrer"
-                                : null
-                            }
-                          >
-                            {primaryButton?.label}
-                          </a>
-                        </Link>
+                          {primaryButton?.label}
+                        </a>
                       ) : (
                         <a
                           aria-label={`Header ${
@@ -98,37 +94,34 @@ function VariantA({
                       ))}
                     {secondaryButton?.label &&
                       (secondaryButton?.type === "linkInternal" ? (
-                        <Link
+                        <a
                           href={
                             secondaryButton?.internalLink === "Home" ||
                             secondaryButton?.internalLink === "home"
                               ? "/"
                               : `/${
-                                  secondaryButton?.internalLink === undefined
+                                  !secondaryButton?.internalLink
                                     ? "page-not-found"
                                     : secondaryButton?.internalLink
                                 }`
                           }
+                          aria-label={`Header ${
+                            secondaryButton?.label ?? "Secondary"
+                          } button which directs to ${
+                            !secondaryButton?.internalLink
+                              ? "page-not-found"
+                              : secondaryButton?.internalLink
+                          }`}
+                          className="inline-block w-auto py-2 px-6 leading-loose font-semibold bg-white hover:bg-gray-50 rounded-l-xl rounded-t-xl transition duration-200"
+                          target={secondaryButton?.linkTarget}
+                          rel={
+                            secondaryButton?.linkTarget === "_blank"
+                              ? "noopener noreferrer"
+                              : null
+                          }
                         >
-                          <a
-                            aria-label={`Header ${
-                              secondaryButton?.label ?? "Secondary"
-                            } button which directs to ${
-                              secondaryButton?.internalLink === undefined
-                                ? "page-not-found"
-                                : secondaryButton?.internalLink
-                            }`}
-                            className="inline-block w-auto py-2 px-6 leading-loose font-semibold bg-white hover:bg-gray-50 rounded-l-xl rounded-t-xl transition duration-200"
-                            target={secondaryButton?.linkTarget}
-                            rel={
-                              secondaryButton?.linkTarget === "_blank"
-                                ? "noopener noreferrer"
-                                : null
-                            }
-                          >
-                            {secondaryButton?.label}
-                          </a>
-                        </Link>
+                          {secondaryButton?.label}
+                        </a>
                       ) : (
                         <a
                           aria-label={`Header ${

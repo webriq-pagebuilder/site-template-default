@@ -1,8 +1,7 @@
-import React from "react";
-import Link from "next/link";
-import Image from "next/image";
-import { urlFor } from "lib/sanity";
 import { format } from "date-fns";
+import { urlFor } from "lib/sanity";
+import Image from "next/image";
+import React from "react";
 
 function VariantB({ subtitle, title, posts, primaryButton }) {
   let blogsPerPage = 5,
@@ -60,16 +59,13 @@ function VariantB({ subtitle, title, posts, primaryButton }) {
                         </p>
                       )}
                       {post?.slug?.current && (
-                        <Link
+                        <a
                           href={`/${post?.slug?.current}` ?? "/page-not-found"}
+                          aria-label={`Go to ${post?.slug?.current} blog page`}
+                          className="text-webriq-darkblue hover:text-webriq-babyblue font-bold"
                         >
-                          <a
-                            aria-label={`Go to ${post?.slug?.current} blog page`}
-                            className="text-webriq-darkblue hover:text-webriq-babyblue font-bold"
-                          >
-                            View Blog Post
-                          </a>
-                        </Link>
+                          View Blog Post
+                        </a>
                       )}
                     </div>
                   </div>
@@ -113,18 +109,15 @@ function VariantB({ subtitle, title, posts, primaryButton }) {
                           </p>
                         )}
                         {post?.slug?.current && (
-                          <Link
+                          <a
                             href={
                               `/${post?.slug?.current}` ?? "/page-not-found"
                             }
+                            aria-label={`Go to ${post?.slug?.current} blog page`}
+                            className="text-webriq-darkblue hover:text-webriq-babyblue font-bold"
                           >
-                            <a
-                              aria-label={`Go to ${post?.slug?.current} blog page`}
-                              className="text-webriq-darkblue hover:text-webriq-babyblue font-bold"
-                            >
-                              View Blog Post
-                            </a>
-                          </Link>
+                            View Blog Post
+                          </a>
                         )}
                       </div>
                     </div>
@@ -135,33 +128,30 @@ function VariantB({ subtitle, title, posts, primaryButton }) {
             <div className="text-center">
               {primaryButton?.label &&
               primaryButton?.type === "linkInternal" ? (
-                <Link
+                <a
                   href={
                     primaryButton?.internalLink === "Home" ||
                     primaryButton?.internalLink === "home"
                       ? "/"
                       : `/${
-                          primaryButton.internalLink === undefined
+                          !primaryButton.internalLink
                             ? "page-not-found"
                             : primaryButton.internalLink
                         }`
                   }
+                  aria-label={`Click here to ${
+                    primaryButton?.label ?? "View More Articles"
+                  }`}
+                  className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose outline-none transition duration-200"
+                  target={primaryButton?.linkTarget}
+                  rel={
+                    primaryButton?.linkTarget === "_blank"
+                      ? "noopener noreferrer"
+                      : null
+                  }
                 >
-                  <a
-                    aria-label={`Click here to ${
-                      primaryButton?.label ?? "View More Articles"
-                    }`}
-                    className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose outline-none transition duration-200"
-                    target={primaryButton?.linkTarget}
-                    rel={
-                      primaryButton?.linkTarget === "_blank"
-                        ? "noopener noreferrer"
-                        : null
-                    }
-                  >
-                    {primaryButton?.label}
-                  </a>
-                </Link>
+                  {primaryButton?.label}
+                </a>
               ) : (
                 <a
                   aria-label={`Click here to ${

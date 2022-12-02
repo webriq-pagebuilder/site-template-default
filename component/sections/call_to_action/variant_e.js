@@ -1,5 +1,4 @@
 import WebriQForm from "component/webriq-form";
-import Link from "next/link";
 import React from "react";
 
 function VariantE({ form, formLinks, signInLink }) {
@@ -354,7 +353,7 @@ function VariantE({ form, formLinks, signInLink }) {
                 <p className="text-xs text-gray-500">
                   <span>Already have an account?</span>
                   {signInLink?.type === "linkInternal" ? (
-                    <Link
+                    <a
                       href={
                         signInLink?.internalLink === "Home" ||
                         signInLink?.internalLink === "home"
@@ -365,22 +364,19 @@ function VariantE({ form, formLinks, signInLink }) {
                                 : signInLink?.internalLink
                             }`
                       }
+                      aria-label={`Call to action ${
+                        signInLink?.label ?? "Sign In"
+                      } link`}
+                      className="text-webriq-darkblue hover:text-webriq-babyblue"
+                      target={signInLink?.linkTarget}
+                      rel={
+                        signInLink?.linkTarget === "_blank"
+                          ? "noopener noreferrer"
+                          : null
+                      }
                     >
-                      <a
-                        aria-label={`Call to action ${
-                          signInLink?.label ?? "Sign In"
-                        } link`}
-                        className="text-webriq-darkblue hover:text-webriq-babyblue"
-                        target={signInLink?.linkTarget}
-                        rel={
-                          signInLink?.linkTarget === "_blank"
-                            ? "noopener noreferrer"
-                            : null
-                        }
-                      >
-                        &nbsp;{signInLink?.label}
-                      </a>
-                    </Link>
+                      &nbsp;{signInLink?.label}
+                    </a>
                   ) : (
                     <a
                       aria-label={`Call to action ${
@@ -411,7 +407,7 @@ function VariantE({ form, formLinks, signInLink }) {
               {formLinks?.map((link, index, { length }) => (
                 <div key={index}>
                   {link?.type === "linkInternal" ? (
-                    <Link
+                    <a
                       href={
                         link?.internalLink === "Home" ||
                         link?.internalLink === "home"
@@ -422,26 +418,23 @@ function VariantE({ form, formLinks, signInLink }) {
                                 : link.internalLink
                             }`
                       }
+                      aria-label={`Call to action ${
+                        link?.label ?? "Terms and Policies"
+                      } links which directs to ${
+                        !link?.internalLink
+                          ? "page-not-found"
+                          : link?.internalLink
+                      }`}
+                      className="text-webriq-darkblue hover:text-webriq-blue font-bold"
+                      target={link?.linkTarget}
+                      rel={
+                        link?.linkTarget === "_blank"
+                          ? "noopener noreferrer"
+                          : null
+                      }
                     >
-                      <a
-                        aria-label={`Call to action ${
-                          link?.label ?? "Terms and Policies"
-                        } links which directs to ${
-                          !link?.internalLink
-                            ? "page-not-found"
-                            : link?.internalLink
-                        }`}
-                        className="text-webriq-darkblue hover:text-webriq-blue font-bold"
-                        target={link?.linkTarget}
-                        rel={
-                          link?.linkTarget === "_blank"
-                            ? "noopener noreferrer"
-                            : null
-                        }
-                      >
-                        {link?.label}
-                      </a>
-                    </Link>
+                      {link?.label}
+                    </a>
                   ) : (
                     <a
                       aria-label={`Call to action ${

@@ -1,13 +1,12 @@
-import React from "react";
-import Image from "next/image";
-import Link from "next/link";
 import { urlFor } from "lib/sanity";
+import Image from "next/image";
+import React from "react";
 
 function VariantA({ logo, subtitle, title, images }) {
   let logoLink;
 
   if (logo.type === "linkInternal") {
-    if (logo.internalLink === undefined) {
+    if (!logo.internalLink) {
       logoLink = `/`; // default to root page when not defined
     } else {
       if (logo.internalLink === "Home" || logo.internalLink === "home") {
@@ -30,20 +29,19 @@ function VariantA({ logo, subtitle, title, images }) {
         <div className="container mx-auto px-4">
           <div className="relative max-w-md mx-auto text-center">
             {logo?.image && (
-              <Link href={logoLink}>
-                <a
-                  aria-label={
-                    logoLink === "/" ? "Go to home page" : `Go to ${logoLink}`
-                  }
-                  className="mb-8 inline-block p-5 bg-white rounded-lg"
-                >
-                  <img
-                    className="h-14"
-                    src={urlFor(logo?.image)}
-                    alt={logo?.alt ?? "appPromo-logo"}
-                  />
-                </a>
-              </Link>
+              <a
+                href={logoLink}
+                aria-label={
+                  logoLink === "/" ? "Go to home page" : `Go to ${logoLink}`
+                }
+                className="mb-8 inline-block p-5 bg-white rounded-lg"
+              >
+                <img
+                  className="h-14"
+                  src={urlFor(logo?.image)}
+                  alt={logo?.alt ?? "appPromo-logo"}
+                />
+              </a>
             )}
             <p className="text-gray-50 mb-3">{subtitle}</p>
             <h1 className="text-3xl lg:text-5xl text-white font-bold mb-8">

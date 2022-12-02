@@ -51,7 +51,7 @@ function VariantE({ banner, logo, links }) {
   };
 
   if (logo.type === "linkInternal") {
-    if (logo.internalLink === undefined) {
+    if (!logo.internalLink) {
       logoLink = `/`;
     } else {
       if (logo.internalLink === "Home" || logo.internalLink === "home") {

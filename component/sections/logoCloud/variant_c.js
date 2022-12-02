@@ -1,7 +1,6 @@
-import React from "react";
-import Image from "next/image";
-import Link from "next/link";
 import { urlFor } from "lib/sanity";
+import Image from "next/image";
+import React from "react";
 
 function VariantC({ title, images, button }) {
   return (
@@ -12,35 +11,28 @@ function VariantC({ title, images, button }) {
             {title}
           </h1>
           {button && button?.type === "linkInternal" ? (
-            <Link
+            <a
               href={
                 button?.internalLink === "Home" ||
                 button?.internalLink === "home"
                   ? "/"
                   : `/${
-                      button?.internalLink === undefined
+                      !button?.internalLink
                         ? "page-not-found"
                         : button?.internalLink
                     }`
               }
+              aria-label={`Logo Cloud ${
+                button?.label ?? "Primary"
+              } button which directs to ${
+                !button?.internalLink ? "page-not-found" : button?.internalLink
+              }`}
+              className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose"
+              target={button?.linkTarget}
+              rel={button?.linkTarget === "_blank" ? "noopener noreferrer" : ""}
             >
-              <a
-                aria-label={`Logo Cloud ${
-                  button?.label ?? "Primary"
-                } button which directs to ${
-                  button?.internalLink === undefined
-                    ? "page-not-found"
-                    : button?.internalLink
-                }`}
-                className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose"
-                target={button?.linkTarget}
-                rel={
-                  button?.linkTarget === "_blank" ? "noopener noreferrer" : ""
-                }
-              >
-                {button?.label}
-              </a>
-            </Link>
+              {button?.label}
+            </a>
           ) : (
             <a
               aria-label={`Logo Cloud ${

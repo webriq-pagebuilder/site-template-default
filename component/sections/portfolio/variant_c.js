@@ -1,7 +1,6 @@
-import React from "react";
-import Image from "next/image";
-import Link from "next/link";
 import { urlFor } from "lib/sanity";
+import Image from "next/image";
+import React from "react";
 
 function VariantC({ caption, title, portfolios, primaryButton }) {
   const portfolioLength = 6; //set initial number of portfolios to display for this variant
@@ -26,31 +25,28 @@ function VariantC({ caption, title, portfolios, primaryButton }) {
             <div className="hidden lg:block mt-5 md:mt-0 lg:mt-0 xl:mt-0">
               {primaryButton?.label &&
                 (primaryButton?.type === "linkInternal" ? (
-                  <Link
+                  <a
                     href={
                       primaryButton?.internalLink === "Home" ||
                       primaryButton?.internalLink === "home"
                         ? "/"
                         : `/${
-                            primaryButton?.internalLink === undefined
+                            !primaryButton?.internalLink
                               ? "page-not-found"
                               : primaryButton?.internalLink
                           }`
                     }
+                    aria-label={`Click here to ${primaryButton?.label}`}
+                    className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose transition duration-200"
+                    target={primaryButton?.linkTarget}
+                    rel={
+                      primaryButton?.linkTarget === "_blank"
+                        ? "noopener noreferrer"
+                        : null
+                    }
                   >
-                    <a
-                      aria-label={`Click here to ${primaryButton?.label}`}
-                      className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose transition duration-200"
-                      target={primaryButton?.linkTarget}
-                      rel={
-                        primaryButton?.linkTarget === "_blank"
-                          ? "noopener noreferrer"
-                          : null
-                      }
-                    >
-                      {primaryButton?.label}
-                    </a>
-                  </Link>
+                    {primaryButton?.label}
+                  </a>
                 ) : (
                   <a
                     aria-label={`Click here to ${primaryButton?.label}`}
@@ -96,7 +92,7 @@ function VariantC({ caption, title, portfolios, primaryButton }) {
                       </p>
                       {content?.primaryButton?.label &&
                         (content?.primaryButton?.type === "linkInternal" ? (
-                          <Link
+                          <a
                             href={
                               content?.primaryButton?.internalLink === "Home" ||
                               content?.primaryButton?.internalLink === "home"
@@ -108,35 +104,32 @@ function VariantC({ caption, title, portfolios, primaryButton }) {
                                       : content?.primaryButton?.internalLink
                                   }`
                             }
+                            aria-label={`Click here to ${content?.primaryButton?.label}`}
+                            className="flex text-webriq-darkblue hover:text-webriq-blue font-bold"
+                            target={content?.primaryButton?.linkTarget}
+                            rel={
+                              content?.primaryButton?.linkTarget === "_blank"
+                                ? "noopener noreferrer"
+                                : null
+                            }
                           >
-                            <a
-                              aria-label={`Click here to ${content?.primaryButton?.label}`}
-                              className="flex text-webriq-darkblue hover:text-webriq-blue font-bold"
-                              target={content?.primaryButton?.linkTarget}
-                              rel={
-                                content?.primaryButton?.linkTarget === "_blank"
-                                  ? "noopener noreferrer"
-                                  : null
-                              }
+                            <svg
+                              className="mr-3 w-6 h-6"
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 20 20"
+                              fill="currentColor"
                             >
-                              <svg
-                                className="mr-3 w-6 h-6"
-                                xmlns="http://www.w3.org/2000/svg"
-                                viewBox="0 0 20 20"
-                                fill="currentColor"
-                              >
-                                <path
-                                  fillRule="evenodd"
-                                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.707l-3-3a1 1 0 00-1.414 1.414L10.586 9H7a1 1 0 100 2h3.586l-1.293 1.293a1 1 0 101.414 1.414l3-3a1 1 0 000-1.414z"
-                                  clipRule="evenodd"
-                                />
-                              </svg>
-                              <span>
-                                {content?.primaryButton?.label ??
-                                  "View this project"}
-                              </span>
-                            </a>
-                          </Link>
+                              <path
+                                fillRule="evenodd"
+                                d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.707l-3-3a1 1 0 00-1.414 1.414L10.586 9H7a1 1 0 100 2h3.586l-1.293 1.293a1 1 0 101.414 1.414l3-3a1 1 0 000-1.414z"
+                                clipRule="evenodd"
+                              />
+                            </svg>
+                            <span>
+                              {content?.primaryButton?.label ??
+                                "View this project"}
+                            </span>
+                          </a>
                         ) : (
                           <a
                             aria-label={`Click here to ${content?.primaryButton?.label}`}
@@ -180,31 +173,28 @@ function VariantC({ caption, title, portfolios, primaryButton }) {
           <div className="block text-center lg:hidden mt-5 md:mt-0 lg:mt-0 xl:mt-0">
             {primaryButton?.label &&
               (primaryButton?.type === "linkInternal" ? (
-                <Link
+                <a
                   href={
                     primaryButton?.internalLink === "Home" ||
                     primaryButton?.internalLink === "home"
                       ? "/"
                       : `/${
-                          primaryButton?.internalLink === undefined
+                          !primaryButton?.internalLink
                             ? "page-not-found"
                             : primaryButton?.internalLink
                         }`
                   }
+                  aria-label={`Click here to ${primaryButton?.label}`}
+                  className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose transition duration-200"
+                  target={primaryButton?.linkTarget}
+                  rel={
+                    primaryButton?.linkTarget === "_blank"
+                      ? "noopener noreferrer"
+                      : null
+                  }
                 >
-                  <a
-                    aria-label={`Click here to ${primaryButton?.label}`}
-                    className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose transition duration-200"
-                    target={primaryButton?.linkTarget}
-                    rel={
-                      primaryButton?.linkTarget === "_blank"
-                        ? "noopener noreferrer"
-                        : null
-                    }
-                  >
-                    {primaryButton?.label}
-                  </a>
-                </Link>
+                  {primaryButton?.label}
+                </a>
               ) : (
                 <a
                   aria-label={`Click here to ${primaryButton?.label}`}

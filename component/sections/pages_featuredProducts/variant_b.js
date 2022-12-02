@@ -1,12 +1,12 @@
-import { memo, useEffect } from "react";
-import { urlFor } from "lib/sanity";
-import Image from "next/image";
 import Ribbon from "component/ecwid/Ribbon";
 import { useEcwid } from "context/EcwidContext";
+import { urlFor } from "lib/sanity";
+import Image from "next/image";
+import { memo, useEffect } from "react";
 
 function VariantC({ collections }) {
   const ecwid = useEcwid();
-  const { getPriceDisplay, fetchCollections, productCollection } = ecwid;
+  // const { getPriceDisplay, fetchCollections, productCollection } = ecwid;
 
   const ids =
     collections &&
@@ -15,7 +15,7 @@ function VariantC({ collections }) {
     );
 
   useEffect(() => {
-    fetchCollections(ids);
+    ecwid?.fetchCollections(ids);
   }, []);
 
   return (
@@ -31,8 +31,8 @@ function VariantC({ collections }) {
             <div className="flex flex-wrap -mx-3 mb-24">
               {collection?.items?.map((product, index) => {
                 let items = [];
-                productCollection &&
-                  productCollection?.find((prod) => {
+                ecwid?.productCollection &&
+                  ecwid?.productCollection?.find((prod) => {
                     if (prod?.id === product?.ecwidProductId) {
                       items?.push({ ...prod, ...product });
                     }
@@ -84,7 +84,7 @@ function VariantC({ collections }) {
                           {product?.price && (
                             <p className="text-lg font-bold font-heading text-blue-500">
                               <span className="text-webriq-darkblue">
-                                {getPriceDisplay(product?.price)}
+                                {ecwid?.getPriceDisplay(product?.price)}
                               </span>
                             </p>
                           )}

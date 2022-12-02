@@ -1,7 +1,6 @@
+import WebriQForm from "component/webriq-form";
 import { urlFor } from "lib/sanity";
 import React from "react";
-import Link from "next/link";
-import WebriQForm from "component/webriq-form";
 
 function VariantB({ logo, title, text, form }) {
   let logoLink;
@@ -20,7 +19,7 @@ function VariantB({ logo, title, text, form }) {
   };
 
   if (logo.type === "linkInternal") {
-    if (logo.internalLink === undefined) {
+    if (!logo.internalLink) {
       logoLink = `/`; // default to root page when not defined
     } else {
       if (logo.internalLink === "Home" || logo.internalLink === "home") {
@@ -52,20 +51,19 @@ function VariantB({ logo, title, text, form }) {
         <div className="container mx-auto px-4">
           <div className="max-w-xl mx-auto text-center">
             {logo?.image && (
-              <Link href={logoLink}>
-                <a
-                  aria-label={
-                    logoLink === "/" ? "Go to home page" : `Go to ${logoLink}`
-                  }
-                  className="mb-6 inline-block p-3 rounded"
-                >
-                  <img
-                    className="h-14"
-                    src={urlFor(logo?.image)}
-                    alt={logo?.alt ?? "callToAction-logo"}
-                  />
-                </a>
-              </Link>
+              <a
+                href={logoLink}
+                aria-label={
+                  logoLink === "/" ? "Go to home page" : `Go to ${logoLink}`
+                }
+                className="mb-6 inline-block p-3 rounded"
+              >
+                <img
+                  className="h-14"
+                  src={urlFor(logo?.image)}
+                  alt={logo?.alt ?? "callToAction-logo"}
+                />
+              </a>
             )}
             <h1 className="mb-4 text-4xl md:text-5xl font-bold font-heading">
               {title}

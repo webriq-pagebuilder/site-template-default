@@ -1,8 +1,7 @@
-import React from "react";
-import Link from "next/link";
-import Image from "next/image";
-import { urlFor } from "lib/sanity";
 import { format } from "date-fns";
+import { urlFor } from "lib/sanity";
+import Image from "next/image";
+import React from "react";
 
 function VariantD({ subtitle, title, posts }) {
   let blogsPerPage = 6;
@@ -143,20 +142,17 @@ function VariantD({ subtitle, title, posts }) {
                         </div>
                         <div className="w-full lg:w-3/4 px-3">
                           {post?.title && (
-                            <Link
+                            <a
                               href={`/${
                                 post?.slug?.current ?? "page-not-added"
                               }`}
+                              aria-label={`Go to ${post?.slug?.current} blog page`}
+                              className="hover:text-webriq-babyblue"
                             >
-                              <a
-                                aria-label={`Go to ${post?.slug?.current} blog page`}
-                                className="hover:text-webriq-babyblue"
-                              >
-                                <p className="mb-1 text-2xl font-bold font-heading">
-                                  {post?.title}
-                                </p>
-                              </a>
-                            </Link>
+                              <p className="mb-1 text-2xl font-bold font-heading">
+                                {post?.title}
+                              </p>
+                            </a>
                           )}
                           <div className="mb-2 flex items-center text-sm">
                             {post?.authors &&
@@ -215,20 +211,17 @@ function VariantD({ subtitle, title, posts }) {
                         </div>
                         <div className="w-full lg:w-3/4 px-3">
                           {post?.title && (
-                            <Link
+                            <a
                               href={
                                 `/${post?.slug?.current}` ?? "/page-not-found"
                               }
+                              aria-label={`Go to ${post?.slug?.current} blog page`}
+                              className="hover:text-webriq-babyblue"
                             >
-                              <a
-                                aria-label={`Go to ${post?.slug?.current} blog page`}
-                                className="hover:text-webriq-babyblue"
-                              >
-                                <p className="mb-1 text-2xl font-bold font-heading">
-                                  {post?.title}
-                                </p>
-                              </a>
-                            </Link>
+                              <p className="mb-1 text-2xl font-bold font-heading">
+                                {post?.title}
+                              </p>
+                            </a>
                           )}
                           <div className="mb-2 flex items-center text-sm">
                             {post?.authors &&

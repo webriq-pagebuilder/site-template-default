@@ -1,8 +1,7 @@
-import { memo, useState, useEffect } from "react";
 import { urlFor } from "lib/sanity";
 import { sanityClient } from "lib/sanity.server";
-import Link from "next/link";
 import { useRouter } from "next/router";
+import { memo, useEffect, useState } from "react";
 
 function VariantB() {
   const [collections, setCollections] = useState([]); // get C-Studio collections pages
@@ -144,39 +143,40 @@ function VariantB() {
                       key={index}
                     >
                       <div className="p-6">
-                        <Link href={`/products/${product?.slug?.current}`}>
-                          <a className="block px-6 mt-6 mb-2 text-center">
-                            {product?.productPreview?.image ? (
-                              <img
-                                className="mb-5 mx-auto h-56 w-full object-contain hover:scale-110 transition-all duration-700"
-                                src={urlFor(product?.productPreview?.image)}
-                                alt={
-                                  product?.productPreview?.alt ??
-                                  `product-image-${index + 1}`
-                                }
-                              />
-                            ) : (
-                              <img
-                                className="mb-5 mx-auto h-56 w-full object-contain hover:scale-110 transition-all duration-700"
-                                src="https://cdn.sanity.io/images/9itgab5x/production/b362a413487c075bc56646b996ffaf5b888b8fd1-1200x1063.png"
-                                alt={
-                                  product?.productPreview?.alt ??
-                                  `product-image-${index + 1}`
-                                }
-                              />
-                            )}
-                            {product?.name && (
-                              <h2 className="mb-2 text-xl font-heading">
-                                {product?.name}
-                              </h2>
-                            )}
-                            {product?.price && (
-                              <p className="text-lg font-bold font-heading text-webriq-darkblue">
-                                {product?.price}
-                              </p>
-                            )}
-                          </a>
-                        </Link>
+                        <a
+                          className="block px-6 mt-6 mb-2 text-center"
+                          href={`/products/${product?.slug?.current}`}
+                        >
+                          {product?.productPreview?.image ? (
+                            <img
+                              className="mb-5 mx-auto h-56 w-full object-contain hover:scale-110 transition-all duration-700"
+                              src={urlFor(product?.productPreview?.image)}
+                              alt={
+                                product?.productPreview?.alt ??
+                                `product-image-${index + 1}`
+                              }
+                            />
+                          ) : (
+                            <img
+                              className="mb-5 mx-auto h-56 w-full object-contain hover:scale-110 transition-all duration-700"
+                              src="https://cdn.sanity.io/images/9itgab5x/production/b362a413487c075bc56646b996ffaf5b888b8fd1-1200x1063.png"
+                              alt={
+                                product?.productPreview?.alt ??
+                                `product-image-${index + 1}`
+                              }
+                            />
+                          )}
+                          {product?.name && (
+                            <h2 className="mb-2 text-xl font-heading">
+                              {product?.name}
+                            </h2>
+                          )}
+                          {product?.price && (
+                            <p className="text-lg font-bold font-heading text-webriq-darkblue">
+                              {product?.price}
+                            </p>
+                          )}
+                        </a>
                       </div>
                     </div>
                   ))}

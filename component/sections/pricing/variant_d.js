@@ -9,7 +9,6 @@ import axios from "axios";
 import WebriQForm from "component/webriq-form";
 import { PortableText, urlFor } from "lib/sanity";
 import Image from "next/image";
-import Link from "next/link";
 import router from "next/router";
 import React from "react";
 
@@ -523,7 +522,7 @@ function VariantD({
             <p className="text-xs text-gray-500">
               Already have an account?{" "}
               {signInLink?.type === "linkInternal" ? (
-                <Link
+                <a
                   href={
                     signInLink?.internalLink === "Home" ||
                     signInLink?.internalLink === "home"
@@ -534,22 +533,17 @@ function VariantD({
                             : signInLink?.internalLink
                         }`
                   }
+                  aria-label={`Pricing ${signInLink?.label ?? "Sign In"} link`}
+                  className="text-webriq-darkblue hover:underline"
+                  target={signInLink?.linkTarget}
+                  rel={
+                    signInLink?.linkTarget === "_blank"
+                      ? "noopener noreferrer"
+                      : null
+                  }
                 >
-                  <a
-                    aria-label={`Pricing ${
-                      signInLink?.label ?? "Sign In"
-                    } link`}
-                    className="text-webriq-darkblue hover:underline"
-                    target={signInLink?.linkTarget}
-                    rel={
-                      signInLink?.linkTarget === "_blank"
-                        ? "noopener noreferrer"
-                        : null
-                    }
-                  >
-                    &nbsp;{signInLink?.label}
-                  </a>
-                </Link>
+                  &nbsp;{signInLink?.label}
+                </a>
               ) : (
                 <a
                   aria-label={`Pricing ${signInLink?.label ?? "Sign In"} link`}

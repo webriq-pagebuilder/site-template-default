@@ -1,7 +1,6 @@
-import React from "react";
-import { urlFor } from "lib/sanity";
-import Link from "next/link";
 import WebriQForm from "component/webriq-form";
+import { urlFor } from "lib/sanity";
+import React from "react";
 
 function VariantB({ logo, title, description, form }) {
   let logoLink;
@@ -20,7 +19,7 @@ function VariantB({ logo, title, description, form }) {
   };
 
   if (logo.type === "linkInternal") {
-    if (logo.internalLink === undefined) {
+    if (!logo.internalLink) {
       logoLink = `/`;
     } else {
       if (logo.internalLink === "Home" || logo.internalLink === "home") {
@@ -45,22 +44,19 @@ function VariantB({ logo, title, description, form }) {
             <div className="mb-4 w-full lg:w-auto lg:mr-8 text-center">
               <div className="flex justify-center items-center mx-auto">
                 {logo?.image && (
-                  <Link href={logoLink}>
-                    <a
-                      aria-label={
-                        logoLink === "/"
-                          ? "Go to home page"
-                          : `Go to ${logoLink}`
-                      }
-                      className="mb-8 inline-block p-5 bg-white rounded"
-                    >
-                      <img
-                        className="h-10"
-                        src={urlFor(logo?.image)}
-                        alt={logo?.alt ?? "newsletter-logo"}
-                      />
-                    </a>
-                  </Link>
+                  <a
+                    href={logoLink}
+                    aria-label={
+                      logoLink === "/" ? "Go to home page" : `Go to ${logoLink}`
+                    }
+                    className="mb-8 inline-block p-5 bg-white rounded"
+                  >
+                    <img
+                      className="h-10"
+                      src={urlFor(logo?.image)}
+                      alt={logo?.alt ?? "newsletter-logo"}
+                    />
+                  </a>
                 )}
               </div>
             </div>

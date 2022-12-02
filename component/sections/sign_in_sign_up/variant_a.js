@@ -1,6 +1,5 @@
 import WebriQForm from "component/webriq-form";
 import { urlFor } from "lib/sanity";
-import Link from "next/link";
 import React from "react";
 
 function VariantA({ logo, form, formLinks, signInLink }) {
@@ -35,7 +34,7 @@ function VariantA({ logo, form, formLinks, signInLink }) {
   };
 
   if (logo.type === "linkInternal") {
-    if (logo.internalLink === undefined) {
+    if (!logo.internalLink) {
       logoLink = `/`;
     } else {
       if (logo.internalLink === "Home" || logo.internalLink === "home") {
@@ -58,20 +57,19 @@ function VariantA({ logo, form, formLinks, signInLink }) {
         <div className="max-w-md mx-auto">
           <div className="mb-10">
             {logo?.image && (
-              <Link href={logoLink}>
-                <a
-                  aria-label={`Go to ${
-                    logoLink === "/" ? "home page" : logoLink
-                  }`}
-                  className="text-3xl mx-auto font-bold leading-none flex justify-center"
-                >
-                  <img
-                    className="h-12"
-                    src={urlFor(logo?.image)}
-                    alt={logo?.alt ?? "signUp-logo"}
-                  />
-                </a>
-              </Link>
+              <a
+                href={logoLink}
+                aria-label={`Go to ${
+                  logoLink === "/" ? "home page" : logoLink
+                }`}
+                className="text-3xl mx-auto font-bold leading-none flex justify-center"
+              >
+                <img
+                  className="h-12"
+                  src={urlFor(logo?.image)}
+                  alt={logo?.alt ?? "signUp-logo"}
+                />
+              </a>
             )}
           </div>
           <div className="mb-6 lg:mb-10 text-center">
@@ -458,7 +456,7 @@ function VariantA({ logo, form, formLinks, signInLink }) {
                   <span className="text-gray-500 text-xs">
                     <span>Already have an account?</span>
                     {signInLink?.type === "linkInternal" ? (
-                      <Link
+                      <a
                         href={
                           signInLink?.internalLink === "Home" ||
                           signInLink?.internalLink === "home"
@@ -469,20 +467,17 @@ function VariantA({ logo, form, formLinks, signInLink }) {
                                   : signInLink?.internalLink
                               }`
                         }
+                        aria-label={`${signInLink?.label ?? "Sign in"} link`}
+                        className="text-webriq-darkblue hover:underline"
+                        target={signInLink?.linkTarget}
+                        rel={
+                          signInLink?.linkTarget === "_blank"
+                            ? "noopener noreferrer"
+                            : null
+                        }
                       >
-                        <a
-                          aria-label={`${signInLink?.label ?? "Sign in"} link`}
-                          className="text-webriq-darkblue hover:underline"
-                          target={signInLink?.linkTarget}
-                          rel={
-                            signInLink?.linkTarget === "_blank"
-                              ? "noopener noreferrer"
-                              : null
-                          }
-                        >
-                          &nbsp;{signInLink?.label}
-                        </a>
-                      </Link>
+                        &nbsp;{signInLink?.label}
+                      </a>
                     ) : (
                       <a
                         aria-label={`${signInLink?.label ?? "Sign in"} link`}
@@ -512,7 +507,7 @@ function VariantA({ logo, form, formLinks, signInLink }) {
               {formLinks?.map((link, index, { length }) => (
                 <span key={index}>
                   {link?.type === "linkInternal" ? (
-                    <Link
+                    <a
                       href={
                         link?.internalLink === "Home" ||
                         link?.internalLink === "home"
@@ -523,21 +518,18 @@ function VariantA({ logo, form, formLinks, signInLink }) {
                                 : link.internalLink
                             }`
                       }
+                      aria-label={`${signInLink?.label ?? "Sign in"} link`}
+                      className="underline hover:text-gray-500"
+                      target={link?.linkTarget}
+                      rel={
+                        link?.linkTarget === "_blank"
+                          ? "noopener noreferrer"
+                          : null
+                      }
+                      key={index}
                     >
-                      <a
-                        aria-label={`${signInLink?.label ?? "Sign in"} link`}
-                        className="underline hover:text-gray-500"
-                        target={link?.linkTarget}
-                        rel={
-                          link?.linkTarget === "_blank"
-                            ? "noopener noreferrer"
-                            : null
-                        }
-                        key={index}
-                      >
-                        {link?.label}
-                      </a>
-                    </Link>
+                      {link?.label}
+                    </a>
                   ) : (
                     <a
                       aria-label={`${signInLink?.label ?? "Sign in"} link`}

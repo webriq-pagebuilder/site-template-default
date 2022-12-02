@@ -1,7 +1,6 @@
-import React from "react";
-import Image from "next/image";
-import Link from "next/link";
 import { urlFor } from "lib/sanity";
+import Image from "next/image";
+import React from "react";
 
 function VariantA({ caption, title, portfoliosWithCategory }) {
   let portfolioLength = 8; //set initial number of portfolios to display for this variant
@@ -72,7 +71,7 @@ function VariantA({ caption, title, portfoliosWithCategory }) {
                         <div className="opacity-0 hover:opacity-75 duration-300 absolute inset-0 z-10 bg-gray-900 flex justify-center items-center rounded-lg">
                           {content?.primaryButton?.label &&
                             (content?.primaryButton?.type === "linkInternal" ? (
-                              <Link
+                              <a
                                 href={
                                   content?.primaryButton?.internalLink ===
                                     "Home" ||
@@ -86,22 +85,19 @@ function VariantA({ caption, title, portfoliosWithCategory }) {
                                           : content?.primaryButton?.internalLink
                                       }`
                                 }
+                                aria-label={`Click here to ${content?.primaryButton?.label}`}
+                                className="inline-block py-2 px-4 border-2 border-gray-400 hover:border-white hover:opacity-100 text-gray-50 hover:bg-white hover:text-gray-900 transition duration-200 rounded-l-xl rounded-t-xl font-bold leading-loose"
+                                target={content?.primaryButton?.linkTarget}
+                                rel={
+                                  content?.primaryButton?.linkTarget ===
+                                  "_blank"
+                                    ? "noopener noreferrer"
+                                    : null
+                                }
                               >
-                                <a
-                                  aria-label={`Click here to ${content?.primaryButton?.label}`}
-                                  className="inline-block py-2 px-4 border-2 border-gray-400 hover:border-white hover:opacity-100 text-gray-50 hover:bg-white hover:text-gray-900 transition duration-200 rounded-l-xl rounded-t-xl font-bold leading-loose"
-                                  target={content?.primaryButton?.linkTarget}
-                                  rel={
-                                    content?.primaryButton?.linkTarget ===
-                                    "_blank"
-                                      ? "noopener noreferrer"
-                                      : null
-                                  }
-                                >
-                                  {content?.primaryButton?.label ??
-                                    "View Project"}
-                                </a>
-                              </Link>
+                                {content?.primaryButton?.label ??
+                                  "View Project"}
+                              </a>
                             ) : (
                               <a
                                 aria-label={`Click here to ${content?.primaryButton?.label}`}
@@ -135,7 +131,7 @@ function VariantA({ caption, title, portfoliosWithCategory }) {
             <div className="text-center">
               {portfoliosPerCategory?.[0]?.primaryButton?.type ===
               "linkInternal" ? (
-                <Link
+                <a
                   href={
                     portfoliosPerCategory?.[0]?.primaryButton?.internalLink ===
                       "Home" ||
@@ -143,33 +139,28 @@ function VariantA({ caption, title, portfoliosWithCategory }) {
                       "home"
                       ? "/"
                       : `/${
-                          portfoliosPerCategory?.[0]?.primaryButton
-                            ?.internalLink === undefined
+                          !portfoliosPerCategory?.[0]?.primaryButton
+                            ?.internalLink
                             ? "page-not-found"
                             : portfoliosPerCategory?.[0]?.primaryButton
                                 ?.internalLink
                         }`
                   }
+                  aria-label={`Click here to ${
+                    portfoliosPerCategory?.[0]?.primaryButton?.label ??
+                    "View More Projects"
+                  }`}
+                  className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose outline-none transition duration-200"
+                  target={portfoliosPerCategory?.[0]?.primaryButton?.linkTarget}
+                  rel={
+                    portfoliosPerCategory?.[0]?.primaryButton?.linkTarget ===
+                    "_blank"
+                      ? "noopener noreferrer"
+                      : null
+                  }
                 >
-                  <a
-                    aria-label={`Click here to ${
-                      portfoliosPerCategory?.[0]?.primaryButton?.label ??
-                      "View More Projects"
-                    }`}
-                    className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose outline-none transition duration-200"
-                    target={
-                      portfoliosPerCategory?.[0]?.primaryButton?.linkTarget
-                    }
-                    rel={
-                      portfoliosPerCategory?.[0]?.primaryButton?.linkTarget ===
-                      "_blank"
-                        ? "noopener noreferrer"
-                        : null
-                    }
-                  >
-                    {portfoliosPerCategory?.[0]?.primaryButton?.label}
-                  </a>
-                </Link>
+                  {portfoliosPerCategory?.[0]?.primaryButton?.label}
+                </a>
               ) : (
                 <a
                   aria-label={`Click here to ${

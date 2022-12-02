@@ -1,6 +1,5 @@
 import WebriQForm from "component/webriq-form";
 import { urlFor } from "lib/sanity";
-import Link from "next/link";
 import React from "react";
 
 function VariantD({ logo, title, text, button, form, formLinks, signInLink }) {
@@ -22,7 +21,7 @@ function VariantD({ logo, title, text, button, form, formLinks, signInLink }) {
   };
 
   if (logo.type === "linkInternal") {
-    if (logo.internalLink === undefined) {
+    if (!logo.internalLink) {
       logoLink = `/`;
     } else {
       if (logo.internalLink === "Home" || logo.internalLink === "home") {
@@ -57,20 +56,19 @@ function VariantD({ logo, title, text, button, form, formLinks, signInLink }) {
         <div className="flex flex-wrap items-center justify-center -mx-4">
           <div className="mb-16 lg:mb-0 max-w-2xl lg:w-1/2 px-4">
             {logo?.image && (
-              <Link href={logoLink}>
-                <a
-                  aria-label={
-                    logoLink === "/" ? "Go to home page" : `Go to ${logoLink}`
-                  }
-                  className="mb-10 inline-block text-3xl font-bold leading-none"
-                >
-                  <img
-                    className="h-14"
-                    src={urlFor(logo?.image)}
-                    alt={logo?.alt ?? "callToAction-logo"}
-                  />
-                </a>
-              </Link>
+              <a
+                href={logoLink}
+                aria-label={
+                  logoLink === "/" ? "Go to home page" : `Go to ${logoLink}`
+                }
+                className="mb-10 inline-block text-3xl font-bold leading-none"
+              >
+                <img
+                  className="h-14"
+                  src={urlFor(logo?.image)}
+                  alt={logo?.alt ?? "callToAction-logo"}
+                />
+              </a>
             )}
             <h1 className="mb-4 text-4xl md:text-5xl font-bold font-heading">
               {title}
@@ -78,37 +76,34 @@ function VariantD({ logo, title, text, button, form, formLinks, signInLink }) {
             <p className="mb-8 text-gray-700 leading-loose">{text}</p>
             {button.label &&
               (button?.type === "linkInternal" ? (
-                <Link
+                <a
                   href={
                     button?.internalLink === "Home" ||
                     button?.internalLink === "home"
                       ? "/"
                       : `/${
-                          button.internalLink === undefined
+                          !button?.internalLink
                             ? "page-not-found"
                             : button.internalLink
                         }`
                   }
+                  aria-label={`Call to action ${
+                    button?.label ?? "primary"
+                  } button which directs to ${
+                    !button?.internalLink
+                      ? "page-not-found"
+                      : button?.internalLink
+                  }`}
+                  className="inline-block py-2 px-6 bg-webriq-darkblue hover:bg-webriq-blue text-white font-bold leading-loose transition duration-250 rounded-l-xl rounded-t-xl"
+                  target={button?.linkTarget}
+                  rel={
+                    button?.linkTarget === "_blank"
+                      ? "noopener noreferrer"
+                      : null
+                  }
                 >
-                  <a
-                    aria-label={`Call to action ${
-                      button?.label ?? "primary"
-                    } button which directs to ${
-                      button?.internalLink === undefined
-                        ? "page-not-found"
-                        : button?.internalLink
-                    }`}
-                    className="inline-block py-2 px-6 bg-webriq-darkblue hover:bg-webriq-blue text-white font-bold leading-loose transition duration-250 rounded-l-xl rounded-t-xl"
-                    target={button?.linkTarget}
-                    rel={
-                      button?.linkTarget === "_blank"
-                        ? "noopener noreferrer"
-                        : null
-                    }
-                  >
-                    {button?.label}
-                  </a>
-                </Link>
+                  {button?.label}
+                </a>
               ) : (
                 <a
                   aria-label={`Call to action ${
@@ -457,7 +452,7 @@ function VariantD({ logo, title, text, button, form, formLinks, signInLink }) {
                     <p className="text-xs text-gray-500">
                       <span>Already have an account?</span>
                       {signInLink?.type === "linkInternal" ? (
-                        <Link
+                        <a
                           href={
                             signInLink?.internalLink === "Home" ||
                             signInLink?.internalLink === "home"
@@ -468,22 +463,19 @@ function VariantD({ logo, title, text, button, form, formLinks, signInLink }) {
                                     : signInLink?.internalLink
                                 }`
                           }
+                          aria-label={`Call to action ${
+                            signInLink?.label ?? "Sign In"
+                          } link`}
+                          className="text-webriq-darkblue hover:text-webriq-babyblue"
+                          target={signInLink?.linkTarget}
+                          rel={
+                            signInLink?.linkTarget === "_blank"
+                              ? "noopener noreferrer"
+                              : null
+                          }
                         >
-                          <a
-                            aria-label={`Call to action ${
-                              signInLink?.label ?? "Sign In"
-                            } link`}
-                            className="text-webriq-darkblue hover:text-webriq-babyblue"
-                            target={signInLink?.linkTarget}
-                            rel={
-                              signInLink?.linkTarget === "_blank"
-                                ? "noopener noreferrer"
-                                : null
-                            }
-                          >
-                            &nbsp;{signInLink?.label}
-                          </a>
-                        </Link>
+                          &nbsp;{signInLink?.label}
+                        </a>
                       ) : (
                         <a
                           aria-label={`Call to action ${
@@ -514,7 +506,7 @@ function VariantD({ logo, title, text, button, form, formLinks, signInLink }) {
                   {formLinks?.map((link, index, { length }) => (
                     <div key={index}>
                       {link?.type === "linkInternal" ? (
-                        <Link
+                        <a
                           href={
                             link?.internalLink === "Home" ||
                             link?.internalLink === "home"
@@ -525,26 +517,23 @@ function VariantD({ logo, title, text, button, form, formLinks, signInLink }) {
                                     : link.internalLink
                                 }`
                           }
+                          aria-label={`Call to action ${
+                            link?.label ?? "Terms and Policies"
+                          } links which directs to ${
+                            !link?.internalLink
+                              ? "page-not-found"
+                              : link?.internalLink
+                          }`}
+                          className="text-webriq-darkblue hover:text-webriq-blue font-bold"
+                          target={link?.linkTarget}
+                          rel={
+                            link?.linkTarget === "_blank"
+                              ? "noopener noreferrer"
+                              : null
+                          }
                         >
-                          <a
-                            aria-label={`Call to action ${
-                              link?.label ?? "Terms and Policies"
-                            } links which directs to ${
-                              !link?.internalLink
-                                ? "page-not-found"
-                                : link?.internalLink
-                            }`}
-                            className="text-webriq-darkblue hover:text-webriq-blue font-bold"
-                            target={link?.linkTarget}
-                            rel={
-                              link?.linkTarget === "_blank"
-                                ? "noopener noreferrer"
-                                : null
-                            }
-                          >
-                            {link?.label}
-                          </a>
-                        </Link>
+                          {link?.label}
+                        </a>
                       ) : (
                         <a
                           aria-label={`Call to action ${

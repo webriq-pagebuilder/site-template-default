@@ -1,19 +1,18 @@
-import { memo, useEffect } from "react";
-import { urlFor } from "lib/sanity";
-import { useEcwid } from "context/EcwidContext";
 import Ribbon from "component/ecwid/Ribbon";
+import { useEcwid } from "context/EcwidContext";
+import { urlFor } from "lib/sanity";
 import Image from "next/image";
-import Link from "next/link";
+import { memo, useEffect } from "react";
 
 function VariantB({ title, featured, primaryButton }) {
   const ecwid = useEcwid();
 
-  const { fetchCollections, productCollection } = ecwid;
+  // const { fetchCollections, productCollection } = ecwid;
 
   const ids = featured && featured?.map((item) => item?.ecwidProductId);
 
   useEffect(() => {
-    fetchCollections(ids);
+    ecwid?.fetchCollections(ids);
   }, []);
 
   return (
@@ -24,33 +23,30 @@ function VariantB({ title, featured, primaryButton }) {
           {primaryButton?.label && (
             <div className="hidden lg:mt-0 md:block md:mt-16">
               {primaryButton?.type === "linkInternal" ? (
-                <Link
+                <a
                   href={
                     primaryButton?.internalLink === "Home" ||
                     primaryButton?.internalLink === "home"
                       ? "/"
                       : `/${
-                          primaryButton?.internalLink === undefined
+                          !primaryButton?.internalLink
                             ? "page-not-found"
                             : primaryButton?.internalLink
                         }`
                   }
+                  aria-label={
+                    primaryButton?.label ?? "Featured products primary button"
+                  }
+                  className="text-white font-bold font-heading py-6 px-8 rounded-md uppercase bg-webriq-darkblue transition duration-200 hover:bg-webriq-blue"
+                  target={primaryButton?.linkTarget}
+                  rel={
+                    primaryButton?.linkTarget === "_blank"
+                      ? "noopener noreferrer"
+                      : null
+                  }
                 >
-                  <a
-                    aria-label={
-                      primaryButton?.label ?? "Featured products primary button"
-                    }
-                    className="text-white font-bold font-heading py-6 px-8 rounded-md uppercase bg-webriq-darkblue transition duration-200 hover:bg-webriq-blue"
-                    target={primaryButton?.linkTarget}
-                    rel={
-                      primaryButton?.linkTarget === "_blank"
-                        ? "noopener noreferrer"
-                        : null
-                    }
-                  >
-                    {primaryButton?.label}
-                  </a>
-                </Link>
+                  {primaryButton?.label}
+                </a>
               ) : (
                 <a
                   aria-label={
@@ -79,8 +75,8 @@ function VariantB({ title, featured, primaryButton }) {
           <div className="flex flex-wrap -mx-3">
             {featured?.map((product, index) => {
               let items = [];
-              productCollection &&
-                productCollection?.find((prod) => {
+              ecwid?.productCollection &&
+                ecwid?.productCollection?.find((prod) => {
                   if (prod?.id === product?.ecwidProductId) {
                     items?.push({ ...prod, ...product });
                   }
@@ -144,33 +140,30 @@ function VariantB({ title, featured, primaryButton }) {
         {primaryButton?.label && (
           <div className="block text-center mt-10 md:hidden">
             {primaryButton?.type === "linkInternal" ? (
-              <Link
+              <a
                 href={
                   primaryButton?.internalLink === "Home" ||
                   primaryButton?.internalLink === "home"
                     ? "/"
                     : `/${
-                        primaryButton?.internalLink === undefined
+                        !primaryButton?.internalLink
                           ? "page-not-found"
                           : primaryButton?.internalLink
                       }`
                 }
+                aria-label={
+                  primaryButton?.label ?? "Featured products primary button"
+                }
+                className="text-white font-bold font-heading py-6 px-8 rounded-md uppercase bg-webriq-darkblue hover:bg-webriq-blue transition duration-200"
+                target={primaryButton?.linkTarget}
+                rel={
+                  primaryButton?.linkTarget === "_blank"
+                    ? "noopener noreferrer"
+                    : null
+                }
               >
-                <a
-                  aria-label={
-                    primaryButton?.label ?? "Featured products primary button"
-                  }
-                  className="text-white font-bold font-heading py-6 px-8 rounded-md uppercase bg-webriq-darkblue hover:bg-webriq-blue transition duration-200"
-                  target={primaryButton?.linkTarget}
-                  rel={
-                    primaryButton?.linkTarget === "_blank"
-                      ? "noopener noreferrer"
-                      : null
-                  }
-                >
-                  {primaryButton?.label}
-                </a>
-              </Link>
+                {primaryButton?.label}
+              </a>
             ) : (
               <a
                 aria-label={

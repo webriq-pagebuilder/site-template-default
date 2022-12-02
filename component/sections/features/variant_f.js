@@ -1,7 +1,6 @@
-import React from "react";
-import Image from "next/image";
-import Link from "next/link";
 import { urlFor } from "lib/sanity";
+import Image from "next/image";
+import React from "react";
 
 function VariantF({ caption, title, description, images, primaryButton }) {
   return (
@@ -27,37 +26,34 @@ function VariantF({ caption, title, description, images, primaryButton }) {
                 {primaryButton && (
                   <div className="flex flex-wrap lg:-ml-5">
                     {primaryButton?.type === "linkInternal" ? (
-                      <Link
+                      <a
                         href={
                           primaryButton?.internalLink === "Home" ||
                           primaryButton?.internalLink === "home"
                             ? "/"
                             : `/${
-                                primaryButton.internalLink === undefined
+                                !primaryButton.internalLink
                                   ? "page-not-found"
                                   : primaryButton.internalLink
                               }`
                         }
+                        aria-label={`Features ${
+                          primaryButton?.label ?? "Primary"
+                        } button which directs to ${
+                          !primaryButton?.internalLink
+                            ? "page-not-found"
+                            : primaryButton?.internalLink
+                        }`}
+                        className="lg:w-auto py-2 px-6 leading-loose lg:ml-5 text-gray-50 font-bold bg-webriq-darkblue hover:bg-webriq-blue transition duration-200 rounded-l-xl rounded-t-xl"
+                        target={primaryButton?.linkTarget}
+                        rel={
+                          primaryButton?.linkTarget === "_blank"
+                            ? "noopener noreferrer"
+                            : null
+                        }
                       >
-                        <a
-                          aria-label={`Features ${
-                            primaryButton?.label ?? "Primary"
-                          } button which directs to ${
-                            primaryButton?.internalLink === undefined
-                              ? "page-not-found"
-                              : primaryButton?.internalLink
-                          }`}
-                          className="lg:w-auto py-2 px-6 leading-loose lg:ml-5 text-gray-50 font-bold bg-webriq-darkblue hover:bg-webriq-blue transition duration-200 rounded-l-xl rounded-t-xl"
-                          target={primaryButton?.linkTarget}
-                          rel={
-                            primaryButton?.linkTarget === "_blank"
-                              ? "noopener noreferrer"
-                              : null
-                          }
-                        >
-                          {primaryButton?.label}
-                        </a>
-                      </Link>
+                        {primaryButton?.label}
+                      </a>
                     ) : (
                       <a
                         aria-label={`Features ${

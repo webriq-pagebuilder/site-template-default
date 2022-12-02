@@ -1,7 +1,6 @@
-import React from "react";
-import Image from "next/image";
-import Link from "next/link";
 import { urlFor } from "lib/sanity";
+import Image from "next/image";
+import React from "react";
 
 function VariantD({ caption, title, portfoliosWithCategory }) {
   let portfoliosPerPage = 6,
@@ -83,7 +82,7 @@ function VariantD({ caption, title, portfoliosWithCategory }) {
                               {content?.primaryButton?.label &&
                               content?.primaryButton?.type ===
                                 "linkInternal" ? (
-                                <Link
+                                <a
                                   href={
                                     content?.primaryButton?.internalLink ===
                                       "Home" ||
@@ -91,37 +90,32 @@ function VariantD({ caption, title, portfoliosWithCategory }) {
                                       "home"
                                       ? "/"
                                       : `/${
-                                          content?.primaryButton
-                                            ?.internalLink === undefined
+                                          !content?.primaryButton?.internalLink
                                             ? "page-not-found"
                                             : content?.primaryButton
                                                 ?.internalLink
                                         }`
                                   }
+                                  aria-label={`Portfolio ${
+                                    content?.primaryButton?.label ??
+                                    "View Project"
+                                  } button which directs to ${
+                                    content?.primaryButton?.internalLink ===
+                                    undefined
+                                      ? "page-not-found"
+                                      : content?.primaryButton?.internalLink
+                                  }`}
+                                  className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose"
+                                  target={content?.primaryButton?.linkTarget}
+                                  rel={
+                                    content?.primaryButton?.linkTarget ===
+                                    "_blank"
+                                      ? "noopener noreferrer"
+                                      : null
+                                  }
                                 >
-                                  <a
-                                    aria-label={`Portfolio ${
-                                      content?.primaryButton?.label ??
-                                      "View Project"
-                                    } button which directs to ${
-                                      content?.primaryButton?.internalLink ===
-                                      undefined
-                                        ? "page-not-found"
-                                        : content?.primaryButton?.internalLink
-                                    }`}
-                                    className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose"
-                                    target={content?.primaryButton?.linkTarget}
-                                    rel={
-                                      content?.primaryButton?.linkTarget ===
-                                      "_blank"
-                                        ? "noopener noreferrer"
-                                        : null
-                                    }
-                                  >
-                                    {content?.primaryButton?.label ??
-                                      "See More"}
-                                  </a>
-                                </Link>
+                                  {content?.primaryButton?.label ?? "See More"}
+                                </a>
                               ) : (
                                 <a
                                   aria-label={`Portfolio ${
@@ -192,7 +186,7 @@ function VariantD({ caption, title, portfoliosWithCategory }) {
                               {content?.primaryButton?.label &&
                               content?.primaryButton?.type ===
                                 "linkInternal" ? (
-                                <Link
+                                <a
                                   href={
                                     content?.primaryButton?.internalLink ===
                                       "Home" ||
@@ -200,37 +194,32 @@ function VariantD({ caption, title, portfoliosWithCategory }) {
                                       "home"
                                       ? "/"
                                       : `/${
-                                          content?.primaryButton
-                                            ?.internalLink === undefined
+                                          !content?.primaryButton?.internalLink
                                             ? "page-not-found"
                                             : content?.primaryButton
                                                 ?.internalLink
                                         }`
                                   }
+                                  aria-label={`Portfolio ${
+                                    content?.primaryButton?.label ??
+                                    "View Project"
+                                  } button which directs to ${
+                                    content?.primaryButton?.internalLink ===
+                                    undefined
+                                      ? "page-not-found"
+                                      : content?.primaryButton?.internalLink
+                                  }`}
+                                  className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose"
+                                  target={content?.primaryButton?.linkTarget}
+                                  rel={
+                                    content?.primaryButton?.linkTarget ===
+                                    "_blank"
+                                      ? "noopener noreferrer"
+                                      : null
+                                  }
                                 >
-                                  <a
-                                    aria-label={`Portfolio ${
-                                      content?.primaryButton?.label ??
-                                      "View Project"
-                                    } button which directs to ${
-                                      content?.primaryButton?.internalLink ===
-                                      undefined
-                                        ? "page-not-found"
-                                        : content?.primaryButton?.internalLink
-                                    }`}
-                                    className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose"
-                                    target={content?.primaryButton?.linkTarget}
-                                    rel={
-                                      content?.primaryButton?.linkTarget ===
-                                      "_blank"
-                                        ? "noopener noreferrer"
-                                        : null
-                                    }
-                                  >
-                                    {content?.primaryButton?.label ??
-                                      "See More"}
-                                  </a>
-                                </Link>
+                                  {content?.primaryButton?.label ?? "See More"}
+                                </a>
                               ) : (
                                 <a
                                   aria-label={`Portfolio ${
@@ -303,7 +292,7 @@ function VariantD({ caption, title, portfoliosWithCategory }) {
                               {content?.primaryButton?.label &&
                               content?.primaryButton?.type ===
                                 "linkInternal" ? (
-                                <Link
+                                <a
                                   href={
                                     content?.primaryButton?.internalLink ===
                                       "Home" ||
@@ -311,37 +300,32 @@ function VariantD({ caption, title, portfoliosWithCategory }) {
                                       "home"
                                       ? "/"
                                       : `/${
-                                          content?.primaryButton
-                                            ?.internalLink === undefined
+                                          !content?.primaryButton?.internalLink
                                             ? "page-not-found"
                                             : content?.primaryButton
                                                 ?.internalLink
                                         }`
                                   }
+                                  aria-label={`Portfolio ${
+                                    content?.primaryButton?.label ??
+                                    "View Project"
+                                  } button which directs to ${
+                                    content?.primaryButton?.internalLink ===
+                                    undefined
+                                      ? "page-not-found"
+                                      : content?.primaryButton?.internalLink
+                                  }`}
+                                  className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose"
+                                  target={content?.primaryButton?.linkTarget}
+                                  rel={
+                                    content?.primaryButton?.linkTarget ===
+                                    "_blank"
+                                      ? "noopener noreferrer"
+                                      : null
+                                  }
                                 >
-                                  <a
-                                    aria-label={`Portfolio ${
-                                      content?.primaryButton?.label ??
-                                      "View Project"
-                                    } button which directs to ${
-                                      content?.primaryButton?.internalLink ===
-                                      undefined
-                                        ? "page-not-found"
-                                        : content?.primaryButton?.internalLink
-                                    }`}
-                                    className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose"
-                                    target={content?.primaryButton?.linkTarget}
-                                    rel={
-                                      content?.primaryButton?.linkTarget ===
-                                      "_blank"
-                                        ? "noopener noreferrer"
-                                        : null
-                                    }
-                                  >
-                                    {content?.primaryButton?.label ??
-                                      "See More"}
-                                  </a>
-                                </Link>
+                                  {content?.primaryButton?.label ?? "See More"}
+                                </a>
                               ) : (
                                 <a
                                   aria-label={`Portfolio ${
@@ -413,7 +397,7 @@ function VariantD({ caption, title, portfoliosWithCategory }) {
                                 {content?.primaryButton?.label &&
                                 content?.primaryButton?.type ===
                                   "linkInternal" ? (
-                                  <Link
+                                  <a
                                     href={
                                       content?.primaryButton?.internalLink ===
                                         "Home" ||
@@ -421,39 +405,33 @@ function VariantD({ caption, title, portfoliosWithCategory }) {
                                         "home"
                                         ? "/"
                                         : `/${
-                                            content?.primaryButton
-                                              ?.internalLink === undefined
+                                            content?.primaryButton?.internalLink
                                               ? "page-not-found"
                                               : content?.primaryButton
                                                   ?.internalLink
                                           }`
                                     }
+                                    aria-label={`Portfolio ${
+                                      content?.primaryButton?.label ??
+                                      "View Project"
+                                    } button which directs to ${
+                                      content?.primaryButton?.internalLink ===
+                                      undefined
+                                        ? "page-not-found"
+                                        : content?.primaryButton?.internalLink
+                                    }`}
+                                    className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose"
+                                    target={content?.primaryButton?.linkTarget}
+                                    rel={
+                                      content?.primaryButton?.linkTarget ===
+                                      "_blank"
+                                        ? "noopener noreferrer"
+                                        : null
+                                    }
                                   >
-                                    <a
-                                      aria-label={`Portfolio ${
-                                        content?.primaryButton?.label ??
-                                        "View Project"
-                                      } button which directs to ${
-                                        content?.primaryButton?.internalLink ===
-                                        undefined
-                                          ? "page-not-found"
-                                          : content?.primaryButton?.internalLink
-                                      }`}
-                                      className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose"
-                                      target={
-                                        content?.primaryButton?.linkTarget
-                                      }
-                                      rel={
-                                        content?.primaryButton?.linkTarget ===
-                                        "_blank"
-                                          ? "noopener noreferrer"
-                                          : null
-                                      }
-                                    >
-                                      {content?.primaryButton?.label ??
-                                        "See More"}
-                                    </a>
-                                  </Link>
+                                    {content?.primaryButton?.label ??
+                                      "See More"}
+                                  </a>
                                 ) : (
                                   <a
                                     aria-label={`Portfolio ${
@@ -498,7 +476,7 @@ function VariantD({ caption, title, portfoliosWithCategory }) {
             <div className="text-center">
               {portfoliosPerCategory?.[0]?.primaryButton?.type ===
               "linkInternal" ? (
-                <Link
+                <a
                   href={
                     portfoliosPerCategory?.[0]?.primaryButton?.internalLink ===
                       "Home" ||
@@ -507,32 +485,27 @@ function VariantD({ caption, title, portfoliosWithCategory }) {
                       ? "/"
                       : `/${
                           portfoliosPerCategory?.[0]?.primaryButton
-                            ?.internalLink === undefined
+                            ?.internalLink
                             ? "page-not-found"
                             : portfoliosPerCategory?.[0]?.primaryButton
                                 ?.internalLink
                         }`
                   }
+                  aria-label={`Click here to ${
+                    portfoliosPerCategory?.[0]?.primaryButton?.label ??
+                    "View More Projects"
+                  }`}
+                  className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose outline-none transition duration-200"
+                  target={portfoliosPerCategory?.[0]?.primaryButton?.linkTarget}
+                  rel={
+                    portfoliosPerCategory?.[0]?.primaryButton?.linkTarget ===
+                    "_blank"
+                      ? "noopener noreferrer"
+                      : null
+                  }
                 >
-                  <a
-                    aria-label={`Click here to ${
-                      portfoliosPerCategory?.[0]?.primaryButton?.label ??
-                      "View More Projects"
-                    }`}
-                    className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose outline-none transition duration-200"
-                    target={
-                      portfoliosPerCategory?.[0]?.primaryButton?.linkTarget
-                    }
-                    rel={
-                      portfoliosPerCategory?.[0]?.primaryButton?.linkTarget ===
-                      "_blank"
-                        ? "noopener noreferrer"
-                        : null
-                    }
-                  >
-                    {portfoliosPerCategory?.[0]?.primaryButton?.label}
-                  </a>
-                </Link>
+                  {portfoliosPerCategory?.[0]?.primaryButton?.label}
+                </a>
               ) : (
                 <a
                   aria-label={`Click here to ${

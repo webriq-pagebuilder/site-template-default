@@ -9,7 +9,7 @@ function VariantA({ template, links, primaryButton, secondaryButton, logo }) {
   };
 
   if (logo.type === "linkInternal") {
-    if (logo.internalLink === undefined) {
+    if (!logo.internalLink) {
       logoLink = `/`;
     } else {
       if (logo.internalLink === "Home" || logo.internalLink === "home") {
@@ -78,7 +78,7 @@ function VariantA({ template, links, primaryButton, secondaryButton, logo }) {
                       aria-label={`Navigation ${
                         link?.label ?? "Menu"
                       } links which directs to ${
-                        link?.internalLink === undefined
+                        !link?.internalLink
                           ? "page-not-found"
                           : link?.internalLink
                       }`}
@@ -147,7 +147,7 @@ function VariantA({ template, links, primaryButton, secondaryButton, logo }) {
                 primaryButton?.internalLink === "home"
                   ? "/"
                   : `/${
-                      primaryButton.internalLink === undefined
+                      !primaryButton.internalLink
                         ? "page-not-found"
                         : primaryButton.internalLink
                     }`
@@ -155,7 +155,7 @@ function VariantA({ template, links, primaryButton, secondaryButton, logo }) {
               aria-label={`Navigation ${
                 primaryButton?.label ?? "Primary"
               } button which directs to ${
-                primaryButton?.internalLink === undefined
+                !primaryButton?.internalLink
                   ? "page-not-found"
                   : primaryButton?.internalLink
               }`}
@@ -202,7 +202,7 @@ function VariantA({ template, links, primaryButton, secondaryButton, logo }) {
                 secondaryButton?.internalLink === "home"
                   ? "/"
                   : `/${
-                      secondaryButton?.internalLink === undefined
+                      !secondaryButton?.internalLink
                         ? "page-not-found"
                         : secondaryButton?.internalLink
                     }`
@@ -210,7 +210,7 @@ function VariantA({ template, links, primaryButton, secondaryButton, logo }) {
               aria-label={`Navigation ${
                 secondaryButton?.label ?? "Secondary"
               } button which directs to ${
-                secondaryButton?.internalLink === undefined
+                !secondaryButton?.internalLink
                   ? "page-not-found"
                   : secondaryButton?.internalLink
               }`}
@@ -290,7 +290,7 @@ function VariantA({ template, links, primaryButton, secondaryButton, logo }) {
                           link?.internalLink === "home"
                             ? "/"
                             : `/${
-                                link?.internalLink === undefined
+                                !link?.internalLink
                                   ? "page-not-found"
                                   : link?.internalLink
                               }`
@@ -298,7 +298,7 @@ function VariantA({ template, links, primaryButton, secondaryButton, logo }) {
                         aria-label={`Navigation ${
                           link?.label ?? "Menu"
                         } links which directs to ${
-                          link?.internalLink === undefined
+                          !link?.internalLink
                             ? "page-not-found"
                             : link?.internalLink
                         }`}
@@ -351,7 +351,7 @@ function VariantA({ template, links, primaryButton, secondaryButton, logo }) {
                       primaryButton?.internalLink === "home"
                         ? "/"
                         : `/${
-                            primaryButton?.internalLink === undefined
+                            !primaryButton?.internalLink
                               ? "page-not-found"
                               : primaryButton?.internalLink
                           }`
@@ -359,7 +359,7 @@ function VariantA({ template, links, primaryButton, secondaryButton, logo }) {
                     aria-label={`Navigation ${
                       primaryButton?.label ?? "Primary"
                     } button which directs to ${
-                      primaryButton?.internalLink === undefined
+                      !primaryButton?.internalLink
                         ? "page-not-found"
                         : primaryButton?.internalLink
                     }`}
@@ -406,7 +406,7 @@ function VariantA({ template, links, primaryButton, secondaryButton, logo }) {
                       secondaryButton?.internalLink === "home"
                         ? "/"
                         : `/${
-                            secondaryButton?.internalLink === undefined
+                            !secondaryButton?.internalLink
                               ? "page-not-found"
                               : secondaryButton?.internalLink
                           }`
@@ -414,7 +414,7 @@ function VariantA({ template, links, primaryButton, secondaryButton, logo }) {
                     aria-label={`Navigation ${
                       secondaryButton?.label ?? "Secondary"
                     } button which directs to ${
-                      secondaryButton?.internalLink === undefined
+                      !secondaryButton?.internalLink
                         ? "page-not-found"
                         : secondaryButton?.internalLink
                     }`}

@@ -1,8 +1,7 @@
-import React from "react";
-import Link from "next/link";
-import Image from "next/image";
-import { urlFor } from "lib/sanity";
 import { format } from "date-fns";
+import { urlFor } from "lib/sanity";
+import Image from "next/image";
+import React from "react";
 
 function VariantA({ subtitle, title, posts, primaryButton }) {
   let blogsPerPage = 6,
@@ -63,20 +62,17 @@ function VariantA({ subtitle, title, posts, primaryButton }) {
                           </span>
                         )}
                         {post?.title && (
-                          <Link
+                          <a
                             href={
                               `/${post?.slug?.current}` ?? "/page-not-found"
                             }
+                            aria-label={`blog post ${key}`}
+                            className="text-xl lg:text-2xl text-white font-bold hover:text-webriq-babyblue transform hover:scale-110 motion-reduce:transform-none"
                           >
-                            <a
-                              aria-label={`blog post ${key}`}
-                              className="text-xl lg:text-2xl text-white font-bold hover:text-webriq-babyblue transform hover:scale-110 motion-reduce:transform-none"
-                            >
-                              {post?.title?.length > 50
-                                ? post?.title.substring(0, 50) + "..."
-                                : post?.title}
-                            </a>
-                          </Link>
+                            {post?.title?.length > 50
+                              ? post?.title.substring(0, 50) + "..."
+                              : post?.title}
+                          </a>
                         )}
                       </div>
                     </div>
@@ -120,17 +116,16 @@ function VariantA({ subtitle, title, posts, primaryButton }) {
                           </span>
                         )}
                         {post?.title && (
-                          <Link
+                          <a
                             href={
                               `/${post?.slug?.current}` ?? "/page-not-found"
                             }
+                            className="text-xl lg:text-2xl text-white font-bold hover:text-webriq-babyblue transform hover:scale-110 motion-reduce:transform-none"
                           >
-                            <a className="text-xl lg:text-2xl text-white font-bold hover:text-webriq-babyblue transform hover:scale-110 motion-reduce:transform-none">
-                              {post?.title?.length > 50
-                                ? post?.title.substring(0, 50) + "..."
-                                : post?.title}
-                            </a>
-                          </Link>
+                            {post?.title?.length > 50
+                              ? post?.title.substring(0, 50) + "..."
+                              : post?.title}
+                          </a>
                         )}
                       </div>
                     </div>
@@ -176,17 +171,16 @@ function VariantA({ subtitle, title, posts, primaryButton }) {
                           </span>
                         )}
                         {post?.title && (
-                          <Link
+                          <a
                             href={
                               `/${post?.slug?.current}` ?? "/page-not-found"
                             }
+                            className="text-xl lg:text-2xl text-white font-bold hover:text-webriq-babyblue transform hover:scale-110 motion-reduce:transform-none"
                           >
-                            <a className="text-xl lg:text-2xl text-white font-bold hover:text-webriq-babyblue transform hover:scale-110 motion-reduce:transform-none">
-                              {post?.title?.length > 50
-                                ? post?.title.substring(0, 50) + "..."
-                                : post?.title}
-                            </a>
-                          </Link>
+                            {post?.title?.length > 50
+                              ? post?.title.substring(0, 50) + "..."
+                              : post?.title}
+                          </a>
                         )}
                       </div>
                     </div>
@@ -230,17 +224,16 @@ function VariantA({ subtitle, title, posts, primaryButton }) {
                           </span>
                         )}
                         {post?.title && (
-                          <Link
+                          <a
                             href={
                               `/${post?.slug?.current}` ?? "/page-not-found"
                             }
+                            className="text-xl lg:text-2xl text-white font-bold hover:text-webriq-babyblue transform hover:scale-110 motion-reduce:transform-none"
                           >
-                            <a className="text-xl lg:text-2xl text-white font-bold hover:text-webriq-babyblue transform hover:scale-110 motion-reduce:transform-none">
-                              {post?.title?.length > 50
-                                ? post?.title.substring(0, 50) + "..."
-                                : post?.title}
-                            </a>
-                          </Link>
+                            {post?.title?.length > 50
+                              ? post?.title.substring(0, 50) + "..."
+                              : post?.title}
+                          </a>
                         )}
                       </div>
                     </div>
@@ -250,33 +243,30 @@ function VariantA({ subtitle, title, posts, primaryButton }) {
               <div className="mt-10">
                 {primaryButton?.label &&
                 primaryButton?.type === "linkInternal" ? (
-                  <Link
+                  <a
                     href={
                       primaryButton?.internalLink === "Home" ||
                       primaryButton?.internalLink === "home"
                         ? "/"
                         : `/${
-                            primaryButton.internalLink === undefined
+                            !primaryButton.internalLink
                               ? "page-not-found"
                               : primaryButton.internalLink
                           }`
                     }
+                    aria-label={`Click here to ${
+                      primaryButton?.label ?? "View More Articles"
+                    }`}
+                    className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose outline-none transition duration-200"
+                    target={primaryButton?.linkTarget}
+                    rel={
+                      primaryButton?.linkTarget === "_blank"
+                        ? "noopener noreferrer"
+                        : null
+                    }
                   >
-                    <a
-                      aria-label={`Click here to ${
-                        primaryButton?.label ?? "View More Articles"
-                      }`}
-                      className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose outline-none transition duration-200"
-                      target={primaryButton?.linkTarget}
-                      rel={
-                        primaryButton?.linkTarget === "_blank"
-                          ? "noopener noreferrer"
-                          : null
-                      }
-                    >
-                      {primaryButton?.label}
-                    </a>
-                  </Link>
+                    {primaryButton?.label}
+                  </a>
                 ) : (
                   <a
                     aria-label={`Click here to ${

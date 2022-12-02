@@ -14,7 +14,7 @@ function VariantC({
   };
 
   if (logo.type === "linkInternal") {
-    if (logo.internalLink === undefined) {
+    if (!logo.internalLink) {
       logoLink = `/`;
     } else {
       if (logo.internalLink === "Home" || logo.internalLink === "home") {
@@ -142,7 +142,7 @@ function VariantC({
                     primaryButton?.internalLink === "home"
                       ? "/"
                       : `/${
-                          primaryButton?.internalLink === undefined
+                          !primaryButton?.internalLink
                             ? "page-not-found"
                             : primaryButton?.internalLink
                         }`
@@ -150,7 +150,7 @@ function VariantC({
                   aria-label={`Navigation ${
                     primaryButton?.label ?? "Primary"
                   } button which directs to ${
-                    primaryButton?.internalLink === undefined
+                    !primaryButton?.internalLink
                       ? "page-not-found"
                       : primaryButton?.internalLink
                   }`}
@@ -197,7 +197,7 @@ function VariantC({
                     secondaryButton?.internalLink === "home"
                       ? "/"
                       : `/${
-                          secondaryButton?.internalLink === undefined
+                          !secondaryButton?.internalLink
                             ? "page-not-found"
                             : secondaryButton?.internalLink
                         }`
@@ -205,7 +205,7 @@ function VariantC({
                   aria-label={`Navigation ${
                     secondaryButton?.label ?? "Secondary"
                   } button which directs to ${
-                    secondaryButton?.internalLink === undefined
+                    !secondaryButton?.internalLink
                       ? "page-not-found"
                       : secondaryButton?.internalLink
                   }`}
@@ -364,7 +364,7 @@ function VariantC({
                       primaryButton?.internalLink === "home"
                         ? "/"
                         : `/${
-                            primaryButton?.internalLink === undefined
+                            !primaryButton?.internalLink
                               ? "page-not-found"
                               : primaryButton?.internalLink
                           }`
@@ -372,7 +372,7 @@ function VariantC({
                     aria-label={`Navigation ${
                       primaryButton?.label ?? "Primary"
                     } button which directs to ${
-                      primaryButton?.internalLink === undefined
+                      !primaryButton?.internalLink
                         ? "page-not-found"
                         : primaryButton?.internalLink
                     }`}
@@ -419,7 +419,7 @@ function VariantC({
                       secondaryButton?.internalLink === "home"
                         ? "/"
                         : `/${
-                            secondaryButton?.internalLink === undefined
+                            !secondaryButton?.internalLink
                               ? "page-not-found"
                               : secondaryButton?.internalLink
                           }`
@@ -427,7 +427,7 @@ function VariantC({
                     aria-label={`Navigation ${
                       secondaryButton?.label ?? "Secondary"
                     } button which directs to ${
-                      secondaryButton?.internalLink === undefined
+                      !secondaryButton?.internalLink
                         ? "page-not-found"
                         : secondaryButton?.internalLink
                     }`}

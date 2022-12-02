@@ -1,13 +1,11 @@
 import { urlFor } from "lib/sanity";
-import Image from "next/image";
-import Link from "next/link";
 import React from "react";
 
 function VariantB({ logo, copyright, socialMedia, menu }) {
   let logoLink;
 
   if (logo.type === "linkInternal") {
-    if (logo.internalLink === undefined) {
+    if (!logo.internalLink) {
       logoLink = `/`; // default to root page when not defined
     } else {
       if (logo.internalLink === "Home" || logo.internalLink === "home") {
@@ -31,20 +29,19 @@ function VariantB({ logo, copyright, socialMedia, menu }) {
           <div className="pb-12 flex flex-wrap items-center justify-between border-b border-gray-100">
             <div className="w-full lg:w-1/5 mb-12 lg:mb-4 mx-20">
               {logo?.image && (
-                <Link href={logoLink}>
-                  <a
-                    aria-label={
-                      logoLink === "/" ? "Go to home page" : `Go to ${logoLink}`
-                    }
-                    className="inline-block text-3xl font-bold leading-none"
-                  >
-                    <img
-                      className="h-14"
-                      src={urlFor(logo?.image)}
-                      alt={logo?.alt ?? "footer-logo"}
-                    />
-                  </a>
-                </Link>
+                <a
+                  href={logoLink}
+                  aria-label={
+                    logoLink === "/" ? "Go to home page" : `Go to ${logoLink}`
+                  }
+                  className="inline-block text-3xl font-bold leading-none"
+                >
+                  <img
+                    className="h-14"
+                    src={urlFor(logo?.image)}
+                    alt={logo?.alt ?? "footer-logo"}
+                  />
+                </a>
               )}
             </div>
             {menu && (
@@ -54,37 +51,34 @@ function VariantB({ logo, copyright, socialMedia, menu }) {
                     <React.Fragment key={links?._key || index}>
                       <li className="w-full md:w-auto mb-2 md:mb-0" key={index}>
                         {links?.type === "linkInternal" ? (
-                          <Link
+                          <a
                             href={
                               links?.internalLink === "Home" ||
                               links?.internalLink === "home"
                                 ? "/"
                                 : `/${
-                                    links?.internalLink === undefined
+                                    !links?.internalLink
                                       ? "page-not-found"
                                       : links?.internalLink
                                   }`
                             }
+                            aria-label={`Footer ${
+                              links?.label ?? "Menu"
+                            } links which directs to ${
+                              !links?.internalLink
+                                ? "page-not-found"
+                                : links?.internalLink
+                            }`}
+                            className="lg:text-sm text-gray-500 hover:text-gray-700"
+                            target={links?.linkTarget}
+                            rel={
+                              links?.linkTarget === "_blank"
+                                ? "noopener noreferrer"
+                                : null
+                            }
                           >
-                            <a
-                              aria-label={`Footer ${
-                                links?.label ?? "Menu"
-                              } links which directs to ${
-                                links?.internalLink === undefined
-                                  ? "page-not-found"
-                                  : links?.internalLink
-                              }`}
-                              className="lg:text-sm text-gray-500 hover:text-gray-700"
-                              target={links?.linkTarget}
-                              rel={
-                                links?.linkTarget === "_blank"
-                                  ? "noopener noreferrer"
-                                  : null
-                              }
-                            >
-                              {links?.label}
-                            </a>
-                          </Link>
+                            {links?.label}
+                          </a>
                         ) : (
                           <a
                             aria-label={`Footer ${
