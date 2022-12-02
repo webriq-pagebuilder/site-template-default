@@ -48,7 +48,7 @@ function SEO({ data }) {
           url: `${url}${router?.asPath}`,
           images: [
             {
-              url: seoImageUrl(seo?.seoImage ?? defaultImage),
+              url: seo?.seoImage ? seoImageUrl(seo?.seoImage) : defaultImage,
               width: 520,
               height: 320,
               alt: "Page thumbnail image for SEO",
