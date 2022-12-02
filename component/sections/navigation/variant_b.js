@@ -1,6 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import { urlFor } from "lib/sanity";
+import { logoLink } from "helper";
 
 function VariantB({
   /*template , */ links,
@@ -8,39 +9,20 @@ function VariantB({
   secondaryButton,
   logo,
 }) {
-  let logoLink;
   const [menu, setMenu] = React.useState(false);
   const showMenu = () => {
     setMenu((prevState) => !prevState);
   };
-
-  if (logo.type === "linkInternal") {
-    if (logo.internalLink === undefined) {
-      logoLink = `/`;
-    } else {
-      if (logo.internalLink === "Home" || logo.internalLink === "home") {
-        logoLink = `/`;
-      } else {
-        logoLink = `/${logo.internalLink}`;
-      }
-    }
-  } else {
-    if (logo.externalLink === undefined) {
-      logoLink = `/`;
-    } else {
-      logoLink = logo.externalLink;
-    }
-  }
 
   return (
     <section>
       <nav className="relative py-6 bg-white">
         <div className="container mx-auto px-4 flex justify-between items-center">
           {logo?.image && (
-            <Link href={logoLink}>
+            <Link href={logoLink()}>
               <a
                 aria-label={`Go to ${
-                  logoLink === "/" ? "home page" : logoLink
+                  logoLink() === "/" ? "home page" : logoLink()
                 }`}
                 className="text-3xl font-bold leading-none"
               >

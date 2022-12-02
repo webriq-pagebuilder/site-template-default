@@ -3,7 +3,6 @@ import dynamic from "next/dynamic";
 
 const Variants = {
   variant_a: dynamic(() => import("./variant_a")),
-  variant_b: dynamic(() => import("./variant_b")),
 };
 
 function Cart({ data }) {

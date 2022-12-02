@@ -1,28 +1,9 @@
 import { urlFor } from "lib/sanity";
 import Link from "next/link";
 import React from "react";
+import { logoLink } from "helper";
 
 function VariantA({ logo, title, text, button }) {
-  let logoLink;
-
-  if (logo.type === "linkInternal") {
-    if (logo.internalLink === undefined) {
-      logoLink = `/`; // default to root page when not defined
-    } else {
-      if (logo.internalLink === "Home" || logo.internalLink === "home") {
-        logoLink = `/`;
-      } else {
-        logoLink = `/${logo.internalLink}`;
-      }
-    }
-  } else {
-    if (logo.externalLink === undefined) {
-      logoLink = `/`;
-    } else {
-      logoLink = logo.externalLink;
-    }
-  }
-
   return (
     <section>
       <div>
@@ -38,10 +19,12 @@ function VariantA({ logo, title, text, button }) {
         <div className="container mx-auto px-4">
           <div className="max-w-xl mx-auto text-center">
             {logo?.image && (
-              <Link href={logoLink}>
+              <Link href={logoLink()}>
                 <a
                   aria-label={
-                    logoLink === "/" ? "Go to home page" : `Go to ${logoLink}`
+                    logoLink() === "/"
+                      ? "Go to home page"
+                      : `Go to ${logoLink()}`
                   }
                   className="mb-6 inline-block text-3xl font-bold leading-none"
                 >
