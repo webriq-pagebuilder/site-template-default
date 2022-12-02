@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useState, useMemo } from "react";
 import { ToastContainer, toast } from "react-toast";
 import { sanityClient } from "lib/sanity";
 import { includes } from "lodash";
+import { fi } from "date-fns/locale";
 
 const EcwidContext = createContext();
 
@@ -192,6 +193,15 @@ export function EcwidContextProvider({ children }) {
   useEffect(() => {
     fetchFavorites();
   }, [wishlist.productIds]);
+
+  useEffect(() => {
+    addEventListener("click", function () {
+      let elem = document.querySelector(".ec-cart--empty button");
+      if (elem !== null) {
+        window.location.href = "/collections/all-products";
+      }
+    });
+  }, []);
 
   const addWishlist = (id) => {
     const productIds = wishlist?.productIds;
