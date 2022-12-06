@@ -1,3 +1,4 @@
+import { logoLink } from "helper";
 import { urlFor } from "lib/sanity";
 import React from "react";
 
@@ -7,29 +8,10 @@ function VariantB({
   secondaryButton,
   logo,
 }) {
-  let logoLink;
   const [menu, setMenu] = React.useState(false);
   const showMenu = () => {
     setMenu((prevState) => !prevState);
   };
-
-  if (logo.type === "linkInternal") {
-    if (!logo.internalLink) {
-      logoLink = `/`;
-    } else {
-      if (logo.internalLink === "Home" || logo.internalLink === "home") {
-        logoLink = `/`;
-      } else {
-        logoLink = `/${logo.internalLink}`;
-      }
-    }
-  } else {
-    if (logo.externalLink === undefined) {
-      logoLink = `/`;
-    } else {
-      logoLink = logo.externalLink;
-    }
-  }
 
   return (
     <section>
@@ -37,8 +19,10 @@ function VariantB({
         <div className="container mx-auto px-4 flex justify-between items-center">
           {logo?.image && (
             <a
-              href={logoLink}
-              aria-label={`Go to ${logoLink === "/" ? "home page" : logoLink}`}
+              href={logoLink()}
+              aria-label={`Go to ${
+                logoLink() === "/" ? "home page" : logoLink()
+              }`}
               className="text-3xl font-bold leading-none"
             >
               <img

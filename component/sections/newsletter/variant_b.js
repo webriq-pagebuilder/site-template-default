@@ -1,40 +1,10 @@
 import WebriQForm from "component/webriq-form";
+import { logoLink, thankYouPageLink } from "helper";
 import { urlFor } from "lib/sanity";
 import React from "react";
 
 function VariantB({ logo, title, description, form }) {
-  let logoLink;
   const { id, fields, buttonLabel, thankYouPage } = form;
-
-  const thankYouPageLink = (link) => {
-    if (!link) {
-      return "/thank-you";
-    } else {
-      if (link?.linkType === "linkInternal") {
-        return `/${link.internalLink}`;
-      } else {
-        return link.externalLink;
-      }
-    }
-  };
-
-  if (logo.type === "linkInternal") {
-    if (!logo.internalLink) {
-      logoLink = `/`;
-    } else {
-      if (logo.internalLink === "Home" || logo.internalLink === "home") {
-        logoLink = `/`;
-      } else {
-        logoLink = `/${logo.internalLink}`;
-      }
-    }
-  } else {
-    if (logo.externalLink === undefined) {
-      logoLink = `/`;
-    } else {
-      logoLink = logo.externalLink;
-    }
-  }
 
   return (
     <section>
@@ -45,9 +15,11 @@ function VariantB({ logo, title, description, form }) {
               <div className="flex justify-center items-center mx-auto">
                 {logo?.image && (
                   <a
-                    href={logoLink}
+                    href={logoLink()}
                     aria-label={
-                      logoLink === "/" ? "Go to home page" : `Go to ${logoLink}`
+                      logoLink() === "/"
+                        ? "Go to home page"
+                        : `Go to ${logoLink()}`
                     }
                     className="mb-8 inline-block p-5 bg-white rounded"
                   >
@@ -64,7 +36,7 @@ function VariantB({ logo, title, description, form }) {
               <h1 className="text-4xl font-bold">{title}</h1>
               <p className="text-gray-700">{description}</p>
             </div>
-            {fields?.[0] && fields[0]?.name && (
+            {fields && fields[0]?.name && (
               <div className="w-full lg:w-2/5">
                 <WebriQForm
                   method="POST"

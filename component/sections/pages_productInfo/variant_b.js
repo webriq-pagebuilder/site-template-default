@@ -27,20 +27,31 @@ function VariantB({ products }) {
               <div className="flex flex-wrap -mx-1">
                 <div className="md:w-full px-5">
                   <div className="relative">
-                    {products?.productPreview?.image && (
+                    {products?.productInfo?.images ? (
                       <div className="w-full h-full">
                         <Image
                           layout="responsive"
                           width={736}
                           height={564}
                           objectFit="cover"
-                          src={urlFor(products?.productPreview?.image)}
+                          src={urlFor(
+                            products?.productInfo?.images?.[0]?.image
+                          )}
                           alt={
-                            products?.productPreview?.alt ??
+                            products?.productInfo?.images?.[0]?.alt ??
                             "product-info-main-image"
                           }
                         />
                       </div>
+                    ) : (
+                      <Image
+                        layout="responsive"
+                        width={736}
+                        height={564}
+                        objectFit="cover"
+                        src="https://cdn.sanity.io/images/9itgab5x/production/9523d40461371b7b4948456c57bb663bd8998c4a-500x362.png"
+                        alt="default image for product"
+                      />
                     )}
                   </div>
                 </div>

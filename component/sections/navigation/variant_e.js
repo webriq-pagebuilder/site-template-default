@@ -1,4 +1,5 @@
 import { EcwidContextProvider } from "context/EcwidContext";
+import { logoLink } from "helper";
 import { PortableText, urlFor } from "lib/sanity";
 import { useRouter } from "next/router";
 import { Fragment, memo, useEffect, useRef, useState } from "react";
@@ -43,30 +44,11 @@ function VariantE({ banner, logo, links }) {
     },
   };
 
-  let logoLink;
   const [menu, setMenu] = useState(false);
 
   const showMenu = () => {
     setMenu((prevState) => !prevState);
   };
-
-  if (logo.type === "linkInternal") {
-    if (!logo.internalLink) {
-      logoLink = `/`;
-    } else {
-      if (logo.internalLink === "Home" || logo.internalLink === "home") {
-        logoLink = `/`;
-      } else {
-        logoLink = `/${logo.internalLink}`;
-      }
-    }
-  } else {
-    if (logo.externalLink === undefined) {
-      logoLink = `/`;
-    } else {
-      logoLink = logo.externalLink;
-    }
-  }
 
   useEffect(() => {
     //assign the ref's current value to the productQuery hook
@@ -84,44 +66,46 @@ function VariantE({ banner, logo, links }) {
   return (
     <EcwidContextProvider>
       <section className="relative">
-        <div className="py-2 bg-webriq-darkblue">
-          <div className="flex items-center justify-center">
-            <svg
-              className="mr-2"
-              width={18}
-              height={11}
-              viewBox="0 0 18 11"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <rect
-                y="3.07129"
-                width={4}
-                height={10}
-                rx={2}
-                transform="rotate(-45 0 3.07129)"
-                fill="white"
-              />
-              <rect
-                x={8}
-                y="2.82861"
-                width={4}
-                height={10}
-                rx={2}
-                transform="rotate(-45 8 2.82861)"
-                fill="white"
-              />
-            </svg>
-            {banner && <PortableText value={banner} components={blockStyle} />}
+        {banner && (
+          <div className="py-2 bg-webriq-darkblue">
+            <div className="flex items-center justify-center">
+              <svg
+                className="mr-2"
+                width={18}
+                height={11}
+                viewBox="0 0 18 11"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <rect
+                  y="3.07129"
+                  width={4}
+                  height={10}
+                  rx={2}
+                  transform="rotate(-45 0 3.07129)"
+                  fill="white"
+                />
+                <rect
+                  x={8}
+                  y="2.82861"
+                  width={4}
+                  height={10}
+                  rx={2}
+                  transform="rotate(-45 8 2.82861)"
+                  fill="white"
+                />
+              </svg>
+              <PortableText value={banner} components={blockStyle} />
+            </div>
           </div>
-        </div>
+        )}
         <nav className="relative flex justify-between">
           <div className="px-12 py-8 flex w-full items-center">
             {logo?.image && (
               <a
-                href={logoLink}
+                href={logoLink()}
                 aria-label={`Go to ${
-                  logoLink === "/" ? "home page" : logoLink
+                  logoLink() === "/" ? "home page" : logoLink()
                 }`}
                 className="text-3xl font-bold leading-none"
               >
@@ -325,9 +309,9 @@ function VariantE({ banner, logo, links }) {
             <div className="flex items-center mb-8">
               {logo?.image && (
                 <a
-                  href={logoLink}
+                  href={logoLink()}
                   aria-label={`Go to ${
-                    logoLink === "/" ? "home page" : logoLink
+                    logoLink() === "/" ? "home page" : logoLink()
                   }`}
                   className="text-3xl font-bold leading-none"
                 >

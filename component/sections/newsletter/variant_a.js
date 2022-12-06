@@ -1,40 +1,10 @@
 import WebriQForm from "component/webriq-form";
+import { logoLink, thankYouPageLink } from "helper";
 import { urlFor } from "lib/sanity";
 import React from "react";
 
 function VariantA({ logo, title, description, form }) {
-  let logoLink;
   const { id, fields, buttonLabel, thankYouPage } = form;
-
-  const thankYouPageLink = (link) => {
-    if (!link) {
-      return "/thank-you";
-    } else {
-      if (link?.linkType === "linkInternal") {
-        return `/${link.internalLink}`;
-      } else {
-        return link.externalLink;
-      }
-    }
-  };
-
-  if (logo.type === "linkInternal") {
-    if (!logo.internalLink) {
-      logoLink = `/`;
-    } else {
-      if (logo.internalLink === "Home" || logo.internalLink === "home") {
-        logoLink = `/`;
-      } else {
-        logoLink = `/${logo.internalLink}`;
-      }
-    }
-  } else {
-    if (logo.externalLink === undefined) {
-      logoLink = `/`;
-    } else {
-      logoLink = logo.externalLink;
-    }
-  }
 
   return (
     <section>
@@ -43,9 +13,9 @@ function VariantA({ logo, title, description, form }) {
           <div className="max-w-xl mx-auto text-center">
             {logo?.image && (
               <a
-                href={logoLink}
+                href={logoLink()}
                 aria-label={
-                  logoLink === "/" ? "Go to home page" : `Go to ${logoLink}`
+                  logoLink() === "/" ? "Go to home page" : `Go to ${logoLink()}`
                 }
                 className="mb-6 inline-block text-3xl font-bold leading-none"
               >
@@ -60,7 +30,7 @@ function VariantA({ logo, title, description, form }) {
               {title}
             </h1>
             <p className="mb-8 text-gray-700 leading-loose">{description}</p>
-            {fields?.[0] && fields[0]?.name && (
+            {fields && fields[0]?.name && (
               <WebriQForm
                 method="POST"
                 data-form-id={id}

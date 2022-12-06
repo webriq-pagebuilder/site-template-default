@@ -19,9 +19,10 @@ function VariantA({
   ecwidProduct,
   getPriceDisplay,
 }) {
-  // block styling as props to `serializers` of the PortableText component
+  // get Ecwid product details
   const defaultProduct = ecwidProduct ? ecwidProduct : product;
 
+  // block styling as props to `serializers` of the PortableText component
   const blockStyle = {
     block: {
       h1: ({ children }) => {

@@ -1,9 +1,9 @@
 import WebriQForm from "component/webriq-form";
+import { logoLink, thankYouPageLink } from "helper";
 import { urlFor } from "lib/sanity";
 import React from "react";
 
 function VariantD({ logo, title, text, button, form, formLinks, signInLink }) {
-  let logoLink;
   const { id, name, subtitle, fields, buttonLabel, thankYouPage } = form;
   const [value, setValue] = React.useState(null); // setting selected value for input field radio type
   const [checked, setChecked] = React.useState([]); // setting selected value for input field checkbox type
@@ -20,36 +20,6 @@ function VariantD({ logo, title, text, button, form, formLinks, signInLink }) {
     );
   };
 
-  if (logo.type === "linkInternal") {
-    if (!logo.internalLink) {
-      logoLink = `/`;
-    } else {
-      if (logo.internalLink === "Home" || logo.internalLink === "home") {
-        logoLink = `/`;
-      } else {
-        logoLink = `/${logo.internalLink}`;
-      }
-    }
-  } else {
-    if (logo.externalLink === undefined) {
-      logoLink = `/`;
-    } else {
-      logoLink = logo.externalLink;
-    }
-  }
-
-  const thankYouPageLink = (link) => {
-    if (!link) {
-      return "/thank-you";
-    } else {
-      if (link?.linkType === "linkInternal") {
-        return `/${link.internalLink}`;
-      } else {
-        return link.externalLink;
-      }
-    }
-  };
-
   return (
     <section className="py-20 px-10 bg-gray-50">
       <div className="container mx-auto px-4">
@@ -57,9 +27,9 @@ function VariantD({ logo, title, text, button, form, formLinks, signInLink }) {
           <div className="mb-16 lg:mb-0 max-w-2xl lg:w-1/2 px-4">
             {logo?.image && (
               <a
-                href={logoLink}
+                href={logoLink()}
                 aria-label={
-                  logoLink === "/" ? "Go to home page" : `Go to ${logoLink}`
+                  logoLink() === "/" ? "Go to home page" : `Go to ${logoLink()}`
                 }
                 className="mb-10 inline-block text-3xl font-bold leading-none"
               >
