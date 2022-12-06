@@ -41,6 +41,7 @@ function SEO({ data }) {
   return (
     <>
       <NextSeo
+        title={seo?.seoTitle || title}
         description={seo?.seoDescription || blogDescription}
         openGraph={{
           title: seo?.seoTitle || title,
