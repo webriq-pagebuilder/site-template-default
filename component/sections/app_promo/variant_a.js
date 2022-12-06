@@ -1,3 +1,4 @@
+import React from "react";
 import { urlFor } from "lib/sanity";
 import { logoLink } from "helper";
 
