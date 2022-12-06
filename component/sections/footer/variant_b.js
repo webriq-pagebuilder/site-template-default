@@ -1,27 +1,8 @@
 import { urlFor } from "lib/sanity";
 import React from "react";
+import { logoLink } from "helper";
 
 function VariantB({ logo, copyright, socialMedia, menu }) {
-  let logoLink;
-
-  if (logo.type === "linkInternal") {
-    if (!logo.internalLink) {
-      logoLink = `/`; // default to root page when not defined
-    } else {
-      if (logo.internalLink === "Home" || logo.internalLink === "home") {
-        logoLink = `/`;
-      } else {
-        logoLink = `/${logo.internalLink}`;
-      }
-    }
-  } else {
-    if (logo.externalLink === undefined) {
-      logoLink = `/`;
-    } else {
-      logoLink = logo.externalLink;
-    }
-  }
-
   return (
     <section>
       <div className="py-20 bg-gray-50 radius-for-skewed">
@@ -30,11 +11,13 @@ function VariantB({ logo, copyright, socialMedia, menu }) {
             <div className="w-full lg:w-1/5 mb-12 lg:mb-4 mx-20">
               {logo?.image && (
                 <a
-                  href={logoLink}
                   aria-label={
-                    logoLink === "/" ? "Go to home page" : `Go to ${logoLink}`
+                    logoLink() === "/"
+                      ? "Go to home page"
+                      : `Go to ${logoLink()}`
                   }
                   className="inline-block text-3xl font-bold leading-none"
+                  href={logoLink()}
                 >
                   <img
                     className="h-14"

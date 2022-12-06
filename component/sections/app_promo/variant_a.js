@@ -1,47 +1,29 @@
 import { urlFor } from "lib/sanity";
-import Image from "next/image";
-import React from "react";
+import { logoLink } from "helper";
 
 function VariantA({ logo, subtitle, title, images }) {
-  let logoLink;
-
-  if (logo.type === "linkInternal") {
-    if (!logo.internalLink) {
-      logoLink = `/`; // default to root page when not defined
-    } else {
-      if (logo.internalLink === "Home" || logo.internalLink === "home") {
-        logoLink = `/`;
-      } else {
-        logoLink = `/${logo.internalLink}`;
-      }
-    }
-  } else {
-    if (logo.externalLink === undefined) {
-      logoLink = `/`;
-    } else {
-      logoLink = logo.externalLink;
-    }
-  }
-
   return (
     <section>
       <div className="pt-16 bg-webriq-darkblue overflow-hidden radius-for-skewed">
         <div className="container mx-auto px-4">
           <div className="relative max-w-md mx-auto text-center">
             {logo?.image && (
-              <a
-                href={logoLink}
-                aria-label={
-                  logoLink === "/" ? "Go to home page" : `Go to ${logoLink}`
-                }
-                className="mb-8 inline-block p-5 bg-white rounded-lg"
-              >
-                <img
-                  className="h-14"
-                  src={urlFor(logo?.image)}
-                  alt={logo?.alt ?? "appPromo-logo"}
-                />
-              </a>
+              <Link href={logoLink()}>
+                <a
+                  aria-label={
+                    logoLink() === "/"
+                      ? "Go to home page"
+                      : `Go to ${logoLink()}`
+                  }
+                  className="mb-8 inline-block p-5 bg-white rounded-lg"
+                >
+                  <img
+                    className="h-14"
+                    src={urlFor(logo?.image)}
+                    alt={logo?.alt ?? "appPromo-logo"}
+                  />
+                </a>
+              </Link>
             )}
             <p className="text-gray-50 mb-3">{subtitle}</p>
             <h1 className="text-3xl lg:text-5xl text-white font-bold mb-8">
