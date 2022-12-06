@@ -30,10 +30,10 @@ function CollectionPage({ data: initialData = {}, preview, token }) {
   }
 
   const {
-    defaultSections, // sections from Store > Pages > Collections
+    commonSections, // sections from Store > Pages > Collections
     name, // collection name
-    collectionSections, // sections from the Collection page
     seo, // collection page SEO
+    sections, // sections from the Design field group tab of Collections page
   } = collectionData;
 
   /*
@@ -56,31 +56,38 @@ function CollectionPage({ data: initialData = {}, preview, token }) {
     );
   }
 
-  let sectionsToDisplay = defaultSections;
+  let sectionsToDisplay = commonSections?.sections;
 
-  if (collectionSections) {
-    const filtered = collectionSections?.filter(
-      (section) => section?._type !== "featuredProducts"
+  if (sections) {
+    const filtered = sections?.filter(
+      (section) => section?._type !== "slotCollectionInfo"
     );
 
     if (filtered?.length !== 0) {
-      sectionsToDisplay = collectionSections;
+      sectionsToDisplay = sections;
     } else {
       // we only have featuredProducts section on the collection page so we merge this section with the sections in Store > Pages > Collections
-      sectionsToDisplay = collectionSections?.reduce(
+      sectionsToDisplay = sections?.reduce(
         (defaultsArr, newArr) => {
           // only need the featuredProducts section from Store > Collections to match
-          const getIndex = defaultSections?.findIndex((item) =>
-            item?._type?.includes("featuredProducts")
+          const getIndex = commonSections?.sections?.findIndex((item) =>
+            item?._type?.includes("slotCollectionInfo")
           );
 
+          // if the variant from the Store > Collections page is a "defaultVariant", then replace it with the variant of Store > Commerce Pages > Collections "slotCollectionInfo"
+          if (newArr?.variant === "defaultVariant") {
+            newArr.variant = defaultsArr[getIndex]?.variant;
+          }
+
+          // if there is a "slotCollectionInfo" section in Store > Commerce Pages > Collections, then replace it with the "slotCollectionInfo" of Store > Collections section
           if (getIndex !== -1) {
             defaultsArr[getIndex] = newArr;
           }
 
+          // otherwise return the other sections defined
           return defaultsArr;
         },
-        [...defaultSections]
+        [...commonSections?.sections]
       );
     }
   }
@@ -106,11 +113,20 @@ function CollectionPage({ data: initialData = {}, preview, token }) {
           content="width=360 initial-scale=1, shrink-to-fit=no"
         />
         <link rel="icon" href="../favicon.ico" />
-        <title>{seo?.seoTitle ?? name}</title>
+        <title>{seo?.seoTitle ?? commonSections?.seo?.seoTitle ?? name}</title>
       </Head>
       {sectionsToDisplay &&
         sectionsToDisplay?.map((section, index) => {
-          const Component = Components[section?._type];
+          const sectionType =
+            section?._type === "slotCart" // for slotCart, apply the variant templates of the cart section
+              ? "cartSection"
+              : section?._type === "slotWishlist" // for slotWishlist, apply the variant templates of the wishlist section
+              ? "wishlistSection"
+              : section?._type === "slotCollectionInfo" // for slotCollectionInfo, apply the variant templates of the featuredProducts section
+              ? "featuredProducts"
+              : section?._type; // otherwise, use the actual section type
+
+          const Component = Components[sectionType];
 
           // skip rendering unknown components
           if (!Component) {

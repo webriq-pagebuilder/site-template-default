@@ -145,7 +145,7 @@ function VariantD({
     const handleSubmit = async (event) => {
       event.preventDefault();
       let data = {};
-      formFields.forEach((field) => {
+      formFields?.forEach((field) => {
         const formData = new FormData(
           document.querySelector(`form[name='${formName}']`)
         ).get(field.name);

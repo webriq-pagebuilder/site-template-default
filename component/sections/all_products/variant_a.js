@@ -1,14 +1,13 @@
 import { memo, useState, useEffect } from "react";
 import { urlFor } from "lib/sanity";
-import { sanityClient } from "lib/sanity.server";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-function VariantA() {
-  const [collections, setCollections] = useState([]); // get C-Studio collections pages
-  const [products, setProducts] = useState([]); // get C-Studio products pages
-  const [selectInput, setSelectInput] = useState("All products"); // contain value for the select input
+function VariantA({ products, ecwidProduct, getPriceDisplay }) {
+  // get Ecwid product details
+  const defaultProduct = ecwidProduct ? ecwidProduct : products;
   const [productQuery, setProductQuery] = useState("");
+  const [selectInput, setSelectInput] = useState(products?.[0]?.name); // initial value will be the first option from the list of collections
   const router = useRouter();
 
   useEffect(() => {
@@ -27,32 +26,7 @@ function VariantA() {
         setProductQuery(q); // pass query to state variable
       }
     }
-  }, [router.query.q]);
-
-  // fetch data on page load
-  useEffect(() => {
-    async function getData() {
-      try {
-        // fetch product pages
-        await sanityClient
-          .fetch(
-            `*[_type == 'mainProduct' && !(_id in path("drafts.**"))]{
-            ...,
-            collections-> 
-          }`
-          )
-          .then((product) => setProducts(product));
-        // fetch collection pages
-        await sanityClient
-          .fetch(`*[_type == 'mainCollection' && !(_id in path("drafts.**"))]`)
-          .then((collection) => setCollections(collection));
-      } catch (err) {
-        console.log(err);
-      }
-    }
-
-    getData(); // run function
-  }, []);
+  }, [router.query.q, productQuery]);
 
   // get selected input
   const handleSelectInput = (e) => {
@@ -61,26 +35,27 @@ function VariantA() {
 
   // filtered products array based on select input
   const filterProductsByCollection =
-    products &&
-    products?.filter((product) => product?.collections?.name === selectInput);
+    products && products?.filter((product) => product?.name === selectInput);
 
   // filtered products array based on search query input
-  const filterProductsByQuery =
-    products &&
-    products?.filter((product) =>
+  const filterProductsByQuery = products?.reduce((newArr, currArr) => {
+    if (newArr?.indexOf(currArr) === -1) {
+      newArr?.push(...currArr?.products);
+    }
+
+    return newArr?.filter((product) =>
       product?.name?.toLowerCase()?.includes(productQuery?.toLowerCase())
     );
+  }, []);
 
   // set products array to display based on conditions met
-  let displayProducts = products;
+  let displayProducts = products?.products;
 
   // set array to display
-  if (!productQuery) {
-    if (selectInput !== "All products") {
-      displayProducts = filterProductsByCollection;
-    }
-  } else {
+  if (productQuery) {
     displayProducts = filterProductsByQuery;
+  } else {
+    displayProducts = filterProductsByCollection?.[0];
   }
 
   return (
@@ -89,76 +64,81 @@ function VariantA() {
         <div className="flex flex-wrap lg:-mx-4 mb-20 items-center justify-between">
           <div className="w-full lg:w-auto lg:px-4 mb-12 xl:mb-0">
             <h1 className="text-2xl sm:text-4xl font-bold font-heading">
-              {productQuery
-                ? `Search results for "${productQuery}"`
-                : `Showing ${displayProducts?.length} products`}
+              {productQuery &&
+                `Showing ${displayProducts?.length} results for "${productQuery}"`}
             </h1>
           </div>
-          {!productQuery && (
+          {!productQuery && products?.length > 1 && (
             <select
               className="p-4 bg-white text-lg border border-gray-400 focus:ring-webriq-blue focus:border-webriq-blue rounded-md"
               name="by-collection"
               value={selectInput}
               onChange={handleSelectInput}
             >
-              <option name="default-value" value="All products">
-                All products
+              <option name="default-value" value={selectInput}>
+                {selectInput}
               </option>
-              {collections?.map((collection, index) => (
-                <option value={collection?.name} key={index}>
-                  {collection?.name}
-                </option>
-              ))}
+              {products
+                ?.filter((collection) => collection?.name !== selectInput)
+                ?.map((collection, index) => (
+                  <option value={collection?.name} key={index}>
+                    {collection?.name}
+                  </option>
+                ))}
             </select>
           )}
         </div>
-        {products && (
+        {displayProducts && (
           <div className="flex flex-wrap -mx-3">
             <div className="w-full px-3">
               {displayProducts?.length !== 0 ? (
                 <div className="flex flex-wrap -mx-3">
-                  {displayProducts?.map((product, index) => (
-                    <div
-                      className="w-full sm:w-1/2 lg:w-1/3 xl:w-1/4 px-3 mb-8"
-                      key={index}
-                    >
-                      <div className="mx-10">
-                        <Link href={`/products/${product?.slug?.current}`}>
-                          <a className="block md:px-6 mt-6 mb-2">
-                            {product?.productPreview?.image ? (
-                              <img
-                                className="mb-3 sm:mb-5 mx-auto h-56 w-full object-contain hover:scale-110 transition-all duration-700"
-                                src={urlFor(product?.productPreview?.image)}
-                                alt={
-                                  product?.productPreview?.alt ??
-                                  `product-image-${index}`
-                                }
-                              />
-                            ) : (
-                              <img
-                                className="mb-3 sm:mb-5 mx-auto h-56 w-full object-contain hover:scale-110 transition-all duration-700"
-                                src="https://cdn.sanity.io/images/9itgab5x/production/b362a413487c075bc56646b996ffaf5b888b8fd1-1200x1063.png"
-                                alt={
-                                  product?.productPreview?.alt ??
-                                  `product-image-${index}`
-                                }
-                              />
-                            )}
-                            {product?.name && (
-                              <h2 className="mb-2 text-lg sm:text-xl font-heading">
-                                {product?.name}
-                              </h2>
-                            )}
-                            {product?.price && (
-                              <p className="text-lg font-bold font-heading text-webriq-darkblue">
-                                {product?.price}
-                              </p>
-                            )}
-                          </a>
-                        </Link>
+                  {(displayProducts?.products ?? displayProducts)?.map(
+                    (product, index) => (
+                      <div
+                        className="w-full sm:w-1/2 lg:w-1/3 xl:w-1/4 px-3 mb-8"
+                        key={index}
+                      >
+                        <div className="mx-10">
+                          <Link href={`/products/${product?.slug?.current}`}>
+                            <a className="block md:px-6 mt-6 mb-2">
+                              {product?.productInfo?.images ? (
+                                <img
+                                  className="mb-3 sm:mb-5 mx-auto h-56 w-full object-contain hover:scale-110 transition-all duration-700"
+                                  src={urlFor(
+                                    product?.productInfo?.images?.[0]?.image
+                                  )}
+                                  alt={
+                                    product?.productInfo?.images?.[0]?.alt ??
+                                    `product-image-${index}`
+                                  }
+                                />
+                              ) : (
+                                <img
+                                  className="mb-3 sm:mb-5 mx-auto h-56 w-full object-contain hover:scale-110 transition-all duration-700"
+                                  src="https://cdn.sanity.io/images/9itgab5x/production/9523d40461371b7b4948456c57bb663bd8998c4a-500x362.png"
+                                  alt={
+                                    product?.productInfo?.images?.[0]?.alt ??
+                                    `product-image-${index}`
+                                  }
+                                />
+                              )}
+                              {product?.name && (
+                                <h2 className="mb-2 text-lg sm:text-xl font-heading">
+                                  {product?.name}
+                                </h2>
+                              )}
+                              {product?.price && (
+                                <p className="text-lg font-bold font-heading text-webriq-darkblue">
+                                  ${product?.price}
+                                </p>
+                              )}
+                            </a>
+                          </Link>
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    )
+                  )}
                 </div>
               ) : (
                 <div className="text-center">

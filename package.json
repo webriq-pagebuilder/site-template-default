@@ -32,7 +32,7 @@
     "swiper": "7.0.5"
   },
   "devDependencies": {
-    "@netlify/plugin-nextjs": "^4.7.0",
+    "@netlify/plugin-nextjs": "4.29.2",
     "autoprefixer": "^10.4.7",
     "eslint": "^7.32.0",
     "eslint-config-next": "11.1.2",

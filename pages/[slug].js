@@ -36,9 +36,6 @@ export const Components = {
   ),
   productInfo: dynamic(() => import("component/sections/product_info")),
   wishlistSection: dynamic(() => import("component/sections/wishlist")),
-  pages_featuredProducts: dynamic(() =>
-    import("component/sections/pages_featuredProducts")
-  ),
   pages_productInfo: dynamic(() =>
     import("component/sections/pages_productInfo")
   ),
@@ -107,7 +104,14 @@ function Page({ data: initialData = {}, preview, token }) {
       </Head>
       {sections &&
         sections?.map((section, index) => {
-          const Component = Components?.[section?._type];
+          const sectionType =
+            section?._type === "slotCart" // for slotCart, apply the variant templates of the cart section
+              ? "cartSection"
+              : section?._type === "slotWishlist" // for slotWishlist, apply the variant templates of the wishlist section
+              ? "wishlistSection"
+              : section?._type; // otherwise, use the actual section type
+
+          const Component = Components?.[sectionType];
 
           // skip rendering unknown components
           if (!Component) {

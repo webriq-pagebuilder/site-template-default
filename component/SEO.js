@@ -7,16 +7,24 @@ function SEO({ data }) {
   // get data props
   const blog = data?.blogData;
   const page = data?.page || data?.page?.[0] || data?.pages;
-  const products = data?.products?.seo;
-  const collections = data?.collections?.seo;
+  const products = data?.products?.seo ?? data?.products?.commonSections?.seo;
+  const collections =
+    data?.collections?.seo ?? data?.collections?.commonSections?.seo;
   const cartPage = data?.cartPage?.seo;
+  const wishlistPage = data?.wishlistPage?.seo;
   const blogDescription = blogPostBody(blog?.excerpt || blog?.body);
 
   const url = process.env.NEXT_PUBLIC_SITE_URL;
   const router = useRouter();
 
   // determine SEO value based on props from active page
-  const seo = blog?.seo ?? page?.seo ?? products ?? collections ?? cartPage;
+  const seo =
+    blog?.seo ??
+    page?.seo ??
+    products ??
+    collections ??
+    cartPage ??
+    wishlistPage;
 
   // determine title based on props from active page
   const title =
@@ -41,7 +49,7 @@ function SEO({ data }) {
           url: `${url}${router?.asPath}`,
           images: [
             {
-              url: seoImageUrl(seo?.seoImage ?? defaultImage),
+              url: seo?.seoImage ? seoImageUrl(seo?.seoImage) : defaultImage,
               width: 520,
               height: 320,
               alt: "Page thumbnail image for SEO",
