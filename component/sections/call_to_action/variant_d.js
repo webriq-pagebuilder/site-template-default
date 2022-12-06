@@ -27,11 +27,11 @@ function VariantD({ logo, title, text, button, form, formLinks, signInLink }) {
           <div className="mb-16 lg:mb-0 max-w-2xl lg:w-1/2 px-4">
             {logo?.image && (
               <a
-                href={logoLink()}
                 aria-label={
                   logoLink() === "/" ? "Go to home page" : `Go to ${logoLink()}`
                 }
                 className="mb-10 inline-block text-3xl font-bold leading-none"
+                href={logoLink()}
               >
                 <img
                   className="h-14"

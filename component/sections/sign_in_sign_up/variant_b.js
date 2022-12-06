@@ -28,11 +28,11 @@ function VariantB({ logo, form, formLinks, signInLink }) {
           <div className="mb-10">
             {logo?.image && (
               <a
-                href={logoLink()}
                 aria-label={`Go to ${
                   logoLink() === "/" ? "home page" : logoLink()
                 }`}
-                className="text-white text-3xl font-bold leading-none  flex justify-center"
+                className="text-white text-3xl font-bold leading-none flex justify-center"
+                href={logoLink()}
               >
                 <img
                   className="h-12"

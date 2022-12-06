@@ -13,11 +13,11 @@ function VariantA({ template, links, primaryButton, secondaryButton, logo }) {
       <nav className="relative px-6 py-6 flex justify-between items-center bg-white">
         {logo?.image && (
           <a
-            href={logoLink()}
             aria-label={`Go to ${
               logoLink() === "/" ? "home page" : logoLink()
             }`}
             className="text-3xl font-bold leading-none"
+            href={logoLink()}
           >
             <img
               className="h-12"

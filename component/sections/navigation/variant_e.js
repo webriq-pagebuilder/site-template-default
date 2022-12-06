@@ -103,11 +103,11 @@ function VariantE({ banner, logo, links }) {
           <div className="px-12 py-8 flex w-full items-center">
             {logo?.image && (
               <a
-                href={logoLink()}
                 aria-label={`Go to ${
                   logoLink() === "/" ? "home page" : logoLink()
                 }`}
                 className="text-3xl font-bold leading-none"
+                href={logoLink()}
               >
                 <img
                   className="h-12"
@@ -309,11 +309,11 @@ function VariantE({ banner, logo, links }) {
             <div className="flex items-center mb-8">
               {logo?.image && (
                 <a
-                  href={logoLink()}
                   aria-label={`Go to ${
                     logoLink() === "/" ? "home page" : logoLink()
                   }`}
                   className="text-3xl font-bold leading-none"
+                  href={logoLink()}
                 >
                   <img
                     className="h-12"

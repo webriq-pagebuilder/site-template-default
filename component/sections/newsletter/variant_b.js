@@ -15,13 +15,13 @@ function VariantB({ logo, title, description, form }) {
               <div className="flex justify-center items-center mx-auto">
                 {logo?.image && (
                   <a
-                    href={logoLink()}
                     aria-label={
                       logoLink() === "/"
                         ? "Go to home page"
                         : `Go to ${logoLink()}`
                     }
                     className="mb-8 inline-block p-5 bg-white rounded"
+                    href={logoLink()}
                   >
                     <img
                       className="h-10"

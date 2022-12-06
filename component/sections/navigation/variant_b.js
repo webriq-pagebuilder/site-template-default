@@ -19,11 +19,11 @@ function VariantB({
         <div className="container mx-auto px-4 flex justify-between items-center">
           {logo?.image && (
             <a
-              href={logoLink()}
               aria-label={`Go to ${
                 logoLink() === "/" ? "home page" : logoLink()
               }`}
               className="text-3xl font-bold leading-none"
+              href={logoLink()}
             >
               <img
                 className="h-12"

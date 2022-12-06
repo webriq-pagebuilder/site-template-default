@@ -1,6 +1,5 @@
 import React from "react";
 import { urlFor } from "lib/sanity";
-import Image from "next/image";
 
 function VariantB({
   contactDescription,

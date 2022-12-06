@@ -2,7 +2,7 @@ import Ribbon from "component/ecwid/Ribbon";
 import { useEcwid } from "context/EcwidContext";
 import { urlFor } from "lib/sanity";
 import Image from "next/image";
-import { memo } from "react";
+import { memo, useEffect } from "react";
 
 function VariantB({ title, featured }) {
   const ecwid = useEcwid();

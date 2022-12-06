@@ -11,13 +11,13 @@ function VariantB({ logo, copyright, socialMedia, menu }) {
             <div className="w-full lg:w-1/5 mb-12 lg:mb-4 mx-20">
               {logo?.image && (
                 <a
-                  href={logoLink()}
                   aria-label={
                     logoLink() === "/"
                       ? "Go to home page"
                       : `Go to ${logoLink()}`
                   }
                   className="inline-block text-3xl font-bold leading-none"
+                  href={logoLink()}
                 >
                   <img
                     className="h-14"

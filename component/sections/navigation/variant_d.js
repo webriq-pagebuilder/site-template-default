@@ -96,11 +96,11 @@ function VariantD({ links, primaryButton, secondaryButton, logo }) {
           <div className="lg:absolute lg:top-1/2 lg:left-1/2 lg:transform lg:-translate-y-1/2 lg:-translate-x-1/2">
             {logo?.image && (
               <a
-                href={logoLink()}
                 aria-label={`Go to ${
                   logoLink() === "/" ? "home page" : logoLink()
                 }`}
                 className="text-3xl font-bold leading-none"
+                href={logoLink()}
               >
                 <img
                   className="h-12"

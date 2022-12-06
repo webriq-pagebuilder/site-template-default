@@ -1,5 +1,6 @@
 import { logoLink } from "helper";
 import { urlFor } from "lib/sanity";
+import Image from "next/image";
 import React from "react";
 
 function VariantA({ logo, subtitle, title, images }) {
