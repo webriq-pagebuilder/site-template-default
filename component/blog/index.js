@@ -256,4 +256,4 @@ function BlogPage({ data: initialData = {}, preview, token }) {
   );
 }
 
-export default BlogPage;
+export default React.memo(BlogPage);
