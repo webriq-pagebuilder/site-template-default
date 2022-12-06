@@ -1,7 +1,6 @@
 import WebriQForm from "component/webriq-form";
 import { urlFor } from "lib/sanity";
 import React from "react";
-import WebriQForm from "component/webriq-form";
 import { logoLink, thankYouPageLink } from "helper";
 
 function VariantD({ logo, title, text, button, form, formLinks, signInLink }) {
