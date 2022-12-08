@@ -142,7 +142,7 @@ export function EcwidContextProvider({ children }) {
 
       load_ecwid();
     }
-  }, [count]);
+  }, []);
 
   const getPriceDisplay = (amount) => {
     let priceFormated = amount;
@@ -206,7 +206,7 @@ export function EcwidContextProvider({ children }) {
           let elem = document.querySelector(".ec-cart--empty button");
           elem.addEventListener("click", (e) => {
             e.preventDefault();
-            router.push("/collections/all-products");
+            window.location.href = "/collections/all-products";
           });
         }
       });
