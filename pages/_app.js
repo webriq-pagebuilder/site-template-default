@@ -34,7 +34,7 @@ function MyApp({ Component, pageProps }) {
         window.Ecwid.OnPageLoaded.add(function (page) {
           if (page.type === "CATEGORY" || page.type === "PRODUCT") {
             // Ecwid.openPage("cart");
-            window.location.href = "/collections/all-products";
+            router.push("/collections/all-products");
           }
         });
       } catch (error) {
