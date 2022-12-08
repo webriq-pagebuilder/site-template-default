@@ -1,6 +1,6 @@
 /** This component displays content for the COLLECTIONS page */
 
-import React, { lazy, Suspense, useState } from "react";
+import React, { lazy, Suspense, useState, useEffect } from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { groq } from "next-sanity";
@@ -20,7 +20,9 @@ function CollectionPage({ data: initialData = {}, preview, token }) {
 
   const collectionData = data?.collections || data?.[0];
   const slug = collectionData?.slug;
-
+  useEffect(() => {
+    if (typeof Ecwid !== "undefined") Ecwid.init();
+  }, []);
   if (!router.isFallback && !slug) {
     return <PageNotFound />;
   }
