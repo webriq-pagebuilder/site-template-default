@@ -33,7 +33,8 @@ function MyApp({ Component, pageProps }) {
         });
         window.Ecwid.OnPageLoaded.add(function (page) {
           if (page.type === "CATEGORY" || page.type === "PRODUCT") {
-            Ecwid.openPage("cart");
+            // Ecwid.openPage("cart");
+            window.location.href = "/collections/all-products";
           }
         });
       } catch (error) {

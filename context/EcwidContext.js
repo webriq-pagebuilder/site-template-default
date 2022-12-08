@@ -18,6 +18,7 @@ export function EcwidContextProvider({ children }) {
   const [favorites, setFavorites] = useState(null);
   const [productCollection, setProductCollection] = useState(null);
   const storageName = `PSecwid__${process.env.NEXT_PUBLIC_ECWID_STORE_ID}PSfavorites`;
+  const [count, setCount] = useState(0);
 
   const fetchProducts = () => {
     id !== null &&
@@ -91,7 +92,7 @@ export function EcwidContextProvider({ children }) {
   }, [id]);
   useEffect(() => {
     function load_ecwid() {
-      if (typeof Ecwid != "undefined") {
+      if (typeof Ecwid !== "undefined") {
         try {
           Ecwid.OnAPILoaded.add(function () {
             Ecwid.init();
@@ -109,9 +110,12 @@ export function EcwidContextProvider({ children }) {
 
         Ecwid.OnPageLoaded.add(function (page) {
           if (page.type === "CATEGORY" || page.type === "PRODUCT") {
-            Ecwid.openPage("cart");
+            // Ecwid.openPage("cart");
+            window.location.href = "/collections/all-products";
           }
         });
+      } else {
+        setCount((prev) => prev + 1);
       }
     }
 
@@ -137,11 +141,11 @@ export function EcwidContextProvider({ children }) {
 
       load_ecwid();
     }
-  }, []);
+  }, [count]);
 
   const getPriceDisplay = (amount) => {
     let priceFormated = amount;
-    if (typeof Ecwid != "undefined") {
+    if (typeof Ecwid !== "undefined") {
       Ecwid.OnAPILoaded.add(function () {
         priceFormated = Ecwid.formatCurrency(amount);
       });
@@ -194,14 +198,22 @@ export function EcwidContextProvider({ children }) {
     fetchFavorites();
   }, [wishlist.productIds]);
 
-  useEffect(() => {
-    addEventListener("click", function () {
-      let elem = document.querySelector(".ec-cart--empty button");
-      if (elem !== null) {
-        window.location.href = "/collections/all-products";
-      }
-    });
-  }, []);
+  // useEffect(() => {
+  //   if (typeof Ecwid !== "undefined") {
+  //     Ecwid.OnPageLoaded.add(function (page) {
+  //       console.log("CART", page.type);
+  //       if (page.type === "CART") {
+  //         let elem = document.querySelector(".ec-cart--empty button");
+  //         elem.addEventListener("click", (e) => {
+  //           e.preventDefault();
+  //           window.location.href = "/collections/all-products";
+  //         });
+  //       }
+  //     });
+  //   } else {
+  //     setCount((prev) => prev + 1);
+  //   }
+  // }, [count]);
 
   const addWishlist = (id) => {
     const productIds = wishlist?.productIds;
