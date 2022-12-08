@@ -1,6 +1,6 @@
 /** This component displays content for the PRODUCT page */
 
-import React, { lazy, Suspense, useState } from "react";
+import React, { lazy, Suspense, useState, useEffect } from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { groq } from "next-sanity";
@@ -20,6 +20,9 @@ function ProductPage({ data: initialData = {}, preview, token }) {
 
   const productData = data?.products || data?.[0];
   const slug = productData?.slug;
+  useEffect(() => {
+    if (typeof Ecwid !== "undefined") Ecwid.init();
+  }, []);
 
   if (!router.isFallback && !slug) {
     return <PageNotFound />;

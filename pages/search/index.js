@@ -1,4 +1,4 @@
-import React, { lazy, Suspense, useState } from "react";
+import React, { lazy, Suspense, useState, useEffect } from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { sanityConfig } from "lib/config";
@@ -15,7 +15,11 @@ function SearchPage({ data: initialData = {}, preview, token }) {
 
   const searchPageData = data?.search || data?.[0];
   const slug = "search";
-
+  useEffect(() => {
+    if (typeof Ecwid !== "undefined") {
+      window.Ecwid.init();
+    }
+  }, []);
   /*
    *  For new unpublished pages, return page telling user that the page needs to be published first before it can be previewed
    *  This prevents showing 404 page when the page is not published yet

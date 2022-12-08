@@ -3,10 +3,12 @@ import { ToastContainer, toast } from "react-toast";
 import { sanityClient } from "lib/sanity";
 import { includes } from "lodash";
 import { fi } from "date-fns/locale";
+import { useRouter } from "next/router";
 
 const EcwidContext = createContext();
 
 export function EcwidContextProvider({ children }) {
+  const router = useRouter();
   const [cart, setCart] = useState(null);
   const [products, setProducts] = useState(null);
   const [isAddingToBag, setIsAddingToBag] = useState(false);
@@ -18,6 +20,7 @@ export function EcwidContextProvider({ children }) {
   const [favorites, setFavorites] = useState(null);
   const [productCollection, setProductCollection] = useState(null);
   const storageName = `PSecwid__${process.env.NEXT_PUBLIC_ECWID_STORE_ID}PSfavorites`;
+  const [count, setCount] = useState(0);
 
   const fetchProducts = () => {
     id !== null &&
@@ -91,7 +94,7 @@ export function EcwidContextProvider({ children }) {
   }, [id]);
   useEffect(() => {
     function load_ecwid() {
-      if (typeof Ecwid != "undefined") {
+      if (typeof Ecwid !== "undefined") {
         try {
           Ecwid.OnAPILoaded.add(function () {
             Ecwid.init();
@@ -112,6 +115,8 @@ export function EcwidContextProvider({ children }) {
             Ecwid.openPage("cart");
           }
         });
+      } else {
+        setCount((prev) => prev + 1);
       }
     }
 
@@ -141,7 +146,7 @@ export function EcwidContextProvider({ children }) {
 
   const getPriceDisplay = (amount) => {
     let priceFormated = amount;
-    if (typeof Ecwid != "undefined") {
+    if (typeof Ecwid !== "undefined") {
       Ecwid.OnAPILoaded.add(function () {
         priceFormated = Ecwid.formatCurrency(amount);
       });
@@ -195,13 +200,20 @@ export function EcwidContextProvider({ children }) {
   }, [wishlist.productIds]);
 
   useEffect(() => {
-    addEventListener("click", function () {
-      let elem = document.querySelector(".ec-cart--empty button");
-      if (elem !== null) {
-        window.location.href = "/collections/all-products";
-      }
-    });
-  }, []);
+    if (typeof Ecwid !== "undefined") {
+      Ecwid.OnPageLoaded.add(function (page) {
+        if (page.type === "CART") {
+          let elem = document.querySelector(".ec-cart--empty button");
+          elem.addEventListener("click", (e) => {
+            e.preventDefault();
+            window.location.href = "/collections/all-products";
+          });
+        }
+      });
+    } else {
+      setCount((prev) => prev + 1);
+    }
+  }, [count]);
 
   const addWishlist = (id) => {
     const productIds = wishlist?.productIds;
