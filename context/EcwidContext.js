@@ -112,7 +112,10 @@ export function EcwidContextProvider({ children }) {
 
         Ecwid.OnPageLoaded.add(function (page) {
           if (page.type === "CATEGORY" || page.type === "PRODUCT") {
-            if (router.pathname === "/cart") {
+            if (
+              window.location.pathname === "/cart" &&
+              window.location.search === ""
+            ) {
               Ecwid.openPage("cart");
             } else {
               router.push("/collections/all-products");
