@@ -60,6 +60,7 @@ function VariantE({ banner, logo, links }) {
   const handleSearchRouting = (e) => {
     const q = document.getElementById("query");
     e.preventDefault();
+
     setProductQuery(q.value);
     router.push(`/search?q=${productQuery}`, undefined, { shallow: true });
   };
@@ -119,7 +120,7 @@ function VariantE({ banner, logo, links }) {
               </Link>
             )}
             {/* larger screens navigation menu links */}
-            <ul className="hidden lg:flex absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2 lg:items-center lg:w-auto">
+            <ul className="main-nav hidden lg:flex absolute top-1/2 transform lg:-translate-y-1/2 lg:-translate-x-1/2">
               {links &&
                 links.map((link, index) => (
                   <Fragment key={index}>
@@ -204,10 +205,11 @@ function VariantE({ banner, logo, links }) {
                 <path d="M15.853 16.56c-1.683 1.517-3.911 2.44-6.353 2.44-5.243 0-9.5-4.257-9.5-9.5s4.257-9.5 9.5-9.5 9.5 4.257 9.5 9.5c0 2.442-.923 4.67-2.44 6.353l7.44 7.44-.707.707-7.44-7.44zm-6.353-15.56c4.691 0 8.5 3.809 8.5 8.5s-3.809 8.5-8.5 8.5-8.5-3.809-8.5-8.5 3.809-8.5 8.5-8.5z" />
               </svg>
             </button>
+            {/* Search bar */}
             {showSearchBar && (
               <form
                 id="form"
-                className="flex mr-auto mb-10 lg:mb-0 items-center pl-8 bg-white rounded-lg"
+                className="flex mr-auto mb-10 lg:mb-0 items-center pl-8 bg-white"
                 method="get"
                 role="search"
                 onSubmit={handleSearchRouting}
@@ -216,14 +218,14 @@ function VariantE({ banner, logo, links }) {
                   id="query"
                   name="query"
                   aria-label="Search product"
-                  className="mt-1 mr-3 block w-40 p-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400 focus:outline-none focus:border-webriq-blue focus:ring-1 focus:ring-webriq-blue"
+                  className="inline-block mt-1 w-40 h-full p-2 bg-white border border-slate-300 text-sm shadow-sm placeholder-slate-400 focus:outline-none focus:border-webriq-blue focus:ring-1 focus:ring-webriq-blue"
                   placeholder="Search..."
                   onChange={(e) => setProductQuery(e.target.value)}
                   type="search"
                 />
                 <button
                   aria-label="Submit product search"
-                  className={`inline-flex items-center justify-center w-10 h-9 bg-webriq-darkblue rounded-md ${
+                  className={`inline-flex items-center justify-center mt-1 w-10 h-[35px] bg-webriq-darkblue ${
                     productQuery === ""
                       ? "cursor-not-allowed opacity-50"
                       : "hover:bg-webriq-blue transition duration-200"
@@ -303,7 +305,7 @@ function VariantE({ banner, logo, links }) {
         <div
           className={`${
             menu ? null : "hidden"
-          } fixed top-0 right-0 bottom-0 w-5/6 max-w-sm`}
+          } mobile-nav fixed top-0 right-0 bottom-0 w-5/6 max-w-sm`}
           style={{ zIndex: 60 }}
         >
           <div
@@ -351,8 +353,49 @@ function VariantE({ banner, logo, links }) {
                 </svg>
               </button>
             </div>
+            {/* show search bar on mobile view */}
+            <form
+              id="form"
+              className="flex mt-3 bg-white"
+              method="get"
+              role="search"
+              onSubmit={handleSearchRouting}
+            >
+              <input
+                id="query"
+                name="query"
+                aria-label="Search product"
+                className="inline-block w-full sm:w-60 h-full p-2 bg-white border border-slate-300 text-sm shadow-sm placeholder-slate-400 focus:outline-none focus:border-webriq-blue focus:ring-1 focus:ring-webriq-blue"
+                placeholder="Search..."
+                onChange={(e) => setProductQuery(e.target.value)}
+                type="search"
+              />
+              <button
+                aria-label="Submit product search"
+                className={`inline-flex items-center justify-center w-10 h-full bg-webriq-darkblue ${
+                  productQuery === ""
+                    ? "cursor-not-allowed opacity-50"
+                    : "hover:bg-webriq-blue transition duration-200"
+                }`}
+                disabled={productQuery === ""}
+                type="submit"
+              >
+                <svg
+                  width={7}
+                  height={12}
+                  viewBox="0 0 7 12"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M4.125 6.00252L0 1.87752L1.17801 0.699219L6.48102 6.00252L1.17801 11.3058L0 10.1275L4.125 6.00252Z"
+                    fill="white"
+                  />
+                </svg>
+              </button>
+            </form>
             {/* mobile view navigation sidebar */}
-            <ul className="my-10">
+            <ul className="mt-10 mb-5">
               {links &&
                 links.map((link, index) => (
                   <Fragment key={index}>
@@ -418,30 +461,22 @@ function VariantE({ banner, logo, links }) {
                   </Fragment>
                 ))}
             </ul>
-            {/* mobile view search, cart and account buttons */}
-            <div className="flex mb-8 mx-auto items-center">
-              <button aria-label="search button" type="button">
-                <svg
-                  width={24}
-                  height={24}
-                  xmlns="http://www.w3.org/2000/svg"
-                  fillRule="evenodd"
-                  clipRule="evenodd"
-                >
-                  <path d="M15.853 16.56c-1.683 1.517-3.911 2.44-6.353 2.44-5.243 0-9.5-4.257-9.5-9.5s4.257-9.5 9.5-9.5 9.5 4.257 9.5 9.5c0 2.442-.923 4.67-2.44 6.353l7.44 7.44-.707.707-7.44-7.44zm-6.353-15.56c4.691 0 8.5 3.809 8.5 8.5s-3.809 8.5-8.5 8.5-8.5-3.809-8.5-8.5 3.809-8.5 8.5-8.5z" />
-                </svg>
-              </button>
-              <div className="mx-10 cart-icon">
+            <hr />
+            {/* mobile view cart and account buttons */}
+            <div className="flex mx-auto items-center mt-3">
+              <div className="flex cart-icon mr-8">
                 <div data-icon="BAG" className="ec-cart-widget" />
                 <a
                   href="/cart?store-page=cart"
                   aria-label="cart button"
                   className="cart-link"
                 />
+                <span className="text-sm my-auto">Cart</span>
               </div>
 
               <a
                 href="/cart?store-page=account"
+                className="flex"
                 aria-label="account"
                 type="button"
               >
@@ -467,6 +502,7 @@ function VariantE({ banner, logo, links }) {
                     strokeLinejoin="round"
                   />
                 </svg>
+                <span className="text-sm my-auto">Account</span>
               </a>
             </div>
           </nav>

@@ -71,19 +71,24 @@ html#ecwid_html body#ecwid_body .ec-size .ec-store .ec-breadcrumbs {
 .toastContainer {
   z-index: 1;
 }
-/* 
-body {
-  padding: 0;
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+
+/* hide navigation sidebar when screen is less than screen size */
+@media (min-width: 1280px) {
+  .mobile-nav {
+    display: none;
+  }
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
+@media (min-width: 1560px) {
+  .main-nav {
+    left: 50%;
+    align-items: center;
+    width: auto;
+  }
 }
-
-* {
-  box-sizing: border-box;
-} */
+@media (max-width: 1559px) {
+  .main-nav {
+    left: 40%;
+    align-items: center;
+  }
+}
