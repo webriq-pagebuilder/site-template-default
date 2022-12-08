@@ -3,10 +3,12 @@ import { ToastContainer, toast } from "react-toast";
 import { sanityClient } from "lib/sanity";
 import { includes } from "lodash";
 import { fi } from "date-fns/locale";
+import { useRouter } from "next/router";
 
 const EcwidContext = createContext();
 
 export function EcwidContextProvider({ children }) {
+  const router = useRouter();
   const [cart, setCart] = useState(null);
   const [products, setProducts] = useState(null);
   const [isAddingToBag, setIsAddingToBag] = useState(false);
@@ -110,8 +112,11 @@ export function EcwidContextProvider({ children }) {
 
         Ecwid.OnPageLoaded.add(function (page) {
           if (page.type === "CATEGORY" || page.type === "PRODUCT") {
-            // Ecwid.openPage("cart");
-            window.location.href = "/collections/all-products";
+            if (router.pathname === "/cart") {
+              Ecwid.openPage("cart");
+            } else {
+              router.push("/collections/all-products");
+            }
           }
         });
       } else {
