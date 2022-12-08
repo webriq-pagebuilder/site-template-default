@@ -112,14 +112,7 @@ export function EcwidContextProvider({ children }) {
 
         Ecwid.OnPageLoaded.add(function (page) {
           if (page.type === "CATEGORY" || page.type === "PRODUCT") {
-            if (
-              window.location.pathname === "/cart" &&
-              window.location.search === ""
-            ) {
-              Ecwid.openPage("cart");
-            } else {
-              router.push("/collections/all-products");
-            }
+            Ecwid.openPage("cart");
           }
         });
       } else {
@@ -206,22 +199,21 @@ export function EcwidContextProvider({ children }) {
     fetchFavorites();
   }, [wishlist.productIds]);
 
-  // useEffect(() => {
-  //   if (typeof Ecwid !== "undefined") {
-  //     Ecwid.OnPageLoaded.add(function (page) {
-  //       console.log("CART", page.type);
-  //       if (page.type === "CART") {
-  //         let elem = document.querySelector(".ec-cart--empty button");
-  //         elem.addEventListener("click", (e) => {
-  //           e.preventDefault();
-  //           window.location.href = "/collections/all-products";
-  //         });
-  //       }
-  //     });
-  //   } else {
-  //     setCount((prev) => prev + 1);
-  //   }
-  // }, [count]);
+  useEffect(() => {
+    if (typeof Ecwid !== "undefined") {
+      Ecwid.OnPageLoaded.add(function (page) {
+        if (page.type === "CART") {
+          let elem = document.querySelector(".ec-cart--empty button");
+          elem.addEventListener("click", (e) => {
+            e.preventDefault();
+            router.push("/collections/all-products");
+          });
+        }
+      });
+    } else {
+      setCount((prev) => prev + 1);
+    }
+  }, [count]);
 
   const addWishlist = (id) => {
     const productIds = wishlist?.productIds;
