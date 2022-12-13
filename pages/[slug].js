@@ -1,11 +1,12 @@
 import React, { lazy, Suspense, useState } from "react";
+import { PreviewSuspense } from "next-sanity/preview";
+import { DocumentsCount, query } from "components/DocumentsCount";
 import dynamic from "next/dynamic";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { blogQuery, slugQuery } from "./api/query";
 import { groq } from "next-sanity";
 import NoPreview from "pages/no-preview";
-import { sanityConfig } from "lib/config";
 import { getClient, sanityClient } from "lib/sanity.server";
 
 export const Components = {
@@ -44,9 +45,12 @@ export const Components = {
 
 const BlogPage = dynamic(() => import("component/blog/"));
 
-const PreviewMode = lazy(() => import("next-sanity/preview"));
+const PreviewDocumentsCount = lazy(() =>
+  import("components/PreviewDocumentsCount")
+);
 
 function Page({ data: initialData = {}, preview, token }) {
+  console.log("🚀 ~ file: [slug].js:50 ~ Page ~ initialData", initialData);
   const router = useRouter();
   const [data, setData] = useState(initialData);
 
@@ -85,18 +89,10 @@ function Page({ data: initialData = {}, preview, token }) {
 
   return (
     <>
-      {preview && slug && (
-        <Suspense fallback={null}>
-          <PreviewMode
-            projectId={sanityConfig.projectId}
-            dataset={sanityConfig.dataset}
-            initial={initialData}
-            query={slugQuery}
-            onChange={setData}
-            token={token}
-            params={{ slug }}
-          />
-        </Suspense>
+      {preview && (
+        <PreviewSuspense fallback="Loading...">
+          <PreviewDocumentsCount token={token} />
+        </PreviewSuspense>
       )}
       <Head>
         <meta name="viewport" content="width=260 initial-scale=1" />
