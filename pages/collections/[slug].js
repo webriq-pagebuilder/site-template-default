@@ -1,6 +1,6 @@
 /** This component displays content for the COLLECTIONS page */
 
-import React, { lazy, Suspense, useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { groq } from "next-sanity";
@@ -8,21 +8,19 @@ import { collectionsQuery } from "pages/api/query";
 import { Components, filterDataToSingleItem } from "../[slug]";
 import PageNotFound from "pages/404";
 import NoPreview from "pages/no-preview";
-import { sanityConfig } from "lib/config";
-import { getClient, sanityClient } from "lib/sanity.server";
+import { client } from "lib/sanity.client";
 import { EcwidContextProvider } from "context/EcwidContext";
 
-const PreviewMode = lazy(() => import("next-sanity/preview"));
-
-function CollectionPage({ data: initialData = {}, preview, token }) {
+function CollectionPage({ data, preview, token }) {
   const router = useRouter();
-  const [data, setData] = useState(initialData);
 
   const collectionData = data?.collections || data?.[0];
   const slug = collectionData?.slug;
+
   useEffect(() => {
     if (typeof Ecwid !== "undefined") Ecwid.init();
   }, []);
+
   if (!router.isFallback && !slug) {
     return <PageNotFound />;
   }
@@ -94,21 +92,10 @@ function CollectionPage({ data: initialData = {}, preview, token }) {
     }
   }
 
+  // TODO: ADD CODE BLOCK IF PREVIEW IS TRUE
+
   return (
     <>
-      {preview && slug && (
-        <Suspense fallback={null}>
-          <PreviewMode
-            projectId={sanityConfig.projectId}
-            dataset={sanityConfig.dataset}
-            initial={initialData}
-            query={collectionsQuery}
-            onChange={setData}
-            token={token}
-            params={{ slug }}
-          />
-        </Suspense>
-      )}
       <Head>
         <meta
           name="viewport"
@@ -159,11 +146,6 @@ export async function getStaticProps({
   preview = false,
   previewData = {},
 }) {
-  const client =
-    preview && previewData?.token
-      ? getClient(false).withConfig({ token: previewData.token })
-      : getClient(preview);
-
   const collections = await client.fetch(collectionsQuery, {
     slug: params.slug,
   });
@@ -185,7 +167,7 @@ export async function getStaticProps({
 }
 
 export async function getStaticPaths() {
-  const collections = await sanityClient.fetch(
+  const collections = await client.fetch(
     groq`*[_type == "mainCollection" && defined(slug.current)][].slug.current`
   );
 

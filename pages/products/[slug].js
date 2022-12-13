@@ -1,6 +1,6 @@
 /** This component displays content for the PRODUCT page */
 
-import React, { lazy, Suspense, useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { groq } from "next-sanity";
@@ -8,18 +8,15 @@ import { productsQuery } from "pages/api/query";
 import { Components, filterDataToSingleItem } from "../[slug]";
 import PageNotFound from "pages/404";
 import NoPreview from "pages/no-preview";
-import { sanityConfig } from "lib/config";
-import { getClient, sanityClient } from "lib/sanity.server";
+import { client } from "lib/sanity.client";
 import { EcwidContextProvider } from "context/EcwidContext";
 
-const PreviewMode = lazy(() => import("next-sanity/preview"));
-
-function ProductPage({ data: initialData = {}, preview, token }) {
+function ProductPage({ data, preview, token }) {
   const router = useRouter();
-  const [data, setData] = useState(initialData);
 
   const productData = data?.products || data?.[0];
   const slug = productData?.slug;
+
   useEffect(() => {
     if (typeof Ecwid !== "undefined") Ecwid.init();
   }, []);
@@ -101,21 +98,10 @@ function ProductPage({ data: initialData = {}, preview, token }) {
     }
   }
 
+  // TODO: ADD CODE BLOCK IF PREVIEW IS TRUE
+
   return (
     <>
-      {preview && slug && (
-        <Suspense fallback={null}>
-          <PreviewMode
-            projectId={sanityConfig.projectId}
-            dataset={sanityConfig.dataset}
-            initial={initialData}
-            query={productsQuery}
-            onChange={setData}
-            token={token}
-            params={{ slug }}
-          />
-        </Suspense>
-      )}
       <Head>
         <meta
           name="viewport"
@@ -169,11 +155,6 @@ export async function getStaticProps({
   preview = false,
   previewData = {},
 }) {
-  const client =
-    preview && previewData?.token
-      ? getClient(false).withConfig({ token: previewData.token })
-      : getClient(preview);
-
   const products = await client.fetch(productsQuery, { slug: params.slug });
 
   // pass products data and preview to helper function
@@ -193,7 +174,7 @@ export async function getStaticProps({
 }
 
 export async function getStaticPaths() {
-  const products = await sanityClient.fetch(
+  const products = await client.fetch(
     groq`*[_type == "mainProduct" && defined(slug.current)][].slug.current`
   );
 

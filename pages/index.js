@@ -1,29 +1,24 @@
-import React, { lazy, Suspense, useState } from "react";
+import React, { lazy } from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
+import { PreviewSuspense } from "next-sanity/preview";
+import { client } from "lib/sanity.client";
 import { homeQuery } from "./api/query";
-import { getClient } from "lib/sanity.server";
-import { sanityConfig } from "lib/config";
 import NoPreview from "pages/no-preview";
 import { Components, filterDataToSingleItem } from "./[slug]";
 
-const PreviewMode = lazy(() => import("next-sanity/preview"));
+const PreviewPage = lazy(() => import("component/PreviewPage"));
 
-function Home({ data: initialData = {}, preview, token }) {
+function Home({ data, preview, token }) {
   const router = useRouter();
-  const [data, setData] = useState(initialData);
 
-  const pageData = data?.page || data?.[0];
-  const slug = pageData?.slug;
+  const pageData = data || data?.[0];
 
   /*
    *  For new unpublished pages, return page telling user that the page needs to be published first before it can be previewed
    *  This prevents showing 404 page when the page is not published yet
    */
-  if (
-    ((!router.isFallback && !data?.page) || data?.page?.hasNeverPublished) &&
-    !preview
-  ) {
+  if (((!router.isFallback && !data) || data?.hasNeverPublished) && !preview) {
     return <NoPreview />;
   }
 
@@ -35,17 +30,10 @@ function Home({ data: initialData = {}, preview, token }) {
 
   return (
     <>
-      {preview && slug && (
-        <Suspense fallback={null}>
-          <PreviewMode
-            projectId={sanityConfig.projectId}
-            dataset={sanityConfig.dataset}
-            initial={initialData}
-            query={homeQuery}
-            onChange={setData}
-            token={token}
-          />
-        </Suspense>
+      {preview && (
+        <PreviewSuspense fallback="Loading...">
+          <PreviewPage token={token} slug="/" />
+        </PreviewSuspense>
       )}
       <Head>
         <title>{seo?.seoTitle ?? title}</title>
@@ -74,10 +62,6 @@ function Home({ data: initialData = {}, preview, token }) {
 }
 
 export async function getStaticProps({ preview = false, previewData = {} }) {
-  const client =
-    preview && previewData?.token
-      ? getClient(false).withConfig({ token: previewData.token })
-      : getClient(preview);
   const indexPage = await client.fetch(homeQuery);
 
   // pass page data and preview to helper function

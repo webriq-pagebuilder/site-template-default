@@ -1,20 +1,15 @@
-import React, { lazy, Suspense, useState } from "react";
+import React from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { sanityConfig } from "lib/config";
-import { getClient } from "lib/sanity.server";
+import { client } from "lib/sanity.client";
 import { wishlistPageQuery } from "pages/api/query";
 import NoPreview from "pages/no-preview";
 import { Components, filterDataToSingleItem } from "../[slug]";
 
-const PreviewMode = lazy(() => import("next-sanity/preview"));
-
-function WishlistPage({ data: initialData = {}, preview, token }) {
+function WishlistPage({ preview, data }) {
   const router = useRouter();
-  const [data, setData] = useState(initialData);
 
   const wishlistPageData = data?.wishlist || data?.[0];
-  const slug = "wishlist";
 
   /*
    *  For new unpublished pages, return page telling user that the page needs to be published first before it can be previewed
@@ -34,21 +29,10 @@ function WishlistPage({ data: initialData = {}, preview, token }) {
 
   const { sections, seo } = wishlistPageData;
 
+  // TODO: ADD CODE BLOCK IF PREVIEW IS TRUE
+
   return (
     <>
-      {preview && slug && (
-        <Suspense fallback={null}>
-          <PreviewMode
-            projectId={sanityConfig.projectId}
-            dataset={sanityConfig.dataset}
-            initial={initialData}
-            query={wishlistPageQuery}
-            onChange={setData}
-            token={token}
-            params={{ slug }}
-          />
-        </Suspense>
-      )}
       <Head>
         <meta name="viewport" content="width=260 initial-scale=1" />
         <title>{seo?.seoTitle || "Wishlist"}</title>
@@ -85,11 +69,6 @@ function WishlistPage({ data: initialData = {}, preview, token }) {
 }
 
 export async function getStaticProps({ preview = false, previewData = {} }) {
-  const client =
-    preview && previewData?.token
-      ? getClient(false).withConfig({ token: previewData.token })
-      : getClient(preview);
-
   const searchPage = await client.fetch(wishlistPageQuery);
 
   // pass page data and preview to helper function

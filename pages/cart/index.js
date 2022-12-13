@@ -1,21 +1,16 @@
-import React, { lazy, Suspense, useState } from "react";
+import React from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { sanityConfig } from "lib/config";
-import { getClient } from "lib/sanity.server";
+import { client } from "lib/sanity.client";
 import { cartPageQuery } from "pages/api/query";
 import NoPreview from "pages/no-preview";
 import { Components, filterDataToSingleItem } from "../[slug]";
 import { EcwidContextProvider } from "context/EcwidContext";
 
-const PreviewMode = lazy(() => import("next-sanity/preview"));
-
-function CartPage({ data: initialData = {}, preview, token }) {
+function CartPage({ data, preview, token }) {
   const router = useRouter();
-  const [data, setData] = useState(initialData);
 
   const cartPageData = data?.cart || data?.[0];
-  const slug = "cart";
 
   /*
    *  For new unpublished pages, return page telling user that the page needs to be published first before it can be previewed
@@ -34,21 +29,10 @@ function CartPage({ data: initialData = {}, preview, token }) {
 
   const { sections, seo } = cartPageData;
 
+  // TODO: ADD CODE BLOCK IF PREVIEW IS TRUE
+
   return (
     <>
-      {preview && slug && (
-        <Suspense fallback={null}>
-          <PreviewMode
-            projectId={sanityConfig.projectId}
-            dataset={sanityConfig.dataset}
-            initial={initialData}
-            query={cartPageQuery}
-            onChange={setData}
-            token={token}
-            params={{ slug }}
-          />
-        </Suspense>
-      )}
       <Head>
         <meta name="viewport" content="width=260 initial-scale=1" />
         <title>{seo?.seoTitle || "Cart"}</title>
@@ -85,12 +69,11 @@ function CartPage({ data: initialData = {}, preview, token }) {
   );
 }
 
-export async function getStaticProps({ preview = false, previewData = {} }) {
-  const client =
-    preview && previewData?.token
-      ? getClient(false).withConfig({ token: previewData.token })
-      : getClient(preview);
-
+export async function getStaticProps({
+  params,
+  preview = false,
+  previewData = {},
+}) {
   const cartPage = await client.fetch(cartPageQuery);
 
   // pass page data and preview to helper function

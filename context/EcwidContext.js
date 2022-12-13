@@ -1,8 +1,7 @@
 import { createContext, useContext, useEffect, useState, useMemo } from "react";
 import { ToastContainer, toast } from "react-toast";
-import { sanityClient } from "lib/sanity";
+import { client } from "lib/sanity.client";
 import { includes } from "lodash";
-import { fi } from "date-fns/locale";
 import { useRouter } from "next/router";
 
 const EcwidContext = createContext();
@@ -56,7 +55,7 @@ export function EcwidContextProvider({ children }) {
           ids: favorites?.productIds?.map((id) => id),
         };
 
-        const studio = await sanityClient
+        const studio = await client
           .fetch(query, params)
           .then((products) => products);
 

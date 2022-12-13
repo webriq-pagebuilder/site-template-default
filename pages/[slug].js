@@ -1,13 +1,12 @@
-import React, { lazy, Suspense, useState } from "react";
-import { PreviewSuspense } from "next-sanity/preview";
-import { DocumentsCount, query } from "components/DocumentsCount";
+import React, { lazy } from "react";
 import dynamic from "next/dynamic";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { blogQuery, slugQuery } from "./api/query";
 import { groq } from "next-sanity";
+import { PreviewSuspense } from "next-sanity/preview";
 import NoPreview from "pages/no-preview";
-import { getClient, sanityClient } from "lib/sanity.server";
+import { client } from "lib/sanity.client";
+import { blogQuery, slugQuery } from "./api/query";
 
 export const Components = {
   navigation: dynamic(() => import("component/sections/navigation")),
@@ -44,15 +43,10 @@ export const Components = {
 };
 
 const BlogPage = dynamic(() => import("component/blog/"));
+const PreviewPage = lazy(() => import("component/PreviewPage"));
 
-const PreviewDocumentsCount = lazy(() =>
-  import("components/PreviewDocumentsCount")
-);
-
-function Page({ data: initialData = {}, preview, token }) {
-  console.log("🚀 ~ file: [slug].js:50 ~ Page ~ initialData", initialData);
+function Page({ data, preview, token }) {
   const router = useRouter();
-  const [data, setData] = useState(initialData);
 
   const pageData = data?.page || data?.[0];
   const slug = pageData?.slug;
@@ -91,7 +85,7 @@ function Page({ data: initialData = {}, preview, token }) {
     <>
       {preview && (
         <PreviewSuspense fallback="Loading...">
-          <PreviewDocumentsCount token={token} />
+          <PreviewPage token={token} slug={slug} />
         </PreviewSuspense>
       )}
       <Head>
@@ -135,15 +129,11 @@ export async function getStaticProps({
   preview = false,
   previewData = {},
 }) {
-  const client =
-    preview && previewData?.token
-      ? getClient(false).withConfig({ token: previewData.token })
-      : getClient(preview);
-
   const [page, blogData] = await Promise.all([
     client.fetch(slugQuery, { slug: params.slug }),
     client.fetch(blogQuery, { slug: params.slug }),
   ]);
+
   // pass page data and preview to helper function
   const singlePageData = filterDataToSingleItem(page, preview);
 
@@ -162,7 +152,7 @@ export async function getStaticProps({
 }
 
 export async function getStaticPaths() {
-  const paths = await sanityClient.fetch(
+  const paths = await client.fetch(
     groq`*[_type in ["page", "post"] && defined(slug.current)][].slug.current`
   );
 
