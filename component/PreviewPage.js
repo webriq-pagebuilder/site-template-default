@@ -1,17 +1,17 @@
 // reference: https://github.com/sanity-io/next-sanity#next-sanitypreview-live-real-time-preview
 
 import { usePreview } from "lib/sanity.preview";
-import { slugQuery } from "pages/api/query";
-import { Components } from "pages/[slug]";
+import { homeQuery, slugQuery } from "pages/api/query";
 import Page from "pages/[slug]";
 import Home from "pages";
 
 export default function PreviewPage({ token, slug }) {
-  const data = usePreview(token, slugQuery, slug);
+  const pageData = usePreview(null, slugQuery, slug);
+  const homeData = usePreview(null, homeQuery);
 
   return slug === "/" ? (
-    <Home {...{ data, token }} />
+    <Home {...{ data: homeData, token }} />
   ) : (
-    <Page {...{ data, token }} />
+    <Page {...{ data: pageData, token }} />
   );
 }

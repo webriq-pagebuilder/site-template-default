@@ -1,6 +1,6 @@
 /** This component displays content for the PRODUCT page */
 
-import React, { useEffect } from "react";
+import React, { lazy, useEffect } from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { groq } from "next-sanity";
@@ -8,8 +8,11 @@ import { productsQuery } from "pages/api/query";
 import { Components, filterDataToSingleItem } from "../[slug]";
 import PageNotFound from "pages/404";
 import NoPreview from "pages/no-preview";
-import { client } from "lib/sanity.client";
+import { PreviewSuspense } from "next-sanity/preview";
+import { sanityClient, getClient } from "lib/sanity.client";
 import { EcwidContextProvider } from "context/EcwidContext";
+
+const PreviewProduct = lazy(() => import("component/PreviewProduct"));
 
 function ProductPage({ data, preview, token }) {
   const router = useRouter();
@@ -155,6 +158,11 @@ export async function getStaticProps({
   preview = false,
   previewData = {},
 }) {
+  const client =
+    preview && previewData?.token
+      ? getClient(false).withConfig({ token: previewData.token })
+      : getClient(preview);
+
   const products = await client.fetch(productsQuery, { slug: params.slug });
 
   // pass products data and preview to helper function
@@ -174,7 +182,7 @@ export async function getStaticProps({
 }
 
 export async function getStaticPaths() {
-  const products = await client.fetch(
+  const products = await sanityClient.fetch(
     groq`*[_type == "mainProduct" && defined(slug.current)][].slug.current`
   );
 

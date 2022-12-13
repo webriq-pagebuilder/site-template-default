@@ -1,7 +1,7 @@
 import React from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { client } from "lib/sanity.client";
+import { getClient } from "lib/sanity.client";
 import { cartPageQuery } from "pages/api/query";
 import NoPreview from "pages/no-preview";
 import { Components, filterDataToSingleItem } from "../[slug]";
@@ -74,6 +74,11 @@ export async function getStaticProps({
   preview = false,
   previewData = {},
 }) {
+  const client =
+    preview && previewData?.token
+      ? getClient(false).withConfig({ token: previewData.token })
+      : getClient(preview);
+
   const cartPage = await client.fetch(cartPageQuery);
 
   // pass page data and preview to helper function

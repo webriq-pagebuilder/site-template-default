@@ -2,7 +2,7 @@ import React, { lazy } from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { PreviewSuspense } from "next-sanity/preview";
-import { client } from "lib/sanity.client";
+import { getClient } from "lib/sanity.client";
 import { homeQuery } from "./api/query";
 import NoPreview from "pages/no-preview";
 import { Components, filterDataToSingleItem } from "./[slug]";
@@ -28,13 +28,16 @@ function Home({ data, preview, token }) {
 
   const { sections, title, seo } = pageData;
 
+  if (preview) {
+    return (
+      <PreviewSuspense fallback="Loading...">
+        <PreviewPage token={token} slug="/" />
+      </PreviewSuspense>
+    );
+  }
+
   return (
     <>
-      {preview && (
-        <PreviewSuspense fallback="Loading...">
-          <PreviewPage token={token} slug="/" />
-        </PreviewSuspense>
-      )}
       <Head>
         <title>{seo?.seoTitle ?? title}</title>
       </Head>
@@ -62,6 +65,11 @@ function Home({ data, preview, token }) {
 }
 
 export async function getStaticProps({ preview = false, previewData = {} }) {
+  const client =
+    preview && previewData?.token
+      ? getClient(false).withConfig({ token: previewData.token })
+      : getClient(preview);
+
   const indexPage = await client.fetch(homeQuery);
 
   // pass page data and preview to helper function

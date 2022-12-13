@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import { groq } from "next-sanity";
 import { PreviewSuspense } from "next-sanity/preview";
 import NoPreview from "pages/no-preview";
-import { client } from "lib/sanity.client";
+import { sanityClient, getClient } from "lib/sanity.client";
 import { blogQuery, slugQuery } from "./api/query";
 
 export const Components = {
@@ -51,6 +51,11 @@ function Page({ data, preview, token }) {
   const pageData = data?.page || data?.[0];
   const slug = pageData?.slug;
 
+  console.log({
+    page: data,
+    slug: slug,
+  });
+
   if (!router.isFallback && !slug) {
     return <BlogPage {...{ data: data?.blogData, preview, token }} />;
   }
@@ -81,13 +86,14 @@ function Page({ data, preview, token }) {
     );
   }
 
+  if (preview) {
+    <PreviewSuspense fallback="Loading...">
+      <PreviewPage token={token} slug={slug} />
+    </PreviewSuspense>;
+  }
+
   return (
     <>
-      {preview && (
-        <PreviewSuspense fallback="Loading...">
-          <PreviewPage token={token} slug={slug} />
-        </PreviewSuspense>
-      )}
       <Head>
         <meta name="viewport" content="width=260 initial-scale=1" />
         <title>{seo?.seoTitle ?? title}</title>
@@ -129,6 +135,11 @@ export async function getStaticProps({
   preview = false,
   previewData = {},
 }) {
+  const client =
+    preview && previewData?.token
+      ? getClient(false).withConfig({ token: previewData.token })
+      : getClient(preview);
+
   const [page, blogData] = await Promise.all([
     client.fetch(slugQuery, { slug: params.slug }),
     client.fetch(blogQuery, { slug: params.slug }),
@@ -152,7 +163,7 @@ export async function getStaticProps({
 }
 
 export async function getStaticPaths() {
-  const paths = await client.fetch(
+  const paths = await sanityClient.fetch(
     groq`*[_type in ["page", "post"] && defined(slug.current)][].slug.current`
   );
 

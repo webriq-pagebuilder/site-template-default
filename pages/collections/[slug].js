@@ -8,7 +8,7 @@ import { collectionsQuery } from "pages/api/query";
 import { Components, filterDataToSingleItem } from "../[slug]";
 import PageNotFound from "pages/404";
 import NoPreview from "pages/no-preview";
-import { client } from "lib/sanity.client";
+import { sanityClient, getClient } from "lib/sanity.client";
 import { EcwidContextProvider } from "context/EcwidContext";
 
 function CollectionPage({ data, preview, token }) {
@@ -146,6 +146,11 @@ export async function getStaticProps({
   preview = false,
   previewData = {},
 }) {
+  const client =
+    preview && previewData?.token
+      ? getClient(false).withConfig({ token: previewData.token })
+      : getClient(preview);
+
   const collections = await client.fetch(collectionsQuery, {
     slug: params.slug,
   });
@@ -167,7 +172,7 @@ export async function getStaticProps({
 }
 
 export async function getStaticPaths() {
-  const collections = await client.fetch(
+  const collections = await sanityClient.fetch(
     groq`*[_type == "mainCollection" && defined(slug.current)][].slug.current`
   );
 
