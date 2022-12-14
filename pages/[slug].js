@@ -17,23 +17,11 @@ function PageBySlug({ data, preview, token }) {
 
   if (preview) {
     <PreviewSuspense>
-      <DocumentWithPreview
-        {...{
-          data,
-          token: token || null,
-          slug,
-        }}
-      />
+      <DocumentWithPreview {...{ data, token: token || null, slug }} />
     </PreviewSuspense>;
   }
 
-  return (
-    <Document
-      {...{
-        data,
-      }}
-    />
-  );
+  return <Document {...{ data }} />;
 }
 
 /**
