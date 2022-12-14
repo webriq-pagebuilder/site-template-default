@@ -8,6 +8,7 @@ import { blogQuery, slugQuery } from "./api/query";
 import { usePreview } from "lib/sanity.preview";
 import { PageSections } from "components/page";
 import BlogSections from "components/blog";
+import { PreviewBanner } from "components/PreviewBanner";
 import { PreviewNoContent } from "components/PreviewNoContent";
 import { filterDataToSingleItem } from "components/list";
 
@@ -16,9 +17,13 @@ function PageBySlug({ data, preview, token }) {
   const slug = router.query.slug;
 
   if (preview) {
-    <PreviewSuspense>
-      <DocumentWithPreview {...{ data, token: token || null, slug }} />
-    </PreviewSuspense>;
+    return (
+      <>
+        <PreviewSuspense>
+          <DocumentWithPreview {...{ data, token: token || null, slug }} />
+        </PreviewSuspense>
+      </>
+    );
   }
 
   return <Document {...{ data }} />;
@@ -89,6 +94,8 @@ function DocumentWithPreview({ data, slug, token = null }) {
         <meta name="viewport" content="width=260 initial-scale=1" />
         <title>{seo?.seoTitle ?? title}</title>
       </Head>
+
+      <PreviewBanner />
 
       {/* if no sections, show no sections only in preview */}
       {(!previewData ||
