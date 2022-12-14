@@ -17,6 +17,10 @@ function CollectionPageBySlug({ data, preview, token }) {
   const router = useRouter();
   const slug = router.query.slug;
 
+  useEffect(() => {
+    if (typeof Ecwid !== "undefined") Ecwid.init();
+  }, []);
+
   if (preview) {
     return (
       <>
@@ -39,10 +43,6 @@ function CollectionPageBySlug({ data, preview, token }) {
  */
 function Document({ data }) {
   const publishedData = data?.collectionData; // latest published data in Sanity
-
-  useEffect(() => {
-    if (typeof Ecwid !== "undefined") Ecwid.init();
-  }, []);
 
   // General safeguard against empty data
   if (!publishedData) {
@@ -84,10 +84,6 @@ function DocumentWithPreview({ data, slug, token = null }) {
   // Current drafts data in Sanity
   const previewDataEventSource = usePreview(token, collectionsQuery, { slug });
   const previewData = previewDataEventSource?.[0] || previewDataEventSource; // Latest preview data in Sanity
-
-  useEffect(() => {
-    if (typeof Ecwid !== "undefined") Ecwid.init();
-  }, []);
 
   // General safeguard against empty data
   if (!previewData) {

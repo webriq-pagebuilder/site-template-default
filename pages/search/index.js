@@ -10,6 +10,12 @@ import { filterDataToSingleItem } from "components/list";
 import { PreviewBanner } from "components/PreviewBanner";
 
 function SearchPage({ data, preview, token }) {
+  useEffect(() => {
+    if (typeof Ecwid !== "undefined") {
+      window.Ecwid.init();
+    }
+  }, []);
+
   if (preview) {
     return (
       <>
@@ -32,12 +38,6 @@ function SearchPage({ data, preview, token }) {
  */
 function Document({ data }) {
   const publishedData = data?.searchData;
-
-  useEffect(() => {
-    if (typeof Ecwid !== "undefined") {
-      window.Ecwid.init();
-    }
-  }, []);
 
   // General safeguard against empty data
   if (!publishedData) {
@@ -69,12 +69,6 @@ function Document({ data }) {
 function DocumentWithPreview({ data, token = null }) {
   const previewDataEventSource = usePreview(token, searchPageQuery);
   const previewData = previewDataEventSource?.[0] || previewDataEventSource;
-
-  useEffect(() => {
-    if (typeof Ecwid !== "undefined") {
-      window.Ecwid.init();
-    }
-  }, []);
 
   // General safeguard against empty data
   if (!previewData) {

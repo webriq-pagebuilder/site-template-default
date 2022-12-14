@@ -251,34 +251,36 @@ function VariantE({ banner, logo, links }) {
             {/* Cart */}
             <div className="mx-10 cart-icon">
               <div data-icon="BAG" className="ec-cart-widget" />
-              <Link href="/cart?store-page=cart">
+              <Link href="/cart?store-page=cart" passHref>
                 <a className="cart-link" aria-label="cart button" />
               </Link>
             </div>
             {/* Account */}
-            <Link href="/cart?store-page=account">
-              <svg
-                width={32}
-                height={31}
-                viewBox="0 0 32 31"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M16.0006 16.3154C19.1303 16.3154 21.6673 13.799 21.6673 10.6948C21.6673 7.59064 19.1303 5.07422 16.0006 5.07422C12.871 5.07422 10.334 7.59064 10.334 10.6948C10.334 13.799 12.871 16.3154 16.0006 16.3154Z"
-                  stroke="currentColor"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                <path
-                  d="M24.4225 23.8963C23.6678 22.3507 22.4756 21.0445 20.9845 20.1298C19.4934 19.2151 17.7647 18.7295 15.9998 18.7295C14.2349 18.7295 12.5063 19.2151 11.0152 20.1298C9.52406 21.0445 8.33179 22.3507 7.57715 23.8963"
-                  stroke="currentColor"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
+            <Link href="/cart?store-page=account" passHref>
+              <a>
+                <svg
+                  width={32}
+                  height={31}
+                  viewBox="0 0 32 31"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M16.0006 16.3154C19.1303 16.3154 21.6673 13.799 21.6673 10.6948C21.6673 7.59064 19.1303 5.07422 16.0006 5.07422C12.871 5.07422 10.334 7.59064 10.334 10.6948C10.334 13.799 12.871 16.3154 16.0006 16.3154Z"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M24.4225 23.8963C23.6678 22.3507 22.4756 21.0445 20.9845 20.1298C19.4934 19.2151 17.7647 18.7295 15.9998 18.7295C14.2349 18.7295 12.5063 19.2151 11.0152 20.1298C9.52406 21.0445 8.33179 22.3507 7.57715 23.8963"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </a>
             </Link>
           </div>
           {/* nav menu sidebar button on mobile view */}
@@ -464,14 +466,14 @@ function VariantE({ banner, logo, links }) {
             <div className="flex mx-auto items-center mt-3">
               <div className="flex cart-icon mr-8">
                 <div data-icon="BAG" className="ec-cart-widget" />
-                <Link href="/cart?store-page=cart">
+                <Link href="/cart?store-page=cart" passHref>
                   <a className="cart-link" aria-label="cart button">
                     <span className="text-sm my-auto">Cart</span>
                   </a>
                 </Link>
               </div>
 
-              <Link href="/cart?store-page=account" type="button">
+              <Link href="/cart?store-page=account" passHref>
                 <a className="flex" aria-label="account">
                   <svg
                     width={32}
