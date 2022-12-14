@@ -5,7 +5,7 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { groq } from "next-sanity";
 import { collectionsQuery } from "pages/api/query";
-import { Components, filterDataToSingleItem } from "../[slug]";
+import { Components, filterDataToSingleItem } from "components/list";
 import PageNotFound from "pages/404";
 import NoPreview from "pages/no-preview";
 import { sanityClient, getClient } from "lib/sanity.client";

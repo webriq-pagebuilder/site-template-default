@@ -1,65 +1,115 @@
-import React, { lazy } from "react";
+import React from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { PreviewSuspense } from "next-sanity/preview";
 import { getClient } from "lib/sanity.client";
 import { homeQuery } from "./api/query";
-import NoPreview from "pages/no-preview";
-import { Components, filterDataToSingleItem } from "./[slug]";
-
-const PreviewPage = lazy(() => import("component/PreviewPage"));
+import { usePreview } from "lib/sanity.preview";
+import { PageSections } from "components/page";
+import { PreviewNoContent } from "components/PreviewNoContent";
+import { filterDataToSingleItem } from "components/list";
+import { PreviewBanner } from "components/PreviewBanner";
 
 function Home({ data, preview, token }) {
   const router = useRouter();
-
-  const pageData = data || data?.[0];
-
-  /*
-   *  For new unpublished pages, return page telling user that the page needs to be published first before it can be previewed
-   *  This prevents showing 404 page when the page is not published yet
-   */
-  if (((!router.isFallback && !data) || data?.hasNeverPublished) && !preview) {
-    return <NoPreview />;
-  }
-
-  if (!pageData) {
-    return null;
-  }
-
-  const { sections, title, seo } = pageData;
+  const slug = router.query.slug;
 
   if (preview) {
     return (
-      <PreviewSuspense fallback="Loading...">
-        <PreviewPage token={token} slug="/" />
-      </PreviewSuspense>
+      <>
+        <PreviewBanner />
+        <PreviewSuspense>
+          <DocumentWithPreview data={data} token={token} />
+        </PreviewSuspense>
+      </>
     );
   }
+
+  return (
+    <Document
+      {...{
+        data,
+      }}
+    />
+  );
+
+  // if (preview) {
+  //   <>
+  //     <PreviewBanner />
+  //   </>;
+  // }
+
+  // return (
+  //   <Document
+  //     {...{
+  //       data,
+  //     }}
+  //   />
+  // );
+}
+
+/**
+ *
+ * @param {data} Data from getStaticProps based on current slug value
+ *
+ * @returns Document with published data
+ */
+function Document({ data }) {
+  const publishedData = data?.pageData;
+
+  // General safeguard against empty data
+  if (!publishedData) {
+    return null;
+  }
+
+  const { title, seo } = publishedData;
+
+  return (
+    <>
+      <Head>
+        <meta name="viewport" content="width=260 initial-scale=1" />
+        <title>{seo?.seoTitle ?? title}</title>
+      </Head>
+
+      {/*  Show page sections */}
+      {data?.pageData && <PageSections data={publishedData} />}
+    </>
+  );
+}
+
+/**
+ *
+ * @param data Data from getStaticProps based on current slug value
+ * @param token Token value supplied via `/api/preview` route
+ *
+ * @returns Document with preview data
+ */
+function DocumentWithPreview({ data, token = null }) {
+  const previewDataEventSource = usePreview(token, homeQuery);
+
+  const previewData = previewDataEventSource?.[0] || previewDataEventSource;
+
+  // General safeguard against empty data
+  if (!previewData) {
+    return null;
+  }
+
+  const { title, seo } = previewData;
 
   return (
     <>
       <Head>
         <title>{seo?.seoTitle ?? title}</title>
       </Head>
-      {sections?.map((section, index) => {
-        const Component = Components?.[section?._type];
 
-        // skip rendering unknown components
-        if (!Component) {
-          return null;
-        }
+      {/* if no sections, show no sections only in preview */}
 
-        return (
-          <Component
-            key={index}
-            template={{
-              bg: "gray",
-              color: "webriq",
-            }}
-            data={section}
-          />
-        );
-      })}
+      {(!previewData ||
+        !previewData?.sections ||
+        previewData?.sections?.length === 0) && <PreviewNoContent />}
+
+      {/*  Show page sections */}
+      {data?.pageData && <PageSections data={previewData} />}
     </>
   );
 }
@@ -73,14 +123,14 @@ export async function getStaticProps({ preview = false, previewData = {} }) {
   const indexPage = await client.fetch(homeQuery);
 
   // pass page data and preview to helper function
-  const page = filterDataToSingleItem(indexPage, preview);
+  const pageData = filterDataToSingleItem(indexPage, preview);
 
   // if our query failed, then return null to display custom no-preview page
-  if (!page) {
+  if (!pageData) {
     return {
       props: {
         preview,
-        data: { page: null },
+        data: { pageData: null },
       },
     };
   }
@@ -89,9 +139,9 @@ export async function getStaticProps({ preview = false, previewData = {} }) {
     props: {
       preview,
       token: (preview && previewData.token) || "",
-      data: { page },
+      data: { pageData },
     },
   };
 }
 
-export default React.memo(Home);
+export default Home;

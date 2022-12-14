@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { client } from "lib/sanity.client";
 import { searchPageQuery } from "pages/api/query";
 import NoPreview from "pages/no-preview";
-import { Components, filterDataToSingleItem } from "../[slug]";
+import { Components, filterDataToSingleItem } from "components/list";
 
 function SearchPage({ preview, data }) {
   const router = useRouter();

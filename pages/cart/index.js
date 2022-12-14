@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { getClient } from "lib/sanity.client";
 import { cartPageQuery } from "pages/api/query";
 import NoPreview from "pages/no-preview";
-import { Components, filterDataToSingleItem } from "../[slug]";
+import { Components, filterDataToSingleItem } from "components/list";
 import { EcwidContextProvider } from "context/EcwidContext";
 
 function CartPage({ data, preview, token }) {
