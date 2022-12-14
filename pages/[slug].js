@@ -19,6 +19,7 @@ function PageBySlug({ data, preview, token }) {
   if (preview) {
     return (
       <>
+        <PreviewBanner />
         <PreviewSuspense>
           <DocumentWithPreview {...{ data, token: token || null, slug }} />
         </PreviewSuspense>
@@ -94,8 +95,6 @@ function DocumentWithPreview({ data, slug, token = null }) {
         <meta name="viewport" content="width=260 initial-scale=1" />
         <title>{seo?.seoTitle ?? title}</title>
       </Head>
-
-      <PreviewBanner />
 
       {/* if no sections, show no sections only in preview */}
       {(!previewData ||
