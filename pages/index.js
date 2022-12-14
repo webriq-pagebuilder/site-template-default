@@ -1,6 +1,5 @@
 import React from "react";
 import Head from "next/head";
-import { useRouter } from "next/router";
 import { PreviewSuspense } from "next-sanity/preview";
 import { getClient } from "lib/sanity.client";
 import { homeQuery } from "./api/query";
@@ -11,41 +10,18 @@ import { filterDataToSingleItem } from "components/list";
 import { PreviewBanner } from "components/PreviewBanner";
 
 function Home({ data, preview, token }) {
-  const router = useRouter();
-  const slug = router.query.slug;
-
   if (preview) {
     return (
       <>
         <PreviewBanner />
         <PreviewSuspense>
-          <DocumentWithPreview data={data} token={token} />
+          <DocumentWithPreview {...{ data, token }} />
         </PreviewSuspense>
       </>
     );
   }
 
-  return (
-    <Document
-      {...{
-        data,
-      }}
-    />
-  );
-
-  // if (preview) {
-  //   <>
-  //     <PreviewBanner />
-  //   </>;
-  // }
-
-  // return (
-  //   <Document
-  //     {...{
-  //       data,
-  //     }}
-  //   />
-  // );
+  return <Document {...{ data }} />;
 }
 
 /**
