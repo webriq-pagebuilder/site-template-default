@@ -82,8 +82,8 @@ function VariantA() {
                     Wishlist is empty
                   </span>
                   <p className="my-8 text-gray-700">
-                    Click the "Add to wishlist" button to add your favorite
-                    products here.
+                    {`Click the "Add to wishlist" button to add your favorite
+                    products here.`}
                   </p>
                 </div>
               </div>
