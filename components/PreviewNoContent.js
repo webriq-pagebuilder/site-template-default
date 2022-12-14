@@ -1,4 +1,4 @@
-export function PreviewNoSections() {
+export function PreviewNoContent() {
   return (
     <div className="flex flex-col items-center justify-center h-screen">
       <span className="inline-block px-2 py-1 text-xs font-semibold tracking-widest text-white uppercase bg-blue-600 rounded-full">

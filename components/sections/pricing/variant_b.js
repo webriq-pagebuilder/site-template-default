@@ -109,7 +109,7 @@ function VariantB({
                   padding: 20,
                 }}
               >
-                Stripe Checkout won't work because of an Invalid
+                {`Stripe Checkout won't work because of an Invalid`}
                 <strong> Stripe Public Key</strong>, please fix it in your
                 studio under webriq-payments to get rid of this error message.
               </p>

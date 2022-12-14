@@ -1,6 +1,7 @@
 import { useEcwid } from "context/EcwidContext";
 import React from "react";
 import AddToWishlist from "./AddToWishlist";
+import Link from "next/link";
 
 const AddMoreButton = ({ product }) => {
   const ecwid = useEcwid();
@@ -43,12 +44,12 @@ const AddMoreButton = ({ product }) => {
           </AddToWishlist>
         </div>
 
-        <a
+        <Link
           href="/cart?store-page=cart"
           className="block w-full text-center text-white font-bold font-heading py-5 px-8 rounded-md uppercase transition duration-200 bg-webriq-darkblue"
         >
           Go to Checkout
-        </a>
+        </Link>
       </div>
     </>
   );

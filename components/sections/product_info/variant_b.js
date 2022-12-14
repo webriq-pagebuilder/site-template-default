@@ -1,6 +1,7 @@
 import { memo, useState, Fragment } from "react";
 import { urlFor, PortableText } from "lib/sanity";
 import Image from "next/image";
+import Link from "next/link";
 import ProductDetail from "components/ecwid/ProductDetail";
 import AddToBag from "components/ecwid/AddToBag";
 import AddToWishlist from "components/ecwid/AddToWishlist";
@@ -124,12 +125,12 @@ function VariantB({
           <div className="w-full px-4">
             <ul className="flex flex-wrap mb-8 items-center">
               <li className="mr-5">
-                <a
+                <Link
                   className="inline-block mr-5 text-xs font-bold font-heading uppercase"
                   href="/"
                 >
                   HOME
-                </a>
+                </Link>
                 <span className="inline-block">
                   <svg
                     width={6}

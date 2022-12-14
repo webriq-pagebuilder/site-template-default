@@ -32,7 +32,7 @@ function VariantE({ banner, logo, links }) {
       em: ({ children }) => <em>{children}</em>,
       code: ({ children }) => <code>{children}</code>,
       link: ({ children, value }) => (
-        <a
+        <Link
           aria-label={children ?? "external link"}
           className="hover:text-webriq-lightblue text-webriq-blue"
           href={value?.href}
@@ -40,7 +40,7 @@ function VariantE({ banner, logo, links }) {
           rel="noopener noreferrer"
         >
           {children}
-        </a>
+        </Link>
       ),
     },
   };
@@ -104,7 +104,7 @@ function VariantE({ banner, logo, links }) {
         <nav className="relative flex justify-between">
           <div className="px-12 py-8 flex w-full items-center">
             {logo?.image && (
-              <Link href={logoLink()} prefetch={false}>
+              <Link href={logoLink()} prefetch={false} passHref legacyBehavior>
                 <a
                   aria-label={`Go to ${
                     logoLink() === "/" ? "home page" : logoLink()
@@ -251,14 +251,14 @@ function VariantE({ banner, logo, links }) {
             {/* Cart */}
             <div className="mx-10 cart-icon">
               <div data-icon="BAG" className="ec-cart-widget" />
-              <a
+              <Link
                 href="/cart?store-page=cart"
                 aria-label="cart button"
                 className="cart-link"
               />
             </div>
             {/* Account */}
-            <a href="/cart?store-page=account">
+            <Link href="/cart?store-page=account" passHref>
               <svg
                 width={32}
                 height={31}
@@ -281,7 +281,7 @@ function VariantE({ banner, logo, links }) {
                   strokeLinejoin="round"
                 />
               </svg>
-            </a>
+            </Link>
           </div>
           {/* nav menu sidebar button on mobile view */}
           <button
@@ -315,7 +315,7 @@ function VariantE({ banner, logo, links }) {
           <nav className="relative flex flex-col py-6 px-6 w-full h-full bg-white border-r overflow-y-auto">
             <div className="flex items-center mb-8">
               {logo?.image && (
-                <Link href={logoLink()} prefetch={false}>
+                <Link href={logoLink()} prefetch={false} legacyBehavior>
                   <a
                     aria-label={`Go to ${
                       logoLink() === "/" ? "home page" : logoLink()
@@ -466,7 +466,7 @@ function VariantE({ banner, logo, links }) {
             <div className="flex mx-auto items-center mt-3">
               <div className="flex cart-icon mr-8">
                 <div data-icon="BAG" className="ec-cart-widget" />
-                <a
+                <Link
                   href="/cart?store-page=cart"
                   aria-label="cart button"
                   className="cart-link"
@@ -474,11 +474,12 @@ function VariantE({ banner, logo, links }) {
                 <span className="text-sm my-auto">Cart</span>
               </div>
 
-              <a
+              <Link
                 href="/cart?store-page=account"
                 className="flex"
                 aria-label="account"
                 type="button"
+                passHref
               >
                 <svg
                   width={32}
@@ -503,7 +504,7 @@ function VariantE({ banner, logo, links }) {
                   />
                 </svg>
                 <span className="text-sm my-auto">Account</span>
-              </a>
+              </Link>
             </div>
           </nav>
         </div>

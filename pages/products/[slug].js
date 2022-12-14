@@ -12,8 +12,6 @@ import { PreviewSuspense } from "next-sanity/preview";
 import { sanityClient, getClient } from "lib/sanity.client";
 import { EcwidContextProvider } from "context/EcwidContext";
 
-const PreviewProduct = lazy(() => import("component/PreviewProduct"));
-
 function ProductPage({ data, preview, token }) {
   const router = useRouter();
 

@@ -644,7 +644,7 @@ function VariantE({
                             rel={
                               link?.linkTarget === "_blank"
                                 ? "noopener noreferrer"
-                                : null
+                                : "noreferrer"
                             }
                             key={index}
                           >
