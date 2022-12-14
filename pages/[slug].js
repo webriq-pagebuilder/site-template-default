@@ -7,6 +7,7 @@ import { PreviewSuspense } from "next-sanity/preview";
 import NoPreview from "pages/no-preview";
 import { sanityClient, getClient } from "lib/sanity.client";
 import { blogQuery, slugQuery } from "./api/query";
+import { usePreview } from "lib/sanity.preview";
 
 export const Components = {
   navigation: dynamic(() => import("component/sections/navigation")),
@@ -43,20 +44,35 @@ export const Components = {
 };
 
 const BlogPage = dynamic(() => import("component/blog/"));
-const PreviewPage = lazy(() => import("component/PreviewPage"));
+// const PreviewPage = lazy(() => import("component/PreviewPage"));
 
 function Page({ data, preview, token }) {
   const router = useRouter();
+  const slug = router.query.slug;
 
-  const pageData = data?.page || data?.[0];
-  const slug = pageData?.slug;
+  return (
+    <PreviewSuspense>
+      <PageDocument
+        {...{
+          data,
+          preview,
+          token: token || null,
+          slug,
+          isFallback: router.isFallback,
+        }}
+      />
+    </PreviewSuspense>
+  );
+}
 
-  console.log({
-    page: data,
-    slug: slug,
+function PageDocument({ data, preview, token = null, slug, isFallback }) {
+  const previewData = usePreview(token, slugQuery, {
+    slug,
   });
 
-  if (!router.isFallback && !slug) {
+  const pageData = previewData?.[0] || data?.page;
+
+  if (!isFallback && !slug) {
     return <BlogPage {...{ data: data?.blogData, preview, token }} />;
   }
 
@@ -84,12 +100,6 @@ function Page({ data, preview, token }) {
         <NoPreview />
       </>
     );
-  }
-
-  if (preview) {
-    <PreviewSuspense fallback="Loading...">
-      <PreviewPage token={token} slug={slug} />
-    </PreviewSuspense>;
   }
 
   return (
