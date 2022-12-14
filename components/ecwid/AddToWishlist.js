@@ -15,7 +15,7 @@ const AddToWishlist = ({
 
   useEffect(() => {
     setId(productId);
-  }, [favorited]);
+  }, [productId, setId]);
 
   return (
     <>

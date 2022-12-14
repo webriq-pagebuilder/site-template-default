@@ -12,7 +12,7 @@ function VariantA({ title, featured }) {
     if (ids) {
       ecwid?.fetchCollections(ids);
     }
-  }, []);
+  }, [ecwid, ids]);
 
   return (
     <section className="relative py-20">

@@ -50,58 +50,70 @@ function VariantD({
       : setBilling({ amount: e.target.value, billType: "Annual" });
   };
 
-  async function getPriceId() {
-    const productPayload = {
-      credentials: {
-        hashKey,
-        stripeSKey,
-        apiVersion,
-      },
-      stripeParams: {
-        id: `webriq-studio-pricing-formPayment-${formId}-recurring-monthlyPrice-${monthlyBilling}-yearlyPrice-${annualBilling}`,
-      },
-    };
-
-    const pricePayload = {
-      credentials: {
-        hashKey,
-        stripeSKey,
-        apiVersion,
-      },
-    };
-
-    try {
-      const product = await axios.post(
-        `${NEXT_PUBLIC_APP_URL}/api/payments/stripe?resource=products&action=retrieve`,
-        productPayload
-      );
-      const { data } = await product.data;
-
-      const prices = await axios.post(
-        `${NEXT_PUBLIC_APP_URL}/api/payments/stripe?resource=prices&action=list`,
-        pricePayload
-      );
-      const pricesData = await prices.data;
-
-      pricesData.data.map((price) => {
-        if (price.product === data.id && price.recurring.interval === "month") {
-          useCheckout["monthlyCheckout"] = price.id;
-        } else if (
-          price.product === data.id &&
-          price.recurring.interval === "year"
-        ) {
-          useCheckout["yearlyCheckout"] = price.id;
-          setUseCheckout((prevState) => ({ ...prevState }));
-        }
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
   React.useEffect(() => {
+    async function getPriceId() {
+      const productPayload = {
+        credentials: {
+          hashKey,
+          stripeSKey,
+          apiVersion,
+        },
+        stripeParams: {
+          id: `webriq-studio-pricing-formPayment-${formId}-recurring-monthlyPrice-${monthlyBilling}-yearlyPrice-${annualBilling}`,
+        },
+      };
+
+      const pricePayload = {
+        credentials: {
+          hashKey,
+          stripeSKey,
+          apiVersion,
+        },
+      };
+
+      try {
+        const product = await axios.post(
+          `${NEXT_PUBLIC_APP_URL}/api/payments/stripe?resource=products&action=retrieve`,
+          productPayload
+        );
+        const { data } = await product.data;
+
+        const prices = await axios.post(
+          `${NEXT_PUBLIC_APP_URL}/api/payments/stripe?resource=prices&action=list`,
+          pricePayload
+        );
+        const pricesData = await prices.data;
+
+        pricesData.data.map((price) => {
+          if (
+            price.product === data.id &&
+            price.recurring.interval === "month"
+          ) {
+            useCheckout["monthlyCheckout"] = price.id;
+          } else if (
+            price.product === data.id &&
+            price.recurring.interval === "year"
+          ) {
+            useCheckout["yearlyCheckout"] = price.id;
+            setUseCheckout((prevState) => ({ ...prevState }));
+          }
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
     getPriceId();
-  }, []);
+  }, [
+    NEXT_PUBLIC_APP_URL,
+    annualBilling,
+    apiVersion,
+    formId,
+    hashKey,
+    monthlyBilling,
+    stripeSKey,
+    useCheckout,
+  ]);
 
   // block styling as props to `components` of the PortableText component
   const blockCustomization = {

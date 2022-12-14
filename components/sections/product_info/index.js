@@ -20,7 +20,7 @@ function ProductInfo({ data, product }) {
     if (product?.ecwidProductId) {
       ecwid.setId(product?.ecwidProductId);
     }
-  }, [ecwid.id]);
+  }, [ecwid, product?.ecwidProductId]);
 
   const ecwidProduct = useMemo(() => {
     let data = null;

@@ -17,16 +17,10 @@ function VariantA({ products, ecwidProduct, getPriceDisplay }) {
 
   // reads the param from the router object to get the query
   useEffect(() => {
-    let mount = true;
-    if (mount) {
-      const { q } = router.query;
-
-      // the query changed
-      if (q) {
-        setProductQuery(q); // pass query to state variable
-      }
+    if (router.query.q) {
+      setProductQuery(router.query.q);
     }
-  }, [router.query.q, productQuery]);
+  }, [router.query.q]);
 
   // get selected input
   const handleSelectInput = (e) => {

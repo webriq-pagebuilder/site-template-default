@@ -17,62 +17,63 @@ function VariantB({
   const [pKeyError, setPKError] = React.useState(false);
   const comma = Intl.NumberFormat("en-us");
 
-  async function getPriceId(plans) {
-    let i = 0;
-    for (; i < plans?.length; ) {
-      const productPayload = {
-        credentials: {
-          hashKey,
-          stripeSKey,
-          apiVersion,
-        },
-        stripeParams: {
-          id: `webriq-studio-pricing-${plans[i]._key}-${i + 1}-${plans[
-            i
-          ].planType.replace(/ /g, "-")}-oneTime-Payment-${plans[i].price}`,
-        },
-      };
-
-      const pricePayload = {
-        credentials: {
-          hashKey,
-          stripeSKey,
-          apiVersion,
-        },
-        stripeParams: {},
-      };
-
-      try {
-        const product = await axios.post(
-          `${NEXT_PUBLIC_APP_URL}/api/payments/stripe?resource=products&action=retrieve`,
-          productPayload
-        );
-        const productResponse = await product.data;
-        // plansResponse.push(data.data);
-
-        const { data } = await axios.post(
-          `${NEXT_PUBLIC_APP_URL}/api/payments/stripe?resource=prices&action=list`,
-          pricePayload
-        );
-
-        if (data) {
-          data?.data?.forEach((item) => {
-            if (item.product === productResponse.data.id) {
-              plans[i]["variant_b_checkoutButton"] = item.id;
-            }
-          });
-        }
-
-        setUsePlan(plans);
-      } catch (error) {
-        console.log(error);
-      }
-      i++;
-    }
-  }
   React.useEffect(() => {
+    async function getPriceId(plans) {
+      let i = 0;
+      for (; i < plans?.length; ) {
+        const productPayload = {
+          credentials: {
+            hashKey,
+            stripeSKey,
+            apiVersion,
+          },
+          stripeParams: {
+            id: `webriq-studio-pricing-${plans[i]._key}-${i + 1}-${plans[
+              i
+            ].planType.replace(/ /g, "-")}-oneTime-Payment-${plans[i].price}`,
+          },
+        };
+
+        const pricePayload = {
+          credentials: {
+            hashKey,
+            stripeSKey,
+            apiVersion,
+          },
+          stripeParams: {},
+        };
+
+        try {
+          const product = await axios.post(
+            `${NEXT_PUBLIC_APP_URL}/api/payments/stripe?resource=products&action=retrieve`,
+            productPayload
+          );
+          const productResponse = await product.data;
+          // plansResponse.push(data.data);
+
+          const { data } = await axios.post(
+            `${NEXT_PUBLIC_APP_URL}/api/payments/stripe?resource=prices&action=list`,
+            pricePayload
+          );
+
+          if (data) {
+            data?.data?.forEach((item) => {
+              if (item.product === productResponse.data.id) {
+                plans[i]["variant_b_checkoutButton"] = item.id;
+              }
+            });
+          }
+
+          setUsePlan(plans);
+        } catch (error) {
+          console.log(error);
+        }
+        i++;
+      }
+    }
+
     getPriceId(usePlan);
-  }, [plans, usePlan]);
+  }, [NEXT_PUBLIC_APP_URL, apiVersion, hashKey, stripeSKey, usePlan]);
 
   return (
     <section>

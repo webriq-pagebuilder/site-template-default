@@ -16,13 +16,8 @@ function VariantB({ products }) {
 
   // reads the param from the router object to get the query
   useEffect(() => {
-    let mount = true;
-    if (mount) {
-      const { q } = router.query;
-
-      if (q) {
-        setProductQuery(q);
-      }
+    if (router.query.q) {
+      setProductQuery(router.query.q);
     }
   }, [router.query.q]);
 

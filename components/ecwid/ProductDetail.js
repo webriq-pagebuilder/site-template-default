@@ -37,6 +37,10 @@ const ProductDetail = ({ product, children }) => {
   }, [ecwid]);
 
   useEffect(() => {
+    setPrice(product?.defaultDisplayedPrice);
+  }, [product?.defaultDisplayedPrice, setPrice]);
+
+  useEffect(() => {
     if (productId) {
       let data = {};
 
@@ -47,9 +51,8 @@ const ProductDetail = ({ product, children }) => {
       });
 
       setOptions(data);
-      setPrice(product?.defaultDisplayedPrice);
     }
-  }, [productId]);
+  }, [product?.options, productId, setOptions]);
 
   useEffect(() => {
     if (options && Object.keys(options).length) {
@@ -74,7 +77,7 @@ const ProductDetail = ({ product, children }) => {
 
       setPrice(product?.defaultDisplayedPrice + priceModifier);
     }
-  }, [options]);
+  }, [options, product?.defaultDisplayedPrice, product?.options, setPrice]);
 
   const itemsCount = useMemo(() => {
     let count = 0;
@@ -87,7 +90,7 @@ const ProductDetail = ({ product, children }) => {
       }
     }
     return count;
-  }, [cart?.items]);
+  }, [cart?.items, productId]);
 
   const handleChanged = (option, choice, event) => {
     if (option?.type === "TEXTFIELD" || option?.type === "SELECT") {

@@ -9,10 +9,10 @@ function VariantB({ title, featured }) {
   const ids = featured && featured?.map((item) => item?.ecwidProductId);
 
   useEffect(() => {
-    if (ids) {
+    if (ecwid && ids) {
       ecwid?.fetchCollections(ids);
     }
-  }, []);
+  }, [ecwid, ids]);
 
   return (
     <section className="py-20 overflow-x-hidden bg-gray-50">
