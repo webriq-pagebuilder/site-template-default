@@ -9,11 +9,10 @@ const ViewWishlist = () => {
   return (
     <>
       <div className="flex flex-row gap-x-4 ">
-        <Link
-          href="/wishlist"
-          className="border block w-full text-center font-bold font-heading py-5 px-8 rounded-md uppercase transition duration-200 hover:border-webriq-darkblue"
-        >
-          View Wishlist
+        <Link href="/wishlist">
+          <a className="border block w-full text-center font-bold font-heading py-5 px-8 rounded-md uppercase transition duration-200 hover:border-webriq-darkblue">
+            View Wishlist
+          </a>
         </Link>
       </div>
     </>

@@ -1,6 +1,4 @@
 import React from "react";
-import Head from "next/head";
-import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
 import { urlFor, PortableText } from "lib/sanity";
 import { format } from "date-fns";

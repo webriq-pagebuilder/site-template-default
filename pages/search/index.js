@@ -1,15 +1,37 @@
 import React, { useEffect } from "react";
 import Head from "next/head";
-import { useRouter } from "next/router";
-import { client } from "lib/sanity.client";
+import { PreviewSuspense } from "next-sanity/preview";
+import { getClient } from "lib/sanity.client";
+import { usePreview } from "lib/sanity.preview";
 import { searchPageQuery } from "pages/api/query";
-import NoPreview from "pages/no-preview";
-import { Components, filterDataToSingleItem } from "components/list";
+import { SearchPageSections } from "components/page/store/search";
+import { PreviewNoContent } from "components/PreviewNoContent";
+import { filterDataToSingleItem } from "components/list";
+import { PreviewBanner } from "components/PreviewBanner";
 
-function SearchPage({ preview, data }) {
-  const router = useRouter();
+function SearchPage({ data, preview, token }) {
+  if (preview) {
+    return (
+      <>
+        <PreviewBanner />
+        <PreviewSuspense>
+          <DocumentWithPreview {...{ data, token }} />
+        </PreviewSuspense>
+      </>
+    );
+  }
 
-  const searchPageData = data?.search || data?.[0];
+  return <Document {...{ data }} />;
+}
+
+/**
+ *
+ * @param {data} Data from getStaticProps based on current slug value
+ *
+ * @returns Document with published data
+ */
+function Document({ data }) {
+  const publishedData = data?.searchData;
 
   useEffect(() => {
     if (typeof Ecwid !== "undefined") {
@@ -17,67 +39,84 @@ function SearchPage({ preview, data }) {
     }
   }, []);
 
-  /*
-   *  For new unpublished pages, return page telling user that the page needs to be published first before it can be previewed
-   *  This prevents showing 404 page when the page is not published yet
-   */
-  if (
-    ((!router.isFallback && !data?.search) ||
-      data?.search?.hasNeverPublished) &&
-    !preview
-  ) {
-    return <NoPreview />;
-  }
-
-  if (!searchPageData) {
+  // General safeguard against empty data
+  if (!publishedData) {
     return null;
   }
 
-  const { sections, seo } = searchPageData;
-
-  // TODO: ADD CODE BLOCK IF PREVIEW IS TRUE
+  const { title, seo } = publishedData;
 
   return (
     <>
       <Head>
         <meta name="viewport" content="width=260 initial-scale=1" />
-        <title>{seo?.seoTitle || "Search"}</title>
+        <title>{seo?.seoTitle ?? title}</title>
       </Head>
-      {sections &&
-        sections?.map((section, index) => {
-          const Component = Components[section._type];
 
-          // skip rendering unknown components
-          if (!Component) {
-            return null;
-          }
+      {/*  Show page sections */}
+      {data?.searchData && <SearchPageSections data={publishedData} />}
+    </>
+  );
+}
 
-          return (
-            <Component
-              key={index}
-              template={{
-                bg: "gray",
-                color: "webriq",
-              }}
-              data={section}
-            />
-          );
-        })}
+/**
+ *
+ * @param data Data from getStaticProps based on current slug value
+ * @param token Token value supplied via `/api/preview` route
+ *
+ * @returns Document with preview data
+ */
+function DocumentWithPreview({ data, token = null }) {
+  const previewDataEventSource = usePreview(token, searchPageQuery);
+  const previewData = previewDataEventSource?.[0] || previewDataEventSource;
+
+  useEffect(() => {
+    if (typeof Ecwid !== "undefined") {
+      window.Ecwid.init();
+    }
+  }, []);
+
+  // General safeguard against empty data
+  if (!previewData) {
+    return null;
+  }
+
+  const { title, seo } = previewData;
+
+  return (
+    <>
+      <Head>
+        <title>{seo?.seoTitle ?? title}</title>
+      </Head>
+
+      {/* if no sections, show no sections only in preview */}
+
+      {(!previewData ||
+        !previewData?.sections ||
+        previewData?.sections?.length === 0) && <PreviewNoContent />}
+
+      {/*  Show page sections */}
+      {data?.searchData && <SearchPageSections data={previewData} />}
     </>
   );
 }
 
 export async function getStaticProps({ preview = false, previewData = {} }) {
+  const client =
+    preview && previewData?.token
+      ? getClient(false).withConfig({ token: previewData.token })
+      : getClient(preview);
+
   const searchPage = await client.fetch(searchPageQuery);
 
   // pass page data and preview to helper function
-  const singlePageData = filterDataToSingleItem(searchPage, preview);
+  const searchData = filterDataToSingleItem(searchPage, preview);
 
-  if (!singlePageData) {
+  if (!searchData) {
     return {
       props: {
         preview,
-        data: { search: null },
+        data: { searchData: null },
       },
     };
   }
@@ -86,12 +125,8 @@ export async function getStaticProps({ preview = false, previewData = {} }) {
     props: {
       preview,
       token: (preview && previewData.token) || "",
-      data: {
-        search: singlePageData || null,
-      },
+      data: { searchData },
     },
-    // If webhooks isn't setup then attempt to re-generate in 1 minute intervals
-    revalidate: process.env.SANITY_REVALIDATE_SECRET ? undefined : 60,
   };
 }
 

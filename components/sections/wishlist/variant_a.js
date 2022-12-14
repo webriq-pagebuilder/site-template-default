@@ -13,7 +13,7 @@ function VariantA() {
       <div className="container mx-auto px-5">
         <div className="py-8">
           <div className="flex flex-col sm:flex-row gap-x-4">
-            {favorites !== null && favorites?.length !== 0 ? (
+            {favorites ? (
               favorites?.map((items, index) => {
                 let item = null;
                 if (items?.ecwidProductId && ecwid?.products) {
@@ -71,8 +71,21 @@ function VariantA() {
                 );
               })
             ) : (
-              <div className="w-full">
-                <p>No favorited products</p>
+              <div className="mx-auto mb-6">
+                <img
+                  className="w-96 h-96 object-contain mx-auto"
+                  src="https://cdn.sanity.io/images/9itgab5x/production/951b1f5f26048374711fa6800e0b542528240432-982x638.png"
+                  alt="no products on wishlist"
+                />
+                <div className="text-center">
+                  <span className="mb-6 text-2xl text-webriq-darkblue font-bold">
+                    Wishlist is empty
+                  </span>
+                  <p className="my-8 text-gray-700">
+                    Click the "Add to wishlist" button to add your favorite
+                    products here.
+                  </p>
+                </div>
               </div>
             )}
           </div>

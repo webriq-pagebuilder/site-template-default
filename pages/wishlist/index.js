@@ -1,84 +1,110 @@
 import React from "react";
 import Head from "next/head";
-import { useRouter } from "next/router";
-import { client } from "lib/sanity.client";
+import { PreviewSuspense } from "next-sanity/preview";
+import { getClient } from "lib/sanity.client";
+import { usePreview } from "lib/sanity.preview";
 import { wishlistPageQuery } from "pages/api/query";
-import NoPreview from "pages/no-preview";
-import { Components } from "components/list";
+import { WishlistSections } from "components/page/store/wishlist";
+import { PreviewNoContent } from "components/PreviewNoContent";
+import { filterDataToSingleItem } from "components/list";
+import { PreviewBanner } from "components/PreviewBanner";
 
-function WishlistPage({ preview, data }) {
-  const router = useRouter();
-
-  const wishlistPageData = data?.wishlist || data?.[0];
-
-  /*
-   *  For new unpublished pages, return page telling user that the page needs to be published first before it can be previewed
-   *  This prevents showing 404 page when the page is not published yet
-   */
-  if (
-    ((!router.isFallback && !data?.wishlist) ||
-      data?.wishlist?.hasNeverPublished) &&
-    !preview
-  ) {
-    return <NoPreview />;
+function WishlistPage({ data, preview, token }) {
+  if (preview) {
+    return (
+      <>
+        <PreviewBanner />
+        <PreviewSuspense>
+          <DocumentWithPreview {...{ data, token }} />
+        </PreviewSuspense>
+      </>
+    );
   }
 
-  if (!wishlistPageData) {
+  return <Document {...{ data }} />;
+}
+
+/**
+ *
+ * @param {data} Data from getStaticProps based on current slug value
+ *
+ * @returns Document with published data
+ */
+function Document({ data }) {
+  const publishedData = data?.cartData;
+
+  // General safeguard against empty data
+  if (!publishedData) {
     return null;
   }
 
-  const { sections, seo } = wishlistPageData;
-
-  // TODO: ADD CODE BLOCK IF PREVIEW IS TRUE
+  const { title, seo } = publishedData;
 
   return (
     <>
       <Head>
         <meta name="viewport" content="width=260 initial-scale=1" />
-        <title>{seo?.seoTitle || "Wishlist"}</title>
+        <title>{seo?.seoTitle ?? title}</title>
       </Head>
-      {sections &&
-        sections?.map((section, index) => {
-          const sectionType =
-            section?._type === "slotCart" // for slotCart, apply the variant templates of the cart section
-              ? "cartSection"
-              : section?._type === "slotWishlist" // for slotWishlist, apply the variant templates of the wishlist section
-              ? "wishlistSection"
-              : section?._type; // otherwise, use the actual section type
 
-          const Component = Components[sectionType];
+      {/*  Show page sections */}
+      {data?.wishlistData && <WishlistSections data={publishedData} />}
+    </>
+  );
+}
 
-          // skip rendering unknown components
-          if (!Component) {
-            return null;
-          }
+/**
+ *
+ * @param data Data from getStaticProps based on current slug value
+ * @param token Token value supplied via `/api/preview` route
+ *
+ * @returns Document with preview data
+ */
+function DocumentWithPreview({ data, token = null }) {
+  const previewDataEventSource = usePreview(token, wishlistPageQuery);
+  const previewData = previewDataEventSource?.[0] || previewDataEventSource;
 
-          return (
-            <Component
-              key={index}
-              template={{
-                bg: "gray",
-                color: "webriq",
-              }}
-              data={section}
-            />
-          );
-        })}
+  // General safeguard against empty data
+  if (!previewData) {
+    return null;
+  }
+
+  const { title, seo } = previewData;
+
+  return (
+    <>
+      <Head>
+        <title>{seo?.seoTitle ?? title}</title>
+      </Head>
+
+      {/* if no sections, show no sections only in preview */}
+
+      {(!previewData ||
+        !previewData?.sections ||
+        previewData?.sections?.length === 0) && <PreviewNoContent />}
+
+      {/*  Show page sections */}
+      {data?.wishlistData && <WishlistSections data={previewData} />}
     </>
   );
 }
 
 export async function getStaticProps({ preview = false, previewData = {} }) {
+  const client =
+    preview && previewData?.token
+      ? getClient(false).withConfig({ token: previewData.token })
+      : getClient(preview);
+
   const searchPage = await client.fetch(wishlistPageQuery);
 
   // pass page data and preview to helper function
-  const singleWishlistPage = filterDataToSingleItem(searchPage, preview);
+  const wishlistData = filterDataToSingleItem(searchPage, preview);
 
-  if (!singleWishlistPage) {
+  if (!wishlistData) {
     return {
       props: {
         preview,
-        data: { wishlist: null },
+        data: { wishlistData: null },
       },
     };
   }
@@ -87,12 +113,8 @@ export async function getStaticProps({ preview = false, previewData = {} }) {
     props: {
       preview,
       token: (preview && previewData.token) || "",
-      data: {
-        wishlist: singleWishlistPage || null,
-      },
+      data: { wishlistData },
     },
-    // If webhooks isn't setup then attempt to re-generate in 1 minute intervals
-    revalidate: process.env.SANITY_REVALIDATE_SECRET ? undefined : 60,
   };
 }
 
