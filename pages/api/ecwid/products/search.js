@@ -13,15 +13,10 @@ export default async (req, res) => {
   };
 
   try {
-    await fetch(URL, options).then((res) => {
-      if (!res.ok) {
-        console.log("Failed to fetch Ecwid product!");
-      }
-      return res.json();
-    });
+    return await fetch(URL, options)
+      .then((res) => res.json())
+      .then((json) => res.status(200).json(json));
   } catch (err) {
     return res.status(400).send(err);
   }
-
-  return res.status(200).send({ message: "Successfully run API request" });
 };
