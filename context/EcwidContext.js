@@ -1,8 +1,7 @@
-import { createContext, useContext, useEffect, useState, useMemo } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toast";
 import { client } from "lib/sanity.client";
 import { includes } from "lodash";
-import { useRouter } from "next/router";
 
 const EcwidContext = createContext();
 
@@ -129,9 +128,9 @@ export function EcwidContextProvider({ children }) {
           const productRes = await productReq.json();
 
           const favoriteProducts = studio
-            .map((item) => {
+            ?.map((item) => {
               return productRes.items
-                .map((prod) => {
+                ?.map((prod) => {
                   if (prod.id === item.ecwidProductId) {
                     return {
                       ...item,
