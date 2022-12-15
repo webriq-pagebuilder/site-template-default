@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Head from "next/head";
 import { PreviewSuspense } from "next-sanity/preview";
 import { getClient } from "lib/sanity.client";
@@ -10,6 +10,12 @@ import { filterDataToSingleItem } from "components/list";
 import { PreviewBanner } from "components/PreviewBanner";
 
 function WishlistPage({ data, preview, token }) {
+  useEffect(() => {
+    if (typeof Ecwid !== "undefined") {
+      window.Ecwid.init();
+    }
+  }, []);
+
   if (preview) {
     return (
       <>
@@ -31,14 +37,14 @@ function WishlistPage({ data, preview, token }) {
  * @returns Document with published data
  */
 function Document({ data }) {
-  const publishedData = data?.cartData;
+  const publishedData = data?.wishlistData;
 
   // General safeguard against empty data
   if (!publishedData) {
     return null;
   }
 
-  const { title, seo } = publishedData;
+  const { seo } = publishedData;
 
   return (
     <>
@@ -69,7 +75,7 @@ function DocumentWithPreview({ data, token = null }) {
     return null;
   }
 
-  const { title, seo } = previewData;
+  const { seo } = previewData;
 
   return (
     <>

@@ -9,7 +9,7 @@ function VariantA() {
   const { favorites } = ecwid;
 
   return (
-    <section className="pt-20">
+    <section className="py-20">
       <div className="container mx-auto px-5">
         <div className="py-8">
           <div className="flex flex-col sm:flex-row gap-x-4">

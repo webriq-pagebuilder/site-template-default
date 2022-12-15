@@ -44,7 +44,7 @@ function Document({ data }) {
     return null;
   }
 
-  const { title, seo } = publishedData;
+  const { seo } = publishedData;
 
   return (
     <>
@@ -75,7 +75,7 @@ function DocumentWithPreview({ data, token = null }) {
     return null;
   }
 
-  const { title, seo } = previewData;
+  const { seo } = previewData;
 
   return (
     <>
