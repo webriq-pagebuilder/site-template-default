@@ -44,11 +44,12 @@ const AddMoreButton = ({ product }) => {
           </AddToWishlist>
         </div>
 
-        <Link href="/cart?store-page=cart">
-          <a className="block w-full text-center text-white font-bold font-heading py-5 px-8 rounded-md uppercase transition duration-200 bg-webriq-darkblue">
-            Go to Checkout
-          </a>
-        </Link>
+        <a
+          className="block w-full text-center text-white font-bold font-heading py-5 px-8 rounded-md uppercase transition duration-200 bg-webriq-darkblue"
+          href="/cart?store-page=cart"
+        >
+          Go to Checkout
+        </a>
       </div>
     </>
   );
