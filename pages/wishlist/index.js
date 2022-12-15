@@ -44,7 +44,7 @@ function Document({ data }) {
     <>
       <Head>
         <meta name="viewport" content="width=260 initial-scale=1" />
-        <title>{seo?.seoTitle ?? title}</title>
+        <title>{seo?.seoTitle ?? "Wishlist"}</title>
       </Head>
 
       {/*  Show page sections */}
@@ -74,7 +74,8 @@ function DocumentWithPreview({ data, token = null }) {
   return (
     <>
       <Head>
-        <title>{seo?.seoTitle ?? title}</title>
+        <meta name="viewport" content="width=260 initial-scale=1" />
+        <title>{seo?.seoTitle ?? "Wishlist"}</title>
       </Head>
 
       {/* if no sections, show no sections only in preview */}
