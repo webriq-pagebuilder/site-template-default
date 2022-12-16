@@ -1,121 +1,62 @@
 /** This component displays content for the PRODUCT page */
 
-import React, { lazy, Suspense, useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { groq } from "next-sanity";
+import { PreviewSuspense } from "next-sanity/preview";
+import { sanityClient, getClient } from "lib/sanity.client";
+import { usePreview } from "lib/sanity.preview";
 import { productsQuery } from "pages/api/query";
-import { Components, filterDataToSingleItem } from "../[slug]";
-import PageNotFound from "pages/404";
-import NoPreview from "pages/no-preview";
-import { sanityConfig } from "lib/config";
-import { getClient, sanityClient } from "lib/sanity.server";
-import { EcwidContextProvider } from "context/EcwidContext";
+import { filterDataToSingleItem } from "components/list";
+import { PreviewBanner } from "components/PreviewBanner";
+import { PreviewNoContent } from "components/PreviewNoContent";
+import { ProductSections } from "components/page/store/products";
 
-const PreviewMode = lazy(() => import("next-sanity/preview"));
-
-function ProductPage({ data: initialData = {}, preview, token }) {
+function ProductPageBySlug({ data, preview, token }) {
   const router = useRouter();
-  const [data, setData] = useState(initialData);
+  const slug = router.query.slug;
 
-  const productData = data?.products || data?.[0];
-  const slug = productData?.slug;
   useEffect(() => {
     if (typeof Ecwid !== "undefined") Ecwid.init();
   }, []);
 
-  if (!router.isFallback && !slug) {
-    return <PageNotFound />;
+  if (preview) {
+    return (
+      <>
+        <PreviewBanner />
+        <PreviewSuspense>
+          <DocumentWithPreview {...{ data, token: token || null, slug }} />
+        </PreviewSuspense>
+      </>
+    );
   }
 
-  if (!productData) {
+  return <Document {...{ data }} />;
+}
+
+/**
+ *
+ * @param {data} Data from getStaticProps based on current slug value
+ *
+ * @returns Document with published data
+ */
+function Document({ data }) {
+  const publishedData = data?.productData; // latest published data in Sanity
+
+  // General safeguard against empty data
+  if (!publishedData) {
     return null;
   }
 
   const {
     commonSections, // sections from Store > Commerce Pages > Products
     name, // product name
-    ecwidProductId, // the product ID from Ecwid
-    price, // product price
-    description, // product description
-    sections, // sections from the Design field group tab of Product page
     seo, // product page SEO
-  } = productData;
-
-  /*
-   *  For new unpublished pages, return page telling user that the page needs to be published first before it can be previewed
-   *  This prevents showing 404 page when the page is not published yet
-   */
-  if (
-    !productData?.hasUnpublishedEdits &&
-    productData?._id?.includes("drafts") &&
-    !preview
-  ) {
-    return (
-      <>
-        <Head>
-          <meta name="viewport" content="width=260 initial-scale=1" />
-          <title>Unpublished Page</title>
-        </Head>
-        <NoPreview />
-      </>
-    );
-  }
-
-  let sectionsToDisplay = commonSections?.sections;
-
-  // let us make sure that "sections" array is not empty or undefined, otherwise use the default sections from Store > Commerce Pages > Products
-  if (sections) {
-    // check if we have other sections aside from slotProductInfo in a Store > Products product page
-    const filtered = sections?.filter(
-      (section) => section?._type !== "slotProductInfo"
-    );
-
-    if (filtered?.length !== 0) {
-      // if line 67 returns true, then replace all the sections from Store > Commerce Pages > Products with sections from Store > Products
-      sectionsToDisplay = sections;
-    } else {
-      // there is only "slotProductInfo" section in Store > Products product page
-      sectionsToDisplay = sections?.reduce(
-        (defaultsArr, newArr) => {
-          // get the index of the "slotProductInfo" section from Store > Commerce Pages > Products sections
-          const getIndex = commonSections?.sections?.findIndex((item) =>
-            item?._type?.includes("slotProductInfo")
-          );
-
-          // if the variant from the Store > Products page is a "defaultVariant", then replace it with the variant of Store > Commerce Pages > Products "slotProductInfo"
-          if (newArr?.variant === "defaultVariant") {
-            newArr.variant = defaultsArr[getIndex]?.variant;
-          }
-
-          // if there is a "slotProductInfo" section in Store > Commerce Pages > Products, then replace it with the "slotProductInfo" of Store > Pages section
-          if (getIndex !== -1) {
-            defaultsArr[getIndex] = newArr;
-          }
-
-          // otherwise return the sections as defined
-          return defaultsArr;
-        },
-        [...commonSections?.sections]
-      );
-    }
-  }
+  } = publishedData;
 
   return (
     <>
-      {preview && slug && (
-        <Suspense fallback={null}>
-          <PreviewMode
-            projectId={sanityConfig.projectId}
-            dataset={sanityConfig.dataset}
-            initial={initialData}
-            query={productsQuery}
-            onChange={setData}
-            token={token}
-            params={{ slug }}
-          />
-        </Suspense>
-      )}
       <Head>
         <meta
           name="viewport"
@@ -124,42 +65,55 @@ function ProductPage({ data: initialData = {}, preview, token }) {
         <link rel="icon" href="../favicon.ico" />
         <title>{seo?.seoTitle ?? commonSections?.seo?.seoTitle ?? name}</title>
       </Head>
-      {sectionsToDisplay &&
-        sectionsToDisplay?.map((section, index) => {
-          const sectionType =
-            section?._type === "slotCart" // for slotCart, apply the variant templates of the cart section
-              ? "cartSection"
-              : section?._type === "slotWishlist" // for slotWishlist, apply the variant templates of the wishlist section
-              ? "wishlistSection"
-              : section?._type === "slotProductInfo" // for slotProductInfo, apply the variant templates of the former productInfo section
-              ? "productInfo"
-              : section?._type; // otherwise, use the actual section type
 
-          const Component = Components?.[sectionType];
+      {/* Show Product page sections */}
+      {data?.productData && <ProductSections data={publishedData} />}
+    </>
+  );
+}
 
-          // skip rendering unknown components
-          if (!Component) {
-            return null;
-          }
+/**
+ *
+ * @param data Data from getStaticProps based on current slug value
+ * @param slug Slug value from getStaticProps
+ * @param token Token value supplied via `/api/preview` route
+ *
+ * @returns Document with preview data
+ */
+function DocumentWithPreview({ data, slug, token = null }) {
+  // Current drafts data in Sanity
+  const previewDataEventSource = usePreview(token, productsQuery, { slug });
+  const previewData = previewDataEventSource?.[0] || previewDataEventSource; // Latest preview data in Sanity
 
-          return (
-            <EcwidContextProvider key={index}>
-              <Component
-                template={{
-                  bg: "gray",
-                  color: "webriq",
-                }}
-                product={{
-                  name,
-                  ecwidProductId,
-                  price,
-                  description,
-                }}
-                data={section}
-              />
-            </EcwidContextProvider>
-          );
-        })}
+  // General safeguard against empty data
+  if (!previewData) {
+    return null;
+  }
+
+  const {
+    commonSections, // sections from Store > Commerce Pages > Products
+    name, // product name
+    seo, // product page SEO
+  } = previewData;
+
+  return (
+    <>
+      <Head>
+        <meta
+          name="viewport"
+          content="width=360 initial-scale=1, shrink-to-fit=no"
+        />
+        <link rel="icon" href="../favicon.ico" />
+        <title>{seo?.seoTitle ?? commonSections?.seo?.seoTitle ?? name}</title>
+      </Head>
+
+      {/* if no sections, show no sections only in preview */}
+      {(!previewData ||
+        !previewData?.sections ||
+        previewData?.sections?.length === 0) && <PreviewNoContent />}
+
+      {/* Show Product page sections */}
+      {data?.productData && <ProductSections data={previewData} />}
     </>
   );
 }
@@ -184,7 +138,7 @@ export async function getStaticProps({
       preview,
       token: (preview && previewData.token) || "",
       data: {
-        products: singleProductsData || null,
+        productData: singleProductsData || null,
       },
     },
     // If webhooks isn't setup then attempt to re-generate in 1 minute intervals
@@ -203,4 +157,4 @@ export async function getStaticPaths() {
   };
 }
 
-export default React.memo(ProductPage);
+export default React.memo(ProductPageBySlug);

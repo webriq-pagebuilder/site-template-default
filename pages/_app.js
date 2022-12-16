@@ -1,6 +1,6 @@
 import "../styles/globals.css";
 import React, { useEffect } from "react";
-import SEO from "../component/SEO";
+import SEO from "../components/SEO";
 import "swiper/scss";
 import "swiper/scss/navigation";
 import "swiper/scss/pagination";

@@ -1,33 +1,51 @@
 /** This component displays content for the COLLECTIONS page */
 
-import React, { lazy, Suspense, useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { groq } from "next-sanity";
+import { PreviewSuspense } from "next-sanity/preview";
+import { sanityClient, getClient } from "lib/sanity.client";
+import { usePreview } from "lib/sanity.preview";
 import { collectionsQuery } from "pages/api/query";
-import { Components, filterDataToSingleItem } from "../[slug]";
-import PageNotFound from "pages/404";
-import NoPreview from "pages/no-preview";
-import { sanityConfig } from "lib/config";
-import { getClient, sanityClient } from "lib/sanity.server";
-import { EcwidContextProvider } from "context/EcwidContext";
+import { filterDataToSingleItem } from "components/list";
+import { PreviewBanner } from "components/PreviewBanner";
+import { PreviewNoContent } from "components/PreviewNoContent";
+import { CollectionSections } from "components/page/store/collections";
 
-const PreviewMode = lazy(() => import("next-sanity/preview"));
-
-function CollectionPage({ data: initialData = {}, preview, token }) {
+function CollectionPageBySlug({ data, preview, token }) {
   const router = useRouter();
-  const [data, setData] = useState(initialData);
+  const slug = router.query.slug;
 
-  const collectionData = data?.collections || data?.[0];
-  const slug = collectionData?.slug;
   useEffect(() => {
     if (typeof Ecwid !== "undefined") Ecwid.init();
   }, []);
-  if (!router.isFallback && !slug) {
-    return <PageNotFound />;
+
+  if (preview) {
+    return (
+      <>
+        <PreviewBanner />
+        <PreviewSuspense>
+          <DocumentWithPreview {...{ data, token: token || null, slug }} />
+        </PreviewSuspense>
+      </>
+    );
   }
 
-  if (!collectionData) {
+  return <Document {...{ data }} />;
+}
+
+/**
+ *
+ * @param {data} Data from getStaticProps based on current slug value
+ *
+ * @returns Document with published data
+ */
+function Document({ data }) {
+  const publishedData = data?.collectionData; // latest published data in Sanity
+
+  // General safeguard against empty data
+  if (!publishedData) {
     return null;
   }
 
@@ -35,80 +53,10 @@ function CollectionPage({ data: initialData = {}, preview, token }) {
     commonSections, // sections from Store > Pages > Collections
     name, // collection name
     seo, // collection page SEO
-    sections, // sections from the Design field group tab of Collections page
-  } = collectionData;
-
-  /*
-   *  For new unpublished pages, return page telling user that the page needs to be published first before it can be previewed
-   *  This prevents showing 404 page when the page is not published yet
-   */
-  if (
-    !collectionData?.hasUnpublishedEdits &&
-    collectionData?._id?.includes("drafts") &&
-    !preview
-  ) {
-    return (
-      <>
-        <Head>
-          <meta name="viewport" content="width=260 initial-scale=1" />
-          <title>Unpublished Page</title>
-        </Head>
-        <NoPreview />
-      </>
-    );
-  }
-
-  let sectionsToDisplay = commonSections?.sections;
-
-  if (sections) {
-    const filtered = sections?.filter(
-      (section) => section?._type !== "slotCollectionInfo"
-    );
-
-    if (filtered?.length !== 0) {
-      sectionsToDisplay = sections;
-    } else {
-      // we only have featuredProducts section on the collection page so we merge this section with the sections in Store > Pages > Collections
-      sectionsToDisplay = sections?.reduce(
-        (defaultsArr, newArr) => {
-          // only need the featuredProducts section from Store > Collections to match
-          const getIndex = commonSections?.sections?.findIndex((item) =>
-            item?._type?.includes("slotCollectionInfo")
-          );
-
-          // if the variant from the Store > Collections page is a "defaultVariant", then replace it with the variant of Store > Commerce Pages > Collections "slotCollectionInfo"
-          if (newArr?.variant === "defaultVariant") {
-            newArr.variant = defaultsArr[getIndex]?.variant;
-          }
-
-          // if there is a "slotCollectionInfo" section in Store > Commerce Pages > Collections, then replace it with the "slotCollectionInfo" of Store > Collections section
-          if (getIndex !== -1) {
-            defaultsArr[getIndex] = newArr;
-          }
-
-          // otherwise return the other sections defined
-          return defaultsArr;
-        },
-        [...commonSections?.sections]
-      );
-    }
-  }
+  } = publishedData;
 
   return (
     <>
-      {preview && slug && (
-        <Suspense fallback={null}>
-          <PreviewMode
-            projectId={sanityConfig.projectId}
-            dataset={sanityConfig.dataset}
-            initial={initialData}
-            query={collectionsQuery}
-            onChange={setData}
-            token={token}
-            params={{ slug }}
-          />
-        </Suspense>
-      )}
       <Head>
         <meta
           name="viewport"
@@ -117,39 +65,55 @@ function CollectionPage({ data: initialData = {}, preview, token }) {
         <link rel="icon" href="../favicon.ico" />
         <title>{seo?.seoTitle ?? commonSections?.seo?.seoTitle ?? name}</title>
       </Head>
-      {sectionsToDisplay &&
-        sectionsToDisplay?.map((section, index) => {
-          const sectionType =
-            section?._type === "slotCart" // for slotCart, apply the variant templates of the cart section
-              ? "cartSection"
-              : section?._type === "slotWishlist" // for slotWishlist, apply the variant templates of the wishlist section
-              ? "wishlistSection"
-              : section?._type === "slotCollectionInfo" // for slotCollectionInfo, apply the variant templates of the featuredProducts section
-              ? "featuredProducts"
-              : section?._type; // otherwise, use the actual section type
 
-          const Component = Components[sectionType];
+      {/* Show Product page sections */}
+      {data?.collectionData && <CollectionSections data={publishedData} />}
+    </>
+  );
+}
 
-          // skip rendering unknown components
-          if (!Component) {
-            return null;
-          }
+/**
+ *
+ * @param data Data from getStaticProps based on current slug value
+ * @param slug Slug value from getStaticProps
+ * @param token Token value supplied via `/api/preview` route
+ *
+ * @returns Document with preview data
+ */
+function DocumentWithPreview({ data, slug, token = null }) {
+  // Current drafts data in Sanity
+  const previewDataEventSource = usePreview(token, collectionsQuery, { slug });
+  const previewData = previewDataEventSource?.[0] || previewDataEventSource; // Latest preview data in Sanity
 
-          return (
-            <EcwidContextProvider key={index}>
-              <Component
-                template={{
-                  bg: "gray",
-                  color: "webriq",
-                }}
-                collection={{
-                  name,
-                }}
-                data={section}
-              />
-            </EcwidContextProvider>
-          );
-        })}
+  // General safeguard against empty data
+  if (!previewData) {
+    return null;
+  }
+
+  const {
+    commonSections, // sections from Store > Pages > Collections
+    name, // collection name
+    seo, // collection page SEO
+  } = previewData;
+
+  return (
+    <>
+      <Head>
+        <meta
+          name="viewport"
+          content="width=360 initial-scale=1, shrink-to-fit=no"
+        />
+        <link rel="icon" href="../favicon.ico" />
+        <title>{seo?.seoTitle ?? commonSections?.seo?.seoTitle ?? name}</title>
+      </Head>
+
+      {/* if no sections, show no sections only in preview */}
+      {(!previewData ||
+        !previewData?.sections ||
+        previewData?.sections?.length === 0) && <PreviewNoContent />}
+
+      {/* Show Product page sections */}
+      {data?.collectionData && <CollectionSections data={previewData} />}
     </>
   );
 }
@@ -176,7 +140,7 @@ export async function getStaticProps({
       preview,
       token: (preview && previewData.token) || "",
       data: {
-        collections: singleCollectionsData || null,
+        collectionData: singleCollectionsData || null,
       },
     },
     // If webhooks isn't setup then attempt to re-generate in 1 minute intervals
@@ -195,4 +159,4 @@ export async function getStaticPaths() {
   };
 }
 
-export default React.memo(CollectionPage);
+export default React.memo(CollectionPageBySlug);

@@ -1,135 +1,111 @@
-import React, { lazy, Suspense, useState } from "react";
-import dynamic from "next/dynamic";
+import React from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { blogQuery, slugQuery } from "./api/query";
 import { groq } from "next-sanity";
-import NoPreview from "pages/no-preview";
-import { sanityConfig } from "lib/config";
-import { getClient, sanityClient } from "lib/sanity.server";
+import { PreviewSuspense } from "next-sanity/preview";
+import { sanityClient, getClient } from "lib/sanity.client";
+import { blogQuery, slugQuery } from "./api/query";
+import { usePreview } from "lib/sanity.preview";
+import { PageSections } from "components/page";
+import BlogSections from "components/blog";
+import { PreviewBanner } from "components/PreviewBanner";
+import { PreviewNoContent } from "components/PreviewNoContent";
+import { filterDataToSingleItem } from "components/list";
 
-export const Components = {
-  navigation: dynamic(() => import("component/sections/navigation")),
-  header: dynamic(() => import("component/sections/header")),
-  features: dynamic(() => import("component/sections/features")),
-  portfolio: dynamic(() => import("component/sections/portfolio")),
-  blog: dynamic(() => import("component/sections/blog")),
-  contact: dynamic(() => import("component/sections/contact")),
-  pricing: dynamic(() => import("component/sections/pricing")),
-  testimonial: dynamic(() => import("component/sections/testimonials")),
-  team: dynamic(() => import("component/sections/team")),
-  howItWorks: dynamic(() => import("component/sections/how_it_works")),
-  newsletter: dynamic(() => import("component/sections/newsletter")),
-  faqs: dynamic(() => import("component/sections/faqs")),
-  callToAction: dynamic(() => import("component/sections/call_to_action")),
-  stats: dynamic(() => import("component/sections/stats")),
-  cookies: dynamic(() => import("component/sections/cookies")),
-  appPromo: dynamic(() => import("component/sections/app_promo")),
-  logoCloud: dynamic(() => import("component/sections/logoCloud")),
-  footer: dynamic(() => import("component/sections/footer")),
-  signInSignUp: dynamic(() => import("component/sections/sign_in_sign_up")),
-  textComponent: dynamic(() => import("component/sections/text_component")),
-  // C-Studio
-  cartSection: dynamic(() => import("component/sections/cart_section")),
-  featuredProducts: dynamic(() =>
-    import("component/sections/featured_products")
-  ),
-  productInfo: dynamic(() => import("component/sections/product_info")),
-  wishlistSection: dynamic(() => import("component/sections/wishlist")),
-  pages_productInfo: dynamic(() =>
-    import("component/sections/pages_productInfo")
-  ),
-  allProducts: dynamic(() => import("component/sections/all_products")),
-};
-
-const BlogPage = dynamic(() => import("component/blog/"));
-
-const PreviewMode = lazy(() => import("next-sanity/preview"));
-
-function Page({ data: initialData = {}, preview, token }) {
+function PageBySlug({ data, preview, token }) {
   const router = useRouter();
-  const [data, setData] = useState(initialData);
+  const slug = router.query.slug;
 
-  const pageData = data?.page || data?.[0];
-  const slug = pageData?.slug;
-
-  if (!router.isFallback && !slug) {
-    return <BlogPage {...{ data: data?.blogData, preview, token }} />;
-  }
-
-  if (!pageData) {
-    return null;
-  }
-
-  const { sections, title, seo } = pageData;
-
-  /*
-   *  For new unpublished pages, return page telling user that the page needs to be published first before it can be previewed
-   *  This prevents showing 404 page when the page is not published yet
-   */
-  if (
-    !pageData?.hasUnpublishedEdits &&
-    pageData?._id?.includes("drafts") &&
-    !preview
-  ) {
+  if (preview) {
     return (
       <>
-        <Head>
-          <meta name="viewport" content="width=260 initial-scale=1" />
-          <title>Unpublished Page</title>
-        </Head>
-        <NoPreview />
+        <PreviewBanner />
+        <PreviewSuspense>
+          <DocumentWithPreview {...{ data, token: token || null, slug }} />
+        </PreviewSuspense>
       </>
     );
   }
 
+  return <Document {...{ data }} />;
+}
+
+/**
+ *
+ * @param {data} Data from getStaticProps based on current slug value
+ *
+ * @returns Document with published data
+ */
+function Document({ data }) {
+  const publishedData = data?.pageData || data?.blogData; // latest published data in Sanity
+
+  // General safeguard against empty data
+  if (!publishedData) {
+    return null;
+  }
+
+  const { title, seo } = publishedData;
+
   return (
     <>
-      {preview && slug && (
-        <Suspense fallback={null}>
-          <PreviewMode
-            projectId={sanityConfig.projectId}
-            dataset={sanityConfig.dataset}
-            initial={initialData}
-            query={slugQuery}
-            onChange={setData}
-            token={token}
-            params={{ slug }}
-          />
-        </Suspense>
-      )}
       <Head>
         <meta name="viewport" content="width=260 initial-scale=1" />
         <title>{seo?.seoTitle ?? title}</title>
       </Head>
-      {sections &&
-        sections?.map((section, index) => {
-          const sectionType =
-            section?._type === "slotCart" // for slotCart, apply the variant templates of the cart section
-              ? "cartSection"
-              : section?._type === "slotWishlist" // for slotWishlist, apply the variant templates of the wishlist section
-              ? "wishlistSection"
-              : section?._type; // otherwise, use the actual section type
 
-          const Component = Components?.[sectionType];
+      {/*  Show page sections */}
+      {data?.pageData && <PageSections data={publishedData} />}
 
-          // skip rendering unknown components
-          if (!Component) {
-            return null;
-          }
+      {/* Show Blog sections */}
+      {data?.blogData && <BlogSections data={publishedData} />}
+    </>
+  );
+}
 
-          return (
-            <Component
-              key={index}
-              template={{
-                bg: "gray",
-                color: "webriq",
-              }}
-              {...{ [section._type]: section }}
-              data={section}
-            />
-          );
-        })}
+/**
+ *
+ * @param data Data from getStaticProps based on current slug value
+ * @param slug Slug value from getStaticProps
+ * @param token Token value supplied via `/api/preview` route
+ *
+ * @returns Document with preview data
+ */
+function DocumentWithPreview({ data, slug, token = null }) {
+  // Current drafts data in Sanity
+  const previewDataEventSource = usePreview(
+    token,
+    data?.pageData ? slugQuery : blogQuery, // as a fallback we assume it's a blog post
+    {
+      slug,
+    }
+  );
+
+  const previewData = previewDataEventSource?.[0] || previewDataEventSource; // Latest preview data in Sanity
+
+  // General safeguard against empty data
+  if (!previewData) {
+    return null;
+  }
+
+  const { title, seo } = previewData;
+
+  return (
+    <>
+      <Head>
+        <meta name="viewport" content="width=260 initial-scale=1" />
+        <title>{seo?.seoTitle ?? title}</title>
+      </Head>
+
+      {/* if no sections, show no sections only in preview */}
+      {(!previewData ||
+        !previewData?.sections ||
+        previewData?.sections?.length === 0) && <PreviewNoContent />}
+
+      {/*  Show page sections */}
+      {data?.pageData && <PageSections data={previewData} />}
+
+      {/* Show Blog sections */}
+      {data?.blogData && <BlogSections data={previewData} />}
     </>
   );
 }
@@ -148,6 +124,7 @@ export async function getStaticProps({
     client.fetch(slugQuery, { slug: params.slug }),
     client.fetch(blogQuery, { slug: params.slug }),
   ]);
+
   // pass page data and preview to helper function
   const singlePageData = filterDataToSingleItem(page, preview);
 
@@ -156,7 +133,7 @@ export async function getStaticProps({
       preview,
       token: (preview && previewData.token) || "",
       data: {
-        page: singlePageData || null,
+        pageData: singlePageData || null,
         blogData: blogData || null,
       },
     },
@@ -176,39 +153,4 @@ export async function getStaticPaths() {
   };
 }
 
-/**
- * Helper function to return the correct version of the document
- * If we're in "preview mode" and have multiple documents, return the draft
- *
- * Reference: https://www.sanity.io/guides/nextjs-live-preview
- */
-export function filterDataToSingleItem(data, preview) {
-  if (!Array.isArray(data)) {
-    return data[0];
-  }
-
-  if (data.length === 1) {
-    // To help identify never published pages from published ones since on preview, no document with _id `drafts` is returned
-    if (data[0]._id.includes("drafts")) {
-      data[0].hasNeverPublished = true;
-    }
-
-    return data[0];
-  } else if (data.length === 2) {
-    // Published document with unpublished edits returns 2 ids (1 with draft prefix and 1 without) so array length is 2
-
-    // add flag to differentiate a never published document from one with unpublished edits since either would have "drafts" in their ids
-    data[1].hasUnpublishedEdits = true;
-
-    // return the draft document to show live preview updates
-    return data[1];
-  }
-
-  if (preview) {
-    return data.find((item) => item._id.includes("drafts")) || data[0];
-  }
-
-  return data[0];
-}
-
-export default React.memo(Page);
+export default React.memo(PageBySlug);

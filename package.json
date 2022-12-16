@@ -21,7 +21,7 @@
     "lodash": "^4.17.21",
     "nanoid": "^3.1.30",
     "next": "^12.3.1",
-    "next-sanity": "0.8.0-new-preview-mode.3",
+    "next-sanity": "^2.1.0",
     "next-seo": "^4.28.1",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",

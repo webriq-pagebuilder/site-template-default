@@ -12,8 +12,11 @@ export default async (req, res) => {
     },
   };
 
-  fetch(URL, options)
-    .then((res) => res.json())
-    .then((json) => res.status(200).json(json))
-    .catch((err) => res.status(400).json({ error: err }));
+  try {
+    return await fetch(URL, options)
+      .then((res) => res.json())
+      .then((json) => res.status(200).json(json));
+  } catch (err) {
+    return res.status(400).send(err);
+  }
 };

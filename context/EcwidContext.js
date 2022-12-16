@@ -1,14 +1,11 @@
-import { createContext, useContext, useEffect, useState, useMemo } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toast";
-import { sanityClient } from "lib/sanity";
+import { client } from "lib/sanity.client";
 import { includes } from "lodash";
-import { fi } from "date-fns/locale";
-import { useRouter } from "next/router";
 
 const EcwidContext = createContext();
 
 export function EcwidContextProvider({ children }) {
-  const router = useRouter();
   const [cart, setCart] = useState(null);
   const [products, setProducts] = useState(null);
   const [isAddingToBag, setIsAddingToBag] = useState(false);
@@ -22,76 +19,23 @@ export function EcwidContextProvider({ children }) {
   const storageName = `PSecwid__${process.env.NEXT_PUBLIC_ECWID_STORE_ID}PSfavorites`;
   const [count, setCount] = useState(0);
 
-  const fetchProducts = () => {
-    id !== null &&
-      fetch(`/api/ecwid/products/${id}`)
-        .then((res) => res.json())
-        .then((response) => {
-          response && setProducts(response.result);
-        })
-        .catch((error) => {
-          console.error(error);
-          setProducts({ error });
-        });
-  };
-
-  const fetchCollections = async (ids) => {
-    const productReq = await fetch(
-      `/api/ecwid/products/search?productIds=${ids}`
-    ).then((res) => res.json());
-
-    setProductCollection(productReq.items);
-  };
-
-  const fetchFavorites = async () => {
-    const favoriteIds = localStorage.getItem(storageName);
-    const favorites = JSON.parse(favoriteIds);
-
-    // only run functions when favorite product ids are available
-    if (favorites?.productIds) {
-      try {
-        const query =
-          '*[_type=="mainProduct" && ecwidProductId in $ids && !(_id in path("drafts.**"))]';
-        const params = {
-          ids: favorites?.productIds?.map((id) => id),
-        };
-
-        const studio = await sanityClient
-          .fetch(query, params)
-          .then((products) => products);
-
-        const productReq = await fetch(
-          `/api/ecwid/products/search?productIds=${favorites.productIds}`
-        );
-        const productRes = await productReq.json();
-
-        const favoriteProducts = studio
-          .map((item) => {
-            return productRes.items
-              .map((prod) => {
-                if (prod.id === item.ecwidProductId) {
-                  return {
-                    ...item,
-                    ...prod,
-                    ecwidId: prod.id,
-                    price: prod.defaultDisplayedPriceFormatted,
-                  };
-                }
-              })
-              .flat();
+  useEffect(() => {
+    const fetchProducts = () => {
+      id !== null &&
+        fetch(`/api/ecwid/products/${id}`)
+          .then((res) => res.json())
+          .then((response) => {
+            response && setProducts(response.result);
           })
-          .flat()
-          .filter((item) => item !== undefined);
+          .catch((error) => {
+            console.error(error);
+            setProducts({ error });
+          });
+    };
 
-        setFavorites(favoriteProducts);
-      } catch (error) {
-        console.log(error);
-      }
-    }
-  };
-  useMemo(() => {
     fetchProducts();
   }, [id]);
+
   useEffect(() => {
     function load_ecwid() {
       if (typeof Ecwid !== "undefined") {
@@ -144,6 +88,97 @@ export function EcwidContextProvider({ children }) {
     }
   }, []);
 
+  useEffect(() => {
+    if (typeof window !== undefined) {
+      if (localStorage.getItem(storageName)) {
+        let ids = JSON.parse(localStorage.getItem(storageName));
+
+        if (ids.productIds.length > 0) {
+          setWishlist((prev) => ({
+            ...prev,
+            productIds: ids.productIds,
+          }));
+          setFavorited(includes(ids.productIds, id) ? true : false);
+        }
+      }
+    }
+  }, [id, storageName]);
+
+  useEffect(() => {
+    const fetchFavorites = async () => {
+      const favoriteIds = localStorage.getItem(storageName);
+      const favorites = JSON.parse(favoriteIds);
+
+      // only run functions when favorite product ids are available
+      if (favorites?.productIds) {
+        try {
+          const query =
+            '*[_type=="mainProduct" && ecwidProductId in $ids && !(_id in path("drafts.**"))]';
+          const params = {
+            ids: favorites?.productIds?.map((id) => id),
+          };
+
+          const studio = await client
+            .fetch(query, params)
+            .then((products) => products);
+
+          const productReq = await fetch(
+            `/api/ecwid/products/search?productIds=${favorites.productIds}`
+          );
+          const productRes = await productReq.json();
+
+          const favoriteProducts = studio
+            ?.map((item) => {
+              return productRes.items
+                ?.map((prod) => {
+                  if (prod.id === item.ecwidProductId) {
+                    return {
+                      ...item,
+                      ...prod,
+                      ecwidId: prod.id,
+                      price: prod.defaultDisplayedPriceFormatted,
+                    };
+                  }
+                })
+                .flat();
+            })
+            .flat()
+            .filter((item) => item !== undefined);
+
+          setFavorites(favoriteProducts);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    };
+
+    fetchFavorites();
+  }, [storageName]);
+
+  useEffect(() => {
+    if (typeof Ecwid !== "undefined") {
+      Ecwid.OnPageLoaded.add(function (page) {
+        if (page.type === "CART") {
+          let elem = document.querySelector(".ec-cart--empty button");
+          elem.addEventListener("click", (e) => {
+            e.preventDefault();
+            window.location.href = "/collections/all-products";
+          });
+        }
+      });
+    } else {
+      setCount((prev) => prev + 1);
+    }
+  }, []);
+
+  const fetchCollections = async (ids) => {
+    const productReq = await fetch(
+      `/api/ecwid/products/search?productIds=${ids}`
+    ).then((res) => res.json());
+
+    setProductCollection(productReq.items);
+  };
+
   const getPriceDisplay = (amount) => {
     let priceFormated = amount;
     if (typeof Ecwid !== "undefined") {
@@ -160,7 +195,7 @@ export function EcwidContextProvider({ children }) {
 
     let payload = {
       ...data,
-      callback: function (success, product, cart) {
+      callback: function (success) {
         if (success) {
           toast.success("Product was successfully added to your cart");
         } else {
@@ -178,42 +213,6 @@ export function EcwidContextProvider({ children }) {
       }
     }, 1000);
   };
-
-  useEffect(() => {
-    if (typeof window !== undefined) {
-      if (localStorage.getItem(storageName)) {
-        let ids = JSON.parse(localStorage.getItem(storageName));
-
-        if (ids.productIds.length > 0) {
-          setWishlist((prev) => ({
-            ...prev,
-            productIds: ids.productIds,
-          }));
-          setFavorited(includes(ids.productIds, id) ? true : false);
-        }
-      }
-    }
-  }, [id]);
-
-  useEffect(() => {
-    fetchFavorites();
-  }, [wishlist.productIds]);
-
-  useEffect(() => {
-    if (typeof Ecwid !== "undefined") {
-      Ecwid.OnPageLoaded.add(function (page) {
-        if (page.type === "CART") {
-          let elem = document.querySelector(".ec-cart--empty button");
-          elem.addEventListener("click", (e) => {
-            e.preventDefault();
-            window.location.href = "/collections/all-products";
-          });
-        }
-      });
-    } else {
-      setCount((prev) => prev + 1);
-    }
-  }, [count]);
 
   const addWishlist = (id) => {
     const productIds = wishlist?.productIds;
