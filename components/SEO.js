@@ -4,67 +4,136 @@ import { NextSeo } from "next-seo";
 import { useRouter } from "next/router";
 
 function SEO({ data }) {
-  // get data props
-  const blog = data?.blogData;
-  const page = data?.page || data?.page?.[0] || data?.pages;
-  const products = data?.products?.seo ?? data?.products?.commonSections?.seo;
-  const collections =
-    data?.collections?.seo ?? data?.collections?.commonSections?.seo;
-  const cartPage = data?.cartPage?.seo;
-  const wishlistPage = data?.wishlistPage?.seo;
-  const searchPage = data?.searchPage?.seo;
-
-  const blogDescription = blogPostBody(blog?.excerpt || blog?.body);
-
   const url = process.env.NEXT_PUBLIC_SITE_URL;
   const router = useRouter();
-
-  // determine SEO value based on props from active page
-  const seo =
-    blog?.seo ??
-    page?.seo ??
-    products ??
-    collections ??
-    cartPage ??
-    wishlistPage ??
-    searchPage;
-
-  // determine title based on props from active page
-  const title =
-    blog?.title ?? page?.title ?? products?.name ?? collections?.name;
-
-  const staticPageTitle = cartPage
-    ? "Cart"
-    : wishlistPage
-    ? "Wishlist"
-    : wishlistPage
-    ? "Search"
-    : title;
-
-  // set default image which is replaced only when an SEO image is defined for the page
   const defaultImage =
     "https://cdn.sanity.io/images/9itgab5x/production/87847cd1916f808f401597223641e927024e9eca-5750x5000.jpg";
+
+  // determine SEO value based on props from active page
+  const pagesSEO = data?.pageData?.seo ?? data?.blogData?.seo;
+
+  // for C-Studio pages
+  const productPageSEO = {
+    title:
+      data?.productData?.seo?.seoTitle ||
+      data?.productData?.commonSections?.seo?.seoTitle ||
+      data?.productData?.name,
+    keywords:
+      data?.productData?.seo?.seoKeywords ||
+      data?.productData?.commonSections?.seo?.seoKeywords,
+    synonyms:
+      data?.productData?.seo?.seoSynonyms ||
+      data?.productData?.commonSections?.seo?.seoSynonyms,
+    description:
+      data?.productData?.seo?.seoDescription ||
+      data?.productData?.commonSections?.seo?.seoDescription,
+    image:
+      data?.productData?.seo?.seoImage ||
+      data?.productData?.commonSections?.seo?.seoImage,
+  };
+
+  const collectionPageSEO = {
+    title:
+      data?.collectionData?.seo?.seoTitle ||
+      data?.collectionData?.commonSections?.seo?.seoTitle ||
+      data?.collectionData?.name,
+    keywords:
+      data?.collectionData?.seo?.seoKeywords ||
+      data?.collectionData?.commonSections?.seo?.seoKeywords,
+    synonyms:
+      data?.collectionData?.seo?.seoSynonyms ||
+      data?.collectionData?.commonSections?.seo?.seoSynonyms,
+    description:
+      data?.collectionData?.seo?.seoDescription ||
+      data?.collectionData?.commonSections?.seo?.seoDescription,
+    image:
+      data?.collectionData?.seo?.seoImage ||
+      data?.collectionData?.commonSections?.seo?.seoImage,
+  };
+
+  const cartPageSEO = {
+    title: data?.cartData?.seo?.seoTitle || "Cart",
+    keywords: data?.cartData?.seo?.seoKeywords,
+    synonyms: data?.cartData?.seo?.seoSynonyms,
+    description: data?.cartData?.seo?.seoDescription,
+    image: data?.cartData?.seo?.seoImage,
+  };
+
+  const searchPageSEO = {
+    title: data?.searchData?.seo?.seoTitle || "Search",
+    keywords: data?.searchData?.seo?.seoKeywords,
+    synonyms: data?.searchData?.seo?.seoSynonyms,
+    description: data?.searchData?.seo?.seoDescription,
+    image: data?.searchData?.seo?.seoImage,
+  };
+
+  const wishlistPageSEO = {
+    title: data?.wishlistData?.seo?.seoTitle || "Search",
+    keywords: data?.wishlistData?.seo?.seoKeywords,
+    synonyms: data?.wishlistData?.seo?.seoSynonyms,
+    description: data?.wishlistData?.seo?.seoDescription,
+    image: data?.wishlistData?.seo?.seoImage,
+  };
+
+  const blogDescription = blogPostBody(pagesSEO?.excerpt || pagesSEO?.body);
+
+  // final values
+  const metaTitle =
+    pagesSEO?.seoTitle ??
+    productPageSEO?.title ??
+    collectionPageSEO?.title ??
+    cartPageSEO?.title ??
+    searchPageSEO?.title ??
+    wishlistPageSEO?.title;
+  const metaDescription =
+    blogDescription ??
+    productPageSEO?.description ??
+    collectionPageSEO?.description ??
+    cartPageSEO?.description ??
+    searchPageSEO?.description ??
+    wishlistPageSEO?.description;
+  const metaImage =
+    pagesSEO?.seoImage ??
+    productPageSEO?.image ??
+    collectionPageSEO?.image ??
+    cartPageSEO?.image ??
+    wishlistPageSEO?.image ??
+    searchPageSEO?.image;
+  const metaKeywords =
+    pagesSEO?.seoKeywords ??
+    productPageSEO?.keywords ??
+    collectionPageSEO?.keywords ??
+    cartPageSEO?.keywords ??
+    searchPageSEO?.keywords ??
+    wishlistPageSEO?.keywords;
+  const metaSynonyms =
+    pagesSEO?.seoSynonyms ??
+    productPageSEO?.synonyms ??
+    collectionPageSEO?.synonyms ??
+    cartPageSEO?.synonyms ??
+    searchPageSEO?.synonyms ??
+    wishlistPageSEO?.synonyms;
 
   return (
     <>
       <NextSeo
-        title={seo?.seoTitle || staticPageTitle}
-        description={seo?.seoDescription || blogDescription}
+        title={metaTitle}
+        description={metaDescription}
         canonical={`${url}${router?.asPath}`}
         openGraph={{
-          title: seo?.seoTitle || staticPageTitle,
-          description: seo?.seoDescription || blogDescription,
+          title: metaTitle,
+          description: metaDescription,
           url: `${url}${router?.asPath}`,
           images: [
             {
-              url: seo?.seoImage ? seoImageUrl(seo?.seoImage) : defaultImage,
+              url: metaImage ? seoImageUrl(metaImage) : defaultImage,
               width: 520,
               height: 320,
               alt: "Page thumbnail image for SEO",
               type: "image/jpeg",
             },
           ],
-          site_name: seo?.seoTitle || title,
+          site_name: metaTitle,
         }} // Twitter will read the og:title, og:image and og:description tags for their card. next-seo omits twitter:title, twitter:image and twitter:description to avoid duplication.
         twitter={{
           handle: "@handle",
@@ -74,11 +143,11 @@ function SEO({ data }) {
         additionalMetaTags={[
           {
             name: "keywords",
-            content: seo?.seoKeywords,
+            content: metaKeywords,
           },
           {
             name: "synonyms",
-            content: seo?.seoSynonyms,
+            content: metaSynonyms,
           },
         ]}
         additionalLinkTags={[
