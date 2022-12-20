@@ -8,6 +8,7 @@ import { PreviewSuspense } from "next-sanity/preview";
 import { sanityClient, getClient } from "lib/sanity.client";
 import { usePreview } from "lib/sanity.preview";
 import { collectionsQuery } from "pages/api/query";
+import PageNotFound from "pages/404";
 import { filterDataToSingleItem } from "components/list";
 import { PreviewBanner } from "components/PreviewBanner";
 import { PreviewNoContent } from "components/PreviewNoContent";
@@ -21,18 +22,22 @@ function CollectionPageBySlug({ data, preview, token }) {
     if (typeof Ecwid !== "undefined") Ecwid.init();
   }, []);
 
-  if (preview) {
-    return (
-      <>
-        <PreviewBanner />
-        <PreviewSuspense>
-          <DocumentWithPreview {...{ data, token: token || null, slug }} />
-        </PreviewSuspense>
-      </>
-    );
-  }
+  if (!data?.collectionData || data?.collectionData?.length === 0) {
+    return <PageNotFound />;
+  } else {
+    if (preview) {
+      return (
+        <>
+          <PreviewBanner />
+          <PreviewSuspense>
+            <DocumentWithPreview {...{ data, token: token || null, slug }} />
+          </PreviewSuspense>
+        </>
+      );
+    }
 
-  return <Document {...{ data }} />;
+    return <Document {...{ data }} />;
+  }
 }
 
 /**

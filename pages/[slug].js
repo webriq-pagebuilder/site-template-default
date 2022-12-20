@@ -11,23 +11,28 @@ import BlogSections from "components/blog";
 import { PreviewBanner } from "components/PreviewBanner";
 import { PreviewNoContent } from "components/PreviewNoContent";
 import { filterDataToSingleItem } from "components/list";
+import PageNotFound from "pages/404";
 
 function PageBySlug({ data, preview, token }) {
   const router = useRouter();
   const slug = router.query.slug;
 
-  if (preview) {
-    return (
-      <>
-        <PreviewBanner />
-        <PreviewSuspense>
-          <DocumentWithPreview {...{ data, token: token || null, slug }} />
-        </PreviewSuspense>
-      </>
-    );
-  }
+  if (!data?.pageData && (!data?.blogData || data?.blogData?.length === 0)) {
+    return <PageNotFound />;
+  } else {
+    if (preview) {
+      return (
+        <>
+          <PreviewBanner />
+          <PreviewSuspense>
+            <DocumentWithPreview {...{ data, token: token || null, slug }} />
+          </PreviewSuspense>
+        </>
+      );
+    }
 
-  return <Document {...{ data }} />;
+    return <Document {...{ data }} />;
+  }
 }
 
 /**
@@ -87,7 +92,7 @@ function DocumentWithPreview({ data, slug, token = null }) {
     return null;
   }
 
-  const { title, seo } = previewData;
+  const { title, seo, _type } = previewData;
 
   return (
     <>
@@ -96,10 +101,11 @@ function DocumentWithPreview({ data, slug, token = null }) {
         <title>{seo?.seoTitle ?? title}</title>
       </Head>
 
-      {/* if no sections, show no sections only in preview */}
-      {(!previewData ||
-        !previewData?.sections ||
-        previewData?.sections?.length === 0) && <PreviewNoContent />}
+      {/* if page has no sections, show no sections only in preview */}
+      {_type === "page" &&
+        (!previewData ||
+          !previewData?.sections ||
+          previewData?.sections?.length === 0) && <PreviewNoContent />}
 
       {/*  Show page sections */}
       {data?.pageData && <PageSections data={previewData} />}
