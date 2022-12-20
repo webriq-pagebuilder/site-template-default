@@ -12,6 +12,8 @@ function SEO({ data }) {
     data?.collections?.seo ?? data?.collections?.commonSections?.seo;
   const cartPage = data?.cartPage?.seo;
   const wishlistPage = data?.wishlistPage?.seo;
+  const searchPage = data?.searchPage?.seo;
+
   const blogDescription = blogPostBody(blog?.excerpt || blog?.body);
 
   const url = process.env.NEXT_PUBLIC_SITE_URL;
@@ -24,15 +26,20 @@ function SEO({ data }) {
     products ??
     collections ??
     cartPage ??
-    wishlistPage;
+    wishlistPage ??
+    searchPage;
 
   // determine title based on props from active page
   const title =
-    blog?.title ??
-    page?.title ??
-    products?.name ??
-    collections?.name ??
-    cartPage?.name;
+    blog?.title ?? page?.title ?? products?.name ?? collections?.name;
+
+  const staticPageTitle = cartPage
+    ? "Cart"
+    : wishlistPage
+    ? "Wishlist"
+    : wishlistPage
+    ? "Search"
+    : title;
 
   // set default image which is replaced only when an SEO image is defined for the page
   const defaultImage =
@@ -41,10 +48,11 @@ function SEO({ data }) {
   return (
     <>
       <NextSeo
-        title={seo?.seoTitle || title}
+        title={seo?.seoTitle || staticPageTitle}
         description={seo?.seoDescription || blogDescription}
+        canonical={`${url}${router?.asPath}`}
         openGraph={{
-          title: seo?.seoTitle || title,
+          title: seo?.seoTitle || staticPageTitle,
           description: seo?.seoDescription || blogDescription,
           url: `${url}${router?.asPath}`,
           images: [
@@ -53,7 +61,7 @@ function SEO({ data }) {
               width: 520,
               height: 320,
               alt: "Page thumbnail image for SEO",
-              type: "image/webp",
+              type: "image/jpeg",
             },
           ],
           site_name: seo?.seoTitle || title,
