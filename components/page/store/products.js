@@ -72,8 +72,6 @@ export function ProductSections({ data }) {
     }
   }
 
-  console.log(sectionsToDisplay);
-
   return (
     <>
       {sectionsToDisplay &&
