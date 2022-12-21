@@ -6,19 +6,89 @@ html {
   -webkit-text-size-adjust: 100%;
 }
 
-/* 
-body {
-  padding: 0;
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+.swiper-slide-thumb-active img {
+  border: 1px solid #0045d8 !important;
 }
-
-a {
-  color: inherit;
-  text-decoration: none;
+.product-images-thumbs-swiper.swiper-container .swiper-slide {
+  height: 0 !important;
+  padding-bottom: 25%;
 }
-
-* {
-  box-sizing: border-box;
+.product-images-thumbs-swiper.swiper-container .swiper-slide > div {
+  height: 0 !important;
+  padding-bottom: 100%;
+}
+.swiper-button-disabled {
+  opacity: 0.5 !important;
+}
+/* .cart-icon {
+  @apply relative before:content-[attr(data-count)] before:absolute before:flex before:items-center before:justify-center before:bg-webriq-darkblue before:rounded-full before:h-6 before:w-6 before:-top-3 before:-right-3 before:text-white;
 } */
+html#ecwid_html body#ecwid_body .cart-icon {
+  position: relative;
+}
+html#ecwid_html body#ecwid_body .cart-icon .cart-link {
+  display: block;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  z-index: 1;
+}
+html#ecwid_html body#ecwid_body .cart-icon .ec-minicart__icon svg {
+  width: 32px;
+  height: 32px;
+}
+html#ecwid_html body#ecwid_body .ec-minicart__icon .icon-default path[stroke] {
+  stroke-width: 1;
+}
+html#ecwid_html body#ecwid_body .ec-minicart--m .ec-minicart__counter::after {
+  background-color: #007aff !important;
+}
+html#ecwid_html body#ecwid_body .ec-size .ec-store .ec-breadcrumbs {
+  display: none !important;
+}
+
+.product-images-swiper.swiper-container {
+  height: calc(auto + 1px);
+  /* position: relative; */
+}
+.product-images-swiper.swiper-container {
+  padding-top: 10px;
+}
+.product-images-swiper.swiper-container .swiper-wrapper {
+  position: relative;
+  height: 0 !important;
+  padding-bottom: 100%;
+}
+.product-images-swiper.swiper-container .swiper-slide {
+  height: 0 !important;
+  padding-bottom: 100%;
+}
+.product-images-swiper.swiper-container .swiper-slide > div {
+  height: 0 !important;
+  padding-bottom: 100%;
+}
+.toastContainer {
+  z-index: 1;
+}
+
+/* hide navigation sidebar when screen is less than screen size */
+@media (min-width: 1280px) {
+  .mobile-nav {
+    display: none;
+  }
+}
+
+@media (min-width: 1560px) {
+  .main-nav {
+    left: 50%;
+    align-items: center;
+    width: auto;
+  }
+}
+@media (max-width: 1559px) {
+  .main-nav {
+    left: 40%;
+    align-items: center;
+  }
+}

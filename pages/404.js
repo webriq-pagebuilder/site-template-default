@@ -1,8 +1,13 @@
 import React from "react";
 import Link from "next/link";
+import Head from "next/head";
+
 function PageNotFound() {
   return (
     <>
+      <Head>
+        <title>404: Page not found</title>
+      </Head>
       <section>
         <div className="skew skew-top mr-for-radius">
           <svg

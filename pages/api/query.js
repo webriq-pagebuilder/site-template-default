@@ -6,98 +6,125 @@ const conditionalLink = `
   "externalLink": linkExternal
 `;
 
+const variants = `
+  variants {
+    ...,
+    arrayOfTitleAndText[],
+    logo {
+      image,
+      ${conditionalLink}
+    },
+    primaryButton {
+      label,
+      ${conditionalLink}
+    },
+    secondaryButton {
+      label,
+      ${conditionalLink}
+    },
+    routes[] {
+      ...,
+      ${conditionalLink}
+    },
+    menu[] {
+      ...,
+      ${conditionalLink}
+    },
+    plans[] {
+      ...,
+      primaryButton {
+        label,
+        ${conditionalLink}
+      },
+    },
+    formLinks[] {
+      ...,
+      ${conditionalLink}
+    },
+    portfolios[] {
+      ...,
+      content[] {
+        ...,
+        primaryButton {
+          label,
+          ${conditionalLink}
+        },
+      },
+      primaryButton {
+        label,
+        ${conditionalLink}
+      },
+    },
+    portfoliosWithCategories[] {
+      ...,
+      content[] {
+        ...,
+        primaryButton {
+          label,
+          ${conditionalLink}
+        },
+      },
+      primaryButton {
+        label,
+        ${conditionalLink}
+      },
+    },
+    signinLink {
+      ...,
+      ${conditionalLink}
+    },
+    blogPosts[]->{
+      ...,
+      "link": slug.current,
+      authors[]->{
+        ...,
+        "link": slug.current
+      },
+      categories[]->
+    },
+    form {
+      ...,
+      thankYouPage {
+        ...,
+        ${conditionalLink}
+      }
+    },
+    featured[]->,
+    collections->{
+      ...,
+      products[]->
+    },
+    products-> {
+      name, 
+      slug, 
+      price,
+      description,
+      ecwidProductId,
+      "others": sections[_type match "productInfo"]->.variants {
+        btnLabel,
+        socialLinks,
+      },
+    },
+    allProducts[]-> {
+      ...,
+      products[]->
+    }
+  }
+`;
+
 const allProjections = `
 {
   ...,
   "slug": slug.current,
   sections[]-> {
     ...,
-    variants {
+    ${variants} ,
+    _type == "slotWishlist" => {
       ...,
-      arrayOfTitleAndText[] {
-        ...,       
-      },
-      logo {
-        image,
-        ${conditionalLink}
-      },
-      primaryButton {
-        label,
-        ${conditionalLink}
-      },
-      secondaryButton {
-        label,
-        ${conditionalLink}
-      },
-      routes[] {
-        ...,
-        ${conditionalLink}
-      },
-      menu[] {
-        ...,
-        ${conditionalLink}
-      },
-      plans[] {
-        ...,
-        primaryButton {
-          label,
-          ${conditionalLink}
-        },
-      },
-      formLinks[] {
-        ...,
-        ${conditionalLink}
-      },
-      portfolios[] {
-        ...,
-        content[] {
-          ...,
-          primaryButton {
-            label,
-            ${conditionalLink}
-          },
-        },
-        primaryButton {
-          label,
-          ${conditionalLink}
-        },
-      },
-      portfoliosWithCategories[] {
-        ...,
-        content[] {
-          ...,
-          primaryButton {
-            label,
-            ${conditionalLink}
-          },
-        },
-        primaryButton {
-          label,
-          ${conditionalLink}
-        },
-      },
-      signinLink {
-        ...,
-        ${conditionalLink}
-      },
-      blogPosts[]->{
-        ...,
-        "link": slug.current,
-        authors[]->{
-          ...,
-          "link": slug.current
-        },
-        categories[]->
-      },
-      form {
-        ...,
-        thankYouPage {
-          ...,
-          ${conditionalLink}
-        }
-      }       
-    }
-  }
+      "variant": *[_type == "wishlistPage"][0].wishlistSectionVariant.variant,
+    },
+  },
+  collections->
 }
 `;
 
@@ -116,94 +143,119 @@ export const blogQuery = groq`
       ...,
       "link": slug.current
     },
-    categories[]->
+    categories[]->,
+    "navigation": *[_type=="page" && slug.current=="home"].sections[_type match "navigation"]->{
+      ...,
+      ${variants}
+    },
+    "footer": *[_type=="page" && slug.current=="home"].sections[_type match "footer"]->{
+      ...,
+      ${variants},
+    },
   }
 `;
 
-export const blogNavAndFooter = groq`
-*[_type=="page" && slug.current == $slug]{
+// query main product based on current slug
+export const productsQuery = groq`*[_type == "mainProduct" && slug.current == $slug] {
+  ...,
+  "slug": slug.current,
+  sections[]->{
+    ...,
+    ${variants}, 
+    _type == "slotProductInfo" => {
+     ...,
+     "variant": *[_type == "mainProduct" && slug.current == $slug][0].productInfoVariant.variant,
+     "variants": *[_type == "mainProduct" && slug.current == $slug][0].productInfo
+   },
+   _type == "slotCart" => {
+      ...,
+      "variant": *[_type == "cartPage"][0].cartSectionVariant.variant,
+    },
+    _type == "slotWishlist" => {
+      ...,
+      "variant": *[_type == "wishlistPage"][0].wishlistSectionVariant.variant,
+    },
+  },
+  "commonSections": *[_type == "productSettings"][0]{
+    _type,
+    seo,
+    sections[]-> {
+      ...,
+      ${variants},
+      _type == "slotProductInfo" => {
+        ...,
+        "variant": *[_type == "productSettings"][0].defaultProductInfoVariant.variant
+      }
+    },
+  },
+}`;
+
+// query product collection based on current slug
+export const collectionsQuery = groq`*[_type == "mainCollection" && slug.current == $slug] {
+  ...,
+  "slug": slug.current,
+  products[]->,
   sections[]-> {
     ...,
-    variants {
+    ${variants},
+    _type == "slotCollectionInfo" => {
       ...,
-      "arrImages": images,
-      arrayOfTitleAndText[] {
+      "variant": *[_type == "mainCollection" && slug.current == $slug][0].collectionInfoVariant.variant,
+      "variants": *[_type == "mainCollection" && slug.current == $slug][0]{
+        "collections": {
+          "title": name,
+          products[]->,
+        }
+      }
+    },
+    _type == "slotCart" => {
+      ...,
+      "variant": *[_type == "cartPage"][0].cartSectionVariant.variant,
+    },
+    _type == "slotWishlist" => {
+      ...,
+      "variant": *[_type == "wishlistPage"][0].wishlistSectionVariant.variant,
+    },
+  },
+  "commonSections": *[_type == "collectionSettings"][0]{
+    _type,
+    seo,
+    sections[]->{
+      ...,
+      ${variants},
+      _type == "slotCollectionInfo" => {
         ...,
-        "title": heading,
-        "content": plainText
-      },
-      logo {
-        ...,
-        ${conditionalLink}
-      },
-      primaryButton {
-        ...,
-        ${conditionalLink}
-      },
-      secondaryButton {
-        ...,
-        ${conditionalLink}
-      },
-      routes[] {
-        ...,
-        ${conditionalLink}
-      },
-      menu[] {
-        ...,
-        ${conditionalLink}
-      },
-      plans[] {
-        ...,
-        primaryButton {
-          ...,
-          ${conditionalLink}
-        },
-      },
-      formLinks[] {
-        ...,
-        ${conditionalLink}
-      },
-      portfolios[] {
-        ...,
-        content[] {
-          ...,
-          primaryButton {
-            ...,
-            ${conditionalLink}
-          },
-        },
-        primaryButton {
-          ...,
-          ${conditionalLink}
-        },
-      },
-      portfoliosWithCategories[] {
-        ...,
-        content[] {
-          ...,
-          primaryButton {
-            label,
-            ${conditionalLink}
-          },
-        },
-        primaryButton {
-          label,
-          ${conditionalLink}
-        },
-      },
-      signinLink {
-        ...,
-        ${conditionalLink}
-      },
-      blogPosts[]->{
-        ...,
-        "link": slug.current,
-        authors[]->{
-          ...,
-          "link": slug.current
-        },
-        categories[]->
-      },       
+        "variant": *[_type == "collectionSettings"][0].defaultCollectionInfoVariant.variant
+      }
     }
   }
 }`;
+
+// query cart page
+export const cartPageQuery = groq`*[_type == "cartPage"] {
+  ...,
+  sections[]-> {
+    ...,
+    ${variants},
+    _type == "slotCart" => {
+      ...,
+      "variant": *[_type == "cartPage"][0].cartSectionVariant.variant,
+    }
+  }
+}`;
+
+// query wishlist page
+export const wishlistPageQuery = groq`*[_type == "wishlistPage"] {
+  ...,
+  sections[]-> {
+    ...,
+    ${variants},
+    _type == "slotWishlist" => {
+      ...,
+      "variant": *[_type == "wishlistPage"][0].wishlistSectionVariant.variant,
+    }
+  }
+}`;
+
+// query search page
+export const searchPageQuery = groq`*[_type == "searchPage"] ${allProjections}`;
