@@ -10,13 +10,37 @@ export function CollectionSections({ data }) {
 
   let sectionsToDisplay = commonSections?.sections;
 
+  // if we have "slotCollectionInfo" section, then we have the placeholder for the collections values
+  let slotSection = sections?.map((section) => {
+    // get the index of the "slotCollectionInfo" section from Store > Commerce Pages > Collections section
+    const getIndex = commonSections?.sections?.findIndex((item) =>
+      item?._type?.includes("slotCollectionInfo")
+    );
+
+    const newObj = {
+      variant: commonSections?.sections?.[getIndex]?.variant, // the selected variant for the featuredProducts from Store > Commerce Pages > Collections
+    };
+
+    // mutate sections array to add the collections details if the section is slotCollectionInfo and if defaultVariant
+    if (
+      section?._type === "slotCollectionInfo" &&
+      section?.variant === "defaultVariant"
+    ) {
+      return { ...section, ...newObj };
+    }
+
+    // just return other sections as is
+    return section;
+  });
+
   if (sections) {
     const filtered = sections?.filter(
       (section) => section?._type !== "slotCollectionInfo"
     );
 
     if (filtered?.length !== 0) {
-      sectionsToDisplay = sections;
+      // if code block 37-39 returns true, then replace all the sections from Store > Commerce Pages > Collections with sections from Store > Collections
+      sectionsToDisplay = slotSection;
     } else {
       // we only have featuredProducts section on the collection page so we merge this section with the sections in Store > Pages > Collections
       sectionsToDisplay = sections?.reduce(

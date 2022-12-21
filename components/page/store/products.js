@@ -13,6 +13,28 @@ export function ProductSections({ data }) {
 
   let sectionsToDisplay = commonSections?.sections;
 
+  // if we have "slotProductInfo" section, then we have the placeholder for the productInfo values
+  let slotSection = sections?.map((section) => {
+    // get the index of the "slotProductInfo" section from Store > Commerce Pages > Products section
+    const getIndex = commonSections?.sections?.findIndex((item) =>
+      item?._type?.includes("slotProductInfo")
+    );
+
+    const newObj = {
+      variant: commonSections?.sections?.[getIndex]?.variant, // e.g. variant_a
+    };
+
+    // mutate sections array to add the productInfo details if the section is slotProductInfo and if its variant is the default
+    if (
+      section?._type === "slotProductInfo" &&
+      section?.variant === "defaultVariant"
+    ) {
+      return { ...section, ...newObj };
+    }
+    // just return other sections as is
+    return section;
+  });
+
   // let us make sure that "sections" array is not empty or undefined, otherwise use the default sections from Store > Commerce Pages > Products
   if (sections) {
     // check if we have other sections aside from slotProductInfo in a Store > Products product page
@@ -21,8 +43,8 @@ export function ProductSections({ data }) {
     );
 
     if (filtered?.length !== 0) {
-      // if line 67 returns true, then replace all the sections from Store > Commerce Pages > Products with sections from Store > Products
-      sectionsToDisplay = sections;
+      // if code block 41-43 returns true, then replace all the sections from Store > Commerce Pages > Products with sections from Store > Products
+      sectionsToDisplay = slotSection;
     } else {
       // there is only "slotProductInfo" section in Store > Products product page
       sectionsToDisplay = sections?.reduce(
@@ -49,6 +71,8 @@ export function ProductSections({ data }) {
       );
     }
   }
+
+  console.log(sectionsToDisplay);
 
   return (
     <>
