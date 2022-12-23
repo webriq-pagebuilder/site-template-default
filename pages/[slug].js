@@ -55,7 +55,7 @@ function Document({ data }) {
     <>
       <Head>
         <meta name="viewport" content="width=260 initial-scale=1" />
-        <title>{seo?.seoTitle ?? title}</title>
+        <title>{seo?.seoTitle ?? title ?? "WebriQ Studio"}</title>
       </Head>
 
       {/*  Show page sections */}
@@ -98,7 +98,7 @@ function DocumentWithPreview({ data, slug, token = null }) {
     <>
       <Head>
         <meta name="viewport" content="width=260 initial-scale=1" />
-        <title>{seo?.seoTitle ?? title}</title>
+        <title>{seo?.seoTitle ?? title ?? "WebriQ Studio"}</title>
       </Head>
 
       {/* if page has no sections, show no sections only in preview */}
