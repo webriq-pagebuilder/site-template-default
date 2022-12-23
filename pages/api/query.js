@@ -137,7 +137,7 @@ export const slugQuery = groq`
 `;
 
 export const blogQuery = groq`
-  *[_type == "post" && slug.current == $slug][0] {
+  *[_type == "post" && slug.current == $slug]{
     ...,
     authors[]->{
       ...,
