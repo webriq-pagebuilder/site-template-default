@@ -68,7 +68,12 @@ function Document({ data }) {
           content="width=360 initial-scale=1, shrink-to-fit=no"
         />
         <link rel="icon" href="../favicon.ico" />
-        <title>{seo?.seoTitle ?? commonSections?.seo?.seoTitle ?? name}</title>
+        <title>
+          {seo?.seoTitle ??
+            commonSections?.seo?.seoTitle ??
+            name ??
+            "WebriQ Studio"}
+        </title>
       </Head>
 
       {/* Show Product page sections */}
@@ -109,7 +114,12 @@ function DocumentWithPreview({ data, slug, token = null }) {
           content="width=360 initial-scale=1, shrink-to-fit=no"
         />
         <link rel="icon" href="../favicon.ico" />
-        <title>{seo?.seoTitle ?? commonSections?.seo?.seoTitle ?? name}</title>
+        <title>
+          {seo?.seoTitle ??
+            commonSections?.seo?.seoTitle ??
+            name ??
+            "WebriQ Studio"}
+        </title>
       </Head>
 
       {/* if no sections, show no sections only in preview */}
