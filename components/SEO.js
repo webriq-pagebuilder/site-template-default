@@ -6,11 +6,35 @@ import { useRouter } from "next/router";
 function SEO({ data }) {
   const url = process.env.NEXT_PUBLIC_SITE_URL;
   const router = useRouter();
+
+  const defaultTitle = "WebriQ Studio";
+  const defaultDescription =
+    "WebriQ Studio powers microsites with audience-specific content";
   const defaultImage =
-    "https://cdn.sanity.io/images/9itgab5x/production/87847cd1916f808f401597223641e927024e9eca-5750x5000.jpg";
+    "https://cdn.sanity.io/images/9itgab5x/production/bfc0fab9e9b87def49b3a45c9b5bc436fa653be1-471x401.png";
 
   // determine SEO value based on props from active page
-  const pagesSEO = data?.pageData?.seo ?? data?.blogData?.seo;
+  const pages = data?.pageData;
+  const blogs = data?.blogData;
+
+  // get SEO values for pages
+  const pagesSEO = {
+    title: pages?.seo?.seoTitle || pages?.title,
+    keywords: pages?.seo?.seoKeywords,
+    synonyms: pages?.seo?.seoSynonyms,
+    description: pages?.seo?.seoDescription,
+    image: pages?.seo?.seoImage,
+  };
+
+  // get SEO values for blogs
+  const blogDescription = blogPostBody(blogs?.excerpt || blogs?.body);
+  const blogSEO = {
+    title: blogs?.seo?.seoTitle || blogs?.title,
+    keywords: blogs?.seo?.seoKeywords,
+    synonyms: blogs?.seo?.seoSynonyms,
+    description: blogs?.seo?.seoDescription || blogDescription,
+    image: blogs?.seo?.seoImage,
+  };
 
   // for C-Studio pages
   const productPageSEO = {
@@ -75,39 +99,42 @@ function SEO({ data }) {
     image: data?.wishlistData?.seo?.seoImage,
   };
 
-  const blogDescription = blogPostBody(pagesSEO?.excerpt || pagesSEO?.body);
-
-  // final values
+  // final meta tag values
   const metaTitle =
-    pagesSEO?.seoTitle ??
+    pagesSEO?.title ??
+    blogSEO?.title ??
     productPageSEO?.title ??
     collectionPageSEO?.title ??
     cartPageSEO?.title ??
     searchPageSEO?.title ??
     wishlistPageSEO?.title;
   const metaDescription =
-    blogDescription ??
+    pagesSEO?.description ??
+    blogSEO?.description ??
     productPageSEO?.description ??
     collectionPageSEO?.description ??
     cartPageSEO?.description ??
     searchPageSEO?.description ??
     wishlistPageSEO?.description;
   const metaImage =
-    pagesSEO?.seoImage ??
+    pagesSEO?.image ??
+    blogSEO?.image ??
     productPageSEO?.image ??
     collectionPageSEO?.image ??
     cartPageSEO?.image ??
     wishlistPageSEO?.image ??
     searchPageSEO?.image;
   const metaKeywords =
-    pagesSEO?.seoKeywords ??
+    pagesSEO?.keywords ??
+    blogSEO?.keywords ??
     productPageSEO?.keywords ??
     collectionPageSEO?.keywords ??
     cartPageSEO?.keywords ??
     searchPageSEO?.keywords ??
     wishlistPageSEO?.keywords;
   const metaSynonyms =
-    pagesSEO?.seoSynonyms ??
+    pagesSEO?.synonyms ??
+    blogSEO?.synonyms ??
     productPageSEO?.synonyms ??
     collectionPageSEO?.synonyms ??
     cartPageSEO?.synonyms ??
@@ -117,12 +144,12 @@ function SEO({ data }) {
   return (
     <>
       <NextSeo
-        title={metaTitle}
-        description={metaDescription}
+        title={metaTitle ?? defaultTitle}
+        description={metaDescription ?? defaultDescription}
         canonical={`${url}${router?.asPath}`}
         openGraph={{
-          title: metaTitle,
-          description: metaDescription,
+          title: metaTitle ?? defaultTitle,
+          description: metaDescription ?? defaultDescription,
           url: `${url}${router?.asPath}`,
           images: [
             {
@@ -133,7 +160,7 @@ function SEO({ data }) {
               type: "image/jpeg",
             },
           ],
-          site_name: metaTitle,
+          site_name: metaTitle ?? defaultTitle,
         }} // Twitter will read the og:title, og:image and og:description tags for their card. next-seo omits twitter:title, twitter:image and twitter:description to avoid duplication.
         twitter={{
           handle: "@handle",
