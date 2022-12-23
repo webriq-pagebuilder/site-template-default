@@ -133,6 +133,7 @@ export async function getStaticProps({
 
   // pass page data and preview to helper function
   const singlePageData = filterDataToSingleItem(page, preview);
+  const singleBlogData = filterDataToSingleItem(blogData, preview);
 
   return {
     props: {
@@ -140,7 +141,7 @@ export async function getStaticProps({
       token: (preview && previewData.token) || "",
       data: {
         pageData: singlePageData || null,
-        blogData: blogData || null,
+        blogData: singleBlogData || null,
       },
     },
     // If webhooks isn't setup then attempt to re-generate in 1 minute intervals
