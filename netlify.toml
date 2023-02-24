@@ -1,2 +1,9 @@
 [[plugins]]
   package = "@netlify/plugin-nextjs"
+
+# netlify.toml
+[[redirects]]
+  from = "/studio/*"
+  to = "/studio"
+  status = 301
+  force = true
