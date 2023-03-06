@@ -14,8 +14,8 @@ function Pricing({ data }) {
   const variant = data?.variant || data?.variants?.condition;
   const Variant = Variants?.[variant];
   let stripeAccount;
-  if (data.variants.stripeAccount) {
-    stripeAccount = JSON.parse(data.variants.stripeAccount);
+  if (data.variants.selectStripeAccount) {
+    stripeAccount = JSON.parse(data.variants.selectStripeAccount);
   }
 
   const props = {
