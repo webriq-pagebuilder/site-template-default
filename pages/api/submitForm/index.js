@@ -5,7 +5,7 @@ export default async (req, res) => {
     res.status(400).json({ message: "POST method only" });
   }
 
-  const REFERER_URL = req.headers.referer || process.env.URL;
+  const REFERER_URL = req.headers.referer || process.env.NEXT_PUBLIC_SITE_URL;
   const payload = req.body;
 
   const { data, id } = JSON.parse(payload);
