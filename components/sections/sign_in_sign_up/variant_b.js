@@ -2,10 +2,9 @@ import React from "react";
 import Link from "next/link";
 import WebriQForm from "components/webriq-form";
 import { urlFor } from "lib/sanity";
-import { logoLink, thankYouPageLink } from "helper";
+import { logoLink, thankYouPageLink, ExternalLink, InternalLink } from "helper";
 
 function VariantB({ logo, form, formLinks, signInLink }) {
-  const { id, name, subtitle, fields, buttonLabel, thankYouPage } = form;
   const [showPassword, setShowPassword] = React.useState(false); // show or hide password field value
   const [value, setValue] = React.useState(null); // setting selected value for input field radio type
   const [checked, setChecked] = React.useState([]); // setting selected value for input field checkbox type
@@ -46,20 +45,20 @@ function VariantB({ logo, form, formLinks, signInLink }) {
           </div>
           <div className="mb-6 lg:mb-10 p-6 lg:p-12 bg-white shadow-md rounded">
             <div className="mb-6">
-              <span className="text-gray-500">{subtitle}</span>
-              <h1 className="text-2xl font-bold">{name}</h1>
+              <span className="text-gray-500">{form?.subtitle}</span>
+              <h1 className="text-2xl font-bold">{form?.name}</h1>
             </div>
-            {fields && (
+            {form?.fields && (
               <WebriQForm
                 method="POST"
-                data-form-id={id}
+                data-form-id={form?.id}
                 name="SignUp-VariantB-Form"
                 className="form-signup"
-                data-thankyou-url={thankYouPageLink(thankYouPage)}
+                data-thankyou-url={thankYouPageLink(form?.thankYouPage)}
                 scriptsrc="https://pagebuilderforms.webriq.com/js/initReactForms"
               >
                 <div className="flex flex-wrap -mx-2">
-                  {fields?.slice(0, 2)?.map((formFields, index) => (
+                  {form?.fields?.slice(0, 2)?.map((formFields, index) => (
                     <div className="mb-3 w-full lg:w-1/2 px-2" key={index}>
                       {formFields?.type === "textarea" ? (
                         <textarea
@@ -200,7 +199,7 @@ function VariantB({ logo, form, formLinks, signInLink }) {
                     </div>
                   ))}
                 </div>
-                {fields?.slice(2)?.map((formFields, index) => (
+                {form?.fields?.slice(2)?.map((formFields, index) => (
                   <div key={index}>
                     {formFields?.type === "textarea" ? (
                       <textarea
@@ -417,64 +416,28 @@ function VariantB({ logo, form, formLinks, signInLink }) {
                   <div className="webriq-recaptcha" />
                 </div>
                 <div className="text-center">
-                  {buttonLabel && (
+                  {form?.buttonLabel && (
                     <button
-                      aria-label={buttonLabel ?? "Sign Up form submit button"}
+                      aria-label={form?.buttonLabel ?? "Sign Up form submit button"}
                       className="mb-2 w-full py-4 bg-webriq-darkblue hover:bg-webriq-blue rounded text-sm font-bold text-gray-50 transition duration-200"
                       type="submit"
                     >
-                      {buttonLabel}
+                      {form?.buttonLabel}
                     </button>
                   )}
                   {signInLink?.label && (
                     <span className="text-gray-900 text-xs">
                       <span>Already have an account?</span>
                       {signInLink?.type === "linkInternal" ? (
-                        <Link
-                          href={
-                            signInLink?.internalLink === "Home" ||
-                            signInLink?.internalLink === "home"
-                              ? "/"
-                              : `/${
-                                  signInLink?.internalLink === undefined
-                                    ? "page-not-found"
-                                    : signInLink?.internalLink
-                                }`
-                          }
-                        >
-                          <a
-                            aria-label={`${
-                              signInLink?.label ?? "Sign in"
-                            } link`}
-                            className="text-webriq-darkblue hover:underline"
-                            target={signInLink?.linkTarget}
-                            rel={
-                              signInLink?.linkTarget === "_blank"
-                                ? "noopener noreferrer"
-                                : null
-                            }
-                          >
-                            &nbsp;{signInLink?.label}
-                          </a>
-                        </Link>
-                      ) : (
-                        <a
-                          aria-label={`${signInLink?.label ?? "Sign in"} link`}
+                        <InternalLink
                           className="text-webriq-darkblue hover:underline"
-                          target={signInLink?.linkTarget}
-                          href={`${
-                            signInLink?.externalLink === undefined
-                              ? "link-not-found"
-                              : signInLink?.externalLink
-                          }`}
-                          rel={
-                            signInLink?.linkTarget === "_blank"
-                              ? "noopener noreferrer"
-                              : null
-                          }
-                        >
-                          &nbsp;{signInLink?.label}
-                        </a>
+                          link={signInLink}
+                        />
+                      ) : (
+                        <ExternalLink
+                          className="text-webriq-darkblue hover:underline"
+                          link={signInLink}
+                        />
                       )}
                     </span>
                   )}
@@ -487,50 +450,15 @@ function VariantB({ logo, form, formLinks, signInLink }) {
               {formLinks?.map((link, index, { length }) => (
                 <span key={index}>
                   {link?.type === "linkInternal" ? (
-                    <Link
-                      href={
-                        link?.internalLink === "Home" ||
-                        link?.internalLink === "home"
-                          ? "/"
-                          : `/${
-                              link.internalLink === undefined
-                                ? "page-not-found"
-                                : link.internalLink
-                            }`
-                      }
-                    >
-                      <a
-                        aria-label={`${signInLink?.label ?? "Sign in"} link`}
-                        className="underline hover:text-gray-500"
-                        target={link?.linkTarget}
-                        rel={
-                          link?.linkTarget === "_blank"
-                            ? "noopener noreferrer"
-                            : null
-                        }
-                      >
-                        {link?.label}
-                      </a>
-                    </Link>
-                  ) : (
-                    <a
-                      aria-label={`${signInLink?.label ?? "Sign in"} link`}
+                    <InternalLink
                       className="underline hover:text-gray-500"
-                      target={link?.linkTarget}
-                      href={`${
-                        link.externalLink === undefined
-                          ? "link-not-found"
-                          : link.externalLink
-                      }`}
-                      rel={
-                        link?.linkTarget === "_blank"
-                          ? "noopener noreferrer"
-                          : null
-                      }
-                      key={index}
-                    >
-                      {link?.label}
-                    </a>
+                      link={link}
+                    />
+                  ) : (
+                    <ExternalLink
+                      className="underline hover:text-gray-500"
+                      link={link}
+                    />
                   )}
                   {index === length - 1 ? null : index === length - 2 ? (
                     <span>&nbsp;and&nbsp;</span>

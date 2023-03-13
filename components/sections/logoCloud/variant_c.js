@@ -1,7 +1,8 @@
 import React from "react";
 import Image from "next/image";
-import Link from "next/link";
 import { urlFor } from "lib/sanity";
+import { ExternalLink, InternalLink } from "helper";
+
 
 function VariantC({ title, images, button }) {
   return (
@@ -12,55 +13,15 @@ function VariantC({ title, images, button }) {
             {title}
           </h1>
           {button && button?.type === "linkInternal" ? (
-            <Link
-              href={
-                button?.internalLink === "Home" ||
-                button?.internalLink === "home"
-                  ? "/"
-                  : `/${
-                      button?.internalLink === undefined
-                        ? "page-not-found"
-                        : button?.internalLink
-                    }`
-              }
-            >
-              <a
-                aria-label={`Logo Cloud ${
-                  button?.label ?? "Primary"
-                } button which directs to ${
-                  button?.internalLink === undefined
-                    ? "page-not-found"
-                    : button?.internalLink
-                }`}
-                className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose"
-                target={button?.linkTarget}
-                rel={
-                  button?.linkTarget === "_blank" ? "noopener noreferrer" : ""
-                }
-              >
-                {button?.label}
-              </a>
-            </Link>
-          ) : (
-            <a
-              aria-label={`Logo Cloud ${
-                button?.label ?? "Primary"
-              } button which directs to ${
-                button?.externalLink === undefined
-                  ? "link-not-found"
-                  : button?.externalLink
-              }`}
+            <InternalLink
               className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose"
-              target={button?.linkTarget}
-              href={`${
-                button?.externalLink === undefined
-                  ? "link-not-found"
-                  : button?.externalLink
-              }`}
-              rel={button?.linkTarget === "_blank" ? "noopener noreferrer" : ""}
-            >
-              {button?.label}
-            </a>
+              link={button}
+            />
+          ) : (
+            <ExternalLink
+              className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose"
+              link={button}
+            />
           )}
         </div>
         <div className="hidden lg:block relative">

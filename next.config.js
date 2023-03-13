@@ -16,6 +16,11 @@ module.exports = {
         destination: "/",
         permanent: true,
       },
+      {
+        source: "/studio",
+        destination: process.env.SITE_SANITY_STUDIO_URL,
+        permanent: true,
+      }
     ];
   },
 };

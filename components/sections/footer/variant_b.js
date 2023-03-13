@@ -1,7 +1,7 @@
 import { urlFor } from "lib/sanity";
 import Link from "next/link";
 import React from "react";
-import { logoLink } from "helper";
+import { logoLink, ExternalLink, InternalLink } from "helper";
 
 function VariantB({ logo, copyright, socialMedia, menu }) {
   return (
@@ -36,61 +36,15 @@ function VariantB({ logo, copyright, socialMedia, menu }) {
                     <React.Fragment key={links?._key || index}>
                       <li className="w-full md:w-auto mb-2 md:mb-0" key={index}>
                         {links?.type === "linkInternal" ? (
-                          <Link
-                            href={
-                              links?.internalLink === "Home" ||
-                              links?.internalLink === "home"
-                                ? "/"
-                                : `/${
-                                    links?.internalLink === undefined
-                                      ? "page-not-found"
-                                      : links?.internalLink
-                                  }`
-                            }
-                          >
-                            <a
-                              aria-label={`Footer ${
-                                links?.label ?? "Menu"
-                              } links which directs to ${
-                                links?.internalLink === undefined
-                                  ? "page-not-found"
-                                  : links?.internalLink
-                              }`}
-                              className="lg:text-sm text-gray-500 hover:text-gray-700"
-                              target={links?.linkTarget}
-                              rel={
-                                links?.linkTarget === "_blank"
-                                  ? "noopener noreferrer"
-                                  : null
-                              }
-                            >
-                              {links?.label}
-                            </a>
-                          </Link>
-                        ) : (
-                          <a
-                            aria-label={`Footer ${
-                              links?.label ?? "Menu"
-                            } links which directs to ${
-                              links?.externalLink === undefined
-                                ? "link-not-found"
-                                : links?.externalLink
-                            }`}
+                          <InternalLink
                             className="lg:text-sm text-gray-500 hover:text-gray-700"
-                            target={links?.linkTarget}
-                            rel={
-                              links?.linkTarget === "_blank"
-                                ? "noopener noreferrer"
-                                : null
-                            }
-                            href={`${
-                              links?.externalLink === undefined
-                                ? "link-not-found"
-                                : links?.externalLink
-                            }`}
-                          >
-                            {links?.label}
-                          </a>
+                            link={links}
+                          />
+                        ) : (
+                          <ExternalLink
+                            className="lg:text-sm text-gray-500 hover:text-gray-700"
+                            link={links}
+                          />
                         )}
                       </li>
                       {index + 1 !== length ? (

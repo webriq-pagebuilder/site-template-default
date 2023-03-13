@@ -3,6 +3,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { urlFor } from "lib/sanity";
 import { format } from "date-fns";
+import { ExternalLink, InternalLink } from "helper";
+
 
 function VariantB({ subtitle, title, posts, primaryButton }) {
   let blogsPerPage = 5,
@@ -33,10 +35,10 @@ function VariantB({ subtitle, title, posts, primaryButton }) {
                       <div className="h-full rounded-t overflow-hidden">
                         <Image
                           src={urlFor(post?.mainImage)}
-                          layout="responsive"
+                          sizes="100vw" 
+                          style={{ width: "100%", height: auto, objectFit: "cover" }}
                           width="271px"
                           height="248px"
-                          objectFit="cover"
                           alt={`blog-variantB-image-${key}`}
                           blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
                           placeholder="blur"
@@ -61,14 +63,11 @@ function VariantB({ subtitle, title, posts, primaryButton }) {
                       )}
                       {post?.slug?.current && (
                         <Link
+                          aria-label={`Go to ${post?.slug?.current} blog page`}
+                          className="text-webriq-darkblue hover:text-webriq-babyblue font-bold"
                           href={`/${post?.slug?.current}` ?? "/page-not-found"}
                         >
-                          <a
-                            aria-label={`Go to ${post?.slug?.current} blog page`}
-                            className="text-webriq-darkblue hover:text-webriq-babyblue font-bold"
-                          >
-                            View Blog Post
-                          </a>
+                          View Blog Post
                         </Link>
                       )}
                     </div>
@@ -83,10 +82,10 @@ function VariantB({ subtitle, title, posts, primaryButton }) {
                         <div className="h-full rounded-t overflow-hidden">
                           <Image
                             src={urlFor(post?.mainImage)}
-                            layout="responsive"
+                            sizes="100vw" 
+                            style={{ width: "100%", height: auto, objectFit: "cover" }}
                             width="259px"
                             height="192px"
-                            objectFit="cover"
                             alt={`blog-variantB-image-${key}`}
                             blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
                             placeholder="blur"
@@ -114,16 +113,13 @@ function VariantB({ subtitle, title, posts, primaryButton }) {
                         )}
                         {post?.slug?.current && (
                           <Link
+                            aria-label={`Go to ${post?.slug?.current} blog page`}
+                            className="text-webriq-darkblue hover:text-webriq-babyblue font-bold"
                             href={
                               `/${post?.slug?.current}` ?? "/page-not-found"
                             }
                           >
-                            <a
-                              aria-label={`Go to ${post?.slug?.current} blog page`}
-                              className="text-webriq-darkblue hover:text-webriq-babyblue font-bold"
-                            >
-                              View Blog Post
-                            </a>
+                            View Blog Post
                           </Link>
                         )}
                       </div>
@@ -135,53 +131,15 @@ function VariantB({ subtitle, title, posts, primaryButton }) {
             <div className="text-center">
               {primaryButton?.label &&
               primaryButton?.type === "linkInternal" ? (
-                <Link
-                  href={
-                    primaryButton?.internalLink === "Home" ||
-                    primaryButton?.internalLink === "home"
-                      ? "/"
-                      : `/${
-                          primaryButton.internalLink === undefined
-                            ? "page-not-found"
-                            : primaryButton.internalLink
-                        }`
-                  }
-                >
-                  <a
-                    aria-label={`Click here to ${
-                      primaryButton?.label ?? "View More Articles"
-                    }`}
-                    className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose outline-none transition duration-200"
-                    target={primaryButton?.linkTarget}
-                    rel={
-                      primaryButton?.linkTarget === "_blank"
-                        ? "noopener noreferrer"
-                        : null
-                    }
-                  >
-                    {primaryButton?.label}
-                  </a>
-                </Link>
-              ) : (
-                <a
-                  aria-label={`Click here to ${
-                    primaryButton?.label ?? "View More Articles"
-                  }`}
+                <InternalLink
                   className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose outline-none transition duration-200"
-                  target={primaryButton?.linkTarget}
-                  href={`${
-                    primaryButton?.externalLink === undefined
-                      ? "link-not-found"
-                      : primaryButton?.externalLink
-                  }`}
-                  rel={
-                    primaryButton?.linkTarget === "_blank"
-                      ? "noopener noreferrer"
-                      : null
-                  }
-                >
-                  {primaryButton?.label}
-                </a>
+                  link={primaryButton}
+                />
+              ) : (
+                <ExternalLink
+                  className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose outline-none transition duration-200"
+                  link={primaryButton}
+                />
               )}
             </div>
           </div>

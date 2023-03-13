@@ -1,6 +1,7 @@
 import React from "react";
 import WebriQForm from "components/webriq-form";
 import { PortableText, urlFor } from "lib/sanity";
+import { thankYouPageLink } from "helper";
 
 function VariantA({
   contactDescription,
@@ -45,7 +46,6 @@ function VariantA({
     },
   };
 
-  const { id, fields, buttonLabel, thankYouPage } = form;
   const [value, setValue] = React.useState(null); // setting selected value for input field radio type
   const [checked, setChecked] = React.useState([]); // setting selected value for input field checkbox type
   const [filename, setFilename] = React.useState(null); // setting input field filename
@@ -65,18 +65,6 @@ function VariantA({
   const handleShowFileName = (e) => {
     if (e.target.files.length > 0) {
       setFilename(e.target.files[0].name);
-    }
-  };
-
-  const thankYouPageLink = (link) => {
-    if (!link) {
-      return "/thank-you";
-    } else {
-      if (link?.linkType === "linkInternal") {
-        return `/${link.internalLink}`;
-      } else {
-        return link.externalLink;
-      }
     }
   };
 
@@ -191,17 +179,17 @@ function VariantA({
               </div>
             </div>
             <div className="pl-10 w-full lg:w-1/2">
-              {fields && (
+              {form?.fields && (
                 <div className="max-w-md lg:mx-auto">
                   <WebriQForm
                     method="POST"
-                    data-form-id={id}
+                    data-form-id={form?.id}
                     name="Contact-VariantA-Form"
                     className="form-contacts"
-                    data-thankyou-url={thankYouPageLink(thankYouPage)}
+                    data-thankyou-url={thankYouPageLink(form?.thankYouPage)}
                     scriptsrc="https://pagebuilderforms.webriq.com/js/initReactForms"
                   >
-                    {fields?.map((formFields, index) => (
+                    {form?.fields?.map((formFields, index) => (
                       <div key={index}>
                         {formFields?.type === "textarea" ? (
                           <div className="mb-4">
@@ -377,15 +365,15 @@ function VariantA({
                       <div>
                         <div className="webriq-recaptcha" />
                       </div>
-                      {buttonLabel && (
+                      {form?.buttonLabel && (
                         <button
                           aria-label={
-                            buttonLabel ?? "Contact form submit button"
+                            form?.buttonLabel ?? "Contact form submit button"
                           }
                           className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-white font-bold leading-loose transition duration-200"
                           type="submit"
                         >
-                          {buttonLabel}
+                          {form?.buttonLabel}
                         </button>
                       )}
                     </div>

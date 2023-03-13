@@ -13,6 +13,7 @@ import {
 import { loadStripe } from "@stripe/stripe-js";
 import axios from "axios";
 import router from "next/router";
+import { thankYouPageLink, ExternalLink, InternalLink } from "helper";
 
 function VariantD({
   caption,
@@ -214,18 +215,6 @@ function VariantD({
           if (response.statusText === "OK") {
             router.push("/success");
           }
-        }
-      }
-    };
-
-    const thankYouPageLink = (link) => {
-      if (!link) {
-        return "/thank-you";
-      } else {
-        if (link?.linkType === "linkInternal") {
-          return `/${link.internalLink}`;
-        } else {
-          return link.externalLink;
         }
       }
     };
@@ -536,51 +525,15 @@ function VariantD({
             <p className="text-xs text-gray-500">
               Already have an account?{" "}
               {signInLink?.type === "linkInternal" ? (
-                <Link
-                  href={
-                    signInLink?.internalLink === "Home" ||
-                    signInLink?.internalLink === "home"
-                      ? "/"
-                      : `/${
-                          signInLink?.internalLink === undefined
-                            ? "page-not-found"
-                            : signInLink?.internalLink
-                        }`
-                  }
-                >
-                  <a
-                    aria-label={`Pricing ${
-                      signInLink?.label ?? "Sign In"
-                    } link`}
-                    className="text-webriq-darkblue hover:underline"
-                    target={signInLink?.linkTarget}
-                    rel={
-                      signInLink?.linkTarget === "_blank"
-                        ? "noopener noreferrer"
-                        : null
-                    }
-                  >
-                    &nbsp;{signInLink?.label}
-                  </a>
-                </Link>
-              ) : (
-                <a
-                  aria-label={`Pricing ${signInLink?.label ?? "Sign In"} link`}
+                <InternalLink
                   className="text-webriq-darkblue hover:underline"
-                  target={signInLink?.linkTarget}
-                  href={`${
-                    signInLink.externalLink === undefined
-                      ? "link-not-found"
-                      : signInLink.externalLink
-                  }`}
-                  rel={
-                    signInLink?.linkTarget === "_blank"
-                      ? "noopener noreferrer"
-                      : null
-                  }
-                >
-                  &nbsp;{signInLink?.label}
-                </a>
+                  link={signInLink}
+                />
+              ) : (
+                <ExternalLink
+                  className="text-webriq-darkblue hover:underline"
+                  link={signInLink}
+                />
               )}
             </p>
           )}

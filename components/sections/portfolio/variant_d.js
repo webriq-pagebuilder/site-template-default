@@ -1,7 +1,8 @@
 import React from "react";
 import Image from "next/image";
-import Link from "next/link";
 import { urlFor } from "lib/sanity";
+import { ExternalLink, InternalLink } from "helper";
+
 
 function VariantD({ caption, title, portfoliosWithCategory }) {
   let portfoliosPerPage = 6,
@@ -80,77 +81,7 @@ function VariantD({ caption, title, portfoliosWithCategory }) {
                               <p className="mb-6 text-gray-500">
                                 {content?.description}
                               </p>
-                              {content?.primaryButton?.label &&
-                              content?.primaryButton?.type ===
-                                "linkInternal" ? (
-                                <Link
-                                  href={
-                                    content?.primaryButton?.internalLink ===
-                                      "Home" ||
-                                    content?.primaryButton?.internalLink ===
-                                      "home"
-                                      ? "/"
-                                      : `/${
-                                          content?.primaryButton
-                                            ?.internalLink === undefined
-                                            ? "page-not-found"
-                                            : content?.primaryButton
-                                                ?.internalLink
-                                        }`
-                                  }
-                                >
-                                  <a
-                                    aria-label={`Portfolio ${
-                                      content?.primaryButton?.label ??
-                                      "View Project"
-                                    } button which directs to ${
-                                      content?.primaryButton?.internalLink ===
-                                      undefined
-                                        ? "page-not-found"
-                                        : content?.primaryButton?.internalLink
-                                    }`}
-                                    className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose"
-                                    target={content?.primaryButton?.linkTarget}
-                                    rel={
-                                      content?.primaryButton?.linkTarget ===
-                                      "_blank"
-                                        ? "noopener noreferrer"
-                                        : null
-                                    }
-                                  >
-                                    {content?.primaryButton?.label ??
-                                      "See More"}
-                                  </a>
-                                </Link>
-                              ) : (
-                                <a
-                                  aria-label={`Portfolio ${
-                                    content?.primaryButton?.label ??
-                                    "View Project"
-                                  } button which directs to ${
-                                    content?.primaryButton?.externalLink ===
-                                    undefined
-                                      ? "page-not-found"
-                                      : content?.primaryButton?.externalLink
-                                  }`}
-                                  className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose"
-                                  target={content?.primaryButton?.linkTarget}
-                                  href={`${
-                                    content?.primaryButton?.externalLink ===
-                                    undefined
-                                      ? "link-not-found"
-                                      : content?.primaryButton?.externalLink
-                                  }`}
-                                  rel={
-                                    content?.primaryButton?.linkTarget ===
-                                    "_blank"
-                                      ? "noopener noreferrer"
-                                      : null
-                                  }
-                                >
-                                  {content?.primaryButton?.label ?? "See More"}
-                                </a>
-                              )}
+                              {content?.primaryButton?.label && PrimaryButton(content?.primaryButton)}
                             </div>
                           </div>
                         </div>
@@ -189,77 +120,7 @@ function VariantD({ caption, title, portfoliosWithCategory }) {
                               <p className="mb-6 text-gray-500">
                                 {content?.description}
                               </p>
-                              {content?.primaryButton?.label &&
-                              content?.primaryButton?.type ===
-                                "linkInternal" ? (
-                                <Link
-                                  href={
-                                    content?.primaryButton?.internalLink ===
-                                      "Home" ||
-                                    content?.primaryButton?.internalLink ===
-                                      "home"
-                                      ? "/"
-                                      : `/${
-                                          content?.primaryButton
-                                            ?.internalLink === undefined
-                                            ? "page-not-found"
-                                            : content?.primaryButton
-                                                ?.internalLink
-                                        }`
-                                  }
-                                >
-                                  <a
-                                    aria-label={`Portfolio ${
-                                      content?.primaryButton?.label ??
-                                      "View Project"
-                                    } button which directs to ${
-                                      content?.primaryButton?.internalLink ===
-                                      undefined
-                                        ? "page-not-found"
-                                        : content?.primaryButton?.internalLink
-                                    }`}
-                                    className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose"
-                                    target={content?.primaryButton?.linkTarget}
-                                    rel={
-                                      content?.primaryButton?.linkTarget ===
-                                      "_blank"
-                                        ? "noopener noreferrer"
-                                        : null
-                                    }
-                                  >
-                                    {content?.primaryButton?.label ??
-                                      "See More"}
-                                  </a>
-                                </Link>
-                              ) : (
-                                <a
-                                  aria-label={`Portfolio ${
-                                    content?.primaryButton?.label ??
-                                    "View Project"
-                                  } button which directs to ${
-                                    content?.primaryButton?.externalLink ===
-                                    undefined
-                                      ? "page-not-found"
-                                      : content?.primaryButton?.externalLink
-                                  }`}
-                                  className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose"
-                                  target={content?.primaryButton?.linkTarget}
-                                  href={`${
-                                    content?.primaryButton?.externalLink ===
-                                    undefined
-                                      ? "link-not-found"
-                                      : content?.primaryButton?.externalLink
-                                  }`}
-                                  rel={
-                                    content?.primaryButton?.linkTarget ===
-                                    "_blank"
-                                      ? "noopener noreferrer"
-                                      : null
-                                  }
-                                >
-                                  {content?.primaryButton?.label ?? "See More"}
-                                </a>
-                              )}
+                              {content?.primaryButton?.label && PrimaryButton(content?.primaryButton)}
                             </div>
                           </div>
                         </div>
@@ -300,77 +161,7 @@ function VariantD({ caption, title, portfoliosWithCategory }) {
                               <p className="mb-6 text-gray-500">
                                 {content?.description}
                               </p>
-                              {content?.primaryButton?.label &&
-                              content?.primaryButton?.type ===
-                                "linkInternal" ? (
-                                <Link
-                                  href={
-                                    content?.primaryButton?.internalLink ===
-                                      "Home" ||
-                                    content?.primaryButton?.internalLink ===
-                                      "home"
-                                      ? "/"
-                                      : `/${
-                                          content?.primaryButton
-                                            ?.internalLink === undefined
-                                            ? "page-not-found"
-                                            : content?.primaryButton
-                                                ?.internalLink
-                                        }`
-                                  }
-                                >
-                                  <a
-                                    aria-label={`Portfolio ${
-                                      content?.primaryButton?.label ??
-                                      "View Project"
-                                    } button which directs to ${
-                                      content?.primaryButton?.internalLink ===
-                                      undefined
-                                        ? "page-not-found"
-                                        : content?.primaryButton?.internalLink
-                                    }`}
-                                    className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose"
-                                    target={content?.primaryButton?.linkTarget}
-                                    rel={
-                                      content?.primaryButton?.linkTarget ===
-                                      "_blank"
-                                        ? "noopener noreferrer"
-                                        : null
-                                    }
-                                  >
-                                    {content?.primaryButton?.label ??
-                                      "See More"}
-                                  </a>
-                                </Link>
-                              ) : (
-                                <a
-                                  aria-label={`Portfolio ${
-                                    content?.primaryButton?.label ??
-                                    "View Project"
-                                  } button which directs to ${
-                                    content?.primaryButton?.externalLink ===
-                                    undefined
-                                      ? "page-not-found"
-                                      : content?.primaryButton?.externalLink
-                                  }`}
-                                  className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose"
-                                  target={content?.primaryButton?.linkTarget}
-                                  href={`${
-                                    content?.primaryButton?.externalLink ===
-                                    undefined
-                                      ? "link-not-found"
-                                      : content?.primaryButton?.externalLink
-                                  }`}
-                                  rel={
-                                    content?.primaryButton?.linkTarget ===
-                                    "_blank"
-                                      ? "noopener noreferrer"
-                                      : null
-                                  }
-                                >
-                                  {content?.primaryButton?.label ?? "See More"}
-                                </a>
-                              )}
+                              {content?.primaryButton?.label && PrimaryButton(content?.primaryButton)}
                             </div>
                           </div>
                         </div>
@@ -410,80 +201,7 @@ function VariantD({ caption, title, portfoliosWithCategory }) {
                                 <p className="mb-6 text-gray-500">
                                   {content?.description}
                                 </p>
-                                {content?.primaryButton?.label &&
-                                content?.primaryButton?.type ===
-                                  "linkInternal" ? (
-                                  <Link
-                                    href={
-                                      content?.primaryButton?.internalLink ===
-                                        "Home" ||
-                                      content?.primaryButton?.internalLink ===
-                                        "home"
-                                        ? "/"
-                                        : `/${
-                                            content?.primaryButton
-                                              ?.internalLink === undefined
-                                              ? "page-not-found"
-                                              : content?.primaryButton
-                                                  ?.internalLink
-                                          }`
-                                    }
-                                  >
-                                    <a
-                                      aria-label={`Portfolio ${
-                                        content?.primaryButton?.label ??
-                                        "View Project"
-                                      } button which directs to ${
-                                        content?.primaryButton?.internalLink ===
-                                        undefined
-                                          ? "page-not-found"
-                                          : content?.primaryButton?.internalLink
-                                      }`}
-                                      className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose"
-                                      target={
-                                        content?.primaryButton?.linkTarget
-                                      }
-                                      rel={
-                                        content?.primaryButton?.linkTarget ===
-                                        "_blank"
-                                          ? "noopener noreferrer"
-                                          : null
-                                      }
-                                    >
-                                      {content?.primaryButton?.label ??
-                                        "See More"}
-                                    </a>
-                                  </Link>
-                                ) : (
-                                  <a
-                                    aria-label={`Portfolio ${
-                                      content?.primaryButton?.label ??
-                                      "View Project"
-                                    } button which directs to ${
-                                      content?.primaryButton?.externalLink ===
-                                      undefined
-                                        ? "page-not-found"
-                                        : content?.primaryButton?.externalLink
-                                    }`}
-                                    className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose"
-                                    target={content?.primaryButton?.linkTarget}
-                                    href={`${
-                                      content?.primaryButton?.externalLink ===
-                                      undefined
-                                        ? "link-not-found"
-                                        : content?.primaryButton?.externalLink
-                                    }`}
-                                    rel={
-                                      content?.primaryButton?.linkTarget ===
-                                      "_blank"
-                                        ? "noopener noreferrer"
-                                        : null
-                                    }
-                                  >
-                                    {content?.primaryButton?.label ??
-                                      "See More"}
-                                  </a>
-                                )}
+                                {content?.primaryButton?.label && PrimaryButton(content?.primaryButton)}
                               </div>
                             </div>
                           </div>
@@ -498,64 +216,15 @@ function VariantD({ caption, title, portfoliosWithCategory }) {
             <div className="text-center">
               {portfoliosPerCategory?.[0]?.primaryButton?.type ===
               "linkInternal" ? (
-                <Link
-                  href={
-                    portfoliosPerCategory?.[0]?.primaryButton?.internalLink ===
-                      "Home" ||
-                    portfoliosPerCategory?.[0]?.primaryButton?.internalLink ===
-                      "home"
-                      ? "/"
-                      : `/${
-                          portfoliosPerCategory?.[0]?.primaryButton
-                            ?.internalLink === undefined
-                            ? "page-not-found"
-                            : portfoliosPerCategory?.[0]?.primaryButton
-                                ?.internalLink
-                        }`
-                  }
-                >
-                  <a
-                    aria-label={`Click here to ${
-                      portfoliosPerCategory?.[0]?.primaryButton?.label ??
-                      "View More Projects"
-                    }`}
-                    className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose outline-none transition duration-200"
-                    target={
-                      portfoliosPerCategory?.[0]?.primaryButton?.linkTarget
-                    }
-                    rel={
-                      portfoliosPerCategory?.[0]?.primaryButton?.linkTarget ===
-                      "_blank"
-                        ? "noopener noreferrer"
-                        : null
-                    }
-                  >
-                    {portfoliosPerCategory?.[0]?.primaryButton?.label}
-                  </a>
-                </Link>
-              ) : (
-                <a
-                  aria-label={`Click here to ${
-                    portfoliosPerCategory?.[0]?.primaryButton?.label ??
-                    "View More Projects"
-                  }`}
+                <InternalLink
                   className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose outline-none transition duration-200"
-                  target={portfoliosPerCategory?.[0]?.primaryButton?.linkTarget}
-                  href={`${
-                    portfoliosPerCategory?.[0]?.primaryButton?.externalLink ===
-                    undefined
-                      ? "link-not-found"
-                      : portfoliosPerCategory?.[0]?.primaryButton?.externalLink
-                  }`}
-                  rel={
-                    portfoliosPerCategory?.[0]?.primaryButton?.linkTarget ===
-                    "_blank"
-                      ? "noopener noreferrer"
-                      : null
-                  }
-                >
-                  {portfoliosPerCategory?.[0]?.primaryButton?.label}
-                </a>
+                  link={portfoliosPerCategory?.[0]?.primaryButton}
+                />
+              ) : (
+                <ExternalLink
+                  className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose outline-none transition duration-200"
+                  link={portfoliosPerCategory?.[0]?.primaryButton}
+                />
               )}
             </div>
           )}
@@ -564,4 +233,19 @@ function VariantD({ caption, title, portfoliosWithCategory }) {
     </section>
   );
 }
+
+function PrimaryButton(props) {
+  props?.type === "linkInternal" ? (
+    <InternalLink
+      className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose"
+      link={props}
+    />
+  ) : (
+    <ExternalLink
+      className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose"
+      link={props}
+    />
+  )
+}
+
 export default React.memo(VariantD);

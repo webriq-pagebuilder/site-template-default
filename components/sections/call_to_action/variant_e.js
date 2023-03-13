@@ -1,9 +1,9 @@
 import React from "react";
-import Link from "next/link";
 import WebriQForm from "components/webriq-form";
+import { thankYouPageLink, InternalLink, ExternalLink } from "helper";
+
 
 function VariantE({ form, formLinks, signInLink }) {
-  const { id, name, subtitle, fields, buttonLabel, thankYouPage } = form;
   const [value, setValue] = React.useState(null); // setting selected value for input field radio type
   const [checked, setChecked] = React.useState([]); // setting selected value for input field checkbox type
 
@@ -19,38 +19,26 @@ function VariantE({ form, formLinks, signInLink }) {
     );
   };
 
-  const thankYouPageLink = (link) => {
-    if (!link) {
-      return "/thank-you";
-    } else {
-      if (link?.linkType === "linkInternal") {
-        return `/${link.internalLink}`;
-      } else {
-        return link.externalLink;
-      }
-    }
-  };
-
   return (
     <section className="py-20 px-10 bg-gray-50">
       <div className="container mx-auto px-4">
         <div className="max-w-md mx-auto">
-          {fields && (
+          {form?.fields && (
             <div className="mb-6 py-8 px-6 bg-white shadow rounded-t-3xl rounded-bl-3xl text-center">
               <WebriQForm
                 method="POST"
-                data-form-id={id}
+                data-form-id={form?.id}
                 name="Calltoaction-VariantE-Form"
                 className="form-callToAction"
-                data-thankyou-url={thankYouPageLink(thankYouPage)}
+                data-thankyou-url={thankYouPageLink(form?.thankYouPage)}
                 scriptsrc="https://pagebuilderforms.webriq.com/js/initReactForms"
               >
                 <div className="mb-6">
-                  <span className="text-sm text-gray-500">{subtitle}</span>
-                  <p className="text-2xl">{name}</p>
+                  <span className="text-sm text-gray-500">{form?.subtitle}</span>
+                  <p className="text-2xl">{form?.name}</p>
                 </div>
                 <div className="mb-3 flex flex-wrap -mx-2">
-                  {fields?.slice(0, 2)?.map((formFields, index) => (
+                  {form?.fields?.slice(0, 2)?.map((formFields, index) => (
                     <div
                       className="w-full lg:w-1/2 px-2 mb-3 lg:mb-0 xl:mb-0 2xl:mb-0"
                       key={index}
@@ -193,7 +181,7 @@ function VariantE({ form, formLinks, signInLink }) {
                     </div>
                   ))}
                 </div>
-                {fields?.slice(2)?.map((formFields, index) => (
+                {form?.fields?.slice(2)?.map((formFields, index) => (
                   <div key={index}>
                     {formFields?.type === "textarea" ? (
                       <textarea
@@ -338,15 +326,15 @@ function VariantE({ form, formLinks, signInLink }) {
                 <div>
                   <div className="webriq-recaptcha" />
                 </div>
-                {buttonLabel && (
+                {form?.buttonLabel && (
                   <button
                     aria-label={
-                      buttonLabel ?? "Call to action form submit button"
+                      form?.buttonLabel ?? "Call to action form submit button"
                     }
                     className="mb-4 py-4 w-full rounded text-sm bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-normal transition duration-200"
                     type="submit"
                   >
-                    {buttonLabel}
+                    {form?.buttonLabel}
                   </button>
                 )}
               </WebriQForm>
@@ -354,53 +342,15 @@ function VariantE({ form, formLinks, signInLink }) {
                 <p className="text-xs text-gray-500">
                   <span>Already have an account?</span>
                   {signInLink?.type === "linkInternal" ? (
-                    <Link
-                      href={
-                        signInLink?.internalLink === "Home" ||
-                        signInLink?.internalLink === "home"
-                          ? "/"
-                          : `/${
-                              signInLink?.internalLink === undefined
-                                ? "page-not-found"
-                                : signInLink?.internalLink
-                            }`
-                      }
-                    >
-                      <a
-                        aria-label={`Call to action ${
-                          signInLink?.label ?? "Sign In"
-                        } link`}
-                        className="text-webriq-darkblue hover:text-webriq-babyblue"
-                        target={signInLink?.linkTarget}
-                        rel={
-                          signInLink?.linkTarget === "_blank"
-                            ? "noopener noreferrer"
-                            : null
-                        }
-                      >
-                        &nbsp;{signInLink?.label}
-                      </a>
-                    </Link>
-                  ) : (
-                    <a
-                      aria-label={`Call to action ${
-                        signInLink?.label ?? "Sign In"
-                      } link`}
+                    <InternalLink
                       className="text-webriq-darkblue hover:text-webriq-babyblue"
-                      target={signInLink?.linkTarget}
-                      href={`${
-                        signInLink.externalLink === undefined
-                          ? "link-not-found"
-                          : signInLink.externalLink
-                      }`}
-                      rel={
-                        signInLink?.linkTarget === "_blank"
-                          ? "noopener noreferrer"
-                          : null
-                      }
-                    >
-                      &nbsp;{signInLink?.label}
-                    </a>
+                      link={signInLink}
+                    />
+                  ) : (
+                    <ExternalLink
+                      className="text-webriq-darkblue hover:text-webriq-babyblue"
+                      link={signInLink}
+                    />
                   )}
                 </p>
               )}
@@ -411,62 +361,15 @@ function VariantE({ form, formLinks, signInLink }) {
               {formLinks?.map((link, index, { length }) => (
                 <div key={index}>
                   {link?.type === "linkInternal" ? (
-                    <Link
-                      href={
-                        link?.internalLink === "Home" ||
-                        link?.internalLink === "home"
-                          ? "/"
-                          : `/${
-                              link.internalLink === undefined
-                                ? "page-not-found"
-                                : link.internalLink
-                            }`
-                      }
-                    >
-                      <a
-                        aria-label={`Call to action ${
-                          link?.label ?? "Terms and Policies"
-                        } links which directs to ${
-                          link?.internalLink === undefined
-                            ? "page-not-found"
-                            : link?.internalLink
-                        }`}
-                        className="text-webriq-darkblue hover:text-webriq-blue font-bold"
-                        target={link?.linkTarget}
-                        rel={
-                          link?.linkTarget === "_blank"
-                            ? "noopener noreferrer"
-                            : null
-                        }
-                      >
-                        {link?.label}
-                      </a>
-                    </Link>
-                  ) : (
-                    <a
-                      aria-label={`Call to action ${
-                        link?.label ?? "Terms and Policies"
-                      } links which directs to ${
-                        link?.externalLink === undefined
-                          ? "link-not-found"
-                          : link?.externalLink
-                      }`}
+                    <InternalLink
                       className="text-webriq-darkblue hover:text-webriq-blue font-bold"
-                      target={link?.linkTarget}
-                      href={`${
-                        link.externalLink === undefined
-                          ? "link-not-found"
-                          : link.externalLink
-                      }`}
-                      rel={
-                        link?.linkTarget === "_blank"
-                          ? "noopener noreferrer"
-                          : null
-                      }
-                      key={index}
-                    >
-                      {link?.label}
-                    </a>
+                      link={link}
+                    />
+                  ) : (
+                    <ExternalLink
+                      className="text-webriq-darkblue hover:text-webriq-blue font-bold"
+                      link={link}
+                    />
                   )}
                   {index === length - 1 ? null : index === length - 2 ? (
                     <span>&nbsp;and&nbsp;</span>

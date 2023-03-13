@@ -107,16 +107,16 @@ function VariantB({
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
 
   // view previous and next images
-  const arrowRightClick = () => {
-    activeImage !== images.length - 1 // Check index length
-      ? setActiveImage(activeImage + 1)
-      : setActiveImage((activeImage = 0));
-  };
-  const arrowLeftClick = () => {
-    activeImage !== 0 // Check index length
-      ? setActiveImage(activeImage - 1)
-      : setActiveImage((activeImage = images.length - 1));
-  };
+  // const arrowRightClick = () => {
+  //   activeImage !== images.length - 1 // Check index length
+  //     ? setActiveImage(activeImage + 1)
+  //     : setActiveImage((activeImage = 0));
+  // };
+  // const arrowLeftClick = () => {
+  //   activeImage !== 0 // Check index length
+  //     ? setActiveImage(activeImage - 1)
+  //     : setActiveImage((activeImage = images.length - 1));
+  // };
 
   return (
     <section className="py-20">

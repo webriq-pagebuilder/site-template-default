@@ -144,18 +144,15 @@ function VariantD({ subtitle, title, posts }) {
                         <div className="w-full lg:w-3/4 px-3">
                           {post?.title && (
                             <Link
+                              aria-label={`Go to ${post?.slug?.current} blog page`}
+                              className="hover:text-webriq-babyblue"
                               href={`/${
                                 post?.slug?.current ?? "page-not-added"
                               }`}
                             >
-                              <a
-                                aria-label={`Go to ${post?.slug?.current} blog page`}
-                                className="hover:text-webriq-babyblue"
-                              >
-                                <p className="mb-1 text-2xl font-bold font-heading">
-                                  {post?.title}
-                                </p>
-                              </a>
+                              <p className="mb-1 text-2xl font-bold font-heading">
+                                {post?.title}
+                              </p>
                             </Link>
                           )}
                           <div className="mb-2 flex items-center text-sm">
@@ -216,18 +213,15 @@ function VariantD({ subtitle, title, posts }) {
                         <div className="w-full lg:w-3/4 px-3">
                           {post?.title && (
                             <Link
+                              aria-label={`Go to ${post?.slug?.current} blog page`}
+                              className="hover:text-webriq-babyblue"
                               href={
                                 `/${post?.slug?.current}` ?? "/page-not-found"
                               }
                             >
-                              <a
-                                aria-label={`Go to ${post?.slug?.current} blog page`}
-                                className="hover:text-webriq-babyblue"
-                              >
-                                <p className="mb-1 text-2xl font-bold font-heading">
-                                  {post?.title}
-                                </p>
-                              </a>
+                              <p className="mb-1 text-2xl font-bold font-heading">
+                                {post?.title}
+                              </p>
                             </Link>
                           )}
                           <div className="mb-2 flex items-center text-sm">

@@ -2,6 +2,9 @@ import React from "react";
 import Link from "next/link";
 import { urlFor } from "lib/sanity";
 import Image from "next/image";
+import { InternalLink, ExternalLink } from "helper";
+
+
 function VariantA({
   template,
   mainImage,
@@ -40,119 +43,27 @@ function VariantA({
                   <div>
                     {primaryButton?.label &&
                       (primaryButton?.type === "linkInternal" ? (
-                        <Link
-                          href={
-                            primaryButton?.internalLink === "Home" ||
-                            primaryButton?.internalLink === "home"
-                              ? "/"
-                              : `/${
-                                  primaryButton?.internalLink === undefined
-                                    ? "page-not-found"
-                                    : primaryButton?.internalLink
-                                }`
-                          }
-                        >
-                          <a
-                            aria-label={`Header ${
-                              primaryButton?.label ?? "Primary"
-                            } button which directs to ${
-                              primaryButton?.internalLink === undefined
-                                ? "page-not-found"
-                                : primaryButton?.internalLink
-                            }`}
-                            className={`inline-block mb-3 lg:mb-0 lg:mr-3 w-auto py-2 px-6 leading-loose bg-${template.color}-darkblue hover:bg-${template.color}-blue text-white font-semibold rounded-l-xl rounded-t-xl transition duration-200`}
-                            target={primaryButton?.linkTarget}
-                            rel={
-                              primaryButton?.linkTarget === "_blank"
-                                ? "noopener noreferrer"
-                                : null
-                            }
-                          >
-                            {primaryButton?.label}
-                          </a>
-                        </Link>
+                        <InternalLink 
+                          className={`inline-block mb-3 lg:mb-0 lg:mr-3 w-auto py-2 px-6 leading-loose bg-${template.color}-darkblue hover:bg-${template.color}-blue text-white font-semibold rounded-l-xl rounded-t-xl transition duration-200`} 
+                          link={primaryButton} 
+                        />
                       ) : (
-                        <a
-                          aria-label={`Header ${
-                            primaryButton?.label ?? "Primary"
-                          } button which directs to ${
-                            primaryButton?.externalLink === undefined
-                              ? "link-not-found"
-                              : primaryButton?.externalLink
-                          }`}
-                          className={`inline-block mb-3 lg:mb-0 lg:mr-3 w-auto px-4 py-2 md:py-2 md:px-6 lg:py-2 lg:px-6 leading-loose bg-${template.color}-darkblue hover:bg-${template.color}-blue text-white font-semibold rounded-l-xl rounded-t-xl transition duration-200`}
-                          target={primaryButton?.linkTarget}
-                          href={`${
-                            primaryButton?.externalLink === undefined
-                              ? "link-not-found"
-                              : primaryButton?.externalLink
-                          }`}
-                          rel={
-                            primaryButton?.linkTarget === "_blank"
-                              ? "noopener noreferrer"
-                              : null
-                          }
-                        >
-                          {primaryButton?.label}
-                        </a>
+                        <ExternalLink 
+                          className={`inline-block mb-3 lg:mb-0 lg:mr-3 w-auto px-4 py-2 md:py-2 md:px-6 lg:py-2 lg:px-6 leading-loose bg-${template.color}-darkblue hover:bg-${template.color}-blue text-white font-semibold rounded-l-xl rounded-t-xl transition duration-200`} 
+                          link={primaryButton} 
+                        />
                       ))}
                     {secondaryButton?.label &&
                       (secondaryButton?.type === "linkInternal" ? (
-                        <Link
-                          href={
-                            secondaryButton?.internalLink === "Home" ||
-                            secondaryButton?.internalLink === "home"
-                              ? "/"
-                              : `/${
-                                  secondaryButton?.internalLink === undefined
-                                    ? "page-not-found"
-                                    : secondaryButton?.internalLink
-                                }`
-                          }
-                        >
-                          <a
-                            aria-label={`Header ${
-                              secondaryButton?.label ?? "Secondary"
-                            } button which directs to ${
-                              secondaryButton?.internalLink === undefined
-                                ? "page-not-found"
-                                : secondaryButton?.internalLink
-                            }`}
-                            className="inline-block w-auto py-2 px-6 leading-loose font-semibold bg-white hover:bg-gray-50 rounded-l-xl rounded-t-xl transition duration-200"
-                            target={secondaryButton?.linkTarget}
-                            rel={
-                              secondaryButton?.linkTarget === "_blank"
-                                ? "noopener noreferrer"
-                                : null
-                            }
-                          >
-                            {secondaryButton?.label}
-                          </a>
-                        </Link>
+                        <InternalLink 
+                          className="inline-block w-auto py-2 px-6 leading-loose font-semibold bg-white hover:bg-gray-50 rounded-l-xl rounded-t-xl transition duration-200" 
+                          link={secondaryButton} 
+                        />
                       ) : (
-                        <a
-                          aria-label={`Header ${
-                            secondaryButton?.label ?? "Secondary"
-                          } button which directs to ${
-                            secondaryButton?.externalLink === undefined
-                              ? "link-not-found"
-                              : secondaryButton?.externalLink
-                          }`}
+                        <ExternalLink
                           className="inline-block w-auto py-2 px-6 leading-loose font-semibold bg-white hover:bg-gray-50 rounded-l-xl rounded-t-xl transition duration-200"
-                          target={secondaryButton?.linkTarget}
-                          href={`${
-                            secondaryButton?.externalLink === undefined
-                              ? "link-not-found"
-                              : secondaryButton?.externalLink
-                          }`}
-                          rel={
-                            secondaryButton?.linkTarget === "_blank"
-                              ? "noopener noreferrer"
-                              : null
-                          }
-                        >
-                          {secondaryButton?.label}
-                        </a>
+                          link={secondaryButton}
+                        />
                       ))}
                   </div>
                 </div>

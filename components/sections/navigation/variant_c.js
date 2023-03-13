@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import { urlFor } from "lib/sanity";
-import { logoLink } from "helper";
+import { logoLink, ExternalLink, InternalLink } from "helper";
 
 function VariantC({
   /*template , */ links,
@@ -24,61 +24,15 @@ function VariantC({
                 <React.Fragment key={index}>
                   <li>
                     {link.type === "linkInternal" ? (
-                      <Link
-                        href={`${
-                          link.internalLink === "Home" ||
-                          link.internalLink === "home"
-                            ? "/"
-                            : `/${
-                                link.internalLink === undefined
-                                  ? "page-not-found"
-                                  : link.internalLink
-                              }`
-                        }`}
-                      >
-                        <a
-                          aria-label={`Navigation ${
-                            link?.label ?? "Menu"
-                          } links which directs to ${
-                            link?.internalLink === undefined
-                              ? "page-not-found"
-                              : link?.internalLink
-                          }`}
-                          className={`text-sm text-gray-500 hover:text-gray-900`}
-                          target={link?.linkTarget}
-                          rel={
-                            link?.linkTarget === "_blank"
-                              ? "noopener noreferrer"
-                              : null
-                          }
-                        >
-                          {link?.label}
-                        </a>
-                      </Link>
-                    ) : (
-                      <a
-                        aria-label={`Navigation ${
-                          link?.label ?? "Menu"
-                        } links which directs to ${
-                          link?.externalLink === undefined
-                            ? "link-not-found"
-                            : link?.externalLink
-                        }`}
+                      <InternalLink
                         className={`text-sm text-gray-500 hover:text-gray-900`}
-                        target={link?.linkTarget}
-                        href={`${
-                          link?.externalLink === undefined
-                            ? "link-not-found"
-                            : link?.externalLink
-                        }`}
-                        rel={
-                          link?.linkTarget === "_blank"
-                            ? "noopener noreferrer"
-                            : null
-                        }
-                      >
-                        {link?.label}
-                      </a>
+                        link={link}
+                      />
+                    ) : (
+                      <ExternalLink
+                        className={`text-sm text-gray-500 hover:text-gray-900`}
+                        link={link}
+                      />
                     )}
                   </li>
                   {links.length !== index + 1 ? (
@@ -123,119 +77,27 @@ function VariantC({
           <div className="hidden lg:ml-auto lg:block lg:w-1/3 text-right">
             {primaryButton?.label &&
               (primaryButton?.type === "linkInternal" ? (
-                <Link
-                  href={
-                    primaryButton?.internalLink === "Home" ||
-                    primaryButton?.internalLink === "home"
-                      ? "/"
-                      : `/${
-                          primaryButton?.internalLink === undefined
-                            ? "page-not-found"
-                            : primaryButton?.internalLink
-                        }`
-                  }
-                >
-                  <a
-                    aria-label={`Navigation ${
-                      primaryButton?.label ?? "Primary"
-                    } button which directs to ${
-                      primaryButton?.internalLink === undefined
-                        ? "page-not-found"
-                        : primaryButton?.internalLink
-                    }`}
-                    className="hidden lg:inline-block lg:ml-auto lg:mr-3 py-2 px-6 bg-gray-50 hover:bg-gray-100 text-sm text-gray-900 font-bold rounded-l-xl rounded-t-xl transition duration-200"
-                    target={primaryButton?.linkTarget}
-                    rel={
-                      primaryButton?.linkTarget === "_blank"
-                        ? "noopener noreferrer"
-                        : null
-                    }
-                  >
-                    {primaryButton?.label}
-                  </a>
-                </Link>
-              ) : (
-                <a
-                  aria-label={`Navigation ${
-                    primaryButton?.label ?? "Primary"
-                  } button which directs to ${
-                    primaryButton?.externalLink === undefined
-                      ? "link-not-found"
-                      : primaryButton?.externalLink
-                  }`}
+                <InternalLink
                   className="hidden lg:inline-block lg:ml-auto lg:mr-3 py-2 px-6 bg-gray-50 hover:bg-gray-100 text-sm text-gray-900 font-bold rounded-l-xl rounded-t-xl transition duration-200"
-                  target={primaryButton?.linkTarget}
-                  href={`${
-                    primaryButton?.externalLink === undefined
-                      ? "link-not-found"
-                      : primaryButton?.externalLink
-                  }`}
-                  rel={
-                    primaryButton?.linkTarget === "_blank"
-                      ? "noopener noreferrer"
-                      : null
-                  }
-                >
-                  {primaryButton?.label}
-                </a>
+                  link={primaryButton}
+                />
+              ) : (
+                <ExternalLink
+                  className="hidden lg:inline-block lg:ml-auto lg:mr-3 py-2 px-6 bg-gray-50 hover:bg-gray-100 text-sm text-gray-900 font-bold rounded-l-xl rounded-t-xl transition duration-200"
+                  link={primaryButton}
+                />
               ))}
             {secondaryButton?.label &&
               (secondaryButton?.type === "linkInternal" ? (
-                <Link
-                  href={
-                    secondaryButton?.internalLink === "Home" ||
-                    secondaryButton?.internalLink === "home"
-                      ? "/"
-                      : `/${
-                          secondaryButton?.internalLink === undefined
-                            ? "page-not-found"
-                            : secondaryButton?.internalLink
-                        }`
-                  }
-                >
-                  <a
-                    aria-label={`Navigation ${
-                      secondaryButton?.label ?? "Secondary"
-                    } button which directs to ${
-                      secondaryButton?.internalLink === undefined
-                        ? "page-not-found"
-                        : secondaryButton?.internalLink
-                    }`}
-                    className="hidden lg:inline-block py-2 px-6 bg-webriq-darkblue hover:bg-webriq-blue text-sm text-white font-bold rounded-l-xl rounded-t-xl transition duration-200"
-                    target={secondaryButton?.linkTarget}
-                    rel={
-                      secondaryButton?.linkTarget === "_blank"
-                        ? "noopener noreferrer"
-                        : null
-                    }
-                  >
-                    {secondaryButton?.label}
-                  </a>
-                </Link>
-              ) : (
-                <a
-                  aria-label={`Navigation ${
-                    secondaryButton?.label ?? "Secondary"
-                  } button which directs to ${
-                    secondaryButton?.externalLink === undefined
-                      ? "link-not-found"
-                      : secondaryButton?.externalLink
-                  }`}
+                <InternalLink
                   className="hidden lg:inline-block py-2 px-6 bg-webriq-darkblue hover:bg-webriq-blue text-sm text-white font-bold rounded-l-xl rounded-t-xl transition duration-200"
-                  target={secondaryButton?.linkTarget}
-                  href={`${
-                    secondaryButton?.externalLink === undefined
-                      ? "link-not-found"
-                      : secondaryButton?.externalLink
-                  }`}
-                  rel={
-                    secondaryButton?.linkTarget === "_blank"
-                      ? "noopener noreferrer"
-                      : null
-                  }
-                >
-                  {secondaryButton?.label}
-                </a>
+                  link={secondaryButton}
+                />
+              ) : (
+                <ExternalLink
+                  className="hidden lg:inline-block py-2 px-6 bg-webriq-darkblue hover:bg-webriq-blue text-sm text-white font-bold rounded-l-xl rounded-t-xl transition duration-200"
+                  link={secondaryButton}
+                />
               ))}
           </div>
           <div className="lg:hidden ml-auto">
@@ -290,61 +152,15 @@ function VariantC({
                 links?.map((link, index) => (
                   <li className="mb-1" key={index}>
                     {link.type === "linkInternal" ? (
-                      <Link
-                        href={`${
-                          link.internalLink === "Home" ||
-                          link.internalLink === "home"
-                            ? "/"
-                            : `/${
-                                link.internalLink === undefined
-                                  ? "page-not-found"
-                                  : link.internalLink
-                              }`
-                        }`}
-                      >
-                        <a
-                          aria-label={`Navigation ${
-                            link?.label ?? "Menu"
-                          } links which directs to ${
-                            link?.internalLink === undefined
-                              ? "page-not-found"
-                              : link?.internalLink
-                          }`}
-                          className="block p-4 text-sm font-semibold text-gray-700 hover:bg-webriq-lightblue hover:text-webriq-darkblue rounded"
-                          target={link?.linkTarget}
-                          rel={
-                            link?.linkTarget === "_blank"
-                              ? "noopener noreferrer"
-                              : null
-                          }
-                        >
-                          {link?.label}
-                        </a>
-                      </Link>
-                    ) : (
-                      <a
-                        aria-label={`Navigation ${
-                          link?.label ?? "Menu"
-                        } links which directs to ${
-                          link?.externalLink === undefined
-                            ? "link-not-found"
-                            : link?.externalLink
-                        }`}
+                      <InternalLink
                         className="block p-4 text-sm font-semibold text-gray-700 hover:bg-webriq-lightblue hover:text-webriq-darkblue rounded"
-                        target={link?.linkTarget}
-                        href={`${
-                          link?.externalLink === undefined
-                            ? "link-not-found"
-                            : link?.externalLink
-                        }`}
-                        rel={
-                          link?.linkTarget === "_blank"
-                            ? "noopener noreferrer"
-                            : null
-                        }
-                      >
-                        {link?.label}
-                      </a>
+                        link={link}
+                      />
+                    ) : (
+                      <ExternalLink
+                        className="block p-4 text-sm font-semibold text-gray-700 hover:bg-webriq-lightblue hover:text-webriq-darkblue rounded"
+                        link={link}
+                      />
                     )}
                   </li>
                 ))}
@@ -354,119 +170,27 @@ function VariantC({
             <div className="pt-6">
               {primaryButton?.label &&
                 (primaryButton?.type === "linkInternal" ? (
-                  <Link
-                    href={
-                      primaryButton?.internalLink === "Home" ||
-                      primaryButton?.internalLink === "home"
-                        ? "/"
-                        : `/${
-                            primaryButton?.internalLink === undefined
-                              ? "page-not-found"
-                              : primaryButton?.internalLink
-                          }`
-                    }
-                  >
-                    <a
-                      aria-label={`Navigation ${
-                        primaryButton?.label ?? "Primary"
-                      } button which directs to ${
-                        primaryButton?.internalLink === undefined
-                          ? "page-not-found"
-                          : primaryButton?.internalLink
-                      }`}
-                      className="block px-4 py-3 mb-3 leading-loose text-xs text-center font-semibold bg-gray-50 hover:bg-gray-100 rounded-l-xl rounded-t-xl"
-                      target={primaryButton?.linkTarget}
-                      rel={
-                        primaryButton?.linkTarget === "_blank"
-                          ? "noopener noreferrer"
-                          : null
-                      }
-                    >
-                      {primaryButton?.label}
-                    </a>
-                  </Link>
-                ) : (
-                  <a
-                    aria-label={`Navigation ${
-                      primaryButton?.label ?? "Primary"
-                    } button which directs to ${
-                      primaryButton?.externalLink === undefined
-                        ? "link-not-found"
-                        : primaryButton?.externalLink
-                    }`}
+                  <InternalLink
                     className="block px-4 py-3 mb-3 leading-loose text-xs text-center font-semibold bg-gray-50 hover:bg-gray-100 rounded-l-xl rounded-t-xl"
-                    target={primaryButton?.linkTarget}
-                    href={`${
-                      primaryButton?.externalLink === undefined
-                        ? "link-not-found"
-                        : primaryButton?.externalLink
-                    }`}
-                    rel={
-                      primaryButton?.linkTarget === "_blank"
-                        ? "noopener noreferrer"
-                        : null
-                    }
-                  >
-                    {primaryButton?.label}
-                  </a>
+                    link={primaryButton}
+                  />
+                ) : (
+                  <ExternalLink
+                    className="block px-4 py-3 mb-3 leading-loose text-xs text-center font-semibold bg-gray-50 hover:bg-gray-100 rounded-l-xl rounded-t-xl"
+                    link={primaryButton}
+                  />
                 ))}
               {secondaryButton?.label &&
                 (secondaryButton?.type === "linkInternal" ? (
-                  <Link
-                    href={
-                      secondaryButton?.internalLink === "Home" ||
-                      secondaryButton?.internalLink === "home"
-                        ? "/"
-                        : `/${
-                            secondaryButton?.internalLink === undefined
-                              ? "page-not-found"
-                              : secondaryButton?.internalLink
-                          }`
-                    }
-                  >
-                    <a
-                      aria-label={`Navigation ${
-                        secondaryButton?.label ?? "Secondary"
-                      } button which directs to ${
-                        secondaryButton?.internalLink === undefined
-                          ? "page-not-found"
-                          : secondaryButton?.internalLink
-                      }`}
-                      className="block px-4 py-3 mb-2 leading-loose text-xs text-center text-white font-semibold bg-webriq-darkblue hover:bg-webriq-blue rounded-l-xl rounded-t-xl"
-                      target={secondaryButton?.linkTarget}
-                      rel={
-                        secondaryButton?.linkTarget === "_blank"
-                          ? "noopener noreferrer"
-                          : null
-                      }
-                    >
-                      {secondaryButton?.label}
-                    </a>
-                  </Link>
-                ) : (
-                  <a
-                    aria-label={`Navigation ${
-                      secondaryButton?.label ?? "Secondary"
-                    } button which directs to ${
-                      secondaryButton?.externalLink === undefined
-                        ? "link-not-found"
-                        : secondaryButton?.externalLink
-                    }`}
+                  <InternalLink
                     className="block px-4 py-3 mb-2 leading-loose text-xs text-center text-white font-semibold bg-webriq-darkblue hover:bg-webriq-blue rounded-l-xl rounded-t-xl"
-                    target={secondaryButton?.linkTarget}
-                    href={`${
-                      secondaryButton?.externalLink === undefined
-                        ? "link-not-found"
-                        : secondaryButton?.externalLink
-                    }`}
-                    rel={
-                      secondaryButton?.linkTarget === "_blank"
-                        ? "noopener noreferrer"
-                        : null
-                    }
-                  >
-                    {secondaryButton?.label}
-                  </a>
+                    link={secondaryButton}
+                  />
+                ) : (
+                  <ExternalLink
+                    className="block px-4 py-3 mb-2 leading-loose text-xs text-center text-white font-semibold bg-webriq-darkblue hover:bg-webriq-blue rounded-l-xl rounded-t-xl"
+                    link={secondaryButton}
+                  />
                 ))}
             </div>
             <p className="my-4 text-xs text-center text-gray-700">

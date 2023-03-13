@@ -11,21 +11,20 @@ function VariantA({ logo, subtitle, title, images }) {
         <div className="container mx-auto px-4">
           <div className="relative max-w-md mx-auto text-center">
             {logo?.image && (
-              <Link href={logoLink()}>
-                <a
-                  aria-label={
-                    logoLink() === "/"
-                      ? "Go to home page"
-                      : `Go to ${logoLink()}`
-                  }
-                  className="mb-8 inline-block p-5 bg-white rounded-lg"
-                >
-                  <img
-                    className="h-14"
-                    src={urlFor(logo?.image)}
-                    alt={logo?.alt ?? "appPromo-logo"}
-                  />
-                </a>
+              <Link 
+                aria-label={
+                  logoLink() === "/"
+                    ? "Go to home page"
+                    : `Go to ${logoLink()}`
+                }
+                className="mb-8 inline-block p-5 bg-white rounded-lg"
+                href={logoLink()}
+              >
+                <img
+                  className="h-14"
+                  src={urlFor(logo?.image)}
+                  alt={logo?.alt ?? "appPromo-logo"}
+                />
               </Link>
             )}
             <p className="text-gray-50 mb-3">{subtitle}</p>

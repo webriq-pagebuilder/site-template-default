@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { urlFor, PortableText } from "lib/sanity";
 import { EcwidContextProvider } from "context/EcwidContext";
-import { logoLink } from "helper";
+import { logoLink, InternalLink, ExternalLink } from "helper";
 
 function VariantE({ banner, logo, links }) {
   const router = useRouter();
@@ -126,61 +126,9 @@ function VariantE({ banner, logo, links }) {
                   <Fragment key={index}>
                     <li>
                       {link.type === "linkInternal" ? (
-                        <Link
-                          href={`${
-                            link.internalLink === "Home" ||
-                            link.internalLink === "home"
-                              ? "/"
-                              : `/${
-                                  link.internalLink === undefined
-                                    ? "page-not-found"
-                                    : link.internalLink
-                                }`
-                          }`}
-                        >
-                          <a
-                            aria-label={`Navigation ${
-                              link?.label ?? "Menu"
-                            } links which directs to ${
-                              link?.internalLink === undefined
-                                ? "page-not-found"
-                                : link?.internalLink
-                            }`}
-                            className="xl:mr-12 lg:mr-8 font-bold font-heading hover:text-gray-600"
-                            target={link?.linkTarget}
-                            rel={
-                              link?.linkTarget === "_blank"
-                                ? "noopener noreferrer"
-                                : null
-                            }
-                          >
-                            {link?.label}
-                          </a>
-                        </Link>
+                        <InternalLink link={link} className="xl:mr-12 lg:mr-8 font-bold font-heading hover:text-gray-600" />
                       ) : (
-                        <a
-                          aria-label={`Navigation ${
-                            link?.label ?? "Menu"
-                          } links which directs to ${
-                            link?.externalLink === undefined
-                              ? "link-not-found"
-                              : link?.externalLink
-                          }`}
-                          className="mr-12 font-bold font-heading hover:text-gray-600"
-                          target={link?.linkTarget}
-                          href={`${
-                            link.externalLink === undefined
-                              ? "link-not-found"
-                              : link.externalLink
-                          }`}
-                          rel={
-                            link?.linkTarget === "_blank"
-                              ? "noopener noreferrer"
-                              : null
-                          }
-                        >
-                          {link?.label}
-                        </a>
+                        <ExternalLink link={link} className="mr-12 font-bold font-heading hover:text-gray-600" />
                       )}
                     </li>
                   </Fragment>
@@ -401,61 +349,9 @@ function VariantE({ banner, logo, links }) {
                   <Fragment key={index}>
                     <li className="mb-8">
                       {link.type === "linkInternal" ? (
-                        <Link
-                          href={`${
-                            link.internalLink === "Home" ||
-                            link.internalLink === "home"
-                              ? "/"
-                              : `/${
-                                  link.internalLink === undefined
-                                    ? "page-not-found"
-                                    : link.internalLink
-                                }`
-                          }`}
-                        >
-                          <a
-                            aria-label={`Navigation ${
-                              link?.label ?? "Menu"
-                            } links which directs to ${
-                              link?.internalLink === undefined
-                                ? "page-not-found"
-                                : link?.internalLink
-                            }`}
-                            className="font-bold font-heading hover:text-gray-600"
-                            target={link?.linkTarget}
-                            rel={
-                              link?.linkTarget === "_blank"
-                                ? "noopener noreferrer"
-                                : null
-                            }
-                          >
-                            {link?.label}
-                          </a>
-                        </Link>
+                        <InternalLink className="font-bold font-heading hover:text-gray-600" link={link} />
                       ) : (
-                        <a
-                          aria-label={`Navigation ${
-                            link?.label ?? "Menu"
-                          } links which directs to ${
-                            link?.externalLink === undefined
-                              ? "link-not-found"
-                              : link?.externalLink
-                          }`}
-                          className="font-bold font-heading hover:text-gray-600"
-                          target={link?.linkTarget}
-                          href={`${
-                            link.externalLink === undefined
-                              ? "link-not-found"
-                              : link.externalLink
-                          }`}
-                          rel={
-                            link?.linkTarget === "_blank"
-                              ? "noopener noreferrer"
-                              : null
-                          }
-                        >
-                          {link?.label}
-                        </a>
+                        <ExternalLink className="font-bold font-heading hover:text-gray-600" link={link} />
                       )}
                     </li>
                   </Fragment>

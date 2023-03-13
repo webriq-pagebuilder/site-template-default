@@ -1,6 +1,6 @@
 import React from "react";
-import Link from "next/link";
 import WebriQForm from "components/webriq-form";
+import { thankYouPageLink, ExternalLink, InternalLink } from "helper";
 
 function VariantE({
   template,
@@ -11,7 +11,6 @@ function VariantE({
   formLinks,
   form,
 }) {
-  const { id, name, subtitle, fields, buttonLabel, thankYouPage } = form;
   const [showPassword, setShowPassword] = React.useState(false);
   const [value, setValue] = React.useState(null); // setting selected value for input field radio type
   const [checked, setChecked] = React.useState([]); // setting selected value for input field checkbox type
@@ -26,18 +25,6 @@ function VariantE({
     setChecked((prev) =>
       checked ? [...prev, value] : prev.filter((v) => v !== value)
     );
-  };
-
-  const thankYouPageLink = (link) => {
-    if (!link) {
-      return "/thank-you";
-    } else {
-      if (link?.linkType === "linkInternal") {
-        return `/${link.internalLink}`;
-      } else {
-        return link.externalLink;
-      }
-    }
   };
 
   return (
@@ -64,119 +51,27 @@ function VariantE({
                   <div>
                     {primaryButton?.label &&
                       (primaryButton?.type === "linkInternal" ? (
-                        <Link
-                          href={
-                            primaryButton?.internalLink === "Home" ||
-                            primaryButton?.internalLink === "home"
-                              ? "/"
-                              : `/${
-                                  primaryButton?.internalLink === undefined
-                                    ? "page-not-found"
-                                    : primaryButton?.internalLink
-                                }`
-                          }
-                        >
-                          <a
-                            aria-label={`Header ${
-                              primaryButton?.label ?? "Primary"
-                            } button which directs to ${
-                              primaryButton?.internalLink === undefined
-                                ? "page-not-found"
-                                : primaryButton?.internalLink
-                            }`}
-                            className={`inline-block mb-3 lg:mb-0 lg:mr-3 w-auto py-2 px-6 leading-loose bg-${template.color}-darkblue hover:bg-${template.color}-blue text-white font-semibold rounded-l-xl rounded-t-xl transition duration-200`}
-                            target={primaryButton?.linkTarget}
-                            rel={
-                              primaryButton?.linkTarget === "_blank"
-                                ? "noopener noreferrer"
-                                : null
-                            }
-                          >
-                            {primaryButton?.label}
-                          </a>
-                        </Link>
-                      ) : (
-                        <a
-                          aria-label={`Header ${
-                            primaryButton?.label ?? "Primary"
-                          } button which directs to ${
-                            primaryButton?.externalLink === undefined
-                              ? "link-not-found"
-                              : primaryButton?.externalLink
-                          }`}
+                        <InternalLink
                           className={`inline-block mb-3 lg:mb-0 lg:mr-3 w-auto py-2 px-6 leading-loose bg-${template.color}-darkblue hover:bg-${template.color}-blue text-white font-semibold rounded-l-xl rounded-t-xl transition duration-200`}
-                          target={primaryButton?.linkTarget}
-                          href={`${
-                            primaryButton.externalLink === undefined
-                              ? "link-not-found"
-                              : primaryButton.externalLink
-                          }`}
-                          rel={
-                            primaryButton?.linkTarget === "_blank"
-                              ? "noopener noreferrer"
-                              : null
-                          }
-                        >
-                          {primaryButton?.label}
-                        </a>
+                          link={primaryButton}
+                        />
+                      ) : (
+                        <ExternalLink
+                          className={`inline-block mb-3 lg:mb-0 lg:mr-3 w-auto py-2 px-6 leading-loose bg-${template.color}-darkblue hover:bg-${template.color}-blue text-white font-semibold rounded-l-xl rounded-t-xl transition duration-200`}
+                          link={primaryButton}
+                        />
                       ))}
                     {secondaryButton?.label &&
                       (secondaryButton?.type === "linkInternal" ? (
-                        <Link
-                          href={
-                            secondaryButton?.internalLink === "Home" ||
-                            secondaryButton?.internalLink === "home"
-                              ? "/"
-                              : `/${
-                                  secondaryButton?.internalLink === undefined
-                                    ? "page-not-found"
-                                    : secondaryButton?.internalLink
-                                }`
-                          }
-                        >
-                          <a
-                            aria-label={`Header ${
-                              secondaryButton?.label ?? "Secondary"
-                            } button which directs to ${
-                              secondaryButton?.internalLink === undefined
-                                ? "page-not-found"
-                                : secondaryButton?.internalLink
-                            }`}
-                            className="inline-block w-auto py-2 px-6 leading-loose font-semibold bg-white hover:bg-gray-50 rounded-l-xl rounded-t-xl transition duration-200"
-                            target={secondaryButton?.linkTarget}
-                            rel={
-                              secondaryButton?.linkTarget === "_blank"
-                                ? "noopener noreferrer"
-                                : null
-                            }
-                          >
-                            {secondaryButton?.label}
-                          </a>
-                        </Link>
-                      ) : (
-                        <a
-                          aria-label={`Header ${
-                            secondaryButton?.label ?? "Secondary"
-                          } button which directs to ${
-                            secondaryButton?.externalLink === undefined
-                              ? "link-not-found"
-                              : secondaryButton?.externalLink
-                          }`}
+                        <InternalLink
                           className="inline-block w-auto py-2 px-6 leading-loose font-semibold bg-white hover:bg-gray-50 rounded-l-xl rounded-t-xl transition duration-200"
-                          target={secondaryButton?.linkTarget}
-                          href={`${
-                            secondaryButton?.externalLink === undefined
-                              ? "link-not-found"
-                              : secondaryButton?.externalLink
-                          }`}
-                          rel={
-                            secondaryButton?.linkTarget === "_blank"
-                              ? "noopener noreferrer"
-                              : null
-                          }
-                        >
-                          {secondaryButton?.label}
-                        </a>
+                          link={secondaryButton}
+                        />
+                      ) : (
+                        <ExternalLink
+                          className="inline-block w-auto py-2 px-6 leading-loose font-semibold bg-white hover:bg-gray-50 rounded-l-xl rounded-t-xl transition duration-200"
+                          link={secondaryButton}
+                        />
                       ))}
                   </div>
                 </div>
@@ -184,22 +79,22 @@ function VariantE({
             </div>
             <div className="w-full lg:w-1/2">
               <div className="max-w-sm text-center mx-auto">
-                {fields && (
+                {form?.fields && (
                   <div className="mb-4 px-6 py-8 bg-white rounded-xl shadow-md">
                     <div className="mb-6">
-                      <span className="text-sm text-gray-500">{subtitle}</span>
-                      <p className="text-2xl font-bold">{name}</p>
+                      <span className="text-sm text-gray-500">{form?.subtitle}</span>
+                      <p className="text-2xl font-bold">{form?.name}</p>
                     </div>
                     <WebriQForm
                       method="POST"
-                      data-form-id={id}
+                      data-form-id={form?.id}
                       name="Header-VariantE-Form"
                       className="form-header"
-                      data-thankyou-url={thankYouPageLink(thankYouPage)}
+                      data-thankyou-url={thankYouPageLink(form?.thankYouPage)}
                       scriptsrc="https://pagebuilderforms.webriq.com/js/initReactForms"
                     >
                       <div className="flex flex-wrap -mx-2">
-                        {fields?.slice(0, 2)?.map((formFields, index) => (
+                        {form?.fields?.slice(0, 2)?.map((formFields, index) => (
                           <div
                             className="mb-3 w-full lg:w-1/2 px-2"
                             key={index}
@@ -348,7 +243,7 @@ function VariantE({
                           </div>
                         ))}
                       </div>
-                      {fields?.slice(2)?.map((formFields, index) => (
+                      {form?.fields?.slice(2)?.map((formFields, index) => (
                         <div key={index}>
                           {formFields?.type === "textarea" ? (
                             <textarea
@@ -570,15 +465,15 @@ function VariantE({
                         <div className="webriq-recaptcha" />
                       </div>
                       <div className="text-center">
-                        {buttonLabel && (
+                        {form?.buttonLabel && (
                           <button
                             aria-label={
-                              buttonLabel ?? "Header form submit button"
+                              form?.buttonLabel ?? "Header form submit button"
                             }
                             className="mb-2 w-full py-4 bg-webriq-darkblue hover:bg-webriq-blue rounded text-sm font-bold text-gray-50 transition duration-200"
                             type="submit"
                           >
-                            {buttonLabel}
+                            {form?.buttonLabel}
                           </button>
                         )}
                       </div>
@@ -590,66 +485,15 @@ function VariantE({
                     {formLinks?.map((link, index, { length }) => (
                       <span key={index}>
                         {link?.type === "linkInternal" ? (
-                          <Link
-                            href={
-                              link?.internalLink === "Home" ||
-                              link?.internalLink === "home"
-                                ? "/"
-                                : `/${
-                                    link.internalLink === undefined
-                                      ? "page-not-found"
-                                      : link.internalLink
-                                  }`
-                            }
-                          >
-                            <a
-                              aria-label={`Header ${
-                                link?.label ?? "Terms and Policies"
-                              } links which directs to ${
-                                link?.internalLink === undefined
-                                  ? "page-not-found"
-                                  : link?.internalLink
-                              }`}
-                              className="underline text-webriq-darkblue hover:text-webriq-blue"
-                              target={
-                                link?.linkTarget === "_blank" ? "_blank" : null
-                              }
-                              rel={
-                                link?.linkTarget === "_blank"
-                                  ? "noopener noreferrer"
-                                  : null
-                              }
-                            >
-                              {link?.label}
-                            </a>
-                          </Link>
-                        ) : (
-                          <a
-                            aria-label={`Header ${
-                              link?.label ?? "Terms and Policies"
-                            } links which directs to ${
-                              link?.externalLink === undefined
-                                ? "link-not-found"
-                                : link?.externalLink
-                            }`}
+                          <InternalLink
                             className="underline text-webriq-darkblue hover:text-webriq-blue"
-                            target={
-                              link?.linkTarget === "_blank" ? "_blank" : null
-                            }
-                            href={`${
-                              link.externalLink === undefined
-                                ? "link-not-found"
-                                : link.externalLink
-                            }`}
-                            rel={
-                              link?.linkTarget === "_blank"
-                                ? "noopener noreferrer"
-                                : "noreferrer"
-                            }
-                            key={index}
-                          >
-                            {link?.label}
-                          </a>
+                            link={link}
+                          />
+                        ) : (
+                          <ExternalLink
+                            className="underline text-webriq-darkblue hover:text-webriq-blue"
+                            link={link}
+                          />
                         )}
                         {index === length - 1 ? null : index === length - 2 ? (
                           <span>&nbsp;and&nbsp;</span>
