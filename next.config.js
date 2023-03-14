@@ -22,7 +22,7 @@ module.exports = {
       },
       {
         source: "/studio",
-        destination: process.env.SITE_SANITY_STUDIO_URL,
+        destination: process.env.SITE_SANITY_STUDIO_URL || process.env.SANITY_STUDIO_URL,
         permanent: true,
       }
     ];
