@@ -1,7 +1,8 @@
 import React from "react";
 import Image from "next/image";
-import Link from "next/link";
 import { urlFor } from "lib/sanity";
+import { ConditionalBtnOrLink } from "helper"
+
 
 function VariantB({ caption, title, portfolios, primaryButton }) {
   const portfolioLength = 6; //set initial number of portfolios to display for this variant
@@ -24,52 +25,7 @@ function VariantB({ caption, title, portfolios, primaryButton }) {
               )}
             </div>
             <div className="hidden lg:block text-right mt-5 md:mt-0 lg:mt-0 xl:mt-0">
-              {primaryButton?.label &&
-                (primaryButton?.type === "linkInternal" ? (
-                  <Link
-                    href={
-                      primaryButton?.internalLink === "Home" ||
-                      primaryButton?.internalLink === "home"
-                        ? "/"
-                        : `/${
-                            primaryButton?.internalLink === undefined
-                              ? "page-not-found"
-                              : primaryButton?.internalLink
-                          }`
-                    }
-                  >
-                    <a
-                      aria-label={`Click here to ${primaryButton?.label}`}
-                      className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose transition duration-200"
-                      target={primaryButton?.linkTarget}
-                      rel={
-                        primaryButton?.linkTarget === "_blank"
-                          ? "noopener noreferrer"
-                          : null
-                      }
-                    >
-                      {primaryButton?.label}
-                    </a>
-                  </Link>
-                ) : (
-                  <a
-                    aria-label={`Click here to ${primaryButton?.label}`}
-                    className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose transition duration-200"
-                    target={primaryButton?.linkTarget}
-                    href={`${
-                      primaryButton?.externalLink === undefined
-                        ? "link-not-found"
-                        : primaryButton?.externalLink
-                    }`}
-                    rel={
-                      primaryButton?.linkTarget === "_blank"
-                        ? "noopener noreferrer"
-                        : null
-                    }
-                  >
-                    {primaryButton?.label}
-                  </a>
-                ))}
+              {primaryButton?.label && <ConditionalBtnOrLink value={primaryButton} style="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose transition duration-200" />}
             </div>
           </div>
           <div className="flex flex-wrap -mx-4 mb-4">
@@ -82,10 +38,10 @@ function VariantB({ caption, title, portfolios, primaryButton }) {
                   <div className="relative md:mb-5 lg:mb-5 xl:mb-5 mx-auto rounded overflow-hidden">
                     <Image
                       src={urlFor(content?.mainImage?.image)}
-                      layout="responsive"
                       width="480px"
                       height="320px"
-                      objectFit="cover"
+                      size="100vw"
+                      style={{ width: "100%", height: "auto", objectFit: "cover" }}
                       alt={content?.mainImage?.alt ?? `portfolio-image${index}`}
                       blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
                       placeholder="blur"
@@ -97,53 +53,7 @@ function VariantB({ caption, title, portfolios, primaryButton }) {
                       <p className="mb-auto md:text-xl lg:text-2xl text-white font-bold">
                         {content?.title}
                       </p>
-                      {content?.primaryButton?.label &&
-                        (content?.primaryButton?.type === "linkInternal" ? (
-                          <Link
-                            href={
-                              content?.primaryButton?.internalLink === "Home" ||
-                              content?.primaryButton?.internalLink === "home"
-                                ? "/"
-                                : `/${
-                                    content?.primaryButton?.internalLink ===
-                                    undefined
-                                      ? "page-not-found"
-                                      : content?.primaryButton?.internalLink
-                                  }`
-                            }
-                          >
-                            <a
-                              aria-label={`Click here to ${content?.primaryButton?.label}`}
-                              className="inline-block py-2 px-4 border-2 border-gray-400 hover:border-webriq-darkblue bg-transparent text-gray-50 hover:bg-webriq-darkblue hover:text-white transition duration-200 rounded-l-xl rounded-t-xl font-bold leading-loose"
-                              target={content?.primaryButton?.linkTarget}
-                              rel={
-                                content?.primaryButton?.linkTarget === "_blank"
-                                  ? "noopener noreferrer"
-                                  : null
-                              }
-                            >
-                              {content?.primaryButton?.label}
-                            </a>
-                          </Link>
-                        ) : (
-                          <a
-                            aria-label={`Click here to ${content?.primaryButton?.label}`}
-                            className="inline-block py-2 px-4 border-2 border-gray-400 hover:border-webriq-darkblue bg-transparent text-gray-50 hover:bg-webriq-darkblue hover:text-white transition duration-200 rounded-l-xl rounded-t-xl font-bold leading-loose"
-                            target={content?.primaryButton?.linkTarget}
-                            href={`${
-                              content?.primaryButton?.externalLink === undefined
-                                ? "link-not-found"
-                                : content?.primaryButton?.externalLink
-                            }`}
-                            rel={
-                              content?.primaryButton?.linkTarget === "_blank"
-                                ? "noopener noreferrer"
-                                : null
-                            }
-                          >
-                            {content?.primaryButton?.label}
-                          </a>
-                        ))}
+                      {content?.primaryButton?.label && <ConditionalBtnOrLink value={content?.primaryButton} style="inline-block py-2 px-4 border-2 border-gray-400 hover:border-webriq-darkblue bg-transparent text-gray-50 hover:bg-webriq-darkblue hover:text-white transition duration-200 rounded-l-xl rounded-t-xl font-bold leading-loose" />}
                     </div>
                   </div>
                 )}
@@ -151,52 +61,7 @@ function VariantB({ caption, title, portfolios, primaryButton }) {
             ))}
           </div>
           <div className="block text-center lg:hidden mt-5 md:mt-0 lg:mt-0 xl:mt-0">
-            {primaryButton?.label &&
-              (primaryButton?.type === "linkInternal" ? (
-                <Link
-                  href={
-                    primaryButton?.internalLink === "Home" ||
-                    primaryButton?.internalLink === "home"
-                      ? "/"
-                      : `/${
-                          primaryButton?.internalLink === undefined
-                            ? "page-not-found"
-                            : primaryButton?.internalLink
-                        }`
-                  }
-                >
-                  <a
-                    aria-label={`Click here to ${primaryButton?.label}`}
-                    className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose transition duration-200"
-                    target={primaryButton?.linkTarget}
-                    rel={
-                      primaryButton?.linkTarget === "_blank"
-                        ? "noopener noreferrer"
-                        : null
-                    }
-                  >
-                    {primaryButton?.label}
-                  </a>
-                </Link>
-              ) : (
-                <a
-                  aria-label={`Click here to ${primaryButton?.label}`}
-                  className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose transition duration-200"
-                  target={primaryButton?.linkTarget}
-                  href={`${
-                    primaryButton?.externalLink === undefined
-                      ? "link-not-found"
-                      : primaryButton?.externalLink
-                  }`}
-                  rel={
-                    primaryButton?.linkTarget === "_blank"
-                      ? "noopener noreferrer"
-                      : null
-                  }
-                >
-                  {primaryButton?.label}
-                </a>
-              ))}
+            {primaryButton?.label && <ConditionalBtnOrLink value={primaryButton} style="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose transition duration-200" />}
           </div>
         </div>
       </div>

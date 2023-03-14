@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import { urlFor } from "lib/sanity";
-import { ExternalLink, InternalLink } from "helper";
+import { ConditionalBtnOrLink } from "helper";
 
 
 function VariantD({ caption, title, portfoliosWithCategory }) {
@@ -61,10 +61,10 @@ function VariantD({ caption, title, portfoliosWithCategory }) {
                       <div className="relative rounded overflow-hidden">
                         <Image
                           src={urlFor(content?.mainImage?.image)}
-                          layout="responsive"
+                          sizes="100vw"
                           width="352px"
                           height="280px"
-                          objectFit="cover"
+                          style={{ objectFit: "cover" }}
                           alt={`portfolio-image-${content?._key}`}
                           blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
                           placeholder="blur"
@@ -81,7 +81,7 @@ function VariantD({ caption, title, portfoliosWithCategory }) {
                               <p className="mb-6 text-gray-500">
                                 {content?.description}
                               </p>
-                              {content?.primaryButton?.label && PrimaryButton(content?.primaryButton)}
+                              {content?.primaryButton?.label && <ConditionalBtnOrLink value={content?.primaryButton} style="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose" />}
                             </div>
                           </div>
                         </div>
@@ -100,10 +100,10 @@ function VariantD({ caption, title, portfoliosWithCategory }) {
                       <div className="relative rounded overflow-hidden">
                         <Image
                           src={urlFor(content?.mainImage?.image)}
-                          layout="responsive"
+                          sizes="100vw"
                           width="352px"
                           height="256px"
-                          objectFit="cover"
+                          style={{ objectFit: "cover" }}
                           alt={`portfolio-image-${content?._key}`}
                           blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
                           placeholder="blur"
@@ -120,7 +120,7 @@ function VariantD({ caption, title, portfoliosWithCategory }) {
                               <p className="mb-6 text-gray-500">
                                 {content?.description}
                               </p>
-                              {content?.primaryButton?.label && PrimaryButton(content?.primaryButton)}
+                              {content?.primaryButton?.label && <ConditionalBtnOrLink value={content?.primaryButton} style="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose" />}
                             </div>
                           </div>
                         </div>
@@ -141,10 +141,10 @@ function VariantD({ caption, title, portfoliosWithCategory }) {
                       <div className="relative rounded overflow-hidden">
                         <Image
                           src={urlFor(content?.mainImage?.image)}
-                          layout="responsive"
+                          sizes="100vw"
                           width="352px"
                           height="256px"
-                          objectFit="cover"
+                          style={{ objectFit: "cover" }}
                           alt={`portfolio-image-${content?._key}`}
                           blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
                           placeholder="blur"
@@ -161,7 +161,7 @@ function VariantD({ caption, title, portfoliosWithCategory }) {
                               <p className="mb-6 text-gray-500">
                                 {content?.description}
                               </p>
-                              {content?.primaryButton?.label && PrimaryButton(content?.primaryButton)}
+                              {content?.primaryButton?.label && <ConditionalBtnOrLink value={content?.primaryButton} style="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose" />}
                             </div>
                           </div>
                         </div>
@@ -181,10 +181,10 @@ function VariantD({ caption, title, portfoliosWithCategory }) {
                         <div className="relative rounded overflow-hidden">
                           <Image
                             src={urlFor(content?.mainImage?.image)}
-                            layout="responsive"
                             width="352px"
                             height="280px"
-                            objectFit="cover"
+                            sizes="100vw"
+                            style={{ objectFit: "cover" }}
                             alt={`portfolio-image${content?._key}`}
                             blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
                             placeholder="blur"
@@ -201,7 +201,7 @@ function VariantD({ caption, title, portfoliosWithCategory }) {
                                 <p className="mb-6 text-gray-500">
                                   {content?.description}
                                 </p>
-                                {content?.primaryButton?.label && PrimaryButton(content?.primaryButton)}
+                                {content?.primaryButton?.label && <ConditionalBtnOrLink value={content?.primaryButton} style="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose" />}
                               </div>
                             </div>
                           </div>
@@ -214,38 +214,13 @@ function VariantD({ caption, title, portfoliosWithCategory }) {
           </div>
           {portfoliosPerCategory?.[0]?.primaryButton?.label && (
             <div className="text-center">
-              {portfoliosPerCategory?.[0]?.primaryButton?.type ===
-              "linkInternal" ? (
-                <InternalLink
-                  className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose outline-none transition duration-200"
-                  link={portfoliosPerCategory?.[0]?.primaryButton}
-                />
-              ) : (
-                <ExternalLink
-                  className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose outline-none transition duration-200"
-                  link={portfoliosPerCategory?.[0]?.primaryButton}
-                />
-              )}
+              <ConditionalBtnOrLink value={portfoliosPerCategory?.[0]?.primaryButton} style="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose outline-none transition duration-200" />
             </div>
           )}
         </div>
       </div>
     </section>
   );
-}
-
-function PrimaryButton(props) {
-  props?.type === "linkInternal" ? (
-    <InternalLink
-      className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose"
-      link={props}
-    />
-  ) : (
-    <ExternalLink
-      className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose"
-      link={props}
-    />
-  )
 }
 
 export default React.memo(VariantD);
