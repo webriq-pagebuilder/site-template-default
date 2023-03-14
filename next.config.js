@@ -8,6 +8,10 @@ module.exports = {
   images: {
     // define list of image provider domains to be served from the Next.js Image Optimization API.
     domains: ["cdn.sanity.io", "source.unsplash.com"],
+    // optimize SVG images
+    dangerouslyAllowSVG: true,
+    contentDispositionType: 'attachment',
+    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
   },
   async redirects() {
     return [

@@ -1,6 +1,6 @@
 import React from "react";
 import WebriQForm from "components/webriq-form";
-import { thankYouPageLink, ExternalLink, InternalLink } from "helper";
+import { thankYouPageLink, ConditionalBtnOrLink } from "helper";
 
 function VariantE({
   template,
@@ -49,30 +49,8 @@ function VariantE({
                     {description}
                   </p>
                   <div>
-                    {primaryButton?.label &&
-                      (primaryButton?.type === "linkInternal" ? (
-                        <InternalLink
-                          className={`inline-block mb-3 lg:mb-0 lg:mr-3 w-auto py-2 px-6 leading-loose bg-${template.color}-darkblue hover:bg-${template.color}-blue text-white font-semibold rounded-l-xl rounded-t-xl transition duration-200`}
-                          link={primaryButton}
-                        />
-                      ) : (
-                        <ExternalLink
-                          className={`inline-block mb-3 lg:mb-0 lg:mr-3 w-auto py-2 px-6 leading-loose bg-${template.color}-darkblue hover:bg-${template.color}-blue text-white font-semibold rounded-l-xl rounded-t-xl transition duration-200`}
-                          link={primaryButton}
-                        />
-                      ))}
-                    {secondaryButton?.label &&
-                      (secondaryButton?.type === "linkInternal" ? (
-                        <InternalLink
-                          className="inline-block w-auto py-2 px-6 leading-loose font-semibold bg-white hover:bg-gray-50 rounded-l-xl rounded-t-xl transition duration-200"
-                          link={secondaryButton}
-                        />
-                      ) : (
-                        <ExternalLink
-                          className="inline-block w-auto py-2 px-6 leading-loose font-semibold bg-white hover:bg-gray-50 rounded-l-xl rounded-t-xl transition duration-200"
-                          link={secondaryButton}
-                        />
-                      ))}
+                    {primaryButton?.label && <ConditionalBtnOrLink value={primaryButton} style={`inline-block mb-3 lg:mb-0 lg:mr-3 w-auto py-2 px-6 leading-loose bg-${template.color}-darkblue hover:bg-${template.color}-blue text-white font-semibold rounded-l-xl rounded-t-xl transition duration-200`} />}
+                    {secondaryButton?.label && <ConditionalBtnOrLink value={secondaryButton} style="inline-block w-auto py-2 px-6 leading-loose font-semibold bg-white hover:bg-gray-50 rounded-l-xl rounded-t-xl transition duration-200" />}
                   </div>
                 </div>
               </div>
@@ -484,17 +462,7 @@ function VariantE({
                   <div className="text-xs text-gray-500">
                     {formLinks?.map((link, index, { length }) => (
                       <span key={index}>
-                        {link?.type === "linkInternal" ? (
-                          <InternalLink
-                            className="underline text-webriq-darkblue hover:text-webriq-blue"
-                            link={link}
-                          />
-                        ) : (
-                          <ExternalLink
-                            className="underline text-webriq-darkblue hover:text-webriq-blue"
-                            link={link}
-                          />
-                        )}
+                        <ConditionalBtnOrLink value={link} style="underline text-webriq-darkblue hover:text-webriq-blue" />
                         {index === length - 1 ? null : index === length - 2 ? (
                           <span>&nbsp;and&nbsp;</span>
                         ) : (

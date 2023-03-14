@@ -2,7 +2,7 @@ import React from "react";
 import Link from "next/link";
 import WebriQForm from "components/webriq-form";
 import { urlFor } from "lib/sanity";
-import { logoLink, thankYouPageLink, ExternalLink, InternalLink } from "helper";
+import { logoLink, thankYouPageLink, ConditionalBtnOrLink } from "helper";
 
 function VariantA({ logo, form, formLinks, signInLink }) {
   const [showPassword, setShowPassword] = React.useState(false); // show or hide password field value
@@ -27,19 +27,18 @@ function VariantA({ logo, form, formLinks, signInLink }) {
         <div className="max-w-md mx-auto">
           <div className="mb-10">
             {logo?.image && (
-              <Link href={logoLink()}>
-                <a
-                  aria-label={`Go to ${
-                    logoLink() === "/" ? "home page" : logoLink()
-                  }`}
-                  className="text-3xl mx-auto font-bold leading-none flex justify-center"
-                >
-                  <img
-                    className="h-12"
-                    src={urlFor(logo?.image)}
-                    alt={logo?.alt ?? "signUp-logo"}
-                  />
-                </a>
+              <Link
+                aria-label={`Go to ${
+                  logoLink() === "/" ? "home page" : logoLink()
+                }`}
+                className="text-3xl mx-auto font-bold leading-none flex justify-center" 
+                href={logoLink()}
+              >
+                <img
+                  className="h-12"
+                  src={urlFor(logo?.image)}
+                  alt={logo?.alt ?? "signUp-logo"}
+                />
               </Link>
             )}
           </div>
@@ -428,17 +427,7 @@ function VariantA({ logo, form, formLinks, signInLink }) {
                   {signInLink?.label && (
                     <span className="text-gray-500 text-xs">
                       <span>Already have an account?</span>
-                      {signInLink?.type === "linkInternal" ? (
-                        <InternalLink
-                          className="text-webriq-darkblue hover:underline"
-                          link={signInLink}
-                        />
-                      ) : (
-                        <ExternalLink
-                          className="text-webriq-darkblue hover:underline"
-                          link={signInLink}
-                        />
-                      )}
+                      <ConditionalBtnOrLink value={signInLink} style="text-webriq-darkblue hover:underline" />
                     </span>
                   )}
                 </div>
@@ -449,17 +438,7 @@ function VariantA({ logo, form, formLinks, signInLink }) {
             <p className="mt-16 text-xs text-center text-gray-700">
               {formLinks?.map((link, index, { length }) => (
                 <span key={index}>
-                  {link?.type === "linkInternal" ? (
-                    <InternalLink
-                      className="underline hover:text-gray-500"
-                      link={link}
-                    />
-                  ) : (
-                    <ExternalLink
-                      className="text-webriq-darkblue hover:underline"
-                      link={link}
-                    />
-                  )}
+                  <ConditionalBtnOrLink value={link} style={link?.type === "linkInternal" ? "underline hover:text-gray-500" : "text-webriq-darkblue hover:underline"}/>
                   {index === length - 1 ? null : index === length - 2 ? (
                     <span>&nbsp;and&nbsp;</span>
                   ) : (

@@ -2,7 +2,7 @@ import { urlFor } from "lib/sanity";
 import React from "react";
 import Link from "next/link";
 import WebriQForm from "components/webriq-form";
-import { logoLink, thankYouPageLink, InternalLink, ExternalLink } from "helper";
+import { logoLink, thankYouPageLink, ConditionalBtnOrLink } from "helper";
 
 function VariantD({ logo, title, text, button, form, formLinks, signInLink }) {
   const [value, setValue] = React.useState(null); // setting selected value for input field radio type
@@ -46,18 +46,9 @@ function VariantD({ logo, title, text, button, form, formLinks, signInLink }) {
               {title}
             </h1>
             <p className="mb-8 text-gray-700 leading-loose">{text}</p>
-            {button.label &&
-              (button?.type === "linkInternal" ? (
-                <InternalLink
-                  className="inline-block py-2 px-6 bg-webriq-darkblue hover:bg-webriq-blue text-white font-bold leading-loose transition duration-250 rounded-l-xl rounded-t-xl"
-                  link={button}
-                />
-              ) : (
-                <ExternalLink
-                  className="inline-block py-2 px-6 bg-webriq-darkblue hover:bg-webriq-blue text-white font-bold leading-loose transition duration-250 rounded-l-xl rounded-t-xl"
-                  link={button}
-                />
-              ))}
+            {button?.label && (
+              <ConditionalBtnOrLink value={button} style="inline-block py-2 px-6 bg-webriq-darkblue hover:bg-webriq-blue text-white font-bold leading-loose transition duration-250 rounded-l-xl rounded-t-xl" />
+            )}
           </div>
           <div className="w-full lg:w-1/2">
             <div className="max-w-sm mx-auto lg:mr-0 lg:ml-auto">
@@ -380,17 +371,7 @@ function VariantD({ logo, title, text, button, form, formLinks, signInLink }) {
                   {signInLink?.label && (
                     <p className="text-xs text-gray-500">
                       <span>Already have an account?</span>
-                      {signInLink?.type === "linkInternal" ? (
-                        <InternalLink
-                          className="text-webriq-darkblue hover:text-webriq-babyblue"
-                          link={signInLink}
-                        />
-                      ) : (
-                        <ExternalLink
-                          className="text-webriq-darkblue hover:text-webriq-babyblue"
-                          link={signInLink}
-                        />
-                      )}
+                      <ConditionalBtnOrLink value={signInLink} style="text-webriq-darkblue hover:text-webriq-babyblue" />
                     </p>
                   )}
                 </div>
@@ -399,17 +380,7 @@ function VariantD({ logo, title, text, button, form, formLinks, signInLink }) {
                 <div className="flex flex-wrap text-sm justify-center items-center text-gray-500">
                   {formLinks?.map((link, index, { length }) => (
                     <div key={index}>
-                      {link?.type === "linkInternal" ? (
-                        <InternalLink
-                          className="text-webriq-darkblue hover:text-webriq-blue font-bold"
-                          link={link}
-                        />
-                      ) : (
-                        <ExternalLink
-                          className="text-webriq-darkblue hover:text-webriq-blue font-bold"
-                          link={link}
-                        />
-                      )}
+                      <ConditionalBtnOrLink value={link} style="text-webriq-darkblue hover:text-webriq-blue font-bold" />
                       {index === length - 1 ? null : index === length - 2 ? (
                         <span>&nbsp;and&nbsp;</span>
                       ) : (

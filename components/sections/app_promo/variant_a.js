@@ -33,46 +33,31 @@ function VariantA({ logo, subtitle, title, images }) {
             </h1>
             <div className="h-72">
               {images?.[0]?.image?.asset?._ref && (
-                <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 -mb-10 h-80 z-20">
-                  <Image
-                    src={urlFor(images[0]?.image)}
-                    layout="fixed"
-                    width="218px"
-                    height="320px"
-                    objectFit="contain"
-                    alt="appPromo-variantA-image-1"
-                    blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                    placeholder="blur"
-                  />
-                </div>
+                <Image
+                  className="absolute bottom-0 left-1/2 transform -translate-x-1/2 -mb-10 h-80 z-20 object-contain"
+                  src={urlFor(images[0]?.image)}
+                  width={218}
+                  height={320}
+                  alt="appPromo-variantA-image-1"
+                />
               )}
               {images?.[1]?.image?.asset?._ref && (
-                <div className="absolute bottom-0 left-0 -mb-24 h-80">
-                  <Image
-                    src={urlFor(images[1]?.image)}
-                    layout="fixed"
-                    width="218px"
-                    height="320px"
-                    objectFit="contain"
-                    alt="appPromo-variantA-image-2"
-                    blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                    placeholder="blur"
-                  />
-                </div>
+                <Image
+                  className="absolute bottom-0 left-0 -mb-24 h-80 object-contain"
+                  src={urlFor(images[1]?.image)}
+                  width={218}
+                  height={320}
+                  alt="appPromo-variantA-image-2"
+                />
               )}
               {images?.[2]?.image?.asset?._ref && (
-                <div className="absolute bottom-0 right-0 -mb-24 h-80">
-                  <Image
-                    src={urlFor(images[2]?.image)}
-                    layout="fixed"
-                    width="218px"
-                    height="320px"
-                    objectFit="contain"
-                    alt="appPromo-variantA-image-3"
-                    blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                    placeholder="blur"
-                  />
-                </div>
+                <Image
+                  className="absolute bottom-0 right-0 -mb-24 h-80 object-contain"
+                  src={urlFor(images[2]?.image)}
+                  width={218}
+                  height={320}
+                  alt="appPromo-variantA-image-3"
+                />
               )}
             </div>
           </div>

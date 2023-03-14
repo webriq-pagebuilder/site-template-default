@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import { urlFor } from "lib/sanity";
-import { logoLink, ExternalLink, InternalLink } from "helper";
+import { logoLink, ConditionalBtnOrLink } from "helper";
 
 function VariantB({
   /*template , */ links,
@@ -19,19 +19,18 @@ function VariantB({
       <nav className="relative py-6 bg-white">
         <div className="container mx-auto px-4 flex justify-between items-center">
           {logo?.image && (
-            <Link href={logoLink()}>
-              <a
-                aria-label={`Go to ${
-                  logoLink() === "/" ? "home page" : logoLink()
-                }`}
-                className="text-3xl font-bold leading-none"
-              >
-                <img
-                  className="h-12"
-                  src={urlFor(logo?.image)}
-                  alt={logo?.alt ?? "navigation-logo"}
-                />
-              </a>
+            <Link 
+              aria-label={`Go to ${
+                logoLink() === "/" ? "home page" : logoLink()
+              }`}
+              className="text-3xl font-bold leading-none"
+              href={logoLink()}
+            >
+              <img
+                className="h-12"
+                src={urlFor(logo?.image)}
+                alt={logo?.alt ?? "navigation-logo"}
+              />
             </Link>
           )}
           <div className="lg:hidden">
@@ -55,17 +54,7 @@ function VariantB({
               links?.map((link, index) => (
                 <React.Fragment key={index}>
                   <li>
-                    {link.type === "linkInternal" ? (
-                      <InternalLink
-                        className={`text-sm text-gray-500 hover:text-gray-900`}
-                        link={link}
-                      />
-                    ) : (
-                      <ExternalLink
-                        className={`text-sm text-gray-500 hover:text-gray-900`}
-                        link={link}
-                      />
-                    )}
+                    <ConditionalBtnOrLink value={link} style="text-sm text-gray-500 hover:text-gray-900" />
                   </li>
                   {links.length !== index + 1 ? (
                     <li className="text-gray-500">
@@ -88,30 +77,12 @@ function VariantB({
                 </React.Fragment>
               ))}
           </ul>
-          {primaryButton?.label &&
-            (primaryButton?.type === "linkInternal" ? (
-              <InternalLink
-                className="hidden lg:inline-block lg:ml-auto lg:mr-3 py-2 px-6 bg-gray-50 hover:bg-gray-100 text-sm text-gray-900 font-bold rounded-l-xl rounded-t-xl transition duration-200"
-                link={primaryButton}
-              />
-            ) : (
-              <ExternalLink
-                className="hidden lg:inline-block lg:ml-auto lg:mr-3 py-2 px-6 bg-gray-50 hover:bg-gray-100 text-sm text-gray-900 font-bold rounded-l-xl rounded-t-xl transition duration-200"
-                link={primaryButton}
-              />
-            ))}
-          {secondaryButton?.label &&
-            (secondaryButton?.type === "linkInternal" ? (
-              <InternalLink
-                className="hidden lg:inline-block py-2 px-6 bg-webriq-darkblue hover:bg-webriq-blue text-sm text-white font-bold rounded-l-xl rounded-t-xl transition duration-200"
-                link={secondaryButton}
-              />
-            ) : (
-              <ExternalLink
-                className="hidden lg:inline-block py-2 px-6 bg-webriq-darkblue hover:bg-webriq-blue text-sm text-white font-bold rounded-l-xl rounded-t-xl transition duration-200"
-                link={secondaryButton}
-              />
-            ))}
+          {primaryButton?.label && (
+            <ConditionalBtnOrLink value={primaryButton} style="hidden lg:inline-block lg:ml-auto lg:mr-3 py-2 px-6 bg-gray-50 hover:bg-gray-100 text-sm text-gray-900 font-bold rounded-l-xl rounded-t-xl transition duration-200" />
+          )}
+          {secondaryButton?.label && (
+            <ConditionalBtnOrLink value={secondaryButton} style="hidden lg:inline-block py-2 px-6 bg-webriq-darkblue hover:bg-webriq-blue text-sm text-white font-bold rounded-l-xl rounded-t-xl transition duration-200" />
+          )}
         </div>
       </nav>
       <div className={`${menu ? null : "hidden"} navbar-menu relative z-50`}>
@@ -147,47 +118,15 @@ function VariantB({
               {links &&
                 links?.map((link, index) => (
                   <li className="mb-1" key={index}>
-                    {link.type === "linkInternal" ? (
-                      <InternalLink
-                        className="block p-4 text-sm font-semibold text-gray-700 hover:bg-webriq-lightblue hover:text-webriq-darkblue rounded"
-                        link={link}
-                      />
-                    ) : (
-                      <ExternalLink
-                        className="block p-4 text-sm font-semibold text-gray-700 hover:bg-webriq-lightblue hover:text-webriq-darkblue rounded"
-                        link={link}
-                      />
-                    )}
+                    <ConditionalBtnOrLink value={link} style="block p-4 text-sm font-semibold text-gray-700 hover:bg-webriq-lightblue hover:text-webriq-darkblue rounded" />
                   </li>
                 ))}
             </ul>
           </div>
           <div className="mt-auto">
             <div className="pt-6">
-              {primaryButton?.label &&
-                (primaryButton?.type === "linkInternal" ? (
-                  <InternalLink
-                    className="block px-4 py-3 mb-3 leading-loose text-xs text-center font-semibold bg-gray-50 hover:bg-gray-100 rounded-l-xl rounded-t-xl"
-                    link={primaryButton}
-                  />
-                ) : (
-                  <ExternalLink
-                    className="block px-4 py-3 mb-3 leading-loose text-xs text-center font-semibold bg-gray-50 hover:bg-gray-100 rounded-l-xl rounded-t-xl"
-                    link={primaryButton}
-                  />
-                ))}
-              {secondaryButton?.label &&
-                (secondaryButton?.type === "linkInternal" ? (
-                  <InternalLink
-                    className="block px-4 py-3 mb-2 leading-loose text-xs text-center text-white font-semibold bg-webriq-darkblue hover:bg-webriq-blue rounded-l-xl rounded-t-xl"
-                    link={secondaryButton}
-                  />
-                ) : (
-                  <ExternalLink
-                    className="block px-4 py-3 mb-2 leading-loose text-xs text-center text-white font-semibold bg-webriq-darkblue hover:bg-webriq-blue rounded-l-xl rounded-t-xl"
-                    link={secondaryButton}
-                  />
-                ))}
+              {primaryButton?.label && <ConditionalBtnOrLink value={primaryButton} style="block px-4 py-3 mb-3 leading-loose text-xs text-center font-semibold bg-gray-50 hover:bg-gray-100 rounded-l-xl rounded-t-xl" />}
+              {secondaryButton?.label && <ConditionalBtnOrLink value={secondaryButton} style="block px-4 py-3 mb-2 leading-loose text-xs text-center text-white font-semibold bg-webriq-darkblue hover:bg-webriq-blue rounded-l-xl rounded-t-xl" />}
             </div>
             <p className="my-4 text-xs text-center text-gray-900">
               <span>{`© ${new Date().getFullYear()} All rights reserved.`}</span>

@@ -13,7 +13,7 @@ import {
 import { loadStripe } from "@stripe/stripe-js";
 import axios from "axios";
 import router from "next/router";
-import { thankYouPageLink, ExternalLink, InternalLink } from "helper";
+import { thankYouPageLink, ConditionalBtnOrLink } from "helper";
 
 function VariantD({
   caption,
@@ -524,17 +524,7 @@ function VariantD({
           {signInLink?.label && (
             <p className="text-xs text-gray-500">
               Already have an account?{" "}
-              {signInLink?.type === "linkInternal" ? (
-                <InternalLink
-                  className="text-webriq-darkblue hover:underline"
-                  link={signInLink}
-                />
-              ) : (
-                <ExternalLink
-                  className="text-webriq-darkblue hover:underline"
-                  link={signInLink}
-                />
-              )}
+              <ConditionalBtnOrLink value={signInLink} style="text-webriq-darkblue hover:underline" />
             </p>
           )}
         </div>

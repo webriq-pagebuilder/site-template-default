@@ -1,6 +1,6 @@
 import React from "react";
 import WebriQForm from "components/webriq-form";
-import { thankYouPageLink, InternalLink, ExternalLink } from "helper";
+import { thankYouPageLink, ConditionalBtnOrLink } from "helper";
 
 
 function VariantE({ form, formLinks, signInLink }) {
@@ -341,17 +341,7 @@ function VariantE({ form, formLinks, signInLink }) {
               {signInLink?.label && (
                 <p className="text-xs text-gray-500">
                   <span>Already have an account?</span>
-                  {signInLink?.type === "linkInternal" ? (
-                    <InternalLink
-                      className="text-webriq-darkblue hover:text-webriq-babyblue"
-                      link={signInLink}
-                    />
-                  ) : (
-                    <ExternalLink
-                      className="text-webriq-darkblue hover:text-webriq-babyblue"
-                      link={signInLink}
-                    />
-                  )}
+                  <ConditionalBtnOrLink value={signInLink} style="text-webriq-darkblue hover:text-webriq-babyblue" />
                 </p>
               )}
             </div>
@@ -360,17 +350,7 @@ function VariantE({ form, formLinks, signInLink }) {
             <div className="flex flex-wrap text-sm justify-center items-center text-gray-500">
               {formLinks?.map((link, index, { length }) => (
                 <div key={index}>
-                  {link?.type === "linkInternal" ? (
-                    <InternalLink
-                      className="text-webriq-darkblue hover:text-webriq-blue font-bold"
-                      link={link}
-                    />
-                  ) : (
-                    <ExternalLink
-                      className="text-webriq-darkblue hover:text-webriq-blue font-bold"
-                      link={link}
-                    />
-                  )}
+                  <ConditionalBtnOrLink value={link} style="text-webriq-darkblue hover:text-webriq-blue font-bold" />
                   {index === length - 1 ? null : index === length - 2 ? (
                     <span>&nbsp;and&nbsp;</span>
                   ) : (

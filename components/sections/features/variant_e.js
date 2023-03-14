@@ -49,12 +49,11 @@ function VariantE({ featuredItems }) {
               {featuredItems?.[item]?.mainImage?.image?.asset?._ref && (
                 <div className="md:max-w-xl xl:max-w-4xl mx-auto rounded-md overflow-hidden">
                   <Image
+                    className="relative object-cover"
                     src={urlFor(featuredItems?.[item]?.mainImage?.image)}
-                    layout="responsive"
-                    width="896px"
-                    height="575px"
-                    objectPosition="relative"
-                    objectFit="cover"
+                    sizes="100vw"
+                    width={896}
+                    height={575}
                     alt={
                       featuredItems?.[item]?.mainImage?.alt ??
                       `features-image-${item}`

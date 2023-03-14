@@ -45,14 +45,13 @@ function VariantA({ title, featured }) {
                         <div className="absolute z-10">
                           <Ribbon data={featuredCollections} />
                         </div>
-                        <div className="w-full object-cover overflow-hidden">
+                        <div className="w-[357px] h-[357px] overflow-hidden">
                           {product?.productInfo?.images ? (
                             <Image
-                              className="hover:scale-125 transition-all duration-700"
-                              layout="responsive"
-                              width={485}
-                              height={384}
-                              objectFit="cover"
+                              className="hover:scale-125 transition-all duration-700 object-cover"
+                              sizes="100vw"
+                              width={357}
+                              height={357}
                               src={urlFor(
                                 product?.productInfo?.images?.[0]?.image
                               )}
@@ -63,10 +62,9 @@ function VariantA({ title, featured }) {
                             />
                           ) : (
                             <Image
-                              layout="responsive"
-                              width={485}
-                              height={384}
-                              objectFit="cover"
+                              width={357}
+                              height={357}
+                              sizes="100vw"
                               src="https://cdn.sanity.io/images/9itgab5x/production/9523d40461371b7b4948456c57bb663bd8998c4a-500x362.png"
                               alt={`default image for product ${index + 1}`}
                             />

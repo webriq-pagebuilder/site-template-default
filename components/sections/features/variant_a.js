@@ -23,22 +23,19 @@ function VariantA({ caption, title, features }) {
                     className="mb-12 mt-16 lg:mb-0 w-full md:w-1/2 lg:w-1/4 px-4"
                     key={index}
                   >
-                    {feature?.mainImage?.image?.asset?._ref && (
-                      <span className="mb-4 md:mb-6 inline-block bg-webriq-lightblue p-3 text-webriq-blue rounded">
+                    <span className="mb-4 md:mb-6 inline-block bg-webriq-lightblue p-3 text-webriq-blue rounded">
+                      {feature?.mainImage?.image && (
                         <Image
+                          className="object-scale-down"
                           src={urlFor(feature?.mainImage?.image)}
-                          layout="intrinsic"
-                          width="40"
-                          height="40"
-                          objectFit="scale-down"
+                          width={40}
+                          height={40}
                           alt={
                             feature?.mainImage?.alt ?? `features-image-${index}`
                           }
-                          blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                          placeholder="blur"
                         />
-                      </span>
-                    )}
+                      )}
+                    </span>
 
                     {feature?.title && (
                       <p className="mb-4 text-2xl font-bold font-heading">

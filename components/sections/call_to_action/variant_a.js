@@ -1,7 +1,7 @@
 import { urlFor } from "lib/sanity";
 import Link from "next/link";
 import React from "react";
-import { logoLink, InternalLink, ExternalLink } from "helper";
+import { logoLink, ConditionalBtnOrLink} from "helper";
 
 function VariantA({ logo, title, text, button }) {
   return (
@@ -41,18 +41,9 @@ function VariantA({ logo, title, text, button }) {
             <p className="max-w-md mx-auto mb-6 text-gray-700 leading-loose">
               {text}
             </p>
-            {button?.label &&
-              (button?.type === "linkInternal" ? (
-                <InternalLink
-                  className="inline-block py-2 px-6 bg-webriq-darkblue hover:bg-webriq-blue text-white font-bold leading-loose rounded-l-xl rounded-t-xl transition duration-200"
-                  link={button}
-                />
-              ) : (
-                <ExternalLink
-                  className="inline-block py-2 px-6 bg-webriq-darkblue hover:bg-webriq-blue text-white font-bold leading-loose rounded-l-xl rounded-t-xl transition duration-200"
-                  link={button}
-                />
-              ))}
+            {button?.label && (
+              <ConditionalBtnOrLink value={button} style="inline-block py-2 px-6 bg-webriq-darkblue hover:bg-webriq-blue text-white font-bold leading-loose rounded-l-xl rounded-t-xl transition duration-200" />
+            )}
           </div>
         </div>
       </div>

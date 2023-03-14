@@ -49,7 +49,7 @@ function VariantB({ subtitle, title, description, statistics, images }) {
                 </div>
               </div>
             </div>
-            <div className="flex flex-wrap items-center justify-center w-full lg:w-1/2 xl:w-1/2 2xl:w-1/2">
+            <div className="sm:flex sm:flex-wrap items-center justify-center w-full lg:w-1/2 xl:w-1/2 2xl:w-1/2">
               {images &&
                 (images.length > 1 ? (
                   <>
@@ -74,22 +74,18 @@ function VariantB({ subtitle, title, description, statistics, images }) {
                       </svg>
                     </button>
                     <div className="order-1 md:order-1 lg:order-1 xl:order-0 2xl:order-0 mr-2 object-contain w-1/2">
-                      {images?.[currentPosition]?.image?.asset?._ref && (
-                        <div className="mx-auto mb-8 xl:mb-0">
-                          <Image
-                            src={urlFor(images?.[currentPosition]?.image)}
-                            layout="responsive"
-                            width="500px"
-                            height="850px"
-                            objectFit="cover"
-                            alt={
-                              images?.[currentPosition]?.alt ??
-                              `appPromo-variantB-image${currentPosition}`
-                            }
-                            blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                            placeholder="blur"
-                          />
-                        </div>
+                      {images?.[currentPosition]?.image && (
+                        <Image
+                          className="mx-auto mb-8 xl:mb-0 object-cover"
+                          src={urlFor(images?.[currentPosition]?.image)}
+                          sizes="100vw"
+                          width={500}
+                          height={850}
+                          alt={
+                            images?.[currentPosition]?.alt ??
+                            `appPromo-variantB-image${currentPosition}`
+                          }
+                        />
                       )}
                     </div>
                     <button
@@ -115,22 +111,18 @@ function VariantB({ subtitle, title, description, statistics, images }) {
                   </>
                 ) : (
                   <div className="object-contain md:w-2/5 xl:w-2/5">
-                    {images?.[currentPosition]?.image?.asset?._ref && (
-                      <div className="mx-auto mb-8 xl:mb-0">
-                        <Image
-                          src={urlFor(images?.[currentPosition]?.image)}
-                          layout="responsive"
-                          width="500px"
-                          height="850px"
-                          objectFit="cover"
-                          alt={
-                            images?.[currentPosition]?.alt ??
-                            `appPromo-variantB-image${currentPosition}`
-                          }
-                          blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                          placeholder="blur"
-                        />
-                      </div>
+                    {images?.[currentPosition]?.image && (
+                      <Image
+                        className="mx-auto mb-8 xl:mb-0 object-cover"
+                        src={urlFor(images?.[currentPosition]?.image)}
+                        sizes="100vw"
+                        width="500px"
+                        height="850px"
+                        alt={
+                          images?.[currentPosition]?.alt ??
+                          `appPromo-variantB-image${currentPosition}`
+                        }
+                      />
                     )}
                   </div>
                 ))}

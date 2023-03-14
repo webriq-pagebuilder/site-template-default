@@ -3,7 +3,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { urlFor } from "lib/sanity";
 import { format } from "date-fns";
-import { InternalLink, ExternalLink } from "helper";
+import { ConditionalBtnOrLink } from "helper";
+
 
 function VariantA({ subtitle, title, posts, primaryButton }) {
   let blogsPerPage = 6,
@@ -30,16 +31,12 @@ function VariantA({ subtitle, title, posts, primaryButton }) {
                   <div className="w-full px-3 mb-5" key={key}>
                     <div className="relative h-64 mx-auto rounded">
                       {post?.mainImage?.asset?._ref && (
-                        <div className="relative h-full w-full rounded overflow-hidden">
-                          <Image
-                            src={urlFor(post?.mainImage)}
-                            style={{ objectFit: "cover" }}
-                            alt={`blog-variantA-image-${key}`}
-                            blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                            placeholder="blur"
-                            fill
-                          />
-                        </div>
+                        <Image
+                          className="relative h-full w-full rounded overflow-hidden object-cover"
+                          src={urlFor(post?.mainImage)}
+                          alt={`blog-variantA-image-${key}`}
+                          fill
+                        />
                       )}
                       <div className="absolute inset-0 bg-gray-900 opacity-75 rounded" />
                       <div className="absolute inset-0 p-6 flex flex-col items-start">
@@ -84,16 +81,12 @@ function VariantA({ subtitle, title, posts, primaryButton }) {
                   <div className="w-full lg:w-1/2 px-3 mb-5" key={key}>
                     <div className="relative mx-auto rounded h-64">
                       {post?.mainImage?.asset?._ref && (
-                        <div className="relative h-full w-full rounded overflow-hidden">
-                          <Image
-                            src={urlFor(post?.mainImage)}
-                            style={{ objectFit: "cover" }}
-                            alt={`blog-variantA-image-${key}`}
-                            blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                            placeholder="blur"
-                            fill
-                          />
-                        </div>
+                        <Image
+                          className="relative h-full w-full rounded overflow-hidden object-cover"
+                          src={urlFor(post?.mainImage)}
+                          alt={`blog-variantA-image-${key}`}
+                          fill
+                        />
                       )}
                       <div className="absolute inset-0 bg-gray-900 opacity-75 rounded" />
                       <div className="absolute inset-0 p-6 flex flex-col items-start">
@@ -139,16 +132,12 @@ function VariantA({ subtitle, title, posts, primaryButton }) {
                   <div className="w-full lg:w-1/2 px-3 mb-5" key={key}>
                     <div className="relative mx-auto rounded h-64">
                       {post?.mainImage?.asset?._ref && (
-                        <div className="relative h-full w-full rounded overflow-hidden">
-                          <Image
-                            src={urlFor(post?.mainImage)}
-                            style={{ objectFit: "cover" }}
-                            alt={`blog-variantA-image-${key}`}
-                            blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                            placeholder="blur"
-                            fill
-                          />
-                        </div>
+                        <Image
+                          className="relative h-full w-full rounded overflow-hidden object-cover"
+                          src={urlFor(post?.mainImage)}
+                          alt={`blog-variantA-image-${key}`}
+                          fill
+                        />
                       )}
                       <div className="absolute inset-0 bg-gray-900 opacity-75 rounded" />
                       <div className="absolute inset-0 p-6 flex flex-col items-start">
@@ -192,16 +181,12 @@ function VariantA({ subtitle, title, posts, primaryButton }) {
                   <div className="w-full px-3 mb-5" key={key}>
                     <div className="relative mx-auto rounded h-64">
                       {post?.mainImage?.asset?._ref && (
-                        <div className="relative h-full w-full rounded overflow-hidden">
-                          <Image
-                            src={urlFor(post?.mainImage)}
-                            style={{ objectFit: "cover" }}
-                            alt={`blog-variantA-image-${key}`}
-                            blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                            placeholder="blur"
-                            fill
-                          />
-                        </div>
+                        <Image
+                          className="relative h-full w-full rounded overflow-hidden object-cover"
+                          src={urlFor(post?.mainImage)}
+                          alt={`blog-variantA-image-${key}`}
+                          fill
+                        />
                       )}
                       <div className="absolute inset-0 bg-gray-900 opacity-75 rounded" />
                       <div className="absolute inset-0 p-6 flex flex-col items-start">
@@ -243,18 +228,7 @@ function VariantA({ subtitle, title, posts, primaryButton }) {
                 ))}
               </div>
               <div className="mt-10">
-                {primaryButton?.label &&
-                primaryButton?.type === "linkInternal" ? (
-                  <InternalLink
-                    className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose outline-none transition duration-200"
-                    link={primaryButton}
-                  />
-                ) : (
-                  <ExternalLink
-                    className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose outline-none transition duration-200"
-                    link={primaryButton}
-                  />
-                )}
+                {primaryButton?.label && <ConditionalBtnOrLink value={primaryButton} style="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose outline-none transition duration-200" />}
               </div>
             </div>
           )}

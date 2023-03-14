@@ -3,7 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { urlFor } from "lib/sanity";
 import { format } from "date-fns";
-import { ExternalLink, InternalLink } from "helper";
+import { ConditionalBtnOrLink } from "helper";
 
 
 function VariantB({ subtitle, title, posts, primaryButton }) {
@@ -32,18 +32,15 @@ function VariantB({ subtitle, title, posts, primaryButton }) {
                 {posts?.slice(count, count + 1)?.map((post, key) => (
                   <div className="rounded overflow-hidden shadow" key={key}>
                     {post?.mainImage?.asset?._ref && (
-                      <div className="h-full rounded-t overflow-hidden">
-                        <Image
-                          src={urlFor(post?.mainImage)}
-                          sizes="100vw" 
-                          style={{ width: "100%", height: auto, objectFit: "cover" }}
-                          width="271px"
-                          height="248px"
-                          alt={`blog-variantB-image-${key}`}
-                          blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                          placeholder="blur"
-                        />
-                      </div>
+                      <Image
+                        className="w-full h-full rounded-t overflow-hidden object-cover"
+                        src={urlFor(post?.mainImage)}
+                        sizes="100vw" 
+                        style={{ width: "100%", height: "auto", objectFit: "cover" }}
+                        width={271}
+                        height={248}
+                        alt={`blog-variantB-image-${key}`}
+                      />
                     )}
                     <div className="mt-auto p-6 rounded-b bg-white">
                       {post?.publishedAt && (
@@ -79,18 +76,16 @@ function VariantB({ subtitle, title, posts, primaryButton }) {
                   <div className="mb-6 w-full lg:w-1/2 px-3" key={key}>
                     <div className="rounded overflow-hidden shadow">
                       {post?.mainImage?.asset?._ref && (
-                        <div className="h-full rounded-t overflow-hidden">
-                          <Image
-                            src={urlFor(post?.mainImage)}
-                            sizes="100vw" 
-                            style={{ width: "100%", height: auto, objectFit: "cover" }}
-                            width="259px"
-                            height="192px"
-                            alt={`blog-variantB-image-${key}`}
-                            blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                            placeholder="blur"
-                          />
-                        </div>
+                        <Image
+                          className="w-full h-full rounded-t overflow-hidden object-cover"
+                          src={urlFor(post?.mainImage)}
+                          sizes="100vw" 
+                          width={259}
+                          height={192}
+                          alt={`blog-variantB-image-${key}`}
+                          blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                          placeholder="blur"
+                        />
                       )}
                       <div className="mt-auto p-6 rounded-b bg-white">
                         {post?.publishedAt && (
@@ -129,18 +124,7 @@ function VariantB({ subtitle, title, posts, primaryButton }) {
               </div>
             </div>
             <div className="text-center">
-              {primaryButton?.label &&
-              primaryButton?.type === "linkInternal" ? (
-                <InternalLink
-                  className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose outline-none transition duration-200"
-                  link={primaryButton}
-                />
-              ) : (
-                <ExternalLink
-                  className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose outline-none transition duration-200"
-                  link={primaryButton}
-                />
-              )}
+              {primaryButton?.label && <ConditionalBtnOrLink value={primaryButton} style="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose outline-none transition duration-200" />}
             </div>
           </div>
         </div>

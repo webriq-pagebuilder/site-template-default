@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { urlFor, PortableText } from "lib/sanity";
 import { EcwidContextProvider } from "context/EcwidContext";
-import { logoLink, InternalLink, ExternalLink } from "helper";
+import { logoLink, ConditionalBtnOrLink } from "helper";
 
 function VariantE({ banner, logo, links }) {
   const router = useRouter();
@@ -39,7 +39,7 @@ function VariantE({ banner, logo, links }) {
           target="_blank"
           rel="noopener noreferrer"
         >
-          <a>{children}</a>
+          {children}
         </Link>
       ),
     },
@@ -104,19 +104,19 @@ function VariantE({ banner, logo, links }) {
         <nav className="relative flex justify-between">
           <div className="px-12 py-8 flex w-full items-center">
             {logo?.image && (
-              <Link href={logoLink()} prefetch={false}>
-                <a
-                  aria-label={`Go to ${
-                    logoLink() === "/" ? "home page" : logoLink()
-                  }`}
-                  className="text-3xl font-bold leading-none"
-                >
-                  <img
-                    className="h-12"
-                    src={urlFor(logo?.image)}
-                    alt={logo?.alt ?? "navigation-logo"}
-                  />
-                </a>
+              <Link
+                aria-label={`Go to ${
+                  logoLink() === "/" ? "home page" : logoLink()
+                }`}
+                className="text-3xl font-bold leading-none"
+                href={logoLink()} 
+                prefetch={false}
+              >
+                <img
+                  className="h-12"
+                  src={urlFor(logo?.image)}
+                  alt={logo?.alt ?? "navigation-logo"}
+                />
               </Link>
             )}
             {/* larger screens navigation menu links */}
@@ -125,11 +125,7 @@ function VariantE({ banner, logo, links }) {
                 links.map((link, index) => (
                   <Fragment key={index}>
                     <li>
-                      {link.type === "linkInternal" ? (
-                        <InternalLink link={link} className="xl:mr-12 lg:mr-8 font-bold font-heading hover:text-gray-600" />
-                      ) : (
-                        <ExternalLink link={link} className="mr-12 font-bold font-heading hover:text-gray-600" />
-                      )}
+                      <ConditionalBtnOrLink value={link} style={link?.type === "linkInternal" ? "xl:mr-12 lg:mr-8 font-bold font-heading hover:text-gray-600" : "mr-12 font-bold font-heading hover:text-gray-600"} />
                     </li>
                   </Fragment>
                 ))}
@@ -263,19 +259,19 @@ function VariantE({ banner, logo, links }) {
           <nav className="relative flex flex-col py-6 px-6 w-full h-full bg-white border-r overflow-y-auto">
             <div className="flex items-center mb-8">
               {logo?.image && (
-                <Link href={logoLink()} prefetch={false} legacyBehavior>
-                  <a
-                    aria-label={`Go to ${
-                      logoLink() === "/" ? "home page" : logoLink()
-                    }`}
-                    className="text-3xl font-bold leading-none"
-                  >
-                    <img
-                      className="h-12"
-                      src={urlFor(logo?.image)}
-                      alt={logo?.alt ?? "navigation-logo"}
-                    />
-                  </a>
+                <Link 
+                  aria-label={`Go to ${
+                    logoLink() === "/" ? "home page" : logoLink()
+                  }`}
+                  className="text-3xl font-bold leading-none"
+                  href={logoLink()} 
+                  prefetch={false}
+                >
+                  <img
+                    className="h-12"
+                    src={urlFor(logo?.image)}
+                    alt={logo?.alt ?? "navigation-logo"}
+                  />
                 </Link>
               )}
               <button
@@ -348,11 +344,7 @@ function VariantE({ banner, logo, links }) {
                 links.map((link, index) => (
                   <Fragment key={index}>
                     <li className="mb-8">
-                      {link.type === "linkInternal" ? (
-                        <InternalLink className="font-bold font-heading hover:text-gray-600" link={link} />
-                      ) : (
-                        <ExternalLink className="font-bold font-heading hover:text-gray-600" link={link} />
-                      )}
+                      <ConditionalBtnOrLink value={link} style="font-bold font-heading hover:text-gray-600" />
                     </li>
                   </Fragment>
                 ))}

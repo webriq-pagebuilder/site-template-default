@@ -106,50 +106,41 @@ function VariantH({ caption, title, features, images }) {
             </div>
             {images && (
               <div className="flex items-center w-full lg:w-1/2">
-                <div className="w-1/2 mx-3">
-                  {images?.[0]?.image?.asset?._ref && (
-                    <div className="rounded-xl overflow-hidden">
-                      <Image
-                        src={urlFor(images?.[0]?.image)}
-                        layout="responsive"
-                        width="245px"
-                        height="256px"
-                        objectFit="cover"
-                        alt={images?.[0]?.alt ?? "features-image-1"}
-                        blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                        placeholder="blur"
-                      />
-                    </div>
-                  )}
-                  {images?.[1]?.image?.asset?._ref && (
-                    <div className="mt-6 rounded-xl overflow-hidden">
-                      <Image
-                        src={urlFor(images?.[1]?.image)}
-                        layout="responsive"
-                        width="245px"
-                        height="256px"
-                        objectFit="cover"
-                        alt={images?.[1]?.alt ?? "features-image-2"}
-                        blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                        placeholder="blur"
-                      />
-                    </div>
-                  )}
-                </div>
-                <div className="w-1/2 mx-3 rounded-xl overflow-hidden">
-                  {images?.[2]?.image?.asset?._ref && (
+                <div className="w-1/2">
+                  {images?.[0]?.image && (
                     <Image
-                      src={urlFor(images?.[2]?.image)}
-                      layout="responsive"
-                      width="245px"
-                      height="256px"
-                      objectFit="cover"
-                      alt={images?.[2]?.alt ?? "features-image-3"}
+                      className="rounded-xl overflow-hidden object-cover"
+                      src={urlFor(images?.[0]?.image)}
+                      width={640}
+                      height={800}
+                      alt={images?.[0]?.alt ?? "features-image-1"}
+                      blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                      placeholder="blur"
+                    />
+                  )}
+                  {images?.[1]?.image && (
+                    <Image
+                      className="mt-6 rounded-xl overflow-hidden object-cover"
+                      src={urlFor(images?.[1]?.image)}
+                      width={640}
+                      height={800}
+                      alt={images?.[1]?.alt ?? "features-image-2"}
                       blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
                       placeholder="blur"
                     />
                   )}
                 </div>
+                {images?.[2]?.image && (
+                  <Image
+                    className="w-1/2 ml-6 rounded-xl overflow-hidden object-cover"
+                    src={urlFor(images?.[2]?.image)}
+                    width={640}
+                    height={800}
+                    alt={images?.[2]?.alt ?? "features-image-3"}
+                    blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                    placeholder="blur"
+                  />
+                )}
               </div>
             )}
           </div>

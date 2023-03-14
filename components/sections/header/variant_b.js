@@ -1,7 +1,7 @@
 import React from "react";
 import { urlFor } from "lib/sanity";
 import Image from "next/image";
-import { ExternalLink, InternalLink } from "helper";
+import { ConditionalBtnOrLink } from "helper";
 
 
 function VariantB({
@@ -38,94 +38,60 @@ function VariantB({
                     </p>
                   )}
                   <div>
-                    {primaryButton?.label &&
-                      (primaryButton?.type === "linkInternal" ? (
-                        <InternalLink
-                          className={`inline-block mb-3 lg:mb-0 lg:mr-3 w-auto py-2 px-6 leading-loose bg-${template.color}-darkblue hover:bg-${template.color}-blue text-white font-semibold rounded-l-xl rounded-t-xl transition duration-200`}
-                          link={primaryButton}
-                        />
-                      ) : (
-                        <ExternalLink
-                          className={`inline-block mb-3 lg:mb-0 lg:mr-3 w-auto py-2 px-6 leading-loose bg-${template.color}-darkblue hover:bg-${template.color}-blue text-white font-semibold rounded-l-xl rounded-t-xl transition duration-200`}
-                          link={primaryButton}
-                        />
-                      ))}
-                    {secondaryButton?.label &&
-                      (secondaryButton?.type === "linkInternal" ? (
-                        <InternalLink
-                          className="inline-block w-auto py-2 px-6 leading-loose font-semibold bg-white hover:bg-gray-50 rounded-l-xl rounded-t-xl transition duration-200"
-                          link={secondaryButton}
-                        />
-                      ) : (
-                        <ExternalLink
-                          className="inline-block w-auto py-2 px-6 leading-loose font-semibold bg-white hover:bg-gray-50 rounded-l-xl rounded-t-xl transition duration-200"
-                          link={secondaryButton}
-                        />
-                      ))}
+                    {primaryButton?.label && (
+                      <ConditionalBtnOrLink value={primaryButton} style={`inline-block mb-3 lg:mb-0 lg:mr-3 w-auto py-2 px-6 leading-loose bg-${template.color}-darkblue hover:bg-${template.color}-blue text-white font-semibold rounded-l-xl rounded-t-xl transition duration-200`} />
+                    )}
+                    {secondaryButton?.label && (
+                      <ConditionalBtnOrLink value={primaryButton} style="inline-block w-auto py-2 px-6 leading-loose font-semibold bg-white hover:bg-gray-50 rounded-l-xl rounded-t-xl transition duration-200" />
+                    )}
                   </div>
                 </div>
               </div>
             </div>
             {images && (
               <div className="w-full lg:w-1/2 px-4">
-                <div className="flex mb-3 lg:mb-4 lg:ml-6">
-                  {images?.[0]?.image?.asset?._ref && (
-                    <div className="w-1/3 h-full mr-2 rounded-3xl lg:rounded-br-none overflow-hidden">
-                      <Image
-                        src={urlFor(images?.[0]?.image)}
-                        layout="responsive"
-                        width="155px"
-                        height="235px"
-                        objectFit="cover"
-                        alt={images?.[0]?.alt ?? "header-image-1"}
-                        blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                        placeholder="blur"
-                      />
-                    </div>
+                <div className="sm:flex mb-3 lg:mb-4 lg:ml-6">
+                  {images?.[0]?.image && (
+                    <Image
+                      className="mb-3 sm:mb-0 sm:w-1/3 mr-2 rounded-xl md:rounded-3xl lg:rounded-br-none overflow-hidden relative object-cover"
+                      sizes="100vw"
+                      src={urlFor(images?.[0]?.image)}
+                      width={941}
+                      height={734}
+                      alt={images?.[0]?.alt ?? "header-image-1"}
+                    />
                   )}
-                  {images?.[1]?.image?.asset?._ref && (
-                    <div className="w-2/3 h-full ml-2 rounded-3xl lg:rounded-bl-none overflow-hidden">
-                      <Image
-                        src={urlFor(images?.[1]?.image)}
-                        layout="responsive"
-                        width="327px"
-                        height="248px"
-                        objectFit="cover"
-                        alt={images?.[1]?.alt ?? "header-image-2"}
-                        blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                        placeholder="blur"
-                      />
-                    </div>
+                  {images?.[1]?.image && (
+                    <Image
+                      className="sm:w-2/3 sm:ml-2 rounded-xl md:rounded-3xl lg:rounded-bl-none overflow-hidden relative object-cover"
+                      sizes="100vw"
+                      src={urlFor(images?.[1]?.image)}
+                      width={1050}
+                      height={701}
+                      alt={images?.[1]?.alt ?? "header-image-2"}
+                    />
                   )}
                 </div>
-                <div className="flex mb-3 lg:mb-4 lg:mr-6">
+                <div className="sm:flex mb-3 lg:mb-4 lg:mr-6">
                   {images?.[2]?.image?.asset?._ref && (
-                    <div className="w-2/3 h-full mr-2 rounded-3xl lg:rounded-br-none overflow-hidden">
-                      <Image
-                        src={urlFor(images?.[2]?.image)}
-                        layout="responsive"
-                        width="327px"
-                        height="248px"
-                        objectFit="cover"
-                        alt={images?.[2]?.alt ?? "header-image-3"}
-                        blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                        placeholder="blur"
-                      />
-                    </div>
+                    <Image
+                      className="mb-3 md:mb-0 sm:w-2/3 mr-2 rounded-xl md:rounded-3xl lg:rounded-br-none overflow-hidden object-cover"
+                      sizes="100vw"
+                      src={urlFor(images?.[2]?.image)}
+                      width={1050}
+                      height={701}
+                      alt={images?.[2]?.alt ?? "header-image-3"}
+                    />
                   )}
                   {images?.[3]?.image?.asset?._ref && (
-                    <div className="w-1/3 h-full ml-2 rounded-3xl lg:rounded-bl-none overflow-hidden">
-                      <Image
-                        src={urlFor(images?.[3]?.image)}
-                        layout="responsive"
-                        width="155px"
-                        height="235px"
-                        objectFit="cover"
-                        alt={images?.[3]?.alt ?? "header-image-4"}
-                        blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                        placeholder="blur"
-                      />
-                    </div>
+                    <Image
+                      className="sm:w-1/3 sm:ml-2 rounded-xl md:rounded-3xl lg:rounded-bl-none overflow-hidden object-cover"
+                      sizes="100vw"
+                      src={urlFor(images?.[3]?.image)}
+                      width={941}
+                      height={734}
+                      alt={images?.[3]?.alt ?? "header-image-4"}
+                    />
                   )}
                 </div>
               </div>

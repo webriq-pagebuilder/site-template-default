@@ -27,52 +27,49 @@ export const logoLink = (logo) => {
   }
 };
 
-// Internal link used in routes or menus and buttons
-export const InternalLink = (link, className) => {
-  if(!link) {
-    return "/page-not-found"
-  } else {
-    if(link?.internalLink?.toLowerCase() === "home") {
+// Conditional links
+export const ConditionalBtnOrLink = ({ value, style }) => {
+  const defaultStyle = "inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose outline-none transition duration-200"
+
+  if((value?.internalLink || value?.linkInternal) && value?.type === "linkInternal") {
+    // internal link
+    if(value?.internalLink?.toLowerCase() === "home") {
       return "/"
     } else {
       return (
         <Link
-          aria-label={link?.label}
-          className={className}
-          target={link?.linkTarget}
+          aria-label={value?.label}
+          className={style ?? defaultStyle}
+          target={value?.linkTarget}
           rel={
-            link?.linkTarget === "_blank"
+            value?.linkTarget === "_blank"
               ? "noopener noreferrer"
               : null
           }
-          href={`/${link.internalLink}`}
+          href={`/${value.internalLink}`}
         >
-          {link?.label}
+          {value?.label}
         </Link>
       )
     }
-  }
-}
-
-// External link used in routes or menus and buttons
-export const ExternalLink = (link, className) => {
-  if(!link) {
-    return "/link-not-found"
-  } else {
+  } else if((value?.externalLink || value?.linkExternal) && value?.type === "linkExternal") {
+    // external link (includes mailto and tel)
     return (
       <a
-        aria-label={link?.label}
-        className={className}
-        target={link?.linkTarget}
-        href={link?.externalLink}
+        aria-label={value?.label}
+        className={style ?? defaultStyle}
+        target={value?.linkTarget}
+        href={value?.externalLink}
         rel={
-          link?.linkTarget === "_blank"
+          value?.linkTarget === "_blank"
             ? "noopener noreferrer"
             : null
         }
       >
-        {link?.label}
+        {value?.label}
       </a>
     )
+  } else {
+    return <a className={style ?? defaultStyle} href="/link-not-found">{value?.label}</a>
   }
 }

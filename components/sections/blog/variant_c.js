@@ -3,7 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { urlFor } from "lib/sanity";
 import { format } from "date-fns";
-import { ExternalLink, InternalLink } from "helper";
+import { ConditionalBtnOrLink } from "helper";
 
 
 function VariantC({ subtitle, title, posts, primaryButton }) {
@@ -26,21 +26,7 @@ function VariantC({ subtitle, title, posts, primaryButton }) {
                 </h1>
               )}
             </div>
-            {primaryButton?.label && (
-              <div className="hidden lg:block text-right w-1/2">
-                {primaryButton?.type === "linkInternal" ? (
-                  <InternalLink
-                    className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose outline-none transition duration-200"
-                    link={primaryButton}
-                  />
-                ) : (
-                  <ExternalLink
-                    className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose outline-none transition duration-200"
-                    link={primaryButton}
-                  />
-                )}
-              </div>
-            )}
+            {primaryButton?.label && <ConditionalBtnOrLink value={primaryButton} style="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose outline-none transition duration-200" />}
           </div>
           {posts && (
             <div>
@@ -51,20 +37,18 @@ function VariantC({ subtitle, title, posts, primaryButton }) {
                 >
                   {key % 2 === 0 ? (
                     <>
-                      <div className="w-full lg:w-1/2 rounded-l">
-                        {post?.mainImage?.asset?._ref && (
-                          <Image
-                            src={urlFor(post?.mainImage)}
-                            sizes="100vw" 
-                            style={{ width: "100%", height: auto, objectFit: "cover" }}
-                            width="554px"
-                            height="416px"
-                            alt={`blog-variantC-image-${key}`}
-                            blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                            placeholder="blur"
-                          />
-                        )}
-                      </div>
+                      {post?.mainImage && (
+                        <Image
+                          className="w-full h-auto lg:w-1/2 rounded-l object-cover"
+                          src={urlFor(post?.mainImage)}
+                          sizes="100vw" 
+                          width={554}
+                          height={416}
+                          alt={`blog-variantC-image-${key}`}
+                          blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                          placeholder="blur"
+                        />
+                      )}
                       <div className="w-full lg:w-1/2 py-6 lg:pt-10 px-6 rounded-r bg-white">
                         {post?.categories &&
                           post?.categories?.map((category, index) => (
@@ -182,20 +166,16 @@ function VariantC({ subtitle, title, posts, primaryButton }) {
                           </Link>
                         )}
                       </div>
-                      <div className="w-full lg:w-1/2 rounded-l order-0 lg:order-1">
-                        {post?.mainImage?.asset?._ref && (
-                          <Image
-                            src={urlFor(post?.mainImage)}
-                            sizes="100vw" 
-                            style={{ width: "100%", height: auto, objectFit: "cover" }}
-                            width="554px"
-                            height="416px"
-                            alt={`blog-variantC-image-${key}`}
-                            blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                            placeholder="blur"
-                          />
-                        )}
-                      </div>
+                      {post?.mainImage && (
+                        <Image
+                          className="w-full h-auto lg:w-1/2 rounded-l order-0 lg:order-1 object-cover"
+                          src={urlFor(post?.mainImage)}
+                          sizes="100vw" 
+                          width={554}
+                          height={416}
+                          alt={`blog-variantC-image-${key}`}
+                        />
+                      )}
                     </>
                   )}
                 </div>
@@ -204,17 +184,7 @@ function VariantC({ subtitle, title, posts, primaryButton }) {
           )}
           {primaryButton?.label && (
             <div className="block text-center lg:hidden lg:w-1/2">
-              {primaryButton?.type === "linkInternal" ? (
-                <InternalLink
-                  className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose outline-none transition duration-200"
-                  link={primaryButton}
-                />
-              ) : (
-                <ExternalLink
-                  className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose outline-none transition duration-200"
-                  link={primaryButton}
-                />
-              )}
+              <ConditionalBtnOrLink value={primaryButton} style="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose outline-none transition duration-200" />
             </div>
           )}
         </div>

@@ -126,19 +126,17 @@ function VariantD({ subtitle, title, posts }) {
                         key={index}
                       >
                         <div className="mb-4 lg:mb-0 w-full h-full lg:w-1/4 px-3">
-                          {post?.mainImage?.asset?._ref && (
-                            <div className="rounded overflow-hidden">
-                              <Image
-                                src={urlFor(post?.mainImage)}
-                                layout="responsive"
-                                width="188px"
-                                height="129px"
-                                objectFit="cover"
-                                alt={`blog-variantD-image-${index}`}
-                                blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                                placeholder="blur"
-                              />
-                            </div>
+                          {post?.mainImage && (
+                            <Image
+                              className="rounded overflow-hidden object-cover"
+                              src={urlFor(post?.mainImage)}
+                              sizes="100vw"
+                              width={188}
+                              height={129}
+                              alt={`blog-variantD-image-${index}`}
+                              blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                              placeholder="blur"
+                            />
                           )}
                         </div>
                         <div className="w-full lg:w-3/4 px-3">
@@ -195,19 +193,17 @@ function VariantD({ subtitle, title, posts }) {
                         key={index}
                       >
                         <div className="mb-4 lg:mb-0 h-full w-full lg:w-1/4 px-3">
-                          {post?.mainImage?.asset?._ref && (
-                            <div className="rounded overflow-hidden">
-                              <Image
-                                src={urlFor(post?.mainImage)}
-                                layout="responsive"
-                                width="188px"
-                                height="129px"
-                                objectFit="cover"
-                                alt={`blog-variantD-image-${index}`}
-                                blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                                placeholder="blur"
-                              />
-                            </div>
+                          {post?.mainImage && (
+                            <Image
+                              className="rounded overflow-hidden object-cover"
+                              src={urlFor(post?.mainImage)}
+                              sizes="100vw"
+                              width={188}
+                              height={129}
+                              alt={`blog-variantD-image-${index}`}
+                              blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                              placeholder="blur"
+                            />
                           )}
                         </div>
                         <div className="w-full lg:w-3/4 px-3">

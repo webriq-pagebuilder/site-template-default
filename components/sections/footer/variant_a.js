@@ -11,21 +11,20 @@ function VariantA({ logo, text, contacts, copyright, socialMedia }) {
           <div className="flex flex-wrap mb-5 lg:mb-20">
             <div className="mb-5 w-full lg:w-1/5">
               {logo?.image && (
-                <Link href={logoLink()}>
-                  <a
-                    aria-label={
-                      logoLink() === "/"
-                        ? "Go to home page"
-                        : `Go to ${logoLink()}`
-                    }
-                    className="text-3xl font-bold leading-none"
-                  >
-                    <img
-                      className="h-14"
-                      src={urlFor(logo?.image)}
-                      alt={logo?.alt ?? "footer-logo"}
-                    />
-                  </a>
+                <Link
+                  aria-label={
+                    logoLink() === "/"
+                      ? "Go to home page"
+                      : `Go to ${logoLink()}`
+                  }
+                  className="text-3xl font-bold leading-none" 
+                  href={logoLink()}
+                >
+                  <img
+                    className="h-14"
+                    src={urlFor(logo?.image)}
+                    alt={logo?.alt ?? "footer-logo"}
+                  />
                 </Link>
               )}
             </div>

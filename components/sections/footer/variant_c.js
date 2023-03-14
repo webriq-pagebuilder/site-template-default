@@ -1,7 +1,7 @@
 import { urlFor } from "lib/sanity";
 import Link from "next/link";
 import React from "react";
-import { logoLink, InternalLink, ExternalLink } from "helper";
+import { logoLink, ConditionalBtnOrLink } from "helper";
 
 
 function VariantC({ logo, menu, copyright, socialMedia }) {
@@ -35,17 +35,7 @@ function VariantC({ logo, menu, copyright, socialMedia }) {
                 <ul className="flex flex-wrap lg:space-x-5 justify-between items-center mx-20">
                   {menu?.map((links, index) => (
                     <li className="w-full md:w-auto mb-2 md:mb-0" key={index}>
-                      {links?.type === "linkInternal" ? (
-                        <InternalLink
-                          className="mr-6 text-sm hover:text-gray-500"
-                          link={links}
-                        />
-                      ) : (
-                        <ExternalLink
-                          className="mr-6 text-sm hover:text-gray-500"
-                          link={links}
-                        />
-                      )}
+                      <ConditionalBtnOrLink value={links} style="mr-6 text-sm hover:text-gray-500" />
                     </li>
                   ))}
                 </ul>
@@ -53,21 +43,20 @@ function VariantC({ logo, menu, copyright, socialMedia }) {
             )}
             <div className="mb-12 lg:mb-0 lg:ml-auto w-full lg:w-auto order-first lg:order-last text-center lg:text-left">
               {logo?.image && (
-                <Link href={logoLink()}>
-                  <a
-                    aria-label={
-                      logoLink() === "/"
-                        ? "Go to home page"
-                        : `Go to ${logoLink()}`
-                    }
-                    className="inline-block text-xl font-bold leading-none"
-                  >
-                    <img
-                      className="h-14"
-                      src={urlFor(logo?.image)}
-                      alt={logo?.alt ?? "footer-logo"}
-                    />
-                  </a>
+                <Link 
+                  className="inline-block text-xl font-bold leading-none"
+                  aria-label={
+                    logoLink() === "/"
+                      ? "Go to home page"
+                      : `Go to ${logoLink()}`
+                  } 
+                  href={logoLink()}
+                >
+                  <img
+                    className="h-14"
+                    src={urlFor(logo?.image)}
+                    alt={logo?.alt ?? "footer-logo"}
+                  />
                 </Link>
               )}
             </div>
