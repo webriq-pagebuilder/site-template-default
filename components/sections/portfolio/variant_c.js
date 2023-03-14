@@ -29,15 +29,15 @@ function VariantC({ caption, title, portfolios, primaryButton }) {
           </div>
           <div className="flex flex-wrap -mx-4 mb-4">
             {portfolios?.slice(0, portfolioLength)?.map((content, index) => (
-              <div className="mb-8 w-full md:w-1/2 lg:w-1/3 px-4" key={index}>
-                {content?.mainImage?.image?.asset?._ref && (
-                  <div className="bg-white rounded">
+              <div className="relative mb-8 w-full md:w-1/2 lg:w-1/3 px-4" key={index}>
+                {content?.mainImage?.image && (
+                  <div className="bg-white h-full rounded overflow-hidden">
                     <Image
+                      className="w-[480px] h-[320px] object-cover"
                       src={urlFor(content?.mainImage?.image)}
-                      width="480px"
-                      height="320px"
+                      width={480}
+                      height={320}
                       sizes="100vw"
-                      style={{ width: "100%", height: "auto", objectFit: "cover" }}
                       alt={content?.mainImage?.alt ?? `portfolio-image${index}`}
                       blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
                       placeholder="blur"

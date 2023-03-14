@@ -56,25 +56,25 @@ function VariantA({ caption, title, portfoliosWithCategory }) {
                     className="w-full sm:w-1/2 md:w-1/2 lg:w-1/4 xl:w-1/4 mb-8 px-4"
                     key={index}
                   >
-                    {content?.mainImage?.image?.asset?._ref && (
-                      <div className="relative mx-auto rounded-lg overflow-hidden">
+                    <div className="relative w-[352px] h-[256px] mx-auto rounded-lg overflow-hidden">
+                      {content?.mainImage?.image && (
                         <Image
+                          className="w-full h-full object-cover"
                           src={urlFor(content?.mainImage?.image)}
                           sizes="100vw"
-                          width="352px"
-                          height="256px"
-                          style={{ objectFit: "cover" }}
+                          width={352}
+                          height={256}
                           alt={
                             content?.mainImage?.alt ?? `portfolio-image${index}`
                           }
                           blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
                           placeholder="blur"
                         />
-                        <div className="opacity-0 hover:opacity-75 duration-300 absolute inset-0 z-10 bg-gray-900 flex justify-center items-center rounded-lg">
-                          {content?.primaryButton?.label && <ConditionalBtnOrLink value={content?.primaryButton} style="inline-block py-2 px-4 border-2 border-gray-400 hover:border-white hover:opacity-100 text-gray-50 hover:bg-white hover:text-gray-900 transition duration-200 rounded-l-xl rounded-t-xl font-bold leading-loose" />}
-                        </div>
+                      )}
+                      <div className="opacity-0 hover:opacity-75 duration-300 absolute inset-0 z-10 bg-gray-900 flex justify-center items-center rounded-lg">
+                        {content?.primaryButton?.label && <ConditionalBtnOrLink value={content?.primaryButton} style="inline-block py-2 px-4 border-2 border-gray-400 hover:border-white hover:opacity-100 text-gray-50 hover:bg-white hover:text-gray-900 transition duration-200 rounded-l-xl rounded-t-xl font-bold leading-loose" />}
                       </div>
-                    )}
+                    </div>
                   </div>
                 ))}
             </div>

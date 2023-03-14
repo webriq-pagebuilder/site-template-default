@@ -58,12 +58,13 @@ function VariantD({ caption, title, portfoliosWithCategory }) {
                     key={content?._key}
                   >
                     {content?.mainImage?.image?.asset?._ref && (
-                      <div className="relative rounded overflow-hidden">
+                      <div className="relative w-[352px] h-[280px] rounded overflow-hidden">
                         <Image
+                          className="w-full h-full object-cover"
                           src={urlFor(content?.mainImage?.image)}
                           sizes="100vw"
-                          width="352px"
-                          height="280px"
+                          width={352}
+                          height={280}
                           style={{ objectFit: "cover" }}
                           alt={`portfolio-image-${content?._key}`}
                           blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
@@ -99,10 +100,11 @@ function VariantD({ caption, title, portfoliosWithCategory }) {
                     {content?.mainImage?.image?.asset?._ref && (
                       <div className="relative rounded overflow-hidden">
                         <Image
+                          className="w-full h-full object-cover"
                           src={urlFor(content?.mainImage?.image)}
                           sizes="100vw"
-                          width="352px"
-                          height="256px"
+                          width={352}
+                          height={256}
                           style={{ objectFit: "cover" }}
                           alt={`portfolio-image-${content?._key}`}
                           blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
@@ -140,11 +142,11 @@ function VariantD({ caption, title, portfoliosWithCategory }) {
                     {content?.mainImage?.image?.asset?._ref && (
                       <div className="relative rounded overflow-hidden">
                         <Image
+                          className="w-full h-full object-cover"
                           src={urlFor(content?.mainImage?.image)}
                           sizes="100vw"
-                          width="352px"
-                          height="256px"
-                          style={{ objectFit: "cover" }}
+                          width={352}
+                          height={256}
                           alt={`portfolio-image-${content?._key}`}
                           blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
                           placeholder="blur"
@@ -178,13 +180,13 @@ function VariantD({ caption, title, portfoliosWithCategory }) {
                       key={content?._key}
                     >
                       {content?.mainImage?.image?.asset?._ref && (
-                        <div className="relative rounded overflow-hidden">
+                        <div className="relative w-[352px] h-[280px] rounded overflow-hidden">
                           <Image
+                            className="w-full h-full object-cover"
                             src={urlFor(content?.mainImage?.image)}
-                            width="352px"
-                            height="280px"
+                            width={352}
+                            height={280}
                             sizes="100vw"
-                            style={{ objectFit: "cover" }}
                             alt={`portfolio-image${content?._key}`}
                             blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
                             placeholder="blur"
