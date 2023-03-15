@@ -164,7 +164,7 @@ export const productsQuery = groq`*[_type == "mainProduct" && slug.current == $s
     ${variants}, 
     _type == "slotProductInfo" => {
      ...,
-     "variant": *[_type == "mainProduct" && slug.current == $slug][0].productInfoVariant.variant,
+     "variant": *[_type == "mainProduct" && slug.current == $slug][0].mainProductVariant.variant,
      "variants": *[_type == "mainProduct" && slug.current == $slug][0].productInfo
    },
    _type == "slotCart" => {
@@ -184,7 +184,7 @@ export const productsQuery = groq`*[_type == "mainProduct" && slug.current == $s
       ${variants},
       _type == "slotProductInfo" => {
         ...,
-        "variant": *[_type == "productSettings"][0].defaultProductInfoVariant.variant
+        "variant": *[_type == "productSettings"][0].productSettingsVariant.variant
       }
     },
   },
@@ -200,7 +200,7 @@ export const collectionsQuery = groq`*[_type == "mainCollection" && slug.current
     ${variants},
     _type == "slotCollectionInfo" => {
       ...,
-      "variant": *[_type == "mainCollection" && slug.current == $slug][0].collectionInfoVariant.variant,
+      "variant": *[_type == "mainCollection" && slug.current == $slug][0].mainCollectionVariant.variant,
       "variants": *[_type == "mainCollection" && slug.current == $slug][0]{
         "collections": {
           "title": name,
@@ -225,7 +225,7 @@ export const collectionsQuery = groq`*[_type == "mainCollection" && slug.current
       ${variants},
       _type == "slotCollectionInfo" => {
         ...,
-        "variant": *[_type == "collectionSettings"][0].defaultCollectionInfoVariant.variant
+        "variant": *[_type == "collectionSettings"][0].collectionSettingsVariant.variant
       }
     }
   }
