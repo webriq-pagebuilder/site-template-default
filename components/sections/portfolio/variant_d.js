@@ -48,7 +48,7 @@ function VariantD({ caption, title, portfoliosWithCategory }) {
               </div>
             )}
           </div>
-          <div className="lg:flex xl:flex -mx-4 mb-12">
+          <div className="sm:flex -mx-4 mb-12">
             <div className="flex flex-wrap w-full lg:w-1/2 mb-8 lg:mb-0">
               {portfoliosPerCategory?.[0]?.content
                 ?.slice(count, count + 2)
@@ -57,8 +57,8 @@ function VariantD({ caption, title, portfoliosWithCategory }) {
                     className="w-full lg:w-1/2 px-4 mb-8"
                     key={content?._key}
                   >
-                    {content?.mainImage?.image?.asset?._ref && (
-                      <div className="relative w-[352px] h-[280px] rounded overflow-hidden">
+                    {content?.mainImage?.image && (
+                      <div className="relative rounded overflow-hidden">
                         <Image
                           className="w-full h-full object-cover"
                           src={urlFor(content?.mainImage?.image)}
@@ -94,10 +94,10 @@ function VariantD({ caption, title, portfoliosWithCategory }) {
                 ?.slice(count + 2, count + 3)
                 ?.map((content) => (
                   <div
-                    className="w-full px-4 mb-8 lg:w-full lg:px-4 xl:w-full xl:px-4"
+                    className="w-full px-4 mb-8 lg:w-full lg:h-full lg:px-4 xl:px-4"
                     key={content?._key}
                   >
-                    {content?.mainImage?.image?.asset?._ref && (
+                    {content?.mainImage?.image && (
                       <div className="relative rounded overflow-hidden">
                         <Image
                           className="w-full h-full object-cover"
@@ -105,7 +105,6 @@ function VariantD({ caption, title, portfoliosWithCategory }) {
                           sizes="100vw"
                           width={352}
                           height={256}
-                          style={{ objectFit: "cover" }}
                           alt={`portfolio-image-${content?._key}`}
                           blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
                           placeholder="blur"
@@ -139,7 +138,7 @@ function VariantD({ caption, title, portfoliosWithCategory }) {
                     className="w-full px-4 mb-8 lg:w-full lg:px-4 xl:w-full xl:px-4"
                     key={content?._key}
                   >
-                    {content?.mainImage?.image?.asset?._ref && (
+                    {content?.mainImage?.image && (
                       <div className="relative rounded overflow-hidden">
                         <Image
                           className="w-full h-full object-cover"
@@ -179,8 +178,8 @@ function VariantD({ caption, title, portfoliosWithCategory }) {
                       className="relative w-full lg:w-1/2 px-4 mb-8 lg:mb-0"
                       key={content?._key}
                     >
-                      {content?.mainImage?.image?.asset?._ref && (
-                        <div className="relative w-[352px] h-[280px] rounded overflow-hidden">
+                      {content?.mainImage?.image && (
+                        <div className="relative rounded overflow-hidden">
                           <Image
                             className="w-full h-full object-cover"
                             src={urlFor(content?.mainImage?.image)}

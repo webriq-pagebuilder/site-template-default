@@ -17,24 +17,22 @@ function VariantA({ testimonials }) {
             <div className="max-w-5xl p-4 flex flex-wrap justify-center items-center">
               {testimonials?.[testimony] && (
                 <div className="mb-6 w-full lg:w-1/3 text-center">
-                  {testimonials?.[testimony]?.mainImage?.image?.asset?._ref && (
-                    <div className="relative mb-6 mx-auto w-32 h-32 rounded-full overflow-hidden">
-                      <Image
-                        src={urlFor(
-                          testimonials?.[testimony]?.mainImage?.image
-                        )}
-                        layout="responsive"
-                        width="128px"
-                        height="128px"
-                        objectFit="cover"
-                        alt={
-                          testimonials?.[testimony]?.mainImage?.alt ??
-                          `testimonial-source-${testimonials?.[testimony]?.name}-profile-image`
-                        }
-                        blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                        placeholder="blur"
-                      />
-                    </div>
+                  {testimonials?.[testimony]?.mainImage?.image && (
+                    <Image
+                      className="relative mb-6 mx-auto w-32 h-32 rounded-full overflow-hidden object-cover"
+                      src={urlFor(
+                        testimonials?.[testimony]?.mainImage?.image
+                      )}
+                      sizes="100vw"
+                      width={128}
+                      height={128}
+                      alt={
+                        testimonials?.[testimony]?.mainImage?.alt ??
+                        `testimonial-source-${testimonials?.[testimony]?.name}-profile-image`
+                      }
+                      blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                      placeholder="blur"
+                    />
                   )}
                   {testimonials?.[testimony]?.name && (
                     <p className="text-xl">{testimonials?.[testimony]?.name}</p>

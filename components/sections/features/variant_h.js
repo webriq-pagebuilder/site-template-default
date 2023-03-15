@@ -105,8 +105,8 @@ function VariantH({ caption, title, features, images }) {
               </div>
             </div>
             {images && (
-              <div className="flex items-center w-full lg:w-1/2">
-                <div className="w-1/2">
+              <div className="px-4 md:px-0 sm:flex items-center w-full lg:w-1/2">
+                <div className="mb-5 sm:mb-0 sm:w-1/2">
                   {images?.[0]?.image && (
                     <Image
                       className="rounded-xl overflow-hidden object-cover"
@@ -132,7 +132,7 @@ function VariantH({ caption, title, features, images }) {
                 </div>
                 {images?.[2]?.image && (
                   <Image
-                    className="w-1/2 ml-6 rounded-xl overflow-hidden object-cover"
+                    className="sm:w-1/2 sm:ml-6 rounded-xl overflow-hidden object-cover"
                     src={urlFor(images?.[2]?.image)}
                     width={640}
                     height={800}

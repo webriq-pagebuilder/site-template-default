@@ -25,14 +25,14 @@ function VariantC({ caption, title, team }) {
                   key={member?.name}
                 >
                   <div className="pb-8 bg-white w-full rounded shadow text-center overflow-hidden">
-                    {member.mainImage?.image?.asset?._ref && (
-                      <div className="mb-8 w-full h-full">
-                        <Image
+                    {member.mainImage?.image && (
+                      <div >
+                        <Image  
+                          className="w-full h-[345px] mb-8 object-cover"
+                          sizes="100vw"
                           src={urlFor(member?.mainImage?.image)}
-                          layout="responsive"
-                          width="345px"
-                          height="256px"
-                          objectFit="cover"
+                          width={345}
+                          height={256}
                           alt={
                             member?.mainImage?.alt ??
                             `team-member-${member?.name}-profile-image`

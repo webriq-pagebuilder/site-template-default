@@ -37,22 +37,20 @@ function VariantB({ team }) {
                 <div className="w-full lg:w-2/3 px-3">
                   {filterMember?.map((member, index) => (
                     <div className="flex p-6 bg-white shadow" key={index}>
-                      {member?.mainImage?.image?.asset?._ref && (
-                        <div className="w-1/2 h-auto rounded-lg overflow-hidden">
-                          <Image
-                            src={urlFor(member?.mainImage?.image)}
-                            layout="responsive"
-                            width="329px"
-                            height="494px"
-                            objectFit="cover"
-                            alt={
-                              member?.mainImage?.alt ??
-                              `team-member-${member?.name}-profile-image`
-                            }
-                            blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                            placeholder="blur"
-                          />
-                        </div>
+                      {member?.mainImage?.image && (
+                        <Image
+                          className="rounded-lg overflow-hidden object-cover"
+                          src={urlFor(member?.mainImage?.image)}
+                          sizes="100vw"
+                          width={329}
+                          height={494}
+                          alt={
+                            member?.mainImage?.alt ??
+                            `team-member-${member?.name}-profile-image`
+                          }
+                          blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                          placeholder="blur"
+                        />
                       )}
                       <div className="w-1/2 pt-6 pl-6 mt-6 order-last">
                         <p className="text-2xl font-bold font-heading">

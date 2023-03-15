@@ -25,22 +25,18 @@ function VariantA({ caption, title, team }) {
                   key={member?.name}
                 >
                   <div className="py-24 bg-white rounded shadow text-center">
-                    {member?.mainImage?.image?.asset?._ref && (
-                      <div className="mx-auto mb-8 h-24 w-24 rounded-full overflow-hidden">
-                        <Image
-                          src={urlFor(member?.mainImage?.image)}
-                          layout="responsive"
-                          width="96px"
-                          height="96px"
-                          objectFit="cover"
-                          alt={
-                            member?.mainImage?.alt ??
-                            `team-member-${member?.name}-profile-image`
-                          }
-                          blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                          placeholder="blur"
-                        />
-                      </div>
+                    {member?.mainImage?.image && (
+                      <Image
+                        className="object-cover mx-auto mb-8 h-24 w-24 rounded-full overflow-hidden"
+                        src={urlFor(member?.mainImage?.image)}
+                        sizes="100vw"
+                        width={96}
+                        height={96}
+                        alt={
+                          member?.mainImage?.alt ??
+                          `team-member-${member?.name}-profile-image`
+                        }
+                      />
                     )}
                     <h1 className="mb-2 text-2xl font-bold font-heading">
                       {member?.name}

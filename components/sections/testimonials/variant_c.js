@@ -89,22 +89,20 @@ function VariantC({ caption, title, testimonials }) {
                     <p className="mb-8 text-gray-500 leading-loose">
                       {item?.testimony}
                     </p>
-                    {item?.mainImage?.image?.asset?._ref && (
-                      <div className="mb-2 mx-auto w-12 h-12 rounded-full overflow-hidden">
-                        <Image
-                          src={urlFor(item?.mainImage?.image)}
-                          layout="responsive"
-                          width="128px"
-                          height="128px"
-                          objectFit="cover"
-                          alt={
-                            item?.mainImage?.alt ??
-                            `testimonial-source-${item?.name}-profile-image`
-                          }
-                          blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                          placeholder="blur"
-                        />
-                      </div>
+                    {item?.mainImage?.image && (
+                      <Image
+                        className="mb-2 mx-auto w-12 h-12 rounded-full overflow-hidden object-cover"
+                        src={urlFor(item?.mainImage?.image)}
+                        sizes="100vw"
+                        width={128}
+                        height={128}
+                        alt={
+                          item?.mainImage?.alt ??
+                          `testimonial-source-${item?.name}-profile-image`
+                        }
+                        blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                        placeholder="blur"
+                      />
                     )}
                     <p className="mb-1 text-2xl font-bold font-heading">
                       {item?.name}
