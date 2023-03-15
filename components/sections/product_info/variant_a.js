@@ -83,7 +83,7 @@ function VariantA({
     },
     listItem: {
       bullet: ({ children }) => (
-        <li className="mb-6 leading-loose text-gray-900">{props.children}</li>
+        <li className="mb-6 leading-loose text-gray-900">{children}</li>
       ),
     },
     marks: {
@@ -232,8 +232,8 @@ function VariantA({
                   {/* Product price from Ecwid */}
                   <span className="text-webriq-darkblue">
                     {ecwidProduct
-                      ? ecwidProduct?.defaultDisplayedPriceFormatted
-                      : getPriceDisplay()}
+                      ? getPriceDisplay()
+                      : ecwidProduct?.defaultDisplayedPriceFormatted}
                   </span>
                 </p>
                 <Description data={product} />

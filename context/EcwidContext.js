@@ -1,6 +1,6 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState, useMemo } from "react";
 import { ToastContainer, toast } from "react-toast";
-import { client } from "lib/sanity.client";
+import { sanityClient } from "lib/sanity.client";
 import { includes } from "lodash";
 
 const EcwidContext = createContext();
@@ -10,6 +10,8 @@ export function EcwidContextProvider({ children }) {
   const [products, setProducts] = useState(null);
   const [isAddingToBag, setIsAddingToBag] = useState(false);
   const [options, setOptions] = useState({});
+  const [selectedOpt, setSelectedOpt] = useState([]);
+  const [selected, setSelected] = useState(null);
   const [price, setPrice] = useState(0);
   const [wishlist, setWishlist] = useState({ productIds: [] });
   const [favorited, setFavorited] = useState(false);
@@ -17,7 +19,9 @@ export function EcwidContextProvider({ children }) {
   const [favorites, setFavorites] = useState(null);
   const [productCollection, setProductCollection] = useState(null);
   const storageName = `PSecwid__${process.env.NEXT_PUBLIC_ECWID_STORE_ID}PSfavorites`;
+  const [storage, setStorage] = useState(false);
   const [count, setCount] = useState(0);
+  const [isScript, setIsScript] = useState(false);
 
   useEffect(() => {
     const fetchProducts = () => {
@@ -36,29 +40,82 @@ export function EcwidContextProvider({ children }) {
     fetchProducts();
   }, [id]);
 
+  useMemo(() => {
+    let data = null;
+    if (selectedOpt.length) {
+      const variants = products && products?.combinations;
+      const sortingArr = variants[0].options.map((i) => i.name); // This will be the guide for array arrangement
+      let sortArrSelected = selectedOpt?.sort(
+        (a, b) => sortingArr.indexOf(a.name) - sortingArr.indexOf(b.name)
+      );
+
+      // Multiple variants
+      const selectedCombinedVariant = variants
+        .flatMap((items) => {
+          const arrOptions = items.options.map((i) => ({
+            name: i.name,
+            value: i.value,
+          }));
+          if (_.isEqual(arrOptions, sortArrSelected)) {
+            return items;
+          }
+        })
+        .find((i) => i);
+
+      // Single variant
+      const selectedVariant = selectedOpt
+        .flatMap((sel) => {
+          const variant = variants.flatMap((vrt) => {
+            return vrt.options.map((item) => {
+              if (
+                vrt.options.length < 2 &&
+                _.isEqual({ name: item.name, value: item.value }, sel)
+              ) {
+                return vrt;
+              }
+            });
+          });
+          return variant;
+        })
+        .find((i) => i);
+
+      setSelected(selectedCombinedVariant);
+
+      if (selectedCombinedVariant) {
+        setSelected(selectedCombinedVariant);
+      } else {
+        setSelected(selectedVariant);
+      }
+
+      data = selectedOpt;
+    }
+
+    return data;
+  }, [selectedOpt, products]);
+
   useEffect(() => {
     function load_ecwid() {
       if (typeof Ecwid !== "undefined") {
         try {
           Ecwid.OnAPILoaded.add(function () {
             Ecwid.init();
-            Ecwid.Cart.get(function (cart) {
-              setCart(cart);
-            });
+            // Ecwid.Cart.get(function (cart) {
+            //   setCart(cart);
+            // });
 
-            Ecwid.OnCartChanged.add(function (cart) {
-              setCart(cart);
-            });
+            // Ecwid.OnCartChanged.add(function (cart) {
+            //   setCart(cart);
+            // });
           });
         } catch (error) {
           console.error();
         }
 
-        Ecwid.OnPageLoaded.add(function (page) {
-          if (page.type === "CATEGORY" || page.type === "PRODUCT") {
-            Ecwid.openPage("cart");
-          }
-        });
+        // Ecwid.OnPageLoaded.add(function (page) {
+        //   if (page.type === "CATEGORY" || page.type === "PRODUCT") {
+        //     Ecwid.openPage("cart");
+        //   }
+        // });
       } else {
         setCount((prev) => prev + 1);
       }
@@ -67,15 +124,19 @@ export function EcwidContextProvider({ children }) {
     window.ec = window.ec || {};
     window.ec.config = window.ec.config || {};
     window.ec.config.storefrontUrls = window.ec.config.storefrontUrls || {};
-    window.ec.config.storefrontUrls.cleanUrls = true;
-    window.ec.config.storefrontUrls.queryBasedCleanUrls = true;
+
+    if (["/cart", "/collections/all-products"].includes(location.pathname)) {
+      window.ec.config.storefrontUrls.cleanUrls = true;
+      window.ec.config.storefrontUrls.queryBasedCleanUrls = true;
+    }
+
     // window.ec.config.baseUrl = "/store";
     window.ec.config.store_main_page_url = `${process.env.NEXT_PUBLIC_SITE_URL}/cart`;
 
     window.ecwid_script_defer = true;
     // window.ecwid_dynamic_widgets = true;
 
-    if (document.getElementById("ecwid-shop-store")) {
+    if (location.pathname === "/cart") {
       window._xnext_initialization_scripts = [
         {
           widgetType: "ProductBrowser",
@@ -83,14 +144,16 @@ export function EcwidContextProvider({ children }) {
           arg: ["id=ecwid-shop-store"],
         },
       ];
-
-      load_ecwid();
     }
+    
+    load_ecwid();
   }, []);
 
   useEffect(() => {
     if (typeof window !== undefined) {
       if (localStorage.getItem(storageName)) {
+        setStorage(true);
+
         let ids = JSON.parse(localStorage.getItem(storageName));
 
         if (ids.productIds.length > 0) {
@@ -102,7 +165,7 @@ export function EcwidContextProvider({ children }) {
         }
       }
     }
-  }, [id, storageName]);
+  }, [id, storage]);
 
   useEffect(() => {
     const fetchFavorites = async () => {
@@ -118,9 +181,9 @@ export function EcwidContextProvider({ children }) {
             ids: favorites?.productIds?.map((id) => id),
           };
 
-          const studio = await client
+          const studio = await sanityClient
             .fetch(query, params)
-            .then((products) => products);
+            .then((result) => result);
 
           const productReq = await fetch(
             `/api/ecwid/products/search?productIds=${favorites.productIds}`
@@ -153,23 +216,30 @@ export function EcwidContextProvider({ children }) {
     };
 
     fetchFavorites();
-  }, [storageName]);
+  }, [storage]);
 
-  useEffect(() => {
-    if (typeof Ecwid !== "undefined") {
-      Ecwid.OnPageLoaded.add(function (page) {
-        if (page.type === "CART") {
-          let elem = document.querySelector(".ec-cart--empty button");
-          elem.addEventListener("click", (e) => {
-            e.preventDefault();
-            window.location.href = "/collections/all-products";
-          });
-        }
-      });
-    } else {
-      setCount((prev) => prev + 1);
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (typeof Ecwid !== "undefined") {
+  //     let elem = document.querySelector(".ec-cart--empty button");
+  //     if (location.pathname === "/cart") {
+  //       elem.addEventListener("click", (e) => {
+  //         e.preventDefault();
+  //         window.location.href = "/collections/all-products";
+  //       });
+  //     } else {
+  //       Ecwid.OnPageLoaded.add(function (page) {
+  //         if (page.type === "CART") {
+  //           elem.addEventListener("click", (e) => {
+  //             e.preventDefault();
+  //             window.location.href = "/collections/all-products";
+  //           });
+  //         }
+  //       });
+  //     }
+  //   } else {
+  //     setCount((prev) => prev + 1);
+  //   }
+  // }, []);
 
   const fetchCollections = async (ids) => {
     const productReq = await fetch(
@@ -257,12 +327,16 @@ export function EcwidContextProvider({ children }) {
           favorites,
           fetchCollections,
           productCollection,
+          setSelectedOpt,
+          selectedOpt,
+          selected,
+          isScript,
         }}
       >
         {children}
       </EcwidContext.Provider>
       <div style={{ zIndex: 1 }}>
-        <ToastContainer position="top-center" />
+        <ToastContainer delay={5000} position="top-center" />
       </div>
     </>
   );

@@ -14,6 +14,8 @@ const ProductDetail = ({ product, children }) => {
   const options = ecwid?.options;
   const setOptions = ecwid?.setOptions;
   const setPrice = ecwid?.setPrice;
+  const setSelectedOpt = ecwid?.setSelectedOpt;
+
   // const cart = ecwid?.cart;
   const favorited = ecwid.favorited;
   const addtowishlist = ecwid.addtowishlist;
@@ -50,7 +52,7 @@ const ProductDetail = ({ product, children }) => {
         }
       });
 
-      setOptions(data);
+      // setOptions(data);
     }
   }, [product?.options, productId, setOptions]);
 
@@ -98,8 +100,18 @@ const ProductDetail = ({ product, children }) => {
         ...prev,
         [option?.name]: event?.target?.value,
       }));
+
+      setSelectedOpt((prev) => [
+        ...prev.filter((item) => item.name !== option.name),
+        { name: option.name, value: event?.target?.value },
+      ]);
     } else if (option?.type === "RADIO" || option?.type === "SIZE") {
       setOptions((prev) => ({ ...prev, [option?.name]: choice.text }));
+
+      setSelectedOpt((prev) => [
+        ...prev.filter((item) => item.name !== option.name),
+        { name: option.name, value: choice?.text },
+      ]);
     } else if (option?.type === "CHECKBOX") {
       if (event?.target?.checked) {
         setOptions((prev) => ({
@@ -109,6 +121,16 @@ const ProductDetail = ({ product, children }) => {
               ? [...prev[option?.name], choice?.text]
               : [choice?.text],
         }));
+
+        setSelectedOpt((prev) => [
+          ...prev.filter((item) => item.name !== option.name),
+          {
+            [option?.name]:
+              prev[option?.name] && prev[option?.name]?.length
+                ? [...prev[option?.name], choice?.text]
+                : [choice?.text],
+          },
+        ]);
       } else {
         setOptions((prev) => ({
           ...prev,
@@ -116,6 +138,15 @@ const ProductDetail = ({ product, children }) => {
             (el) => el !== choice?.text
           ),
         }));
+
+        setSelectedOpt((prev) => [
+          ...prev.filter((item) => item.name !== option.name),
+          {
+            [option?.name]: prev[option?.name]?.filter(
+              (el) => el !== choice?.text
+            ),
+          },
+        ]);
       }
     }
   };
@@ -129,7 +160,7 @@ const ProductDetail = ({ product, children }) => {
     <>
       <form onSubmit={handleSubmit}>
         {product?.options?.map((option, index) => {
-          const value = options[option?.name] || "";
+          const value = !_.isEmpty(options) ? options[option?.name] : "";
 
           if (option?.type === "TEXTFIELD") {
             return (
@@ -279,34 +310,66 @@ const ProductDetail = ({ product, children }) => {
         <div className="flex flex-col mb-4">
           <label
             htmlFor="quantity"
-            className="font-medium text-gray-900 mb-2 uppercase"
+            className="font-bold text-gray-900 mb-2 uppercase"
           >
-            Qty
+            Quantity
           </label>
-          <div className="flex flex-row border border-gray-400 hover:border-gray-500 shadow rounded w-min">
+          <div className="flex flex-wrap mt-5">
             <button
-              className="py-2 px-4 text-gray-400 text-xl"
+              id="minus-button"
               type="button"
               onClick={() => setQuantity((prev) => prev - 1)}
               disabled={quantity === 1 ? true : false}
             >
-              -
+              <svg
+                id="minus-icon"
+                width={41}
+                height={41}
+                viewBox="0 0 41 41"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <rect
+                  x="0.0839844"
+                  y="0.640625"
+                  width={40}
+                  height={40}
+                  rx={6}
+                  fill="#323232"
+                />
+                <path
+                  d="M17.384 23.2406V21.2406H22.444V23.2406H17.384Z"
+                  fill="white"
+                />
+              </svg>
             </button>
-            <input
-              type="text"
-              name="quantity"
-              id="quantity"
-              className="block w-12 text-center bg-white focus:outline-none focus:shadow-outline"
-              required
-              style={{ maxWidth: "334px", width: "334px" }}
-              value={quantity}
-            />
+            <p className="text-xl mx-5 my-auto">{quantity}</p>
             <button
-              className="py-2 px-4 text-gray-400 text-xl"
+              id="plus-button"
               type="button"
               onClick={() => setQuantity((prev) => prev + 1)}
             >
-              +
+              <svg
+                id="plus-icon"
+                width={41}
+                height={41}
+                viewBox="0 0 41 41"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <rect
+                  x="0.0839844"
+                  y="0.640625"
+                  width={40}
+                  height={40}
+                  rx={6}
+                  fill="#323232"
+                />
+                <path
+                  d="M19.024 27.6406V23.4006H15.164V21.6806H19.024V17.4206H20.724V21.6806H24.604V23.4006H20.724V27.6406H19.024Z"
+                  fill="white"
+                />
+              </svg>
             </button>
           </div>
         </div>
