@@ -30,10 +30,10 @@ function VariantB({ products }) {
                     {products?.productInfo?.images ? (
                       <div className="w-full h-full">
                         <Image
-                          layout="responsive"
+                          className="object-cover"
+                          sizes="100vw"
                           width={736}
                           height={564}
-                          objectFit="cover"
                           src={urlFor(
                             products?.productInfo?.images?.[0]?.image
                           )}
@@ -45,10 +45,10 @@ function VariantB({ products }) {
                       </div>
                     ) : (
                       <Image
-                        layout="responsive"
+                        className="object-cover"
+                        sizes="100vw"
                         width={736}
                         height={564}
-                        objectFit="cover"
                         src="https://cdn.sanity.io/images/9itgab5x/production/9523d40461371b7b4948456c57bb663bd8998c4a-500x362.png"
                         alt="default image for product"
                       />

@@ -59,8 +59,6 @@ function VariantG({ caption, title, description, images, tags }) {
                           width={356}
                           height={192}
                           alt={images[0]?.alt ?? "features-image-1"}
-                          blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                          placeholder="blur"
                         />
                       </div>
                     )}
@@ -75,8 +73,6 @@ function VariantG({ caption, title, description, images, tags }) {
                           width={166}
                           height={128}
                           alt={images[1]?.alt ?? "features-image-2"}
-                          blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                          placeholder="blur"
                         />
                       </div>
                     )}
@@ -93,8 +89,6 @@ function VariantG({ caption, title, description, images, tags }) {
                           height={128}
                           sizes="100vw" 
                           alt={images[2]?.alt ?? "features-image-3"}
-                          blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                          placeholder="blur"
                         />
                       </div>
                     )}
@@ -109,8 +103,6 @@ function VariantG({ caption, title, description, images, tags }) {
                           height={192}
                           sizes="100vw" 
                           alt={images[3]?.alt ?? "features-image-4"}
-                          blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                          placeholder="blur"
                         />
                       </div>
                     )}

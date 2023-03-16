@@ -6,6 +6,8 @@ import AddToWishlist from "components/ecwid/AddToWishlist";
 import Ribbon from "components/ecwid/Ribbon";
 import ProductDetail from "components/ecwid/ProductDetail";
 import { useEcwid } from "context/EcwidContext";
+
+
 function VariantA({ products }) {
   const ecwid = useEcwid();
 
@@ -27,10 +29,10 @@ function VariantA({ products }) {
                 {products?.productInfo?.images ? (
                   <div className="w-full h-full">
                     <Image
-                      layout="responsive"
+                      className="object-cover"
+                      sizes="100vw"
                       width={736}
                       height={650}
-                      objectFit="cover"
                       src={urlFor(products?.productInfo?.images?.[0]?.image)}
                       alt={
                         products?.productInfo?.images?.[0]?.alt ??
@@ -40,10 +42,10 @@ function VariantA({ products }) {
                   </div>
                 ) : (
                   <Image
-                    layout="responsive"
+                    className="object-cover"
+                    sizes="100vw"
                     width={736}
                     height={650}
-                    objectFit="cover"
                     src="https://cdn.sanity.io/images/9itgab5x/production/9523d40461371b7b4948456c57bb663bd8998c4a-500x362.png"
                     alt="default image for product"
                   />
@@ -72,7 +74,7 @@ function VariantA({ products }) {
                     </p>
                   )}
                   {products?.description && (
-                    <p className="max-w-md">{products?.description}</p>
+                    <p className="max-w-md" dangerouslySetInnerHTML={{ __html: products?.description }} />
                   )}
                 </div>
 

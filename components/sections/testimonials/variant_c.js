@@ -100,8 +100,6 @@ function VariantC({ caption, title, testimonials }) {
                           item?.mainImage?.alt ??
                           `testimonial-source-${item?.name}-profile-image`
                         }
-                        blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                        placeholder="blur"
                       />
                     )}
                     <p className="mb-1 text-2xl font-bold font-heading">

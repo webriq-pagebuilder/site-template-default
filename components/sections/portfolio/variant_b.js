@@ -43,8 +43,6 @@ function VariantB({ caption, title, portfolios, primaryButton }) {
                       height={320}
                       size="100vw"
                       alt={content?.mainImage?.alt ?? `portfolio-image${index}`}
-                      blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                      placeholder="blur"
                     />
                   )}
                   

@@ -67,8 +67,6 @@ function VariantD({ caption, title, portfoliosWithCategory }) {
                           height={280}
                           style={{ objectFit: "cover" }}
                           alt={`portfolio-image-${content?._key}`}
-                          blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                          placeholder="blur"
                         />
                         <div className="opacity-0 hover:opacity-80 duration-300 absolute inset-0 z-10 p-6 bg-gray-900 justify-center rounded-lg overflow-y-auto">
                           <div className="max-w-md my-auto text-xs">
@@ -106,8 +104,6 @@ function VariantD({ caption, title, portfoliosWithCategory }) {
                           width={352}
                           height={256}
                           alt={`portfolio-image-${content?._key}`}
-                          blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                          placeholder="blur"
                         />
                         <div className="opacity-0 hover:opacity-80 duration-300 absolute inset-0 z-10 p-6 bg-gray-900 justify-center rounded-lg overflow-y-auto">
                           <div className="lg:mt-10 xl:mt-10 2xl:mt-10 max-w-md my-auto text-xs lg:text-sm xl:text-sm 2xl:text-sm">
@@ -147,8 +143,6 @@ function VariantD({ caption, title, portfoliosWithCategory }) {
                           width={352}
                           height={256}
                           alt={`portfolio-image-${content?._key}`}
-                          blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                          placeholder="blur"
                         />
                         <div className="opacity-0 hover:opacity-80 duration-300 absolute inset-0 z-10 p-6 bg-gray-900 justify-center rounded-lg overflow-y-auto">
                           <div className="lg:mt-10 xl:mt-10 2xl:mt-10 max-w-md my-auto text-xs lg:text-sm xl:text-sm 2xl:text-sm">
@@ -187,8 +181,6 @@ function VariantD({ caption, title, portfoliosWithCategory }) {
                             height={280}
                             sizes="100vw"
                             alt={`portfolio-image${content?._key}`}
-                            blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                            placeholder="blur"
                           />
                           <div className="opacity-0 hover:opacity-80 duration-300 absolute inset-0 z-10 p-6 bg-gray-900 justify-center rounded-lg overflow-y-auto">
                             <div className="max-w-md my-auto text-xs">

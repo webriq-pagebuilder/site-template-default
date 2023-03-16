@@ -585,14 +585,12 @@ function VariantD({
               {banner?.[banners]?.mainImage?.image?.asset?._ref && (
                 <div className="w-full md:max-w-xs mx-auto my-auto">
                   <Image
+                    className="object-cover"
                     src={urlFor(banner?.[banners]?.mainImage.image)}
-                    layout="responsive"
-                    width="320px"
-                    height="296px"
-                    objectFit="cover"
+                    sizes="100vw"
+                    width={320}
+                    height={296}
                     alt={`pricing-image-${banners}`}
-                    blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                    placeholder="blur"
                   />
                 </div>
               )}

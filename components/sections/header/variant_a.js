@@ -61,8 +61,6 @@ function VariantA({
                       width={448}
                       height={448}
                       alt={mainImage?.alt ?? "header-main-image"}
-                      blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                      placeholder="blur"
                     />
                   )}
                   <div
@@ -74,8 +72,6 @@ function VariantA({
                       width={112}
                       height={112}
                       alt="webriq-blue-dark-up-mainImage-element"
-                      blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                      placeholder="blur"
                     />
                   </div>
                   <div
@@ -87,8 +83,6 @@ function VariantA({
                       width={144}
                       height={144}
                       alt="wing-webriq-blue-down-mainImage-element"
-                      blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                      placeholder="blur"
                     />
                   </div>
                   <div
@@ -100,8 +94,6 @@ function VariantA({
                       width={115}
                       height={157}
                       alt="bullets-gray-right-mainImage-element"
-                      blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                      placeholder="blur"
                     />
                   </div>
                   <div
@@ -117,8 +109,6 @@ function VariantA({
                       width={157}
                       height={115}
                       alt="bullets-gray-left-mainImage-element"
-                      blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                      placeholder="blur"
                     />
                   </div>
                 </div>

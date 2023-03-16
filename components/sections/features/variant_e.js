@@ -58,8 +58,6 @@ function VariantE({ featuredItems }) {
                       featuredItems?.[item]?.mainImage?.alt ??
                       `features-image-${item}`
                     }
-                    blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                    placeholder="blur"
                   />
                 </div>
               )}

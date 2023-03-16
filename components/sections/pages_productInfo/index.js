@@ -8,6 +8,7 @@ const Variants = {
 };
 
 function PagesProductInfo({ data }) {
+  console.log(data)
   const variant = data?.variant || data?.variants?.condition;
   const Variant = Variants?.[variant];
 
