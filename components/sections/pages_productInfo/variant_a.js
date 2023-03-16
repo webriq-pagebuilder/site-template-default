@@ -80,16 +80,14 @@ function VariantA({ products }) {
 
                 <ProductDetail product={ecwidProduct}>
                   <div className="flex flex-col sm:flex-row items-start my-8 gap-y-4 sm:gap-y-0 sm:gap-x-4">
-                    {products?.others?.[0]?.btnLabel && (
-                      <div className="w-full lg:mb-4 xl:mb-0">
-                        <AddToBag
-                          inStock={!ecwidProduct?.inStock}
-                          classNames="block w-full text-center text-white font-bold font-heading py-5 px-8 rounded-md uppercase transition duration-200 bg-webriq-darkblue hover:bg-webriq-blue cursor-pointer"
-                        >
-                          {products?.others?.[0]?.btnLabel}
-                        </AddToBag>
-                      </div>
-                    )}
+                    <div className="w-full lg:mb-4 xl:mb-0">
+                      <AddToBag
+                        inStock={!ecwidProduct?.inStock}
+                        classNames="block w-full text-center text-white font-bold font-heading py-5 px-8 rounded-md uppercase transition duration-200 bg-webriq-darkblue hover:bg-webriq-blue cursor-pointer"
+                      >
+                        {products?.productInfo?.btnLabel ?? "ADD TO CART"}
+                      </AddToBag>
+                    </div>
 
                     {/* Add to wishlist button */}
                     <AddToWishlist
@@ -116,10 +114,10 @@ function VariantA({ products }) {
                   </div>
                 </ProductDetail>
                 <div className="flex items-center">
-                  <span className="mr-8 font-bold font-heading uppercase">
+                  <span className="mt-8 mr-8 font-bold font-heading uppercase">
                     SHARE IT
                   </span>
-                  {products?.others?.[0]?.socialLinks?.map(
+                  {products?.productInfo?.socialLinks?.map(
                     (social, index) =>
                       social?.socialMediaLink && (
                         <a

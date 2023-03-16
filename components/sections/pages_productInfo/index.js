@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from "react";
+import React from "react";
 import dynamic from "next/dynamic";
 import { EcwidContextProvider } from "context/EcwidContext";
 
@@ -8,7 +8,6 @@ const Variants = {
 };
 
 function PagesProductInfo({ data }) {
-  console.log(data)
   const variant = data?.variant || data?.variants?.condition;
   const Variant = Variants?.[variant];
 
