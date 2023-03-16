@@ -128,7 +128,7 @@ function VariantD({ subtitle, title, posts }) {
                         <div className="mb-4 lg:mb-0 w-full h-full lg:w-1/4 px-3">
                           {post?.mainImage && (
                             <Image
-                              className="rounded overflow-hidden object-cover"
+                              className="w-full h-full rounded overflow-hidden object-cover"
                               src={urlFor(post?.mainImage)}
                               sizes="100vw"
                               width={188}
@@ -193,7 +193,7 @@ function VariantD({ subtitle, title, posts }) {
                         <div className="mb-4 lg:mb-0 h-full w-full lg:w-1/4 px-3">
                           {post?.mainImage && (
                             <Image
-                              className="rounded overflow-hidden object-cover"
+                              className="w-full h-full rounded overflow-hidden object-cover"
                               src={urlFor(post?.mainImage)}
                               sizes="100vw"
                               width={188}

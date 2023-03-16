@@ -85,6 +85,7 @@ function VariantB({ subtitle, title, description, statistics, images }) {
                             images?.[currentPosition]?.alt ??
                             `appPromo-variantB-image${currentPosition}`
                           }
+                          priority
                         />
                       )}
                     </div>

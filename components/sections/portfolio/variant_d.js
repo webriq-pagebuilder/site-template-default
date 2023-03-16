@@ -65,7 +65,6 @@ function VariantD({ caption, title, portfoliosWithCategory }) {
                           sizes="100vw"
                           width={352}
                           height={280}
-                          style={{ objectFit: "cover" }}
                           alt={`portfolio-image-${content?._key}`}
                         />
                         <div className="opacity-0 hover:opacity-80 duration-300 absolute inset-0 z-10 p-6 bg-gray-900 justify-center rounded-lg overflow-y-auto">

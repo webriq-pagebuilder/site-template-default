@@ -13,7 +13,7 @@ function VariantD({ images }) {
                 {image?.image?.asset?._ref && (
                   <div className="flex w-[192px] h-[192px] bg-gray-50 mx-auto rounded items-center justify-center">
                     <Image
-                      className="object-scale-down"
+                      className="w-full h-full object-scale-down"
                       src={urlFor(image?.image)}
                       sizes="100vw"
                       width={192}
