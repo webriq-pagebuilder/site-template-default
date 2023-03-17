@@ -70,10 +70,10 @@ function VariantA({
 
   return (
     <section>
-      <div className="py-20 bg-gray-50 radius-for-skewed">
+      <div className="py-20 bg-gray-50">
         <div className="container mx-auto px-4">
           {contactDescription && (
-            <div className="mb-12 pl-10">
+            <div className="mb-12 px-5 sm:px-10 lg:px-0 lg:pl-10">
               <h1 className="text-4xl lg:text-5xl font-bold font-heading">
                 Contact
               </h1>
@@ -83,7 +83,7 @@ function VariantA({
             </div>
           )}
           <div className="flex flex-wrap">
-            <div className="pl-10 w-full lg:w-1/2 mb-16 lg:mb-0">
+            <div className="px-5 sm:px-10 lg:px-0 lg:pl-10 w-full lg:w-1/2 mb-16 lg:mb-0">
               <div className="flex flex-wrap">
                 {officeInformation && (
                   <div className="mb-12 pr-10 w-full md:w-1/2 lg:w-1/2">
@@ -94,7 +94,7 @@ function VariantA({
                   </div>
                 )}
                 {contactEmail || contactNumber ? (
-                  <div className="mb-12 px-10 w-full md:w-1/2">
+                  <div className="mb-12 pr-10 w-full md:w-1/2">
                     <h2 className="mb-5 text-3xl lg:text-4xl font-bold">
                       Contacts
                     </h2>
@@ -178,9 +178,9 @@ function VariantA({
                 )}
               </div>
             </div>
-            <div className="pl-10 w-full lg:w-1/2">
+            <div className="px-5 sm:px-10 lg:px-0 lg:pl-10 w-full lg:w-1/2">
               {form?.fields && (
-                <div className="max-w-md lg:mx-auto">
+                <div className="lg:max-w-md lg:mx-auto">
                   <WebriQForm
                     method="POST"
                     data-form-id={form?.id}
@@ -342,7 +342,7 @@ function VariantA({
                         )}
                       </div>
                     ))}
-                    <div className="flex justify-between items-center">
+                    <div className="sm:flex sm:justify-between items-center">
                       {block && (
                         <div className="inline-flex">
                           <input
@@ -370,7 +370,7 @@ function VariantA({
                           aria-label={
                             form?.buttonLabel ?? "Contact form submit button"
                           }
-                          className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-white font-bold leading-loose transition duration-200"
+                          className="mt-5 sm:mt-0 inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-white font-bold leading-loose transition duration-200"
                           type="submit"
                         >
                           {form?.buttonLabel}

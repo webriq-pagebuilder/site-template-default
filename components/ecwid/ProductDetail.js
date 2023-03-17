@@ -283,7 +283,7 @@ const ProductDetail = ({ product, children }) => {
           >
             Qty
           </label>
-          <div className="flex flex-row border border-gray-400 hover:border-gray-500 shadow rounded w-min">
+          <div className="flex flex-row border border-gray-400 hover:border-gray-500 shadow rounded w-full">
             <button
               className="py-2 px-4 text-gray-400 text-xl"
               type="button"
@@ -296,9 +296,9 @@ const ProductDetail = ({ product, children }) => {
               type="text"
               name="quantity"
               id="quantity"
-              className="block w-12 text-center bg-white focus:outline-none focus:shadow-outline"
+              className="w-full sm:w-[334px] inline-block text-center bg-white focus:outline-none focus:shadow-outline"
               required
-              style={{ maxWidth: "334px", width: "334px" }}
+              //style={{ maxWidth: "334px", width: "334px" }}
               value={quantity}
             />
             <button

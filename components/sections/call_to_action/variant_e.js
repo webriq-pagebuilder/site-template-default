@@ -20,9 +20,9 @@ function VariantE({ form, formLinks, signInLink }) {
   };
 
   return (
-    <section className="py-20 px-10 bg-gray-50">
+    <section className="py-20 px-5 sm:px-10 bg-gray-50">
       <div className="container mx-auto px-4">
-        <div className="max-w-md mx-auto">
+        <div className="sm:max-w-md mx-auto">
           {form?.fields && (
             <div className="mb-6 py-8 px-6 bg-white shadow rounded-t-3xl rounded-bl-3xl text-center">
               <WebriQForm
