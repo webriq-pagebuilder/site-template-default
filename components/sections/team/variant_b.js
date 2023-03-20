@@ -48,8 +48,6 @@ function VariantB({ team }) {
                             member?.mainImage?.alt ??
                             `team-member-${member?.name}-profile-image`
                           }
-                          blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                          placeholder="blur"
                         />
                       )}
                       <div className="w-1/2 pt-6 pl-6 mt-6 order-last">

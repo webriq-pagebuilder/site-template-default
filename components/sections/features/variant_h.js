@@ -114,8 +114,6 @@ function VariantH({ caption, title, features, images }) {
                       width={640}
                       height={800}
                       alt={images?.[0]?.alt ?? "features-image-1"}
-                      blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                      placeholder="blur"
                     />
                   )}
                   {images?.[1]?.image && (
@@ -125,8 +123,6 @@ function VariantH({ caption, title, features, images }) {
                       width={640}
                       height={800}
                       alt={images?.[1]?.alt ?? "features-image-2"}
-                      blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                      placeholder="blur"
                     />
                   )}
                 </div>
@@ -137,8 +133,6 @@ function VariantH({ caption, title, features, images }) {
                     width={640}
                     height={800}
                     alt={images?.[2]?.alt ?? "features-image-3"}
-                    blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                    placeholder="blur"
                   />
                 )}
               </div>

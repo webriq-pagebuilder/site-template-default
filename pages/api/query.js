@@ -94,17 +94,7 @@ const variants = `
       ...,
       products[]->
     },
-    products-> {
-      name, 
-      slug, 
-      price,
-      description,
-      ecwidProductId,
-      "others": sections[_type match "productInfo"]->.variants {
-        btnLabel,
-        socialLinks,
-      },
-    },
+    products->,
     allProducts[]-> {
       ...,
       products[]->
@@ -164,7 +154,7 @@ export const productsQuery = groq`*[_type == "mainProduct" && slug.current == $s
     ${variants}, 
     _type == "slotProductInfo" => {
      ...,
-     "variant": *[_type == "mainProduct" && slug.current == $slug][0].mainProductVariant.variant,
+     "variant": *[_type == "mainProduct" && slug.current == $slug][0].productInfoVariant.variant,
      "variants": *[_type == "mainProduct" && slug.current == $slug][0].productInfo
    },
    _type == "slotCart" => {
@@ -184,7 +174,7 @@ export const productsQuery = groq`*[_type == "mainProduct" && slug.current == $s
       ${variants},
       _type == "slotProductInfo" => {
         ...,
-        "variant": *[_type == "productSettings"][0].productSettingsVariant.variant
+        "variant": *[_type == "productSettings"][0].defaultProductInfoVariant.variant
       }
     },
   },
@@ -200,7 +190,7 @@ export const collectionsQuery = groq`*[_type == "mainCollection" && slug.current
     ${variants},
     _type == "slotCollectionInfo" => {
       ...,
-      "variant": *[_type == "mainCollection" && slug.current == $slug][0].mainCollectionVariant.variant,
+      "variant": *[_type == "mainCollection" && slug.current == $slug][0].collectionInfoVariant.variant,
       "variants": *[_type == "mainCollection" && slug.current == $slug][0]{
         "collections": {
           "title": name,
@@ -225,7 +215,7 @@ export const collectionsQuery = groq`*[_type == "mainCollection" && slug.current
       ${variants},
       _type == "slotCollectionInfo" => {
         ...,
-        "variant": *[_type == "collectionSettings"][0].collectionSettingsVariant.variant
+        "variant": *[_type == "collectionSettings"][0].defaultCollectionInfoVariant.variant
       }
     }
   }

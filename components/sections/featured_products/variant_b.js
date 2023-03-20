@@ -38,22 +38,21 @@ function VariantB({ title, featured }) {
                     className="w-full md:w-1/2 lg:w-1/3 xl:w-1/4 px-3 mb-10 lg:mb-6"
                     key={index}
                   >
-                    <div className="relative bg-white h-full hover:scale-125 transition-all duration-700 shadow-md">
+                    <div className="bg-white w-full h-full md:hover:scale-125 transition-all duration-700 shadow-md">
                       <a
-                        className="flex flex-wrap gap-4"
                         href={`/products/${product?.slug?.current}`}
                       >
                         <div className="absolute z-10">
                           <Ribbon data={featuredCollections} />
                         </div>
 
-                        <div className="w-[357px] h-[357px] overflow-hidden">
+                        <div className="overflow-hidden">
                           {product?.productInfo?.images ? (
                             <Image
-                              className="object-cover"
+                              className="w-full h-[320px] object-cover"
                               sizes="100vw"
-                              width={357}
-                              height={357}
+                              width={294}
+                              height={320}
                               src={urlFor(
                                 product?.productInfo?.images?.[0]?.image
                               )}
@@ -64,20 +63,20 @@ function VariantB({ title, featured }) {
                             />
                           ) : (
                             <Image
-                              className="object-cover"
+                              className="w-full h-[320px] object-cover"
                               sizes="100vw"
-                              width={357}
-                              height={357}
+                              width={294}
+                              height={320}
                               src="https://cdn.sanity.io/images/9itgab5x/production/9523d40461371b7b4948456c57bb663bd8998c4a-500x362.png"
                               alt={`default image for product ${index + 1}`}
                             />
                           )}
                         </div>
                       </a>
-                      <div className="px-6 pb-6 mt-8">
+                      <div className="px-6 pb-6 mt-8 break-words">
                         {product?.name && (
                           <a
-                            className="text-2xl font-bold"
+                            className="text-xl sm:text-2xl font-bold"
                             href={`/products/${product?.slug?.current}`}
                           >
                             {product?.name}

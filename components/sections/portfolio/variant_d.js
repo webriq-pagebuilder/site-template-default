@@ -60,17 +60,14 @@ function VariantD({ caption, title, portfoliosWithCategory }) {
                     {content?.mainImage?.image && (
                       <div className="relative rounded overflow-hidden">
                         <Image
-                          className="w-full h-full object-cover"
+                          className="w-full h-64 object-cover"
                           src={urlFor(content?.mainImage?.image)}
                           sizes="100vw"
                           width={352}
                           height={280}
-                          style={{ objectFit: "cover" }}
                           alt={`portfolio-image-${content?._key}`}
-                          blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                          placeholder="blur"
                         />
-                        <div className="opacity-0 hover:opacity-80 duration-300 absolute inset-0 z-10 p-6 bg-gray-900 justify-center rounded-lg overflow-y-auto">
+                        <div className="opacity-0 hover:opacity-80 duration-300 absolute inset-0 z-10 p-6 bg-gray-900 justify-center rounded-lg">
                           <div className="max-w-md my-auto text-xs">
                             <span className="text-webriq-blue font-bold">
                               {content?.subtitle}
@@ -100,16 +97,14 @@ function VariantD({ caption, title, portfoliosWithCategory }) {
                     {content?.mainImage?.image && (
                       <div className="relative rounded overflow-hidden">
                         <Image
-                          className="w-full h-full object-cover"
+                          className="w-full h-128 object-cover"
                           src={urlFor(content?.mainImage?.image)}
                           sizes="100vw"
                           width={352}
                           height={256}
                           alt={`portfolio-image-${content?._key}`}
-                          blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                          placeholder="blur"
                         />
-                        <div className="opacity-0 hover:opacity-80 duration-300 absolute inset-0 z-10 p-6 bg-gray-900 justify-center rounded-lg overflow-y-auto">
+                        <div className="h-full opacity-0 hover:opacity-80 duration-300 absolute inset-0 z-10 p-6 bg-gray-900 justify-center rounded-lg">
                           <div className="lg:mt-10 xl:mt-10 2xl:mt-10 max-w-md my-auto text-xs lg:text-sm xl:text-sm 2xl:text-sm">
                             <span className="text-webriq-blue font-bold">
                               {content?.subtitle}
@@ -141,16 +136,14 @@ function VariantD({ caption, title, portfoliosWithCategory }) {
                     {content?.mainImage?.image && (
                       <div className="relative rounded overflow-hidden">
                         <Image
-                          className="w-full h-full object-cover"
+                          className="w-full h-128 object-cover"
                           src={urlFor(content?.mainImage?.image)}
                           sizes="100vw"
                           width={352}
                           height={256}
                           alt={`portfolio-image-${content?._key}`}
-                          blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                          placeholder="blur"
                         />
-                        <div className="opacity-0 hover:opacity-80 duration-300 absolute inset-0 z-10 p-6 bg-gray-900 justify-center rounded-lg overflow-y-auto">
+                        <div className="h-full opacity-0 hover:opacity-80 duration-300 absolute inset-0 z-10 p-6 bg-gray-900 justify-center rounded-lg ">
                           <div className="lg:mt-10 xl:mt-10 2xl:mt-10 max-w-md my-auto text-xs lg:text-sm xl:text-sm 2xl:text-sm">
                             <span className="text-webriq-blue font-bold">
                               {content?.subtitle}
@@ -181,16 +174,14 @@ function VariantD({ caption, title, portfoliosWithCategory }) {
                       {content?.mainImage?.image && (
                         <div className="relative rounded overflow-hidden">
                           <Image
-                            className="w-full h-full object-cover"
+                            className="w-full h-64 object-cover"
                             src={urlFor(content?.mainImage?.image)}
                             width={352}
                             height={280}
                             sizes="100vw"
                             alt={`portfolio-image${content?._key}`}
-                            blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                            placeholder="blur"
                           />
-                          <div className="opacity-0 hover:opacity-80 duration-300 absolute inset-0 z-10 p-6 bg-gray-900 justify-center rounded-lg overflow-y-auto">
+                          <div className="h-full opacity-0 hover:opacity-80 duration-300 absolute inset-0 z-10 p-6 bg-gray-900 justify-center rounded-lg ">
                             <div className="max-w-md my-auto text-xs">
                               <span className="text-webriq-blue font-bold">
                                 {content?.subtitle}

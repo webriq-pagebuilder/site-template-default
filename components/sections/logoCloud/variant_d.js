@@ -13,14 +13,12 @@ function VariantD({ images }) {
                 {image?.image?.asset?._ref && (
                   <div className="flex w-[192px] h-[192px] bg-gray-50 mx-auto rounded items-center justify-center">
                     <Image
-                      className="object-scale-down"
+                      className="w-full h-full object-scale-down"
                       src={urlFor(image?.image)}
                       sizes="100vw"
                       width={192}
                       height={192}
                       alt={image?.alt ?? `logoCloud-image${index}`}
-                      blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                      placeholder="blur"
                     />
                   </div>
                 )}

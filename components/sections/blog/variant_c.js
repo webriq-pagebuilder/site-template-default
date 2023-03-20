@@ -45,8 +45,6 @@ function VariantC({ subtitle, title, posts, primaryButton }) {
                           width={554}
                           height={416}
                           alt={`blog-variantC-image-${key}`}
-                          blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                          placeholder="blur"
                         />
                       )}
                       <div className="w-full lg:w-1/2 py-6 lg:pt-10 px-6 rounded-r bg-white">

@@ -168,8 +168,6 @@ function VariantD({ testimonials }) {
                             testimonials[testimony]?.mainImage?.alt ??
                             `testimonial-source-profile-image${testimony}`
                           }
-                          blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                          placeholder="blur"
                         />
                       )}
                     </div>

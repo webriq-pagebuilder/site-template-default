@@ -34,17 +34,15 @@ function VariantB({ caption, title, portfolios, primaryButton }) {
                 className="relative mb-4 w-full md:w-1/2 lg:w-1/3 px-4"
                 key={index}
               >
-                <div className="relative w-[480px] h-[320px] md:mb-5 lg:mb-5 xl:mb-5 mx-auto rounded">
+                <div className="relative md:mb-5 lg:mb-5 xl:mb-5 mx-auto rounded overflow-hidden">
                   {content?.mainImage?.image && (
                     <Image
-                      className="w-full h-full object-cover"
+                      className="w-full h-80 object-cover"
                       src={urlFor(content?.mainImage?.image)}
                       width={480}
                       height={320}
                       size="100vw"
                       alt={content?.mainImage?.alt ?? `portfolio-image${index}`}
-                      blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                      placeholder="blur"
                     />
                   )}
                   

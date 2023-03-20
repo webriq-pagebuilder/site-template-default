@@ -83,8 +83,6 @@ function VariantB({ subtitle, title, posts, primaryButton }) {
                           width={259}
                           height={192}
                           alt={`blog-variantB-image-${key}`}
-                          blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                          placeholder="blur"
                         />
                       )}
                       <div className="mt-auto p-6 rounded-b bg-white">

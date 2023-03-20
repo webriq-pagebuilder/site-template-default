@@ -23,7 +23,7 @@ function VariantA({ title, featured }) {
           </h1>
         )}
         {featured && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="flex flex-wrap -mx-3">
             {featured?.map((product, index) => {
               let items = [];
               ecwid?.productCollection &&
@@ -36,19 +36,19 @@ function VariantA({ title, featured }) {
               return (
                 items?.length > 0 &&
                 items?.map((featuredCollections) => (
-                  <div className="w-full my-10 p-6" key={index}>
+                  <div className="w-full md:w-1/2 lg:w-1/3 px-3 mb-10 lg:mb-6 md:hover:scale-125 transition-all duration-700" key={index}>
                     <a
                       href={`/products/${product?.slug?.current}`}
-                      className="flex flex-col gap-4"
+                      //className="flex flex-col gap-4"
                     >
                       <div className="relative">
                         <div className="absolute z-10">
                           <Ribbon data={featuredCollections} />
                         </div>
-                        <div className="w-[357px] h-[357px] overflow-hidden">
+                        <div className="overflow-hidden">
                           {product?.productInfo?.images ? (
                             <Image
-                              className="hover:scale-125 transition-all duration-700 object-cover"
+                              className="w-full h-[357px] object-cover"
                               sizes="100vw"
                               width={357}
                               height={357}
@@ -62,6 +62,7 @@ function VariantA({ title, featured }) {
                             />
                           ) : (
                             <Image
+                              className="w-full h-[320px] object-cover"
                               width={357}
                               height={357}
                               sizes="100vw"
@@ -72,11 +73,11 @@ function VariantA({ title, featured }) {
                         </div>
                       </div>
 
-                      <p className="text-2xl xl:text-3xl font-bold hover:text-opacity-80">
+                      <p className="text-xl sm:text-2xl xl:text-3xl font-bold hover:text-opacity-80">
                         {product?.name}
                       </p>
                     </a>
-                    <p className="text-xl font-bold font-heading text-white">
+                    <p className="text-lg sm:text-xl font-bold font-heading text-white">
                       <span className="text-webriq-darkblue mr-2">
                         {featuredCollections?.defaultDisplayedPriceFormatted}
                       </span>

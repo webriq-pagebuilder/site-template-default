@@ -314,7 +314,7 @@ const ProductDetail = ({ product, children }) => {
           >
             Quantity
           </label>
-          <div className="flex flex-wrap mt-5">
+          <div className="flex flex-row border border-gray-400 hover:border-gray-500 shadow rounded w-full">
             <button
               id="minus-button"
               type="button"
@@ -343,7 +343,15 @@ const ProductDetail = ({ product, children }) => {
                 />
               </svg>
             </button>
-            <p className="text-xl mx-5 my-auto">{quantity}</p>
+            <input
+              type="text"
+              name="quantity"
+              id="quantity"
+              className="w-full sm:w-[334px] inline-block text-center bg-white focus:outline-none focus:shadow-outline"
+              required
+              //style={{ maxWidth: "334px", width: "334px" }}
+              value={quantity}
+            />
             <button
               id="plus-button"
               type="button"
