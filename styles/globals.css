@@ -93,7 +93,6 @@ html#ecwid_html body#ecwid_body .ec-size .ec-store .ec-breadcrumbs {
   }
 }
 
-## Sanity Studio embed
 /* This assumes no margin or padding on #app's parent(s) */
 #app {
   height: 100vh;
@@ -107,3 +106,447 @@ html#ecwid_html body#ecwid_body .ec-size .ec-store .ec-breadcrumbs {
 *:not([data-ui="Popover__arrow"]):not([data-ui="Tooltip__arrow"]) > svg {
   display: inline;
 }
+
+/* Sanity.config.ts studio global style */
+#sanity {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 18px;
+}
+
+/* Cosmetic: Remove border-right of tools menu */
+div[data-ui="Navbar"] > div > div:first-child > div:last-child {
+  border-right: 0 !important;
+}
+
+/* Hide every thing in the right navbar */
+div[data-ui="Navbar"] > div > div:last-child {
+  display: none !important;
+}
+
+/*  Fallback: Hide manage project from menu */
+a[data-ui="MenuItem"][href^="https://sanity.io/manage/project"],
+a[data-ui="MenuItem"][href^="https://sanity.io/manage/project"] + hr
+{
+  display: none !important;
+}
+
+/* Fallback: Hide user and logout popover from menu */
+button#presence-menu,
+button#login-status-menu {
+  display: none !important;
+}
+
+/* Desktop: when using field groups, we hide the first tab */
+[data-ui="TabList"][data-testid="field-group-tabs"] > div:first-child {
+  display: none;
+}
+
+/* Mobile: when using field groups, hide the first option */
+select[data-testid="field-group-select"] > option:first-child {
+  display: none;
+}
+/* END */
+
+/* Colorblind Studio Preview style */
+.componentWrapper {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  padding-top: 1rem;
+  height: 100%;
+}
+
+.componentWrapper p {
+  padding: 1em;
+}
+
+.filterDropdown {
+  padding: 0 1rem;
+  margin-bottom: 1rem;
+}
+
+.dropdownLabel {
+  display: block;
+  padding-bottom: 0.5rem;
+}
+
+.filterRadio {
+  margin-right: 1rem;
+}
+
+.iframeContainer {
+  flex-grow: 1;
+  overflow: hidden;
+  padding-top: 100%;
+  position: relative;
+}
+
+.iframeContainer iframe {
+  border: 0;
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+
+/* Braille studio preview style */
+.wrapper {
+  padding: 1rem;
+}
+
+.selectionWrapper {
+  display: flex;
+  flex-wrap: wrap;
+
+  @nest & div[class*="DefaultSelect_root"] {
+    flex: 1;
+    margin-right: 0.5em;
+  }
+}
+
+.transcriptHeading {
+  margin: 0;
+  margin-top: 1rem;
+}
+
+.transcriptBody {
+  margin: 0;
+  overflow-wrap: break-word;
+  font-size: 2em;
+}
+
+.disclaimer {
+  line-height: 1;
+  max-width: 720px;
+}
+
+/* Text-to-speech studio preview style */
+.wrapper {
+  padding: 1rem;
+}
+
+/* .selectionWrapper {
+  display: flex;
+  flex-wrap: wrap;
+  @nest & div[class*="DefaultSelect_root"] {
+    flex: 1;
+    margin-right: 0.5em;
+  }
+} */
+
+.transcriptHeading {
+  margin: 0;
+  margin-top: 1rem;
+}
+
+.transcriptBody {
+  margin-top: 5px;
+  font-size: medium;
+}
+
+/* Studio SEO preview FB share */
+.seoItem {
+  margin: 15px;
+  margin-top: 50px;
+}
+
+.facebookWrapper {
+  background-color: #f2f3f5;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.facebookImageContainer {
+  display: flex;
+  width: 100%;
+  overflow: hidden;
+}
+
+.facebookCardImage {
+  max-height: 410px;
+  width: 100%;
+  object-fit: cover;
+}
+
+.facebookCardContent {
+  padding: 10px 12px;
+  color: #606770;
+}
+
+.facebookCardUrl {
+  color: #606770;
+  flex-shrink: 0;
+  font-size: 12px;
+  line-height: 16px;
+  overflow: hidden;
+  padding: 0;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.facebookCardTitle {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 100%;
+  overflow: hidden;
+}
+
+.facebookCardTitle a {
+  color: #1d2129;
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: bold;
+  line-height: 20px;
+  margin: 3px 0 0;
+  padding-top: 2px;
+  text-decoration: none;
+}
+
+.facebookCardDescription {
+  color: #606770;
+  font-size: 14px;
+  line-height: 20px;
+  max-height: 80px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 100%;
+  overflow: hidden;
+}
+
+/* Studio SEO Preview Google search results */
+.seoItem {
+  margin: 15px;
+  margin-top: 15px;
+}
+
+.googleWrapper {
+  font-family: Arial, sans-serif;
+  background-color: #f6f6f6;
+  padding: 10px 12px;
+}
+
+.title {
+  color: #1a0dab;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.4;
+  white-space: "nowrap";
+  overflow: "hidden";
+  text-overflow: "ellipsis";
+}
+
+.url {
+  height: 18;
+  color: #006621;
+  font-size: 14px;
+  line-height: 2;
+  white-space: "nowrap";
+  overflow: "hidden";
+  text-overflow: "ellipsis";
+}
+
+.description {
+  color: #545454;
+  font-size: 14px;
+  line-height: 1.5;
+  word-wrap: "break-word";
+  text-overflow: "ellipsis";
+}
+
+/* Studio SEO preview LinkedIn post */
+.seoItem {
+  margin: 15px;
+  margin-top: 50px;
+}
+
+.linkedinWrapper {
+  background-color: #394350;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.linkedinImageContainer {
+  display: flex;
+  width: 100%;
+  overflow: hidden;
+}
+
+.linkedinCardImage {
+  max-height: 256px;
+  width: 100%;
+  object-fit: cover;
+}
+
+.linkedinCardContent {
+  padding: 10px 12px;
+  color: #394350;
+}
+
+.linkedinCardUrl {
+  color: #9ca3ac;
+  flex-shrink: 0;
+  font-size: 12px;
+  line-height: 16px;
+  overflow: hidden;
+  padding: 0;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.linkedinCardTitle {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 100%;
+  overflow: hidden;
+}
+
+.linkedinCardTitle a {
+  color: #dfe4ea;
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: bold;
+  line-height: 20px;
+  margin: 3px 0 0;
+  padding-top: 2px;
+  text-decoration: none;
+}
+
+.linkedinCardDescription {
+  color: #606770;
+  font-size: 14px;
+  line-height: 20px;
+  max-height: 80px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 100%;
+  overflow: hidden;
+}
+
+/* Studio SEO preview Twitter Card */
+.seoItem {
+  margin: 15px;
+  margin-top: 50px;
+}
+
+.tweetWrapper {
+  position: relative;
+  text-align: left;
+  font-size: 14px;
+  background-color: white;
+  overflow: hidden;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #f2f3f5;
+  padding: 15px 40px 15px 60px;
+}
+
+.tweetAuthor {
+  position: relative;
+  margin-right: 75px;
+  margin-bottom: 10px;
+}
+
+.tweetAuthorAvatar {
+  position: absolute;
+  top: 3px;
+  left: -42px;
+  width: 32px;
+  height: 32px;
+  border-radius: 4px;
+}
+
+.tweetAuthorName {
+  margin-right: 4px;
+  font-weight: 700;
+  color: #333;
+}
+
+.tweetAuthorHandle {
+  padding: 0;
+  margin-top: 2px;
+  margin-left: 2px;
+  font-size: 12px;
+  color: #333;
+}
+
+.tweetBullet {
+  margin-top: 2px;
+  margin-left: 4px;
+  margin-right: 2px;
+}
+
+.tweetText p {
+  margin: 0 0 10px;
+}
+
+.tweetUrlWrapper {
+  text-decoration: none;
+  color: inherit;
+}
+
+.tweetCardPreview {
+  background-color: white;
+  border-radius: 15px;
+  overflow: hidden;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border-color: rgba(136, 153, 166, 0.5);
+  border-width: 1px;
+  border-style: solid;
+}
+
+.tweetCardContent {
+  padding: 10px 12px;
+  color: black;
+}
+
+.tweetCardImageContainer {
+  display: flex;
+  width: 100%;
+  overflow: hidden;
+}
+
+.tweetCardImage {
+  max-height: 250px;
+  width: 100%;
+  object-fit: cover;
+}
+
+.tweetCardTitle {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 100%;
+  overflow: hidden;
+}
+
+.tweetCardTitle a {
+  color: #1d2129;
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: bold;
+  line-height: 20px;
+  margin: 3px 0 0;
+  padding-top: 2px;
+  text-decoration: none;
+}
+
+.tweetCardDescription {
+  max-height: 3.9em;
+}
+
+.tweetCardDescription p {
+  overflow: hidden;
+  margin-top: 0.32333em;
+}
+
+.tweetCardDestination {
+  margin-top: 0.32333em;
+  text-transform: lowercase;
+  color: #8899a6;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
