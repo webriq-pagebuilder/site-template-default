@@ -17,7 +17,7 @@ import {
   NEXT_PUBLIC_NETLIFY_SITE_URL,
   SITE_PREVIEW_SECRET,
   NEXT_PUBLIC_SITE_URL,
-} from "../config";
+} from "../../config";
 
 // Web preview configuration
 const remotePreviewUrl = `${NEXT_PUBLIC_NETLIFY_SITE_URL}/api/preview?secret=${SITE_PREVIEW_SECRET}&slug=`;

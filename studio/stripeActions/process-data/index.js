@@ -1,4 +1,4 @@
-import { NEXT_PUBLIC_APP_URL } from "../../config";
+import { NEXT_PUBLIC_APP_URL } from "../../../config";
 
 const retrieveProducts = `${
   NEXT_PUBLIC_APP_URL || "https://studio.webriq.com"

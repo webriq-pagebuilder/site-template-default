@@ -1,7 +1,7 @@
 /* 
   Call this functional component to update the existing schemas from included plugins with the changes from the custom folder
 */
-import { SITE_SANITY_STUDIO_IN_CSTUDIO } from "../config";
+import { SITE_SANITY_STUDIO_IN_CSTUDIO } from "../../config";
 
 const CStudioSchema = [
   "allProducts",

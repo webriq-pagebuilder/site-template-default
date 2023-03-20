@@ -8,6 +8,6 @@ loadEnvConfig(__dirname, dev, { info: () => null, error: console.error })
 // Using a dynamic import here as `loadEnvConfig` needs to run before this file is loaded
 // const { projectId, dataset } = await import('lib/sanity.api')
 const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || "9itgab5x"
-const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET || "production"
+const dataset = process.env.NEXT_PUBLIC_SANITY_PROJECT_DATASET || "production"
 
 export default defineCliConfig({ api: { projectId, dataset } })

@@ -2,7 +2,7 @@ import {
   SITE_PREVIEW_SECRET,
   NEXT_PUBLIC_SITE_URL,
   NEXT_PUBLIC_NETLIFY_SITE_URL,
-} from "./config"
+} from "../config"
 //import type { SanityDocumentLike } from "sanity"
 
 export default function resolveProductionUrl(doc) {

@@ -4,7 +4,7 @@ import { useClient, useDocumentOperation, useValidationStatus } from "sanity";
 import {
   NEXT_PUBLIC_SITE_URL,
   SITE_STORE_CORS_SECRET,
-} from "../../config";
+} from "../../../config";
 import { useSecrets } from "@sanity/studio-secrets";
 import { namespace, getAuthHeaders } from "../sanity-secrets/config";
 

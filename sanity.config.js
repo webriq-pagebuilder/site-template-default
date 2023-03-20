@@ -2,6 +2,12 @@
  * This config is used to set up Sanity Studio that's mounted on the `/pages/studio/[[...index]].tsx` route
  */
 import { defineConfig } from "sanity"
+import {
+  NEXT_PUBLIC_SANITY_PROJECT_NAME,
+  NEXT_PUBLIC_SANITY_DATASET,
+  NEXT_PUBLIC_SANITY_PROJECT_ID,
+  SITE_SANITY_PROJECT_OPENAI_KEY
+} from "./config"
 
 // desk customization
 import deskStructure from "./studio/deskStructure"
@@ -28,9 +34,9 @@ import resolveProductionUrl from "./studio/resolvePreviewUrl"
 
 export default defineConfig({
   basePath: '/studio',
-  title: process.env.NEXT_PUBLIC_SANITY_PROJECT_NAME,
-  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || "9itgab5x",
-  dataset: process.env.NEXT_PUBLIC_SANITY_PROJECT_DATASET || "production",
+  title: NEXT_PUBLIC_SANITY_PROJECT_NAME,
+  projectId: NEXT_PUBLIC_SANITY_PROJECT_ID || "9itgab5x",
+  dataset: NEXT_PUBLIC_SANITY_DATASET || "production",
   plugins: [
     deskStructure, 
     visionTool(), 
@@ -40,7 +46,7 @@ export default defineConfig({
     //webriqGPT3(), 
     media(),
     openaiImageAsset({
-      API_KEY: process.env.SITE_SANITY_PROJECT_OPENAI_KEY // TODO: Update personal API key with default from WebriQ
+      API_KEY: SITE_SANITY_PROJECT_OPENAI_KEY 
     })
   ],
   tools: (prev) => {

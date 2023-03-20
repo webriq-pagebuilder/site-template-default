@@ -1,6 +1,6 @@
 import createProductsPublishAction from "./actions/createProductsPublishAction";
 import createMainProductPublishAction from "./actions/createMainProductPublishAction";
-import { SITE_SANITY_STUDIO_IN_CSTUDIO } from "../config";
+import { SITE_SANITY_STUDIO_IN_CSTUDIO } from "../../config";
   
 export const ResolveDocumentActions = (props) => {
     const { prev, schemaType } = props;
