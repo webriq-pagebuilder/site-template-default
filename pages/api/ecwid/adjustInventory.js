@@ -3,7 +3,7 @@ import {
   secret,
   storeId,
   requestHeaders,
-} from "../../../utils/ecwid/config";
+} from "utils/ecwid/config";
 import fetch from "node-fetch";
 
 export default async (req, res) => {
