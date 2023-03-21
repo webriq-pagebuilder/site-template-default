@@ -80,7 +80,6 @@ export function EcwidContextProvider({ children }) {
         .find((i) => i);
 
       setSelected(selectedCombinedVariant);
-
       if (selectedCombinedVariant) {
         setSelected(selectedCombinedVariant);
       } else {
@@ -102,7 +101,6 @@ export function EcwidContextProvider({ children }) {
             // Ecwid.Cart.get(function (cart) {
             //   setCart(cart);
             // });
-
             // Ecwid.OnCartChanged.add(function (cart) {
             //   setCart(cart);
             // });
@@ -115,6 +113,7 @@ export function EcwidContextProvider({ children }) {
         //   if (page.type === "CATEGORY" || page.type === "PRODUCT") {
         //     Ecwid.openPage("cart");
         //   }
+        //   console.log("page", page.type);
         // });
       } else {
         setCount((prev) => prev + 1);
@@ -134,7 +133,7 @@ export function EcwidContextProvider({ children }) {
     window.ec.config.store_main_page_url = `${process.env.NEXT_PUBLIC_SITE_URL}/cart`;
 
     window.ecwid_script_defer = true;
-    // window.ecwid_dynamic_widgets = true;
+    // window.ecwid_dynamic_widgets = false;
 
     if (location.pathname === "/cart") {
       window._xnext_initialization_scripts = [
@@ -145,7 +144,7 @@ export function EcwidContextProvider({ children }) {
         },
       ];
     }
-    
+
     load_ecwid();
   }, []);
 
@@ -153,9 +152,7 @@ export function EcwidContextProvider({ children }) {
     if (typeof window !== undefined) {
       if (localStorage.getItem(storageName)) {
         setStorage(true);
-
         let ids = JSON.parse(localStorage.getItem(storageName));
-
         if (ids.productIds.length > 0) {
           setWishlist((prev) => ({
             ...prev,
@@ -178,7 +175,7 @@ export function EcwidContextProvider({ children }) {
           const query =
             '*[_type=="mainProduct" && ecwidProductId in $ids && !(_id in path("drafts.**"))]';
           const params = {
-            ids: favorites?.productIds?.map((id) => id),
+            ids: favorites?.productIds,
           };
 
           const studio = await sanityClient
@@ -220,22 +217,16 @@ export function EcwidContextProvider({ children }) {
 
   // useEffect(() => {
   //   if (typeof Ecwid !== "undefined") {
-  //     let elem = document.querySelector(".ec-cart--empty button");
-  //     if (location.pathname === "/cart") {
-  //       elem.addEventListener("click", (e) => {
-  //         e.preventDefault();
-  //         window.location.href = "/collections/all-products";
-  //       });
-  //     } else {
-  //       Ecwid.OnPageLoaded.add(function (page) {
-  //         if (page.type === "CART") {
-  //           elem.addEventListener("click", (e) => {
-  //             e.preventDefault();
-  //             window.location.href = "/collections/all-products";
-  //           });
-  //         }
-  //       });
-  //     }
+  //     Ecwid.OnPageLoaded.add(function (page) {
+  //       console.log("pagezzz", page.type);
+  //       if (page.type === "CART") {
+  //         let elem = document.querySelector(".ec-cart--empty button");
+  //         elem.addEventListener("click", (e) => {
+  //           e.preventDefault();
+  //           window.location.href = "/collections/all-products";
+  //         });
+  //       }
+  //     });
   //   } else {
   //     setCount((prev) => prev + 1);
   //   }
