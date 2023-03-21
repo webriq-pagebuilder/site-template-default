@@ -310,38 +310,18 @@ const ProductDetail = ({ product, children }) => {
         <div className="flex flex-col mb-4">
           <label
             htmlFor="quantity"
-            className="font-bold text-gray-900 mb-2 uppercase"
+            className="font-medium text-gray-900 mb-2 uppercase"
           >
-            Quantity
+            Qty
           </label>
           <div className="flex flex-row border border-gray-400 hover:border-gray-500 shadow rounded w-full">
             <button
-              id="minus-button"
+              className="py-2 px-4 text-gray-400 text-xl"
               type="button"
               onClick={() => setQuantity((prev) => prev - 1)}
               disabled={quantity === 1 ? true : false}
             >
-              <svg
-                id="minus-icon"
-                width={41}
-                height={41}
-                viewBox="0 0 41 41"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <rect
-                  x="0.0839844"
-                  y="0.640625"
-                  width={40}
-                  height={40}
-                  rx={6}
-                  fill="#323232"
-                />
-                <path
-                  d="M17.384 23.2406V21.2406H22.444V23.2406H17.384Z"
-                  fill="white"
-                />
-              </svg>
+              -
             </button>
             <input
               type="text"
@@ -353,31 +333,11 @@ const ProductDetail = ({ product, children }) => {
               value={quantity}
             />
             <button
-              id="plus-button"
+              className="py-2 px-4 text-gray-400 text-xl"
               type="button"
               onClick={() => setQuantity((prev) => prev + 1)}
             >
-              <svg
-                id="plus-icon"
-                width={41}
-                height={41}
-                viewBox="0 0 41 41"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <rect
-                  x="0.0839844"
-                  y="0.640625"
-                  width={40}
-                  height={40}
-                  rx={6}
-                  fill="#323232"
-                />
-                <path
-                  d="M19.024 27.6406V23.4006H15.164V21.6806H19.024V17.4206H20.724V21.6806H24.604V23.4006H20.724V27.6406H19.024Z"
-                  fill="white"
-                />
-              </svg>
+              +
             </button>
           </div>
         </div>
