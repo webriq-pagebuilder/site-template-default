@@ -12,7 +12,7 @@ function VariantB({ title, featured }) {
     if (ecwid && ids) {
       ecwid?.fetchCollections(ids);
     }
-  }, [ecwid, ids]);
+  }, []);
 
   return (
     <section className="py-20 overflow-x-hidden bg-gray-50">

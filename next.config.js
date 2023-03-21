@@ -28,11 +28,6 @@ const nextConfig = {
         destination: "/",
         permanent: true,
       },
-      {
-        source: '/studio',
-        destination: '/studio.html',
-        permanent: true
-      },
     ];
   },
 }
