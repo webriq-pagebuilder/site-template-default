@@ -1,5 +1,6 @@
 import React from "react";
 import dynamic from "next/dynamic";
+import EditSection from "components/EditSection";
 
 const Variants = {
   variant_a: dynamic(() => import("./variant_a")),
@@ -8,7 +9,7 @@ const Variants = {
   variant_d: dynamic(() => import("./variant_d")),
 };
 
-function Blog({ data }) {
+function Blog({ data, pageInfo, preview }) {
   const variant = data?.variant || data?.variants?.condition;
   const Variant = Variants?.[variant];
 
@@ -19,6 +20,11 @@ function Blog({ data }) {
     primaryButton: data?.variants?.primaryButton,
   };
 
-  return Variant ? <Variant {...props} /> : null;
+  return Variant ? (
+    <>
+      {preview && <EditSection documentId={pageInfo?.documentId} sectionId={data?._id} />}
+      <Variant {...props} />
+    </>
+  ) : null;
 }
 export default React.memo(Blog);

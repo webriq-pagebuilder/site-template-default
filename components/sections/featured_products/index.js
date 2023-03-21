@@ -1,13 +1,14 @@
 import { memo } from "react";
 import dynamic from "next/dynamic";
 import { EcwidContextProvider } from "context/EcwidContext";
+import EditSection from "components/EditSection";
 
 const Variants = {
   variant_a: dynamic(() => import("./variant_a")),
   variant_b: dynamic(() => import("./variant_b")),
 };
 
-function FeaturedProducts({ data }) {
+function FeaturedProducts({ data, pageInfo, preview }) {
   const variant = data?.variant || data?.variants?.condition;
   const Variant = Variants?.[variant];
 
@@ -18,6 +19,7 @@ function FeaturedProducts({ data }) {
 
   return Variant ? (
     <EcwidContextProvider>
+      {preview && <EditSection documentId={pageInfo?.documentId} sectionId={data?._id} />}
       <Variant {...props} />
     </EcwidContextProvider>
   ) : null;

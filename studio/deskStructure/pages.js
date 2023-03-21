@@ -22,8 +22,7 @@ import {
 // Web preview configuration
 const remotePreviewUrl = `${NEXT_PUBLIC_NETLIFY_SITE_URL}/api/preview?secret=${SITE_PREVIEW_SECRET}&slug=`;
 const localPreviewUrl = `${NEXT_PUBLIC_SITE_URL}/api/preview?secret=${SITE_PREVIEW_SECRET}&slug=`;
-const previewURL =
-  window.location.hostname === "localhost" ? localPreviewUrl : remotePreviewUrl;
+const previewURL = typeof window !== "undefined" && window.location.hostname === "localhost" ? localPreviewUrl : remotePreviewUrl;
 const publishedURL = NEXT_PUBLIC_SITE_URL;
 
 

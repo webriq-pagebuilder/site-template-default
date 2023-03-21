@@ -1,5 +1,6 @@
 import React from "react";
 import dynamic from "next/dynamic";
+import EditSection from "components/EditSection";
 
 const Variants = {
   variant_a: dynamic(() => import("./variant_a")),
@@ -7,7 +8,7 @@ const Variants = {
   variant_c: dynamic(() => import("./variant_c")),
 };
 
-function AppPromo({ data }) {
+function AppPromo({ data, pageInfo, preview }) {
   const variant = data?.variant || data?.variants?.condition;
   const Variant = Variants?.[variant];
 
@@ -21,6 +22,11 @@ function AppPromo({ data }) {
     images: data?.variants?.images,
   };
 
-  return Variant ? <Variant {...props} /> : null;
+  return Variant ? (
+    <>
+      {preview && <EditSection documentId={pageInfo?.documentId} sectionId={data?._id} />}
+      <Variant {...props} />
+    </>
+  ) : null;
 }
 export default React.memo(AppPromo);

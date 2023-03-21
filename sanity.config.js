@@ -43,7 +43,6 @@ export default defineConfig({
     webriqForms(), 
     webriqPayments(), 
     webriqBlog(),
-    //webriqGPT3(), 
     media(),
     openaiImageAsset({
       API_KEY: SITE_SANITY_PROJECT_OPENAI_KEY 

@@ -6,7 +6,7 @@ import { SectionBadge } from "./sectionBadge"
 export function LiveURLBadge(props) {
   const { type } = props
   let siteUrl = process.env.SANITY_STUDIO_DEV_SITE_URL
-  if (!window.location.hostname.includes("localhost")) {
+  if (typeof window !== "undefined" && !window.location.hostname.includes("localhost")) {
     siteUrl = process.env.SANITY_STUDIO_PRODUCTION_SITE_URL
   }
   const isPublished = !props.draft

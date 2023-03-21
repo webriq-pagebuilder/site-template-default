@@ -8,8 +8,10 @@ const speechOptions = { rate: 0.9, pitch: 1, lang: "en-US" }
 
 let speechSynth = null
 
-if ("speechSynthesis" in window) {
-  speechSynth = window.speechSynthesis
+if(typeof window !== "undefined") {
+  if ("speechSynthesis" in window) {
+    speechSynth = window.speechSynthesis
+  }
 }
 
 const blocksToText = (blocks, opts = {}) => {

@@ -1,1 +1,1 @@
-export const Logo = () => <img style={{ padding: "12px" }} src="/static/webriq-logo.png" alt="Webriq" />
+export const Logo = () => <img style={{ padding: "12px" }} src="../../webriq-logo.png" alt="Webriq" />

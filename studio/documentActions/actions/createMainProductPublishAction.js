@@ -24,7 +24,7 @@ export default function createMainProductPublishAction(props) {
 
   // return the siteURL to use on development or production
   let siteUrl = NEXT_PUBLIC_SITE_URL;
-  if (!window.location.hostname.includes("localhost")) {
+  if (typeof window !== "undefined" && !window.location.hostname.includes("localhost")) {
     siteUrl = NEXT_PUBLIC_SITE_URL;
   }
 

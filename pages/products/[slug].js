@@ -30,7 +30,7 @@ function ProductPageBySlug({ data, preview, token }) {
         <>
           <PreviewBanner />
           <PreviewSuspense>
-            <DocumentWithPreview {...{ data, token: token || null, slug }} />
+            <DocumentWithPreview {...{ data, token: token || null, slug, preview }} />
           </PreviewSuspense>
         </>
       );
@@ -90,7 +90,7 @@ function Document({ data }) {
  *
  * @returns Document with preview data
  */
-function DocumentWithPreview({ data, slug, token = null }) {
+function DocumentWithPreview({ data, slug, token = null, preview }) {
   // Current drafts data in Sanity
   const previewDataEventSource = usePreview(token, productsQuery, { slug });
   const previewData = previewDataEventSource?.[0] || previewDataEventSource; // Latest preview data in Sanity
@@ -128,7 +128,7 @@ function DocumentWithPreview({ data, slug, token = null }) {
         previewData?.sections?.length === 0) && <PreviewNoContent />}
 
       {/* Show Product page sections */}
-      {data?.productData && <ProductSections data={previewData} />}
+      {data?.productData && <ProductSections data={previewData} preview={preview} />}
     </>
   );
 }

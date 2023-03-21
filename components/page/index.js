@@ -1,7 +1,7 @@
 import { Components } from "components/list";
 
-export function PageSections({ data }) {
-  const { sections } = data;
+export function PageSections({ data, preview }) {
+  const { _id, _type, sections } = data;
 
   return (
     <>
@@ -30,6 +30,11 @@ export function PageSections({ data }) {
               }}
               {...{ [section._type]: section }}
               data={section}
+              pageInfo={{
+                documentId: _id,
+                documentType: _type
+              }}
+              preview={preview}
             />
           );
         })}

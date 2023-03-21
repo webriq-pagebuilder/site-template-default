@@ -6,7 +6,7 @@ const Variants = {
   variant_b: dynamic(() => import("./variant_b")),
 };
 
-function Newsletter({ data }) {
+function Newsletter({ data, pageInfo, preview }) {
   const variant = data?.variant || data?.variants?.condition;
   const Variant = Variants?.[variant];
 
@@ -17,6 +17,11 @@ function Newsletter({ data }) {
     form: data?.variants?.form,
   };
 
-  return Variant ? <Variant {...props} /> : null;
+  return Variant ? (
+    <>
+      {preview && <EditSection documentId={pageInfo?.documentId} sectionId={data?._id} />}
+      <Variant {...props} />
+    </>
+  ) : null;
 }
 export default React.memo(Newsletter);
