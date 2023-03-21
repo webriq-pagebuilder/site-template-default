@@ -52,6 +52,10 @@ function VariantE({ banner, logo, links }) {
   };
 
   useEffect(() => {
+    if (typeof Ecwid !== "undefined") Ecwid.init();
+  }, []);
+
+  useEffect(() => {
     //assign the ref's current value to the productQuery hook
     prevQuery.current = productQuery;
   }, [productQuery]); //run this code when the value of productQuery changes
