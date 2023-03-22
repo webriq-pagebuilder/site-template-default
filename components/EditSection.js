@@ -51,17 +51,13 @@ function EditSection({ documentType, documentId }) {
           <DrawerHeader>{`Editing ${sectionName(type)}`}</DrawerHeader>
 
           <DrawerBody>
-            <iframe 
-              //className="rounded-xl border-2 border-blue-600"
-              className="overflow-hidden"
-              width="750"
-              height="825"
-              src={`${NEXT_PUBLIC_SITE_URL}/studio/desk/__edit__${documentId},type=${documentType}`}
-            />
+            <div className="embed-container">
+              <iframe src={`${NEXT_PUBLIC_SITE_URL}/studio/desk/__edit__${documentId},type=${documentType}`} frameborder='0' allowfullscreen></iframe>
+            </div>
           </DrawerBody>
 
           <DrawerFooter>
-            <Button border="1px" borderColor="#0045d8" mr={3} variant="outline" onClick={onClose}>
+            <Button border="1px" backgroundColor="#0045d8" textColor="white" mr={3} onClick={onClose}>
               Cancel
             </Button>
           </DrawerFooter>
