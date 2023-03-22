@@ -17,11 +17,11 @@ function FeaturedProducts({ data, pageInfo, preview }) {
     featured: data?.variants?.collections?.products,
   };
 
-  return Variant ? (
+  return (
     <EcwidContextProvider>
-      {preview && <EditSection documentId={pageInfo?.documentId} sectionId={data?._id} />}
-      <Variant {...props} />
+      {preview && <EditSection documentType={pageInfo?.documentType} documentId={pageInfo?.documentId} />}
+      {Variant ? <Variant {...props} /> : null}
     </EcwidContextProvider>
-  ) : null;
+  )
 }
 export default memo(FeaturedProducts);

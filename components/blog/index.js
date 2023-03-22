@@ -2,6 +2,7 @@ import React from "react";
 import dynamic from "next/dynamic";
 import { urlFor, PortableText } from "lib/sanity";
 import { format } from "date-fns";
+import EditSection from "components/EditSection";
 
 const Navigation = dynamic(() => import("components/sections/navigation"));
 const Footer = dynamic(() => import("components/sections/footer"));
@@ -102,17 +103,18 @@ const blockStyle = {
   },
 };
 
-function BlogSections({ data }) {
+function BlogSections({ data, preview }) {
   const blogData = data || data?.[0];
 
   if (!blogData) {
     return null;
   }
 
-  const { authors, categories, body, mainImage, publishedAt, title } = blogData;
+  const { _id, _type, authors, categories, body, mainImage, publishedAt, title } = blogData;
 
   return (
     <>
+      {preview && <EditSection sectionType={_type} sectionId={_id} />}
       {blogData?.navigation?.map((nav) => (
         <Navigation
           key={nav?._key}
@@ -121,6 +123,7 @@ function BlogSections({ data }) {
             bg: "gray",
             color: "webriq",
           }}
+          preview={preview}
         />
       ))}
       <section className="pb-20">
@@ -219,6 +222,7 @@ function BlogSections({ data }) {
             bg: "gray",
             color: "webriq",
           }}
+          preview={preview}
         />
       ))}
     </>

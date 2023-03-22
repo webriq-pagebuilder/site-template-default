@@ -35,7 +35,7 @@ export const sections = [
   "slotWishlist",
 ]
 
-function sectionName(section) {
+export function sectionName(section) {
   if (section === "appPromo") {
     return "App Promo"
   } else if (section === "featuredProducts" || section === "pages_featuredProducts") {
@@ -59,7 +59,7 @@ function sectionName(section) {
   } else if (section === "slotWishlist") {
     return "Wishlist"
   } else {
-    return section
+    return section?.charAt(0).toUpperCase() + section?.substr(1, section.length - 1)
   }
 }
 

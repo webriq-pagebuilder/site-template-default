@@ -21,7 +21,7 @@ function SearchPage({ data, preview, token }) {
       <>
         <PreviewBanner />
         <PreviewSuspense>
-          <DocumentWithPreview {...{ data, token }} />
+          <DocumentWithPreview {...{ data, token, preview }} />
         </PreviewSuspense>
       </>
     );
@@ -66,7 +66,7 @@ function Document({ data }) {
  *
  * @returns Document with preview data
  */
-function DocumentWithPreview({ data, token = null }) {
+function DocumentWithPreview({ data, token = null, preview }) {
   const previewDataEventSource = usePreview(token, searchPageQuery);
   const previewData = previewDataEventSource?.[0] || previewDataEventSource;
 
@@ -91,7 +91,7 @@ function DocumentWithPreview({ data, token = null }) {
         previewData?.sections?.length === 0) && <PreviewNoContent />}
 
       {/*  Show page sections */}
-      {data?.searchData && <SearchPageSections data={previewData} />}
+      {data?.searchData && <SearchPageSections data={previewData} preview={preview} />}
     </>
   );
 }

@@ -42,11 +42,11 @@ function ProductInfo({ data, product, pageInfo, preview }) {
     getPriceDisplay: () => getPriceDisplay(price),
   };
 
-  return Variant ? (
+  return (
     <>
-      {preview && <EditSection documentId={pageInfo?.documentId} sectionId={data?._id} />}
-      <Variant {...props} />
+      {preview && <EditSection documentType={pageInfo?.documentType} documentId={pageInfo?.documentId} />}
+      {Variant ? <Variant {...props} /> : null}
     </>
-  ) : null;
+  )
 }
 export default memo(ProductInfo);

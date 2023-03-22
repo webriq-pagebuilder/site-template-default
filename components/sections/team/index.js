@@ -19,12 +19,12 @@ function Team({ data, pageInfo, preview }) {
     team: data?.variants?.teams,
   };
 
-  return Variant ? (
+  return (
     <>
-      {preview && <EditSection documentId={pageInfo?.documentId} sectionId={data?._id} />}
-      <Variant {...props} />
+      {preview && <EditSection documentType={data?._type} documentId={data?._id} />}
+      {Variant ? <Variant {...props} /> : null}
     </>
-  ) : null;
+  )
 }
 
 export default React.memo(Team);

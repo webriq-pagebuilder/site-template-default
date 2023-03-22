@@ -1,6 +1,6 @@
 import { Components } from "components/list";
 
-export function SearchPageSections({ data }) {
+export function SearchPageSections({ data, preview }) {
   const { sections } = data;
 
   return (
@@ -22,6 +22,7 @@ export function SearchPageSections({ data }) {
                 color: "webriq",
               }}
               data={section}
+              preview={preview}
             />
           );
         })}
