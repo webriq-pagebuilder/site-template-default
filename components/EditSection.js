@@ -47,8 +47,8 @@ function EditSection({ documentType, documentId }) {
       >
         <DrawerOverlay />
         <DrawerContent>
-          <DrawerCloseButton />
-          <DrawerHeader>{`Editing ${sectionName(type)}`}</DrawerHeader>
+          {/* <DrawerCloseButton /> */}
+          {/* <DrawerHeader>{`Editing ${sectionName(type)}`}</DrawerHeader> */}
 
           <DrawerBody>
             <div className="embed-container">
