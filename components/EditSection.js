@@ -58,7 +58,7 @@ function EditSection({ documentType, documentId }) {
 
           <DrawerFooter borderTopWidth="1px">
             <Button border="1px" backgroundColor="#0045d8" textColor="white" mr={3} onClick={onClose}>
-              Cancel
+              Close
             </Button>
           </DrawerFooter>
         </DrawerContent>
