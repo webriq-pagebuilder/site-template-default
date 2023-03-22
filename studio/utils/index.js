@@ -1,7 +1,7 @@
 /* 
   Call this functional component to update the existing schemas from included plugins with the changes from the custom folder
 */
-import { SITE_SANITY_STUDIO_IN_CSTUDIO } from "../../config";
+import { NEXT_PUBLIC_SANITY_STUDIO_IN_CSTUDIO } from "../../config";
 
 const CStudioSchema = [
   "allProducts",
@@ -41,7 +41,7 @@ export const mergeReplaceAndAdd = (existingItems, newItems) => {
   const mergedSchemas = [...updatedItems, ...additionalSchemas]
 
   // If C-Studio is disabled, then C-Studio fields should be read-only
-  if(SITE_SANITY_STUDIO_IN_CSTUDIO === "false") {
+  if(NEXT_PUBLIC_SANITY_STUDIO_IN_CSTUDIO === "false") {
     return mergedSchemas?.map((items) => {
       if(CStudioSchema.includes(items?.name)) {
         return {
