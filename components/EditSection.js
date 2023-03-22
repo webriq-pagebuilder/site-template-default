@@ -52,11 +52,11 @@ function EditSection({ documentType, documentId }) {
 
           <DrawerBody>
             <div className="embed-container">
-              <iframe src={`${NEXT_PUBLIC_SITE_URL}/studio/desk/__edit__${documentId},type=${documentType}`} frameborder='0' allowfullscreen></iframe>
+              <iframe src={`${NEXT_PUBLIC_SITE_URL}/studio/desk/__edit__${documentId},type=${documentType}`} />
             </div>
           </DrawerBody>
 
-          <DrawerFooter>
+          <DrawerFooter borderTopWidth="1px">
             <Button border="1px" backgroundColor="#0045d8" textColor="white" mr={3} onClick={onClose}>
               Cancel
             </Button>

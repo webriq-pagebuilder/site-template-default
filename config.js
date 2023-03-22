@@ -16,10 +16,10 @@ export const SITE_PREVIEW_SECRET = process.env.SITE_PREVIEW_SECRET || "secret"
 export const NEXT_PUBLIC_APP_URL = process.env.NEXT_PUBLIC_APP_URL
 
 // Verify if Studio was created via WebriQ App Staging or Live
-export const SITE_SANITY_STUDIO_FROM_STAGING_APP = process.env.SITE_SANITY_STUDIO_FROM_STAGING_APP
+export const NEXT_PUBLIC_SANITY_STUDIO_FROM_STAGING_APP = process.env.NEXT_PUBLIC_SANITY_STUDIO_FROM_STAGING_APP
 
 // Helps check if current studio is in C-Studio or W-Studio
-export const SITE_SANITY_STUDIO_IN_CSTUDIO = process.env.SITE_SANITY_STUDIO_IN_CSTUDIO
+export const NEXT_PUBLIC_SANITY_STUDIO_IN_CSTUDIO = process.env.NEXT_PUBLIC_SANITY_STUDIO_IN_CSTUDIO
 
 // Studio secret token to authenticate Ecwid API endpoint requests
 export const SITE_STORE_CORS_SECRET = process.env.SITE_STORE_CORS_SECRET || "cors_wE67XmOkBOgIXTmAs1iWJc5btQiCBosI"

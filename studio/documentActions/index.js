@@ -1,6 +1,6 @@
 import createProductsPublishAction from "./actions/createProductsPublishAction";
 import createMainProductPublishAction from "./actions/createMainProductPublishAction";
-import { SITE_SANITY_STUDIO_IN_CSTUDIO } from "../../config";
+import { NEXT_PUBLIC_SANITY_STUDIO_IN_CSTUDIO } from "../../config";
   
 export const ResolveDocumentActions = (props) => {
     const { prev, schemaType } = props;
@@ -27,7 +27,7 @@ export const ResolveDocumentActions = (props) => {
         "pages_featuredProducts",
         "pages_productInfo",
       ]?.includes(schemaType) &&
-      SITE_SANITY_STUDIO_IN_CSTUDIO === "false"
+      NEXT_PUBLIC_SANITY_STUDIO_IN_CSTUDIO === "false"
     ) {
       // only show the publish action button (hide the button beside "Publish") for C-Studio elements when C-Studio is disabled
       return [createProductsPublishAction];
