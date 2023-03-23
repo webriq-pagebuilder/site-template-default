@@ -3,7 +3,7 @@ import {
   NEXT_PUBLIC_SITE_URL,
 } from "../config"
 
-export default function resolveProductionUrl(doc) {
+export default function resolveProductionUrl(doc, inStudioWebPreview) {
   const currentSlug = doc?.slug?.current || ""
 
   // localhost
