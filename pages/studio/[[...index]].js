@@ -13,7 +13,8 @@ export default function StudioPage() {
   return (
     <>
       <Head>
-        <NextStudioHead favicons={false} />
+        <NextStudioHead />
+        <link rel="icon" href="../../favicon.ico" />
       </Head>
       
       <NextStudio config={config}>

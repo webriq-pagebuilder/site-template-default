@@ -164,7 +164,6 @@ export async function getStaticProps({
   preview = false,
   previewData = {},
 }) {
-  console.log("previewData: ", previewData)
   const client =
     preview && previewData?.token
       ? getClient(false).withConfig({ token: previewData.token })
