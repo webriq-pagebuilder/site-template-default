@@ -14,7 +14,7 @@ import { PreviewBanner } from "components/PreviewBanner";
 import { PreviewNoContent } from "components/PreviewNoContent";
 import { CollectionSections } from "components/page/store/collections";
 
-function CollectionPageBySlug({ data, preview, token }) {
+function CollectionPageBySlug({ data, preview, token, source }) {
   const router = useRouter();
   const slug = router.query.slug;
 
@@ -30,7 +30,7 @@ function CollectionPageBySlug({ data, preview, token }) {
         <>
           <PreviewBanner />
           <PreviewSuspense>
-            <DocumentWithPreview {...{ data, token: token || null, slug, preview }} />
+            <DocumentWithPreview {...{ data, token: token || null, slug, source }} />
           </PreviewSuspense>
         </>
       );
@@ -90,10 +90,12 @@ function Document({ data }) {
  *
  * @returns Document with preview data
  */
-function DocumentWithPreview({ data, slug, token = null, preview }) {
+function DocumentWithPreview({ data, slug, token = null, source }) {
   // Current drafts data in Sanity
   const previewDataEventSource = usePreview(token, collectionsQuery, { slug });
   const previewData = previewDataEventSource?.[0] || previewDataEventSource; // Latest preview data in Sanity
+
+  const enableInlineEditing = source === "studio"
 
   // General safeguard against empty data
   if (!previewData) {
@@ -128,7 +130,7 @@ function DocumentWithPreview({ data, slug, token = null, preview }) {
         previewData?.sections?.length === 0) && <PreviewNoContent />}
 
       {/* Show Product page sections */}
-      {data?.collectionData && <CollectionSections data={previewData} preview={preview} />}
+      {data?.collectionData && <CollectionSections data={previewData} enableInlineEditing={enableInlineEditing} />}
     </>
   );
 }
@@ -153,6 +155,7 @@ export async function getStaticProps({
   return {
     props: {
       preview,
+      source: (preview && previewData.source) || "",
       token: (preview && previewData.token) || "",
       data: {
         collectionData: singleCollectionsData || null,

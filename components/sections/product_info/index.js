@@ -8,7 +8,7 @@ const Variants = {
   variant_b: dynamic(() => import("./variant_b")),
 };
 
-function ProductInfo({ data, product, pageInfo, preview }) {
+function ProductInfo({ data, product, pageInfo, enableInlineEditing }) {
   const ecwid = useEcwid();
   const ecwid_products = ecwid?.products || null;
   const price = product?.price || 0;
@@ -44,7 +44,7 @@ function ProductInfo({ data, product, pageInfo, preview }) {
 
   return (
     <>
-      {preview && <EditSection documentType={pageInfo?.documentType} documentId={pageInfo?.documentId} />}
+      {enableInlineEditing && <EditSection documentType={pageInfo?.documentType} documentId={pageInfo?.documentId} />}
       {Variant ? <Variant {...props} /> : null}
     </>
   )

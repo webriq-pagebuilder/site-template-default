@@ -9,13 +9,13 @@ import { PreviewNoContent } from "components/PreviewNoContent";
 import { filterDataToSingleItem } from "components/list";
 import { PreviewBanner } from "components/PreviewBanner";
 
-function CartPage({ data, preview, token }) {
+function CartPage({ data, preview, token, source }) {
   if (preview) {
     return (
       <>
         <PreviewBanner />
         <PreviewSuspense>
-          <DocumentWithPreview {...{ data, token, preview }} />
+          <DocumentWithPreview {...{ data, token, source }} />
         </PreviewSuspense>
       </>
     );
@@ -60,9 +60,11 @@ function Document({ data }) {
  *
  * @returns Document with preview data
  */
-function DocumentWithPreview({ data, token = null, preview }) {
+function DocumentWithPreview({ data, token = null, source }) {
   const previewDataEventSource = usePreview(token, cartPageQuery);
   const previewData = previewDataEventSource?.[0] || previewDataEventSource;
+
+  const enableInlineEditing = source === "studio"
 
   // General safeguard against empty data
   if (!previewData) {
@@ -85,7 +87,7 @@ function DocumentWithPreview({ data, token = null, preview }) {
         previewData?.sections?.length === 0) && <PreviewNoContent />}
 
       {/*  Show page sections */}
-      {data?.cartData && <CartSections data={previewData} preview={preview} />}
+      {data?.cartData && <CartSections data={previewData} enableInlineEditing={enableInlineEditing} />}
     </>
   );
 }
@@ -113,6 +115,7 @@ export async function getStaticProps({ preview = false, previewData = {} }) {
   return {
     props: {
       preview,
+      source: (preview && previewData.source) || "",
       token: (preview && previewData.token) || "",
       data: { cartData },
     },

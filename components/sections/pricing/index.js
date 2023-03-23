@@ -11,7 +11,7 @@ const Variants = {
 
 const { NEXT_PUBLIC_APP_URL } = process.env;
 
-function Pricing({ data, pageInfo, preview }) {
+function Pricing({ data, enableInlineEditing }) {
   const variant = data?.variant || data?.variants?.condition;
   const Variant = Variants?.[variant];
   let stripeAccount;
@@ -43,7 +43,7 @@ function Pricing({ data, pageInfo, preview }) {
 
   return (
     <>
-      {preview && <EditSection documentType={data?._type} documentId={data?._id} />}
+      {enableInlineEditing && <EditSection documentType={data?._type} documentId={data?._id} />}
       {Variant ? <Variant {...props} /> : null}
     </>
   )

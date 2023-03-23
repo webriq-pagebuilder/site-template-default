@@ -2,7 +2,7 @@ import { Components } from "components/list";
 import EditSection from "components/EditSection";
 
 
-export function WishlistSections({ data, preview }) {
+export function WishlistSections({ data, enableInlineEditing }) {
   const { sections, _id, _type } = data;
 
   return (
@@ -25,7 +25,7 @@ export function WishlistSections({ data, preview }) {
 
           return (
             <>
-              {preview && <EditSection documentId={_id} documentType={_type} />}
+              {enableInlineEditing && <EditSection documentId={_id} documentType={_type} />}
               <Component
                 key={index}
                 template={{
@@ -33,7 +33,6 @@ export function WishlistSections({ data, preview }) {
                   color: "webriq",
                 }}
                 data={section}
-                preview={preview}
               />
             </>
           );

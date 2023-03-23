@@ -1,7 +1,7 @@
 import { Components } from "components/list";
 import { EcwidContextProvider } from "context/EcwidContext";
 
-export function ProductSections({ data, preview }) {
+export function ProductSections({ data, enableInlineEditing }) {
   const {
     commonSections, // sections from Store > Commerce Pages > Products
     name, // product name
@@ -111,7 +111,7 @@ export function ProductSections({ data, preview }) {
                   documentId: _id,
                   documentType: _type
                 }}
-                preview={preview}
+                enableInlineEditing={enableInlineEditing}
                 data={section}
               />
             </EcwidContextProvider>

@@ -1,7 +1,7 @@
 import { Components } from "components/list";
 import { EcwidContextProvider } from "context/EcwidContext";
 
-export function CollectionSections({ data, preview }) {
+export function CollectionSections({ data, enableInlineEditing }) {
   const {
     commonSections, // sections from Store > Pages > Collections
     name, // collection name
@@ -105,7 +105,7 @@ export function CollectionSections({ data, preview }) {
                   documentId: _id,
                   documentType: _type
                 }}
-                preview={preview}
+                enableInlineEditing={enableInlineEditing}
               />
             </EcwidContextProvider>
           );

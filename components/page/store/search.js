@@ -1,6 +1,6 @@
 import { Components } from "components/list";
 
-export function SearchPageSections({ data, preview }) {
+export function SearchPageSections({ data, enableInlineEditing }) {
   const { sections } = data;
 
   return (
@@ -22,7 +22,7 @@ export function SearchPageSections({ data, preview }) {
                 color: "webriq",
               }}
               data={section}
-              preview={preview}
+              enableInlineEditing={enableInlineEditing}
             />
           );
         })}

@@ -3,7 +3,7 @@ import { EcwidContextProvider } from "context/EcwidContext";
 import EditSection from "components/EditSection";
 
 
-export function CartSections({ data, preview }) {
+export function CartSections({ data, enableInlineEditing }) {
   const { sections, _type, _id } = data;
 
   return (
@@ -26,7 +26,7 @@ export function CartSections({ data, preview }) {
 
           return (
             <EcwidContextProvider key={index}>
-              {preview && <EditSection documentId={_id} documentType={_type} />}
+              {enableInlineEditing && <EditSection documentId={_id} documentType={_type} />}
               <Component
                 template={{
                   bg: "gray",

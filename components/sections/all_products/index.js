@@ -7,7 +7,7 @@ const Variants = {
   variant_b: dynamic(() => import("./variant_b")),
 };
 
-function AllProducts({ data, pageInfo, preview }) {
+function AllProducts({ data, enableInlineEditing }) {
   const variant = data?.variant || data?.variants?.condition;
   const Variant = Variants?.[variant];
 
@@ -17,7 +17,7 @@ function AllProducts({ data, pageInfo, preview }) {
 
   return (
     <>
-      {preview && <EditSection documentType={data?._type} documentId={data?._id} />}
+      {enableInlineEditing && <EditSection documentType={data?._type} documentId={data?._id} />}
       {Variant ? <Variant {...props} /> : null}
     </>
   )
