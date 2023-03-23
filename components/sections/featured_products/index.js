@@ -19,7 +19,7 @@ function FeaturedProducts({ data, pageInfo, preview }) {
 
   return (
     <EcwidContextProvider>
-      {preview && <EditSection documentType={pageInfo?.documentType} documentId={pageInfo?.documentId} />}
+      {preview && <EditSection documentType={data?._type} documentId={data?._id} />}
       {Variant ? <Variant {...props} /> : null}
     </EcwidContextProvider>
   )
