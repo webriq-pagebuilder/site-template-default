@@ -1,62 +1,53 @@
 import {
   SITE_PREVIEW_SECRET,
   NEXT_PUBLIC_SITE_URL,
-  NEXT_PUBLIC_NETLIFY_SITE_URL,
 } from "../config"
-//import type { SanityDocumentLike } from "sanity"
 
 export default function resolveProductionUrl(doc) {
   const currentSlug = doc?.slug?.current || ""
-  const previewUrl = `api/preview?secret=${SITE_PREVIEW_SECRET}&slug=${currentSlug}`
 
-  // only show the "Open Preview" option for the following documents
-  if (["page", "post"].includes(doc?._type)) {
-    if (typeof window !== "undefined" && window.location.hostname.includes("localhost")) {
-      return `${NEXT_PUBLIC_SITE_URL || "http://localhost:3000"}/${previewUrl}`
-    }
+  // localhost
+  if(typeof window !== "undefined" && window.location.hostname.includes("localhost")) {
+    return PreviewURL(
+      NEXT_PUBLIC_SITE_URL || "http://localhost:3000", 
+      SITE_PREVIEW_SECRET, 
+      doc?._type, 
+      currentSlug, 
+      inStudioWebPreview
+    )
+  }
 
-    return `${NEXT_PUBLIC_NETLIFY_SITE_URL}/${previewUrl}`
-  } else if (doc?._type === "mainProduct") {
-    if (typeof window !== "undefined" && window.location.hostname.includes("localhost")) {
-      return `${
-        NEXT_PUBLIC_SITE_URL || "http://localhost:3000"
-      }/api/preview?secret=${SITE_PREVIEW_SECRET}&type=products&slug=${currentSlug}`
-    }
+  // remote / live site
+  return PreviewURL(
+    NEXT_PUBLIC_SITE_URL || "https://discover.webriq.com", 
+    SITE_PREVIEW_SECRET, 
+    doc?._type, 
+    currentSlug, 
+    inStudioWebPreview
+  )
+}
 
-    return `${NEXT_PUBLIC_NETLIFY_SITE_URL}/api/preview?secret=${SITE_PREVIEW_SECRET}&type=products&slug=${currentSlug}`
-  } else if (doc?._type === "mainCollection") {
-    if (typeof window !== "undefined" && window.location.hostname.includes("localhost")) {
-      return `${
-        NEXT_PUBLIC_SITE_URL || "http://localhost:3000"
-      }/api/preview?secret=${SITE_PREVIEW_SECRET}&type=collections&slug=${currentSlug}`
-    }
+// only show the "Open Preview" option for the following documents
+export function PreviewURL(siteUrl, previewSecret, documentType, slug, inStudioWebPreview) {
+  const URL = !inStudioWebPreview ? `${BaseUrl(siteUrl, previewSecret)}&source=studio` : `${BaseUrl(siteUrl, previewSecret)}`;
 
-    return `${NEXT_PUBLIC_NETLIFY_SITE_URL}/api/preview?secret=${SITE_PREVIEW_SECRET}&type=collections&slug=${currentSlug}`
-  } else if (doc?._type === "cartPage") {
-    if (typeof window !== "undefined" && window.location.hostname.includes("localhost")) {
-      return `${
-        NEXT_PUBLIC_SITE_URL || "http://localhost:3000"
-      }/api/preview?secret=${SITE_PREVIEW_SECRET}&slug=cart`
-    }
-
-    return `${NEXT_PUBLIC_NETLIFY_SITE_URL}/api/preview?secret=${SITE_PREVIEW_SECRET}&slug=cart`
-  } else if (doc?._type === "wishlistPage") {
-    if (typeof window !== "undefined" && window.location.hostname.includes("localhost")) {
-      return `${
-        NEXT_PUBLIC_SITE_URL || "http://localhost:3000"
-      }/api/preview?secret=${SITE_PREVIEW_SECRET}&slug=wishlist`
-    }
-
-    return `${NEXT_PUBLIC_NETLIFY_SITE_URL}/api/preview?secret=${SITE_PREVIEW_SECRET}&slug=wishlist`
-  } else if (doc?._type === "searchPage") {
-    if (typeof window !== "undefined" && window.location.hostname.includes("localhost")) {
-      return `${
-        NEXT_PUBLIC_SITE_URL || "http://localhost:3000"
-      }/api/preview?secret=${SITE_PREVIEW_SECRET}&slug=search`
-    }
-
-    return `${NEXT_PUBLIC_NETLIFY_SITE_URL}/api/preview?secret=${SITE_PREVIEW_SECRET}&slug=search`
+  if (["page", "post"].includes(documentType)) {
+    return `${URL}&slug=${slug}`
+  } else if (documentType === "mainProduct") {
+    return `${URL}&type=products&slug=${slug}`
+  } else if (documentType === "mainCollection") {
+    return `${URL}&type=collections&slug=${slug}`
+  } else if (documentType === "cartPage") {
+    return `${URL}&slug=cart`
+  } else if (documentType === "wishlistPage") {
+    return `${URL}&slug=wishlist`
+  } else if (documentType === "searchPage") {
+    return `${URL}&slug=search`
   }
 
   return undefined
+}
+
+function BaseUrl (siteUrl, previewSecret) {
+  return `${siteUrl}/api/preview?secret=${previewSecret}`
 }

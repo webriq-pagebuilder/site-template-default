@@ -7,7 +7,7 @@ function GoogleSearchResult (props) {
   const { document, options, width = 500 } = props;
   const { title, seo } = document;
   const url = assemblePageUrl({ document, options });
-  const date = format(new Date(document?._updatedAt), "MMM dd, yyyy")
+  const date = document?._updatedAt && format(new Date(document?._updatedAt), "MMM dd, yyyy")
 
   return (
     <div className="seoItem">
@@ -17,11 +17,9 @@ function GoogleSearchResult (props) {
         <div className="title">
           {title}
         </div>
-        {seo?.seoDescription && (
-          <div className="description">
-            {`${date} — ${seo?.seoDescription}`}
-          </div>
-        )}
+        <div className="description">
+          {`${date} — ${seo?.seoDescription ?? "SEO description not added"}`}
+        </div>
       </div>
     </div>
   );

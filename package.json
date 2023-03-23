@@ -17,7 +17,7 @@
     "@sanity/image-url": "^1.0.2",
     "@sanity/types": "^3",
     "@sanity/ui": "^1",
-    "@sanity/vision": "^3.6.0",
+    "@sanity/vision": "^3.7.1",
     "@stripe/react-stripe-js": "^1.6.0",
     "@stripe/stripe-js": "^1.17.1",
     "@webriq-pagebuilder/sanity-plugin-input-component-variants": "3.0.3-sanity-v3.2.4",

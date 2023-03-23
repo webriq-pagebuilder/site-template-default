@@ -5,7 +5,6 @@ import imageUrlBuilder from "@sanity/image-url";
 import { format } from "date-fns"
 import { assemblePageUrl } from "./frontendUtils";
 
-
 const author = {
   name: "WebriQ",
   handle: "WebriQgoesMad",
@@ -24,7 +23,7 @@ function TwitterCard (props) {
   const url = assemblePageUrl({ document, options });
   const websiteUrlWithoutProtocol = url.split("://").pop();
 
-  const date = format(new Date(document?._updatedAt), "MMM dd")
+  const date = document?._updatedAt && format(new Date(document?._updatedAt), "MMM dd")
 
   return (
     <div className="seoItem">
