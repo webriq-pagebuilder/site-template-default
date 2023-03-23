@@ -1,7 +1,7 @@
 import { useEcwid } from "context/EcwidContext";
 import React from "react";
 import AddToWishlist from "./AddToWishlist";
-import Link from "next/link";
+
 
 const AddMoreButton = ({ product }) => {
   const ecwid = useEcwid();
