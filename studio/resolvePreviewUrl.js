@@ -1,5 +1,5 @@
 import {
-  SITE_PREVIEW_SECRET,
+  NEXT_PUBLIC_PREVIEW_SECRET,
   NEXT_PUBLIC_SITE_URL,
 } from "../config"
 
@@ -10,7 +10,7 @@ export default function resolveProductionUrl(doc, inStudioWebPreview) {
   if(typeof window !== "undefined" && window.location.hostname.includes("localhost")) {
     return PreviewURL(
       NEXT_PUBLIC_SITE_URL || "http://localhost:3000", 
-      SITE_PREVIEW_SECRET, 
+      NEXT_PUBLIC_PREVIEW_SECRET, 
       doc?._type, 
       currentSlug, 
       inStudioWebPreview
@@ -20,7 +20,7 @@ export default function resolveProductionUrl(doc, inStudioWebPreview) {
   // remote / live site
   return PreviewURL(
     NEXT_PUBLIC_SITE_URL || "https://discover.webriq.com", 
-    SITE_PREVIEW_SECRET, 
+    NEXT_PUBLIC_PREVIEW_SECRET, 
     doc?._type, 
     currentSlug, 
     inStudioWebPreview

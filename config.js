@@ -10,7 +10,7 @@ export const NEXT_PUBLIC_NETLIFY_SITE_URL = process.env.NEXT_PUBLIC_NETLIFY_SITE
 export const NEXT_PUBLIC_SITE_URL = process.env.NEXT_PUBLIC_SITE_URL
 
 // Preview secret key both shared by site and studio. Randomly generated in production
-export const SITE_PREVIEW_SECRET = process.env.SITE_PREVIEW_SECRET || "secret"
+export const NEXT_PUBLIC_PREVIEW_SECRET = process.env.NEXT_PUBLIC_PREVIEW_SECRET || "secret"
 
 // LIVE App URL
 export const NEXT_PUBLIC_APP_URL = process.env.NEXT_PUBLIC_APP_URL

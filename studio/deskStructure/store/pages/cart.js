@@ -12,13 +12,13 @@ import SeoPreviews from "../../../components/previews/seo/SeoPreviews"
 
 import {
     NEXT_PUBLIC_NETLIFY_SITE_URL,
-    SITE_PREVIEW_SECRET,
+    NEXT_PUBLIC_PREVIEW_SECRET,
     NEXT_PUBLIC_SITE_URL,
   } from "../../../../config";
   
   // Web preview configuration
-  const remotePreviewUrl = `${NEXT_PUBLIC_NETLIFY_SITE_URL}/api/preview?secret=${SITE_PREVIEW_SECRET}&slug=`;
-  const localPreviewUrl = `${NEXT_PUBLIC_SITE_URL}/api/preview?secret=${SITE_PREVIEW_SECRET}&slug=`;
+  const remotePreviewUrl = `${NEXT_PUBLIC_NETLIFY_SITE_URL}/api/preview?secret=${NEXT_PUBLIC_PREVIEW_SECRET}&slug=`;
+  const localPreviewUrl = `${NEXT_PUBLIC_SITE_URL}/api/preview?secret=${NEXT_PUBLIC_PREVIEW_SECRET}&slug=`;
   const previewURL = typeof window !== "undefined" && window.location.hostname === "localhost" ? localPreviewUrl : remotePreviewUrl;
   const publishedURL = NEXT_PUBLIC_SITE_URL;
   
