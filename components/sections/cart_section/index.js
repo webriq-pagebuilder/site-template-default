@@ -1,5 +1,6 @@
-import { memo } from "react";
+import { memo, useEffect } from "react";
 import dynamic from "next/dynamic";
+import { useEcwid } from "context/EcwidContext";
 
 const Variants = {
   variant_a: dynamic(() => import("./variant_a")),
@@ -8,7 +9,12 @@ const Variants = {
 function Cart({ data }) {
   const variant = data?.variant || data?.variants?.condition;
   const Variant = Variants?.[variant];
+  const ecwid = useEcwid();
 
-  return Variant ? <Variant /> : null;
+  const props = {
+    isReady: ecwid.isScript,
+  };
+
+  return Variant ? <Variant {...props} /> : null;
 }
 export default memo(Cart);

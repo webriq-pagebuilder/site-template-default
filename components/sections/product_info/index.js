@@ -11,8 +11,10 @@ const Variants = {
 function ProductInfo({ data, product, pageInfo, enableInlineEditing }) {
   const ecwid = useEcwid();
   const ecwid_products = ecwid?.products || null;
-  const price = product?.price || 0;
+  const price = ecwid?.price || 0;
   const getPriceDisplay = ecwid?.getPriceDisplay;
+
+  const variantSku = ecwid.selected;
 
   const variant = data?.variant || data?.variants?.condition;
   const Variant = Variants?.[variant];
@@ -39,6 +41,7 @@ function ProductInfo({ data, product, pageInfo, enableInlineEditing }) {
     btnLabel: data?.variants?.btnLabel,
     product,
     ecwidProduct,
+    variantSku,
     getPriceDisplay: () => getPriceDisplay(price),
   };
 

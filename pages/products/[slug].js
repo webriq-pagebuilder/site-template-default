@@ -13,6 +13,7 @@ import { filterDataToSingleItem } from "components/list";
 import { PreviewBanner } from "components/PreviewBanner";
 import { PreviewNoContent } from "components/PreviewNoContent";
 import { ProductSections } from "components/page/store/products";
+import { EcwidContextProvider } from "context/EcwidContext";
 
 function ProductPageBySlug({ data, preview, token, source }) {
   const router = useRouter();
@@ -77,7 +78,9 @@ function Document({ data }) {
       </Head>
 
       {/* Show Product page sections */}
-      {data?.productData && <ProductSections data={publishedData} />}
+      <EcwidContextProvider>
+        {data?.productData && <ProductSections data={publishedData} />}
+      </EcwidContextProvider>
     </>
   );
 }
@@ -130,7 +133,9 @@ function DocumentWithPreview({ data, slug, token = null, source }) {
         previewData?.sections?.length === 0) && <PreviewNoContent />}
 
       {/* Show Product page sections */}
-      {data?.productData && <ProductSections data={previewData} enableInlineEditing={enableInlineEditing} />}
+      <EcwidContextProvider>
+        {data?.productData && <ProductSections data={previewData} enableInlineEditing={enableInlineEditing} />}
+      </EcwidContextProvider>
     </>
   );
 }

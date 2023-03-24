@@ -47,7 +47,6 @@ function MyApp({ Component, pageProps }) {
           if (page.type === "CATEGORY" || page.type === "PRODUCT") {
             Ecwid.openPage("cart");
           }
-          console.log("page", page.type);
           if (page.type === "CART") {
             let elem = document.querySelector(".ec-cart--empty button");
             elem.addEventListener("click", (e) => {
