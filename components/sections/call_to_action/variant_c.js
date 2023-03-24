@@ -1,21 +1,9 @@
 import React from "react";
 import WebriQForm from "components/webriq-form";
+import { thankYouPageLink } from "helper";
+
 
 function VariantC({ title, text, features, form }) {
-  const { id, fields, buttonLabel, thankYouPage } = form;
-
-  const thankYouPageLink = (link) => {
-    if (!link) {
-      return "/thank-you";
-    } else {
-      if (link?.linkType === "linkInternal") {
-        return `/${link.internalLink}`;
-      } else {
-        return link.externalLink;
-      }
-    }
-  };
-
   return (
     <section className="py-20 bg-gray-50">
       <div className="container mx-auto px-4">
@@ -27,49 +15,49 @@ function VariantC({ title, text, features, form }) {
             <p className="max-w-lg text-gray-700 leading-loose">{text}</p>
           </div>
           <div className="w-full lg:w-1/2 px-4">
-            {fields && (
+            {form?.fields && (
               <WebriQForm
                 method="POST"
-                data-form-id={id}
+                data-form-id={form?.id}
                 name="Calltoaction-VariantC-Form"
                 className="form-callToAction flex mb-4 items-center lg:justify-end"
-                data-thankyou-url={thankYouPageLink(thankYouPage)}
+                data-thankyou-url={thankYouPageLink(form?.thankYouPage)}
                 scriptsrc="https://pagebuilderforms.webriq.com/js/initReactForms"
               >
-                {fields?.[0] && fields[0]?.type && (
+                {form?.fields?.[0] && form?.fields[0]?.type && (
                   <input
                     aria-label={`${
-                      fields[0]?.type === "inputText"
-                        ? `Input ${fields[0]?.name}`
-                        : `${fields[0]?.type}`
+                      form?.fields[0]?.type === "inputText"
+                        ? `Input ${form?.fields[0]?.name}`
+                        : `${form?.fields[0]?.type}`
                     }`}
                     className="mr-2 py-2 px-4 bg-white rounded leading-loose"
                     type={
-                      fields[0]?.type === "inputEmail"
+                      form?.fields[0]?.type === "inputEmail"
                         ? "email"
-                        : fields[0]?.type === "inputPassword"
+                        : form?.fields[0]?.type === "inputPassword"
                         ? "password"
-                        : fields[0]?.type === "inputNumber"
+                        : form?.fields[0]?.type === "inputNumber"
                         ? "number"
                         : "text"
                     }
-                    placeholder={fields[0]?.placeholder}
-                    name={fields[0]?.name}
-                    required={fields[0]?.isRequired}
+                    placeholder={form?.fields[0]?.placeholder}
+                    name={form?.fields[0]?.name}
+                    required={form?.fields[0]?.isRequired}
                   />
                 )}
                 <div>
                   <div className="webriq-recaptcha" />
                 </div>
-                {buttonLabel && (
+                {form?.buttonLabel && (
                   <button
                     aria-label={
-                      buttonLabel ?? "Call to action form submit button"
+                      form?.buttonLabel ?? "Call to action form submit button"
                     }
                     className="inline-block py-2 px-6 bg-webriq-darkblue hover:bg-webriq-blue text-white font-bold leading-loose rounded-l-xl rounded-t-xl transition duration-200"
                     type="submit"
                   >
-                    {buttonLabel}
+                    {form?.buttonLabel}
                   </button>
                 )}
               </WebriQForm>

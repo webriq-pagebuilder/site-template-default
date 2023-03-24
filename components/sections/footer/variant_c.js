@@ -1,7 +1,8 @@
 import { urlFor } from "lib/sanity";
 import Link from "next/link";
 import React from "react";
-import { logoLink } from "helper";
+import { logoLink, ConditionalBtnOrLink } from "helper";
+
 
 function VariantC({ logo, menu, copyright, socialMedia }) {
   return (
@@ -34,63 +35,7 @@ function VariantC({ logo, menu, copyright, socialMedia }) {
                 <ul className="flex flex-wrap lg:space-x-5 justify-between items-center mx-20">
                   {menu?.map((links, index) => (
                     <li className="w-full md:w-auto mb-2 md:mb-0" key={index}>
-                      {links?.type === "linkInternal" ? (
-                        <Link
-                          href={
-                            links?.internalLink === "Home" ||
-                            links?.internalLink === "home"
-                              ? "/"
-                              : `/${
-                                  links?.internalLink === undefined
-                                    ? "page-not-found"
-                                    : links?.internalLink
-                                }`
-                          }
-                        >
-                          <a
-                            aria-label={`Footer ${
-                              links?.label ?? "Menu"
-                            } links which directs to ${
-                              links?.internalLink === undefined
-                                ? "page-not-found"
-                                : links?.internalLink
-                            }`}
-                            className="mr-6 text-sm hover:text-gray-500"
-                            target={links?.linkTarget}
-                            rel={
-                              links?.linkTarget === "_blank"
-                                ? "noopener noreferrer"
-                                : null
-                            }
-                          >
-                            {links?.label}
-                          </a>
-                        </Link>
-                      ) : (
-                        <a
-                          aria-label={`Footer ${
-                            links?.label ?? "Menu"
-                          } links which directs to ${
-                            links?.externalLink === undefined
-                              ? "page-not-found"
-                              : links?.externalLink
-                          }`}
-                          className="mr-6 text-sm hover:text-gray-500"
-                          target={links?.linkTarget}
-                          rel={
-                            links?.linkTarget === "_blank"
-                              ? "noopener noreferrer"
-                              : null
-                          }
-                          href={`${
-                            links?.externalLink === undefined
-                              ? "link-not-found"
-                              : links?.externalLink
-                          }`}
-                        >
-                          {links?.label}
-                        </a>
-                      )}
+                      <ConditionalBtnOrLink value={links} style="mr-6 text-sm hover:text-gray-500" />
                     </li>
                   ))}
                 </ul>
@@ -98,21 +43,20 @@ function VariantC({ logo, menu, copyright, socialMedia }) {
             )}
             <div className="mb-12 lg:mb-0 lg:ml-auto w-full lg:w-auto order-first lg:order-last text-center lg:text-left">
               {logo?.image && (
-                <Link href={logoLink()}>
-                  <a
-                    aria-label={
-                      logoLink() === "/"
-                        ? "Go to home page"
-                        : `Go to ${logoLink()}`
-                    }
-                    className="inline-block text-xl font-bold leading-none"
-                  >
-                    <img
-                      className="h-14"
-                      src={urlFor(logo?.image)}
-                      alt={logo?.alt ?? "footer-logo"}
-                    />
-                  </a>
+                <Link 
+                  className="inline-block text-xl font-bold leading-none"
+                  aria-label={
+                    logoLink() === "/"
+                      ? "Go to home page"
+                      : `Go to ${logoLink()}`
+                  } 
+                  href={logoLink()}
+                >
+                  <img
+                    className="h-14"
+                    src={urlFor(logo?.image)}
+                    alt={logo?.alt ?? "footer-logo"}
+                  />
                 </Link>
               )}
             </div>

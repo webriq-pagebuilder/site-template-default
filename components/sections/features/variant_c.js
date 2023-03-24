@@ -22,21 +22,18 @@ function VariantC({ caption, title, features }) {
               features.map((feature, index) => {
                 return (
                   <div className="mb-6 w-full lg:w-1/2 px-3" key={index}>
-                    <div className="p-6 flex flex-wrap bg-white shadow rounded-lg min-h-full">
+                    <div className="p-6 flex flex-wrap bg-white shadow rounded-lg h-full">
                       <div>
                         <span className="mb-4 lg:mb-0 mr-6 inline-block p-3 md:p-5 rounded-lg bg-webriq-lightblue">
-                          {feature?.mainImage?.image?.asset?._ref && (
+                          {feature?.mainImage?.image && (
                             <Image
+                              className="object-scale-down"
                               src={urlFor(feature?.mainImage?.image)}
-                              layout="intrinsic"
-                              width="40"
-                              height="40"
-                              objectFit="scale-down"
+                              width={40}
+                              height={40}
                               alt={
                                 feature?.mainImage?.alt ?? "features-main-image"
                               }
-                              blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                              placeholder="blur"
                             />
                           )}
                         </span>

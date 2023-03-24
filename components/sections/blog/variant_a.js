@@ -3,6 +3,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { urlFor } from "lib/sanity";
 import { format } from "date-fns";
+import { ConditionalBtnOrLink } from "helper";
+
 
 function VariantA({ subtitle, title, posts, primaryButton }) {
   let blogsPerPage = 6,
@@ -29,16 +31,12 @@ function VariantA({ subtitle, title, posts, primaryButton }) {
                   <div className="w-full px-3 mb-5" key={key}>
                     <div className="relative h-64 mx-auto rounded">
                       {post?.mainImage?.asset?._ref && (
-                        <div className="relative h-full w-full rounded overflow-hidden">
-                          <Image
-                            src={urlFor(post?.mainImage)}
-                            layout="fill"
-                            objectFit="cover"
-                            alt={`blog-variantA-image-${key}`}
-                            blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                            placeholder="blur"
-                          />
-                        </div>
+                        <Image
+                          className="relative h-full w-full rounded overflow-hidden object-cover"
+                          src={urlFor(post?.mainImage)}
+                          alt={`blog-variantA-image-${key}`}
+                          fill
+                        />
                       )}
                       <div className="absolute inset-0 bg-gray-900 opacity-75 rounded" />
                       <div className="absolute inset-0 p-6 flex flex-col items-start">
@@ -64,18 +62,15 @@ function VariantA({ subtitle, title, posts, primaryButton }) {
                         )}
                         {post?.title && (
                           <Link
+                            aria-label={`blog post ${key}`}
+                            className="text-xl lg:text-2xl text-white font-bold hover:text-webriq-babyblue transform hover:scale-110 motion-reduce:transform-none"
                             href={
                               `/${post?.slug?.current}` ?? "/page-not-found"
                             }
                           >
-                            <a
-                              aria-label={`blog post ${key}`}
-                              className="text-xl lg:text-2xl text-white font-bold hover:text-webriq-babyblue transform hover:scale-110 motion-reduce:transform-none"
-                            >
-                              {post?.title?.length > 50
-                                ? post?.title.substring(0, 50) + "..."
-                                : post?.title}
-                            </a>
+                            {post?.title?.length > 50
+                              ? post?.title.substring(0, 50) + "..."
+                              : post?.title}
                           </Link>
                         )}
                       </div>
@@ -86,16 +81,12 @@ function VariantA({ subtitle, title, posts, primaryButton }) {
                   <div className="w-full lg:w-1/2 px-3 mb-5" key={key}>
                     <div className="relative mx-auto rounded h-64">
                       {post?.mainImage?.asset?._ref && (
-                        <div className="relative h-full w-full rounded overflow-hidden">
-                          <Image
-                            src={urlFor(post?.mainImage)}
-                            layout="fill"
-                            objectFit="cover"
-                            alt={`blog-variantA-image-${key}`}
-                            blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                            placeholder="blur"
-                          />
-                        </div>
+                        <Image
+                          className="relative h-full w-full rounded overflow-hidden object-cover"
+                          src={urlFor(post?.mainImage)}
+                          alt={`blog-variantA-image-${key}`}
+                          fill
+                        />
                       )}
                       <div className="absolute inset-0 bg-gray-900 opacity-75 rounded" />
                       <div className="absolute inset-0 p-6 flex flex-col items-start">
@@ -121,15 +112,14 @@ function VariantA({ subtitle, title, posts, primaryButton }) {
                         )}
                         {post?.title && (
                           <Link
+                            className="text-xl lg:text-2xl text-white font-bold hover:text-webriq-babyblue transform hover:scale-110 motion-reduce:transform-none"
                             href={
                               `/${post?.slug?.current}` ?? "/page-not-found"
                             }
                           >
-                            <a className="text-xl lg:text-2xl text-white font-bold hover:text-webriq-babyblue transform hover:scale-110 motion-reduce:transform-none">
-                              {post?.title?.length > 50
-                                ? post?.title.substring(0, 50) + "..."
-                                : post?.title}
-                            </a>
+                            {post?.title?.length > 50
+                              ? post?.title.substring(0, 50) + "..."
+                              : post?.title}
                           </Link>
                         )}
                       </div>
@@ -142,16 +132,12 @@ function VariantA({ subtitle, title, posts, primaryButton }) {
                   <div className="w-full lg:w-1/2 px-3 mb-5" key={key}>
                     <div className="relative mx-auto rounded h-64">
                       {post?.mainImage?.asset?._ref && (
-                        <div className="relative h-full w-full rounded overflow-hidden">
-                          <Image
-                            src={urlFor(post?.mainImage)}
-                            layout="fill"
-                            objectFit="cover"
-                            alt={`blog-variantA-image-${key}`}
-                            blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                            placeholder="blur"
-                          />
-                        </div>
+                        <Image
+                          className="relative h-full w-full rounded overflow-hidden object-cover"
+                          src={urlFor(post?.mainImage)}
+                          alt={`blog-variantA-image-${key}`}
+                          fill
+                        />
                       )}
                       <div className="absolute inset-0 bg-gray-900 opacity-75 rounded" />
                       <div className="absolute inset-0 p-6 flex flex-col items-start">
@@ -177,15 +163,14 @@ function VariantA({ subtitle, title, posts, primaryButton }) {
                         )}
                         {post?.title && (
                           <Link
+                            className="text-xl lg:text-2xl text-white font-bold hover:text-webriq-babyblue transform hover:scale-110 motion-reduce:transform-none"
                             href={
                               `/${post?.slug?.current}` ?? "/page-not-found"
                             }
                           >
-                            <a className="text-xl lg:text-2xl text-white font-bold hover:text-webriq-babyblue transform hover:scale-110 motion-reduce:transform-none">
-                              {post?.title?.length > 50
-                                ? post?.title.substring(0, 50) + "..."
-                                : post?.title}
-                            </a>
+                            {post?.title?.length > 50
+                              ? post?.title.substring(0, 50) + "..."
+                              : post?.title}
                           </Link>
                         )}
                       </div>
@@ -196,16 +181,12 @@ function VariantA({ subtitle, title, posts, primaryButton }) {
                   <div className="w-full px-3 mb-5" key={key}>
                     <div className="relative mx-auto rounded h-64">
                       {post?.mainImage?.asset?._ref && (
-                        <div className="relative h-full w-full rounded overflow-hidden">
-                          <Image
-                            src={urlFor(post?.mainImage)}
-                            layout="fill"
-                            objectFit="cover"
-                            alt={`blog-variantA-image-${key}`}
-                            blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                            placeholder="blur"
-                          />
-                        </div>
+                        <Image
+                          className="relative h-full w-full rounded overflow-hidden object-cover"
+                          src={urlFor(post?.mainImage)}
+                          alt={`blog-variantA-image-${key}`}
+                          fill
+                        />
                       )}
                       <div className="absolute inset-0 bg-gray-900 opacity-75 rounded" />
                       <div className="absolute inset-0 p-6 flex flex-col items-start">
@@ -231,15 +212,14 @@ function VariantA({ subtitle, title, posts, primaryButton }) {
                         )}
                         {post?.title && (
                           <Link
+                            className="text-xl lg:text-2xl text-white font-bold hover:text-webriq-babyblue transform hover:scale-110 motion-reduce:transform-none"
                             href={
                               `/${post?.slug?.current}` ?? "/page-not-found"
                             }
                           >
-                            <a className="text-xl lg:text-2xl text-white font-bold hover:text-webriq-babyblue transform hover:scale-110 motion-reduce:transform-none">
-                              {post?.title?.length > 50
-                                ? post?.title.substring(0, 50) + "..."
-                                : post?.title}
-                            </a>
+                            {post?.title?.length > 50
+                              ? post?.title.substring(0, 50) + "..."
+                              : post?.title}
                           </Link>
                         )}
                       </div>
@@ -248,56 +228,7 @@ function VariantA({ subtitle, title, posts, primaryButton }) {
                 ))}
               </div>
               <div className="mt-10">
-                {primaryButton?.label &&
-                primaryButton?.type === "linkInternal" ? (
-                  <Link
-                    href={
-                      primaryButton?.internalLink === "Home" ||
-                      primaryButton?.internalLink === "home"
-                        ? "/"
-                        : `/${
-                            primaryButton.internalLink === undefined
-                              ? "page-not-found"
-                              : primaryButton.internalLink
-                          }`
-                    }
-                  >
-                    <a
-                      aria-label={`Click here to ${
-                        primaryButton?.label ?? "View More Articles"
-                      }`}
-                      className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose outline-none transition duration-200"
-                      target={primaryButton?.linkTarget}
-                      rel={
-                        primaryButton?.linkTarget === "_blank"
-                          ? "noopener noreferrer"
-                          : null
-                      }
-                    >
-                      {primaryButton?.label}
-                    </a>
-                  </Link>
-                ) : (
-                  <a
-                    aria-label={`Click here to ${
-                      primaryButton?.label ?? "View More Articles"
-                    }`}
-                    className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose outline-none transition duration-200"
-                    target={primaryButton?.linkTarget}
-                    href={`${
-                      primaryButton?.externalLink === undefined
-                        ? "link-not-found"
-                        : primaryButton?.externalLink
-                    }`}
-                    rel={
-                      primaryButton?.linkTarget === "_blank"
-                        ? "noopener noreferrer"
-                        : null
-                    }
-                  >
-                    {primaryButton?.label}
-                  </a>
-                )}
+                {primaryButton?.label && <ConditionalBtnOrLink value={primaryButton} style="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose outline-none transition duration-200" />}
               </div>
             </div>
           )}

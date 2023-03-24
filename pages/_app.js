@@ -35,6 +35,14 @@ function MyApp({ Component, pageProps }) {
           if (page.type === "CATEGORY" || page.type === "PRODUCT") {
             Ecwid.openPage("cart");
           }
+
+          if (page.type === "CART") {
+            let elem = document.querySelector(".ec-cart--empty button");
+            elem.addEventListener("click", (e) => {
+              e.preventDefault();
+              window.location.href = "/collections/all-products";
+            });
+          }
         });
       } catch (error) {
         console.log(error);

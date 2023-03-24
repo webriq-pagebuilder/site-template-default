@@ -76,7 +76,7 @@ function SEO({ data }) {
   };
 
   const cartPageSEO = {
-    title: data?.cartData?.seo?.seoTitle || "Cart",
+    title: data?.cartData?.seo?.seoTitle,
     keywords: data?.cartData?.seo?.seoKeywords,
     synonyms: data?.cartData?.seo?.seoSynonyms,
     description: data?.cartData?.seo?.seoDescription,
@@ -84,7 +84,7 @@ function SEO({ data }) {
   };
 
   const searchPageSEO = {
-    title: data?.searchData?.seo?.seoTitle || "Search",
+    title: data?.searchData?.seo?.seoTitle,
     keywords: data?.searchData?.seo?.seoKeywords,
     synonyms: data?.searchData?.seo?.seoSynonyms,
     description: data?.searchData?.seo?.seoDescription,
@@ -92,7 +92,7 @@ function SEO({ data }) {
   };
 
   const wishlistPageSEO = {
-    title: data?.wishlistData?.seo?.seoTitle || "Search",
+    title: data?.wishlistData?.seo?.seoTitle,
     keywords: data?.wishlistData?.seo?.seoKeywords,
     synonyms: data?.wishlistData?.seo?.seoSynonyms,
     description: data?.wishlistData?.seo?.seoDescription,

@@ -30,10 +30,10 @@ function VariantB({ products }) {
                     {products?.productInfo?.images ? (
                       <div className="w-full h-full">
                         <Image
-                          layout="responsive"
+                          className="object-cover"
+                          sizes="100vw"
                           width={736}
                           height={564}
-                          objectFit="cover"
                           src={urlFor(
                             products?.productInfo?.images?.[0]?.image
                           )}
@@ -45,10 +45,10 @@ function VariantB({ products }) {
                       </div>
                     ) : (
                       <Image
-                        layout="responsive"
+                        className="object-cover"
+                        sizes="100vw"
                         width={736}
                         height={564}
-                        objectFit="cover"
                         src="https://cdn.sanity.io/images/9itgab5x/production/9523d40461371b7b4948456c57bb663bd8998c4a-500x362.png"
                         alt="default image for product"
                       />
@@ -60,7 +60,7 @@ function VariantB({ products }) {
                     <span className="mr-8 font-bold font-heading uppercase">
                       SHARE IT
                     </span>
-                    {products?.others?.[0]?.socialLinks?.map(
+                    {products?.productInfo?.socialLinks?.map(
                       (social, index) =>
                         social?.socialMediaLink && (
                           <a
@@ -149,21 +149,19 @@ function VariantB({ products }) {
                         ecwid?.getPriceDisplay(products?.price)}
                     </p>
                   )}
-                  {products?.description && <p>{products?.description}</p>}
+                  {products?.description && <p dangerouslySetInnerHTML={{ __html: products?.description }}/>}
                 </div>
 
                 <ProductDetail product={ecwidProduct}>
                   <div className="flex flex-col sm:flex-row items-start mt-8 gap-y-4 sm:gap-y-0 sm:gap-x-4">
-                    {products?.others?.[0]?.btnLabel && (
-                      <div className="w-full lg:mb-4 xl:mb-0">
-                        <AddToBag
-                          inStock={!ecwidProduct?.inStock}
-                          classNames="block w-full mb-4 lg:mb-0 text-center text-white font-bold font-heading py-5 px-8 rounded-md uppercase transition duration-200 bg-webriq-darkblue hover:bg-webriq-blue cursor-pointer"
-                        >
-                          {products?.others?.[0]?.btnLabel}
-                        </AddToBag>
-                      </div>
-                    )}
+                    <div className="w-full lg:mb-4 xl:mb-0">
+                      <AddToBag
+                        inStock={!ecwidProduct?.inStock}
+                        classNames="block w-full mb-4 lg:mb-0 text-center text-white font-bold font-heading py-5 px-8 rounded-md uppercase transition duration-200 bg-webriq-darkblue hover:bg-webriq-blue cursor-pointer"
+                      >
+                        {products?.productInfo?.btnLabel ?? "ADD TO CART"}
+                      </AddToBag>
+                    </div>
                     <AddToWishlist
                       classNames="w-full flex-shrink-0 flex flex-wrap items-center justify-center py-5 px-8 rounded-md border hover:border-webriq-darkblue"
                       product={ecwidProduct}

@@ -45,56 +45,39 @@ function VariantC({ subtitle, title, description, features, images }) {
             </div>
             <div className="transform -rotate-12 flex items-center w-full lg:w-1/2">
               <div className="w-full">
-                {images?.[0]?.image?.asset?._ref && (
+                {images?.[0]?.image && (
                   <Image
+                    className="object-cover"
                     src={urlFor(images[0]?.image)}
-                    layout="responsive"
-                    width="500px"
-                    height="850px"
-                    objectFit="cover"
+                    sizes="100vw"
+                    width={500}
+                    height={850}
                     alt={images[0]?.alt ?? "appPromo-variantC-image1"}
-                    blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                    placeholder="blur"
                   />
                 )}
               </div>
               <div className="w-full">
-                {images?.[1]?.image?.asset?._ref && (
+                {images?.slice(1,3)?.map((images, index) => (
                   <Image
-                    src={urlFor(images[1]?.image)}
-                    layout="responsive"
-                    width="500px"
-                    height="850px"
-                    objectFit="cover"
-                    alt={images[1]?.alt ?? "appPromo-variantC-image2"}
-                    blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                    placeholder="blur"
+                    className="object-cover"
+                    src={urlFor(images?.image)}
+                    sizes="100vw"
+                    width={500}
+                    height={850}
+                    alt={images[1]?.alt ?? `appPromo-variantC-image${index}`}
+                    key={index}
                   />
-                )}
-                {images?.[2]?.image?.asset?._ref && (
-                  <Image
-                    src={urlFor(images[2]?.image)}
-                    layout="responsive"
-                    width="500px"
-                    height="850px"
-                    objectFit="cover"
-                    alt={images[2]?.alt ?? "appPromo-variantC-image3"}
-                    blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                    placeholder="blur"
-                  />
-                )}
+                ))}
               </div>
               <div className="w-full">
-                {images?.[3]?.image?.asset?._ref && (
+                {images?.[3]?.image && (
                   <Image
+                    className="object-cover"
                     src={urlFor(images[3]?.image)}
-                    layout="responsive"
-                    width="500px"
-                    height="850px"
-                    objectFit="cover"
+                    sizes="100vw"
+                    width={500}
+                    height={850}
                     alt={images[3]?.alt ?? "appPromo-variantC-image4"}
-                    blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                    placeholder="blur"
                   />
                 )}
               </div>
@@ -105,4 +88,5 @@ function VariantC({ subtitle, title, description, features, images }) {
     </section>
   );
 }
+
 export default React.memo(VariantC);

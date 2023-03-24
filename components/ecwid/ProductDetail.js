@@ -14,6 +14,8 @@ const ProductDetail = ({ product, children }) => {
   const options = ecwid?.options;
   const setOptions = ecwid?.setOptions;
   const setPrice = ecwid?.setPrice;
+  const setSelectedOpt = ecwid?.setSelectedOpt;
+
   // const cart = ecwid?.cart;
   const favorited = ecwid.favorited;
   const addtowishlist = ecwid.addtowishlist;
@@ -50,7 +52,7 @@ const ProductDetail = ({ product, children }) => {
         }
       });
 
-      setOptions(data);
+      // setOptions(data);
     }
   }, [product?.options, productId, setOptions]);
 
@@ -98,8 +100,18 @@ const ProductDetail = ({ product, children }) => {
         ...prev,
         [option?.name]: event?.target?.value,
       }));
+
+      setSelectedOpt((prev) => [
+        ...prev.filter((item) => item.name !== option.name),
+        { name: option.name, value: event?.target?.value },
+      ]);
     } else if (option?.type === "RADIO" || option?.type === "SIZE") {
       setOptions((prev) => ({ ...prev, [option?.name]: choice.text }));
+
+      setSelectedOpt((prev) => [
+        ...prev.filter((item) => item.name !== option.name),
+        { name: option.name, value: choice?.text },
+      ]);
     } else if (option?.type === "CHECKBOX") {
       if (event?.target?.checked) {
         setOptions((prev) => ({
@@ -109,6 +121,16 @@ const ProductDetail = ({ product, children }) => {
               ? [...prev[option?.name], choice?.text]
               : [choice?.text],
         }));
+
+        setSelectedOpt((prev) => [
+          ...prev.filter((item) => item.name !== option.name),
+          {
+            [option?.name]:
+              prev[option?.name] && prev[option?.name]?.length
+                ? [...prev[option?.name], choice?.text]
+                : [choice?.text],
+          },
+        ]);
       } else {
         setOptions((prev) => ({
           ...prev,
@@ -116,6 +138,15 @@ const ProductDetail = ({ product, children }) => {
             (el) => el !== choice?.text
           ),
         }));
+
+        setSelectedOpt((prev) => [
+          ...prev.filter((item) => item.name !== option.name),
+          {
+            [option?.name]: prev[option?.name]?.filter(
+              (el) => el !== choice?.text
+            ),
+          },
+        ]);
       }
     }
   };
@@ -129,7 +160,7 @@ const ProductDetail = ({ product, children }) => {
     <>
       <form onSubmit={handleSubmit}>
         {product?.options?.map((option, index) => {
-          const value = options[option?.name] || "";
+          const value = !_.isEmpty(options) ? options[option?.name] : "";
 
           if (option?.type === "TEXTFIELD") {
             return (
@@ -283,7 +314,7 @@ const ProductDetail = ({ product, children }) => {
           >
             Qty
           </label>
-          <div className="flex flex-row border border-gray-400 hover:border-gray-500 shadow rounded w-min">
+          <div className="flex flex-row border border-gray-400 hover:border-gray-500 shadow rounded w-full">
             <button
               className="py-2 px-4 text-gray-400 text-xl"
               type="button"
@@ -296,9 +327,9 @@ const ProductDetail = ({ product, children }) => {
               type="text"
               name="quantity"
               id="quantity"
-              className="block w-12 text-center bg-white focus:outline-none focus:shadow-outline"
+              className="w-full sm:w-[334px] inline-block text-center bg-white focus:outline-none focus:shadow-outline"
               required
-              style={{ maxWidth: "334px", width: "334px" }}
+              //style={{ maxWidth: "334px", width: "334px" }}
               value={quantity}
             />
             <button

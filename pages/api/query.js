@@ -94,17 +94,7 @@ const variants = `
       ...,
       products[]->
     },
-    products-> {
-      name, 
-      slug, 
-      price,
-      description,
-      ecwidProductId,
-      "others": sections[_type match "productInfo"]->.variants {
-        btnLabel,
-        socialLinks,
-      },
-    },
+    products->,
     allProducts[]-> {
       ...,
       products[]->

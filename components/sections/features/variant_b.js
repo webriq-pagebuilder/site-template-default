@@ -57,19 +57,16 @@ function VariantB({ caption, title, description, features, tags }) {
                     >
                       <div className="mb-8 py-6 pl-6 pr-4 shadow rounded bg-white">
                         <span className="mb-4 inline-block p-3 rounded-lg bg-webriq-lightblue">
-                          {feature?.mainImage?.image?.asset?._ref && (
+                          {feature?.mainImage?.image && (
                             <Image
+                              className="object-scale-down"
                               src={urlFor(feature?.mainImage?.image)}
-                              layout="intrinsic"
-                              width="40"
-                              height="40"
-                              objectFit="scale-down"
+                              width={40}
+                              height={40}
                               alt={
                                 feature?.mainImage?.alt ??
                                 `features-image-${index}`
                               }
-                              blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                              placeholder="blur"
                             />
                           )}
                         </span>
@@ -85,19 +82,16 @@ function VariantB({ caption, title, description, features, tags }) {
                     <div className="w-full md:w-1/2 lg:mt-12 px-4" key={index}>
                       <div className="mb-8 lg:mb-0 py-6 pl-6 pr-4 shadow rounded-lg bg-white">
                         <span className="mb-4 inline-block p-3 rounded bg-webriq-lightblue">
-                          {feature?.mainImage?.image?.asset?._ref && (
+                          {feature?.mainImage?.image && (
                             <Image
+                              className="object-scale-down"
                               src={urlFor(feature?.mainImage?.image)}
-                              layout="intrinsic"
-                              width="40"
-                              height="40"
-                              objectFit="scale-down"
+                              width={40}
+                              height={40}
                               alt={
                                 feature?.mainImage?.alt ??
                                 `features-image-${index}`
                               }
-                              blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                              placeholder="blur"
                             />
                           )}
                         </span>

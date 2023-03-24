@@ -13,6 +13,7 @@ import {
 import { loadStripe } from "@stripe/stripe-js";
 import axios from "axios";
 import router from "next/router";
+import { thankYouPageLink, ConditionalBtnOrLink } from "helper";
 
 function VariantD({
   caption,
@@ -214,18 +215,6 @@ function VariantD({
           if (response.statusText === "OK") {
             router.push("/success");
           }
-        }
-      }
-    };
-
-    const thankYouPageLink = (link) => {
-      if (!link) {
-        return "/thank-you";
-      } else {
-        if (link?.linkType === "linkInternal") {
-          return `/${link.internalLink}`;
-        } else {
-          return link.externalLink;
         }
       }
     };
@@ -535,53 +524,7 @@ function VariantD({
           {signInLink?.label && (
             <p className="text-xs text-gray-500">
               Already have an account?{" "}
-              {signInLink?.type === "linkInternal" ? (
-                <Link
-                  href={
-                    signInLink?.internalLink === "Home" ||
-                    signInLink?.internalLink === "home"
-                      ? "/"
-                      : `/${
-                          signInLink?.internalLink === undefined
-                            ? "page-not-found"
-                            : signInLink?.internalLink
-                        }`
-                  }
-                >
-                  <a
-                    aria-label={`Pricing ${
-                      signInLink?.label ?? "Sign In"
-                    } link`}
-                    className="text-webriq-darkblue hover:underline"
-                    target={signInLink?.linkTarget}
-                    rel={
-                      signInLink?.linkTarget === "_blank"
-                        ? "noopener noreferrer"
-                        : null
-                    }
-                  >
-                    &nbsp;{signInLink?.label}
-                  </a>
-                </Link>
-              ) : (
-                <a
-                  aria-label={`Pricing ${signInLink?.label ?? "Sign In"} link`}
-                  className="text-webriq-darkblue hover:underline"
-                  target={signInLink?.linkTarget}
-                  href={`${
-                    signInLink.externalLink === undefined
-                      ? "link-not-found"
-                      : signInLink.externalLink
-                  }`}
-                  rel={
-                    signInLink?.linkTarget === "_blank"
-                      ? "noopener noreferrer"
-                      : null
-                  }
-                >
-                  &nbsp;{signInLink?.label}
-                </a>
-              )}
+              <ConditionalBtnOrLink value={signInLink} style="text-webriq-darkblue hover:underline" />
             </p>
           )}
         </div>
@@ -642,14 +585,12 @@ function VariantD({
               {banner?.[banners]?.mainImage?.image?.asset?._ref && (
                 <div className="w-full md:max-w-xs mx-auto my-auto">
                   <Image
+                    className="object-cover"
                     src={urlFor(banner?.[banners]?.mainImage.image)}
-                    layout="responsive"
-                    width="320px"
-                    height="296px"
-                    objectFit="cover"
+                    sizes="100vw"
+                    width={320}
+                    height={296}
                     alt={`pricing-image-${banners}`}
-                    blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                    placeholder="blur"
                   />
                 </div>
               )}

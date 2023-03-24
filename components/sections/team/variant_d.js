@@ -21,25 +21,23 @@ function VariantD({ caption, title, team }) {
             {team &&
               team.map((member, index) => (
                 <div className="mb-6 w-full lg:w-1/2 px-4" key={index}>
-                  <div className="flex flex-wrap items-center bg-white rounded shadow overflow-hidden">
-                    {member.mainImage?.image?.asset?._ref && (
-                      <div className="w-1/3">
+                  <div className="sm:flex lg:block xl:flex sm:flex-wrap items-center bg-white rounded shadow overflow-hidden">
+                    {member.mainImage?.image && (
+                      <div >
                         <Image
+                          className="w-full sm:w-[179px] lg:w-full xl:w-[179px] h-[320px] object-cover"
+                          sizes="100vw"
                           src={urlFor(member?.mainImage?.image)}
-                          layout="responsive"
-                          width="179px"
-                          height="320px"
-                          objectFit="cover"
+                          width={179}
+                          height={320}
                           alt={
                             member?.mainImage?.alt ??
                             `team-member-${member?.name}-profile-image`
                           }
-                          blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                          placeholder="blur"
                         />
                       </div>
                     )}
-                    <div className="w-2/3 lg:pl-6 p-4">
+                    <div className="sm:w-2/3 lg:w-full xl:w-2/3 lg:pl-6 p-4">
                       <p className="mb-2 text-2xl font-bold font-heading">
                         {member?.name}
                       </p>

@@ -99,40 +99,38 @@ function VariantB({ products }) {
                         key={index}
                       >
                         <div className="p-6">
-                          <Link href={`/products/${product?.slug?.current}`}>
-                            <a className="block px-6 mt-6 mb-2 text-center">
-                              {product?.productInfo?.images ? (
-                                <img
-                                  className="mb-5 mx-auto h-56 w-full object-contain hover:scale-110 transition-all duration-700"
-                                  src={urlFor(
-                                    product?.productInfo?.images?.[0]?.image
-                                  )}
-                                  alt={
-                                    product?.productInfo?.images?.[0]?.alt ??
-                                    `product-image-${index + 1}`
-                                  }
-                                />
-                              ) : (
-                                <img
-                                  className="mb-5 mx-auto h-56 w-full object-contain hover:scale-110 transition-all duration-700"
-                                  src="https://cdn.sanity.io/images/9itgab5x/production/9523d40461371b7b4948456c57bb663bd8998c4a-500x362.png"
-                                  alt={
-                                    product?.productInfo?.images?.[0]?.alt ??
-                                    `product-image-${index + 1}`
-                                  }
-                                />
-                              )}
-                              {product?.name && (
-                                <h2 className="mb-2 text-xl font-heading">
-                                  {product?.name}
-                                </h2>
-                              )}
-                              {product?.price && (
-                                <p className="text-lg font-bold font-heading text-webriq-darkblue">
-                                  ${product?.price}
-                                </p>
-                              )}
-                            </a>
+                          <Link className="block px-6 mt-6 mb-2 text-center" href={`/products/${product?.slug?.current}`}>
+                            {product?.productInfo?.images ? (
+                              <img
+                                className="mb-5 mx-auto h-56 w-full object-contain hover:scale-110 transition-all duration-700"
+                                src={urlFor(
+                                  product?.productInfo?.images?.[0]?.image
+                                )}
+                                alt={
+                                  product?.productInfo?.images?.[0]?.alt ??
+                                  `product-image-${index + 1}`
+                                }
+                              />
+                            ) : (
+                              <img
+                                className="mb-5 mx-auto h-56 w-full object-contain hover:scale-110 transition-all duration-700"
+                                src="https://cdn.sanity.io/images/9itgab5x/production/9523d40461371b7b4948456c57bb663bd8998c4a-500x362.png"
+                                alt={
+                                  product?.productInfo?.images?.[0]?.alt ??
+                                  `product-image-${index + 1}`
+                                }
+                              />
+                            )}
+                            {product?.name && (
+                              <h2 className="mb-2 text-xl font-heading">
+                                {product?.name}
+                              </h2>
+                            )}
+                            {product?.price && (
+                              <p className="text-lg font-bold font-heading text-webriq-darkblue">
+                                ${product?.price}
+                              </p>
+                            )}
                           </Link>
                         </div>
                       </div>

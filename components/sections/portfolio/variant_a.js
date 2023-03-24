@@ -1,7 +1,8 @@
 import React from "react";
 import Image from "next/image";
-import Link from "next/link";
 import { urlFor } from "lib/sanity";
+import { ConditionalBtnOrLink } from "helper";
+
 
 function VariantA({ caption, title, portfoliosWithCategory }) {
   let portfolioLength = 8; //set initial number of portfolios to display for this variant
@@ -55,145 +56,30 @@ function VariantA({ caption, title, portfoliosWithCategory }) {
                     className="w-full sm:w-1/2 md:w-1/2 lg:w-1/4 xl:w-1/4 mb-8 px-4"
                     key={index}
                   >
-                    {content?.mainImage?.image?.asset?._ref && (
-                      <div className="relative mx-auto rounded-lg overflow-hidden">
+                    <div className="relative w-[352px] h-[256px] mx-auto rounded-lg overflow-hidden">
+                      {content?.mainImage?.image && (
                         <Image
+                          className="w-full h-full object-cover"
                           src={urlFor(content?.mainImage?.image)}
-                          layout="responsive"
-                          width="352px"
-                          height="256px"
-                          objectFit="cover"
+                          sizes="100vw"
+                          width={352}
+                          height={256}
                           alt={
                             content?.mainImage?.alt ?? `portfolio-image${index}`
                           }
-                          blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                          placeholder="blur"
                         />
-                        <div className="opacity-0 hover:opacity-75 duration-300 absolute inset-0 z-10 bg-gray-900 flex justify-center items-center rounded-lg">
-                          {content?.primaryButton?.label &&
-                            (content?.primaryButton?.type === "linkInternal" ? (
-                              <Link
-                                href={
-                                  content?.primaryButton?.internalLink ===
-                                    "Home" ||
-                                  content?.primaryButton?.internalLink ===
-                                    "home"
-                                    ? "/"
-                                    : `/${
-                                        content?.primaryButton?.internalLink ===
-                                        undefined
-                                          ? "page-not-found"
-                                          : content?.primaryButton?.internalLink
-                                      }`
-                                }
-                              >
-                                <a
-                                  aria-label={`Click here to ${content?.primaryButton?.label}`}
-                                  className="inline-block py-2 px-4 border-2 border-gray-400 hover:border-white hover:opacity-100 text-gray-50 hover:bg-white hover:text-gray-900 transition duration-200 rounded-l-xl rounded-t-xl font-bold leading-loose"
-                                  target={content?.primaryButton?.linkTarget}
-                                  rel={
-                                    content?.primaryButton?.linkTarget ===
-                                    "_blank"
-                                      ? "noopener noreferrer"
-                                      : null
-                                  }
-                                >
-                                  {content?.primaryButton?.label ??
-                                    "View Project"}
-                                </a>
-                              </Link>
-                            ) : (
-                              <a
-                                aria-label={`Click here to ${content?.primaryButton?.label}`}
-                                className="inline-block py-2 px-4 border-2 border-gray-400 hover:border-white hover:opacity-100 text-gray-50 hover:bg-white hover:text-gray-900 transition duration-200 rounded-l-xl rounded-t-xl font-bold leading-loose"
-                                target={content?.primaryButton?.linkTarget}
-                                href={`${
-                                  content?.primaryButton?.externalLink ===
-                                  undefined
-                                    ? "link-not-found"
-                                    : content?.primaryButton?.externalLink
-                                }`}
-                                rel={
-                                  content?.primaryButton?.linkTarget ===
-                                  "_blank"
-                                    ? "noopener noreferrer"
-                                    : null
-                                }
-                              >
-                                {content?.primaryButton?.label ??
-                                  "View Project"}
-                              </a>
-                            ))}
-                        </div>
+                      )}
+                      <div className="opacity-0 hover:opacity-75 duration-300 absolute inset-0 z-10 bg-gray-900 flex justify-center items-center rounded-lg">
+                        {content?.primaryButton?.label && <ConditionalBtnOrLink value={content?.primaryButton} style="inline-block py-2 px-4 border-2 border-gray-400 hover:border-white hover:opacity-100 text-gray-50 hover:bg-white hover:text-gray-900 transition duration-200 rounded-l-xl rounded-t-xl font-bold leading-loose" />}
                       </div>
-                    )}
+                    </div>
                   </div>
                 ))}
             </div>
           )}
           {portfoliosPerCategory?.[0]?.primaryButton?.label && (
             <div className="text-center">
-              {portfoliosPerCategory?.[0]?.primaryButton?.type ===
-              "linkInternal" ? (
-                <Link
-                  href={
-                    portfoliosPerCategory?.[0]?.primaryButton?.internalLink ===
-                      "Home" ||
-                    portfoliosPerCategory?.[0]?.primaryButton?.internalLink ===
-                      "home"
-                      ? "/"
-                      : `/${
-                          portfoliosPerCategory?.[0]?.primaryButton
-                            ?.internalLink === undefined
-                            ? "page-not-found"
-                            : portfoliosPerCategory?.[0]?.primaryButton
-                                ?.internalLink
-                        }`
-                  }
-                >
-                  <a
-                    aria-label={`Click here to ${
-                      portfoliosPerCategory?.[0]?.primaryButton?.label ??
-                      "View More Projects"
-                    }`}
-                    className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose outline-none transition duration-200"
-                    target={
-                      portfoliosPerCategory?.[0]?.primaryButton?.linkTarget
-                    }
-                    rel={
-                      portfoliosPerCategory?.[0]?.primaryButton?.linkTarget ===
-                      "_blank"
-                        ? "noopener noreferrer"
-                        : null
-                    }
-                  >
-                    {portfoliosPerCategory?.[0]?.primaryButton?.label}
-                  </a>
-                </Link>
-              ) : (
-                <a
-                  aria-label={`Click here to ${
-                    portfoliosPerCategory?.[0]?.primaryButton?.label ??
-                    "View More Projects"
-                  }`}
-                  className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose outline-none transition duration-200"
-                  target={portfoliosPerCategory?.[0]?.primaryButton?.linkTarget}
-                  href={`${
-                    portfoliosPerCategory?.[0]?.primaryButton?.externalLink ===
-                    undefined
-                      ? "link-not-found"
-                      : portfoliosPerCategory?.[0]?.primaryButton?.externalLink
-                  }`}
-                  rel={
-                    portfoliosPerCategory?.[0]?.primaryButton?.linkTarget ===
-                    "_blank"
-                      ? "noopener noreferrer"
-                      : null
-                  }
-                >
-                  {portfoliosPerCategory?.[0]?.primaryButton?.label}
-                </a>
-              )}
+              <ConditionalBtnOrLink value={portfoliosPerCategory?.[0]?.primaryButton} style="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose outline-none transition duration-200" />
             </div>
           )}
         </div>

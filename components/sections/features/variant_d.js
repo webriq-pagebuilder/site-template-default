@@ -20,20 +20,17 @@ function VariantD({ caption, title, features }) {
           <div className="flex flex-wrap -mx-4 justify-center">
             {features.map((feature, index) => (
               <div className="mt-8 lg:mb-0 w-full lg:w-1/3 px-4" key={index}>
-                <div className="py-12 px-6 bg-white rounded shadow text-center">
-                  <span className="mb-6 inline-block p-2 rounded-lg bg-webriq-lightblue">
+                <div className="py-12 px-6 bg-white h-full rounded shadow text-center">
+                  <span className="mb-6 inline-block p-3 md:p-5 rounded-lg bg-webriq-lightblue">
                     {feature?.mainImage?.image?.asset?._ref && (
                       <Image
+                        className="object-scale-down"
                         src={urlFor(feature?.mainImage?.image)}
-                        layout="intrinsic"
-                        width="40"
-                        height="40"
-                        objectFit="scale-down"
+                        width={40}
+                        height={40}
                         alt={
                           feature?.mainImage?.alt ?? `features-image-${index}`
                         }
-                        blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                        placeholder="blur"
                       />
                     )}
                   </span>

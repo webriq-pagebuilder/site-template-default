@@ -1,7 +1,7 @@
 import { urlFor } from "lib/sanity";
 import Link from "next/link";
 import React from "react";
-import { logoLink } from "helper";
+import { logoLink, ConditionalBtnOrLink} from "helper";
 
 function VariantA({ logo, title, text, button }) {
   return (
@@ -19,21 +19,20 @@ function VariantA({ logo, title, text, button }) {
         <div className="container mx-auto px-4">
           <div className="max-w-xl mx-auto text-center">
             {logo?.image && (
-              <Link href={logoLink()}>
-                <a
-                  aria-label={
-                    logoLink() === "/"
-                      ? "Go to home page"
-                      : `Go to ${logoLink()}`
-                  }
-                  className="mb-6 inline-block text-3xl font-bold leading-none"
-                >
-                  <img
-                    className="h-14"
-                    src={urlFor(logo?.image)}
-                    alt={logo?.alt ?? "callToAction-logo"}
-                  />
-                </a>
+              <Link 
+                aria-label={
+                  logoLink() === "/"
+                    ? "Go to home page"
+                    : `Go to ${logoLink()}`
+                }
+                className="mb-6 inline-block text-3xl font-bold leading-none"
+                href={logoLink()}
+              >
+                <img
+                  className="h-14"
+                  src={urlFor(logo?.image)}
+                  alt={logo?.alt ?? "callToAction-logo"}
+                />
               </Link>
             )}
             <h1 className="mb-4 text-4xl lg:text-5xl font-bold font-heading">
@@ -42,64 +41,9 @@ function VariantA({ logo, title, text, button }) {
             <p className="max-w-md mx-auto mb-6 text-gray-700 leading-loose">
               {text}
             </p>
-            {button?.label &&
-              (button?.type === "linkInternal" ? (
-                <Link
-                  href={
-                    button?.internalLink === "Home" ||
-                    button?.internalLink === "home"
-                      ? "/"
-                      : `/${
-                          button?.internalLink === undefined
-                            ? "page-not-found"
-                            : button?.internalLink
-                        }`
-                  }
-                >
-                  <a
-                    aria-label={`Call to action ${
-                      button?.label ?? "primary"
-                    } button which directs to ${
-                      button?.internalLink === undefined
-                        ? "page-not-found"
-                        : button?.internalLink
-                    }`}
-                    className="inline-block py-2 px-6 bg-webriq-darkblue hover:bg-webriq-blue text-white font-bold leading-loose rounded-l-xl rounded-t-xl transition duration-200"
-                    target={button?.linkTarget}
-                    rel={
-                      button?.linkTarget === "_blank"
-                        ? "noopener noreferrer"
-                        : null
-                    }
-                  >
-                    {button?.label}
-                  </a>
-                </Link>
-              ) : (
-                <a
-                  aria-label={`Call to action ${
-                    button?.label ?? "primary"
-                  } button which directs to ${
-                    button?.externalLink === undefined
-                      ? "link-not-found"
-                      : button?.externalLink
-                  }`}
-                  className="inline-block py-2 px-6 bg-webriq-darkblue hover:bg-webriq-blue text-white font-bold leading-loose rounded-l-xl rounded-t-xl transition duration-200"
-                  target={button?.linkTarget}
-                  href={`${
-                    button?.externalLink === undefined
-                      ? "link-not-found"
-                      : button?.externalLink
-                  }`}
-                  rel={
-                    button?.linkTarget === "_blank"
-                      ? "noopener noreferrer"
-                      : null
-                  }
-                >
-                  {button?.label}
-                </a>
-              ))}
+            {button?.label && (
+              <ConditionalBtnOrLink value={button} style="inline-block py-2 px-6 bg-webriq-darkblue hover:bg-webriq-blue text-white font-bold leading-loose rounded-l-xl rounded-t-xl transition duration-200" />
+            )}
           </div>
         </div>
       </div>

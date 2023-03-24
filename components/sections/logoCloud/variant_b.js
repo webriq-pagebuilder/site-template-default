@@ -19,21 +19,18 @@ function VariantB({ title, text, images }) {
             {images &&
               images?.map((image, index) => (
                 <div
-                  className="mb-4 w-1/2 md:w-1/3 lg:w-1/3 xl:w-1/3 2xl:w-1/3 px-2"
+                  className="mb-4 w-full sm:w-1/2 md:w-1/3 lg:w-1/3 xl:w-1/3 2xl:w-1/3 px-2 lg:mr-10 xl:mr-0"
                   key={index}
                 >
                   {image?.image?.asset?._ref && (
                     <div>
-                      <div className="bg-gray-50 mx-auto rounded">
+                      <div className="flex w-[192px] h-[192px] bg-gray-50 mx-auto rounded items-center justify-center">
                         <Image
+                          className="object-scale-down"
                           src={urlFor(image?.image)}
-                          layout="responsive"
-                          width="192px"
-                          height="192px"
-                          objectFit="scale-down"
+                          width={192}
+                          height={192}
                           alt={image?.alt ?? `logoCloud-image${index}`}
-                          blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                          placeholder="blur"
                         />
                       </div>
                     </div>

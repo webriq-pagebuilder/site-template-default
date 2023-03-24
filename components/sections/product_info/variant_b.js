@@ -20,6 +20,9 @@ function VariantB({
   ecwidProduct,
   getPriceDisplay,
 }) {
+  // get Ecwid product details
+  const defaultProduct = ecwidProduct ? ecwidProduct : product;
+
   // block styling as props to `serializers` of the PortableText component
   const blockStyle = {
     block: {
@@ -80,7 +83,7 @@ function VariantB({
     },
     listItem: {
       bullet: ({ children }) => (
-        <li className="mb-6 leading-loose text-gray-900">{props.children}</li>
+        <li className="mb-6 leading-loose text-gray-900">{children}</li>
       ),
     },
     marks: {
@@ -101,22 +104,8 @@ function VariantB({
     },
   };
 
-  const [activeImage, setActiveImage] = useState(0);
   const [activeTab, setActiveTab] = useState(null);
-
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
-
-  // view previous and next images
-  const arrowRightClick = () => {
-    activeImage !== images.length - 1 // Check index length
-      ? setActiveImage(activeImage + 1)
-      : setActiveImage((activeImage = 0));
-  };
-  const arrowLeftClick = () => {
-    activeImage !== 0 // Check index length
-      ? setActiveImage(activeImage - 1)
-      : setActiveImage((activeImage = images.length - 1));
-  };
 
   return (
     <section className="py-20">
@@ -181,12 +170,10 @@ function VariantB({
                       <div className="h-full">
                         {item?.image && (
                           <Image
-                            layout="fill"
-                            // width={126}
-                            // height={126}
-                            objectFit="cover"
+                            className="object-cover"
                             src={urlFor(item?.image)}
                             alt={item?.alt}
+                            fill
                           />
                         )}
                       </div>
@@ -212,10 +199,10 @@ function VariantB({
                     <SwiperSlide key={index}>
                       <div className="w-3/4 mx-auto xl:mx-0 xl:w-full h-full">
                         <Image
-                          layout="responsive"
-                          width={450}
-                          height={464}
-                          objectFit="cover"
+                          className="object-cover"
+                          sizes="100vw"
+                          width={593}
+                          height={611}
                           src={urlFor(item?.image)}
                           alt={item?.alt}
                         />
@@ -259,73 +246,6 @@ function VariantB({
                   </svg>
                 </button>
               </div>
-
-              {/* <div className="order-0 lg:order-1 w-full lg:w-3/4 lg:h-[564px] px-1">
-                        <div className="relative"> */}
-              {/* <button
-                              className="absolute z-50 top-1/2 left-0 ml-5 hover:bg-gray-50 hover:opacity-50 rounded-r-sm rounded-l-md px-2 py-5 transition duration-200"
-                              onClick={arrowLeftClick}
-                              type="button"
-                           >
-                              <svg
-                                 width={36}
-                                 height={36}
-                                 viewBox="0 0 10 18"
-                                 fill="none"
-                                 xmlns="http://www.w3.org/2000/svg"
-                              >
-                                 <path
-                                    d="M9 16.0185C9.268 16.2905 9.268 16.7275 9 16.9975C8.732 17.2675 8.299 17.2685 8.031 16.9975L0.201 9.0895C-0.067 8.8195 -0.067 8.3825 0.201 8.1105L8.031 0.2025C8.299 -0.0675 8.732 -0.0675 9 0.2025C9.268 0.4735 9.268 0.9115 9 1.1815L1.859 8.6005L9 16.0185Z"
-                                    fill="#0045d8"
-                                 />
-                              </svg>
-                           </button> */}
-              {/* <Swiper
-                              navigation={{
-                                 prevEl: "#piprev",
-                                 nextEl: "#pinext",
-                              }}
-                              modules={[Thumbs, Navigation, Pagination, A11y]}
-                              spaceBetween={20}
-                              slidesPerView={1}
-                              speed={500}
-                              watchSlidesProgress={true}
-                              thumbs={{ swiper: thumbsSwiper }}
-                           >
-                              <div className="w-3/4 mx-auto xl:mx-0 xl:w-full h-full">
-                                 {images?.map((item, index) => (
-                                    <Image
-                                       key={index}
-                                       layout="responsive"
-                                       width={550}
-                                       height={564}
-                                       objectFit="cover"
-                                       src={urlFor(item?.image)}
-                                       alt={item?.alt}
-                                    />
-                                 ))}
-                              </div>
-                           </Swiper> */}
-              {/* <button
-                              className="absolute z-50 top-1/2 right-0 mr-5 hover:bg-gray-50 hover:opacity-50 rounded-l-sm rounded-r-md px-2 py-5 transition duration-200"
-                              onClick={arrowRightClick}
-                              type="button"
-                           >
-                              <svg
-                                 width={36}
-                                 height={36}
-                                 viewBox="0 0 10 18"
-                                 fill="none"
-                                 xmlns="http://www.w3.org/2000/svg"
-                              >
-                                 <path
-                                    d="M0.19922 1.1817C-0.0687795 0.909696 -0.0687794 0.472695 0.19922 0.202695C0.46722 -0.0673054 0.90022 -0.0683048 1.16822 0.202695L8.99822 8.11069C9.26622 8.3807 9.26622 8.81769 8.99822 9.08969L1.16822 16.9977C0.900219 17.2677 0.467218 17.2677 0.199219 16.9977C-0.0687809 16.7267 -0.0687808 16.2887 0.199219 16.0187L7.34022 8.5997L0.19922 1.1817Z"
-                                    fill="#0045d8"
-                                 />
-                              </svg>
-                           </button> */}
-              {/* </div>
-                     </div> */}
             </div>
             <div className="w-full lg:w-3/4 mt-12 ml-auto">
               {socialLinks && (
@@ -427,10 +347,10 @@ function VariantB({
                 </div>
 
                 <p className="inline-block mb-8 text-2xl font-bold font-heading text-webriq-darkblue">
-                  {/* TO DO: ADD PRICING HERE */}
+                  {/* PRICING HERE */}
                   {ecwidProduct
-                    ? ecwidProduct?.defaultDisplayedPriceFormatted
-                    : getPriceDisplay()}
+                    ? getPriceDisplay()
+                    : ecwidProduct?.defaultDisplayedPriceFormatted}
                 </p>
 
                 <Description data={product} />
@@ -442,45 +362,47 @@ function VariantB({
                 )} */}
               </div>
 
-              <ProductDetail product={ecwidProduct}>
-                <div className="flex flex-col sm:flex-row items-start mt-8 gap-y-4 sm:gap-y-0 sm:gap-x-4">
-                  {btnLabel && ecwidProduct?.inStock && (
-                    <div className="w-full lg:mb-4 xl:mb-0">
-                      <AddToBag
-                        inStock={!ecwidProduct?.inStock}
-                        classNames="block w-full mb-4 lg:mb-0 text-center text-white font-bold font-heading py-5 px-8 rounded-md uppercase transition duration-200 bg-webriq-darkblue hover:bg-webriq-blue cursor-pointer"
-                      >
-                        {btnLabel}
-                      </AddToBag>
-                    </div>
-                  )}
-                  <AddToWishlist
-                    classNames="w-full flex-shrink-0 flex flex-wrap items-center justify-center py-5 px-8 rounded-md border hover:border-webriq-darkblue"
-                    product={ecwidProduct}
-                    containerClass="w-full"
-                  >
-                    <svg
-                      className="-mt-1 mr-2"
-                      width={27}
-                      height={27}
-                      viewBox="0 0 27 27"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
+              {product?.ecwidProductId && ecwidProduct && (
+                <ProductDetail product={defaultProduct}>
+                  <div className="flex flex-col sm:flex-row items-start mt-8 gap-y-4 sm:gap-y-0 sm:gap-x-4">
+                    {btnLabel && ecwidProduct?.inStock && (
+                      <div className="w-full lg:mb-4 xl:mb-0">
+                        <AddToBag
+                          inStock={!ecwidProduct?.inStock}
+                          classNames="block w-full mb-4 lg:mb-0 text-center text-white font-bold font-heading py-5 px-8 rounded-md uppercase transition duration-200 bg-webriq-darkblue hover:bg-webriq-blue cursor-pointer"
+                        >
+                          {btnLabel}
+                        </AddToBag>
+                      </div>
+                    )}
+                    <AddToWishlist
+                      classNames="w-full flex-shrink-0 flex flex-wrap items-center justify-center py-5 px-8 rounded-md border hover:border-webriq-darkblue"
+                      product={defaultProduct}
+                      containerClass="w-full"
                     >
-                      <path
-                        d="M13.4993 26.2061L4.70067 16.9253C3.9281 16.1443 3.41815 15.1374 3.24307 14.0471C3.06798 12.9568 3.23664 11.8385 3.72514 10.8505V10.8505C4.09415 10.1046 4.63318 9.45803 5.29779 8.96406C5.96241 8.47008 6.73359 8.14284 7.54782 8.00931C8.36204 7.87578 9.19599 7.93978 9.98095 8.19603C10.7659 8.45228 11.4794 8.89345 12.0627 9.48319L13.4993 10.9358L14.9359 9.48319C15.5192 8.89345 16.2327 8.45228 17.0177 8.19603C17.8026 7.93978 18.6366 7.87578 19.4508 8.00931C20.265 8.14284 21.0362 8.47008 21.7008 8.96406C22.3654 9.45803 22.9045 10.1046 23.2735 10.8505V10.8505C23.762 11.8385 23.9306 12.9568 23.7556 14.0471C23.5805 15.1374 23.0705 16.1443 22.298 16.9253L13.4993 26.2061Z"
-                        stroke="black"
-                        strokeWidth="1.5"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-                    <span className="font-bold font-heading uppercase">
-                      Add to wishlist
-                    </span>
-                  </AddToWishlist>
-                </div>
-              </ProductDetail>
+                      <svg
+                        className="-mt-1 mr-2"
+                        width={27}
+                        height={27}
+                        viewBox="0 0 27 27"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M13.4993 26.2061L4.70067 16.9253C3.9281 16.1443 3.41815 15.1374 3.24307 14.0471C3.06798 12.9568 3.23664 11.8385 3.72514 10.8505V10.8505C4.09415 10.1046 4.63318 9.45803 5.29779 8.96406C5.96241 8.47008 6.73359 8.14284 7.54782 8.00931C8.36204 7.87578 9.19599 7.93978 9.98095 8.19603C10.7659 8.45228 11.4794 8.89345 12.0627 9.48319L13.4993 10.9358L14.9359 9.48319C15.5192 8.89345 16.2327 8.45228 17.0177 8.19603C17.8026 7.93978 18.6366 7.87578 19.4508 8.00931C20.265 8.14284 21.0362 8.47008 21.7008 8.96406C22.3654 9.45803 22.9045 10.1046 23.2735 10.8505V10.8505C23.762 11.8385 23.9306 12.9568 23.7556 14.0471C23.5805 15.1374 23.0705 16.1443 22.298 16.9253L13.4993 26.2061Z"
+                          stroke="black"
+                          strokeWidth="1.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                      <span className="font-bold font-heading uppercase">
+                        Add to wishlist
+                      </span>
+                    </AddToWishlist>
+                  </div>
+                </ProductDetail>
+              )}
 
               {productDetails && (
                 <div className="mt-10">
@@ -533,70 +455,71 @@ function VariantB({
                           </svg>
                         </button>
                       </div>
-                      <div
-                        className={`${
-                          activeTab === index ? "h-auto lg:h-52" : "hidden"
-                        }`}
-                      >
-                        {productDetails?.[activeTab]?.contentType !==
-                        "textOnly" ? (
-                          <div className="flex flex-wrap gap-x-5">
-                            {productDetails?.[activeTab]?.media &&
-                            productDetails?.[activeTab]?.media ===
-                              "imageArray" ? (
-                              <Fragment>
-                                {productDetails?.[activeTab]?.images?.map(
-                                  (item, index) => (
-                                    <div
-                                      className="mt-5 w-1/4 h-full"
-                                      key={index}
-                                    >
-                                      {item?.image && (
-                                        <Image
-                                          layout="responsive"
-                                          width={128}
-                                          height={128}
-                                          objectFit="cover"
-                                          src={urlFor(item?.image)}
-                                          alt={item?.alt}
-                                        />
-                                      )}
-                                    </div>
-                                  )
-                                )}
-                              </Fragment>
-                            ) : (
-                              <div className="mt-5 aspect-video">
-                                <iframe
-                                  width={635}
-                                  height={357}
-                                  loading="lazy"
-                                  src={productDetails?.[activeTab]?.url}
-                                  frameBorder={0}
-                                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                  allowFullScreen
+                      {productDetails?.[activeTab]?.contentType && (
+                        <div
+                          className={`${
+                            activeTab === index ? "h-auto lg:h-52" : "hidden"
+                          }`}
+                        >
+                          {productDetails?.[activeTab]?.contentType !==
+                          "textOnly" ? (
+                            <div className="flex flex-wrap gap-x-5">
+                              {productDetails?.[activeTab]?.media &&
+                              productDetails?.[activeTab]?.media ===
+                                "imageArray" ? (
+                                <Fragment>
+                                  {productDetails?.[activeTab]?.images?.map(
+                                    (item, index) => (
+                                      <div
+                                        className="mt-5 w-1/4 h-full"
+                                        key={index}
+                                      >
+                                        {item?.image && (
+                                          <Image
+                                            className="object-cover"
+                                            sizes="100vw"
+                                            width={128}
+                                            height={128}
+                                            src={urlFor(item?.image)}
+                                            alt={item?.alt}
+                                          />
+                                        )}
+                                      </div>
+                                    )
+                                  )}
+                                </Fragment>
+                              ) : (
+                                <div className="mt-5 aspect-video">
+                                  <iframe
+                                    width={635}
+                                    height={357}
+                                    loading="lazy"
+                                    src={productDetails?.[activeTab]?.url}
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                    allowFullScreen
+                                  />
+                                </div>
+                              )}
+                              {productDetails?.[activeTab]?.blockContent && (
+                                <PortableText
+                                  value={
+                                    productDetails?.[activeTab]?.blockContent
+                                  }
+                                  components={blockStyle}
                                 />
-                              </div>
-                            )}
-                            {productDetails?.[activeTab]?.blockContent && (
+                              )}
+                            </div>
+                          ) : (
+                            productDetails?.[activeTab]?.blockContent && (
                               <PortableText
-                                value={
-                                  productDetails?.[activeTab]?.blockContent
-                                }
+                                value={productDetails?.[activeTab]?.blockContent}
                                 components={blockStyle}
                               />
-                            )}
-                          </div>
-                        ) : (
-                          productDetails?.[activeTab]?.blockContent && (
-                            <PortableText
-                              value={productDetails?.[activeTab]?.blockContent}
-                              components={blockStyle}
-                            />
-                          )
-                        )}
-                        {/* @TO DO: ADD VALUE SOURCE FOR CUSTOMER REVIEWS HERE */}
-                      </div>
+                            )
+                          )}
+                          {/* @TO DO: ADD VALUE SOURCE FOR CUSTOMER REVIEWS HERE */}
+                        </div>
+                      )}
                     </Fragment>
                   ))}
                 </div>

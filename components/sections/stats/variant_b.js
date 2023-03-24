@@ -6,7 +6,7 @@ function VariantB({ stats }) {
     <section className="py-20">
       <div className="container mx-auto px-4">
         {stats && (
-          <div className="flex flex-wrap items-center justify-left -mx-4">
+          <div className="sm:flex sm:flex-wrap items-center sm:justify-left mx-10 sm:-mx-4">
             {stats?.map((stat, index) => (
               <div
                 className="my-8 flex items-center lg:justify-center w-full md:w-1/2 lg:w-1/4 px-4"

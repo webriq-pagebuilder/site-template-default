@@ -54,7 +54,7 @@ function Document({ data }) {
   return (
     <>
       <Head>
-        <meta name="viewport" content="width=260 initial-scale=1" />
+        <meta name="viewport" content="width=360 initial-scale=1" />
         <title>{seo?.seoTitle ?? title ?? "WebriQ Studio"}</title>
       </Head>
 
@@ -97,7 +97,7 @@ function DocumentWithPreview({ data, slug, token = null }) {
   return (
     <>
       <Head>
-        <meta name="viewport" content="width=260 initial-scale=1" />
+        <meta name="viewport" content="width=360 initial-scale=1" />
         <title>{seo?.seoTitle ?? title ?? "WebriQ Studio"}</title>
       </Head>
 

@@ -156,22 +156,18 @@ function VariantD({ testimonials }) {
                       )}
                     </div>
                     <div className="mb-6 mx-auto w-32 h-24 rounded-full object-contain">
-                      {testimonials[testimony]?.mainImage?.image?.asset
-                        ?._ref && (
+                      {testimonials[testimony]?.mainImage?.image && (
                         <Image
+                          className="w-[128px] h-[96px] object-scale-down"
                           src={urlFor(
                             testimonials[testimony]?.mainImage?.image
                           )}
-                          layout="fixed"
-                          width="128px"
-                          height="96px"
-                          objectFit="scale-down"
+                          width={128}
+                          height={96}
                           alt={
                             testimonials[testimony]?.mainImage?.alt ??
                             `testimonial-source-profile-image${testimony}`
                           }
-                          blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                          placeholder="blur"
                         />
                       )}
                     </div>

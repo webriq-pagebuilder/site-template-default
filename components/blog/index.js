@@ -137,7 +137,7 @@ function BlogSections({ data }) {
               {categories &&
                 categories?.map((tag, index) => (
                   <span
-                    className="uppercase text-base lg:text-xl text-webriq-blue"
+                    className="mix-blend-difference uppercase text-base lg:text-xl text-webriq-blue"
                     key={index}
                   >
                     {tag?.title}
@@ -150,7 +150,7 @@ function BlogSections({ data }) {
               )}
               {publishedAt && (
                 <span
-                  className={`text-base lg:text-xl text-white ${
+                  className={`mix-blend-difference text-base lg:text-xl text-white ${
                     categories ?? "ml-2"
                   }`}
                 >
@@ -159,7 +159,7 @@ function BlogSections({ data }) {
               )}
               <div className="mt-2">
                 {title && (
-                  <h2 className="mb-6 text-4xl lg:text-5xl text-white font-bold">
+                  <h2 className="mix-blend-difference mb-6 text-4xl lg:text-5xl text-white font-bold">
                     {title}
                   </h2>
                 )}
@@ -186,13 +186,13 @@ function BlogSections({ data }) {
                           )}
                         </div>
                         <div className="text-left">
-                          <h3 className="text-webriq-blue font-bold">
+                          <h3 className="mix-blend-difference text-webriq-blue font-bold">
                             {author?.name}
                           </h3>
                           {index + 1 !== length ? (
                             <span>&nbsp;and&nbsp;</span>
                           ) : null}
-                          <span className="text-xs text-webriq-lightblue italic">
+                          <span className="mix-blend-difference text-xs text-webriq-lightblue italic">
                             {authors?.length > 1 ? "Authors" : "Author"}
                           </span>
                         </div>

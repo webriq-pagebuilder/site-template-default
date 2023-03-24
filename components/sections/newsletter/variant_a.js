@@ -13,21 +13,20 @@ function VariantA({ logo, title, description, form }) {
         <div className="container mx-auto px-4">
           <div className="max-w-xl mx-auto text-center">
             {logo?.image && (
-              <Link href={logoLink()}>
-                <a
-                  aria-label={
-                    logoLink() === "/"
-                      ? "Go to home page"
-                      : `Go to ${logoLink()}`
-                  }
-                  className="mb-6 inline-block text-3xl font-bold leading-none"
-                >
-                  <img
-                    className="h-12"
-                    src={urlFor(logo?.image)}
-                    alt={logo?.alt ?? "newsletter-logo"}
-                  />
-                </a>
+              <Link
+                aria-label={
+                  logoLink() === "/"
+                    ? "Go to home page"
+                    : `Go to ${logoLink()}`
+                }
+                className="mb-6 inline-block text-3xl font-bold leading-none"
+                href={logoLink()}
+              >
+                <img
+                  className="h-12"
+                  src={urlFor(logo?.image)}
+                  alt={logo?.alt ?? "newsletter-logo"}
+                />
               </Link>
             )}
             <h1 className="mb-2 text-4xl lg:text-5xl font-bold font-heading">

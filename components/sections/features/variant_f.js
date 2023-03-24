@@ -1,7 +1,8 @@
 import React from "react";
 import Image from "next/image";
-import Link from "next/link";
 import { urlFor } from "lib/sanity";
+import { ConditionalBtnOrLink } from "helper";
+
 
 function VariantF({ caption, title, description, images, primaryButton }) {
   return (
@@ -24,65 +25,9 @@ function VariantF({ caption, title, description, images, primaryButton }) {
                     <p className="text-gray-500 leading-loose">{description}</p>
                   </div>
                 )}
-                {primaryButton && (
+                {primaryButton?.label && (
                   <div className="flex flex-wrap lg:-ml-5">
-                    {primaryButton?.type === "linkInternal" ? (
-                      <Link
-                        href={
-                          primaryButton?.internalLink === "Home" ||
-                          primaryButton?.internalLink === "home"
-                            ? "/"
-                            : `/${
-                                primaryButton.internalLink === undefined
-                                  ? "page-not-found"
-                                  : primaryButton.internalLink
-                              }`
-                        }
-                      >
-                        <a
-                          aria-label={`Features ${
-                            primaryButton?.label ?? "Primary"
-                          } button which directs to ${
-                            primaryButton?.internalLink === undefined
-                              ? "page-not-found"
-                              : primaryButton?.internalLink
-                          }`}
-                          className="lg:w-auto py-2 px-6 leading-loose lg:ml-5 text-gray-50 font-bold bg-webriq-darkblue hover:bg-webriq-blue transition duration-200 rounded-l-xl rounded-t-xl"
-                          target={primaryButton?.linkTarget}
-                          rel={
-                            primaryButton?.linkTarget === "_blank"
-                              ? "noopener noreferrer"
-                              : null
-                          }
-                        >
-                          {primaryButton?.label}
-                        </a>
-                      </Link>
-                    ) : (
-                      <a
-                        aria-label={`Features ${
-                          primaryButton?.label ?? "Primary"
-                        } button which directs to ${
-                          primaryButton?.externalLink === undefined
-                            ? "link-not-found"
-                            : primaryButton?.externalLink
-                        }`}
-                        className="lg:w-auto py-2 px-6 leading-loose lg:ml-5 text-gray-50 font-bold bg-webriq-darkblue hover:bg-webriq-blue transition duration-200 rounded-l-xl rounded-t-xl"
-                        target={primaryButton?.linkTarget}
-                        href={`/${
-                          primaryButton.externalLink === undefined
-                            ? "link-not-found"
-                            : primaryButton.externalLink
-                        }`}
-                        rel={
-                          primaryButton?.linkTarget === "_blank"
-                            ? "noopener noreferrer"
-                            : null
-                        }
-                      >
-                        {primaryButton?.label}
-                      </a>
-                    )}
+                    <ConditionalBtnOrLink value={primaryButton} style="lg:w-auto py-2 px-6 leading-loose lg:ml-5 text-gray-50 font-bold bg-webriq-darkblue hover:bg-webriq-blue transition duration-200 rounded-l-xl rounded-t-xl"/>
                   </div>
                 )}
               </div>
@@ -91,33 +36,29 @@ function VariantF({ caption, title, description, images, primaryButton }) {
               <div className="w-full lg:w-1/2">
                 <div className="mb-4 items-end lg:flex lg:flex-wrap xl:flex xl:flex-wrap 2xl:flex 2xl:flex-wrap">
                   <div className="mb-4 lg:mb-0 xl:mb-0 2xl:mb-0 lg:w-2/3 xl:w-2/3 2xl:w-2/3 h-full px-3">
-                    {images?.[0]?.image?.asset?._ref && (
+                    {images?.[0]?.image && (
                       <div className="rounded overflow-hidden">
                         <Image
+                          className="w-full h-[269px] object-cover"
                           src={urlFor(images[0]?.image)}
-                          layout="responsive"
-                          width="356px"
-                          height="192px"
-                          objectFit="cover"
+                          sizes="100vw" 
+                          width={356}
+                          height={192}
                           alt={images[0]?.alt ?? "features-image-1"}
-                          blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                          placeholder="blur"
                         />
                       </div>
                     )}
                   </div>
                   <div className="lg:w-1/3 xl:w-1/3 2xl:w-1/3 h-full px-3">
-                    {images?.[1]?.image?.asset?._ref && (
+                    {images?.[1]?.image && (
                       <div className="rounded overflow-hidden">
                         <Image
+                          className="w-full h-auto object-cover"
                           src={urlFor(images[1]?.image)}
-                          layout="responsive"
-                          width="166px"
-                          height="128px"
-                          objectFit="cover"
+                          sizes="100vw" 
+                          width={166}
+                          height={128}
                           alt={images[1]?.alt ?? "features-image-2"}
-                          blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                          placeholder="blur"
                         />
                       </div>
                     )}
@@ -125,33 +66,29 @@ function VariantF({ caption, title, description, images, primaryButton }) {
                 </div>
                 <div className="mb-4 items-start lg:flex lg:flex-wrap xl:flex xl:flex-wrap 2xl:flex 2xl:flex-wrap">
                   <div className="mb-4 lg:mb-0 xl:mb-0 2xl:mb-0 lg:w-1/3 xl:w-1/3 2xl:w-1/3 h-full px-3">
-                    {images?.[2]?.image?.asset?._ref && (
+                    {images?.[2]?.image && (
                       <div className="rounded overflow-hidden">
                         <Image
+                          className="w-full h-[269px] lg:h-[126px] object-cover"
                           src={urlFor(images[2]?.image)}
-                          layout="responsive"
-                          width="166px"
-                          height="128px"
-                          objectFit="cover"
+                          width={166}
+                          height={128}
+                          sizes="100vw" 
                           alt={images[2]?.alt ?? "features-image-3"}
-                          blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                          placeholder="blur"
                         />
                       </div>
                     )}
                   </div>
                   <div className="lg:w-2/3 xl:w-2/3 2xl:w-2/3 h-full px-3">
-                    {images?.[3]?.image?.asset?._ref && (
+                    {images?.[3]?.image && (
                       <div className="rounded overflow-hidden">
                         <Image
+                          className="w-full h-auto object-cover"
                           src={urlFor(images[3]?.image)}
-                          layout="responsive"
-                          width="356px"
-                          height="192px"
-                          objectFit="cover"
+                          width={356}
+                          height={192}
+                          sizes="100vw" 
                           alt={images[3]?.alt ?? "features-image-4"}
-                          blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                          placeholder="blur"
                         />
                       </div>
                     )}

@@ -5,8 +5,6 @@ import WebriQForm from "components/webriq-form";
 import { logoLink, thankYouPageLink } from "helper";
 
 function VariantB({ logo, title, text, form }) {
-  const { id, fields, buttonLabel, thankYouPage } = form;
-
   return (
     <section>
       <div>
@@ -22,37 +20,36 @@ function VariantB({ logo, title, text, form }) {
         <div className="container mx-auto px-4">
           <div className="max-w-xl mx-auto text-center">
             {logo?.image && (
-              <Link href={logoLink()}>
-                <a
-                  aria-label={
-                    logoLink() === "/"
-                      ? "Go to home page"
-                      : `Go to ${logoLink()}`
-                  }
-                  className="mb-6 inline-block p-3 rounded"
-                >
-                  <img
-                    className="h-14"
-                    src={urlFor(logo?.image)}
-                    alt={logo?.alt ?? "callToAction-logo"}
-                  />
-                </a>
+              <Link 
+                aria-label={
+                  logoLink() === "/"
+                    ? "Go to home page"
+                    : `Go to ${logoLink()}`
+                }
+                className="mb-6 inline-block p-3 rounded"
+                href={logoLink()}
+              >
+                <img
+                  className="h-14"
+                  src={urlFor(logo?.image)}
+                  alt={logo?.alt ?? "callToAction-logo"}
+                />
               </Link>
             )}
             <h1 className="mb-4 text-4xl md:text-5xl font-bold font-heading">
               {title}
             </h1>
             <p className="mb-6 text-gray-700">{text}</p>
-            {fields && (
+            {form?.fields && (
               <WebriQForm
                 method="POST"
-                data-form-id={id}
+                data-form-id={form?.id}
                 name="Calltoaction-VariantB-Form"
                 className="form-callToAction flex flex-wrap justify-center items-center"
-                data-thankyou-url={thankYouPageLink(thankYouPage)}
+                data-thankyou-url={thankYouPageLink(form?.thankYouPage)}
                 scriptsrc="https://pagebuilderforms.webriq.com/js/initReactForms"
               >
-                {fields?.slice(0, 2)?.map((field) => (
+                {form?.fields?.slice(0, 2)?.map((field) => (
                   <input
                     key={field?._key}
                     aria-label={`Input ${field?.type}`}
@@ -74,15 +71,15 @@ function VariantB({ logo, title, text, form }) {
                 <div>
                   <div className="webriq-recaptcha" />
                 </div>
-                {buttonLabel && (
+                {form?.buttonLabel && (
                   <button
                     aria-label={
-                      buttonLabel ?? "Call to action form submit button"
+                      form?.buttonLabel ?? "Call to action form submit button"
                     }
                     className="w-full md:w-auto py-2 px-4 bg-webriq-darkblue hover:bg-webriq-blue text-white font-bold leading-loose rounded-l-xl rounded-t-xl transition duration-200"
                     type="submit"
                   >
-                    {buttonLabel}
+                    {form?.buttonLabel}
                   </button>
                 )}
               </WebriQForm>

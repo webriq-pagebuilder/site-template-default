@@ -6,6 +6,8 @@ import AddToWishlist from "components/ecwid/AddToWishlist";
 import Ribbon from "components/ecwid/Ribbon";
 import ProductDetail from "components/ecwid/ProductDetail";
 import { useEcwid } from "context/EcwidContext";
+
+
 function VariantA({ products }) {
   const ecwid = useEcwid();
 
@@ -27,10 +29,10 @@ function VariantA({ products }) {
                 {products?.productInfo?.images ? (
                   <div className="w-full h-full">
                     <Image
-                      layout="responsive"
+                      className="object-cover"
+                      sizes="100vw"
                       width={736}
                       height={650}
-                      objectFit="cover"
                       src={urlFor(products?.productInfo?.images?.[0]?.image)}
                       alt={
                         products?.productInfo?.images?.[0]?.alt ??
@@ -40,10 +42,10 @@ function VariantA({ products }) {
                   </div>
                 ) : (
                   <Image
-                    layout="responsive"
+                    className="object-cover"
+                    sizes="100vw"
                     width={736}
                     height={650}
-                    objectFit="cover"
                     src="https://cdn.sanity.io/images/9itgab5x/production/9523d40461371b7b4948456c57bb663bd8998c4a-500x362.png"
                     alt="default image for product"
                   />
@@ -72,22 +74,20 @@ function VariantA({ products }) {
                     </p>
                   )}
                   {products?.description && (
-                    <p className="max-w-md">{products?.description}</p>
+                    <p className="max-w-md" dangerouslySetInnerHTML={{ __html: products?.description }} />
                   )}
                 </div>
 
                 <ProductDetail product={ecwidProduct}>
                   <div className="flex flex-col sm:flex-row items-start my-8 gap-y-4 sm:gap-y-0 sm:gap-x-4">
-                    {products?.others?.[0]?.btnLabel && (
-                      <div className="w-full lg:mb-4 xl:mb-0">
-                        <AddToBag
-                          inStock={!ecwidProduct?.inStock}
-                          classNames="block w-full text-center text-white font-bold font-heading py-5 px-8 rounded-md uppercase transition duration-200 bg-webriq-darkblue hover:bg-webriq-blue cursor-pointer"
-                        >
-                          {products?.others?.[0]?.btnLabel}
-                        </AddToBag>
-                      </div>
-                    )}
+                    <div className="w-full lg:mb-4 xl:mb-0">
+                      <AddToBag
+                        inStock={!ecwidProduct?.inStock}
+                        classNames="block w-full text-center text-white font-bold font-heading py-5 px-8 rounded-md uppercase transition duration-200 bg-webriq-darkblue hover:bg-webriq-blue cursor-pointer"
+                      >
+                        {products?.productInfo?.btnLabel ?? "ADD TO CART"}
+                      </AddToBag>
+                    </div>
 
                     {/* Add to wishlist button */}
                     <AddToWishlist
@@ -114,10 +114,10 @@ function VariantA({ products }) {
                   </div>
                 </ProductDetail>
                 <div className="flex items-center">
-                  <span className="mr-8 font-bold font-heading uppercase">
+                  <span className="mt-8 mr-8 font-bold font-heading uppercase">
                     SHARE IT
                   </span>
-                  {products?.others?.[0]?.socialLinks?.map(
+                  {products?.productInfo?.socialLinks?.map(
                     (social, index) =>
                       social?.socialMediaLink && (
                         <a
