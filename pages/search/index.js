@@ -21,7 +21,7 @@ function SearchPage({ data, preview, token }) {
       <>
         <PreviewBanner />
         <PreviewSuspense>
-          <DocumentWithPreview {...{ data, token }} />
+          <DocumentWithPreview {...{ data, token, source }} />
         </PreviewSuspense>
       </>
     );
@@ -66,9 +66,11 @@ function Document({ data }) {
  *
  * @returns Document with preview data
  */
-function DocumentWithPreview({ data, token = null }) {
+function DocumentWithPreview({ data, token = null, source }) {
   const previewDataEventSource = usePreview(token, searchPageQuery);
   const previewData = previewDataEventSource?.[0] || previewDataEventSource;
+
+  const enableInlineEditing = source === "studio"
 
   // General safeguard against empty data
   if (!previewData) {
@@ -91,7 +93,7 @@ function DocumentWithPreview({ data, token = null }) {
         previewData?.sections?.length === 0) && <PreviewNoContent />}
 
       {/*  Show page sections */}
-      {data?.searchData && <SearchPageSections data={previewData} />}
+      {data?.searchData && <SearchPageSections data={previewData} enableInlineEditing={enableInlineEditing} />}
     </>
   );
 }
@@ -119,6 +121,7 @@ export async function getStaticProps({ preview = false, previewData = {} }) {
   return {
     props: {
       preview,
+      source: (preview && previewData.source) || "",
       token: (preview && previewData.token) || "",
       data: { searchData },
     },

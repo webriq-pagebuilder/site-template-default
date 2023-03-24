@@ -172,7 +172,7 @@ function VariantB({
                           <Image
                             className="object-cover"
                             src={urlFor(item?.image)}
-                            alt={item?.alt}
+                            alt={item?.alt ?? `product-image-${index}`}
                             fill
                           />
                         )}
@@ -204,7 +204,7 @@ function VariantB({
                           width={593}
                           height={611}
                           src={urlFor(item?.image)}
-                          alt={item?.alt}
+                          alt={item?.alt ?? `product-image-${index}`}
                         />
                       </div>
                     </SwiperSlide>
@@ -481,7 +481,7 @@ function VariantB({
                                             width={128}
                                             height={128}
                                             src={urlFor(item?.image)}
-                                            alt={item?.alt}
+                                            alt={item?.alt ?? `product-image-${index}`}
                                           />
                                         )}
                                       </div>

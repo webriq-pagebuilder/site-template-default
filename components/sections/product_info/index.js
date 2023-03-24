@@ -1,13 +1,14 @@
 import { memo, useMemo, useEffect } from "react";
 import dynamic from "next/dynamic";
 import { useEcwid } from "context/EcwidContext";
+import EditSection from "components/EditSection";
 
 const Variants = {
   variant_a: dynamic(() => import("./variant_a")),
   variant_b: dynamic(() => import("./variant_b")),
 };
 
-function ProductInfo({ data, product }) {
+function ProductInfo({ data, product, pageInfo, enableInlineEditing }) {
   const ecwid = useEcwid();
   const ecwid_products = ecwid?.products || null;
   const price = ecwid?.price || 0;
@@ -44,6 +45,11 @@ function ProductInfo({ data, product }) {
     getPriceDisplay: () => getPriceDisplay(price),
   };
 
-  return Variant ? <Variant {...props} /> : null;
+  return (
+    <>
+      {enableInlineEditing && <EditSection documentType={pageInfo?.documentType} documentId={pageInfo?.documentId} />}
+      {Variant ? <Variant {...props} /> : null}
+    </>
+  )
 }
 export default memo(ProductInfo);

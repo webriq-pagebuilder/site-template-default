@@ -9,13 +9,13 @@ import { PreviewNoContent } from "components/PreviewNoContent";
 import { filterDataToSingleItem } from "components/list";
 import { PreviewBanner } from "components/PreviewBanner";
 
-function Home({ data, preview, token }) {
+function Home({ data, preview, token, source }) {
   if (preview) {
     return (
       <>
         <PreviewBanner />
         <PreviewSuspense>
-          <DocumentWithPreview {...{ data, token }} />
+          <DocumentWithPreview {...{ data, token, source }} />
         </PreviewSuspense>
       </>
     );
@@ -60,10 +60,11 @@ function Document({ data }) {
  *
  * @returns Document with preview data
  */
-function DocumentWithPreview({ data, token = null }) {
+function DocumentWithPreview({ data, token = null, source }) {
   const previewDataEventSource = usePreview(token, homeQuery);
 
   const previewData = previewDataEventSource?.[0] || previewDataEventSource;
+  const enableInlineEditing = source === "studio"
 
   // General safeguard against empty data
   if (!previewData) {
@@ -86,7 +87,7 @@ function DocumentWithPreview({ data, token = null }) {
         previewData?.sections?.length === 0) && <PreviewNoContent />}
 
       {/*  Show page sections */}
-      {data?.pageData && <PageSections data={previewData} />}
+      {data?.pageData && <PageSections data={previewData} enableInlineEditing={enableInlineEditing} />}
     </>
   );
 }
@@ -115,6 +116,7 @@ export async function getStaticProps({ preview = false, previewData = {} }) {
   return {
     props: {
       preview,
+      source: (preview && previewData.source) || "",
       token: (preview && previewData.token) || "",
       data: { pageData },
     },

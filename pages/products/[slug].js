@@ -15,7 +15,7 @@ import { PreviewNoContent } from "components/PreviewNoContent";
 import { ProductSections } from "components/page/store/products";
 import { EcwidContextProvider } from "context/EcwidContext";
 
-function ProductPageBySlug({ data, preview, token }) {
+function ProductPageBySlug({ data, preview, token, source }) {
   const router = useRouter();
   const slug = router.query.slug;
 
@@ -31,7 +31,7 @@ function ProductPageBySlug({ data, preview, token }) {
         <>
           <PreviewBanner />
           <PreviewSuspense>
-            <DocumentWithPreview {...{ data, token: token || null, slug }} />
+            <DocumentWithPreview {...{ data, token: token || null, slug, source }} />
           </PreviewSuspense>
         </>
       );
@@ -93,10 +93,12 @@ function Document({ data }) {
  *
  * @returns Document with preview data
  */
-function DocumentWithPreview({ data, slug, token = null }) {
+function DocumentWithPreview({ data, slug, token = null, source }) {
   // Current drafts data in Sanity
   const previewDataEventSource = usePreview(token, productsQuery, { slug });
   const previewData = previewDataEventSource?.[0] || previewDataEventSource; // Latest preview data in Sanity
+
+  const enableInlineEditing = source === "studio"
 
   // General safeguard against empty data
   if (!previewData) {
@@ -132,7 +134,7 @@ function DocumentWithPreview({ data, slug, token = null }) {
 
       {/* Show Product page sections */}
       <EcwidContextProvider>
-        {data?.productData && <ProductSections data={previewData} />}
+        {data?.productData && <ProductSections data={previewData} enableInlineEditing={enableInlineEditing} />}
       </EcwidContextProvider>
     </>
   );
@@ -156,6 +158,7 @@ export async function getStaticProps({
   return {
     props: {
       preview,
+      source: (preview && previewData.source) || "",
       token: (preview && previewData.token) || "",
       data: {
         productData: singleProductsData || null,

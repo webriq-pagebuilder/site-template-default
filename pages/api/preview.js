@@ -1,4 +1,4 @@
-function redirectToPreview(res, Location) {
+function redirectToPreview(res, source, Location) {
   const token = process.env.NEXT_PUBLIC_SANITY_API_READ_TOKEN;
   if (!token) {
     throw new TypeError(`Missing NEXT_PUBLIC_SANITY_API_READ_TOKEN`);
@@ -11,6 +11,7 @@ function redirectToPreview(res, Location) {
       "Uses a viewer token and EventSource polyfill, heavy but highest probability of success",
     authMode: "token",
     token,
+    source: source,
   });
   // Redirect to a preview capable route
   res.writeHead(307, { Location });
@@ -69,9 +70,11 @@ export default async (req, res) => {
 
   // res.end();
   // res.writeHead(302, { Location: `/${req.query.slug}` }).end();
+  const source = req?.query?.source;
+
   const path = req?.query?.type
     ? `/${req?.query?.type}/${pathname}`
     : `/${pathname}`;
 
-  redirectToPreview(res, path);
+  redirectToPreview(res, source, path);
 };

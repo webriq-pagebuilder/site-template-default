@@ -9,7 +9,8 @@ import { PreviewNoContent } from "components/PreviewNoContent";
 import { filterDataToSingleItem } from "components/list";
 import { PreviewBanner } from "components/PreviewBanner";
 
-function WishlistPage({ data, preview, token }) {
+
+function WishlistPage({ data, preview, token, source }) {
   useEffect(() => {
     if (typeof Ecwid !== "undefined") {
       window.Ecwid.init();
@@ -21,7 +22,7 @@ function WishlistPage({ data, preview, token }) {
       <>
         <PreviewBanner />
         <PreviewSuspense>
-          <DocumentWithPreview {...{ data, token }} />
+          <DocumentWithPreview {...{ data, token, source }} />
         </PreviewSuspense>
       </>
     );
@@ -66,9 +67,11 @@ function Document({ data }) {
  *
  * @returns Document with preview data
  */
-function DocumentWithPreview({ data, token = null }) {
+function DocumentWithPreview({ data, token = null, source }) {
   const previewDataEventSource = usePreview(token, wishlistPageQuery);
   const previewData = previewDataEventSource?.[0] || previewDataEventSource;
+
+  const enableInlineEditing = source === "studio"
 
   // General safeguard against empty data
   if (!previewData) {
@@ -91,7 +94,7 @@ function DocumentWithPreview({ data, token = null }) {
         previewData?.sections?.length === 0) && <PreviewNoContent />}
 
       {/*  Show page sections */}
-      {data?.wishlistData && <WishlistSections data={previewData} />}
+      {data?.wishlistData && <WishlistSections data={previewData} enableInlineEditing={enableInlineEditing} />}
     </>
   );
 }
@@ -119,6 +122,7 @@ export async function getStaticProps({ preview = false, previewData = {} }) {
   return {
     props: {
       preview,
+      source: (preview && previewData.source) || "",
       token: (preview && previewData.token) || "",
       data: { wishlistData },
     },

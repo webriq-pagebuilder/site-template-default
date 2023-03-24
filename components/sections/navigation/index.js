@@ -1,5 +1,6 @@
 import React from "react";
 import dynamic from "next/dynamic";
+import EditSection from "components/EditSection";
 
 const Variants = {
   variant_a: dynamic(() => import("./variant_a")),
@@ -9,7 +10,7 @@ const Variants = {
   variant_e: dynamic(() => import("./variant_e")),
 };
 
-function Navigation({ template, data }) {
+function Navigation({ template, data, enableInlineEditing }) {
   const variant = data?.variant || data?.variants?.condition;
   const Variant = Variants?.[variant];
 
@@ -22,6 +23,11 @@ function Navigation({ template, data }) {
     banner: data?.variants?.banner,
   };
 
-  return Variant ? <Variant {...props} /> : null;
+  return (
+    <>
+      {enableInlineEditing && <EditSection documentType={data?._type} documentId={data?._id} />}
+      {Variant ? <Variant {...props} /> : null}
+    </>
+  )
 }
 export default React.memo(Navigation);
