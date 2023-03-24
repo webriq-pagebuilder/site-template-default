@@ -1,5 +1,6 @@
 import React from "react";
 import dynamic from "next/dynamic";
+import EditSection from "components/EditSection";
 
 const Variants = {
   variant_a: dynamic(() => import("./variant_a")),
