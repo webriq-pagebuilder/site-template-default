@@ -1,13 +1,12 @@
 // this will return the response from the Ecwid store events web hook
 import { baseUrl, requestHeaders, secret, siteUrl } from "utils/ecwid/config";
-import { createClient } from "next-sanity";
+import { sanityClient } from "lib/sanity.client"
 import fetch from "node-fetch";
 import _ from "lodash";
 
 export default async (req, res) => {
   const storeId = req?.body?.storeId;
   const orderId = req?.body?.data?.orderId;
-  const sanityClient = createClient({ apiVersion: "2021-10-21" });
 
   const { eventType } = req?.body;
 
@@ -52,10 +51,10 @@ export default async (req, res) => {
             // Check if these productIds are in Sanity Studio but only return those which are product bundles and their products
             const studioBundleProducts = await sanityClient
               .fetch(
-                `*[_type=="products" && pid in $productIds && !(_id in path("drafts.**")) && isProductBundle == true] {
+                `*[_type=="mainProduct" && ecwidProductId in $productIds && !(_id in path("drafts.**")) && isProductBundle == true] {
                   ...,
-                  productsIsInBundle[]->,
-                  "productsInBundleIds": productsIsInBundle[]->pid
+                  productsInBundle[]->,
+                  "productsInBundleIds": productsInBundle[]->ecwidProductId
                 }`,
                 { productIds: productIds }
               )
