@@ -75,16 +75,13 @@ function EditSection({ documentType, documentId }) {
           {/* <DrawerHeader>{`Editing ${sectionName(type)}`}</DrawerHeader> */}
 
           <DrawerBody p={0}>
-            {/* <div className="embed-container">
-              <iframe src={`${NEXT_PUBLIC_SITE_URL}/studio/desk/__edit__${documentId},type=${documentType}`} />
-            </div> */}
             <StudioProvider
               config={config}
               scheme="light"
               unstable_history={history}
               unstable_noAuthBoundary
             >
-              <div>
+              <div className="inline-nav-panesearch inline-nav-paneheader inline-desk-listpane">
                 <StudioLayout />
               </div>
             </StudioProvider>

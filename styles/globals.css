@@ -551,23 +551,15 @@ select[data-testid="field-group-select"] > option:first-child {
 }
 
 /* Inline Editing Drawer frame */
-.embed-container {
-  position: relative;
-  height: 0;
-  overflow: auto;
-  width: 100%;
-  
-  /** aspect ratio: height/width = sample, 1080px/1920px = 0.5625 **/
-  padding-bottom: 95%;
+.inline-nav-panesearch div[data-search-open] {
+  display: none !important;
 }
 
-.embed-container iframe { 
-  position: absolute;
-  width: calc(100% + 52px);
-  height: calc(100% + 142px);
+.inline-nav-paneheader div[data-testid="pane-header"] {
+  display: none !important;
+}
 
-  /** adjust position as needed to hide top/left sides **/
-  top: -155px;
-  left: -52px;
+.inline-desk-listpane div[data-testid="desk-tool-list-pane"] {
+  display: none !important;
 }
 /* End */
