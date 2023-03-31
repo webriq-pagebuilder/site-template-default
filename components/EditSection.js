@@ -66,7 +66,7 @@ function EditSection({ documentType, documentId }) {
         placement="right"
         onClose={onClose}
         //finalFocusRef={btnRef}
-        size="xl"
+        size="lg"
         p={0}
       >
         <DrawerOverlay />
