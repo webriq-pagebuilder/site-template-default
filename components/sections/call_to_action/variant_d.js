@@ -51,7 +51,7 @@ function VariantD({ logo, title, text, button, form, formLinks, signInLink }) {
                       <span className="text-sm text-gray-500">{form?.subtitle}</span>
                       <p className="text-2xl">{form?.name}</p>
                     </div>
-                    <div className="mb-3 flex flex-wrap -mx-2">
+                    <div className="flex flex-wrap -mx-2">
                       {form?.fields?.slice(0, 2)?.map((formFields, index) => (
                         <div
                           className="w-full lg:w-1/2 px-2 mb-3 lg:mb-0 xl:mb-0 2xl:mb-0"
@@ -159,7 +159,7 @@ function FormFields({ fields }) {
     return (
       <input
         aria-label={fields?.name}
-        className="w-full p-4 text-xs bg-gray-100 outline-none rounded"
+        className="mb-3 w-full p-4 text-xs bg-gray-100 outline-none rounded"
         type="number"
         placeholder={fields?.placeholder}
         name={fields?.name}
@@ -267,7 +267,7 @@ function FormFields({ fields }) {
             ? `Input ${fields?.name}`
             : `${fields?.type}`
         }`}
-        className="w-full p-4 text-xs bg-gray-100 outline-none rounded"
+        className="mb-3 w-full p-4 text-xs bg-gray-100 outline-none rounded"
         type={
           fields?.type === "inputEmail"
             ? "email"

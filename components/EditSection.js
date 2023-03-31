@@ -10,16 +10,17 @@ import {
   DrawerCloseButton,
   useDisclosure,
   Button,
-} from '@chakra-ui/react'
-import { sectionName } from "studio/badges/sectionBadge";
+} from "@chakra-ui/react"
+import { useMagicRouter } from 'hooks'
+import { StudioLayout, StudioProvider } from "sanity"
+import config from "sanity.config"
 import { NEXT_PUBLIC_SITE_URL } from "config";
 
 
 function EditSection({ documentType, documentId }) {
   const { isOpen, onOpen, onClose } = useDisclosure()
+  const history = useMagicRouter(`/studio/desk/__edit__${documentId},type=${documentType}`)
   const btnRef = React.useRef()
-
-  let type = documentType;
 
   if(documentType === "mainProduct") {
     type = "Product page"
@@ -35,25 +36,58 @@ function EditSection({ documentType, documentId }) {
 
   return (
     <>
-      <Button border="1px" borderColor="#0045d8" backgroundColor="white" rounded="sm" textColor="#0045d8" padding={2} leftIcon={<EditIcon style={{ fontSize: "18px" }} />} ref={btnRef} onClick={onOpen} style={{ position: "absolute", zIndex: 40, margin: 2, right: 0 }}>
+      <Button 
+        border="1px" 
+        borderColor="#0045d8" 
+        backgroundColor="white" 
+        rounded="sm" 
+        textColor="#0045d8" 
+        padding={2} 
+        leftIcon={
+          <EditIcon 
+            style={{ 
+              fontSize: "18px" 
+            }} 
+          />
+        } 
+        ref={btnRef} 
+        onClick={onOpen} 
+        style={{ 
+          position: "absolute", 
+          zIndex: 40, 
+          margin: 2, 
+          right: 0 
+        }}
+      >
         Edit
       </Button>
       <Drawer
         isOpen={isOpen}
-        placement='right'
+        placement="right"
         onClose={onClose}
-        finalFocusRef={btnRef}
+        //finalFocusRef={btnRef}
         size="xl"
+        p={0}
       >
         <DrawerOverlay />
         <DrawerContent>
           {/* <DrawerCloseButton /> */}
           {/* <DrawerHeader>{`Editing ${sectionName(type)}`}</DrawerHeader> */}
 
-          <DrawerBody>
-            <div className="embed-container">
+          <DrawerBody p={0}>
+            {/* <div className="embed-container">
               <iframe src={`${NEXT_PUBLIC_SITE_URL}/studio/desk/__edit__${documentId},type=${documentType}`} />
-            </div>
+            </div> */}
+            <StudioProvider
+              config={config}
+              scheme="light"
+              unstable_history={history}
+              unstable_noAuthBoundary
+            >
+              <div>
+                <StudioLayout />
+              </div>
+            </StudioProvider>
           </DrawerBody>
 
           <DrawerFooter borderTopWidth="1px">
