@@ -28,6 +28,7 @@ import { visionTool } from "@sanity/vision"
 import { webriqBlog } from "@webriq-pagebuilder/sanity-plugin-webriq-blog"
 import { webriqForms } from "@webriq-pagebuilder/sanity-plugin-webriq-forms"
 import { webriqPayments } from "@webriq-pagebuilder/sanity-plugin-webriq-payments"
+import { webriqGPT3 } from "@webriq-pagebuilder/sanity-plugin-input-component-gpt3"
 
 import resolveProductionUrl from "./studio/resolvePreviewUrl"
 
@@ -43,6 +44,7 @@ export default defineConfig({
     webriqForms(), 
     webriqPayments(), 
     webriqBlog(),
+    webriqGPT3(),
     media(),
     openaiImageAsset({
       API_KEY: NEXT_PUBLIC_SANITY_PROJECT_OPENAI_KEY 
