@@ -19,22 +19,51 @@ import {
   usePresenceStore,
   DocumentPreviewPresence,
 } from "sanity";
-import { GetStaticPaths, GetServerSideProps, GetStaticProps } from "next";
+import {
+  GetStaticPaths,
+  GetStaticProps,
+  GetStaticPropsContext,
+  NextPage,
+} from "next";
 
-import { PreviewProps, PageDataProps } from "types";
+import { PageDataProps, BlogsDataProps } from "types";
 
-function PageBySlug({ data, preview, token, source }) {
+interface PageData {
+  data: {
+    pageData?: PageDataProps;
+    blogData?: BlogsDataProps;
+  };
+}
+
+interface PageBySlugProps extends PageData {
+  preview: boolean;
+  token: string;
+  source: string;
+}
+
+interface DocumentWithPreviewProps extends PageData {
+  slug: string;
+  token: string;
+  source: string;
+}
+
+export const PageBySlug: NextPage<PageBySlugProps> = ({
+  data,
+  preview,
+  token,
+  source,
+}) => {
   const router = useRouter();
   const slug = router.query.slug;
 
-  if (!data?.pageData && (!data?.blogData || data?.blogData?.length === 0)) {
+  if (!data?.pageData && !data?.blogData) {
     return <PageNotFound />;
   } else {
     if (preview) {
       return (
         <>
           <PreviewBanner />
-          <PreviewSuspense>
+          <PreviewSuspense fallback="Loading...">
             <DocumentWithPreview
               {...{ data, token: token || null, slug, source }}
             />
@@ -45,7 +74,7 @@ function PageBySlug({ data, preview, token, source }) {
 
     return <Document {...{ data }} />;
   }
-}
+};
 
 /**
  *
@@ -53,7 +82,7 @@ function PageBySlug({ data, preview, token, source }) {
  *
  * @returns Document with published data
  */
-function Document({ data }) {
+const Document: NextPage<PageData> = ({ data }) => {
   const publishedData = data?.pageData || data?.blogData; // latest published data in Sanity
 
   // General safeguard against empty data
@@ -77,7 +106,7 @@ function Document({ data }) {
       {data?.blogData && <BlogSections data={publishedData} />}
     </>
   );
-}
+};
 
 /**
  *
@@ -87,7 +116,12 @@ function Document({ data }) {
  *
  * @returns Document with preview data
  */
-function DocumentWithPreview({ data, slug, token = null, source }) {
+const DocumentWithPreview: NextPage<DocumentWithPreviewProps> = ({
+  data,
+  slug,
+  token = null,
+  source,
+}) => {
   // Current drafts data in Sanity
   const previewDataEventSource = usePreview(
     token,
@@ -137,7 +171,7 @@ function DocumentWithPreview({ data, slug, token = null, source }) {
       )}
     </>
   );
-}
+};
 
 export function WhoIsEditing({ documentId }) {
   const global = useGlobalPresence();
@@ -182,11 +216,11 @@ export function WhoIsEditing({ documentId }) {
   );
 }
 
-export async function getStaticProps({
+export const getStaticProps: GetStaticProps = async ({
   params,
   preview = false,
   previewData = {},
-}): Promise<GetStaticProps<PreviewProps>> {
+}: GetStaticPropsContext) => {
   const client =
     preview && previewData?.token
       ? getClient(false).withConfig({ token: previewData.token })
@@ -198,8 +232,13 @@ export async function getStaticProps({
   ]);
 
   // pass page data and preview to helper function
-  const singlePageData = filterDataToSingleItem(page, preview);
-  const singleBlogData = filterDataToSingleItem(blogData, preview);
+  const singlePageData: PageDataProps = filterDataToSingleItem(page, preview);
+  const singleBlogData: BlogsDataProps = filterDataToSingleItem(
+    blogData,
+    preview
+  );
+
+  console.log(singleBlogData);
 
   return {
     props: {
@@ -214,9 +253,9 @@ export async function getStaticProps({
     // If webhooks isn't setup then attempt to re-generate in 1 minute intervals
     revalidate: process.env.SANITY_REVALIDATE_SECRET ? undefined : 60,
   };
-}
+};
 
-export async function getStaticPaths() {
+export const getStaticPaths: GetStaticPaths = async () => {
   const paths = await sanityClient.fetch(
     groq`*[_type in ["page", "post"] && defined(slug.current)][].slug.current`
   );
@@ -225,6 +264,6 @@ export async function getStaticPaths() {
     paths: paths.map((slug) => ({ params: { slug } })),
     fallback: true,
   };
-}
+};
 
 export default React.memo(PageBySlug);
