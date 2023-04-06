@@ -6,7 +6,7 @@ import {
   NEXT_PUBLIC_SANITY_PROJECT_NAME,
   NEXT_PUBLIC_SANITY_DATASET,
   NEXT_PUBLIC_SANITY_PROJECT_ID,
-  SITE_SANITY_PROJECT_OPENAI_KEY
+  NEXT_PUBLIC_SANITY_PROJECT_OPENAI_KEY
 } from "./config"
 
 // desk customization
@@ -45,7 +45,7 @@ export default defineConfig({
     webriqBlog(),
     media(),
     openaiImageAsset({
-      API_KEY: SITE_SANITY_PROJECT_OPENAI_KEY 
+      API_KEY: NEXT_PUBLIC_SANITY_PROJECT_OPENAI_KEY 
     })
   ],
   tools: (prev) => {
