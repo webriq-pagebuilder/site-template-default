@@ -1,7 +1,9 @@
 {
-  "name": "default",
-  "version": "0.0.1",
+  "name": "@webriq-pagebuilder/site-template-default",
+  "version": "3.0.0",
   "private": true,
+  "author": "WebriQ <info@webriq.com>",
+  "license": "MIT",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

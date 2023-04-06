@@ -12,7 +12,6 @@ import { PreviewBanner } from "components/PreviewBanner";
 import { PreviewNoContent } from "components/PreviewNoContent";
 import { filterDataToSingleItem } from "components/list";
 import PageNotFound from "pages/404";
-import { DocumentPresence, useDocumentPresence, useGlobalPresence, usePresenceStore, DocumentPreviewPresence } from "sanity";
 
 
 function PageBySlug({ data, preview, token, source }) {
@@ -117,46 +116,6 @@ function DocumentWithPreview({ data, slug, token = null, source }) {
       {data?.blogData && <BlogSections data={previewData} enableInlineEditing={enableInlineEditing} />}
     </>
   );
-}
-
-export function WhoIsEditing({ documentId }) {
-  const global = useGlobalPresence()
-  const presence = useDocumentPresence(documentId)
-
-  React.useEffect(() => {
-    console.log({ presence, documentId, global })
-
-    if(presence) {
-      console.log("presence: ", { presence })
-    }
-  }, [presence, documentId, global])
-
-  const presenceStore = usePresenceStore()
-  const [presence2, setPresence2] = React.useState([])
-
-  React.useEffect(() => {
-    const subscription = presenceStore
-      .documentPresence(documentId)
-      .subscribe((nextPresence) => {
-        console.log("presenceStore updated ", nextPresence)
-        setPresence2(nextPresence)
-      })
-    
-    return () => {
-      subscription.unsubscribe()
-    }
-  }, [documentId, presenceStore])
-
-  return (
-    <>
-      <div className="flex-start flex max-h-8 text-center">
-        <DocumentPreviewPresence presence={presence} />
-      </div>
-      <div hidden className="sticky bottom-0 right-0 max-w-full bg-black p-4 text-white">
-        <p>Presence!</p>
-      </div>
-    </>
-  )
 }
 
 export async function getStaticProps({
