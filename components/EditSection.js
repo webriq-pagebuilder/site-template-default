@@ -14,25 +14,12 @@ import {
 import { useMagicRouter } from 'hooks'
 import { StudioLayout, StudioProvider } from "sanity"
 import config from "sanity.config"
-import { NEXT_PUBLIC_SITE_URL } from "config";
 
 
 function EditSection({ documentType, documentId }) {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const history = useMagicRouter(`/studio/desk/__edit__${documentId},type=${documentType}`)
   const btnRef = React.useRef()
-
-  if(documentType === "mainProduct") {
-    type = "Product page"
-  } else if (documentType === "mainCollection") {
-    type = "Collection page"
-  } else if (documentType === "wishlistPage") {
-    type = "Wishlist page"
-  } else if (documentType === "cartPage") {
-    type = "Cart page"
-  } else if (documentType === "searchPage") {
-    type = "Wishlist page"
-  }
 
   return (
     <>
@@ -72,7 +59,6 @@ function EditSection({ documentType, documentId }) {
         <DrawerOverlay />
         <DrawerContent>
           {/* <DrawerCloseButton /> */}
-          {/* <DrawerHeader>{`Editing ${sectionName(type)}`}</DrawerHeader> */}
 
           <DrawerBody p={0}>
             <StudioProvider
