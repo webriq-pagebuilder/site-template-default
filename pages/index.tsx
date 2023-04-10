@@ -1,20 +1,34 @@
-import React from "react";
-import Head from "next/head";
-import { PreviewSuspense } from "next-sanity/preview";
-import { getClient } from "lib/sanity.client";
-import { homeQuery } from "./api/query";
-import { usePreview } from "lib/sanity.preview";
-import { PageSections } from "components/page";
-import { PreviewNoContent } from "components/PreviewNoContent";
-import { filterDataToSingleItem } from "components/list";
-import { PreviewBanner } from "components/PreviewBanner";
+import React from 'react';
+import Head from 'next/head';
+import { PreviewSuspense } from 'next-sanity/preview';
+import { getClient } from 'lib/sanity.client';
+import { homeQuery } from './api/query';
+import { usePreview } from 'lib/sanity.preview';
+import { PageSections } from 'components/page';
+import { PreviewNoContent } from 'components/PreviewNoContent';
+import { filterDataToSingleItem } from 'components/list';
+import { PreviewBanner } from 'components/PreviewBanner';
+import { GetStaticPropsContext } from 'next';
 
-function Home({ data, preview, token, source }) {
+import { PageDataProps } from 'types';
+
+interface HomeProps {
+  data: DataProps;
+  preview?: any;
+  token: string;
+  source: string;
+}
+
+interface DataProps {
+  pageData: PageDataProps;
+}
+
+const Home = ({ data, preview, token, source }: HomeProps) => {
   if (preview) {
     return (
       <>
         <PreviewBanner />
-        <PreviewSuspense>
+        <PreviewSuspense fallback='Loading...'>
           <DocumentWithPreview {...{ data, token, source }} />
         </PreviewSuspense>
       </>
@@ -22,7 +36,7 @@ function Home({ data, preview, token, source }) {
   }
 
   return <Document {...{ data }} />;
-}
+};
 
 /**
  *
@@ -30,7 +44,7 @@ function Home({ data, preview, token, source }) {
  *
  * @returns Document with published data
  */
-function Document({ data }) {
+const Document = ({ data }: { data: DataProps }) => {
   const publishedData = data?.pageData;
 
   // General safeguard against empty data
@@ -43,15 +57,17 @@ function Document({ data }) {
   return (
     <>
       <Head>
-        <meta name="viewport" content="width=260 initial-scale=1" />
-        <title>{seo?.seoTitle ?? title ?? "WebriQ Studio"}</title>
+        <meta name='viewport' content='width=260 initial-scale=1' />
+        <title>{seo?.seoTitle ?? title ?? 'WebriQ Studio'}</title>
       </Head>
 
       {/*  Show page sections */}
-      {data?.pageData && <PageSections data={publishedData} />}
+      {data?.pageData && (
+        <PageSections enableInlineEditing={false} data={publishedData} />
+      )}
     </>
   );
-}
+};
 
 /**
  *
@@ -60,11 +76,12 @@ function Document({ data }) {
  *
  * @returns Document with preview data
  */
-function DocumentWithPreview({ data, token = null, source }) {
+const DocumentWithPreview = ({ data, token = null, source }: HomeProps) => {
   const previewDataEventSource = usePreview(token, homeQuery);
 
-  const previewData = previewDataEventSource?.[0] || previewDataEventSource;
-  const enableInlineEditing = source === "studio"
+  const previewData: PageDataProps =
+    previewDataEventSource?.[0] || previewDataEventSource;
+  const enableInlineEditing = source === 'studio';
 
   // General safeguard against empty data
   if (!previewData) {
@@ -76,8 +93,8 @@ function DocumentWithPreview({ data, token = null, source }) {
   return (
     <>
       <Head>
-        <meta name="viewport" content="width=260 initial-scale=1" />
-        <title>{seo?.seoTitle ?? title ?? "WebriQ Studio"}</title>
+        <meta name='viewport' content='width=260 initial-scale=1' />
+        <title>{seo?.seoTitle ?? title ?? 'WebriQ Studio'}</title>
       </Head>
 
       {/* if no sections, show no sections only in preview */}
@@ -87,12 +104,20 @@ function DocumentWithPreview({ data, token = null, source }) {
         previewData?.sections?.length === 0) && <PreviewNoContent />}
 
       {/*  Show page sections */}
-      {data?.pageData && <PageSections data={previewData} enableInlineEditing={enableInlineEditing} />}
+      {data?.pageData && (
+        <PageSections
+          data={previewData}
+          enableInlineEditing={enableInlineEditing}
+        />
+      )}
     </>
   );
-}
+};
 
-export async function getStaticProps({ preview = false, previewData = {} }) {
+export const getStaticProps = async ({
+  preview = false,
+  previewData = {},
+}: any) => {
   const client =
     preview && previewData?.token
       ? getClient(false).withConfig({ token: previewData.token })
@@ -116,11 +141,11 @@ export async function getStaticProps({ preview = false, previewData = {} }) {
   return {
     props: {
       preview,
-      source: (preview && previewData.source) || "",
-      token: (preview && previewData.token) || "",
+      source: (preview && previewData.source) || '',
+      token: (preview && previewData.token) || '',
       data: { pageData },
     },
   };
-}
+};
 
 export default Home;
