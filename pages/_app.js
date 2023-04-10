@@ -1,7 +1,5 @@
 import "../styles/globals.css";
 import React, { useEffect } from "react";
-import { ChakraBaseProvider, extendBaseTheme } from "@chakra-ui/react";
-import chakraTheme from "@chakra-ui/theme";
 import SEO from "../components/SEO";
 import "swiper/scss";
 import "swiper/scss/navigation";
@@ -9,15 +7,6 @@ import "swiper/scss/pagination";
 import useScript from "utils/useScript";
 import { useRouter } from "next/router";
 
-const {Button, Drawer } = chakraTheme.components
-
-// apply the theme for just the component you need
-const theme = extendBaseTheme({
-  components: {
-    Button,
-    Drawer,
-  },
-})
 
 function MyApp({ Component, pageProps }) {
   let script_status = useScript(process.env.NEXT_PUBLIC_ECWID_SCRIPT);
@@ -64,9 +53,7 @@ function MyApp({ Component, pageProps }) {
   return (
     <>
       <SEO {...pageProps} />
-      <ChakraBaseProvider theme={theme}>
-        <Component {...pageProps} />
-      </ChakraBaseProvider>
+      <Component {...pageProps} />
     </>
   );
 }

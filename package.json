@@ -13,9 +13,6 @@
     "update:latest": "yarn add @webriq-pagebuilder/sanity-plugin-input-component-gpt3@latest @webriq-pagebuilder/sanity-plugin-input-component-variants@latest @webriq-pagebuilder/sanity-plugin-schema-blog@latest @webriq-pagebuilder/sanity-plugin-schema-commerce@latest @webriq-pagebuilder/sanity-plugin-schema-default@latest @webriq-pagebuilder/sanity-plugin-schema-blog@latest @webriq-pagebuilder/sanity-plugin-webriq-blog@latest @webriq-pagebuilder/sanity-plugin-webriq-forms@latest @webriq-pagebuilder/sanity-plugin-webriq-payments@latest"
   },
   "dependencies": {
-    "@chakra-ui/react": "^2.5.2",
-    "@emotion/react": "^11.10.6",
-    "@emotion/styled": "^11.10.6",
     "@portabletext/react": "^2.0.2",
     "@sanity/icons": "2.2.2",
     "@sanity/image-url": "^1.0.2",
@@ -38,7 +35,6 @@
     "cors": "^2.8.5",
     "crypto-js": "^4.1.1",
     "date-fns": "^2.24.0",
-    "framer-motion": "^10.8.4",
     "history": "^5.3.0",
     "jsonwebtoken": "^9.0.0",
     "lodash": "^4.17.21",
@@ -50,8 +46,10 @@
     "polished": "^4.2.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-draggable": "^4.4.5",
     "react-icons": "^4.2.0",
     "react-is": "^18.2.0",
+    "react-split-pane": "^0.1.92",
     "react-toast": "^1.0.3",
     "sanity": "^3.8.3",
     "sanity-plugin-asset-source-openai": "^1.1.2",
