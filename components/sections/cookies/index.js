@@ -1,6 +1,5 @@
 import React from "react";
 import dynamic from "next/dynamic";
-import EditSection from "components/EditSection";
 
 const Variants = {
   variant_a: dynamic(() => import("./variant_a")),
@@ -21,20 +20,6 @@ function Cookies({ data, enableInlineEditing }) {
     block: data?.variants?.block,
   };
 
-  if(Variant) {
-    if(enableInlineEditing) {
-      return (
-        <EditSection 
-          documentId={data?._id} 
-          documentType={data?._type} 
-          children={
-            <Variant {...props} />
-          } 
-        /> 
-      )
-    }
-
-    return <Variant {...props} />
-  } 
+  return Variant ? <Variant {...props} /> : null;
 }
 export default React.memo(Cookies);
