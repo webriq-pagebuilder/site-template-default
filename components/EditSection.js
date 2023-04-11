@@ -16,13 +16,6 @@ function EditSection({ documentType, documentId, children }) {
     'auto',
   ]);
 
-  const layoutCSS = {
-    height: '100%',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  };
-
   return (
     <>
       <button 
@@ -38,23 +31,24 @@ function EditSection({ documentType, documentId, children }) {
             split='vertical'
             sizes={sizes}
             onChange={setSizes}
+            className=" border-y border-webriq-darkblue"
           >
+            <div className="bg-gray-50">
+              {children}
+            </div>
             <Pane minSize={50} maxSize='50%'>
-              <div className="bg-gray-50" style={{ ...layoutCSS }}>
-                {children}
+              <div className="overflow-y-scroll">
+                <StudioProvider
+                  config={config}
+                  unstable_history={history}
+                  unstable_noAuthBoundary
+                >
+                  <div className="inline-nav-panesearch inline-nav-paneheader inline-desk-listpane inline-footer">
+                    <StudioLayout />
+                  </div>
+                </StudioProvider>     
               </div>
             </Pane>
-            <div className="overflow-scroll">
-              <StudioProvider
-                config={config}
-                unstable_history={history}
-                unstable_noAuthBoundary
-              >
-                <div className="inline-nav-panesearch inline-nav-paneheader inline-desk-listpane inline-footer">
-                  <StudioLayout />
-                </div>
-              </StudioProvider>     
-            </div>
           </SplitPane>
         </div>
       ): children}
