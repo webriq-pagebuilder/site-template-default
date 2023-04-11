@@ -18,8 +18,17 @@ function PagesProductInfo({ data, enableInlineEditing }) {
 
   return (
     <EcwidContextProvider>
-      {enableInlineEditing && <EditSection documentType={data?._type} documentId={data?._id} />}
-      {Variant ? <Variant {...props} /> : null}
+      {Variant && 
+        enableInlineEditing ? (
+          <EditSection 
+            documentId={data?._id} 
+            documentType={data?._type} 
+            children={
+              <Variant {...props} />
+            } 
+          /> 
+        ) : <Variant {...props} /> 
+      }
     </EcwidContextProvider>
   )
 }

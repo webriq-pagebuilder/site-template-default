@@ -27,12 +27,21 @@ function Header({ template, data, enableInlineEditing }) {
     form: data?.variants?.form,
   };
 
-  return (
-    <>
-      {enableInlineEditing && <EditSection documentType={data?._type} documentId={data?._id} />}
-      {Variant ? <Variant {...props} /> : null}
-    </>
-  )
+  if(Variant) {
+    if(enableInlineEditing) {
+      return (
+        <EditSection 
+          documentId={data?._id} 
+          documentType={data?._type} 
+          children={
+            <Variant {...props} />
+          } 
+        /> 
+      )
+    }
+
+    return <Variant {...props} />
+  } 
 }
 
 export default React.memo(Header);

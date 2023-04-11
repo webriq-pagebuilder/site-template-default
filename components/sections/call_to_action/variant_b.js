@@ -4,6 +4,7 @@ import Link from "next/link";
 import WebriQForm from "components/webriq-form";
 import { logoLink, thankYouPageLink } from "helper";
 
+
 function VariantB({ logo, title, text, form }) {
   return (
     <section>

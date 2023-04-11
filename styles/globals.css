@@ -562,4 +562,9 @@ select[data-testid="field-group-select"] > option:first-child {
 .inline-desk-listpane div[data-testid="desk-tool-list-pane"] {
   display: none !important;
 }
+
+.inline-footer div[data-testid="pane-footer"] {
+  position: relative !important;
+  bottom: unset;
+}
 /* End */

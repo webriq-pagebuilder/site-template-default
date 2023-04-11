@@ -45,11 +45,20 @@ function ProductInfo({ data, product, pageInfo, enableInlineEditing }) {
     getPriceDisplay: () => getPriceDisplay(price),
   };
 
-  return (
-    <>
-      {enableInlineEditing && <EditSection documentType={pageInfo?.documentType} documentId={pageInfo?.documentId} />}
-      {Variant ? <Variant {...props} /> : null}
-    </>
-  )
+  if(Variant) {
+    if(enableInlineEditing) {
+      return (
+        <EditSection 
+          documentId={pageInfo?.documentId} 
+          documentType={pageInfo?.documentType} 
+          children={
+            <Variant {...props} />
+          } 
+        /> 
+      )
+    }
+
+    return <Variant {...props} />
+  } 
 }
 export default memo(ProductInfo);
