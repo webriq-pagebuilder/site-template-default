@@ -12,6 +12,7 @@ import { PreviewBanner } from "components/PreviewBanner";
 import { PreviewNoContent } from "components/PreviewNoContent";
 import { filterDataToSingleItem } from "components/list";
 import PageNotFound from "pages/404";
+import EditSection from "components/EditSection";
 
 
 function PageBySlug({ data, preview, token, source }) {
@@ -113,7 +114,17 @@ function DocumentWithPreview({ data, slug, token = null, source }) {
       {data?.pageData && <PageSections data={previewData} enableInlineEditing={enableInlineEditing} />}
 
       {/* Show Blog sections */}
-      {data?.blogData && <BlogSections data={previewData} enableInlineEditing={enableInlineEditing} />}
+      {data?.blogData && (
+        enableInlineEditing 
+          ? <EditSection 
+              documentId={data?.blogData?._id} 
+              documentType={data?.blogData?._type} 
+              children={
+                <BlogSections data={previewData} />
+              }
+            /> 
+          : <BlogSections data={previewData} />
+      )}
     </>
   );
 }

@@ -110,11 +110,10 @@ function BlogSections({ data, preview }) {
     return null;
   }
 
-  const { _id, _type, authors, categories, body, mainImage, publishedAt, title } = blogData;
+  const { authors, categories, body, mainImage, publishedAt, title } = blogData;
 
   return (
     <>
-      {preview && <EditSection sectionType={_type} sectionId={_id} />}
       {blogData?.navigation?.map((nav) => (
         <Navigation
           key={nav?._key}
