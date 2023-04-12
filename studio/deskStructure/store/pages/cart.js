@@ -1,5 +1,4 @@
 import { EditIcon, EyeOpenIcon, EarthGlobeIcon } from "@sanity/icons"
-import { MdAccessibility } from "react-icons/md";
 import { FaShoppingCart } from "react-icons/fa";
 
 import Iframe from "sanity-plugin-iframe-pane"

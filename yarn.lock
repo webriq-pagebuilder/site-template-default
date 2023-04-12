@@ -3546,24 +3546,24 @@
     nanoid "^3.1.30"
     react-icons "^4.2.0"
 
-"@webriq-pagebuilder/sanity-plugin-schema-commerce@^3.0.9":
-  version "3.0.9"
-  resolved "https://registry.yarnpkg.com/@webriq-pagebuilder/sanity-plugin-schema-commerce/-/sanity-plugin-schema-commerce-3.0.9.tgz#811ac88b1728000dec89ca86b7af2a6dcce63448"
-  integrity sha512-F7q5WIIheS52zSbPEh/xKiiH4Gv2KL7KpjIpEtTrn9N6QoReIP3+VUHDgXIpa5JWWJhlYBuvYnWudIYaxJ6OVQ==
+"@webriq-pagebuilder/sanity-plugin-schema-commerce@3.0.10":
+  version "3.0.10"
+  resolved "https://registry.yarnpkg.com/@webriq-pagebuilder/sanity-plugin-schema-commerce/-/sanity-plugin-schema-commerce-3.0.10.tgz#8b5f8140fd5d49c5a407f140d09f81c81b29e88b"
+  integrity sha512-rMBj00KfG96Zo+i8ua0/jFKAXuTbLh1RX6ele9SLQzh3FW9svAlPn2BaCJJ1XUlbErNo8VrmDGtdalp8YmFg/w==
   dependencies:
     "@sanity/client" "^5.3.2"
     "@sanity/incompatible-plugin" "^1.0.4"
     "@sanity/ui" "1.2.4"
     "@webriq-pagebuilder/sanity-plugin-input-component-gpt3" "^3.0.4"
     "@webriq-pagebuilder/sanity-plugin-input-component-variants" "^3.0.7"
-    "@webriq-pagebuilder/sanity-plugin-schema-default" "^3.0.9"
+    "@webriq-pagebuilder/sanity-plugin-schema-default" "^3.0.10"
     nanoid "^3.1.30"
     react-icons "^4.2.0"
 
-"@webriq-pagebuilder/sanity-plugin-schema-default@^3.0.9":
-  version "3.0.9"
-  resolved "https://registry.yarnpkg.com/@webriq-pagebuilder/sanity-plugin-schema-default/-/sanity-plugin-schema-default-3.0.9.tgz#e4bff1881f2a2106f37f92e5189bd79dea544495"
-  integrity sha512-Jice3kFWgUhJZ3WZFKRHFVsvWLMceNWRA96drD04QmhTtZBmtvqMABqYpiUfghCRrXBHlVBLUAtpZnJP40nxLw==
+"@webriq-pagebuilder/sanity-plugin-schema-default@3.0.10", "@webriq-pagebuilder/sanity-plugin-schema-default@^3.0.10":
+  version "3.0.10"
+  resolved "https://registry.yarnpkg.com/@webriq-pagebuilder/sanity-plugin-schema-default/-/sanity-plugin-schema-default-3.0.10.tgz#943fe8678c1c4e358cddf5c910cec6c0c477007b"
+  integrity sha512-ZkD/g6uJpoS6DaK1V88kpREaszQ5Ixqxu+CB0/mm1eTZk82/lsS0ZomylI+gRZj3GBeq1a199nUTzeuS84jsuA==
   dependencies:
     "@sanity/incompatible-plugin" "^1.0.4"
     "@webriq-pagebuilder/sanity-plugin-input-component-gpt3" "^3.0.4"
@@ -6893,11 +6893,6 @@ nanoid@^3.1.12, nanoid@^3.1.25, nanoid@^3.1.30, nanoid@^3.3.3, nanoid@^3.3.4:
   version "3.3.6"
   resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-3.3.6.tgz#443380c856d6e9f9824267d960b4236ad583ea4c"
   integrity sha512-BGcqMMJuToF7i1rt+2PWSNVnWIkGCU78jBG3RxO/bZlnZPK2Cmi2QaffxGO/2RvWi9sL+FAiRiXMgsyxQ1DIDA==
-
-nanoid@^4.0.0:
-  version "4.0.2"
-  resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-4.0.2.tgz#140b3c5003959adbebf521c170f282c5e7f9fb9e"
-  integrity sha512-7ZtY5KTCNheRGfEFxnedV5zFiORN1+Y1N6zvPTnHQd8ENUvfaDBeuJDZb2bN/oXwXxu3qkTXDzy57W5vAmDTBw==
 
 napi-build-utils@^1.0.1:
   version "1.0.2"
