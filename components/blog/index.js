@@ -114,7 +114,7 @@ function BlogSections({ data, preview }) {
 
   return (
     <>
-      {preview && <EditSection sectionType={_type} sectionId={_id} />}
+      {preview && <EditSection documentType={_type} documentId={_id} />}
       {blogData?.navigation?.map((nav) => (
         <Navigation
           key={nav?._key}
