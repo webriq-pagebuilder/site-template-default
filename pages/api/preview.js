@@ -11,7 +11,7 @@ function redirectToPreview(res, source, Location) {
       "Uses a viewer token and EventSource polyfill, heavy but highest probability of success",
     authMode: "token",
     token,
-    source: source,
+    source,
   });
   // Redirect to a preview capable route
   res.writeHead(307, { Location });
