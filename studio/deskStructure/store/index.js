@@ -1,7 +1,6 @@
 //import { StructureBuilder } from "sanity/desk";
 
-import { GiShop } from "react-icons/gi";
-import { MdSettings } from "react-icons/md";
+import { MdSettings, MdStore } from "react-icons/md";
 
 import { ProductStructure } from "./main/products";
 import { CollectionStructure } from "./main/collections";
@@ -15,7 +14,7 @@ import { Wishlist } from "./pages/wishlist";
 export const Store = (S) =>  {
   return S.listItem()
     .title("Store")
-    .icon(GiShop)
+    .icon(MdStore)
     .child(
       S.list()
         .title("Store")
