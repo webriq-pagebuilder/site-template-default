@@ -563,8 +563,25 @@ select[data-testid="field-group-select"] > option:first-child {
   display: none !important;
 }
 
-.inline-footer div[data-testid="pane-footer"] {
-  position: relative !important;
-  bottom: unset;
+.inline-document-pane div[data-testid="document-pane"] {
+  position: relative !important
+}
+
+.inline-field-label div[data-testid="field-label"] {
+  display: none !important;
+}
+
+.inline-field-variant div[data-testid="field-variant"] {
+  display: none !important;
+}
+
+.inline-panel div[data-testid="document-panel-scroller"] > div {
+  padding-top: 1rem;
+  padding-bottom: 2rem;
+}
+
+.inline-pane-footer div[data-testid="pane-footer"] {
+  position: sticky !important;
+  bottom: 0;
 }
 /* End */

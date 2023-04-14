@@ -48,7 +48,7 @@ function EditSection({ documentType, documentId, children }) {
                 unstable_history={history}
                 unstable_noAuthBoundary
               >
-                <div className="inline-nav-panesearch inline-nav-paneheader inline-desk-listpane inline-footer">
+                <div className="inline-nav-panesearch inline-nav-paneheader inline-desk-listpane inline-document-pane inline-field-label inline-field-variant inline-panel inline-pane-footer">
                   <StudioLayout />
                 </div>
               </StudioProvider>    
