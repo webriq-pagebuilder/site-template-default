@@ -7,7 +7,7 @@ function VariantE({ title, block, allowCookieBtn, denyCookieBtn }) {
   const [showCookie, setShowCookie] = React.useState(() => getCookie());
 
   return (
-    <div className="fixed bottom-0 inset-x-0 z-50">
+    <div className="fixed bottom-0 z-50">
       {!showCookie
         ? title && (
             <div className="max-w-md mx-4 md:mx-0 md:ml-10 mb-6 pt-8 bg-gray-800 text-white rounded-lg">

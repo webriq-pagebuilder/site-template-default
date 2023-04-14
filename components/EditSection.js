@@ -9,14 +9,23 @@ import config from "sanity.config"
 function EditSection({ documentType, documentId, children }) {
   const history = useMagicRouter(`/studio/desk/__edit__${documentId},type=${documentType}`)
   const [splitPane, setSplitPane] = React.useState(false)
-
+  const [activeTab, setActiveTab] = React.useState("desktop")
   const [sizes, setSizes] = React.useState([350, 250]);
+
+  const layoutCSS = {
+    height: "100%",
+    alignItems: "center",
+    justifyContent: "center",
+    overflowY: "scroll"
+  };
 
   return (
     <>
       <button 
         id={documentType} 
-        className="bg-white border border-webriq-darkblue hover:bg-webriq-blue hover:text-white text-webriq-darkblue font-semibold p-2 rounded shadow inline-flex items-center absolute right-0 z-50"
+        className={`font-medium rounded shadow-lg text-sm px-2 py-2.5 text-center inline-flex items-center mt-2 absolute right-2 z-40 ${
+          splitPane ? "bg-webriq-darkblue text-white hover:bg-webriq-blue hover:text-white"
+                    : "bg-white text-webriq-darkblue border border-webriq-darkblue hover:bg-webriq-blue hover:text-white hover:border-webriq-blue"}`}
         onClick={() => setSplitPane(!splitPane)}
       >
         {!splitPane && (
@@ -26,23 +35,67 @@ function EditSection({ documentType, documentId, children }) {
         )}
         <span>{splitPane ? "Close" : "Edit"}</span>
       </button>
+      {splitPane && (
+        <div className="inline-flex absolute right-20 z-40">
+          <button 
+            type="button" 
+            className={`${activeTab === "mobile" ? "bg-webriq-blue text-white": "bg-gray-50 text-black"} border border-webriq-blue hover:bg-webriq-blue hover:text-white font-medium rounded-l shadow-lg text-sm p-2.5 text-center inline-flex items-center mt-2`}
+            onClick={() => {
+              setSizes([375, 1024])
+              setActiveTab("mobile")
+            }}
+          >
+            {/* <svg aria-hidden="true" className="w-5 h-5" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+              <path d="M20 2c0-1.105-.896-2-2-2h-12c-1.105 0-2 .896-2 2v20c0 1.104.895 2 2 2h12c1.104 0 2-.896 2-2v-20zm-9.501 0h3.001c.276 0 .5.224.5.5s-.224.5-.5.5h-3.001c-.275 0-.499-.224-.499-.5s.224-.5.499-.5zm1.501 20c-.553 0-1-.448-1-1s.447-1 1-1c.552 0 .999.448.999 1s-.447 1-.999 1zm6-3h-12v-14.024h12v14.024z" />
+            </svg>
+            <span className="sr-only">Mobile preview</span> */}
+            Mobile
+          </button>
+          <button 
+            type="button" 
+            className={`${activeTab === "tablet" ? "bg-webriq-blue text-white": "bg-gray-50 text-black"} border-y border-webriq-blue hover:bg-webriq-blue hover:text-white font-medium shadow-lg text-sm p-2.5 text-center inline-flex items-center mt-2`}
+            onClick={() => {
+              setSizes([640, 1024])
+              setActiveTab("tablet")
+            }}
+          >
+            {/* <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M24 5c0-1.104-.896-2-2-2h-20c-1.104 0-2 .896-2 2v14c0 1.104.896 2 2 2h20c1.104 0 2-.896 2-2v-14zm-3 14h-18v-14h18v14zm1.5-6.5c-.276 0-.5-.224-.5-.5s.224-.5.5-.5.5.224.5.5-.224.5-.5.5z" />
+            </svg>
+            <span className="sr-only">Tablet preview</span> */}
+            Tablet
+          </button>
+          <button 
+            type="button" 
+            className={`${activeTab === "desktop" ? "bg-webriq-blue text-white": "bg-gray-50 text-black"} border border-webriq-blue hover:bg-webriq-blue hover:text-white font-medium rounded-r shadow-lg text-sm p-2.5 text-center inline-flex items-center mt-2`}
+            onClick={() => {
+              setSizes([1024, 1024])
+              setActiveTab("desktop")
+            }}
+          >
+            {/* <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M0 1v17h24v-17h-24zm22 15h-20v-13h20v13zm-6.599 4l2.599 3h-12l2.599-3h6.802z" />
+            </svg>
+            <span className="sr-only">Desktop preview</span> */}
+            Desktop
+          </button>
+        </div>
+      )}
       {splitPane ? (
-        <div style={{ height: 500 }}>
+        <div style={{ height: 550 }}>
           <SplitPane
             sizes={sizes}
             onChange={setSizes}
-            resizerSize={10}
+            resizerSize={5}
             className="border-y border-webriq-darkblue"
             sashRender={() => (
               <SashContent style={{ backgroundColor: "#d5e3ff" }} />
             )}
           >
-            <Pane style={{ overflowY: "scroll" }}>
-              <div className="bg-gray-50 overflow-y-scroll">
-                {children}
-              </div>
+            <Pane minSize={350} maxSize="50%" style={{ ...layoutCSS }}>
+              {children}
             </Pane>
-            <Pane minSize={50} maxSize='50%' style={{ overflowY: "scroll" }}>
+            <Pane style={{ overflowY: "scroll" }}>
               <StudioProvider
                 config={config}
                 unstable_history={history}
