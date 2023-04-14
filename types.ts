@@ -7,9 +7,22 @@ export interface SanityBody {
 }
 
 export interface ConditionalLink {
-  type: string;
-  internalLink: string;
-  externalLink: string;
+  type: 'conditionalLink';
+  internalLink: string | null;
+  externalLink: string | null;
+}
+
+export interface SanityImage {
+  _type: 'image';
+  asset: {
+    _ref: string;
+    _type: 'reference';
+  };
+}
+
+//Generic type for routes with label e.g. primaryButtons, secondaryButton, menu, etc
+export interface LabeledRoute extends ConditionalLink {
+  label?: string;
 }
 
 //types from variants on query file
@@ -19,12 +32,29 @@ export interface ArrayOfTitleAndText {
   title: string;
 }
 
-export interface SanityImage {
-  _type: 'image';
-  asset: {
-    _ref: string;
-    _type: 'reference';
-  };
+export interface Logo extends ConditionalLink {
+  alt?: string;
+  image?: SanityImage;
+}
+
+export interface Route extends LabeledRoute {
+  _key: string;
+}
+
+//TODO, UNFINISHED PLANS
+export interface Plans {
+  _key: string;
+  _type: 'planItems';
+  checkoutButtonname: string;
+  description: string;
+  monthlyPrice: string;
+  planType: string;
+  yearlyPrice: string;
+  planIncludes: PlanIncludes[];
+}
+
+interface PlanIncludes {
+  [key: string]: string;
 }
 
 export interface Seo {

@@ -5,11 +5,19 @@ import { format } from 'date-fns';
 import EditSection from 'components/EditSection';
 import { BlogsDataProps } from 'types';
 
-const Navigation = dynamic(() => import('components/sections/navigation'));
-const Footer = dynamic(() => import('components/sections/footer'));
+import { PortableTextComponents } from '@portabletext/react';
+
+interface CodeBlock extends PortableTextComponents {
+  _type: 'code';
+  language: string;
+  code: string;
+}
+
+const Navigation: any = dynamic(() => import('components/sections/navigation'));
+const Footer: any = dynamic(() => import('components/sections/footer'));
 
 // block styling as props to `components` of the PortableText component
-const blockStyle = {
+const blockStyle: PortableTextComponents = {
   block: {
     h1: ({ children }) => {
       return (
@@ -52,11 +60,6 @@ const blockStyle = {
       );
     },
   },
-  code: ({ value }) => {
-    <pre data-language={value.language}>
-      <code>{value.code}</code>
-    </pre>;
-  },
   list: {
     bullet: ({ children }) => {
       return (
@@ -82,7 +85,7 @@ const blockStyle = {
     strong: ({ children }) => <strong>{children}</strong>,
     em: ({ children }) => <em>{children}</em>,
     code: ({ children }) => <code>{children}</code>,
-    link: ({ children, value }) => (
+    link: ({ children, value }: { children: any; value?: any }) => (
       <a
         className='hover:text-webriq-darkorange text-webriq-lightorange'
         href={value.href}
