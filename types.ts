@@ -12,6 +12,13 @@ export interface ConditionalLink {
   externalLink: string;
 }
 
+//types from variants on query file
+export interface ArrayOfTitleAndText {
+  _key: string;
+  plaintText: string;
+  title: string;
+}
+
 export interface SanityImage {
   _type: 'image';
   asset: {
