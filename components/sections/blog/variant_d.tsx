@@ -1,36 +1,52 @@
-import React from "react";
-import Link from "next/link";
-import Image from "next/image";
-import { urlFor } from "lib/sanity";
-import { format } from "date-fns";
+import React, { useEffect } from 'react';
+import Link from 'next/link';
+import Image from 'next/image';
+import { urlFor } from 'lib/sanity';
+import { format } from 'date-fns';
 
-function VariantD({ subtitle, title, posts }) {
+import { BlogProps } from '.';
+import { SanityBody, SanityImage, SanitySlug } from 'types';
+
+interface BlogPostProps extends SanityBody {
+  category: string;
+  title: string;
+  slug: {
+    _type: 'slug';
+    current: string;
+  };
+  excerpt: string;
+  publishedAt: string;
+  mainImage: SanityImage;
+  authors: Author[];
+}
+
+interface Author extends SanityBody {
+  image: SanityImage;
+  link: string;
+  name: string;
+  slug: SanitySlug;
+}
+
+function VariantD({ subtitle, title, posts }: BlogProps) {
   let blogsPerPage = 6;
-  const [activeTab, setActiveTab] = React.useState("All"); //set the first index category as initial value
-  const [newArray, setNewArray] = React.useState([]);
+  const [activeTab, setActiveTab] = React.useState('All'); //set the first index category as initial value
 
-  // transform array content to easily map posts per category
-  React.useState(() => {
-    posts?.map((post) => {
-      post?.categories?.map((items) => {
-        setNewArray((prevState) => [
-          ...prevState,
-          {
-            category: items?.title,
-            title: post?.title,
-            slug: post?.slug,
-            excerpt: post?.excerpt,
-            publishedAt: post?.publishedAt,
-            mainImage: post?.mainImage,
-            authors: post?.authors,
-          },
-        ]);
-      });
+  const transformedPosts: BlogPostProps[] = posts?.map(post => {
+    post?.categories?.map(category => {
+      return {
+        category: category?.title,
+        title: post?.title,
+        slug: post?.slug,
+        excerpt: post?.excerpt,
+        publishedAt: post?.publishedAt,
+        mainImage: post?.mainImage,
+        authors: post?.authors,
+      } as BlogPostProps;
     });
-  }, []);
+  });
 
   // get all categories
-  const categories = newArray?.reduce((newArr, items) => {
+  const categories: string[] = transformedPosts?.reduce((newArr, items) => {
     const titles = items?.category;
 
     if (newArr.indexOf(titles) === -1) {
@@ -40,51 +56,51 @@ function VariantD({ subtitle, title, posts }) {
   }, []);
 
   // filtered posts per category
-  const postsPerCategory = newArray?.filter(
-    (items) => items?.category === activeTab
+  const postsPerCategory = transformedPosts?.filter(
+    items => items?.category === activeTab
   );
 
   return (
     <section>
-      <div className="py-20 bg-gray-50 radius-for-skewed">
-        <div className="container mx-auto px-4">
-          <div className="mb-16 flex flex-wrap items-center">
-            <div className="w-full lg:w-1/2">
+      <div className='radius-for-skewed bg-gray-50 py-20'>
+        <div className='container mx-auto px-4'>
+          <div className='mb-16 flex flex-wrap items-center'>
+            <div className='w-full lg:w-1/2'>
               {subtitle && (
-                <span className="text-webriq-darkblue font-bold">
+                <span className='font-bold text-webriq-darkblue'>
                   {subtitle}
                 </span>
               )}
               {title && (
-                <h1 className="text-4xl lg:text-5xl font-bold font-heading">
+                <h1 className='font-heading text-4xl font-bold lg:text-5xl'>
                   {title}
                 </h1>
               )}
             </div>
           </div>
-          <div className="flex flex-wrap -mx-3">
-            <div className="mb-8 lg:mb-0 w-full lg:w-1/4 px-3">
-              <div className="py-4 px-6 bg-white shadow rounded">
+          <div className='-mx-3 flex flex-wrap'>
+            <div className='mb-8 w-full px-3 lg:mb-0 lg:w-1/4'>
+              <div className='rounded bg-white px-6 py-4 shadow'>
                 {categories && (
                   <>
-                    <h1 className="mb-4 text-gray-500 font-bold uppercase">
+                    <h1 className='mb-4 font-bold uppercase text-gray-500'>
                       Topics
                     </h1>
                     <ul>
                       {categories?.length > 1 && (
                         <li
-                          className={`hover:text-webriq-darkblue hover:bg-webriq-lightblue rounded ${
-                            activeTab === "All" ? "bg-webriq-lightblue" : null
+                          className={`rounded hover:bg-webriq-lightblue hover:text-webriq-darkblue ${
+                            activeTab === 'All' ? 'bg-webriq-lightblue' : null
                           }`}
                         >
                           <button
-                            aria-label="All Blogs tab"
-                            className={`block py-2 px-3 mb-4 focus:outline-none ${
-                              activeTab === "All"
-                                ? "font-bold focus:outline-none text-webriq-darkblue"
+                            aria-label='All Blogs tab'
+                            className={`mb-4 block px-3 py-2 focus:outline-none ${
+                              activeTab === 'All'
+                                ? 'font-bold text-webriq-darkblue focus:outline-none'
                                 : null
                             }`}
-                            onClick={() => setActiveTab("All")}
+                            onClick={() => setActiveTab('All')}
                           >
                             All
                           </button>
@@ -92,18 +108,18 @@ function VariantD({ subtitle, title, posts }) {
                       )}
                       {categories?.map((category, index) => (
                         <li
-                          className={`hover:text-webriq-darkblue hover:bg-webriq-lightblue rounded ${
+                          className={`rounded hover:bg-webriq-lightblue hover:text-webriq-darkblue ${
                             activeTab === category
-                              ? "bg-webriq-lightblue"
+                              ? 'bg-webriq-lightblue'
                               : null
                           }`}
                           key={index}
                         >
                           <button
                             aria-label={`${category} Blogs tab`}
-                            className={`block py-2 px-3 mb-4 focus:outline-none ${
+                            className={`mb-4 block px-3 py-2 focus:outline-none ${
                               activeTab === category
-                                ? "font-bold focus:outline-none text-webriq-darkblue"
+                                ? 'font-bold text-webriq-darkblue focus:outline-none'
                                 : null
                             }`}
                             onClick={() => setActiveTab(category)}
@@ -118,45 +134,45 @@ function VariantD({ subtitle, title, posts }) {
               </div>
             </div>
             {posts && (
-              <div className="w-full lg:w-3/4 px-3">
-                {activeTab === "All"
+              <div className='w-full px-3 lg:w-3/4'>
+                {activeTab === 'All'
                   ? posts?.slice(0, blogsPerPage)?.map((post, index) => (
                       <div
-                        className="flex flex-wrap -mx-3 mb-8 lg:mb-6"
+                        className='-mx-3 mb-8 flex flex-wrap lg:mb-6'
                         key={index}
                       >
-                        <div className="mb-4 lg:mb-0 w-full h-full lg:w-1/4 px-3">
+                        <div className='mb-4 h-full w-full px-3 lg:mb-0 lg:w-1/4'>
                           {post?.mainImage && (
                             <Image
-                              className="w-full h-full rounded overflow-hidden object-cover"
+                              className='h-full w-full overflow-hidden rounded object-cover'
                               src={urlFor(post?.mainImage)}
-                              sizes="100vw"
+                              sizes='100vw'
                               width={188}
                               height={129}
                               alt={`blog-variantD-image-${index}`}
                             />
                           )}
                         </div>
-                        <div className="w-full lg:w-3/4 px-3">
+                        <div className='w-full px-3 lg:w-3/4'>
                           {post?.title && (
                             <Link
                               aria-label={`Go to ${post?.slug?.current} blog page`}
-                              className="hover:text-webriq-babyblue"
+                              className='hover:text-webriq-babyblue'
                               href={`/${
-                                post?.slug?.current ?? "page-not-added"
+                                post?.slug?.current ?? 'page-not-added'
                               }`}
                             >
-                              <p className="mb-1 text-2xl font-bold font-heading">
+                              <p className='font-heading mb-1 text-2xl font-bold'>
                                 {post?.title}
                               </p>
                             </Link>
                           )}
-                          <div className="mb-2 flex items-center text-sm">
+                          <div className='mb-2 flex items-center text-sm'>
                             {post?.authors &&
                               post?.authors?.map(
                                 (author, index, { length }) => (
-                                  <div className="flex" key={index}>
-                                    <span className="text-webriq-darkblue">
+                                  <div className='flex' key={index}>
+                                    <span className='text-webriq-darkblue'>
                                       {author?.name}
                                     </span>
                                     {index + 1 !== length ? (
@@ -166,19 +182,19 @@ function VariantD({ subtitle, title, posts }) {
                                 )
                               )}
                             {post?.publishedAt && post?.authors && (
-                              <span className="text-gray-500 mx-2">•</span>
+                              <span className='mx-2 text-gray-500'>•</span>
                             )}
                             {post?.publishedAt && (
-                              <span className="text-gray-500">
+                              <span className='text-gray-500'>
                                 {format(
                                   new Date(post?.publishedAt),
-                                  " dd MMM, yyyy"
+                                  ' dd MMM, yyyy'
                                 )}
                               </span>
                             )}
                           </div>
                           {post?.excerpt && (
-                            <p className="text-gray-500 text-sm">
+                            <p className='text-sm text-gray-500'>
                               {post?.excerpt}
                             </p>
                           )}
@@ -187,41 +203,41 @@ function VariantD({ subtitle, title, posts }) {
                     ))
                   : postsPerCategory?.map((post, index) => (
                       <div
-                        className="flex flex-wrap -mx-3 mb-8 lg:mb-6"
+                        className='-mx-3 mb-8 flex flex-wrap lg:mb-6'
                         key={index}
                       >
-                        <div className="mb-4 lg:mb-0 h-full w-full lg:w-1/4 px-3">
+                        <div className='mb-4 h-full w-full px-3 lg:mb-0 lg:w-1/4'>
                           {post?.mainImage && (
                             <Image
-                              className="w-full h-full rounded overflow-hidden object-cover"
+                              className='h-full w-full overflow-hidden rounded object-cover'
                               src={urlFor(post?.mainImage)}
-                              sizes="100vw"
+                              sizes='100vw'
                               width={188}
                               height={129}
                               alt={`blog-variantD-image-${index}`}
                             />
                           )}
                         </div>
-                        <div className="w-full lg:w-3/4 px-3">
+                        <div className='w-full px-3 lg:w-3/4'>
                           {post?.title && (
                             <Link
                               aria-label={`Go to ${post?.slug?.current} blog page`}
-                              className="hover:text-webriq-babyblue"
+                              className='hover:text-webriq-babyblue'
                               href={
-                                `/${post?.slug?.current}` ?? "/page-not-found"
+                                `/${post?.slug?.current}` ?? '/page-not-found'
                               }
                             >
-                              <p className="mb-1 text-2xl font-bold font-heading">
+                              <p className='font-heading mb-1 text-2xl font-bold'>
                                 {post?.title}
                               </p>
                             </Link>
                           )}
-                          <div className="mb-2 flex items-center text-sm">
+                          <div className='mb-2 flex items-center text-sm'>
                             {post?.authors &&
                               post?.authors?.map(
                                 (author, index, { length }) => (
-                                  <div className="flex" key={index}>
-                                    <span className="text-webriq-darkblue">
+                                  <div className='flex' key={index}>
+                                    <span className='text-webriq-darkblue'>
                                       {author?.name}
                                     </span>
                                     {index + 1 !== length ? (
@@ -231,19 +247,19 @@ function VariantD({ subtitle, title, posts }) {
                                 )
                               )}
                             {post?.publishedAt && post?.authors && (
-                              <span className="text-gray-500 mx-2">•</span>
+                              <span className='mx-2 text-gray-500'>•</span>
                             )}
                             {post?.publishedAt && (
-                              <span className="text-gray-500">
+                              <span className='text-gray-500'>
                                 {format(
                                   new Date(post?.publishedAt),
-                                  " dd MMM, yyyy"
+                                  ' dd MMM, yyyy'
                                 )}
                               </span>
                             )}
                           </div>
                           {post?.excerpt && (
-                            <p className="text-gray-500 text-sm">
+                            <p className='text-sm text-gray-500'>
                               {post?.excerpt}
                             </p>
                           )}

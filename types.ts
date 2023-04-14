@@ -1,4 +1,4 @@
-interface SanityQuery {
+export interface SanityBody {
   _createdAt: string;
   _id: string;
   _rev: string;
@@ -6,15 +6,21 @@ interface SanityQuery {
   _updatedAt: string;
 }
 
-interface SanityImage {
-  _type: "image";
+export interface ConditionalLink {
+  type: string;
+  internalLink: string;
+  externalLink: string;
+}
+
+export interface SanityImage {
+  _type: 'image';
   asset: {
     _ref: string;
-    _type: "reference";
+    _type: 'reference';
   };
 }
 
-interface Seo {
+export interface Seo {
   seoTitle?: string;
   seoDescription: string;
   seoImage?: SanityImage;
@@ -22,7 +28,7 @@ interface Seo {
   seoSynonyms?: string;
 }
 
-interface Sections extends SanityQuery {
+interface Sections extends SanityBody {
   label: string;
   variant: string;
   variants: Variants[];
@@ -32,15 +38,15 @@ interface Variants {
   [key: string]: any;
 }
 
-interface SanitySlug {
+export interface SanitySlug {
   current: string;
-  _type: "slug";
+  _type: 'slug';
 }
 
 interface BlogsBody {
   style: BlockStyles;
   _key: string;
-  _type: "block";
+  _type: 'block';
   markDefs: MarkDefs[] | [];
   children: BodyChildren[] | [];
 }
@@ -59,20 +65,29 @@ interface MarkDefs {
 }
 
 interface BlockStyles {
-  style: "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+  style: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'normal';
 }
 
-interface Authors extends SanityQuery {
+export interface Authors extends SanityBody {
   link: string;
   name: string;
   slug: SanitySlug;
+  image: SanityImage;
+  profile?: {
+    alt: string;
+    image: SanityImage;
+  };
 }
 
-interface Categories extends SanityQuery {
+export interface PrimaryButton extends ConditionalLink {
+  label: string;
+}
+
+interface Categories extends SanityBody {
   title: string;
 }
 
-export interface PageDataProps extends SanityQuery {
+export interface PageDataProps extends SanityBody {
   title: string;
   slug: string;
   seo: Seo;
@@ -80,7 +95,7 @@ export interface PageDataProps extends SanityQuery {
   hasNeverPublished: boolean;
 }
 
-export interface BlogsDataProps extends SanityQuery {
+export interface BlogsDataProps extends SanityBody {
   authors: Authors[];
   body: BlogsBody[];
   categories: Categories[];

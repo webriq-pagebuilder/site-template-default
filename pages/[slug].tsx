@@ -235,8 +235,6 @@ export const getStaticProps: GetStaticProps = async ({
     preview
   );
 
-  console.log(singleBlogData);
-
   return {
     props: {
       preview,
