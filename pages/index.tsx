@@ -1,16 +1,16 @@
-import React from 'react';
-import Head from 'next/head';
-import { PreviewSuspense } from 'next-sanity/preview';
-import { getClient } from 'lib/sanity.client';
-import { homeQuery } from './api/query';
-import { usePreview } from 'lib/sanity.preview';
-import { PageSections } from 'components/page';
-import { PreviewNoContent } from 'components/PreviewNoContent';
-import { filterDataToSingleItem } from 'components/list';
-import { PreviewBanner } from 'components/PreviewBanner';
-import { GetStaticPropsContext } from 'next';
+import React from "react";
+import Head from "next/head";
+import { PreviewSuspense } from "next-sanity/preview";
+import { getClient } from "lib/sanity.client";
+import { homeQuery } from "./api/query";
+import { usePreview } from "lib/sanity.preview";
+import { PageSections } from "components/page";
+import { PreviewNoContent } from "components/PreviewNoContent";
+import { filterDataToSingleItem } from "components/list";
+import { PreviewBanner } from "components/PreviewBanner";
+import { GetStaticPropsContext } from "next";
 
-import { PageDataProps } from 'types';
+import { PageDataProps } from "types";
 
 interface HomeProps {
   data: DataProps;
@@ -28,7 +28,7 @@ const Home = ({ data, preview, token, source }: HomeProps) => {
     return (
       <>
         <PreviewBanner />
-        <PreviewSuspense fallback='Loading...'>
+        <PreviewSuspense fallback="Loading...">
           <DocumentWithPreview {...{ data, token, source }} />
         </PreviewSuspense>
       </>
@@ -57,8 +57,8 @@ const Document = ({ data }: { data: DataProps }) => {
   return (
     <>
       <Head>
-        <meta name='viewport' content='width=260 initial-scale=1' />
-        <title>{seo?.seoTitle ?? title ?? 'WebriQ Studio'}</title>
+        <meta name="viewport" content="width=260 initial-scale=1" />
+        <title>{seo?.seoTitle ?? title ?? "WebriQ Studio"}</title>
       </Head>
 
       {/*  Show page sections */}
@@ -81,7 +81,7 @@ const DocumentWithPreview = ({ data, token = null, source }: HomeProps) => {
 
   const previewData: PageDataProps =
     previewDataEventSource?.[0] || previewDataEventSource;
-  const enableInlineEditing = source === 'studio';
+  const enableInlineEditing = source === "studio";
 
   // General safeguard against empty data
   if (!previewData) {
@@ -93,8 +93,8 @@ const DocumentWithPreview = ({ data, token = null, source }: HomeProps) => {
   return (
     <>
       <Head>
-        <meta name='viewport' content='width=260 initial-scale=1' />
-        <title>{seo?.seoTitle ?? title ?? 'WebriQ Studio'}</title>
+        <meta name="viewport" content="width=260 initial-scale=1" />
+        <title>{seo?.seoTitle ?? title ?? "WebriQ Studio"}</title>
       </Head>
 
       {/* if no sections, show no sections only in preview */}
@@ -141,8 +141,8 @@ export const getStaticProps = async ({
   return {
     props: {
       preview,
-      source: (preview && previewData.source) || '',
-      token: (preview && previewData.token) || '',
+      source: (preview && previewData.source) || "",
+      token: (preview && previewData.token) || "",
       data: { pageData },
     },
   };
