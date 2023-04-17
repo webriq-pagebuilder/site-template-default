@@ -2,25 +2,26 @@ import React from "react";
 import WebriQForm from "components/webriq-form";
 import { thankYouPageLink } from "helper";
 
+import { CTAProps } from ".";
 
-function VariantC({ title, text, features, form }) {
+function VariantC({ title, text, features, form }: CTAProps) {
   return (
-    <section className="py-20 bg-gray-50">
+    <section className="bg-gray-50 py-20">
       <div className="container mx-auto px-4">
-        <div className="flex flex-wrap items-center -mx-4">
-          <div className="w-full lg:w-1/2 px-4 mb-8 lg:mb-0">
-            <h1 className="mb-4 text-4xl lg:text-5xl font-bold font-heading">
+        <div className="-mx-4 flex flex-wrap items-center">
+          <div className="mb-8 w-full px-4 lg:mb-0 lg:w-1/2">
+            <h1 className="font-heading mb-4 text-4xl font-bold lg:text-5xl">
               {title}
             </h1>
-            <p className="max-w-lg text-gray-700 leading-loose">{text}</p>
+            <p className="max-w-lg leading-loose text-gray-700">{text}</p>
           </div>
-          <div className="w-full lg:w-1/2 px-4">
+          <div className="w-full px-4 lg:w-1/2">
             {form?.fields && (
               <WebriQForm
                 method="POST"
                 data-form-id={form?.id}
                 name="Calltoaction-VariantC-Form"
-                className="form-callToAction flex mb-4 items-center lg:justify-end"
+                className="form-callToAction mb-4 flex items-center lg:justify-end"
                 data-thankyou-url={thankYouPageLink(form?.thankYouPage)}
                 scriptsrc="https://pagebuilderforms.webriq.com/js/initReactForms"
               >
@@ -31,7 +32,7 @@ function VariantC({ title, text, features, form }) {
                         ? `Input ${form?.fields[0]?.name}`
                         : `${form?.fields[0]?.type}`
                     }`}
-                    className="mr-2 py-2 px-4 bg-white rounded leading-loose"
+                    className="mr-2 rounded bg-white px-4 py-2 leading-loose"
                     type={
                       form?.fields[0]?.type === "inputEmail"
                         ? "email"
@@ -54,7 +55,7 @@ function VariantC({ title, text, features, form }) {
                     aria-label={
                       form?.buttonLabel ?? "Call to action form submit button"
                     }
-                    className="inline-block py-2 px-6 bg-webriq-darkblue hover:bg-webriq-blue text-white font-bold leading-loose rounded-l-xl rounded-t-xl transition duration-200"
+                    className="inline-block rounded-l-xl rounded-t-xl bg-webriq-darkblue px-6 py-2 font-bold leading-loose text-white transition duration-200 hover:bg-webriq-blue"
                     type="submit"
                   >
                     {form?.buttonLabel}
@@ -63,13 +64,13 @@ function VariantC({ title, text, features, form }) {
               </WebriQForm>
             )}
             <div>
-              <ul className="flex items-center lg:justify-end text-gray-500">
+              <ul className="flex items-center text-gray-500 lg:justify-end">
                 {features &&
                   features?.map((feature, index) => (
                     <li className="mr-4 flex items-center" key={index}>
                       <span>
                         <svg
-                          className="mr-2 w-6 h-6 text-webriq-blue"
+                          className="mr-2 h-6 w-6 text-webriq-blue"
                           xmlns="http://www.w3.org/2000/svg"
                           viewBox="0 0 20 20"
                           fill="currentColor"

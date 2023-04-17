@@ -4,7 +4,7 @@ import EditSection from "components/EditSection";
 
 import { Logo, LabeledRoute, Form } from "types";
 
-interface CTAProps {
+export interface CTAProps {
   logo?: Logo;
   title?: string;
   text?: string;

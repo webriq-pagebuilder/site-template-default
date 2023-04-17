@@ -4,18 +4,27 @@ import Link from "next/link";
 import WebriQForm from "components/webriq-form";
 import { logoLink, thankYouPageLink, ConditionalBtnOrLink } from "helper";
 
-function VariantD({ logo, title, text, button, form, formLinks, signInLink }) {
+import { CTAProps } from ".";
+import { FormFields } from "./../../../types";
+
+function VariantD({
+  logo,
+  title,
+  text,
+  button,
+  form,
+  formLinks,
+  signInLink,
+}: CTAProps) {
   return (
-    <section className="py-20 px-10 bg-gray-50">
+    <section className="bg-gray-50 px-10 py-20">
       <div className="container mx-auto px-4">
-        <div className="flex flex-wrap items-center justify-center -mx-4">
-          <div className="mb-16 lg:mb-0 max-w-2xl lg:w-1/2 px-4">
+        <div className="-mx-4 flex flex-wrap items-center justify-center">
+          <div className="mb-16 max-w-2xl px-4 lg:mb-0 lg:w-1/2">
             {logo?.image && (
-              <Link 
+              <Link
                 aria-label={
-                  logoLink() === "/"
-                    ? "Go to home page"
-                    : `Go to ${logoLink()}`
+                  logoLink() === "/" ? "Go to home page" : `Go to ${logoLink()}`
                 }
                 className="mb-10 inline-block text-3xl font-bold leading-none"
                 href={logoLink()}
@@ -27,18 +36,21 @@ function VariantD({ logo, title, text, button, form, formLinks, signInLink }) {
                 />
               </Link>
             )}
-            <h1 className="mb-4 text-4xl md:text-5xl font-bold font-heading">
+            <h1 className="font-heading mb-4 text-4xl font-bold md:text-5xl">
               {title}
             </h1>
-            <p className="mb-8 text-gray-700 leading-loose">{text}</p>
+            <p className="mb-8 leading-loose text-gray-700">{text}</p>
             {button?.label && (
-              <ConditionalBtnOrLink value={button} style="inline-block py-2 px-6 bg-webriq-darkblue hover:bg-webriq-blue text-white font-bold leading-loose transition duration-250 rounded-l-xl rounded-t-xl" />
+              <ConditionalBtnOrLink
+                value={button}
+                style="inline-block py-2 px-6 bg-webriq-darkblue hover:bg-webriq-blue text-white font-bold leading-loose transition duration-250 rounded-l-xl rounded-t-xl"
+              />
             )}
           </div>
           <div className="w-full lg:w-1/2">
-            <div className="max-w-sm mx-auto lg:mr-0 lg:ml-auto">
+            <div className="mx-auto max-w-sm lg:ml-auto lg:mr-0">
               {form?.fields && (
-                <div className="mb-6 py-8 px-6 bg-white shadow rounded-t-3xl rounded-bl-3xl text-center">
+                <div className="mb-6 rounded-t-3xl rounded-bl-3xl bg-white px-6 py-8 text-center shadow">
                   <WebriQForm
                     method="POST"
                     data-form-id={form?.id}
@@ -48,13 +60,15 @@ function VariantD({ logo, title, text, button, form, formLinks, signInLink }) {
                     scriptsrc="https://pagebuilderforms.webriq.com/js/initReactForms"
                   >
                     <div className="mb-6">
-                      <span className="text-sm text-gray-500">{form?.subtitle}</span>
+                      <span className="text-sm text-gray-500">
+                        {form?.subtitle}
+                      </span>
                       <p className="text-2xl">{form?.name}</p>
                     </div>
-                    <div className="flex flex-wrap -mx-2">
+                    <div className="-mx-2 flex flex-wrap">
                       {form?.fields?.slice(0, 2)?.map((formFields, index) => (
                         <div
-                          className="w-full lg:w-1/2 px-2 mb-3 lg:mb-0 xl:mb-0 2xl:mb-0"
+                          className="mb-3 w-full px-2 lg:mb-0 lg:w-1/2 xl:mb-0 2xl:mb-0"
                           key={index}
                         >
                           <FormFields fields={formFields} />
@@ -72,9 +86,10 @@ function VariantD({ logo, title, text, button, form, formLinks, signInLink }) {
                     {form?.buttonLabel && (
                       <button
                         aria-label={
-                          form?.buttonLabel ?? "Call to action form submit button"
+                          form?.buttonLabel ??
+                          "Call to action form submit button"
                         }
-                        className="mb-4 py-4 w-full rounded text-sm bg-webriq-blue hover:bg-webriq-darkblue text-white font-bold leading-normal transition duration-200"
+                        className="mb-4 w-full rounded bg-webriq-blue py-4 text-sm font-bold leading-normal text-white transition duration-200 hover:bg-webriq-darkblue"
                         type="submit"
                       >
                         {form?.buttonLabel}
@@ -84,16 +99,22 @@ function VariantD({ logo, title, text, button, form, formLinks, signInLink }) {
                   {signInLink?.label && (
                     <p className="text-xs text-gray-500">
                       <span>Already have an account?</span>
-                      <ConditionalBtnOrLink value={signInLink} style="text-webriq-darkblue hover:text-webriq-babyblue" />
+                      <ConditionalBtnOrLink
+                        value={signInLink}
+                        style="text-webriq-darkblue hover:text-webriq-babyblue"
+                      />
                     </p>
                   )}
                 </div>
               )}
               {formLinks && (
-                <div className="flex flex-wrap text-sm justify-center items-center text-gray-500">
+                <div className="flex flex-wrap items-center justify-center text-sm text-gray-500">
                   {formLinks?.map((link, index, { length }) => (
                     <div key={index}>
-                      <ConditionalBtnOrLink value={link} style="text-webriq-darkblue hover:text-webriq-blue font-bold" />
+                      <ConditionalBtnOrLink
+                        value={link}
+                        style="text-webriq-darkblue hover:text-webriq-blue font-bold"
+                      />
                       {index === length - 1 ? null : index === length - 2 ? (
                         <span>&nbsp;and&nbsp;</span>
                       ) : (
@@ -112,103 +133,96 @@ function VariantD({ logo, title, text, button, form, formLinks, signInLink }) {
 }
 
 /**
- * 
- * @param {fields} 
+ *
+ * @param {fields}
  * @returns input fields according to type
  */
-function FormFields({ fields }) {
+function FormFields({ fields }: FormFields) {
   const [value, setValue] = React.useState(null); // setting selected value for input field radio type
   const [checked, setChecked] = React.useState([]); // setting selected value for input field checkbox type
 
-  const handleRadioChange = (e) => {
+  const handleRadioChange = e => {
     setValue(e.target.value);
   };
 
-  const handleCheckboxChange = (e) => {
+  const handleCheckboxChange = e => {
     const { checked, value } = e.target;
 
-    setChecked((prev) =>
-      checked ? [...prev, value] : prev.filter((v) => v !== value)
+    setChecked(prev =>
+      checked ? [...prev, value] : prev.filter(v => v !== value)
     );
   };
 
-  if(fields?.type === "textarea") {
+  if (fields?.type === "textarea") {
     return (
       <textarea
         aria-label={`${fields?.name} text area`}
-        className="w-full p-4 text-xs bg-gray-100 outline-none rounded"
+        className="w-full rounded bg-gray-100 p-4 text-xs outline-none"
         placeholder={fields?.placeholder}
         name={fields?.name}
         required={fields?.isRequired}
       />
-    )
-  } else if(fields?.type === "inputFile") {
+    );
+  } else if (fields?.type === "inputFile") {
     return (
-      <label className="flex px-2 bg-gray-100 rounded">
+      <label className="flex rounded bg-gray-100 px-2">
         <input
           aria-label={fields?.name}
-          className="w-full p-4 text-xs bg-gray-100 outline-none rounded"
+          className="w-full rounded bg-gray-100 p-4 text-xs outline-none"
           type="file"
           placeholder={fields?.placeholder ?? "Choose file.."}
           name={fields?.name}
           required={fields?.isRequired}
         />
       </label>
-    )
-  } else if(fields?.type === "inputNumber") {
+    );
+  } else if (fields?.type === "inputNumber") {
     return (
       <input
         aria-label={fields?.name}
-        className="mb-3 w-full p-4 text-xs bg-gray-100 outline-none rounded"
+        className="mb-3 w-full rounded bg-gray-100 p-4 text-xs outline-none"
         type="number"
         placeholder={fields?.placeholder}
         name={fields?.name}
         required={fields?.isRequired}
       />
-    )
-  } else if(fields?.type === "inputSelect") {
+    );
+  } else if (fields?.type === "inputSelect") {
     return (
       <div className="mb-4 flex">
         <label
-          className="text-left text-xs text-gray-500 m-auto"
+          className="m-auto text-left text-xs text-gray-500"
           htmlFor={fields?.name}
         >
           {fields?.label}
         </label>
         <select
-          className="p-3 w-full text-xs bg-gray-100 outline-none rounded"
+          className="w-full rounded bg-gray-100 p-3 text-xs outline-none"
           name={`cta-${fields?.name}`}
           defaultValue={"default-value"}
           required={fields?.isRequired}
         >
-          <option name="default-value" value=""></option>
+          <option value=""></option>
           {fields?.items?.map((item, index) => (
-            <option
-              key={index}
-              name={fields?.name}
-              value={item}
-            >
+            <option key={index} value={item}>
               {item}
             </option>
           ))}
         </select>
       </div>
-    )
-  } else if(fields?.type === "inputRadio") {
+    );
+  } else if (fields?.type === "inputRadio") {
     return (
       <div className="mb-4 text-left">
         <label
-          className="text-left text-xs text-gray-500 m-auto"
+          className="m-auto text-left text-xs text-gray-500"
           htmlFor={fields?.name}
         >
           {fields?.label}
         </label>
         <div>
           {fields?.items?.map((item, index) => (
-            <label
-              className="text-xs text-gray-500 mr-4"
-              key={index}
-            >
+            <label className="mr-4 text-xs text-gray-500" key={index}>
               <input
                 className="mr-2"
                 name={fields?.name}
@@ -223,34 +237,28 @@ function FormFields({ fields }) {
           ))}
         </div>
       </div>
-    )
-  } else if(fields?.type === "inputCheckbox") {
+    );
+  } else if (fields?.type === "inputCheckbox") {
     return (
       <div className="mb-4 text-left">
         <label
-          className="text-left text-xs text-gray-500 m-auto"
+          className="m-auto text-left text-xs text-gray-500"
           htmlFor={fields?.name}
         >
           {fields?.label}
         </label>
         <div>
           {fields?.items?.map((item, index) => (
-            <label
-              className="text-xs text-gray-500 mr-4"
-              key={index}
-            >
+            <label className="mr-4 text-xs text-gray-500" key={index}>
               <input
                 className="mr-2"
                 name={fields?.name}
                 value={item}
                 type="checkbox"
                 onChange={handleCheckboxChange}
-                checked={checked.some((v) => v === item)}
+                checked={checked.some(v => v === item)}
                 required={
-                  fields?.isRequired &&
-                  checked.length === 0
-                    ? true
-                    : false
+                  fields?.isRequired && checked.length === 0 ? true : false
                 }
               />
               {item}
@@ -258,7 +266,7 @@ function FormFields({ fields }) {
           ))}
         </div>
       </div>
-    )
+    );
   } else {
     return (
       <input
@@ -267,7 +275,7 @@ function FormFields({ fields }) {
             ? `Input ${fields?.name}`
             : `${fields?.type}`
         }`}
-        className="mb-3 w-full p-4 text-xs bg-gray-100 outline-none rounded"
+        className="mb-3 w-full rounded bg-gray-100 p-4 text-xs outline-none"
         type={
           fields?.type === "inputEmail"
             ? "email"
@@ -279,7 +287,7 @@ function FormFields({ fields }) {
         name={fields?.name}
         required={fields?.isRequired}
       />
-    )
+    );
   }
 }
 

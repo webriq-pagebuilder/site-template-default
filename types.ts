@@ -75,7 +75,7 @@ interface ThankYouPage {
   type?: string;
 }
 
-interface FormFields {
+export interface FormFields {
   [key: string]: any;
 }
 
