@@ -5,63 +5,68 @@ import { urlFor } from "lib/sanity";
 import { format } from "date-fns";
 import { ConditionalBtnOrLink } from "helper";
 
+import { BlogProps } from ".";
 
-function VariantB({ subtitle, title, posts, primaryButton }) {
+function VariantB({ subtitle, title, posts, primaryButton }: BlogProps) {
   let blogsPerPage = 5,
     count = 0;
 
   return (
     <section>
-      <div className="py-20 bg-gray-50 radius-for-skewed">
+      <div className="radius-for-skewed bg-gray-50 py-20">
         <div className="container mx-auto px-4">
           <div className="mb-6 flex flex-wrap justify-center">
             <div className="mb-16 w-full text-center">
               {subtitle && (
-                <span className="text-webriq-darkblue font-bold">
+                <span className="font-bold text-webriq-darkblue">
                   {subtitle}
                 </span>
               )}
               {title && (
-                <h1 className="text-4xl lg:text-5xl font-bold font-heading">
+                <h1 className="font-heading text-4xl font-bold lg:text-5xl">
                   {title}
                 </h1>
               )}
             </div>
-            <div className="flex flex-wrap -mx-3 mb-16">
-              <div className="mb-6 lg:mb-0 w-full lg:w-1/2 px-3">
+            <div className="-mx-3 mb-16 flex flex-wrap">
+              <div className="mb-6 w-full px-3 lg:mb-0 lg:w-1/2">
                 {posts?.slice(count, count + 1)?.map((post, key) => (
-                  <div className="rounded overflow-hidden shadow" key={key}>
+                  <div className="overflow-hidden rounded shadow" key={key}>
                     {post?.mainImage?.asset?._ref && (
                       <Image
-                        className="w-full h-full rounded-t overflow-hidden object-cover"
+                        className="h-full w-full overflow-hidden rounded-t object-cover"
                         src={urlFor(post?.mainImage)}
-                        sizes="100vw" 
-                        style={{ width: "100%", height: "auto", objectFit: "cover" }}
+                        sizes="100vw"
+                        style={{
+                          width: "100%",
+                          height: "auto",
+                          objectFit: "cover",
+                        }}
                         width={271}
                         height={248}
                         alt={`blog-variantB-image-${key}`}
                       />
                     )}
-                    <div className="mt-auto p-6 rounded-b bg-white">
+                    <div className="mt-auto rounded-b bg-white p-6">
                       {post?.publishedAt && (
                         <span className="text-sm text-gray-500">
                           {format(new Date(post?.publishedAt), " dd MMM, yyyy")}
                         </span>
                       )}
                       {post?.title && (
-                        <h1 className="my-2 text-lg lg:text-2xl xl:text-2xl 2xl:text-2xl font-bold">
+                        <h1 className="my-2 text-lg font-bold lg:text-2xl xl:text-2xl 2xl:text-2xl">
                           {post?.title}
                         </h1>
                       )}
                       {post?.excerpt && (
-                        <p className="mb-6 leading-loose text-xs lg:text-base xl:text-base 2xl:text-base text-justify text-gray-500">
+                        <p className="mb-6 text-justify text-xs leading-loose text-gray-500 lg:text-base xl:text-base 2xl:text-base">
                           {post?.excerpt}
                         </p>
                       )}
                       {post?.slug?.current && (
                         <Link
                           aria-label={`Go to ${post?.slug?.current} blog page`}
-                          className="text-webriq-darkblue hover:text-webriq-babyblue font-bold"
+                          className="font-bold text-webriq-darkblue hover:text-webriq-babyblue"
                           href={`/${post?.slug?.current}` ?? "/page-not-found"}
                         >
                           View Blog Post
@@ -71,21 +76,21 @@ function VariantB({ subtitle, title, posts, primaryButton }) {
                   </div>
                 ))}
               </div>
-              <div className="flex flex-wrap w-full lg:w-1/2">
+              <div className="flex w-full flex-wrap lg:w-1/2">
                 {posts?.slice(count + 1, blogsPerPage)?.map((post, key) => (
-                  <div className="mb-6 w-full lg:w-1/2 px-3" key={key}>
-                    <div className="rounded overflow-hidden shadow">
+                  <div className="mb-6 w-full px-3 lg:w-1/2" key={key}>
+                    <div className="overflow-hidden rounded shadow">
                       {post?.mainImage?.asset?._ref && (
                         <Image
-                          className="w-full h-full rounded-t overflow-hidden object-cover"
+                          className="h-full w-full overflow-hidden rounded-t object-cover"
                           src={urlFor(post?.mainImage)}
-                          sizes="100vw" 
+                          sizes="100vw"
                           width={259}
                           height={192}
                           alt={`blog-variantB-image-${key}`}
                         />
                       )}
-                      <div className="mt-auto p-6 rounded-b bg-white">
+                      <div className="mt-auto rounded-b bg-white p-6">
                         {post?.publishedAt && (
                           <span className="text-sm text-gray-500">
                             {format(
@@ -95,19 +100,19 @@ function VariantB({ subtitle, title, posts, primaryButton }) {
                           </span>
                         )}
                         {post?.title && (
-                          <h1 className="my-2 text-lg lg:text-2xl xl:text-2xl 2xl:text-2xl font-bold">
+                          <h1 className="my-2 text-lg font-bold lg:text-2xl xl:text-2xl 2xl:text-2xl">
                             {post?.title}
                           </h1>
                         )}
                         {post?.excerpt && (
-                          <p className="mb-6 leading-loose text-justify text-gray-500">
+                          <p className="mb-6 text-justify leading-loose text-gray-500">
                             {post?.excerpt}
                           </p>
                         )}
                         {post?.slug?.current && (
                           <Link
                             aria-label={`Go to ${post?.slug?.current} blog page`}
-                            className="text-webriq-darkblue hover:text-webriq-babyblue font-bold"
+                            className="font-bold text-webriq-darkblue hover:text-webriq-babyblue"
                             href={
                               `/${post?.slug?.current}` ?? "/page-not-found"
                             }
@@ -122,7 +127,12 @@ function VariantB({ subtitle, title, posts, primaryButton }) {
               </div>
             </div>
             <div className="text-center">
-              {primaryButton?.label && <ConditionalBtnOrLink value={primaryButton} style="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose outline-none transition duration-200" />}
+              {primaryButton?.label && (
+                <ConditionalBtnOrLink
+                  value={primaryButton}
+                  style="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose outline-none transition duration-200"
+                />
+              )}
             </div>
           </div>
         </div>

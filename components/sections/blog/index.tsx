@@ -2,20 +2,25 @@ import React from "react";
 import dynamic from "next/dynamic";
 import EditSection from "components/EditSection";
 
-import { PrimaryButton, Authors } from "types";
+import { PrimaryButton, Author, SanityBody } from "types";
 
 export interface BlogProps {
   subtitle?: string;
   title?: string;
-  posts?: Posts;
+  posts?: Posts[];
   primaryButton?: PrimaryButton;
 }
 
 interface Posts {
   link: string;
-  authors: Authors[];
-  categories: string[];
+  authors: Author[];
+  categories: Categories[];
   [key: string]: any;
+}
+
+interface Categories extends SanityBody {
+  description?: string;
+  title?: string;
 }
 
 const Variants = {

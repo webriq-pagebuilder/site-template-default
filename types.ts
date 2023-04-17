@@ -7,16 +7,16 @@ export interface SanityBody {
 }
 
 export interface ConditionalLink {
-  type: 'conditionalLink';
+  type: "conditionalLink";
   internalLink?: string | null;
   externalLink?: string | null;
 }
 
 export interface SanityImage {
-  _type: 'image';
+  _type: "image";
   asset: {
     _ref: string;
-    _type: 'reference';
+    _type: "reference";
   };
 }
 
@@ -44,7 +44,7 @@ export interface Route extends LabeledRoute {
 //TODO, UNFINISHED PLANS
 export interface Plans {
   _key?: string;
-  _type?: 'planItems';
+  _type?: "planItems";
   checkoutButtonname?: string;
   description?: string;
   monthlyPrice?: string;
@@ -77,13 +77,13 @@ interface Variants {
 
 export interface SanitySlug {
   current?: string;
-  _type?: 'slug';
+  _type?: "slug";
 }
 
 interface BlogsBody {
   style?: BlockStyles;
   _key?: string;
-  _type?: 'block';
+  _type?: "block";
   markDefs?: MarkDefs[] | [];
   children?: BodyChildren[] | [];
 }
@@ -102,10 +102,10 @@ interface MarkDefs {
 }
 
 interface BlockStyles {
-  style?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'normal';
+  style?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
 }
 
-export interface Authors extends SanityBody {
+export interface Author extends SanityBody {
   link?: string;
   name?: string;
   slug?: SanitySlug;
@@ -133,7 +133,7 @@ export interface PageDataProps extends SanityBody {
 }
 
 export interface BlogsDataProps extends SanityBody {
-  authors?: Authors[];
+  authors?: Author[];
   body?: BlogsBody[];
   categories?: Categories[];
   excerpt?: string;

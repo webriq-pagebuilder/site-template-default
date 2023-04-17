@@ -5,46 +5,47 @@ import { urlFor } from "lib/sanity";
 import { format } from "date-fns";
 import { ConditionalBtnOrLink } from "helper";
 
+import { BlogProps } from ".";
 
-function VariantA({ subtitle, title, posts, primaryButton }) {
+function VariantA({ subtitle, title, posts, primaryButton }: BlogProps) {
   let blogsPerPage = 6,
     count = 0;
 
   return (
     <section>
-      <div className="py-20 bg-gray-50 radius-for-skewed">
+      <div className="radius-for-skewed bg-gray-50 py-20">
         <div className="container mx-auto px-4">
           <div className="mb-16 text-center">
             {subtitle && (
-              <span className="text-webriq-darkblue font-bold">{subtitle}</span>
+              <span className="font-bold text-webriq-darkblue">{subtitle}</span>
             )}
             {title && (
-              <h1 className="text-4xl lg:text-5xl font-bold font-heading">
+              <h1 className="font-heading text-4xl font-bold lg:text-5xl">
                 {title}
               </h1>
             )}
           </div>
           {posts && (
-            <div className="flex flex-wrap justify-center -mx-3">
-              <div className="flex flex-wrap w-full lg:w-1/2">
+            <div className="-mx-3 flex flex-wrap justify-center">
+              <div className="flex w-full flex-wrap lg:w-1/2">
                 {posts?.slice(count, count + 1)?.map((post, key) => (
-                  <div className="w-full px-3 mb-5" key={key}>
-                    <div className="relative h-64 mx-auto rounded">
+                  <div className="mb-5 w-full px-3" key={key}>
+                    <div className="relative mx-auto h-64 rounded">
                       {post?.mainImage?.asset?._ref && (
                         <Image
-                          className="relative h-full w-full rounded overflow-hidden object-cover"
+                          className="relative h-full w-full overflow-hidden rounded object-cover"
                           src={urlFor(post?.mainImage)}
                           alt={`blog-variantA-image-${key}`}
                           fill
                         />
                       )}
-                      <div className="absolute inset-0 bg-gray-900 opacity-75 rounded" />
-                      <div className="absolute inset-0 p-6 flex flex-col items-start">
+                      <div className="absolute inset-0 rounded bg-gray-900 opacity-75" />
+                      <div className="absolute inset-0 flex flex-col items-start p-6">
                         {post?.categories && (
-                          <div className="flex absolute top-5 left-5">
+                          <div className="absolute left-5 top-5 flex">
                             {post?.categories?.map((category, index) => (
                               <span
-                                className="py-1 px-3 text-sm mr-3 bg-white rounded-full text-webriq-darkblue uppercase font-bold"
+                                className="mr-3 rounded-full bg-white px-3 py-1 text-sm font-bold uppercase text-webriq-darkblue"
                                 key={index}
                               >
                                 {category?.title}
@@ -63,7 +64,7 @@ function VariantA({ subtitle, title, posts, primaryButton }) {
                         {post?.title && (
                           <Link
                             aria-label={`blog post ${key}`}
-                            className="text-xl lg:text-2xl text-white font-bold hover:text-webriq-babyblue transform hover:scale-110 motion-reduce:transform-none"
+                            className="transform text-xl font-bold text-white hover:scale-110 hover:text-webriq-babyblue motion-reduce:transform-none lg:text-2xl"
                             href={
                               `/${post?.slug?.current}` ?? "/page-not-found"
                             }
@@ -78,23 +79,23 @@ function VariantA({ subtitle, title, posts, primaryButton }) {
                   </div>
                 ))}
                 {posts?.slice(count + 1, count + 3)?.map((post, key) => (
-                  <div className="w-full lg:w-1/2 px-3 mb-5" key={key}>
-                    <div className="relative mx-auto rounded h-64">
+                  <div className="mb-5 w-full px-3 lg:w-1/2" key={key}>
+                    <div className="relative mx-auto h-64 rounded">
                       {post?.mainImage?.asset?._ref && (
                         <Image
-                          className="relative h-full w-full rounded overflow-hidden object-cover"
+                          className="relative h-full w-full overflow-hidden rounded object-cover"
                           src={urlFor(post?.mainImage)}
                           alt={`blog-variantA-image-${key}`}
                           fill
                         />
                       )}
-                      <div className="absolute inset-0 bg-gray-900 opacity-75 rounded" />
-                      <div className="absolute inset-0 p-6 flex flex-col items-start">
+                      <div className="absolute inset-0 rounded bg-gray-900 opacity-75" />
+                      <div className="absolute inset-0 flex flex-col items-start p-6">
                         {post?.categories && (
-                          <div className="flex absolute top-5 left-5">
+                          <div className="absolute left-5 top-5 flex">
                             {post?.categories?.map((category, index) => (
                               <span
-                                className="mb-auto py-1 px-3 text-sm mr-3 bg-white rounded-full text-webriq-darkblue uppercase font-bold"
+                                className="mb-auto mr-3 rounded-full bg-white px-3 py-1 text-sm font-bold uppercase text-webriq-darkblue"
                                 key={index}
                               >
                                 {category?.title}
@@ -112,7 +113,7 @@ function VariantA({ subtitle, title, posts, primaryButton }) {
                         )}
                         {post?.title && (
                           <Link
-                            className="text-xl lg:text-2xl text-white font-bold hover:text-webriq-babyblue transform hover:scale-110 motion-reduce:transform-none"
+                            className="transform text-xl font-bold text-white hover:scale-110 hover:text-webriq-babyblue motion-reduce:transform-none lg:text-2xl"
                             href={
                               `/${post?.slug?.current}` ?? "/page-not-found"
                             }
@@ -127,25 +128,25 @@ function VariantA({ subtitle, title, posts, primaryButton }) {
                   </div>
                 ))}
               </div>
-              <div className="flex flex-wrap w-full lg:w-1/2">
+              <div className="flex w-full flex-wrap lg:w-1/2">
                 {posts?.slice(count + 3, count + 5)?.map((post, key) => (
-                  <div className="w-full lg:w-1/2 px-3 mb-5" key={key}>
-                    <div className="relative mx-auto rounded h-64">
+                  <div className="mb-5 w-full px-3 lg:w-1/2" key={key}>
+                    <div className="relative mx-auto h-64 rounded">
                       {post?.mainImage?.asset?._ref && (
                         <Image
-                          className="relative h-full w-full rounded overflow-hidden object-cover"
+                          className="relative h-full w-full overflow-hidden rounded object-cover"
                           src={urlFor(post?.mainImage)}
                           alt={`blog-variantA-image-${key}`}
                           fill
                         />
                       )}
-                      <div className="absolute inset-0 bg-gray-900 opacity-75 rounded" />
-                      <div className="absolute inset-0 p-6 flex flex-col items-start">
+                      <div className="absolute inset-0 rounded bg-gray-900 opacity-75" />
+                      <div className="absolute inset-0 flex flex-col items-start p-6">
                         {post?.categories && (
-                          <div className="flex absolute top-5 left-5">
+                          <div className="absolute left-5 top-5 flex">
                             {post?.categories?.map((category, index) => (
                               <span
-                                className="mb-auto py-1 px-3 text-sm mr-3 bg-white rounded-full text-webriq-darkblue uppercase font-bold"
+                                className="mb-auto mr-3 rounded-full bg-white px-3 py-1 text-sm font-bold uppercase text-webriq-darkblue"
                                 key={index}
                               >
                                 {category?.title}
@@ -163,7 +164,7 @@ function VariantA({ subtitle, title, posts, primaryButton }) {
                         )}
                         {post?.title && (
                           <Link
-                            className="text-xl lg:text-2xl text-white font-bold hover:text-webriq-babyblue transform hover:scale-110 motion-reduce:transform-none"
+                            className="transform text-xl font-bold text-white hover:scale-110 hover:text-webriq-babyblue motion-reduce:transform-none lg:text-2xl"
                             href={
                               `/${post?.slug?.current}` ?? "/page-not-found"
                             }
@@ -178,23 +179,23 @@ function VariantA({ subtitle, title, posts, primaryButton }) {
                   </div>
                 ))}
                 {posts?.slice(count + 5, blogsPerPage)?.map((post, key) => (
-                  <div className="w-full px-3 mb-5" key={key}>
-                    <div className="relative mx-auto rounded h-64">
+                  <div className="mb-5 w-full px-3" key={key}>
+                    <div className="relative mx-auto h-64 rounded">
                       {post?.mainImage?.asset?._ref && (
                         <Image
-                          className="relative h-full w-full rounded overflow-hidden object-cover"
+                          className="relative h-full w-full overflow-hidden rounded object-cover"
                           src={urlFor(post?.mainImage)}
                           alt={`blog-variantA-image-${key}`}
                           fill
                         />
                       )}
-                      <div className="absolute inset-0 bg-gray-900 opacity-75 rounded" />
-                      <div className="absolute inset-0 p-6 flex flex-col items-start">
+                      <div className="absolute inset-0 rounded bg-gray-900 opacity-75" />
+                      <div className="absolute inset-0 flex flex-col items-start p-6">
                         {post?.categories && (
-                          <div className="flex absolute top-5 left-5">
+                          <div className="absolute left-5 top-5 flex">
                             {post?.categories?.map((category, index) => (
                               <span
-                                className="mb-auto py-1 px-3 mr-3 text-sm bg-white rounded-full text-webriq-darkblue uppercase font-bold"
+                                className="mb-auto mr-3 rounded-full bg-white px-3 py-1 text-sm font-bold uppercase text-webriq-darkblue"
                                 key={index}
                               >
                                 {category?.title}
@@ -212,7 +213,7 @@ function VariantA({ subtitle, title, posts, primaryButton }) {
                         )}
                         {post?.title && (
                           <Link
-                            className="text-xl lg:text-2xl text-white font-bold hover:text-webriq-babyblue transform hover:scale-110 motion-reduce:transform-none"
+                            className="transform text-xl font-bold text-white hover:scale-110 hover:text-webriq-babyblue motion-reduce:transform-none lg:text-2xl"
                             href={
                               `/${post?.slug?.current}` ?? "/page-not-found"
                             }
@@ -228,7 +229,12 @@ function VariantA({ subtitle, title, posts, primaryButton }) {
                 ))}
               </div>
               <div className="mt-10">
-                {primaryButton?.label && <ConditionalBtnOrLink value={primaryButton} style="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose outline-none transition duration-200" />}
+                {primaryButton?.label && (
+                  <ConditionalBtnOrLink
+                    value={primaryButton}
+                    style="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose outline-none transition duration-200"
+                  />
+                )}
               </div>
             </div>
           )}
