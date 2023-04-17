@@ -39,7 +39,7 @@ function VariantD({ subtitle, title, posts }: BlogProps) {
     .flat();
 
   // get all categories
-  const categories = transformedPosts?.reduce((newArr, items) => {
+  const categories: string[] = transformedPosts?.reduce((newArr, items) => {
     const titles = items?.category;
 
     if (newArr.indexOf(titles) === -1) {

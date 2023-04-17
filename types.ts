@@ -57,6 +57,28 @@ interface PlanIncludes {
   [key: string]: string;
 }
 
+export interface Form {
+  id?: string;
+  buttonLabel?: string;
+  name?: string;
+  subtitle?: string;
+  fields?: FormFields[];
+  thankYouPage?: ThankYouPage;
+}
+
+interface ThankYouPage {
+  externalLink?: string | null;
+  internalLink?: string | null;
+  linkInternal?: any;
+  linkTarget?: string;
+  linkType?: string;
+  type?: string;
+}
+
+interface FormFields {
+  [key: string]: any;
+}
+
 export interface Seo {
   seoTitle?: string;
   seoDescription?: string;
