@@ -4,9 +4,9 @@ import Link from "next/link";
 import WebriQForm from "components/webriq-form";
 import { logoLink, thankYouPageLink } from "helper";
 
-import { CTAProps } from ".";
+import { Variants } from "types";
 
-function VariantB({ logo, title, text, form }: CTAProps) {
+function VariantB({ logo, title, plainText, form }: Variants) {
   return (
     <section>
       <div>
@@ -39,7 +39,7 @@ function VariantB({ logo, title, text, form }: CTAProps) {
             <h1 className="font-heading mb-4 text-4xl font-bold md:text-5xl">
               {title}
             </h1>
-            <p className="mb-6 text-gray-700">{text}</p>
+            <p className="mb-6 text-gray-700">{plainText}</p>
             {form?.fields && (
               <WebriQForm
                 method="POST"

@@ -2,9 +2,9 @@ import React from "react";
 import WebriQForm from "components/webriq-form";
 import { thankYouPageLink, ConditionalBtnOrLink } from "helper";
 
-import { CTAProps } from ".";
+import { Variants, FormFields } from "types";
 
-function VariantE({ form, formLinks, signInLink }: CTAProps) {
+function VariantE({ form, formLinks, signInLink }: Variants) {
   return (
     <section className="bg-gray-50 px-5 py-20 sm:px-10">
       <div className="container mx-auto px-4">
@@ -94,7 +94,7 @@ function VariantE({ form, formLinks, signInLink }: CTAProps) {
  * @param {fields}
  * @returns input fields according to type
  */
-function FormFields({ fields }) {
+function FormFields({ fields }: { fields: FormFields }) {
   const [value, setValue] = React.useState(null); // setting selected value for input field radio type
   const [checked, setChecked] = React.useState([]); // setting selected value for input field checkbox type
 

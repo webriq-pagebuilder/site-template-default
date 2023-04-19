@@ -3,9 +3,9 @@ import Link from "next/link";
 import React from "react";
 import { logoLink, ConditionalBtnOrLink } from "helper";
 
-import { CTAProps } from "./index";
+import { Variants } from "types";
 
-function VariantA({ logo, title, text, button }: CTAProps) {
+function VariantA({ logo, title, plainText, primaryButton }: Variants) {
   return (
     <section>
       <div>
@@ -39,11 +39,11 @@ function VariantA({ logo, title, text, button }: CTAProps) {
               {title}
             </h1>
             <p className="mx-auto mb-6 max-w-md leading-loose text-gray-700">
-              {text}
+              {plainText}
             </p>
-            {button?.label && (
+            {primaryButton?.label && (
               <ConditionalBtnOrLink
-                value={button}
+                value={primaryButton}
                 style="inline-block py-2 px-6 bg-webriq-darkblue hover:bg-webriq-blue text-white font-bold leading-loose rounded-l-xl rounded-t-xl transition duration-200"
               />
             )}

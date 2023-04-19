@@ -77,15 +77,9 @@ interface ThankYouPage {
 export interface FormFields {
   name?: string;
   placeholder?: string;
-  type?: FormFieldTypes;
-  _key?: string;
-  _type?: string;
-}
-
-interface FormFieldTypes {
   type?:
     | "inputText"
-    | "inputEmal"
+    | "inputEmail"
     | "inputPassword"
     | "inputNumber"
     | "textarea"
@@ -93,6 +87,11 @@ interface FormFieldTypes {
     | "inputRadio"
     | "inputCheckbox"
     | "inputSelect";
+  _key?: string;
+  _type?: string;
+  isRequired?: boolean;
+  label?: string;
+  items?: string[];
 }
 
 export interface Seo {
@@ -227,6 +226,7 @@ export interface Variants {
   allProducts?: any; // todo, cant find this section
   subtitle?: string | null;
   title?: string | null;
+  plainText?: string | null;
 }
 
 export interface SanitySlug {

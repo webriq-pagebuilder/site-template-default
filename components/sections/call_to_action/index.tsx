@@ -2,7 +2,7 @@ import React from "react";
 import dynamic from "next/dynamic";
 import EditSection from "components/EditSection";
 
-import { Logo, LabeledRoute, Form } from "types";
+import { Logo, LabeledRoute, Form, Variants } from "types";
 
 export interface CTAProps {
   logo?: Logo;
@@ -33,12 +33,12 @@ function CallToAction({
   const variant = data?.variant || data?.variants?.condition;
   const Variant = Variants?.[variant];
 
-  const props: CTAProps = {
+  const props: Variants = {
     logo: data?.variants?.logo,
     title: data?.variants?.title,
-    text: data?.variants?.plainText,
-    button: data?.variants?.primaryButton,
-    features: data?.variants?.tags,
+    plainText: data?.variants?.plainText,
+    primaryButton: data?.variants?.primaryButton,
+    tags: data?.variants?.tags,
     formLinks: data?.variants?.formLinks,
     form: data?.variants?.form,
     signInLink: data?.variants?.signInLink,
