@@ -1,6 +1,8 @@
 import React from "react";
 
-function VariantA({ subtitle, title, faqs }) {
+import { Variants } from "types";
+
+function VariantA({ subtitle, title, askedQuestions }: Variants) {
   const [data, setData] = React.useState([]);
   const [currentPage, setCurrentPage] = React.useState(1);
   const [faqsPerPage] = React.useState(6);
@@ -8,8 +10,8 @@ function VariantA({ subtitle, title, faqs }) {
 
   React.useEffect(() => {
     let tempFaqs = [];
-    faqs &&
-      faqs.forEach((faq) =>
+    askedQuestions &&
+      askedQuestions.forEach(faq =>
         tempFaqs.push({
           question: faq?.question,
           answer: faq?.answer,
@@ -17,10 +19,10 @@ function VariantA({ subtitle, title, faqs }) {
         })
       );
     setData(tempFaqs);
-  }, [faqs]);
+  }, [askedQuestions]);
 
   // toggle view or hide answers on click for each FAQ items
-  const toggleView = (position) => {
+  const toggleView = position => {
     let newFaq = [...data];
     newFaq[position].hidden = !data[position].hidden;
     setData(newFaq);
@@ -31,7 +33,7 @@ function VariantA({ subtitle, title, faqs }) {
   const indexOfFirstQuestion = indexOfLastQuestion - faqsPerPage;
   const searchedFAQs = !searchTerm
     ? data?.slice(indexOfFirstQuestion, indexOfLastQuestion)
-    : data?.filter((items) =>
+    : data?.filter(items =>
         items?.question?.toLowerCase().includes(searchTerm)
       ); // get search results based on data
 
@@ -40,17 +42,17 @@ function VariantA({ subtitle, title, faqs }) {
     return (
       <ul className="space-y-4 lg:space-y-6">
         {items?.map((faq, index) => (
-          <li className="p-6 bg-gray-50 rounded shadow" key={index}>
+          <li className="rounded bg-gray-50 p-6 shadow" key={index}>
             <button
               aria-label={`Show Question-${
                 index + indexOfFirstQuestion
               } Answer`}
-              className="w-full flex justify-between focus:outline-none items-center text-left font-bold font-heading hover:text-gray-600 border-none"
+              className="font-heading flex w-full items-center justify-between border-none text-left font-bold hover:text-gray-600 focus:outline-none"
               onClick={() => toggleView(index + indexOfFirstQuestion)}
             >
               <span className="text-xl">{faq?.question}</span>
               <svg
-                className="w-4 h-4 text-webriq-darkblue"
+                className="h-4 w-4 text-webriq-darkblue"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
@@ -74,12 +76,12 @@ function VariantA({ subtitle, title, faqs }) {
               <p
                 className={`${
                   faq?.hidden === false ? "hidden" : null
-                } mt-4 text-gray-500 font-normal leading-loose`}
+                } mt-4 font-normal leading-loose text-gray-500`}
               >
                 {faq?.answer}
               </p>
             ) : (
-              <p className="mt-4 text-gray-500 font-normal leading-loose">
+              <p className="mt-4 font-normal leading-loose text-gray-500">
                 {faq?.answer}
               </p>
             )}
@@ -99,11 +101,11 @@ function VariantA({ subtitle, title, faqs }) {
 
     return (
       <div className="mb-16 flex justify-center space-x-4">
-        {pageButtons?.map((buttonNumber) => (
+        {pageButtons?.map(buttonNumber => (
           <button
             aria-label={`Page ${buttonNumber} button`}
             key={buttonNumber}
-            className="inline-block h-2 w-2 bg-webriq-blue rounded-full"
+            className="inline-block h-2 w-2 rounded-full bg-webriq-blue"
             onClick={() => changePage(buttonNumber)}
           />
         ))}
@@ -112,31 +114,31 @@ function VariantA({ subtitle, title, faqs }) {
   };
 
   // change page
-  const changePage = (buttonNumber) => setCurrentPage(buttonNumber);
+  const changePage = buttonNumber => setCurrentPage(buttonNumber);
 
   return (
     <section>
-      <div className="py-20 bg-gray-50 radius-for-skewed">
+      <div className="radius-for-skewed bg-gray-50 py-20">
         <div className="container mx-auto px-4">
-          <div className="mb-16 max-w-xl mx-auto text-center">
-            <span className="text-webriq-darkblue font-bold font-heading">
+          <div className="mx-auto mb-16 max-w-xl text-center">
+            <span className="font-heading font-bold text-webriq-darkblue">
               {subtitle}
             </span>
-            <h1 className="mb-6 text-5xl font-bold font-heading">{title}</h1>
-            {faqs && faqs?.length > 1 && (
+            <h1 className="font-heading mb-6 text-5xl font-bold">{title}</h1>
+            {askedQuestions && askedQuestions?.length > 1 && (
               <form className="flex justify-center">
                 <input
                   aria-label="Enter question keyword to search"
-                  className="w-2/3 p-4 text-xs font-heading bg-white focus:border-gray-500 focus:outline-none rounded-l"
+                  className="font-heading w-2/3 rounded-l bg-white p-4 text-xs focus:border-gray-500 focus:outline-none"
                   placeholder="Search, find any question you want to ask..."
-                  onChange={(e) => setSearchTerm(e.target.value.toLowerCase())}
+                  onChange={e => setSearchTerm(e.target.value.toLowerCase())}
                 />
                 <button
                   aria-label="Search button"
-                  className="pr-4 rounded-r-lg bg-white text-webriq-darkblue"
+                  className="rounded-r-lg bg-white pr-4 text-webriq-darkblue"
                 >
                   <svg
-                    className="w-6 h-6"
+                    className="h-6 w-6"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -160,7 +162,7 @@ function VariantA({ subtitle, title, faqs }) {
               changePage={changePage}
             />
           ) : null}
-          <div className="max-w-3xl mx-auto">
+          <div className="mx-auto max-w-3xl">
             <ul className="space-y-4 lg:space-y-6">
               {data && <FAQs items={searchedFAQs} />}
             </ul>

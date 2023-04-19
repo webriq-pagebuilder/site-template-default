@@ -3,9 +3,10 @@ import { PortableText } from "lib/sanity";
 import { setCookie, getCookie } from "utils/cookies";
 
 import { Variants } from "types";
+import { PortableTextComponents } from "@portabletext/react";
 
 // block styling as props to `components` of the PortableText component
-export const cookiesBlockStyling = {
+export const cookiesBlockStyling: PortableTextComponents = {
   block: {
     normal: ({ children }) => {
       return <p className="my-5 text-sm text-gray-500">{children}</p>;
@@ -14,7 +15,7 @@ export const cookiesBlockStyling = {
   marks: {
     link: ({ children, value }) => (
       <a
-        aria-label={children ?? "external link"}
+        aria-label={value.href ?? "external link"}
         className="text-blue-400 hover:text-webriq-lightblue"
         target="_blank"
         href={value.href}

@@ -4,9 +4,11 @@ import { useEcwid } from "context/EcwidContext";
 import Ribbon from "components/ecwid/Ribbon";
 import Image from "next/image";
 
-function VariantB({ title, featured }) {
+import { Variants } from "types";
+
+function VariantB({ title, products }: Variants) {
   const ecwid = useEcwid();
-  const ids = featured && featured?.map((item) => item?.ecwidProductId);
+  const ids = products && products?.map(item => item?.ecwidProductId);
 
   useEffect(() => {
     if (ecwid && ids) {
@@ -15,17 +17,17 @@ function VariantB({ title, featured }) {
   }, []);
 
   return (
-    <section className="py-20 overflow-x-hidden bg-gray-50">
+    <section className="overflow-x-hidden bg-gray-50 py-20">
       <div className="container mx-auto px-4">
-        <div className="flex flex-wrap justify-between mb-20 md:mb-16">
-          {title && <h1 className="text-4xl md:text-5xl font-bold">{title}</h1>}
+        <div className="mb-20 flex flex-wrap justify-between md:mb-16">
+          {title && <h1 className="text-4xl font-bold md:text-5xl">{title}</h1>}
         </div>
-        {featured && (
-          <div className="flex flex-wrap -mx-3">
-            {featured?.map((product, index) => {
+        {products && (
+          <div className="-mx-3 flex flex-wrap">
+            {products?.map((product, index) => {
               let items = [];
               ecwid?.productCollection &&
-                ecwid?.productCollection?.find((prod) => {
+                ecwid?.productCollection?.find(prod => {
                   if (prod?.id === product?.ecwidProductId) {
                     items?.push({ ...prod, ...product });
                   }
@@ -33,15 +35,13 @@ function VariantB({ title, featured }) {
 
               return (
                 items?.length > 0 &&
-                items?.map((featuredCollections) => (
+                items?.map(featuredCollections => (
                   <div
-                    className="w-full md:w-1/2 lg:w-1/3 xl:w-1/4 px-3 mb-10 lg:mb-6"
+                    className="mb-10 w-full px-3 md:w-1/2 lg:mb-6 lg:w-1/3 xl:w-1/4"
                     key={index}
                   >
-                    <div className="bg-white w-full h-full md:hover:scale-125 transition-all duration-700 shadow-md">
-                      <a
-                        href={`/products/${product?.slug?.current}`}
-                      >
+                    <div className="h-full w-full bg-white shadow-md transition-all duration-700 md:hover:scale-125">
+                      <a href={`/products/${product?.slug?.current}`}>
                         <div className="absolute z-10">
                           <Ribbon data={featuredCollections} />
                         </div>
@@ -49,7 +49,7 @@ function VariantB({ title, featured }) {
                         <div className="overflow-hidden">
                           {product?.productInfo?.images ? (
                             <Image
-                              className="w-full h-[320px] object-cover"
+                              className="h-[320px] w-full object-cover"
                               sizes="100vw"
                               width={294}
                               height={320}
@@ -63,7 +63,7 @@ function VariantB({ title, featured }) {
                             />
                           ) : (
                             <Image
-                              className="w-full h-[320px] object-cover"
+                              className="h-[320px] w-full object-cover"
                               sizes="100vw"
                               width={294}
                               height={320}
@@ -73,16 +73,16 @@ function VariantB({ title, featured }) {
                           )}
                         </div>
                       </a>
-                      <div className="px-6 pb-6 mt-8 break-words">
+                      <div className="mt-8 break-words px-6 pb-6">
                         {product?.name && (
                           <a
-                            className="text-xl sm:text-2xl font-bold"
+                            className="text-xl font-bold sm:text-2xl"
                             href={`/products/${product?.slug?.current}`}
                           >
                             {product?.name}
                           </a>
                         )}
-                        <p className="text-lg font-bold font-heading">
+                        <p className="font-heading text-lg font-bold">
                           <span className="text-webriq-darkblue">
                             {
                               featuredCollections?.defaultDisplayedPriceFormatted

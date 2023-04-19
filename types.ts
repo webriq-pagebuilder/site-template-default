@@ -146,18 +146,18 @@ interface BlogPost extends SanityBody {
   title: string;
 }
 
-interface Collection extends SanityBody {
+export interface Collection extends SanityBody {
   collectionInfoVariant?: {
     variant?: string;
   } | null;
   name?: string | null;
-  products?: CollectionProduct[];
+  products?: CollectionProduct[] | null;
   sections?: any; //todo
   seo?: Seo | null;
   slug?: SanitySlug | null;
 }
 
-interface CollectionProduct extends SanityBody {
+export interface CollectionProduct extends SanityBody {
   description?: string | null;
   ecwidProductId?: number | null;
   name?: string | null;
@@ -189,6 +189,7 @@ interface ProductDetail {
   [key: string]: any;
 }
 interface ProductInfoImage {
+  alt?: string | null;
   _key: string;
   _type: string;
   image?: SanityImage | null;
@@ -204,6 +205,20 @@ interface SocialLink {
     image?: SanityImage;
   } | null;
   socialMediaPlatform?: string | null;
+}
+
+interface AskedQuestion {
+  answer?: string | null;
+  question?: string | null;
+  _key?: string;
+  _type?: string;
+}
+
+interface FaqsWithCategory {
+  askedQuestions?: AskedQuestion[] | null;
+  category?: string | null;
+  _key?: string;
+  _type?: string;
 }
 
 export interface Variants {
@@ -222,7 +237,7 @@ export interface Variants {
   blogPosts?: BlogPost[] | null;
   form?: Form | null;
   collections?: Collection | null;
-  products?: CollectionProduct | null;
+  products?: CollectionProduct[] | null;
   allProducts?: any; // todo, cant find this section
   subtitle?: string | null;
   title?: string | null;
@@ -236,6 +251,8 @@ export interface Variants {
   heading?: string | null;
   acceptButtonLabel?: string | null;
   declineButtonLabel?: string | null;
+  faqsWithCategories?: FaqsWithCategory[] | null;
+  askedQuestions?: AskedQuestion[] | null;
 }
 
 export interface SanitySlug {

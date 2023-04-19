@@ -1,24 +1,26 @@
 import React from "react";
 
-function VariantC({ subtitle, title, faqs }) {
+import { Variants } from "types";
+
+function VariantC({ subtitle, title, askedQuestions }: Variants) {
   return (
     <section>
-      <div className="py-20 bg-gray-50 radius-for-skewed">
+      <div className="radius-for-skewed bg-gray-50 py-20">
         <div className="container mx-auto px-4">
-          <div className="mb-16 max-w-xl mx-auto text-center">
-            <span className="text-webriq-darkblue font-bold">{subtitle}</span>
+          <div className="mx-auto mb-16 max-w-xl text-center">
+            <span className="font-bold text-webriq-darkblue">{subtitle}</span>
             <h1 className="text-5xl font-bold">{title}</h1>
           </div>
-          <div className="flex flex-wrap -mx-4 -mb-8">
-            {faqs &&
-              faqs.map((faq, index) => (
-                <div className="w-full lg:w-1/2 px-4 mb-8" key={index}>
+          <div className="-mx-4 -mb-8 flex flex-wrap">
+            {askedQuestions &&
+              askedQuestions.map((faq, index) => (
+                <div className="mb-8 w-full px-4 lg:w-1/2" key={index}>
                   {faq.question && (
-                    <div className="h-full p-8 bg-white rounded shadow">
+                    <div className="h-full rounded bg-white p-8 shadow">
                       <div className="mb-6 flex items-start">
-                        <span className="mr-4 inline-block p-3 rounded-full bg-webriq-darkblue">
+                        <span className="mr-4 inline-block rounded-full bg-webriq-darkblue p-3">
                           <svg
-                            className="w-6 h-6 text-white"
+                            className="h-6 w-6 text-white"
                             xmlns="http://www.w3.org/2000/svg"
                             fill="none"
                             viewBox="0 0 24 24"
@@ -34,7 +36,7 @@ function VariantC({ subtitle, title, faqs }) {
                         </span>
                         <p className="text-xl font-bold">{faq?.question}</p>
                       </div>
-                      <p className="text-gray-500 leading-loose">
+                      <p className="leading-loose text-gray-500">
                         {faq?.answer}
                       </p>
                     </div>

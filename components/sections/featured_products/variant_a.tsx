@@ -4,9 +4,11 @@ import Image from "next/image";
 import { useEcwid } from "context/EcwidContext";
 import Ribbon from "components/ecwid/Ribbon";
 
-function VariantA({ title, featured }) {
+import { Variants } from "types";
+
+function VariantA({ title, products }: Variants) {
   const ecwid = useEcwid();
-  const ids = featured && featured?.map((item) => item?.ecwidProductId);
+  const ids = products && products?.map(item => item?.ecwidProductId);
 
   useEffect(() => {
     if (ids) {
@@ -16,18 +18,18 @@ function VariantA({ title, featured }) {
 
   return (
     <section className="relative py-20">
-      <div className="relative container mx-auto px-4">
+      <div className="container relative mx-auto px-4">
         {title && (
-          <h1 className="mb-8 md:mb-16 text-4xl md:text-5xl font-bold">
+          <h1 className="mb-8 text-4xl font-bold md:mb-16 md:text-5xl">
             {title}
           </h1>
         )}
-        {featured && (
-          <div className="flex flex-wrap -mx-3">
-            {featured?.map((product, index) => {
+        {products && (
+          <div className="-mx-3 flex flex-wrap">
+            {products?.map((product, index) => {
               let items = [];
               ecwid?.productCollection &&
-                ecwid?.productCollection?.find((prod) => {
+                ecwid?.productCollection?.find(prod => {
                   if (prod?.id === product?.ecwidProductId) {
                     items?.push({ ...prod, ...product });
                   }
@@ -35,8 +37,11 @@ function VariantA({ title, featured }) {
 
               return (
                 items?.length > 0 &&
-                items?.map((featuredCollections) => (
-                  <div className="w-full md:w-1/2 lg:w-1/3 px-3 mb-10 lg:mb-6 md:hover:scale-125 transition-all duration-700" key={index}>
+                items?.map(featuredCollections => (
+                  <div
+                    className="mb-10 w-full px-3 transition-all duration-700 md:w-1/2 md:hover:scale-125 lg:mb-6 lg:w-1/3"
+                    key={index}
+                  >
                     <a
                       href={`/products/${product?.slug?.current}`}
                       //className="flex flex-col gap-4"
@@ -48,7 +53,7 @@ function VariantA({ title, featured }) {
                         <div className="overflow-hidden">
                           {product?.productInfo?.images ? (
                             <Image
-                              className="w-full h-[357px] object-cover"
+                              className="h-[357px] w-full object-cover"
                               sizes="100vw"
                               width={357}
                               height={357}
@@ -62,7 +67,7 @@ function VariantA({ title, featured }) {
                             />
                           ) : (
                             <Image
-                              className="w-full h-[320px] object-cover"
+                              className="h-[320px] w-full object-cover"
                               width={357}
                               height={357}
                               sizes="100vw"
@@ -73,12 +78,12 @@ function VariantA({ title, featured }) {
                         </div>
                       </div>
 
-                      <p className="text-xl sm:text-2xl xl:text-3xl font-bold hover:text-opacity-80">
+                      <p className="text-xl font-bold hover:text-opacity-80 sm:text-2xl xl:text-3xl">
                         {product?.name}
                       </p>
                     </a>
-                    <p className="text-lg sm:text-xl font-bold font-heading text-white">
-                      <span className="text-webriq-darkblue mr-2">
+                    <p className="font-heading text-lg font-bold text-white sm:text-xl">
+                      <span className="mr-2 text-webriq-darkblue">
                         {featuredCollections?.defaultDisplayedPriceFormatted}
                       </span>
                     </p>
