@@ -233,6 +233,9 @@ export interface Variants {
   contactNumber?: string | null;
   socialLinks?: SocialLink[] | null;
   block?: any;
+  heading?: string | null;
+  acceptButtonLabel?: string | null;
+  declineButtonLabel?: string | null;
 }
 
 export interface SanitySlug {

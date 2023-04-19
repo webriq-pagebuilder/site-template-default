@@ -3,46 +3,54 @@ import { PortableText } from "lib/sanity";
 import { setCookie, getCookie } from "utils/cookies";
 import { cookiesBlockStyling } from "./variant_a";
 
-function VariantC({ title, block, allowCookieBtn, denyCookieBtn }) {
-  const [showCookie, setShowCookie] = React.useState(() => getCookie());
+import { Variants } from "types";
+
+function VariantC({
+  title,
+  block,
+  acceptButtonLabel,
+  declineButtonLabel,
+}: Variants) {
+  const cookie = getCookie();
+  const [showCookie, setShowCookie] = React.useState(!!cookie);
 
   return (
-    <div className="fixed bottom-0 inset-x-0 z-50">
+    <div className="fixed inset-x-0 bottom-0 z-50">
       {!showCookie
         ? title && (
-            <div className="max-w-md p-6 px-10 mx-4 md:mx-0 md:ml-10 mb-6 bg-gray-800 text-white rounded-lg">
+            <div className="mx-4 mb-6 max-w-md rounded-lg bg-gray-800 p-6 px-10 text-white md:mx-0 md:ml-10">
               <div className="text-center">
-                <p className="font-bold font-heading">{title}</p>
+                <p className="font-heading font-bold">{title}</p>
                 {block && (
                   <PortableText
                     value={block}
                     components={cookiesBlockStyling}
                   />
                 )}
-                {allowCookieBtn && (
+                {acceptButtonLabel && (
                   <button
                     aria-label="Allow Cookies button"
                     type="button"
-                    className="inline-block mr-4 py-2 px-4 rounded-l-xl rounded-t-xl border-2 border-webriq-darkblue bg-webriq-darkblue hover:bg-webriq-blue hover:border-webriq-blue transition duration-500"
+                    className="mr-4 inline-block rounded-l-xl rounded-t-xl border-2 border-webriq-darkblue bg-webriq-darkblue px-4 py-2 transition duration-500 hover:border-webriq-blue hover:bg-webriq-blue"
                     onClick={() => {
                       setCookie("allow");
                       setShowCookie(!showCookie);
                     }}
                   >
-                    {allowCookieBtn}
+                    {acceptButtonLabel}
                   </button>
                 )}
-                {denyCookieBtn && (
+                {declineButtonLabel && (
                   <button
                     aria-label="Deny Cookies button"
                     type="button"
-                    className="inline-block m-2 py-2 px-4 rounded-r-xl rounded-t-xl border-2 border-gray-400 hover:bg-gray-700 transition duration-500"
+                    className="m-2 inline-block rounded-r-xl rounded-t-xl border-2 border-gray-400 px-4 py-2 transition duration-500 hover:bg-gray-700"
                     onClick={() => {
                       setCookie("dismiss");
                       setShowCookie(!showCookie);
                     }}
                   >
-                    {denyCookieBtn}
+                    {declineButtonLabel}
                   </button>
                 )}
               </div>

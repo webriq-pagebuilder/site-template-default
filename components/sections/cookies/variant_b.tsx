@@ -3,18 +3,26 @@ import { PortableText } from "lib/sanity";
 import { setCookie, getCookie } from "utils/cookies";
 import { cookiesBlockStyling } from "./variant_a";
 
-function VariantB({ title, block, allowCookieBtn, denyCookieBtn }) {
-  const [showCookie, setShowCookie] = React.useState(() => getCookie());
+import { Variants } from "types";
+
+function VariantB({
+  heading,
+  block,
+  acceptButtonLabel,
+  declineButtonLabel,
+}: Variants) {
+  const cookie = getCookie();
+  const [showCookie, setShowCookie] = React.useState(!!cookie);
 
   return (
-    <div className="fixed top-0 inset-x-0 z-50">
+    <div className="fixed inset-x-0 top-0 z-50">
       {!showCookie
-        ? title && (
-            <div className="py-6 bg-gray-800 text-white">
+        ? heading && (
+            <div className="bg-gray-800 py-6 text-white">
               <div className="container mx-auto px-4">
-                <div className="flex flex-wrap -mx-4 items-center">
-                  <div className="w-full lg:w-3/4 px-4">
-                    <p className="font-bold font-heading">{title}</p>
+                <div className="-mx-4 flex flex-wrap items-center">
+                  <div className="w-full px-4 lg:w-3/4">
+                    <p className="font-heading font-bold">{heading}</p>
                     {block && (
                       <PortableText
                         value={block}
@@ -22,31 +30,31 @@ function VariantB({ title, block, allowCookieBtn, denyCookieBtn }) {
                       />
                     )}
                   </div>
-                  <div className="w-full lg:w-1/4 px-4 lg:text-right">
-                    {allowCookieBtn && (
+                  <div className="w-full px-4 lg:w-1/4 lg:text-right">
+                    {acceptButtonLabel && (
                       <button
                         aria-label="Allow Cookies button"
                         type="button"
-                        className="inline-block m-2 py-2 px-4 rounded-l-xl rounded-t-xl border-2 border-webriq-darkblue bg-webriq-darkblue hover:bg-webriq-blue hover:border-webriq-blue transition duration-500"
+                        className="m-2 inline-block rounded-l-xl rounded-t-xl border-2 border-webriq-darkblue bg-webriq-darkblue px-4 py-2 transition duration-500 hover:border-webriq-blue hover:bg-webriq-blue"
                         onClick={() => {
                           setCookie("allow");
                           setShowCookie(!showCookie);
                         }}
                       >
-                        {allowCookieBtn}
+                        {acceptButtonLabel}
                       </button>
                     )}
-                    {denyCookieBtn && (
+                    {declineButtonLabel && (
                       <button
                         aria-label="Deny Cookies button"
                         type="button"
-                        className="inline-block m-2 py-2 px-4 rounded-r-xl rounded-t-xl border-2 border-gray-400 hover:bg-gray-700 transition duration-500"
+                        className="m-2 inline-block rounded-r-xl rounded-t-xl border-2 border-gray-400 px-4 py-2 transition duration-500 hover:bg-gray-700"
                         onClick={() => {
                           setCookie("dismiss");
                           setShowCookie(!showCookie);
                         }}
                       >
-                        {denyCookieBtn}
+                        {declineButtonLabel}
                       </button>
                     )}
                   </div>
