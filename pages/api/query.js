@@ -1,4 +1,4 @@
-import { groq } from 'next-sanity';
+import { groq } from "next-sanity";
 
 const conditionalLink = `
   "type": linkType,
@@ -16,10 +16,12 @@ const variants = `
       ${conditionalLink}
     },
     primaryButton {
+      ...,
       label,
       ${conditionalLink}
     },
     secondaryButton {
+      ...,
       label,
       ${conditionalLink}
     },
@@ -34,6 +36,7 @@ const variants = `
     plans[] {
       ...,
       primaryButton {
+        ...,
         label,
         ${conditionalLink}
       },
@@ -44,14 +47,8 @@ const variants = `
     },
     portfolios[] {
       ...,
-      content[] {
-        ...,
-        primaryButton {
-          label,
-          ${conditionalLink}
-        },
-      },
       primaryButton {
+        ...,
         label,
         ${conditionalLink}
       },
@@ -61,16 +58,18 @@ const variants = `
       content[] {
         ...,
         primaryButton {
+          ...,
           label,
           ${conditionalLink}
         },
       },
       primaryButton {
+        ...,
         label,
         ${conditionalLink}
       },
     },
-    signinLink {
+    signInLink {
       ...,
       ${conditionalLink}
     },
@@ -90,7 +89,6 @@ const variants = `
         ${conditionalLink}
       }
     },
-    featured[]->,
     collections->{
       ...,
       products[]->

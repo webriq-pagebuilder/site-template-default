@@ -44,6 +44,8 @@ export const PageBySlug: NextPage<PageBySlugProps> = ({
   const router = useRouter();
   const slug = router.query.slug;
 
+  console.log(data);
+
   if (!data?.pageData && !data?.blogData) {
     return <PageNotFound />;
   } else {

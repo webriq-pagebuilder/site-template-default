@@ -7,7 +7,7 @@ export interface SanityBody {
 }
 
 export interface ConditionalLink {
-  type: "conditionalLink";
+  type?: string;
   internalLink?: string | null;
   externalLink?: string | null;
 }
@@ -23,12 +23,19 @@ export interface SanityImage {
 //Generic type for routes with label e.g. primaryButtons, secondaryButton, menu, etc
 export interface LabeledRoute extends ConditionalLink {
   label?: string;
+  linkTarget?: string;
+  linkType?: string;
+  _type?: string;
+}
+
+export interface LabeledRouteWithKey extends LabeledRoute {
+  _key?: string;
 }
 
 //types from variants on query file
 export interface ArrayOfTitleAndText {
   _key?: string;
-  plaintText?: string;
+  plainText?: string;
   title?: string;
 }
 
@@ -37,33 +44,25 @@ export interface Logo extends ConditionalLink {
   image?: SanityImage;
 }
 
-export interface Route extends LabeledRoute {
-  _key?: string;
-}
-
-//TODO, UNFINISHED PLANS
 export interface Plans {
-  _key?: string;
-  _type?: "planItems";
-  checkoutButtonname?: string;
-  description?: string;
-  monthlyPrice?: string;
-  planType?: string;
-  yearlyPrice?: string;
-  planIncludes?: PlanIncludes[];
-}
-
-interface PlanIncludes {
-  [key: string]: string;
+  _key?: string | null;
+  _type?: "planItems" | null;
+  checkoutButtonname?: string | null;
+  description?: string | null;
+  monthlyPrice?: string | null;
+  planType?: string | null;
+  yearlyPrice?: string | null;
+  planIncludes?: string[] | null;
+  primaryButton?: LabeledRoute | null;
 }
 
 export interface Form {
-  id?: string;
-  buttonLabel?: string;
-  name?: string;
-  subtitle?: string;
-  fields?: FormFields[];
-  thankYouPage?: ThankYouPage;
+  id?: string | null;
+  buttonLabel?: string | null;
+  name?: string | null;
+  subtitle?: string | null;
+  fields?: FormFields[] | null;
+  thankYouPage?: ThankYouPage | null;
 }
 
 interface ThankYouPage {
@@ -76,7 +75,24 @@ interface ThankYouPage {
 }
 
 export interface FormFields {
-  [key: string]: any;
+  name?: string;
+  placeholder?: string;
+  type?: FormFieldTypes;
+  _key?: string;
+  _type?: string;
+}
+
+interface FormFieldTypes {
+  type?:
+    | "inputText"
+    | "inputEmal"
+    | "inputPassword"
+    | "inputNumber"
+    | "textarea"
+    | "inputFile"
+    | "inputRadio"
+    | "inputCheckbox"
+    | "inputSelect";
 }
 
 export interface Seo {
@@ -93,8 +109,122 @@ interface Sections extends SanityBody {
   variants?: Variants[];
 }
 
-interface Variants {
+interface Portfolio {
+  dateAdded?: string | null;
+  mainImage?: SanityImage | null;
+  primaryButton?: LabeledRoute | null;
+  title?: string | null;
+  _key?: string | null;
+  _type?: string | null;
+}
+
+interface PortfoliosWithCategories {
+  category?: string | null;
+  content?: Content[] | null;
+  primaryButton?: LabeledRoute | null;
+  _key?: string | null;
+  _type?: string | null;
+}
+
+interface Content extends Portfolio {
+  description?: string | null;
+  subtitle?: string | null;
+}
+interface Category extends SanityBody {
+  title?: string;
+}
+
+interface BlogPost extends SanityBody {
+  authors?: Author[] | null;
+  body?: any;
+  categories?: Category[] | null;
+  excerpt?: string | null;
+  link?: string | null;
+  mainImage?: SanityImage | null;
+  publishedAt?: string;
+  seo?: Seo | null;
+  slug?: SanitySlug | null;
+  title: string;
+}
+
+interface Collection extends SanityBody {
+  collectionInfoVariant?: {
+    variant?: string;
+  } | null;
+  name?: string | null;
+  products?: CollectionProduct[];
+  sections?: any; //todo
+  seo?: Seo | null;
+  slug?: SanitySlug | null;
+}
+
+interface CollectionProduct extends SanityBody {
+  description?: string | null;
+  ecwidProductId?: number | null;
+  name?: string | null;
+  price?: number | null;
+  productInfo?: ProductInfo | null;
+  productInfoVariant?: {
+    variant?: string;
+  } | null;
+  sections?: any; //todo
+  seo?: Seo | null;
+  slug?: SanitySlug | null;
+}
+
+//TODO, RECHECK PRODUCT INFO DATA FROM SANITY
+interface ProductInfo {
+  btnLabel?: string | null;
+  images?: ProductInfoImage[] | null;
+  productDetails?: ProductDetail[] | null;
+  socialLinks?: SocialLink[] | null;
+  subtitle?: string | null;
+}
+
+//TODO, RECHECK PRODUCT INFO DATA FROM SANITY
+interface ProductDetail {
+  blockContent?: any;
+  contentType?: string;
+  tabName?: string;
+  _key?: string;
   [key: string]: any;
+}
+interface ProductInfoImage {
+  _key: string;
+  _type: string;
+  image?: SanityImage | null;
+}
+
+interface SocialLink {
+  socialMedia?: string | null;
+  socialMediaLink?: string | null;
+  _key?: string | null;
+  _type?: string | null;
+  socialMediaIcon?: {
+    alt?: string;
+    image?: SanityImage;
+  } | null;
+  socialMediaPlatform?: string | null;
+}
+
+interface Variants {
+  arrayOfTitleAndText?: ArrayOfTitleAndText[] | null;
+  logo?: Logo | null;
+  primaryButton?: LabeledRoute | null;
+  secondaryButton?: LabeledRoute | null;
+  routes?: LabeledRouteWithKey[] | null;
+  menu?: LabeledRouteWithKey[] | null;
+  plans?: Plans[] | null;
+  formLinks?: LabeledRouteWithKey[] | null;
+  portfolios?: Portfolio[] | null;
+  portfoliosWithCategories?: PortfoliosWithCategories[] | null;
+  signInLink?: LabeledRoute | null;
+  tags?: string[] | null;
+  blogPosts?: BlogPost[] | null;
+  form?: Form | null;
+  collections?: Collection | null;
+  products?: CollectionProduct | null;
+  allProducts?: any; // todo, cant find this section
 }
 
 export interface SanitySlug {
@@ -128,18 +258,15 @@ interface BlockStyles {
 }
 
 export interface Author extends SanityBody {
-  link?: string;
-  name?: string;
-  slug?: SanitySlug;
-  image?: SanityImage;
+  link?: string | null;
+  bio?: string | null;
+  name?: string | null;
+  slug?: SanitySlug | null;
+  image?: SanityImage | null;
   profile?: {
     alt: string;
     image: SanityImage;
-  };
-}
-
-export interface PrimaryButton extends ConditionalLink {
-  label?: string;
+  } | null;
 }
 
 interface Categories extends SanityBody {

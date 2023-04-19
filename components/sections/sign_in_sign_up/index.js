@@ -19,15 +19,17 @@ function SignUpForm({ data, enableInlineEditing }) {
     firstButton: data?.variants?.primaryButton,
     secondButton: data?.variants?.secondaryButton,
     formLinks: data?.variants?.formLinks,
-    signInLink: data?.variants?.signinLink,
+    signInLink: data?.variants?.signInLink,
     form: data?.variants?.form,
   };
 
   return (
     <>
-      {enableInlineEditing && <EditSection documentType={data?._type} documentId={data?._id} />}
+      {enableInlineEditing && (
+        <EditSection documentType={data?._type} documentId={data?._id} />
+      )}
       {Variant ? <Variant {...props} /> : null}
     </>
-  )
+  );
 }
 export default React.memo(SignUpForm);

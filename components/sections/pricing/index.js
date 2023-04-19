@@ -37,16 +37,18 @@ function Pricing({ data, enableInlineEditing }) {
     apiVersion: stripeAccount?.apiVersion,
     NEXT_PUBLIC_APP_URL: NEXT_PUBLIC_APP_URL || "https://dxpstudio.webriq.com",
     block: data?.variants?.block,
-    signInLink: data?.variants?.signinLink,
+    signInLink: data?.variants?.signInLink,
     _key: data._key,
   };
 
   return (
     <>
-      {enableInlineEditing && <EditSection documentType={data?._type} documentId={data?._id} />}
+      {enableInlineEditing && (
+        <EditSection documentType={data?._type} documentId={data?._id} />
+      )}
       {Variant ? <Variant {...props} /> : null}
     </>
-  )
+  );
 }
 
 export default React.memo(Pricing);

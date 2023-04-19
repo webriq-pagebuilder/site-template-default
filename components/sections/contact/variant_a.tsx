@@ -3,6 +3,8 @@ import WebriQForm from "components/webriq-form";
 import { PortableText, urlFor } from "lib/sanity";
 import { thankYouPageLink } from "helper";
 
+import { ContactProps } from "./index";
+
 function VariantA({
   contactDescription,
   officeInformation,
@@ -11,7 +13,7 @@ function VariantA({
   socialLinks,
   form,
   block,
-}) {
+}: ContactProps) {
   // block styling as props to `components` of the PortableText component
   const blockCustomization = {
     marks: {
@@ -50,19 +52,19 @@ function VariantA({
   const [checked, setChecked] = React.useState([]); // setting selected value for input field checkbox type
   const [filename, setFilename] = React.useState(null); // setting input field filename
 
-  const handleRadioChange = (e) => {
+  const handleRadioChange = e => {
     setValue(e.target.value);
   };
 
-  const handleCheckboxChange = (e) => {
+  const handleCheckboxChange = e => {
     const { checked, value } = e.target;
 
-    setChecked((prev) =>
-      checked ? [...prev, value] : prev.filter((v) => v !== value)
+    setChecked(prev =>
+      checked ? [...prev, value] : prev.filter(v => v !== value)
     );
   };
 
-  const handleShowFileName = (e) => {
+  const handleShowFileName = e => {
     if (e.target.files.length > 0) {
       setFilename(e.target.files[0].name);
     }
@@ -70,53 +72,53 @@ function VariantA({
 
   return (
     <section>
-      <div className="py-20 bg-gray-50">
+      <div className="bg-gray-50 py-20">
         <div className="container mx-auto px-4">
           {contactDescription && (
             <div className="mb-12 px-5 sm:px-10 lg:px-0 lg:pl-10">
-              <h1 className="text-4xl lg:text-5xl font-bold font-heading">
+              <h1 className="font-heading text-4xl font-bold lg:text-5xl">
                 Contact
               </h1>
-              <p className="mt-5 text-gray-700 leading-loose">
+              <p className="mt-5 leading-loose text-gray-700">
                 {contactDescription}
               </p>
             </div>
           )}
           <div className="flex flex-wrap">
-            <div className="px-5 sm:px-10 lg:px-0 lg:pl-10 w-full lg:w-1/2 mb-16 lg:mb-0">
+            <div className="mb-16 w-full px-5 sm:px-10 lg:mb-0 lg:w-1/2 lg:px-0 lg:pl-10">
               <div className="flex flex-wrap">
                 {officeInformation && (
-                  <div className="mb-12 pr-10 w-full md:w-1/2 lg:w-1/2">
-                    <h2 className="mb-5 text-3xl lg:text-4xl font-bold">
+                  <div className="mb-12 w-full pr-10 md:w-1/2 lg:w-1/2">
+                    <h2 className="mb-5 text-3xl font-bold lg:text-4xl">
                       Office
                     </h2>
                     <p className="text-gray-700">{officeInformation}</p>
                   </div>
                 )}
                 {contactEmail || contactNumber ? (
-                  <div className="mb-12 pr-10 w-full md:w-1/2">
-                    <h2 className="mb-5 text-3xl lg:text-4xl font-bold">
+                  <div className="mb-12 w-full pr-10 md:w-1/2">
+                    <h2 className="mb-5 text-3xl font-bold lg:text-4xl">
                       Contacts
                     </h2>
-                    <p className="text-gray-700 mb-5">{contactEmail}</p>
+                    <p className="mb-5 text-gray-700">{contactEmail}</p>
                     <p className="text-gray-700">{contactNumber}</p>
                   </div>
                 ) : null}
                 {socialLinks && (
                   <div className="w-full md:w-1/3 lg:w-full">
-                    <h2 className="mb-5 text-3xl lg:text-4xl font-bold">
+                    <h2 className="mb-5 text-3xl font-bold lg:text-4xl">
                       Socials
                     </h2>
-                    <div className="mb-4 lg:mb-0 order-first lg:order-last">
+                    <div className="order-first mb-4 lg:order-last lg:mb-0">
                       {socialLinks?.map(
-                        (social) =>
+                        social =>
                           social?.socialMediaLink && (
                             <a
                               aria-label={
                                 social?.socialMedia ||
                                 social?.socialMediaPlatform
                               }
-                              className="inline-block mr-5 bg-gray-50 hover:bg-gray-100 rounded"
+                              className="mr-5 inline-block rounded bg-gray-50 hover:bg-gray-100"
                               target="_blank"
                               rel="noopener noreferrer"
                               href={social?.socialMediaLink}
@@ -178,9 +180,9 @@ function VariantA({
                 )}
               </div>
             </div>
-            <div className="px-5 sm:px-10 lg:px-0 lg:pl-10 w-full lg:w-1/2">
+            <div className="w-full px-5 sm:px-10 lg:w-1/2 lg:px-0 lg:pl-10">
               {form?.fields && (
-                <div className="lg:max-w-md lg:mx-auto">
+                <div className="lg:mx-auto lg:max-w-md">
                   <WebriQForm
                     method="POST"
                     data-form-id={form?.id}
@@ -195,8 +197,7 @@ function VariantA({
                           <div className="mb-4">
                             <textarea
                               aria-label={`${formFields?.name} text area`}
-                              className="w-full h-24 p-4 text-xs font-semibold leading-none resize-none bg-white rounded outline-none"
-                              type="text"
+                              className="h-24 w-full resize-none rounded bg-white p-4 text-xs font-semibold leading-none outline-none"
                               placeholder={formFields?.placeholder}
                               name={formFields?.name}
                               required={formFields?.isRequired}
@@ -204,7 +205,7 @@ function VariantA({
                           </div>
                         ) : formFields?.type === "inputFile" ? (
                           <div className="mb-4">
-                            <label className="flex px-2 bg-white rounded">
+                            <label className="flex rounded bg-white px-2">
                               <input
                                 aria-label="Add file"
                                 className="absolute opacity-0"
@@ -214,10 +215,10 @@ function VariantA({
                                 required={formFields?.isRequired}
                                 onChange={handleShowFileName}
                               />
-                              <span className="px-2 py-4 w-full text-xs font-semibold leading-none">
+                              <span className="w-full px-2 py-4 text-xs font-semibold leading-none">
                                 {filename}
                               </span>
-                              <div className="my-1 ml-auto px-4 py-3 text-xs text-white font-semibold leading-none bg-gray-500 hover:bg-gray-600 rounded cursor-pointer transition duration-200">
+                              <div className="my-1 ml-auto cursor-pointer rounded bg-gray-500 px-4 py-3 text-xs font-semibold leading-none text-white transition duration-200 hover:bg-gray-600">
                                 Browse
                               </div>
                             </label>
@@ -225,7 +226,7 @@ function VariantA({
                         ) : formFields.type === "inputNumber" ? (
                           <input
                             aria-label={formFields?.name}
-                            className="mb-4 w-full p-4 text-xs font-semibold leading-none bg-white rounded outline-none"
+                            className="mb-4 w-full rounded bg-white p-4 text-xs font-semibold leading-none outline-none"
                             type="number"
                             placeholder={formFields?.placeholder}
                             name={formFields?.name}
@@ -234,13 +235,13 @@ function VariantA({
                         ) : formFields.type === "inputSelect" ? (
                           <div className="mb-4 flex">
                             <label
-                              className="text-left text-xs text-gray-500 font-semibold leading-none m-auto"
+                              className="m-auto text-left text-xs font-semibold leading-none text-gray-500"
                               htmlFor={formFields?.name}
                             >
                               {formFields?.label}
                             </label>
                             <select
-                              className="p-3 w-full text-xs text-gray-500 font-semibold bg-white rounded outline-none"
+                              className="w-full rounded bg-white p-3 text-xs font-semibold text-gray-500 outline-none"
                               name={`contact-${formFields?.name}`}
                               defaultValue={"default-value"}
                               required={formFields?.isRequired}
@@ -260,7 +261,7 @@ function VariantA({
                         ) : formFields?.type === "inputRadio" ? (
                           <div className="mb-4 text-left">
                             <label
-                              className="text-left text-xs text-gray-500 font-semibold m-auto"
+                              className="m-auto text-left text-xs font-semibold text-gray-500"
                               htmlFor={formFields?.name}
                             >
                               {formFields?.label}
@@ -268,7 +269,7 @@ function VariantA({
                             <div>
                               {formFields?.items?.map((item, index) => (
                                 <label
-                                  className="text-xs text-gray-500 font-semibold mr-4"
+                                  className="mr-4 text-xs font-semibold text-gray-500"
                                   key={index}
                                 >
                                   <input
@@ -288,7 +289,7 @@ function VariantA({
                         ) : formFields?.type === "inputCheckbox" ? (
                           <div className="mb-4 text-left">
                             <label
-                              className="text-left text-xs text-gray-500 font-semibold m-auto"
+                              className="m-auto text-left text-xs font-semibold text-gray-500"
                               htmlFor={formFields?.name}
                             >
                               {formFields?.label}
@@ -296,7 +297,7 @@ function VariantA({
                             <div>
                               {formFields?.items?.map((item, index) => (
                                 <label
-                                  className="text-xs text-gray-500 font-semibold mr-4"
+                                  className="mr-4 text-xs font-semibold text-gray-500"
                                   key={index}
                                 >
                                   <input
@@ -305,7 +306,7 @@ function VariantA({
                                     value={item}
                                     type="checkbox"
                                     onChange={handleCheckboxChange}
-                                    checked={checked.some((v) => v === item)}
+                                    checked={checked.some(v => v === item)}
                                     required={
                                       formFields?.isRequired &&
                                       checked.length === 0
@@ -326,7 +327,7 @@ function VariantA({
                                   ? `Input ${formFields?.name}`
                                   : `${formFields?.type}`
                               }`}
-                              className="w-full p-4 text-xs font-semibold leading-none bg-white rounded outline-none"
+                              className="w-full rounded bg-white p-4 text-xs font-semibold leading-none outline-none"
                               type={
                                 formFields?.type === "inputEmail"
                                   ? "email"
@@ -342,7 +343,7 @@ function VariantA({
                         )}
                       </div>
                     ))}
-                    <div className="sm:flex sm:justify-between items-center">
+                    <div className="items-center sm:flex sm:justify-between">
                       {block && (
                         <div className="inline-flex">
                           <input
@@ -370,7 +371,7 @@ function VariantA({
                           aria-label={
                             form?.buttonLabel ?? "Contact form submit button"
                           }
-                          className="mt-5 sm:mt-0 inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-white font-bold leading-loose transition duration-200"
+                          className="mt-5 inline-block rounded-l-xl rounded-t-xl bg-webriq-darkblue px-6 py-2 font-bold leading-loose text-white transition duration-200 hover:bg-webriq-blue sm:mt-0"
                           type="submit"
                         >
                           {form?.buttonLabel}
