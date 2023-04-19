@@ -1,11 +1,13 @@
 import { Components } from "components/list";
 import { EcwidContextProvider } from "context/EcwidContext";
 
-export function CollectionSections({ data }) {
+export function CollectionSections({ data, enableInlineEditing }) {
   const {
     commonSections, // sections from Store > Pages > Collections
     name, // collection name
     sections, // sections from the Design field group tab of Collections page
+    _id,
+    _type
   } = data;
 
   let sectionsToDisplay = commonSections?.sections;
@@ -99,6 +101,11 @@ export function CollectionSections({ data }) {
                   name,
                 }}
                 data={section}
+                pageInfo={{
+                  documentId: _id,
+                  documentType: _type
+                }}
+                enableInlineEditing={enableInlineEditing}
               />
             </EcwidContextProvider>
           );

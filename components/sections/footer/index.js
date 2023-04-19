@@ -1,5 +1,6 @@
 import React from "react";
 import dynamic from "next/dynamic";
+import EditSection from "components/EditSection";
 
 const Variants = {
   variant_a: dynamic(() => import("./variant_a")),
@@ -7,7 +8,7 @@ const Variants = {
   variant_c: dynamic(() => import("./variant_c")),
 };
 
-function Footer({ data }) {
+function Footer({ data, enableInlineEditing }) {
   const variant = data?.variant || data?.variants?.condition;
   const Variant = Variants?.[variant];
 
@@ -20,6 +21,11 @@ function Footer({ data }) {
     menu: data?.variants?.menu,
   };
 
-  return Variant ? <Variant {...props} /> : null;
+  return (
+    <>
+      {enableInlineEditing && <EditSection documentType={data?._type} documentId={data?._id} />}
+      {Variant ? <Variant {...props} /> : null}
+    </>
+  )
 }
 export default React.memo(Footer);

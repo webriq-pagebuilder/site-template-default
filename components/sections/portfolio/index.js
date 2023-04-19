@@ -1,5 +1,6 @@
 import React from "react";
 import dynamic from "next/dynamic";
+import EditSection from "components/EditSection";
 
 const Variants = {
   variant_a: dynamic(() => import("./variant_a")),
@@ -8,7 +9,7 @@ const Variants = {
   variant_d: dynamic(() => import("./variant_d")),
 };
 
-function Portfolio({ template, data }) {
+function Portfolio({ template, data, enableInlineEditing }) {
   const variant = data?.variant || data?.variants?.condition;
   const Variant = Variants?.[variant];
 
@@ -21,6 +22,11 @@ function Portfolio({ template, data }) {
     primaryButton: data?.variants?.primaryButton,
   };
 
-  return Variant ? <Variant {...props} /> : null;
+  return (
+    <>
+      {enableInlineEditing && <EditSection documentType={data?._type} documentId={data?._id} />}
+      {Variant ? <Variant {...props} /> : null}
+    </>
+  )
 }
 export default React.memo(Portfolio);

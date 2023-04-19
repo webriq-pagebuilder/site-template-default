@@ -1,13 +1,14 @@
 import React from "react";
 import dynamic from "next/dynamic";
 import { EcwidContextProvider } from "context/EcwidContext";
+import EditSection from "components/EditSection";
 
 const Variants = {
   variant_a: dynamic(() => import("./variant_a")),
   variant_b: dynamic(() => import("./variant_b")),
 };
 
-function PagesProductInfo({ data }) {
+function PagesProductInfo({ data, enableInlineEditing }) {
   const variant = data?.variant || data?.variants?.condition;
   const Variant = Variants?.[variant];
 
@@ -15,10 +16,11 @@ function PagesProductInfo({ data }) {
     products: data?.variants?.products,
   };
 
-  return Variant ? (
+  return (
     <EcwidContextProvider>
-      <Variant {...props} />
+      {enableInlineEditing && <EditSection documentType={data?._type} documentId={data?._id} />}
+      {Variant ? <Variant {...props} /> : null}
     </EcwidContextProvider>
-  ) : null;
+  )
 }
 export default React.memo(PagesProductInfo);

@@ -1,7 +1,9 @@
 import { Components } from "components/list";
+import EditSection from "components/EditSection";
 
-export function WishlistSections({ data }) {
-  const { sections } = data;
+
+export function WishlistSections({ data, enableInlineEditing }) {
+  const { sections, _id, _type } = data;
 
   return (
     <>
@@ -22,14 +24,17 @@ export function WishlistSections({ data }) {
           }
 
           return (
-            <Component
-              key={index}
-              template={{
-                bg: "gray",
-                color: "webriq",
-              }}
-              data={section}
-            />
+            <>
+              {enableInlineEditing && <EditSection documentId={_id} documentType={_type} />}
+              <Component
+                key={index}
+                template={{
+                  bg: "gray",
+                  color: "webriq",
+                }}
+                data={section}
+              />
+            </>
           );
         })}
     </>
