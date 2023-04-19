@@ -227,6 +227,12 @@ export interface Variants {
   subtitle?: string | null;
   title?: string | null;
   plainText?: string | null;
+  contactDescription?: string | null;
+  officeInformation?: string | null;
+  contactEmail?: string | null;
+  contactNumber?: string | null;
+  socialLinks?: SocialLink[] | null;
+  block?: any;
 }
 
 export interface SanitySlug {

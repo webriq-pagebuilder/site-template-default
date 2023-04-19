@@ -1,6 +1,7 @@
 import React from "react";
 import { urlFor } from "lib/sanity";
 import Image from "next/image";
+import { Variants } from "types";
 
 function VariantB({
   contactDescription,
@@ -8,34 +9,34 @@ function VariantB({
   contactNumber,
   contactEmail,
   socialLinks,
-}) {
+}: Variants) {
   return (
     <section>
-      <div className="py-20 bg-gray-50 radius-for-skewed">
+      <div className="radius-for-skewed bg-gray-50 py-20">
         <div className="container mx-auto px-4">
           {contactDescription && (
-            <div className="mb-16 max-w-md mx-auto text-center">
-              <h1 className="mb-5 text-4xl lg:text-5xl font-bold font-heading">
+            <div className="mx-auto mb-16 max-w-md text-center">
+              <h1 className="font-heading mb-5 text-4xl font-bold lg:text-5xl">
                 Contact
               </h1>
               <p className="text-gray-500">{contactDescription}</p>
             </div>
           )}
-          <div className="flex flex-wrap -mx-4">
-            <div className="mb-8 lg:mb-0 w-full lg:w-1/3 px-4">
+          <div className="-mx-4 flex flex-wrap">
+            <div className="mb-8 w-full px-4 lg:mb-0 lg:w-1/3">
               {officeInformation && (
-                <div className="p-12 lg:p-20 rounded bg-white shadow text-center">
-                  <h2 className="mb-8 lg:mb-20 text-3xl font-bold font-heading">
+                <div className="rounded bg-white p-12 text-center shadow lg:p-20">
+                  <h2 className="font-heading mb-8 text-3xl font-bold lg:mb-20">
                     Office
                   </h2>
                   <p className="text-gray-500">{officeInformation}</p>
                 </div>
               )}
             </div>
-            <div className="mb-8 lg:mb-0 w-full lg:w-1/3 px-4">
+            <div className="mb-8 w-full px-4 lg:mb-0 lg:w-1/3">
               {contactEmail || contactNumber ? (
-                <div className="py-12 lg:py-20 rounded bg-white shadow text-center">
-                  <h2 className="mb-8 lg:mb-20 text-3xl font-bold font-heading">
+                <div className="rounded bg-white py-12 text-center shadow lg:py-20">
+                  <h2 className="font-heading mb-8 text-3xl font-bold lg:mb-20">
                     Contacts
                   </h2>
                   <p className="text-gray-500">{contactEmail}</p>
@@ -43,19 +44,19 @@ function VariantB({
                 </div>
               ) : null}
             </div>
-            <div className="w-full lg:w-1/3 px-4 flex items-stretch">
+            <div className="flex w-full items-stretch px-4 lg:w-1/3">
               {socialLinks && (
-                <div className="py-12 lg:py-20 w-full rounded bg-white shadow text-center">
-                  <h2 className="mb-8 lg:mb-20 text-3xl font-bold font-heading">
+                <div className="w-full rounded bg-white py-12 text-center shadow lg:py-20">
+                  <h2 className="font-heading mb-8 text-3xl font-bold lg:mb-20">
                     Socials
                   </h2>
                   <div className="flex justify-center">
-                    {socialLinks?.map((social) => (
+                    {socialLinks?.map(social => (
                       <a
                         aria-label={
                           social?.socialMedia || social?.socialMediaPlatform
                         }
-                        className="inline-block mr-4 hover:bg-gray-100 rounded"
+                        className="mr-4 inline-block rounded hover:bg-gray-100"
                         target="_blank"
                         rel="noopener noreferrer"
                         href={social?.socialMediaLink}

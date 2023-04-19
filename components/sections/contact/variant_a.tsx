@@ -3,7 +3,7 @@ import WebriQForm from "components/webriq-form";
 import { PortableText, urlFor } from "lib/sanity";
 import { thankYouPageLink } from "helper";
 
-import { ContactProps } from "./index";
+import { Variants } from "types";
 
 function VariantA({
   contactDescription,
@@ -13,7 +13,7 @@ function VariantA({
   socialLinks,
   form,
   block,
-}: ContactProps) {
+}: Variants) {
   // block styling as props to `components` of the PortableText component
   const blockCustomization = {
     marks: {
@@ -246,13 +246,9 @@ function VariantA({
                               defaultValue={"default-value"}
                               required={formFields?.isRequired}
                             >
-                              <option name="default-value" value=""></option>
+                              <option value=""></option>
                               {formFields?.items?.map((item, index) => (
-                                <option
-                                  key={index}
-                                  name={formFields?.name}
-                                  value={item}
-                                >
+                                <option key={index} value={item}>
                                   {item}
                                 </option>
                               ))}

@@ -2,41 +2,24 @@ import React from "react";
 import dynamic from "next/dynamic";
 import EditSection from "components/EditSection";
 
-import { SanityImage, Form } from "types";
-
-export interface ContactProps {
-  title?: string;
-  contactDescription?: string;
-  officeInformation?: string;
-  contactEmail?: string;
-  contactNumber?: string;
-  socialLinks?: SocialLinks[];
-  form?: Form;
-  block?: any;
-}
-
-interface SocialLinks {
-  socialMedia?: string;
-  socialMediaLink?: string;
-  _key?: string;
-  _type?: string;
-  socialMediaIcon?: {
-    alt?: string;
-    image?: SanityImage;
-  };
-  socialMediaPlatform?: string;
-}
+import { Variants } from "types";
 
 const Variants = {
   variant_a: dynamic(() => import("./variant_a")),
   variant_b: dynamic(() => import("./variant_b")),
 };
 
-function Contact({ data, enableInlineEditing }) {
+function Contact({
+  data,
+  enableInlineEditing,
+}: {
+  data: any;
+  enableInlineEditing: boolean;
+}) {
   const variant = data?.variant || data?.variants?.condition;
   const Variant = Variants?.[variant];
 
-  const props: ContactProps = {
+  const props: Variants = {
     title: data?.variants?.title,
     contactDescription: data?.variants?.contactDescription,
     officeInformation: data?.variants?.officeInformation,
