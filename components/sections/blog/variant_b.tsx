@@ -5,9 +5,9 @@ import { urlFor } from "lib/sanity";
 import { format } from "date-fns";
 import { ConditionalBtnOrLink } from "helper";
 
-import { BlogProps } from ".";
+import { Variants } from "types";
 
-function VariantB({ subtitle, title, posts, primaryButton }: BlogProps) {
+function VariantB({ subtitle, title, blogPosts, primaryButton }: Variants) {
   let blogsPerPage = 5,
     count = 0;
 
@@ -30,7 +30,7 @@ function VariantB({ subtitle, title, posts, primaryButton }: BlogProps) {
             </div>
             <div className="-mx-3 mb-16 flex flex-wrap">
               <div className="mb-6 w-full px-3 lg:mb-0 lg:w-1/2">
-                {posts?.slice(count, count + 1)?.map((post, key) => (
+                {blogPosts?.slice(count, count + 1)?.map((post, key) => (
                   <div className="overflow-hidden rounded shadow" key={key}>
                     {post?.mainImage?.asset?._ref && (
                       <Image
@@ -77,7 +77,7 @@ function VariantB({ subtitle, title, posts, primaryButton }: BlogProps) {
                 ))}
               </div>
               <div className="flex w-full flex-wrap lg:w-1/2">
-                {posts?.slice(count + 1, blogsPerPage)?.map((post, key) => (
+                {blogPosts?.slice(count + 1, blogsPerPage)?.map((post, key) => (
                   <div className="mb-6 w-full px-3 lg:w-1/2" key={key}>
                     <div className="overflow-hidden rounded shadow">
                       {post?.mainImage?.asset?._ref && (

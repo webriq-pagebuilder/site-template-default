@@ -207,7 +207,7 @@ interface SocialLink {
   socialMediaPlatform?: string | null;
 }
 
-interface Variants {
+export interface Variants {
   arrayOfTitleAndText?: ArrayOfTitleAndText[] | null;
   logo?: Logo | null;
   primaryButton?: LabeledRoute | null;
@@ -225,6 +225,8 @@ interface Variants {
   collections?: Collection | null;
   products?: CollectionProduct | null;
   allProducts?: any; // todo, cant find this section
+  subtitle?: string | null;
+  title?: string | null;
 }
 
 export interface SanitySlug {

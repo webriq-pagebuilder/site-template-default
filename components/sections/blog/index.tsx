@@ -2,26 +2,26 @@ import React from "react";
 import dynamic from "next/dynamic";
 import EditSection from "components/EditSection";
 
-import { PrimaryButton, Author, SanityBody } from "types";
+import { Author, SanityBody, Variants } from "types";
 
-export interface BlogProps {
-  subtitle?: string;
-  title?: string;
-  posts?: Posts[];
-  primaryButton?: PrimaryButton;
-}
+// export interface BlogProps {
+//   subtitle?: string;
+//   title?: string;
+//   posts?: Posts[];
+//   primaryButton?: PrimaryButton;
+// }
 
-interface Posts {
-  link: string;
-  authors: Author[];
-  categories: Categories[];
-  [key: string]: any;
-}
+// interface Posts {
+//   link: string;
+//   authors: Author[];
+//   categories: Categories[];
+//   [key: string]: any;
+// }
 
-interface Categories extends SanityBody {
-  description?: string;
-  title?: string;
-}
+// interface Categories extends SanityBody {
+//   description?: string;
+//   title?: string;
+// }
 
 const Variants = {
   variant_a: dynamic(() => import("./variant_a")),
@@ -40,10 +40,10 @@ function Blog({
   const variant = data?.variant || data?.variants?.condition;
   const Variant = Variants?.[variant];
 
-  const props: BlogProps = {
+  const props: Variants = {
     subtitle: data?.variants?.subtitle,
     title: data?.variants?.title,
-    posts: data?.variants?.blogPosts,
+    blogPosts: data?.variants?.blogPosts,
     primaryButton: data?.variants?.primaryButton,
   };
 

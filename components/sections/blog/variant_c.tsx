@@ -5,9 +5,8 @@ import { urlFor } from "lib/sanity";
 import { format } from "date-fns";
 import { ConditionalBtnOrLink } from "helper";
 
-import { BlogProps } from ".";
-
-function VariantC({ subtitle, title, posts, primaryButton }: BlogProps) {
+import { Variants } from "types";
+function VariantC({ subtitle, title, blogPosts, primaryButton }: Variants) {
   let blogsPerPage = 3;
 
   return (
@@ -34,9 +33,9 @@ function VariantC({ subtitle, title, posts, primaryButton }: BlogProps) {
               />
             )}
           </div>
-          {posts && (
+          {blogPosts && (
             <div>
-              {posts?.slice(0, blogsPerPage)?.map((post, key) => (
+              {blogPosts?.slice(0, blogsPerPage)?.map((post, key) => (
                 <div
                   className="mb-8 flex flex-wrap overflow-hidden rounded-lg shadow"
                   key={key}

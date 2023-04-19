@@ -5,9 +5,9 @@ import { urlFor } from "lib/sanity";
 import { format } from "date-fns";
 import { ConditionalBtnOrLink } from "helper";
 
-import { BlogProps } from ".";
+import { Variants } from "types";
 
-function VariantA({ subtitle, title, posts, primaryButton }: BlogProps) {
+function VariantA({ subtitle, title, blogPosts, primaryButton }: Variants) {
   let blogsPerPage = 6,
     count = 0;
 
@@ -25,10 +25,10 @@ function VariantA({ subtitle, title, posts, primaryButton }: BlogProps) {
               </h1>
             )}
           </div>
-          {posts && (
+          {blogPosts && (
             <div className="-mx-3 flex flex-wrap justify-center">
               <div className="flex w-full flex-wrap lg:w-1/2">
-                {posts?.slice(count, count + 1)?.map((post, key) => (
+                {blogPosts?.slice(count, count + 1)?.map((post, key) => (
                   <div className="mb-5 w-full px-3" key={key}>
                     <div className="relative mx-auto h-64 rounded">
                       {post?.mainImage?.asset?._ref && (
@@ -78,7 +78,7 @@ function VariantA({ subtitle, title, posts, primaryButton }: BlogProps) {
                     </div>
                   </div>
                 ))}
-                {posts?.slice(count + 1, count + 3)?.map((post, key) => (
+                {blogPosts?.slice(count + 1, count + 3)?.map((post, key) => (
                   <div className="mb-5 w-full px-3 lg:w-1/2" key={key}>
                     <div className="relative mx-auto h-64 rounded">
                       {post?.mainImage?.asset?._ref && (
@@ -129,7 +129,7 @@ function VariantA({ subtitle, title, posts, primaryButton }: BlogProps) {
                 ))}
               </div>
               <div className="flex w-full flex-wrap lg:w-1/2">
-                {posts?.slice(count + 3, count + 5)?.map((post, key) => (
+                {blogPosts?.slice(count + 3, count + 5)?.map((post, key) => (
                   <div className="mb-5 w-full px-3 lg:w-1/2" key={key}>
                     <div className="relative mx-auto h-64 rounded">
                       {post?.mainImage?.asset?._ref && (
@@ -178,7 +178,7 @@ function VariantA({ subtitle, title, posts, primaryButton }: BlogProps) {
                     </div>
                   </div>
                 ))}
-                {posts?.slice(count + 5, blogsPerPage)?.map((post, key) => (
+                {blogPosts?.slice(count + 5, blogsPerPage)?.map((post, key) => (
                   <div className="mb-5 w-full px-3" key={key}>
                     <div className="relative mx-auto h-64 rounded">
                       {post?.mainImage?.asset?._ref && (
