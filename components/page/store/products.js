@@ -1,7 +1,7 @@
 import { Components } from "components/list";
 import { EcwidContextProvider } from "context/EcwidContext";
 
-export function ProductSections({ data, enableInlineEditing }) {
+export function ProductSections({ data }) {
   const {
     commonSections, // sections from Store > Commerce Pages > Products
     name, // product name
@@ -9,8 +9,6 @@ export function ProductSections({ data, enableInlineEditing }) {
     price, // product price
     description, // product description
     sections, // sections from the Design field group tab of Product page
-    _id,
-    _type,
   } = data;
 
   let sectionsToDisplay = commonSections?.sections;
@@ -107,11 +105,6 @@ export function ProductSections({ data, enableInlineEditing }) {
                   price,
                   description,
                 }}
-                pageInfo={{
-                  documentId: _id,
-                  documentType: _type
-                }}
-                enableInlineEditing={enableInlineEditing}
                 data={section}
               />
             </EcwidContextProvider>

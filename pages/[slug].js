@@ -13,8 +13,7 @@ import { PreviewNoContent } from "components/PreviewNoContent";
 import { filterDataToSingleItem } from "components/list";
 import PageNotFound from "pages/404";
 
-
-function PageBySlug({ data, preview, token, source }) {
+function PageBySlug({ data, preview, token }) {
   const router = useRouter();
   const slug = router.query.slug;
 
@@ -26,7 +25,7 @@ function PageBySlug({ data, preview, token, source }) {
         <>
           <PreviewBanner />
           <PreviewSuspense>
-            <DocumentWithPreview {...{ data, token: token || null, slug, source }} />
+            <DocumentWithPreview {...{ data, token: token || null, slug }} />
           </PreviewSuspense>
         </>
       );
@@ -76,7 +75,7 @@ function Document({ data }) {
  *
  * @returns Document with preview data
  */
-function DocumentWithPreview({ data, slug, token = null, source }) {
+function DocumentWithPreview({ data, slug, token = null }) {
   // Current drafts data in Sanity
   const previewDataEventSource = usePreview(
     token,
@@ -87,7 +86,6 @@ function DocumentWithPreview({ data, slug, token = null, source }) {
   );
 
   const previewData = previewDataEventSource?.[0] || previewDataEventSource; // Latest preview data in Sanity
-  const enableInlineEditing = source === "studio"
 
   // General safeguard against empty data
   if (!previewData) {
@@ -110,10 +108,10 @@ function DocumentWithPreview({ data, slug, token = null, source }) {
           previewData?.sections?.length === 0) && <PreviewNoContent />}
 
       {/*  Show page sections */}
-      {data?.pageData && <PageSections data={previewData} enableInlineEditing={enableInlineEditing} />}
+      {data?.pageData && <PageSections data={previewData} />}
 
       {/* Show Blog sections */}
-      {data?.blogData && <BlogSections data={previewData} enableInlineEditing={enableInlineEditing} />}
+      {data?.blogData && <BlogSections data={previewData} />}
     </>
   );
 }
@@ -140,7 +138,6 @@ export async function getStaticProps({
   return {
     props: {
       preview,
-      source: (preview && previewData?.source) || "",
       token: (preview && previewData.token) || "",
       data: {
         pageData: singlePageData || null,
@@ -159,7 +156,7 @@ export async function getStaticPaths() {
 
   return {
     paths: paths.map((slug) => ({ params: { slug } })),
-    fallback: "blocking", // rendering will be deferred until the first user requests the page
+    fallback: true,
   };
 }
 

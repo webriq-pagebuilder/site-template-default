@@ -1,7 +1,7 @@
 import { Components } from "components/list";
 
-export function PageSections({ data, enableInlineEditing }) {
-  const { _id, _type, sections } = data;
+export function PageSections({ data }) {
+  const { sections } = data;
 
   return (
     <>
@@ -30,11 +30,6 @@ export function PageSections({ data, enableInlineEditing }) {
               }}
               {...{ [section._type]: section }}
               data={section}
-              pageInfo={{
-                documentId: _id,
-                documentType: _type
-              }}
-              enableInlineEditing={enableInlineEditing}
             />
           );
         })}

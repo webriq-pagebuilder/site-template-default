@@ -1,6 +1,6 @@
 // this will return the response from the Ecwid store events web hook
 import { baseUrl, requestHeaders, secret, siteUrl } from "utils/ecwid/config";
-import { sanityClient } from "lib/sanity.client"
+import { sanityClient } from "lib/sanity.client";
 import fetch from "node-fetch";
 import _ from "lodash";
 
@@ -51,10 +51,10 @@ export default async (req, res) => {
             // Check if these productIds are in Sanity Studio but only return those which are product bundles and their products
             const studioBundleProducts = await sanityClient
               .fetch(
-                `*[_type=="mainProduct" && ecwidProductId in $productIds && !(_id in path("drafts.**")) && isProductBundle == true] {
+                `*[_type=="products" && pid in $productIds && !(_id in path("drafts.**")) && isProductBundle == true] {
                   ...,
-                  productsInBundle[]->,
-                  "productsInBundleIds": productsInBundle[]->ecwidProductId
+                  productsIsInBundle[]->,
+                  "productsInBundleIds": productsIsInBundle[]->pid
                 }`,
                 { productIds: productIds }
               )
@@ -329,4 +329,24 @@ async function retryPromise(maxRetry, arrayOfPromises) {
 
   // after loop ends per maxRetry, return the final results
   return results;
+}
+
+/**
+ *
+ * @param {*} data - { productId, action, quantityDelta }
+ *
+ */
+async function adjustInventoryRequest(data) {
+  return fetch(`${siteUrl}/api/ecwid/adjustInventory`, {
+    method: "PUT",
+    headers: {
+      "content-type": "application/json",
+      Authorization: secret,
+    },
+    body: JSON.stringify({
+      productId: data?.productId,
+      action: data?.action,
+      quantity: data?.quantity,
+    }),
+  });
 }

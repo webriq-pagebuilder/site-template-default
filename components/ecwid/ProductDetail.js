@@ -314,9 +314,9 @@ const ProductDetail = ({ product, children }) => {
           >
             Qty
           </label>
-          <div className="flex w-full flex-row rounded border border-gray-400 shadow hover:border-gray-500 justify-between">
+          <div className="flex flex-row border border-gray-400 hover:border-gray-500 shadow rounded w-full">
             <button
-              className="text-gray-400 text-xl w-[44px] h-[44px] flex items-center justify-center"
+              className="py-2 px-4 text-gray-400 text-xl"
               type="button"
               onClick={() => setQuantity((prev) => prev - 1)}
               disabled={quantity === 1 ? true : false}
@@ -327,13 +327,13 @@ const ProductDetail = ({ product, children }) => {
               type="text"
               name="quantity"
               id="quantity"
-              className="focus:shadow-outline bg-white text-center focus:outline-none"
+              className="w-full sm:w-[334px] inline-block text-center bg-white focus:outline-none focus:shadow-outline"
               required
               //style={{ maxWidth: "334px", width: "334px" }}
               value={quantity}
             />
             <button
-              className="text-gray-400 text-xl w-[44px] h-[44px] flex items-center justify-center"
+              className="py-2 px-4 text-gray-400 text-xl"
               type="button"
               onClick={() => setQuantity((prev) => prev + 1)}
             >
