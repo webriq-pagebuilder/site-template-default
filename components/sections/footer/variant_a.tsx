@@ -3,12 +3,20 @@ import Link from "next/link";
 import React from "react";
 import { logoLink } from "helper";
 
-function VariantA({ logo, text, contacts, copyright, socialMedia }) {
+import { FooterProps } from ".";
+
+function VariantA({
+  logo,
+  text,
+  contacts,
+  copyright,
+  socialMedia,
+}: FooterProps) {
   return (
     <section>
-      <div className="py-20 bg-gray-50 radius-for-skewed">
+      <div className="radius-for-skewed bg-gray-50 py-20">
         <div className="container mx-auto px-4">
-          <div className="flex flex-wrap mb-5 lg:mb-20">
+          <div className="mb-5 flex flex-wrap lg:mb-20">
             <div className="mb-5 w-full lg:w-1/5">
               {logo?.image && (
                 <Link
@@ -17,7 +25,7 @@ function VariantA({ logo, text, contacts, copyright, socialMedia }) {
                       ? "Go to home page"
                       : `Go to ${logoLink()}`
                   }
-                  className="text-3xl font-bold leading-none" 
+                  className="text-3xl font-bold leading-none"
                   href={logoLink()}
                 >
                   <img
@@ -29,48 +37,48 @@ function VariantA({ logo, text, contacts, copyright, socialMedia }) {
               )}
             </div>
             <div className="mb-5 w-full lg:w-1/5">
-              <p className="text-gray-500 leading-loose">{text}</p>
+              <p className="leading-loose text-gray-500">{text}</p>
             </div>
             {contacts && (
-              <div className="mt-1 w-full lg:w-1/2 ml-auto">
+              <div className="ml-auto mt-1 w-full lg:w-1/2">
                 {contacts.length > 1 ? (
-                  <div className="grid grid-cols-3 grid-flow-col gap-10">
+                  <div className="grid grid-flow-col grid-cols-3 gap-10">
                     <p className="mb-4 font-bold">Addresses</p>
                     <p className="mb-4 font-bold">Emails</p>
                     <p className="mb-4 font-bold">Numbers</p>
                   </div>
                 ) : (
-                  <div className="grid grid-cols-3 grid-flow-col gap-10">
+                  <div className="grid grid-flow-col grid-cols-3 gap-10">
                     <p className="mb-4 font-bold">Address</p>
                     <p className="mb-4 font-bold">Email</p>
                     <p className="mb-4 font-bold">Number</p>
                   </div>
                 )}
-                {contacts.map((contact) => (
+                {contacts.map(contact => (
                   <div
-                    className="grid grid-cols-3 grid-flow-col gap-10"
+                    className="grid grid-flow-col grid-cols-3 gap-10"
                     key={contact?._key}
                   >
-                    <p className="text-gray-500 mb-5">{contact?.addressInfo}</p>
-                    <p className="text-gray-500 mb-5">{contact?.emailInfo}</p>
-                    <p className="text-gray-500 mb-5">{contact?.contactInfo}</p>
+                    <p className="mb-5 text-gray-500">{contact?.addressInfo}</p>
+                    <p className="mb-5 text-gray-500">{contact?.emailInfo}</p>
+                    <p className="mb-5 text-gray-500">{contact?.contactInfo}</p>
                   </div>
                 ))}
               </div>
             )}
           </div>
-          <div className="w-full mx-auto lg:flex justify-between">
-            <p className="text-sm text-gray-500 mb-6">{copyright}</p>
+          <div className="mx-auto w-full justify-between lg:flex">
+            <p className="mb-6 text-sm text-gray-500">{copyright}</p>
             {socialMedia && (
-              <div className="flex space-x-2 lg:space-x-4 lg:mx-24">
+              <div className="flex space-x-2 lg:mx-24 lg:space-x-4">
                 {socialMedia?.map(
-                  (social) =>
+                  social =>
                     social?.socialMediaLink && (
                       <a
                         aria-label={
                           social?.socialMedia || social?.socialMediaPlatform
                         }
-                        className="inline-block mr-2 p-2 bg-gray-50 hover:bg-gray-100 rounded"
+                        className="mr-2 inline-block rounded bg-gray-50 p-2 hover:bg-gray-100"
                         target="_blank"
                         rel="noopener noreferrer"
                         href={social?.socialMediaLink}

@@ -1,3 +1,5 @@
+import { PortableTextComponents } from "@portabletext/react";
+
 export interface SanityBody {
   _createdAt: string;
   _id: string;
@@ -118,16 +120,16 @@ export interface Sections extends SanityBody {
   variants?: Variants;
 }
 
-interface Portfolio {
+export interface Portfolio {
   dateAdded?: string | null;
-  mainImage?: SanityImage | null;
+  mainImage?: MainImage | null;
   primaryButton?: LabeledRoute | null;
   title?: string | null;
   _key?: string | null;
   _type?: string | null;
 }
 
-interface PortfoliosWithCategories {
+export interface PortfoliosWithCategories {
   category?: string | null;
   content?: Content[] | null;
   primaryButton?: LabeledRoute | null;
@@ -265,6 +267,33 @@ export interface Images {
   alt?: string;
 }
 
+export interface StatItems {
+  label?: string;
+  mainImage?: MainImage;
+  value?: string;
+  _key?: string;
+  _type?: string;
+}
+
+export interface Team {
+  jobTitle?: string;
+  mainImage?: MainImage;
+  name?: string;
+  plainText?: string;
+  _key?: string;
+  _type?: string;
+}
+
+export interface Testimonial {
+  jobTitle?: string;
+  mainImage?: MainImage;
+  name?: string;
+  rating?: string;
+  testimony?: string;
+  _key?: string;
+  _type?: string;
+}
+
 export interface Variants {
   arrayOfTitleAndText?: ArrayOfTitleAndText[] | null;
   logo?: Logo | null;
@@ -306,6 +335,12 @@ export interface Variants {
   mainImage?: MainImage | null;
   youtubeLink?: string | null;
   banner?: any;
+  statItems?: StatItems[] | null;
+  teams?: Team[] | null;
+  testimonials?: Testimonial[] | null;
+  firstColumn?: any;
+  secondColumn?: any;
+  thirdColumn?: any;
 }
 
 export interface SanitySlug {
@@ -375,3 +410,11 @@ export interface BlogsDataProps extends SanityBody {
   title?: string;
   seo?: Seo;
 }
+
+export type MyPortableTextComponents = PortableTextComponents & {
+  code: ({
+    value,
+  }: {
+    value: { language?: string; code?: string };
+  }) => JSX.Element;
+};
