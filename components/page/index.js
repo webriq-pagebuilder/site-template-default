@@ -1,7 +1,12 @@
+import { useContext } from "react";
 import { Components } from "components/list";
+import { InlineEditorContext } from "context/InlineEditorContext";
+import InlineEditor from "components/InlineEditor";
+
 
 export function PageSections({ data }) {
   const { sections } = data;
+  const showInlineEditor = useContext(InlineEditorContext);
 
   return (
     <>
@@ -22,16 +27,21 @@ export function PageSections({ data }) {
           }
 
           return (
-            <Component
-              key={index}
-              template={{
-                bg: "gray",
-                color: "webriq",
-              }}
-              {...{ [section._type]: section }}
-              data={section}
-            />
-          );
+            <InlineEditor 
+              document={{ id: section?._id, type: section?._type }} 
+              showInlineEditor={showInlineEditor}
+            >
+              <Component
+                key={index}
+                template={{
+                  bg: "gray",
+                  color: "webriq",
+                }}
+                {...{ [section._type]: section }}
+                data={section}
+              />
+            </InlineEditor>
+          )
         })}
     </>
   );

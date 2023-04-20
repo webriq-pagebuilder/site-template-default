@@ -12,8 +12,10 @@ import { PreviewBanner } from "components/PreviewBanner";
 import { PreviewNoContent } from "components/PreviewNoContent";
 import { filterDataToSingleItem } from "components/list";
 import PageNotFound from "pages/404";
+import InlineEditorContextProvider from "context/InlineEditorContext";
 
-function PageBySlug({ data, preview, token }) {
+
+function PageBySlug({ data, preview, token, source }) {
   const router = useRouter();
   const slug = router.query.slug;
 
@@ -25,7 +27,7 @@ function PageBySlug({ data, preview, token }) {
         <>
           <PreviewBanner />
           <PreviewSuspense>
-            <DocumentWithPreview {...{ data, token: token || null, slug }} />
+            <DocumentWithPreview {...{ data, token: token || null, slug, source: source || null }} />
           </PreviewSuspense>
         </>
       );
@@ -75,7 +77,7 @@ function Document({ data }) {
  *
  * @returns Document with preview data
  */
-function DocumentWithPreview({ data, slug, token = null }) {
+function DocumentWithPreview({ data, slug, token = null, source = null }) {
   // Current drafts data in Sanity
   const previewDataEventSource = usePreview(
     token,
@@ -86,6 +88,7 @@ function DocumentWithPreview({ data, slug, token = null }) {
   );
 
   const previewData = previewDataEventSource?.[0] || previewDataEventSource; // Latest preview data in Sanity
+  const showInlineEditor = source === "studio";
 
   // General safeguard against empty data
   if (!previewData) {
@@ -107,11 +110,20 @@ function DocumentWithPreview({ data, slug, token = null }) {
           !previewData?.sections ||
           previewData?.sections?.length === 0) && <PreviewNoContent />}
 
+
       {/*  Show page sections */}
-      {data?.pageData && <PageSections data={previewData} />}
+      {data?.pageData && (
+        <InlineEditorContextProvider showInlineEditor={showInlineEditor}>
+          <PageSections data={previewData} />
+        </InlineEditorContextProvider>
+      )}
 
       {/* Show Blog sections */}
-      {data?.blogData && <BlogSections data={previewData} />}
+      {data?.blogData && (
+        <InlineEditorContextProvider showInlineEditor={showInlineEditor}>
+          <BlogSections data={previewData} />
+        </InlineEditorContextProvider>
+      )}
     </>
   );
 }
@@ -139,6 +151,7 @@ export async function getStaticProps({
     props: {
       preview,
       token: (preview && previewData.token) || "",
+      source: (preview && previewData.source) || "",
       data: {
         pageData: singlePageData || null,
         blogData: singleBlogData || null,

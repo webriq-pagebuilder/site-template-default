@@ -8,14 +8,16 @@ import { PageSections } from "components/page";
 import { PreviewNoContent } from "components/PreviewNoContent";
 import { filterDataToSingleItem } from "components/list";
 import { PreviewBanner } from "components/PreviewBanner";
+import InlineEditorContextProvider from "context/InlineEditorContext";
 
-function Home({ data, preview, token }) {
+
+function Home({ data, preview, token, source }) {
   if (preview) {
     return (
       <>
         <PreviewBanner />
         <PreviewSuspense>
-          <DocumentWithPreview {...{ data, token }} />
+          <DocumentWithPreview {...{ data, token, source: source || null }} />
         </PreviewSuspense>
       </>
     );
@@ -60,10 +62,11 @@ function Document({ data }) {
  *
  * @returns Document with preview data
  */
-function DocumentWithPreview({ data, token = null }) {
+function DocumentWithPreview({ data, token = null, source = null }) {
   const previewDataEventSource = usePreview(token, homeQuery);
 
   const previewData = previewDataEventSource?.[0] || previewDataEventSource;
+  const showInlineEditor = source === "studio";
 
   // General safeguard against empty data
   if (!previewData) {
@@ -86,7 +89,11 @@ function DocumentWithPreview({ data, token = null }) {
         previewData?.sections?.length === 0) && <PreviewNoContent />}
 
       {/*  Show page sections */}
-      {data?.pageData && <PageSections data={previewData} />}
+      {data?.pageData && (
+        <InlineEditorContextProvider showInlineEditor={showInlineEditor}>
+          <PageSections data={previewData} />
+        </InlineEditorContextProvider>
+      )}
     </>
   );
 }
@@ -116,6 +123,7 @@ export async function getStaticProps({ preview = false, previewData = {} }) {
     props: {
       preview,
       token: (preview && previewData.token) || "",
+      source: (preview && previewData.source) || "",
       data: { pageData },
     },
   };
