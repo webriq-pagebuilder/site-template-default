@@ -2,8 +2,9 @@ import React from "react";
 import WebriQForm from "components/webriq-form";
 import { PortableText, urlFor } from "lib/sanity";
 import { thankYouPageLink } from "helper";
+import { PortableTextComponents } from "@portabletext/react";
 
-import { Variants } from "types";
+import { ContactProps } from ".";
 
 function VariantA({
   contactDescription,
@@ -13,13 +14,13 @@ function VariantA({
   socialLinks,
   form,
   block,
-}: Variants) {
+}: ContactProps) {
   // block styling as props to `components` of the PortableText component
-  const blockCustomization = {
+  const blockCustomization: PortableTextComponents = {
     marks: {
       internalLink: ({ children, value }) => (
         <a
-          aria-label={children ?? "internal link"}
+          aria-label={value.href ?? "internal link"}
           style={{ color: "red" }}
           href={value.slug.current}
         >
@@ -29,7 +30,7 @@ function VariantA({
       link: ({ children, value }) =>
         value.blank ? (
           <a
-            aria-label={children ?? "external link"}
+            aria-label={value.href ?? "external link"}
             href={value.href}
             target="_blank"
             rel="noopener noreferrer"
@@ -38,7 +39,7 @@ function VariantA({
           </a>
         ) : (
           <a
-            aria-label={children ?? "external link"}
+            aria-label={value.href ?? "external link"}
             style={{ color: "blue" }}
             href={value.href}
           >

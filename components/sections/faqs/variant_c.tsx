@@ -1,8 +1,8 @@
 import React from "react";
 
-import { Variants } from "types";
+import { FAQProps } from ".";
 
-function VariantC({ subtitle, title, askedQuestions }: Variants) {
+function VariantC({ subtitle, title, faqs }: FAQProps) {
   return (
     <section>
       <div className="radius-for-skewed bg-gray-50 py-20">
@@ -12,8 +12,8 @@ function VariantC({ subtitle, title, askedQuestions }: Variants) {
             <h1 className="text-5xl font-bold">{title}</h1>
           </div>
           <div className="-mx-4 -mb-8 flex flex-wrap">
-            {askedQuestions &&
-              askedQuestions.map((faq, index) => (
+            {faqs &&
+              faqs.map((faq, index) => (
                 <div className="mb-8 w-full px-4 lg:w-1/2" key={index}>
                   {faq.question && (
                     <div className="h-full rounded bg-white p-8 shadow">

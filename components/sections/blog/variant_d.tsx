@@ -5,7 +5,7 @@ import { urlFor } from "lib/sanity";
 import { format } from "date-fns";
 import { SanityBody, SanityImage, Author } from "types";
 
-import { Variants } from "types";
+import { BlogProps } from ".";
 
 interface BlogPostProps extends SanityBody {
   category?: string;
@@ -20,10 +20,10 @@ interface BlogPostProps extends SanityBody {
   authors?: Author[];
 }
 
-function VariantD({ subtitle, title, blogPosts }: Variants) {
+function VariantD({ subtitle, title, posts }: BlogProps) {
   let blogsPerPage = 6;
   const [activeTab, setActiveTab] = React.useState("All"); //set the first index category as initial value
-  const transformedPosts: BlogPostProps[] = blogPosts
+  const transformedPosts: BlogPostProps[] = posts
     ?.map(post => {
       return post?.categories?.map(category => {
         return {
@@ -127,10 +127,10 @@ function VariantD({ subtitle, title, blogPosts }: Variants) {
                 )}
               </div>
             </div>
-            {blogPosts && (
+            {posts && (
               <div className="w-full px-3 lg:w-3/4">
                 {activeTab === "All"
-                  ? blogPosts?.slice(0, blogsPerPage)?.map((post, index) => (
+                  ? posts?.slice(0, blogsPerPage)?.map((post, index) => (
                       <div
                         className="-mx-3 mb-8 flex flex-wrap lg:mb-6"
                         key={index}

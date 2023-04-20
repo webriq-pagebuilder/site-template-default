@@ -3,6 +3,7 @@ import { Components } from "components/list";
 export function PageSections({ data, enableInlineEditing }) {
   const { _id, _type, sections } = data;
 
+  console.log("PageSections", data);
   return (
     <>
       {sections &&
@@ -32,7 +33,7 @@ export function PageSections({ data, enableInlineEditing }) {
               data={section}
               pageInfo={{
                 documentId: _id,
-                documentType: _type
+                documentType: _type,
               }}
               enableInlineEditing={enableInlineEditing}
             />

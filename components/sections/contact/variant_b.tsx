@@ -1,7 +1,7 @@
 import React from "react";
 import { urlFor } from "lib/sanity";
 import Image from "next/image";
-import { Variants } from "types";
+import { ContactProps } from ".";
 
 function VariantB({
   contactDescription,
@@ -9,7 +9,7 @@ function VariantB({
   contactNumber,
   contactEmail,
   socialLinks,
-}: Variants) {
+}: ContactProps) {
   return (
     <section>
       <div className="radius-for-skewed bg-gray-50 py-20">

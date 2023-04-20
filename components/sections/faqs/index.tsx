@@ -2,7 +2,7 @@ import React from "react";
 import dynamic from "next/dynamic";
 import EditSection from "components/EditSection";
 
-import { Variants } from "types";
+import { SectionsProps, AskedQuestion, FaqsWithCategory } from "types";
 
 const Variants = {
   variant_a: dynamic(() => import("./variant_a")),
@@ -10,14 +10,21 @@ const Variants = {
   variant_c: dynamic(() => import("./variant_c")),
 };
 
-function FAQs({ data, enableInlineEditing }) {
+export interface FAQProps {
+  subtitle?: string;
+  title?: string;
+  faqs?: AskedQuestion[];
+  faqsWithCategories?: FaqsWithCategory[];
+}
+
+function FAQs({ data, enableInlineEditing }: SectionsProps) {
   const variant = data?.variant || data?.variants?.condition;
   const Variant = Variants?.[variant];
 
-  const props: Variants = {
+  const props = {
     subtitle: data?.variants?.subtitle,
     title: data?.variants?.title,
-    askedQuestions: data?.variants?.askedQuestions,
+    faqs: data?.variants?.askedQuestions,
     faqsWithCategories: data?.variants?.faqsWithCategory,
   };
 

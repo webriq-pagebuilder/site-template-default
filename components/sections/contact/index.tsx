@@ -2,24 +2,29 @@ import React from "react";
 import dynamic from "next/dynamic";
 import EditSection from "components/EditSection";
 
-import { Variants } from "types";
+import { SectionsProps, SocialLink, Form } from "types";
 
 const Variants = {
   variant_a: dynamic(() => import("./variant_a")),
   variant_b: dynamic(() => import("./variant_b")),
 };
 
-function Contact({
-  data,
-  enableInlineEditing,
-}: {
-  data: any;
-  enableInlineEditing: boolean;
-}) {
+export interface ContactProps {
+  title?: string;
+  contactDescription?: string;
+  officeInformation?: string;
+  contactEmail?: string;
+  contactNumber?: string;
+  socialLinks?: SocialLink[];
+  form?: Form;
+  block?: any;
+}
+
+function Contact({ data, enableInlineEditing }: SectionsProps) {
   const variant = data?.variant || data?.variants?.condition;
   const Variant = Variants?.[variant];
 
-  const props: Variants = {
+  const props = {
     title: data?.variants?.title,
     contactDescription: data?.variants?.contactDescription,
     officeInformation: data?.variants?.officeInformation,

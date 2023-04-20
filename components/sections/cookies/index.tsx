@@ -2,7 +2,7 @@ import React from "react";
 import dynamic from "next/dynamic";
 import EditSection from "components/EditSection";
 
-import { Variants } from "types";
+import { SectionsProps } from "types";
 
 const Variants = {
   variant_a: dynamic(() => import("./variant_a")),
@@ -12,20 +12,21 @@ const Variants = {
   variant_e: dynamic(() => import("./variant_e")),
 };
 
-function Cookies({
-  data,
-  enableInlineEditing,
-}: {
-  data: any;
-  enableInlineEditing: boolean;
-}) {
+export interface CookiesProps {
+  title?: string;
+  allowCookieBtn?: string;
+  denyCookieBtn?: string;
+  block?: any;
+}
+
+function Cookies({ data, enableInlineEditing }: SectionsProps) {
   const variant = data?.variant || data?.variants?.condition;
   const Variant = Variants?.[variant];
 
-  const props: Variants = {
-    heading: data?.variants?.heading,
-    acceptButtonLabel: data?.variants?.acceptButtonLabel,
-    declineButtonLabel: data?.variants?.declineButtonLabel,
+  const props = {
+    title: data?.variants?.heading,
+    allowCookieBtn: data?.variants?.acceptButtonLabel,
+    denyCookieBtn: data?.variants?.declineButtonLabel,
     block: data?.variants?.block,
   };
 

@@ -4,17 +4,18 @@ import Link from "next/link";
 import WebriQForm from "components/webriq-form";
 import { logoLink, thankYouPageLink, ConditionalBtnOrLink } from "helper";
 
-import { Variants, FormFields } from "types";
+import { CTAProps } from ".";
+import { FormFields } from "types";
 
 function VariantD({
   logo,
   title,
-  plainText,
-  primaryButton,
+  text,
+  button,
   form,
   formLinks,
   signInLink,
-}: Variants) {
+}: CTAProps) {
   return (
     <section className="bg-gray-50 px-10 py-20">
       <div className="container mx-auto px-4">
@@ -38,10 +39,10 @@ function VariantD({
             <h1 className="font-heading mb-4 text-4xl font-bold md:text-5xl">
               {title}
             </h1>
-            <p className="mb-8 leading-loose text-gray-700">{plainText}</p>
-            {primaryButton?.label && (
+            <p className="mb-8 leading-loose text-gray-700">{text}</p>
+            {button?.label && (
               <ConditionalBtnOrLink
-                value={primaryButton}
+                value={button}
                 style="inline-block py-2 px-6 bg-webriq-darkblue hover:bg-webriq-blue text-white font-bold leading-loose transition duration-250 rounded-l-xl rounded-t-xl"
               />
             )}

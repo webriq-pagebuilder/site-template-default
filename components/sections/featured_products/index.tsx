@@ -3,20 +3,25 @@ import dynamic from "next/dynamic";
 import { EcwidContextProvider } from "context/EcwidContext";
 import EditSection from "components/EditSection";
 
-import { Variants } from "types";
+import { SectionsProps, CollectionProduct } from "types";
 
 const Variants = {
   variant_a: dynamic(() => import("./variant_a")),
   variant_b: dynamic(() => import("./variant_b")),
 };
 
-function FeaturedProducts({ data, enableInlineEditing }) {
+export interface FeaturedProductsProps {
+  title?: string;
+  featured?: CollectionProduct[];
+}
+
+function FeaturedProducts({ data, enableInlineEditing }: SectionsProps) {
   const variant = data?.variant || data?.variants?.condition;
   const Variant = Variants?.[variant];
 
-  const props: Variants = {
+  const props = {
     title: data?.variants?.collections?.name,
-    products: data?.variants?.collections?.products,
+    featured: data?.variants?.collections?.products,
   };
 
   return (

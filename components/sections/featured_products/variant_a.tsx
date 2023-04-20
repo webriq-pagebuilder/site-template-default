@@ -4,11 +4,11 @@ import Image from "next/image";
 import { useEcwid } from "context/EcwidContext";
 import Ribbon from "components/ecwid/Ribbon";
 
-import { Variants } from "types";
+import { FeaturedProductsProps } from ".";
 
-function VariantA({ title, products }: Variants) {
+function VariantA({ title, featured }: FeaturedProductsProps) {
   const ecwid = useEcwid();
-  const ids = products && products?.map(item => item?.ecwidProductId);
+  const ids = featured && featured?.map(item => item?.ecwidProductId);
 
   useEffect(() => {
     if (ids) {
@@ -24,9 +24,9 @@ function VariantA({ title, products }: Variants) {
             {title}
           </h1>
         )}
-        {products && (
+        {featured && (
           <div className="-mx-3 flex flex-wrap">
-            {products?.map((product, index) => {
+            {featured?.map((product, index) => {
               let items = [];
               ecwid?.productCollection &&
                 ecwid?.productCollection?.find(prod => {

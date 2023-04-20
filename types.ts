@@ -6,6 +6,10 @@ export interface SanityBody {
   _updatedAt: string;
 }
 
+export interface SectionsProps {
+  data?: Sections;
+  enableInlineEditing: boolean;
+}
 export interface ConditionalLink {
   type?: string;
   internalLink?: string | null;
@@ -102,10 +106,10 @@ export interface Seo {
   seoSynonyms?: string;
 }
 
-interface Sections extends SanityBody {
+export interface Sections extends SanityBody {
   label?: string;
   variant?: string;
-  variants?: Variants[];
+  variants?: Variants;
 }
 
 interface Portfolio {
@@ -133,7 +137,7 @@ interface Category extends SanityBody {
   title?: string;
 }
 
-interface BlogPost extends SanityBody {
+export interface BlogPost extends SanityBody {
   authors?: Author[] | null;
   body?: any;
   categories?: Category[] | null;
@@ -195,7 +199,7 @@ interface ProductInfoImage {
   image?: SanityImage | null;
 }
 
-interface SocialLink {
+export interface SocialLink {
   socialMedia?: string | null;
   socialMediaLink?: string | null;
   _key?: string | null;
@@ -207,14 +211,14 @@ interface SocialLink {
   socialMediaPlatform?: string | null;
 }
 
-interface AskedQuestion {
+export interface AskedQuestion {
   answer?: string | null;
   question?: string | null;
   _key?: string;
   _type?: string;
 }
 
-interface FaqsWithCategory {
+export interface FaqsWithCategory {
   askedQuestions?: AskedQuestion[] | null;
   category?: string | null;
   _key?: string;
@@ -237,7 +241,7 @@ export interface Variants {
   blogPosts?: BlogPost[] | null;
   form?: Form | null;
   collections?: Collection | null;
-  products?: CollectionProduct[] | null;
+  products?: CollectionProduct | null;
   allProducts?: any; // todo, cant find this section
   subtitle?: string | null;
   title?: string | null;
@@ -251,7 +255,7 @@ export interface Variants {
   heading?: string | null;
   acceptButtonLabel?: string | null;
   declineButtonLabel?: string | null;
-  faqsWithCategories?: FaqsWithCategory[] | null;
+  faqsWithCategory?: FaqsWithCategory[] | null;
   askedQuestions?: AskedQuestion[] | null;
 }
 

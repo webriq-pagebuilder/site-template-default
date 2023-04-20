@@ -3,26 +3,26 @@ import { PortableText } from "lib/sanity";
 import { setCookie, getCookie } from "utils/cookies";
 import { cookiesBlockStyling } from "./variant_a";
 
-import { Variants } from "types";
+import { CookiesProps } from ".";
 
 function VariantB({
-  heading,
+  title,
   block,
-  acceptButtonLabel,
-  declineButtonLabel,
-}: Variants) {
+  allowCookieBtn,
+  denyCookieBtn,
+}: CookiesProps) {
   const cookie = getCookie();
   const [showCookie, setShowCookie] = React.useState(!!cookie);
 
   return (
     <div className="fixed inset-x-0 top-0 z-50">
       {!showCookie
-        ? heading && (
+        ? title && (
             <div className="bg-gray-800 py-6 text-white">
               <div className="container mx-auto px-4">
                 <div className="-mx-4 flex flex-wrap items-center">
                   <div className="w-full px-4 lg:w-3/4">
-                    <p className="font-heading font-bold">{heading}</p>
+                    <p className="font-heading font-bold">{title}</p>
                     {block && (
                       <PortableText
                         value={block}
@@ -31,7 +31,7 @@ function VariantB({
                     )}
                   </div>
                   <div className="w-full px-4 lg:w-1/4 lg:text-right">
-                    {acceptButtonLabel && (
+                    {allowCookieBtn && (
                       <button
                         aria-label="Allow Cookies button"
                         type="button"
@@ -41,10 +41,10 @@ function VariantB({
                           setShowCookie(!showCookie);
                         }}
                       >
-                        {acceptButtonLabel}
+                        {allowCookieBtn}
                       </button>
                     )}
-                    {declineButtonLabel && (
+                    {denyCookieBtn && (
                       <button
                         aria-label="Deny Cookies button"
                         type="button"
@@ -54,7 +54,7 @@ function VariantB({
                           setShowCookie(!showCookie);
                         }}
                       >
-                        {declineButtonLabel}
+                        {denyCookieBtn}
                       </button>
                     )}
                   </div>

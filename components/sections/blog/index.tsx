@@ -1,27 +1,8 @@
-import React from "react";
+import React, { ComponentType } from "react";
 import dynamic from "next/dynamic";
 import EditSection from "components/EditSection";
 
-import { Author, SanityBody, Variants } from "types";
-
-// export interface BlogProps {
-//   subtitle?: string;
-//   title?: string;
-//   posts?: Posts[];
-//   primaryButton?: PrimaryButton;
-// }
-
-// interface Posts {
-//   link: string;
-//   authors: Author[];
-//   categories: Categories[];
-//   [key: string]: any;
-// }
-
-// interface Categories extends SanityBody {
-//   description?: string;
-//   title?: string;
-// }
+import { SectionsProps, BlogPost, LabeledRoute } from "types";
 
 const Variants = {
   variant_a: dynamic(() => import("./variant_a")),
@@ -30,20 +11,22 @@ const Variants = {
   variant_d: dynamic(() => import("./variant_d")),
 };
 
-function Blog({
-  data,
-  enableInlineEditing,
-}: {
-  data: any;
-  enableInlineEditing: boolean;
-}) {
+//inferred type on props inside the component, use for variants
+export interface BlogProps {
+  subtitle?: string;
+  title?: string;
+  posts?: BlogPost[];
+  primaryButton?: LabeledRoute;
+}
+
+function Blog({ data, enableInlineEditing }: SectionsProps) {
   const variant = data?.variant || data?.variants?.condition;
   const Variant = Variants?.[variant];
 
-  const props: Variants = {
+  const dataProps = {
     subtitle: data?.variants?.subtitle,
     title: data?.variants?.title,
-    blogPosts: data?.variants?.blogPosts,
+    posts: data?.variants?.blogPosts,
     primaryButton: data?.variants?.primaryButton,
   };
 
@@ -52,8 +35,9 @@ function Blog({
       {enableInlineEditing && (
         <EditSection documentType={data?._type} documentId={data?._id} />
       )}
-      {Variant ? <Variant {...props} /> : null}
+      {Variant ? <Variant props={dataProps} /> : null}
     </>
   );
 }
+
 export default React.memo(Blog);

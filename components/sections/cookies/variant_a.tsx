@@ -2,8 +2,8 @@ import React from "react";
 import { PortableText } from "lib/sanity";
 import { setCookie, getCookie } from "utils/cookies";
 
-import { Variants } from "types";
 import { PortableTextComponents } from "@portabletext/react";
+import { CookiesProps } from ".";
 
 // block styling as props to `components` of the PortableText component
 export const cookiesBlockStyling: PortableTextComponents = {
@@ -28,11 +28,11 @@ export const cookiesBlockStyling: PortableTextComponents = {
 };
 
 function VariantA({
-  heading,
+  title,
   block,
-  acceptButtonLabel,
-  declineButtonLabel,
-}: Variants) {
+  allowCookieBtn,
+  denyCookieBtn,
+}: CookiesProps) {
   const cookie = getCookie();
   const [showCookie, setShowCookie] = React.useState<boolean>(!!cookie);
 
@@ -40,10 +40,10 @@ function VariantA({
     <div className="fixed inset-x-0 bottom-0 z-50">
       {!showCookie ? (
         <div className="container mx-auto px-4">
-          {(heading || block) && (
+          {(title || block) && (
             <div className="mb-6 flex flex-wrap items-center rounded-lg bg-gray-800 p-6 text-white">
               <div className="w-full px-4 lg:w-2/3">
-                <p className="font-heading font-bold">{heading}</p>
+                <p className="font-heading font-bold">{title}</p>
                 {block && (
                   <PortableText
                     value={block}
@@ -52,7 +52,7 @@ function VariantA({
                 )}
               </div>
               <div className="px-4 lg:w-1/3 lg:text-right">
-                {acceptButtonLabel && (
+                {allowCookieBtn && (
                   <button
                     aria-label="Allow Cookies button"
                     type="button"
@@ -62,10 +62,10 @@ function VariantA({
                       setShowCookie(!showCookie);
                     }}
                   >
-                    {acceptButtonLabel}
+                    {allowCookieBtn}
                   </button>
                 )}
-                {declineButtonLabel && (
+                {denyCookieBtn && (
                   <button
                     aria-label="Deny Cookies button"
                     type="button"
@@ -75,7 +75,7 @@ function VariantA({
                       setShowCookie(!showCookie);
                     }}
                   >
-                    {declineButtonLabel}
+                    {denyCookieBtn}
                   </button>
                 )}
               </div>

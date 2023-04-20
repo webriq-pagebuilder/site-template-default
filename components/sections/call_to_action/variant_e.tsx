@@ -2,9 +2,10 @@ import React from "react";
 import WebriQForm from "components/webriq-form";
 import { thankYouPageLink, ConditionalBtnOrLink } from "helper";
 
-import { Variants, FormFields } from "types";
+import { FormFields } from "types";
+import { CTAProps } from ".";
 
-function VariantE({ form, formLinks, signInLink }: Variants) {
+function VariantE({ form, formLinks, signInLink }: CTAProps) {
   return (
     <section className="bg-gray-50 px-5 py-20 sm:px-10">
       <div className="container mx-auto px-4">

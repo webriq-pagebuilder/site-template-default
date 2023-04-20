@@ -2,9 +2,9 @@ import React from "react";
 import WebriQForm from "components/webriq-form";
 import { thankYouPageLink } from "helper";
 
-import { Variants } from "types";
+import { CTAProps } from ".";
 
-function VariantC({ title, plainText, tags, form }: Variants) {
+function VariantC({ title, text, features, form }: CTAProps) {
   return (
     <section className="bg-gray-50 py-20">
       <div className="container mx-auto px-4">
@@ -13,7 +13,7 @@ function VariantC({ title, plainText, tags, form }: Variants) {
             <h1 className="font-heading mb-4 text-4xl font-bold lg:text-5xl">
               {title}
             </h1>
-            <p className="max-w-lg leading-loose text-gray-700">{plainText}</p>
+            <p className="max-w-lg leading-loose text-gray-700">{text}</p>
           </div>
           <div className="w-full px-4 lg:w-1/2">
             {form?.fields && (
@@ -65,8 +65,8 @@ function VariantC({ title, plainText, tags, form }: Variants) {
             )}
             <div>
               <ul className="flex items-center text-gray-500 lg:justify-end">
-                {tags &&
-                  tags?.map((feature, index) => (
+                {features &&
+                  features?.map((feature, index) => (
                     <li className="mr-4 flex items-center" key={index}>
                       <span>
                         <svg

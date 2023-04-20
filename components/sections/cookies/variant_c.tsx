@@ -3,14 +3,14 @@ import { PortableText } from "lib/sanity";
 import { setCookie, getCookie } from "utils/cookies";
 import { cookiesBlockStyling } from "./variant_a";
 
-import { Variants } from "types";
+import { CookiesProps } from ".";
 
 function VariantC({
   title,
   block,
-  acceptButtonLabel,
-  declineButtonLabel,
-}: Variants) {
+  allowCookieBtn,
+  denyCookieBtn,
+}: CookiesProps) {
   const cookie = getCookie();
   const [showCookie, setShowCookie] = React.useState(!!cookie);
 
@@ -27,7 +27,7 @@ function VariantC({
                     components={cookiesBlockStyling}
                   />
                 )}
-                {acceptButtonLabel && (
+                {allowCookieBtn && (
                   <button
                     aria-label="Allow Cookies button"
                     type="button"
@@ -37,10 +37,10 @@ function VariantC({
                       setShowCookie(!showCookie);
                     }}
                   >
-                    {acceptButtonLabel}
+                    {allowCookieBtn}
                   </button>
                 )}
-                {declineButtonLabel && (
+                {denyCookieBtn && (
                   <button
                     aria-label="Deny Cookies button"
                     type="button"
@@ -50,7 +50,7 @@ function VariantC({
                       setShowCookie(!showCookie);
                     }}
                   >
-                    {declineButtonLabel}
+                    {denyCookieBtn}
                   </button>
                 )}
               </div>

@@ -3,24 +3,24 @@ import { PortableText } from "lib/sanity";
 import { setCookie, getCookie } from "utils/cookies";
 import { cookiesBlockStyling } from "./variant_a";
 
-import { Variants } from "types";
+import { CookiesProps } from ".";
 
 function VariantE({
-  heading,
+  title,
   block,
-  acceptButtonLabel,
-  declineButtonLabel,
-}: Variants) {
+  allowCookieBtn,
+  denyCookieBtn,
+}: CookiesProps) {
   const cookie = getCookie();
   const [showCookie, setShowCookie] = React.useState(!!cookie);
 
   return (
     <div className="fixed inset-x-0 bottom-0 z-50">
       {!showCookie
-        ? heading && (
+        ? title && (
             <div className="mx-4 mb-6 max-w-md rounded-lg bg-gray-800 pt-8 text-white md:mx-0 md:ml-10">
               <div className="px-8 text-center">
-                <p className="font-heading font-bold">{heading}</p>
+                <p className="font-heading font-bold">{title}</p>
                 {block && (
                   <PortableText
                     value={block}
@@ -29,7 +29,7 @@ function VariantE({
                 )}
               </div>
               <div className="flex border-t border-gray-700 text-center">
-                {declineButtonLabel && (
+                {denyCookieBtn && (
                   <button
                     aria-label="Deny Cookies button"
                     type="button"
@@ -39,10 +39,10 @@ function VariantE({
                       setShowCookie(!showCookie);
                     }}
                   >
-                    {declineButtonLabel}
+                    {denyCookieBtn}
                   </button>
                 )}
-                {acceptButtonLabel && (
+                {allowCookieBtn && (
                   <button
                     aria-label="Allow Cookies button"
                     type="button"
@@ -52,7 +52,7 @@ function VariantE({
                       setShowCookie(!showCookie);
                     }}
                   >
-                    {acceptButtonLabel}
+                    {allowCookieBtn}
                   </button>
                 )}
               </div>

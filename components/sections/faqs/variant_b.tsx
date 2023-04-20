@@ -1,8 +1,8 @@
 import React from "react";
 
-import { Variants } from "types";
+import { FAQProps } from ".";
 
-function VariantB({ subtitle, title, faqsWithCategories }: Variants) {
+function VariantB({ subtitle, title, faqsWithCategories }: FAQProps) {
   const [view, setView] = React.useState([]);
   const [tabPane, setTabPane] = React.useState(
     faqsWithCategories?.[0]?.category

@@ -18,9 +18,11 @@ function PagesProductInfo({ data, enableInlineEditing }) {
 
   return (
     <EcwidContextProvider>
-      {enableInlineEditing && <EditSection documentType={data?._type} documentId={data?._id} />}
+      {enableInlineEditing && (
+        <EditSection documentType={data?._type} documentId={data?._id} />
+      )}
       {Variant ? <Variant {...props} /> : null}
     </EcwidContextProvider>
-  )
+  );
 }
 export default React.memo(PagesProductInfo);

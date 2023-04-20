@@ -1,8 +1,8 @@
 import React from "react";
 
-import { Variants } from "types";
+import { FAQProps } from ".";
 
-function VariantA({ subtitle, title, askedQuestions }: Variants) {
+function VariantA({ subtitle, title, faqs }: FAQProps) {
   const [data, setData] = React.useState([]);
   const [currentPage, setCurrentPage] = React.useState(1);
   const [faqsPerPage] = React.useState(6);
@@ -10,8 +10,8 @@ function VariantA({ subtitle, title, askedQuestions }: Variants) {
 
   React.useEffect(() => {
     let tempFaqs = [];
-    askedQuestions &&
-      askedQuestions.forEach(faq =>
+    faqs &&
+      faqs.forEach(faq =>
         tempFaqs.push({
           question: faq?.question,
           answer: faq?.answer,
@@ -19,7 +19,7 @@ function VariantA({ subtitle, title, askedQuestions }: Variants) {
         })
       );
     setData(tempFaqs);
-  }, [askedQuestions]);
+  }, [faqs]);
 
   // toggle view or hide answers on click for each FAQ items
   const toggleView = position => {
@@ -125,7 +125,7 @@ function VariantA({ subtitle, title, askedQuestions }: Variants) {
               {subtitle}
             </span>
             <h1 className="font-heading mb-6 text-5xl font-bold">{title}</h1>
-            {askedQuestions && askedQuestions?.length > 1 && (
+            {faqs && faqs?.length > 1 && (
               <form className="flex justify-center">
                 <input
                   aria-label="Enter question keyword to search"
