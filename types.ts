@@ -7,6 +7,7 @@ export interface SanityBody {
 }
 
 export interface SectionsProps {
+  template?: any;
   data?: Sections;
   enableInlineEditing: boolean;
 }
@@ -22,6 +23,11 @@ export interface SanityImage {
     _ref: string;
     _type: "reference";
   };
+}
+
+export interface MainImage {
+  image?: SanityImage;
+  alt?: string;
 }
 
 //Generic type for routes with label e.g. primaryButtons, secondaryButton, menu, etc
@@ -225,6 +231,40 @@ export interface FaqsWithCategory {
   _type?: string;
 }
 
+export interface ContactDetails {
+  addressInfo?: string;
+  contactInfo?: string;
+  emailInfo?: string;
+  _key?: string;
+}
+
+export interface ArrayOfImageTitleAndText {
+  mainImage?: {
+    alt?: string;
+    image?: SanityImage;
+  };
+  plainText?: string;
+  title?: string;
+  _key?: string;
+  _type?: string;
+}
+
+export interface FeaturedItem {
+  description?: string;
+  mainImage?: MainImage;
+  title?: string;
+  subtitle?: string;
+  _key?: string;
+  _type?: string;
+}
+
+export interface Images {
+  image?: SanityImage;
+  _key?: string;
+  _type?: string;
+  alt?: string;
+}
+
 export interface Variants {
   arrayOfTitleAndText?: ArrayOfTitleAndText[] | null;
   logo?: Logo | null;
@@ -257,6 +297,15 @@ export interface Variants {
   declineButtonLabel?: string | null;
   faqsWithCategory?: FaqsWithCategory[] | null;
   askedQuestions?: AskedQuestion[] | null;
+  arrayOfImageTitleAndText?: ArrayOfImageTitleAndText[] | null;
+  description?: string | null;
+  featuredItems?: FeaturedItem[] | null;
+  images?: Images[] | null;
+  contactDetails?: ContactDetails[] | null;
+  copyright?: string | null;
+  mainImage?: MainImage | null;
+  youtubeLink?: string | null;
+  banner?: any;
 }
 
 export interface SanitySlug {
