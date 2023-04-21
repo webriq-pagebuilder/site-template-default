@@ -9,7 +9,7 @@ export default function StudioPage() {
     <>
       <Head>
         <NextStudioHead />
-        <link rel="icon" href="favicon.ico" />
+        <link rel="icon" href="/favicon.ico" />
       </Head>
       
       <NextStudio config={config}>

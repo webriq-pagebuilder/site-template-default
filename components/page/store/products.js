@@ -1,4 +1,7 @@
+import { useContext } from "react";
 import { Components } from "components/list";
+import { InlineEditorContext } from "context/InlineEditorContext";
+import InlineEditor from "components/InlineEditor";
 import { EcwidContextProvider } from "context/EcwidContext";
 
 export function ProductSections({ data }) {
@@ -9,7 +12,11 @@ export function ProductSections({ data }) {
     price, // product price
     description, // product description
     sections, // sections from the Design field group tab of Product page
+    _id,
+    _type
   } = data;
+
+  const showInlineEditor = useContext(InlineEditorContext);
 
   let sectionsToDisplay = commonSections?.sections;
 
@@ -86,6 +93,9 @@ export function ProductSections({ data }) {
               : section?._type; // otherwise, use the actual section type
 
           const Component = Components?.[sectionType];
+          const currentDocument = section?._type === "productInfo" 
+            ? { id: _id, type: _type } 
+            : { id: section?._id, type: section?._type }
 
           // skip rendering unknown components
           if (!Component) {
@@ -94,19 +104,24 @@ export function ProductSections({ data }) {
 
           return (
             <EcwidContextProvider key={index}>
-              <Component
-                template={{
-                  bg: "gray",
-                  color: "webriq",
-                }}
-                product={{
-                  name,
-                  ecwidProductId,
-                  price,
-                  description,
-                }}
-                data={section}
-              />
+              <InlineEditor
+                document={currentDocument} 
+                showInlineEditor={showInlineEditor}
+              >
+                <Component
+                  template={{
+                    bg: "gray",
+                    color: "webriq",
+                  }}
+                  product={{
+                    name,
+                    ecwidProductId,
+                    price,
+                    description,
+                  }}
+                  data={section}
+                />
+              </InlineEditor>
             </EcwidContextProvider>
           );
         })}
