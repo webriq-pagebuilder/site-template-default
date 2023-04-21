@@ -93,7 +93,7 @@ export function ProductSections({ data }) {
               : section?._type; // otherwise, use the actual section type
 
           const Component = Components?.[sectionType];
-          const currentDocument = section?._type === "productInfo" 
+          const currentDocument = section?._type === "slotProductInfo" 
             ? { id: _id, type: _type } 
             : { id: section?._id, type: section?._type }
 
