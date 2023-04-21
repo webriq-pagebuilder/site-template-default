@@ -2,7 +2,7 @@
 import React from "react"
 import { Select } from "@sanity/ui" 
 //import filters from "./filters.svg"
-import styles from "./ColorblindPreview.module.css"
+import styles from "styles/studio/a11y/ColorblindPreview.module.css"
 
 const FILTER_ITEMS = [
   { title: "Protanopia", value: "protanopia" },

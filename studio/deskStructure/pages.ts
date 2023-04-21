@@ -10,9 +10,9 @@ import Iframe from "sanity-plugin-iframe-pane"
 import resolveProductionUrl from "../resolvePreviewUrl"
 
 import SeoPreviews from "../components/previews/seo/SeoPreviews"
-import BraillePreview from "../components/previews/a11y/braille/Braille"
-import ColorblindPreview from "../components/previews/a11y/colorblind-filter/ColorblindPreview"
-import TextToSpeechPreview from "../components/previews/a11y/text-to-speech/TextToSpeechPreview"
+import BraillePreview from "../components/previews/a11y/Braille"
+import ColorblindPreview from "../components/previews/a11y/ColorblindPreview"
+import TextToSpeechPreview from "../components/previews/a11y/TextToSpeechPreview"
 
 import {
   NEXT_PUBLIC_SITE_URL,

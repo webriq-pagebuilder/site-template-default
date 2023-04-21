@@ -17,7 +17,7 @@ function Home({ data, preview, token, source }) {
       <>
         <PreviewBanner />
         <PreviewSuspense>
-          <DocumentWithPreview {...{ data, token, source: source || null }} />
+          <DocumentWithPreview {...{ data, token, source }} />
         </PreviewSuspense>
       </>
     );
@@ -59,6 +59,7 @@ function Document({ data }) {
  *
  * @param data Data from getStaticProps based on current slug value
  * @param token Token value supplied via `/api/preview` route
+ * @param source Source value supplied via `/api/preview` route
  *
  * @returns Document with preview data
  */

@@ -108,25 +108,71 @@ html#ecwid_html body#ecwid_body .ec-size .ec-store .ec-breadcrumbs {
   display: inline;
 }
 
+/* Sanity.config.ts studio global style */
+#sanity {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 18px;
+}
+
+/* Cosmetic: Remove border-right of tools menu */
+div[data-ui="Navbar"] > div > div:first-child > div:last-child {
+  border-right: 0 !important;
+}
+
+/* Hide every thing in the right navbar */
+div[data-ui="Navbar"] > div > div:last-child {
+  display: none !important;
+}
+
+/*  Fallback: Hide manage project from menu */
+a[data-ui="MenuItem"][href^="https://sanity.io/manage/project"],
+a[data-ui="MenuItem"][href^="https://sanity.io/manage/project"] + hr
+{
+  display: none !important;
+}
+
+/* Fallback: Hide user and logout popover from menu */
+button#presence-menu,
+button#login-status-menu {
+  display: none !important;
+}
+
+/* Desktop: when using field groups, we hide the first tab */
+[data-ui="TabList"][data-testid="field-group-tabs"] > div:first-child {
+  display: none;
+}
+
+/* Mobile: when using field groups, hide the first option */
+select[data-testid="field-group-select"] > option:first-child {
+  display: none;
+}
+
+/* Inline Editing Drawer frame */
+.inline-nav-panesearch div[data-search-open] {
+  display: none !important;
+}
+.inline-nav-paneheader div[data-testid="pane-header"] {
+  display: none !important;
+}
+.inline-desk-listpane div[data-testid="desk-tool-list-pane"] {
+  display: none !important;
+}
 .inline-document-pane div[data-testid="document-pane"] {
   position: relative !important
 }
-
 .inline-field-label div[data-testid="field-label"] {
   display: none !important;
 }
-
 .inline-field-variant div[data-testid="field-variant"] {
   display: none !important;
 }
-
 .inline-panel div[data-testid="document-panel-scroller"] > div {
   padding-top: 1rem;
   padding-bottom: 2rem;
 }
-
 .inline-pane-footer div[data-testid="pane-footer"] {
   position: sticky !important;
   bottom: 0;
 }
+
 /* End */

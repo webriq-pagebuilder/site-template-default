@@ -1,12 +1,20 @@
+import { useContext } from "react";
 import { Components } from "components/list";
+import { InlineEditorContext } from "context/InlineEditorContext";
+import InlineEditor from "components/InlineEditor";
 import { EcwidContextProvider } from "context/EcwidContext";
+
 
 export function CollectionSections({ data }) {
   const {
     commonSections, // sections from Store > Pages > Collections
     name, // collection name
     sections, // sections from the Design field group tab of Collections page
+    _id,
+    _type
   } = data;
+
+  const showInlineEditor = useContext(InlineEditorContext);
 
   let sectionsToDisplay = commonSections?.sections;
 
@@ -39,7 +47,7 @@ export function CollectionSections({ data }) {
     );
 
     if (filtered?.length !== 0) {
-      // if code block 37-39 returns true, then replace all the sections from Store > Commerce Pages > Collections with sections from Store > Collections
+      // replace all the sections from Store > Commerce Pages > Collections with sections from Store > Collections
       sectionsToDisplay = slotSection;
     } else {
       // we only have featuredProducts section on the collection page so we merge this section with the sections in Store > Pages > Collections
@@ -82,6 +90,9 @@ export function CollectionSections({ data }) {
               : section?._type; // otherwise, use the actual section type
 
           const Component = Components[sectionType];
+          const currentDocument = section?._type === "slotCollectionInfo" 
+            ? { id: _id, type: _type } 
+            : { id: section?._id, type: section?._type }
 
           // skip rendering unknown components
           if (!Component) {
@@ -89,18 +100,24 @@ export function CollectionSections({ data }) {
           }
 
           return (
-            <EcwidContextProvider key={index}>
-              <Component
-                template={{
-                  bg: "gray",
-                  color: "webriq",
-                }}
-                collection={{
-                  name,
-                }}
-                data={section}
-              />
-            </EcwidContextProvider>
+            <InlineEditor
+              document={currentDocument}
+              showInlineEditor={showInlineEditor}
+              key={index}
+            >
+              <EcwidContextProvider>
+                <Component
+                  template={{
+                    bg: "gray",
+                    color: "webriq",
+                  }}
+                  collection={{
+                    name,
+                  }}
+                  data={section}
+                />
+              </EcwidContextProvider>
+            </InlineEditor>
           );
         })}
     </>

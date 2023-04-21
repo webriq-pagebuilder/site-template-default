@@ -16,7 +16,7 @@ import { ProductSections } from "components/page/store/products";
 import { EcwidContextProvider } from "context/EcwidContext";
 import InlineEditorContextProvider from "context/InlineEditorContext";
 
-function ProductPageBySlug({ data, preview, token,source }) {
+function ProductPageBySlug({ data, preview, token, source }) {
   const router = useRouter();
   const slug = router.query.slug;
 
@@ -79,9 +79,7 @@ function Document({ data }) {
       </Head>
 
       {/* Show Product page sections */}
-      <EcwidContextProvider>
-        {data?.productData && <ProductSections data={publishedData} />}
-      </EcwidContextProvider>
+      {data?.productData && <ProductSections data={publishedData} />}
     </>
   );
 }
@@ -91,6 +89,7 @@ function Document({ data }) {
  * @param data Data from getStaticProps based on current slug value
  * @param slug Slug value from getStaticProps
  * @param token Token value supplied via `/api/preview` route
+ * @param source Source value supplied via `/api/preview` route
  *
  * @returns Document with preview data
  */
@@ -133,13 +132,11 @@ function DocumentWithPreview({ data, slug, token = null, source = null }) {
         previewData?.sections?.length === 0) && <PreviewNoContent />}
 
       {/* Show Product page sections */}
-      <EcwidContextProvider>
-        {data?.productData && (
-          <InlineEditorContextProvider showInlineEditor={showInlineEditor}>
-            <ProductSections data={previewData} />
-          </InlineEditorContextProvider>
-        )}
-      </EcwidContextProvider>
+      {data?.productData && (
+        <InlineEditorContextProvider showInlineEditor={showInlineEditor}>
+          <ProductSections data={previewData} />
+        </InlineEditorContextProvider>
+      )}
     </>
   );
 }

@@ -50,7 +50,7 @@ export function ProductSections({ data }) {
     );
 
     if (filtered?.length !== 0) {
-      // if code block 41-43 returns true, then replace all the sections from Store > Commerce Pages > Products with sections from Store > Products
+      // replace all the sections from Store > Commerce Pages > Products with sections from Store > Products
       sectionsToDisplay = slotSection;
     } else {
       // there is only "slotProductInfo" section in Store > Products product page
@@ -103,11 +103,12 @@ export function ProductSections({ data }) {
           }
 
           return (
-            <EcwidContextProvider key={index}>
-              <InlineEditor
-                document={currentDocument} 
-                showInlineEditor={showInlineEditor}
-              >
+            <InlineEditor
+              document={currentDocument} 
+              showInlineEditor={showInlineEditor}
+              key={index}
+            >
+              <EcwidContextProvider>
                 <Component
                   template={{
                     bg: "gray",
@@ -121,8 +122,8 @@ export function ProductSections({ data }) {
                   }}
                   data={section}
                 />
-              </InlineEditor>
-            </EcwidContextProvider>
+              </EcwidContextProvider>
+            </InlineEditor>
           );
         })}
     </>

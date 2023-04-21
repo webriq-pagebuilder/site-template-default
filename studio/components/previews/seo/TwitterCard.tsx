@@ -4,7 +4,7 @@ import { useClient } from "sanity";
 import imageUrlBuilder from "@sanity/image-url";
 import { format } from "date-fns"
 import { assemblePageUrl } from "./frontendUtils";
-import styles from "./styles/TwitterCard.module.css";
+import styles from "styles/studio/seo/TwitterCard.module.css";
 
 
 const author = {
@@ -18,7 +18,7 @@ function TwitterCard (props) {
   const client = useClient({ apiVersion: "2021-10-21" })
   const builder = imageUrlBuilder(client);
 
-  const urlFor = (source) => builder.image(source);
+  const urlFor = (source) => builder.image(source).width(300).url();
 
   const { document, width = 500, options } = props;
   const { title, seo } = document;
@@ -37,7 +37,7 @@ function TwitterCard (props) {
               className={styles.tweetAuthorAvatar}
               src={
                 author && typeof author.image === "object"
-                  ? urlFor(author.image).width(300).url()
+                  ? urlFor(author.image)
                   : author.image
               }
             />

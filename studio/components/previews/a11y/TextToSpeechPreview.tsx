@@ -1,7 +1,7 @@
 /* eslint-disable react/no-deprecated */
 import React from "react"
-import { Select, Button, Flex, Inline, Card } from "@sanity/ui"
-import styles from "./TextToSpeechPreview.module.css"
+import { Select, Button, Flex, Card } from "@sanity/ui"
+import styles from "styles/studio/a11y/TextToSpeechPreview.module.css"
 
 const defaultFields = ["title", "excerpt", "body"]
 const speechOptions = { rate: 0.9, pitch: 1, lang: "en-US" }

@@ -13,9 +13,10 @@ import { filterDataToSingleItem } from "components/list";
 import { PreviewBanner } from "components/PreviewBanner";
 import { PreviewNoContent } from "components/PreviewNoContent";
 import { CollectionSections } from "components/page/store/collections";
-import { EcwidContextProvider } from "context/EcwidContext";
+import InlineEditorContextProvider from "context/InlineEditorContext";
 
-function CollectionPageBySlug({ data, preview, token }) {
+
+function CollectionPageBySlug({ data, preview, token, source }) {
   const router = useRouter();
   const slug = router.query.slug;
 
@@ -31,7 +32,7 @@ function CollectionPageBySlug({ data, preview, token }) {
         <>
           <PreviewBanner />
           <PreviewSuspense>
-            <DocumentWithPreview {...{ data, token: token || null, slug }} />
+            <DocumentWithPreview {...{ data, token: token || null, slug, source: source || null }} />
           </PreviewSuspense>
         </>
       );
@@ -78,9 +79,7 @@ function Document({ data }) {
       </Head>
 
       {/* Show Product page sections */}
-      <EcwidContextProvider>
-        {data?.collectionData && <CollectionSections data={publishedData} />}
-      </EcwidContextProvider>
+      {data?.collectionData && <CollectionSections data={publishedData} />}
     </>
   );
 }
@@ -90,13 +89,15 @@ function Document({ data }) {
  * @param data Data from getStaticProps based on current slug value
  * @param slug Slug value from getStaticProps
  * @param token Token value supplied via `/api/preview` route
+ * @param source Source value supplied via `/api/preview` route 
  *
  * @returns Document with preview data
  */
-function DocumentWithPreview({ data, slug, token = null }) {
+function DocumentWithPreview({ data, slug, token = null, source = null }) {
   // Current drafts data in Sanity
   const previewDataEventSource = usePreview(token, collectionsQuery, { slug });
   const previewData = previewDataEventSource?.[0] || previewDataEventSource; // Latest preview data in Sanity
+  const showInlineEditor = source === "studio";
 
   // General safeguard against empty data
   if (!previewData) {
@@ -131,9 +132,11 @@ function DocumentWithPreview({ data, slug, token = null }) {
         previewData?.sections?.length === 0) && <PreviewNoContent />}
 
       {/* Show Product page sections */}
-      <EcwidContextProvider>
-        {data?.collectionData && <CollectionSections data={previewData} />}
-      </EcwidContextProvider>
+      {data?.collectionData && (
+        <InlineEditorContextProvider showInlineEditor={showInlineEditor}>
+          <CollectionSections data={previewData} />
+        </InlineEditorContextProvider>
+      )}
     </>
   );
 }
@@ -159,6 +162,7 @@ export async function getStaticProps({
     props: {
       preview,
       token: (preview && previewData.token) || "",
+      source: (preview && previewData.source) || "",
       data: {
         collectionData: singleCollectionsData || null,
       },

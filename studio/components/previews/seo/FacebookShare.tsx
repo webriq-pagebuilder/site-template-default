@@ -3,7 +3,7 @@ import React from "react";
 import { useClient } from "sanity";
 import imageUrlBuilder from "@sanity/image-url";
 import { assemblePageUrl } from "./frontendUtils";
-import styles from "./styles/FacebookShare.module.css"
+import styles from "styles/studio/seo/FacebookShare.module.css"
 
 
 function FacebookShare (props) {

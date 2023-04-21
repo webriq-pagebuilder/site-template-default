@@ -44,10 +44,29 @@ export function EcwidContextProvider({ children }) {
     let data = null;
     if (selectedOpt.length) {
       const variants = products && products?.combinations;
-      const sortingArr = variants[0].options.map((i) => i.name); // This will be the guide for array arrangement
+
+      const sortingArr = variants[0]?.options.map((i) => i.name); // This will be the guide for array arrangement
       let sortArrSelected = selectedOpt?.sort(
-        (a, b) => sortingArr.indexOf(a.name) - sortingArr.indexOf(b.name)
+        (a, b) => sortingArr?.indexOf(a.name) - sortingArr?.indexOf(b.name)
       );
+
+      const filterArrSelected = sortArrSelected.filter((items) =>
+        includes(sortingArr, items.name)
+      );
+
+      const selectedVariants = variants.flatMap((items) => {
+        const countOptions = items.options.length;
+        const arrOptions = items.options.map((i) => ({
+          name: i.name,
+          value: i.value,
+        }));
+
+        if (_.isEqual(arrOptions, filterArrSelected)) {
+          return items;
+        }
+      });
+
+      const finalVariant = selectedVariants.find((i) => i);
 
       // Multiple variants
       const selectedCombinedVariant = variants
@@ -79,11 +98,9 @@ export function EcwidContextProvider({ children }) {
         })
         .find((i) => i);
 
-      setSelected(selectedCombinedVariant);
-      if (selectedCombinedVariant) {
-        setSelected(selectedCombinedVariant);
-      } else {
-        setSelected(selectedVariant);
+      // setSelected(selectedCombinedVariant);
+      if (finalVariant) {
+        setSelected(finalVariant);
       }
 
       data = selectedOpt;

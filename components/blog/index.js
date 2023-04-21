@@ -2,6 +2,8 @@ import React from "react";
 import dynamic from "next/dynamic";
 import { urlFor, PortableText } from "lib/sanity";
 import { format } from "date-fns";
+import { InlineEditorContext } from "context/InlineEditorContext";
+import InlineEditor from "components/InlineEditor";
 
 const Navigation = dynamic(() => import("components/sections/navigation"));
 const Footer = dynamic(() => import("components/sections/footer"));
@@ -104,15 +106,22 @@ const blockStyle = {
 
 function BlogSections({ data }) {
   const blogData = data || data?.[0];
+  const showInlineEditor = React.useContext(InlineEditorContext);
 
   if (!blogData) {
     return null;
   }
 
-  const { authors, categories, body, mainImage, publishedAt, title } = blogData;
+  const { _id, _type, authors, categories, body, mainImage, publishedAt, title } = blogData;
 
   return (
-    <>
+    <InlineEditor 
+      document={{ 
+        id: _id, 
+        type: _type 
+      }} 
+      showInlineEditor={showInlineEditor}
+    >
       {blogData?.navigation?.map((nav) => (
         <Navigation
           key={nav?._key}
@@ -221,7 +230,7 @@ function BlogSections({ data }) {
           }}
         />
       ))}
-    </>
+    </InlineEditor>
   );
 }
 

@@ -74,6 +74,7 @@ function Document({ data }) {
  * @param data Data from getStaticProps based on current slug value
  * @param slug Slug value from getStaticProps
  * @param token Token value supplied via `/api/preview` route
+ * @param source Source value supplied via `/api/preview` route
  *
  * @returns Document with preview data
  */

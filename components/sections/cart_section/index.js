@@ -1,4 +1,4 @@
-import { memo, useEffect } from "react";
+import { memo } from "react";
 import dynamic from "next/dynamic";
 import { useEcwid } from "context/EcwidContext";
 

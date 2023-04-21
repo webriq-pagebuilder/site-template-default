@@ -19,8 +19,24 @@ export function PageSections({ data }) {
               ? "wishlistSection"
               : section?._type; // otherwise, use the actual section type
 
-          const Component = Components?.[sectionType];
+          const currentDocument = 
+            section?._type === "featuredProducts"
+              ? {
+                id: section?.variants?.collections?._id,
+                type: section?.variants?.collections?._type
+              }
+              : section?._type === "pages_productInfo"
+                  ? {
+                    id: section?.variants?.products?._id,
+                    type: section?.variants?.products?._type
+                  }
+              : {
+                id: section?._id,
+                type: section?._type
+              }
 
+          const Component = Components?.[sectionType];
+      
           // skip rendering unknown components
           if (!Component) {
             return null;
@@ -28,11 +44,11 @@ export function PageSections({ data }) {
 
           return (
             <InlineEditor 
-              document={{ id: section?._id, type: section?._type }} 
+              document={currentDocument} 
               showInlineEditor={showInlineEditor}
+              key={index}
             >
               <Component
-                key={index}
                 template={{
                   bg: "gray",
                   color: "webriq",

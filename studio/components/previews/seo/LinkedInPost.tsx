@@ -3,7 +3,7 @@ import React from "react";
 import { useClient } from "sanity";
 import imageUrlBuilder from "@sanity/image-url";
 import { assemblePageUrl } from "./frontendUtils";
-import styles from "./styles/LinkedInPost.module.css"
+import styles from "styles/studio/seo/LinkedInPost.module.css"
 
 
 function LinkedinPost (props) {

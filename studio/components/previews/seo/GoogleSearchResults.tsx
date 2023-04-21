@@ -1,7 +1,7 @@
 /* eslint-disable react/no-multi-comp, react/no-did-mount-set-state, react/forbid-prop-types, react/prop-types */
 import React from "react";
 import { assemblePageUrl } from "./frontendUtils";
-import styles from "./styles/GoogleSearchResults.module.css";
+import styles from "styles/studio/seo/GoogleSearchResults.module.css";
 import { format } from "date-fns"
 
 function GoogleSearchResult (props) {
