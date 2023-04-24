@@ -1,12 +1,14 @@
 import React from "react";
 import { useMagicRouter } from "hooks";
 import { StudioLayout, StudioProvider } from "sanity";
+import { useRouter } from "next/router";
 import SplitPane, { Pane, SashContent } from "split-pane-react";
 import "split-pane-react/esm/themes/default.css"
 import config from "sanity.config";
 
 
 export default function InlineEditor({ document, showInlineEditor, children }) {
+  const router = useRouter();
   const history = useMagicRouter(`/studio/desk/__edit__${document?.id},type=${document?.type}`)
   const initialWidth = typeof window !== "undefined" && window.innerWidth;
   const [splitPane, setSplitPane] = React.useState(false)
@@ -44,21 +46,21 @@ export default function InlineEditor({ document, showInlineEditor, children }) {
   } 
 
   return (
-    <>
+    <div className={`show-button ${(!splitPane && !whitelistedTypes?.includes(document?.type)) && "inline-editor"}`}>
       {(windowSize?.width >= 1024 && !whitelistedTypes?.includes(document?.type)) && (
         <button 
           id={document?.type} 
-          className={`font-medium rounded shadow-lg px-2 py-2.5 text-sm text-center inline-flex items-center mt-2 absolute right-2 z-40 ${
+          className={`hide font-medium shadow-lg px-2 py-2.5 text-sm text-center items-center mt-2 ${
             splitPane ? "bg-webriq-darkblue text-white hover:bg-webriq-blue hover:text-white" 
                 : "bg-white text-webriq-darkblue border border-webriq-darkblue hover:bg-webriq-blue hover:text-white hover:border-webriq-blue"}`}
           onClick={() => setSplitPane(!splitPane)}
         >
           {!splitPane && (
-            <svg className="fill-current w-4 h-4 mr-2" clipRule="evenodd" fillRule="evenodd" strokeLinejoin="round" strokeMiterlimit={2} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path d="m11.25 6c.398 0 .75.352.75.75 0 .414-.336.75-.75.75-1.505 0-7.75 0-7.75 0v12h17v-8.75c0-.414.336-.75.75-.75s.75.336.75.75v9.25c0 .621-.522 1-1 1h-18c-.48 0-1-.379-1-1v-13c0-.481.38-1 1-1zm-2.011 6.526c-1.045 3.003-1.238 3.45-1.238 3.84 0 .441.385.626.627.626.272 0 1.108-.301 3.829-1.249zm.888-.889 3.22 3.22 8.408-8.4c.163-.163.245-.377.245-.592 0-.213-.082-.427-.245-.591-.58-.578-1.458-1.457-2.039-2.036-.163-.163-.377-.245-.591-.245-.213 0-.428.082-.592.245z" fillRule="nonzero" />
+            <svg className="fill-current w-4 h-4" clipRule="evenodd" fillRule="evenodd" strokeLinejoin="round" strokeMiterlimit={2} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="m9.134 19.319 11.587-11.588c.171-.171.279-.423.279-.684 0-.229-.083-.466-.28-.662l-3.115-3.104c-.185-.185-.429-.277-.672-.277s-.486.092-.672.277l-11.606 11.566c-.569 1.763-1.555 4.823-1.626 5.081-.02.075-.029.15-.029.224 0 .461.349.848.765.848.511 0 .991-.189 5.369-1.681zm-3.27-3.342 2.137 2.137-3.168 1.046zm.955-1.166 10.114-10.079 2.335 2.327-10.099 10.101z" fillRule="nonzero" />
             </svg>
           )}
-          <span>{splitPane ? "Close" : "Edit"}</span>
+          <span>{splitPane && "Close"}</span>
         </button>
       )}
       {/* TODO: [Improvement] Add feature to view pane in different device screen sizes */}
@@ -140,6 +142,6 @@ export default function InlineEditor({ document, showInlineEditor, children }) {
           </>
         )
       ): children}
-    </>
+    </div>
   )
 };

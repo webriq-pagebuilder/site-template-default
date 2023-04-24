@@ -147,7 +147,7 @@ select[data-testid="field-group-select"] > option:first-child {
   display: none;
 }
 
-/* Inline Editing Drawer frame */
+/* Inline Editing split pane */
 .inline-nav-panesearch div[data-search-open] {
   display: none !important;
 }
@@ -173,6 +173,27 @@ select[data-testid="field-group-select"] > option:first-child {
 .inline-pane-footer div[data-testid="pane-footer"] {
   position: sticky !important;
   bottom: 0;
+}
+
+/* Inline Editing button and container */
+.hide {
+  display: none;
+}
+
+.inline-editor:hover {
+  transition: all 300ms ease-in-out;
+  box-shadow: 0px 0px 25px #0045d8;
+  z-index: 9;
+  position: relative;
+  width: 99%;
+  margin: auto;
+}
+
+.show-button:hover .hide {
+  display: inline-flex;
+  position: absolute;
+  right: 8px;
+  z-index: 40;
 }
 
 /* End */
