@@ -13,6 +13,8 @@ export default function InlineEditor({ document, showInlineEditor, children }) {
   const [sizes, setSizes] = React.useState([350, 250]);
   const [windowSize, setWindowSize] = React.useState({ width: initialWidth }); // the width of the window
 
+  const whitelistedTypes = ["slotCart", "slotWishlist"];
+
   const windowResizeHandler = () => {
     const width = window.innerWidth
 
@@ -37,11 +39,13 @@ export default function InlineEditor({ document, showInlineEditor, children }) {
     overflowY: "scroll"
   };
 
-  if(!showInlineEditor) return children;
+  if(!showInlineEditor) {
+    return children;
+  } 
 
   return (
     <>
-      {windowSize?.width >= 1024 && (
+      {(windowSize?.width >= 1024 && !whitelistedTypes?.includes(document?.type)) && (
         <button 
           id={document?.type} 
           className={`font-medium rounded shadow-lg px-2 py-2.5 text-sm text-center inline-flex items-center mt-2 absolute right-2 z-40 ${

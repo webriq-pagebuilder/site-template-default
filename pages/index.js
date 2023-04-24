@@ -12,12 +12,16 @@ import InlineEditorContextProvider from "context/InlineEditorContext";
 
 
 function Home({ data, preview, token, source }) {
+  const showInlineEditor = source === "studio";
+  
   if (preview) {
     return (
       <>
         <PreviewBanner />
         <PreviewSuspense>
-          <DocumentWithPreview {...{ data, token, source }} />
+          <InlineEditorContextProvider showInlineEditor={showInlineEditor}>
+            <DocumentWithPreview {...{ data, token }} />
+          </InlineEditorContextProvider>
         </PreviewSuspense>
       </>
     );
@@ -63,11 +67,10 @@ function Document({ data }) {
  *
  * @returns Document with preview data
  */
-function DocumentWithPreview({ data, token = null, source = null }) {
+function DocumentWithPreview({ data, token = null }) {
   const previewDataEventSource = usePreview(token, homeQuery);
 
   const previewData = previewDataEventSource?.[0] || previewDataEventSource;
-  const showInlineEditor = source === "studio";
 
   // General safeguard against empty data
   if (!previewData) {
@@ -90,11 +93,7 @@ function DocumentWithPreview({ data, token = null, source = null }) {
         previewData?.sections?.length === 0) && <PreviewNoContent />}
 
       {/*  Show page sections */}
-      {data?.pageData && (
-        <InlineEditorContextProvider showInlineEditor={showInlineEditor}>
-          <PageSections data={previewData} />
-        </InlineEditorContextProvider>
-      )}
+      {data?.pageData && <PageSections data={previewData} />}
     </>
   );
 }

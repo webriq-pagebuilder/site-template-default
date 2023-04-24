@@ -39,11 +39,11 @@ export function PreviewURL(siteUrl: string, previewSecret: string, documentType:
   } else if (documentType === "mainCollection") {
     return `${URL}&type=collections&slug=${slug}`
   } else if (documentType === "cartPage") {
-    return `${BaseUrl(siteUrl, previewSecret)}&slug=cart`
+    return `${URL}&slug=cart?store-page=cart`
   } else if (documentType === "wishlistPage") {
-    return `${BaseUrl(siteUrl, previewSecret)}&slug=wishlist`
+    return `${URL}&slug=wishlist`
   } else if (documentType === "searchPage") {
-    return `${BaseUrl(siteUrl, previewSecret)}&slug=search`
+    return `${URL}&slug=search`
   }
 
   return undefined

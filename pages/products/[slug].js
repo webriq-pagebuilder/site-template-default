@@ -13,12 +13,12 @@ import { filterDataToSingleItem } from "components/list";
 import { PreviewBanner } from "components/PreviewBanner";
 import { PreviewNoContent } from "components/PreviewNoContent";
 import { ProductSections } from "components/page/store/products";
-import { EcwidContextProvider } from "context/EcwidContext";
 import InlineEditorContextProvider from "context/InlineEditorContext";
 
 function ProductPageBySlug({ data, preview, token, source }) {
   const router = useRouter();
   const slug = router.query.slug;
+  const showInlineEditor = source === "studio";
 
   useEffect(() => {
     if (typeof Ecwid !== "undefined") Ecwid.init();
@@ -32,7 +32,9 @@ function ProductPageBySlug({ data, preview, token, source }) {
         <>
           <PreviewBanner />
           <PreviewSuspense>
-            <DocumentWithPreview {...{ data, token: token || null, slug, source: source || null }} />
+            <InlineEditorContextProvider showInlineEditor={showInlineEditor}>
+              <DocumentWithPreview {...{ data, token: token || null, slug }} />
+            </InlineEditorContextProvider>
           </PreviewSuspense>
         </>
       );
@@ -93,11 +95,10 @@ function Document({ data }) {
  *
  * @returns Document with preview data
  */
-function DocumentWithPreview({ data, slug, token = null, source = null }) {
+function DocumentWithPreview({ data, slug, token = null }) {
   // Current drafts data in Sanity
   const previewDataEventSource = usePreview(token, productsQuery, { slug });
   const previewData = previewDataEventSource?.[0] || previewDataEventSource; // Latest preview data in Sanity
-  const showInlineEditor = source === "studio";
 
   // General safeguard against empty data
   if (!previewData) {
@@ -132,11 +133,7 @@ function DocumentWithPreview({ data, slug, token = null, source = null }) {
         previewData?.sections?.length === 0) && <PreviewNoContent />}
 
       {/* Show Product page sections */}
-      {data?.productData && (
-        <InlineEditorContextProvider showInlineEditor={showInlineEditor}>
-          <ProductSections data={previewData} />
-        </InlineEditorContextProvider>
-      )}
+      {data?.productData && <ProductSections data={previewData} />}
     </>
   );
 }

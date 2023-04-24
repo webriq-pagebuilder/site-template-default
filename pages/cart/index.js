@@ -8,14 +8,19 @@ import { CartSections } from "components/page/store/cart";
 import { PreviewNoContent } from "components/PreviewNoContent";
 import { filterDataToSingleItem } from "components/list";
 import { PreviewBanner } from "components/PreviewBanner";
+import InlineEditorContextProvider from "context/InlineEditorContext";
 
-function CartPage({ data, preview, token }) {
+function CartPage({ data, preview, token, source }) {
+  const showInlineEditor = source === "studio";
+
   if (preview) {
     return (
       <>
         <PreviewBanner />
         <PreviewSuspense>
-          <DocumentWithPreview {...{ data, token }} />
+          <InlineEditorContextProvider showInlineEditor={showInlineEditor}>
+            <DocumentWithPreview {...{ data, token }} />
+          </InlineEditorContextProvider>
         </PreviewSuspense>
       </>
     );
@@ -114,6 +119,7 @@ export async function getStaticProps({ preview = false, previewData = {} }) {
     props: {
       preview,
       token: (preview && previewData.token) || "",
+      source: (preview && previewData.source) || "",
       data: { cartData },
     },
   };

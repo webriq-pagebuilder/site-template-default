@@ -1,7 +1,12 @@
+import { useContext } from "react";
 import { Components } from "components/list";
+import { InlineEditorContext } from "context/InlineEditorContext";
+import InlineEditor from "components/InlineEditor";
+
 
 export function WishlistSections({ data }) {
   const { sections } = data;
+  const showInlineEditor = useContext(InlineEditorContext);
 
   return (
     <>
@@ -15,6 +20,9 @@ export function WishlistSections({ data }) {
               : section?._type; // otherwise, use the actual section type
 
           const Component = Components[sectionType];
+          const currentDocument = section?._type === "slotCollectionInfo" || section?._type === "allProducts"
+            ? { id: section?.variants?.collections?._id, type: section?.variants?.collections?._type } 
+            : { id: section?._id, type: section?._type }
 
           // skip rendering unknown components
           if (!Component) {
@@ -22,14 +30,19 @@ export function WishlistSections({ data }) {
           }
 
           return (
-            <Component
+            <InlineEditor
+              document={currentDocument} 
+              showInlineEditor={showInlineEditor}
               key={index}
-              template={{
-                bg: "gray",
-                color: "webriq",
-              }}
-              data={section}
-            />
+            >
+              <Component
+                template={{
+                  bg: "gray",
+                  color: "webriq",
+                }}
+                data={section}
+              />
+            </InlineEditor>
           );
         })}
     </>

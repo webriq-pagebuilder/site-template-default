@@ -18,6 +18,7 @@ import InlineEditorContextProvider from "context/InlineEditorContext";
 function PageBySlug({ data, preview, token, source }) {
   const router = useRouter();
   const slug = router.query.slug;
+  const showInlineEditor = source === "studio";
 
   if (!data?.pageData && (!data?.blogData || data?.blogData?.length === 0)) {
     return <PageNotFound />;
@@ -27,7 +28,9 @@ function PageBySlug({ data, preview, token, source }) {
         <>
           <PreviewBanner />
           <PreviewSuspense>
-            <DocumentWithPreview {...{ data, token: token || null, slug, source: source || null }} />
+            <InlineEditorContextProvider showInlineEditor={showInlineEditor}>
+              <DocumentWithPreview {...{ data, token: token || null, slug }} />
+            </InlineEditorContextProvider>
           </PreviewSuspense>
         </>
       );
@@ -78,7 +81,7 @@ function Document({ data }) {
  *
  * @returns Document with preview data
  */
-function DocumentWithPreview({ data, slug, token = null, source = null }) {
+function DocumentWithPreview({ data, slug, token = null }) {
   // Current drafts data in Sanity
   const previewDataEventSource = usePreview(
     token,
@@ -89,7 +92,6 @@ function DocumentWithPreview({ data, slug, token = null, source = null }) {
   );
 
   const previewData = previewDataEventSource?.[0] || previewDataEventSource; // Latest preview data in Sanity
-  const showInlineEditor = source === "studio";
 
   // General safeguard against empty data
   if (!previewData) {
@@ -113,18 +115,10 @@ function DocumentWithPreview({ data, slug, token = null, source = null }) {
 
 
       {/*  Show page sections */}
-      {data?.pageData && (
-        <InlineEditorContextProvider showInlineEditor={showInlineEditor}>
-          <PageSections data={previewData} />
-        </InlineEditorContextProvider>
-      )}
+      {data?.pageData && <PageSections data={previewData} />}
 
       {/* Show Blog sections */}
-      {data?.blogData && (
-        <InlineEditorContextProvider showInlineEditor={showInlineEditor}>
-          <BlogSections data={previewData} />
-        </InlineEditorContextProvider>
-      )}
+      {data?.blogData && <BlogSections data={previewData} />}
     </>
   );
 }

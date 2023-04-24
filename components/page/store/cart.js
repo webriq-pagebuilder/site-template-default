@@ -1,8 +1,12 @@
+import { useContext } from "react";
 import { Components } from "components/list";
+import { InlineEditorContext } from "context/InlineEditorContext";
+import InlineEditor from "components/InlineEditor";
 import { EcwidContextProvider } from "context/EcwidContext";
 
 export function CartSections({ data }) {
   const { sections } = data;
+  const showInlineEditor = useContext(InlineEditorContext);
 
   return (
     <>
@@ -16,6 +20,9 @@ export function CartSections({ data }) {
               : section?._type; // otherwise, use the actual section type
 
           const Component = Components[sectionType];
+          const currentDocument = section?._type === "slotCollectionInfo" 
+            ? { id: section?.variants?.collections?._id, type: section?.variants?.collections?._type } 
+            : { id: section?._id, type: section?._type }
 
           // skip rendering unknown components
           if (!Component) {
@@ -23,15 +30,21 @@ export function CartSections({ data }) {
           }
 
           return (
-            <EcwidContextProvider key={index}>
-              <Component
-                template={{
-                  bg: "gray",
-                  color: "webriq",
-                }}
-                data={section}
-              />
-            </EcwidContextProvider>
+            <InlineEditor
+              document={currentDocument} 
+              showInlineEditor={showInlineEditor}
+              key={index}
+            >
+              <EcwidContextProvider key={index}>
+                <Component
+                  template={{
+                    bg: "gray",
+                    color: "webriq",
+                  }}
+                  data={section}
+                />
+              </EcwidContextProvider>
+            </InlineEditor>
           );
         })}
     </>
