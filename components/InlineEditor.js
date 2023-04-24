@@ -1,14 +1,12 @@
 import React from "react";
 import { useMagicRouter } from "hooks";
 import { StudioLayout, StudioProvider } from "sanity";
-import { useRouter } from "next/router";
 import SplitPane, { Pane, SashContent } from "split-pane-react";
 import "split-pane-react/esm/themes/default.css"
 import config from "sanity.config";
 
 
 export default function InlineEditor({ document, showInlineEditor, children }) {
-  const router = useRouter();
   const history = useMagicRouter(`/studio/desk/__edit__${document?.id},type=${document?.type}`)
   const initialWidth = typeof window !== "undefined" && window.innerWidth;
   const [splitPane, setSplitPane] = React.useState(false)
