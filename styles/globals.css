@@ -148,31 +148,37 @@ select[data-testid="field-group-select"] > option:first-child {
 }
 
 /* Inline Editing split pane */
-.inline-nav-panesearch div[data-search-open] {
+.nav-panesearch div[data-search-open] {
   display: none !important;
 }
-.inline-nav-paneheader div[data-testid="pane-header"] {
+.nav-paneheader div[data-testid="pane-header"] > div > div > div:nth-child(2) {
   display: none !important;
 }
-.inline-desk-listpane div[data-testid="desk-tool-list-pane"] {
+.desk-listpane div[data-testid="desk-tool-list-pane"] {
   display: none !important;
 }
-.inline-document-pane div[data-testid="document-pane"] {
+.document-pane div[data-testid="document-pane"] {
   position: relative !important
 }
-.inline-field-label div[data-testid="field-label"] {
+.field-label div[data-testid="field-label"] {
   display: none !important;
 }
-.inline-field-variant div[data-testid="field-variant"] {
+.field-variant div[data-testid="field-variant"] {
   display: none !important;
 }
-.inline-panel div[data-testid="document-panel-scroller"] > div {
+.panel div[data-testid="document-panel-scroller"] > div {
   padding-top: 1rem;
   padding-bottom: 2rem;
 }
-.inline-pane-footer div[data-testid="pane-footer"] {
+.pane-footer div[data-testid="pane-footer"] {
   position: sticky !important;
   bottom: 0;
+}
+.fieldgroup-tabs div[data-ui="TabList"][data-testid="field-group-tabs"] {
+  display: none;
+}
+.fieldgroup-select select[data-testid="field-group-select"] > option:first-child {
+  display: none;
 }
 
 /* Inline Editing button and container */

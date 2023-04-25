@@ -1,6 +1,6 @@
 import React from "react";
 import { useMagicRouter } from "hooks";
-import { StudioLayout, StudioProvider, IntentButton } from "sanity";
+import { StudioLayout, StudioProvider } from "sanity";
 import SplitPane, { Pane, SashContent } from "split-pane-react";
 import "split-pane-react/esm/themes/default.css"
 import config from "sanity.config";
@@ -13,7 +13,7 @@ export default function InlineEditor({ document, showInlineEditor, children }) {
   const [sizes, setSizes] = React.useState([350, 250]);
   const [windowSize, setWindowSize] = React.useState({ width: initialWidth }); // the width of the window
 
-  const whitelistedTypes = ["slotCart", "slotWishlist"];
+  const sectionsWithoutEditor = ["slotCart", "slotWishlist"];
 
   const windowResizeHandler = () => {
     const width = window.innerWidth
@@ -44,8 +44,8 @@ export default function InlineEditor({ document, showInlineEditor, children }) {
   } 
 
   return (
-    <div className={`${(!splitPane && !whitelistedTypes?.includes(document?.type)) && "inline-editor show-button"}`}>
-      {(windowSize?.width >= 1024 && !whitelistedTypes?.includes(document?.type)) && (
+    <div className={`${(!splitPane && !sectionsWithoutEditor?.includes(document?.type)) && "inline-editor show-button"}`}>
+      {(windowSize?.width >= 1024 && !sectionsWithoutEditor?.includes(document?.type)) && (
         <button 
           id={document?.type} 
           className={`font-medium shadow-lg px-2 py-2.5 text-sm text-center items-center mt-2 bg-white text-webriq-darkblue border border-webriq-darkblue hover:border-webriq-blue hover:bg-webriq-blue hover:text-white ${splitPane ? "absolute z-40 right-2" : "hide"}`}
@@ -118,7 +118,7 @@ export default function InlineEditor({ document, showInlineEditor, children }) {
                   unstable_history={history}
                   unstable_noAuthBoundary
                 >
-                  <div className="inline-nav-panesearch inline-nav-paneheader inline-desk-listpane inline-document-pane inline-field-label inline-field-variant inline-panel inline-pane-footer">
+                  <div className="nav-panesearch nav-paneheader desk-listpane document-pane field-label field-variant panel pane-footer fieldgroup-tabs fieldgroup-select">
                     <StudioLayout />
                   </div>
                 </StudioProvider>    

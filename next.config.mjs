@@ -1,6 +1,6 @@
 /** @type {import("next").NextConfig} */
 
-const config = {
+const nextConfig = {
   i18n: {
     // internalized routing
     locales: ["en"],
@@ -31,4 +31,4 @@ const config = {
   }
 }
 
-export default config
+export default nextConfig
