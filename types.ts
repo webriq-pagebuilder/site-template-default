@@ -389,9 +389,12 @@ interface Categories extends SanityBody {
   title?: string;
 }
 
-export interface PageDataProps extends SanityBody {
+export interface PageDataProps extends TPageData {
   title?: string;
   slug?: string;
+}
+
+export interface TPageData extends SanityBody {
   seo?: Seo;
   sections?: Sections[];
   hasNeverPublished?: boolean;

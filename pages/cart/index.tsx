@@ -8,13 +8,32 @@ import { CartSections } from "components/page/store/cart";
 import { PreviewNoContent } from "components/PreviewNoContent";
 import { filterDataToSingleItem } from "components/list";
 import { PreviewBanner } from "components/PreviewBanner";
+import { TPageData } from "types";
 
-function CartPage({ data, preview, token, source }) {
+interface CartPageProps {
+  data?: {
+    cartData?: CartData;
+  };
+  preview?: boolean | null;
+  token?: string | null;
+  source?: string | null;
+}
+
+interface CartData extends TPageData {
+  cartSectionVariant?: {
+    variant: string;
+    _type: string;
+  };
+}
+
+function CartPage({ data, preview, token, source }: CartPageProps) {
+  console.log(data);
+
   if (preview) {
     return (
       <>
         <PreviewBanner />
-        <PreviewSuspense>
+        <PreviewSuspense fallback="Loading">
           <DocumentWithPreview {...{ data, token, source }} />
         </PreviewSuspense>
       </>
@@ -30,7 +49,7 @@ function CartPage({ data, preview, token, source }) {
  *
  * @returns Document with published data
  */
-function Document({ data }) {
+function Document({ data }: CartPageProps) {
   const publishedData = data?.cartData;
 
   // General safeguard against empty data
@@ -60,11 +79,12 @@ function Document({ data }) {
  *
  * @returns Document with preview data
  */
-function DocumentWithPreview({ data, token = null, source }) {
+function DocumentWithPreview({ data, token = null, source }: CartPageProps) {
   const previewDataEventSource = usePreview(token, cartPageQuery);
-  const previewData = previewDataEventSource?.[0] || previewDataEventSource;
+  const previewData: CartData =
+    previewDataEventSource?.[0] || previewDataEventSource;
 
-  const enableInlineEditing = source === "studio"
+  const enableInlineEditing = source === "studio";
 
   // General safeguard against empty data
   if (!previewData) {
@@ -87,21 +107,28 @@ function DocumentWithPreview({ data, token = null, source }) {
         previewData?.sections?.length === 0) && <PreviewNoContent />}
 
       {/*  Show page sections */}
-      {data?.cartData && <CartSections data={previewData} enableInlineEditing={enableInlineEditing} />}
+      {data?.cartData && (
+        <CartSections
+          data={previewData}
+          enableInlineEditing={enableInlineEditing}
+        />
+      )}
     </>
   );
 }
 
-export async function getStaticProps({ preview = false, previewData = {} }) {
+export async function getStaticProps({
+  preview = false,
+  previewData = {},
+}: any) {
   const client =
     preview && previewData?.token
       ? getClient(false).withConfig({ token: previewData.token })
       : getClient(preview);
 
   const cartPage = await client.fetch(cartPageQuery);
-
   // pass page data and preview to helper function
-  const cartData = filterDataToSingleItem(cartPage, preview);
+  const cartData: CartData = filterDataToSingleItem(cartPage, preview);
 
   if (!cartData) {
     return {
