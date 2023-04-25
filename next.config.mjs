@@ -17,7 +17,7 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   eslint: {
-    /// Set this to false if you want production builds to abort if there's lint errors
+    // Set this to false if you want production builds to abort if there's lint errors
     ignoreDuringBuilds: true,
   },
   async redirects() {
@@ -26,6 +26,16 @@ const nextConfig = {
         source: "/home",
         destination: "/",
         permanent: true,
+      },
+      {
+        source: "/intent/:path*",
+        destination: "/studio/intent/:path*",
+        permanent: false
+      },
+      {
+        source: "/webriq-forms/:path*",
+        destination: "/studio/webriq-forms/:path*",
+        permanent: false
       }
     ];
   }
