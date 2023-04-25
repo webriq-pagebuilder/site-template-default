@@ -66,7 +66,7 @@ export default function InlineEditor({ document, showInlineEditor, children }) {
                   unstable_history={history}
                   unstable_noAuthBoundary
                 >
-                  <div className="nav-panesearch nav-paneheader desk-listpane document-pane field-label field-variant panel pane-footer fieldgroup-tabs fieldgroup-select">
+                  <div className={`nav-panesearch nav-paneheader desk-listpane document-pane field-label field-variant panel pane-footer ${document?.type === "mainProduct" ? "product-fieldgroup-tabs product-fieldgroup-select" : "fieldgroup-tabs fieldgroup-select"}`}>
                     <StudioLayout />
                   </div>
                 </StudioProvider>    

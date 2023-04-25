@@ -180,6 +180,13 @@ select[data-testid="field-group-select"] > option:first-child {
 .fieldgroup-select select[data-testid="field-group-select"] > option:first-child {
   display: none;
 }
+/* fieldgroup style for main product document */
+.product-fieldgroup-tabs div[data-ui="TabList"][data-testid="field-group-tabs"] > div:not(:nth-child(2)):not(:nth-child(3)) {
+  display: none;
+}
+.product-fieldgroup-select select[data-testid="field-group-select"] > option:not(:nth-child(2)):not(:nth-child(3)) {
+  display: none;
+}
 
 /* Inline Editing button and container */
 .hide {
