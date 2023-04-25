@@ -8,29 +8,11 @@ import config from "sanity.config";
 
 export default function InlineEditor({ document, showInlineEditor, children }) {
   const history = useMagicRouter(`/studio/desk/__edit__${document?.id},type=${document?.type}`)
-  const initialWidth = typeof window !== "undefined" && window.innerWidth;
   const [splitPane, setSplitPane] = React.useState(false)
   const [sizes, setSizes] = React.useState([350, 250]);
-  const [windowSize, setWindowSize] = React.useState({ width: initialWidth }); // the width of the window
+  const breakpoint = useMediaQuery(1023);
 
   const sectionsWithoutEditor = ["slotCart", "slotWishlist"];
-
-  const windowResizeHandler = () => {
-    const width = window.innerWidth
-
-    setWindowSize({
-      width: width,
-    })
-  }
-
-  React.useEffect(() => {
-    window.addEventListener("resize", windowResizeHandler);
-
-    // remove event listener when component is unmounted
-    return () => {
-      window.removeEventListener("resize", windowResizeHandler)
-    }
-  }, [])
 
   const layoutCSS = {
     height: "100%",
@@ -44,8 +26,8 @@ export default function InlineEditor({ document, showInlineEditor, children }) {
   } 
 
   return (
-    <div className={`${(!splitPane && !sectionsWithoutEditor?.includes(document?.type)) && "inline-editor show-button"}`}>
-      {(windowSize?.width >= 1024 && !sectionsWithoutEditor?.includes(document?.type)) && (
+    <div className={`${(!breakpoint && !splitPane && !sectionsWithoutEditor?.includes(document?.type)) && "inline-editor show-button"}`}>
+      {(!breakpoint && !sectionsWithoutEditor?.includes(document?.type)) && (
         <button 
           id={document?.type} 
           className={`font-medium shadow-lg px-2 py-2.5 text-sm text-center items-center mt-2 bg-white text-webriq-darkblue border border-webriq-darkblue hover:border-webriq-blue hover:bg-webriq-blue hover:text-white ${splitPane ? "absolute z-40 right-2" : "hide"}`}
@@ -63,42 +45,8 @@ export default function InlineEditor({ document, showInlineEditor, children }) {
         </button>
       )}
       {/* TODO: [Improvement] Add feature to view pane in different device screen sizes */}
-      {/* {splitPane && windowSize?.width >= 1024 && (
-        <div className="inline-flex absolute right-20 z-40">
-          <button 
-            type="button" 
-            className={`${activeTab === "mobile" ? "bg-webriq-blue text-white": "bg-gray-50 text-black"} border border-webriq-blue hover:bg-webriq-blue hover:text-white font-medium rounded-l shadow-lg text-sm p-2.5 text-center inline-flex items-center mt-2`}
-            onClick={() => {
-              setSizes([375, 1024])
-              setActiveTab("mobile")
-            }}
-          >
-            Mobile
-          </button>
-          <button 
-            type="button" 
-            className={`${activeTab === "tablet" ? "bg-webriq-blue text-white": "bg-gray-50 text-black"} border-y border-webriq-blue hover:bg-webriq-blue hover:text-white font-medium shadow-lg text-sm p-2.5 text-center inline-flex items-center mt-2`}
-            onClick={() => {
-              setSizes([640, 1024])
-              setActiveTab("tablet")
-            }}
-          >
-            Tablet
-          </button>
-          <button 
-            type="button" 
-            className={`${activeTab === "desktop" ? "bg-webriq-blue text-white": "bg-gray-50 text-black"} border border-webriq-blue hover:bg-webriq-blue hover:text-white font-medium rounded-r shadow-lg text-sm p-2.5 text-center inline-flex items-center mt-2`}
-            onClick={() => {
-              setSizes([1024, 1024])
-              setActiveTab("desktop")
-            }}
-          >
-            Desktop
-          </button>
-        </div>
-      )} */}
       {splitPane ? (
-        windowSize?.width >= 1024 ? (
+        !breakpoint ? (
           <div className="h-screen">
             <SplitPane
               sizes={sizes}
@@ -143,4 +91,32 @@ export default function InlineEditor({ document, showInlineEditor, children }) {
       ): children}
     </div>
   )
+};
+
+// Hook to check current screen window is equal to current width prop as breakpoint
+// Reference: https://github.com/vercel/next.js/discussions/14810#discussioncomment-61177
+const useMediaQuery = (width) => {
+  const [targetReached, setTargetReached] = React.useState(false);
+
+  const updateTarget = React.useCallback((e) => {
+    if (e.matches) {
+      setTargetReached(true);
+    } else {
+      setTargetReached(false);
+    }
+  }, []);
+
+  React.useEffect(() => {
+    const media = window.matchMedia(`(max-width: ${width}px)`);
+    media.addEventListener("change", updateTarget);
+
+    // Check on mount (callback is not called until a change occurs)
+    if (media.matches) {
+      setTargetReached(true);
+    }
+
+    return () => media.removeEventListener("change", updateTarget);
+  }, []);
+
+  return targetReached;
 };
