@@ -16,6 +16,8 @@ next-env.d.ts
 # production
 /build
 /studio/dist
+.yalc
+yalc.lock
 
 # misc
 .DS_Store

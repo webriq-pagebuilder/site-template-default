@@ -94,25 +94,6 @@ html#ecwid_html body#ecwid_body .ec-size .ec-store .ec-breadcrumbs {
 }
 
 /** Sanity Studio embed **/
-/* This assumes no margin or padding on #app's parent(s) */
-#app {
-  height: 100vh;
-  max-height: 100dvh;
-  overscroll-behavior: none;
-  -webkit-font-smoothing: antialiased;
-  overflow: auto;
-}
-
-/* Fix if you're using Tailwind.css */
-*:not([data-ui="Popover__arrow"]):not([data-ui="Tooltip__arrow"]) > svg {
-  display: inline;
-}
-
-/* Sanity.config.ts studio global style */
-#sanity {
-  font-family: 'Open Sans', sans-serif;
-  font-size: 18px;
-}
 
 /* Cosmetic: Remove border-right of tools menu */
 div[data-ui="Navbar"] > div > div:first-child > div:last-child {
@@ -204,8 +185,9 @@ select[data-testid="field-group-select"] > option:first-child {
 
 .show-button:hover .hide {
   display: inline-flex;
-  position: absolute;
-  right: 8px;
+  position: sticky;
+  top: 50px;
+  margin-left: 10px;
   z-index: 40;
 }
 
