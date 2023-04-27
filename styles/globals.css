@@ -185,9 +185,9 @@ select[data-testid="field-group-select"] > option:first-child {
 
 .show-button:hover .hide {
   display: inline-flex;
-  position: sticky;
-  top: 50px;
-  margin-left: 10px;
+  position: absolute;
+  top: 0;
+  right: 10px;
   z-index: 40;
 }
 
