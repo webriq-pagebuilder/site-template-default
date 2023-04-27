@@ -1,21 +1,21 @@
 import { Components } from "components/list";
 import { EcwidContextProvider } from "context/EcwidContext";
 
-export function CollectionSections({ data, enableInlineEditing }) {
+export function CollectionSections({ data, enableInlineEditing = false }) {
   const {
     commonSections, // sections from Store > Pages > Collections
     name, // collection name
     sections, // sections from the Design field group tab of Collections page
     _id,
-    _type
+    _type,
   } = data;
 
   let sectionsToDisplay = commonSections?.sections;
 
   // if we have "slotCollectionInfo" section, then we have the placeholder for the collections values
-  let slotSection = sections?.map((section) => {
+  let slotSection = sections?.map(section => {
     // get the index of the "slotCollectionInfo" section from Store > Commerce Pages > Collections section
-    const getIndex = commonSections?.sections?.findIndex((item) =>
+    const getIndex = commonSections?.sections?.findIndex(item =>
       item?._type?.includes("slotCollectionInfo")
     );
 
@@ -37,7 +37,7 @@ export function CollectionSections({ data, enableInlineEditing }) {
 
   if (sections) {
     const filtered = sections?.filter(
-      (section) => section?._type !== "slotCollectionInfo"
+      section => section?._type !== "slotCollectionInfo"
     );
 
     if (filtered?.length !== 0) {
@@ -48,7 +48,7 @@ export function CollectionSections({ data, enableInlineEditing }) {
       sectionsToDisplay = sections?.reduce(
         (defaultsArr, newArr) => {
           // only need the featuredProducts section from Store > Collections to match
-          const getIndex = commonSections?.sections?.findIndex((item) =>
+          const getIndex = commonSections?.sections?.findIndex(item =>
             item?._type?.includes("slotCollectionInfo")
           );
 
@@ -103,7 +103,7 @@ export function CollectionSections({ data, enableInlineEditing }) {
                 data={section}
                 pageInfo={{
                   documentId: _id,
-                  documentType: _type
+                  documentType: _type,
                 }}
                 enableInlineEditing={enableInlineEditing}
               />

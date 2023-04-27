@@ -421,3 +421,19 @@ export type MyPortableTextComponents = PortableTextComponents & {
     value: { language?: string; code?: string };
   }) => JSX.Element;
 };
+
+//commerce pages
+export interface CollectionPagesData extends SanityBody {
+  collectionInfoVariant?: {
+    variant?: string;
+  };
+  commonSections?: {
+    sections?: Sections[];
+    seo?: Seo;
+  } | null;
+  products?: CollectionProduct[] | null;
+  sections?: Sections[] | null;
+  seo?: Seo | null;
+  slug?: string | null;
+  name?: string | null;
+}

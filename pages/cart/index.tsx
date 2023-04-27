@@ -24,6 +24,7 @@ interface CartData extends TPageData {
     variant: string;
     _type: string;
   };
+  id?: string;
 }
 
 function CartPage({ data, preview, token, source }: CartPageProps) {
@@ -120,13 +121,14 @@ function DocumentWithPreview({ data, token = null, source }: CartPageProps) {
 export async function getStaticProps({
   preview = false,
   previewData = {},
-}: any) {
+}: any): Promise<{ props: CartPageProps }> {
   const client =
     preview && previewData?.token
       ? getClient(false).withConfig({ token: previewData.token })
       : getClient(preview);
 
-  const cartPage = await client.fetch(cartPageQuery);
+  const cartPage: CartData[] = await client.fetch(cartPageQuery);
+
   // pass page data and preview to helper function
   const cartData: CartData = filterDataToSingleItem(cartPage, preview);
 

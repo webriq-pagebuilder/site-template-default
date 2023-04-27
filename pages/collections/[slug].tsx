@@ -15,23 +15,42 @@ import { PreviewNoContent } from "components/PreviewNoContent";
 import { CollectionSections } from "components/page/store/collections";
 import { EcwidContextProvider } from "context/EcwidContext";
 
-function CollectionPageBySlug({ data, preview, token, source }) {
+import { CollectionPagesData } from "types";
+
+interface CollectionPagesProps {
+  data?: {
+    collectionData?: CollectionPagesData;
+  };
+  preview?: boolean | null;
+  token?: string | null;
+  source?: string | null;
+  slug?: string | string[];
+}
+
+function CollectionPageBySlug({
+  data,
+  preview,
+  token,
+  source,
+}: CollectionPagesProps) {
   const router = useRouter();
   const slug = router.query.slug;
 
   useEffect(() => {
     if (typeof Ecwid !== "undefined") Ecwid.init();
   }, []);
-
-  if (!data?.collectionData || data?.collectionData?.length === 0) {
+  console.log(data);
+  if (!data?.collectionData) {
     return <PageNotFound />;
   } else {
     if (preview) {
       return (
         <>
           <PreviewBanner />
-          <PreviewSuspense>
-            <DocumentWithPreview {...{ data, token: token || null, slug, source }} />
+          <PreviewSuspense fallback="Loading...">
+            <DocumentWithPreview
+              {...{ data, token: token || null, slug, source }}
+            />
           </PreviewSuspense>
         </>
       );
@@ -47,7 +66,7 @@ function CollectionPageBySlug({ data, preview, token, source }) {
  *
  * @returns Document with published data
  */
-function Document({ data }) {
+function Document({ data }: CollectionPagesProps) {
   const publishedData = data?.collectionData; // latest published data in Sanity
 
   // General safeguard against empty data
@@ -93,12 +112,18 @@ function Document({ data }) {
  *
  * @returns Document with preview data
  */
-function DocumentWithPreview({ data, slug, token = null, source }) {
+function DocumentWithPreview({
+  data,
+  slug,
+  token = null,
+  source,
+}: CollectionPagesProps) {
   // Current drafts data in Sanity
   const previewDataEventSource = usePreview(token, collectionsQuery, { slug });
-  const previewData = previewDataEventSource?.[0] || previewDataEventSource; // Latest preview data in Sanity
+  const previewData: CollectionPagesData =
+    previewDataEventSource?.[0] || previewDataEventSource; // Latest preview data in Sanity
 
-  const enableInlineEditing = source === "studio"
+  const enableInlineEditing = source === "studio";
 
   // General safeguard against empty data
   if (!previewData) {
@@ -134,7 +159,12 @@ function DocumentWithPreview({ data, slug, token = null, source }) {
 
       {/* Show Product page sections */}
       <EcwidContextProvider>
-        {data?.collectionData && <CollectionSections data={previewData} enableInlineEditing={enableInlineEditing} />}
+        {data?.collectionData && (
+          <CollectionSections
+            data={previewData}
+            enableInlineEditing={enableInlineEditing}
+          />
+        )}
       </EcwidContextProvider>
     </>
   );
@@ -144,7 +174,7 @@ export async function getStaticProps({
   params,
   preview = false,
   previewData = {},
-}) {
+}: any) {
   const client =
     preview && previewData?.token
       ? getClient(false).withConfig({ token: previewData.token })
@@ -177,7 +207,7 @@ export async function getStaticPaths() {
   );
 
   return {
-    paths: collections.map((slug) => ({ params: { slug } })),
+    paths: collections.map(slug => ({ params: { slug } })),
     fallback: true,
   };
 }
