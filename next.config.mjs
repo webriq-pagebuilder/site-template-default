@@ -27,16 +27,6 @@ const nextConfig = {
         destination: "/",
         permanent: true,
       },
-      {
-        source: "/intent/:path*",
-        destination: "/studio/intent/:path*",
-        permanent: false
-      },
-      {
-        source: "/webriq-forms/:path*",
-        destination: "/studio/webriq-forms/:path*",
-        permanent: false
-      }
     ];
   }
 }
