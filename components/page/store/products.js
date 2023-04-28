@@ -1,7 +1,10 @@
+import { useContext } from "react";
 import { Components } from "components/list";
+import { InlineEditorContext } from "context/InlineEditorContext";
+import InlineEditor from "components/InlineEditor";
 import { EcwidContextProvider } from "context/EcwidContext";
 
-export function ProductSections({ data, enableInlineEditing }) {
+export function ProductSections({ data }) {
   const {
     commonSections, // sections from Store > Commerce Pages > Products
     name, // product name
@@ -10,8 +13,10 @@ export function ProductSections({ data, enableInlineEditing }) {
     description, // product description
     sections, // sections from the Design field group tab of Product page
     _id,
-    _type,
+    _type
   } = data;
+
+  const showInlineEditor = useContext(InlineEditorContext);
 
   let sectionsToDisplay = commonSections?.sections;
 
@@ -45,7 +50,7 @@ export function ProductSections({ data, enableInlineEditing }) {
     );
 
     if (filtered?.length !== 0) {
-      // if code block 41-43 returns true, then replace all the sections from Store > Commerce Pages > Products with sections from Store > Products
+      // replace all the sections from Store > Commerce Pages > Products with sections from Store > Products
       sectionsToDisplay = slotSection;
     } else {
       // there is only "slotProductInfo" section in Store > Products product page
@@ -88,6 +93,9 @@ export function ProductSections({ data, enableInlineEditing }) {
               : section?._type; // otherwise, use the actual section type
 
           const Component = Components?.[sectionType];
+          const currentDocument = section?._type === "slotProductInfo" 
+            ? { id: _id, type: _type } 
+            : { id: section?._id, type: section?._type }
 
           // skip rendering unknown components
           if (!Component) {
@@ -95,26 +103,27 @@ export function ProductSections({ data, enableInlineEditing }) {
           }
 
           return (
-            <EcwidContextProvider key={index}>
-              <Component
-                template={{
-                  bg: "gray",
-                  color: "webriq",
-                }}
-                product={{
-                  name,
-                  ecwidProductId,
-                  price,
-                  description,
-                }}
-                pageInfo={{
-                  documentId: _id,
-                  documentType: _type
-                }}
-                enableInlineEditing={enableInlineEditing}
-                data={section}
-              />
-            </EcwidContextProvider>
+            <InlineEditor
+              document={currentDocument} 
+              showInlineEditor={showInlineEditor}
+              key={index}
+            >
+              <EcwidContextProvider>
+                <Component
+                  template={{
+                    bg: "gray",
+                    color: "webriq",
+                  }}
+                  product={{
+                    name,
+                    ecwidProductId,
+                    price,
+                    description,
+                  }}
+                  data={section}
+                />
+              </EcwidContextProvider>
+            </InlineEditor>
           );
         })}
     </>

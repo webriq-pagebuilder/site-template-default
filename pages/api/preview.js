@@ -19,12 +19,6 @@ function redirectToPreview(res, source, Location) {
 }
 
 export default async (req, res) => {
-  const corsOrigin =
-    process.env.SITE_SANITY_STUDIO_URL || "http://localhost:3333";
-
-  res.setHeader("Access-Control-Allow-Origin", corsOrigin);
-  res.setHeader("Access-Control-Allow-Credentials", true);
-
   // Check the secret and next parameters
   // This secret should only be known to this API route and the CMS
   if (req.query.secret !== (process.env.NEXT_PUBLIC_PREVIEW_SECRET || "secret")) {
@@ -70,11 +64,11 @@ export default async (req, res) => {
 
   // res.end();
   // res.writeHead(302, { Location: `/${req.query.slug}` }).end();
-  const source = req?.query?.source;
-
   const path = req?.query?.type
     ? `/${req?.query?.type}/${pathname}`
     : `/${pathname}`;
+
+  const source = req?.query?.source;
 
   redirectToPreview(res, source, path);
 };

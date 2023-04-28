@@ -14,7 +14,7 @@ export default async (req, res) => {
     },
   };
 
-  fetch(URL + `/${id}`, options)
+  return fetch(URL + `/${id}`, options)
     .then((res) => res.json())
     .then((json) => res.status(200).json({ result: json }))
     .catch((err) => res.status(400).json({ error: err }));

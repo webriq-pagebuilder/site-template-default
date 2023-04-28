@@ -135,7 +135,7 @@ function VariantA({
                         width={736}
                         height={564}
                         src={urlFor(item?.image)}
-                        alt={item?.alt}
+                        alt={item?.alt ?? `product-image-${index + 1}`}
                       />
                     </SwiperSlide>
                   ))}
@@ -165,7 +165,7 @@ function VariantA({
                         width={170}
                         height={128}
                         src={urlFor(item?.image)}
-                        alt={item?.alt}
+                        alt={item?.alt ?? `product-image-${index + 1}`}
                       />
                     )}
                   </SwiperSlide>
@@ -398,7 +398,7 @@ function VariantA({
                             width={250}
                             height={128}
                             src={urlFor(item?.image)}
-                            alt={item?.alt}
+                            alt={item?.alt ?? `product-image-${index + 1}`}
                           />
                         )}
                       </div>

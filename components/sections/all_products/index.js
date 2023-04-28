@@ -1,13 +1,12 @@
 import { memo } from "react";
 import dynamic from "next/dynamic";
-import EditSection from "components/EditSection";
 
 const Variants = {
   variant_a: dynamic(() => import("./variant_a")),
   variant_b: dynamic(() => import("./variant_b")),
 };
 
-function AllProducts({ data, enableInlineEditing }) {
+function AllProducts({ data }) {
   const variant = data?.variant || data?.variants?.condition;
   const Variant = Variants?.[variant];
 
@@ -15,11 +14,6 @@ function AllProducts({ data, enableInlineEditing }) {
     products: data?.variants?.allProducts,
   };
 
-  return (
-    <>
-      {enableInlineEditing && <EditSection documentType={data?._type} documentId={data?._id} />}
-      {Variant ? <Variant {...props} /> : null}
-    </>
-  )
+  return Variant ? <Variant {...props} /> : null;
 }
 export default memo(AllProducts);

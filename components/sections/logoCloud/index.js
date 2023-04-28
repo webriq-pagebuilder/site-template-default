@@ -1,6 +1,5 @@
 import React from "react";
 import dynamic from "next/dynamic";
-import EditSection from "components/EditSection";
 
 const Variants = {
   variant_a: dynamic(() => import("./variant_a")),
@@ -9,7 +8,7 @@ const Variants = {
   variant_d: dynamic(() => import("./variant_d")),
 };
 
-function LogoCloud({ data, enableInlineEditing }) {
+function LogoCloud({ data }) {
   const variant = data?.variant || data?.variants?.condition;
   const Variant = Variants?.[variant];
 
@@ -20,11 +19,6 @@ function LogoCloud({ data, enableInlineEditing }) {
     button: data?.variants?.primaryButton,
   };
 
-  return (
-    <>
-      {enableInlineEditing && <EditSection documentType={data?._type} documentId={data?._id} />}
-      {Variant ? <Variant {...props} /> : null}
-    </>
-  )
+  return Variant ? <Variant {...props} /> : null;
 }
 export default React.memo(LogoCloud);

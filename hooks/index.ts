@@ -1,33 +1,29 @@
-import { createMemoryHistory, createHashHistory, type Listener } from 'history'
-import { getLuminance, mix, parseToHsl, setHue, setLightness } from 'polished'
+import { createMemoryHistory, type Listener } from "history"
+import { getLuminance, mix, parseToHsl, setHue, setLightness } from "polished"
 import {
   black as _black,
   type ColorTints,
-  type ColorValue,
   hues as _hues,
   white as _white,
   type ColorHueConfig,
   COLOR_TINTS,
-  type ColorHueKey,
-  type ColorTintKey,
-} from '@sanity/color'
-import { useState, useMemo, useLayoutEffect, useEffect } from 'react'
-import { useRouter } from 'next/router'
+} from "@sanity/color"
+import { useState, useMemo, useEffect } from "react"
+import { useRouter } from "next/router"
 import {
-  type Theme,
   createColorTheme,
   rgba,
   multiply as _multiply,
   screen as _screen,
   parseColor,
   rgbToHex,
-} from '@sanity/ui'
-import { defaultTheme, ImagePalette } from 'sanity'
+} from "@sanity/ui"
+import { defaultTheme, ImagePalette } from "sanity"
 
 // @TODO use this hook to look up studios in the workspaces array
 export function useBasePath() {
   const router = useRouter()
-  return useMemo(() => router.route.split('/[')[0], [router.route])
+  return useMemo(() => router.route.split("/[")[0], [router.route])
 }
 
 export function useColorConfigState(props: ColorHueConfig) {
@@ -36,7 +32,7 @@ export function useColorConfigState(props: ColorHueConfig) {
   const [mid, setMid] = useState(props.mid)
   const [midPoint, setMidPoint] = useState(props.midPoint)
   const state = useMemo<
-    Pick<ColorHueConfig, 'darkest' | 'lightest' | 'mid' | 'midPoint'>
+    Pick<ColorHueConfig, "darkest" | "lightest" | "mid" | "midPoint">
   >(
     () => ({ darkest, lightest, mid, midPoint }),
     [darkest, lightest, mid, midPoint]
@@ -65,59 +61,59 @@ Lets use data like this to generate a theme:
 
 */
 export const demoImagePalette = {
-  _type: 'sanity.imagePalette',
+  _type: "sanity.imagePalette",
   darkMuted: {
-    _type: 'sanity.imagePaletteSwatch',
-    background: '#242853',
-    foreground: '#fff',
+    _type: "sanity.imagePaletteSwatch",
+    background: "#242853",
+    foreground: "#fff",
     population: 7.61,
-    title: '#fff',
+    title: "#fff",
   },
   darkVibrant: {
-    _type: 'sanity.imagePaletteSwatch',
-    background: '#1c2c6c',
-    foreground: '#fff',
+    _type: "sanity.imagePaletteSwatch",
+    background: "#1c2c6c",
+    foreground: "#fff",
     population: 0.01,
-    title: '#fff',
+    title: "#fff",
   },
   dominant: {
-    _type: 'sanity.imagePaletteSwatch',
-    background: '#242853',
-    foreground: '#fff',
+    _type: "sanity.imagePaletteSwatch",
+    background: "#242853",
+    foreground: "#fff",
     population: 7.61,
-    title: '#fff',
+    title: "#fff",
   },
   lightMuted: {
-    _type: 'sanity.imagePaletteSwatch',
-    background: '#d4a2ce',
-    foreground: '#000',
+    _type: "sanity.imagePaletteSwatch",
+    background: "#d4a2ce",
+    foreground: "#000",
     population: 2.32,
-    title: '#fff',
+    title: "#fff",
   },
   lightVibrant: {
-    _type: 'sanity.imagePaletteSwatch',
-    background: '#f9b1a1',
-    foreground: '#000',
+    _type: "sanity.imagePaletteSwatch",
+    background: "#f9b1a1",
+    foreground: "#000",
     population: 1.11,
-    title: '#fff',
+    title: "#fff",
   },
   muted: {
-    _type: 'sanity.imagePaletteSwatch',
-    background: '#ab5753',
-    foreground: '#fff',
+    _type: "sanity.imagePaletteSwatch",
+    background: "#ab5753",
+    foreground: "#fff",
     population: 2.39,
-    title: '#fff',
+    title: "#fff",
   },
   vibrant: {
-    _type: 'sanity.imagePaletteSwatch',
-    background: '#b43c34',
-    foreground: '#fff',
+    _type: "sanity.imagePaletteSwatch",
+    background: "#b43c34",
+    foreground: "#fff",
     population: 0,
-    title: '#fff',
+    title: "#fff",
   },
 } as const
 
-const NEUTRAL_TONES = ['default', 'transparent']
+const NEUTRAL_TONES = ["default", "transparent"]
 
 // https://github.com/sanity-io/design/blob/804bf73dffb1c0ecb1c2e6758135784502768bfe/packages/%40sanity/ui/src/theme/studioTheme/helpers.ts#L3-L17
 function multiply(bg: string, fg: string): string {
@@ -135,7 +131,7 @@ function screen(bg: string, fg: string): string {
   return hex
 }
 
-// @TODO: report that the Studio isn't exporting RootTheme
+// @TODO: report that the Studio isn"t exporting RootTheme
 export type StudioTheme = typeof defaultTheme
 
 const defaultTones: { [key: string]: ColorTints } = {
@@ -161,17 +157,17 @@ function createHues(palette: {
 
 // https://github.com/tailwindlabs/tailwindcss/blob/b8cda161dd0993083dcef1e2a03988c70be0ce93/src/public/colors.js#L16-L27
 const slateHues = createHues({
-  50: '#f8fafc',
-  100: '#f1f5f9',
-  200: '#e2e8f0',
-  300: '#cbd5e1',
-  400: '#94a3b8',
-  500: '#64748b',
-  600: '#475569',
-  700: '#334155',
-  800: '#1e293b',
-  900: '#0f172a',
-  950: '#0b111f',
+  50: "#f8fafc",
+  100: "#f1f5f9",
+  200: "#e2e8f0",
+  300: "#cbd5e1",
+  400: "#94a3b8",
+  500: "#64748b",
+  600: "#475569",
+  700: "#334155",
+  800: "#1e293b",
+  900: "#0f172a",
+  950: "#0b111f",
 })
 export const slateTones = {
   ...defaultTones,
@@ -219,7 +215,7 @@ export function useMagicRouter(initial: string) {
       // Overriding listen to workaround a problem where native history provides history.listen(location => void), but the npm package is history.listen(({action, location}) => void)
       listen(listener: Listener) {
         return history.listen(({ action, location }) => {
-          console.log('history.listen', action, location)
+          console.log("history.listen", action, location)
           // @ts-expect-error -- working around a bug? in studio
           listener(location)
         })
@@ -230,18 +226,18 @@ export function useMagicRouter(initial: string) {
   return history
 }
 
-export type PresetTheme = 'default' | 'blackpink' | 'web3' | 'imagepalette'
+export type PresetTheme = "default" | "blackpink" | "web3" | "imagepalette"
 type CustomStudioThemeProps = {
   preset?: PresetTheme
   black?: string
   white?: string
 }
-const web3Black = '#171721'
-const web3White = '#f0eff3'
-const pinkBlack = '#171721'
-const pinkWhite = '#f7f2f5'
+const web3Black = "#171721"
+const web3White = "#f0eff3"
+const pinkBlack = "#171721"
+const pinkWhite = "#f7f2f5"
 // Should return 500
-// const tests = ['#64748b', '#6b7280', '#71717a', '#737373', '#78716c', '#ef4444', '#f97316', '#f59e0b', '#eab308', '#84cc16', '#22c55e', '#10b981', '#14b8a6', '#06b6d4', '#0ea5e9', '#3b82f6','#6366f1', '#8b5cf6', '#a855f7', '#d946ef','#ec4899', '#f43f5e']
+// const tests = ["#64748b", "#6b7280", "#71717a", "#737373", "#78716c", "#ef4444", "#f97316", "#f59e0b", "#eab308", "#84cc16", "#22c55e", "#10b981", "#14b8a6", "#06b6d4", "#0ea5e9", "#3b82f6","#6366f1", "#8b5cf6", "#a855f7", "#d946ef","#ec4899", "#f43f5e"]
 function getMidPointFromLuminance(color: string): number {
   const luminance = getLuminance(color)
   const corrected = 1 - luminance
@@ -261,7 +257,7 @@ function widenColorHue(
   const bHsl = parseToHsl(b)
 
   console.log(
-    'widen',
+    "widen",
     a,
     b,
     aHsl.hue,
@@ -358,7 +354,7 @@ export function getColorConfigsFromImagePalette({
     },
   }
 }
-function getPresetTones(preset: CustomStudioThemeProps['preset']): {
+function getPresetTones(preset: CustomStudioThemeProps["preset"]): {
   default?: ColorHueConfig
   transparent?: ColorHueConfig
   primary?: ColorHueConfig
@@ -368,27 +364,27 @@ function getPresetTones(preset: CustomStudioThemeProps['preset']): {
 } {
   switch (preset) {
     // https://github.com/tailwindlabs/tailwindcss/blob/b8cda161dd0993083dcef1e2a03988c70be0ce93/src/public/colors.js#L208-L219
-    case 'imagepalette':
+    case "imagepalette":
       return getColorConfigsFromImagePalette({ palette: demoImagePalette })
-    case 'web3':
+    case "web3":
       return {
         default: {
           ...defaultColorConfig,
-          mid: '#72658b',
+          mid: "#72658b",
           darkest: web3Black,
           lightest: web3White,
           midPoint: 500,
         },
         transparent: {
           ...transparentColorConfig,
-          mid: '#72658b',
+          mid: "#72658b",
           darkest: web3Black,
           lightest: web3White,
           midPoint: 500,
         },
         primary: {
           ...primaryColorConfig,
-          mid: '#6366f1',
+          mid: "#6366f1",
           darkest: web3Black,
           lightest: web3White,
           midPoint: 500,
@@ -409,25 +405,25 @@ function getPresetTones(preset: CustomStudioThemeProps['preset']): {
           lightest: web3White,
         },
       }
-    case 'blackpink':
+    case "blackpink":
       return {
         default: {
           ...defaultColorConfig,
-          mid: '#8b6584',
+          mid: "#8b6584",
           darkest: pinkBlack,
           lightest: pinkWhite,
           midPoint: 500,
         },
         transparent: {
           ...transparentColorConfig,
-          mid: '#503a4c',
+          mid: "#503a4c",
           darkest: pinkBlack,
           lightest: pinkWhite,
           midPoint: 500,
         },
         primary: {
           ...primaryColorConfig,
-          mid: '#ec4899',
+          mid: "#ec4899",
           darkest: pinkBlack,
           lightest: pinkWhite,
           midPoint: 500,
@@ -436,21 +432,21 @@ function getPresetTones(preset: CustomStudioThemeProps['preset']): {
           ...positiveColorConfig,
           darkest: pinkBlack,
           lightest: pinkWhite,
-          mid: '#10b981',
+          mid: "#10b981",
           midPoint: 500,
         },
         caution: {
           ...cautionColorConfig,
           darkest: pinkBlack,
           lightest: pinkWhite,
-          mid: '#fde047',
+          mid: "#fde047",
           midPoint: 300,
         },
         critical: {
           ...criticalColorConfig,
           darkest: pinkBlack,
           lightest: pinkWhite,
-          mid: '#fe3459',
+          mid: "#fe3459",
           midPoint: 500,
         },
       }
@@ -461,49 +457,49 @@ function getPresetTones(preset: CustomStudioThemeProps['preset']): {
 
 // hues.gray
 const defaultColorConfig = {
-  title: 'Default',
+  title: "Default",
   darkest: _black.hex,
-  mid: '#8690A0',
+  mid: "#8690A0",
   lightest: _white.hex,
   midPoint: 500,
 } as const
 // hues.gray
 const transparentColorConfig = {
-  title: 'Transparent',
+  title: "Transparent",
   darkest: _black.hex,
-  mid: '#8690A0',
+  mid: "#8690A0",
   lightest: _white.hex,
   midPoint: 500,
 } as const
 // hues.blue
 const primaryColorConfig = {
-  title: 'Primary',
+  title: "Primary",
   darkest: _black.hex,
-  mid: '#2276FC',
+  mid: "#2276FC",
   lightest: _white.hex,
   midPoint: 500,
 } as const
 // hues.green
 const positiveColorConfig = {
-  title: 'Positive',
+  title: "Positive",
   darkest: _black.hex,
-  mid: '#43D675',
+  mid: "#43D675",
   lightest: _white.hex,
   midPoint: 400,
 } as const
 // hues.yellow
 const cautionColorConfig = {
-  title: 'Caution',
+  title: "Caution",
   darkest: _black.hex,
-  mid: '#FBD024',
+  mid: "#FBD024",
   lightest: _white.hex,
   midPoint: 300,
 } as const
 // hues.red
 const criticalColorConfig = {
-  title: 'Critical',
+  title: "Critical",
   darkest: _black.hex,
-  mid: '#F03E2F',
+  mid: "#F03E2F",
   lightest: _white.hex,
   midPoint: 500,
 } as const
@@ -581,8 +577,8 @@ export function createStudioTheme({
 }): StudioTheme {
   const tones = createTonesFromConfig({ config })
   // console.log({ tones })
-  const black = { title: 'Black', hex: config.default?.darkest || _black.hex }
-  const white = { title: 'white', hex: config.default?.lightest || _white.hex }
+  const black = { title: "Black", hex: config.default?.darkest || _black.hex }
+  const white = { title: "white", hex: config.default?.lightest || _white.hex }
   // @TODO: consider making these overridable
   //const focusRingHue = _hues.blue
   const focusRingHue = tones.primary
@@ -597,7 +593,7 @@ export function createStudioTheme({
   // Based on https://github.com/sanity-io/design/blob/804bf73dffb1c0ecb1c2e6758135784502768bfe/packages/%40sanity/ui/src/theme/studioTheme/color.ts#L6-L637
   superTheme.color = createColorTheme({
     base: ({ dark, name }) => {
-      if (name === 'default') {
+      if (name === "default") {
         const skeletonFrom = dark
           ? tones.transparent[900].hex
           : tones.transparent[100].hex
@@ -623,7 +619,7 @@ export function createStudioTheme({
         }
       }
 
-      if (name === 'transparent') {
+      if (name === "transparent") {
         const tints = tones.default
         const skeletonFrom = tints[dark ? 800 : 200].hex
 
@@ -673,9 +669,9 @@ export function createStudioTheme({
       const isNeutral =
         NEUTRAL_TONES.includes(name) && NEUTRAL_TONES.includes(tone)
 
-      let tints = tones[tone === 'default' ? name : tone] || defaultTints
+      let tints = tones[tone === "default" ? name : tone] || defaultTints
 
-      if (state === 'disabled') {
+      if (state === "disabled") {
         tints = defaultTints
         const bg = mix(base.bg, tints[dark ? 800 : 200].hex)
         const skeletonFrom = mix2(bg, tints[dark ? 200 : 800].hex)
@@ -705,7 +701,7 @@ export function createStudioTheme({
         }
       }
 
-      if (state === 'hovered') {
+      if (state === "hovered") {
         const bg = mix(base.bg, tints[dark ? 300 : 600].hex)
         const skeletonFrom = mix2(bg, tints[dark ? 200 : 800].hex)
 
@@ -734,7 +730,7 @@ export function createStudioTheme({
         }
       }
 
-      if (state === 'pressed') {
+      if (state === "pressed") {
         const bg = mix(base.bg, tints[dark ? 200 : 800].hex)
         const skeletonFrom = mix2(bg, tints[dark ? 200 : 800].hex)
 
@@ -763,7 +759,7 @@ export function createStudioTheme({
         }
       }
 
-      if (state === 'selected') {
+      if (state === "selected") {
         if (isNeutral) {
           tints = tones.primary
         }
@@ -831,9 +827,9 @@ export function createStudioTheme({
       const isNeutral =
         NEUTRAL_TONES.includes(name) && NEUTRAL_TONES.includes(tone)
 
-      let tints = tones[tone === 'default' ? name : tone] || defaultTints
+      let tints = tones[tone === "default" ? name : tone] || defaultTints
 
-      if (state === 'disabled') {
+      if (state === "disabled") {
         tints = defaultTints
 
         const bg = base.bg
@@ -864,7 +860,7 @@ export function createStudioTheme({
         }
       }
 
-      if (state === 'hovered') {
+      if (state === "hovered") {
         if (isNeutral) {
           tints = tones.primary
         }
@@ -897,7 +893,7 @@ export function createStudioTheme({
         }
       }
 
-      if (state === 'pressed') {
+      if (state === "pressed") {
         if (isNeutral) {
           tints = tones.primary
         }
@@ -930,7 +926,7 @@ export function createStudioTheme({
         }
       }
 
-      if (state === 'selected') {
+      if (state === "selected") {
         if (isNeutral) {
           tints = tones.primary
         }
@@ -992,7 +988,7 @@ export function createStudioTheme({
     },
 
     button: ({ base, mode, muted, solid }) => {
-      if (mode === 'bleed') {
+      if (mode === "bleed") {
         return {
           enabled: {
             ...muted.enabled,
@@ -1017,7 +1013,7 @@ export function createStudioTheme({
         }
       }
 
-      if (mode === 'ghost') {
+      if (mode === "ghost") {
         return {
           ...solid,
           enabled: {
@@ -1032,11 +1028,11 @@ export function createStudioTheme({
     },
 
     card: ({ base, dark, muted, name, solid, state }) => {
-      if (state === 'hovered') {
+      if (state === "hovered") {
         return muted[name].hovered
       }
 
-      if (state === 'disabled') {
+      if (state === "disabled") {
         return muted[name].disabled
       }
 
@@ -1044,7 +1040,7 @@ export function createStudioTheme({
       const tints = tones[name] || tones.default
       const mix = dark ? screen : multiply
 
-      if (state === 'pressed') {
+      if (state === "pressed") {
         if (isNeutral) {
           return muted.primary.pressed
         }
@@ -1052,7 +1048,7 @@ export function createStudioTheme({
         return muted[name].pressed
       }
 
-      if (state === 'selected') {
+      if (state === "selected") {
         if (isNeutral) {
           return solid.primary.enabled
         }
@@ -1091,7 +1087,7 @@ export function createStudioTheme({
     input: ({ base, dark, mode, state }) => {
       const mix = dark ? screen : multiply
 
-      if (mode === 'invalid') {
+      if (mode === "invalid") {
         const tints = tones.critical
 
         return {
@@ -1102,7 +1098,7 @@ export function createStudioTheme({
         }
       }
 
-      if (state === 'hovered') {
+      if (state === "hovered") {
         return {
           bg: base.bg,
           fg: base.fg,
@@ -1111,7 +1107,7 @@ export function createStudioTheme({
         }
       }
 
-      if (state === 'disabled') {
+      if (state === "disabled") {
         return {
           bg: mix(base.bg, _hues.gray[dark ? 950 : 50].hex),
           fg: mix(base.bg, _hues.gray[dark ? 700 : 300].hex),
@@ -1120,7 +1116,7 @@ export function createStudioTheme({
         }
       }
 
-      if (state === 'readOnly') {
+      if (state === "readOnly") {
         return {
           bg: mix(base.bg, _hues.gray[dark ? 950 : 50].hex),
           fg: mix(base.bg, _hues.gray[dark ? 200 : 800].hex),
@@ -1138,30 +1134,30 @@ export function createStudioTheme({
     },
 
     selectable: ({ base, muted, tone, solid, state }) => {
-      if (state === 'enabled') {
+      if (state === "enabled") {
         return {
           ...muted[tone].enabled,
           bg: base.bg,
         }
       }
 
-      if (state === 'pressed') {
-        if (tone === 'default') {
+      if (state === "pressed") {
+        if (tone === "default") {
           return muted.primary.pressed
         }
 
         return muted[tone].pressed
       }
 
-      if (state === 'selected') {
-        if (tone === 'default') {
+      if (state === "selected") {
+        if (tone === "default") {
           return solid.primary.enabled
         }
 
         return solid[tone].enabled
       }
 
-      if (state === 'disabled') {
+      if (state === "disabled") {
         return {
           ...muted[tone].disabled,
           bg: base.bg,

@@ -8,14 +8,20 @@ import { PageSections } from "components/page";
 import { PreviewNoContent } from "components/PreviewNoContent";
 import { filterDataToSingleItem } from "components/list";
 import { PreviewBanner } from "components/PreviewBanner";
+import InlineEditorContextProvider from "context/InlineEditorContext";
+
 
 function Home({ data, preview, token, source }) {
+  const showInlineEditor = source === "studio";
+  
   if (preview) {
     return (
       <>
         <PreviewBanner />
         <PreviewSuspense>
-          <DocumentWithPreview {...{ data, token, source }} />
+          <InlineEditorContextProvider showInlineEditor={showInlineEditor}>
+            <DocumentWithPreview {...{ data, token }} />
+          </InlineEditorContextProvider>
         </PreviewSuspense>
       </>
     );
@@ -57,14 +63,14 @@ function Document({ data }) {
  *
  * @param data Data from getStaticProps based on current slug value
  * @param token Token value supplied via `/api/preview` route
+ * @param source Source value supplied via `/api/preview` route
  *
  * @returns Document with preview data
  */
-function DocumentWithPreview({ data, token = null, source }) {
+function DocumentWithPreview({ data, token = null }) {
   const previewDataEventSource = usePreview(token, homeQuery);
 
   const previewData = previewDataEventSource?.[0] || previewDataEventSource;
-  const enableInlineEditing = source === "studio"
 
   // General safeguard against empty data
   if (!previewData) {
@@ -87,7 +93,7 @@ function DocumentWithPreview({ data, token = null, source }) {
         previewData?.sections?.length === 0) && <PreviewNoContent />}
 
       {/*  Show page sections */}
-      {data?.pageData && <PageSections data={previewData} enableInlineEditing={enableInlineEditing} />}
+      {data?.pageData && <PageSections data={previewData} />}
     </>
   );
 }
@@ -116,8 +122,8 @@ export async function getStaticProps({ preview = false, previewData = {} }) {
   return {
     props: {
       preview,
-      source: (preview && previewData.source) || "",
       token: (preview && previewData.token) || "",
+      source: (preview && previewData.source) || "",
       data: { pageData },
     },
   };

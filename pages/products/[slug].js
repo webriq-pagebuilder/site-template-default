@@ -13,11 +13,12 @@ import { filterDataToSingleItem } from "components/list";
 import { PreviewBanner } from "components/PreviewBanner";
 import { PreviewNoContent } from "components/PreviewNoContent";
 import { ProductSections } from "components/page/store/products";
-import { EcwidContextProvider } from "context/EcwidContext";
+import InlineEditorContextProvider from "context/InlineEditorContext";
 
 function ProductPageBySlug({ data, preview, token, source }) {
   const router = useRouter();
   const slug = router.query.slug;
+  const showInlineEditor = source === "studio";
 
   useEffect(() => {
     if (typeof Ecwid !== "undefined") Ecwid.init();
@@ -31,7 +32,9 @@ function ProductPageBySlug({ data, preview, token, source }) {
         <>
           <PreviewBanner />
           <PreviewSuspense>
-            <DocumentWithPreview {...{ data, token: token || null, slug, source }} />
+            <InlineEditorContextProvider showInlineEditor={showInlineEditor}>
+              <DocumentWithPreview {...{ data, token: token || null, slug }} />
+            </InlineEditorContextProvider>
           </PreviewSuspense>
         </>
       );
@@ -78,9 +81,7 @@ function Document({ data }) {
       </Head>
 
       {/* Show Product page sections */}
-      <EcwidContextProvider>
-        {data?.productData && <ProductSections data={publishedData} />}
-      </EcwidContextProvider>
+      {data?.productData && <ProductSections data={publishedData} />}
     </>
   );
 }
@@ -90,15 +91,14 @@ function Document({ data }) {
  * @param data Data from getStaticProps based on current slug value
  * @param slug Slug value from getStaticProps
  * @param token Token value supplied via `/api/preview` route
+ * @param source Source value supplied via `/api/preview` route
  *
  * @returns Document with preview data
  */
-function DocumentWithPreview({ data, slug, token = null, source }) {
+function DocumentWithPreview({ data, slug, token = null }) {
   // Current drafts data in Sanity
   const previewDataEventSource = usePreview(token, productsQuery, { slug });
   const previewData = previewDataEventSource?.[0] || previewDataEventSource; // Latest preview data in Sanity
-
-  const enableInlineEditing = source === "studio"
 
   // General safeguard against empty data
   if (!previewData) {
@@ -133,9 +133,7 @@ function DocumentWithPreview({ data, slug, token = null, source }) {
         previewData?.sections?.length === 0) && <PreviewNoContent />}
 
       {/* Show Product page sections */}
-      <EcwidContextProvider>
-        {data?.productData && <ProductSections data={previewData} enableInlineEditing={enableInlineEditing} />}
-      </EcwidContextProvider>
+      {data?.productData && <ProductSections data={previewData} />}
     </>
   );
 }
@@ -158,8 +156,8 @@ export async function getStaticProps({
   return {
     props: {
       preview,
-      source: (preview && previewData.source) || "",
       token: (preview && previewData.token) || "",
+      source: (preview && previewData.source) || "",
       data: {
         productData: singleProductsData || null,
       },
