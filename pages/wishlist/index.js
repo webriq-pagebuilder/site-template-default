@@ -9,8 +9,8 @@ import { PreviewNoContent } from "components/PreviewNoContent";
 import { filterDataToSingleItem } from "components/list";
 import { PreviewBanner } from "components/PreviewBanner";
 
-
 function WishlistPage({ data, preview, token, source }) {
+  console.log(data);
   useEffect(() => {
     if (typeof Ecwid !== "undefined") {
       window.Ecwid.init();
@@ -71,7 +71,7 @@ function DocumentWithPreview({ data, token = null, source }) {
   const previewDataEventSource = usePreview(token, wishlistPageQuery);
   const previewData = previewDataEventSource?.[0] || previewDataEventSource;
 
-  const enableInlineEditing = source === "studio"
+  const enableInlineEditing = source === "studio";
 
   // General safeguard against empty data
   if (!previewData) {
@@ -94,7 +94,12 @@ function DocumentWithPreview({ data, token = null, source }) {
         previewData?.sections?.length === 0) && <PreviewNoContent />}
 
       {/*  Show page sections */}
-      {data?.wishlistData && <WishlistSections data={previewData} enableInlineEditing={enableInlineEditing} />}
+      {data?.wishlistData && (
+        <WishlistSections
+          data={previewData}
+          enableInlineEditing={enableInlineEditing}
+        />
+      )}
     </>
   );
 }
