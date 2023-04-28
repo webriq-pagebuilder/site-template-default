@@ -14,37 +14,30 @@ import { filterDataToSingleItem } from "components/list";
 import PageNotFound from "pages/404";
 import { GetStaticPaths, GetStaticProps, NextPage } from "next";
 
-import { PageDataProps, BlogsDataProps } from "types";
+import { PageData, BlogsData } from "types";
 
-interface PageData {
+interface SlugData {
   data: {
-    pageData?: PageDataProps;
-    blogData?: BlogsDataProps;
+    pageData: PageData | null;
+    blogData: BlogsData | null;
   };
 }
 
-interface PageBySlugProps extends PageData {
+interface PageBySlugProps extends SlugData {
   preview: boolean;
   token: string;
   source: string;
 }
 
-interface DocumentWithPreviewProps extends PageData {
+interface DocumentWithPreviewProps extends SlugData {
   slug: string | string[];
   token: string;
   source: string;
 }
 
-export const PageBySlug: NextPage<PageBySlugProps> = ({
-  data,
-  preview,
-  token,
-  source,
-}) => {
+export function PageBySlug({ data, preview, token, source }: PageBySlugProps) {
   const router = useRouter();
   const slug = router.query.slug;
-
-  console.log(data);
 
   if (!data?.pageData && !data?.blogData) {
     return <PageNotFound />;
@@ -64,7 +57,7 @@ export const PageBySlug: NextPage<PageBySlugProps> = ({
 
     return <Document {...{ data }} />;
   }
-};
+}
 
 /**
  *
@@ -72,7 +65,7 @@ export const PageBySlug: NextPage<PageBySlugProps> = ({
  *
  * @returns Document with published data
  */
-const Document: NextPage<PageData> = ({ data }) => {
+function Document({ data }: SlugData) {
   const publishedData = data?.pageData || data?.blogData; // latest published data in Sanity
 
   // General safeguard against empty data
@@ -98,7 +91,7 @@ const Document: NextPage<PageData> = ({ data }) => {
       {data?.blogData && <BlogSections data={data?.blogData} />}
     </>
   );
-};
+}
 
 /**
  *
@@ -108,12 +101,12 @@ const Document: NextPage<PageData> = ({ data }) => {
  *
  * @returns Document with preview data
  */
-const DocumentWithPreview: NextPage<DocumentWithPreviewProps> = ({
+function DocumentWithPreview({
   data,
   slug,
   token = null,
   source,
-}) => {
+}: DocumentWithPreviewProps) {
   // Current drafts data in Sanity
   const previewDataEventSource = usePreview(
     token,
@@ -158,7 +151,7 @@ const DocumentWithPreview: NextPage<DocumentWithPreviewProps> = ({
       {data?.blogData && <BlogSections data={previewData} />}
     </>
   );
-};
+}
 
 export const getStaticProps: GetStaticProps = async ({
   params,
@@ -176,11 +169,8 @@ export const getStaticProps: GetStaticProps = async ({
   ]);
 
   // pass page data and preview to helper function
-  const singlePageData: PageDataProps = filterDataToSingleItem(page, preview);
-  const singleBlogData: BlogsDataProps = filterDataToSingleItem(
-    blogData,
-    preview
-  );
+  const singlePageData: PageData = filterDataToSingleItem(page, preview);
+  const singleBlogData: BlogsData = filterDataToSingleItem(blogData, preview);
 
   return {
     props: {

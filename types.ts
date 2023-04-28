@@ -397,21 +397,27 @@ export interface PageDataProps extends TPageData {
 export interface TPageData extends SanityBody {
   seo?: Seo;
   sections?: Sections[];
-  hasNeverPublished?: boolean;
 }
 
-export interface BlogsDataProps extends SanityBody {
-  authors?: Author[];
-  body?: BlogsBody[];
-  categories?: Categories[];
-  excerpt?: string;
-  mainImage?: SanityImage;
-  footer?: Variants[];
-  navigation?: Variants[];
-  publishedAt?: string;
-  slug?: SanitySlug;
-  title?: string;
+export interface PageData extends TPageData {
+  collections: any;
+  slug: string | string[];
+  title: string;
+}
+
+export interface BlogsData extends SanityBody {
+  authors?: Author[] | null;
+  body?: BlogsBody[] | null;
+  categories?: Categories[] | null;
+  excerpt?: string | null;
+  mainImage?: SanityImage | null;
+  footer?: Variants[] | null;
+  navigation?: Variants[] | null;
+  publishedAt?: string | null;
+  slug?: SanitySlug | null;
+  title?: string | null;
   seo?: Seo;
+  hasUnpublishedEdits?: boolean | null;
 }
 
 export type MyPortableTextComponents = PortableTextComponents & {

@@ -10,7 +10,7 @@ import { filterDataToSingleItem } from "components/list";
 import { PreviewBanner } from "components/PreviewBanner";
 import { GetStaticPropsContext } from "next";
 
-import { PageDataProps } from "types";
+import { PageData } from "types";
 
 interface HomeProps {
   data: DataProps;
@@ -20,10 +20,10 @@ interface HomeProps {
 }
 
 interface DataProps {
-  pageData: PageDataProps;
+  pageData: PageData;
 }
 
-const Home = ({ data, preview, token, source }: HomeProps) => {
+function Home({ data, preview, token, source }: HomeProps) {
   if (preview) {
     return (
       <>
@@ -36,7 +36,7 @@ const Home = ({ data, preview, token, source }: HomeProps) => {
   }
 
   return <Document {...{ data }} />;
-};
+}
 
 /**
  *
@@ -44,7 +44,7 @@ const Home = ({ data, preview, token, source }: HomeProps) => {
  *
  * @returns Document with published data
  */
-const Document = ({ data }: { data: DataProps }) => {
+function Document({ data }: { data: DataProps }) {
   const publishedData = data?.pageData;
 
   // General safeguard against empty data
@@ -67,7 +67,7 @@ const Document = ({ data }: { data: DataProps }) => {
       )}
     </>
   );
-};
+}
 
 /**
  *
@@ -76,10 +76,10 @@ const Document = ({ data }: { data: DataProps }) => {
  *
  * @returns Document with preview data
  */
-const DocumentWithPreview = ({ data, token = null, source }: HomeProps) => {
+function DocumentWithPreview({ data, token = null, source }: HomeProps) {
   const previewDataEventSource = usePreview(token, homeQuery);
 
-  const previewData: PageDataProps =
+  const previewData: PageData =
     previewDataEventSource?.[0] || previewDataEventSource;
   const enableInlineEditing = source === "studio";
 
@@ -112,7 +112,7 @@ const DocumentWithPreview = ({ data, token = null, source }: HomeProps) => {
       )}
     </>
   );
-};
+}
 
 export const getStaticProps = async ({
   preview = false,
