@@ -23,6 +23,8 @@ function ProductPageBySlug({ data, preview, token, source }) {
     if (typeof Ecwid !== "undefined") Ecwid.init();
   }, []);
 
+  console.log(data);
+
   if (!data?.productData || data?.productData?.length === 0) {
     return <PageNotFound />;
   } else {
@@ -31,7 +33,9 @@ function ProductPageBySlug({ data, preview, token, source }) {
         <>
           <PreviewBanner />
           <PreviewSuspense>
-            <DocumentWithPreview {...{ data, token: token || null, slug, source }} />
+            <DocumentWithPreview
+              {...{ data, token: token || null, slug, source }}
+            />
           </PreviewSuspense>
         </>
       );
@@ -98,7 +102,7 @@ function DocumentWithPreview({ data, slug, token = null, source }) {
   const previewDataEventSource = usePreview(token, productsQuery, { slug });
   const previewData = previewDataEventSource?.[0] || previewDataEventSource; // Latest preview data in Sanity
 
-  const enableInlineEditing = source === "studio"
+  const enableInlineEditing = source === "studio";
 
   // General safeguard against empty data
   if (!previewData) {
@@ -134,7 +138,12 @@ function DocumentWithPreview({ data, slug, token = null, source }) {
 
       {/* Show Product page sections */}
       <EcwidContextProvider>
-        {data?.productData && <ProductSections data={previewData} enableInlineEditing={enableInlineEditing} />}
+        {data?.productData && (
+          <ProductSections
+            data={previewData}
+            enableInlineEditing={enableInlineEditing}
+          />
+        )}
       </EcwidContextProvider>
     </>
   );
@@ -175,7 +184,7 @@ export async function getStaticPaths() {
   );
 
   return {
-    paths: products.map((slug) => ({ params: { slug } })),
+    paths: products.map(slug => ({ params: { slug } })),
     fallback: true,
   };
 }

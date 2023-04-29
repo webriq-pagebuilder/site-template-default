@@ -10,6 +10,7 @@ import { filterDataToSingleItem } from "components/list";
 import { PreviewBanner } from "components/PreviewBanner";
 
 function SearchPage({ data, preview, token }) {
+  console.log(data);
   useEffect(() => {
     if (typeof Ecwid !== "undefined") {
       window.Ecwid.init();
@@ -70,7 +71,7 @@ function DocumentWithPreview({ data, token = null, source }) {
   const previewDataEventSource = usePreview(token, searchPageQuery);
   const previewData = previewDataEventSource?.[0] || previewDataEventSource;
 
-  const enableInlineEditing = source === "studio"
+  const enableInlineEditing = source === "studio";
 
   // General safeguard against empty data
   if (!previewData) {
@@ -93,7 +94,12 @@ function DocumentWithPreview({ data, token = null, source }) {
         previewData?.sections?.length === 0) && <PreviewNoContent />}
 
       {/*  Show page sections */}
-      {data?.searchData && <SearchPageSections data={previewData} enableInlineEditing={enableInlineEditing} />}
+      {data?.searchData && (
+        <SearchPageSections
+          data={previewData}
+          enableInlineEditing={enableInlineEditing}
+        />
+      )}
     </>
   );
 }

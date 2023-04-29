@@ -399,6 +399,18 @@ export interface TPageData extends SanityBody {
   sections?: Sections[];
 }
 
+export interface PageProps {
+  preview: boolean;
+  token: string;
+  source: string;
+}
+
+export interface DocumentWithPreview {
+  slug: string | string[];
+  token: string;
+  source: string;
+}
+
 export interface PageData extends TPageData {
   collections: any;
   slug: string | string[];

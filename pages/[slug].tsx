@@ -12,9 +12,9 @@ import { PreviewBanner } from "components/PreviewBanner";
 import { PreviewNoContent } from "components/PreviewNoContent";
 import { filterDataToSingleItem } from "components/list";
 import PageNotFound from "pages/404";
-import { GetStaticPaths, GetStaticProps, NextPage } from "next";
+import { GetStaticPaths, GetStaticProps } from "next";
 
-import { PageData, BlogsData } from "types";
+import { PageData, BlogsData, PageProps, DocumentWithPreview } from "types";
 
 interface SlugData {
   data: {
@@ -23,17 +23,9 @@ interface SlugData {
   };
 }
 
-interface PageBySlugProps extends SlugData {
-  preview: boolean;
-  token: string;
-  source: string;
-}
+interface DocumentWithPreviewProps extends DocumentWithPreview, SlugData {}
 
-interface DocumentWithPreviewProps extends SlugData {
-  slug: string | string[];
-  token: string;
-  source: string;
-}
+interface PageBySlugProps extends SlugData, PageProps {}
 
 export function PageBySlug({ data, preview, token, source }: PageBySlugProps) {
   const router = useRouter();
