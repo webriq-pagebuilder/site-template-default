@@ -407,7 +407,7 @@ export interface PageProps {
 
 export interface DocumentWithPreview {
   slug: string | string[];
-  token: string;
+  token: string | null;
   source: string;
 }
 
