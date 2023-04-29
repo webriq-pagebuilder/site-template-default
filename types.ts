@@ -405,7 +405,7 @@ export interface PageProps {
   source: string;
 }
 
-export interface DocumentWithPreview {
+export interface DocPreviewProps {
   slug: string | string[];
   token: string | null;
   source: string;

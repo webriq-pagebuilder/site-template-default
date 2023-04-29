@@ -14,7 +14,7 @@ import { filterDataToSingleItem } from "components/list";
 import PageNotFound from "pages/404";
 import { GetStaticPaths, GetStaticProps } from "next";
 
-import { PageData, BlogsData, PageProps, DocumentWithPreview } from "types";
+import { PageData, BlogsData, PageProps, DocPreviewProps } from "types";
 
 interface SlugData {
   data: {
@@ -23,7 +23,7 @@ interface SlugData {
   };
 }
 
-interface DocumentWithPreviewProps extends DocumentWithPreview, SlugData {}
+interface DocumentWithPreviewProps extends DocPreviewProps, SlugData {}
 
 interface PageBySlugProps extends SlugData, PageProps {}
 
