@@ -1,7 +1,7 @@
 function redirectToPreview(res, source, Location) {
-  const token = process.env.NEXT_PUBLIC_SANITY_API_READ_TOKEN;
+  const token = process.env.SANITY_STUDIO_API_READ_TOKEN;
   if (!token) {
-    throw new TypeError(`Missing NEXT_PUBLIC_SANITY_API_READ_TOKEN`);
+    throw new TypeError(`Missing SANITY_STUDIO_API_READ_TOKEN`);
   }
 
   // Set the token in the preview cookie to enable non-chrome browsers
@@ -26,7 +26,7 @@ export default async (req, res) => {
 
   // Check the secret and next parameters
   // This secret should only be known to this API route and the CMS
-  if (req.query.secret !== (process.env.SITE_PREVIEW_SECRET || "secret")) {
+  if (req.query.secret !== (process.env.NEXT_PUBLIC_PREVIEW_SECRET || "secret")) {
     return res.status(401).json({ message: "Invalid token" });
   }
 
