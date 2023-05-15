@@ -1,7 +1,7 @@
 function redirectToPreview(res, source, Location) {
-  const token = process.env.SANITY_STUDIO_API_READ_TOKEN;
+  const token = process.env.NEXT_PUBLIC_SANITY_API_READ_TOKEN;
   if (!token) {
-    throw new TypeError(`Missing SANITY_STUDIO_API_READ_TOKEN`);
+    throw new TypeError(`Missing NEXT_PUBLIC_SANITY_API_READ_TOKEN`);
   }
 
   // Set the token in the preview cookie to enable non-chrome browsers
