@@ -139,7 +139,7 @@ select[data-testid="field-group-select"] > option:first-child {
   display: none !important;
 }
 .document-pane div[data-testid="document-pane"] {
-  position: relative !important
+  position: relative !important;
 }
 .field-label div[data-testid="field-label"] {
   display: none !important;
@@ -158,14 +158,20 @@ select[data-testid="field-group-select"] > option:first-child {
 .fieldgroup-tabs div[data-ui="TabList"][data-testid="field-group-tabs"] {
   display: none;
 }
-.fieldgroup-select select[data-testid="field-group-select"] > option:first-child {
+.fieldgroup-select
+  select[data-testid="field-group-select"]
+  > option:first-child {
   display: none;
 }
 /* fieldgroup style for main product document */
-.product-fieldgroup-tabs div[data-ui="TabList"][data-testid="field-group-tabs"] > div:not(:nth-child(2)):not(:nth-child(3)) {
+.product-fieldgroup-tabs
+  div[data-ui="TabList"][data-testid="field-group-tabs"]
+  > div:not(:nth-child(2)):not(:nth-child(3)) {
   display: none;
 }
-.product-fieldgroup-select select[data-testid="field-group-select"] > option:not(:nth-child(2)):not(:nth-child(3)) {
+.product-fieldgroup-select
+  select[data-testid="field-group-select"]
+  > option:not(:nth-child(2)):not(:nth-child(3)) {
   display: none;
 }
 
@@ -191,4 +197,12 @@ select[data-testid="field-group-select"] > option:first-child {
   z-index: 40;
 }
 
+/** Help Guide **/
+a[href="/studio/desk/guide"] {
+  position: absolute;
+  bottom: 8px;
+  width: calc(100% - 16px);
+  border-top: 1px solid var(--card-border-color);
+  padding-top: 8px;
+}
 /* End */
