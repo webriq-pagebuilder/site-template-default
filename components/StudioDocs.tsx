@@ -1,6 +1,6 @@
 const CANVA_WSTUDIO_PRESENTATION =
   process.env.NEXT_PUBLIC_CANVA_WSTUDIO_PRESENTATION ||
-  "https://www.canva.com/design/DAFGKT1MdX4/view?embed";
+  "https://www.canva.com/design/DAFGKT1MdX4/view?embed#20";
 
 export const StudioDocs = () => {
   return (
