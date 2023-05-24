@@ -1,7 +1,7 @@
-import { defineArrayMember, defineField, defineType } from "sanity"
-import { MdLibraryBooks } from "react-icons/md"
-import { isSlugUnique } from "studio/isSlugUnique"
-import { NEXT_PUBLIC_SANITY_STUDIO_IN_CSTUDIO } from "studio/config"
+import { defineArrayMember, defineField, defineType } from "sanity";
+import { MdLibraryBooks } from "react-icons/md";
+import { isSlugUnique } from "studio/isSlugUnique";
+import { NEXT_PUBLIC_SANITY_STUDIO_IN_CSTUDIO } from "studio/config";
 
 export default defineType({
   title: "Page",
@@ -19,26 +19,27 @@ export default defineType({
       title: "Slug",
       name: "slug",
       type: "slug",
-      description: "On what URL should this be published? e.g: /heres-a-sample-url",
+      description:
+        "On what URL should this be published? e.g: /heres-a-sample-url",
       validation: (Rule) =>
         Rule.required().custom((slug) => {
-          const regex = /[!@#$%^&*()+\=\[\]{};':"\\|,.<>\/?]+/
+          const regex = /[!@#$%^&*()+\=\[\]{};':"\\|,.<>\/?]+/;
 
           if (slug?.current !== undefined) {
             if (regex.test(slug.current)) {
-              return `Slug cannot contain these special characters [!@#$%^&*()+\=\[\]{};':"\\|,.<>\/?]`
+              return `Slug cannot contain these special characters [!@#$%^&*()+\=\[\]{};':"\\|,.<>\/?]`;
             }
 
             if (slug?.current !== slug.current.toLowerCase()) {
-              return "Slug must be in lowercase"
+              return "Slug must be in lowercase";
             }
 
             if (slug?.current.indexOf(" ") !== -1) {
-              return "Slug cannot contain spaces"
+              return "Slug cannot contain spaces";
             }
           }
 
-          return true
+          return true;
         }),
       options: {
         source: "title",
@@ -58,14 +59,14 @@ export default defineType({
           to: [{ type: "navigation" }],
           options: {
             filter: () => {
-              const defaultLabel = "Default C-Studio Navigation"
+              const defaultLabel = "Default C-Studio Navigation";
 
               // Do not display default navigation if C-Studio is not enabled
               if (NEXT_PUBLIC_SANITY_STUDIO_IN_CSTUDIO === "false") {
                 return {
                   filter: "label != $label",
                   params: { label: defaultLabel },
-                }
+                };
               }
 
               // When C-Studio is enabled, show all navigation documents
@@ -74,7 +75,7 @@ export default defineType({
                 params: {
                   type: "navigation",
                 },
-              }
+              };
             },
           },
         }),
@@ -211,14 +212,14 @@ export default defineType({
           to: [{ type: "footer" }],
           options: {
             filter: () => {
-              const defaultLabel = "Default C-Studio Footer"
+              const defaultLabel = "Default C-Studio Footer";
 
               // Do not display default footer if C-Studio is not enabled
               if (NEXT_PUBLIC_SANITY_STUDIO_IN_CSTUDIO === "false") {
                 return {
                   filter: "label != $label",
                   params: { label: defaultLabel },
-                }
+                };
               }
 
               // When C-Studio is enabled, show all footer documents
@@ -227,7 +228,7 @@ export default defineType({
                 params: {
                   type: "footer",
                 },
-              }
+              };
             },
           },
         }),
@@ -243,4 +244,4 @@ export default defineType({
       },
     }),
   ],
-})
+});

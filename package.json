@@ -2,15 +2,15 @@
   "name": "@webriq-pagebuilder/site-template-default",
   "version": "3.0.0",
   "private": true,
-  "author": "WebriQ <info@webriq.com>",
   "license": "MIT",
+  "author": "WebriQ <info@webriq.com>",
   "scripts": {
-    "dev": "next dev",
     "build": "next build",
-    "start": "next start",
+    "dev": "next dev",
     "lint": "next lint",
-    "update:next": "yarn add @webriq-pagebuilder/sanity-plugin-input-component-gpt3@next @webriq-pagebuilder/sanity-plugin-schema-blog@next @webriq-pagebuilder/sanity-plugin-schema-commerce@next @webriq-pagebuilder/sanity-plugin-schema-default@next @webriq-pagebuilder/sanity-plugin-schema-blog@next @webriq-pagebuilder/sanity-plugin-webriq-blog@next @webriq-pagebuilder/sanity-plugin-webriq-forms@next @webriq-pagebuilder/sanity-plugin-webriq-payments@next",
-    "update:latest": "yarn add @webriq-pagebuilder/sanity-plugin-input-component-gpt3@latest @webriq-pagebuilder/sanity-plugin-schema-blog@latest @webriq-pagebuilder/sanity-plugin-schema-commerce@latest @webriq-pagebuilder/sanity-plugin-schema-default@latest @webriq-pagebuilder/sanity-plugin-schema-blog@latest @webriq-pagebuilder/sanity-plugin-webriq-blog@latest @webriq-pagebuilder/sanity-plugin-webriq-forms@latest @webriq-pagebuilder/sanity-plugin-webriq-payments@latest"
+    "start": "next start",
+    "update:latest": "yarn add @webriq-pagebuilder/sanity-plugin-input-component-gpt3@latest @webriq-pagebuilder/sanity-plugin-schema-blog@latest @webriq-pagebuilder/sanity-plugin-schema-commerce@latest @webriq-pagebuilder/sanity-plugin-schema-default@latest @webriq-pagebuilder/sanity-plugin-schema-blog@latest @webriq-pagebuilder/sanity-plugin-webriq-blog@latest @webriq-pagebuilder/sanity-plugin-webriq-forms@latest @webriq-pagebuilder/sanity-plugin-webriq-payments@latest",
+    "update:next": "yarn add @webriq-pagebuilder/sanity-plugin-input-component-gpt3@next @webriq-pagebuilder/sanity-plugin-schema-blog@next @webriq-pagebuilder/sanity-plugin-schema-commerce@next @webriq-pagebuilder/sanity-plugin-schema-default@next @webriq-pagebuilder/sanity-plugin-schema-blog@next @webriq-pagebuilder/sanity-plugin-webriq-blog@next @webriq-pagebuilder/sanity-plugin-webriq-forms@next @webriq-pagebuilder/sanity-plugin-webriq-payments@next"
   },
   "dependencies": {
     "@portabletext/react": "^3.0.0",

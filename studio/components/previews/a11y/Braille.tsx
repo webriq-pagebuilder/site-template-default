@@ -1,58 +1,57 @@
 /* eslint-disable react/prop-types */
-import React, { useState } from "react"
+import React, { useState } from "react";
 // remember to install this dependency if you use this in your own project
-import br from "braille"
-import { Select } from "@sanity/ui"
+import br from "braille";
+import { Select } from "@sanity/ui";
 
-import styles from "styles/studio/a11y/Braille.module.css"
+import styles from "styles/studio/a11y/Braille.module.css";
 
-const defaultFields = ["title", "excerpt", "body"]
+const defaultFields = ["title", "excerpt", "body"];
 
 const blocksToText = (blocks, opts = {}) => {
-  const defaultBehaviors = { nonTextBehavior: "remove" }
-  const options = Object.assign({}, defaultBehaviors, opts)
+  const defaultBehaviors = { nonTextBehavior: "remove" };
+  const options = Object.assign({}, defaultBehaviors, opts);
 
   return blocks
-    .map(block => {
+    .map((block) => {
       if (block._type !== "block" || !block.children) {
         return options.nonTextBehavior === "remove"
           ? ""
-          : `[${block._type} block]`
+          : `[${block._type} block]`;
       }
-      return block.children.map(child => child.text).join("")
+      return block.children.map((child) => child.text).join("");
     })
-    .join("\n\n")
-}
+    .join("\n\n");
+};
 
 function Braille({ document, fields }) {
-  const { displayed } = document
-  const [activeField, setActiveField] = useState("title")
+  const { displayed } = document;
+  const [activeField, setActiveField] = useState("title");
 
   const fieldsAvailableForBraille = () => {
-    return (fields || defaultFields).filter(field => !!displayed[field])
-  }
+    return (fields || defaultFields).filter((field) => !!displayed[field]);
+  };
 
   const textToBraille = () => {
     if (typeof displayed[activeField] === "string") {
-      return br.toBraille(displayed[activeField])
+      return br.toBraille(displayed[activeField]);
     }
     // we're in Portable Text now, digging into blocks
-    return br.toBraille(blocksToText(displayed[activeField] || []))
-  }
+    return br.toBraille(blocksToText(displayed[activeField] || []));
+  };
 
-  const fieldObjects = fieldsAvailableForBraille().map(field => ({
+  const fieldObjects = fieldsAvailableForBraille().map((field) => ({
     title: field,
-  }))
+  }));
 
-  const activeFieldObject = fieldObjects.find(obj => obj.title === activeField)
+  const activeFieldObject = fieldObjects.find(
+    (obj) => obj.title === activeField
+  );
 
   return (
     <div className={styles.wrapper}>
       <div className={styles.selectionWrapper}>
-        <Select
-          fontSize={2}
-          onChange={({ title }) => setActiveField(title)}
-        >
+        <Select fontSize={2} onChange={({ title }) => setActiveField(title)}>
           {fieldObjects?.map((field, index) => (
             <option key={index} value={activeFieldObject}>
               {field?.title}
@@ -77,7 +76,7 @@ function Braille({ document, fields }) {
         </small>
       </p>
     </div>
-  )
+  );
 }
 
-export default Braille
+export default Braille;
