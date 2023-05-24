@@ -41,7 +41,7 @@ export default function InlineEditor({
 
   return (
     <div
-      className={`${
+      className={`relative ${
         !breakpoint &&
         !splitPane &&
         !sectionsWithoutEditor?.includes(document?.type) &&
@@ -49,16 +49,16 @@ export default function InlineEditor({
       }`}
     >
       {!breakpoint && !sectionsWithoutEditor?.includes(document?.type) && (
-        <div
-          className={
-            !splitPane && document?.type !== "navigation" ? "sticky top-12" : ""
-          }
-        >
+        <div className="absolute top-0 left-0 w-full h-full text-right p-4">
           <button
             id={document?.type}
             className={`mt-2 items-center border border-webriq-darkblue bg-white px-2 py-2.5 text-center text-sm font-medium text-webriq-darkblue shadow-lg hover:border-webriq-blue hover:bg-webriq-blue hover:text-white ${
               splitPane ? "absolute right-2 z-40" : "hide"
             }`}
+            style={{
+              position: "sticky",
+              top: "32px"
+            }}
             onClick={() => setSplitPane(!splitPane)}
           >
             {!splitPane ? (
@@ -76,7 +76,7 @@ export default function InlineEditor({
                   fillRule="nonzero"
                 />
               </svg>
-            ) : (
+            ) : ( // close button
               <svg
                 className="h-4 w-4 fill-current"
                 clipRule="evenodd"
