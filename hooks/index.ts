@@ -1,5 +1,5 @@
-import { createMemoryHistory, type Listener } from "history"
-import { getLuminance, mix, parseToHsl, setHue, setLightness } from "polished"
+import { createMemoryHistory, type Listener } from "history";
+import { getLuminance, mix, parseToHsl, setHue, setLightness } from "polished";
 import {
   black as _black,
   type ColorTints,
@@ -7,9 +7,9 @@ import {
   white as _white,
   type ColorHueConfig,
   COLOR_TINTS,
-} from "@sanity/color"
-import { useState, useMemo, useEffect } from "react"
-import { useRouter } from "next/router"
+} from "@sanity/color";
+import { useState, useMemo, useEffect } from "react";
+import { useRouter } from "next/router";
 import {
   createColorTheme,
   rgba,
@@ -17,32 +17,32 @@ import {
   screen as _screen,
   parseColor,
   rgbToHex,
-} from "@sanity/ui"
-import { defaultTheme, ImagePalette } from "sanity"
+} from "@sanity/ui";
+import { defaultTheme, ImagePalette } from "sanity";
 
 // @TODO use this hook to look up studios in the workspaces array
 export function useBasePath() {
-  const router = useRouter()
-  return useMemo(() => router.route.split("/[")[0], [router.route])
+  const router = useRouter();
+  return useMemo(() => router.route.split("/[")[0], [router.route]);
 }
 
 export function useColorConfigState(props: ColorHueConfig) {
-  const [darkest, setDarkest] = useState(props.darkest)
-  const [lightest, setLightest] = useState(props.lightest)
-  const [mid, setMid] = useState(props.mid)
-  const [midPoint, setMidPoint] = useState(props.midPoint)
+  const [darkest, setDarkest] = useState(props.darkest);
+  const [lightest, setLightest] = useState(props.lightest);
+  const [mid, setMid] = useState(props.mid);
+  const [midPoint, setMidPoint] = useState(props.midPoint);
   const state = useMemo<
     Pick<ColorHueConfig, "darkest" | "lightest" | "mid" | "midPoint">
   >(
     () => ({ darkest, lightest, mid, midPoint }),
     [darkest, lightest, mid, midPoint]
-  )
+  );
 
   // Sync state updates from props
-  useEffect(() => void setDarkest(props.darkest), [props.darkest])
-  useEffect(() => void setLightest(props.lightest), [props.lightest])
-  useEffect(() => void setMid(props.mid), [props.mid])
-  useEffect(() => void setMidPoint(props.midPoint), [props.midPoint])
+  useEffect(() => void setDarkest(props.darkest), [props.darkest]);
+  useEffect(() => void setLightest(props.lightest), [props.lightest]);
+  useEffect(() => void setMid(props.mid), [props.mid]);
+  useEffect(() => void setMidPoint(props.midPoint), [props.midPoint]);
 
   return {
     state,
@@ -50,7 +50,7 @@ export function useColorConfigState(props: ColorHueConfig) {
     setMid,
     setMidPoint,
     setLightest,
-  }
+  };
 }
 
 /*
@@ -111,28 +111,28 @@ export const demoImagePalette = {
     population: 0,
     title: "#fff",
   },
-} as const
+} as const;
 
-const NEUTRAL_TONES = ["default", "transparent"]
+const NEUTRAL_TONES = ["default", "transparent"];
 
 // https://github.com/sanity-io/design/blob/804bf73dffb1c0ecb1c2e6758135784502768bfe/packages/%40sanity/ui/src/theme/studioTheme/helpers.ts#L3-L17
 function multiply(bg: string, fg: string): string {
-  const b = parseColor(bg)
-  const s = parseColor(fg)
-  const hex = rgbToHex(_multiply(b, s))
+  const b = parseColor(bg);
+  const s = parseColor(fg);
+  const hex = rgbToHex(_multiply(b, s));
 
-  return hex
+  return hex;
 }
 function screen(bg: string, fg: string): string {
-  const b = parseColor(bg)
-  const s = parseColor(fg)
-  const hex = rgbToHex(_screen(b, s))
+  const b = parseColor(bg);
+  const s = parseColor(fg);
+  const hex = rgbToHex(_screen(b, s));
 
-  return hex
+  return hex;
 }
 
 // @TODO: report that the Studio isn"t exporting RootTheme
-export type StudioTheme = typeof defaultTheme
+export type StudioTheme = typeof defaultTheme;
 
 const defaultTones: { [key: string]: ColorTints } = {
   default: _hues.gray,
@@ -141,18 +141,18 @@ const defaultTones: { [key: string]: ColorTints } = {
   positive: _hues.green,
   caution: _hues.yellow,
   critical: _hues.red,
-}
-type Tones = typeof defaultTones
+};
+type Tones = typeof defaultTones;
 
 // Sanity always have 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950
 // Unknown if anything fails if 950 is missing
 function createHues(palette: {
-  [key in keyof ColorTints]: string
+  [key in keyof ColorTints]: string;
 }): ColorTints {
   return Object.entries(palette).reduce((result, [tint, hex]) => {
-    result[tint as keyof ColorTints] = { title: `Slate ${tint}`, hex }
-    return result
-  }, {} as ColorTints)
+    result[tint as keyof ColorTints] = { title: `Slate ${tint}`, hex };
+    return result;
+  }, {} as ColorTints);
 }
 
 // https://github.com/tailwindlabs/tailwindcss/blob/b8cda161dd0993083dcef1e2a03988c70be0ce93/src/public/colors.js#L16-L27
@@ -168,84 +168,84 @@ const slateHues = createHues({
   800: "#1e293b",
   900: "#0f172a",
   950: "#0b111f",
-})
+});
 export const slateTones = {
   ...defaultTones,
   default: slateHues,
   transparent: slateHues,
   primary: slateHues,
-}
+};
 
 export function useMagicRouter(initial: string) {
   const history = useMemo((): ReturnType<typeof createMemoryHistory> => {
     const history = createMemoryHistory({
       initialEntries: [initial],
-    })
+    });
     return {
       get action() {
-        return history.action
+        return history.action;
       },
       get index() {
-        return history.index
+        return history.index;
       },
       get location() {
-        return history.location
+        return history.location;
       },
       get createHref() {
-        return history.createHref
+        return history.createHref;
       },
       get push() {
-        return history.push
+        return history.push;
       },
       get replace() {
-        return history.replace
+        return history.replace;
       },
       get go() {
-        return history.go
+        return history.go;
       },
       get back() {
-        return history.back
+        return history.back;
       },
       get forward() {
-        return history.forward
+        return history.forward;
       },
       get block() {
-        return history.block
+        return history.block;
       },
       // Overriding listen to workaround a problem where native history provides history.listen(location => void), but the npm package is history.listen(({action, location}) => void)
       listen(listener: Listener) {
         return history.listen(({ action, location }) => {
-          console.log("history.listen", action, location)
+          console.log("history.listen", action, location);
           // @ts-expect-error -- working around a bug? in studio
-          listener(location)
-        })
+          listener(location);
+        });
       },
-    }
-  }, [initial])
+    };
+  }, [initial]);
 
-  return history
+  return history;
 }
 
-export type PresetTheme = "default" | "blackpink" | "web3" | "imagepalette"
+export type PresetTheme = "default" | "blackpink" | "web3" | "imagepalette";
 type CustomStudioThemeProps = {
-  preset?: PresetTheme
-  black?: string
-  white?: string
-}
-const web3Black = "#171721"
-const web3White = "#f0eff3"
-const pinkBlack = "#171721"
-const pinkWhite = "#f7f2f5"
+  preset?: PresetTheme;
+  black?: string;
+  white?: string;
+};
+const web3Black = "#171721";
+const web3White = "#f0eff3";
+const pinkBlack = "#171721";
+const pinkWhite = "#f7f2f5";
 // Should return 500
 // const tests = ["#64748b", "#6b7280", "#71717a", "#737373", "#78716c", "#ef4444", "#f97316", "#f59e0b", "#eab308", "#84cc16", "#22c55e", "#10b981", "#14b8a6", "#06b6d4", "#0ea5e9", "#3b82f6","#6366f1", "#8b5cf6", "#a855f7", "#d946ef","#ec4899", "#f43f5e"]
 function getMidPointFromLuminance(color: string): number {
-  const luminance = getLuminance(color)
-  const corrected = 1 - luminance
-  const tint = corrected * 650
+  const luminance = getLuminance(color);
+  const corrected = 1 - luminance;
+  const tint = corrected * 650;
 
   // TODO should round by 100, except for 50 and 950
 
-  return Math.round(tint / 100) * 100
+  return Math.round(tint / 100) * 100;
 }
 function widenColorHue(
   a: string,
@@ -253,8 +253,8 @@ function widenColorHue(
   lower: number,
   upper: number
 ): string {
-  const aHsl = parseToHsl(a)
-  const bHsl = parseToHsl(b)
+  const aHsl = parseToHsl(a);
+  const bHsl = parseToHsl(b);
 
   console.log(
     "widen",
@@ -267,48 +267,58 @@ function widenColorHue(
     Math.min(aHsl.hue + upper, bHsl.hue),
     aHsl.hue < bHsl.hue + lower,
     aHsl.hue < bHsl.hue - upper
-  )
-  const withinLowerBounds = aHsl.hue > bHsl.hue && aHsl.hue < bHsl.hue + lower
-  const withinUpperBounds = aHsl.hue < bHsl.hue && aHsl.hue > bHsl.hue - upper
+  );
+  const withinLowerBounds = aHsl.hue > bHsl.hue && aHsl.hue < bHsl.hue + lower;
+  const withinUpperBounds = aHsl.hue < bHsl.hue && aHsl.hue > bHsl.hue - upper;
   if (withinLowerBounds || withinUpperBounds) {
-    const moveDown = bHsl.hue + lower
-    const moveUp = bHsl.hue - upper
+    const moveDown = bHsl.hue + lower;
+    const moveUp = bHsl.hue - upper;
     if (moveDown - aHsl.hue > moveUp - aHsl.hue) {
-      return setHue(moveUp, a)
+      return setHue(moveUp, a);
     }
-    return setHue(moveDown, a)
+    return setHue(moveDown, a);
   }
   if (aHsl.hue < bHsl.hue && aHsl.hue > bHsl.hue - upper) {
-    return setHue(bHsl.hue - upper, a)
+    return setHue(bHsl.hue - upper, a);
   }
 
-  return a
+  return a;
 }
 
 export function getColorConfigsFromImagePalette({
   palette,
 }: {
-  palette: ImagePalette
+  palette: ImagePalette;
 }): {
-  default: ColorHueConfig
-  transparent: ColorHueConfig
-  primary: ColorHueConfig
-  positive: ColorHueConfig
-  caution: ColorHueConfig
-  critical: ColorHueConfig
+  default: ColorHueConfig;
+  transparent: ColorHueConfig;
+  primary: ColorHueConfig;
+  positive: ColorHueConfig;
+  caution: ColorHueConfig;
+  critical: ColorHueConfig;
 } {
   const darkest = palette.darkMuted?.background
     ? setLightness(0.066, palette.darkMuted.background)
-    : _black.hex
+    : _black.hex;
   const lightest = palette.lightMuted?.background
     ? setLightness(0.98, palette.lightMuted.background)
-    : _white.hex
-  const defaultMid = palette.muted?.background || _hues.gray[500].hex
-  const transparentMid = palette.darkMuted?.background || defaultMid
-  const primaryMid = palette.vibrant?.background || primaryColorConfig.mid
-  const positiveMid = widenColorHue(positiveColorConfig.mid, primaryMid, 12, 12)
-  const cautionMid = widenColorHue(cautionColorConfig.mid, primaryMid, 12, 12)
-  const criticalMid = widenColorHue(criticalColorConfig.mid, primaryMid, 12, 12)
+    : _white.hex;
+  const defaultMid = palette.muted?.background || _hues.gray[500].hex;
+  const transparentMid = palette.darkMuted?.background || defaultMid;
+  const primaryMid = palette.vibrant?.background || primaryColorConfig.mid;
+  const positiveMid = widenColorHue(
+    positiveColorConfig.mid,
+    primaryMid,
+    12,
+    12
+  );
+  const cautionMid = widenColorHue(cautionColorConfig.mid, primaryMid, 12, 12);
+  const criticalMid = widenColorHue(
+    criticalColorConfig.mid,
+    primaryMid,
+    12,
+    12
+  );
   return {
     default: {
       ...defaultColorConfig,
@@ -352,20 +362,20 @@ export function getColorConfigsFromImagePalette({
       lightest,
       midPoint: getMidPointFromLuminance(criticalMid),
     },
-  }
+  };
 }
 function getPresetTones(preset: CustomStudioThemeProps["preset"]): {
-  default?: ColorHueConfig
-  transparent?: ColorHueConfig
-  primary?: ColorHueConfig
-  positive?: ColorHueConfig
-  caution?: ColorHueConfig
-  critical?: ColorHueConfig
+  default?: ColorHueConfig;
+  transparent?: ColorHueConfig;
+  primary?: ColorHueConfig;
+  positive?: ColorHueConfig;
+  caution?: ColorHueConfig;
+  critical?: ColorHueConfig;
 } {
   switch (preset) {
     // https://github.com/tailwindlabs/tailwindcss/blob/b8cda161dd0993083dcef1e2a03988c70be0ce93/src/public/colors.js#L208-L219
     case "imagepalette":
-      return getColorConfigsFromImagePalette({ palette: demoImagePalette })
+      return getColorConfigsFromImagePalette({ palette: demoImagePalette });
     case "web3":
       return {
         default: {
@@ -404,7 +414,7 @@ function getPresetTones(preset: CustomStudioThemeProps["preset"]): {
           darkest: web3Black,
           lightest: web3White,
         },
-      }
+      };
     case "blackpink":
       return {
         default: {
@@ -449,9 +459,9 @@ function getPresetTones(preset: CustomStudioThemeProps["preset"]): {
           mid: "#fe3459",
           midPoint: 500,
         },
-      }
+      };
     default:
-      return {}
+      return {};
   }
 }
 
@@ -462,7 +472,7 @@ const defaultColorConfig = {
   mid: "#8690A0",
   lightest: _white.hex,
   midPoint: 500,
-} as const
+} as const;
 // hues.gray
 const transparentColorConfig = {
   title: "Transparent",
@@ -470,7 +480,7 @@ const transparentColorConfig = {
   mid: "#8690A0",
   lightest: _white.hex,
   midPoint: 500,
-} as const
+} as const;
 // hues.blue
 const primaryColorConfig = {
   title: "Primary",
@@ -478,7 +488,7 @@ const primaryColorConfig = {
   mid: "#2276FC",
   lightest: _white.hex,
   midPoint: 500,
-} as const
+} as const;
 // hues.green
 const positiveColorConfig = {
   title: "Positive",
@@ -486,7 +496,7 @@ const positiveColorConfig = {
   mid: "#43D675",
   lightest: _white.hex,
   midPoint: 400,
-} as const
+} as const;
 // hues.yellow
 const cautionColorConfig = {
   title: "Caution",
@@ -494,7 +504,7 @@ const cautionColorConfig = {
   mid: "#FBD024",
   lightest: _white.hex,
   midPoint: 300,
-} as const
+} as const;
 // hues.red
 const criticalColorConfig = {
   title: "Critical",
@@ -502,16 +512,16 @@ const criticalColorConfig = {
   mid: "#F03E2F",
   lightest: _white.hex,
   midPoint: 500,
-} as const
+} as const;
 export function useTonesFromPreset({ preset }: { preset: PresetTheme }): {
-  default: ColorHueConfig
-  transparent: ColorHueConfig
-  primary: ColorHueConfig
-  positive: ColorHueConfig
-  caution: ColorHueConfig
-  critical: ColorHueConfig
+  default: ColorHueConfig;
+  transparent: ColorHueConfig;
+  primary: ColorHueConfig;
+  positive: ColorHueConfig;
+  caution: ColorHueConfig;
+  critical: ColorHueConfig;
 } {
-  const overrides = getPresetTones(preset)
+  const overrides = getPresetTones(preset);
   return {
     default: defaultColorConfig,
     transparent: transparentColorConfig,
@@ -520,39 +530,39 @@ export function useTonesFromPreset({ preset }: { preset: PresetTheme }): {
     caution: cautionColorConfig,
     critical: criticalColorConfig,
     ...overrides,
-  }
+  };
 }
 function createTonesFromConfig({
   config,
 }: {
   config: {
-    default: ColorHueConfig
-    transparent: ColorHueConfig
-    primary: ColorHueConfig
-    positive: ColorHueConfig
-    caution: ColorHueConfig
-    critical: ColorHueConfig
-  }
+    default: ColorHueConfig;
+    transparent: ColorHueConfig;
+    primary: ColorHueConfig;
+    positive: ColorHueConfig;
+    caution: ColorHueConfig;
+    critical: ColorHueConfig;
+  };
 }): {
-  default: ColorTints
-  transparent: ColorTints
-  primary: ColorTints
-  positive: ColorTints
-  caution: ColorTints
-  critical: ColorTints
+  default: ColorTints;
+  transparent: ColorTints;
+  primary: ColorTints;
+  positive: ColorTints;
+  caution: ColorTints;
+  critical: ColorTints;
 } {
-  const defaultTints = createTintsFromHue(config.default || defaultColorConfig)
+  const defaultTints = createTintsFromHue(config.default || defaultColorConfig);
   const transparentTints = createTintsFromHue(
     config.transparent || transparentColorConfig
-  )
-  const primaryTints = createTintsFromHue(config.primary || primaryColorConfig)
+  );
+  const primaryTints = createTintsFromHue(config.primary || primaryColorConfig);
   const positiveTints = createTintsFromHue(
     config.positive || positiveColorConfig
-  )
-  const cautionTints = createTintsFromHue(config.caution || cautionColorConfig)
+  );
+  const cautionTints = createTintsFromHue(config.caution || cautionColorConfig);
   const criticalTints = createTintsFromHue(
     config.critical || criticalColorConfig
-  )
+  );
 
   return {
     default: defaultTints,
@@ -561,33 +571,33 @@ function createTonesFromConfig({
     positive: positiveTints,
     caution: cautionTints,
     critical: criticalTints,
-  }
+  };
 }
 export function createStudioTheme({
   config,
 }: {
   config: {
-    default: ColorHueConfig
-    transparent: ColorHueConfig
-    primary: ColorHueConfig
-    positive: ColorHueConfig
-    caution: ColorHueConfig
-    critical: ColorHueConfig
-  }
+    default: ColorHueConfig;
+    transparent: ColorHueConfig;
+    primary: ColorHueConfig;
+    positive: ColorHueConfig;
+    caution: ColorHueConfig;
+    critical: ColorHueConfig;
+  };
 }): StudioTheme {
-  const tones = createTonesFromConfig({ config })
+  const tones = createTonesFromConfig({ config });
   // console.log({ tones })
-  const black = { title: "Black", hex: config.default?.darkest || _black.hex }
-  const white = { title: "white", hex: config.default?.lightest || _white.hex }
+  const black = { title: "Black", hex: config.default?.darkest || _black.hex };
+  const white = { title: "white", hex: config.default?.lightest || _white.hex };
   // @TODO: consider making these overridable
   //const focusRingHue = _hues.blue
-  const focusRingHue = tones.primary
+  const focusRingHue = tones.primary;
   //const accentHue = _hues.red
-  const accentHue = tones.critical
+  const accentHue = tones.critical;
   // const linkHue = _hues.blue
-  const linkHue = tones.primary
+  const linkHue = tones.primary;
 
-  const superTheme: Partial<StudioTheme> = {}
+  const superTheme: Partial<StudioTheme> = {};
 
   // Generate colors :OOO
   // Based on https://github.com/sanity-io/design/blob/804bf73dffb1c0ecb1c2e6758135784502768bfe/packages/%40sanity/ui/src/theme/studioTheme/color.ts#L6-L637
@@ -596,7 +606,7 @@ export function createStudioTheme({
       if (name === "default") {
         const skeletonFrom = dark
           ? tones.transparent[900].hex
-          : tones.transparent[100].hex
+          : tones.transparent[100].hex;
 
         return {
           // @TODO: consider making this overridable
@@ -616,12 +626,12 @@ export function createStudioTheme({
             from: skeletonFrom,
             to: rgba(skeletonFrom, 0.5),
           },
-        }
+        };
       }
 
       if (name === "transparent") {
-        const tints = tones.default
-        const skeletonFrom = tints[dark ? 800 : 200].hex
+        const tints = tones.default;
+        const skeletonFrom = tints[dark ? 800 : 200].hex;
 
         return {
           fg: tints[dark ? 100 : 900].hex,
@@ -638,11 +648,11 @@ export function createStudioTheme({
             from: skeletonFrom,
             to: rgba(skeletonFrom, 0.5),
           },
-        }
+        };
       }
 
-      const tints = tones[name] || tones.default
-      const skeletonFrom = tints[dark ? 800 : 200].hex
+      const tints = tones[name] || tones.default;
+      const skeletonFrom = tints[dark ? 800 : 200].hex;
 
       return {
         fg: tints[dark ? 100 : 900].hex,
@@ -659,22 +669,22 @@ export function createStudioTheme({
           from: skeletonFrom,
           to: rgba(skeletonFrom, 0.5),
         },
-      }
+      };
     },
 
     solid: ({ base, dark, name, state, tone }) => {
-      const mix = dark ? screen : multiply
-      const mix2 = dark ? multiply : screen
-      const defaultTints = tones[name] || tones.default
+      const mix = dark ? screen : multiply;
+      const mix2 = dark ? multiply : screen;
+      const defaultTints = tones[name] || tones.default;
       const isNeutral =
-        NEUTRAL_TONES.includes(name) && NEUTRAL_TONES.includes(tone)
+        NEUTRAL_TONES.includes(name) && NEUTRAL_TONES.includes(tone);
 
-      let tints = tones[tone === "default" ? name : tone] || defaultTints
+      let tints = tones[tone === "default" ? name : tone] || defaultTints;
 
       if (state === "disabled") {
-        tints = defaultTints
-        const bg = mix(base.bg, tints[dark ? 800 : 200].hex)
-        const skeletonFrom = mix2(bg, tints[dark ? 200 : 800].hex)
+        tints = defaultTints;
+        const bg = mix(base.bg, tints[dark ? 800 : 200].hex);
+        const skeletonFrom = mix2(bg, tints[dark ? 200 : 800].hex);
 
         return {
           bg,
@@ -698,12 +708,12 @@ export function createStudioTheme({
             from: skeletonFrom,
             to: rgba(skeletonFrom, 0.5),
           },
-        }
+        };
       }
 
       if (state === "hovered") {
-        const bg = mix(base.bg, tints[dark ? 300 : 600].hex)
-        const skeletonFrom = mix2(bg, tints[dark ? 200 : 800].hex)
+        const bg = mix(base.bg, tints[dark ? 300 : 600].hex);
+        const skeletonFrom = mix2(bg, tints[dark ? 200 : 800].hex);
 
         return {
           bg,
@@ -727,12 +737,12 @@ export function createStudioTheme({
             from: skeletonFrom,
             to: rgba(skeletonFrom, 0.5),
           },
-        }
+        };
       }
 
       if (state === "pressed") {
-        const bg = mix(base.bg, tints[dark ? 200 : 800].hex)
-        const skeletonFrom = mix2(bg, tints[dark ? 200 : 800].hex)
+        const bg = mix(base.bg, tints[dark ? 200 : 800].hex);
+        const skeletonFrom = mix2(bg, tints[dark ? 200 : 800].hex);
 
         return {
           bg: mix(base.bg, tints[dark ? 200 : 800].hex),
@@ -756,16 +766,16 @@ export function createStudioTheme({
             from: skeletonFrom,
             to: rgba(skeletonFrom, 0.5),
           },
-        }
+        };
       }
 
       if (state === "selected") {
         if (isNeutral) {
-          tints = tones.primary
+          tints = tones.primary;
         }
 
-        const bg = mix(base.bg, tints[dark ? 200 : 800].hex)
-        const skeletonFrom = mix2(bg, tints[dark ? 200 : 800].hex)
+        const bg = mix(base.bg, tints[dark ? 200 : 800].hex);
+        const skeletonFrom = mix2(bg, tints[dark ? 200 : 800].hex);
 
         return {
           bg,
@@ -789,12 +799,12 @@ export function createStudioTheme({
             from: skeletonFrom,
             to: rgba(skeletonFrom, 0.5),
           },
-        }
+        };
       }
 
       // state: "enabled" | unknown
-      const bg = mix(base.bg, tints[dark ? 400 : 500].hex)
-      const skeletonFrom = mix2(bg, tints[dark ? 200 : 800].hex)
+      const bg = mix(base.bg, tints[dark ? 400 : 500].hex);
+      const skeletonFrom = mix2(bg, tints[dark ? 200 : 800].hex);
 
       return {
         bg,
@@ -818,22 +828,22 @@ export function createStudioTheme({
           from: skeletonFrom,
           to: rgba(skeletonFrom, 0.5),
         },
-      }
+      };
     },
 
     muted: ({ base, dark, name, state, tone }) => {
-      const mix = dark ? screen : multiply
-      const defaultTints = tones[name] || tones.default
+      const mix = dark ? screen : multiply;
+      const defaultTints = tones[name] || tones.default;
       const isNeutral =
-        NEUTRAL_TONES.includes(name) && NEUTRAL_TONES.includes(tone)
+        NEUTRAL_TONES.includes(name) && NEUTRAL_TONES.includes(tone);
 
-      let tints = tones[tone === "default" ? name : tone] || defaultTints
+      let tints = tones[tone === "default" ? name : tone] || defaultTints;
 
       if (state === "disabled") {
-        tints = defaultTints
+        tints = defaultTints;
 
-        const bg = base.bg
-        const skeletonFrom = mix(bg, tints[dark ? 900 : 100].hex)
+        const bg = base.bg;
+        const skeletonFrom = mix(bg, tints[dark ? 900 : 100].hex);
 
         return {
           bg,
@@ -857,16 +867,16 @@ export function createStudioTheme({
             from: rgba(skeletonFrom, 0.5),
             to: rgba(skeletonFrom, 0.25),
           },
-        }
+        };
       }
 
       if (state === "hovered") {
         if (isNeutral) {
-          tints = tones.primary
+          tints = tones.primary;
         }
 
-        const bg = mix(base.bg, tints[dark ? 950 : 50].hex)
-        const skeletonFrom = mix(bg, tints[dark ? 900 : 100].hex)
+        const bg = mix(base.bg, tints[dark ? 950 : 50].hex);
+        const skeletonFrom = mix(bg, tints[dark ? 900 : 100].hex);
 
         return {
           bg,
@@ -890,16 +900,16 @@ export function createStudioTheme({
             from: skeletonFrom,
             to: rgba(skeletonFrom, 0.5),
           },
-        }
+        };
       }
 
       if (state === "pressed") {
         if (isNeutral) {
-          tints = tones.primary
+          tints = tones.primary;
         }
 
-        const bg = mix(base.bg, tints[dark ? 900 : 100].hex)
-        const skeletonFrom = mix(bg, tints[dark ? 900 : 100].hex)
+        const bg = mix(base.bg, tints[dark ? 900 : 100].hex);
+        const skeletonFrom = mix(bg, tints[dark ? 900 : 100].hex);
 
         return {
           bg,
@@ -923,16 +933,16 @@ export function createStudioTheme({
             from: skeletonFrom,
             to: rgba(skeletonFrom, 0.5),
           },
-        }
+        };
       }
 
       if (state === "selected") {
         if (isNeutral) {
-          tints = tones.primary
+          tints = tones.primary;
         }
 
-        const bg = mix(base.bg, tints[dark ? 900 : 100].hex)
-        const skeletonFrom = mix(bg, tints[dark ? 900 : 100].hex)
+        const bg = mix(base.bg, tints[dark ? 900 : 100].hex);
+        const skeletonFrom = mix(bg, tints[dark ? 900 : 100].hex);
 
         return {
           bg,
@@ -956,11 +966,11 @@ export function createStudioTheme({
             from: skeletonFrom,
             to: rgba(skeletonFrom, 0.5),
           },
-        }
+        };
       }
 
-      const bg = base.bg
-      const skeletonFrom = mix(bg, tints[dark ? 900 : 100].hex)
+      const bg = base.bg;
+      const skeletonFrom = mix(bg, tints[dark ? 900 : 100].hex);
 
       return {
         bg,
@@ -984,7 +994,7 @@ export function createStudioTheme({
           from: skeletonFrom,
           to: rgba(skeletonFrom, 0.5),
         },
-      }
+      };
     },
 
     button: ({ base, mode, muted, solid }) => {
@@ -1010,7 +1020,7 @@ export function createStudioTheme({
             ...muted.disabled,
             border: muted.disabled.bg,
           },
-        }
+        };
       }
 
       if (mode === "ghost") {
@@ -1021,43 +1031,43 @@ export function createStudioTheme({
             border: base.border,
           },
           disabled: muted.disabled,
-        }
+        };
       }
 
-      return solid
+      return solid;
     },
 
     card: ({ base, dark, muted, name, solid, state }) => {
       if (state === "hovered") {
-        return muted[name].hovered
+        return muted[name].hovered;
       }
 
       if (state === "disabled") {
-        return muted[name].disabled
+        return muted[name].disabled;
       }
 
-      const isNeutral = NEUTRAL_TONES.includes(name)
-      const tints = tones[name] || tones.default
-      const mix = dark ? screen : multiply
+      const isNeutral = NEUTRAL_TONES.includes(name);
+      const tints = tones[name] || tones.default;
+      const mix = dark ? screen : multiply;
 
       if (state === "pressed") {
         if (isNeutral) {
-          return muted.primary.pressed
+          return muted.primary.pressed;
         }
 
-        return muted[name].pressed
+        return muted[name].pressed;
       }
 
       if (state === "selected") {
         if (isNeutral) {
-          return solid.primary.enabled
+          return solid.primary.enabled;
         }
 
-        return solid[name].enabled
+        return solid[name].enabled;
       }
 
-      const bg = base.bg
-      const skeletonFrom = mix(base.bg, tints[dark ? 900 : 100].hex)
+      const bg = base.bg;
+      const skeletonFrom = mix(base.bg, tints[dark ? 900 : 100].hex);
 
       return {
         bg,
@@ -1081,21 +1091,21 @@ export function createStudioTheme({
           from: skeletonFrom,
           to: rgba(skeletonFrom, 0.5),
         },
-      }
+      };
     },
 
     input: ({ base, dark, mode, state }) => {
-      const mix = dark ? screen : multiply
+      const mix = dark ? screen : multiply;
 
       if (mode === "invalid") {
-        const tints = tones.critical
+        const tints = tones.critical;
 
         return {
           bg: mix(base.bg, tints[dark ? 950 : 50].hex),
           fg: mix(base.bg, tints[dark ? 400 : 600].hex),
           border: mix(base.bg, tints[dark ? 800 : 200].hex),
           placeholder: mix(base.bg, tints[dark ? 600 : 400].hex),
-        }
+        };
       }
 
       if (state === "hovered") {
@@ -1104,7 +1114,7 @@ export function createStudioTheme({
           fg: base.fg,
           border: mix(base.bg, _hues.gray[dark ? 700 : 300].hex),
           placeholder: mix(base.bg, _hues.gray[dark ? 600 : 400].hex),
-        }
+        };
       }
 
       if (state === "disabled") {
@@ -1113,7 +1123,7 @@ export function createStudioTheme({
           fg: mix(base.bg, _hues.gray[dark ? 700 : 300].hex),
           border: mix(base.bg, _hues.gray[dark ? 900 : 100].hex),
           placeholder: mix(base.bg, _hues.gray[dark ? 800 : 200].hex),
-        }
+        };
       }
 
       if (state === "readOnly") {
@@ -1122,7 +1132,7 @@ export function createStudioTheme({
           fg: mix(base.bg, _hues.gray[dark ? 200 : 800].hex),
           border: mix(base.bg, _hues.gray[dark ? 800 : 200].hex),
           placeholder: mix(base.bg, _hues.gray[dark ? 600 : 400].hex),
-        }
+        };
       }
 
       return {
@@ -1130,7 +1140,7 @@ export function createStudioTheme({
         fg: base.fg,
         border: base.border,
         placeholder: mix(base.bg, _hues.gray[dark ? 600 : 400].hex),
-      }
+      };
     },
 
     selectable: ({ base, muted, tone, solid, state }) => {
@@ -1138,45 +1148,45 @@ export function createStudioTheme({
         return {
           ...muted[tone].enabled,
           bg: base.bg,
-        }
+        };
       }
 
       if (state === "pressed") {
         if (tone === "default") {
-          return muted.primary.pressed
+          return muted.primary.pressed;
         }
 
-        return muted[tone].pressed
+        return muted[tone].pressed;
       }
 
       if (state === "selected") {
         if (tone === "default") {
-          return solid.primary.enabled
+          return solid.primary.enabled;
         }
 
-        return solid[tone].enabled
+        return solid[tone].enabled;
       }
 
       if (state === "disabled") {
         return {
           ...muted[tone].disabled,
           bg: base.bg,
-        }
+        };
       }
 
-      return muted[tone][state]
+      return muted[tone][state];
     },
 
     spot: ({ base, dark, key }) => {
-      const mix = dark ? screen : multiply
+      const mix = dark ? screen : multiply;
 
-      return mix(base.bg, _hues[key][dark ? 400 : 500].hex)
+      return mix(base.bg, _hues[key][dark ? 400 : 500].hex);
     },
 
     syntax: ({ base, dark }) => {
-      const mix = dark ? screen : multiply
-      const mainShade = dark ? 400 : 600
-      const secondaryShade = dark ? 600 : 400
+      const mix = dark ? screen : multiply;
+      const mainShade = dark ? 400 : 600;
+      const secondaryShade = dark ? 600 : 400;
 
       return {
         atrule: mix(base.bg, _hues.purple[mainShade].hex),
@@ -1215,45 +1225,45 @@ export function createStudioTheme({
         unit: mix(base.bg, _hues.orange[mainShade].hex),
         url: mix(base.bg, _hues.red[mainShade].hex),
         variable: mix(base.bg, _hues.red[mainShade].hex),
-      }
+      };
     },
-  })
+  });
 
-  return { ...defaultTheme, ...superTheme }
+  return { ...defaultTheme, ...superTheme };
 }
 
 // https://github.com/sanity-io/design/blob/804bf73dffb1c0ecb1c2e6758135784502768bfe/packages/%40sanity/color/scripts/generate.ts#L18-L58
 function getColorHex(config: ColorHueConfig, tint: string): string {
-  const tintNum = Number(tint)
-  const midPoint = config.midPoint || 500
-  const darkSize = 1000 - midPoint
-  const lightPosition = tintNum / midPoint
-  const darkPosition = (tintNum - midPoint) / darkSize
+  const tintNum = Number(tint);
+  const midPoint = config.midPoint || 500;
+  const darkSize = 1000 - midPoint;
+  const lightPosition = tintNum / midPoint;
+  const darkPosition = (tintNum - midPoint) / darkSize;
 
   if (tintNum === midPoint) {
-    return config.mid.toLowerCase()
+    return config.mid.toLowerCase();
   }
 
   // light side of scale: x < midPoint
   if (tintNum < midPoint) {
-    return mix(lightPosition, config.mid, config.lightest)
+    return mix(lightPosition, config.mid, config.lightest);
   }
 
   // dark side of scale: x > midPoint
-  return mix(darkPosition, config.darkest, config.mid)
+  return mix(darkPosition, config.darkest, config.mid);
 }
 
 // https://github.com/sanity-io/design/blob/804bf73dffb1c0ecb1c2e6758135784502768bfe/packages/%40sanity/color/scripts/generate.ts#L42-L58
 export function createTintsFromHue(config: ColorHueConfig): ColorTints {
-  const initial = {} as ColorTints
+  const initial = {} as ColorTints;
   const tints = COLOR_TINTS.reduce((acc, tint) => {
     acc[tint] = {
       title: `${config.title} ${tint}`,
       hex: getColorHex(config, tint),
-    }
+    };
 
-    return acc
-  }, initial)
+    return acc;
+  }, initial);
 
-  return tints
+  return tints;
 }
