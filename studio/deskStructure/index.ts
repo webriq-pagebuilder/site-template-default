@@ -2,7 +2,7 @@ import { deskTool as sanityDesktool } from "sanity/desk";
 
 import { Page } from "./pages";
 import { Store } from "./store";
-import { StudioDocs } from "../../components/StudioDocs";
+import { StudioDocs } from "../components/StudioDocs";
 import { HelpCircleIcon } from "@sanity/icons";
 
 export default sanityDesktool({
