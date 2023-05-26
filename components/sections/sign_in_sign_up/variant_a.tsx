@@ -226,7 +226,7 @@ function FormFields({ fields }: { fields: FormFields }) {
     return (
       <div className="mb-4 flex">
         <label
-          className="m-auto bg-white text-left text-xs"
+          className="m-auto text-left text-xs text-gray-500"
           htmlFor={fields?.name}
         >
           {fields?.label}

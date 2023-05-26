@@ -112,7 +112,7 @@ interface BlogSectionsProps {
 
 function BlogSections({ data }: BlogSectionsProps) {
   const blogData: BlogsData = data || data?.[0];
-  console.log(blogData);
+
   const showInlineEditor = React.useContext(InlineEditorContext);
   if (!blogData) {
     return null;

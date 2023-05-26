@@ -110,7 +110,7 @@ function VariantB({
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
 
   return (
-    <section className="py-20">
+    <section className="sm:p-12 md:p-20">
       <div className="container mx-auto px-4">
         <div className="-mx-4 xl:flex xl:flex-wrap">
           <div className="w-full px-4">
@@ -215,7 +215,7 @@ function VariantB({
               <div className="mt-5">
                 <button
                   id="piprevB"
-                  className="absolute left-0 top-60 z-50 ml-5 rounded-l-md rounded-r-sm px-2 py-5 transition duration-200 hover:bg-gray-50 hover:opacity-50 md:left-32"
+                  className="absolute left-0 top-60 z-40 ml-5 rounded-l-md rounded-r-sm px-2 py-5 transition duration-200 hover:bg-gray-50 hover:opacity-50 md:left-32"
                 >
                   <svg
                     width={36}
@@ -232,7 +232,7 @@ function VariantB({
                 </button>
                 <button
                   id="pinextB"
-                  className="absolute right-0 top-60 z-50 mr-5 rounded-l-sm rounded-r-md px-2 py-5 transition duration-200 hover:bg-gray-50 hover:opacity-50"
+                  className="absolute right-0 top-60 z-40 mr-5 rounded-l-sm rounded-r-md px-2 py-5 transition duration-200 hover:bg-gray-50 hover:opacity-50"
                 >
                   <svg
                     width={36}

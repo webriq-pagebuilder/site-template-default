@@ -40,7 +40,7 @@ function VariantB({ title, featured }: FeaturedProductsProps) {
                     className="mb-10 w-full px-3 md:w-1/2 lg:mb-6 lg:w-1/3 xl:w-1/4"
                     key={index}
                   >
-                    <div className="h-full w-full bg-white shadow-md transition-all duration-700 md:hover:scale-125">
+                    <div className="h-full w-full bg-white shadow-md transition-all duration-700 md:hover:scale-110">
                       <a href={`/products/${product?.slug?.current}`}>
                         <div className="absolute z-10">
                           <Ribbon data={featuredCollections} />

@@ -211,7 +211,7 @@ const ProductDetail = ({ product, children }: ProductDetailProps) => {
 
             if (option?.type === "SELECT") {
               return (
-                <div key={index} className="mb-4 flex flex-col">
+                <div key={index} className="mb-4 flex flex-col w-full">
                   <label
                     htmlFor={transformedIndex}
                     className="mb-2 font-medium uppercase text-gray-900"
@@ -221,7 +221,7 @@ const ProductDetail = ({ product, children }: ProductDetailProps) => {
                   <select
                     name={`name_${option?.name}`}
                     id={transformedIndex}
-                    style={{ maxWidth: "420px" }}
+                    //style={{ maxWidth: "420px" }}
                     className="focus:shadow-outline block appearance-none rounded border border-gray-400 bg-white px-4 py-3 pr-8 leading-tight shadow hover:border-gray-500 focus:outline-none"
                     required={option?.required}
                     value={value}
@@ -269,11 +269,11 @@ const ProductDetail = ({ product, children }: ProductDetailProps) => {
 
             if (option?.type === "SIZE") {
               return (
-                <div key={index}>
+                <div className="flex w-full" key={index}>
                   <p className="mb-2 font-medium uppercase text-gray-900">
                     {option.name}
                   </p>
-                  <ul className="flex w-full flex-wrap space-x-4">
+                  <ul className="flex-wrap space-x-4">
                     {option?.choices?.map((choice, ii) => (
                       <li key={ii} className="mb-4">
                         <input
@@ -341,9 +341,9 @@ const ProductDetail = ({ product, children }: ProductDetailProps) => {
           >
             Qty
           </label>
-          <div className="flex w-full flex-row rounded border border-gray-400 shadow hover:border-gray-500">
+          <div className="flex w-full flex-row rounded border border-gray-400 shadow hover:border-gray-500 justify-between">
             <button
-              className="px-4 py-2 text-xl text-gray-400"
+              className="text-gray-400 text-xl w-[44px] h-[44px] flex items-center justify-center"
               type="button"
               onClick={() => setQuantity((prev) => prev - 1)}
               disabled={quantity === 1 ? true : false}
@@ -354,13 +354,12 @@ const ProductDetail = ({ product, children }: ProductDetailProps) => {
               type="text"
               name="quantity"
               id="quantity"
-              className="focus:shadow-outline inline-block w-full bg-white text-center focus:outline-none sm:w-[334px]"
+              className=" focus:shadow-outline bg-white text-center focus:outline-none"
               required
-              //style={{ maxWidth: "334px", width: "334px" }}
               value={quantity}
             />
             <button
-              className="px-4 py-2 text-xl text-gray-400"
+              className="text-gray-400 text-xl w-[44px] h-[44px] flex items-center justify-center"
               type="button"
               onClick={() => setQuantity((prev) => prev + 1)}
             >

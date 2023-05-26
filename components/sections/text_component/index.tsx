@@ -27,7 +27,6 @@ function TextComponent({ data }: SectionsProps) {
     thirdColumn: data?.variants?.thirdColumn,
   };
 
-  console.log(props);
   return Variant ? <Variant {...props} /> : null;
 }
 

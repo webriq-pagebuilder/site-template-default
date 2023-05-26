@@ -39,7 +39,7 @@ function VariantA({ title, featured }: FeaturedProductsProps) {
                 items?.length > 0 &&
                 items?.map((featuredCollections) => (
                   <div
-                    className="mb-10 w-full px-3 transition-all duration-700 md:w-1/2 md:hover:scale-125 lg:mb-6 lg:w-1/3"
+                    className="mb-10 w-full px-3 transition-all duration-700 md:w-1/2 md:hover:scale-110 lg:mb-6 lg:w-1/3"
                     key={index}
                   >
                     <a

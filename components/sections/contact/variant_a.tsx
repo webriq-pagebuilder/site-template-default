@@ -86,7 +86,7 @@ function VariantA({
             </div>
           )}
           <div className="flex flex-wrap">
-            <div className="mb-16 w-full px-5 sm:px-10 lg:mb-0 lg:w-1/2 lg:px-0 lg:pl-10">
+            <div className="mb-16 w-full px-5 sm:px-10 lg:mb-0 lg:w-1/2 lg:pr-0 lg:pl-10">
               <div className="flex flex-wrap">
                 {officeInformation && (
                   <div className="mb-12 w-full pr-10 md:w-1/2 lg:w-1/2">
