@@ -1909,10 +1909,10 @@
     nanoid "^3.1.30"
     react-icons "^4.2.0"
 
-"@webriq-pagebuilder/sanity-plugin-webriq-components@3.0.1":
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/@webriq-pagebuilder/sanity-plugin-webriq-components/-/sanity-plugin-webriq-components-3.0.1.tgz#b50985ffc109c195272b03c277f0278536070680"
-  integrity sha512-29n//8L2SwjGkzZnJZCQWzDXZKSdNUkfBTiIwOHgYp3k55EsKQTzVe+RS4gFkW/w1EANQMYv1VSiKwEZ0cumAw==
+"@webriq-pagebuilder/sanity-plugin-webriq-components@3.0.2":
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/@webriq-pagebuilder/sanity-plugin-webriq-components/-/sanity-plugin-webriq-components-3.0.2.tgz#8f675e0cc3dff59fc501944c5b9582ac08f91425"
+  integrity sha512-fm+iFuUD1FTcO2wgPEsznogIKJ1Kbd0Uvy/wiX8asLxr/j3GWtp31pAvT0VP4MOIiKk3QuuBPTY2X780VXfAVA==
   dependencies:
     "@sanity/incompatible-plugin" "^1.0.4"
     "@sanity/ui" "^1.3.2"
@@ -6712,9 +6712,6 @@ spdx-expression-parse@^3.0.0:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/spdx-expression-parse/-/spdx-expression-parse-3.0.1.tgz#cf70f50482eefdc98e3ce0a6833e4a53ceeba679"
   integrity sha512-cbqHunsQWnJNE6KhVSMsMeH5H/L9EpymbzqTQ3uLwNCLZ1Q481oWaofqH7nO6V07xlXwY6PhQdQ2IedWx/ZK4Q==
-  dependencies:
-    spdx-exceptions "^2.1.0"
-    spdx-license-ids "^3.0.0"
 
 spdx-license-ids@^3.0.0:
   version "3.0.13"
