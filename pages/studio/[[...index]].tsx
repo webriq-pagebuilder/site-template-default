@@ -50,7 +50,7 @@ export default function StudioPage() {
             )
           ) {
             clearInterval(verifyAutologinId);
-            window.location.href = window.location.origin;
+            window.location.href = "/studio";
           }
   
           retries++;
