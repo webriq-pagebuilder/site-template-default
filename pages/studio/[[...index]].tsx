@@ -6,16 +6,13 @@ import { StudioLayout, StudioProvider } from "sanity";
 import config from "sanity.config";
 
 export default function StudioPage() {
-  var urlParams = typeof window !== "undefined" && new URLSearchParams(window.location.search);
-
   useEffect(() => {
-    console.log("urlParams: ", urlParams);
-
     if (urlParams) {
       console.log(
         "Skipping invoking duplicate autologin script as one is already in progress..."
       );
     } else {
+      var urlParams = typeof window !== "undefined" && new URLSearchParams(window.location.search);
       if (urlParams.get("token") && typeof window !== "undefined") {
         function cleanUp() {
           var localStorageItems = { ...window.localStorage };
@@ -29,7 +26,8 @@ export default function StudioPage() {
         
         cleanUp();
         
-        window.localStorage.setItem("__studio_auth_token", urlParams.get("token"));
+        var value = { token: urlParams.get("token"), time: new Date().toISOString() }
+        window.localStorage.setItem("__studio_auth_token", JSON.stringify(value));
         console.log("[INFO], Autologin successful!");
   
         var errorMessage =
@@ -42,7 +40,6 @@ export default function StudioPage() {
 
           function verifyAutologin() {
             if (
-              typeof window !== "undefined" &&
               Object.keys({ ...window.localStorage }).find((item) =>
                 item.startsWith("__studio_auth_token")
               )
@@ -65,7 +62,7 @@ export default function StudioPage() {
         } 
       } // else block is not run to set the autologin script
     }
-  }, [urlParams])
+  }, [])
 
   return (
     <>
