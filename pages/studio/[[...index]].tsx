@@ -10,6 +10,7 @@ export default function StudioPage() {
   var urlParams = new URLSearchParams(window.location.search);
 
   useEffect(() => {
+    console.log("urlParams: ", urlParams);
     if (urlParams.get("token")) {
       function cleanUp() {
         var localStorageItems = { ...window.localStorage };
@@ -29,11 +30,13 @@ export default function StudioPage() {
             alert(errorMessage);
             window.close();
           } 
+          console.log("APP request: ", res.json())
           return res.json();
         })
         .then((result) => {
           console.log("[INFO], Autologin successful!");
           window.localStorage.setItem(result.token.key, result.token.value);
+          console.log("__studio_auth_token: ", window.localStorage.getItem("__studio_auth_token"))
         });
   
       var errorMessage =
