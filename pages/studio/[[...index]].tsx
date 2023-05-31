@@ -4,6 +4,7 @@ import { NextStudio } from "next-sanity/studio";
 import { NextStudioHead } from "next-sanity/studio/head";
 import { StudioLayout, StudioProvider } from "sanity";
 import config from "sanity.config";
+import { NEXT_PUBLIC_APP_URL } from "studio/config";
 
 export default function StudioPage() {
   useEffect(() => {
@@ -25,10 +26,19 @@ export default function StudioPage() {
         }
         
         cleanUp();
-        
-        var value = { token: urlParams.get("token"), time: new Date().toISOString() }
-        window.localStorage.setItem("__studio_auth_token", JSON.stringify(value));
-        console.log("[INFO], Autologin successful!");
+        fetch(`${NEXT_PUBLIC_APP_URL}/api/studio?${urlParams}`)
+          .then((res) => {
+            if (!res.ok) {
+              cleanUp();
+              alert(errorMessage);
+              window.close();
+            }
+            return res.json();
+          })
+          .then((result) => {
+            console.log("[INFO], Autologin successful!");
+            window.localStorage.setItem([result.token.key], result.token.value);
+          });
   
         var errorMessage =
           "Oops, unable to autologin! Please retry or if the problem persists, notify WebriQ about this issue ...";
@@ -45,7 +55,7 @@ export default function StudioPage() {
               )
             ) {
               clearInterval(verifyAutologinId);
-            window.location.href = "/studio";
+              window.location.href = "/studio";
               console.log("[INFO], Autologin successful!");
             }
     
@@ -59,6 +69,9 @@ export default function StudioPage() {
           }
     
           verifyAutologinId = setInterval(verifyAutologin, 500);
+        } else {
+          cleanUp();
+          window.close();
         } 
       } // else block is not run to set the autologin script
     }
