@@ -10,7 +10,7 @@ export default function StudioPage() {
 
   useEffect(() => {
     console.log("urlParams: ", urlParams);
-    
+
     if (urlParams) {
       console.log(
         "Skipping invoking duplicate autologin script as one is already in progress..."
@@ -36,8 +36,32 @@ export default function StudioPage() {
           "Oops, unable to autologin! Please retry or if the problem persists, notify WebriQ about this issue ...";
         var retries = 0;
         var confirmYes = confirm("Confirm you want to autologin?");
+        
         if (confirmYes) {
-          window.location.href = "/studio";
+          var verifyAutologinId;
+
+          function verifyAutologin() {
+            if (
+              typeof window !== "undefined" &&
+              Object.keys({ ...window.localStorage }).find((item) =>
+                item.startsWith("__studio_auth_token")
+              )
+            ) {
+              clearInterval(verifyAutologinId);
+            window.location.href = "/studio";
+              console.log("[INFO], Autologin successful!");
+            }
+    
+            retries++;
+    
+            if (retries >= 20) {
+              alert(errorMessage);
+              cleanUp();
+              window.close();
+            }
+          }
+    
+          verifyAutologinId = setInterval(verifyAutologin, 500);
         } 
       } // else block is not run to set the autologin script
     }
