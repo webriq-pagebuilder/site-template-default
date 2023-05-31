@@ -16,30 +16,19 @@ export default function StudioPage() {
         var localStorageItems = { ...window.localStorage };
         Object.entries(localStorageItems).every((item) => {
           var [key, value] = item;
-          if (key.startsWith("__studio_auth_token")) {
+          if (typeof window !== "undefined" && key.startsWith("__studio_auth_token")) {
             window.localStorage.removeItem(key);
           }
         });
       }
       
       cleanUp();
-      fetch(`${NEXT_PUBLIC_APP_URL}/api/studio?${urlParams}`)
-        .then((res) => {
-          if (!res.ok) {
-            cleanUp();
-            alert(errorMessage);
-            window.close();
-          } 
-          console.log("APP request: ", res.json())
-          return res.json();
-        })
-        .then((result) => {
-          console.log("[INFO], Autologin successful!");
-          window.localStorage.setItem(result.token.key, result.token.value);
-          console.log("API result: ", result)
-          console.log("token set: ", typeof window !== undefined && window.localStorage.getItem("__studio_auth_token"))
-        });
-  
+      
+      if(typeof window !== "undefined") {
+        window.localStorage.setItem("__studio_auth_token", urlParams.get("token"));
+        console.log("[INFO], Successfully set autologin token!");
+      }
+
       var errorMessage =
         "Oops, unable to autologin! Please retry or if the problem persists, notify WebriQ about this issue ...";
       var retries = 0;
@@ -49,12 +38,15 @@ export default function StudioPage() {
 
         function verifyAutologin() {
           if (
+            typeof window !== "undefined" &&
             Object.keys({ ...window.localStorage }).find((item) =>
               item.startsWith("__studio_auth_token")
             )
           ) {
             clearInterval(verifyAutologinId);
             window.location.href = "/studio";
+
+            console.log("[INFO], Autologin successful!");
           }
   
           retries++;
@@ -71,7 +63,7 @@ export default function StudioPage() {
         cleanUp();
         window.close();
       }
-    }
+    } // else block is not run to set the autologin script
   }, [urlParams])
 
   return (
