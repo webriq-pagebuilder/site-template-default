@@ -17,6 +17,7 @@ import {
 } from "@sanity/ui";
 import { useClient } from "sanity";
 import { CopyIcon, TransferIcon } from "@sanity/icons"
+import SearchBar from "studio/components/SearchBar";
 
 export default function duplicateAction(props) {
   const toast = useToast();
@@ -28,6 +29,7 @@ export default function duplicateAction(props) {
 
   return {
     icon: CopyIcon,
+    tone: "primary",
     label: "Duplicate",
     onHandle: async () => {
       // fetch all ADDED sections for the current document
@@ -35,19 +37,26 @@ export default function duplicateAction(props) {
         .fetch(
           `*[_id == $documentId][0]{ 
             ...,
-            sections[]->, 
+            sections[]->{
+              ...,
+              "include": true,
+              "replace": false,
+            }, 
           }`, 
           { documentId: props?.id }
         )
-        .then((result) => setPage(result))
+        .then(async (result) => {
+          setPage(result)
 
-      // fetch all the variants based on the section type added in current document
-      await client
-        .fetch(
-          `*[_type == $sections]`,
-          { sections: page?.sections?.map((section) => section) }
-        )
-        .then((result) => setVariants(result));
+          // fetch all the variants based on the section type added in current document
+          await client
+            .fetch(
+              `*[_type in $sections]`,
+              { sections: result?.sections?.map((section) => section?._type) }
+          )
+          .then((result) => setVariants(result));
+        })
+                
       setDialogOpen(true)
     },
     dialog: dialogOpen && {
@@ -66,16 +75,45 @@ export default function duplicateAction(props) {
 function DuplicatePageSettings({ title, sections, variants }) {
   const [duplicateSections, setDuplicateSections] = useState(sections);
   const [newReference, setNewReference] = useState(null);
-  const [checkedState, setCheckedState] = useState(new Array(sections?.length).fill(true)); // [true, true, true]
+  const [updateSection, setUpdateSection] = useState(false);
+
   const ref = useRef(null);
   let variantStr = "", sectionVariant = "Variant not selected"
 
-  const handleOnToggle = (position: number) => {
-    const updateToggle = checkedState?.map((item, index) => 
-      index === position ? !item : item
-    );
+  const handleToggleIncludeSection = (position, sectionId) => {
+    const updated = duplicateSections?.map((section, index) => {
+      if(index !== position) {
+        return section; // no change
+      } else {
+        // return new shape
+        return {
+          ...section,
+          include: !section.include
+        }
+      }
+    });
 
-    setCheckedState(updateToggle);
+    setDuplicateSections(updated);
+  }
+
+  const handleToggleReplaceSection = (position) => {
+    const updated = duplicateSections?.map((section, index) => {
+      if(index !== position) {
+        return section; // no change
+      } else {
+        // return new shape
+        return {
+          ...section,
+          replace: !section.replace,        
+        }
+      }
+    });
+
+    setDuplicateSections(updated);
+  }
+
+  const handleReplaceReference = (value: any) => {
+    console.log("value: ", value);
   }
 
   return (
@@ -115,16 +153,27 @@ function DuplicatePageSettings({ title, sections, variants }) {
                 key={section?._id}
               >
                 <Flex justify="space-between">
-                  <Box padding={2}>
-                    <Text>{section?.label ?? "Untitled document"}</Text>
-                    <Text size={1} muted style={{ marginTop: "12px" }}>
-                      {`${sectionVariant} • ${section?._type?.toUpperCase()}`}
-                    </Text>
-                  </Box>  
+                  {!section?.replace ? (
+                    <Box padding={2}>
+                      <Text>{section?.label ?? "Untitled document"}</Text>
+                      <Text size={1} muted style={{ marginTop: "12px" }}>
+                        {`${sectionVariant} • ${section?._type?.toUpperCase()}`}
+                      </Text>
+                    </Box>  
+                  ) : (
+                    <Box padding={2}>
+                      <SearchBar 
+                        searchItems={variants?.filter((variant) => 
+                          variant?._type === section?._type && variant?._id !== section?.variants?._id
+                        )} 
+                        onClickHandler={handleReplaceReference}
+                      />
+                    </Box>
+                  )}
                   <Box paddingTop={3}>
                     <Inline space={2}>
                       {/* Replace reference button */}
-                      {!checkedState[index] && (
+                      {section?.include && (
                         <Tooltip
                           content={
                             <Box padding={2}>
@@ -140,15 +189,16 @@ function DuplicatePageSettings({ title, sections, variants }) {
                             icon={TransferIcon}
                             mode="bleed"
                             tone="primary"
+                            onClick={() => handleToggleReplaceSection(index)}
                           />
                       </Tooltip>
                       )}
                       <Switch 
                         id={`${section?._type}-${index + 1}`}
-                        name={`${section?.label} toggle`}
+                        name={`${section?.label} include`}
                         value={section?._type}
-                        checked={checkedState[index]}
-                        onChange={() => handleOnToggle(index)}
+                        checked={duplicateSections[index]?.include}
+                        onChange={() => handleToggleIncludeSection(index, section?._id)}
                       />
                     </Inline>
                   </Box>

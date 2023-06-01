@@ -438,3 +438,14 @@ export interface CommonSections {
   sections?: Sections[] | null;
   seo?: Seo | null;
 }
+
+export interface SearchItemsTypes {
+  searchItems: {
+    _id: string,
+    label: string,
+    title: string,
+    variant: string,
+    _type: string,
+  }[],
+  onClickHandler: any
+}
