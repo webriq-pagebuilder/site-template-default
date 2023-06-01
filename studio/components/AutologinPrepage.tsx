@@ -1,6 +1,6 @@
 import { Card, Flex, Spinner, Text } from "@sanity/ui";
 
-export default function AutologinPrepage({ready, autologin}: {ready: boolean, autologin: boolean}) {
+export default function AutologinPrepage({ready, retrying}: {ready: boolean, retrying: boolean}) {
   return (
     <Card padding={8}>
       <Flex
@@ -10,7 +10,7 @@ export default function AutologinPrepage({ready, autologin}: {ready: boolean, au
         height="fill"
         justify="center"
         >
-        {!ready ? (
+        {!ready && !retrying ? (
           <>
             <Text size={3} weight="bold">
               Oops, unable to autologin!
@@ -20,18 +20,16 @@ export default function AutologinPrepage({ready, autologin}: {ready: boolean, au
             </Text>
           </>
         ) : (
-          // is ready but auto login is still in process
-          !autologin && (
-            <>
-              <Spinner size={4} />
-              <Text size={3} weight="bold">
-                Logging in to WebriQ Studio
-              </Text>
-              <Text muted size={1}>
-                Please wait...
-              </Text>
-            </>
-          )
+          // auto login is still in progress
+          <>
+            <Spinner size={4} />
+            <Text size={3} weight="bold">
+              Logging in to WebriQ Studio
+            </Text>
+            <Text muted size={1}>
+              Please wait...
+            </Text>
+          </>
         )}
       </Flex>
     </Card>

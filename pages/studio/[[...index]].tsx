@@ -85,7 +85,7 @@ export default function StudioPage() {
           {(!isReady || !isAutologin) ? (
             <AutologinPrepage 
               ready={isReady}
-              autologin={isAutologin}
+              retrying={Date.now() - startTime < 3 * 5 * 1000}
             />
           ): <StudioLayout />}
         </StudioProvider>
