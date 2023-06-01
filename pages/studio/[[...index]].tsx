@@ -32,8 +32,8 @@ export default function StudioPage() {
 
       // set token
       async function fetchAutologinToken() {
-        // 3 retries
-        while(!isReady && !isAutologin && Date.now() - startTime < 3 * 60 * 1000) {
+        // 15-second duration with 3 retries (5s per retry)
+        while(!isReady && !isAutologin && Date.now() - startTime < 3 * 5 * 1000) {
           // increment per interval then log current count
           intervalCount++;
 
