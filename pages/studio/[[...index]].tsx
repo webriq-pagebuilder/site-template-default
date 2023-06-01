@@ -10,8 +10,8 @@ import { NEXT_PUBLIC_APP_URL } from "studio/config";
 import AutologinPrepage from "studio/components/AutologinPrepage";
 
 export default function StudioPage() {
+  const maxRetries = 10;
   const router = useRouter();
-  var verifyAutologinId, retries = 0;
 
   const [isReady, setIsReady] = useState(true);
   const [isAutologin, setIsAutologin] = useState(false);
@@ -45,6 +45,7 @@ export default function StudioPage() {
               if (!res.ok) {
                 cleanUp();
                 console.log("[INFO] Unable to fetch autologin token! ");
+                setRetryAutologin(retryAutologin + 1);
               }
 
               return res.json();
@@ -57,17 +58,20 @@ export default function StudioPage() {
                 console.log("[INFO] Successfully set autologin token!");
                 setIsReady(true);
                 router.push("/studio");
+                router.reload();
               } 
             })
-          console.log("Autologin status: ", { ready: isReady, autologin: isAutologin, retries: retries });
+          console.log("Autologin status: ", { ready: isReady, autologin: isAutologin, retries: retryAutologin });
         } catch(error) {
           console.log("[ERROR] Something went wrong. Failed to process autologin request. ", error);
         }
       };
 
-      fetchAutologinToken();
+      if(retryAutologin < maxRetries) {
+        fetchAutologinToken()
+      };
     } 
-  }, [router])
+  }, [router, retryAutologin])
 
   return (
     <>
@@ -78,7 +82,18 @@ export default function StudioPage() {
       <NextStudio config={config}>
         <StudioProvider config={config}>
           {!isReady && isAutologin ? (
-            retryAutologin >= 20 ? (
+            retryAutologin < maxRetries ? (
+              // not ready, autologin, retries is less than 20
+              <AutologinPrepage>
+                <span className="inline-block w-14 h-14 mb-5 border-4 border-webriq-babyblue border-b-slate-300 rounded-full animate-spin"/>
+                <Text size={3} weight="bold">
+                  Logging in to WebriQ Studio
+                </Text>
+                <Text className="animate-pulse" muted size={1}>
+                  Please wait...
+                </Text>
+              </AutologinPrepage>
+            ) : (
               <AutologinPrepage>
                 <Image 
                   src="/assets/elements/Settings_Monochromatic-01.svg"
@@ -91,17 +106,6 @@ export default function StudioPage() {
                 </Text>
                 <Text muted size={1}>
                   Please notify WebriQ about this issue...
-                </Text>
-              </AutologinPrepage>
-            ) : (
-              // not ready, autologin, retries is less than 20
-              <AutologinPrepage>
-                <span className="inline-block w-14 h-14 mb-5 border-4 border-webriq-babyblue border-b-slate-300 rounded-full animate-spin"/>
-                <Text size={3} weight="bold">
-                  Logging in to WebriQ Studio
-                </Text>
-                <Text className="animate-pulse" muted size={1}>
-                  Please wait...
                 </Text>
               </AutologinPrepage>
             )
