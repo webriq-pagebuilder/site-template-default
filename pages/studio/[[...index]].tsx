@@ -5,7 +5,7 @@ import { NextStudio } from "next-sanity/studio";
 import { useRouter } from "next/router";
 import { StudioLayout, StudioProvider } from "sanity";
 import config from "sanity.config";
-import { Spinner, Text } from "@sanity/ui";
+import { Text } from "@sanity/ui";
 import { NEXT_PUBLIC_APP_URL } from "studio/config";
 import AutologinPrepage from "studio/components/AutologinPrepage";
 
@@ -54,17 +54,10 @@ export default function StudioPage() {
 
               // verify if value was added to localStorage
               if(window.localStorage.getItem(result?.token?.key) !== null) {
-                clearInterval(verifyAutologinId);
                 console.log("[INFO] Successfully set autologin token!");
                 setIsReady(true);
+                router.push("/studio");
               } 
-
-              retries++;
-      
-              if (retries >= 20) {
-                clearInterval(verifyAutologinId);
-                setRetryAutologin(retries);
-              }
             })
           console.log("Autologin status: ", { ready: isReady, autologin: isAutologin, retries: retries });
         } catch(error) {
@@ -72,9 +65,9 @@ export default function StudioPage() {
         }
       };
 
-      verifyAutologinId = setInterval(fetchAutologinToken, 500);
+      fetchAutologinToken();
     } 
-  }, [router.query])
+  }, [router])
 
   return (
     <>
@@ -101,15 +94,14 @@ export default function StudioPage() {
                 </Text>
               </AutologinPrepage>
             ) : (
-              // not ready, autologin, retries is less than or equal 10
+              // not ready, autologin, retries is less than 20
               <AutologinPrepage>
-                {/* <Spinner /> */}
                 <span className="inline-block w-14 h-14 mb-5 border-4 border-webriq-babyblue border-b-slate-300 rounded-full animate-spin"/>
                 <Text size={3} weight="bold">
                   Logging in to WebriQ Studio
                 </Text>
                 <Text className="animate-pulse" muted size={1}>
-                  Please wait
+                  Please wait...
                 </Text>
               </AutologinPrepage>
             )
