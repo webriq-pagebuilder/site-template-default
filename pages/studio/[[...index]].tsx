@@ -12,12 +12,15 @@ export default function StudioPage() {
   const startTime = Date.now();
   let intervalCount = 0; // interval count
 
-  const [isReady, setIsReady] = useState(false);
+  const [isReady, setIsReady] = useState(true);
   const [isAutologin, setIsAutologin] = useState(false);
 
   useEffect(() => {
-    if(router?.query?.token && typeof window !== "undefined") {  
+    if(router?.query?.token !== undefined && typeof window !== "undefined") {  
       const urlParams = new URLSearchParams(window.location.search); 
+
+      setIsAutologin(true);
+      setIsReady(false);
 
       // cleanup (localStorage)
       function cleanUp() {
@@ -29,6 +32,7 @@ export default function StudioPage() {
           }
         });
       }
+      cleanUp();
 
       // set token
       async function fetchAutologinToken() {
@@ -45,6 +49,7 @@ export default function StudioPage() {
               .then((res) => {
                 if (!res.ok) {
                   cleanUp();
+                  setIsReady(false);
                   console.log("[INFO] Unable to fetch autologin token! ", res);
                 }
 
@@ -72,7 +77,7 @@ export default function StudioPage() {
       }
       fetchAutologinToken();
     } 
-  }, [router.query])
+  }, [router])
 
   return (
     <>
@@ -82,7 +87,7 @@ export default function StudioPage() {
 
       <NextStudio config={config}>
         <StudioProvider config={config}>
-          {(!isReady || !isAutologin) ? (
+          {!isReady && isAutologin ? (
             <AutologinPrepage 
               ready={isReady}
               retrying={Date.now() - startTime < 3 * 5 * 1000}
