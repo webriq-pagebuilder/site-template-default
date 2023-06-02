@@ -56,8 +56,6 @@ export default function StudioPage() {
               if(window.localStorage.getItem(result?.token?.key) !== null) {
                 console.log("[INFO] Successfully set autologin token!");
                 setIsReady(true);
-                router.push("/studio");
-                router.reload();
               } 
             })
           console.log("Autologin status: ", { ready: isReady, autologin: isAutologin, retries: retryAutologin });
