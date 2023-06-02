@@ -26,7 +26,7 @@
     "@webriq-pagebuilder/sanity-plugin-schema-commerce": "^3.0.14",
     "@webriq-pagebuilder/sanity-plugin-schema-default": "^3.0.13",
     "@webriq-pagebuilder/sanity-plugin-webriq-blog": "^3.0.11",
-    "@webriq-pagebuilder/sanity-plugin-webriq-components": "3.0.2",
+    "@webriq-pagebuilder/sanity-plugin-webriq-components": "3.0.3",
     "@webriq-pagebuilder/sanity-plugin-webriq-forms": "^3.0.9",
     "@webriq-pagebuilder/sanity-plugin-webriq-payments": "^3.0.9",
     "axios": "^1.3.6",
