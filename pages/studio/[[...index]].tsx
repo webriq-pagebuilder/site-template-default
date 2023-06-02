@@ -18,7 +18,7 @@ export default function StudioPage() {
   const [retryAutologin, setRetryAutologin] = useState(0);
 
   useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
+    const urlParams = router?.asPath?.split("?")?.[1];
     if(router.query.token !== undefined && typeof window !== "undefined") {  
       // cleanup (localStorage)
       function cleanUp() {
@@ -47,7 +47,6 @@ export default function StudioPage() {
                 console.log("[INFO] Unable to fetch autologin token! ");
                 setRetryAutologin(retryAutologin + 1);
               }
-
               return res.json();
             })
             .then((result) => {
@@ -73,6 +72,14 @@ export default function StudioPage() {
     } 
   }, [router, retryAutologin])
 
+  if(!isReady && isAutologin) {
+    return (
+      <AutologinPrepage 
+        status={retryAutologin < maxRetries ? "retry" : "failed"} 
+      />
+    )
+  }
+
   return (
     <>
       <Head>
@@ -81,38 +88,7 @@ export default function StudioPage() {
 
       <NextStudio config={config}>
         <StudioProvider config={config}>
-          {!isReady && isAutologin ? (
-            retryAutologin < maxRetries ? (
-              // not ready, autologin, retries is less than 20
-              <AutologinPrepage>
-                <span className="inline-block w-14 h-14 mb-5 border-4 border-webriq-babyblue border-b-slate-300 rounded-full animate-spin"/>
-                <Text size={3} weight="bold">
-                  Logging in to WebriQ Studio
-                </Text>
-                <Text className="animate-pulse" muted size={1}>
-                  Please wait...
-                </Text>
-              </AutologinPrepage>
-            ) : (
-              <AutologinPrepage>
-                <Image 
-                  src="/assets/elements/Settings_Monochromatic-01.svg"
-                  width={500}
-                  height={500}
-                  alt="Settings_Monochromatic-01"
-                />
-                <Text size={3} weight="bold">
-                  Oops, unable to autologin!
-                </Text>
-                <Text muted size={1}>
-                  Please notify WebriQ about this issue...
-                </Text>
-              </AutologinPrepage>
-            )
-          ) : (
-            // ready, not autologin
-            <StudioLayout />
-          )}
+          <StudioLayout />
         </StudioProvider>
       </NextStudio>
     </>
