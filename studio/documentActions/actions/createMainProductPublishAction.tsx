@@ -4,6 +4,7 @@ import { useClient, useDocumentOperation, useValidationStatus } from "sanity";
 import {
   NEXT_PUBLIC_SITE_URL,
   SITE_STORE_CORS_SECRET,
+  NEXT_PUBLIC_SANITY_STUDIO_IN_CSTUDIO
 } from "../../config";
 import { useSecrets } from "@sanity/studio-secrets";
 import { namespace, getAuthHeaders } from "../sanity-secrets/config";
@@ -36,7 +37,7 @@ export default function createMainProductPublishAction(props) {
     }
   }, [props]);
 
-  const isDisabled = validation.length !== 0 || isPublishing;
+  const isDisabled = validation.length !== 0 || isPublishing || NEXT_PUBLIC_SANITY_STUDIO_IN_CSTUDIO !== "true";
 
   return {
     disabled: isDisabled || !draft,
