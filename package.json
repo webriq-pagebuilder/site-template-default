@@ -23,7 +23,7 @@
     "@stripe/stripe-js": "^1.52.1",
     "@webriq-pagebuilder/sanity-plugin-input-component-gpt3": "^3.0.6",
     "@webriq-pagebuilder/sanity-plugin-schema-blog": "^3.0.11",
-    "@webriq-pagebuilder/sanity-plugin-schema-commerce": "^3.0.14",
+    "@webriq-pagebuilder/sanity-plugin-schema-commerce": "^3.0.16",
     "@webriq-pagebuilder/sanity-plugin-schema-default": "^3.0.13",
     "@webriq-pagebuilder/sanity-plugin-webriq-blog": "^3.0.11",
     "@webriq-pagebuilder/sanity-plugin-webriq-components": "3.0.3",
