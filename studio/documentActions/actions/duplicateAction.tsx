@@ -20,6 +20,8 @@ import { nanoid } from "nanoid";
 export default function duplicateAction(props) {
   const client = useClient({ apiVersion: "2021-10-21" });
 
+  const documentId = !props?.draft ? props?.id : props?.draft?._id
+
   const [page, setPage] = useState(null);
   const [variants, setVariants] = useState(null);
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -40,7 +42,7 @@ export default function duplicateAction(props) {
               "replace": false,
             }, 
           }`, 
-          { documentId: props?.id }
+          { documentId: documentId }
         )
         .then(async (result) => {
           setPage(result)
