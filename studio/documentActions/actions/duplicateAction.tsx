@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import {
   Box, 
   Button, 
@@ -48,7 +48,11 @@ export default function duplicateAction(props) {
           // fetch all the variants based on the section type added in current document
           await client
             .fetch(
-              `*[_type in $sections]`,
+              `*[_type in $sections] {
+                ...,
+                "include": true,
+                "replace": false,
+              }`,
               { sections: result?.sections?.map((section) => section?._type) }
           )
           .then((result) => setVariants(result));
@@ -77,6 +81,7 @@ export default function duplicateAction(props) {
 
 function DuplicatePageSettings({ page, variants, sanityClient, setDialogOpen }) {
   const toast = useToast();
+
   const [duplicateSections, setDuplicateSections] = useState(page?.sections);
   const [pageTitle, setPageTitle] = useState(page?.title);
 
@@ -172,6 +177,7 @@ function DuplicatePageSettings({ page, variants, sanityClient, setDialogOpen }) 
                 padding={3} 
                 radius={2} 
                 shadow={1} 
+                tone={!section?.include ? "default" : "primary"}
                 key={section?._id}
               >
                 <Flex justify="space-between">
@@ -210,7 +216,6 @@ function DuplicatePageSettings({ page, variants, sanityClient, setDialogOpen }) 
                             fontSize={2}
                             icon={TransferIcon}
                             mode="bleed"
-                            tone="primary"
                             onClick={() => handleReplaceReferenceBtn(null, index)}
                           />
                       </Tooltip>
@@ -234,6 +239,7 @@ function DuplicatePageSettings({ page, variants, sanityClient, setDialogOpen }) 
                           value={section?._type}
                           checked={duplicateSections[index]?.include}
                           onChange={() => handleToggleIncludeSection(index, section?._id)}
+                          disabled={section?.replace}
                         />
                       </Tooltip>
                     </Inline>
@@ -244,34 +250,39 @@ function DuplicatePageSettings({ page, variants, sanityClient, setDialogOpen }) 
           })}
         </Stack>
       </Box>
-      <Box style={{ textAlign: "right" }}>
-        <Button
-          className={`text-white ${!pageTitle || duplicateSections?.length === 0 ? "cursor-not-allowed" : "bg-webriq-darkblue"}`}
-          fontSize={2}
-          tone="primary"
-          padding={3}
-          text="Duplicate"
-          onClick={() => handleDuplicateBtn({ 
-            title: pageTitle, 
-            slug: {
-              current: `${page?.slug?.current}-duplicate`,
-              _type: "slug"
-            }, 
-            _type: page?._type,
-            seo: page?.seo, 
-            sections: duplicateSections?.filter((section) => section?.include)?.map((section) => (
-              {
-                _key: nanoid(),
-                _ref: section?._id,
-                _type: section?._type === "pages_productInfo" 
-                  ? "productInfo" 
-                  : section?._type,
-              }
-            ))
-          })}
-          disabled={!pageTitle || duplicateSections?.filter((section) => section?.include)?.length === 0}
-        />
-      </Box>
+      <Flex justify="space-between">
+        <p className="ml-4 text-sm text-gray-500">
+          <span className="font-bold">{duplicateSections?.filter((section) => section?.include)?.length}</span>{" "}
+          section/s to duplicate
+        </p>
+        <Box style={{ textAlign: "right" }}>
+          <Button
+            className={`text-white ${!pageTitle || duplicateSections?.length === 0 ? "cursor-not-allowed" : "bg-webriq-darkblue"}`}
+            fontSize={2}
+            tone="primary"
+            padding={3}
+            text="Duplicate"
+            onClick={() => handleDuplicateBtn({ 
+              title: pageTitle, 
+              slug: {
+                current: `${page?.slug?.current}-duplicate`,
+                _type: "slug"
+              }, 
+              _type: page?._type,
+              sections: duplicateSections?.filter((section) => section?.include)?.map((section) => (
+                {
+                  _key: nanoid(),
+                  _ref: section?._id,
+                  _type: section?._type === "pages_productInfo" 
+                    ? "productInfo" 
+                    : section?._type,
+                }
+              ))
+            })}
+            disabled={!pageTitle || duplicateSections?.filter((section) => section?.include)?.length === 0}
+          />
+        </Box>
+      </Flex>
     </Card>
   )
 }
