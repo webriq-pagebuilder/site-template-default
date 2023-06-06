@@ -1,6 +1,6 @@
 import createProductsPublishAction from "./actions/createProductsPublishAction";
 import createMainProductPublishAction from "./actions/createMainProductPublishAction";
-import duplicateAction from "./actions/duplicateAction";
+import CustomDuplicateAction from "./actions/CustomDuplicateAction";
 import { NEXT_PUBLIC_SANITY_STUDIO_IN_CSTUDIO } from "../config";
   
 export const ResolveDocumentActions = (props) => {
@@ -57,5 +57,5 @@ export const ResolveDocumentActions = (props) => {
     }
   
     // else for other document types use these document actions
-    return [createProductsPublishAction, duplicateAction, ...prev.filter(({ action }: { action: string }) => !["publish", "duplicate"].includes(action))];
+    return [createProductsPublishAction, CustomDuplicateAction, ...prev.filter(({ action }: { action: string }) => !["publish", "duplicate"].includes(action))];
 }

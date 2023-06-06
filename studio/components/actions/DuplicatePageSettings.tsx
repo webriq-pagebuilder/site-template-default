@@ -10,78 +10,12 @@ import {
   Switch, 
   Text, 
   TextInput, 
-  Tooltip
 } from "@sanity/ui";
-import { useClient } from "sanity";
-import { CopyIcon, TransferIcon } from "@sanity/icons"
-import SearchBar from "studio/components/SearchBar";
+import { TransferIcon } from "@sanity/icons"
+import { ButtonWithTooltip, SearchBar } from "./index";
 import { nanoid } from "nanoid";
 
-export default function duplicateAction(props) {
-  const client = useClient({ apiVersion: "2021-10-21" });
-
-  const documentId = !props?.draft ? props?.id : props?.draft?._id
-
-  const [page, setPage] = useState(null);
-  const [variants, setVariants] = useState(null);
-  const [dialogOpen, setDialogOpen] = useState(false);
-
-  return {
-    icon: CopyIcon,
-    tone: "primary",
-    label: "Duplicate",
-    onHandle: async () => {
-      // fetch all ADDED sections for the current document
-      await client
-        .fetch(
-          `*[_id == $documentId][0]{ 
-            ...,
-            sections[]->{
-              ...,
-              "include": true,
-              "replace": false,
-            }, 
-          }`, 
-          { documentId: documentId }
-        )
-        .then(async (result) => {
-          setPage(result)
-
-          // fetch all the variants based on the section type added in current document
-          await client
-            .fetch(
-              `*[_type in $sections] {
-                ...,
-                "include": true,
-                "replace": false,
-              }`,
-              { sections: result?.sections?.map((section) => section?._type) }
-          )
-          .then((result) => setVariants(result));
-        });
-
-      setDialogOpen(true);
-    },
-    dialog: dialogOpen && {
-      type: "dialog",
-      onClose: () => {
-        setDialogOpen(false);
-      },
-      header: "Duplicate document content",
-      content: (
-        <DuplicatePageSettings {...{ 
-            page,
-            variants,
-            sanityClient: client,
-            setDialogOpen 
-          }} 
-        />
-      )
-    }
-  }
-}
-
-function DuplicatePageSettings({ page, variants, sanityClient, setDialogOpen }) {
+export default function DuplicatePageSettings({ page, variants, sanityClient, setDialogOpen }) {
   const toast = useToast();
 
   const [duplicateSections, setDuplicateSections] = useState(page?.sections);
@@ -206,16 +140,7 @@ function DuplicatePageSettings({ page, variants, sanityClient, setDialogOpen }) 
                     <Inline space={2}>
                       {/* Replace reference button */}
                       {section?.include && (
-                        <Tooltip
-                          content={
-                            <Box padding={2}>
-                              <Text size={2}>Replace</Text>
-                            </Box>
-                          }
-                          fallbackPlacements={["top", "right"]}
-                          placement="bottom"
-                          portal
-                        >
+                        <ButtonWithTooltip toolTipText="Replace">
                           <Button
                             fontSize={2}
                             icon={TransferIcon}
@@ -224,21 +149,10 @@ function DuplicatePageSettings({ page, variants, sanityClient, setDialogOpen }) 
                             onClick={() => handleReplaceReferenceBtn(null, index)}
                             disabled={section?.replace}
                           />
-                      </Tooltip>
+                        </ButtonWithTooltip>
                       )}
-                      {/* Remove reference toggle button */}
-                      <Tooltip
-                        content={
-                          <Box padding={2}>
-                            <Text size={2}>
-                              {duplicateSections[index]?.include ? "Remove" : "Add"}
-                            </Text>
-                          </Box>
-                        }
-                        fallbackPlacements={["top", "right"]}
-                        placement="bottom"
-                        portal
-                      >
+                      {/* Reference toggle button */}
+                      <ButtonWithTooltip toolTipText={duplicateSections[index]?.include ? "Remove" : "Add"}>
                         <Switch 
                           id={`${section?._type}-${index + 1}`}
                           name={`${section?.label} include`}
@@ -247,7 +161,7 @@ function DuplicatePageSettings({ page, variants, sanityClient, setDialogOpen }) 
                           onChange={() => handleToggleIncludeSection(index)}
                           disabled={section?.replace}
                         />
-                      </Tooltip>
+                      </ButtonWithTooltip>
                     </Inline>
                   </Box>
                 </Flex>
@@ -256,6 +170,7 @@ function DuplicatePageSettings({ page, variants, sanityClient, setDialogOpen }) 
           })}
         </Stack>
       </Box>
+      {/* Dialog footer: section count, revert button and duplicate button */}
       <Flex justify="space-between">
         <p className="ml-4 text-sm text-gray-500">
           <span className="font-bold">{duplicateSections?.filter((section) => section?.include)?.length}</span>{" "}
@@ -283,7 +198,7 @@ function DuplicatePageSettings({ page, variants, sanityClient, setDialogOpen }) 
             onClick={() => handleDuplicateBtn({ 
               title: pageTitle, 
               slug: {
-                current: `${page?.slug?.current}-duplicate`,
+                current: pageTitle?.replace(/.$/, '')?.replace(/[\s~`!@#$%^&*()_+\-={[}\]|\\:;"'<,>.?/]+/g, "-")?.toLowerCase(),
                 _type: "slug"
               }, 
               _type: page?._type,

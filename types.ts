@@ -1,3 +1,4 @@
+import { JSXElementConstructor, ReactElement } from "react";
 import { PortableTextComponents } from "@portabletext/react";
 import { PortableTextBlock } from "sanity";
 
@@ -448,4 +449,9 @@ export interface SearchItemsTypes {
     _type: string,
   }[],
   onClickHandler: any
+}
+
+export interface ButtonWithTooltipTypes {
+  toolTipText?: string | undefined, 
+  children: ReactElement<any, string | JSXElementConstructor<any>>, 
 }
