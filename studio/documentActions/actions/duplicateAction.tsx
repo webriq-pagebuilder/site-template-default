@@ -177,8 +177,10 @@ function DuplicatePageSettings({ page, variants, sanityClient, setDialogOpen }) 
                 padding={3} 
                 radius={2} 
                 shadow={1} 
-                tone={!section?.include ? "default" : "primary"}
                 key={section?._id}
+                style={{
+                  backgroundColor: !section?.include && "#e5e7ebb5"
+                }}
               >
                 <Flex justify="space-between">
                   {!section?.replace ? (
@@ -216,6 +218,7 @@ function DuplicatePageSettings({ page, variants, sanityClient, setDialogOpen }) 
                             fontSize={2}
                             icon={TransferIcon}
                             mode="bleed"
+                            tone="primary"
                             onClick={() => handleReplaceReferenceBtn(null, index)}
                             disabled={section?.replace}
                           />
@@ -261,17 +264,18 @@ function DuplicatePageSettings({ page, variants, sanityClient, setDialogOpen }) 
             fontSize={2}
             padding={3}
             text="Revert"
-            onClick={() => setDuplicateSections(page?.sections)}
-            disabled={!pageTitle || duplicateSections?.filter((section) => section?.include)?.length === 0}
+            onClick={() => {
+              setPageTitle(page?.title)
+              setDuplicateSections(page?.sections)
+            }}
             style={{ 
-              backgroundColor: !pageTitle || duplicateSections?.filter((section) => section?.include)?.length === 0 ? "#ff000082" : "red", 
+              backgroundColor: "red", 
               boxShadow: "unset", 
               marginRight: "10px" 
             }}
           />
           <Button
             fontSize={2}
-            tone="primary"
             padding={3}
             text="Duplicate"
             onClick={() => handleDuplicateBtn({ 
@@ -292,6 +296,11 @@ function DuplicatePageSettings({ page, variants, sanityClient, setDialogOpen }) 
               ))
             })}
             disabled={!pageTitle || duplicateSections?.filter((section) => section?.include)?.length === 0}
+            style={{ 
+              backgroundColor: !pageTitle || duplicateSections?.filter((section) => section?.include)?.length === 0 ? "#d5e3ff" : "#0045d8", 
+              boxShadow: "unset", 
+              marginRight: "10px" 
+            }}
           />
         </Box>
       </Flex>
