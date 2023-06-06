@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useState } from "react";
 import {
   Box, 
   Button, 
@@ -87,7 +87,7 @@ function DuplicatePageSettings({ page, variants, sanityClient, setDialogOpen }) 
 
   let variantStr = "", sectionVariant = "Variant not selected"
 
-  const handleToggleIncludeSection = (position, sectionId) => {
+  const handleToggleIncludeSection = (position) => {
     const updated = duplicateSections?.map((section, index) => {
       if(index !== position) {
         return section; // no change
@@ -217,6 +217,7 @@ function DuplicatePageSettings({ page, variants, sanityClient, setDialogOpen }) 
                             icon={TransferIcon}
                             mode="bleed"
                             onClick={() => handleReplaceReferenceBtn(null, index)}
+                            disabled={section?.replace}
                           />
                       </Tooltip>
                       )}
@@ -238,7 +239,7 @@ function DuplicatePageSettings({ page, variants, sanityClient, setDialogOpen }) 
                           name={`${section?.label} include`}
                           value={section?._type}
                           checked={duplicateSections[index]?.include}
-                          onChange={() => handleToggleIncludeSection(index, section?._id)}
+                          onChange={() => handleToggleIncludeSection(index)}
                           disabled={section?.replace}
                         />
                       </Tooltip>
@@ -257,7 +258,18 @@ function DuplicatePageSettings({ page, variants, sanityClient, setDialogOpen }) 
         </p>
         <Box style={{ textAlign: "right" }}>
           <Button
-            className={`text-white ${!pageTitle || duplicateSections?.length === 0 ? "cursor-not-allowed" : "bg-webriq-darkblue"}`}
+            fontSize={2}
+            padding={3}
+            text="Revert"
+            onClick={() => setDuplicateSections(page?.sections)}
+            disabled={!pageTitle || duplicateSections?.filter((section) => section?.include)?.length === 0}
+            style={{ 
+              backgroundColor: !pageTitle || duplicateSections?.filter((section) => section?.include)?.length === 0 ? "#ff000082" : "red", 
+              boxShadow: "unset", 
+              marginRight: "10px" 
+            }}
+          />
+          <Button
             fontSize={2}
             tone="primary"
             padding={3}
