@@ -19,7 +19,7 @@ export default function DuplicatePageSettings({ page, variants, sanityClient, se
   const toast = useToast();
 
   const [duplicateSections, setDuplicateSections] = useState(page?.sections);
-  const [pageTitle, setPageTitle] = useState(page?.title);
+  const [pageTitle, setPageTitle] = useState(page?.title || page?.name);
 
   let variantStr = "", sectionVariant = "Variant not selected"
 

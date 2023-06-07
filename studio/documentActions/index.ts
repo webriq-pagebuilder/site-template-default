@@ -41,7 +41,7 @@ export const ResolveDocumentActions = (props) => {
         "collectionSettings",
       ]?.includes(context?.schemaType)
     ) {
-      return [createProductsPublishAction, ...prev.filter(({ action }: { action: string }) => ["discardChanges", "unpublish"].includes(action))];
+      return [createProductsPublishAction, ...prev.filter(({ action }: { action: string }) => ["discardChanges"].includes(action))];
     } else if (
       [
         "slotProductInfo",
@@ -53,9 +53,19 @@ export const ResolveDocumentActions = (props) => {
       return []; // hide document actions for default slot sections (all are read only)
     } else if (context?.schemaType === "mainProduct") {
       // use a custom publish action function for mainProduct documents
-      return [createMainProductPublishAction, ...prev.filter(({ action }: { action: string }) => ["discardChanges", "unpublish", "duplicate", "delete"].includes(action))];
+      return [createMainProductPublishAction, ...prev.filter(({ action }: { action: string }) => ["discardChanges", "unpublish", "delete"].includes(action))]
+    } else if ([
+      "post",
+      "category",
+      "author",
+    ]?.includes(context?.schemaType)) {
+      // default document actions for blog documents: post, author and category
+      return [createProductsPublishAction, ...prev.filter(({ action }: { action: string }) => ["discardChanges", "unpublish", "delete"].includes(action))];
+    } else if(context?.schemaType === "page") {
+      // use these custom document actions for page type documents
+      return [createProductsPublishAction, CustomDuplicateAction, ...prev.filter(({ action }: { action: string }) => !["publish", "duplicate"].includes(action))];
     }
   
-    // else for other document types use these document actions
-    return [createProductsPublishAction, CustomDuplicateAction, ...prev.filter(({ action }: { action: string }) => !["publish", "duplicate"].includes(action))];
+    // else for other document types use the default
+    return [createProductsPublishAction, ...prev.filter(({ action }: { action: string }) => !["publish"].includes(action))];
 }

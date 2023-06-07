@@ -62,6 +62,7 @@ export default function createProductsPublishAction(props) {
       "collectionSettings",
       "cartPage",
       "wishlistPage",
+      "searchPage",
     ].includes(props.type) ? (
       <CustomPublishLabel hasErrors={isDisabled} isPublishing={isPublishing} />
     ) : isPublishing ? (
