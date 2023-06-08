@@ -45,7 +45,6 @@ export const mergeReplaceAndAdd = (existingItems: any, newItems: any) => {
       if(CStudioSchema.includes(items?.name)) {
         return {
           ...items,
-          readOnly: true, // sets live editing of C-Studio schema documents to false
           __experimental_actions: [
             // hide options for creating and deleting documents from C-Studio schema
             /*'create',*/ "update",

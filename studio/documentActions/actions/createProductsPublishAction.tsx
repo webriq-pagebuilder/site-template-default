@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useToast, Tooltip, Box, Text } from "@sanity/ui";
 import { useDocumentOperation, useValidationStatus } from "sanity";
 import { processData } from "../../stripeActions/process-data";
+import { NEXT_PUBLIC_SANITY_STUDIO_IN_CSTUDIO } from "studio/config";
 
 export default function createProductsPublishAction(props) {
   const toast = useToast();
@@ -10,6 +11,16 @@ export default function createProductsPublishAction(props) {
   const { publish } = useDocumentOperation(props.id, props.type);
 
   const [isPublishing, setIsPublishing] = useState(false);
+
+  const CStudioSchemas = [
+    "mainProduct",
+    "mainCollection",
+    "productSettings",
+    "collectionSettings",
+    "cartPage",
+    "wishlistPage",
+    "searchPage"
+  ];
 
   useEffect(() => {
     // if the isPublishing state was set to true and the draft has changed
@@ -48,20 +59,23 @@ export default function createProductsPublishAction(props) {
     create();
   }, [isPublishing]);
 
+  const isCStudioDisabled = NEXT_PUBLIC_SANITY_STUDIO_IN_CSTUDIO !== "true" && CStudioSchemas?.includes(props.type);
   const isDisabled = validation.length !== 0 || isPublishing;
 
   return {
-    disabled: isDisabled || !props?.draft,
+    disabled: isDisabled || !props?.draft || isCStudioDisabled,
     label: [
       "page",
       "post",
       "category",
       "author",
+      "mainProduct",
       "mainCollection",
       "productSettings",
       "collectionSettings",
       "cartPage",
       "wishlistPage",
+      "searchPage"
     ].includes(props.type) ? (
       <CustomPublishLabel hasErrors={isDisabled} isPublishing={isPublishing} />
     ) : isPublishing ? (
