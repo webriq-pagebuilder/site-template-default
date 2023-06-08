@@ -1,11 +1,11 @@
 /** @type {import("next").NextConfig} */
 
 const nextConfig = {
-  i18n: {
-    // internalized routing
-    locales: ["en"],
-    defaultLocale: "en",
-  },
+  // i18n: {
+  //   // internalized routing
+  //   locales: ["en"],
+  //   defaultLocale: "en",
+  // },
   images: {
     remotePatterns: [
       { hostname: "cdn.sanity.io" },
