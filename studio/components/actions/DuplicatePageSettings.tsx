@@ -11,7 +11,7 @@ import {
   Text, 
   TextInput, 
 } from "@sanity/ui";
-import { TransferIcon } from "@sanity/icons"
+import { TransferIcon, CloseIcon } from "@sanity/icons"
 import { ButtonWithTooltip, SearchBar } from "./index";
 import { nanoid } from "nanoid";
 
@@ -137,32 +137,42 @@ export default function DuplicatePageSettings({ page, variants, sanityClient, se
                     </Box>
                   )}
                   <Box paddingTop={3}>
-                    <Inline space={2}>
-                      {/* Replace reference button */}
-                      {section?.include && (
-                        <ButtonWithTooltip toolTipText="Replace">
-                          <Button
-                            fontSize={2}
-                            icon={TransferIcon}
-                            mode="bleed"
-                            tone="primary"
-                            onClick={() => handleReplaceReferenceBtn(null, index)}
-                            disabled={section?.replace}
-                          />
-                        </ButtonWithTooltip>
-                      )}
-                      {/* Reference toggle button */}
-                      <ButtonWithTooltip toolTipText={duplicateSections[index]?.include ? "Remove" : "Add"}>
-                        <Switch 
-                          id={`${section?._type}-${index + 1}`}
-                          name={`${section?.label} include`}
-                          value={section?._type}
-                          checked={duplicateSections[index]?.include}
-                          onChange={() => handleToggleIncludeSection(index)}
-                          disabled={section?.replace}
+                    {section?.replace ? (
+                      <ButtonWithTooltip toolTipText="Cancel">
+                        <Button
+                          icon={CloseIcon}
+                          fontSize={2}
+                          mode="bleed"
+                          tone="primary"
+                          onClick={() => handleReplaceReferenceBtn(null, index)}
                         />
                       </ButtonWithTooltip>
-                    </Inline>
+                    ): (
+                      <Inline space={2}>
+                        {/* Replace reference button */}
+                        {section?.include && (
+                          <ButtonWithTooltip toolTipText="Replace">
+                            <Button
+                              fontSize={2}
+                              icon={TransferIcon}
+                              mode="bleed"
+                              tone="primary"
+                              onClick={() => handleReplaceReferenceBtn(null, index)}
+                            />
+                          </ButtonWithTooltip>
+                        )}
+                        {/* Reference toggle button */}
+                        <ButtonWithTooltip toolTipText={duplicateSections[index]?.include ? "Remove" : "Add"}>
+                          <Switch 
+                            id={`${section?._type}-${index + 1}`}
+                            name={`${section?.label} include`}
+                            value={section?._type}
+                            checked={duplicateSections[index]?.include}
+                            onChange={() => handleToggleIncludeSection(index)}
+                          />
+                        </ButtonWithTooltip>
+                      </Inline>
+                    )}
                   </Box>
                 </Flex>
               </Card>     
