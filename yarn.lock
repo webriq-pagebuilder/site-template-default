@@ -1841,7 +1841,7 @@
     magic-string "^0.27.0"
     react-refresh "^0.14.0"
 
-"@webriq-pagebuilder/sanity-plugin-input-component-gpt3@^3.1.0", "@webriq-pagebuilder/sanity-plugin-input-component-gpt3@^3.1.1":
+"@webriq-pagebuilder/sanity-plugin-input-component-gpt3@^3.1.1":
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/@webriq-pagebuilder/sanity-plugin-input-component-gpt3/-/sanity-plugin-input-component-gpt3-3.1.1.tgz#4bcae9f76c3b3921963faa692d81fac0bdd41373"
   integrity sha512-BAkP+NzmuD/Tw117J0vDjz75oq5+CczaHeAf4823cieaiD25eZDLHiA8pEdFHvtYSgIZ6jqeYqZVAI9Vxg4TEA==
@@ -1860,7 +1860,7 @@
     "@sanity/incompatible-plugin" "^1.0.4"
     "@sanity/ui" "^1.3.2"
 
-"@webriq-pagebuilder/sanity-plugin-schema-blog@^3.1.0", "@webriq-pagebuilder/sanity-plugin-schema-blog@^3.1.1":
+"@webriq-pagebuilder/sanity-plugin-schema-blog@^3.1.1":
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/@webriq-pagebuilder/sanity-plugin-schema-blog/-/sanity-plugin-schema-blog-3.1.1.tgz#dc83553aa62d3f25b2d55203e76a0e47bfd42ef2"
   integrity sha512-5oGYQR5NQxOmvqJC6A7CogTspAFzIjKQaTYBHJ7gZ8lHAfg7qQlhcO/GVyw8f2Xi1I4bMey1LiaZv7EwTNssDQ==
@@ -1870,7 +1870,7 @@
     nanoid "^3.1.30"
     react-icons "^4.2.0"
 
-"@webriq-pagebuilder/sanity-plugin-schema-commerce@^3.1.0":
+"@webriq-pagebuilder/sanity-plugin-schema-commerce@^3.1.1":
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/@webriq-pagebuilder/sanity-plugin-schema-commerce/-/sanity-plugin-schema-commerce-3.1.1.tgz#2ef19c475874a454669135fc1c2d42fff6584810"
   integrity sha512-ktRVoP4q3jfMSAW6Xaa8S5zQWv6YY4aXB4GjMaVCo8X+/q/lEhvYHFeOcrorNiWqxCTrvOIjrjeN5A8PFNZipQ==
@@ -1884,7 +1884,7 @@
     nanoid "^3.1.30"
     react-icons "^4.2.0"
 
-"@webriq-pagebuilder/sanity-plugin-schema-default@^3.1.0", "@webriq-pagebuilder/sanity-plugin-schema-default@^3.1.1":
+"@webriq-pagebuilder/sanity-plugin-schema-default@^3.1.1":
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/@webriq-pagebuilder/sanity-plugin-schema-default/-/sanity-plugin-schema-default-3.1.1.tgz#ba2c00c4e81d26e1e1f7978da9e5020031beea70"
   integrity sha512-GeaAYSCySRKRxehWo3lJGmNQ/UBXKLDtDtGRz+queVEjhdi03t+JAwOaZf7tpudV0O6aaPtmBQ50r2PJScJwAg==
@@ -1896,7 +1896,7 @@
     nanoid "^3.1.30"
     react-icons "^4.2.0"
 
-"@webriq-pagebuilder/sanity-plugin-webriq-blog@^3.1.0":
+"@webriq-pagebuilder/sanity-plugin-webriq-blog@^3.1.1":
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/@webriq-pagebuilder/sanity-plugin-webriq-blog/-/sanity-plugin-webriq-blog-3.1.1.tgz#9e9cfc64eaebf8b94ce831a2ba85b3a8159853a5"
   integrity sha512-ysDy+rmQZ0EyXr3E7YkTrW554jyijvsNbDomCGcDpS4Q+CfS29iMUH7up0nRLWdRi1jkqx6vuMs1l0iWswbDPA==
@@ -1920,10 +1920,10 @@
     react-icons "^4.8.0"
     react-select "^5.7.3"
 
-"@webriq-pagebuilder/sanity-plugin-webriq-forms@^3.1.0":
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/@webriq-pagebuilder/sanity-plugin-webriq-forms/-/sanity-plugin-webriq-forms-3.1.0.tgz#cbbc85c0e1cad8d71d574127308e879739c518d5"
-  integrity sha512-d1hKg9KC4f7mR8Mu28j9X+et0zH/OaNtv46gamda2FH8etxRzQPHcM/e4AnM9lJKm/rdRuEk/DlY9NnUJTek3A==
+"@webriq-pagebuilder/sanity-plugin-webriq-forms@3.1.1":
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/@webriq-pagebuilder/sanity-plugin-webriq-forms/-/sanity-plugin-webriq-forms-3.1.1.tgz#dbfc03f4f075e377aae419bdf330c8cc6a8162ca"
+  integrity sha512-09UGyfWpq5OqoaT79dVBmDN+dPtypZJDhDB9M/OM/Sgm2yk+ZPvyrNpBmjpHBPgiyWuAP214ENUmwueq3wE36A==
   dependencies:
     "@sanity/icons" "^2.2.2"
     "@sanity/incompatible-plugin" "^1.0.4"
@@ -1931,7 +1931,7 @@
     date-fns "^2.21.3"
     react-icons "^4.2.0"
 
-"@webriq-pagebuilder/sanity-plugin-webriq-payments@^3.1.0", "@webriq-pagebuilder/sanity-plugin-webriq-payments@^3.1.1":
+"@webriq-pagebuilder/sanity-plugin-webriq-payments@^3.1.1":
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/@webriq-pagebuilder/sanity-plugin-webriq-payments/-/sanity-plugin-webriq-payments-3.1.1.tgz#f41acf733c5ea24b8056cd708fc4c4c3fb4c17af"
   integrity sha512-Mv+jO+j78f96lKSUzzOAgPF9/t/f9jPW7olV6vgm+SsSD3UlzIBi9FjTZEmPkk34FoZ9jceN5dVlFsrkHlo4/w==
