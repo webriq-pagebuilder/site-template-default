@@ -1909,10 +1909,10 @@
     nanoid "^3.1.30"
     react-icons "^4.2.0"
 
-"@webriq-pagebuilder/sanity-plugin-webriq-components@^3.1.0":
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/@webriq-pagebuilder/sanity-plugin-webriq-components/-/sanity-plugin-webriq-components-3.1.0.tgz#d8a8062bf1f7ea3a191e8b457f5729d29b16a7ad"
-  integrity sha512-nGDOzPdWgldql25HXr8sw+Xv0GF44byCsq688hMzsxAL6PtlJ8WCEKH9/uMqeKffzn4AqREsgU9qSG71D8hY0A==
+"@webriq-pagebuilder/sanity-plugin-webriq-components@3.1.1-feat-components.0":
+  version "3.1.1-feat-components.0"
+  resolved "https://registry.yarnpkg.com/@webriq-pagebuilder/sanity-plugin-webriq-components/-/sanity-plugin-webriq-components-3.1.1-feat-components.0.tgz#a58b077ec898eedce2f80ebf0edcc673d1a7d9b8"
+  integrity sha512-WUhxH1dFluq9I/3PrJ2Rot0o4IyRcadBbASKD60d2a3hEPDA90AY8s691PP4oyUBrXz96Cvjvayk/OwxNmuo2w==
   dependencies:
     "@sanity/incompatible-plugin" "^1.0.4"
     "@sanity/ui" "^1.3.2"
