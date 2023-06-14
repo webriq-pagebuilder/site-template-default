@@ -22,6 +22,8 @@ import { schemaTypes } from "schemas/schema";
 import { media } from "sanity-plugin-media"
 import { openaiImageAsset } from "sanity-plugin-asset-source-openai"
 import { visionTool } from "@sanity/vision"
+import { codeInput } from "@sanity/code-input";
+
 import { webriqBlog } from "@webriq-pagebuilder/sanity-plugin-webriq-blog"
 import { webriqForms } from "@webriq-pagebuilder/sanity-plugin-webriq-forms"
 import { webriqPayments } from "@webriq-pagebuilder/sanity-plugin-webriq-payments"
@@ -45,6 +47,7 @@ export default defineConfig({
     webriqBlog(),
     webriqGPT3(),
     media(),
+    codeInput(),
     openaiImageAsset({
       API_KEY: NEXT_PUBLIC_SANITY_PROJECT_OPENAI_KEY, // TODO: Update personal API key with default from WebriQ
     }),

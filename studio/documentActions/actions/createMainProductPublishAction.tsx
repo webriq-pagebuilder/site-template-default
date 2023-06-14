@@ -8,6 +8,7 @@ import {
 } from "../../config";
 import { useSecrets } from "@sanity/studio-secrets";
 import { namespace, getAuthHeaders } from "../sanity-secrets/config";
+import { PortableTextToHTML } from "../../utils/PortableTextToHtml";
 
 export default function createMainProductPublishAction(props) {
   const { id, type, draft, published, onComplete } = props;
@@ -57,6 +58,9 @@ export default function createMainProductPublishAction(props) {
             .fetch("*[_id==$documentId]", { documentId: id })
             .then((result) => result);
 
+          // update block type description to HTML
+          const updatedData = getData?.map((item) => ({ ...item, description: PortableTextToHTML(item?.description) }))
+
           // with data available, do the API request and pass the required data as payload
           if (getData) {
             await fetch(`${siteUrl}/api/ecwid/products`, {
@@ -65,7 +69,7 @@ export default function createMainProductPublishAction(props) {
                 ...getAuthHeaders(secrets),
                 "content-type": "application/json",
               }, // pass sanity secrets to header
-              body: JSON.stringify(...getData),
+              body: JSON.stringify(...updatedData),
             }).then(async (response) => {
               if (!response.ok) {
                 // show toast notification on failed request
