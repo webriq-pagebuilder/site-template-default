@@ -6,6 +6,7 @@ import ItemInBag from "./ItemInBag";
 import { isEmpty } from "lodash";
 
 import { EcwidTypes } from "context/_ecwid-types";
+import { TypedObject } from "sanity";
 
 interface ProductDetailProps {
   product:
@@ -14,7 +15,7 @@ interface ProductDetailProps {
         name: string;
         ecwidProductId: number;
         price: string;
-        description: string;
+        description: TypedObject | TypedObject[] | null;
       };
 
   children: React.ReactNode;

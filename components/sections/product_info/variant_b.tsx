@@ -6,7 +6,7 @@ import ProductDetail from "components/ecwid/ProductDetail";
 import AddToBag from "components/ecwid/AddToBag";
 import AddToWishlist from "components/ecwid/AddToWishlist";
 import Ribbon from "components/ecwid/Ribbon";
-import Description from "components/ecwid/Description";
+//import Description from "components/ecwid/Description";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Thumbs, Pagination, A11y } from "swiper";
 import { ProductInfoProps } from ".";
@@ -355,13 +355,10 @@ function VariantB({
                     : ecwidProduct?.defaultDisplayedPriceFormatted}
                 </p>
 
-                <Description data={product} />
-
-                {/* {product?.description && (
-                  <p className="max-w-md text-gray-500 font-custom">
-                    {product?.description}
-                  </p>
-                )} */}
+                {/* <Description data={product} /> */}
+                {product?.description && (
+                  <PortableText value={product?.description} components={blockStyle} />
+                )}
               </div>
 
               {product?.ecwidProductId && ecwidProduct && (

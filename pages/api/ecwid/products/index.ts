@@ -85,6 +85,7 @@ const addEcwidProduct = async (req, res) => {
         name: data?.name,
         price: data?.price,
         description: data?.description,
+        compareToPrice: data?.compareToPrice,
         unlimited: true,
         enabled: true,
       }),
@@ -110,7 +111,7 @@ const addEcwidProduct = async (req, res) => {
 // Update existing Ecwid product
 const updateEcwidProduct = async (req, res) => {
   const data = req.body;
-  const { ecwidProductId, name, price, description } = data;
+  const { ecwidProductId, name, price, compareToPrice, description } = data;
   if (!ecwidProductId) {
     return res
       .status(400)
@@ -128,7 +129,6 @@ const updateEcwidProduct = async (req, res) => {
         message: "Unable to update product as it does not exist!",
         data: { id: ecwidProductId },
       });
-      return;
     }
 
     const productId = product.id || ecwidProductId;
@@ -140,6 +140,7 @@ const updateEcwidProduct = async (req, res) => {
       body: JSON.stringify({
         name,
         price,
+        compareToPrice,
         description,
         enabled: true,
       }),

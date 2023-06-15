@@ -4,6 +4,7 @@ import { useEcwid } from "context/EcwidContext";
 
 import { SectionsProps, Images, ProductDetail, SocialLink } from "types";
 import { EProduct } from "context/_ecwid-types";
+import { TypedObject } from "sanity";
 
 interface ProductIndexProps extends SectionsProps {
   product?: {
@@ -24,7 +25,7 @@ export interface ProductInfoProps {
     name: string;
     ecwidProductId: number;
     price: string;
-    description: string;
+    description: TypedObject | TypedObject[] | null;
   };
   ecwidProduct: EProduct;
   variantSku: any;

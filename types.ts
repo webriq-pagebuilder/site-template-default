@@ -1,5 +1,5 @@
 import { PortableTextComponents } from "@portabletext/react";
-import { PortableTextBlock } from "sanity";
+import { PortableTextBlock, TypedObject } from "sanity";
 
 //Used on different sections
 export interface SectionsProps {
@@ -242,7 +242,7 @@ export interface Collection extends SanityBody {
 }
 
 export interface CollectionProduct extends SanityBody {
-  description?: string | null;
+  description?: TypedObject | TypedObject[] | null;
   ecwidProductId?: number | null;
   name?: string | null;
   price?: number | null;
