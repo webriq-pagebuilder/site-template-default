@@ -46,7 +46,7 @@ export default defineConfig({
     webriqGPT3(),
     media(),
     openaiImageAsset({
-      API_KEY: NEXT_PUBLIC_SANITY_PROJECT_OPENAI_KEY, // TODO: Update personal API key with default from WebriQ
+      API_KEY: NEXT_PUBLIC_SANITY_PROJECT_OPENAI_KEY
     }),
   ],
   tools: (prev) => {
