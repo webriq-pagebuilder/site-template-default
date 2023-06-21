@@ -70,11 +70,6 @@ function SEO({ data }: { data: SEOData | undefined }) {
     defaultSeoImage,
   } = defaultSeo;
 
-  // const defaultTitle = "WebriQ Studio";
-  // const defaultDescription =
-  //   "WebriQ Studio powers microsites with audience-specific content";
-  // const defaultImage =
-  //   "https://cdn.sanity.io/images/9itgab5x/production/bfc0fab9e9b87def49b3a45c9b5bc436fa653be1-471x401.png";
   let dataType: DataType | null | undefined;
 
   if (data) {
