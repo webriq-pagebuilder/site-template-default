@@ -108,7 +108,7 @@ function SEO({ data }: { data: SEOData | undefined }) {
               url: image ? seoImageUrl(image) : seoImageUrl(defaultSeoImage),
               width: 520,
               height: 320,
-              alt: "Page thumbnail image for SEO",
+              // alt: "Page thumbnail image for SEO",
               type: "image/jpeg",
             },
           ],
