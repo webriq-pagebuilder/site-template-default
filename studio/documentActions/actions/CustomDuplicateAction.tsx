@@ -24,7 +24,7 @@ export default function CustomDuplicateAction(props) {
             ...,
             sections[]->{
               ...,
-              "include": true,
+              "include": false,
               "replace": false,
             }, 
           }`, 
@@ -38,7 +38,7 @@ export default function CustomDuplicateAction(props) {
             .fetch(
               `*[_type in $sections] {
                 ...,
-                "include": true,
+                "include": false,
                 "replace": false,
               }`,
               { sections: result?.sections?.map((section) => section?._type) }
