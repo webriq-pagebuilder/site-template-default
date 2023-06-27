@@ -24,8 +24,10 @@ export default function CustomDuplicateAction(props) {
             ...,
             sections[]->{
               ...,
-              "include": false,
-              "replace": false,
+              "original": true,
+              "include": true,
+              "replaced": false,
+              "isEditing": false, 
             }, 
           }`, 
           { documentId: documentId }
@@ -38,8 +40,10 @@ export default function CustomDuplicateAction(props) {
             .fetch(
               `*[_type in $sections] {
                 ...,
-                "include": false,
-                "replace": false,
+                "original": true,
+                "include": true,
+                "replaced": false,
+                "isEditing": false,
               }`,
               { sections: result?.sections?.map((section) => section?._type) }
           )

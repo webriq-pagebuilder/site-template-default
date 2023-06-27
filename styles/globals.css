@@ -197,15 +197,8 @@ select[data-testid="field-group-select"] > option:first-child {
 }
 
 /* Duplicate page settings modal */
-.modal-section:hover {
-  transition: all 300ms ease-in-out;
-  width: 100%;
-  margin: auto;
-}
 .replace-btn:hover .hide {
-  display: inline-flex;
-  top: 0;
-  right: 10px;
+  display: block;
 }
 
 /** Help Guide **/

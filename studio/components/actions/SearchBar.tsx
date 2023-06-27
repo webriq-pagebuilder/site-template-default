@@ -1,12 +1,11 @@
 // reference: https://www.sanity.io/ui/docs/component/autocomplete
-import { IntentLink } from "sanity/router";
 import { Autocomplete, Box, Card, Flex, Text } from "@sanity/ui";
 import { MdManageSearch } from "react-icons/md";
 import { SearchItemsTypes } from "types";
 
 export default function SearchBar({ searchItems, onClickHandler }: SearchItemsTypes) {
-  const options = searchItems?.map((item) => ({ value: item?._id, ...item }))
-  
+  const options = searchItems?.map((item) => ({ value: item?._id, ...item }));
+
   return (
     <Autocomplete
       openButton
