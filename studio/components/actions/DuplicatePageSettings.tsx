@@ -12,7 +12,7 @@ import {
   Text, 
   TextInput, 
 } from "@sanity/ui";
-import { ComposeIcon, CloseIcon, RestoreIcon, ArchiveIcon } from "@sanity/icons"
+import { ComposeIcon, CloseIcon, RestoreIcon, CloseCircleIcon } from "@sanity/icons"
 import { ButtonWithTooltip, SearchBar } from "./index";
 import { nanoid } from "nanoid";
 
@@ -23,17 +23,34 @@ export default function DuplicatePageSettings({ page, variants, sanityClient, se
 
   const [duplicateSections, setDuplicateSections] = useState(page?.sections);
   const [pageTitle, setPageTitle] = useState(page?.title || page?.name);
+  const [isLoading, setIsLoading] = useState(false);
 
-  // NEW REFERENCE
-  const handleNewReferenceBtn = (position) => {
+  // FEATURE BUTTONS: NEW | EXCLUDE | REVERT REFERENCES
+  const handleFeatureButtons = (feature: "new" | "exclude" | "revert", position: number) => {
     const updated = duplicateSections?.map((section, index) => {
       if(index !== position) {
         return section; // no change
       } else {
-        // return new shape
-        return {
-          ...section,
-          original: !section.original
+        if(feature === "new") {
+          return {
+            ...section,
+            current: !section.current
+          }
+        } else if(feature === "exclude") {
+          return {
+            ...section,
+            include: !section?.include,
+          }
+        } else if(feature === "revert") {
+          return {
+            ...page?.sections[position],
+            current: true,
+            include: true,
+            replaced: false,
+            isEditing: false,
+          };
+        } else {
+          console.log("[ERROR] Supported features: 'new' | 'exclude' | 'revert' only")
         }
       }
     });
@@ -48,6 +65,11 @@ export default function DuplicatePageSettings({ page, variants, sanityClient, se
         return section; // no change
       } else {
         if(value) {
+          toast.push({
+            status: "success",
+            title: "Current reference was updated!",
+          });
+
           // return new shape
           const { replaced, isEditing, ...rest } = value;
 
@@ -69,60 +91,32 @@ export default function DuplicatePageSettings({ page, variants, sanityClient, se
     setDuplicateSections(updated);
   }
 
-  // EXCLUDE REFERENCE
-  const handleExcludeReferenceBtn = (position) => {
-    const updated = duplicateSections?.map((section, index) => {
-      if(index !== position) {
-        return section; // no change
-      } else {
-        // return new shape
-        if(!section?.original || section?.replaced) {
-          console.log("replacedObj: ", ref.current);
-
-          // if reference was changed, revert flags
-          return {
-            ...section,
-            include: true,
-            original: true,
-          }
-        }
-
-        return {
-          ...section,
-          include: !section?.include,
-        }
-      }
-    });
-
-    setDuplicateSections(updated);
-  }
-
   // DUPLICATE DOCUMENT
   const handleDuplicateBtn = async (documentId: string, payload: any) => {
+    setIsLoading(true);
+
     try {
       const sections = await Promise.all(
-        payload?.sections?.map(async (section) => 
-          await sanityClient
-            .create(section)
-            .then(async (result) => {
-              if(section?.original) {
-                // use the existing section object for the new document
-                return await sanityClient
-                  .fetch(
-                    `*[_id == $documentId][0].sections`, 
-                    { documentId: documentId }
-                  ).then((result) => result?.find((orig) => orig?._type === section?._type))
-              } else {
-                // create new documents for the payload.sections and use result "_id" as reference
-                return { 
-                  _key: nanoid(), 
-                  _ref: result?._id, 
-                  _type: result?._type 
-                };
-              }
-            }
-          )  
-        )
+        payload?.sections?.map(async (section) => {
+          if(section?.current) {
+            // use the existing section object for the new document
+            return await sanityClient
+            .fetch(
+              `*[_id == $documentId][0].sections`, 
+              { documentId: documentId }
+            ).then((result) => result?.find((orig) => orig?._type === section?._type))
+          } else {
+            // create new document for the section and use result "_id" as reference
+            return await sanityClient
+              .create(section)
+              .then((result) => ({ 
+                _key: nanoid(), 
+                _ref: result?._id, 
+                _type: result?._type 
+              })
+            )  
+          }
+        })
       );
 
       payload.sections = sections;
@@ -146,10 +140,12 @@ export default function DuplicatePageSettings({ page, variants, sanityClient, se
               status: "success",
               title: "Successfully duplicated document!",
             });
+            setIsLoading(false);
             setDialogOpen(false);
           })
       }
     } catch (error) {
+      setIsLoading(false);
       console.log("Sorry, something went wrong. Failed to duplicate document.", error);
       toast.push({
         status: "error",
@@ -174,16 +170,20 @@ export default function DuplicatePageSettings({ page, variants, sanityClient, se
             radius={2} 
             required
           />
-          <button
-            className="absolute top-0 right-0 z-20 mt-3 mr-3 text-webriq-darkblue hover:text-webriq-babyblue"
-            style={{ 
-              cursor: pageTitle !== page?.title || page?.name ? null : "not-allowed"
-            }}
-            disabled={pageTitle === page?.title || page?.name}
-            onClick={() => setPageTitle(page?.title || page?.name)}
-          >
-            <RestoreIcon style={{ fontSize: 24 }} />
-          </button>
+          {!pageTitle?.includes(page?.title || page?.name)  && (
+            <ButtonWithTooltip toolTipText="Revert">
+              <button
+                className="absolute top-0 right-0 z-20 mt-3 mr-3"
+                style={{ 
+                  cursor: pageTitle !== page?.title || page?.name ? null : "not-allowed"
+                }}
+                disabled={pageTitle === page?.title || page?.name}
+                onClick={() => setPageTitle(page?.title || page?.name)}
+              >
+                <RestoreIcon style={{ fontSize: 24 }} />
+              </button>
+            </ButtonWithTooltip>
+          )}
         </div>
       </Stack>
       <Box paddingY={4}>
@@ -236,15 +236,13 @@ export default function DuplicatePageSettings({ page, variants, sanityClient, se
                     <>
                       <Flex justify="space-between">
                         <Inline space={2} padding={2}>
-                          <Text style={{ paddingTop: 4 }}>{section?.label ?? "Untitled document"}</Text>
+                          <Text style={{ paddingTop: 5 }}>{section?.label ?? "Untitled document"}</Text>
                           {!section?.include ? (
                             <Badge mode="outline" tone="critical">Not included</Badge> 
                           ) : (
-                            !section?.original ? (
-                              <Badge mode="outline" tone="primary">New</Badge>
-                            ): section?.replaced ? (
-                              <Badge mode="outline" tone="positive">Replaced</Badge>
-                            ): null
+                            !section?.current && (
+                              <Badge mode="outline" tone="primary">New Copy</Badge>
+                            )
                           )}
                           {/* Replace reference button */}
                           {section?.include && (
@@ -257,40 +255,55 @@ export default function DuplicatePageSettings({ page, variants, sanityClient, se
                               </button>
                             </ButtonWithTooltip>
                           )}
-                        </Inline>
-                        <Inline>
-                          {/* Exclude reference button */}
-                          <ButtonWithTooltip toolTipText={!section?.include || !section?.original || section?.replaced ? "Revert" : "Exclude"}>
-                            <button
-                              onClick={() => handleExcludeReferenceBtn(index)}
-                            >
-                              {!section?.include || !section?.original || section?.replaced ? (
+                          {/* Revert changes button */}
+                          {(section?.replaced || !section?.include) && (
+                            <ButtonWithTooltip toolTipText="Revert">
+                              <button
+                                className={`${!section?.isEditing && "hide"}`}
+                                onClick={() => handleFeatureButtons("revert", index)}
+                              >
                                 <RestoreIcon style={{ fontSize: 24 }} />
-                              ) : (
-                                <ArchiveIcon style={{ fontSize: 24, color: "maroon" }} />
-                              )}
-                            </button>
-                          </ButtonWithTooltip>
-                          {/* Reference toggle button */}
-                          <Box padding={3}>
-                            <ButtonWithTooltip toolTipText={!duplicateSections[index]?.original ? "Use Default" : "New Reference"}>
-                              <Switch 
-                                id={`${section?._type}-${index + 1}`}
-                                name={`${section?.label} include`}
-                                value={section?._type}
-                                disabled={!section?.include}
-                                checked={!duplicateSections[index]?.original}
-                                onChange={() => handleNewReferenceBtn(index)}
-                              />
+                              </button>
                             </ButtonWithTooltip>
-                          </Box>
+                          )}
+                          {/* Exclude reference button */}
+                          {section?.include && (
+                            <ButtonWithTooltip toolTipText="Exclude">
+                              <button
+                                className={`${!section?.isEditing && "hide"}`}
+                                onClick={() => handleFeatureButtons("exclude", index)}
+                              >
+                                <CloseCircleIcon style={{ fontSize: 24, color: "maroon" }} />
+                              </button>
+                            </ButtonWithTooltip>
+                          )}
                         </Inline>
+                        {/* Reference toggle button */}
+                        <Box padding={3}>
+                          <ButtonWithTooltip toolTipText={!duplicateSections[index]?.current ? "Use Current" : "New Copy"}>
+                            <Switch 
+                              id={`${section?._type}-${index + 1}`}
+                              name={`${section?.label} include`}
+                              value={section?._type}
+                              disabled={!section?.include}
+                              checked={!duplicateSections[index]?.current}
+                              onChange={() => handleFeatureButtons("new", index)}
+                            />
+                          </ButtonWithTooltip>
+                        </Box>
                       </Flex>
-                      <Box padding={2}>
+                      <Box paddingX={2} paddingBottom={2}>
                         <Text size={1} muted>
                           {`${sectionVariant} • ${section?._type?.toUpperCase()}`}
                         </Text>
                       </Box>
+                      {section?.replaced && (
+                        <Box padding={2}>
+                          <Text size={1} style={{ fontStyle: "italic", color: "blue" }} muted>
+                            This section has been updated
+                          </Text>
+                        </Box>
+                      )}
                     </>
                   )}
                 </Card>
@@ -323,13 +336,14 @@ export default function DuplicatePageSettings({ page, variants, sanityClient, se
                   label: section?.label,
                   variant: section?.variant,
                   variants: section?.variants,
-                  original: section?.original,
+                  current: section?.current,
                   _type: section?._type === "pages_productInfo" 
                     ? "productInfo" 
                     : section?._type,
                 }
               ))
             })}
+            loading={isLoading}
             disabled={!pageTitle || duplicateSections?.filter((section) => section.include)?.length === 0}
             style={{ 
               backgroundColor: !pageTitle || duplicateSections?.filter((section) => section.include)?.length === 0 ? "#d5e3ff" : "#0045d8", 

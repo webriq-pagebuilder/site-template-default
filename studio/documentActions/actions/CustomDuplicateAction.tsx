@@ -24,7 +24,7 @@ export default function CustomDuplicateAction(props) {
             ...,
             sections[]->{
               ...,
-              "original": true,
+              "current": true,
               "include": true,
               "replaced": false,
               "isEditing": false, 
@@ -40,7 +40,7 @@ export default function CustomDuplicateAction(props) {
             .fetch(
               `*[_type in $sections] {
                 ...,
-                "original": true,
+                "current": true,
                 "include": true,
                 "replaced": false,
                 "isEditing": false,
