@@ -236,7 +236,7 @@ export default function DuplicatePageSettings({ page, variants, sanityClient, se
                     <>
                       <Flex justify="space-between">
                         <Inline space={2} padding={2}>
-                          <Text style={{ paddingTop: 5 }}>{section?.label ?? "Untitled document"}</Text>
+                          <Text style={{ paddingTop: 7, minHeight: "24px" }}>{section?.label ?? "Untitled document"}</Text>
                           {!section?.include ? (
                             <Badge mode="outline" tone="critical">Not included</Badge> 
                           ) : (
