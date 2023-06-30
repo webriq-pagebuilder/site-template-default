@@ -21,18 +21,12 @@ export default function DuplicatePageSettings({ page, variants, setDialogOpen })
   const toast = useToast();
   let variantStr = "", sectionVariant = "Variant not selected";
 
-  //const [duplicateSections, setDuplicateSections] = useState(page?.sections);
-  //const [pageTitle, setPageTitle] = useState(page?.title || page?.name);
-  const [duplicatePage, setDuplicatePage] = useState({
-    document: page,
-    title: page?.title || page?.name, 
-    sections: page?.sections,
-    setDialogOpen: setDialogOpen,
-  });
+  const [duplicateSections, setDuplicateSections] = useState(page?.sections);
+  const [pageTitle, setPageTitle] = useState(page?.title || page?.name);
 
   // FEATURE BUTTONS: NEW | EXCLUDE | REVERT REFERENCES
   const handleFeatureButtons = (feature: "new" | "exclude" | "revert", position: number) => {
-    const updated = duplicatePage?.sections?.map((section, index) => {
+    const updated = duplicateSections?.map((section, index) => {
       if(index !== position) {
         return section; // no change
       } else {
@@ -61,13 +55,12 @@ export default function DuplicatePageSettings({ page, variants, setDialogOpen })
       }
     });
 
-    //setDuplicateSections(updated);
-    setDuplicatePage((prev) => ({...prev, sections: updated}));
+    setDuplicateSections(updated);
   }
 
   // EDIT REFERENCE
   const handleEditReferenceBtn = (value: any, position) => {
-    const updated = duplicatePage?.sections?.map((section, index) => {
+    const updated = duplicateSections?.map((section, index) => {
       if(index !== position) {
         return section; // no change
       } else {
@@ -81,7 +74,7 @@ export default function DuplicatePageSettings({ page, variants, setDialogOpen })
           const { replaced, isEditing, ...rest } = value;
 
           // using non-null assertion operator
-          return duplicatePage!.sections[index] = { 
+          return duplicateSections[index] = { 
             replaced: true, 
             isEditing: false, 
             ...rest 
@@ -95,12 +88,11 @@ export default function DuplicatePageSettings({ page, variants, setDialogOpen })
       }
     });
 
-    //setDuplicateSections(updated);
-    setDuplicatePage((prev) => ({...prev, sections: updated}));
+    setDuplicateSections(updated);
   }
 
   return (
-    <DuplicatePageContextProvider duplicatePageData={duplicatePage}>
+    <DuplicatePageContextProvider duplicatePageData={{page, title: pageTitle, sections: duplicateSections, dialogFn: setDialogOpen}}>
       <Card padding={2}>
         <Stack space={2}>
           <Text size={1} weight="bold">
@@ -109,22 +101,22 @@ export default function DuplicatePageSettings({ page, variants, setDialogOpen })
           <div className="relative">
             <TextInput
               fontSize={2}
-              value={duplicatePage?.title}
+              value={pageTitle}
               padding={[3, 3, 4]}
               placeholder="Document title"
-              onChange={(event) => setDuplicatePage((prev) => ({...prev, title: event.target.value}))}
+              onChange={(event) => setPageTitle(event.target.value)}
               radius={2} 
               required
             />
-            {duplicatePage?.title !== (page?.title || page?.name)  && (
+            {pageTitle !== (page?.title || page?.name)  && (
               <ButtonWithTooltip toolTipText="Revert">
                 <button
                   className="absolute top-0 right-0 z-20 mt-3 mr-3"
                   style={{ 
-                    cursor: duplicatePage?.title !== page?.title || page?.name ? null : "not-allowed"
+                    cursor: pageTitle !== page?.title || page?.name ? null : "not-allowed"
                   }}
-                  disabled={duplicatePage?.title === page?.title || page?.name}
-                  onClick={() => setDuplicatePage((prev) => ({...prev, title: page?.title || page?.name}))}
+                  disabled={pageTitle === page?.title || page?.name}
+                  onClick={() => setPageTitle(page?.title || page?.name)}
                 >
                   <RestoreIcon style={{ fontSize: 24 }} />
                 </button>
@@ -137,7 +129,7 @@ export default function DuplicatePageSettings({ page, variants, setDialogOpen })
             <Text size={1} weight="bold">
               Sections
             </Text>
-            {duplicatePage?.sections?.map((section, index) => {
+            {duplicateSections?.map((section, index) => {
               if (section?.variant) {
                 variantStr =
                   section?.variant?.charAt(0).toUpperCase() +
@@ -241,13 +233,13 @@ export default function DuplicatePageSettings({ page, variants, setDialogOpen })
                           </Inline>
                           {/* Reference toggle button */}
                           <Box padding={3}>
-                            <ButtonWithTooltip toolTipText={!duplicatePage?.sections[index]?.current ? "Use Current" : "New Copy"}>
+                            <ButtonWithTooltip toolTipText={!duplicateSections[index]?.current ? "Use Current" : "New Copy"}>
                               <Switch 
                                 id={`${section?._type}-${index + 1}`}
                                 name={`${section?.label} include`}
                                 value={section?._type}
                                 disabled={!section?.include}
-                                checked={!duplicatePage?.sections[index]?.current}
+                                checked={!duplicateSections[index]?.current}
                                 onChange={() => handleFeatureButtons("new", index)}
                               />
                             </ButtonWithTooltip>
