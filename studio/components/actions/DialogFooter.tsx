@@ -99,7 +99,7 @@ export default function DialogFooter({ page, title, sections, dialogFn, values }
           onClick={() => handleDuplicateBtn({ 
             title: pageTitle, 
             slug: {
-              current: pageTitle?.replace(/[\s~`!@#$%^&*()_+\-={[}\]|\\:;"'<,>.?/]+/g, "-")?.toLowerCase(),
+              current: pageTitle?.replace(/[^a-z0-9 ]/gi, "")?.replace(/\s+/g, "-")?.toLowerCase(),
               _type: "slug"
             }, 
             _type: document?._type,
