@@ -43,7 +43,7 @@ export default function CustomDuplicateAction(props) {
           if(result?.sections?.length !== 0) {
             await sanityClient
               .fetch(
-                `*[_type in $sections && _id in path('drafts.**')] {
+                `*[_type in $sections] {
                   ...,
                   "current": true,
                   "include": true,

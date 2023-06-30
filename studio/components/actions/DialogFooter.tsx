@@ -13,23 +13,31 @@ export default function DialogFooter({ page, title, sections, dialogFn, values }
   const setDialogOpen = values?.dialogFn || dialogFn; 
 
   // DUPLICATE DOCUMENT
-  const handleDuplicateBtn = async (documentId: string, payload: any) => {
+  const handleDuplicateBtn = async (payload: any) => {
     setIsLoading(true);
 
     try {
-      const sections = await Promise.all(
+      const updatedSections = await Promise.all(
         payload?.sections?.map(async (section) => {
           if(section?.current) {
             // use the existing section object for the new document
-            return await sanityClient
-            .fetch(
-              `*[_id == $documentId][0].sections`, 
-              { documentId: documentId }
-            ).then((result) => result?.find((orig) => orig?._type === section?._type))
+            return {
+              _key: nanoid(),
+              _ref: section?._id,
+              _type: section?._type
+            }
           } else {
             // create new document for the section and use result "_id" as reference
             return await sanityClient
-              .create(section)
+              .create({
+                label: section?.label,
+                variant: section?.variant,
+                variants: section?.variants,
+                current: section?.current,
+                _type: section?._type === "pages_productInfo" 
+                  ? "productInfo" 
+                  : section?._type,
+              })
               .then((result) => ({ 
                 _key: nanoid(), 
                 _ref: result?._id, 
@@ -40,7 +48,7 @@ export default function DialogFooter({ page, title, sections, dialogFn, values }
         })
       );
 
-      payload.sections = sections;
+      payload.sections = updatedSections;
       console.log("[INFO] Duplicate sections created! ");
       
       // make sure we have new section documents before creating the duplicate document
@@ -67,7 +75,9 @@ export default function DialogFooter({ page, title, sections, dialogFn, values }
       }
     } catch (error) {
       setIsLoading(false);
+      
       console.log("Sorry, something went wrong. Failed to duplicate document.", error);
+
       toast.push({
         status: "error",
         title: "Sorry, something went wrong. Failed to duplicate document.",
@@ -87,7 +97,7 @@ export default function DialogFooter({ page, title, sections, dialogFn, values }
           fontSize={2}
           padding={3}
           text="Duplicate"
-          onClick={() => handleDuplicateBtn(document?._id, { 
+          onClick={() => handleDuplicateBtn({ 
             title: pageTitle, 
             slug: {
               current: pageTitle?.replace(/[\s~`!@#$%^&*()_+\-={[}\]|\\:;"'<,>.?/]+/g, "-")?.toLowerCase(),
@@ -96,13 +106,8 @@ export default function DialogFooter({ page, title, sections, dialogFn, values }
             _type: document?._type,
             sections: pageSections?.filter((section) => section?.include)?.map((section) => (
               {
-                label: section?.label,
-                variant: section?.variant,
-                variants: section?.variants,
-                current: section?.current,
-                _type: section?._type === "pages_productInfo" 
-                  ? "productInfo" 
-                  : section?._type,
+                ...section, 
+                _type: section?._type === "pages_productInfo" ? "productInfo" : section?._type
               }
             ))
           })}

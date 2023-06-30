@@ -73,7 +73,6 @@ export default function DuplicatePageSettings({ page, variants, setValues, setDi
           // return new shape
           const { replaced, isEditing, ...rest } = value;
 
-          // using non-null assertion operator
           return duplicateSections[index] = { 
             replaced: true, 
             isEditing: false, 
