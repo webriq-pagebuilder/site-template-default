@@ -33,7 +33,6 @@ export default function DialogFooter({ page, title, sections, dialogFn, values }
                 label: section?.label,
                 variant: section?.variant,
                 variants: section?.variants,
-                current: section?.current,
                 _type: section?._type === "pages_productInfo" 
                   ? "productInfo" 
                   : section?._type,
