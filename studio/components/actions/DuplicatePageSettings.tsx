@@ -144,7 +144,6 @@ export default function DuplicatePageSettings({ page, variants, setValues, setDi
             return (
               <React.Fragment key={section?._id}>
                 <Card 
-                  className="relative showBtn"
                   padding={3} 
                   radius={2} 
                   shadow={1} 
@@ -199,7 +198,7 @@ export default function DuplicatePageSettings({ page, variants, setValues, setDi
                   ) : (
                     <>
                       <Flex justify="space-between">
-                        <Inline space={2} padding={2}>
+                        <Inline className="showBtn" space={2} padding={2}>
                           <Text style={{ paddingTop: 7, minHeight: "24px" }}>
                             {section?.label ?? "Untitled document"}
                           </Text>
