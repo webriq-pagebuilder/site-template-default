@@ -1,19 +1,20 @@
-import { useState, useContext } from "react";
+import React from "react";
 import { CopyIcon } from "@sanity/icons"
 import { DuplicatePageSettings, DialogFooter } from "studio/components/actions";
 import { sanityClient } from "lib/sanity.client";
-import { DuplicatePageContext } from "studio/context/DuplicatePageContext";
 
 export default function CustomDuplicateAction(props) {
   const documentId = !props?.draft ? props?.id : props?.draft?._id;
+  const document = props?.drafts || props?.published;
 
-  const [page, setPage] = useState(null);
-  const [variants, setVariants] = useState(null);
-  const [dialogOpen, setDialogOpen] = useState(false);
-
-  const duplicatePageData = useContext(DuplicatePageContext);
-
-  console.log("duplicatePageData: ", duplicatePageData);
+  const [page, setPage] = React.useState(null);
+  const [variants, setVariants] = React.useState(null);
+  const [dialogOpen, setDialogOpen] = React.useState(false);
+  const [values, setValues] = React.useState({
+    page: document,
+    title: document?.title || document?.name,
+    sections: document?.sections,
+  })
 
   return {
     icon: CopyIcon,
@@ -36,13 +37,13 @@ export default function CustomDuplicateAction(props) {
           { documentId: documentId }
         )
         .then(async (result) => {
-          setPage(result)
+          setPage(result);
 
           // fetch all the variants based on the section type added in current document
           if(result?.sections?.length !== 0) {
             await sanityClient
               .fetch(
-                `*[_type in $sections] {
+                `*[_type in $sections && _id in path('drafts.**')] {
                   ...,
                   "current": true,
                   "include": true,
@@ -64,15 +65,23 @@ export default function CustomDuplicateAction(props) {
       },
       header: "Duplicate document content",
       content: (
-        <DuplicatePageSettings {...{ page, variants, setDialogOpen }} />
+        <DuplicatePageSettings {...{ 
+            page, 
+            variants, 
+            setValues, 
+            setDialogOpen 
+          }} 
+        />
       ),
       footer:(
-        <DialogFooter {...{
-          document: page, 
-          title: page?.title, 
-          sections: page?.sections, 
-          setDialogOpen 
-        }} />
+        <DialogFooter {...{ 
+            page, 
+            title: page?.title, 
+            sections: page?.sections, 
+            dialogFn: setDialogOpen,
+            values 
+          }} 
+        />
       )
     }
   }

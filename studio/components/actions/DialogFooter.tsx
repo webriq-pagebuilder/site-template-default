@@ -3,9 +3,14 @@ import { Box, Button, Flex, useToast } from "@sanity/ui";
 import { nanoid } from "nanoid";
 import { sanityClient } from "lib/sanity.client";
 
-export default function DialogFooter({ document, title, sections, setDialogOpen }) {
+export default function DialogFooter({ page, title, sections, dialogFn, values }) {
   const toast = useToast();
   const [isLoading, setIsLoading] = useState(false);
+
+  const document = values?.page || page;
+  const pageTitle = values?.title || title;
+  const pageSections = values?.sections || sections;
+  const setDialogOpen = values?.dialogFn || dialogFn; 
 
   // DUPLICATE DOCUMENT
   const handleDuplicateBtn = async (documentId: string, payload: any) => {
@@ -73,7 +78,7 @@ export default function DialogFooter({ document, title, sections, setDialogOpen 
   return (
     <Flex justify="space-between">
       <p className="ml-4 text-sm text-gray-500">
-        <span className="font-bold">{sections?.filter((section) => section?.include)?.length}</span>{" "}
+        <span className="font-bold">{pageSections?.filter((section) => section?.include)?.length}</span>{" "}
         section/s to duplicate
       </p>
       <Box style={{ textAlign: "right" }}>
@@ -83,13 +88,13 @@ export default function DialogFooter({ document, title, sections, setDialogOpen 
           padding={3}
           text="Duplicate"
           onClick={() => handleDuplicateBtn(document?._id, { 
-            title: title, 
+            title: pageTitle, 
             slug: {
-              current: title?.replace(/.$/, '')?.replace(/[\s~`!@#$%^&*()_+\-={[}\]|\\:;"'<,>.?/]+/g, "-")?.toLowerCase(),
+              current: pageTitle?.replace(/[\s~`!@#$%^&*()_+\-={[}\]|\\:;"'<,>.?/]+/g, "-")?.toLowerCase(),
               _type: "slug"
             }, 
             _type: document?._type,
-            sections: sections?.filter((section) => section?.include)?.map((section) => (
+            sections: pageSections?.filter((section) => section?.include)?.map((section) => (
               {
                 label: section?.label,
                 variant: section?.variant,
@@ -102,9 +107,9 @@ export default function DialogFooter({ document, title, sections, setDialogOpen 
             ))
           })}
           loading={isLoading}
-          disabled={!title || sections?.filter((section) => section.include)?.length === 0}
+          disabled={!pageTitle || pageSections?.filter((section) => section.include)?.length === 0}
           style={{ 
-            backgroundColor: !title || sections?.filter((section) => section.include)?.length === 0 ? "#d5e3ff" : "#0045d8", 
+            backgroundColor: !pageTitle || pageSections?.filter((section) => section.include)?.length === 0 ? "#d5e3ff" : "#0045d8", 
             boxShadow: "unset", 
             marginRight: "10px" 
           }}
