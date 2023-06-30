@@ -14,7 +14,7 @@ export default function SearchBar({ searchItems, onClickHandler }: SearchItemsTy
       icon={MdManageSearch}
       id="variants-list-searchbar"
       options={options}
-      placeholder="Select to replace current variant"
+      placeholder="Select to replace current one"
       // custom search filter
       filterOption={(query, option) => 
         option?.label

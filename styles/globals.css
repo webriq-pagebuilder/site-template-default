@@ -197,7 +197,7 @@ select[data-testid="field-group-select"] > option:first-child {
 }
 
 /* Duplicate page settings modal */
-.replace-btn:hover .hide {
+.showBtn:hover .hide {
   display: block;
 }
 
