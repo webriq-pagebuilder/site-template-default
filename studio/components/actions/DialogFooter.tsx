@@ -108,7 +108,8 @@ export default function DialogFooter({ page, title, sections, dialogFn, values }
                 ...section, 
                 _type: section?._type === "pages_productInfo" ? "productInfo" : section?._type
               }
-            ))
+            )),
+            seo: document?.seo
           })}
           loading={isLoading}
           disabled={!pageTitle || pageSections?.filter((section) => section.include)?.length === 0}

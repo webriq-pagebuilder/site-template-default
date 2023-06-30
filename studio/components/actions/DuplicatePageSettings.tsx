@@ -2,11 +2,9 @@ import React, { useState } from "react";
 import {
   Badge,
   Box, 
-  Button, 
   Card, 
   Flex,
   Inline, 
-  useToast,
   Stack, 
   Switch, 
   Text, 
@@ -17,7 +15,6 @@ import { ButtonWithTooltip, SearchBar } from ".";
 
 
 export default function DuplicatePageSettings({ page, variants, setValues, setDialogOpen }) {
-  const toast = useToast();
   let variantStr = "", sectionVariant = "Variant not selected";
 
   const [duplicateSections, setDuplicateSections] = useState(page?.sections);
@@ -65,11 +62,6 @@ export default function DuplicatePageSettings({ page, variants, setValues, setDi
         return section; // no change
       } else {
         if(value) {
-          toast.push({
-            status: "success",
-            title: "Current reference was updated!",
-          });
-
           // return new shape
           const { replaced, isEditing, ...rest } = value;
 
