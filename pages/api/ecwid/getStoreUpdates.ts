@@ -1,5 +1,5 @@
 // this will return the response from the Ecwid store events web hook
-import { baseUrl, requestHeaders, secret, siteUrl } from "utils/ecwidConfig";
+import { baseUrl, requestHeaders, secret, siteUrl } from "utils/ecwid/config";
 import { sanityClient } from "lib/sanity.client";
 import fetch from "node-fetch";
 import _ from "lodash";
