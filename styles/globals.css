@@ -196,6 +196,11 @@ select[data-testid="field-group-select"] > option:first-child {
   z-index: 40;
 }
 
+/* Duplicate page settings modal */
+.showBtn:hover .hide {
+  display: block;
+}
+
 /** Help Guide **/
 div[aria-label="List of Content"] {
   min-height: calc(100vh - 260px);

@@ -75,8 +75,8 @@ export default defineConfig({
   },
   document: {
     badges: [LiveURLBadge],
-    actions: (prev, { schemaType }) =>
-      ResolveDocumentActions({ prev, schemaType }),
+    actions: (prev, context) =>
+      ResolveDocumentActions({ prev, context }),
     // Open preview link
     productionUrl: async (prev, context) => {
       // context includes the client and other details
