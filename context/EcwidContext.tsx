@@ -5,6 +5,7 @@ import { includes } from "lodash";
 import { EProduct, EcwidTypes } from "./_ecwid-types";
 import { isEqual } from "lodash";
 import { CollectionProduct } from "../types";
+import _ from "lodash";
 
 interface EcConfig {
   storefrontUrls?: {
@@ -118,7 +119,7 @@ export function EcwidContextProvider({ children }) {
           value: i.value,
         }));
 
-        if (isEqual(arrOptions, filterArrSelected)) {
+        if (_.isEqual(arrOptions, filterArrSelected)) {
           return items;
         }
       });

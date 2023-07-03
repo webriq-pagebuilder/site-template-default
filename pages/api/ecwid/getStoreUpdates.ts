@@ -1,5 +1,5 @@
 // this will return the response from the Ecwid store events web hook
-import { baseUrl, requestHeaders, secret, siteUrl } from "utils/ecwid/config";
+import { baseUrl, requestHeaders, secret, siteUrl } from "utils/ecwidConfig";
 import { sanityClient } from "lib/sanity.client";
 import fetch from "node-fetch";
 import _ from "lodash";
@@ -10,11 +10,9 @@ export default async (req, res) => {
 
   const { eventType } = req?.body;
 
-  let maxRetryPromise = 3;
-
   console.log("[INFO] Store event data: ", req.body);
 
-  if (["order.created", "order.updated"].includes(eventType)) {
+  if (["order.created"].includes(eventType)) {
     try {
       if (orderId && storeId) {
         console.log("[INFO] Fetching details from this order...");
@@ -36,12 +34,15 @@ export default async (req, res) => {
             return response?.items;
           });
 
+        // console.log("orderItems", JSON.stringify(orderItems, null, 3));
         if (orderItems && orderItems?.length !== 0) {
-          const productIds = orderItems?.map((item) =>
-            item?.productId.toString()
-          );
+          const newOrderArray = orderItems?.filter((item) => item.price !== 0);
 
-          const skuId = orderItems?.map((item) => item.sku.toString());
+          console.log(
+            "Reset order items without bundle products",
+            newOrderArray.length
+          );
+          const productIds = newOrderArray?.map((item) => item?.productId);
 
           if (productIds && productIds?.length !== 0) {
             console.log(
@@ -51,10 +52,10 @@ export default async (req, res) => {
             // Check if these productIds are in Sanity Studio but only return those which are product bundles and their products
             const studioBundleProducts = await sanityClient
               .fetch(
-                `*[_type=="products" && pid in $productIds && !(_id in path("drafts.**")) && isProductBundle == true] {
+                `*[_type=="mainProduct" && ecwidProductId in $productIds && !(_id in path("drafts.**")) && isProductBundle == true] {
                   ...,
-                  productsIsInBundle[]->,
-                  "productsInBundleIds": productsIsInBundle[]->pid
+                  productsInBundle[]->,
+                  "productsInBundleIds": productsInBundle[]->ecwidProductId
                 }`,
                 { productIds: productIds }
               )
@@ -75,9 +76,10 @@ export default async (req, res) => {
             // console.log("studioBundleProducts", studioBundleProducts);
 
             if (studioBundleProducts.length > 0) {
-              const getProductSku = orderItems?.flatMap((items) => {
+              const getProductSku = newOrderArray?.flatMap((items) => {
                 return items?.selectedOptions?.flatMap((options) => {
                   return {
+                    orderId: items.id,
                     id: items?.productId,
                     quantity: items?.quantity,
                     selectedOptions: items?.selectedOptions,
@@ -90,11 +92,15 @@ export default async (req, res) => {
                 });
               });
 
+              // console.log("getProductSku", getProductSku);
               const getproductBySku = await Promise.all(
-                getProductSku.map(async (prod) => {
+                getProductSku?.map(async (prod) => {
+                  // console.log("product sku", prod?.sku);
                   return await fetch(
                     baseUrl +
-                      `/${storeId}/products?sku=${prod?.sku.toString()}`,
+                      `/${storeId}/products?sku=${
+                        prod?.sku !== "" && prod?.sku.toString()
+                      }`,
                     {
                       method: "GET",
                       headers: requestHeaders,
@@ -102,8 +108,8 @@ export default async (req, res) => {
                   )
                     .then((response) => response.json())
                     .then((data) => {
-                      return data.items.map((item) => {
-                        let variantCombination = prod.selectedOptions?.flatMap(
+                      return data?.items?.map((item) => {
+                        let variantCombination = prod?.selectedOptions?.flatMap(
                           (opt, idx) => {
                             let prodCombinations = item?.combinations?.find(
                               (combi) => combi?.sku === prod?.sku
@@ -112,6 +118,7 @@ export default async (req, res) => {
                             return {
                               id: prodCombinations?.id,
                               orderSKU: prod?.orderSKU,
+                              orderId: prod?.orderId,
                               name: prodCombinations?.options
                                 .map(({ name }) => name)
                                 .toString(),
@@ -121,12 +128,12 @@ export default async (req, res) => {
                                   selectionModifier: 0,
                                   selectionModifierType: "ABSOLUTE",
                                   selectionTitle: prodCombinations?.options
-                                    .map(({ value }) => value)
-                                    .toString(),
+                                    ?.map(({ value }) => value)
+                                    ?.toString(),
                                 },
                               ],
                               value: prodCombinations?.options
-                                .map(({ value }) => value)
+                                ?.map(({ value }) => value)
                                 .toString(),
                               valuesArray: prodCombinations?.options?.map(
                                 ({ value }) => value
@@ -136,6 +143,7 @@ export default async (req, res) => {
                         )[0];
 
                         return {
+                          orderId: prod?.orderId,
                           orderSKU: variantCombination?.orderSKU,
                           productId: item?.id,
                           name: item?.name,
@@ -160,90 +168,92 @@ export default async (req, res) => {
                 })
               );
 
-              // console.log(
-              //   "getproductBySku",
-              //   _.groupBy(getproductBySku.flat(), "orderSKU")
-              // );
+              // console.log("getproductBySku", getproductBySku);
 
               const studioBundles =
                 studioBundleProducts &&
                 studioBundleProducts.length > 0 &&
                 (
                   await Promise.all(
-                    studioBundleProducts.flatMap(async (products) => {
-                      const product = await fetch(
-                        baseUrl +
-                          `/${storeId}/products?productId=${products.productsInBundleIds.toString()}`,
-                        {
-                          method: "GET",
-                          headers: requestHeaders,
-                        }
-                      )
-                        .then((response) => response.json())
-                        .then((data) =>
-                          data.items.flatMap((item) => {
-                            return {
-                              id: item.id,
-                              name: item.name,
-                              sku: item.sku,
-                              options: item.options,
-                              combinations: item.combinations,
-                            };
-                          })
-                        );
+                    studioBundleProducts?.flatMap(async (products) => {
+                      if (
+                        products?.productsInBundleIds !== null &&
+                        products?.productsInBundleIds.length > 0
+                      ) {
+                        const product = await fetch(
+                          baseUrl +
+                            `/${storeId}/products?productId=${products?.productsInBundleIds?.toString()}`,
+                          {
+                            method: "GET",
+                            headers: requestHeaders,
+                          }
+                        )
+                          .then((response) => response.json())
+                          .then((data) =>
+                            data?.items?.flatMap((item) => {
+                              return {
+                                id: item?.id,
+                                name: item?.name,
+                                sku: item?.sku,
+                                options: item?.options,
+                                combinations: item?.combinations,
+                              };
+                            })
+                          );
 
-                      return {
-                        id: products.pid,
-                        products: product,
-                      };
+                        return {
+                          id: products.ecwidProductId,
+                          products: product,
+                        };
+                      } else {
+                        return null;
+                      }
                     })
                   )
                 ).flat();
 
               // console.log("studioBundles", studioBundles);
 
-              const newOrderArray = orderItems.filter(
-                (item) => item.price !== 0
-              );
+              const groupBySku = _.groupBy(getproductBySku.flat(), "orderId");
 
-              console.log(
-                "Reset order items without bundle products",
-                newOrderArray.length
-              );
-
-              const groupBySku = _.groupBy(getproductBySku.flat(), "orderSKU");
-
+              // console.log("getproductBySku", groupBySku);
               let newArrayItems = [];
               newOrderArray &&
-                newOrderArray.map((items) => {
+                newOrderArray?.map((items) => {
                   let productskuList = [];
                   let productList = [];
 
-                  const studioProducts = studioBundles.find(
-                    (prod) => +prod.id === items.productId
-                  )?.products;
+                  const studioProducts =
+                    studioBundles &&
+                    studioBundles.find((prod) => prod?.id === items?.productId)
+                      ?.products;
 
-                  groupBySku[items?.sku]?.map((item) =>
+                  groupBySku[items.id]?.map((item) =>
                     productskuList.push({
                       productId: item?.productId,
                       name: item.name,
                       sku: item.sku,
                       price: item.price,
                       quantity: item?.quantity,
-                      selectedOptions: item.selectedOptions,
-                      combinationId: item.combinationId,
+                      selectedOptions: item?.combinationId
+                        ? item?.selectedOptions
+                        : null,
+                      combinationId: item?.combinationId
+                        ? item?.combinationId
+                        : null,
                     })
                   );
 
-                  studioProducts?.map((prods) =>
-                    productList?.push({
-                      productId: prods?.id,
-                      name: prods?.name,
-                      sku: prods?.sku,
-                      price: 0,
-                      quantity: items?.quantity,
-                    })
-                  );
+                  studioBundles &&
+                    studioProducts?.map((prods) =>
+                      productList?.push({
+                        productId: prods?.id,
+                        name: prods?.name,
+                        sku: prods?.sku,
+                        price: 0,
+                        quantity: items?.quantity,
+                      })
+                    );
 
                   return newArrayItems.push(
                     items,
@@ -329,24 +339,4 @@ async function retryPromise(maxRetry, arrayOfPromises) {
 
   // after loop ends per maxRetry, return the final results
   return results;
-}
-
-/**
- *
- * @param {*} data - { productId, action, quantityDelta }
- *
- */
-async function adjustInventoryRequest(data) {
-  return fetch(`${siteUrl}/api/ecwid/adjustInventory`, {
-    method: "PUT",
-    headers: {
-      "content-type": "application/json",
-      Authorization: secret,
-    },
-    body: JSON.stringify({
-      productId: data?.productId,
-      action: data?.action,
-      quantity: data?.quantity,
-    }),
-  });
 }
