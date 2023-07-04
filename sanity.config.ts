@@ -49,7 +49,7 @@ export default defineConfig({
     media(),
     codeInput(),
     openaiImageAsset({
-      API_KEY: NEXT_PUBLIC_SANITY_PROJECT_OPENAI_KEY, // TODO: Update personal API key with default from WebriQ
+      API_KEY: NEXT_PUBLIC_SANITY_PROJECT_OPENAI_KEY
     }),
   ],
   tools: (prev) => {
@@ -78,8 +78,8 @@ export default defineConfig({
   },
   document: {
     badges: [LiveURLBadge],
-    actions: (prev, { schemaType }) =>
-      ResolveDocumentActions({ prev, schemaType }),
+    actions: (prev, context) =>
+      ResolveDocumentActions({ prev, context }),
     // Open preview link
     productionUrl: async (prev, context) => {
       // context includes the client and other details
