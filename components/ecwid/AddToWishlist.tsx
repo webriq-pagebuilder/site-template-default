@@ -1,5 +1,6 @@
 import { useEcwid } from "context/EcwidContext";
 import React, { useEffect } from "react";
+import { TypedObject } from "sanity";
 import _ from "lodash";
 import { EcwidTypes } from "context/_ecwid-types";
 
@@ -12,7 +13,7 @@ interface AddToWishlistProps {
         name: string;
         ecwidProductId: number;
         price: string;
-        description: string;
+        description: TypedObject | TypedObject[] | null;
       };
   containerClass?: string;
 }

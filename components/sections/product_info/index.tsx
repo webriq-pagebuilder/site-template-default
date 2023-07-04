@@ -1,4 +1,5 @@
 import { memo, useMemo, useEffect } from "react";
+import { TypedObject } from "sanity";
 import dynamic from "next/dynamic";
 import { useEcwid } from "context/EcwidContext";
 
@@ -10,7 +11,7 @@ interface ProductIndexProps extends SectionsProps {
     name: string;
     ecwidProductId: number;
     price: string;
-    description: string;
+    description: TypedObject | TypedObject[] | null;
   };
 }
 
