@@ -18,7 +18,7 @@ export default function DuplicatePageSettings({ page, variants, setValues, setDi
   let variantStr = "", sectionVariant = "Variant not selected";
 
   const [duplicateSections, setDuplicateSections] = useState(page?.sections);
-  const [pageTitle, setPageTitle] = useState(page?.title || page?.name);
+  const [pageTitle, setPageTitle] = useState(`Copy of ${page?.title || page?.name}`);
 
   // FEATURE BUTTONS: NEW | EXCLUDE | REVERT REFERENCES
   const handleFeatureButtons = (feature: "new" | "exclude" | "revert", position: number) => {
@@ -102,7 +102,7 @@ export default function DuplicatePageSettings({ page, variants, setValues, setDi
             radius={2} 
             required
           />
-          {pageTitle !== (page?.title || page?.name)  && (
+          {pageTitle !== `Copy of ${page?.title || page?.name}`  && (
             <ButtonWithTooltip toolTipText="Revert">
               <button
                 className="absolute top-0 right-0 z-20 mt-3 mr-3"
@@ -191,15 +191,27 @@ export default function DuplicatePageSettings({ page, variants, setValues, setDi
                     <>
                       <Flex justify="space-between">
                         <Inline className="showBtn" space={2} padding={2}>
-                          <Text style={{ paddingTop: 7, minHeight: "24px" }}>
-                            {section?.label ?? "Untitled document"}
-                          </Text>
-                          {!section?.include ? (
-                            <Badge mode="outline" tone="critical">Not included</Badge> 
+                          {!section?.current ? (
+                            <Inline space={2}>
+                              <Text style={{ paddingTop: 7, minHeight: "24px" }}>
+                                {`Copy of ${section?.label ?? "Untitled document"}`}
+                              </Text>
+                              {!section?.include && (
+                                <Badge mode="outline" tone="critical">Not included</Badge> 
+                              )}
+                              {!section?.current && (
+                                <Badge mode="outline" tone="primary">New</Badge>
+                              )}
+                            </Inline>
                           ) : (
-                            !section?.current && (
-                              <Badge mode="outline" tone="primary">New Copy</Badge>
-                            )
+                            <Inline space={2}>
+                              <Text style={{ paddingTop: 7, minHeight: "24px" }}>
+                                {section?.label ?? "Untitled document"}
+                              </Text>
+                              {!section?.include && (
+                                <Badge mode="outline" tone="critical">Not included</Badge> 
+                              )}
+                            </Inline>
                           )}
                           {/* Replace reference button */}
                           {section?.include && (
