@@ -215,3 +215,27 @@ div[aria-label="List of Content"] > div:last-child {
   top: inherit !important;
 }
 /* End */
+
+/** Scheduled publishing **/
+.react-calendar {
+  width: 350px;
+  max-width: 100%;
+  background: white;
+  border: 1px solid #c6cad3ff;
+  border-radius: 0.1875rem;
+  line-height: 1.125em;
+}
+.react-calendar button.react-calendar__tile--now{
+  background: #d5e3ff;
+}
+.react-calendar button.react-calendar__tile--now:hover{
+  background: #d5e3ff;
+}
+.react-calendar button.react-calendar__tile--active{
+  background: #0045d8;
+  color: white;
+}
+.react-calendar button.react-calendar__tile--active:hover{
+  background: #0045d8;
+}
+/** End **/
