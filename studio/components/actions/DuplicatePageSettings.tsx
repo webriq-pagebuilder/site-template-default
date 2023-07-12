@@ -8,9 +8,10 @@ import {
   Stack, 
   Switch, 
   Text, 
-  TextInput, 
+  TextInput,
+  Tooltip, 
 } from "@sanity/ui";
-import { ComposeIcon, ArrowLeftIcon, RestoreIcon, CloseCircleIcon } from "@sanity/icons"
+import { ComposeIcon, ArrowLeftIcon, RestoreIcon, CloseCircleIcon, InfoOutlineIcon, CheckmarkIcon } from "@sanity/icons"
 import { ButtonWithTooltip, SearchBar } from ".";
 
 
@@ -18,7 +19,8 @@ export default function DuplicatePageSettings({ page, variants, setValues, setDi
   let variantStr = "", sectionVariant = "Variant not selected";
 
   const [duplicateSections, setDuplicateSections] = useState(page?.sections);
-  const [pageTitle, setPageTitle] = useState(`Copy of ${page?.title || page?.name}`);
+  const [pageTitle, setPageTitle] = useState("");
+  const [sectionLabel, setSectionLabel] = useState("");
 
   // FEATURE BUTTONS: NEW | EXCLUDE | REVERT REFERENCES
   const handleFeatureButtons = (feature: "new" | "exclude" | "revert", position: number) => {
@@ -29,7 +31,8 @@ export default function DuplicatePageSettings({ page, variants, setValues, setDi
         if(feature === "new") {
           return {
             ...section,
-            current: !section.current
+            current: !section.current,
+            ready: !section.ready      
           }
         } else if(feature === "exclude") {
           return {
@@ -83,40 +86,65 @@ export default function DuplicatePageSettings({ page, variants, setValues, setDi
     setValues((prev) => ({...prev, sections: updated, dialogFn: setDialogOpen}));
   }
 
+  const handleInputSectionLabel = (value, position: number) => {
+    setSectionLabel(value);
+
+    const updated = duplicateSections?.map((section, index) => {
+      if(index !== position) {
+        return section; // no change
+      } else {
+        if(value?.trim()?.length !== 0) {
+          return {
+            ...section,
+            label: value,
+            ready: true
+          }
+        }
+
+        return {
+          ...section,
+          label: page?.sections?.[index]?.label,
+          ready: false
+        }     
+      }
+    });
+
+    setValues((prev) => ({...prev, sections: updated}));
+  }
+
   return (
     <Card padding={2}>
       <Stack space={2}>
         <Text size={1} weight="bold">
           Title
         </Text>
+    
         <div className="relative">
           <TextInput
             fontSize={2}
             value={pageTitle}
             padding={[3, 3, 4]}
-            placeholder="Document title"
+            placeholder={page?.title || page?.name}
             onChange={(event) => {
               setPageTitle(event.target.value)
               setValues((prev) => ({...prev, title: event.target.value}))
             }}
-            radius={2} 
-            required
+            radius={2}
           />
-          {pageTitle !== `Copy of ${page?.title || page?.name}`  && (
+          {pageTitle?.trim()?.length !== 0 && (pageTitle?.toUpperCase() !== page?.title?.toUpperCase()) && (
             <ButtonWithTooltip toolTipText="Revert">
               <button
                 className="absolute top-0 right-0 z-20 mt-3 mr-3"
-                style={{ 
-                  cursor: pageTitle !== page?.title || page?.name ? null : "not-allowed"
-                }}
-                disabled={pageTitle === page?.title || page?.name}
-                onClick={() => setPageTitle(page?.title || page?.name)}
+                onClick={() => setPageTitle("")}
               >
                 <RestoreIcon style={{ fontSize: 24 }} />
               </button>
             </ButtonWithTooltip>
           )}
         </div>
+        <Text size={1} style={{ marginTop: "3px", marginBottom: "5px", color: "#fb914e" }}>
+          Add a unique title to make duplicate stand out from this page
+        </Text>
       </Stack>
       <Box paddingY={4}>
         <Stack space={2}>
@@ -193,9 +221,15 @@ export default function DuplicatePageSettings({ page, variants, setValues, setDi
                         <Inline className="showBtn" space={2} padding={2}>
                           {!section?.current ? (
                             <Inline space={2}>
-                              <Text style={{ paddingTop: 7, minHeight: "24px" }}>
-                                {`Copy of ${section?.label ?? "Untitled document"}`}
-                              </Text>
+                              <TextInput
+                                fontSize={2} 
+                                value={sectionLabel} 
+                                placeholder={page?.sections?.[index]?.label}
+                                onChange={(event) => handleInputSectionLabel(event?.target?.value, index)}
+                                radius={2}
+                                iconRight={(sectionLabel?.trim()?.length > 0 && sectionLabel !== section?.label) && CheckmarkIcon}
+                                required 
+                              />
                               {!section?.include && (
                                 <Badge mode="outline" tone="critical">Not included</Badge> 
                               )}

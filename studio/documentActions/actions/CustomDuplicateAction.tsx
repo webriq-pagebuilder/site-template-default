@@ -14,6 +14,7 @@ export default function CustomDuplicateAction(props) {
     page: document,
     title: document?.title || document?.name,
     sections: document?.sections,
+    ready: false,
   })
 
   return {
@@ -31,7 +32,8 @@ export default function CustomDuplicateAction(props) {
               "current": true,
               "include": true,
               "replaced": false,
-              "isEditing": false, 
+              "isEditing": false,
+              "ready": true,
             }, 
           }`, 
           { documentId: documentId }
@@ -49,6 +51,7 @@ export default function CustomDuplicateAction(props) {
                   "include": true,
                   "replaced": false,
                   "isEditing": false,
+                  "ready": true,
                 }`,
                 { sections: result?.sections?.map((section) => section?._type) }
             )
@@ -60,10 +63,10 @@ export default function CustomDuplicateAction(props) {
     },
     dialog: dialogOpen && {
       type: "dialog",
-      onClose: () => {
-        setDialogOpen(false);
-      },
-      header: "Duplicate document content",
+      // onClose: () => {
+      //   setDialogOpen(false);
+      // }, // comment to prevent dialog from closing on click outside
+      header: "Duplicate page content",
       content: (
         <DuplicatePageSettings {...{ 
             page, 
