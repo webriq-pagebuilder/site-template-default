@@ -10,7 +10,7 @@ import {
   Text, 
   TextInput,
 } from "@sanity/ui";
-import { ComposeIcon, ArrowLeftIcon, RestoreIcon, CloseCircleIcon, InfoOutlineIcon, CheckmarkCircleIcon } from "@sanity/icons"
+import { ComposeIcon, ArrowLeftIcon, RestoreIcon, CloseCircleIcon } from "@sanity/icons"
 import { ButtonWithTooltip, SearchBar } from ".";
 
 
@@ -27,11 +27,11 @@ export default function DuplicatePageSettings({ page, variants, values, setValue
       if(index !== position) {
         return section; // no change
       } else {
-        if(feature === "new") {
+        if(feature === "new") {          
           return {
             ...section,
             current: !section.current,
-            ready: !section?.ready,
+            ready: !section.ready
           }
         } else if(feature === "exclude") {
           return {
@@ -88,10 +88,10 @@ export default function DuplicatePageSettings({ page, variants, values, setValue
 
   // UPDATE SECTION LABEL FOR NEW COPY
   const handleUpdateSectionLabel = (event, position: number) => {
-    setValues((prev) => ({...prev, sections: prev?.sections?.map((section, prevIndex) => {
-      const value = event?.target?.value;
-      const hasValue = value?.trim()?.length !== 0;
+    const value = event?.target?.value;
+    const hasValue = value?.trim()?.length !== 0;
 
+    setValues((prev) => ({...prev, sections: prev?.sections?.map((section, prevIndex) => {
       if (prevIndex === position) {
         return {
           ...section, 
@@ -99,7 +99,6 @@ export default function DuplicatePageSettings({ page, variants, values, setValue
           ready: hasValue ? true : false
         }
       }
-
       return section
     })}))
   }
@@ -231,9 +230,6 @@ export default function DuplicatePageSettings({ page, variants, values, setValue
                               {!section?.current && (
                                 <Badge mode="outline" tone="primary">New</Badge>
                               )}
-                              {section?.replaced && (
-                                <Badge mode="outline" tone="caution">Updated</Badge>
-                              )}
                             </Inline>
                           ) : (
                             <Inline space={2}>
@@ -242,9 +238,6 @@ export default function DuplicatePageSettings({ page, variants, values, setValue
                               </Text>
                               {!section?.include && (
                                 <Badge mode="outline" tone="critical">Not included</Badge> 
-                              )}
-                              {section?.replaced && (
-                                <Badge mode="outline" tone="caution">Updated</Badge>
                               )}
                             </Inline>
                           )}
@@ -290,6 +283,13 @@ export default function DuplicatePageSettings({ page, variants, values, setValue
                           {`${sectionVariant} • ${section?._type?.toUpperCase()}`}
                         </Text>
                       </Box>
+                      {section?.replaced && (
+                        <Box padding={2}>
+                          <Text size={1} style={{ fontStyle: "italic", color: "blue" }} muted>
+                            This section has been updated
+                          </Text>
+                        </Box>
+                      )}
                     </>
                   )}
                 </Card>

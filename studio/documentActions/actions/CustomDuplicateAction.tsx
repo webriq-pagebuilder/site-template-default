@@ -14,7 +14,6 @@ export default function CustomDuplicateAction(props) {
     page: document,
     title: document?.title || document?.name,
     sections: document?.sections,
-    ready: false,
   })
 
   return {
