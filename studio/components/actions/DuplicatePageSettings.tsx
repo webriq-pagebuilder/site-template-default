@@ -11,7 +11,7 @@ import {
   TextInput,
   Tooltip, 
 } from "@sanity/ui";
-import { ComposeIcon, ArrowLeftIcon, RestoreIcon, CloseCircleIcon, InfoOutlineIcon, CheckmarkIcon } from "@sanity/icons"
+import { ComposeIcon, ArrowLeftIcon, RestoreIcon, CloseCircleIcon, InfoOutlineIcon, CheckmarkCircleIcon } from "@sanity/icons"
 import { ButtonWithTooltip, SearchBar } from ".";
 
 
@@ -38,6 +38,7 @@ export default function DuplicatePageSettings({ page, variants, setValues, setDi
           return {
             ...section,
             include: !section?.include,
+            current: true,
             isEditing: false,
           }
         } else if(feature === "revert") {
@@ -125,6 +126,10 @@ export default function DuplicatePageSettings({ page, variants, setValues, setDi
             value={pageTitle}
             padding={[3, 3, 4]}
             placeholder={page?.title || page?.name}
+            style={{
+              border: "1px solid #fb914e",
+              borderRadius: "5px",
+            }}
             onChange={(event) => {
               setPageTitle(event.target.value)
               setValues((prev) => ({...prev, title: event.target.value}))
@@ -166,7 +171,7 @@ export default function DuplicatePageSettings({ page, variants, setValues, setDi
                 <Card 
                   padding={3} 
                   radius={2} 
-                  shadow={1} 
+                  shadow={1}
                   style={{
                     backgroundColor: !section?.include && "#e5e7ebb5"
                   }}
@@ -227,7 +232,8 @@ export default function DuplicatePageSettings({ page, variants, setValues, setDi
                                 placeholder={page?.sections?.[index]?.label}
                                 onChange={(event) => handleInputSectionLabel(event?.target?.value, index)}
                                 radius={2}
-                                iconRight={(sectionLabel?.trim()?.length > 0 && sectionLabel !== section?.label) && CheckmarkIcon}
+                                iconRight={(sectionLabel?.trim()?.length > 0 && sectionLabel !== section?.label) ? <CheckmarkCircleIcon style={{ color: "#fb914e" }} /> : <InfoOutlineIcon/>}
+                                size={25}
                                 required 
                               />
                               {!section?.include && (
