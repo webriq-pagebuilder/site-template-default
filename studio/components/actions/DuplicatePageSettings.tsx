@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   Badge,
   Box, 
@@ -9,18 +9,17 @@ import {
   Switch, 
   Text, 
   TextInput,
-  Tooltip, 
 } from "@sanity/ui";
 import { ComposeIcon, ArrowLeftIcon, RestoreIcon, CloseCircleIcon, InfoOutlineIcon, CheckmarkCircleIcon } from "@sanity/icons"
 import { ButtonWithTooltip, SearchBar } from ".";
 
 
-export default function DuplicatePageSettings({ page, variants, setValues, setDialogOpen }) {
+export default function DuplicatePageSettings({ page, variants, values, setValues, setDialogOpen }) {
   let variantStr = "", sectionVariant = "Variant not selected";
 
-  const [duplicateSections, setDuplicateSections] = useState(page?.sections);
-  const [pageTitle, setPageTitle] = useState("");
-  const [sectionLabel, setSectionLabel] = useState("");
+  const [duplicateSections, setDuplicateSections] = React.useState(page?.sections);
+  const [pageTitle, setPageTitle] = React.useState("");
+
 
   // FEATURE BUTTONS: NEW | EXCLUDE | REVERT REFERENCES
   const handleFeatureButtons = (feature: "new" | "exclude" | "revert", position: number) => {
@@ -32,7 +31,7 @@ export default function DuplicatePageSettings({ page, variants, setValues, setDi
           return {
             ...section,
             current: !section.current,
-            ready: !section.ready      
+            ready: !section?.ready,
           }
         } else if(feature === "exclude") {
           return {
@@ -87,30 +86,22 @@ export default function DuplicatePageSettings({ page, variants, setValues, setDi
     setValues((prev) => ({...prev, sections: updated, dialogFn: setDialogOpen}));
   }
 
-  const handleInputSectionLabel = (value, position: number) => {
-    setSectionLabel(value);
+  // UPDATE SECTION LABEL FOR NEW COPY
+  const handleUpdateSectionLabel = (event, position: number) => {
+    setValues((prev) => ({...prev, sections: prev?.sections?.map((section, prevIndex) => {
+      const value = event?.target?.value;
+      const hasValue = value?.trim()?.length !== 0;
 
-    const updated = duplicateSections?.map((section, index) => {
-      if(index !== position) {
-        return section; // no change
-      } else {
-        if(value?.trim()?.length !== 0) {
-          return {
-            ...section,
-            label: value,
-            ready: true
-          }
-        }
-
+      if (prevIndex === position) {
         return {
-          ...section,
-          label: page?.sections?.[index]?.label,
-          ready: false
-        }     
+          ...section, 
+          label: hasValue ? value : page?.sections?.[position]?.label,
+          ready: hasValue ? true : false
+        }
       }
-    });
 
-    setValues((prev) => ({...prev, sections: updated}));
+      return section
+    })}))
   }
 
   return (
@@ -228,11 +219,9 @@ export default function DuplicatePageSettings({ page, variants, setValues, setDi
                             <Inline space={2}>
                               <TextInput
                                 fontSize={2} 
-                                value={sectionLabel} 
                                 placeholder={page?.sections?.[index]?.label}
-                                onChange={(event) => handleInputSectionLabel(event?.target?.value, index)}
+                                onChange={(event) => handleUpdateSectionLabel(event, index)}
                                 radius={2}
-                                iconRight={(sectionLabel?.trim()?.length > 0 && sectionLabel !== section?.label) ? <CheckmarkCircleIcon style={{ color: "#fb914e" }} /> : <InfoOutlineIcon/>}
                                 size={25}
                                 required 
                               />
@@ -242,6 +231,9 @@ export default function DuplicatePageSettings({ page, variants, setValues, setDi
                               {!section?.current && (
                                 <Badge mode="outline" tone="primary">New</Badge>
                               )}
+                              {section?.replaced && (
+                                <Badge mode="outline" tone="caution">Updated</Badge>
+                              )}
                             </Inline>
                           ) : (
                             <Inline space={2}>
@@ -250,6 +242,9 @@ export default function DuplicatePageSettings({ page, variants, setValues, setDi
                               </Text>
                               {!section?.include && (
                                 <Badge mode="outline" tone="critical">Not included</Badge> 
+                              )}
+                              {section?.replaced && (
+                                <Badge mode="outline" tone="caution">Updated</Badge>
                               )}
                             </Inline>
                           )}
@@ -295,13 +290,6 @@ export default function DuplicatePageSettings({ page, variants, setValues, setDi
                           {`${sectionVariant} • ${section?._type?.toUpperCase()}`}
                         </Text>
                       </Box>
-                      {section?.replaced && (
-                        <Box padding={2}>
-                          <Text size={1} style={{ fontStyle: "italic", color: "blue" }} muted>
-                            This section has been updated
-                          </Text>
-                        </Box>
-                      )}
                     </>
                   )}
                 </Card>

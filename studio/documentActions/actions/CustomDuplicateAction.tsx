@@ -71,6 +71,7 @@ export default function CustomDuplicateAction(props) {
         <DuplicatePageSettings {...{ 
             page, 
             variants, 
+            values,
             setValues, 
             setDialogOpen 
           }} 

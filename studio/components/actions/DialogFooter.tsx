@@ -85,11 +85,6 @@ export default function DialogFooter({ page, title, sections, dialogFn, values }
     }
   }
 
-  console.log({
-    title: pageTitle,
-    sections: pageSections
-  })
-
   return (
     <Flex justify="space-between">
       <p className="ml-4 text-sm text-gray-500">
