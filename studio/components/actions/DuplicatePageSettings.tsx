@@ -14,7 +14,7 @@ import { ComposeIcon, ArrowLeftIcon, RestoreIcon, CloseCircleIcon } from "@sanit
 import { ButtonWithTooltip, SearchBar } from ".";
 
 
-export default function DuplicatePageSettings({ page, variants, values, setValues, setDialogOpen }) {
+export default function DuplicatePageSettings({ page, variants, setValues, setDialogOpen }) {
   let variantStr = "", sectionVariant = "Variant not selected";
 
   const [duplicateSections, setDuplicateSections] = React.useState(page?.sections);
@@ -22,7 +22,7 @@ export default function DuplicatePageSettings({ page, variants, values, setValue
 
 
   // FEATURE BUTTONS: NEW | EXCLUDE | REVERT REFERENCES
-  const handleFeatureButtons = (feature: "new" | "exclude" | "revert", position: number) => {
+  const handleFeatureButtons = (feature: "current" | "new" | "exclude" | "revert", position: number) => {
     const updated = duplicateSections?.map((section, index) => {
       if(index !== position) {
         return section; // no change
@@ -31,8 +31,11 @@ export default function DuplicatePageSettings({ page, variants, values, setValue
           return {
             ...section,
             current: !section.current,
-            ready: !section.ready
+            ready: !section.current
           }
+        } else if(feature === "current") {
+          // then just return the existing data
+          return page?.sections[position]
         } else if(feature === "exclude") {
           return {
             ...section,
@@ -91,16 +94,21 @@ export default function DuplicatePageSettings({ page, variants, values, setValue
     const value = event?.target?.value;
     const hasValue = value?.trim()?.length !== 0;
 
-    setValues((prev) => ({...prev, sections: prev?.sections?.map((section, prevIndex) => {
-      if (prevIndex === position) {
-        return {
-          ...section, 
-          label: hasValue ? value : page?.sections?.[position]?.label,
-          ready: hasValue ? true : false
-        }
+    const updated = duplicateSections?.map((section, index) => {
+      if(index !== position) {
+        return section; // no change
+      } else {
+        // return new shape
+        return { 
+          ...section,
+          label: value,
+          ready: hasValue
+        };
       }
-      return section
-    })}))
+    });
+
+    setDuplicateSections(updated);
+    setValues((prev) => ({...prev, sections: updated, dialogFn: setDialogOpen}));
   }
 
   return (
@@ -273,7 +281,7 @@ export default function DuplicatePageSettings({ page, variants, values, setValue
                               value={section?._type}
                               disabled={!section?.include}
                               checked={!duplicateSections[index]?.current}
-                              onChange={() => handleFeatureButtons("new", index)}
+                              onChange={() => handleFeatureButtons(!duplicateSections[index]?.current ? "current" : "new", index)}
                             />
                           </ButtonWithTooltip>
                         </Box>
