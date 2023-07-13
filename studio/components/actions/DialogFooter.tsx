@@ -11,7 +11,7 @@ export default function DialogFooter({ page, title, sections, dialogFn, values }
   const pageTitle = values?.title || title;
   const pageSections = values?.sections || sections;
   const setDialogOpen = values?.dialogFn || dialogFn;
-  const isReadyForDuplicate = pageSections?.filter((section) => section.include)?.length !== 0 && pageSections?.filter((section) => !section?.ready)?.length === 0
+  const isReadyForDuplicate = pageSections?.filter((section) => section.include)?.length !== 0
 
   // DUPLICATE DOCUMENT
   const handleDuplicateBtn = async (payload: any) => {
@@ -84,7 +84,7 @@ export default function DialogFooter({ page, title, sections, dialogFn, values }
       });
     }
   }
-
+  
   return (
     <Flex justify="space-between">
       <p className="ml-4 text-sm text-gray-500">

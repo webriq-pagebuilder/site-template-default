@@ -32,7 +32,6 @@ export default function CustomDuplicateAction(props) {
               "include": true,
               "replaced": false,
               "isEditing": false,
-              "ready": true,
             }, 
           }`, 
           { documentId: documentId }
@@ -50,7 +49,6 @@ export default function CustomDuplicateAction(props) {
                   "include": true,
                   "replaced": false,
                   "isEditing": false,
-                  "ready": true,
                 }`,
                 { sections: result?.sections?.map((section) => section?._type) }
             )

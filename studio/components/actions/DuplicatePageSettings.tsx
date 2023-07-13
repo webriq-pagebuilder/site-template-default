@@ -31,7 +31,7 @@ export default function DuplicatePageSettings({ page, variants, setValues, setDi
           return {
             ...section,
             current: !section.current,
-            ready: !section.current
+            label: `Copy of ${section?.label}`
           }
         } else if(feature === "current") {
           // then just return the existing data
@@ -117,18 +117,15 @@ export default function DuplicatePageSettings({ page, variants, setValues, setDi
         <Text size={1} weight="bold">
           Title
         </Text>
-    
+        <Text size={1} style={{ marginTop: "3px", marginBottom: "5px" }} muted>
+          A new unique title will help you remember what this page is for later.
+        </Text>
         <div className="relative">
           <TextInput
             fontSize={2}
             value={pageTitle}
             padding={[3, 3, 4]}
             placeholder={page?.title || page?.name}
-            style={{
-              border: "1px solid #fb914e",
-              borderRadius: "5px",
-              outline: "3px solid #ffffff"
-            }}
             onChange={(event) => {
               setPageTitle(event.target.value)
               setValues((prev) => ({...prev, title: event.target.value}))
@@ -146,9 +143,6 @@ export default function DuplicatePageSettings({ page, variants, setValues, setDi
             </ButtonWithTooltip>
           )}
         </div>
-        <Text size={1} style={{ marginTop: "3px", marginBottom: "5px", color: "#fb914e" }}>
-          Add a unique title to make duplicate stand out from this page
-        </Text>
       </Stack>
       <Box paddingY={4}>
         <Stack space={2}>
@@ -227,11 +221,10 @@ export default function DuplicatePageSettings({ page, variants, setValues, setDi
                             <Inline space={2}>
                               <TextInput
                                 fontSize={2} 
-                                placeholder={page?.sections?.[index]?.label}
+                                placeholder={`Copy of ${page?.sections?.[index]?.label}`}
                                 onChange={(event) => handleUpdateSectionLabel(event, index)}
                                 radius={2}
                                 size={25}
-                                required 
                               />
                               {!section?.include && (
                                 <Badge mode="outline" tone="critical">Not included</Badge> 
