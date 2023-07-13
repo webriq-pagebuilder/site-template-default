@@ -20,7 +20,6 @@ export default function DuplicatePageSettings({ page, variants, setValues, setDi
   const [duplicateSections, setDuplicateSections] = React.useState(page?.sections);
   const [pageTitle, setPageTitle] = React.useState("");
 
-
   // FEATURE BUTTONS: NEW | EXCLUDE | REVERT REFERENCES
   const handleFeatureButtons = (feature: "current" | "new" | "exclude" | "revert", position: number) => {
     const updated = duplicateSections?.map((section, index) => {
@@ -125,7 +124,7 @@ export default function DuplicatePageSettings({ page, variants, setValues, setDi
             fontSize={2}
             value={pageTitle}
             padding={[3, 3, 4]}
-            placeholder={page?.title || page?.name}
+            placeholder={`Copy of ${page?.title || page?.name}`}
             onChange={(event) => {
               setPageTitle(event.target.value)
               setValues((prev) => ({...prev, title: event.target.value}))

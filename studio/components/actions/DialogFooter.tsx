@@ -8,7 +8,7 @@ export default function DialogFooter({ page, title, sections, dialogFn, values }
   const [isLoading, setIsLoading] = useState(false);
 
   const document = values?.page || page;
-  const pageTitle = values?.title || title;
+  const pageTitle = values?.title || `Copy of ${title}`;
   const pageSections = values?.sections || sections;
   const setDialogOpen = values?.dialogFn || dialogFn;
   const isReadyForDuplicate = pageSections?.filter((section) => section.include)?.length !== 0
