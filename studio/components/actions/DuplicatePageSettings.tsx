@@ -127,6 +127,7 @@ export default function DuplicatePageSettings({ page, variants, setValues, setDi
             style={{
               border: "1px solid #fb914e",
               borderRadius: "5px",
+              outline: "3px solid #ffffff"
             }}
             onChange={(event) => {
               setPageTitle(event.target.value)
