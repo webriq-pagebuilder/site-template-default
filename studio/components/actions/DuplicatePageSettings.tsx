@@ -28,7 +28,7 @@ export default function DuplicatePageSettings({ page, variants, setValues, setDi
   }, [focusIndex]);
 
   // FEATURE BUTTONS: NEW | EXCLUDE | REVERT REFERENCES
-  const handleFeatureButtons = (feature: "current" | "new" | "exclude" | "revert", position: number) => {
+  const handleFeatureButtons = (feature: "new" | "exclude" | "revert", position: number) => {
     setFocusIndex(position);
 
     const updated = duplicateSections?.map((section, index) => {
