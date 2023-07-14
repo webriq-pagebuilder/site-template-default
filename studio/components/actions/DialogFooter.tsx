@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import { Box, Button, Flex, Inline, useToast } from "@sanity/ui";
+import { Box, Button, Flex, Inline, useToast, Popover, Stack, Text } from "@sanity/ui";
 import { nanoid } from "nanoid";
 import { sanityClient } from "lib/sanity.client";
 
-export default function DialogFooter({ page, title, sections, dialogFn, values }) {
+export default function DialogFooter({ page, title, sections, dialogFn, values, setValues }) {
   const toast = useToast();
   const [isLoading, setIsLoading] = useState(false);
+  const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
 
   const document = values?.page || page;
   const pageTitle = values?.title || `Copy of ${title}`;
@@ -84,6 +85,15 @@ export default function DialogFooter({ page, title, sections, dialogFn, values }
       });
     }
   }
+
+  // CONFIRM CLOSE DIALOG
+  const handleConfirmCloseDialog = () => {
+    if(!values?.sections) {
+      setDialogOpen(false)
+    } else {
+      setOpenConfirmDialog(true)
+    }
+  }
   
   return (
     <Flex justify="space-between">
@@ -94,18 +104,55 @@ export default function DialogFooter({ page, title, sections, dialogFn, values }
       <Box style={{ textAlign: "right" }}>
         <Inline space={2}>
           {/* Close dialog */}
-          <Button
-            fontSize={2}
-            padding={3}
-            text="Cancel"
-            onClick={() => setDialogOpen(false)}
-            style={{ 
-              backgroundColor: "red", 
-              boxShadow: "unset", 
-              marginRight: "10px" 
-            }}
-          />
-
+          <Popover
+            content={
+              <Stack space={4}>
+                <Text>Are you sure you want to discard all changes?</Text>
+                <Inline space={2}>
+                  <Button
+                    fontSize={2}
+                    padding={3}
+                    text="Continue editing"
+                    mode="ghost"
+                    onClick={() => setOpenConfirmDialog(false)}
+                  />
+                  <Button
+                    fontSize={2}
+                    padding={3}
+                    text="Confirm cancel"
+                    onClick={() => {
+                      // make sure we reset all stored values as well
+                      setValues({
+                        page: null,
+                        title: undefined,
+                        sections: undefined,
+                      })
+                      setDialogOpen(false)
+                    }}
+                    style={{ 
+                      backgroundColor: "#0045d8", 
+                      boxShadow: "unset", 
+                      marginRight: "10px" 
+                    }}
+                  />
+                </Inline>
+              </Stack>
+            }
+            padding={4}
+            placement="top"
+            portal
+            open={openConfirmDialog && values?.sections !== undefined}
+          >
+            <Button
+              fontSize={2}
+              padding={3}
+              text="Cancel"
+              mode="ghost"
+              disabled={openConfirmDialog}
+              onClick={handleConfirmCloseDialog}
+            />
+          </Popover>
+          
           {/* Duplicate button */}
           <Button
             fontSize={2}
@@ -127,9 +174,9 @@ export default function DialogFooter({ page, title, sections, dialogFn, values }
               seo: document?.seo
             })}
             loading={isLoading}
-            disabled={!isReadyForDuplicate}
+            disabled={(openConfirmDialog && values?.sections !== undefined) || !isReadyForDuplicate}
             style={{ 
-              backgroundColor: isReadyForDuplicate ? "#0045d8" : "#d5e3ff", 
+              backgroundColor: (!openConfirmDialog && isReadyForDuplicate) ? "#0045d8" : "#d5e3ff", 
               boxShadow: "unset", 
               marginRight: "10px" 
             }}

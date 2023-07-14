@@ -18,7 +18,7 @@ export default function CustomDuplicateAction(props) {
 
   return {
     icon: CopyIcon,
-    tone: "primary",
+    tone: "critical",
     label: "Duplicate",
     onHandle: async () => {
       // fetch all ADDED sections for the current document
@@ -79,7 +79,8 @@ export default function CustomDuplicateAction(props) {
             title: page?.title, 
             sections: page?.sections, 
             dialogFn: setDialogOpen,
-            values 
+            values,
+            setValues 
           }} 
         />
       )
