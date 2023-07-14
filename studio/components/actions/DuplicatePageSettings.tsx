@@ -29,21 +29,17 @@ export default function DuplicatePageSettings({ page, variants, setValues, setDi
 
   // FEATURE BUTTONS: NEW | EXCLUDE | REVERT REFERENCES
   const handleFeatureButtons = (feature: "current" | "new" | "exclude" | "revert", position: number) => {
+    setFocusIndex(position);
+
     const updated = duplicateSections?.map((section, index) => {
       if(index !== position) {
         return section; // no change
       } else {
         if(feature === "new") {  
-          setFocusIndex(position);
-           
           return {
             ...section,
             current: !section.current,
-            label: `Copy of ${section?.label}`
           }
-        } else if(feature === "current") {
-          // then just return the existing data
-          return page?.sections[position]
         } else if(feature === "exclude") {
           return {
             ...section,
@@ -100,7 +96,6 @@ export default function DuplicatePageSettings({ page, variants, setValues, setDi
   // UPDATE SECTION LABEL FOR NEW COPY
   const handleUpdateSectionLabel = (event, position: number) => {
     const value = event?.target?.value;
-    const hasValue = value?.trim()?.length !== 0;
 
     const updated = duplicateSections?.map((section, index) => {
       if(index !== position) {
@@ -109,8 +104,7 @@ export default function DuplicatePageSettings({ page, variants, setValues, setDi
         // return new shape
         return { 
           ...section,
-          label: value,
-          ready: hasValue
+          label: value
         };
       }
     });
@@ -229,7 +223,7 @@ export default function DuplicatePageSettings({ page, variants, setValues, setDi
                             <Inline space={2}>
                               <TextInput
                                 fontSize={2} 
-                                placeholder={`Copy of ${page?.sections?.[index]?.label}`}
+                                placeholder={`Copy of ${section?.label}`}
                                 onChange={(event) => handleUpdateSectionLabel(event, index)}
                                 radius={2}
                                 size={25}
@@ -285,7 +279,7 @@ export default function DuplicatePageSettings({ page, variants, setValues, setDi
                               value={section?._type}
                               disabled={!section?.include}
                               checked={!duplicateSections[index]?.current}
-                              onChange={() => handleFeatureButtons(!duplicateSections[index]?.current ? "current" : "new", index)}
+                              onChange={() => handleFeatureButtons("new", index)}
                             />
                           </ButtonWithTooltip>
                         </Box>

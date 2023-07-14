@@ -12,7 +12,7 @@ export default function DialogFooter({ page, title, sections, dialogFn, values, 
   const pageTitle = values?.title || `Copy of ${title}`;
   const pageSections = values?.sections || sections;
   const setDialogOpen = values?.dialogFn || dialogFn;
-  const isReadyForDuplicate = pageSections?.filter((section) => section.include)?.length !== 0
+  const isReadyForDuplicate = pageSections?.filter((section) => section?.include)?.length !== 0
 
   // DUPLICATE DOCUMENT
   const handleDuplicateBtn = async (payload: any) => {
