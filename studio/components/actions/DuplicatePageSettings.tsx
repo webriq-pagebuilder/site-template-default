@@ -19,6 +19,13 @@ export default function DuplicatePageSettings({ page, variants, setValues, setDi
 
   const [duplicateSections, setDuplicateSections] = React.useState(page?.sections);
   const [pageTitle, setPageTitle] = React.useState("");
+  const focusInput = React.useRef([]);
+  const [focusIndex, setFocusIndex] = React.useState(-1);
+
+  // effect does DOM focus on input element when the focusIndex is updated
+  React.useEffect(() => {
+    focusInput.current[focusIndex]?.focus();
+  }, [focusIndex]);
 
   // FEATURE BUTTONS: NEW | EXCLUDE | REVERT REFERENCES
   const handleFeatureButtons = (feature: "current" | "new" | "exclude" | "revert", position: number) => {
@@ -26,7 +33,9 @@ export default function DuplicatePageSettings({ page, variants, setValues, setDi
       if(index !== position) {
         return section; // no change
       } else {
-        if(feature === "new") {          
+        if(feature === "new") {  
+          setFocusIndex(position);
+           
           return {
             ...section,
             current: !section.current,
@@ -224,6 +233,8 @@ export default function DuplicatePageSettings({ page, variants, setValues, setDi
                                 onChange={(event) => handleUpdateSectionLabel(event, index)}
                                 radius={2}
                                 size={25}
+                                onBlur={() => setFocusIndex(null)} // ensure focus index is set to no value when focus is lost
+                                ref={(ref) => focusInput.current[index] = ref}
                               />
                               {!section?.include && (
                                 <Badge mode="outline" tone="critical">Not included</Badge> 
