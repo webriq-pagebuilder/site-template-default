@@ -119,7 +119,7 @@ export default function InlineEditor({
                       document?.type === "mainProduct"
                         ? "product-fieldgroup-tabs product-fieldgroup-select"
                         : "fieldgroup-tabs fieldgroup-select"
-                    }`}
+                    } h-full`}
                   >
                     <StudioLayout />
                   </div>
