@@ -239,6 +239,7 @@ export default function DuplicatePageSettings({ page, variants, setValues, setDi
                                 onChange={(event) => handleUpdateSectionLabel(event, index)}
                                 radius={2}
                                 size={30}
+                                autoFocus
                               />
                               {!section?.include && (
                                 <Badge mode="outline" tone="critical">Not included</Badge> 
