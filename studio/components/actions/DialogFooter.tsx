@@ -189,10 +189,10 @@ export default function DialogFooter({ page, title, sections, dialogFn, values, 
 function SetDupePageSlug(allPages, currentPageTitle) {
   let duplicatePageTitle = currentPageTitle?.replace(/[^a-z0-9 ]/gi, "")?.replace(/\s+/g, "-");
 
-  if(!allPages?.find((page) => page?.title?.toLowerCase() === currentPageTitle?.toLowerCase())) {
+  if(!allPages?.some((page) => page?.title?.toLowerCase() === currentPageTitle?.toLowerCase())) {
     return duplicatePageTitle?.toLowerCase();
   } else {
-    duplicatePageTitle = `${duplicatePageTitle}-${nanoid()}`
+    duplicatePageTitle = `${duplicatePageTitle}-${nanoid(5)}`
     
     return duplicatePageTitle?.toLowerCase();
   }
