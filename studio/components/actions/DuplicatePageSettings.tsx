@@ -18,26 +18,16 @@ export default function DuplicatePageSettings({ page, variants, setValues, setDi
   let variantStr = "", sectionVariant = "Variant not selected";
 
   const [duplicateSections, setDuplicateSections] = React.useState(page?.sections);
-  const [prevState, setPrevState] = React.useState(duplicateSections); // placeholder used when section label is updated 
   const [pageTitle, setPageTitle] = React.useState("");
-  const focusInput = React.useRef([]);
-  const [focusIndex, setFocusIndex] = React.useState(-1);
-
-  // effect does DOM focus on input element when the focusIndex is updated
-  React.useEffect(() => {
-    focusInput.current[focusIndex]?.focus();
-  }, [focusIndex]);
 
   // FEATURE BUTTONS: NEW | EXCLUDE | REVERT REFERENCES
   const handleFeatureButtons = (type: "new" | "exclude" | "revert", position: number) => {
-    setFocusIndex(position);
-
     const updated = duplicateSections?.map((section, index) => {
       if(index !== position) {
         return section; // no change
       } else {
         if(type === "new") {  
-          if(section?.current) { 
+          if(section?.current) {             
             // create new copy of section
             return {
               ...section,
@@ -47,7 +37,7 @@ export default function DuplicatePageSettings({ page, variants, setValues, setDi
           } else {
             // use current section
             return {
-              ...prevState[position],
+              ...section,
               label: section?.label?.replace("Copy of ", ""),
               current: true,
               include: true,
@@ -57,6 +47,7 @@ export default function DuplicatePageSettings({ page, variants, setValues, setDi
         } else if(type === "exclude") {
           return {
             ...section,
+            label: !section?.customLabel ? section?.label?.replace("Copy of ", "") : section?.customLabel,
             include: !section?.include,
             current: true,
             isEditing: false,
@@ -103,7 +94,6 @@ export default function DuplicatePageSettings({ page, variants, setValues, setDi
       }
     });
 
-    setPrevState(duplicateSections);
     setDuplicateSections(updated);
     setValues((prev) => ({...prev, sections: updated, dialogFn: setDialogOpen}));
   }
@@ -120,12 +110,12 @@ export default function DuplicatePageSettings({ page, variants, setValues, setDi
         // return new shape
         return { 
           ...section,
-          label: hasValue ? value : section?.label
+          customLabel: hasValue ? value : ""
         };
       }
     });
 
-    setPrevState(duplicateSections);
+    setDuplicateSections(updated);
     setValues((prev) => ({...prev, sections: updated, dialogFn: setDialogOpen}));
   }
 
@@ -240,15 +230,15 @@ export default function DuplicatePageSettings({ page, variants, setValues, setDi
                       <Flex justify="space-between">
                         <Inline className="showBtn" space={2} padding={2}>
                           {!section?.current ? (
-                            <Inline space={2}>
+                            <Inline space={2} style={{ paddingBottom: 3, minHeight: "24px" }}>
                               <TextInput
                                 fontSize={2} 
+                                padding={2}
+                                value={!section?.current && section?.customLabel ? section?.customLabel : ""}
                                 placeholder={section?.label}
                                 onChange={(event) => handleUpdateSectionLabel(event, index)}
                                 radius={2}
-                                size={25}
-                                onBlur={() => setFocusIndex(null)} // ensure focus index is set to no value when focus is lost
-                                ref={(ref) => focusInput.current[index] = ref}
+                                size={30}
                               />
                               {!section?.include && (
                                 <Badge mode="outline" tone="critical">Not included</Badge> 
@@ -259,7 +249,7 @@ export default function DuplicatePageSettings({ page, variants, setValues, setDi
                             </Inline>
                           ) : (
                             <Inline space={2}>
-                              <Text style={{ paddingTop: 7, minHeight: "24px" }}>
+                              <Text style={{ paddingTop: 8, minHeight: "24px" }}>
                                 {section?.label ?? "Untitled document"}
                               </Text>
                               {!section?.include && (

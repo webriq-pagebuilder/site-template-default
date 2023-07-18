@@ -3,7 +3,7 @@ import { Box, Button, Flex, Inline, useToast, Popover, Stack, Text } from "@sani
 import { nanoid } from "nanoid";
 import { sanityClient } from "lib/sanity.client";
 
-export default function DialogFooter({ page, title, sections, dialogFn, values, setValues }) {
+export default function DialogFooter({ page, title, sections, dialogFn, values, setValues, allPages }) {
   const toast = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
@@ -35,9 +35,7 @@ export default function DialogFooter({ page, title, sections, dialogFn, values, 
                 label: section?.label,
                 variant: section?.variant,
                 variants: section?.variants,
-                _type: section?._type === "pages_productInfo" 
-                  ? "productInfo" 
-                  : section?._type,
+                _type: section?._type,
               })
               .then((result) => ({ 
                 _key: nanoid(), 
@@ -88,7 +86,7 @@ export default function DialogFooter({ page, title, sections, dialogFn, values, 
 
   // CONFIRM CLOSE DIALOG
   const handleConfirmCloseDialog = () => {
-    if(!values?.sections) {
+    if(!values?.sections && !values?.title) {
       setDialogOpen(false)
     } else {
       setOpenConfirmDialog(true)
@@ -141,7 +139,7 @@ export default function DialogFooter({ page, title, sections, dialogFn, values, 
             padding={4}
             placement="top"
             portal
-            open={openConfirmDialog && values?.sections !== undefined}
+            open={openConfirmDialog && (values?.sections !== undefined || values?.title !== undefined)}
           >
             <Button
               fontSize={2}
@@ -161,13 +159,14 @@ export default function DialogFooter({ page, title, sections, dialogFn, values, 
             onClick={() => handleDuplicateBtn({ 
               title: pageTitle, 
               slug: {
-                current: pageTitle?.replace(/[^a-z0-9 ]/gi, "")?.replace(/\s+/g, "-")?.toLowerCase(),
+                current: SetDupePageSlug(allPages, pageTitle),
                 _type: "slug"
               }, 
               _type: document?._type,
               sections: pageSections?.filter((section) => section?.include)?.map((section) => (
                 {
                   ...section, 
+                  label: !section?.customLabel ? section?.label : section?.customLabel,
                   _type: section?._type === "pages_productInfo" ? "productInfo" : section?._type
                 }
               )),
@@ -185,4 +184,16 @@ export default function DialogFooter({ page, title, sections, dialogFn, values, 
       </Box>
     </Flex>
   )
+}
+
+function SetDupePageSlug(allPages, currentPageTitle) {
+  let duplicatePageTitle = currentPageTitle?.replace(/[^a-z0-9 ]/gi, "")?.replace(/\s+/g, "-");
+
+  if(!allPages?.find((page) => page?.title?.toLowerCase() === currentPageTitle?.toLowerCase())) {
+    return duplicatePageTitle?.toLowerCase();
+  } else {
+    duplicatePageTitle = `${duplicatePageTitle}-${nanoid()}`
+    
+    return duplicatePageTitle?.toLowerCase();
+  }
 }
