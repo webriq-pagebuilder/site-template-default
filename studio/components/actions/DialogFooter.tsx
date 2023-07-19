@@ -3,7 +3,7 @@ import { Box, Button, Flex, Inline, useToast, Popover, Stack, Text } from "@sani
 import { nanoid } from "nanoid";
 import { sanityClient } from "lib/sanity.client";
 
-export default function DialogFooter({ page, title, sections, dialogFn, values, setValues, allPages }) {
+export default function DialogFooter({ page, title, sections, dialogFn, values, setValues }) {
   const toast = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
@@ -156,10 +156,11 @@ export default function DialogFooter({ page, title, sections, dialogFn, values, 
             fontSize={2}
             padding={3}
             text="Duplicate"
-            onClick={() => handleDuplicateBtn({ 
+            onClick={() => handleDuplicateBtn({
+              _id: "drafts.", // to auto-generate a draft document ID 
               title: pageTitle, 
               slug: {
-                current: SetDupePageSlug(allPages, pageTitle),
+                current: pageTitle?.replace(/[^a-z0-9 ]/gi, "")?.replace(/\s+/g, "-")?.toLowerCase(),
                 _type: "slug"
               }, 
               _type: document?._type,
@@ -184,16 +185,4 @@ export default function DialogFooter({ page, title, sections, dialogFn, values, 
       </Box>
     </Flex>
   )
-}
-
-function SetDupePageSlug(allPages, currentPageTitle) {
-  let duplicatePageTitle = currentPageTitle?.replace(/[^a-z0-9 ]/gi, "")?.replace(/\s+/g, "-");
-
-  if(!allPages?.some((page) => page?.title?.toLowerCase() === currentPageTitle?.toLowerCase())) {
-    return duplicatePageTitle?.toLowerCase();
-  } else {
-    duplicatePageTitle = `${duplicatePageTitle}-${nanoid(5)}`
-    
-    return duplicatePageTitle?.toLowerCase();
-  }
 }

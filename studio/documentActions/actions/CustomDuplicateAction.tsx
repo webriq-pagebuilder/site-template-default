@@ -9,7 +9,6 @@ export default function CustomDuplicateAction(props) {
 
   const [page, setPage] = React.useState(null);
   const [variants, setVariants] = React.useState(null);
-  const [allPages, setAllPages] = React.useState(null);
   const [dialogOpen, setDialogOpen] = React.useState(false);
   const [values, setValues] = React.useState({
     page: document,
@@ -57,17 +56,6 @@ export default function CustomDuplicateAction(props) {
           }
         });
 
-      // fetch all documents in current project with the `slug` field
-      await sanityClient
-        .fetch(`*[defined(slug)] {
-            title,
-            slug,
-            _id,
-            _type
-          }`
-        )
-        .then((result) => setAllPages(result));
-
       setDialogOpen(true);
     },
     dialog: dialogOpen && {
@@ -93,7 +81,6 @@ export default function CustomDuplicateAction(props) {
             dialogFn: setDialogOpen,
             values,
             setValues,
-            allPages 
           }} 
         />
       )
