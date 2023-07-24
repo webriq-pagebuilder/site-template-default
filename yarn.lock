@@ -844,6 +844,11 @@
   resolved "https://registry.yarnpkg.com/@floating-ui/core/-/core-1.2.6.tgz#d21ace437cc919cdd8f1640302fa8851e65e75c0"
   integrity sha512-EvYTiXet5XqweYGClEmpu3BoxmsQ4hkj3QaYA6qEnigCWffTP3vNRwBReTdrwDwo7OoJ3wM8Uoe9Uk4n+d4hfg==
 
+"@floating-ui/core@^1.3.1":
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/@floating-ui/core/-/core-1.3.1.tgz#4d795b649cc3b1cbb760d191c80dcb4353c9a366"
+  integrity sha512-Bu+AMaXNjrpjh41znzHqaz3r2Nr8hHuHZT6V2LBKMhyMl0FgKA62PNYbqnfgmzOhoWZj70Zecisbo4H1rotP5g==
+
 "@floating-ui/dom@^1.0.1", "@floating-ui/dom@^1.1.0":
   version "1.2.9"
   resolved "https://registry.yarnpkg.com/@floating-ui/dom/-/dom-1.2.9.tgz#b9ed1c15d30963419a6736f1b7feb350dd49c603"
@@ -851,12 +856,26 @@
   dependencies:
     "@floating-ui/core" "^1.2.6"
 
+"@floating-ui/dom@^1.2.7":
+  version "1.4.5"
+  resolved "https://registry.yarnpkg.com/@floating-ui/dom/-/dom-1.4.5.tgz#336dfb9870c98b471ff5802002982e489b8bd1c5"
+  integrity sha512-96KnRWkRnuBSSFbj0sFGwwOUd8EkiecINVl0O9wiZlZ64EkpyAOG3Xc2vKKNJmru0Z7RqWNymA+6b8OZqjgyyw==
+  dependencies:
+    "@floating-ui/core" "^1.3.1"
+
 "@floating-ui/react-dom@1.1.1":
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/@floating-ui/react-dom/-/react-dom-1.1.1.tgz#8289bd28188fa0fce7e24fc2a6e57f3d94fea930"
   integrity sha512-F27E+7SLB5NZvwF9Egqx/PlvxOhMnA6k/yNMQUqaQ9BPZdr4fQgSW6J6AKNIrBQElBT8IRDtv9j6h7FDkgp3dA==
   dependencies:
     "@floating-ui/dom" "^1.1.0"
+
+"@floating-ui/react-dom@2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@floating-ui/react-dom/-/react-dom-2.0.0.tgz#7514baac526c818892bbcc84e1c3115008c029f9"
+  integrity sha512-Ke0oU3SeuABC2C4OFu2mSAwHIP5WUiV98O9YWoHV4Q5aT6E9k06DV0Khi5uYspR8xmmBk08t8ZDcz3TR3ARkEg==
+  dependencies:
+    "@floating-ui/dom" "^1.2.7"
 
 "@hookform/resolvers@2.0.0-beta.3":
   version "2.0.0-beta.3"
@@ -1447,7 +1466,7 @@
     "@uiw/codemirror-themes" "^4.19.4"
     "@uiw/react-codemirror" "^4.19.4"
 
-"@sanity/color@^2.1.20", "@sanity/color@^2.2.3":
+"@sanity/color@^2.1.20", "@sanity/color@^2.2.3", "@sanity/color@^2.2.5":
   version "2.2.5"
   resolved "https://registry.yarnpkg.com/@sanity/color/-/color-2.2.5.tgz#6b28578573859495ed1ffd5491322cb8e90b3e07"
   integrity sha512-tTi22KoKuER3sldXYl4c1Dq2zU7tMLDkljFiaUKVkBbu4PBvRGCFw75kXZnD2b4Bsp6vin+7sI+AKdCKRhfRuw==
@@ -1652,6 +1671,18 @@
     "@sanity/icons" "^2.2.2"
     csstype "^3.1.1"
     framer-motion "^10.0.0"
+    react-refractor "^2.1.7"
+
+"@sanity/ui@^1.7.3":
+  version "1.7.3"
+  resolved "https://registry.yarnpkg.com/@sanity/ui/-/ui-1.7.3.tgz#e603cf6d68ca26e1345a76ee0f328532d794edd2"
+  integrity sha512-C+EBh7Vp0XMKE6k7sAGylc5R9RsZkKu4FnZ2SotVe5CPUTFAqTIqEn2WoaAKVMtkafxplCXd7RQsWr5nJOjqSg==
+  dependencies:
+    "@floating-ui/react-dom" "2.0.0"
+    "@sanity/color" "^2.2.5"
+    "@sanity/icons" "^2.3.1"
+    csstype "^3.1.2"
+    framer-motion "^10.12.16"
     react-refractor "^2.1.7"
 
 "@sanity/util@3.12.0":
@@ -2989,7 +3020,7 @@ cssstyle@^2.3.0:
   dependencies:
     cssom "~0.3.6"
 
-csstype@^3.0.2, csstype@^3.1.1:
+csstype@^3.0.2, csstype@^3.1.1, csstype@^3.1.2:
   version "3.1.2"
   resolved "https://registry.yarnpkg.com/csstype/-/csstype-3.1.2.tgz#1d4bf9d572f11c14031f0436e1c10bc1f571f50b"
   integrity sha512-I7K1Uu0MBPzaFKg4nI5Q7Vs2t+3gWWW648spaF+Rg7pI9ds18Ugn+lvg4SHczUdKlHI5LWBXyqfS8+DufyBsgQ==
@@ -3927,6 +3958,15 @@ framer-motion@^10.0.0:
   version "10.12.16"
   resolved "https://registry.yarnpkg.com/framer-motion/-/framer-motion-10.12.16.tgz#ccba11d216ac370c6bc65fcd9953a61deb54f071"
   integrity sha512-w/SfWEIWJkYSgRHYBmln7EhcNo31ao8Xexol8lGXf1pR/tlnBtf1HcxoUmEiEh6pacB4/geku5ami53AAQWHMQ==
+  dependencies:
+    tslib "^2.4.0"
+  optionalDependencies:
+    "@emotion/is-prop-valid" "^0.8.2"
+
+framer-motion@^10.12.16:
+  version "10.13.0"
+  resolved "https://registry.yarnpkg.com/framer-motion/-/framer-motion-10.13.0.tgz#0e0d45f693e21d23443317db12cd14c4f8d99cd2"
+  integrity sha512-xKhw9VCizmwEHbopOfluaoVunGHSZyMztGbTvsgOYqCjaKu6qtlwWY1J+6GhL41NY1P157JgEikjDm67XCFnvQ==
   dependencies:
     tslib "^2.4.0"
   optionalDependencies:
