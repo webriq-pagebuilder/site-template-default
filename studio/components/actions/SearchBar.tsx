@@ -11,7 +11,7 @@ export default function SearchBar({ searchItems, onClickHandler }: SearchItemsTy
       openButton
       fontSize={2}
       padding={3}
-      icon={MdManageSearch}
+      //icon={MdManageSearch}
       id="variants-list-searchbar"
       options={options}
       placeholder="Select to replace current one"

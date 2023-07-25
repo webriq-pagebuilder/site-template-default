@@ -18,7 +18,7 @@ export default function CustomDuplicateAction(props) {
 
   return {
     icon: CopyIcon,
-    tone: "primary",
+    tone: "critical",
     label: "Duplicate",
     onHandle: async () => {
       // fetch all ADDED sections for the current document
@@ -31,7 +31,7 @@ export default function CustomDuplicateAction(props) {
               "current": true,
               "include": true,
               "replaced": false,
-              "isEditing": false, 
+              "isEditing": false,
             }, 
           }`, 
           { documentId: documentId }
@@ -60,10 +60,10 @@ export default function CustomDuplicateAction(props) {
     },
     dialog: dialogOpen && {
       type: "dialog",
-      onClose: () => {
-        setDialogOpen(false);
-      },
-      header: "Duplicate document content",
+      // onClose: () => {
+      //   setDialogOpen(false);
+      // }, // comment to prevent dialog from closing on click outside
+      header: "Duplicate page content",
       content: (
         <DuplicatePageSettings {...{ 
             page, 
@@ -79,7 +79,8 @@ export default function CustomDuplicateAction(props) {
             title: page?.title, 
             sections: page?.sections, 
             dialogFn: setDialogOpen,
-            values 
+            values,
+            setValues,
           }} 
         />
       )
