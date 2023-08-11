@@ -51,9 +51,12 @@ function SEO({ data }: { data: SEOData | undefined }) {
   useEffect(() => {
     const getDefaultSeo = async () => {
       try {
-        const res = await sanityClient.fetch(groq`*[_type == 'defaultSeo']`);
-        const defaultSeoData = res.find((data) => !data._id.includes("drafts"));
-        setDefaultSeo(defaultSeoData);
+        const res = await sanityClient.fetch(
+          groq`*[_type == 'defaultSeo' && !(_id in path("drafts.**"))][0]`
+        );
+        if (res) {
+          setDefaultSeo(res);
+        }
       } catch (error) {
         console.log("Error getting default seo:", error);
       }
