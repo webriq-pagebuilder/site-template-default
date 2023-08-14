@@ -18,7 +18,7 @@ function TwitterCard (props) {
   const client = useClient({ apiVersion: "2021-10-21" })
   const builder = imageUrlBuilder(client);
 
-  const urlFor = (source) => builder.image(source).width(300).url();
+  const urlFor = (source) => builder.image(source)?.url();
 
   const { document, width = 500, options } = props;
   const { title, seo } = document;
@@ -53,12 +53,12 @@ function TwitterCard (props) {
             The card for your website will look a little something like this!
           </p>
         </div>
-        <div className={styles.tweetCardPreview} style={{ width }}>
+        <div className={styles.tweetCardPreview}>
           <div className={styles.tweetCardImageContainer}>
             {seo?.seoImage && (
               <img
                 className={styles.tweetCardImage}
-                src={urlFor(seo?.seoImage)?.width(500)?.url()}
+                src={urlFor(seo?.seoImage)}
               />
             )}
           </div>
