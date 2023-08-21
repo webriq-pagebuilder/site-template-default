@@ -1,6 +1,5 @@
 import createImageUrlBuilder from "@sanity/image-url";
-import { PortableText } from "@portabletext/react";
-import { definePreview } from "next-sanity/preview";
+import { PortableText } from "@portabletext/react"; 
 import { config } from "./config";
 
 export const imageBuilder = createImageUrlBuilder(config);
@@ -15,7 +14,6 @@ export const urlFor = (source) =>
 export const seoImageUrl = (source) =>
   source?.asset && imageBuilder.image(source).format("jpg")?.url();
 
-// Set up the live preview subscription hook
-export const usePreviewSubscription = definePreview(config);
+ 
 
 export { PortableText };
