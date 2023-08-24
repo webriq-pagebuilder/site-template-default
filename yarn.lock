@@ -2249,10 +2249,10 @@
     nanoid "^3.1.30"
     react-icons "^4.2.0"
 
-"@webriq-pagebuilder/sanity-plugin-webriq-scheduled-publishing@3.3.2-scheduling.3":
-  version "3.3.2-scheduling.3"
-  resolved "https://registry.yarnpkg.com/@webriq-pagebuilder/sanity-plugin-webriq-scheduled-publishing/-/sanity-plugin-webriq-scheduled-publishing-3.3.2-scheduling.3.tgz#5f465811311303f32ad293a0a53baf091071b65f"
-  integrity sha512-7bTzwWxBKG+EhdRUYnn3OfGI3P7Fejhu/vhmIOpUaZd0la1BO5Blng6Nd6J13aecJhsBpsFl8B3el1qh+7br2g==
+"@webriq-pagebuilder/sanity-plugin-webriq-scheduled-publishing@3.3.2-scheduling.4":
+  version "3.3.2-scheduling.4"
+  resolved "https://registry.yarnpkg.com/@webriq-pagebuilder/sanity-plugin-webriq-scheduled-publishing/-/sanity-plugin-webriq-scheduled-publishing-3.3.2-scheduling.4.tgz#13a0e76f360d058296ec248eba0a1fc22e3f043a"
+  integrity sha512-/Kr0D5+Bf4WZi6Y/w9EH2kGWA1xaZXWnmsaYkJwaM8+0be3DWqdnqEWaE2BobclWnxFlmGAtMG+lSnQMHkntvA==
   dependencies:
     "@sanity/icons" "^2.4.1"
     "@sanity/incompatible-plugin" "^1.0.4"
