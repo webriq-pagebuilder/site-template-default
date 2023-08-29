@@ -83,6 +83,7 @@ const addEcwidProduct = async (req, res) => {
       headers: reqHeaders,
       body: JSON.stringify({
         name: data?.name,
+        compareToPrice: data?.compareToPrice,
         price: data?.price,
         description: data?.description,
         unlimited: true,
@@ -110,7 +111,7 @@ const addEcwidProduct = async (req, res) => {
 // Update existing Ecwid product
 const updateEcwidProduct = async (req, res) => {
   const data = req.body;
-  const { ecwidProductId, name, price, description } = data;
+  const { ecwidProductId, name, price, description, compareToPrice } = data;
   if (!ecwidProductId) {
     return res
       .status(400)
@@ -141,6 +142,7 @@ const updateEcwidProduct = async (req, res) => {
         name,
         price,
         description,
+        compareToPrice,
         enabled: true,
       }),
     }).then(res => {
