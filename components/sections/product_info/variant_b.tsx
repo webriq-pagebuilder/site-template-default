@@ -334,15 +334,17 @@ function VariantB({
 									{/* TO DO: ADD PRODUCT RATING HERE */}
 								</div>
 
-								<p
-									className={`font-heading text-webriq-darkblue inline-block text-2xl font-bold ${
-										!ecwidProduct?.compareToPrice && "mb-8"
-									}`}>
-									{/* PRICING HERE */}
-									{ecwidProduct
-										? getPriceDisplay()
-										: ecwidProduct?.defaultDisplayedPriceFormatted}
-								</p>
+								{/* PRICING HERE */}
+								{product?.price && (
+									<p
+										className={`font-heading text-webriq-darkblue inline-block text-2xl font-bold ${
+											!ecwidProduct?.compareToPrice && "mb-8"
+										}`}>
+										{ecwidProduct
+											? getPriceDisplay()
+											: ecwidProduct?.defaultDisplayedPriceFormatted}
+									</p>
+								)}
 
 								{/* "CompareTo" price */}
 								{ecwidProduct?.compareToPrice && (

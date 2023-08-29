@@ -223,16 +223,18 @@ function VariantA({
 									</h1>
 								)}
 								<div className="mb-8">{/* Ratings from Ecwid */}</div>
-								<p
-									className={`font-heading text-webriq-darkblue inline-block text-2xl font-bold ${
-										!ecwidProduct?.compareToPrice && "mb-8"
-									}`}>
-									{/* Product price from Ecwid */}
-									{ecwidProduct
-										? getPriceDisplay()
-										: ecwidProduct?.defaultDisplayedPriceFormatted}
-								</p>
-
+								{/* Product price */}
+								{product?.price && (
+									<p
+										className={`font-heading text-webriq-darkblue inline-block text-2xl font-bold ${
+											!ecwidProduct?.compareToPrice && "mb-8"
+										}`}>
+										{/* Product price from Ecwid */}
+										{ecwidProduct
+											? getPriceDisplay()
+											: ecwidProduct?.defaultDisplayedPriceFormatted}
+									</p>
+								)}
 								{/* "CompareTo" price */}
 								{ecwidProduct?.compareToPrice && (
 									<p

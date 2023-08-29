@@ -204,6 +204,16 @@ const ProductDetail = ({ product, children }: ProductDetailProps) => {
 		addToBag({ id: productId, quantity }, options);
 	};
 
+	const handleQuantityInput = (e) => {
+		const inputValue = e.target.value;
+
+		if (inputValue === "" || !inputValue) {
+			setQuantity(1);
+		} else {
+			setQuantity(inputValue);
+		}
+	};
+
 	const isNegative = (num) => {
 		if (Math.sign(num) === -1) {
 			return true;
@@ -402,9 +412,10 @@ const ProductDetail = ({ product, children }: ProductDetailProps) => {
 							type="text"
 							name="quantity"
 							id="quantity"
-							className=" focus:shadow-outline bg-white text-center focus:outline-none"
-							required
+							className="focus:shadow-outline bg-white text-center focus:outline-none"
 							value={quantity}
+							onChange={handleQuantityInput}
+							required
 						/>
 						<button
 							className="text-gray-400 text-xl w-[44px] h-[44px] flex items-center justify-center"
