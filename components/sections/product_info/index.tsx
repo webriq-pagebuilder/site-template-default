@@ -74,8 +74,6 @@ function ProductInfo({ data, product }: ProductIndexProps) {
 		getPriceDisplay: () => getPriceDisplay(price),
 	};
 
-	console.log("productInfo data: ", ecwidProduct);
-
 	return Variant ? <Variant {...props} /> : null;
 }
 export default memo(ProductInfo);
