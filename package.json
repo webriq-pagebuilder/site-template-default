@@ -33,7 +33,7 @@
     "@webriq-pagebuilder/sanity-plugin-webriq-components": "^3.4.1-scheduling.0",
     "@webriq-pagebuilder/sanity-plugin-webriq-forms": "^3.4.1-scheduling.0",
     "@webriq-pagebuilder/sanity-plugin-webriq-payments": "^3.4.1-scheduling.0",
-    "@webriq-pagebuilder/sanity-plugin-webriq-scheduled-publishing": "^3.3.2-scheduling.4",
+    "@webriq-pagebuilder/sanity-plugin-webriq-scheduled-publishing": "^3.4.1-scheduling.2",
     "axios": "^1.3.6",
     "braille": "^1.1.0",
     "cors": "^2.8.5",
