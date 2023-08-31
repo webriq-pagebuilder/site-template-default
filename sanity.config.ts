@@ -29,6 +29,7 @@ import { webriqForms } from "@webriq-pagebuilder/sanity-plugin-webriq-forms"
 import { webriqPayments } from "@webriq-pagebuilder/sanity-plugin-webriq-payments"
 import { webriqGPT3 } from "@webriq-pagebuilder/sanity-plugin-input-component-gpt3"
 import { webriqComponents } from "@webriq-pagebuilder/sanity-plugin-webriq-components"
+import { webriqScheduledPublishing } from "@webriq-pagebuilder/sanity-plugin-webriq-scheduled-publishing";
 
 // Open preview
 import resolveProductionUrl from "studio/resolvePreviewUrl";
@@ -46,6 +47,7 @@ export default defineConfig({
     webriqPayments(), 
     webriqBlog(),
     webriqGPT3(),
+    webriqScheduledPublishing(),
     media(),
     codeInput(), // for "code" schema type
     openaiImageAsset({
