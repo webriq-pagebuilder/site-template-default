@@ -2,10 +2,9 @@
 import React from "react";
 import { useClient } from "sanity";
 import imageUrlBuilder from "@sanity/image-url";
-import { format } from "date-fns"
+import { format } from "date-fns";
 import { assemblePageUrl } from "./frontendUtils";
 import styles from "styles/studio/seo/TwitterCard.module.css";
-
 
 const author = {
   name: "WebriQ",
@@ -14,18 +13,21 @@ const author = {
     "https://pbs.twimg.com/profile_images/1408052895531126790/BAhX7Puq_400x400.jpg",
 };
 
-function TwitterCard (props) {
-  const client = useClient({ apiVersion: "2021-10-21" })
+function TwitterCard(props) {
+  const client = useClient({ apiVersion: "2021-10-21" });
   const builder = imageUrlBuilder(client);
 
-  const urlFor = (source) => builder.image(source)?.url();
+  const urlFor = (source) => builder.image(source)?.width(500)?.url();
 
-  const { document, width = 500, options } = props;
+  const { document, width = 500, options, defaultSeo } = props;
   const { title, seo } = document;
   const url = assemblePageUrl({ document, options });
   const websiteUrlWithoutProtocol = url.split("://").pop();
 
-  const date = document?._updatedAt && format(new Date(document?._updatedAt), "MMM dd")
+  const seoImage = seo?.seoImage ?? defaultSeo?.defaultSeoImage;
+
+  const date =
+    document?._updatedAt && format(new Date(document?._updatedAt), "MMM dd");
 
   return (
     <div className={styles.seoItem}>
@@ -55,11 +57,8 @@ function TwitterCard (props) {
         </div>
         <div className={styles.tweetCardPreview}>
           <div className={styles.tweetCardImageContainer}>
-            {seo?.seoImage && (
-              <img
-                className={styles.tweetCardImage}
-                src={urlFor(seo?.seoImage)}
-              />
+            {seoImage && (
+              <img className={styles.tweetCardImage} src={urlFor(seoImage)} />
             )}
           </div>
           <div className={styles.tweetCardContent}>
@@ -70,7 +69,7 @@ function TwitterCard (props) {
               <a href={url}>{title}</a>
             </div>
             <div className={styles.tweetCardDescription}>
-              {seo?.seoDescription}
+              {seo?.seoDescription ?? defaultSeo?.defaultSeoDescription}
             </div>
           </div>
         </div>

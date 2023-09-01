@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { seoImageUrl } from "lib/sanity";
 import { NextSeo } from "next-seo";
 import { useRouter } from "next/router";
@@ -9,6 +9,8 @@ import { CollectionData } from "pages/collections/[slug]";
 import { CartData } from "pages/cart";
 import { SearchData } from "pages/search";
 import { WishlistData } from "pages/wishlist";
+import { sanityClient } from "lib/sanity.client";
+import { groq } from "next-sanity";
 
 interface SlugData {
   pageData: PageData | null;
@@ -32,15 +34,45 @@ type DataType =
   | SearchData
   | WishlistData;
 
+const INITIAL_SEO_STATE = {
+  defaultSeoTitle: undefined,
+  defaultSeoSynonyms: undefined,
+  defaultSeoKeywords: undefined,
+  defaultSeoDescription: undefined,
+  defaultSeoImage: undefined,
+};
+
 function SEO({ data }: { data: SEOData | undefined }) {
   const url = process.env.NEXT_PUBLIC_SITE_URL;
   const router = useRouter();
 
-  const defaultTitle = "WebriQ Studio";
-  const defaultDescription =
-    "WebriQ Studio powers microsites with audience-specific content";
-  const defaultImage =
-    "https://cdn.sanity.io/images/9itgab5x/production/bfc0fab9e9b87def49b3a45c9b5bc436fa653be1-471x401.png";
+  const [defaultSeo, setDefaultSeo] = useState(INITIAL_SEO_STATE);
+
+  useEffect(() => {
+    const getDefaultSeo = async () => {
+      try {
+        const res = await sanityClient.fetch(
+          groq`*[_type == 'defaultSeo' && !(_id in path("drafts.**"))][0]`
+        );
+        if (res) {
+          setDefaultSeo(res);
+        }
+      } catch (error) {
+        console.log("Error getting default seo:", error);
+      }
+    };
+
+    getDefaultSeo();
+  }, []);
+
+  const {
+    defaultSeoTitle,
+    defaultSeoSynonyms,
+    defaultSeoKeywords,
+    defaultSeoDescription,
+    defaultSeoImage,
+  } = defaultSeo;
+
   let dataType: DataType | null | undefined;
 
   if (data) {
@@ -67,23 +99,23 @@ function SEO({ data }: { data: SEOData | undefined }) {
   return (
     <>
       <NextSeo
-        title={title ?? defaultTitle}
-        description={description ?? defaultDescription}
+        title={title ?? defaultSeoTitle}
+        description={description ?? defaultSeoDescription}
         canonical={`${url}${router?.asPath}`}
         openGraph={{
-          title: title ?? defaultTitle,
-          description: description ?? defaultDescription,
+          title: title ?? defaultSeoTitle,
+          description: description ?? defaultSeoDescription,
           url: `${url}${router?.asPath}`,
           images: [
             {
-              url: image ? seoImageUrl(image) : defaultImage,
+              url: image ? seoImageUrl(image) : seoImageUrl(defaultSeoImage),
               width: 520,
               height: 320,
-              alt: "Page thumbnail image for SEO",
+              // alt: "Page thumbnail image for SEO",
               type: "image/jpeg",
             },
           ],
-          site_name: title ?? defaultTitle,
+          site_name: title ?? defaultSeoTitle,
         }} // Twitter will read the og:title, og:image and og:description tags for their card. next-seo omits twitter:title, twitter:image and twitter:description to avoid duplication.
         twitter={{
           handle: "@handle",
@@ -93,11 +125,11 @@ function SEO({ data }: { data: SEOData | undefined }) {
         additionalMetaTags={[
           {
             name: "keywords",
-            content: keywords,
+            content: keywords ?? defaultSeoKeywords,
           },
           {
             name: "synonyms",
-            content: synonyms,
+            content: synonyms ?? defaultSeoSynonyms,
           },
         ]}
         additionalLinkTags={[
@@ -121,7 +153,7 @@ function blogPostBody(body) {
   let description;
 
   if (typeof body === "object" && Array.isArray(body)) {
-    const block = body?.find(content => content._type === "block");
+    const block = body?.find((content) => content._type === "block");
     description =
       block?.children?.[0]?.text?.split(". ").slice(0, 2).join(".") + ".";
   } else {
@@ -139,7 +171,6 @@ function getSEOValue(seoData: DataType, dataType: string) {
     description: seoData?.seo?.seoDescription,
     image: seoData?.seo?.seoImage,
   };
-
   if (
     (dataType === "mainCollection" || dataType === "mainProduct") &&
     "commonSections" in seoData

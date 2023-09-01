@@ -3,26 +3,27 @@ import React from "react";
 import { useClient } from "sanity";
 import imageUrlBuilder from "@sanity/image-url";
 import { assemblePageUrl } from "./frontendUtils";
-import styles from "styles/studio/seo/FacebookShare.module.css"
+import styles from "styles/studio/seo/FacebookShare.module.css";
 
-
-function FacebookShare (props) {
-  const client = useClient({ apiVersion: "2021-10-21" })
+function FacebookShare(props) {
+  const client = useClient({ apiVersion: "2021-10-21" });
   const builder = imageUrlBuilder(client);
 
   const urlFor = (source) => builder.image(source)?.url();
 
-  const { document, width = 500, options } = props;
+  const { document, width = 500, options, defaultSeo } = props;
   const { title, seo } = document;
   const url = assemblePageUrl({ document, options });
   const websiteUrlWithoutProtocol = url.split("://").pop();
+
+  const seoImage = seo?.seoImage ?? defaultSeo?.defaultSeoImage;
 
   return (
     <div className={styles.seoItem}>
       <h3>Facebook share</h3>
       <div className={styles.facebookWrapper} style={{ width }}>
         <div className={styles.facebookImageContainer}>
-          {seo?.seoImage && (
+          {seoImage && (
             <img
               className={styles.facebookCardImage}
               src={urlFor(seo?.seoImage)}
@@ -37,7 +38,7 @@ function FacebookShare (props) {
             <a href={url}>{title}</a>
           </div>
           <div className={styles.facebookCardDescription}>
-            {seo?.seoDescription}
+            {seo?.seoDescription ?? defaultSeo?.defaultSeoDescription}
           </div>
         </div>
       </div>

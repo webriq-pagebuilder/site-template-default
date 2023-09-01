@@ -3,26 +3,27 @@ import React from "react";
 import { useClient } from "sanity";
 import imageUrlBuilder from "@sanity/image-url";
 import { assemblePageUrl } from "./frontendUtils";
-import styles from "styles/studio/seo/LinkedInPost.module.css"
+import styles from "styles/studio/seo/LinkedInPost.module.css";
 
-
-function LinkedinPost (props) {
-  const client = useClient({ apiVersion: "2021-10-21" })
+function LinkedinPost(props) {
+  const client = useClient({ apiVersion: "2021-10-21" });
   const builder = imageUrlBuilder(client);
 
   const urlFor = (source) => builder.image(source)?.url();
 
-  const { document, width = 500, options } = props;
+  const { document, width = 500, options, defaultSeo } = props;
   const { title, seo } = document;
   const url = assemblePageUrl({ document, options });
   const websiteUrlWithoutProtocol = url.split("://").pop();
+
+  const seoImage = seo?.seoImage ?? defaultSeo?.defaultSeoImage;
 
   return (
     <div className={styles.seoItem}>
       <h3>LinkedIn Post</h3>
       <div className={styles.linkedinWrapper} style={{ width }}>
         <div className={styles.linkedinImageContainer}>
-          {seo?.seoImage && (
+          {seoImage && (
             <img
               className={styles.linkedinCardImage}
               src={urlFor(seo?.seoImage)}

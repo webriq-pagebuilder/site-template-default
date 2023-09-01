@@ -22,7 +22,7 @@ let config: Config = {
 };
 
 // Require READ token when in production since `dataset` is set to `private`
-if (process.env.NODE_ENV === "production") {
+if (process.env.NODE_ENV === "production" || process.env.NODE_ENV === "development") {
   config = {
     ...config,
     token: process.env.NEXT_PUBLIC_SANITY_API_READ_TOKEN,

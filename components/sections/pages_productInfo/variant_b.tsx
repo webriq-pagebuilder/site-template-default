@@ -1,11 +1,12 @@
 import { memo, useEffect } from "react";
-import { urlFor } from "lib/sanity";
+import { urlFor, PortableText } from "lib/sanity";
 import Image from "next/image";
 import AddToBag from "components/ecwid/AddToBag";
 import AddToWishlist from "components/ecwid/AddToWishlist";
 import Ribbon from "components/ecwid/Ribbon";
 import ProductDetail from "components/ecwid/ProductDetail";
 import { useEcwid } from "context/EcwidContext";
+import { defaultBlockStyle } from "helper";
 import { PagesProductInfoProps } from ".";
 
 function VariantB({ products }: PagesProductInfoProps) {
@@ -151,11 +152,12 @@ function VariantB({ products }: PagesProductInfoProps) {
                     </p>
                   )}
                   {products?.description && (
-                    <p
-                      dangerouslySetInnerHTML={{
-                        __html: products?.description,
-                      }}
-                    />
+                    // <p
+                    //   dangerouslySetInnerHTML={{
+                    //     __html: products?.description,
+                    //   }}
+                    // />
+                    <PortableText value={products?.description} components={defaultBlockStyle} />
                   )}
                 </div>
 

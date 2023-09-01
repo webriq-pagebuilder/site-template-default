@@ -1,5 +1,6 @@
 import { useEcwid } from "context/EcwidContext";
 import React, { useEffect, useMemo, useState } from "react";
+import { TypedObject } from "sanity";
 import AddMoreButton from "./AddMoreButton";
 import ViewWishlist from "./ViewWishlist";
 import ItemInBag from "./ItemInBag";
@@ -14,7 +15,7 @@ interface ProductDetailProps {
         name: string;
         ecwidProductId: number;
         price: string;
-        description: string;
+        description: TypedObject | TypedObject[] | null;
       };
 
   children: React.ReactNode;

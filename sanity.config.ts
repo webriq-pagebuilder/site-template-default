@@ -20,6 +20,8 @@ import { schemaTypes } from "schemas/schema";
 
 // plugins
 import { media } from "sanity-plugin-media"
+import { codeInput } from "@sanity/code-input";
+
 import { openaiImageAsset } from "sanity-plugin-asset-source-openai"
 import { visionTool } from "@sanity/vision"
 import { webriqBlog } from "@webriq-pagebuilder/sanity-plugin-webriq-blog"
@@ -45,6 +47,7 @@ export default defineConfig({
     webriqBlog(),
     webriqGPT3(),
     media(),
+    codeInput(), // for "code" schema type
     openaiImageAsset({
       API_KEY: NEXT_PUBLIC_SANITY_PROJECT_OPENAI_KEY
     }),
@@ -75,8 +78,8 @@ export default defineConfig({
   },
   document: {
     badges: [LiveURLBadge],
-    actions: (prev, { schemaType }) =>
-      ResolveDocumentActions({ prev, schemaType }),
+    actions: (prev, context) =>
+      ResolveDocumentActions({ prev, context }),
     // Open preview link
     productionUrl: async (prev, context) => {
       // context includes the client and other details
