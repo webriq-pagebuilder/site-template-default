@@ -9,7 +9,7 @@ function LinkedinPost(props) {
   const client = useClient({ apiVersion: "2021-10-21" });
   const builder = imageUrlBuilder(client);
 
-  const urlFor = (source) => builder.image(source);
+  const urlFor = (source) => builder.image(source)?.url();
 
   const { document, width = 500, options, defaultSeo } = props;
   const { title, seo } = document;
@@ -26,7 +26,7 @@ function LinkedinPost(props) {
           {seoImage && (
             <img
               className={styles.linkedinCardImage}
-              src={urlFor(seoImage)?.width(500)?.url()}
+              src={urlFor(seo?.seoImage)}
             />
           )}
         </div>
