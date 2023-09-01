@@ -26,7 +26,7 @@
     "@stripe/stripe-js": "^1.52.1",
     "@webriq-pagebuilder/sanity-plugin-input-component-gpt3": "^3.5.0-dall-e",
     "@webriq-pagebuilder/sanity-plugin-input-component-variants": "^3.4.0",
-    "@webriq-pagebuilder/sanity-plugin-inspector-inline-edit": "^3.5.0-alpha.4",
+    "@webriq-pagebuilder/sanity-plugin-inspector-inline-edit": "^3.5.0-y.0",
     "@webriq-pagebuilder/sanity-plugin-schema-blog": "^3.4.0",
     "@webriq-pagebuilder/sanity-plugin-schema-commerce": "^3.5.0-dall-e",
     "@webriq-pagebuilder/sanity-plugin-schema-default": "^3.5.0-dall-e",
