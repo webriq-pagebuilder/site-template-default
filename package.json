@@ -27,7 +27,7 @@
     "@webriq-pagebuilder/sanity-plugin-desk-studio-version": "^3.5.0-studio-version",
     "@webriq-pagebuilder/sanity-plugin-input-component-gpt3": "^3.5.0-rc.0",
     "@webriq-pagebuilder/sanity-plugin-input-component-variants": "^3.5.0-rc.0",
-    "@webriq-pagebuilder/sanity-plugin-inspector-inline-edit": "^3.5.0-y.1",
+    "@webriq-pagebuilder/sanity-plugin-inspector-inline-edit": "^3.5.0-rc.0",
     "@webriq-pagebuilder/sanity-plugin-schema-blog": "^3.5.0-rc.0",
     "@webriq-pagebuilder/sanity-plugin-schema-commerce": "^3.5.0-rc.0",
     "@webriq-pagebuilder/sanity-plugin-schema-default": "^3.5.0-rc.0",
