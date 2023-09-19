@@ -1,16 +1,10 @@
 import React from "react";
 import Head from "next/head";
-import { PreviewSuspense } from "next-sanity/preview";
 import { getClient } from "lib/sanity.client";
 import { homeQuery } from "./api/query";
 import { usePreview } from "lib/sanity.preview";
 import { PageSections } from "components/page";
-import { PreviewNoContent } from "components/PreviewNoContent";
 import { filterDataToSingleItem } from "components/list";
-import { PreviewBanner } from "components/PreviewBanner";
-import InlineEditorContextProvider from "context/InlineEditorContext";
-
-import { CommonPageData } from "types";
 
 interface HomeProps {
   data: Data;
@@ -35,20 +29,6 @@ interface PageData extends CommonPageData {
 }
 
 function Home({ data, preview, token, source }: HomeProps) {
-  const showInlineEditor = source === "studio";
-  if (preview) {
-    return (
-      <>
-        <PreviewBanner />
-        <PreviewSuspense fallback="Loading...">
-          <InlineEditorContextProvider showInlineEditor={showInlineEditor}>
-            <DocumentWithPreview {...{ data, token }} />
-          </InlineEditorContextProvider>
-        </PreviewSuspense>
-      </>
-    );
-  }
-
   return <Document {...{ data }} />;
 }
 
@@ -134,6 +114,14 @@ export const getStaticProps = async ({
 
   // pass page data and preview to helper function
   const pageData: PageData = filterDataToSingleItem(indexPage, preview);
+
+  console.log({
+    pageData: pageData?.sections?.map((i) => ({
+      variant: i.variant,
+      title: i.title,
+      type: i._type,
+    })),
+  });
 
   // if our query failed, then return null to display custom no-preview page
   if (!pageData) {
