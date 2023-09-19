@@ -69,37 +69,37 @@ function Document({ data }: { data: Data }) {
  *
  * @returns Document with preview data
  */
-function DocumentWithPreview({ data, token = null }: DocumentWithPreviewProps) {
-  const previewDataEventSource = usePreview(token, homeQuery);
+// function DocumentWithPreview({ data, token = null }: DocumentWithPreviewProps) {
+//   const previewDataEventSource = usePreview(token, homeQuery);
 
-  const previewData: PageData =
-    previewDataEventSource?.[0] || previewDataEventSource;
+//   const previewData: PageData =
+//     previewDataEventSource?.[0] || previewDataEventSource;
 
-  // General safeguard against empty data
-  if (!previewData) {
-    return null;
-  }
+//   // General safeguard against empty data
+//   if (!previewData) {
+//     return null;
+//   }
 
-  const { title, seo } = previewData;
+//   const { title, seo } = previewData;
 
-  return (
-    <>
-      <Head>
-        <meta name="viewport" content="width=260 initial-scale=1" />
-        <title>{seo?.seoTitle ?? title ?? "WebriQ Studio"}</title>
-      </Head>
+//   return (
+//     <>
+//       <Head>
+//         <meta name="viewport" content="width=260 initial-scale=1" />
+//         <title>{seo?.seoTitle ?? title ?? "WebriQ Studio"}</title>
+//       </Head>
 
-      {/* if no sections, show no sections only in preview */}
+//       {/* if no sections, show no sections only in preview */}
 
-      {(!previewData ||
-        !previewData?.sections ||
-        previewData?.sections?.length === 0) && <PreviewNoContent />}
+//       {(!previewData ||
+//         !previewData?.sections ||
+//         previewData?.sections?.length === 0) && <PreviewNoContent />}
 
-      {/*  Show page sections */}
-      {data?.pageData && <PageSections data={previewData} />}
-    </>
-  );
-}
+//       {/*  Show page sections */}
+//       {data?.pageData && <PageSections data={previewData} />}
+//     </>
+//   );
+// }
 
 export const getStaticProps = async ({
   preview = false,
