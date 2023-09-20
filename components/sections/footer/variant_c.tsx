@@ -3,6 +3,7 @@ import Link from "next/link";
 import React from "react";
 import { logoLink, ConditionalBtnOrLink } from "helper";
 import { FooterProps } from ".";
+import Image from "next/image";
 
 function VariantC({ logo, menu, copyright, socialMedia }: FooterProps) {
   return (
@@ -55,10 +56,12 @@ function VariantC({ logo, menu, copyright, socialMedia }: FooterProps) {
                   }
                   href={logoLink(logo)}
                 >
-                  <img
+                  <Image
                     className="h-14"
                     src={urlFor(logo?.image)}
                     alt={logo?.alt ?? "footer-logo"}
+                    height={64}
+                    width={64}
                   />
                 </Link>
               )}
@@ -67,7 +70,7 @@ function VariantC({ logo, menu, copyright, socialMedia }: FooterProps) {
           {socialMedia && (
             <div className="flex justify-center">
               {socialMedia?.map(
-                social =>
+                (social) =>
                   social?.socialMediaLink && (
                     <a
                       aria-label={

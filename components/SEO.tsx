@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from "react";
 import { seoImageUrl } from "lib/sanity";
-import { NextSeo } from "next-seo";
-import { useRouter } from "next/router";
-import { PageData } from "pages/[slug]";
-import { BlogsData } from "types";
-import { ProductData } from "pages/products/[slug]";
-import { CollectionData } from "pages/collections/[slug]";
-import { CartData } from "pages/cart";
-import { SearchData } from "pages/search";
-import { WishlistData } from "pages/wishlist";
 import { sanityClient } from "lib/sanity.client";
 import { groq } from "next-sanity";
+import { NextSeo } from "next-seo";
+import { useRouter } from "next/router";
+import type { PageData } from "pages/[slug]";
+import type { CartData } from "pages/cart";
+import type { CollectionData } from "pages/collections/[slug]";
+import type { ProductData } from "pages/products/[slug]";
+import type { SearchData } from "pages/search";
+import type { WishlistData } from "pages/wishlist";
+import { useEffect, useState } from "react";
+import type { BlogsData } from "types";
 
 interface SlugData {
   pageData: PageData | null;
@@ -205,4 +205,4 @@ function getSEOValue(seoData: DataType, dataType: string) {
   return seo;
 }
 
-export default React.memo(SEO);
+export default SEO;

@@ -1,16 +1,10 @@
 import React from "react";
 import Head from "next/head";
-import { PreviewSuspense } from "next-sanity/preview";
 import { getClient } from "lib/sanity.client";
 import { homeQuery } from "./api/query";
 import { usePreview } from "lib/sanity.preview";
 import { PageSections } from "components/page";
-import { PreviewNoContent } from "components/PreviewNoContent";
 import { filterDataToSingleItem } from "components/list";
-import { PreviewBanner } from "components/PreviewBanner";
-import InlineEditorContextProvider from "context/InlineEditorContext";
-
-import { CommonPageData } from "types";
 
 interface HomeProps {
   data: Data;
@@ -35,20 +29,6 @@ interface PageData extends CommonPageData {
 }
 
 function Home({ data, preview, token, source }: HomeProps) {
-  const showInlineEditor = source === "studio";
-  if (preview) {
-    return (
-      <>
-        <PreviewBanner />
-        <PreviewSuspense fallback="Loading...">
-          <InlineEditorContextProvider showInlineEditor={showInlineEditor}>
-            <DocumentWithPreview {...{ data, token }} />
-          </InlineEditorContextProvider>
-        </PreviewSuspense>
-      </>
-    );
-  }
-
   return <Document {...{ data }} />;
 }
 
@@ -89,37 +69,37 @@ function Document({ data }: { data: Data }) {
  *
  * @returns Document with preview data
  */
-function DocumentWithPreview({ data, token = null }: DocumentWithPreviewProps) {
-  const previewDataEventSource = usePreview(token, homeQuery);
+// function DocumentWithPreview({ data, token = null }: DocumentWithPreviewProps) {
+//   const previewDataEventSource = usePreview(token, homeQuery);
 
-  const previewData: PageData =
-    previewDataEventSource?.[0] || previewDataEventSource;
+//   const previewData: PageData =
+//     previewDataEventSource?.[0] || previewDataEventSource;
 
-  // General safeguard against empty data
-  if (!previewData) {
-    return null;
-  }
+//   // General safeguard against empty data
+//   if (!previewData) {
+//     return null;
+//   }
 
-  const { title, seo } = previewData;
+//   const { title, seo } = previewData;
 
-  return (
-    <>
-      <Head>
-        <meta name="viewport" content="width=260 initial-scale=1" />
-        <title>{seo?.seoTitle ?? title ?? "WebriQ Studio"}</title>
-      </Head>
+//   return (
+//     <>
+//       <Head>
+//         <meta name="viewport" content="width=260 initial-scale=1" />
+//         <title>{seo?.seoTitle ?? title ?? "WebriQ Studio"}</title>
+//       </Head>
 
-      {/* if no sections, show no sections only in preview */}
+//       {/* if no sections, show no sections only in preview */}
 
-      {(!previewData ||
-        !previewData?.sections ||
-        previewData?.sections?.length === 0) && <PreviewNoContent />}
+//       {(!previewData ||
+//         !previewData?.sections ||
+//         previewData?.sections?.length === 0) && <PreviewNoContent />}
 
-      {/*  Show page sections */}
-      {data?.pageData && <PageSections data={previewData} />}
-    </>
-  );
-}
+//       {/*  Show page sections */}
+//       {data?.pageData && <PageSections data={previewData} />}
+//     </>
+//   );
+// }
 
 export const getStaticProps = async ({
   preview = false,
@@ -134,6 +114,14 @@ export const getStaticProps = async ({
 
   // pass page data and preview to helper function
   const pageData: PageData = filterDataToSingleItem(indexPage, preview);
+
+  console.log({
+    pageData: pageData?.sections?.map((i) => ({
+      variant: i.variant,
+      title: i.title,
+      type: i._type,
+    })),
+  });
 
   // if our query failed, then return null to display custom no-preview page
   if (!pageData) {

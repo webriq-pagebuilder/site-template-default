@@ -201,6 +201,16 @@ export async function getStaticProps({
 }
 
 export async function getStaticPaths() {
+  // When this is true (in preview environments) don't
+  // prerender any static pages
+  // (faster builds, but slower initial page load)
+  if (process.env.SKIP_BUILD_STATIC_GENERATION) {
+    return {
+      paths: [],
+      fallback: "blocking",
+    };
+  }
+
   const products = await sanityClient.fetch(
     groq`*[_type == "mainProduct" && defined(slug.current)][].slug.current`
   );

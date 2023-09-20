@@ -4,6 +4,7 @@ import React from "react";
 import { logoLink, ConditionalBtnOrLink } from "helper";
 
 import { CTAProps } from ".";
+import Image from "next/image";
 
 function VariantA({ logo, title, text, button }: CTAProps) {
   return (
@@ -30,10 +31,12 @@ function VariantA({ logo, title, text, button }: CTAProps) {
                 className="mb-6 inline-block text-3xl font-bold leading-none"
                 href={logoLink(logo)}
               >
-                <img
+                <Image
                   className="h-14"
                   src={urlFor(logo?.image)}
                   alt={logo?.alt ?? "callToAction-logo"}
+                  height={64}
+                  width={64}
                 />
               </Link>
             )}
