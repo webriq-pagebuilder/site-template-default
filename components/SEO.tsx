@@ -1,11 +1,11 @@
 import { seoImageUrl } from "lib/sanity";
 import { sanityClient } from "lib/sanity.client";
 import { groq } from "next-sanity";
-import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { SanityImage } from "types";
+import { SanityImage, SanitySlug } from "types";
 
 type SEOData = {
+	route: string | SanitySlug | string[]; // page slug
 	type: string; // page type e.g. blog
 	seoTitle?: string;
 	seoKeywords?: string;
@@ -24,7 +24,6 @@ const INITIAL_SEO_STATE = {
 
 function SEO({ data }: { data: SEOData | undefined }) {
 	const url = process.env.NEXT_PUBLIC_SITE_URL;
-	const router = useRouter();
 
 	const [defaultSeo, setDefaultSeo] = useState(INITIAL_SEO_STATE);
 
@@ -60,13 +59,13 @@ function SEO({ data }: { data: SEOData | undefined }) {
 		<>
 			{/* Primary Meta Tags */}
 			<meta name="viewport" content="width=360 initial-scale=1" />
-			<link rel="canonical" href={`${url}${router?.asPath}`} />
+			<link rel="canonical" href={`${url}/${data?.route}`} />
 			<meta name="title" content={title ?? defaultSeoTitle} />
 			<meta name="keywords" content={keywords ?? defaultSeoKeywords} />
 			<meta name="synonyms" content={synonyms ?? defaultSeoSynonyms} />
 			<meta name="description" content={description ?? defaultSeoDescription} />
 			{/* Open Graph / Facebook / LinkedIn */}
-			<meta property="og:url" content={`${url}${router?.asPath}`} />
+			<meta property="og:url" content={`${url}/${data?.route}`} />
 			<meta property="og:title" content={title ?? defaultSeoTitle} />
 			<meta
 				property="og:description"
@@ -78,7 +77,7 @@ function SEO({ data }: { data: SEOData | undefined }) {
 			/>
 			{/* Twitter */}
 			<meta property="twitter:card" content="summary_large_image" />
-			<meta property="twitter:url" content={`${url}${router?.asPath}`} />
+			<meta property="twitter:url" content={`${url}/${data?.route}`} />
 			<meta property="twitter:title" content={title ?? defaultSeoTitle} />
 			<meta
 				property="twitter:description"

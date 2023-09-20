@@ -1,7 +1,22 @@
+import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { urlFor } from "lib/sanity";
-import { Logo, MyPortableTextComponents } from "types";
+import {
+	LabeledRoute,
+	LabeledRouteWithKey,
+	Logo,
+	MyPortableTextComponents,
+} from "types";
+
+interface ConditionalLinkTypes {
+	className?: string;
+	ariaLabel: string; // required for A11Y
+	style?: any;
+	children: string | React.ReactNode;
+	link: LabeledRoute | LabeledRouteWithKey | undefined;
+	target?: string;
+}
 
 // WebriQ form redirect thank you page on successful submission
 export const thankYouPageLink = (link) => {
@@ -38,7 +53,7 @@ export const ConditionalLink = ({
 	children,
 	link,
 	target,
-}) => {
+}: ConditionalLinkTypes) => {
 	const defaultStyle =
 		"inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose outline-none transition duration-200";
 
