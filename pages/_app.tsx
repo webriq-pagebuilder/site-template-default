@@ -1,7 +1,7 @@
 import type { AppProps } from "next/app";
 import "../styles/globals.css";
 // import React, { useEffect } from "react";
-import SEO from "../components/SEO";
+// import SEO from "../components/SEO";
 // import "swiper/scss";
 // import "swiper/scss/navigation";
 // import "swiper/scss/pagination";
@@ -53,7 +53,7 @@ function App({ Component, pageProps }: AppProps) {
 
   return (
     <>
-      <SEO {...pageProps} />
+      {/* <SEO {...pageProps} /> */}
       <Component {...pageProps} />
     </>
   );

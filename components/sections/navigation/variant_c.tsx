@@ -3,6 +3,7 @@ import Link from "next/link";
 import { urlFor } from "lib/sanity";
 import { logoLink, ConditionalBtnOrLink } from "helper";
 import { NavigationProps } from ".";
+import Image from "next/image";
 
 function VariantC({
   /*template , */ links,
@@ -12,7 +13,7 @@ function VariantC({
 }: NavigationProps) {
   const [menu, setMenu] = React.useState(false);
   const showMenu = () => {
-    setMenu(prevState => !prevState);
+    setMenu((prevState) => !prevState);
   };
 
   return (
@@ -59,10 +60,12 @@ function VariantC({
                 className="text-3xl font-bold leading-none"
                 href={logoLink(logo)}
               >
-                <img
+                <Image
                   className="h-12"
                   src={urlFor(logo?.image)}
                   alt={logo?.alt ?? "navigation-logo"}
+                  width={60}
+                  height={50}
                 />
               </Link>
             )}
