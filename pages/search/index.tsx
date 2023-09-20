@@ -6,54 +6,54 @@ import { usePreview } from "lib/sanity.preview";
 import { searchPageQuery } from "pages/api/query";
 import { SearchPageSections } from "components/page/store/search";
 import { PreviewNoContent } from "components/PreviewNoContent";
-import { filterDataToSingleItem } from "components/list";
+import { filterDataToSingleItem, SEO } from "components/list";
 import { PreviewBanner } from "components/PreviewBanner";
 import InlineEditorContextProvider from "context/InlineEditorContext";
 
 import { CommonPageData } from "types";
 
 interface SeachPageProps {
-  data: Data;
-  preview: boolean;
-  token?: string;
-  source?: string;
+	data: Data;
+	preview: boolean;
+	token?: string;
+	source?: string;
 }
 
 interface Data {
-  searchData: SearchData;
+	searchData: SearchData;
 }
 
 export interface SearchData extends CommonPageData {
-  collections: any;
-  slug: string | string[] | null;
+	collections: any;
+	slug: string | string[] | null;
 }
 
 interface DocumentWithPreviewProps {
-  data: Data;
-  token?: string | null;
+	data: Data;
+	token?: string | null;
 }
 
 function SearchPage({ data, preview, token, source }: SeachPageProps) {
-  useEffect(() => {
-    if (typeof Ecwid !== "undefined") {
-      window.Ecwid.init();
-    }
-  }, []);
-  const showInlineEditor = source === "studio";
-  if (preview) {
-    return (
-      <>
-        <PreviewBanner />
-        <PreviewSuspense fallback="Loading...">
-          <InlineEditorContextProvider showInlineEditor={showInlineEditor}>
-            <DocumentWithPreview {...{ data, token }} />
-          </InlineEditorContextProvider>
-        </PreviewSuspense>
-      </>
-    );
-  }
+	useEffect(() => {
+		if (typeof Ecwid !== "undefined") {
+			window.Ecwid.init();
+		}
+	}, []);
+	const showInlineEditor = source === "studio";
+	if (preview) {
+		return (
+			<>
+				<PreviewBanner />
+				<PreviewSuspense fallback="Loading...">
+					<InlineEditorContextProvider showInlineEditor={showInlineEditor}>
+						<DocumentWithPreview {...{ data, token }} />
+					</InlineEditorContextProvider>
+				</PreviewSuspense>
+			</>
+		);
+	}
 
-  return <Document {...{ data }} />;
+	return <Document {...{ data }} />;
 }
 
 /**
@@ -63,26 +63,26 @@ function SearchPage({ data, preview, token, source }: SeachPageProps) {
  * @returns Document with published data
  */
 function Document({ data }: { data: Data }) {
-  const publishedData = data?.searchData;
+	const publishedData = data?.searchData;
 
-  // General safeguard against empty data
-  if (!publishedData) {
-    return null;
-  }
+	// General safeguard against empty data
+	if (!publishedData) {
+		return null;
+	}
 
-  const { seo } = publishedData;
+	const { seo, _type } = publishedData;
 
-  return (
-    <>
-      <Head>
-        <meta name="viewport" content="width=260 initial-scale=1" />
-        <title>{seo?.seoTitle ?? "Search"}</title>
-      </Head>
+	return (
+		<>
+			<Head>
+				<SEO data={{ type: _type, ...seo }} />
+				<title>{seo?.seoTitle ?? "Search"}</title>
+			</Head>
 
-      {/*  Show page sections */}
-      {data?.searchData && <SearchPageSections data={publishedData} />}
-    </>
-  );
+			{/*  Show page sections */}
+			{data?.searchData && <SearchPageSections data={publishedData} />}
+		</>
+	);
 }
 
 /**
@@ -93,66 +93,66 @@ function Document({ data }: { data: Data }) {
  * @returns Document with preview data
  */
 function DocumentWithPreview({ data, token = null }: DocumentWithPreviewProps) {
-  const previewDataEventSource = usePreview(token, searchPageQuery);
-  const previewData = previewDataEventSource?.[0] || previewDataEventSource;
+	const previewDataEventSource = usePreview(token, searchPageQuery);
+	const previewData = previewDataEventSource?.[0] || previewDataEventSource;
 
-  // General safeguard against empty data
-  if (!previewData) {
-    return null;
-  }
+	// General safeguard against empty data
+	if (!previewData) {
+		return null;
+	}
 
-  const { seo } = previewData;
+	const { seo, _type } = previewData;
 
-  return (
-    <>
-      <Head>
-        <meta name="viewport" content="width=260 initial-scale=1" />
-        <title>{seo?.seoTitle ?? "Search"}</title>
-      </Head>
+	return (
+		<>
+			<Head>
+				<SEO data={{ type: _type, ...seo }} />
+				<title>{seo?.seoTitle ?? "Search"}</title>
+			</Head>
 
-      {/* if no sections, show no sections only in preview */}
+			{/* if no sections, show no sections only in preview */}
 
-      {(!previewData ||
-        !previewData?.sections ||
-        previewData?.sections?.length === 0) && <PreviewNoContent />}
+			{(!previewData ||
+				!previewData?.sections ||
+				previewData?.sections?.length === 0) && <PreviewNoContent />}
 
-      {/*  Show page sections */}
-      {data?.searchData && <SearchPageSections data={previewData} />}
-    </>
-  );
+			{/*  Show page sections */}
+			{data?.searchData && <SearchPageSections data={previewData} />}
+		</>
+	);
 }
 
 export async function getStaticProps({
-  preview = false,
-  previewData = {},
+	preview = false,
+	previewData = {},
 }: any): Promise<{ props: SeachPageProps }> {
-  const client =
-    preview && previewData?.token
-      ? getClient(false).withConfig({ token: previewData.token })
-      : getClient(preview);
+	const client =
+		preview && previewData?.token
+			? getClient(false).withConfig({ token: previewData.token })
+			: getClient(preview);
 
-  const searchPage = await client.fetch(searchPageQuery);
+	const searchPage = await client.fetch(searchPageQuery);
 
-  // pass page data and preview to helper function
-  const searchData: SearchData = filterDataToSingleItem(searchPage, preview);
+	// pass page data and preview to helper function
+	const searchData: SearchData = filterDataToSingleItem(searchPage, preview);
 
-  if (!searchData) {
-    return {
-      props: {
-        preview,
-        data: { searchData: null },
-      },
-    };
-  }
+	if (!searchData) {
+		return {
+			props: {
+				preview,
+				data: { searchData: null },
+			},
+		};
+	}
 
-  return {
-    props: {
-      preview,
-      token: (preview && previewData.token) || "",
-      source: (preview && previewData.source) || "",
-      data: { searchData },
-    },
-  };
+	return {
+		props: {
+			preview,
+			token: (preview && previewData.token) || "",
+			source: (preview && previewData.source) || "",
+			data: { searchData },
+		},
+	};
 }
 
 export default React.memo(SearchPage);
