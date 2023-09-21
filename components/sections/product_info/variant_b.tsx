@@ -22,6 +22,9 @@ function VariantB({
 	ecwidProduct,
 	getPriceDisplay,
 }: ProductInfoProps) {
+	const [activeTab, setActiveTab] = useState(null);
+	const [thumbsSwiper, setThumbsSwiper] = useState(null);
+
 	// get Ecwid product details
 	const defaultProduct = ecwidProduct ? ecwidProduct : product;
 
@@ -104,9 +107,6 @@ function VariantB({
 			),
 		},
 	};
-
-	const [activeTab, setActiveTab] = useState(null);
-	const [thumbsSwiper, setThumbsSwiper] = useState(null);
 
 	return (
 		<section className="sm:p-12 md:p-20">

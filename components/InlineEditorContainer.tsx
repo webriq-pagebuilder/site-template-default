@@ -5,7 +5,9 @@ import React from "react";
 import { StudioProvider, StudioLayout } from "sanity";
 import SplitPane, { SashContent, Pane } from "split-pane-react";
 import { InlineEditorProps } from "./InlineEditor";
+
 import "split-pane-react/esm/themes/default.css";
+import styles from "styles/InlineEditing.module.css";
 
 export function InlineEditorContainer({
 	document,
@@ -33,14 +35,14 @@ export function InlineEditorContainer({
 				!breakpoint &&
 				!splitPane &&
 				!sectionsWithoutEditor?.includes(document?.type) &&
-				"inline-editor show-button"
+				`${styles["inline-editor"]} ${styles["show-button"]}`
 			}`}>
 			{!breakpoint && !sectionsWithoutEditor?.includes(document?.type) && (
 				<div className="absolute top-0 left-0 w-full h-full text-right p-4 pointer-events-none">
 					<button
 						id={document?.type}
 						className={`pointer-events-auto z-40 items-center border border-webriq-darkblue bg-white px-2 py-2.5 text-center text-sm font-medium text-webriq-darkblue shadow-lg hover:border-webriq-blue hover:bg-webriq-blue hover:text-white ${
-							!splitPane && "hide"
+							!splitPane && `${styles.hide}`
 						}`}
 						style={{
 							position: "sticky",
@@ -99,10 +101,16 @@ export function InlineEditorContainer({
 									unstable_history={history}
 									unstable_noAuthBoundary>
 									<div
-										className={`nav-panesearch nav-paneheader desk-listpane document-pane field-label field-variant panel pane-footer ${
+										className={`${styles["nav-panesearch"]} ${
+											styles["nav-paneheader"]
+										} ${styles["desk-listpane"]} ${styles["document-pane"]} ${
+											styles["field-label"]
+										} ${styles["field-variant"]} ${styles["panel"]} ${
+											styles["pane-footer"]
+										} ${
 											document?.type === "mainProduct"
-												? "product-fieldgroup-tabs product-fieldgroup-select"
-												: "fieldgroup-tabs fieldgroup-select"
+												? `${styles["product-fieldgroup-tabs"]} ${styles["product-fieldgroup-select"]}`
+												: `${styles["fieldgroup-tabs"]} ${styles["fieldgroup-select"]}`
 										}`}>
 										<StudioLayout />
 									</div>

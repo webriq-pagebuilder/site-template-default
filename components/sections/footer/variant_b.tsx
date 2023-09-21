@@ -1,5 +1,6 @@
 import { urlFor } from "lib/sanity";
 import Link from "next/link";
+import Image from "next/image";
 import React from "react";
 import { logoLink, ConditionalLink } from "helper";
 
@@ -21,9 +22,11 @@ function VariantB({ logo, copyright, socialMedia, menu }: FooterProps) {
 									}
 									className="inline-block text-3xl font-bold leading-none"
 									href={logoLink(logo)}>
-									<img
+									<Image
 										className="h-14"
 										src={urlFor(logo?.image)}
+										width={132}
+										height={56}
 										alt={logo?.alt ?? "footer-logo"}
 									/>
 								</Link>

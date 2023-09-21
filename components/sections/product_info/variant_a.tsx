@@ -11,6 +11,8 @@ import { Navigation, Thumbs, Pagination, A11y } from "swiper/modules";
 import { ProductInfoProps } from ".";
 import { MyPortableTextComponents } from "types";
 
+import styles from "styles/Products.module.css";
+
 function VariantA({
 	subtitle,
 	images,
@@ -21,6 +23,9 @@ function VariantA({
 	ecwidProduct,
 	getPriceDisplay,
 }: ProductInfoProps) {
+	const [activeTab, setActiveTab] = useState(0);
+	const [thumbsSwiper, setThumbsSwiper] = useState(null);
+
 	// get Ecwid product details
 	const defaultProduct = ecwidProduct ? ecwidProduct : product;
 
@@ -105,9 +110,6 @@ function VariantA({
 		},
 	};
 
-	const [activeTab, setActiveTab] = useState(0);
-	const [thumbsSwiper, setThumbsSwiper] = useState(null);
-
 	return (
 		<section className="sm:p-12 md:p-20">
 			<div className="container mx-auto px-4">
@@ -151,7 +153,7 @@ function VariantA({
 									prevEl: "#thumbPrev",
 									nextEl: "#thumbNext",
 								}}
-								className="product-images-thumbs-swiper hidden md:-mx-2 md:flex md:flex-wrap"
+								className={`${styles["product-images-thumbs-swiper"]} hidden md:-mx-2 md:flex md:flex-wrap`}
 								pagination={{
 									clickable: true,
 								}}>
