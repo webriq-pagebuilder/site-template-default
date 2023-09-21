@@ -28,7 +28,7 @@
     "@webriq-pagebuilder/sanity-plugin-inspector-inline-edit": "^3.5.1",
     "@webriq-pagebuilder/sanity-plugin-schema-blog": "^3.5.1",
     "@webriq-pagebuilder/sanity-plugin-schema-commerce": "^3.5.1",
-    "@webriq-pagebuilder/sanity-plugin-schema-default": "^3.5.1",
+    "@webriq-pagebuilder/sanity-plugin-schema-default": "link:.yalc/@webriq-pagebuilder/sanity-plugin-schema-default",
     "@webriq-pagebuilder/sanity-plugin-webriq-blog": "^3.5.1",
     "@webriq-pagebuilder/sanity-plugin-webriq-components": "^3.5.1",
     "@webriq-pagebuilder/sanity-plugin-webriq-forms": "^3.5.1",
