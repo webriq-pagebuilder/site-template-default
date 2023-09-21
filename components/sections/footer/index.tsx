@@ -13,6 +13,7 @@ const Variants = {
   variant_a: dynamic(() => import("./variant_a")),
   variant_b: dynamic(() => import("./variant_b")),
   variant_c: dynamic(() => import("./variant_c")),
+  variant_d: dynamic(() => import("./variant_d")),
 };
 
 export interface FooterProps {
@@ -22,6 +23,7 @@ export interface FooterProps {
   copyright?: string;
   socialMedia?: SocialLink[];
   menu?: LabeledRouteWithKey[];
+  multipleMenus?: any;
 }
 
 function Footer({ data }: SectionsProps) {
@@ -35,6 +37,7 @@ function Footer({ data }: SectionsProps) {
     copyright: data?.variants?.copyright,
     socialMedia: data?.variants?.socialLinks,
     menu: data?.variants?.menu,
+    multipleMenus: data?.variants?.multipleMenus,
   };
 
   return Variant ? <Variant {...props} /> : null;
