@@ -79,9 +79,11 @@ function VariantD({ caption, title, portfoliosWithCategory }: PortfolioProps) {
 															</p>
 															{content?.primaryButton?.label && (
 																<ConditionalLink
-																	value={content?.primaryButton}
-																	style="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose"
-																/>
+																	ariaLabel={`Click to go to ${content?.primaryButton?.label} page`}
+																	link={content?.primaryButton}
+																	className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose">
+																	{content?.primaryButton?.label}
+																</ConditionalLink>
 															)}
 														</div>
 													</div>
@@ -120,9 +122,11 @@ function VariantD({ caption, title, portfoliosWithCategory }: PortfolioProps) {
 															</p>
 															{content?.primaryButton?.label && (
 																<ConditionalLink
-																	value={content?.primaryButton}
-																	style="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose"
-																/>
+																	ariaLabel={`Click to go to ${content?.primaryButton?.label} page`}
+																	link={content?.primaryButton}
+																	className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose">
+																	{content?.primaryButton?.label}
+																</ConditionalLink>
 															)}
 														</div>
 													</div>
@@ -163,9 +167,11 @@ function VariantD({ caption, title, portfoliosWithCategory }: PortfolioProps) {
 															</p>
 															{content?.primaryButton?.label && (
 																<ConditionalLink
-																	value={content?.primaryButton}
-																	style="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose"
-																/>
+																	ariaLabel={`Click to go to ${content?.primaryButton?.label} page`}
+																	link={content?.primaryButton}
+																	className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose">
+																	{content?.primaryButton?.label}
+																</ConditionalLink>
 															)}
 														</div>
 													</div>
@@ -205,9 +211,11 @@ function VariantD({ caption, title, portfoliosWithCategory }: PortfolioProps) {
 																</p>
 																{content?.primaryButton?.label && (
 																	<ConditionalLink
-																		value={content?.primaryButton}
-																		style="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose"
-																	/>
+																		ariaLabel={`Click to go to ${content?.primaryButton?.label} page`}
+																		link={content?.primaryButton}
+																		className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose">
+																		{content?.primaryButton?.label}
+																	</ConditionalLink>
 																)}
 															</div>
 														</div>
@@ -222,9 +230,11 @@ function VariantD({ caption, title, portfoliosWithCategory }: PortfolioProps) {
 					{portfoliosPerCategory?.[0]?.primaryButton?.label && (
 						<div className="text-center">
 							<ConditionalLink
-								value={portfoliosPerCategory?.[0]?.primaryButton}
-								style="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose outline-none transition duration-200"
-							/>
+								ariaLabel={`Click to go to ${portfoliosPerCategory?.[0]?.primaryButton?.label} page`}
+								link={portfoliosPerCategory?.[0]?.primaryButton}
+								className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose outline-none transition duration-200">
+								{portfoliosPerCategory?.[0]?.primaryButton?.label}
+							</ConditionalLink>
 						</div>
 					)}
 				</div>

@@ -72,7 +72,7 @@ function Document({ data }: { data: Data }) {
 	return (
 		<>
 			<Head>
-				<SEO data={{ type: _type, route: "cart", ...seo }} />
+				<SEO data={{ pageTitle: "Cart", type: _type, route: "cart", ...seo }} />
 				<title>{seo?.seoTitle ?? "Cart"}</title>
 			</Head>
 
@@ -104,7 +104,7 @@ function DocumentWithPreview({ data, token = null }: DocumentWithPreviewProps) {
 	return (
 		<>
 			<Head>
-				<SEO data={{ type: _type, route: "cart", ...seo }} />
+				<SEO data={{ pageTitle: "Cart", type: _type, route: "cart", ...seo }} />
 				<title>{seo?.seoTitle ?? "Cart"}</title>
 			</Head>
 

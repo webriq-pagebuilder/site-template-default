@@ -80,7 +80,7 @@ function VariantB({
 					</ul>
 					{primaryButton?.label && (
 						<ConditionalLink
-							ariaLabel={`Click to go to ${link?.label}`}
+							ariaLabel={`Click to go to ${primaryButton?.label}`}
 							link={primaryButton}
 							className="hidden lg:inline-block lg:ml-auto lg:mr-3 py-2 px-6 bg-gray-50 hover:bg-gray-100 text-sm text-gray-900 font-bold rounded-l-xl rounded-t-xl transition duration-200">
 							{primaryButton?.label}

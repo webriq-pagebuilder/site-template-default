@@ -32,9 +32,11 @@ function VariantC({
 						<div className="mt-5 hidden md:mt-0 lg:mt-0 lg:block xl:mt-0">
 							{primaryButton?.label && (
 								<ConditionalLink
-									value={primaryButton}
-									style="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose transition duration-200"
-								/>
+									ariaLabel={`Click to go to ${primaryButton?.label} page`}
+									link={primaryButton}
+									className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose transition duration-200">
+									{primaryButton?.label}
+								</ConditionalLink>
 							)}
 						</div>
 					</div>
@@ -62,9 +64,11 @@ function VariantC({
 											</p>
 											{content?.primaryButton?.label && (
 												<ConditionalLink
-													value={content?.primaryButton}
-													style="flex text-webriq-darkblue hover:text-webriq-blue font-bold"
-												/>
+													ariaLabel={`Click to go to ${content?.primaryButton?.label} page`}
+													link={content?.primaryButton}
+													className="flex text-webriq-darkblue hover:text-webriq-blue font-bold">
+													{content?.primaryButton?.label}
+												</ConditionalLink>
 											)}
 										</div>
 									</div>
@@ -75,9 +79,11 @@ function VariantC({
 					<div className="mt-5 block text-center md:mt-0 lg:mt-0 lg:hidden xl:mt-0">
 						{primaryButton?.label && (
 							<ConditionalLink
-								value={primaryButton}
-								style="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose transition duration-200"
-							/>
+								ariaLabel={`Click to go to ${primaryButton?.label} page`}
+								link={primaryButton}
+								className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose transition duration-200">
+								{primaryButton?.label}
+							</ConditionalLink>
 						)}
 					</div>
 				</div>

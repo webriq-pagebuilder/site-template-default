@@ -1,4 +1,4 @@
-import { groq } from 'next-sanity';
+import { groq } from "next-sanity";
 
 const conditionalLink = `
   "type": linkType,
@@ -256,3 +256,6 @@ export const wishlistPageQuery = groq`*[_type == "wishlistPage"] {
 
 // query search page
 export const searchPageQuery = groq`*[_type == "searchPage"] ${allProjections}`;
+
+// query Global or Default SEO values
+export const globalSEOQuery = groq`*[_type == 'defaultSeo' && !(_id in path("drafts.**"))][0]`;

@@ -96,7 +96,14 @@ function Document({ data }: { data: Data }) {
 	return (
 		<>
 			<Head>
-				<SEO data={{ type: _type, route: publishedData?.slug, ...finalSEO }} />
+				<SEO
+					data={{
+						pageTitle: name,
+						type: _type,
+						route: publishedData?.slug,
+						...finalSEO,
+					}}
+				/>
 				<link rel="icon" href="../favicon.ico" />
 				<title>
 					{seo?.seoTitle ??
@@ -147,7 +154,14 @@ function DocumentWithPreview({
 	return (
 		<>
 			<Head>
-				<SEO data={{ type: _type, route: previewData?.slug, ...finalSEO }} />
+				<SEO
+					data={{
+						pageTitle: name,
+						type: _type,
+						route: previewData?.slug,
+						...finalSEO,
+					}}
+				/>
 				<link rel="icon" href="../favicon.ico" />
 				<title>
 					{seo?.seoTitle ??

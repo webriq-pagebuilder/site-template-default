@@ -1,10 +1,11 @@
 import { seoImageUrl } from "lib/sanity";
-import { sanityClient } from "lib/sanity.client";
-import { groq } from "next-sanity";
+import { getClient } from "lib/sanity.client";
+import { globalSEOQuery } from "pages/api/query";
 import { useEffect, useState } from "react";
 import { SanityImage, SanitySlug } from "types";
 
 type SEOData = {
+	pageTitle: string; // page title
 	route: string | SanitySlug | string[]; // page slug
 	type: string; // page type e.g. blog
 	seoTitle?: string;
@@ -30,9 +31,7 @@ function SEO({ data }: { data: SEOData | undefined }) {
 	useEffect(() => {
 		const getDefaultSeo = async () => {
 			try {
-				const res = await sanityClient.fetch(
-					groq`*[_type == 'defaultSeo' && !(_id in path("drafts.**"))][0]`
-				);
+				const res = await getClient(false).fetch(globalSEOQuery);
 				if (res) {
 					setDefaultSeo(res);
 				}
@@ -60,7 +59,10 @@ function SEO({ data }: { data: SEOData | undefined }) {
 			{/* Primary Meta Tags */}
 			<meta name="viewport" content="width=360 initial-scale=1" />
 			<link rel="canonical" href={`${url}/${data?.route}`} />
-			<meta name="title" content={title ?? defaultSeoTitle} />
+			<meta
+				name="title"
+				content={title ?? data?.pageTitle ?? defaultSeoTitle}
+			/>
 			<meta name="keywords" content={keywords ?? defaultSeoKeywords} />
 			<meta name="synonyms" content={synonyms ?? defaultSeoSynonyms} />
 			<meta name="description" content={description ?? defaultSeoDescription} />
@@ -78,7 +80,10 @@ function SEO({ data }: { data: SEOData | undefined }) {
 			{/* Twitter */}
 			<meta property="twitter:card" content="summary_large_image" />
 			<meta property="twitter:url" content={`${url}/${data?.route}`} />
-			<meta property="twitter:title" content={title ?? defaultSeoTitle} />
+			<meta
+				property="twitter:title"
+				content={title ?? data?.pageTitle ?? defaultSeoTitle}
+			/>
 			<meta
 				property="twitter:description"
 				content={description ?? defaultSeoDescription}

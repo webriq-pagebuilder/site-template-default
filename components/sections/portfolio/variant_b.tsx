@@ -32,9 +32,11 @@ function VariantB({
 						<div className="mt-5 hidden text-right md:mt-0 lg:mt-0 lg:block xl:mt-0">
 							{primaryButton?.label && (
 								<ConditionalLink
-									value={primaryButton}
-									style="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose transition duration-200"
-								/>
+									ariaLabel={`Click to go to ${primaryButton?.label} page`}
+									link={primaryButton}
+									className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose transition duration-200">
+									{primaryButton?.label}
+								</ConditionalLink>
 							)}
 						</div>
 					</div>
@@ -64,9 +66,11 @@ function VariantB({
 										</p>
 										{content?.primaryButton?.label && (
 											<ConditionalLink
-												value={content?.primaryButton}
-												style="inline-block py-2 px-4 border-2 border-gray-400 hover:border-webriq-darkblue bg-transparent text-gray-50 hover:bg-webriq-darkblue hover:text-white transition duration-200 rounded-l-xl rounded-t-xl font-bold leading-loose"
-											/>
+												ariaLabel={`Click to go to ${content?.primaryButton?.label} page`}
+												link={content?.primaryButton}
+												className="inline-block py-2 px-4 border-2 border-gray-400 hover:border-webriq-darkblue bg-transparent text-gray-50 hover:bg-webriq-darkblue hover:text-white transition duration-200 rounded-l-xl rounded-t-xl font-bold leading-loose">
+												{content?.primaryButton?.label}
+											</ConditionalLink>
 										)}
 									</div>
 								</div>
@@ -76,9 +80,11 @@ function VariantB({
 					<div className="mt-5 block text-center md:mt-0 lg:mt-0 lg:hidden xl:mt-0">
 						{primaryButton?.label && (
 							<ConditionalLink
-								value={primaryButton}
-								style="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose transition duration-200"
-							/>
+								ariaLabel={`Click to go to ${primaryButton?.label} page`}
+								link={primaryButton}
+								className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose transition duration-200">
+								{primaryButton?.label}
+							</ConditionalLink>
 						)}
 					</div>
 				</div>

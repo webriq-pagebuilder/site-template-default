@@ -7,29 +7,29 @@ import { PageSections } from "components/page";
 import { filterDataToSingleItem } from "components/list";
 
 interface HomeProps {
-  data: Data;
-  preview: boolean;
-  token?: string | null;
-  source?: string;
+	data: Data;
+	preview: boolean;
+	token?: string | null;
+	source?: string;
 }
 
 interface DocumentWithPreviewProps {
-  data: Data;
-  token: string | null;
+	data: Data;
+	token: string | null;
 }
 
 interface Data {
-  pageData: PageData | null;
+	pageData: PageData | null;
 }
 
 interface PageData extends CommonPageData {
-  collections: any;
-  slug: string | string[];
-  title: string;
+	collections: any;
+	slug: string | string[];
+	title: string;
 }
 
 function Home({ data, preview, token, source }: HomeProps) {
-  return <Document {...{ data }} />;
+	return <Document {...{ data }} />;
 }
 
 /**
@@ -39,26 +39,26 @@ function Home({ data, preview, token, source }: HomeProps) {
  * @returns Document with published data
  */
 function Document({ data }: { data: Data }) {
-  const publishedData = data?.pageData;
+	const publishedData = data?.pageData;
 
-  // General safeguard against empty data
-  if (!publishedData) {
-    return null;
-  }
+	// General safeguard against empty data
+	if (!publishedData) {
+		return null;
+	}
 
-  const { title, seo } = publishedData;
+	const { title, seo } = publishedData;
 
-  return (
-    <>
-      <Head>
-        <meta name="viewport" content="width=260 initial-scale=1" />
-        <title>{seo?.seoTitle ?? title ?? "WebriQ Studio"}</title>
-      </Head>
+	return (
+		<>
+			<Head>
+				<meta name="viewport" content="width=260 initial-scale=1" />
+				<title>{seo?.seoTitle ?? title ?? "WebriQ Studio"}</title>
+			</Head>
 
-      {/*  Show page sections */}
-      {data?.pageData && <PageSections data={publishedData} />}
-    </>
-  );
+			{/*  Show page sections */}
+			{data?.pageData && <PageSections data={publishedData} />}
+		</>
+	);
 }
 
 /**
@@ -102,45 +102,37 @@ function Document({ data }: { data: Data }) {
 // }
 
 export const getStaticProps = async ({
-  preview = false,
-  previewData = {},
+	preview = false,
+	previewData = {},
 }: any): Promise<{ props: HomeProps }> => {
-  const client =
-    preview && previewData?.token
-      ? getClient(false).withConfig({ token: previewData.token })
-      : getClient(preview);
+	const client =
+		preview && previewData?.token
+			? getClient(false).withConfig({ token: previewData.token })
+			: getClient(preview);
 
-  const indexPage = await client.fetch(homeQuery);
+	const indexPage = await client.fetch(homeQuery);
 
-  // pass page data and preview to helper function
-  const pageData: PageData = filterDataToSingleItem(indexPage, preview);
+	// pass page data and preview to helper function
+	const pageData: PageData = filterDataToSingleItem(indexPage, preview);
 
-  console.log({
-    pageData: pageData?.sections?.map((i) => ({
-      variant: i.variant,
-      title: i.title,
-      type: i._type,
-    })),
-  });
+	// if our query failed, then return null to display custom no-preview page
+	if (!pageData) {
+		return {
+			props: {
+				preview,
+				data: { pageData: null },
+			},
+		};
+	}
 
-  // if our query failed, then return null to display custom no-preview page
-  if (!pageData) {
-    return {
-      props: {
-        preview,
-        data: { pageData: null },
-      },
-    };
-  }
-
-  return {
-    props: {
-      preview,
-      token: (preview && previewData.token) || "",
-      source: (preview && previewData.source) || "",
-      data: { pageData },
-    },
-  };
+	return {
+		props: {
+			preview,
+			token: (preview && previewData.token) || "",
+			source: (preview && previewData.source) || "",
+			data: { pageData },
+		},
+	};
 };
 
 export default Home;

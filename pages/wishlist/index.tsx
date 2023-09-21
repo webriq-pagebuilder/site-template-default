@@ -76,7 +76,14 @@ function Document({ data }: { data: Data }) {
 	return (
 		<>
 			<Head>
-				<SEO data={{ type: _type, route: "wishlist", ...seo }} />
+				<SEO
+					data={{
+						pageTitle: "Wishlist",
+						type: _type,
+						route: "wishlist",
+						...seo,
+					}}
+				/>
 				<title>{seo?.seoTitle ?? "Wishlist"}</title>
 			</Head>
 
@@ -108,7 +115,14 @@ function DocumentWithPreview({ data, token = null }: DocumentWithPreviewProps) {
 	return (
 		<>
 			<Head>
-				<SEO data={{ type: _type, route: "wishlist", ...seo }} />
+				<SEO
+					data={{
+						pageTitle: "Wishlist",
+						type: _type,
+						route: "wishlist",
+						...seo,
+					}}
+				/>
 				<title>{seo?.seoTitle ?? "Wishlist"}</title>
 			</Head>
 

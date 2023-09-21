@@ -62,7 +62,7 @@ export const ConditionalLink = ({
 			<a
 				className={className ?? defaultStyle}
 				aria-label={ariaLabel}
-				style={style}
+				//style={style}
 				target={target}
 				href="/page-not-found">
 				{children}
@@ -73,26 +73,24 @@ export const ConditionalLink = ({
 		link?.internalLink?.toLowerCase()?.includes("home")
 	) {
 		return (
-			<Link href="/">
-				<a
-					aria-label={ariaLabel}
-					className={className ?? defaultStyle}
-					style={style}
-					target={target}>
-					{children}
-				</a>
+			<Link
+				href="/"
+				aria-label={ariaLabel}
+				className={className ?? defaultStyle}
+				//style={style}
+				target={target}>
+				{children}
 			</Link>
 		);
 	} else if (link?.type === "linkInternal") {
 		return (
-			<Link href={`/${link?.internalLink}`}>
-				<a
-					aria-label={ariaLabel}
-					className={className ?? defaultStyle}
-					style={style}
-					target={target}>
-					{children}
-				</a>
+			<Link
+				href={`/${link?.internalLink}`}
+				aria-label={ariaLabel}
+				className={className ?? defaultStyle}
+				//style={style}
+				target={target}>
+				{children}
 			</Link>
 		);
 	} else if (link?.type === "linkExternal") {
@@ -100,7 +98,7 @@ export const ConditionalLink = ({
 			<a
 				aria-label={ariaLabel}
 				className={className ?? defaultStyle}
-				style={style}
+				//style={style}
 				href={link?.externalLink}
 				target={target}
 				rel={link?.linkTarget === "_blank" ? "noopener noreferrer" : null}>
@@ -109,14 +107,13 @@ export const ConditionalLink = ({
 		);
 	} else {
 		return (
-			<Link href="/">
-				<a
-					aria-label={ariaLabel}
-					className={className ?? defaultStyle}
-					style={style}
-					target={target}>
-					{children}
-				</a>
+			<Link
+				href="/"
+				aria-label={ariaLabel}
+				className={className ?? defaultStyle}
+				//style={style}
+				target={target}>
+				{children}
 			</Link>
 		);
 	}

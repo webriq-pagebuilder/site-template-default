@@ -87,7 +87,14 @@ function Document({ data }: { data: Data }) {
 	return (
 		<>
 			<Head>
-				<SEO data={{ type: _type, route: publishedData?.slug, ...seo }} />
+				<SEO
+					data={{
+						pageTitle: title,
+						type: _type,
+						route: publishedData?.slug,
+						...seo,
+					}}
+				/>
 				<title>{seo?.seoTitle ?? title ?? "WebriQ Studio"}</title>
 			</Head>
 
@@ -136,7 +143,14 @@ function DocumentWithPreview({
 	return (
 		<>
 			<Head>
-				<SEO data={{ type: _type, route: previewData?.slug, ...seo }} />
+				<SEO
+					data={{
+						pageTitle: title,
+						type: _type,
+						route: previewData?.slug,
+						...seo,
+					}}
+				/>
 				<title>{seo?.seoTitle ?? title ?? "WebriQ Studio"}</title>
 			</Head>
 

@@ -25,9 +25,11 @@ function VariantD({
 								<React.Fragment key={index}>
 									<li>
 										<ConditionalLink
-											value={link}
-											style="text-sm text-gray-500 hover:text-gray-900"
-										/>
+											ariaLabel={`Click to go to ${link?.label} page`}
+											link={link}
+											className="text-sm text-gray-500 hover:text-gray-900">
+											{link?.label}
+										</ConditionalLink>
 									</li>
 									{links.length !== index + 1 ? (
 										<li className="text-gray-500">
@@ -66,15 +68,19 @@ function VariantD({
 					</div>
 					{primaryButton?.label && (
 						<ConditionalLink
-							value={primaryButton}
-							style="hidden lg:inline-block lg:ml-auto lg:mr-3 py-2 px-6 bg-gray-50 hover:bg-gray-100 text-sm text-gray-900 font-bold rounded-l-xl rounded-t-xl transition duration-200"
-						/>
+							ariaLabel={`Click to go to ${primaryButton?.label} page`}
+							link={primaryButton}
+							className="hidden lg:inline-block lg:ml-auto lg:mr-3 py-2 px-6 bg-gray-50 hover:bg-gray-100 text-sm text-gray-900 font-bold rounded-l-xl rounded-t-xl transition duration-200">
+							{primaryButton?.label}
+						</ConditionalLink>
 					)}
 					{secondaryButton?.label && (
 						<ConditionalLink
-							value={secondaryButton}
-							style="hidden lg:inline-block py-2 px-6 bg-webriq-darkblue hover:bg-webriq-blue text-sm text-white font-bold rounded-l-xl rounded-t-xl transition duration-200"
-						/>
+							ariaLabel={`Click to go to ${secondaryButton?.label} page`}
+							link={secondaryButton}
+							className="hidden lg:inline-block py-2 px-6 bg-webriq-darkblue hover:bg-webriq-blue text-sm text-white font-bold rounded-l-xl rounded-t-xl transition duration-200">
+							{secondaryButton?.label}
+						</ConditionalLink>
 					)}
 					<div className="ml-auto lg:hidden">
 						<button
@@ -122,9 +128,11 @@ function VariantD({
 								links?.map((link, index) => (
 									<li className="mb-1" key={index}>
 										<ConditionalLink
-											value={link}
-											style="block p-4 text-sm font-semibold text-gray-700 hover:bg-webriq-lightblue hover:text-webriq-darkblue rounded"
-										/>
+											ariaLabel={`Click to go to ${link?.label} page`}
+											link={link}
+											className="block p-4 text-sm font-semibold text-gray-700 hover:bg-webriq-lightblue hover:text-webriq-darkblue rounded">
+											{link?.label}
+										</ConditionalLink>
 									</li>
 								))}
 						</ul>
@@ -133,15 +141,19 @@ function VariantD({
 						<div className="pt-6">
 							{primaryButton?.label && (
 								<ConditionalLink
-									value={primaryButton}
-									style="hidden lg:inline-block lg:ml-auto lg:mr-3 py-2 px-6 bg-gray-50 hover:bg-gray-100 text-sm text-gray-900 font-bold rounded-l-xl rounded-t-xl transition duration-200"
-								/>
+									ariaLabel={`Click to go to ${primaryButton?.label} page`}
+									link={primaryButton}
+									className="hidden lg:inline-block lg:ml-auto lg:mr-3 py-2 px-6 bg-gray-50 hover:bg-gray-100 text-sm text-gray-900 font-bold rounded-l-xl rounded-t-xl transition duration-200">
+									{primaryButton?.label}
+								</ConditionalLink>
 							)}
 							{secondaryButton?.label && (
 								<ConditionalLink
-									value={secondaryButton}
-									style="block px-4 py-3 mb-3 leading-loose text-xs text-center font-semibold text-white bg-webriq-darkblue hover:bg-webriq-blue rounded-l-xl rounded-t-xl"
-								/>
+									ariaLabel={`Click to go to ${secondaryButton?.label} page`}
+									link={secondaryButton}
+									className="block px-4 py-3 mb-3 leading-loose text-xs text-center font-semibold text-white bg-webriq-darkblue hover:bg-webriq-blue rounded-l-xl rounded-t-xl">
+									{secondaryButton?.label}
+								</ConditionalLink>
 							)}
 						</div>
 						<p className="my-4 text-center text-xs text-gray-500">
