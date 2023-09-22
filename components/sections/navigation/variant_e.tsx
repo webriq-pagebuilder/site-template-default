@@ -1,18 +1,28 @@
 import { memo, useState, Fragment, useEffect, useRef } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { urlFor, PortableText } from "lib/sanity";
 import { EcwidContextProvider } from "context/EcwidContext";
 import { logoLink, ConditionalLink } from "helper";
 import { NavigationProps } from ".";
-import { PortableTextComponents } from "@portabletext/react";
 import { MyPortableTextComponents } from "types";
 
 function VariantE({ banner, logo, links }: NavigationProps) {
 	const router = useRouter();
+	const [menu, setMenu] = useState(false);
 	const [showSearchBar, setShowSearchBar] = useState(false);
 	const [productQuery, setProductQuery] = useState("");
 	const prevQuery = useRef(""); // the useRef React hook allows to persist data between renders
+
+	useEffect(() => {
+		if (typeof Ecwid !== "undefined") Ecwid.init();
+	}, []);
+
+	useEffect(() => {
+		//assign the ref's current value to the productQuery hook
+		prevQuery.current = productQuery;
+	}, [productQuery]); //run this code when the value of productQuery changes
 
 	// block styling as props to `serializers` of the PortableText component
 	const blockStyle: MyPortableTextComponents = {
@@ -49,20 +59,9 @@ function VariantE({ banner, logo, links }: NavigationProps) {
 		},
 	};
 
-	const [menu, setMenu] = useState(false);
-
 	const showMenu = () => {
 		setMenu((prevState) => !prevState);
 	};
-
-	useEffect(() => {
-		if (typeof Ecwid !== "undefined") Ecwid.init();
-	}, []);
-
-	useEffect(() => {
-		//assign the ref's current value to the productQuery hook
-		prevQuery.current = productQuery;
-	}, [productQuery]); //run this code when the value of productQuery changes
 
 	// Add query param to /search page based on search input
 	const handleSearchRouting = (e) => {
@@ -118,9 +117,10 @@ function VariantE({ banner, logo, links }: NavigationProps) {
 								className="text-3xl font-bold leading-none"
 								href={logoLink(logo)}
 								prefetch={false}>
-								<img
-									className="h-12"
+								<Image
 									src={urlFor(logo?.image)}
+									width={48}
+									height={48}
 									alt={logo?.alt ?? "navigation-logo"}
 								/>
 							</Link>
@@ -272,9 +272,10 @@ function VariantE({ banner, logo, links }: NavigationProps) {
 									className="text-3xl font-bold leading-none"
 									href={logoLink(logo)}
 									prefetch={false}>
-									<img
-										className="h-12"
+									<Image
 										src={urlFor(logo?.image)}
+										width={48}
+										height={48}
 										alt={logo?.alt ?? "navigation-logo"}
 									/>
 								</Link>

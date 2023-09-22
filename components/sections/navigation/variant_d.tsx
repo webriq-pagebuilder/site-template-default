@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { urlFor } from "lib/sanity";
 import { logoLink, ConditionalLink } from "helper";
 import { NavigationProps } from ".";
@@ -58,9 +59,11 @@ function VariantD({
 								}`}
 								className="text-3xl font-bold leading-none"
 								href={logoLink(logo)}>
-								<img
-									className="h-12"
+								<Image
 									src={urlFor(logo?.image)}
+									width={48}
+									height={48}
+									quality={100}
 									alt={logo?.alt ?? "navigation-logo"}
 								/>
 							</Link>

@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import WebriQForm from "components/webriq-form";
 import { urlFor } from "lib/sanity";
 import { logoLink, thankYouPageLink, ConditionalLink } from "helper";
@@ -19,9 +20,11 @@ function VariantA({ logo, form, formLinks, signInLink }: SignUpFormProps) {
 								}`}
 								className="mx-auto flex justify-center text-3xl font-bold leading-none"
 								href={logoLink(logo)}>
-								<img
-									className="h-12"
+								<Image
 									src={urlFor(logo?.image)}
+									width={50}
+									height={50}
+									quality={100}
 									alt={logo?.alt ?? "signUp-logo"}
 								/>
 							</Link>

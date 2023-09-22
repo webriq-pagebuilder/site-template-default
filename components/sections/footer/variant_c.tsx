@@ -1,9 +1,9 @@
 import { urlFor } from "lib/sanity";
 import Link from "next/link";
+import Image from "next/image";
 import React from "react";
 import { logoLink, ConditionalLink } from "helper";
 import { FooterProps } from ".";
-import Image from "next/image";
 
 function VariantC({ logo, menu, copyright, socialMedia }: FooterProps) {
 	return (
@@ -58,18 +58,18 @@ function VariantC({ logo, menu, copyright, socialMedia }: FooterProps) {
 									}
 									href={logoLink(logo)}>
 									<Image
-										className="h-14"
 										src={urlFor(logo?.image)}
 										alt={logo?.alt ?? "footer-logo"}
 										height={64}
 										width={64}
+										quality={100}
 									/>
 								</Link>
 							)}
 						</div>
 					</div>
 					{socialMedia && (
-						<div className="flex justify-center">
+						<div className="flex flex-wrap space-y-2 sm:space-y-0 justify-center">
 							{socialMedia?.map(
 								(social) =>
 									social?.socialMediaLink && (
@@ -118,12 +118,13 @@ function VariantC({ logo, menu, copyright, socialMedia }: FooterProps) {
 												</svg>
 											) : (
 												social?.socialMediaIcon?.image && (
-													<img
-														className="h-6"
+													<Image
 														src={urlFor(social?.socialMediaIcon?.image)}
+														width={24}
+														height={24}
 														alt={
 															social?.socialMediaIcon?.alt ??
-															"contact-socialMedia-icon"
+															"footer-socialMedia-icon"
 														}
 													/>
 												)

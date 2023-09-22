@@ -1,6 +1,7 @@
 import { urlFor } from "lib/sanity";
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import WebriQForm from "components/webriq-form";
 import { logoLink, thankYouPageLink, ConditionalLink } from "helper";
 
@@ -30,9 +31,11 @@ function VariantD({
 								}
 								className="mb-10 inline-block text-3xl font-bold leading-none"
 								href={logoLink(logo)}>
-								<img
+								<Image
 									className="h-14"
 									src={urlFor(logo?.image)}
+									width={56}
+									height={56}
 									alt={logo?.alt ?? "callToAction-logo"}
 								/>
 							</Link>

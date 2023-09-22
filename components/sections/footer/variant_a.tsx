@@ -31,6 +31,7 @@ function VariantA({
 									<Image
 										className="h-14"
 										src={urlFor(logo?.image)}
+										sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
 										width={132}
 										height={56}
 										alt={logo?.alt ?? "footer-logo"}
@@ -42,8 +43,8 @@ function VariantA({
 							<p className="leading-loose text-gray-500">{text}</p>
 						</div>
 						{contacts && (
-							<div className="ml-auto mt-1 w-full lg:w-1/2">
-								{contacts.length > 1 ? (
+							<div className="hidden sm:block ml-auto mt-1 w-full lg:w-1/2">
+								{contacts?.length > 1 ? (
 									<div className="grid grid-flow-col grid-cols-3 gap-10">
 										<p className="mb-4 font-bold">Addresses</p>
 										<p className="mb-4 font-bold">Emails</p>
@@ -56,7 +57,7 @@ function VariantA({
 										<p className="mb-4 font-bold">Number</p>
 									</div>
 								)}
-								{contacts.map((contact) => (
+								{contacts?.map((contact) => (
 									<div
 										className="grid grid-flow-col grid-cols-3 gap-10"
 										key={contact?._key}>
@@ -71,7 +72,7 @@ function VariantA({
 					<div className="mx-auto w-full justify-between lg:flex">
 						<p className="mb-6 text-sm text-gray-500">{copyright}</p>
 						{socialMedia && (
-							<div className="flex space-x-2 lg:mx-24 lg:space-x-4">
+							<div className="flex flex-wrap space-x-2 lg:mx-24 lg:space-x-4">
 								{socialMedia?.map(
 									(social) =>
 										social?.socialMediaLink && (
@@ -120,9 +121,12 @@ function VariantA({
 													</svg>
 												) : (
 													social?.socialMediaIcon?.image && (
-														<img
+														<Image
 															className="h-6"
 															src={urlFor(social?.socialMediaIcon?.image)}
+															quality={100}
+															width={24}
+															height={24}
 															alt={
 																social?.socialMediaIcon?.alt ??
 																"contact-socialMedia-icon"

@@ -119,12 +119,13 @@ function VariantB({ logo, copyright, socialMedia, menu }: FooterProps) {
 													</svg>
 												) : (
 													social?.socialMediaIcon?.image && (
-														<img
-															className="h-6"
+														<Image
 															src={urlFor(social?.socialMediaIcon?.image)}
+															width={24}
+															height={24}
 															alt={
 																social?.socialMediaIcon?.alt ??
-																"contact-socialMedia-icon"
+																"footer-socialMedia-icon"
 															}
 														/>
 													)

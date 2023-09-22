@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { urlFor } from "lib/sanity";
 import { logoLink, ConditionalLink } from "helper";
 import { NavigationProps } from ".";
@@ -26,9 +27,10 @@ function VariantA({
 						}`}
 						className="text-3xl font-bold leading-none"
 						href={logoLink(logo)}>
-						<img
-							className="h-12"
+						<Image
 							src={urlFor(logo?.image)}
+							width={48}
+							height={48}
 							alt={logo?.alt ?? "navigation-logo"}
 						/>
 					</Link>
@@ -121,17 +123,20 @@ function VariantA({
 						</button>
 					</div>
 					<div>
-						<ul>
-							{links &&
-								links?.map((link, index) => (
+						{links && (
+							<ul>
+								{links?.map((link, index) => (
 									<li className="mb-1" key={index}>
 										<ConditionalLink
-											value={link}
-											style="block p-4 text-sm font-semibold text-gray-900 hover:bg-webriq-lightblue hover:text-webriq-darkblue rounded"
-										/>
+											ariaLabel={`Click to go to ${link?.label} page`}
+											className="block p-4 text-sm font-semibold text-gray-900 hover:bg-webriq-lightblue hover:text-webriq-darkblue rounded"
+											link={link}>
+											{link?.label}
+										</ConditionalLink>
 									</li>
 								))}
-						</ul>
+							</ul>
+						)}
 					</div>
 					<div className="mt-auto">
 						<div className="pt-6">

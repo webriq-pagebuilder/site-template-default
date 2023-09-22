@@ -132,11 +132,16 @@ function VariantA({
 									images?.map((item, index) => (
 										<SwiperSlide key={index}>
 											<Image
-												className="h-full w-full object-cover"
+												className="w-full h-[571px]"
 												sizes="100vw"
-												width={736}
-												height={564}
+												width={573}
+												height={571}
+												quality={100}
 												src={urlFor(item?.image)}
+												style={{
+													objectFit: "cover",
+													objectPosition: "center",
+												}}
 												alt={item?.alt ?? `product-image-${index + 1}`}
 											/>
 										</SwiperSlide>
@@ -333,8 +338,11 @@ function VariantA({
 														</svg>
 													) : (
 														social?.socialMediaIcon?.image && (
-															<img
+															<Image
 																src={urlFor(social?.socialMediaIcon?.image)}
+																width={32}
+																height={32}
+																quality={100}
 																alt={
 																	social?.socialMediaIcon?.alt ??
 																	"contact-socialMedia-icon"
