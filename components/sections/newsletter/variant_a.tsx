@@ -28,6 +28,7 @@ function VariantA({ logo, title, description, form }: NewsletterProps) {
 									src={urlFor(logo?.image)}
 									width={48}
 									height={48}
+									priority={logo?.image?.priority}
 									alt={logo?.alt ?? "newsletter-logo"}
 								/>
 							</Link>

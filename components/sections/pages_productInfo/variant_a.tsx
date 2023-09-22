@@ -35,6 +35,9 @@ function VariantA({ products }: PagesProductInfoProps) {
 											sizes="100vw"
 											width={736}
 											height={650}
+											priority={
+												products?.productInfo?.images?.[0]?.image?.priority
+											}
 											src={urlFor(products?.productInfo?.images?.[0]?.image)}
 											alt={
 												products?.productInfo?.images?.[0]?.alt ??
@@ -178,6 +181,9 @@ function VariantA({ products }: PagesProductInfoProps) {
 																width={32}
 																height={32}
 																quality={100}
+																priority={
+																	social?.socialMediaIcon?.image?.priority
+																}
 																alt={
 																	social?.socialMediaIcon?.alt ??
 																	"contact-socialMedia-icon"

@@ -84,6 +84,10 @@ function VariantA({ products }: AllProductsProps) {
 																product?.productInfo?.images?.[0]?.alt ??
 																`product-image-${index}`
 															}
+															priority={
+																product?.productInfo?.images?.[0]?.image
+																	?.priority
+															}
 														/>
 													) : (
 														<Image
@@ -95,6 +99,10 @@ function VariantA({ products }: AllProductsProps) {
 															alt={
 																product?.productInfo?.images?.[0]?.alt ??
 																`product-image-${index}`
+															}
+															priority={
+																product?.productInfo?.images?.[0]?.image
+																	?.priority
 															}
 														/>
 													)}

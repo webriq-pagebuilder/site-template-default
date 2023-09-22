@@ -581,6 +581,7 @@ function VariantD({
 										sizes="100vw"
 										width={320}
 										height={296}
+										priority={banner?.[banners]?.mainImage?.image?.priority}
 										alt={`pricing-image-${banners}`}
 									/>
 								</div>

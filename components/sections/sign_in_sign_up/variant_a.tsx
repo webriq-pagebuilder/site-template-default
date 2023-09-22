@@ -25,6 +25,7 @@ function VariantA({ logo, form, formLinks, signInLink }: SignUpFormProps) {
 									width={50}
 									height={50}
 									quality={100}
+									priority={logo?.image?.priority}
 									alt={logo?.alt ?? "signUp-logo"}
 								/>
 							</Link>

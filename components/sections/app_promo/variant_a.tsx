@@ -38,6 +38,7 @@ function VariantA({ logo, subtitle, title, images }: AppPromoProps) {
 									src={urlFor(logo?.image)}
 									width={50}
 									height={56}
+									priority={logo?.image?.priority}
 									alt={logo?.alt ?? "appPromo-logo"}
 								/>
 							</Link>
@@ -47,33 +48,36 @@ function VariantA({ logo, subtitle, title, images }: AppPromoProps) {
 							{title}
 						</h1>
 						<div className="hidden h-72 sm:block">
-							{images?.[0]?.image?.asset?._ref && (
+							{images?.[0]?.image && (
 								<Image
 									className="absolute bottom-0 left-1/2 z-20 -mb-10 h-80 -translate-x-1/2 transform rounded-t-2xl object-contain"
 									src={urlFor(images[0]?.image)}
 									sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
 									width={218}
 									height={320}
+									priority={images?.[0]?.image?.priority}
 									alt="appPromo-variantA-image-1"
 								/>
 							)}
-							{images?.[1]?.image?.asset?._ref && (
+							{images?.[1]?.image && (
 								<Image
 									className="absolute bottom-0 left-0 -mb-24 h-80 rounded-t-2xl object-contain"
 									src={urlFor(images[1]?.image)}
 									sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
 									width={218}
 									height={320}
+									priority={images?.[1]?.image?.priority}
 									alt="appPromo-variantA-image-2"
 								/>
 							)}
-							{images?.[2]?.image?.asset?._ref && (
+							{images?.[2]?.image && (
 								<Image
 									className="absolute bottom-0 right-0 -mb-24 h-80 rounded-t-2xl object-contain"
 									src={urlFor(images[2]?.image)}
 									sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
 									width={218}
 									height={320}
+									priority={images?.[2]?.image?.priority}
 									alt="appPromo-variantA-image-3"
 								/>
 							)}
@@ -87,11 +91,11 @@ function VariantA({ logo, subtitle, title, images }: AppPromoProps) {
 									sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
 									width={500}
 									height={850}
+									priority={images?.[currentPosition]?.image?.priority}
 									alt={
 										images?.[currentPosition]?.alt ??
 										`appPromo-variantB-image${currentPosition}`
 									}
-									priority
 								/>
 							)}
 						</div>

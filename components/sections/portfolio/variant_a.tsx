@@ -62,6 +62,7 @@ function VariantA({ caption, title, portfoliosWithCategory }: PortfolioProps) {
 													sizes="100vw"
 													width={352}
 													height={256}
+													priority={content?.mainImage?.image?.priority}
 													alt={
 														content?.mainImage?.alt ?? `portfolio-image${index}`
 													}

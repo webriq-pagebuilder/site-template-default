@@ -1,5 +1,5 @@
 import { seoImageUrl } from "lib/sanity";
-import { getClient } from "lib/sanity.client";
+import { sanityClient } from "lib/sanity.client";
 import { globalSEOQuery } from "pages/api/query";
 import { useEffect, useState } from "react";
 import { SanityImage, SanitySlug } from "types";
@@ -31,7 +31,7 @@ function SEO({ data }: { data: SEOData | undefined }) {
 	useEffect(() => {
 		const getDefaultSeo = async () => {
 			try {
-				const res = await getClient(false).fetch(globalSEOQuery);
+				const res = await sanityClient.fetch(globalSEOQuery);
 				if (res) {
 					setDefaultSeo(res);
 				}

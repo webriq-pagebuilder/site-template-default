@@ -32,7 +32,7 @@ function VariantB({ subtitle, title, posts, primaryButton }: BlogProps) {
 							<div className="mb-6 w-full px-3 lg:mb-0 lg:w-1/2">
 								{posts?.slice(count, count + 1)?.map((post, key) => (
 									<div className="overflow-hidden rounded shadow" key={key}>
-										{post?.mainImage?.asset?._ref && (
+										{post?.mainImage && (
 											<Image
 												className="h-full w-full overflow-hidden rounded-t object-cover"
 												src={urlFor(post?.mainImage)}
@@ -44,6 +44,7 @@ function VariantB({ subtitle, title, posts, primaryButton }: BlogProps) {
 												}}
 												width={271}
 												height={248}
+												priority={post?.mainImage?.priority}
 												alt={`blog-variantB-image-${key}`}
 											/>
 										)}
@@ -79,13 +80,14 @@ function VariantB({ subtitle, title, posts, primaryButton }: BlogProps) {
 								{posts?.slice(count + 1, blogsPerPage)?.map((post, key) => (
 									<div className="mb-6 w-full px-3 lg:w-1/2" key={key}>
 										<div className="overflow-hidden rounded shadow">
-											{post?.mainImage?.asset?._ref && (
+											{post?.mainImage && (
 												<Image
 													className="h-full w-full overflow-hidden rounded-t object-cover"
 													src={urlFor(post?.mainImage)}
 													sizes="100vw"
 													width={259}
 													height={192}
+													priority={post?.mainImage?.priority}
 													alt={`blog-variantB-image-${key}`}
 												/>
 											)}

@@ -170,6 +170,7 @@ function VariantB({
 														className="object-cover"
 														src={urlFor(item?.image)}
 														alt={item?.alt}
+														priority={item?.image?.priority}
 														fill
 													/>
 												)}
@@ -200,6 +201,7 @@ function VariantB({
 													width={593}
 													height={611}
 													src={urlFor(item?.image)}
+													priority={item?.image?.priority}
 													alt={item?.alt}
 												/>
 											</div>
@@ -461,6 +463,7 @@ function VariantB({
 																						width={128}
 																						height={128}
 																						src={urlFor(item?.image)}
+																						priority={item?.image?.priority}
 																						alt={
 																							item?.alt ??
 																							`product-image-${index}`

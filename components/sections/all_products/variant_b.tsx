@@ -87,6 +87,10 @@ function VariantB({ products }: AllProductsProps) {
 															)}
 															width={350}
 															height={250}
+															priority={
+																product?.productInfo?.images?.[0]?.image
+																	?.priority
+															}
 															alt={
 																product?.productInfo?.images?.[0]?.alt ??
 																`product-image-${index + 1}`
@@ -98,6 +102,10 @@ function VariantB({ products }: AllProductsProps) {
 															src="https://cdn.sanity.io/images/9itgab5x/production/9523d40461371b7b4948456c57bb663bd8998c4a-500x362.png"
 															width={350}
 															height={250}
+															priority={
+																product?.productInfo?.images?.[0]?.image
+																	?.priority
+															}
 															alt={
 																product?.productInfo?.images?.[0]?.alt ??
 																`product-image-${index + 1}`

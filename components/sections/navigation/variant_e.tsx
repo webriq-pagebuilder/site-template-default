@@ -121,6 +121,7 @@ function VariantE({ banner, logo, links }: NavigationProps) {
 									src={urlFor(logo?.image)}
 									width={48}
 									height={48}
+									priority={logo?.image?.priority}
 									alt={logo?.alt ?? "navigation-logo"}
 								/>
 							</Link>

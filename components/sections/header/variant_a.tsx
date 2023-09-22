@@ -63,7 +63,7 @@ function VariantA({
 						<div className="flex w-full items-center justify-center px-4 lg:w-1/2">
 							{mainImage && (
 								<div className="relative w-full max-w-md">
-									{mainImage?.image?.asset?._ref && (
+									{mainImage?.image && (
 										<Image
 											className="overflow-hidden rounded-3xl object-cover md:rounded-br-none lg:h-[448px]"
 											src={urlFor(mainImage?.image)}
@@ -71,7 +71,7 @@ function VariantA({
 											width={448}
 											height={448}
 											alt={mainImage?.alt ?? "header-main-image"}
-											priority
+											priority={mainImage?.image?.priority}
 										/>
 									)}
 									<div

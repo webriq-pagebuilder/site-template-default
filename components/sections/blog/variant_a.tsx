@@ -31,11 +31,12 @@ function VariantA({ subtitle, title, posts, primaryButton }: BlogProps) {
 								{posts?.slice(count, count + 1)?.map((post, key) => (
 									<div className="mb-5 w-full px-3" key={key}>
 										<div className="relative mx-auto h-64 rounded">
-											{post?.mainImage?.asset?._ref && (
+											{post?.mainImage && (
 												<Image
 													className="relative h-full w-full overflow-hidden rounded object-cover"
 													src={urlFor(post?.mainImage)}
 													alt={`blog-variantA-image-${key}`}
+													priority={post?.mainImage?.priority}
 													sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
 													fill
 												/>
@@ -85,6 +86,7 @@ function VariantA({ subtitle, title, posts, primaryButton }: BlogProps) {
 													className="relative h-full w-full overflow-hidden rounded object-cover"
 													src={urlFor(post?.mainImage)}
 													alt={`blog-variantA-image-${key}`}
+													priority={post?.mainImage?.priority}
 													sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
 													fill
 												/>
@@ -130,11 +132,12 @@ function VariantA({ subtitle, title, posts, primaryButton }: BlogProps) {
 								{posts?.slice(count + 3, count + 5)?.map((post, key) => (
 									<div className="mb-5 w-full px-3 lg:w-1/2" key={key}>
 										<div className="relative mx-auto h-64 rounded">
-											{post?.mainImage?.asset?._ref && (
+											{post?.mainImage && (
 												<Image
 													className="relative h-full w-full overflow-hidden rounded object-cover"
 													src={urlFor(post?.mainImage)}
 													alt={`blog-variantA-image-${key}`}
+													priority={post?.mainImage?.priority}
 													sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
 													fill
 												/>
@@ -178,11 +181,12 @@ function VariantA({ subtitle, title, posts, primaryButton }: BlogProps) {
 								{posts?.slice(count + 5, blogsPerPage)?.map((post, key) => (
 									<div className="mb-5 w-full px-3" key={key}>
 										<div className="relative mx-auto h-64 rounded">
-											{post?.mainImage?.asset?._ref && (
+											{post?.mainImage && (
 												<Image
 													className="relative h-full w-full overflow-hidden rounded object-cover"
 													src={urlFor(post?.mainImage)}
 													alt={`blog-variantA-image-${key}`}
+													priority={post?.mainImage?.priority}
 													sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
 													fill
 												/>

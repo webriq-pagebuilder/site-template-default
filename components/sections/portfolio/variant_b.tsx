@@ -53,6 +53,7 @@ function VariantB({
 											width={480}
 											height={320}
 											sizes="100vw"
+											priority={content?.mainImage?.image?.priority}
 											alt={content?.mainImage?.alt ?? `portfolio-image${index}`}
 										/>
 									)}

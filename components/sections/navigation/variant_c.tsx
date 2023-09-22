@@ -65,6 +65,7 @@ function VariantC({
 									width={60}
 									height={60}
 									quality={100}
+									priority={logo?.image?.priority}
 								/>
 							</Link>
 						)}
