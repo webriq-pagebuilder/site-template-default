@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import { urlFor } from "lib/sanity";
-import { logoLink, ConditionalBtnOrLink } from "helper";
+import { logoLink, ConditionalBtnOrLink } from "helpers";
 import { NavigationProps } from ".";
 
 function VariantD({
@@ -12,7 +12,7 @@ function VariantD({
 }: NavigationProps) {
   const [menu, setMenu] = React.useState(false);
   const showMenu = () => {
-    setMenu(prevState => !prevState);
+    setMenu((prevState) => !prevState);
   };
 
   return (

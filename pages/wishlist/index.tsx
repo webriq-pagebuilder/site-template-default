@@ -6,7 +6,7 @@ import { usePreview } from "lib/sanity.preview";
 import { wishlistPageQuery } from "pages/api/query";
 import { WishlistSections } from "components/page/store/wishlist";
 import { PreviewNoContent } from "components/PreviewNoContent";
-import { filterDataToSingleItem } from "components/list";
+import { filterDataToSingleItem } from "helpers/filterDataToSingleItem";
 import { PreviewBanner } from "components/PreviewBanner";
 import InlineEditorContextProvider from "context/InlineEditorContext";
 import { CommonPageData, CommonSections } from "types";

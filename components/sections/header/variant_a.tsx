@@ -1,7 +1,7 @@
 import React from "react";
 import { urlFor } from "lib/sanity";
 import Image from "next/image";
-import { ConditionalBtnOrLink } from "helper";
+import { ConditionalBtnOrLink } from "helpers";
 
 import { HeaderProps } from ".";
 
@@ -65,10 +65,11 @@ function VariantA({
                       className="overflow-hidden rounded-3xl object-cover md:rounded-br-none lg:h-[448px]"
                       src={urlFor(mainImage?.image)}
                       sizes="100vw"
-                      width={448}
-                      height={448}
+                      fill={true}
+                      quality={100}
                       alt={mainImage?.alt ?? "header-main-image"}
                       priority
+                      placeholder="blur"
                     />
                   )}
                   <div

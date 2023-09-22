@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import { urlFor } from "lib/sanity";
-import { logoLink, ConditionalBtnOrLink } from "helper";
+import { logoLink, ConditionalBtnOrLink } from "helpers";
 import { NavigationProps } from ".";
 import Image from "next/image";
 
@@ -66,6 +66,8 @@ function VariantC({
                   alt={logo?.alt ?? "navigation-logo"}
                   width={60}
                   height={50}
+                  priority
+                  placeholder="blur"
                 />
               </Link>
             )}

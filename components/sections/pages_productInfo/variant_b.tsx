@@ -6,7 +6,7 @@ import AddToWishlist from "components/ecwid/AddToWishlist";
 import Ribbon from "components/ecwid/Ribbon";
 import ProductDetail from "components/ecwid/ProductDetail";
 import { useEcwid } from "context/EcwidContext";
-import { defaultBlockStyle } from "helper";
+import { defaultBlockStyle } from "helpers";
 import { PagesProductInfoProps } from ".";
 
 function VariantB({ products }: PagesProductInfoProps) {
@@ -157,7 +157,10 @@ function VariantB({ products }: PagesProductInfoProps) {
                     //     __html: products?.description,
                     //   }}
                     // />
-                    <PortableText value={products?.description} components={defaultBlockStyle} />
+                    <PortableText
+                      value={products?.description}
+                      components={defaultBlockStyle}
+                    />
                   )}
                 </div>
 

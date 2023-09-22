@@ -1,6 +1,6 @@
 import React from "react";
 import WebriQForm from "components/webriq-form";
-import { thankYouPageLink } from "helper";
+import { thankYouPageLink } from "helpers";
 
 import { CTAProps } from ".";
 

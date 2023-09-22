@@ -1,4 +1,4 @@
-import { groq } from 'next-sanity';
+import { groq } from "next-sanity";
 
 const conditionalLink = `
   "type": linkType,
@@ -109,6 +109,7 @@ const variants = `
   }
 `;
 
+// @todo: slotWishlist should be conditionally added here when only in CSTUDIO is enabled
 const allProjections = `
 {
   ...,

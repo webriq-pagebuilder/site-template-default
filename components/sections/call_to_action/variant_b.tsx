@@ -2,7 +2,7 @@ import { urlFor } from "lib/sanity";
 import React from "react";
 import Link from "next/link";
 import WebriQForm from "components/webriq-form";
-import { logoLink, thankYouPageLink } from "helper";
+import { logoLink, thankYouPageLink } from "helpers";
 
 import { CTAProps } from ".";
 
@@ -51,25 +51,27 @@ function VariantB({ logo, title, text, form }: CTAProps) {
                 data-thankyou-url={thankYouPageLink(form?.thankYouPage)}
                 scriptsrc="https://pagebuilderforms.webriq.com/js/initReactForms"
               >
-                {form?.fields?.slice(0, 2)?.map(field => (
-                  <input
-                    key={field?._key}
-                    aria-label={`Input ${field?.type}`}
-                    className="mb-3 w-full rounded bg-white px-4 py-2 leading-loose md:mb-0 md:mr-4 md:w-auto"
-                    type={
-                      field?.type === "inputEmail"
-                        ? "email"
-                        : field?.type === "inputPassword"
-                        ? "password"
-                        : field?.type === "inputNumber"
-                        ? "number"
-                        : "text"
-                    }
-                    placeholder={field?.placeholder}
-                    name={field?.name}
-                    required={field?.isRequired}
-                  />
-                ))}
+                {form?.fields
+                  ?.slice(0, 2)
+                  ?.map((field) => (
+                    <input
+                      key={field?._key}
+                      aria-label={`Input ${field?.type}`}
+                      className="mb-3 w-full rounded bg-white px-4 py-2 leading-loose md:mb-0 md:mr-4 md:w-auto"
+                      type={
+                        field?.type === "inputEmail"
+                          ? "email"
+                          : field?.type === "inputPassword"
+                          ? "password"
+                          : field?.type === "inputNumber"
+                          ? "number"
+                          : "text"
+                      }
+                      placeholder={field?.placeholder}
+                      name={field?.name}
+                      required={field?.isRequired}
+                    />
+                  ))}
                 <div>
                   <div className="webriq-recaptcha" />
                 </div>

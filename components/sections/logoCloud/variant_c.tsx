@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import { urlFor } from "lib/sanity";
-import { ConditionalBtnOrLink } from "helper";
+import { ConditionalBtnOrLink } from "helpers";
 import { LogoCloudProps } from ".";
 
 function VariantC({ title, images, button }: LogoCloudProps) {

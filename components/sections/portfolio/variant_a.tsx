@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import { urlFor } from "lib/sanity";
-import { ConditionalBtnOrLink } from "helper";
+import { ConditionalBtnOrLink } from "helpers";
 import { PortfolioProps } from ".";
 
 function VariantA({ caption, title, portfoliosWithCategory }: PortfolioProps) {
@@ -12,7 +12,7 @@ function VariantA({ caption, title, portfoliosWithCategory }: PortfolioProps) {
 
   //creates new array of items filtered by active tab
   const portfoliosPerCategory = portfoliosWithCategory?.filter(
-    data => data?.category === activeTab
+    (data) => data?.category === activeTab
   );
 
   return (

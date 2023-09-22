@@ -13,7 +13,7 @@ import {
 import { loadStripe } from "@stripe/stripe-js";
 import axios from "axios";
 import router from "next/router";
-import { thankYouPageLink, ConditionalBtnOrLink } from "helper";
+import { thankYouPageLink, ConditionalBtnOrLink } from "helpers";
 import { PricingProps } from ".";
 import { MyPortableTextComponents } from "types";
 

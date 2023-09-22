@@ -1,7 +1,7 @@
 import { urlFor } from "lib/sanity";
 import Link from "next/link";
 import React from "react";
-import { logoLink } from "helper";
+import { logoLink } from "helpers";
 
 import { FooterProps } from ".";
 
@@ -54,7 +54,7 @@ function VariantA({
                     <p className="mb-4 font-bold">Number</p>
                   </div>
                 )}
-                {contacts.map(contact => (
+                {contacts.map((contact) => (
                   <div
                     className="grid grid-flow-col grid-cols-3 gap-10"
                     key={contact?._key}
@@ -72,7 +72,7 @@ function VariantA({
             {socialMedia && (
               <div className="flex space-x-2 lg:mx-24 lg:space-x-4">
                 {socialMedia?.map(
-                  social =>
+                  (social) =>
                     social?.socialMediaLink && (
                       <a
                         aria-label={

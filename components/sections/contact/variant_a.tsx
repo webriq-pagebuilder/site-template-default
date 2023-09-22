@@ -1,7 +1,7 @@
 import React from "react";
 import WebriQForm from "components/webriq-form";
 import { PortableText, urlFor } from "lib/sanity";
-import { thankYouPageLink } from "helper";
+import { thankYouPageLink } from "helpers";
 import { PortableTextComponents } from "@portabletext/react";
 
 import { ContactProps } from ".";
@@ -53,19 +53,19 @@ function VariantA({
   const [checked, setChecked] = React.useState([]); // setting selected value for input field checkbox type
   const [filename, setFilename] = React.useState(null); // setting input field filename
 
-  const handleRadioChange = e => {
+  const handleRadioChange = (e) => {
     setValue(e.target.value);
   };
 
-  const handleCheckboxChange = e => {
+  const handleCheckboxChange = (e) => {
     const { checked, value } = e.target;
 
-    setChecked(prev =>
-      checked ? [...prev, value] : prev.filter(v => v !== value)
+    setChecked((prev) =>
+      checked ? [...prev, value] : prev.filter((v) => v !== value)
     );
   };
 
-  const handleShowFileName = e => {
+  const handleShowFileName = (e) => {
     if (e.target.files.length > 0) {
       setFilename(e.target.files[0].name);
     }
@@ -112,7 +112,7 @@ function VariantA({
                     </h2>
                     <div className="order-first mb-4 lg:order-last lg:mb-0">
                       {socialLinks?.map(
-                        social =>
+                        (social) =>
                           social?.socialMediaLink && (
                             <a
                               aria-label={
@@ -303,7 +303,7 @@ function VariantA({
                                     value={item}
                                     type="checkbox"
                                     onChange={handleCheckboxChange}
-                                    checked={checked.some(v => v === item)}
+                                    checked={checked.some((v) => v === item)}
                                     required={
                                       formFields?.isRequired &&
                                       checked.length === 0

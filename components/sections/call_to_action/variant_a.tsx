@@ -1,7 +1,7 @@
 import { urlFor } from "lib/sanity";
 import Link from "next/link";
 import React from "react";
-import { logoLink, ConditionalBtnOrLink } from "helper";
+import { logoLink, ConditionalBtnOrLink } from "helpers";
 
 import { CTAProps } from ".";
 import Image from "next/image";

@@ -10,7 +10,7 @@ import { PageSections } from "components/page";
 import BlogSections from "components/blog";
 import { PreviewBanner } from "components/PreviewBanner";
 import { PreviewNoContent } from "components/PreviewNoContent";
-import { filterDataToSingleItem } from "components/list";
+import { filterDataToSingleItem } from "helpers/filterDataToSingleItem";
 import PageNotFound from "pages/404";
 import InlineEditorContextProvider from "context/InlineEditorContext";
 import { GetStaticPaths, GetStaticProps } from "next";
@@ -197,8 +197,8 @@ export const getStaticPaths: GetStaticPaths = async () => {
   if (process.env.SKIP_BUILD_STATIC_GENERATION) {
     return {
       paths: [],
-      fallback: 'blocking',
-    }
+      fallback: "blocking",
+    };
   }
 
   const paths = await sanityClient.fetch(

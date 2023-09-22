@@ -50,7 +50,7 @@ export function PageSections({ data }: PageSectionsProps) {
             <InlineEditor
               document={currentDocument}
               showInlineEditor={showInlineEditor}
-              key={index}
+              key={section?._key ?? index}
             >
               <Component
                 template={{

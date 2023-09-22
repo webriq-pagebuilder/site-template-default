@@ -1,7 +1,7 @@
 import { urlFor } from "lib/sanity";
 import Link from "next/link";
 import React from "react";
-import { logoLink, ConditionalBtnOrLink } from "helper";
+import { logoLink, ConditionalBtnOrLink } from "helpers";
 
 import { FooterProps } from ".";
 
@@ -70,7 +70,7 @@ function VariantB({ logo, copyright, socialMedia, menu }: FooterProps) {
             {socialMedia && (
               <div className="order-first mb-4 lg:order-last lg:mb-0">
                 {socialMedia?.map(
-                  social =>
+                  (social) =>
                     social?.socialMediaLink && (
                       <a
                         aria-label={

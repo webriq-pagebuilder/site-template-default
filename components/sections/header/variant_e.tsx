@@ -1,6 +1,6 @@
 import React from "react";
 import WebriQForm from "components/webriq-form";
-import { thankYouPageLink, ConditionalBtnOrLink } from "helper";
+import { thankYouPageLink, ConditionalBtnOrLink } from "helpers";
 
 import { HeaderProps } from ".";
 
@@ -78,7 +78,7 @@ function VariantE({
                           </div>
                         ))}
                       </div>
-                      {form?.fields?.slice(2)?.map(formFields => (
+                      {form?.fields?.slice(2)?.map((formFields) => (
                         <div key={formFields?._key}>
                           <FormFields fields={formFields} />
                         </div>
@@ -138,15 +138,15 @@ function FormFields({ fields }: { fields: FormFields }) {
   const [value, setValue] = React.useState(null); // setting selected value for input field radio type
   const [checked, setChecked] = React.useState([]); // setting selected value for input field checkbox type
 
-  const handleRadioChange = e => {
+  const handleRadioChange = (e) => {
     setValue(e.target.value);
   };
 
-  const handleCheckboxChange = e => {
+  const handleCheckboxChange = (e) => {
     const { checked, value } = e.target;
 
-    setChecked(prev =>
-      checked ? [...prev, value] : prev.filter(v => v !== value)
+    setChecked((prev) =>
+      checked ? [...prev, value] : prev.filter((v) => v !== value)
     );
   };
 
@@ -312,7 +312,7 @@ function FormFields({ fields }: { fields: FormFields }) {
                 value={item}
                 type="checkbox"
                 onChange={handleCheckboxChange}
-                checked={checked.some(v => v === item)}
+                checked={checked.some((v) => v === item)}
                 required={
                   fields?.isRequired && checked.length === 0 ? true : false
                 }

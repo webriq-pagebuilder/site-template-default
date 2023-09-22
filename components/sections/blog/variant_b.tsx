@@ -3,7 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { urlFor } from "lib/sanity";
 import { format } from "date-fns";
-import { ConditionalBtnOrLink } from "helper";
+import { ConditionalBtnOrLink } from "helpers";
 
 import { BlogProps } from "./index";
 

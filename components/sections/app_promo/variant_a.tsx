@@ -2,7 +2,7 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { urlFor } from "lib/sanity";
-import { logoLink } from "helper";
+import { logoLink } from "helpers";
 import { AppPromoProps } from ".";
 
 function VariantA({ logo, subtitle, title, images }: AppPromoProps) {

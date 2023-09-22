@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import { urlFor } from "lib/sanity";
-import { ConditionalBtnOrLink } from "helper";
+import { ConditionalBtnOrLink } from "helpers";
 import { PortfolioProps } from ".";
 
 function VariantD({ caption, title, portfoliosWithCategory }: PortfolioProps) {
@@ -13,7 +13,7 @@ function VariantD({ caption, title, portfoliosWithCategory }: PortfolioProps) {
 
   // group portfolios per category
   const portfoliosPerCategory = portfoliosWithCategory?.filter(
-    data => data?.category === activeTab
+    (data) => data?.category === activeTab
   );
 
   return (
@@ -52,7 +52,7 @@ function VariantD({ caption, title, portfoliosWithCategory }: PortfolioProps) {
             <div className="mb-8 flex w-full flex-wrap lg:mb-0 lg:w-1/2">
               {portfoliosPerCategory?.[0]?.content
                 ?.slice(count, count + 2)
-                ?.map(content => (
+                ?.map((content) => (
                   <div
                     className="mb-8 w-full px-4 lg:w-1/2"
                     key={content?._key}
@@ -94,7 +94,7 @@ function VariantD({ caption, title, portfoliosWithCategory }: PortfolioProps) {
                 ))}
               {portfoliosPerCategory?.[0]?.content
                 ?.slice(count + 2, count + 3)
-                ?.map(content => (
+                ?.map((content) => (
                   <div
                     className="mb-8 w-full px-4 lg:h-full lg:w-full lg:px-4 xl:px-4"
                     key={content?._key}
@@ -138,7 +138,7 @@ function VariantD({ caption, title, portfoliosWithCategory }: PortfolioProps) {
             <div className="w-full lg:w-1/2">
               {portfoliosPerCategory?.[0]?.content
                 ?.slice(count + 3, count + 4)
-                ?.map(content => (
+                ?.map((content) => (
                   <div
                     className="mb-8 w-full px-4 lg:w-full lg:px-4 xl:w-full xl:px-4"
                     key={content?._key}
@@ -181,7 +181,7 @@ function VariantD({ caption, title, portfoliosWithCategory }: PortfolioProps) {
               <div className="flex flex-wrap">
                 {portfoliosPerCategory?.[0]?.content
                   ?.slice(count + 4, portfoliosPerPage)
-                  ?.map(content => (
+                  ?.map((content) => (
                     <div
                       className="relative mb-8 w-full px-4 lg:mb-0 lg:w-1/2"
                       key={content?._key}

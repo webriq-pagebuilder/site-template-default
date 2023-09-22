@@ -44,4 +44,5 @@ function CallToAction({ data }: SectionsProps) {
 
   return Variant ? <Variant {...props} /> : null;
 }
+
 export default React.memo(CallToAction);

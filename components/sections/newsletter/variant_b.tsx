@@ -2,7 +2,7 @@ import React from "react";
 import { urlFor } from "lib/sanity";
 import Link from "next/link";
 import WebriQForm from "components/webriq-form";
-import { logoLink, thankYouPageLink } from "helper";
+import { logoLink, thankYouPageLink } from "helpers";
 import { NewsletterProps } from ".";
 
 function VariantB({ logo, title, description, form }: NewsletterProps) {

@@ -2,7 +2,7 @@ import { urlFor } from "lib/sanity";
 import React from "react";
 import Link from "next/link";
 import WebriQForm from "components/webriq-form";
-import { logoLink, thankYouPageLink, ConditionalBtnOrLink } from "helper";
+import { logoLink, thankYouPageLink, ConditionalBtnOrLink } from "helpers";
 
 import { CTAProps } from ".";
 import { FormFields } from "types";

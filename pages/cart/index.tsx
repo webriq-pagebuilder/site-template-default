@@ -6,7 +6,7 @@ import { usePreview } from "lib/sanity.preview";
 import { cartPageQuery } from "pages/api/query";
 import { CartSections } from "components/page/store/cart";
 import { PreviewNoContent } from "components/PreviewNoContent";
-import { filterDataToSingleItem } from "components/list";
+import { filterDataToSingleItem } from "helpers/filterDataToSingleItem";
 import { PreviewBanner } from "components/PreviewBanner";
 import InlineEditorContextProvider from "context/InlineEditorContext";
 import { CommonPageData } from "types";

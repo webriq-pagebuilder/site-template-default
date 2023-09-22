@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { urlFor, PortableText } from "lib/sanity";
 import { EcwidContextProvider } from "context/EcwidContext";
-import { logoLink, ConditionalBtnOrLink } from "helper";
+import { logoLink, ConditionalBtnOrLink } from "helpers";
 import { NavigationProps } from ".";
 import { PortableTextComponents } from "@portabletext/react";
 import { MyPortableTextComponents } from "types";
@@ -53,7 +53,7 @@ function VariantE({ banner, logo, links }: NavigationProps) {
   const [menu, setMenu] = useState(false);
 
   const showMenu = () => {
-    setMenu(prevState => !prevState);
+    setMenu((prevState) => !prevState);
   };
 
   useEffect(() => {
@@ -66,7 +66,7 @@ function VariantE({ banner, logo, links }: NavigationProps) {
   }, [productQuery]); //run this code when the value of productQuery changes
 
   // Add query param to /search page based on search input
-  const handleSearchRouting = e => {
+  const handleSearchRouting = (e) => {
     const q = document.getElementById("query") as HTMLInputElement;
     e.preventDefault();
 
@@ -180,7 +180,7 @@ function VariantE({ banner, logo, links }: NavigationProps) {
                   aria-label="Search product"
                   className="mt-1 inline-block h-full w-40 border border-slate-300 bg-white p-2 text-sm placeholder-slate-400 shadow-sm focus:border-webriq-blue focus:outline-none focus:ring-1 focus:ring-webriq-blue"
                   placeholder="Search..."
-                  onChange={e => setProductQuery(e.target.value)}
+                  onChange={(e) => setProductQuery(e.target.value)}
                   type="search"
                 />
                 <button
@@ -327,7 +327,7 @@ function VariantE({ banner, logo, links }: NavigationProps) {
                 aria-label="Search product"
                 className="inline-block h-full w-full border border-slate-300 bg-white p-2 text-sm placeholder-slate-400 shadow-sm focus:border-webriq-blue focus:outline-none focus:ring-1 focus:ring-webriq-blue sm:w-60"
                 placeholder="Search..."
-                onChange={e => setProductQuery(e.target.value)}
+                onChange={(e) => setProductQuery(e.target.value)}
                 type="search"
               />
               <button

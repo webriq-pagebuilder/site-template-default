@@ -9,7 +9,7 @@ import { sanityClient, getClient } from "lib/sanity.client";
 import { usePreview } from "lib/sanity.preview";
 import { productsQuery } from "pages/api/query";
 import PageNotFound from "pages/404";
-import { filterDataToSingleItem } from "components/list";
+import { filterDataToSingleItem } from "helpers/filterDataToSingleItem";
 import { PreviewBanner } from "components/PreviewBanner";
 import { PreviewNoContent } from "components/PreviewNoContent";
 import { ProductSections } from "components/page/store/products";

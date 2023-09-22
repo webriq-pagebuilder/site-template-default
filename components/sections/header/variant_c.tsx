@@ -1,5 +1,5 @@
 import React from "react";
-import { ConditionalBtnOrLink } from "helper";
+import { ConditionalBtnOrLink } from "helpers";
 
 import { HeaderProps } from ".";
 
