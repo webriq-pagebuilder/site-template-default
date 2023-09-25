@@ -1,21 +1,28 @@
 import React from "react";
 import Head from "next/head";
+import { PreviewSuspense } from "next-sanity/preview";
 import { getClient } from "lib/sanity.client";
-import { homeQuery } from "./api/query";
+import { homeQuery, globalSEOQuery } from "./api/query";
 import { usePreview } from "lib/sanity.preview";
 import { PageSections } from "components/page";
-import { filterDataToSingleItem } from "components/list";
+import { PreviewNoContent } from "components/PreviewNoContent";
+import { filterDataToSingleItem, SEO } from "components/list";
+import { PreviewBanner } from "components/PreviewBanner";
+import InlineEditorContextProvider from "context/InlineEditorContext";
+import { CommonPageData, DefaultSeoData } from "types";
 
 interface HomeProps {
 	data: Data;
 	preview: boolean;
 	token?: string | null;
 	source?: string;
+	defaultSeo: DefaultSeoData;
 }
 
 interface DocumentWithPreviewProps {
 	data: Data;
 	token: string | null;
+	defaultSeo: DefaultSeoData;
 }
 
 interface Data {
@@ -28,8 +35,23 @@ interface PageData extends CommonPageData {
 	title: string;
 }
 
-function Home({ data, preview, token, source }: HomeProps) {
-	return <Document {...{ data }} />;
+function Home({ data, preview, token, source, defaultSeo }: HomeProps) {
+	const showInlineEditor = source === "studio";
+
+	if (preview) {
+		return (
+			<>
+				<PreviewBanner />
+				<PreviewSuspense fallback="Loading...">
+					<InlineEditorContextProvider showInlineEditor={showInlineEditor}>
+						<DocumentWithPreview {...{ data, token, defaultSeo }} />
+					</InlineEditorContextProvider>
+				</PreviewSuspense>
+			</>
+		);
+	}
+
+	return <Document {...{ data, defaultSeo }} />;
 }
 
 /**
@@ -38,7 +60,13 @@ function Home({ data, preview, token, source }: HomeProps) {
  *
  * @returns Document with published data
  */
-function Document({ data }: { data: Data }) {
+function Document({
+	data,
+	defaultSeo,
+}: {
+	data: Data;
+	defaultSeo: DefaultSeoData;
+}) {
 	const publishedData = data?.pageData;
 
 	// General safeguard against empty data
@@ -46,12 +74,20 @@ function Document({ data }: { data: Data }) {
 		return null;
 	}
 
-	const { title, seo } = publishedData;
+	const { title, _type, seo } = publishedData;
 
 	return (
 		<>
 			<Head>
-				<meta name="viewport" content="width=260 initial-scale=1" />
+				<SEO
+					data={{
+						pageTitle: title,
+						type: _type,
+						route: publishedData?.slug,
+						...seo,
+					}}
+					defaultSeo={defaultSeo}
+				/>
 				<title>{seo?.seoTitle ?? title ?? "WebriQ Studio"}</title>
 			</Head>
 
@@ -69,37 +105,49 @@ function Document({ data }: { data: Data }) {
  *
  * @returns Document with preview data
  */
-// function DocumentWithPreview({ data, token = null }: DocumentWithPreviewProps) {
-//   const previewDataEventSource = usePreview(token, homeQuery);
+function DocumentWithPreview({
+	data,
+	token = null,
+	defaultSeo,
+}: DocumentWithPreviewProps) {
+	const previewDataEventSource = usePreview(token, homeQuery);
 
-//   const previewData: PageData =
-//     previewDataEventSource?.[0] || previewDataEventSource;
+	const previewData: PageData =
+		previewDataEventSource?.[0] || previewDataEventSource;
 
-//   // General safeguard against empty data
-//   if (!previewData) {
-//     return null;
-//   }
+	// General safeguard against empty data
+	if (!previewData) {
+		return null;
+	}
 
-//   const { title, seo } = previewData;
+	const { title, _type, seo } = previewData;
 
-//   return (
-//     <>
-//       <Head>
-//         <meta name="viewport" content="width=260 initial-scale=1" />
-//         <title>{seo?.seoTitle ?? title ?? "WebriQ Studio"}</title>
-//       </Head>
+	return (
+		<>
+			<Head>
+				<SEO
+					data={{
+						pageTitle: title,
+						type: _type,
+						route: previewData?.slug,
+						...seo,
+					}}
+					defaultSeo={defaultSeo}
+				/>
+				<title>{seo?.seoTitle ?? title ?? "WebriQ Studio"}</title>
+			</Head>
 
-//       {/* if no sections, show no sections only in preview */}
+			{/* if no sections, show no sections only in preview */}
 
-//       {(!previewData ||
-//         !previewData?.sections ||
-//         previewData?.sections?.length === 0) && <PreviewNoContent />}
+			{(!previewData ||
+				!previewData?.sections ||
+				previewData?.sections?.length === 0) && <PreviewNoContent />}
 
-//       {/*  Show page sections */}
-//       {data?.pageData && <PageSections data={previewData} />}
-//     </>
-//   );
-// }
+			{/*  Show page sections */}
+			{data?.pageData && <PageSections data={previewData} />}
+		</>
+	);
+}
 
 export const getStaticProps = async ({
 	preview = false,
@@ -110,7 +158,10 @@ export const getStaticProps = async ({
 			? getClient(false).withConfig({ token: previewData.token })
 			: getClient(preview);
 
-	const indexPage = await client.fetch(homeQuery);
+	const [indexPage, globalSEO] = await Promise.all([
+		client.fetch(homeQuery),
+		client.fetch(globalSEOQuery),
+	]);
 
 	// pass page data and preview to helper function
 	const pageData: PageData = filterDataToSingleItem(indexPage, preview);
@@ -121,6 +172,7 @@ export const getStaticProps = async ({
 			props: {
 				preview,
 				data: { pageData: null },
+				defaultSeo: globalSEO,
 			},
 		};
 	}
@@ -131,6 +183,7 @@ export const getStaticProps = async ({
 			token: (preview && previewData.token) || "",
 			source: (preview && previewData.source) || "",
 			data: { pageData },
+			defaultSeo: globalSEO,
 		},
 	};
 };

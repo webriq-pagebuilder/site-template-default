@@ -187,6 +187,14 @@ export interface Seo {
 	seoSynonyms?: string;
 }
 
+export interface DefaultSeoData {
+	defaultSeoTitle: string | undefined;
+	defaultSeoSynonyms?: string | undefined;
+	defaultSeoKeywords?: string | undefined;
+	defaultSeoDescription: string | undefined;
+	defaultSeoImage: SanityImage | undefined;
+}
+
 export interface Sections extends SanityBody {
 	label?: string;
 	variant?: string;

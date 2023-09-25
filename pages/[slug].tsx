@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { groq } from "next-sanity";
 import { PreviewSuspense } from "next-sanity/preview";
 import { sanityClient, getClient } from "lib/sanity.client";
-import { blogQuery, slugQuery } from "./api/query";
+import { blogQuery, slugQuery, globalSEOQuery } from "./api/query";
 import { usePreview } from "lib/sanity.preview";
 import { PageSections } from "components/page";
 import BlogSections from "components/blog";
@@ -14,13 +14,14 @@ import { filterDataToSingleItem, SEO } from "components/list";
 import PageNotFound from "pages/404";
 import InlineEditorContextProvider from "context/InlineEditorContext";
 import { GetStaticPaths, GetStaticProps } from "next";
-import { CommonPageData, BlogsData } from "types";
+import { CommonPageData, BlogsData, DefaultSeoData } from "types";
 
 interface PageBySlugProps {
 	data: Data;
 	preview: boolean;
 	token: string | null;
 	source: string;
+	defaultSeo: DefaultSeoData;
 }
 
 interface DocumentWithPreviewProps {
@@ -28,6 +29,7 @@ interface DocumentWithPreviewProps {
 	slug: string | string[];
 	token: string | null;
 	source: string;
+	defaultSeo: DefaultSeoData;
 }
 
 interface Data {
@@ -41,7 +43,13 @@ export interface PageData extends CommonPageData {
 	title: string;
 }
 
-export function PageBySlug({ data, preview, token, source }: PageBySlugProps) {
+export function PageBySlug({
+	data,
+	preview,
+	token,
+	source,
+	defaultSeo,
+}: PageBySlugProps) {
 	const router = useRouter();
 	const slug = router.query.slug;
 	const showInlineEditor = source === "studio";
@@ -56,7 +64,7 @@ export function PageBySlug({ data, preview, token, source }: PageBySlugProps) {
 					<PreviewSuspense fallback="Loading...">
 						<InlineEditorContextProvider showInlineEditor={showInlineEditor}>
 							<DocumentWithPreview
-								{...{ data, token: token || null, slug, source }}
+								{...{ data, token: token || null, slug, source, defaultSeo }}
 							/>
 						</InlineEditorContextProvider>
 					</PreviewSuspense>
@@ -64,7 +72,7 @@ export function PageBySlug({ data, preview, token, source }: PageBySlugProps) {
 			);
 		}
 
-		return <Document {...{ data }} />;
+		return <Document {...{ data, defaultSeo }} />;
 	}
 }
 
@@ -74,7 +82,13 @@ export function PageBySlug({ data, preview, token, source }: PageBySlugProps) {
  *
  * @returns Document with published data
  */
-function Document({ data }: { data: Data }) {
+function Document({
+	data,
+	defaultSeo,
+}: {
+	data: Data;
+	defaultSeo: DefaultSeoData;
+}) {
 	const publishedData = data?.pageData || data?.blogData; // latest published data in Sanity
 
 	// General safeguard against empty data
@@ -94,6 +108,7 @@ function Document({ data }: { data: Data }) {
 						route: publishedData?.slug,
 						...seo,
 					}}
+					defaultSeo={defaultSeo}
 				/>
 				<title>{seo?.seoTitle ?? title ?? "WebriQ Studio"}</title>
 			</Head>
@@ -120,6 +135,7 @@ function DocumentWithPreview({
 	data,
 	slug,
 	token = null,
+	defaultSeo,
 }: DocumentWithPreviewProps) {
 	// Current drafts data in Sanity
 	const previewDataEventSource = usePreview(
@@ -150,6 +166,7 @@ function DocumentWithPreview({
 						route: previewData?.slug,
 						...seo,
 					}}
+					defaultSeo={defaultSeo}
 				/>
 				<title>{seo?.seoTitle ?? title ?? "WebriQ Studio"}</title>
 			</Head>
@@ -180,9 +197,10 @@ export const getStaticProps: GetStaticProps = async ({
 			? getClient(false).withConfig({ token: previewData.token })
 			: getClient(preview);
 
-	const [page, blogData] = await Promise.all([
+	const [page, blogData, globalSEO] = await Promise.all([
 		client.fetch(slugQuery, { slug: params.slug }),
 		client.fetch(blogQuery, { slug: params.slug }),
+		client.fetch(globalSEOQuery),
 	]);
 
 	// pass page data and preview to helper function
@@ -198,6 +216,7 @@ export const getStaticProps: GetStaticProps = async ({
 				pageData: singlePageData || null,
 				blogData: singleBlogData || null,
 			},
+			defaultSeo: globalSEO,
 		},
 		// If webhooks isn't setup then attempt to re-generate in 1 minute intervals
 		revalidate: process.env.SANITY_REVALIDATE_SECRET ? undefined : 60,

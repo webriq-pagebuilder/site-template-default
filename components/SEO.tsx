@@ -1,8 +1,5 @@
 import { seoImageUrl } from "lib/sanity";
-import { sanityClient } from "lib/sanity.client";
-import { globalSEOQuery } from "pages/api/query";
-import { useEffect, useState } from "react";
-import { SanityImage, SanitySlug } from "types";
+import { DefaultSeoData, SanityImage, SanitySlug } from "types";
 
 type SEOData = {
 	pageTitle: string; // page title
@@ -15,33 +12,14 @@ type SEOData = {
 	seoImage?: SanityImage;
 };
 
-const INITIAL_SEO_STATE = {
-	defaultSeoTitle: undefined,
-	defaultSeoSynonyms: undefined,
-	defaultSeoKeywords: undefined,
-	defaultSeoDescription: undefined,
-	defaultSeoImage: undefined,
-};
-
-function SEO({ data }: { data: SEOData | undefined }) {
+function SEO({
+	data,
+	defaultSeo,
+}: {
+	data: SEOData | undefined;
+	defaultSeo: DefaultSeoData;
+}) {
 	const url = process.env.NEXT_PUBLIC_SITE_URL;
-
-	const [defaultSeo, setDefaultSeo] = useState(INITIAL_SEO_STATE);
-
-	useEffect(() => {
-		const getDefaultSeo = async () => {
-			try {
-				const res = await sanityClient.fetch(globalSEOQuery);
-				if (res) {
-					setDefaultSeo(res);
-				}
-			} catch (error) {
-				console.log("Error getting default seo:", error);
-			}
-		};
-
-		getDefaultSeo();
-	}, []);
 
 	const {
 		defaultSeoTitle,
@@ -68,7 +46,10 @@ function SEO({ data }: { data: SEOData | undefined }) {
 			<meta name="description" content={description ?? defaultSeoDescription} />
 			{/* Open Graph / Facebook / LinkedIn */}
 			<meta property="og:url" content={`${url}/${data?.route}`} />
-			<meta property="og:title" content={title ?? defaultSeoTitle} />
+			<meta
+				property="og:title"
+				content={title ?? data?.pageTitle ?? defaultSeoTitle}
+			/>
 			<meta
 				property="og:description"
 				content={description ?? defaultSeoDescription}

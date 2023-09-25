@@ -7,20 +7,21 @@ import { groq } from "next-sanity";
 import { PreviewSuspense } from "next-sanity/preview";
 import { sanityClient, getClient } from "lib/sanity.client";
 import { usePreview } from "lib/sanity.preview";
-import { productsQuery } from "pages/api/query";
+import { globalSEOQuery, productsQuery } from "pages/api/query";
 import PageNotFound from "pages/404";
 import { filterDataToSingleItem, SEO } from "components/list";
 import { PreviewBanner } from "components/PreviewBanner";
 import { PreviewNoContent } from "components/PreviewNoContent";
 import { ProductSections } from "components/page/store/products";
 import InlineEditorContextProvider from "context/InlineEditorContext";
-import { CollectionProduct, CommonSections } from "types";
+import { CollectionProduct, CommonSections, DefaultSeoData } from "types";
 
 interface ProductPageBySlugProps {
 	data: Data;
 	preview: boolean;
 	token: string;
 	source: string;
+	defaultSeo: DefaultSeoData;
 }
 
 interface Data {
@@ -35,6 +36,7 @@ interface DocumentWithPreviewProps {
 	data: Data;
 	token: string;
 	slug: string | string[];
+	defaultSeo: DefaultSeoData;
 }
 
 function ProductPageBySlug({
@@ -42,6 +44,7 @@ function ProductPageBySlug({
 	preview,
 	token,
 	source,
+	defaultSeo,
 }: ProductPageBySlugProps) {
 	const router = useRouter();
 	const slug = router.query.slug;
@@ -59,14 +62,16 @@ function ProductPageBySlug({
 					<PreviewBanner />
 					<PreviewSuspense fallback={"Loading..."}>
 						<InlineEditorContextProvider showInlineEditor={showInlineEditor}>
-							<DocumentWithPreview {...{ data, token: token || null, slug }} />
+							<DocumentWithPreview
+								{...{ data, token: token || null, slug, defaultSeo }}
+							/>
 						</InlineEditorContextProvider>
 					</PreviewSuspense>
 				</>
 			);
 		}
 
-		return <Document {...{ data }} />;
+		return <Document {...{ data, defaultSeo }} />;
 	}
 }
 
@@ -76,7 +81,13 @@ function ProductPageBySlug({
  *
  * @returns Document with published data
  */
-function Document({ data }: { data: Data }) {
+function Document({
+	data,
+	defaultSeo,
+}: {
+	data: Data;
+	defaultSeo: DefaultSeoData;
+}) {
 	const publishedData = data?.productData; // latest published data in Sanity
 
 	// General safeguard against empty data
@@ -91,7 +102,7 @@ function Document({ data }: { data: Data }) {
 		_type, // page type
 	} = publishedData;
 
-	const finalSEO = commonSections ?? seo;
+	const finalSEO = commonSections?.seo ?? seo;
 
 	return (
 		<>
@@ -103,6 +114,7 @@ function Document({ data }: { data: Data }) {
 						route: publishedData?.slug,
 						...finalSEO,
 					}}
+					defaultSeo={defaultSeo}
 				/>
 				<link rel="icon" href="../favicon.ico" />
 				<title>
@@ -132,6 +144,7 @@ function DocumentWithPreview({
 	data,
 	slug,
 	token = null,
+	defaultSeo,
 }: DocumentWithPreviewProps) {
 	// Current drafts data in Sanity
 	const previewDataEventSource = usePreview(token, productsQuery, { slug });
@@ -149,7 +162,7 @@ function DocumentWithPreview({
 		_type, // page type
 	} = previewData;
 
-	const finalSEO = commonSections ?? seo;
+	const finalSEO = commonSections?.seo ?? seo;
 
 	return (
 		<>
@@ -161,6 +174,7 @@ function DocumentWithPreview({
 						route: previewData?.slug,
 						...finalSEO,
 					}}
+					defaultSeo={defaultSeo}
 				/>
 				<link rel="icon" href="../favicon.ico" />
 				<title>
@@ -192,7 +206,10 @@ export async function getStaticProps({
 			? getClient(false).withConfig({ token: previewData.token })
 			: getClient(preview);
 
-	const products = await client.fetch(productsQuery, { slug: params.slug });
+	const [products, globalSEO] = await Promise.all([
+		client.fetch(productsQuery, { slug: params.slug }),
+		client.fetch(globalSEOQuery),
+	]);
 
 	// pass products data and preview to helper function
 	const singleProductsData: ProductData = filterDataToSingleItem(
@@ -208,6 +225,7 @@ export async function getStaticProps({
 			data: {
 				productData: singleProductsData || null,
 			},
+			defaultSeo: globalSEO,
 		},
 		// If webhooks isn't setup then attempt to re-generate in 1 minute intervals
 		revalidate: process.env.SANITY_REVALIDATE_SECRET ? undefined : 60,
