@@ -12,6 +12,13 @@ import { Navigation, Thumbs, Pagination, A11y } from "swiper/modules";
 import { ProductInfoProps } from ".";
 import { MyPortableTextComponents } from "types";
 
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/thumbs";
+import "swiper/css/pagination";
+import "swiper/css/a11y";
+
 function VariantB({
 	subtitle,
 	images,
@@ -157,7 +164,7 @@ function VariantB({
 									prevEl: "#thumbPrevB",
 									nextEl: "#thumbNextB",
 								}}
-								className="thumb-swiper-B hidden w-40 md:flex md:flex-wrap"
+								className="hidden w-40 md:flex md:flex-wrap"
 								style={{ height: "618px" }}>
 								{images &&
 									images.map((item, index) => (
@@ -167,7 +174,9 @@ function VariantB({
 											<div className="h-full">
 												{item?.image && (
 													<Image
-														className="object-cover"
+														style={{
+															objectFit: "cover",
+														}}
 														src={urlFor(item?.image)}
 														alt={item?.alt}
 														priority={item?.image?.priority}
@@ -194,17 +203,18 @@ function VariantB({
 								{images &&
 									images.map((item, index) => (
 										<SwiperSlide key={index}>
-											<div className="mx-auto h-full w-3/4 xl:mx-0 xl:w-full">
-												<Image
-													className="object-cover"
-													sizes="100vw"
-													width={593}
-													height={611}
-													src={urlFor(item?.image)}
-													priority={item?.image?.priority}
-													alt={item?.alt}
-												/>
-											</div>
+											<Image
+												className="mx-auto h-full w-3/4 xl:mx-0 xl:w-full"
+												sizes="100vw"
+												width={400}
+												height={500}
+												src={urlFor(item?.image)}
+												style={{
+													objectFit: "cover",
+												}}
+												priority={item?.image?.priority}
+												alt={item?.alt}
+											/>
 										</SwiperSlide>
 									))}
 							</Swiper>
