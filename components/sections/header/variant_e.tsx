@@ -39,7 +39,7 @@ function VariantE({
 									<div>
 										{primaryButton?.label && (
 											<ConditionalLink
-												ariaLabel={`Click to go to ${primaryButton?.label}`}
+												ariaLabel={primaryButton?.label}
 												link={primaryButton}
 												className={`inline-block mb-3 lg:mb-0 lg:mr-3 w-auto py-2 px-6 leading-loose bg-${template.color}-darkblue hover:bg-${template.color}-blue text-white font-semibold rounded-l-xl rounded-t-xl transition duration-200`}>
 												{primaryButton?.label}
@@ -47,7 +47,7 @@ function VariantE({
 										)}
 										{secondaryButton?.label && (
 											<ConditionalLink
-												ariaLabel={`Click to go to ${secondaryButton?.label}`}
+												ariaLabel={secondaryButton?.label}
 												link={secondaryButton}
 												className="inline-block w-auto py-2 px-6 leading-loose font-semibold bg-white hover:bg-gray-50 rounded-l-xl rounded-t-xl transition duration-200">
 												{secondaryButton?.label}
@@ -109,7 +109,7 @@ function VariantE({
 										{formLinks?.map((link, index, { length }) => (
 											<span key={index}>
 												<ConditionalLink
-													ariaLabel={`Click to go to ${link?.label}`}
+													ariaLabel={link?.label}
 													link={link}
 													className="underline text-webriq-darkblue hover:text-webriq-blue">
 													{link?.label}

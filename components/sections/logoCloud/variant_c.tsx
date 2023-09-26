@@ -14,7 +14,7 @@ function VariantC({ title, images, button }: LogoCloudProps) {
 					</h1>
 					{button?.label && (
 						<ConditionalLink
-							ariaLabel={`Click to go to ${button?.label}`}
+							ariaLabel={button?.label}
 							link={button}
 							className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose">
 							{button?.label}

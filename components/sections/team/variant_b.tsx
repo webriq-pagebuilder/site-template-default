@@ -20,7 +20,7 @@ function VariantB({ team }: TeamsProps) {
 										team?.map((item) => (
 											<li key={item?.name}>
 												<button
-													aria-label={`Team member ${item?.name}`}
+													aria-label={item.name}
 													className={`mb-4 text-2xl lg:text-4xl ${
 														item?.name === activeTab
 															? "text-gray-900"

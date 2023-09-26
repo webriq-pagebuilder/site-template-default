@@ -55,7 +55,7 @@ function VariantA({
 							<React.Fragment key={index}>
 								<li>
 									<ConditionalLink
-										ariaLabel={`Click to go to ${link?.label}`}
+										ariaLabel={link?.label}
 										link={link}
 										className="text-sm text-gray-500 hover:text-gray-900">
 										{link?.label}
@@ -82,7 +82,7 @@ function VariantA({
 				</ul>
 				{primaryButton?.label && (
 					<ConditionalLink
-						ariaLabel={`Click to go to ${primaryButton?.label}`}
+						ariaLabel={primaryButton?.label}
 						link={primaryButton}
 						className="hidden lg:inline-block lg:ml-auto lg:mr-3 py-2 px-6 bg-gray-50 hover:bg-gray-100 text-sm text-gray-900 font-bold rounded-l-xl rounded-t-xl transition duration-200">
 						{primaryButton?.label}
@@ -90,7 +90,7 @@ function VariantA({
 				)}
 				{secondaryButton?.label && (
 					<ConditionalLink
-						ariaLabel={`Click to go to ${secondaryButton?.label}`}
+						ariaLabel={secondaryButton?.label}
 						link={secondaryButton}
 						className={`hidden lg:inline-block py-2 px-6 bg-${template.color}-darkblue hover:bg-${template.color}-blue text-sm text-white font-bold rounded-l-xl rounded-t-xl transition duration-200`}>
 						{secondaryButton?.label}
@@ -128,7 +128,7 @@ function VariantA({
 								{links?.map((link, index) => (
 									<li className="mb-1" key={index}>
 										<ConditionalLink
-											ariaLabel={`Click to go to ${link?.label} page`}
+											ariaLabel={link?.label}
 											className="block p-4 text-sm font-semibold text-gray-900 hover:bg-webriq-lightblue hover:text-webriq-darkblue rounded"
 											link={link}>
 											{link?.label}
@@ -142,7 +142,7 @@ function VariantA({
 						<div className="pt-6">
 							{primaryButton?.label && (
 								<ConditionalLink
-									ariaLabel={`Click to go to ${primaryButton?.label}`}
+									ariaLabel={primaryButton?.label}
 									link={primaryButton}
 									className="block px-4 py-3 mb-3 leading-loose text-xs text-center font-semibold bg-gray-50 hover:bg-gray-100 rounded-l-xl rounded-t-xl">
 									{primaryButton?.label}
@@ -150,7 +150,7 @@ function VariantA({
 							)}
 							{secondaryButton?.label && (
 								<ConditionalLink
-									ariaLabel={`Click to go to ${secondaryButton?.label}`}
+									ariaLabel={secondaryButton?.label}
 									link={secondaryButton}
 									className={`block px-4 py-3 mb-2 leading-loose text-xs text-center text-white font-semibold bg-${template.color}-darkblue hover:bg-${template.color}-blue rounded-l-xl rounded-t-xl`}>
 									{secondaryButton?.label}

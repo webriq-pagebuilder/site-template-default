@@ -32,7 +32,7 @@ function VariantC({
 						<div className="mt-5 hidden md:mt-0 lg:mt-0 lg:block xl:mt-0">
 							{primaryButton?.label && (
 								<ConditionalLink
-									ariaLabel={`Click to go to ${primaryButton?.label} page`}
+									ariaLabel={primaryButton?.label}
 									link={primaryButton}
 									className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose transition duration-200">
 									{primaryButton?.label}
@@ -64,7 +64,7 @@ function VariantC({
 											</p>
 											{content?.primaryButton?.label && (
 												<ConditionalLink
-													ariaLabel={`Click to go to ${content?.primaryButton?.label} page`}
+													ariaLabel={content?.primaryButton?.label}
 													link={content?.primaryButton}
 													className="flex text-webriq-darkblue hover:text-webriq-blue font-bold">
 													{content?.primaryButton?.label}
@@ -79,7 +79,7 @@ function VariantC({
 					<div className="mt-5 block text-center md:mt-0 lg:mt-0 lg:hidden xl:mt-0">
 						{primaryButton?.label && (
 							<ConditionalLink
-								ariaLabel={`Click to go to ${primaryButton?.label} page`}
+								ariaLabel={primaryButton?.label}
 								link={primaryButton}
 								className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose transition duration-200">
 								{primaryButton?.label}

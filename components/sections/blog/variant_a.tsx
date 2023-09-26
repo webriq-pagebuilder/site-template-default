@@ -84,6 +84,9 @@ function VariantA({ subtitle, title, posts, primaryButton }: BlogProps) {
 													className="relative h-full w-full overflow-hidden rounded object-cover"
 													src={urlFor(post?.mainImage)}
 													alt={`blog-variantA-image-${key}`}
+													style={{
+														objectFit: "fill",
+													}}
 													fill
 												/>
 											)}
@@ -225,7 +228,7 @@ function VariantA({ subtitle, title, posts, primaryButton }: BlogProps) {
 									<ConditionalLink
 										link={primaryButton}
 										className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose outline-none transition duration-200"
-										ariaLabel={`Click to go to ${primaryButton?.label} page`}>
+										ariaLabel={primaryButton?.label}>
 										{primaryButton?.label}
 									</ConditionalLink>
 								)}

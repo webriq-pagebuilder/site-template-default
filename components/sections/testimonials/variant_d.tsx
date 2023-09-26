@@ -24,7 +24,7 @@ function VariantD({ testimonials }: TestimonialProps) {
 						<div className="mb-10 text-center lg:hidden">
 							{testimonials?.length > 1 && (
 								<button
-									aria-label="Show Previous Testimonial button"
+									aria-label="Show previous testimonial"
 									className="mr-6 rounded-full bg-white p-4 text-webriq-darkblue shadow-md transition duration-200 hover:text-webriq-babyblue lg:mr-0"
 									onClick={() => slider("prev")}>
 									<svg
@@ -44,7 +44,7 @@ function VariantD({ testimonials }: TestimonialProps) {
 							)}
 							{testimonials?.length > 1 && (
 								<button
-									aria-label="Show Next Testimonial button"
+									aria-label="Show next testimonial"
 									className="rounded-full bg-white p-4 text-webriq-darkblue shadow-md transition duration-200 hover:text-webriq-babyblue"
 									onClick={() => slider("next")}>
 									<svg
@@ -65,7 +65,7 @@ function VariantD({ testimonials }: TestimonialProps) {
 						</div>
 						{testimonials?.length > 1 && (
 							<button
-								aria-label="Show Previous Testimonial button"
+								aria-label="Show previous testimonial"
 								className="hidden rounded-full bg-white p-5 text-webriq-darkblue shadow-md transition  duration-200 hover:text-webriq-babyblue focus:outline-none lg:mr-0 lg:block"
 								onClick={() => slider("prev")}>
 								<svg
@@ -192,7 +192,7 @@ function VariantD({ testimonials }: TestimonialProps) {
 						)}
 						{testimonials?.length > 1 && (
 							<button
-								aria-label="Show Next Testimonial button"
+								aria-label="Show next testimonial"
 								className="hidden rounded-full bg-white p-5 text-webriq-darkblue shadow-md transition duration-200 hover:text-webriq-babyblue focus:outline-none lg:block"
 								onClick={() => slider("next")}>
 								<svg

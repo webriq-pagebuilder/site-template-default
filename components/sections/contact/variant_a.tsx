@@ -241,7 +241,7 @@ function VariantA({
 															{formFields?.label}
 														</label>
 														<select
-															aria-label={`contact-${formFields?.name}`}
+															aria-label={formFields?.label}
 															className="w-full rounded bg-white p-3 text-xs font-semibold text-gray-500 outline-none"
 															name={`contact-${formFields?.name}`}
 															defaultValue={"default-value"}

@@ -48,7 +48,7 @@ function VariantA({ logo, title, text, button }: CTAProps) {
 							<ConditionalLink
 								link={button}
 								className="inline-block py-2 px-6 bg-webriq-darkblue hover:bg-webriq-blue text-white font-bold leading-loose rounded-l-xl rounded-t-xl transition duration-200"
-								ariaLabel={`Click to go to ${button?.label} page`}>
+								ariaLabel={button?.label}>
 								{button?.label}
 							</ConditionalLink>
 						)}

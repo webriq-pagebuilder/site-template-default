@@ -513,7 +513,7 @@ function VariantD({
 							<ConditionalLink
 								link={signInLink}
 								style="text-webriq-darkblue hover:underline"
-								ariaLabel={`Click to go to ${signInLink?.label}`}>
+								ariaLabel={signInLink?.label}>
 								{signInLink?.label}
 							</ConditionalLink>
 						</p>

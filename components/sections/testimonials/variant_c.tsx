@@ -36,7 +36,7 @@ function VariantC({ caption, title, testimonials }: TestimonialProps) {
 						<div className="w-full lg:w-1/5">
 							{testimony?.length >= 4 && (
 								<button
-									aria-label="Show Previous Testimonial button"
+									aria-label="Show previous testimonial"
 									className="mr-4 rounded-full bg-white p-5 text-webriq-darkblue shadow-md transition duration-200 hover:text-webriq-babyblue"
 									onClick={() => slider("prev")}>
 									<svg
@@ -56,7 +56,7 @@ function VariantC({ caption, title, testimonials }: TestimonialProps) {
 							)}
 							{testimony?.length >= 4 && (
 								<button
-									aria-label="Show Next Testimonial button"
+									aria-label="Show next testimonial"
 									className="rounded-full bg-white p-5 text-webriq-darkblue shadow-md transition duration-200 hover:text-webriq-babyblue"
 									onClick={() => slider("next")}>
 									<svg

@@ -36,7 +36,7 @@ function VariantF({
 										<ConditionalLink
 											link={primaryButton}
 											className="lg:w-auto py-2 px-6 leading-loose lg:ml-5 text-gray-50 font-bold bg-webriq-darkblue hover:bg-webriq-blue transition duration-200 rounded-l-xl rounded-t-xl"
-											ariaLabel={`Click to go to ${primaryButton?.label} page`}>
+											ariaLabel={primaryButton?.label}>
 											{primaryButton?.label}
 										</ConditionalLink>
 									</div>

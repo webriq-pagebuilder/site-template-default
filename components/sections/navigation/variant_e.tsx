@@ -132,7 +132,7 @@ function VariantE({ banner, logo, links }: NavigationProps) {
 									<Fragment key={index}>
 										<li>
 											<ConditionalLink
-												ariaLabel={`Click to go to ${link?.label}`}
+												ariaLabel={link?.label}
 												link={link}
 												className={
 													link?.type === "linkInternal"
@@ -346,7 +346,7 @@ function VariantE({ banner, logo, links }: NavigationProps) {
 									<Fragment key={index}>
 										<li className="mb-8">
 											<ConditionalLink
-												ariaLabel={`Click to go to ${link?.label}`}
+												ariaLabel={link?.label}
 												link={link}
 												className="font-bold font-heading hover:text-gray-600">
 												{link?.label}

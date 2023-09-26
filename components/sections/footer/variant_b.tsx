@@ -41,7 +41,7 @@ function VariantB({ logo, copyright, socialMedia, menu }: FooterProps) {
 												<ConditionalLink
 													link={links}
 													className="lg:text-sm text-gray-500 hover:text-gray-700"
-													ariaLabel={`Click to go to ${links?.label} page`}>
+													ariaLabel={links?.label}>
 													{links?.label}
 												</ConditionalLink>
 											</li>

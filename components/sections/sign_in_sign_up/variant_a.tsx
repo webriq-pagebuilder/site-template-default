@@ -75,7 +75,7 @@ function VariantA({ logo, form, formLinks, signInLink }: SignUpFormProps) {
 											<ConditionalLink
 												link={signInLink}
 												className="text-webriq-darkblue hover:underline"
-												ariaLabel={`Click to go to ${signInLink?.label}`}>
+												ariaLabel={signInLink?.label}>
 												{signInLink?.label}
 											</ConditionalLink>
 										</span>
@@ -95,7 +95,7 @@ function VariantA({ logo, form, formLinks, signInLink }: SignUpFormProps) {
 												? "underline hover:text-gray-500"
 												: "text-webriq-darkblue hover:underline"
 										}
-										ariaLabel={`Click to go to ${link?.label}`}>
+										ariaLabel={link?.label}>
 										{link?.label}
 									</ConditionalLink>
 									{index === length - 1 ? null : index === length - 2 ? (
@@ -138,7 +138,7 @@ function FormFields({ fields }: { fields: FormFields }) {
 	if (fields?.type === "textarea") {
 		return (
 			<textarea
-				aria-label={`${fields?.name} text area`}
+				aria-label={fields?.name}
 				className="w-full rounded bg-white p-4 text-xs outline-none"
 				placeholder={fields?.name}
 				name={fields?.name}
@@ -149,7 +149,7 @@ function FormFields({ fields }: { fields: FormFields }) {
 		return (
 			<label className="flex rounded bg-white px-2">
 				<input
-					aria-label="Add file"
+					aria-label={fields?.placeholder ?? "Choose file.."}
 					className="w-full rounded bg-white p-4 text-xs outline-none"
 					type="file"
 					placeholder={fields?.placeholder ?? "Choose file.."}
@@ -162,7 +162,7 @@ function FormFields({ fields }: { fields: FormFields }) {
 		return (
 			<div className="mb-4 flex rounded bg-white p-4">
 				<input
-					aria-label={fields?.type}
+					aria-label={fields?.placeholder ?? fields?.name}
 					className="w-full bg-white text-xs outline-none"
 					type={showPassword ? "text" : "password"}
 					placeholder={fields?.placeholder}
@@ -214,7 +214,7 @@ function FormFields({ fields }: { fields: FormFields }) {
 		return (
 			<div className="mb-4 flex rounded bg-white p-4">
 				<input
-					aria-label={fields?.name}
+					aria-label={fields?.placeholder ?? fields?.name}
 					className="w-full bg-white text-xs outline-none"
 					type="number"
 					placeholder={fields?.placeholder}
@@ -303,11 +303,7 @@ function FormFields({ fields }: { fields: FormFields }) {
 		return (
 			<div className="mb-4 flex rounded bg-white p-4">
 				<input
-					aria-label={`${
-						fields?.type === "inputText"
-							? `Input ${fields?.name}`
-							: `${fields?.type}`
-					}`}
+					aria-label={fields?.placeholder ?? fields?.name}
 					className="w-full bg-white text-xs outline-none"
 					type={fields?.type === "inputEmail" ? "email" : "text"}
 					placeholder={fields?.placeholder}

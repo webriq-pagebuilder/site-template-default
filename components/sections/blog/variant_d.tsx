@@ -107,7 +107,7 @@ function VariantD({ subtitle, title, posts }: BlogProps) {
 													}`}
 													key={index}>
 													<button
-														aria-label={`${category} blog posts`}
+														aria-label={category}
 														className={`mb-4 block px-3 py-2 focus:outline-none ${
 															activeTab === category
 																? "font-bold text-webriq-darkblue focus:outline-none"

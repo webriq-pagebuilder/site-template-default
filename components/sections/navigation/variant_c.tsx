@@ -26,7 +26,7 @@ function VariantC({
 								<React.Fragment key={index}>
 									<li>
 										<ConditionalLink
-											ariaLabel={`Click to go to ${link?.label}`}
+											ariaLabel={link?.label}
 											link={link}
 											className="text-sm text-gray-500 hover:text-gray-900">
 											{link?.label}
@@ -72,7 +72,7 @@ function VariantC({
 					<div className="hidden text-right lg:ml-auto lg:block lg:w-1/3">
 						{primaryButton?.label && (
 							<ConditionalLink
-								ariaLabel={`Click to go to ${primaryButton?.label}`}
+								ariaLabel={primaryButton?.label}
 								link={primaryButton}
 								className="hidden lg:inline-block lg:ml-auto lg:mr-3 py-2 px-6 bg-gray-50 hover:bg-gray-100 text-sm text-gray-900 font-bold rounded-l-xl rounded-t-xl transition duration-200">
 								{primaryButton?.label}
@@ -80,7 +80,7 @@ function VariantC({
 						)}
 						{secondaryButton?.label && (
 							<ConditionalLink
-								ariaLabel={`Click to go to ${secondaryButton?.label}`}
+								ariaLabel={secondaryButton?.label}
 								link={secondaryButton}
 								className="hidden lg:inline-block py-2 px-6 bg-webriq-darkblue hover:bg-webriq-blue text-sm text-white font-bold rounded-l-xl rounded-t-xl transition duration-200">
 								{secondaryButton?.label}
@@ -133,7 +133,7 @@ function VariantC({
 								links?.map((link, index) => (
 									<li className="mb-1" key={index}>
 										<ConditionalLink
-											ariaLabel={`Click to go to ${link?.label}`}
+											ariaLabel={link?.label}
 											link={link}
 											className="block p-4 text-sm font-semibold text-gray-700 hover:bg-webriq-lightblue hover:text-webriq-darkblue rounded">
 											{link?.label}
@@ -146,7 +146,7 @@ function VariantC({
 						<div className="pt-6">
 							{primaryButton?.label && (
 								<ConditionalLink
-									ariaLabel={`Click to go to ${primaryButton?.label}`}
+									ariaLabel={primaryButton?.label}
 									link={primaryButton}
 									className="block px-4 py-3 mb-3 leading-loose text-xs text-center font-semibold bg-gray-50 hover:bg-gray-100 rounded-l-xl rounded-t-xl">
 									{primaryButton?.label}
@@ -154,7 +154,7 @@ function VariantC({
 							)}
 							{secondaryButton?.label && (
 								<ConditionalLink
-									ariaLabel={`Click to go to ${secondaryButton?.label}`}
+									ariaLabel={secondaryButton?.label}
 									link={secondaryButton}
 									className="block px-4 py-3 mb-2 leading-loose text-xs text-center text-white font-semibold bg-webriq-darkblue hover:bg-webriq-blue rounded-l-xl rounded-t-xl">
 									{secondaryButton?.label}

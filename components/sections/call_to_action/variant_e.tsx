@@ -59,7 +59,7 @@ function VariantE({ form, formLinks, signInLink }: CTAProps) {
 									<ConditionalLink
 										link={signInLink}
 										className="text-webriq-darkblue hover:text-webriq-babyblue"
-										ariaLabel={`Click to go to ${signInLink?.label} page`}>
+										ariaLabel={signInLink?.label}>
 										{signInLink?.label}
 									</ConditionalLink>
 								</p>
@@ -73,7 +73,7 @@ function VariantE({ form, formLinks, signInLink }: CTAProps) {
 									<ConditionalLink
 										link={link}
 										className="text-webriq-darkblue hover:text-webriq-blue font-bold"
-										ariaLabel={`Click to go to ${link?.label} page`}>
+										ariaLabel={link?.label}>
 										{link?.label}
 									</ConditionalLink>
 									{index === length - 1 ? null : index === length - 2 ? (

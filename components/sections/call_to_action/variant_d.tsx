@@ -48,7 +48,7 @@ function VariantD({
 							<ConditionalLink
 								link={button}
 								className="inline-block py-2 px-6 bg-webriq-darkblue hover:bg-webriq-blue text-white font-bold leading-loose transition duration-250 rounded-l-xl rounded-t-xl"
-								ariaLabel={`Click to go to ${button?.label} page`}>
+								ariaLabel={button?.label}>
 								{button?.label}
 							</ConditionalLink>
 						)}
@@ -105,7 +105,7 @@ function VariantD({
 											<ConditionalLink
 												link={signInLink}
 												className="text-webriq-darkblue hover:text-webriq-babyblue"
-												ariaLabel={`Click to go to ${signInLink?.label} page`}>
+												ariaLabel={signInLink?.label}>
 												{signInLink?.label}
 											</ConditionalLink>
 										</p>
@@ -119,7 +119,7 @@ function VariantD({
 											<ConditionalLink
 												link={link}
 												className="text-webriq-darkblue hover:text-webriq-blue font-bold"
-												ariaLabel={`Click to ${link?.label}`}>
+												ariaLabel={link?.label}>
 												{link?.label}
 											</ConditionalLink>
 											{index === length - 1 ? null : index === length - 2 ? (
