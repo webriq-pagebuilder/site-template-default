@@ -9,57 +9,58 @@ export interface SectionsProps {
 }
 //*EDIT THIS SECTION WHEN CREATING/UPDATING SCHEMAS ON STUDIO */
 export interface Variants {
-	arrayOfTitleAndText?: ArrayOfTitleAndText[] | null;
-	logo?: Logo | null;
-	primaryButton?: LabeledRoute | null;
-	secondaryButton?: LabeledRoute | null;
-	routes?: LabeledRouteWithKey[] | null;
-	menu?: LabeledRouteWithKey[] | null;
-	plans?: Plans[] | null;
-	formLinks?: LabeledRouteWithKey[] | null;
-	portfolios?: Portfolio[] | null;
-	portfoliosWithCategories?: PortfoliosWithCategories[] | null;
-	signInLink?: LabeledRoute | null;
-	tags?: string[] | null;
-	blogPosts?: BlogPost[] | null;
-	form?: Form | null;
-	collections?: Collection | null;
-	products?: CollectionProduct | null;
-	allProducts?: Collection[];
-	subtitle?: string | null;
-	title?: string | null;
-	plainText?: string | null;
-	contactDescription?: string | null;
-	officeInformation?: string | null;
-	contactEmail?: string | null;
-	contactNumber?: string | null;
-	socialLinks?: SocialLink[] | null;
-	block?: any;
-	heading?: string | null;
-	acceptButtonLabel?: string | null;
-	declineButtonLabel?: string | null;
-	faqsWithCategory?: FaqsWithCategory[] | null;
-	askedQuestions?: AskedQuestion[] | null;
-	arrayOfImageTitleAndText?: ArrayOfImageTitleAndText[] | null;
-	description?: string | null;
-	featuredItems?: FeaturedItem[] | null;
-	images?: Images[] | null;
-	contactDetails?: ContactDetails[] | null;
-	copyright?: string | null;
-	mainImage?: MainImage | null;
-	youtubeLink?: string | null;
-	banner?: any;
-	statItems?: StatItems[] | null;
-	teams?: Team[] | null;
-	testimonials?: Testimonial[] | null;
-	firstColumn?: PortableTextBlock[];
-	secondColumn?: PortableTextBlock[];
-	thirdColumn?: PortableTextBlock[];
-	selectStripeAccount?: string;
-	annualBilling?: string;
-	monthlyBilling?: string;
-	productDetails?: ProductDetail[];
-	btnLabel?: string;
+  multipleMenus: any;
+  arrayOfTitleAndText?: ArrayOfTitleAndText[] | null;
+  logo?: Logo | null;
+  primaryButton?: LabeledRoute | null;
+  secondaryButton?: LabeledRoute | null;
+  routes?: LabeledRouteWithKey[] | null;
+  menu?: LabeledRouteWithKey[] | null;
+  plans?: Plans[] | null;
+  formLinks?: LabeledRouteWithKey[] | null;
+  portfolios?: Portfolio[] | null;
+  portfoliosWithCategories?: PortfoliosWithCategories[] | null;
+  signInLink?: LabeledRoute | null;
+  tags?: string[] | null;
+  blogPosts?: BlogPost[] | null;
+  form?: Form | null;
+  collections?: Collection | null;
+  products?: CollectionProduct | null;
+  allProducts?: Collection[];
+  subtitle?: string | null;
+  title?: string | null;
+  plainText?: string | null;
+  contactDescription?: string | null;
+  officeInformation?: string | null;
+  contactEmail?: string | null;
+  contactNumber?: string | null;
+  socialLinks?: SocialLink[] | null;
+  block?: any;
+  heading?: string | null;
+  acceptButtonLabel?: string | null;
+  declineButtonLabel?: string | null;
+  faqsWithCategory?: FaqsWithCategory[] | null;
+  askedQuestions?: AskedQuestion[] | null;
+  arrayOfImageTitleAndText?: ArrayOfImageTitleAndText[] | null;
+  description?: string | null;
+  featuredItems?: FeaturedItem[] | null;
+  images?: Images[] | null;
+  contactDetails?: ContactDetails[] | null;
+  copyright?: string | null;
+  mainImage?: MainImage | null;
+  youtubeLink?: string | null;
+  banner?: any;
+  statItems?: StatItems[] | null;
+  teams?: Team[] | null;
+  testimonials?: Testimonial[] | null;
+  firstColumn?: PortableTextBlock[];
+  secondColumn?: PortableTextBlock[];
+  thirdColumn?: PortableTextBlock[];
+  selectStripeAccount?: string;
+  annualBilling?: string;
+  monthlyBilling?: string;
+  productDetails?: ProductDetail[];
+  btnLabel?: string;
 }
 
 export interface Template {
@@ -450,17 +451,17 @@ export interface CommonSections {
 }
 
 export interface SearchItemsTypes {
-	searchItems: {
-		_id: string;
-		label: string;
-		title: string;
-		variant: string;
-		_type: string;
-	}[];
-	onClickHandler: any;
+  searchItems: {
+    _id: string;
+    label: string;
+    title: string;
+    variant: string;
+    _type: string;
+  }[];
+  onClickHandler: any;
 }
 
 export interface ButtonWithTooltipTypes {
-	toolTipText?: string | undefined;
-	children: ReactElement<any, string | JSXElementConstructor<any>>;
+  toolTipText?: string | undefined;
+  children: ReactElement<any, string | JSXElementConstructor<any>>;
 }
