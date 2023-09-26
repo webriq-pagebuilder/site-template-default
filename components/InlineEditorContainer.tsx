@@ -1,6 +1,6 @@
 import { useMagicRouter } from "hooks";
 import { useMediaQuery } from "hooks/useMediaQuery";
-import config from "next/config";
+import config from "sanity.config";
 import React from "react";
 import { StudioProvider, StudioLayout } from "sanity";
 import SplitPane, { SashContent, Pane } from "split-pane-react";
@@ -9,7 +9,7 @@ import { InlineEditorProps } from "./InlineEditor";
 import "split-pane-react/esm/themes/default.css";
 import styles from "styles/InlineEditing.module.css";
 
-export function InlineEditorContainer({
+export default function InlineEditorContainer({
 	document,
 	children,
 }: InlineEditorProps) {
@@ -29,6 +29,8 @@ export function InlineEditorContainer({
 		overflowY: "scroll",
 	};
 
+	console.log("config: ", config);
+
 	return (
 		<div
 			className={`relative ${
@@ -42,7 +44,7 @@ export function InlineEditorContainer({
 					<button
 						id={document?.type}
 						className={`pointer-events-auto z-40 items-center border border-webriq-darkblue bg-white px-2 py-2.5 text-center text-sm font-medium text-webriq-darkblue shadow-lg hover:border-webriq-blue hover:bg-webriq-blue hover:text-white ${
-							!splitPane && `${styles.hide}`
+							!splitPane && `styles.hide`
 						}`}
 						style={{
 							position: "sticky",
@@ -109,8 +111,8 @@ export function InlineEditorContainer({
 											styles["pane-footer"]
 										} ${
 											document?.type === "mainProduct"
-												? `${styles["product-fieldgroup-tabs"]} ${styles["product-fieldgroup-select"]}`
-												: `${styles["fieldgroup-tabs"]} ${styles["fieldgroup-select"]}`
+												? `product-fieldgroup-tabs product-fieldgroup-select`
+												: ` fieldgroup-tabs fieldgroup-select`
 										}`}>
 										<StudioLayout />
 									</div>
