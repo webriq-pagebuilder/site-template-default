@@ -100,9 +100,6 @@ function VariantB({
 															src={urlFor(social?.socialMediaIcon?.image)}
 															width={24}
 															height={24}
-															priority={
-																social?.socialMediaIcon?.image?.priority
-															}
 															alt={
 																social?.socialMediaIcon?.alt ??
 																"contact-socialMedia-icon"

@@ -32,7 +32,6 @@ function VariantA({ caption, title, team }: TeamsProps) {
 												sizes="100vw"
 												width={96}
 												height={96}
-												priority={member?.mainImage?.image?.priority}
 												alt={
 													member?.mainImage?.alt ??
 													`team-member-${member?.name}-profile-image`

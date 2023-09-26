@@ -34,7 +34,6 @@ function VariantA({
 										sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
 										width={132}
 										height={56}
-										priority={logo?.image?.priority}
 										alt={logo?.alt ?? "footer-logo"}
 									/>
 								</Link>
@@ -128,9 +127,6 @@ function VariantA({
 															quality={100}
 															width={24}
 															height={24}
-															priority={
-																social?.socialMediaIcon?.image?.priority
-															}
 															alt={
 																social?.socialMediaIcon?.alt ??
 																"contact-socialMedia-icon"

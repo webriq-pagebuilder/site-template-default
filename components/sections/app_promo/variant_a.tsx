@@ -38,7 +38,6 @@ function VariantA({ logo, subtitle, title, images }: AppPromoProps) {
 									src={urlFor(logo?.image)}
 									width={50}
 									height={56}
-									priority={logo?.image?.priority}
 									alt={logo?.alt ?? "appPromo-logo"}
 								/>
 							</Link>
@@ -55,7 +54,6 @@ function VariantA({ logo, subtitle, title, images }: AppPromoProps) {
 									sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
 									width={218}
 									height={320}
-									priority={images?.[0]?.image?.priority}
 									alt="appPromo-variantA-image-1"
 								/>
 							)}
@@ -66,7 +64,6 @@ function VariantA({ logo, subtitle, title, images }: AppPromoProps) {
 									sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
 									width={218}
 									height={320}
-									priority={images?.[1]?.image?.priority}
 									alt="appPromo-variantA-image-2"
 								/>
 							)}
@@ -77,7 +74,6 @@ function VariantA({ logo, subtitle, title, images }: AppPromoProps) {
 									sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
 									width={218}
 									height={320}
-									priority={images?.[2]?.image?.priority}
 									alt="appPromo-variantA-image-3"
 								/>
 							)}
@@ -91,7 +87,6 @@ function VariantA({ logo, subtitle, title, images }: AppPromoProps) {
 									sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
 									width={500}
 									height={850}
-									priority={images?.[currentPosition]?.image?.priority}
 									alt={
 										images?.[currentPosition]?.alt ??
 										`appPromo-variantB-image${currentPosition}`

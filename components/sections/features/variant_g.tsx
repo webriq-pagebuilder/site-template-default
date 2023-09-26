@@ -65,7 +65,6 @@ function VariantG({
 													sizes="100vw"
 													width={356}
 													height={192}
-													priority={images?.[0]?.image?.priority}
 													alt={images[0]?.alt ?? "features-image-1"}
 												/>
 											</div>
@@ -80,7 +79,6 @@ function VariantG({
 													sizes="100vw"
 													width={166}
 													height={128}
-													priority={images?.[1]?.image?.priority}
 													alt={images[1]?.alt ?? "features-image-2"}
 												/>
 											</div>
@@ -97,7 +95,6 @@ function VariantG({
 													width={166}
 													height={128}
 													sizes="100vw"
-													priority={images?.[2]?.image?.priority}
 													alt={images[2]?.alt ?? "features-image-3"}
 												/>
 											</div>
@@ -112,7 +109,6 @@ function VariantG({
 													width={356}
 													height={192}
 													sizes="100vw"
-													priority={images?.[3]?.image?.priority}
 													alt={images[3]?.alt ?? "features-image-4"}
 												/>
 											</div>

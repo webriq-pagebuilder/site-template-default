@@ -37,7 +37,6 @@ function VariantD({
 									width={56}
 									height={56}
 									alt={logo?.alt ?? "callToAction-logo"}
-									priority={logo?.image?.priority}
 								/>
 							</Link>
 						)}

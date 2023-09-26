@@ -35,9 +35,6 @@ function VariantA() {
 															sizes="100vw"
 															width={485}
 															height={384}
-															priority={
-																items?.productInfo?.images?.[0]?.image?.priority
-															}
 															src={urlFor(
 																items?.productInfo?.images?.[0]?.image
 															)}

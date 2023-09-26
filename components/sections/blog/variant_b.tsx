@@ -44,7 +44,6 @@ function VariantB({ subtitle, title, posts, primaryButton }: BlogProps) {
 												}}
 												width={271}
 												height={248}
-												priority={post?.mainImage?.priority}
 												alt={`blog-variantB-image-${key}`}
 											/>
 										)}
@@ -87,7 +86,6 @@ function VariantB({ subtitle, title, posts, primaryButton }: BlogProps) {
 													sizes="100vw"
 													width={259}
 													height={192}
-													priority={post?.mainImage?.priority}
 													alt={`blog-variantB-image-${key}`}
 												/>
 											)}

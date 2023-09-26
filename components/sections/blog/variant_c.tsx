@@ -51,7 +51,6 @@ function VariantC({ subtitle, title, posts, primaryButton }: BlogProps) {
 													sizes="100vw"
 													width={554}
 													height={416}
-													priority={post?.mainImage?.priority}
 													alt={`blog-variantC-image-${key}`}
 												/>
 											)}
@@ -175,7 +174,6 @@ function VariantC({ subtitle, title, posts, primaryButton }: BlogProps) {
 													sizes="100vw"
 													width={554}
 													height={416}
-													priority={post?.mainImage?.priority}
 													alt={`blog-variantC-image-${key}`}
 												/>
 											)}

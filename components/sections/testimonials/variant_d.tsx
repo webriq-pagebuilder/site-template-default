@@ -154,9 +154,6 @@ function VariantD({ testimonials }: TestimonialProps) {
 													)}
 													width={128}
 													height={96}
-													priority={
-														testimonials[testimony]?.mainImage?.image?.priority
-													}
 													alt={
 														testimonials[testimony]?.mainImage?.alt ??
 														`testimonial-source-profile-image${testimony}`

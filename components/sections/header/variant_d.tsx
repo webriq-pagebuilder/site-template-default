@@ -61,7 +61,6 @@ function VariantD({
 										height={700}
 										sizes="100vw"
 										style={{ objectFit: "contain" }}
-										priority={mainImage?.image?.priority}
 										alt={mainImage?.alt ?? "header-main-image"}
 									/>
 								</div>

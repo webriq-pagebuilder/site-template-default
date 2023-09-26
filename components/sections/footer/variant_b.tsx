@@ -27,7 +27,6 @@ function VariantB({ logo, copyright, socialMedia, menu }: FooterProps) {
 										src={urlFor(logo?.image)}
 										width={132}
 										height={56}
-										priority={logo?.image?.priority}
 										alt={logo?.alt ?? "footer-logo"}
 									/>
 								</Link>
@@ -124,9 +123,6 @@ function VariantB({ logo, copyright, socialMedia, menu }: FooterProps) {
 															src={urlFor(social?.socialMediaIcon?.image)}
 															width={24}
 															height={24}
-															priority={
-																social?.socialMediaIcon?.image?.priority
-															}
 															alt={
 																social?.socialMediaIcon?.alt ??
 																"footer-socialMedia-icon"

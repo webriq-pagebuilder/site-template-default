@@ -29,7 +29,6 @@ function VariantD({ caption, title, features }: FeaturesProps) {
 												src={urlFor(feature?.mainImage?.image)}
 												width={40}
 												height={40}
-												priority={feature?.mainImage?.image?.priority}
 												alt={
 													feature?.mainImage?.alt ?? `features-image-${index}`
 												}

@@ -30,7 +30,6 @@ function VariantB({ logo, title, description, form }: NewsletterProps) {
 											width={40}
 											height={40}
 											quality={100}
-											priority={logo?.image?.priority}
 											alt={logo?.alt ?? "newsletter-logo"}
 										/>
 									</Link>

@@ -89,7 +89,6 @@ function VariantB({
 														images?.[currentPosition]?.alt ??
 														`appPromo-variantB-image${currentPosition}`
 													}
-													priority={images?.[currentPosition]?.image?.priority}
 												/>
 											)}
 										</div>
@@ -121,7 +120,6 @@ function VariantB({
 												sizes="100vw"
 												width={500}
 												height={850}
-												priority={images?.[currentPosition]?.image?.priority}
 												alt={
 													images?.[currentPosition]?.alt ??
 													`appPromo-variantB-image${currentPosition}`

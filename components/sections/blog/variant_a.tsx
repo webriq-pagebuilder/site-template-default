@@ -36,7 +36,6 @@ function VariantA({ subtitle, title, posts, primaryButton }: BlogProps) {
 													className="relative h-full w-full overflow-hidden rounded object-cover"
 													src={urlFor(post?.mainImage)}
 													alt={`blog-variantA-image-${key}`}
-													priority={post?.mainImage?.priority}
 													sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
 													fill
 												/>
@@ -86,7 +85,6 @@ function VariantA({ subtitle, title, posts, primaryButton }: BlogProps) {
 													className="relative h-full w-full overflow-hidden rounded object-cover"
 													src={urlFor(post?.mainImage)}
 													alt={`blog-variantA-image-${key}`}
-													priority={post?.mainImage?.priority}
 													sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
 													fill
 												/>
@@ -137,7 +135,6 @@ function VariantA({ subtitle, title, posts, primaryButton }: BlogProps) {
 													className="relative h-full w-full overflow-hidden rounded object-cover"
 													src={urlFor(post?.mainImage)}
 													alt={`blog-variantA-image-${key}`}
-													priority={post?.mainImage?.priority}
 													sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
 													fill
 												/>
@@ -186,7 +183,6 @@ function VariantA({ subtitle, title, posts, primaryButton }: BlogProps) {
 													className="relative h-full w-full overflow-hidden rounded object-cover"
 													src={urlFor(post?.mainImage)}
 													alt={`blog-variantA-image-${key}`}
-													priority={post?.mainImage?.priority}
 													sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
 													fill
 												/>

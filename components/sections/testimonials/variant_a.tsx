@@ -25,9 +25,6 @@ function VariantA({ testimonials }: TestimonialProps) {
 											sizes="100vw"
 											width={128}
 											height={128}
-											priority={
-												testimonials?.[testimony]?.mainImage?.image?.priority
-											}
 											alt={
 												testimonials?.[testimony]?.mainImage?.alt ??
 												`testimonial-source-${testimonials?.[testimony]?.name}-profile-image`

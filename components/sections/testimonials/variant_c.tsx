@@ -93,7 +93,6 @@ function VariantC({ caption, title, testimonials }: TestimonialProps) {
 												sizes="100vw"
 												width={128}
 												height={128}
-												priority={item?.mainImage?.image?.priority}
 												alt={
 													item?.mainImage?.alt ??
 													`testimonial-source-${item?.name}-profile-image`

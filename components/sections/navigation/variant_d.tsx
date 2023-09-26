@@ -64,7 +64,6 @@ function VariantD({
 									width={48}
 									height={48}
 									quality={100}
-									priority={logo?.image?.priority}
 									alt={logo?.alt ?? "navigation-logo"}
 								/>
 							</Link>

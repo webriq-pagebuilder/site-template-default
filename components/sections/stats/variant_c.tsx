@@ -18,7 +18,6 @@ function VariantC({ stats }: StatsProps) {
 											width={24}
 											height={24}
 											quality={100}
-											priority={stat?.mainImage?.image?.priority}
 											alt={stat?.mainImage?.alt ?? "statistics-icon"}
 										/>
 									</div>

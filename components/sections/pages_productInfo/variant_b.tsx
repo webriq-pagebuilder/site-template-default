@@ -41,9 +41,6 @@ function VariantB({ products }: PagesProductInfoProps) {
 													style={{
 														objectFit: "cover",
 													}}
-													priority={
-														products?.productInfo?.images?.[0]?.image?.priority
-													}
 													alt={
 														products?.productInfo?.images?.[0]?.alt ??
 														"product-info-main-image"
@@ -120,9 +117,6 @@ function VariantB({ products }: PagesProductInfoProps) {
 																	width={32}
 																	height={32}
 																	quality={100}
-																	priority={
-																		social?.socialMediaIcon?.image?.priority
-																	}
 																	alt={
 																		social?.socialMediaIcon?.alt ??
 																		"contact-socialMedia-icon"

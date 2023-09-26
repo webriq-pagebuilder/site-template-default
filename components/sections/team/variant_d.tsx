@@ -31,7 +31,6 @@ function VariantD({ caption, title, team }: TeamsProps) {
 													src={urlFor(member?.mainImage?.image)}
 													width={179}
 													height={320}
-													priority={member?.mainImage?.image?.priority}
 													alt={
 														member?.mainImage?.alt ??
 														`team-member-${member?.name}-profile-image`

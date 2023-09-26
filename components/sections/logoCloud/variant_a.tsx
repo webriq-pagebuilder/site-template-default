@@ -21,7 +21,6 @@ function VariantA({ title, images }: LogoCloudProps) {
 											src={urlFor(image?.image)}
 											width={192}
 											height={192}
-											priority={image?.image?.priority}
 											alt={image?.alt ?? `logoCloud-image${index}`}
 										/>
 									</div>

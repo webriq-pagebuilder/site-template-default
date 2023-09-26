@@ -111,7 +111,6 @@ function VariantH({ caption, title, features, images }: FeaturesProps) {
 											src={urlFor(images?.[0]?.image)}
 											width={640}
 											height={800}
-											priority={images?.[0]?.image?.priority}
 											alt={images?.[0]?.alt ?? "features-image-1"}
 										/>
 									)}
@@ -121,7 +120,6 @@ function VariantH({ caption, title, features, images }: FeaturesProps) {
 											src={urlFor(images?.[1]?.image)}
 											width={640}
 											height={800}
-											priority={images?.[1]?.image?.priority}
 											alt={images?.[1]?.alt ?? "features-image-2"}
 										/>
 									)}
@@ -132,7 +130,6 @@ function VariantH({ caption, title, features, images }: FeaturesProps) {
 										src={urlFor(images?.[2]?.image)}
 										width={640}
 										height={800}
-										priority={images?.[2]?.image?.priority}
 										alt={images?.[2]?.alt ?? "features-image-3"}
 									/>
 								)}

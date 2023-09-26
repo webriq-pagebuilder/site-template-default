@@ -69,7 +69,6 @@ function VariantB({
 											src={urlFor(images?.[0]?.image)}
 											width={941}
 											height={734}
-											priority={images?.[0]?.image?.priority}
 											alt={images?.[0]?.alt ?? "header-image-1"}
 										/>
 									)}
@@ -80,7 +79,6 @@ function VariantB({
 											src={urlFor(images?.[1]?.image)}
 											width={1050}
 											height={701}
-											priority={images?.[1]?.image?.priority}
 											alt={images?.[1]?.alt ?? "header-image-2"}
 										/>
 									)}
@@ -93,7 +91,6 @@ function VariantB({
 											src={urlFor(images?.[2]?.image)}
 											width={1050}
 											height={701}
-											priority={images?.[2]?.image?.priority}
 											alt={images?.[2]?.alt ?? "header-image-3"}
 										/>
 									)}
@@ -104,7 +101,6 @@ function VariantB({
 											src={urlFor(images?.[3]?.image)}
 											width={941}
 											height={734}
-											priority={images?.[3]?.image?.priority}
 											alt={images?.[3]?.alt ?? "header-image-4"}
 										/>
 									)}

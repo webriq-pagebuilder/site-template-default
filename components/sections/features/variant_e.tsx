@@ -52,7 +52,6 @@ function VariantE({ featuredItems }: FeaturesProps) {
 										sizes="100vw"
 										width={896}
 										height={575}
-										priority={featuredItems?.[item]?.mainImage?.image?.priority}
 										alt={
 											featuredItems?.[item]?.mainImage?.alt ??
 											`features-image-${item}`

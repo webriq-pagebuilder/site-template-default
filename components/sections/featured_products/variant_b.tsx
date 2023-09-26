@@ -52,10 +52,6 @@ function VariantB({ title, featured }: FeaturedProductsProps) {
 															sizes="100vw"
 															width={294}
 															height={320}
-															priority={
-																product?.productInfo?.images?.[0]?.image
-																	?.priority
-															}
 															src={urlFor(
 																product?.productInfo?.images?.[0]?.image
 															)}

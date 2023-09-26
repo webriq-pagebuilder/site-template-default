@@ -35,7 +35,6 @@ function VariantB({ logo, title, text, form }: CTAProps) {
 									width={56}
 									height={56}
 									alt={logo?.alt ?? "callToAction-logo"}
-									priority={logo?.image?.priority}
 								/>
 							</Link>
 						)}

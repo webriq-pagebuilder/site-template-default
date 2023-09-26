@@ -138,7 +138,6 @@ function VariantD({ subtitle, title, posts }: BlogProps) {
 															sizes="100vw"
 															width={188}
 															height={129}
-															priority={post?.mainImage?.priority}
 															alt={`blog-variantD-image-${index}`}
 														/>
 													)}
@@ -202,7 +201,6 @@ function VariantD({ subtitle, title, posts }: BlogProps) {
 															sizes="100vw"
 															width={188}
 															height={129}
-															priority={post?.mainImage?.priority}
 															alt={`blog-variantD-image-${index}`}
 														/>
 													)}

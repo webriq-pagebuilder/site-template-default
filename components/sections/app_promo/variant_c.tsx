@@ -58,7 +58,6 @@ function VariantC({
 										sizes="100vw"
 										width={500}
 										height={850}
-										priority={images?.[0]?.image?.priority}
 										alt={images[0]?.alt ?? "appPromo-variantC-image1"}
 									/>
 								)}
@@ -73,7 +72,6 @@ function VariantC({
 											sizes="100vw"
 											width={500}
 											height={850}
-											priority={images?.image?.priority}
 											alt={images[1]?.alt ?? `appPromo-variantC-image${index}`}
 											key={index}
 										/>
@@ -87,7 +85,6 @@ function VariantC({
 										sizes="100vw"
 										width={500}
 										height={850}
-										priority={images?.[3]?.image?.priority}
 										alt={images[3]?.alt ?? "appPromo-variantC-image4"}
 									/>
 								)}

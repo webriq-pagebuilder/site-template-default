@@ -63,7 +63,6 @@ function VariantD({ caption, title, portfoliosWithCategory }: PortfolioProps) {
 													sizes="100vw"
 													width={352}
 													height={280}
-													priority={content?.mainImage?.image?.priority}
 													alt={`portfolio-image-${content?._key}`}
 												/>
 												<div className="absolute inset-0 z-10 justify-center rounded-lg bg-gray-900 p-6 opacity-0 duration-300 hover:opacity-80">
@@ -107,7 +106,6 @@ function VariantD({ caption, title, portfoliosWithCategory }: PortfolioProps) {
 													sizes="100vw"
 													width={352}
 													height={256}
-													priority={content?.mainImage?.image?.priority}
 													alt={`portfolio-image-${content?._key}`}
 												/>
 												<div className="absolute inset-0 z-10 h-full justify-center rounded-lg bg-gray-900 p-6 opacity-0 duration-300 hover:opacity-80">
@@ -153,7 +151,6 @@ function VariantD({ caption, title, portfoliosWithCategory }: PortfolioProps) {
 													sizes="100vw"
 													width={352}
 													height={256}
-													priority={content?.mainImage?.image?.priority}
 													alt={`portfolio-image-${content?._key}`}
 												/>
 												<div className="absolute inset-0 z-10 h-full justify-center rounded-lg bg-gray-900 p-6 opacity-0 duration-300 hover:opacity-80 ">
@@ -198,7 +195,6 @@ function VariantD({ caption, title, portfoliosWithCategory }: PortfolioProps) {
 														width={352}
 														height={280}
 														sizes="100vw"
-														priority={content?.mainImage?.image?.priority}
 														alt={`portfolio-image${content?._key}`}
 													/>
 													<div className="absolute inset-0 z-10 h-full justify-center rounded-lg bg-gray-900 p-6 opacity-0 duration-300 hover:opacity-80 ">

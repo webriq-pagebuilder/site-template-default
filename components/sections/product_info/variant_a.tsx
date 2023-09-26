@@ -143,7 +143,6 @@ function VariantA({
 													fill
 													quality={100}
 													src={urlFor(item?.image)}
-													priority={item?.image?.priority}
 													style={{
 														objectFit: "cover",
 														objectPosition: "center",
@@ -178,7 +177,6 @@ function VariantA({
 												width={170}
 												height={128}
 												src={urlFor(item?.image)}
-												priority={item?.image?.priority}
 												alt={item?.alt ?? `product-image-${index + 1}`}
 											/>
 										)}
@@ -351,9 +349,6 @@ function VariantA({
 																width={32}
 																height={32}
 																quality={100}
-																priority={
-																	social?.socialMediaIcon?.image?.priority
-																}
 																alt={
 																	social?.socialMediaIcon?.alt ??
 																	"contact-socialMedia-icon"
@@ -401,7 +396,6 @@ function VariantA({
 														width={250}
 														height={128}
 														src={urlFor(item?.image)}
-														priority={item?.image?.priority}
 														alt={item?.alt ?? `product-image-${index + 1}`}
 													/>
 												)}

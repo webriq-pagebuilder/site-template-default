@@ -32,7 +32,6 @@ function VariantC({ title, images, button }: LogoCloudProps) {
 								sizes="100vw"
 								width={64}
 								height={64}
-								priority={images?.[0]?.image?.priority}
 								alt={images[0]?.alt ?? "logoCloud-image-1"}
 							/>
 						</div>
@@ -45,7 +44,6 @@ function VariantC({ title, images, button }: LogoCloudProps) {
 								sizes="100vw"
 								width={64}
 								height={64}
-								priority={images?.[1]?.image?.priority}
 								alt={images[1]?.alt ?? "logoCloud-image-2"}
 							/>
 						</div>
@@ -60,7 +58,6 @@ function VariantC({ title, images, button }: LogoCloudProps) {
 								sizes="100vw"
 								width={96}
 								height={96}
-								priority={images?.[2]?.image?.priority}
 								alt={images[2]?.alt ?? "logoCloud-image-3"}
 							/>
 						</div>
@@ -76,7 +73,6 @@ function VariantC({ title, images, button }: LogoCloudProps) {
 								width={96}
 								height={96}
 								style={{ objectFit: "scale-down" }}
-								priority={images?.[3]?.image?.priority}
 								alt={images[3]?.alt ?? "logoCloud-image-4"}
 							/>
 						</div>
@@ -91,7 +87,6 @@ function VariantC({ title, images, button }: LogoCloudProps) {
 								sizes="100vw"
 								width={64}
 								height={64}
-								priority={images?.[4]?.image?.priority}
 								alt={images[4]?.alt ?? "logoCloud-image-5"}
 							/>
 						</div>
@@ -106,7 +101,6 @@ function VariantC({ title, images, button }: LogoCloudProps) {
 								sizes="100vw"
 								width={64}
 								height={64}
-								priority={images?.[5]?.image?.priority}
 								alt={images[5]?.alt ?? "logoCloud-image-6"}
 							/>
 						</div>
@@ -123,7 +117,6 @@ function VariantC({ title, images, button }: LogoCloudProps) {
 								sizes="100vw"
 								width={64}
 								height={64}
-								priority={images?.image?.priority}
 								alt={images?.alt ?? `logoCloud-image-${index}`}
 							/>
 						</div>

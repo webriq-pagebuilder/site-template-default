@@ -59,10 +59,6 @@ function VariantA({ title, featured }: FeaturedProductsProps) {
 															src={urlFor(
 																product?.productInfo?.images?.[0]?.image
 															)}
-															priority={
-																product?.productInfo?.images?.[0]?.image
-																	?.priority
-															}
 															alt={
 																product?.productInfo?.images?.[0]?.alt ??
 																`product-image-${index}`
