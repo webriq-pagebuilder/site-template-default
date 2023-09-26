@@ -31,7 +31,7 @@ function VariantE({
 							<div className="flex border-t border-gray-700 text-center">
 								{denyCookieBtn && (
 									<button
-										aria-label="Deny Cookies button"
+										aria-label={denyCookieBtn}
 										type="button"
 										className="inline-block w-1/2 rounded-bl-lg border-r border-gray-700 py-4 text-sm font-bold transition duration-200 hover:bg-gray-700"
 										onClick={() => {
@@ -43,7 +43,7 @@ function VariantE({
 								)}
 								{allowCookieBtn && (
 									<button
-										aria-label="Allow Cookies button"
+										aria-label={allowCookieBtn}
 										type="button"
 										className="inline-block w-1/2 rounded-br-lg py-4 text-sm font-bold text-webriq-lightblue transition duration-200 hover:bg-webriq-babyblue"
 										onClick={() => {

@@ -36,7 +36,6 @@ function VariantA({ subtitle, title, posts, primaryButton }: BlogProps) {
 													className="relative h-full w-full overflow-hidden rounded object-cover"
 													src={urlFor(post?.mainImage)}
 													alt={`blog-variantA-image-${key}`}
-													sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
 													fill
 												/>
 											)}
@@ -63,7 +62,7 @@ function VariantA({ subtitle, title, posts, primaryButton }: BlogProps) {
 												)}
 												{post?.title && (
 													<Link
-														aria-label={`blog post ${key}`}
+														aria-label={post?.title}
 														className="transform text-xl font-bold text-white hover:scale-110 hover:text-webriq-babyblue motion-reduce:transform-none lg:text-2xl"
 														href={
 															`/${post?.slug?.current}` ?? "/page-not-found"
@@ -85,7 +84,6 @@ function VariantA({ subtitle, title, posts, primaryButton }: BlogProps) {
 													className="relative h-full w-full overflow-hidden rounded object-cover"
 													src={urlFor(post?.mainImage)}
 													alt={`blog-variantA-image-${key}`}
-													sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
 													fill
 												/>
 											)}
@@ -135,7 +133,6 @@ function VariantA({ subtitle, title, posts, primaryButton }: BlogProps) {
 													className="relative h-full w-full overflow-hidden rounded object-cover"
 													src={urlFor(post?.mainImage)}
 													alt={`blog-variantA-image-${key}`}
-													sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
 													fill
 												/>
 											)}
@@ -183,7 +180,6 @@ function VariantA({ subtitle, title, posts, primaryButton }: BlogProps) {
 													className="relative h-full w-full overflow-hidden rounded object-cover"
 													src={urlFor(post?.mainImage)}
 													alt={`blog-variantA-image-${key}`}
-													sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
 													fill
 												/>
 											)}

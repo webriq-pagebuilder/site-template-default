@@ -55,7 +55,7 @@ function VariantB({ logo, title, text, form }: CTAProps) {
 									?.map((field) => (
 										<input
 											key={field?._key}
-											aria-label={`Input ${field?.type}`}
+											aria-label={field?.placeholder ?? field?.name}
 											className="mb-3 w-full rounded bg-white px-4 py-2 leading-loose md:mb-0 md:mr-4 md:w-auto"
 											type={
 												field?.type === "inputEmail"

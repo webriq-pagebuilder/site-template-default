@@ -33,7 +33,7 @@ function VariantD({ caption, title, portfoliosWithCategory }: PortfolioProps) {
 							<div className="inline-flex flex-wrap rounded bg-white py-1 text-sm">
 								{portfoliosWithCategory?.map((content, index) => (
 									<button
-										aria-label={`Portfolios ${content?.category} tab`}
+										aria-label={content?.category}
 										key={index}
 										onClick={() => setActiveTab(content?.category)}
 										className={`mx-auto mb-1 w-auto px-4 py-2 ${

@@ -157,7 +157,7 @@ function FormFields({ fields }: { fields: FormFields }) {
 	if (fields?.type === "textarea") {
 		return (
 			<textarea
-				aria-label={`${fields?.name} text area`}
+				aria-label={fields?.name}
 				className="mb-3 w-full rounded bg-gray-100 p-4 text-xs outline-none"
 				placeholder={fields?.name}
 				name={fields?.name}
@@ -169,7 +169,7 @@ function FormFields({ fields }: { fields: FormFields }) {
 			<div className="mb-4">
 				<label className="flex rounded bg-gray-100 px-2">
 					<input
-						aria-label="Add file"
+						aria-label="Choose file.."
 						className="w-full rounded bg-gray-100 p-4 text-xs outline-none"
 						type="file"
 						placeholder="Choose file.."
@@ -183,7 +183,7 @@ function FormFields({ fields }: { fields: FormFields }) {
 		return (
 			<div className="mb-4 flex rounded bg-gray-100 p-4">
 				<input
-					aria-label={fields?.type}
+					aria-label={fields?.name}
 					className="w-full bg-gray-100 text-xs outline-none"
 					type={showPassword ? "text" : "password"}
 					placeholder={fields?.placeholder}
@@ -253,8 +253,9 @@ function FormFields({ fields }: { fields: FormFields }) {
 					{fields?.label}
 				</label>
 				<select
+					aria-label={fields?.name}
 					className="w-full rounded bg-gray-100 p-3 text-xs outline-none"
-					name={`header-${fields?.name}`}
+					name={fields?.name}
 					defaultValue={"default-value"}
 					required={fields?.isRequired}>
 					<option value=""></option>

@@ -191,7 +191,9 @@ function VariantA({
 												{formFields?.type === "textarea" ? (
 													<div className="mb-4">
 														<textarea
-															aria-label={`${formFields?.name} text area`}
+															aria-label={
+																formFields?.placeholder ?? formFields?.name
+															}
 															className="h-24 w-full resize-none rounded bg-white p-4 text-xs font-semibold leading-none outline-none"
 															placeholder={formFields?.placeholder}
 															name={formFields?.name}
@@ -202,7 +204,9 @@ function VariantA({
 													<div className="mb-4">
 														<label className="flex rounded bg-white px-2">
 															<input
-																aria-label="Add file"
+																aria-label={
+																	formFields?.name ?? "Choose file..."
+																}
 																className="absolute opacity-0"
 																type="file"
 																placeholder="Choose file.."
@@ -220,7 +224,9 @@ function VariantA({
 													</div>
 												) : formFields.type === "inputNumber" ? (
 													<input
-														aria-label={formFields?.name}
+														aria-label={
+															formFields?.placeholder ?? formFields?.name
+														}
 														className="mb-4 w-full rounded bg-white p-4 text-xs font-semibold leading-none outline-none"
 														type="number"
 														placeholder={formFields?.placeholder}
@@ -235,6 +241,7 @@ function VariantA({
 															{formFields?.label}
 														</label>
 														<select
+															aria-label={`contact-${formFields?.name}`}
 															className="w-full rounded bg-white p-3 text-xs font-semibold text-gray-500 outline-none"
 															name={`contact-${formFields?.name}`}
 															defaultValue={"default-value"}
@@ -307,11 +314,9 @@ function VariantA({
 												) : (
 													<div className="mb-4">
 														<input
-															aria-label={`${
-																formFields?.type === "inputText"
-																	? `Input ${formFields?.name}`
-																	: `${formFields?.type}`
-															}`}
+															aria-label={
+																formFields?.placeholder ?? formFields?.name
+															}
 															className="w-full rounded bg-white p-4 text-xs font-semibold leading-none outline-none"
 															type={
 																formFields?.type === "inputEmail"

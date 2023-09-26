@@ -33,7 +33,7 @@ function VariantB({
 									<div className="w-full px-4 lg:w-1/4 lg:text-right">
 										{allowCookieBtn && (
 											<button
-												aria-label="Allow Cookies button"
+												aria-label={allowCookieBtn}
 												type="button"
 												className="m-2 inline-block rounded-l-xl rounded-t-xl border-2 border-webriq-darkblue bg-webriq-darkblue px-4 py-2 transition duration-500 hover:border-webriq-blue hover:bg-webriq-blue"
 												onClick={() => {
@@ -45,7 +45,7 @@ function VariantB({
 										)}
 										{denyCookieBtn && (
 											<button
-												aria-label="Deny Cookies button"
+												aria-label={denyCookieBtn}
 												type="button"
 												className="m-2 inline-block rounded-r-xl rounded-t-xl border-2 border-gray-400 px-4 py-2 transition duration-500 hover:bg-gray-700"
 												onClick={() => {

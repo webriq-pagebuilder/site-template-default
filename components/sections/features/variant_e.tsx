@@ -25,7 +25,7 @@ function VariantE({ featuredItems }: FeaturesProps) {
 						<div className="order-0 absolute left-0 z-40 -mx-3 mt-20 items-center md:mt-40 lg:mt-60 xl:-mx-6 xl:flex">
 							{featuredItems?.length >= 2 && (
 								<button
-									aria-label="Show Previous Feature button"
+									aria-label="Show Previous Feature"
 									className="z-10 rounded-l-xl rounded-t-xl bg-webriq-blue p-4 text-white hover:bg-webriq-darkblue focus:outline-none"
 									onClick={() => slider("prev")}>
 									<svg
@@ -76,7 +76,7 @@ function VariantE({ featuredItems }: FeaturesProps) {
 						<div className="absolute right-0 order-2 -mx-3 mt-20 items-center md:mt-40 lg:mt-60 xl:-mx-6 xl:flex">
 							{featuredItems?.length >= 2 && (
 								<button
-									aria-label="Show Next Feature button"
+									aria-label="Show Next Feature"
 									className="rounded-r-xl rounded-t-xl bg-webriq-blue p-4 text-white hover:bg-webriq-darkblue focus:outline-none"
 									onClick={() => slider("next")}>
 									<svg

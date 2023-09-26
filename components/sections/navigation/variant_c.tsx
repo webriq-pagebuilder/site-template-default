@@ -89,7 +89,7 @@ function VariantC({
 					</div>
 					<div className="ml-auto lg:hidden">
 						<button
-							aria-label="Navbar Menu button"
+							aria-label="Navigation menu"
 							className="navbar-burger flex items-center p-3 text-webriq-darkblue"
 							onClick={showMenu}>
 							<svg
@@ -110,7 +110,7 @@ function VariantC({
 				<nav className="fixed bottom-0 left-0 top-0 flex w-5/6 max-w-sm flex-col overflow-y-auto border-r bg-white px-6 py-6">
 					<div className="mb-8 flex items-center">
 						<button
-							aria-label="Navbar Menu button"
+							aria-label="Navigation menu"
 							className="navbar-close"
 							onClick={showMenu}>
 							<svg

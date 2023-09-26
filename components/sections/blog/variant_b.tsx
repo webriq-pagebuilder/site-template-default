@@ -65,7 +65,7 @@ function VariantB({ subtitle, title, posts, primaryButton }: BlogProps) {
 											)}
 											{post?.slug?.current && (
 												<Link
-													aria-label={`Go to ${post?.slug?.current} blog page`}
+													aria-label="View Blog Post"
 													className="font-bold text-webriq-darkblue hover:text-webriq-babyblue"
 													href={`/${post?.slug?.current}` ?? "/page-not-found"}>
 													View Blog Post
@@ -110,7 +110,7 @@ function VariantB({ subtitle, title, posts, primaryButton }: BlogProps) {
 												)}
 												{post?.slug?.current && (
 													<Link
-														aria-label={`Go to ${post?.slug?.current} blog page`}
+														aria-label="View Blog Post"
 														className="font-bold text-webriq-darkblue hover:text-webriq-babyblue"
 														href={
 															`/${post?.slug?.current}` ?? "/page-not-found"

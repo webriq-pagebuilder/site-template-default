@@ -37,7 +37,7 @@ function VariantB({ subtitle, title, faqsWithCategories }: FAQProps) {
 						<div className="flex flex-wrap px-4 text-center text-base lg:-mx-4 lg:space-x-4 lg:text-xl">
 							{updatedFAQArray?.map((tab, index) => (
 								<button
-									aria-label={`Frequently Asked Questions ${tab?.category} tab`}
+									aria-label={tab?.category}
 									key={index}
 									onClick={() => setTabPane(tab?.category)}
 									className={
@@ -59,7 +59,7 @@ function VariantB({ subtitle, title, faqsWithCategories }: FAQProps) {
 								?.askedQuestions?.map((content, index) => (
 									<li className="border-b py-12 pr-4" key={index}>
 										<button
-											aria-label={`Show Question-${index} Answer`}
+											aria-label={content?.question}
 											className="font-heading flex w-full items-center justify-between text-left font-bold hover:text-gray-600 focus:outline-none"
 											onClick={() => toggleView(index)}>
 											<span className="w-3/4 text-xs lg:text-xl xl:text-xl 2xl:text-xl">

@@ -238,7 +238,7 @@ function VariantD({
 										{field.pricingType === "textarea" ? (
 											<div className="mb-4">
 												<textarea
-													aria-label={`${field?.name} text area`}
+													aria-label={field?.placeholder ?? field?.name}
 													className="h-24 w-full resize-none rounded bg-gray-50 p-4 text-xs font-semibold leading-none outline-none"
 													placeholder={field?.placeholder}
 													name={field?.name}
@@ -249,7 +249,7 @@ function VariantD({
 											<div className="mb-4">
 												<label className="flex rounded bg-white px-2">
 													<input
-														aria-label="Add file"
+														aria-label="Choose file.."
 														className="hidden"
 														type="file"
 														placeholder="Choose file.."
@@ -279,7 +279,7 @@ function VariantD({
 										) : field.pricingType === "inputNumber" ? (
 											<div className="mb-4">
 												<input
-													aria-label={field?.name}
+													aria-label={field?.placeholder ?? field?.name}
 													className="w-full rounded bg-gray-50 p-4 text-xs font-semibold leading-none outline-none"
 													type="number"
 													placeholder={field?.placeholder}
@@ -290,7 +290,7 @@ function VariantD({
 										) : field.pricingType === "inputPassword" ? (
 											<div className="mb-4 flex rounded bg-gray-50">
 												<input
-													aria-label={field?.type}
+													aria-label={field?.placeholder ?? field?.name}
 													className="w-full rounded bg-gray-50 p-4 text-xs font-semibold leading-none outline-none"
 													type={showPassword ? "text" : "password"}
 													placeholder={field?.placeholder}

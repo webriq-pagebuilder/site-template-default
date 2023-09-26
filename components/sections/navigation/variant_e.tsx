@@ -150,7 +150,7 @@ function VariantE({ banner, logo, links }: NavigationProps) {
 					<div className="mr-12 hidden items-center justify-end xl:flex">
 						{/* Search button */}
 						<button
-							aria-label="search button"
+							aria-label="Search button"
 							type="button"
 							onClick={() => setShowSearchBar(!showSearchBar)}>
 							<svg
@@ -173,7 +173,7 @@ function VariantE({ banner, logo, links }: NavigationProps) {
 								<input
 									id="query"
 									name="query"
-									aria-label="Search product"
+									aria-label="Search..."
 									className="mt-1 inline-block h-full w-40 border border-slate-300 bg-white p-2 text-sm placeholder-slate-400 shadow-sm focus:border-webriq-blue focus:outline-none focus:ring-1 focus:ring-webriq-blue"
 									placeholder="Search..."
 									onChange={(e) => setProductQuery(e.target.value)}
@@ -208,7 +208,7 @@ function VariantE({ banner, logo, links }: NavigationProps) {
 							<a
 								className="cart-link"
 								href="/cart?store-page=cart"
-								aria-label="cart button"
+								aria-label="Cart"
 							/>
 						</div>
 						{/* Account */}
@@ -281,7 +281,7 @@ function VariantE({ banner, logo, links }: NavigationProps) {
 								</Link>
 							)}
 							<button
-								aria-label="Navbar Close button"
+								aria-label="Close navigation menu"
 								className="ml-auto"
 								onClick={showMenu}>
 								<svg
@@ -361,7 +361,7 @@ function VariantE({ banner, logo, links }: NavigationProps) {
 							{/* Cart */}
 							<a
 								className="cart-icon cart-link mr-10 flex"
-								aria-label="cart button"
+								aria-label="Cart"
 								href="/cart?store-page=cart">
 								<div data-icon="BAG" className="ec-cart-widget" />
 								<span className="my-auto text-sm">Cart</span>
@@ -369,7 +369,7 @@ function VariantE({ banner, logo, links }: NavigationProps) {
 							{/* Account */}
 							<a
 								className="flex"
-								aria-label="account"
+								aria-label="Account"
 								href="/cart?store-page=account">
 								<svg
 									width={32}

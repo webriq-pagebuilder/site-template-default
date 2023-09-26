@@ -115,7 +115,7 @@ function FormFields({ fields }: { fields: FormFields }) {
 	if (fields?.type === "textarea") {
 		return (
 			<textarea
-				aria-label={`${fields?.name} text area`}
+				aria-label={fields?.placeholder ?? fields?.name}
 				className="w-full rounded bg-gray-100 p-4 text-xs outline-none"
 				placeholder={fields?.placeholder}
 				name={fields?.name}
@@ -126,7 +126,7 @@ function FormFields({ fields }: { fields: FormFields }) {
 		return (
 			<label className="flex rounded bg-gray-100 px-2">
 				<input
-					aria-label={fields?.name}
+					aria-label={fields?.placeholder ?? fields?.name}
 					className="w-full rounded bg-gray-100 p-4 text-xs outline-none"
 					type="file"
 					placeholder="Choose file.."
@@ -138,7 +138,7 @@ function FormFields({ fields }: { fields: FormFields }) {
 	} else if (fields?.type === "inputNumber") {
 		return (
 			<input
-				aria-label={fields?.name}
+				aria-label={fields?.placeholder ?? fields?.name}
 				className="w-full rounded bg-gray-100 p-4 text-xs outline-none"
 				type="number"
 				placeholder={fields?.placeholder}
@@ -155,6 +155,7 @@ function FormFields({ fields }: { fields: FormFields }) {
 					{fields?.label}
 				</label>
 				<select
+					aria-label={fields?.name}
 					className="w-full rounded bg-gray-100 p-3 text-xs outline-none"
 					name={`cta-${fields?.name}`}
 					defaultValue={"default-value"}
@@ -225,11 +226,7 @@ function FormFields({ fields }: { fields: FormFields }) {
 	} else {
 		return (
 			<input
-				aria-label={`${
-					fields?.type === "inputText"
-						? `Input ${fields?.name}`
-						: `${fields?.type}`
-				}`}
+				aria-label={fields?.placeholder ?? fields?.name}
 				className="w-full rounded bg-gray-100 p-4 text-xs outline-none"
 				type={
 					fields?.type === "inputEmail"

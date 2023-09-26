@@ -46,11 +46,7 @@ function VariantA({ logo, title, description, form }: NewsletterProps) {
 								scriptsrc="https://pagebuilderforms.webriq.com/js/initReactForms">
 								<div className="mx-auto flex max-w-md flex-wrap items-center">
 									<input
-										aria-label={`${
-											fields[0]?.type === "inputText"
-												? `Input ${fields[0]?.name}`
-												: `${fields[0]?.type}`
-										}`}
+										aria-label={fields[0]?.placeholder ?? fields[0]?.name}
 										className="mr-4 flex-grow rounded px-4 py-3 text-xs leading-loose border border-slate-300"
 										type={
 											fields[0].type === "inputEmail"

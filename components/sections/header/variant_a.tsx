@@ -71,6 +71,7 @@ function VariantA({
 											width={448}
 											height={448}
 											alt={mainImage?.alt ?? "header-main-image"}
+											priority={true}
 										/>
 									)}
 									<div

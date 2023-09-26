@@ -33,9 +33,7 @@ function VariantA({ subtitle, title, faqs }: FAQProps) {
 				{items?.map((faq, index) => (
 					<li className="rounded bg-gray-50 p-6 shadow" key={index}>
 						<button
-							aria-label={`Show Question-${
-								index + indexOfFirstQuestion
-							} Answer`}
+							aria-label={faq?.question}
 							className="font-heading flex w-full items-center justify-between border-none text-left font-bold hover:text-gray-600 focus:outline-none"
 							onClick={() => toggleView(index + indexOfFirstQuestion)}>
 							<span className="text-xl">{faq?.question}</span>
@@ -83,7 +81,7 @@ function VariantA({ subtitle, title, faqs }: FAQProps) {
 			<div className="mb-16 flex justify-center space-x-4">
 				{pageButtons?.map((buttonNumber) => (
 					<button
-						aria-label={`Page ${buttonNumber} button`}
+						aria-label={`Page ${buttonNumber}`}
 						key={buttonNumber}
 						className="inline-block h-2 w-2 rounded-full bg-webriq-blue"
 						onClick={() => changePage(buttonNumber)}
@@ -108,7 +106,7 @@ function VariantA({ subtitle, title, faqs }: FAQProps) {
 						{updatedFAQArray && updatedFAQArray?.length > 1 && (
 							<form className="flex justify-center">
 								<input
-									aria-label="Enter question keyword to search"
+									aria-label="Search, find any question you want to ask..."
 									className="font-heading w-2/3 rounded-l bg-white p-4 text-xs focus:border-gray-500 focus:outline-none"
 									placeholder="Search, find any question you want to ask..."
 									onChange={(e) => setSearchTerm(e.target.value.toLowerCase())}
