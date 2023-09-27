@@ -2,12 +2,12 @@ import React from "react";
 import { PreviewSuspense } from "next-sanity/preview";
 import { getClient } from "lib/sanity.client";
 import { homeQuery, globalSEOQuery } from "pages/api/query";
-import { filterDataToSingleItem } from "components/list";
-import { PreviewBanner } from "components/PreviewBanner";
 import InlineEditorContextProvider from "context/InlineEditorContext";
 import { CommonPageData, DefaultSeoData } from "types";
 import { Document } from "components/page/Document";
 import { DocumentWithPreview } from "components/page/DocumentWithPreview";
+import { PageComponents } from "../components/PageComponents";
+import { filterDataToSingleItem } from "helper/filterDataToSingleItem";
 
 interface HomeProps {
   data: Data;
@@ -39,7 +39,7 @@ function Home({ data, preview, token, source, defaultSeo }: HomeProps) {
   if (preview) {
     return (
       <>
-        <PreviewBanner />
+        <PageComponents.PreviewBanner />
         <PreviewSuspense fallback="Loading...">
           <InlineEditorContextProvider showInlineEditor={showInlineEditor}>
             <DocumentWithPreview {...{ data, token, defaultSeo }} />

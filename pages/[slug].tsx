@@ -10,12 +10,13 @@ import { PageSections } from "components/page";
 import BlogSections from "components/blog";
 import { PreviewBanner } from "components/PreviewBanner";
 import { PreviewNoContent } from "components/PreviewNoContent";
-import { filterDataToSingleItem, SEO } from "components/list";
+import { SEO } from "components/list";
 import PageNotFound from "pages/404";
 import InlineEditorContextProvider from "context/InlineEditorContext";
 import { GetStaticPaths, GetStaticProps } from "next";
 import { Document } from "components/page/Document";
 import { CommonPageData, BlogsData, DefaultSeoData } from "types";
+import { filterDataToSingleItem } from "helper/filterDataToSingleItem";
 
 interface PageBySlugProps {
   data: Data;
