@@ -34,7 +34,7 @@ function VariantG({
                 )}
                 <ul className="font-bold text-gray-500">
                   {tags &&
-                    tags.map(item => (
+                    tags.map((item) => (
                       <li className="mb-2 flex items-center" key={item}>
                         <svg
                           className="mr-2 h-5 w-5 text-webriq-blue"

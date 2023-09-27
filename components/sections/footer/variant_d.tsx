@@ -1,7 +1,8 @@
 import { urlFor } from "lib/sanity";
 import Link from "next/link";
+import Image from "next/image";
 import React from "react";
-import { logoLink, ConditionalBtnOrLink } from "helper";
+import { logoLink, ConditionalLink } from "helper";
 import { FooterProps } from ".";
 
 function VariantD({
@@ -27,9 +28,12 @@ function VariantD({
                   }
                   href={logoLink(logo)}
                 >
-                  <img
+                  <Image
                     className="h-14"
                     src={urlFor(logo?.image)}
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    width={132}
+                    height={56}
                     alt={logo?.alt ?? "footer-logo"}
                   />
                 </Link>
@@ -49,10 +53,13 @@ function VariantD({
                     <ul className="flex flex-col space-y-2">
                       {menu?.links?.map((link) => (
                         <li key={link?._key}>
-                          <ConditionalBtnOrLink
-                            value={link}
-                            style="text-gray-500 hover:text-gray-700"
-                          />
+                          <ConditionalLink
+                            link={link}
+                            className="text-gray-500 hover:text-gray-700"
+                            ariaLabel={link?.label}
+                          >
+                            {link?.label}
+                          </ConditionalLink>
                         </li>
                       ))}
                     </ul>
@@ -67,7 +74,7 @@ function VariantD({
               {socialMedia?.map(
                 (social) =>
                   social?.socialMediaLink && (
-                    <span>
+                    <span key={social?._key}>
                       <a
                         aria-label={
                           social?.socialMedia || social?.socialMediaPlatform
@@ -117,9 +124,12 @@ function VariantD({
                           </svg>
                         ) : (
                           social?.socialMediaIcon?.image && (
-                            <img
+                            <Image
                               className="h-6"
                               src={urlFor(social?.socialMediaIcon?.image)}
+                              quality={100}
+                              width={24}
+                              height={24}
                               alt={
                                 social?.socialMediaIcon?.alt ??
                                 "contact-socialMedia-icon"

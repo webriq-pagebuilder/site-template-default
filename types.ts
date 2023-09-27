@@ -92,6 +92,7 @@ export interface ConditionalLink {
 }
 
 export interface SanityImage {
+  priority?: boolean | false;
   _type: "image";
   asset: {
     _ref: string;
@@ -185,6 +186,14 @@ export interface Seo {
   seoImage?: SanityImage;
   seoKeywords?: string;
   seoSynonyms?: string;
+}
+
+export interface DefaultSeoData {
+  defaultSeoTitle: string | undefined;
+  defaultSeoSynonyms?: string | undefined;
+  defaultSeoKeywords?: string | undefined;
+  defaultSeoDescription: string | undefined;
+  defaultSeoImage: SanityImage | undefined;
 }
 
 export interface Sections extends SanityBody {

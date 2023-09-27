@@ -1,5 +1,5 @@
 import { deskTool as sanityDesktool } from "sanity/desk";
-import packageJson from "../../package.json"
+import packageJson from "../../package.json";
 
 import { Page } from "./pages";
 import { Store } from "./store";
@@ -14,7 +14,7 @@ export default sanityDesktool({
         Page(S),
         S.divider(),
         Store(S),
-        webriqStudioDeskVersion(S, packageJson)
+        webriqStudioDeskVersion(S, packageJson),
       ]),
   name: "desk",
   title: "Desk",

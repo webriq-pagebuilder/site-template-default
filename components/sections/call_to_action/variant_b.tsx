@@ -1,6 +1,7 @@
 import { urlFor } from "lib/sanity";
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import WebriQForm from "components/webriq-form";
 import { logoLink, thankYouPageLink } from "helper";
 
@@ -31,9 +32,10 @@ function VariantB({ logo, title, text, form }: CTAProps) {
                 className="mb-6 inline-block rounded p-3"
                 href={logoLink(logo)}
               >
-                <img
-                  className="h-14"
+                <Image
                   src={urlFor(logo?.image)}
+                  width={56}
+                  height={56}
                   alt={logo?.alt ?? "callToAction-logo"}
                 />
               </Link>
@@ -47,29 +49,31 @@ function VariantB({ logo, title, text, form }: CTAProps) {
                 method="POST"
                 data-form-id={form?.id}
                 name="Calltoaction-VariantB-Form"
-                className="form-callToAction flex flex-wrap items-center justify-center"
+                className="flex flex-wrap items-center justify-center"
                 data-thankyou-url={thankYouPageLink(form?.thankYouPage)}
                 scriptsrc="https://pagebuilderforms.webriq.com/js/initReactForms"
               >
-                {form?.fields?.slice(0, 2)?.map(field => (
-                  <input
-                    key={field?._key}
-                    aria-label={`Input ${field?.type}`}
-                    className="mb-3 w-full rounded bg-white px-4 py-2 leading-loose md:mb-0 md:mr-4 md:w-auto"
-                    type={
-                      field?.type === "inputEmail"
-                        ? "email"
-                        : field?.type === "inputPassword"
-                        ? "password"
-                        : field?.type === "inputNumber"
-                        ? "number"
-                        : "text"
-                    }
-                    placeholder={field?.placeholder}
-                    name={field?.name}
-                    required={field?.isRequired}
-                  />
-                ))}
+                {form?.fields
+                  ?.slice(0, 2)
+                  ?.map((field) => (
+                    <input
+                      key={field?._key}
+                      aria-label={field?.placeholder ?? field?.name}
+                      className="mb-3 w-full rounded bg-white px-4 py-2 leading-loose md:mb-0 md:mr-4 md:w-auto"
+                      type={
+                        field?.type === "inputEmail"
+                          ? "email"
+                          : field?.type === "inputPassword"
+                          ? "password"
+                          : field?.type === "inputNumber"
+                          ? "number"
+                          : "text"
+                      }
+                      placeholder={field?.placeholder}
+                      name={field?.name}
+                      required={field?.isRequired}
+                    />
+                  ))}
                 <div>
                   <div className="webriq-recaptcha" />
                 </div>

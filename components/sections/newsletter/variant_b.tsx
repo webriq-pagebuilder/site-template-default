@@ -1,6 +1,7 @@
 import React from "react";
 import { urlFor } from "lib/sanity";
 import Link from "next/link";
+import Image from "next/image";
 import WebriQForm from "components/webriq-form";
 import { logoLink, thankYouPageLink } from "helper";
 import { NewsletterProps } from ".";
@@ -25,9 +26,11 @@ function VariantB({ logo, title, description, form }: NewsletterProps) {
                     className="mb-8 inline-block rounded bg-white p-5"
                     href={logoLink(logo)}
                   >
-                    <img
-                      className="h-10"
+                    <Image
                       src={urlFor(logo?.image)}
+                      width={40}
+                      height={40}
+                      quality={100}
                       alt={logo?.alt ?? "newsletter-logo"}
                     />
                   </Link>
@@ -50,12 +53,8 @@ function VariantB({ logo, title, description, form }: NewsletterProps) {
                 >
                   <div className="mx-auto flex max-w-md flex-wrap items-center lg:max-w-sm">
                     <input
-                      aria-label={`${
-                        fields[0]?.type === "inputText"
-                          ? `Input ${fields[0]?.name}`
-                          : `${fields[0]?.type}`
-                      }`}
-                      className="mr-4 flex-grow rounded px-4 py-3 text-xs leading-loose"
+                      aria-label={fields[0]?.placeholder ?? fields[0]?.name}
+                      className="mr-4 flex-grow rounded px-4 py-3 text-xs leading-loose border border-slate-300"
                       type={
                         fields[0].type === "inputEmail"
                           ? "email"

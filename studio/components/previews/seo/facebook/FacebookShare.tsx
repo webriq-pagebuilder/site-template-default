@@ -1,16 +1,10 @@
 /* eslint-disable react/no-unused-prop-types, react/no-multi-comp, react/no-did-mount-set-state, react/forbid-prop-types */
 import React from "react";
-import { useClient } from "sanity";
-import imageUrlBuilder from "@sanity/image-url";
-import { assemblePageUrl } from "./frontendUtils";
-import styles from "styles/studio/seo/FacebookShare.module.css";
+import { assemblePageUrl } from "../frontendUtils";
+import styles from "./FacebookShare.module.css";
+import { urlFor } from "lib/sanity";
 
 function FacebookShare(props) {
-  const client = useClient({ apiVersion: "2021-10-21" });
-  const builder = imageUrlBuilder(client);
-
-  const urlFor = (source) => builder.image(source)?.url();
-
   const { document, width = 500, options, defaultSeo } = props;
   const { title, seo } = document;
   const url = assemblePageUrl({ document, options });
@@ -24,10 +18,7 @@ function FacebookShare(props) {
       <div className={styles.facebookWrapper} style={{ width }}>
         <div className={styles.facebookImageContainer}>
           {seoImage && (
-            <img
-              className={styles.facebookCardImage}
-              src={urlFor(seo?.seoImage)}
-            />
+            <img className={styles.facebookCardImage} src={urlFor(seoImage)} />
           )}
         </div>
         <div className={styles.facebookCardContent}>

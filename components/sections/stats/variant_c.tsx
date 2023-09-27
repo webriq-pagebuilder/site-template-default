@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 import { urlFor } from "lib/sanity";
 import { StatsProps } from ".";
 
@@ -12,9 +13,11 @@ function VariantC({ stats }: StatsProps) {
               <div className="my-8 w-full md:w-1/2 lg:w-1/4" key={index}>
                 {stat?.mainImage?.image && (
                   <div className="mx-auto inline-block rounded bg-webriq-lightblue p-4">
-                    <img
-                      className="h-6"
+                    <Image
                       src={urlFor(stat?.mainImage?.image)}
+                      width={24}
+                      height={24}
+                      quality={100}
                       alt={stat?.mainImage?.alt ?? "statistics-icon"}
                     />
                   </div>

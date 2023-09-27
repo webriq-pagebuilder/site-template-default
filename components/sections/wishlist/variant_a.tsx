@@ -70,9 +70,15 @@ function VariantA() {
               })
             ) : (
               <div className="mx-auto mb-6">
-                <img
-                  className="mx-auto h-96 w-96 object-contain"
+                <Image
+                  className="mx-auto h-96 w-96"
                   src="https://cdn.sanity.io/images/9itgab5x/production/951b1f5f26048374711fa6800e0b542528240432-982x638.png"
+                  width={384}
+                  height={384}
+                  quality={100}
+                  style={{
+                    objectFit: "contain",
+                  }}
                   alt="no products on wishlist"
                 />
                 <div className="text-center">
@@ -80,8 +86,7 @@ function VariantA() {
                     Wishlist is empty
                   </span>
                   <p className="my-8 text-gray-700">
-                    {`Click the "Add to wishlist" button to add your favorite
-                    products here.`}
+                    {`Add your favorite products to wishlist to display them here.`}
                   </p>
                 </div>
               </div>

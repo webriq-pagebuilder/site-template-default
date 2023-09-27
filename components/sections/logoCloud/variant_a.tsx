@@ -20,6 +20,7 @@ function VariantA({ title, images }: LogoCloudProps) {
                     <Image
                       className="object-scale-down"
                       src={urlFor(image?.image)}
+                      sizes="192px"
                       width={192}
                       height={192}
                       alt={image?.alt ?? `logoCloud-image${index}`}

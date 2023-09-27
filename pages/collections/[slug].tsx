@@ -7,21 +7,27 @@ import { groq } from "next-sanity";
 import { PreviewSuspense } from "next-sanity/preview";
 import { sanityClient, getClient } from "lib/sanity.client";
 import { usePreview } from "lib/sanity.preview";
-import { collectionsQuery } from "pages/api/query";
+import { collectionsQuery, globalSEOQuery } from "pages/api/query";
 import PageNotFound from "pages/404";
-import { filterDataToSingleItem } from "components/list";
+import { filterDataToSingleItem, SEO } from "components/list";
 import { PreviewBanner } from "components/PreviewBanner";
 import { PreviewNoContent } from "components/PreviewNoContent";
 import { CollectionSections } from "components/page/store/collections";
 import InlineEditorContextProvider from "context/InlineEditorContext";
 
-import { CommonPageData, CommonSections, CollectionProduct } from "types";
+import {
+  CommonPageData,
+  CommonSections,
+  CollectionProduct,
+  DefaultSeoData,
+} from "types";
 
 interface CollectionPageBySlugProps {
   data: Data;
   preview: boolean;
   token: string;
   source: string;
+  defaultSeo: DefaultSeoData;
 }
 interface Data {
   collectionData: CollectionData;
@@ -41,6 +47,7 @@ interface DocumentWithPreviewProps {
   data: Data;
   slug: string | string[];
   token: string;
+  defaultSeo: DefaultSeoData;
 }
 
 function CollectionPageBySlug({
@@ -48,6 +55,7 @@ function CollectionPageBySlug({
   preview,
   token,
   source,
+  defaultSeo,
 }: CollectionPageBySlugProps) {
   const router = useRouter();
   const slug = router.query.slug;
@@ -66,14 +74,16 @@ function CollectionPageBySlug({
           <PreviewBanner />
           <PreviewSuspense fallback="Loading...">
             <InlineEditorContextProvider showInlineEditor={showInlineEditor}>
-              <DocumentWithPreview {...{ data, token: token || null, slug }} />
+              <DocumentWithPreview
+                {...{ data, token: token || null, slug, defaultSeo }}
+              />
             </InlineEditorContextProvider>
           </PreviewSuspense>
         </>
       );
     }
 
-    return <Document {...{ data }} />;
+    return <Document {...{ data, defaultSeo }} />;
   }
 }
 
@@ -83,7 +93,13 @@ function CollectionPageBySlug({
  *
  * @returns Document with published data
  */
-function Document({ data }: { data: Data }) {
+function Document({
+  data,
+  defaultSeo,
+}: {
+  data: Data;
+  defaultSeo: DefaultSeoData;
+}) {
   const publishedData = data?.collectionData; // latest published data in Sanity
 
   // General safeguard against empty data
@@ -95,14 +111,22 @@ function Document({ data }: { data: Data }) {
     commonSections, // sections from Store > Pages > Collections
     name, // collection name
     seo, // collection page SEO
+    _type, // page type
   } = publishedData;
+
+  const finalSEO = commonSections?.seo ?? seo;
 
   return (
     <>
       <Head>
-        <meta
-          name="viewport"
-          content="width=360 initial-scale=1, shrink-to-fit=no"
+        <SEO
+          data={{
+            pageTitle: name,
+            type: _type,
+            route: publishedData?.slug,
+            ...finalSEO,
+          }}
+          defaultSeo={defaultSeo}
         />
         <link rel="icon" href="../favicon.ico" />
         <title>
@@ -132,6 +156,7 @@ function DocumentWithPreview({
   data,
   slug,
   token = null,
+  defaultSeo,
 }: DocumentWithPreviewProps) {
   // Current drafts data in Sanity
   const previewDataEventSource = usePreview(token, collectionsQuery, { slug });
@@ -147,14 +172,22 @@ function DocumentWithPreview({
     commonSections, // sections from Store > Pages > Collections
     name, // collection name
     seo, // collection page SEO
+    _type, // page type
   } = previewData;
+
+  const finalSEO = commonSections?.seo ?? seo;
 
   return (
     <>
       <Head>
-        <meta
-          name="viewport"
-          content="width=360 initial-scale=1, shrink-to-fit=no"
+        <SEO
+          data={{
+            pageTitle: name,
+            type: _type,
+            route: previewData?.slug,
+            ...finalSEO,
+          }}
+          defaultSeo={defaultSeo}
         />
         <link rel="icon" href="../favicon.ico" />
         <title>
@@ -186,9 +219,12 @@ export async function getStaticProps({
       ? getClient(false).withConfig({ token: previewData.token })
       : getClient(preview);
 
-  const collections = await client.fetch(collectionsQuery, {
-    slug: params.slug,
-  });
+  const [collections, globalSEO] = await Promise.all([
+    client.fetch(collectionsQuery, {
+      slug: params.slug,
+    }),
+    client.fetch(globalSEOQuery),
+  ]);
 
   // pass collections data and preview to helper function
   const singleCollectionsData: CollectionData = filterDataToSingleItem(
@@ -204,6 +240,7 @@ export async function getStaticProps({
       data: {
         collectionData: singleCollectionsData || null,
       },
+      defaultSeo: globalSEO,
     },
     // If webhooks isn't setup then attempt to re-generate in 1 minute intervals
     revalidate: process.env.SANITY_REVALIDATE_SECRET ? undefined : 60,
@@ -211,6 +248,16 @@ export async function getStaticProps({
 }
 
 export async function getStaticPaths() {
+  // When this is true (in preview environments) don't
+  // prerender any static pages
+  // (faster builds, but slower initial page load)
+  if (process.env.SKIP_BUILD_STATIC_GENERATION) {
+    return {
+      paths: [],
+      fallback: "blocking",
+    };
+  }
+
   const collections = await sanityClient.fetch(
     groq`*[_type == "mainCollection" && defined(slug.current)][].slug.current`
   );

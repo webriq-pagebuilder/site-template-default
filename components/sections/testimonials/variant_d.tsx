@@ -6,13 +6,13 @@ import { TestimonialProps } from ".";
 function VariantD({ testimonials }: TestimonialProps) {
   const [testimony, setTestimony] = React.useState(0);
 
-  const slider = stats => {
+  const slider = (stats) => {
     stats === "next"
       ? testimony !== testimonials?.length - 1
-        ? setTestimony(prevState => prevState + 1)
+        ? setTestimony((prevState) => prevState + 1)
         : setTestimony(0)
       : testimony >= 1
-      ? setTestimony(prevState => prevState - 1)
+      ? setTestimony((prevState) => prevState - 1)
       : setTestimony(testimonials?.length - 1);
   };
 
@@ -24,7 +24,7 @@ function VariantD({ testimonials }: TestimonialProps) {
             <div className="mb-10 text-center lg:hidden">
               {testimonials?.length > 1 && (
                 <button
-                  aria-label="Show Previous Testimonial button"
+                  aria-label="Show previous testimonial"
                   className="mr-6 rounded-full bg-white p-4 text-webriq-darkblue shadow-md transition duration-200 hover:text-webriq-babyblue lg:mr-0"
                   onClick={() => slider("prev")}
                 >
@@ -46,7 +46,7 @@ function VariantD({ testimonials }: TestimonialProps) {
               )}
               {testimonials?.length > 1 && (
                 <button
-                  aria-label="Show Next Testimonial button"
+                  aria-label="Show next testimonial"
                   className="rounded-full bg-white p-4 text-webriq-darkblue shadow-md transition duration-200 hover:text-webriq-babyblue"
                   onClick={() => slider("next")}
                 >
@@ -69,7 +69,7 @@ function VariantD({ testimonials }: TestimonialProps) {
             </div>
             {testimonials?.length > 1 && (
               <button
-                aria-label="Show Previous Testimonial button"
+                aria-label="Show previous testimonial"
                 className="hidden rounded-full bg-white p-5 text-webriq-darkblue shadow-md transition  duration-200 hover:text-webriq-babyblue focus:outline-none lg:mr-0 lg:block"
                 onClick={() => slider("prev")}
               >
@@ -107,7 +107,7 @@ function VariantD({ testimonials }: TestimonialProps) {
                           <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                         </svg>
                       ) : testimonials?.[testimony]?.rating === "2" ? (
-                        [1, 2].map(rate => (
+                        [1, 2].map((rate) => (
                           <svg
                             key={rate}
                             className="h-6 w-6"
@@ -119,7 +119,7 @@ function VariantD({ testimonials }: TestimonialProps) {
                           </svg>
                         ))
                       ) : testimonials?.[testimony]?.rating === "3" ? (
-                        [1, 2, 3].map(rate => (
+                        [1, 2, 3].map((rate) => (
                           <svg
                             key={rate}
                             className="h-6 w-6"
@@ -131,7 +131,7 @@ function VariantD({ testimonials }: TestimonialProps) {
                           </svg>
                         ))
                       ) : testimonials?.[testimony]?.rating === "4" ? (
-                        [1, 2, 3, 4].map(rate => (
+                        [1, 2, 3, 4].map((rate) => (
                           <svg
                             key={rate}
                             className="h-6 w-6"
@@ -143,7 +143,7 @@ function VariantD({ testimonials }: TestimonialProps) {
                           </svg>
                         ))
                       ) : (
-                        [1, 2, 3, 4, 5].map(rate => (
+                        [1, 2, 3, 4, 5].map((rate) => (
                           <svg
                             key={rate}
                             className="h-6 w-6"
@@ -204,7 +204,7 @@ function VariantD({ testimonials }: TestimonialProps) {
             )}
             {testimonials?.length > 1 && (
               <button
-                aria-label="Show Next Testimonial button"
+                aria-label="Show next testimonial"
                 className="hidden rounded-full bg-white p-5 text-webriq-darkblue shadow-md transition duration-200 hover:text-webriq-babyblue focus:outline-none lg:block"
                 onClick={() => slider("next")}
               >

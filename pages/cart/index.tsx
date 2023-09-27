@@ -3,19 +3,20 @@ import Head from "next/head";
 import { PreviewSuspense } from "next-sanity/preview";
 import { getClient } from "lib/sanity.client";
 import { usePreview } from "lib/sanity.preview";
-import { cartPageQuery } from "pages/api/query";
+import { cartPageQuery, globalSEOQuery } from "pages/api/query";
 import { CartSections } from "components/page/store/cart";
 import { PreviewNoContent } from "components/PreviewNoContent";
-import { filterDataToSingleItem } from "components/list";
+import { filterDataToSingleItem, SEO } from "components/list";
 import { PreviewBanner } from "components/PreviewBanner";
 import InlineEditorContextProvider from "context/InlineEditorContext";
-import { CommonPageData } from "types";
+import { CommonPageData, DefaultSeoData } from "types";
 
 interface CartPageProps {
   data: Data;
   preview: boolean;
   token?: string;
   source?: string;
+  defaultSeo: DefaultSeoData;
 }
 
 interface Data {
@@ -32,9 +33,10 @@ export interface CartData extends CommonPageData {
 interface DocumentWithPreviewProps {
   data: Data;
   token: string;
+  defaultSeo: DefaultSeoData;
 }
 
-function CartPage({ data, preview, token, source }: CartPageProps) {
+function CartPage({ data, preview, token, source, defaultSeo }: CartPageProps) {
   const showInlineEditor = source === "studio";
 
   if (preview) {
@@ -43,14 +45,14 @@ function CartPage({ data, preview, token, source }: CartPageProps) {
         <PreviewBanner />
         <PreviewSuspense fallback="Loading">
           <InlineEditorContextProvider showInlineEditor={showInlineEditor}>
-            <DocumentWithPreview {...{ data, token }} />
+            <DocumentWithPreview {...{ data, token, defaultSeo }} />
           </InlineEditorContextProvider>
         </PreviewSuspense>
       </>
     );
   }
 
-  return <Document {...{ data }} />;
+  return <Document {...{ data, defaultSeo }} />;
 }
 
 /**
@@ -59,7 +61,13 @@ function CartPage({ data, preview, token, source }: CartPageProps) {
  *
  * @returns Document with published data
  */
-function Document({ data }: { data: Data }) {
+function Document({
+  data,
+  defaultSeo,
+}: {
+  data: Data;
+  defaultSeo: DefaultSeoData;
+}) {
   const publishedData = data?.cartData;
 
   // General safeguard against empty data
@@ -67,12 +75,15 @@ function Document({ data }: { data: Data }) {
     return null;
   }
 
-  const { seo } = publishedData;
+  const { seo, _type } = publishedData;
 
   return (
     <>
       <Head>
-        <meta name="viewport" content="width=260 initial-scale=1" />
+        <SEO
+          data={{ pageTitle: "Cart", type: _type, route: "cart", ...seo }}
+          defaultSeo={defaultSeo}
+        />
         <title>{seo?.seoTitle ?? "Cart"}</title>
       </Head>
 
@@ -89,7 +100,11 @@ function Document({ data }: { data: Data }) {
  *
  * @returns Document with preview data
  */
-function DocumentWithPreview({ data, token = null }: DocumentWithPreviewProps) {
+function DocumentWithPreview({
+  data,
+  token = null,
+  defaultSeo,
+}: DocumentWithPreviewProps) {
   const previewDataEventSource = usePreview(token, cartPageQuery);
   const previewData: CartData =
     previewDataEventSource?.[0] || previewDataEventSource;
@@ -99,12 +114,15 @@ function DocumentWithPreview({ data, token = null }: DocumentWithPreviewProps) {
     return null;
   }
 
-  const { seo } = previewData;
+  const { seo, _type } = previewData;
 
   return (
     <>
       <Head>
-        <meta name="viewport" content="width=260 initial-scale=1" />
+        <SEO
+          data={{ pageTitle: "Cart", type: _type, route: "cart", ...seo }}
+          defaultSeo={defaultSeo}
+        />
         <title>{seo?.seoTitle ?? "Cart"}</title>
       </Head>
 
@@ -129,7 +147,10 @@ export async function getStaticProps({
       ? getClient(false).withConfig({ token: previewData.token })
       : getClient(preview);
 
-  const cartPage: CartData[] = await client.fetch(cartPageQuery);
+  const [cartPage, globalSEO] = await Promise.all([
+    client.fetch(cartPageQuery),
+    client.fetch(globalSEOQuery),
+  ]);
 
   // pass page data and preview to helper function
   const cartData: CartData = filterDataToSingleItem(cartPage, preview);
@@ -139,6 +160,7 @@ export async function getStaticProps({
       props: {
         preview,
         data: { cartData: null },
+        defaultSeo: globalSEO,
       },
     };
   }
@@ -149,6 +171,7 @@ export async function getStaticProps({
       token: (preview && previewData.token) || "",
       source: (preview && previewData.source) || "",
       data: { cartData },
+      defaultSeo: globalSEO,
     },
   };
 }

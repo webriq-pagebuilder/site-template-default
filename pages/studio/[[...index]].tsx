@@ -1,11 +1,9 @@
 import { useEffect, useState } from "react";
 import Head from "next/head";
-import Image from "next/image";
 import { NextStudio } from "next-sanity/studio";
 import { useRouter } from "next/router";
 import { StudioLayout, StudioProvider } from "sanity";
 import config from "sanity.config";
-import { Text } from "@sanity/ui";
 import { NEXT_PUBLIC_APP_URL } from "studio/config";
 import AutologinPrepage from "studio/components/AutologinPrepage";
 
@@ -19,7 +17,7 @@ export default function StudioPage() {
 
   useEffect(() => {
     const urlParams = router?.asPath?.split("?")?.[1];
-    if(router.query.token !== undefined && typeof window !== "undefined") {  
+    if (router.query.token !== undefined && typeof window !== "undefined") {
       // cleanup (localStorage)
       function cleanUp() {
         const localStorageItems = { ...window.localStorage };
@@ -50,32 +48,42 @@ export default function StudioPage() {
               return res.json();
             })
             .then((result) => {
-              window.localStorage.setItem([result?.token?.key], result?.token?.value);
+              window.localStorage.setItem(
+                [result?.token?.key],
+                result?.token?.value
+              );
 
               // verify if value was added to localStorage
-              if(window.localStorage.getItem(result?.token?.key) !== null) {
+              if (window.localStorage.getItem(result?.token?.key) !== null) {
                 console.log("[INFO] Successfully set autologin token!");
                 setIsReady(true);
-              } 
-            })
-          console.log("Autologin status: ", { ready: isReady, autologin: isAutologin, retries: retryAutologin });
-        } catch(error) {
-          console.log("[ERROR] Something went wrong. Failed to process autologin request. ", error);
+              }
+            });
+          console.log("Autologin status: ", {
+            ready: isReady,
+            autologin: isAutologin,
+            retries: retryAutologin,
+          });
+        } catch (error) {
+          console.log(
+            "[ERROR] Something went wrong. Failed to process autologin request. ",
+            error
+          );
         }
-      };
+      }
 
-      if(retryAutologin < maxRetries) {
-        fetchAutologinToken()
-      };
-    } 
-  }, [router, retryAutologin])
+      if (retryAutologin < maxRetries) {
+        fetchAutologinToken();
+      }
+    }
+  }, [router, retryAutologin]);
 
-  if(!isReady && isAutologin) {
+  if (!isReady && isAutologin) {
     return (
-      <AutologinPrepage 
-        status={retryAutologin < maxRetries ? "retry" : "failed"} 
+      <AutologinPrepage
+        status={retryAutologin < maxRetries ? "retry" : "failed"}
       />
-    )
+    );
   }
 
   return (

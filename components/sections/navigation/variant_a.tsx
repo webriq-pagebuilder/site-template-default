@@ -1,7 +1,8 @@
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { urlFor } from "lib/sanity";
-import { logoLink, ConditionalBtnOrLink } from "helper";
+import { logoLink, ConditionalLink } from "helper";
 import { NavigationProps } from ".";
 
 function VariantA({
@@ -27,16 +28,17 @@ function VariantA({
             className="text-3xl font-bold leading-none"
             href={logoLink(logo)}
           >
-            <img
-              className="h-12"
+            <Image
               src={urlFor(logo?.image)}
+              width={48}
+              height={48}
               alt={logo?.alt ?? "navigation-logo"}
             />
           </Link>
         )}
         <div className="lg:hidden">
           <button
-            aria-label="Navbar Menu button"
+            aria-label="Navigation Menu"
             className="navbar-burger flex items-center p-3 text-webriq-darkblue"
             onClick={showMenu}
           >
@@ -55,10 +57,13 @@ function VariantA({
             links?.map((link, index) => (
               <React.Fragment key={index}>
                 <li>
-                  <ConditionalBtnOrLink
-                    value={link}
-                    style="text-sm text-gray-500 hover:text-gray-900"
-                  />
+                  <ConditionalLink
+                    ariaLabel={link?.label}
+                    link={link}
+                    className="text-sm text-gray-500 hover:text-gray-900"
+                  >
+                    {link?.label}
+                  </ConditionalLink>
                 </li>
                 {links.length !== index + 1 ? (
                   <li className="text-gray-500">
@@ -82,16 +87,22 @@ function VariantA({
             ))}
         </ul>
         {primaryButton?.label && (
-          <ConditionalBtnOrLink
-            value={primaryButton}
-            style="hidden lg:inline-block lg:ml-auto lg:mr-3 py-2 px-6 bg-gray-50 hover:bg-gray-100 text-sm text-gray-900 font-bold rounded-l-xl rounded-t-xl transition duration-200"
-          />
+          <ConditionalLink
+            ariaLabel={primaryButton?.label}
+            link={primaryButton}
+            className="hidden lg:inline-block lg:ml-auto lg:mr-3 py-2 px-6 bg-gray-50 hover:bg-gray-100 text-sm text-gray-900 font-bold rounded-l-xl rounded-t-xl transition duration-200"
+          >
+            {primaryButton?.label}
+          </ConditionalLink>
         )}
         {secondaryButton?.label && (
-          <ConditionalBtnOrLink
-            value={secondaryButton}
-            style={`hidden lg:inline-block py-2 px-6 bg-${template.color}-darkblue hover:bg-${template.color}-blue text-sm text-white font-bold rounded-l-xl rounded-t-xl transition duration-200`}
-          />
+          <ConditionalLink
+            ariaLabel={secondaryButton?.label}
+            link={secondaryButton}
+            className={`hidden lg:inline-block py-2 px-6 bg-${template.color}-darkblue hover:bg-${template.color}-blue text-sm text-white font-bold rounded-l-xl rounded-t-xl transition duration-200`}
+          >
+            {secondaryButton?.label}
+          </ConditionalLink>
         )}
       </nav>
       <div className={`${menu ? null : "hidden"} navbar-menu relative z-50`}>
@@ -102,7 +113,7 @@ function VariantA({
         <nav className="fixed bottom-0 left-0 top-0 flex w-5/6 max-w-sm flex-col overflow-y-auto border-r bg-white px-6 py-6">
           <div className="mb-8 flex items-center">
             <button
-              aria-label="Navbar Menu button"
+              aria-label="Navigation Menu"
               className="navbar-close"
               onClick={showMenu}
             >
@@ -123,31 +134,41 @@ function VariantA({
             </button>
           </div>
           <div>
-            <ul>
-              {links &&
-                links?.map((link, index) => (
+            {links && (
+              <ul>
+                {links?.map((link, index) => (
                   <li className="mb-1" key={index}>
-                    <ConditionalBtnOrLink
-                      value={link}
-                      style="block p-4 text-sm font-semibold text-gray-900 hover:bg-webriq-lightblue hover:text-webriq-darkblue rounded"
-                    />
+                    <ConditionalLink
+                      ariaLabel={link?.label}
+                      className="block p-4 text-sm font-semibold text-gray-900 hover:bg-webriq-lightblue hover:text-webriq-darkblue rounded"
+                      link={link}
+                    >
+                      {link?.label}
+                    </ConditionalLink>
                   </li>
                 ))}
-            </ul>
+              </ul>
+            )}
           </div>
           <div className="mt-auto">
             <div className="pt-6">
               {primaryButton?.label && (
-                <ConditionalBtnOrLink
-                  value={primaryButton}
-                  style="block px-4 py-3 mb-3 leading-loose text-xs text-center font-semibold bg-gray-50 hover:bg-gray-100 rounded-l-xl rounded-t-xl"
-                />
+                <ConditionalLink
+                  ariaLabel={primaryButton?.label}
+                  link={primaryButton}
+                  className="block px-4 py-3 mb-3 leading-loose text-xs text-center font-semibold bg-gray-50 hover:bg-gray-100 rounded-l-xl rounded-t-xl"
+                >
+                  {primaryButton?.label}
+                </ConditionalLink>
               )}
               {secondaryButton?.label && (
-                <ConditionalBtnOrLink
-                  value={secondaryButton}
-                  style={`block px-4 py-3 mb-2 leading-loose text-xs text-center text-white font-semibold bg-${template.color}-darkblue hover:bg-${template.color}-blue rounded-l-xl rounded-t-xl`}
-                />
+                <ConditionalLink
+                  ariaLabel={secondaryButton?.label}
+                  link={secondaryButton}
+                  className={`block px-4 py-3 mb-2 leading-loose text-xs text-center text-white font-semibold bg-${template.color}-darkblue hover:bg-${template.color}-blue rounded-l-xl rounded-t-xl`}
+                >
+                  {secondaryButton?.label}
+                </ConditionalLink>
               )}
             </div>
             <p className="my-4 text-center text-xs text-gray-900">

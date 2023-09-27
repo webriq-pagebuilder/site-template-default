@@ -64,17 +64,19 @@ function VariantC({
                 )}
               </div>
               <div className="w-full">
-                {images?.slice(1, 3)?.map((images, index) => (
-                  <Image
-                    className="object-cover"
-                    src={urlFor(images?.image)}
-                    sizes="100vw"
-                    width={500}
-                    height={850}
-                    alt={images[1]?.alt ?? `appPromo-variantC-image${index}`}
-                    key={index}
-                  />
-                ))}
+                {images
+                  ?.slice(1, 3)
+                  ?.map((images, index) => (
+                    <Image
+                      className="object-cover"
+                      src={urlFor(images?.image)}
+                      sizes="100vw"
+                      width={500}
+                      height={850}
+                      alt={images[1]?.alt ?? `appPromo-variantC-image${index}`}
+                      key={index}
+                    />
+                  ))}
               </div>
               <div className="w-full">
                 {images?.[3]?.image && (
