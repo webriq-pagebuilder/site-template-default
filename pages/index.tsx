@@ -179,6 +179,8 @@ export const getStaticProps = async ({
     };
   }
 
+  const hasCStudioComponentsResult = hasCStudioComponents(pageData?.sections);
+
   return {
     props: {
       preview,
@@ -186,7 +188,7 @@ export const getStaticProps = async ({
       source: (preview && previewData.source) || "",
       data: { pageData },
       defaultSeo: globalSEO,
-      hasCStudioComponents: hasCStudioComponents(pageData?.sections),
+      hasCStudioComponents: hasCStudioComponentsResult,
     },
   };
 };
