@@ -32,7 +32,7 @@ function VariantB({ products }: PagesProductInfoProps) {
                     {products?.productInfo?.images ? (
                       <div className="h-full w-full">
                         <Image
-                          sizes="100vw"
+                          sizes="(min-width: 1840px) 704px, (min-width: 1540px) calc(27.86vw + 197px), (min-width: 1320px) calc(30vw + 120px), (min-width: 1260px) calc(145vw - 1379px), (min-width: 1040px) 36vw, (min-width: 980px) 320px, (min-width: 780px) calc(41.11vw - 75px), (min-width: 640px) calc(66.67vw + 69px), calc(100vw - 64px)"
                           width={736}
                           height={564}
                           src={urlFor(
@@ -50,7 +50,7 @@ function VariantB({ products }: PagesProductInfoProps) {
                     ) : (
                       <Image
                         className="object-cover"
-                        sizes="100vw"
+                        sizes="(min-width: 1840px) 704px, (min-width: 1540px) calc(27.86vw + 197px), (min-width: 1320px) calc(30vw + 120px), (min-width: 1260px) calc(145vw - 1379px), (min-width: 1040px) 36vw, (min-width: 980px) 320px, (min-width: 780px) calc(41.11vw - 75px), (min-width: 640px) calc(66.67vw + 69px), calc(100vw - 64px)"
                         width={736}
                         height={564}
                         src="https://cdn.sanity.io/images/9itgab5x/production/9523d40461371b7b4948456c57bb663bd8998c4a-500x362.png"

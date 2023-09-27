@@ -36,7 +36,7 @@ function VariantA({ subtitle, title, posts, primaryButton }: BlogProps) {
                           className="relative h-full w-full overflow-hidden rounded object-cover"
                           src={urlFor(post?.mainImage)}
                           alt={`blog-variantA-image-${key}`}
-                          sizes="(max-width: 1023px) 100vw, (min-width: 1024px) 30vw"
+                          sizes="(min-width: 1540px) 740px, (min-width: 1280px) 612px, (min-width: 1040px) 484px, (min-width: 780px) 736px, (min-width: 680px) 608px, calc(94.44vw - 15px)"
                           fill
                         />
                       )}
@@ -90,7 +90,7 @@ function VariantA({ subtitle, title, posts, primaryButton }: BlogProps) {
                           style={{
                             objectFit: "fill",
                           }}
-                          sizes="(max-width: 1023px) 100vw, (min-width: 1024px) 10vw"
+                          sizes="(min-width: 1540px) 358px, (min-width: 1280px) 294px, (min-width: 1040px) 230px, (min-width: 780px) 736px, (min-width: 680px) 608px, calc(94.44vw - 15px)"
                           fill
                         />
                       )}
@@ -142,7 +142,7 @@ function VariantA({ subtitle, title, posts, primaryButton }: BlogProps) {
                           className="relative h-full w-full overflow-hidden rounded object-cover"
                           src={urlFor(post?.mainImage)}
                           alt={`blog-variantA-image-${key}`}
-                          sizes="(max-width: 1023px) 100vw, (min-width: 1024px) 10vw"
+                          sizes="(min-width: 1540px) 358px, (min-width: 1280px) 294px, (min-width: 1040px) 230px, (min-width: 780px) 736px, (min-width: 680px) 608px, calc(94.44vw - 15px)"
                           fill
                         />
                       )}
@@ -192,7 +192,7 @@ function VariantA({ subtitle, title, posts, primaryButton }: BlogProps) {
                           className="relative h-full w-full overflow-hidden rounded object-cover"
                           src={urlFor(post?.mainImage)}
                           alt={`blog-variantA-image-${key}`}
-                          sizes="(max-width: 1023px) 100vw, (min-width: 1024px) 30vw"
+                          sizes="(min-width: 1540px) 740px, (min-width: 1280px) 612px, (min-width: 1040px) 484px, (min-width: 780px) 736px, (min-width: 680px) 608px, calc(94.44vw - 15px)"
                           fill
                         />
                       )}

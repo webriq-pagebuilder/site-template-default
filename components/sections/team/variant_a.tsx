@@ -30,7 +30,7 @@ function VariantA({ caption, title, team }: TeamsProps) {
                       <Image
                         className="mx-auto mb-8 h-24 w-24 overflow-hidden rounded-full object-cover"
                         src={urlFor(member?.mainImage?.image)}
-                        sizes="100vw"
+                        sizes="96px"
                         width={96}
                         height={96}
                         alt={

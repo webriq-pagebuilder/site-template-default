@@ -54,7 +54,7 @@ function VariantC({
                       src={urlFor(content?.mainImage?.image)}
                       width={480}
                       height={320}
-                      sizes="100vw"
+                      sizes="(min-width: 1540px) 480px, (min-width: 1280px) 395px, (min-width: 1040px) 309px, (min-width: 780px) 352px, (min-width: 560px) 480px, 88.33vw"
                       alt={content?.mainImage?.alt ?? `portfolio-image${index}`}
                     />
                     <div className="p-6">

@@ -19,7 +19,7 @@ function VariantD({ images }: LogoCloudProps) {
                     <Image
                       className="h-full w-full object-scale-down"
                       src={urlFor(image?.image)}
-                      sizes="100vw"
+                      sizes="192px"
                       width={192}
                       height={192}
                       alt={image?.alt ?? `logoCloud-image${index}`}
