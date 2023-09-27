@@ -111,6 +111,7 @@ function VariantH({ caption, title, features, images }: FeaturesProps) {
 											src={urlFor(images?.[0]?.image)}
 											width={640}
 											height={800}
+											sizes="(max-width: 639px) 100vw, (min-width: 640px) 30vw"
 											alt={images?.[0]?.alt ?? "features-image-1"}
 										/>
 									)}
@@ -120,6 +121,7 @@ function VariantH({ caption, title, features, images }: FeaturesProps) {
 											src={urlFor(images?.[1]?.image)}
 											width={640}
 											height={800}
+											sizes="(max-width: 639px) 100vw, (min-width: 640px) 30vw"
 											alt={images?.[1]?.alt ?? "features-image-2"}
 										/>
 									)}
@@ -130,6 +132,7 @@ function VariantH({ caption, title, features, images }: FeaturesProps) {
 										src={urlFor(images?.[2]?.image)}
 										width={640}
 										height={800}
+										sizes="(max-width: 639px) 100vw, (min-width: 640px) 30vw"
 										alt={images?.[2]?.alt ?? "features-image-3"}
 									/>
 								)}

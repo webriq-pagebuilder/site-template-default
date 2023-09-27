@@ -36,6 +36,7 @@ function VariantA({ subtitle, title, posts, primaryButton }: BlogProps) {
 													className="relative h-full w-full overflow-hidden rounded object-cover"
 													src={urlFor(post?.mainImage)}
 													alt={`blog-variantA-image-${key}`}
+													sizes="(max-width: 1023px) 100vw, (min-width: 1024px) 30vw"
 													fill
 												/>
 											)}
@@ -87,6 +88,7 @@ function VariantA({ subtitle, title, posts, primaryButton }: BlogProps) {
 													style={{
 														objectFit: "fill",
 													}}
+													sizes="(max-width: 1023px) 100vw, (min-width: 1024px) 10vw"
 													fill
 												/>
 											)}
@@ -136,6 +138,7 @@ function VariantA({ subtitle, title, posts, primaryButton }: BlogProps) {
 													className="relative h-full w-full overflow-hidden rounded object-cover"
 													src={urlFor(post?.mainImage)}
 													alt={`blog-variantA-image-${key}`}
+													sizes="(max-width: 1023px) 100vw, (min-width: 1024px) 10vw"
 													fill
 												/>
 											)}
@@ -183,6 +186,7 @@ function VariantA({ subtitle, title, posts, primaryButton }: BlogProps) {
 													className="relative h-full w-full overflow-hidden rounded object-cover"
 													src={urlFor(post?.mainImage)}
 													alt={`blog-variantA-image-${key}`}
+													sizes="(max-width: 1023px) 100vw, (min-width: 1024px) 30vw"
 													fill
 												/>
 											)}

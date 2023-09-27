@@ -67,7 +67,7 @@ function VariantA({
 										<Image
 											className="overflow-hidden rounded-3xl object-cover md:rounded-br-none lg:h-[448px]"
 											src={urlFor(mainImage?.image)}
-											sizes="100vw"
+											sizes="(max-width: 767px) 100vw, (max-width: 768px) 40vw, (min-width: 1024px) 50vw"
 											width={448}
 											height={448}
 											alt={mainImage?.alt ?? "header-main-image"}
