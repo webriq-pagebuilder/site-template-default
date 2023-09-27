@@ -6,7 +6,7 @@
 
 export function hasCStudioComponents(sections: any[]) {
   // @todo: update with proper type
-  return sections?.find((section) =>
+  return !!sections?.find((section) =>
     // @todo: make sure all these are updated in one place.
     [
       "mainProduct",
