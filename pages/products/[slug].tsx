@@ -17,62 +17,62 @@ import InlineEditorContextProvider from "context/InlineEditorContext";
 import { CollectionProduct, CommonSections, DefaultSeoData } from "types";
 
 interface ProductPageBySlugProps {
-	data: Data;
-	preview: boolean;
-	token: string;
-	source: string;
-	defaultSeo: DefaultSeoData;
+  data: Data;
+  preview: boolean;
+  token: string;
+  source: string;
+  defaultSeo: DefaultSeoData;
 }
 
 interface Data {
-	productData: ProductData;
+  productData: ProductData;
 }
 
 export interface ProductData extends CollectionProduct {
-	commonSections: CommonSections;
+  commonSections: CommonSections;
 }
 
 interface DocumentWithPreviewProps {
-	data: Data;
-	token: string;
-	slug: string | string[];
-	defaultSeo: DefaultSeoData;
+  data: Data;
+  token: string;
+  slug: string | string[];
+  defaultSeo: DefaultSeoData;
 }
 
 function ProductPageBySlug({
-	data,
-	preview,
-	token,
-	source,
-	defaultSeo,
+  data,
+  preview,
+  token,
+  source,
+  defaultSeo,
 }: ProductPageBySlugProps) {
-	const router = useRouter();
-	const slug = router.query.slug;
-	const showInlineEditor = source === "studio";
-	useEffect(() => {
-		if (typeof Ecwid !== "undefined") Ecwid.init();
-	}, []);
+  const router = useRouter();
+  const slug = router.query.slug;
+  const showInlineEditor = source === "studio";
+  useEffect(() => {
+    if (typeof Ecwid !== "undefined") Ecwid.init();
+  }, []);
 
-	if (!data?.productData) {
-		return <PageNotFound />;
-	} else {
-		if (preview) {
-			return (
-				<>
-					<PreviewBanner />
-					<PreviewSuspense fallback={"Loading..."}>
-						<InlineEditorContextProvider showInlineEditor={showInlineEditor}>
-							<DocumentWithPreview
-								{...{ data, token: token || null, slug, defaultSeo }}
-							/>
-						</InlineEditorContextProvider>
-					</PreviewSuspense>
-				</>
-			);
-		}
+  if (!data?.productData) {
+    return <PageNotFound />;
+  } else {
+    if (preview) {
+      return (
+        <>
+          <PreviewBanner />
+          <PreviewSuspense fallback={"Loading..."}>
+            <InlineEditorContextProvider showInlineEditor={showInlineEditor}>
+              <DocumentWithPreview
+                {...{ data, token: token || null, slug, defaultSeo }}
+              />
+            </InlineEditorContextProvider>
+          </PreviewSuspense>
+        </>
+      );
+    }
 
-		return <Document {...{ data, defaultSeo }} />;
-	}
+    return <Document {...{ data, defaultSeo }} />;
+  }
 }
 
 /**
@@ -82,53 +82,53 @@ function ProductPageBySlug({
  * @returns Document with published data
  */
 function Document({
-	data,
-	defaultSeo,
+  data,
+  defaultSeo,
 }: {
-	data: Data;
-	defaultSeo: DefaultSeoData;
+  data: Data;
+  defaultSeo: DefaultSeoData;
 }) {
-	const publishedData = data?.productData; // latest published data in Sanity
+  const publishedData = data?.productData; // latest published data in Sanity
 
-	// General safeguard against empty data
-	if (!publishedData) {
-		return null;
-	}
+  // General safeguard against empty data
+  if (!publishedData) {
+    return null;
+  }
 
-	const {
-		commonSections, // sections from Store > Commerce Pages > Products
-		name, // product name
-		seo, // product page SEO
-		_type, // page type
-	} = publishedData;
+  const {
+    commonSections, // sections from Store > Commerce Pages > Products
+    name, // product name
+    seo, // product page SEO
+    _type, // page type
+  } = publishedData;
 
-	const finalSEO = commonSections?.seo ?? seo;
+  const finalSEO = commonSections?.seo ?? seo;
 
-	return (
-		<>
-			<Head>
-				<SEO
-					data={{
-						pageTitle: name,
-						type: _type,
-						route: publishedData?.slug,
-						...finalSEO,
-					}}
-					defaultSeo={defaultSeo}
-				/>
-				<link rel="icon" href="../favicon.ico" />
-				<title>
-					{seo?.seoTitle ??
-						commonSections?.seo?.seoTitle ??
-						name ??
-						"WebriQ Studio"}
-				</title>
-			</Head>
+  return (
+    <>
+      <Head>
+        <SEO
+          data={{
+            pageTitle: name,
+            type: _type,
+            route: publishedData?.slug,
+            ...finalSEO,
+          }}
+          defaultSeo={defaultSeo}
+        />
+        <link rel="icon" href="../favicon.ico" />
+        <title>
+          {seo?.seoTitle ??
+            commonSections?.seo?.seoTitle ??
+            name ??
+            "WebriQ Studio"}
+        </title>
+      </Head>
 
-			{/* Show Product page sections */}
-			{data?.productData && <ProductSections data={publishedData} />}
-		</>
-	);
+      {/* Show Product page sections */}
+      {data?.productData && <ProductSections data={publishedData} />}
+    </>
+  );
 }
 
 /**
@@ -141,116 +141,116 @@ function Document({
  * @returns Document with preview data
  */
 function DocumentWithPreview({
-	data,
-	slug,
-	token = null,
-	defaultSeo,
+  data,
+  slug,
+  token = null,
+  defaultSeo,
 }: DocumentWithPreviewProps) {
-	// Current drafts data in Sanity
-	const previewDataEventSource = usePreview(token, productsQuery, { slug });
-	const previewData = previewDataEventSource?.[0] || previewDataEventSource; // Latest preview data in Sanity
+  // Current drafts data in Sanity
+  const previewDataEventSource = usePreview(token, productsQuery, { slug });
+  const previewData = previewDataEventSource?.[0] || previewDataEventSource; // Latest preview data in Sanity
 
-	// General safeguard against empty data
-	if (!previewData) {
-		return null;
-	}
+  // General safeguard against empty data
+  if (!previewData) {
+    return null;
+  }
 
-	const {
-		commonSections, // sections from Store > Commerce Pages > Products
-		name, // product name
-		seo, // product page SEO
-		_type, // page type
-	} = previewData;
+  const {
+    commonSections, // sections from Store > Commerce Pages > Products
+    name, // product name
+    seo, // product page SEO
+    _type, // page type
+  } = previewData;
 
-	const finalSEO = commonSections?.seo ?? seo;
+  const finalSEO = commonSections?.seo ?? seo;
 
-	return (
-		<>
-			<Head>
-				<SEO
-					data={{
-						pageTitle: name,
-						type: _type,
-						route: previewData?.slug,
-						...finalSEO,
-					}}
-					defaultSeo={defaultSeo}
-				/>
-				<link rel="icon" href="../favicon.ico" />
-				<title>
-					{seo?.seoTitle ??
-						commonSections?.seo?.seoTitle ??
-						name ??
-						"WebriQ Studio"}
-				</title>
-			</Head>
+  return (
+    <>
+      <Head>
+        <SEO
+          data={{
+            pageTitle: name,
+            type: _type,
+            route: previewData?.slug,
+            ...finalSEO,
+          }}
+          defaultSeo={defaultSeo}
+        />
+        <link rel="icon" href="../favicon.ico" />
+        <title>
+          {seo?.seoTitle ??
+            commonSections?.seo?.seoTitle ??
+            name ??
+            "WebriQ Studio"}
+        </title>
+      </Head>
 
-			{/* if no sections, show no sections only in preview */}
-			{(!previewData ||
-				!previewData?.sections ||
-				previewData?.sections?.length === 0) && <PreviewNoContent />}
+      {/* if no sections, show no sections only in preview */}
+      {(!previewData ||
+        !previewData?.sections ||
+        previewData?.sections?.length === 0) && <PreviewNoContent />}
 
-			{/* Show Product page sections */}
-			{data?.productData && <ProductSections data={previewData} />}
-		</>
-	);
+      {/* Show Product page sections */}
+      {data?.productData && <ProductSections data={previewData} />}
+    </>
+  );
 }
 
 export async function getStaticProps({
-	params,
-	preview = false,
-	previewData = {},
+  params,
+  preview = false,
+  previewData = {},
 }: any): Promise<{ props: ProductPageBySlugProps; revalidate: number }> {
-	const client =
-		preview && previewData?.token
-			? getClient(false).withConfig({ token: previewData.token })
-			: getClient(preview);
+  const client =
+    preview && previewData?.token
+      ? getClient(false).withConfig({ token: previewData.token })
+      : getClient(preview);
 
-	const [products, globalSEO] = await Promise.all([
-		client.fetch(productsQuery, { slug: params.slug }),
-		client.fetch(globalSEOQuery),
-	]);
+  const [products, globalSEO] = await Promise.all([
+    client.fetch(productsQuery, { slug: params.slug }),
+    client.fetch(globalSEOQuery),
+  ]);
 
-	// pass products data and preview to helper function
-	const singleProductsData: ProductData = filterDataToSingleItem(
-		products,
-		preview
-	);
+  // pass products data and preview to helper function
+  const singleProductsData: ProductData = filterDataToSingleItem(
+    products,
+    preview
+  );
 
-	return {
-		props: {
-			preview,
-			token: (preview && previewData.token) || "",
-			source: (preview && previewData.source) || "",
-			data: {
-				productData: singleProductsData || null,
-			},
-			defaultSeo: globalSEO,
-		},
-		// If webhooks isn't setup then attempt to re-generate in 1 minute intervals
-		revalidate: process.env.SANITY_REVALIDATE_SECRET ? undefined : 60,
-	};
+  return {
+    props: {
+      preview,
+      token: (preview && previewData.token) || "",
+      source: (preview && previewData.source) || "",
+      data: {
+        productData: singleProductsData || null,
+      },
+      defaultSeo: globalSEO,
+    },
+    // If webhooks isn't setup then attempt to re-generate in 1 minute intervals
+    revalidate: process.env.SANITY_REVALIDATE_SECRET ? undefined : 60,
+  };
 }
 
 export async function getStaticPaths() {
-	// When this is true (in preview environments) don't
-	// prerender any static pages
-	// (faster builds, but slower initial page load)
-	if (process.env.SKIP_BUILD_STATIC_GENERATION) {
-		return {
-			paths: [],
-			fallback: "blocking",
-		};
-	}
+  // When this is true (in preview environments) don't
+  // prerender any static pages
+  // (faster builds, but slower initial page load)
+  if (process.env.SKIP_BUILD_STATIC_GENERATION) {
+    return {
+      paths: [],
+      fallback: "blocking",
+    };
+  }
 
-	const products = await sanityClient.fetch(
-		groq`*[_type == "mainProduct" && defined(slug.current)][].slug.current`
-	);
+  const products = await sanityClient.fetch(
+    groq`*[_type == "mainProduct" && defined(slug.current)][].slug.current`
+  );
 
-	return {
-		paths: products.map((slug) => ({ params: { slug } })),
-		fallback: true,
-	};
+  return {
+    paths: products.map((slug) => ({ params: { slug } })),
+    fallback: true,
+  };
 }
 
 export default React.memo(ProductPageBySlug);
