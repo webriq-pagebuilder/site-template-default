@@ -29,8 +29,6 @@ export default function InlineEditorContainer({
 		overflowY: "scroll",
 	};
 
-	console.log("config: ", config);
-
 	return (
 		<div
 			className={`relative ${
