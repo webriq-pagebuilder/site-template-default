@@ -6,19 +6,19 @@ import { TestimonialProps } from ".";
 function VariantC({ caption, title, testimonials }: TestimonialProps) {
   const [testimony, setTestimony] = React.useState(testimonials);
 
-  const slider = action => {
+  const slider = (action) => {
     if (action === "next") {
       // Remove first element
       let firstItem = testimony?.shift();
 
       // Push the deleted element to last index
-      setTestimony(prevState => [...prevState, firstItem]);
+      setTestimony((prevState) => [...prevState, firstItem]);
     } else if (action === "prev") {
       // Remove last element
       let lastItem = testimony?.pop();
 
       // Push the deleted element to first index
-      setTestimony(prevState => [lastItem, ...prevState]);
+      setTestimony((prevState) => [lastItem, ...prevState]);
     }
   };
 
@@ -36,7 +36,7 @@ function VariantC({ caption, title, testimonials }: TestimonialProps) {
             <div className="w-full lg:w-1/5">
               {testimony?.length >= 4 && (
                 <button
-                  aria-label="Show Previous Testimonial button"
+                  aria-label="Show previous testimonial"
                   className="mr-4 rounded-full bg-white p-5 text-webriq-darkblue shadow-md transition duration-200 hover:text-webriq-babyblue"
                   onClick={() => slider("prev")}
                 >
@@ -58,7 +58,7 @@ function VariantC({ caption, title, testimonials }: TestimonialProps) {
               )}
               {testimony?.length >= 4 && (
                 <button
-                  aria-label="Show Next Testimonial button"
+                  aria-label="Show next testimonial"
                   className="rounded-full bg-white p-5 text-webriq-darkblue shadow-md transition duration-200 hover:text-webriq-babyblue"
                   onClick={() => slider("next")}
                 >

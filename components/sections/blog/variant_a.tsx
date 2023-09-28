@@ -3,7 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { urlFor } from "lib/sanity";
 import { format } from "date-fns";
-import { ConditionalBtnOrLink } from "helper";
+import { ConditionalLink } from "helper";
 
 import { BlogProps } from ".";
 
@@ -31,11 +31,12 @@ function VariantA({ subtitle, title, posts, primaryButton }: BlogProps) {
                 {posts?.slice(count, count + 1)?.map((post, key) => (
                   <div className="mb-5 w-full px-3" key={key}>
                     <div className="relative mx-auto h-64 rounded">
-                      {post?.mainImage?.asset?._ref && (
+                      {post?.mainImage && (
                         <Image
                           className="relative h-full w-full overflow-hidden rounded object-cover"
                           src={urlFor(post?.mainImage)}
                           alt={`blog-variantA-image-${key}`}
+                          sizes="(min-width: 1540px) 740px, (min-width: 1280px) 612px, (min-width: 1040px) 484px, (min-width: 780px) 736px, (min-width: 680px) 608px, calc(94.44vw - 15px)"
                           fill
                         />
                       )}
@@ -63,7 +64,7 @@ function VariantA({ subtitle, title, posts, primaryButton }: BlogProps) {
                         )}
                         {post?.title && (
                           <Link
-                            aria-label={`blog post ${key}`}
+                            aria-label={post?.title}
                             className="transform text-xl font-bold text-white hover:scale-110 hover:text-webriq-babyblue motion-reduce:transform-none lg:text-2xl"
                             href={
                               `/${post?.slug?.current}` ?? "/page-not-found"
@@ -86,6 +87,10 @@ function VariantA({ subtitle, title, posts, primaryButton }: BlogProps) {
                           className="relative h-full w-full overflow-hidden rounded object-cover"
                           src={urlFor(post?.mainImage)}
                           alt={`blog-variantA-image-${key}`}
+                          style={{
+                            objectFit: "fill",
+                          }}
+                          sizes="(min-width: 1540px) 358px, (min-width: 1280px) 294px, (min-width: 1040px) 230px, (min-width: 780px) 736px, (min-width: 680px) 608px, calc(94.44vw - 15px)"
                           fill
                         />
                       )}
@@ -132,11 +137,12 @@ function VariantA({ subtitle, title, posts, primaryButton }: BlogProps) {
                 {posts?.slice(count + 3, count + 5)?.map((post, key) => (
                   <div className="mb-5 w-full px-3 lg:w-1/2" key={key}>
                     <div className="relative mx-auto h-64 rounded">
-                      {post?.mainImage?.asset?._ref && (
+                      {post?.mainImage && (
                         <Image
                           className="relative h-full w-full overflow-hidden rounded object-cover"
                           src={urlFor(post?.mainImage)}
                           alt={`blog-variantA-image-${key}`}
+                          sizes="(min-width: 1540px) 358px, (min-width: 1280px) 294px, (min-width: 1040px) 230px, (min-width: 780px) 736px, (min-width: 680px) 608px, calc(94.44vw - 15px)"
                           fill
                         />
                       )}
@@ -181,11 +187,12 @@ function VariantA({ subtitle, title, posts, primaryButton }: BlogProps) {
                 {posts?.slice(count + 5, blogsPerPage)?.map((post, key) => (
                   <div className="mb-5 w-full px-3" key={key}>
                     <div className="relative mx-auto h-64 rounded">
-                      {post?.mainImage?.asset?._ref && (
+                      {post?.mainImage && (
                         <Image
                           className="relative h-full w-full overflow-hidden rounded object-cover"
                           src={urlFor(post?.mainImage)}
                           alt={`blog-variantA-image-${key}`}
+                          sizes="(min-width: 1540px) 740px, (min-width: 1280px) 612px, (min-width: 1040px) 484px, (min-width: 780px) 736px, (min-width: 680px) 608px, calc(94.44vw - 15px)"
                           fill
                         />
                       )}
@@ -230,10 +237,13 @@ function VariantA({ subtitle, title, posts, primaryButton }: BlogProps) {
               </div>
               <div className="mt-10">
                 {primaryButton?.label && (
-                  <ConditionalBtnOrLink
-                    value={primaryButton}
-                    style="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose outline-none transition duration-200"
-                  />
+                  <ConditionalLink
+                    link={primaryButton}
+                    className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose outline-none transition duration-200"
+                    ariaLabel={primaryButton?.label}
+                  >
+                    {primaryButton?.label}
+                  </ConditionalLink>
                 )}
               </div>
             </div>

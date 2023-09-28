@@ -3,7 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { urlFor } from "lib/sanity";
 import { format } from "date-fns";
-import { ConditionalBtnOrLink } from "helper";
+import { ConditionalLink } from "helper";
 
 import { BlogProps } from ".";
 
@@ -28,10 +28,13 @@ function VariantC({ subtitle, title, posts, primaryButton }: BlogProps) {
               )}
             </div>
             {primaryButton?.label && (
-              <ConditionalBtnOrLink
-                value={primaryButton}
-                style="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose outline-none transition duration-200"
-              />
+              <ConditionalLink
+                link={primaryButton}
+                className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose outline-none transition duration-200"
+                ariaLabel={primaryButton?.label}
+              >
+                {primaryButton?.label}
+              </ConditionalLink>
             )}
           </div>
           {posts && (
@@ -100,7 +103,7 @@ function VariantC({ subtitle, title, posts, primaryButton }: BlogProps) {
                         )}
                         {post?.slug?.current && (
                           <Link
-                            aria-label={`Go to ${post?.slug?.current} blog page`}
+                            aria-label="View Blog Post"
                             className="font-bold text-webriq-darkblue hover:text-webriq-blue"
                             href={
                               `/${post?.slug?.current}` ?? "/page-not-found"
@@ -160,7 +163,7 @@ function VariantC({ subtitle, title, posts, primaryButton }: BlogProps) {
                         )}
                         {post?.slug?.current && (
                           <Link
-                            aria-label={`Go to ${post?.slug?.current} blog page`}
+                            aria-label="View Blog Post"
                             className="font-bold text-webriq-darkblue hover:text-webriq-blue"
                             href={
                               `/${post?.slug?.current}` ?? "/page-not-found"
@@ -188,10 +191,13 @@ function VariantC({ subtitle, title, posts, primaryButton }: BlogProps) {
           )}
           {primaryButton?.label && (
             <div className="block text-center lg:hidden lg:w-1/2">
-              <ConditionalBtnOrLink
-                value={primaryButton}
-                style="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose outline-none transition duration-200"
-              />
+              <ConditionalLink
+                link={primaryButton}
+                className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose outline-none transition duration-200"
+                ariaLabel={primaryButton?.label}
+              >
+                {primaryButton?.label}
+              </ConditionalLink>
             </div>
           )}
         </div>

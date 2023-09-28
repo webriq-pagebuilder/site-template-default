@@ -24,8 +24,8 @@ function VariantD({ subtitle, title, posts }: BlogProps) {
   let blogsPerPage = 6;
   const [activeTab, setActiveTab] = React.useState("All"); //set the first index category as initial value
   const transformedPosts: BlogPostProps[] = posts
-    ?.map(post => {
-      return post?.categories?.map(category => {
+    ?.map((post) => {
+      return post?.categories?.map((category) => {
         return {
           category: category?.title,
           title: post?.title,
@@ -51,7 +51,7 @@ function VariantD({ subtitle, title, posts }: BlogProps) {
 
   // filtered posts per category
   const postsPerCategory = transformedPosts?.filter(
-    items => items?.category === activeTab
+    (items) => items?.category === activeTab
   );
 
   return (
@@ -88,7 +88,7 @@ function VariantD({ subtitle, title, posts }: BlogProps) {
                           }`}
                         >
                           <button
-                            aria-label="All Blogs tab"
+                            aria-label="Show all blog posts"
                             className={`mb-4 block px-3 py-2 focus:outline-none ${
                               activeTab === "All"
                                 ? "font-bold text-webriq-darkblue focus:outline-none"
@@ -110,7 +110,7 @@ function VariantD({ subtitle, title, posts }: BlogProps) {
                           key={index}
                         >
                           <button
-                            aria-label={`${category} Blogs tab`}
+                            aria-label={category}
                             className={`mb-4 block px-3 py-2 focus:outline-none ${
                               activeTab === category
                                 ? "font-bold text-webriq-darkblue focus:outline-none"
@@ -150,7 +150,7 @@ function VariantD({ subtitle, title, posts }: BlogProps) {
                         <div className="w-full px-3 lg:w-3/4">
                           {post?.title && (
                             <Link
-                              aria-label={`Go to ${post?.slug?.current} blog page`}
+                              aria-label={post?.title}
                               className="hover:text-webriq-babyblue"
                               href={`/${
                                 post?.slug?.current ?? "page-not-added"
@@ -215,7 +215,7 @@ function VariantD({ subtitle, title, posts }: BlogProps) {
                         <div className="w-full px-3 lg:w-3/4">
                           {post?.title && (
                             <Link
-                              aria-label={`Go to ${post?.slug?.current} blog page`}
+                              aria-label={post?.title}
                               className="hover:text-webriq-babyblue"
                               href={
                                 `/${post?.slug?.current}` ?? "/page-not-found"

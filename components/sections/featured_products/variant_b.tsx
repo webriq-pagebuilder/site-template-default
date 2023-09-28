@@ -8,7 +8,7 @@ import { FeaturedProductsProps } from ".";
 
 function VariantB({ title, featured }: FeaturedProductsProps) {
   const ecwid = useEcwid();
-  const ids = featured && featured?.map(item => item?.ecwidProductId);
+  const ids = featured && featured?.map((item) => item?.ecwidProductId);
 
   useEffect(() => {
     if (ecwid && ids) {
@@ -27,7 +27,7 @@ function VariantB({ title, featured }: FeaturedProductsProps) {
             {featured?.map((product, index) => {
               let items = [];
               ecwid?.productCollection &&
-                ecwid?.productCollection?.find(prod => {
+                ecwid?.productCollection?.find((prod) => {
                   if (prod?.id === product?.ecwidProductId) {
                     items?.push({ ...prod, ...product });
                   }
@@ -35,7 +35,7 @@ function VariantB({ title, featured }: FeaturedProductsProps) {
 
               return (
                 items?.length > 0 &&
-                items?.map(featuredCollections => (
+                items?.map((featuredCollections) => (
                   <div
                     className="mb-10 w-full px-3 md:w-1/2 lg:mb-6 lg:w-1/3 xl:w-1/4"
                     key={index}

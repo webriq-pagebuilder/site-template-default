@@ -1,6 +1,7 @@
 import { memo, useState, useEffect } from "react";
 import { urlFor } from "lib/sanity";
 import Link from "next/link";
+import Image from "next/image";
 import { useRouter } from "next/router";
 import { Collection, CollectionProduct } from "types";
 import { AllProductsProps } from ".";
@@ -83,20 +84,24 @@ function VariantB({ products }: AllProductsProps) {
                           href={`/products/${product?.slug?.current}`}
                         >
                           {product?.productInfo?.images ? (
-                            <img
+                            <Image
                               className="mb-5 mx-auto h-56 w-full object-contain hover:scale-110 transition-all duration-700"
                               src={urlFor(
                                 product?.productInfo?.images?.[0]?.image
                               )}
+                              width={350}
+                              height={250}
                               alt={
                                 product?.productInfo?.images?.[0]?.alt ??
                                 `product-image-${index + 1}`
                               }
                             />
                           ) : (
-                            <img
+                            <Image
                               className="mb-5 mx-auto h-56 w-full object-contain hover:scale-110 transition-all duration-700"
                               src="https://cdn.sanity.io/images/9itgab5x/production/9523d40461371b7b4948456c57bb663bd8998c4a-500x362.png"
+                              width={350}
+                              height={250}
                               alt={
                                 product?.productInfo?.images?.[0]?.alt ??
                                 `product-image-${index + 1}`
@@ -120,9 +125,11 @@ function VariantB({ products }: AllProductsProps) {
                 </div>
               ) : (
                 <div className="text-center">
-                  <img
+                  <Image
                     className="w-96 h-96 object-contain mx-auto"
                     src="https://cdn.sanity.io/images/9itgab5x/production/951b1f5f26048374711fa6800e0b542528240432-982x638.png"
+                    width={384}
+                    height={384}
                     alt="no-query-results"
                   />
                   <span className="mb-6 text-4xl text-webriq-darkblue font-bold">

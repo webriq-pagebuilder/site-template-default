@@ -20,7 +20,7 @@ function VariantA({ caption, title, team }: TeamsProps) {
           </div>
           <div className="flex flex-wrap">
             {team &&
-              team?.map(member => (
+              team?.map((member) => (
                 <div
                   className="mb-6 w-full px-3 md:w-1/2 lg:w-1/3"
                   key={member?.name}
@@ -30,7 +30,7 @@ function VariantA({ caption, title, team }: TeamsProps) {
                       <Image
                         className="mx-auto mb-8 h-24 w-24 overflow-hidden rounded-full object-cover"
                         src={urlFor(member?.mainImage?.image)}
-                        sizes="100vw"
+                        sizes="96px"
                         width={96}
                         height={96}
                         alt={

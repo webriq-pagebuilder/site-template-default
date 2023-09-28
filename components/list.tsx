@@ -23,13 +23,13 @@ export const Components = {
   textComponent: dynamic(() => import("components/sections/text_component")),
   // C-Studio
   cartSection: dynamic(() => import("components/sections/cart_section")),
-  featuredProducts: dynamic(() =>
-    import("components/sections/featured_products")
+  featuredProducts: dynamic(
+    () => import("components/sections/featured_products")
   ),
   productInfo: dynamic(() => import("components/sections/product_info")),
   wishlistSection: dynamic(() => import("components/sections/wishlist")),
-  pages_productInfo: dynamic(() =>
-    import("components/sections/pages_productInfo")
+  pages_productInfo: dynamic(
+    () => import("components/sections/pages_productInfo")
   ),
   allProducts: dynamic(() => import("components/sections/all_products")),
 };
@@ -68,3 +68,6 @@ export function filterDataToSingleItem(data, preview) {
 
   return data[0];
 }
+
+// SEO component to add required metatags to pages (add component inside <Head></Head>)
+export const SEO = dynamic(() => import("components/SEO"));

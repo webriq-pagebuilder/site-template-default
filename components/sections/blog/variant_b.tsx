@@ -3,7 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { urlFor } from "lib/sanity";
 import { format } from "date-fns";
-import { ConditionalBtnOrLink } from "helper";
+import { ConditionalLink } from "helper";
 
 import { BlogProps } from "./index";
 
@@ -32,7 +32,7 @@ function VariantB({ subtitle, title, posts, primaryButton }: BlogProps) {
               <div className="mb-6 w-full px-3 lg:mb-0 lg:w-1/2">
                 {posts?.slice(count, count + 1)?.map((post, key) => (
                   <div className="overflow-hidden rounded shadow" key={key}>
-                    {post?.mainImage?.asset?._ref && (
+                    {post?.mainImage && (
                       <Image
                         className="h-full w-full overflow-hidden rounded-t object-cover"
                         src={urlFor(post?.mainImage)}
@@ -65,7 +65,7 @@ function VariantB({ subtitle, title, posts, primaryButton }: BlogProps) {
                       )}
                       {post?.slug?.current && (
                         <Link
-                          aria-label={`Go to ${post?.slug?.current} blog page`}
+                          aria-label="View Blog Post"
                           className="font-bold text-webriq-darkblue hover:text-webriq-babyblue"
                           href={`/${post?.slug?.current}` ?? "/page-not-found"}
                         >
@@ -80,7 +80,7 @@ function VariantB({ subtitle, title, posts, primaryButton }: BlogProps) {
                 {posts?.slice(count + 1, blogsPerPage)?.map((post, key) => (
                   <div className="mb-6 w-full px-3 lg:w-1/2" key={key}>
                     <div className="overflow-hidden rounded shadow">
-                      {post?.mainImage?.asset?._ref && (
+                      {post?.mainImage && (
                         <Image
                           className="h-full w-full overflow-hidden rounded-t object-cover"
                           src={urlFor(post?.mainImage)}
@@ -111,7 +111,7 @@ function VariantB({ subtitle, title, posts, primaryButton }: BlogProps) {
                         )}
                         {post?.slug?.current && (
                           <Link
-                            aria-label={`Go to ${post?.slug?.current} blog page`}
+                            aria-label="View Blog Post"
                             className="font-bold text-webriq-darkblue hover:text-webriq-babyblue"
                             href={
                               `/${post?.slug?.current}` ?? "/page-not-found"
@@ -128,10 +128,13 @@ function VariantB({ subtitle, title, posts, primaryButton }: BlogProps) {
             </div>
             <div className="text-center">
               {primaryButton?.label && (
-                <ConditionalBtnOrLink
-                  value={primaryButton}
-                  style="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose outline-none transition duration-200"
-                />
+                <ConditionalLink
+                  link={primaryButton}
+                  className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose outline-none transition duration-200"
+                  ariaLabel={primaryButton?.label}
+                >
+                  {primaryButton?.label}
+                </ConditionalLink>
               )}
             </div>
           </div>

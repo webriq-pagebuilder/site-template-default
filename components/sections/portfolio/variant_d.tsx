@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import { urlFor } from "lib/sanity";
-import { ConditionalBtnOrLink } from "helper";
+import { ConditionalLink } from "helper";
 import { PortfolioProps } from ".";
 
 function VariantD({ caption, title, portfoliosWithCategory }: PortfolioProps) {
@@ -13,7 +13,7 @@ function VariantD({ caption, title, portfoliosWithCategory }: PortfolioProps) {
 
   // group portfolios per category
   const portfoliosPerCategory = portfoliosWithCategory?.filter(
-    data => data?.category === activeTab
+    (data) => data?.category === activeTab
   );
 
   return (
@@ -33,7 +33,7 @@ function VariantD({ caption, title, portfoliosWithCategory }: PortfolioProps) {
               <div className="inline-flex flex-wrap rounded bg-white py-1 text-sm">
                 {portfoliosWithCategory?.map((content, index) => (
                   <button
-                    aria-label={`Portfolios ${content?.category} tab`}
+                    aria-label={content?.category}
                     key={index}
                     onClick={() => setActiveTab(content?.category)}
                     className={`mx-auto mb-1 w-auto px-4 py-2 ${
@@ -52,7 +52,7 @@ function VariantD({ caption, title, portfoliosWithCategory }: PortfolioProps) {
             <div className="mb-8 flex w-full flex-wrap lg:mb-0 lg:w-1/2">
               {portfoliosPerCategory?.[0]?.content
                 ?.slice(count, count + 2)
-                ?.map(content => (
+                ?.map((content) => (
                   <div
                     className="mb-8 w-full px-4 lg:w-1/2"
                     key={content?._key}
@@ -80,10 +80,13 @@ function VariantD({ caption, title, portfoliosWithCategory }: PortfolioProps) {
                                 {content?.description}
                               </p>
                               {content?.primaryButton?.label && (
-                                <ConditionalBtnOrLink
-                                  value={content?.primaryButton}
-                                  style="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose"
-                                />
+                                <ConditionalLink
+                                  ariaLabel={content?.primaryButton?.label}
+                                  link={content?.primaryButton}
+                                  className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose"
+                                >
+                                  {content?.primaryButton?.label}
+                                </ConditionalLink>
                               )}
                             </div>
                           </div>
@@ -94,7 +97,7 @@ function VariantD({ caption, title, portfoliosWithCategory }: PortfolioProps) {
                 ))}
               {portfoliosPerCategory?.[0]?.content
                 ?.slice(count + 2, count + 3)
-                ?.map(content => (
+                ?.map((content) => (
                   <div
                     className="mb-8 w-full px-4 lg:h-full lg:w-full lg:px-4 xl:px-4"
                     key={content?._key}
@@ -122,10 +125,13 @@ function VariantD({ caption, title, portfoliosWithCategory }: PortfolioProps) {
                                 {content?.description}
                               </p>
                               {content?.primaryButton?.label && (
-                                <ConditionalBtnOrLink
-                                  value={content?.primaryButton}
-                                  style="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose"
-                                />
+                                <ConditionalLink
+                                  ariaLabel={content?.primaryButton?.label}
+                                  link={content?.primaryButton}
+                                  className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose"
+                                >
+                                  {content?.primaryButton?.label}
+                                </ConditionalLink>
                               )}
                             </div>
                           </div>
@@ -138,7 +144,7 @@ function VariantD({ caption, title, portfoliosWithCategory }: PortfolioProps) {
             <div className="w-full lg:w-1/2">
               {portfoliosPerCategory?.[0]?.content
                 ?.slice(count + 3, count + 4)
-                ?.map(content => (
+                ?.map((content) => (
                   <div
                     className="mb-8 w-full px-4 lg:w-full lg:px-4 xl:w-full xl:px-4"
                     key={content?._key}
@@ -166,10 +172,13 @@ function VariantD({ caption, title, portfoliosWithCategory }: PortfolioProps) {
                                 {content?.description}
                               </p>
                               {content?.primaryButton?.label && (
-                                <ConditionalBtnOrLink
-                                  value={content?.primaryButton}
-                                  style="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose"
-                                />
+                                <ConditionalLink
+                                  ariaLabel={content?.primaryButton?.label}
+                                  link={content?.primaryButton}
+                                  className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose"
+                                >
+                                  {content?.primaryButton?.label}
+                                </ConditionalLink>
                               )}
                             </div>
                           </div>
@@ -181,7 +190,7 @@ function VariantD({ caption, title, portfoliosWithCategory }: PortfolioProps) {
               <div className="flex flex-wrap">
                 {portfoliosPerCategory?.[0]?.content
                   ?.slice(count + 4, portfoliosPerPage)
-                  ?.map(content => (
+                  ?.map((content) => (
                     <div
                       className="relative mb-8 w-full px-4 lg:mb-0 lg:w-1/2"
                       key={content?._key}
@@ -209,10 +218,13 @@ function VariantD({ caption, title, portfoliosWithCategory }: PortfolioProps) {
                                   {content?.description}
                                 </p>
                                 {content?.primaryButton?.label && (
-                                  <ConditionalBtnOrLink
-                                    value={content?.primaryButton}
-                                    style="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose"
-                                  />
+                                  <ConditionalLink
+                                    ariaLabel={content?.primaryButton?.label}
+                                    link={content?.primaryButton}
+                                    className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose"
+                                  >
+                                    {content?.primaryButton?.label}
+                                  </ConditionalLink>
                                 )}
                               </div>
                             </div>
@@ -226,10 +238,13 @@ function VariantD({ caption, title, portfoliosWithCategory }: PortfolioProps) {
           </div>
           {portfoliosPerCategory?.[0]?.primaryButton?.label && (
             <div className="text-center">
-              <ConditionalBtnOrLink
-                value={portfoliosPerCategory?.[0]?.primaryButton}
-                style="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose outline-none transition duration-200"
-              />
+              <ConditionalLink
+                ariaLabel={portfoliosPerCategory?.[0]?.primaryButton?.label}
+                link={portfoliosPerCategory?.[0]?.primaryButton}
+                className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose outline-none transition duration-200"
+              >
+                {portfoliosPerCategory?.[0]?.primaryButton?.label}
+              </ConditionalLink>
             </div>
           )}
         </div>

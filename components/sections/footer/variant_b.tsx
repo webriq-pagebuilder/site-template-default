@@ -1,7 +1,8 @@
 import { urlFor } from "lib/sanity";
 import Link from "next/link";
+import Image from "next/image";
 import React from "react";
-import { logoLink, ConditionalBtnOrLink } from "helper";
+import { logoLink, ConditionalLink } from "helper";
 
 import { FooterProps } from ".";
 
@@ -22,9 +23,11 @@ function VariantB({ logo, copyright, socialMedia, menu }: FooterProps) {
                   className="inline-block text-3xl font-bold leading-none"
                   href={logoLink(logo)}
                 >
-                  <img
+                  <Image
                     className="h-14"
                     src={urlFor(logo?.image)}
+                    width={132}
+                    height={56}
                     alt={logo?.alt ?? "footer-logo"}
                   />
                 </Link>
@@ -36,10 +39,13 @@ function VariantB({ logo, copyright, socialMedia, menu }: FooterProps) {
                   {menu?.map((links, index, { length }) => (
                     <React.Fragment key={links?._key || index}>
                       <li className="mb-2 w-full md:mb-0 md:w-auto" key={index}>
-                        <ConditionalBtnOrLink
-                          value={links}
-                          style="lg:text-sm text-gray-500 hover:text-gray-700"
-                        />
+                        <ConditionalLink
+                          link={links}
+                          className="lg:text-sm text-gray-500 hover:text-gray-700"
+                          ariaLabel={links?.label}
+                        >
+                          {links?.label}
+                        </ConditionalLink>
                       </li>
                       {index + 1 !== length ? (
                         <li className="hidden md:block">
@@ -70,7 +76,7 @@ function VariantB({ logo, copyright, socialMedia, menu }: FooterProps) {
             {socialMedia && (
               <div className="order-first mb-4 lg:order-last lg:mb-0">
                 {socialMedia?.map(
-                  social =>
+                  (social) =>
                     social?.socialMediaLink && (
                       <a
                         aria-label={
@@ -121,12 +127,13 @@ function VariantB({ logo, copyright, socialMedia, menu }: FooterProps) {
                           </svg>
                         ) : (
                           social?.socialMediaIcon?.image && (
-                            <img
-                              className="h-6"
+                            <Image
                               src={urlFor(social?.socialMediaIcon?.image)}
+                              width={24}
+                              height={24}
                               alt={
                                 social?.socialMediaIcon?.alt ??
-                                "contact-socialMedia-icon"
+                                "footer-socialMedia-icon"
                               }
                             />
                           )

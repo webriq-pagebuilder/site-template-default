@@ -1,10 +1,9 @@
 /* eslint-disable react/no-unused-prop-types, react/no-multi-comp, react/no-did-mount-set-state, react/forbid-prop-types */
 import React from "react";
-import { useClient } from "sanity";
-import imageUrlBuilder from "@sanity/image-url";
 import { format } from "date-fns";
-import { assemblePageUrl } from "./frontendUtils";
-import styles from "styles/studio/seo/TwitterCard.module.css";
+import { assemblePageUrl } from "../frontendUtils";
+import styles from "./TwitterCard.module.css";
+import { urlFor } from "lib/sanity";
 
 const author = {
   name: "WebriQ",
@@ -14,17 +13,13 @@ const author = {
 };
 
 function TwitterCard(props) {
-  const client = useClient({ apiVersion: "2021-10-21" });
-  const builder = imageUrlBuilder(client);
-
-  const urlFor = (source) => builder.image(source)?.width(500)?.url();
-
   const { document, width = 500, options, defaultSeo } = props;
   const { title, seo } = document;
   const url = assemblePageUrl({ document, options });
   const websiteUrlWithoutProtocol = url.split("://").pop();
 
-  const seoImage = seo?.seoImage ?? defaultSeo?.defaultSeoImage;
+  const seoImage =
+    seo?.seoImage ?? defaultSeo?.defaultSeoImage ?? author?.image;
 
   const date =
     document?._updatedAt && format(new Date(document?._updatedAt), "MMM dd");
@@ -39,7 +34,7 @@ function TwitterCard(props) {
               className={styles.tweetAuthorAvatar}
               src={
                 author && typeof author.image === "object"
-                  ? urlFor(author.image)
+                  ? urlFor(seoImage)
                   : author.image
               }
             />

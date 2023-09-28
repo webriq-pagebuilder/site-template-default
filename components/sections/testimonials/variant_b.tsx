@@ -4,19 +4,19 @@ import { TestimonialProps } from ".";
 function VariantB({ caption, title, testimonials }: TestimonialProps) {
   const [testimony, setTestimony] = React.useState(testimonials);
 
-  const slider = action => {
+  const slider = (action) => {
     if (action === "next") {
       // Remove first element
       let firstItem = testimony?.shift();
 
       // Push the deleted element to last index
-      testimonials && setTestimony(prevState => [...prevState, firstItem]);
+      testimonials && setTestimony((prevState) => [...prevState, firstItem]);
     } else if (action === "prev") {
       // Remove last element
       let lastItem = testimony?.pop();
 
       // Push the deleted element to first index
-      testimonials && setTestimony(prevState => [lastItem, ...prevState]);
+      testimonials && setTestimony((prevState) => [lastItem, ...prevState]);
     }
   };
 
@@ -27,7 +27,7 @@ function VariantB({ caption, title, testimonials }: TestimonialProps) {
           <div className="flex flex-wrap items-center justify-center pb-16 pt-8">
             {testimony?.length >= 4 && (
               <button
-                aria-label="Show Previous Testimonial button"
+                aria-label="Show previous testimonial"
                 className="order-last mr-3 rounded-full bg-white p-4 text-webriq-darkblue shadow-md transition duration-200 hover:text-webriq-babyblue lg:order-first lg:mr-0"
                 onClick={() => slider("prev")}
               >
@@ -55,7 +55,7 @@ function VariantB({ caption, title, testimonials }: TestimonialProps) {
             </div>
             {testimony?.length >= 4 && (
               <button
-                aria-label="Show Next Testimonial button"
+                aria-label="Show next testimonial"
                 className="order-last rounded-full bg-white p-4 text-webriq-darkblue shadow-md transition duration-200 hover:text-webriq-babyblue"
                 onClick={() => slider("next")}
               >

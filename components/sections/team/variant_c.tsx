@@ -20,7 +20,7 @@ function VariantC({ caption, title, team }: TeamsProps) {
           </div>
           <div className="flex flex-wrap">
             {team &&
-              team.map(member => (
+              team.map((member) => (
                 <div
                   className="mb-6 w-full px-3 md:w-1/2 lg:w-1/3"
                   key={member?.name}

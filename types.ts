@@ -9,6 +9,7 @@ export interface SectionsProps {
 }
 //*EDIT THIS SECTION WHEN CREATING/UPDATING SCHEMAS ON STUDIO */
 export interface Variants {
+  multipleMenus: any;
   arrayOfTitleAndText?: ArrayOfTitleAndText[] | null;
   logo?: Logo | null;
   primaryButton?: LabeledRoute | null;
@@ -91,6 +92,7 @@ export interface ConditionalLink {
 }
 
 export interface SanityImage {
+  priority?: boolean | false;
   _type: "image";
   asset: {
     _ref: string;
@@ -184,6 +186,14 @@ export interface Seo {
   seoImage?: SanityImage;
   seoKeywords?: string;
   seoSynonyms?: string;
+}
+
+export interface DefaultSeoData {
+  defaultSeoTitle: string | undefined;
+  defaultSeoSynonyms?: string | undefined;
+  defaultSeoKeywords?: string | undefined;
+  defaultSeoDescription: string | undefined;
+  defaultSeoImage: SanityImage | undefined;
 }
 
 export interface Sections extends SanityBody {
@@ -442,16 +452,16 @@ export interface CommonSections {
 
 export interface SearchItemsTypes {
   searchItems: {
-    _id: string,
-    label: string,
-    title: string,
-    variant: string,
-    _type: string,
-  }[],
-  onClickHandler: any
+    _id: string;
+    label: string;
+    title: string;
+    variant: string;
+    _type: string;
+  }[];
+  onClickHandler: any;
 }
 
 export interface ButtonWithTooltipTypes {
-  toolTipText?: string | undefined, 
-  children: ReactElement<any, string | JSXElementConstructor<any>>, 
+  toolTipText?: string | undefined;
+  children: ReactElement<any, string | JSXElementConstructor<any>>;
 }

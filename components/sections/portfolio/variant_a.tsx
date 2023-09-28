@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import { urlFor } from "lib/sanity";
-import { ConditionalBtnOrLink } from "helper";
+import { ConditionalLink } from "helper";
 import { PortfolioProps } from ".";
 
 function VariantA({ caption, title, portfoliosWithCategory }: PortfolioProps) {
@@ -12,7 +12,7 @@ function VariantA({ caption, title, portfoliosWithCategory }: PortfolioProps) {
 
   //creates new array of items filtered by active tab
   const portfoliosPerCategory = portfoliosWithCategory?.filter(
-    data => data?.category === activeTab
+    (data) => data?.category === activeTab
   );
 
   return (
@@ -32,7 +32,7 @@ function VariantA({ caption, title, portfoliosWithCategory }: PortfolioProps) {
               <div className="inline-flex flex-wrap rounded bg-white py-1 text-sm">
                 {portfoliosWithCategory?.map((content, index) => (
                   <button
-                    aria-label={`Portfolio ${content?.category} tab`}
+                    aria-label={content?.category}
                     key={index}
                     className={`mx-auto mb-1 w-auto px-4 py-2 ${
                       activeTab === content?.category
@@ -71,10 +71,13 @@ function VariantA({ caption, title, portfoliosWithCategory }: PortfolioProps) {
                       )}
                       <div className="absolute inset-0 z-10 flex items-center justify-center rounded-lg bg-gray-900 opacity-0 duration-300 hover:opacity-75">
                         {content?.primaryButton?.label && (
-                          <ConditionalBtnOrLink
-                            value={content?.primaryButton}
-                            style="inline-block py-2 px-4 border-2 border-gray-400 hover:border-white hover:opacity-100 text-gray-50 hover:bg-white hover:text-gray-900 transition duration-200 rounded-l-xl rounded-t-xl font-bold leading-loose"
-                          />
+                          <ConditionalLink
+                            ariaLabel={content?.primaryButton?.label}
+                            link={content?.primaryButton}
+                            className="inline-block py-2 px-4 border-2 border-gray-400 hover:border-white hover:opacity-100 text-gray-50 hover:bg-white hover:text-gray-900 transition duration-200 rounded-l-xl rounded-t-xl font-bold leading-loose"
+                          >
+                            {content?.primaryButton?.label}
+                          </ConditionalLink>
                         )}
                       </div>
                     </div>
@@ -84,10 +87,13 @@ function VariantA({ caption, title, portfoliosWithCategory }: PortfolioProps) {
           )}
           {portfoliosPerCategory?.[0]?.primaryButton?.label && (
             <div className="text-center">
-              <ConditionalBtnOrLink
-                value={portfoliosPerCategory?.[0]?.primaryButton}
-                style="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose outline-none transition duration-200"
-              />
+              <ConditionalLink
+                ariaLabel={portfoliosPerCategory?.[0]?.primaryButton?.label}
+                link={portfoliosPerCategory?.[0]?.primaryButton}
+                className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose outline-none transition duration-200"
+              >
+                {portfoliosPerCategory?.[0]?.primaryButton?.label}
+              </ConditionalLink>
             </div>
           )}
         </div>
