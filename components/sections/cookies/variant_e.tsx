@@ -15,7 +15,7 @@ function VariantE({
   const [showCookie, setShowCookie] = React.useState(!!cookie);
 
   return (
-    <div className="fixed inset-x-0 bottom-0 z-50">
+    <div className="fixed bottom-0 z-50">
       {!showCookie
         ? title && (
             <div className="mx-4 mb-6 max-w-md rounded-lg bg-gray-800 pt-8 text-white md:mx-0 md:ml-10">
@@ -31,7 +31,7 @@ function VariantE({
               <div className="flex border-t border-gray-700 text-center">
                 {denyCookieBtn && (
                   <button
-                    aria-label="Deny Cookies button"
+                    aria-label={denyCookieBtn}
                     type="button"
                     className="inline-block w-1/2 rounded-bl-lg border-r border-gray-700 py-4 text-sm font-bold transition duration-200 hover:bg-gray-700"
                     onClick={() => {
@@ -44,7 +44,7 @@ function VariantE({
                 )}
                 {allowCookieBtn && (
                   <button
-                    aria-label="Allow Cookies button"
+                    aria-label={allowCookieBtn}
                     type="button"
                     className="inline-block w-1/2 rounded-br-lg py-4 text-sm font-bold text-webriq-lightblue transition duration-200 hover:bg-webriq-babyblue"
                     onClick={() => {

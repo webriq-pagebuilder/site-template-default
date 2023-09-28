@@ -1,8 +1,9 @@
 import { urlFor } from "lib/sanity";
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import WebriQForm from "components/webriq-form";
-import { logoLink, thankYouPageLink, ConditionalBtnOrLink } from "helper";
+import { logoLink, thankYouPageLink, ConditionalLink } from "helper";
 
 import { CTAProps } from ".";
 import { FormFields } from "types";
@@ -31,9 +32,11 @@ function VariantD({
                 className="mb-10 inline-block text-3xl font-bold leading-none"
                 href={logoLink(logo)}
               >
-                <img
+                <Image
                   className="h-14"
                   src={urlFor(logo?.image)}
+                  width={56}
+                  height={56}
                   alt={logo?.alt ?? "callToAction-logo"}
                 />
               </Link>
@@ -43,10 +46,13 @@ function VariantD({
             </h1>
             <p className="mb-8 leading-loose text-gray-700">{text}</p>
             {button?.label && (
-              <ConditionalBtnOrLink
-                value={button}
-                style="inline-block py-2 px-6 bg-webriq-darkblue hover:bg-webriq-blue text-white font-bold leading-loose transition duration-250 rounded-l-xl rounded-t-xl"
-              />
+              <ConditionalLink
+                link={button}
+                className="inline-block py-2 px-6 bg-webriq-darkblue hover:bg-webriq-blue text-white font-bold leading-loose transition duration-250 rounded-l-xl rounded-t-xl"
+                ariaLabel={button?.label}
+              >
+                {button?.label}
+              </ConditionalLink>
             )}
           </div>
           <div className="w-full lg:w-1/2">
@@ -101,10 +107,13 @@ function VariantD({
                   {signInLink?.label && (
                     <p className="text-xs text-gray-500">
                       <span>Already have an account?</span>
-                      <ConditionalBtnOrLink
-                        value={signInLink}
-                        style="text-webriq-darkblue hover:text-webriq-babyblue"
-                      />
+                      <ConditionalLink
+                        link={signInLink}
+                        className="text-webriq-darkblue hover:text-webriq-babyblue"
+                        ariaLabel={signInLink?.label}
+                      >
+                        {signInLink?.label}
+                      </ConditionalLink>
                     </p>
                   )}
                 </div>
@@ -113,10 +122,13 @@ function VariantD({
                 <div className="flex flex-wrap items-center justify-center text-sm text-gray-500">
                   {formLinks?.map((link, index, { length }) => (
                     <div key={index}>
-                      <ConditionalBtnOrLink
-                        value={link}
-                        style="text-webriq-darkblue hover:text-webriq-blue font-bold"
-                      />
+                      <ConditionalLink
+                        link={link}
+                        className="text-webriq-darkblue hover:text-webriq-blue font-bold"
+                        ariaLabel={link?.label}
+                      >
+                        {link?.label}
+                      </ConditionalLink>
                       {index === length - 1 ? null : index === length - 2 ? (
                         <span>&nbsp;and&nbsp;</span>
                       ) : (
@@ -158,7 +170,7 @@ function FormFields({ fields }: { fields: FormFields }) {
   if (fields?.type === "textarea") {
     return (
       <textarea
-        aria-label={`${fields?.name} text area`}
+        aria-label={fields?.placeholder ?? fields?.name}
         className="w-full rounded bg-gray-100 p-4 text-xs outline-none"
         placeholder={fields?.placeholder}
         name={fields?.name}
@@ -169,7 +181,7 @@ function FormFields({ fields }: { fields: FormFields }) {
     return (
       <label className="flex rounded bg-gray-100 px-2">
         <input
-          aria-label={fields?.name}
+          aria-label={fields?.placeholder ?? fields?.name}
           className="w-full rounded bg-gray-100 p-4 text-xs outline-none"
           type="file"
           placeholder={fields?.placeholder ?? "Choose file.."}
@@ -181,7 +193,7 @@ function FormFields({ fields }: { fields: FormFields }) {
   } else if (fields?.type === "inputNumber") {
     return (
       <input
-        aria-label={fields?.name}
+        aria-label={fields?.placeholder ?? fields?.name}
         className="w-full rounded bg-gray-100 p-4 text-xs outline-none"
         type="number"
         placeholder={fields?.placeholder}
@@ -272,11 +284,7 @@ function FormFields({ fields }: { fields: FormFields }) {
   } else {
     return (
       <input
-        aria-label={`${
-          fields?.type === "inputText"
-            ? `Input ${fields?.name}`
-            : `${fields?.type}`
-        }`}
+        aria-label={fields?.placeholder ?? fields?.name}
         className="w-full rounded bg-gray-100 p-4 text-xs outline-none"
         type={
           fields?.type === "inputEmail"

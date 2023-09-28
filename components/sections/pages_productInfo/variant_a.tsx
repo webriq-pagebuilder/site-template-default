@@ -32,7 +32,7 @@ function VariantA({ products }: PagesProductInfoProps) {
                   <div className="h-full w-full">
                     <Image
                       className="object-cover"
-                      sizes="100vw"
+                      sizes="(min-width: 1840px) 704px, (min-width: 1540px) calc(27.86vw + 197px), (min-width: 1320px) calc(30vw + 120px), (min-width: 1260px) calc(145vw - 1379px), (min-width: 1040px) 36vw, (min-width: 980px) 320px, (min-width: 780px) calc(41.11vw - 75px), (min-width: 640px) calc(66.67vw + 69px), calc(100vw - 64px)"
                       width={736}
                       height={650}
                       src={urlFor(products?.productInfo?.images?.[0]?.image)}
@@ -45,7 +45,7 @@ function VariantA({ products }: PagesProductInfoProps) {
                 ) : (
                   <Image
                     className="object-cover"
-                    sizes="100vw"
+                    sizes="(min-width: 1840px) 704px, (min-width: 1540px) calc(27.86vw + 197px), (min-width: 1320px) calc(30vw + 120px), (min-width: 1260px) calc(145vw - 1379px), (min-width: 1040px) 36vw, (min-width: 980px) 320px, (min-width: 780px) calc(41.11vw - 75px), (min-width: 640px) calc(66.67vw + 69px), calc(100vw - 64px)"
                     width={736}
                     height={650}
                     src="https://cdn.sanity.io/images/9itgab5x/production/9523d40461371b7b4948456c57bb663bd8998c4a-500x362.png"
@@ -151,8 +151,8 @@ function VariantA({ products }: PagesProductInfoProps) {
                     </AddToWishlist>
                   </div>
                 </ProductDetail>
-                <div className="flex items-center">
-                  <span className="font-heading mr-8 mt-8 font-bold uppercase">
+                <div className="flex flex-wrap items-center">
+                  <span className="font-heading mr-8 my-auto font-bold uppercase">
                     SHARE IT
                   </span>
                   {products?.productInfo?.socialLinks?.map(
@@ -162,7 +162,7 @@ function VariantA({ products }: PagesProductInfoProps) {
                           aria-label={
                             social?.socialMedia || social?.socialMediaPlatform
                           }
-                          className="mr-1 h-8 w-8"
+                          className="h-8 w-8 mr-3"
                           target="_blank"
                           rel="noopener noreferrer"
                           href={social?.socialMediaLink}
@@ -207,8 +207,11 @@ function VariantA({ products }: PagesProductInfoProps) {
                             </svg>
                           ) : (
                             social?.socialMediaIcon?.image && (
-                              <img
+                              <Image
                                 src={urlFor(social?.socialMediaIcon?.image)}
+                                width={32}
+                                height={32}
+                                quality={100}
                                 alt={
                                   social?.socialMediaIcon?.alt ??
                                   "contact-socialMedia-icon"

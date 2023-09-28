@@ -1,5 +1,5 @@
 import React from "react";
-import { CopyIcon } from "@sanity/icons"
+import { CopyIcon } from "@sanity/icons";
 import { DuplicatePageSettings, DialogFooter } from "studio/components/actions";
 import { sanityClient } from "lib/sanity.client";
 
@@ -14,7 +14,7 @@ export default function CustomDuplicateAction(props) {
     page: document,
     title: document?.title || document?.name,
     sections: document?.sections,
-  })
+  });
 
   return {
     icon: CopyIcon,
@@ -33,14 +33,14 @@ export default function CustomDuplicateAction(props) {
               "replaced": false,
               "isEditing": false,
             }, 
-          }`, 
+          }`,
           { documentId: documentId }
         )
         .then(async (result) => {
           setPage(result);
 
           // fetch all the variants based on the section type added in current document
-          if(result?.sections?.length !== 0) {
+          if (result?.sections?.length !== 0) {
             await sanityClient
               .fetch(
                 `*[_type in $sections] {
@@ -51,8 +51,8 @@ export default function CustomDuplicateAction(props) {
                   "isEditing": false,
                 }`,
                 { sections: result?.sections?.map((section) => section?._type) }
-            )
-            .then((result) => setVariants(result));
+              )
+              .then((result) => setVariants(result));
           }
         });
 
@@ -65,25 +65,27 @@ export default function CustomDuplicateAction(props) {
       // }, // comment to prevent dialog from closing on click outside
       header: "Duplicate page content",
       content: (
-        <DuplicatePageSettings {...{ 
-            page, 
-            variants, 
-            setValues, 
-            setDialogOpen 
-          }} 
+        <DuplicatePageSettings
+          {...{
+            page,
+            variants,
+            setValues,
+            setDialogOpen,
+          }}
         />
       ),
-      footer:(
-        <DialogFooter {...{ 
-            page, 
-            title: page?.title, 
-            sections: page?.sections, 
+      footer: (
+        <DialogFooter
+          {...{
+            page,
+            title: page?.title,
+            sections: page?.sections,
             dialogFn: setDialogOpen,
             values,
             setValues,
-          }} 
+          }}
         />
-      )
-    }
-  }
+      ),
+    },
+  };
 }

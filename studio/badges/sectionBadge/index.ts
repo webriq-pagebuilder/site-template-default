@@ -1,4 +1,4 @@
-import { DocumentBadgeDescription, DocumentBadgeProps } from "sanity"
+import { DocumentBadgeDescription, DocumentBadgeProps } from "sanity";
 
 export const sections = [
   "navigation",
@@ -33,44 +33,49 @@ export const sections = [
   // C-Studio slot sections for cart and wishlist
   "slotCart",
   "slotWishlist",
-]
+];
 
 function sectionName(section: string) {
   if (section === "appPromo") {
-    return "App Promo"
-  } else if (section === "featuredProducts" || section === "pages_featuredProducts") {
-    return "Featured Products"
+    return "App Promo";
+  } else if (
+    section === "featuredProducts" ||
+    section === "pages_featuredProducts"
+  ) {
+    return "Featured Products";
   } else if (section === "callToAction") {
-    return "Call To Action"
+    return "Call To Action";
   } else if (section === "howItWorks") {
-    return "How It Works"
+    return "How It Works";
   } else if (section === "logoCloud") {
-    return "Logo Cloud"
+    return "Logo Cloud";
   } else if (section === "productInfo" || section === "pages_productInfo") {
-    return "Product Info"
+    return "Product Info";
   } else if (section === "signInSignUp") {
-    return "Sign In Sign Up"
+    return "Sign In Sign Up";
   } else if (section === "textComponent") {
-    return "Text Component"
+    return "Text Component";
   } else if (section === "allProducts") {
-    return "All Products"
+    return "All Products";
   } else if (section === "slotCart") {
-    return "Cart"
+    return "Cart";
   } else if (section === "slotWishlist") {
-    return "Wishlist"
+    return "Wishlist";
   } else {
-    return section
+    return section;
   }
 }
 
-export function SectionBadge(props: DocumentBadgeProps): DocumentBadgeDescription {
-  const { type } = props
+export function SectionBadge(
+  props: DocumentBadgeProps
+): DocumentBadgeDescription {
+  const { type } = props;
 
   if (sections.includes(type)) {
     return {
       label: String(`${sectionName(type)} Section`).toUpperCase(),
       title: `${sectionName(type).toUpperCase()} SECTION`,
       color: "success",
-    }
+    };
   }
 }

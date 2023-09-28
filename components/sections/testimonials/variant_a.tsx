@@ -6,7 +6,7 @@ import { TestimonialProps } from ".";
 function VariantA({ testimonials }: TestimonialProps) {
   const [testimony, setTestimony] = React.useState(0);
 
-  const slider = index => {
+  const slider = (index) => {
     setTestimony(index);
   };
 

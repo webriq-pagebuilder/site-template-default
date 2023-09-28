@@ -6,7 +6,7 @@ import { TeamsProps } from ".";
 function VariantB({ team }: TeamsProps) {
   const [activeTab, setActiveTab] = React.useState(team?.[0]?.name); // default active tab is the first tab
 
-  const filterMember = team?.filter(member => member?.name === activeTab);
+  const filterMember = team?.filter((member) => member?.name === activeTab);
 
   return (
     <section>
@@ -17,10 +17,10 @@ function VariantB({ team }: TeamsProps) {
               <div className="mb-8 w-full px-3 lg:mb-0 lg:w-1/3">
                 <ul className="flex flex-row flex-wrap justify-center space-x-6 lg:flex-col lg:justify-start lg:space-x-0">
                   {team &&
-                    team?.map(item => (
+                    team?.map((item) => (
                       <li key={item?.name}>
                         <button
-                          aria-label={`Team member ${item?.name}`}
+                          aria-label={item.name}
                           className={`mb-4 text-2xl lg:text-4xl ${
                             item?.name === activeTab
                               ? "text-gray-900"

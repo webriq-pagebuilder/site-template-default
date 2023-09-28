@@ -92,7 +92,6 @@ function VariantB({
                             images?.[currentPosition]?.alt ??
                             `appPromo-variantB-image${currentPosition}`
                           }
-                          priority
                         />
                       )}
                     </div>

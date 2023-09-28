@@ -1,6 +1,6 @@
 {
   "name": "@webriq-pagebuilder/site-template-default",
-  "version": "3.3.5",
+  "version": "3.5.0",
   "private": true,
   "license": "MIT",
   "author": "WebriQ <info@webriq.com>",
@@ -10,9 +10,7 @@
     "dev": "next dev",
     "lint": "next lint",
     "start": "next start",
-    "update:latest": "yarn add @webriq-pagebuilder/sanity-plugin-input-component-gpt3@latest @webriq-pagebuilder/sanity-plugin-input-component-variants@latest @webriq-pagebuilder/sanity-plugin-schema-blog@latest @webriq-pagebuilder/sanity-plugin-schema-commerce@latest @webriq-pagebuilder/sanity-plugin-webriq-components@latest @webriq-pagebuilder/sanity-plugin-schema-default@latest @webriq-pagebuilder/sanity-plugin-schema-blog@latest @webriq-pagebuilder/sanity-plugin-webriq-blog@latest @webriq-pagebuilder/sanity-plugin-webriq-forms@latest @webriq-pagebuilder/sanity-plugin-webriq-payments@latest",
-    "update:next": "yarn add @webriq-pagebuilder/sanity-plugin-input-component-gpt3@next @webriq-pagebuilder/sanity-plugin-schema-blog@next @webriq-pagebuilder/sanity-plugin-schema-commerce@next @webriq-pagebuilder/sanity-plugin-schema-default@next @webriq-pagebuilder/sanity-plugin-schema-blog@next @webriq-pagebuilder/sanity-plugin-webriq-blog@next @webriq-pagebuilder/sanity-plugin-webriq-forms@next @webriq-pagebuilder/sanity-plugin-webriq-payments@next",
-    "update:custom": "echo 'Enter custom tag: 👇' && read ctag && yarn add @webriq-pagebuilder/sanity-plugin-input-component-gpt3@$ctag @webriq-pagebuilder/sanity-plugin-input-component-variants@$ctag @webriq-pagebuilder/sanity-plugin-schema-blog@$ctag @webriq-pagebuilder/sanity-plugin-schema-commerce@$ctag @webriq-pagebuilder/sanity-plugin-schema-default@$ctag @webriq-pagebuilder/sanity-plugin-webriq-blog@$ctag @webriq-pagebuilder/sanity-plugin-webriq-components@$ctag @webriq-pagebuilder/sanity-plugin-webriq-forms@$ctag @webriq-pagebuilder/sanity-plugin-webriq-payments@$ctag"
+    "update:tag": "echo 'Enter custom tag: 👇 (eg: latest, next, your-own-tag)' && read ctag && yarn add @webriq-pagebuilder/sanity-plugin-input-component-gpt3@$ctag @webriq-pagebuilder/sanity-plugin-input-component-variants@$ctag @webriq-pagebuilder/sanity-plugin-schema-blog@$ctag @webriq-pagebuilder/sanity-plugin-schema-commerce@$ctag @webriq-pagebuilder/sanity-plugin-schema-default@$ctag @webriq-pagebuilder/sanity-plugin-webriq-blog@$ctag @webriq-pagebuilder/sanity-plugin-webriq-components@$ctag @webriq-pagebuilder/sanity-plugin-webriq-forms@$ctag @webriq-pagebuilder/sanity-plugin-webriq-payments@$ctag @webriq-pagebuilder/sanity-plugin-desk-studio-version@$ctag @webriq-pagebuilder/sanity-plugin-inspector-inline-edit@$ctag"
   },
   "dependencies": {
     "@portabletext/react": "^3.0.0",
@@ -45,14 +43,12 @@
     "nanoid": "^3.1.30",
     "next": "^13.4.4",
     "next-sanity": "4.3.3",
-    "next-seo": "^6.0.0",
     "polished": "^4.2.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-is": "^18.2.0",
     "react-toast": "^1.0.3",
     "sanity": "^3.14.2",
-    "sanity-plugin-asset-source-openai": "^1.1.2",
     "sanity-plugin-iframe-pane": "^2.3.0",
     "sanity-plugin-media": "^2.0.5",
     "sass": "^1.62.1",
@@ -60,10 +56,10 @@
     "split-pane-react": "^0.1.3",
     "stripe": "^12.7.0",
     "styled-components": "6.0.7",
-    "swiper": "9.3.2"
+    "swiper": "^10.2.0"
   },
   "devDependencies": {
-    "@netlify/plugin-nextjs": "4.37.2",
+    "@netlify/plugin-nextjs": "^4.40.1",
     "@types/react": "^18.2.0",
     "@types/vhtml": "^2.2.4",
     "autoprefixer": "^10.4.14",
@@ -71,6 +67,7 @@
     "eslint-config-next": "^13.4.4",
     "next-sitemap": "^4.1.8",
     "postcss": "^8.4.23",
+    "prettier": "^3.0.3",
     "tailwindcss": "^3.3.2",
     "typescript": "5.0.4"
   }

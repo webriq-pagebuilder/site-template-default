@@ -1,9 +1,10 @@
 import { urlFor } from "lib/sanity";
 import Link from "next/link";
 import React from "react";
-import { logoLink, ConditionalBtnOrLink } from "helper";
+import { logoLink, ConditionalLink } from "helper";
 
 import { CTAProps } from ".";
+import Image from "next/image";
 
 function VariantA({ logo, title, text, button }: CTAProps) {
   return (
@@ -30,10 +31,12 @@ function VariantA({ logo, title, text, button }: CTAProps) {
                 className="mb-6 inline-block text-3xl font-bold leading-none"
                 href={logoLink(logo)}
               >
-                <img
+                <Image
                   className="h-14"
                   src={urlFor(logo?.image)}
                   alt={logo?.alt ?? "callToAction-logo"}
+                  height={64}
+                  width={64}
                 />
               </Link>
             )}
@@ -44,10 +47,13 @@ function VariantA({ logo, title, text, button }: CTAProps) {
               {text}
             </p>
             {button?.label && (
-              <ConditionalBtnOrLink
-                value={button}
-                style="inline-block py-2 px-6 bg-webriq-darkblue hover:bg-webriq-blue text-white font-bold leading-loose rounded-l-xl rounded-t-xl transition duration-200"
-              />
+              <ConditionalLink
+                link={button}
+                className="inline-block py-2 px-6 bg-webriq-darkblue hover:bg-webriq-blue text-white font-bold leading-loose rounded-l-xl rounded-t-xl transition duration-200"
+                ariaLabel={button?.label}
+              >
+                {button?.label}
+              </ConditionalLink>
             )}
           </div>
         </div>

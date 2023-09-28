@@ -354,7 +354,9 @@ export const processData = async (payload) => {
                   product: id,
                   currency: "usd",
                   metadata: !plans[i].planIncludes ? {} : plans[i].planIncludes,
-                  unit_amount: isNaN(parseInt(plans[i].price)) ? 0 : plans[i].price * 100,
+                  unit_amount: isNaN(parseInt(plans[i].price))
+                    ? 0
+                    : plans[i].price * 100,
                 },
               };
               await fetch(createPriceForProduct, {
@@ -394,7 +396,9 @@ export const processData = async (payload) => {
                   product: price.id,
                   currency: "usd",
                   metadata: !plans[i].planIncludes ? {} : plans[i].planIncludes,
-                  unit_amount: isNaN(parseInt(plans[i].price)) ? 0 : plans[i].price * 100,
+                  unit_amount: isNaN(parseInt(plans[i].price))
+                    ? 0
+                    : plans[i].price * 100,
                 },
               };
               await fetch(updatePriceForProduct, {

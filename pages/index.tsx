@@ -2,26 +2,27 @@ import React from "react";
 import Head from "next/head";
 import { PreviewSuspense } from "next-sanity/preview";
 import { getClient } from "lib/sanity.client";
-import { homeQuery } from "./api/query";
+import { homeQuery, globalSEOQuery } from "./api/query";
 import { usePreview } from "lib/sanity.preview";
 import { PageSections } from "components/page";
 import { PreviewNoContent } from "components/PreviewNoContent";
-import { filterDataToSingleItem } from "components/list";
+import { filterDataToSingleItem, SEO } from "components/list";
 import { PreviewBanner } from "components/PreviewBanner";
 import InlineEditorContextProvider from "context/InlineEditorContext";
-
-import { CommonPageData } from "types";
+import { CommonPageData, DefaultSeoData } from "types";
 
 interface HomeProps {
   data: Data;
   preview: boolean;
   token?: string | null;
   source?: string;
+  defaultSeo: DefaultSeoData;
 }
 
 interface DocumentWithPreviewProps {
   data: Data;
   token: string | null;
+  defaultSeo: DefaultSeoData;
 }
 
 interface Data {
@@ -34,22 +35,23 @@ interface PageData extends CommonPageData {
   title: string;
 }
 
-function Home({ data, preview, token, source }: HomeProps) {
+function Home({ data, preview, token, source, defaultSeo }: HomeProps) {
   const showInlineEditor = source === "studio";
+
   if (preview) {
     return (
       <>
         <PreviewBanner />
         <PreviewSuspense fallback="Loading...">
           <InlineEditorContextProvider showInlineEditor={showInlineEditor}>
-            <DocumentWithPreview {...{ data, token }} />
+            <DocumentWithPreview {...{ data, token, defaultSeo }} />
           </InlineEditorContextProvider>
         </PreviewSuspense>
       </>
     );
   }
 
-  return <Document {...{ data }} />;
+  return <Document {...{ data, defaultSeo }} />;
 }
 
 /**
@@ -58,7 +60,13 @@ function Home({ data, preview, token, source }: HomeProps) {
  *
  * @returns Document with published data
  */
-function Document({ data }: { data: Data }) {
+function Document({
+  data,
+  defaultSeo,
+}: {
+  data: Data;
+  defaultSeo: DefaultSeoData;
+}) {
   const publishedData = data?.pageData;
 
   // General safeguard against empty data
@@ -66,12 +74,20 @@ function Document({ data }: { data: Data }) {
     return null;
   }
 
-  const { title, seo } = publishedData;
+  const { title, _type, seo } = publishedData;
 
   return (
     <>
       <Head>
-        <meta name="viewport" content="width=260 initial-scale=1" />
+        <SEO
+          data={{
+            pageTitle: title,
+            type: _type,
+            route: publishedData?.slug,
+            ...seo,
+          }}
+          defaultSeo={defaultSeo}
+        />
         <title>{seo?.seoTitle ?? title ?? "WebriQ Studio"}</title>
       </Head>
 
@@ -89,7 +105,11 @@ function Document({ data }: { data: Data }) {
  *
  * @returns Document with preview data
  */
-function DocumentWithPreview({ data, token = null }: DocumentWithPreviewProps) {
+function DocumentWithPreview({
+  data,
+  token = null,
+  defaultSeo,
+}: DocumentWithPreviewProps) {
   const previewDataEventSource = usePreview(token, homeQuery);
 
   const previewData: PageData =
@@ -100,12 +120,20 @@ function DocumentWithPreview({ data, token = null }: DocumentWithPreviewProps) {
     return null;
   }
 
-  const { title, seo } = previewData;
+  const { title, _type, seo } = previewData;
 
   return (
     <>
       <Head>
-        <meta name="viewport" content="width=260 initial-scale=1" />
+        <SEO
+          data={{
+            pageTitle: title,
+            type: _type,
+            route: previewData?.slug,
+            ...seo,
+          }}
+          defaultSeo={defaultSeo}
+        />
         <title>{seo?.seoTitle ?? title ?? "WebriQ Studio"}</title>
       </Head>
 
@@ -130,7 +158,10 @@ export const getStaticProps = async ({
       ? getClient(false).withConfig({ token: previewData.token })
       : getClient(preview);
 
-  const indexPage = await client.fetch(homeQuery);
+  const [indexPage, globalSEO] = await Promise.all([
+    client.fetch(homeQuery),
+    client.fetch(globalSEOQuery),
+  ]);
 
   // pass page data and preview to helper function
   const pageData: PageData = filterDataToSingleItem(indexPage, preview);
@@ -141,6 +172,7 @@ export const getStaticProps = async ({
       props: {
         preview,
         data: { pageData: null },
+        defaultSeo: globalSEO,
       },
     };
   }
@@ -151,6 +183,7 @@ export const getStaticProps = async ({
       token: (preview && previewData.token) || "",
       source: (preview && previewData.source) || "",
       data: { pageData },
+      defaultSeo: globalSEO,
     },
   };
 };

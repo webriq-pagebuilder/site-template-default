@@ -51,7 +51,7 @@ function VariantB({
                     Socials
                   </h2>
                   <div className="flex justify-center">
-                    {socialLinks?.map(social => (
+                    {socialLinks?.map((social) => (
                       <a
                         aria-label={
                           social?.socialMedia || social?.socialMediaPlatform
@@ -100,9 +100,10 @@ function VariantB({
                           </svg>
                         ) : (
                           social?.socialMediaIcon?.image && (
-                            <img
-                              className="h-6"
+                            <Image
                               src={urlFor(social?.socialMediaIcon?.image)}
+                              width={24}
+                              height={24}
                               alt={
                                 social?.socialMediaIcon?.alt ??
                                 "contact-socialMedia-icon"

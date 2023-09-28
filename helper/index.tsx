@@ -1,5 +1,22 @@
+import React from "react";
 import Link from "next/link";
-import { Logo, MyPortableTextComponents } from "types";
+import Image from "next/image";
+import { urlFor } from "lib/sanity";
+import {
+  LabeledRoute,
+  LabeledRouteWithKey,
+  Logo,
+  MyPortableTextComponents,
+} from "types";
+
+interface ConditionalLinkTypes {
+  className?: string;
+  ariaLabel: string; // required for A11Y
+  style?: any;
+  children: string | React.ReactNode;
+  link: LabeledRoute | LabeledRouteWithKey | undefined;
+  target?: string;
+}
 
 // WebriQ form redirect thank you page on successful submission
 export const thankYouPageLink = (link) => {
@@ -28,62 +45,81 @@ export const logoLink = (logo: Logo) => {
   }
 };
 
-// Conditional links
-export const ConditionalBtnOrLink = ({ value, style }) => {
+// Conditional Link
+export const ConditionalLink = ({
+  className,
+  ariaLabel,
+  style = {},
+  children,
+  link,
+  target,
+}: ConditionalLinkTypes) => {
   const defaultStyle =
     "inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose outline-none transition duration-200";
 
-  if (
-    (value?.internalLink || value?.linkInternal) &&
-    value?.type === "linkInternal"
-  ) {
-    // internal link
-    if (value?.internalLink?.toLowerCase() === "home") {
-      return (
-        <Link
-          aria-label={value?.label}
-          className={style ?? defaultStyle}
-          target={value?.linkTarget}
-          rel={value?.linkTarget === "_blank" ? "noopener noreferrer" : null}
-          href={`/`}
-        >
-          {value?.label}
-        </Link>
-      );
-    } else {
-      return (
-        <Link
-          aria-label={value?.label}
-          className={style ?? defaultStyle}
-          target={value?.linkTarget}
-          rel={value?.linkTarget === "_blank" ? "noopener noreferrer" : null}
-          href={`/${value.internalLink}`}
-        >
-          {value?.label}
-        </Link>
-      );
-    }
+  if (!link?.internalLink && !link?.externalLink) {
+    return (
+      <a
+        className={className ?? defaultStyle}
+        aria-label={ariaLabel}
+        //style={style}
+        target={target}
+        href="/page-not-found"
+      >
+        {children}
+      </a>
+    );
   } else if (
-    (value?.externalLink || value?.linkExternal) &&
-    value?.type === "linkExternal"
+    link?.type === "linkInternal" &&
+    link?.internalLink?.toLowerCase()?.includes("home")
   ) {
-    // external link (includes mailto and tel)
     return (
       <Link
-        aria-label={value?.label}
-        className={style ?? defaultStyle}
-        target={value?.linkTarget}
-        href={value?.externalLink}
-        rel={value?.linkTarget === "_blank" ? "noopener noreferrer" : null}
+        href="/"
+        aria-label={ariaLabel}
+        className={className ?? defaultStyle}
+        //style={style}
+        target={target}
       >
-        {value?.label}
+        {children}
       </Link>
+    );
+  } else if (link?.type === "linkInternal") {
+    return (
+      <Link
+        href={`/${link?.internalLink}`}
+        aria-label={ariaLabel}
+        className={className ?? defaultStyle}
+        //style={style}
+        target={target}
+      >
+        {children}
+      </Link>
+    );
+  } else if (link?.type === "linkExternal") {
+    return (
+      <a
+        aria-label={ariaLabel}
+        className={className ?? defaultStyle}
+        //style={style}
+        href={link?.externalLink}
+        target={target}
+        rel={link?.linkTarget === "_blank" ? "noopener noreferrer" : null}
+      >
+        {children}
+      </a>
     );
   } else {
     return (
-      <a className={style ?? defaultStyle} href="/link-not-found">
-        {value?.label}
-      </a>
+      <Link
+        href="/"
+        aria-label={ariaLabel}
+        className={className ?? defaultStyle}
+        //style={style}
+        target={target}
+      >
+        {children}
+      </Link>
     );
   }
 };
@@ -176,8 +212,11 @@ export const defaultBlockStyle: MyPortableTextComponents = {
   },
   types: {
     addImage: ({ value }) => (
-      <img
+      <Image
         className="mb-5 h-full w-full"
+        width={500}
+        height={500}
+        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         src={urlFor(value?.image)}
         alt={value?.alt ?? value?.image?.asset?._ref}
       />

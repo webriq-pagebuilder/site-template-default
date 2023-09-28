@@ -1,6 +1,6 @@
 import React from "react";
 import WebriQForm from "components/webriq-form";
-import { thankYouPageLink, ConditionalBtnOrLink } from "helper";
+import { thankYouPageLink, ConditionalLink } from "helper";
 
 import { HeaderProps } from ".";
 
@@ -38,16 +38,22 @@ function VariantE({
                   </p>
                   <div>
                     {primaryButton?.label && (
-                      <ConditionalBtnOrLink
-                        value={primaryButton}
-                        style={`inline-block mb-3 lg:mb-0 lg:mr-3 w-auto py-2 px-6 leading-loose bg-${template.color}-darkblue hover:bg-${template.color}-blue text-white font-semibold rounded-l-xl rounded-t-xl transition duration-200`}
-                      />
+                      <ConditionalLink
+                        ariaLabel={primaryButton?.label}
+                        link={primaryButton}
+                        className={`inline-block mb-3 lg:mb-0 lg:mr-3 w-auto py-2 px-6 leading-loose bg-${template.color}-darkblue hover:bg-${template.color}-blue text-white font-semibold rounded-l-xl rounded-t-xl transition duration-200`}
+                      >
+                        {primaryButton?.label}
+                      </ConditionalLink>
                     )}
                     {secondaryButton?.label && (
-                      <ConditionalBtnOrLink
-                        value={secondaryButton}
-                        style="inline-block w-auto py-2 px-6 leading-loose font-semibold bg-white hover:bg-gray-50 rounded-l-xl rounded-t-xl transition duration-200"
-                      />
+                      <ConditionalLink
+                        ariaLabel={secondaryButton?.label}
+                        link={secondaryButton}
+                        className="inline-block w-auto py-2 px-6 leading-loose font-semibold bg-white hover:bg-gray-50 rounded-l-xl rounded-t-xl transition duration-200"
+                      >
+                        {secondaryButton?.label}
+                      </ConditionalLink>
                     )}
                   </div>
                 </div>
@@ -78,7 +84,7 @@ function VariantE({
                           </div>
                         ))}
                       </div>
-                      {form?.fields?.slice(2)?.map(formFields => (
+                      {form?.fields?.slice(2)?.map((formFields) => (
                         <div key={formFields?._key}>
                           <FormFields fields={formFields} />
                         </div>
@@ -106,10 +112,13 @@ function VariantE({
                   <div className="text-xs text-gray-500">
                     {formLinks?.map((link, index, { length }) => (
                       <span key={index}>
-                        <ConditionalBtnOrLink
-                          value={link}
-                          style="underline text-webriq-darkblue hover:text-webriq-blue"
-                        />
+                        <ConditionalLink
+                          ariaLabel={link?.label}
+                          link={link}
+                          className="underline text-webriq-darkblue hover:text-webriq-blue"
+                        >
+                          {link?.label}
+                        </ConditionalLink>
                         {index === length - 1 ? null : index === length - 2 ? (
                           <span>&nbsp;and&nbsp;</span>
                         ) : (
@@ -138,22 +147,22 @@ function FormFields({ fields }: { fields: FormFields }) {
   const [value, setValue] = React.useState(null); // setting selected value for input field radio type
   const [checked, setChecked] = React.useState([]); // setting selected value for input field checkbox type
 
-  const handleRadioChange = e => {
+  const handleRadioChange = (e) => {
     setValue(e.target.value);
   };
 
-  const handleCheckboxChange = e => {
+  const handleCheckboxChange = (e) => {
     const { checked, value } = e.target;
 
-    setChecked(prev =>
-      checked ? [...prev, value] : prev.filter(v => v !== value)
+    setChecked((prev) =>
+      checked ? [...prev, value] : prev.filter((v) => v !== value)
     );
   };
 
   if (fields?.type === "textarea") {
     return (
       <textarea
-        aria-label={`${fields?.name} text area`}
+        aria-label={fields?.name}
         className="mb-3 w-full rounded bg-gray-100 p-4 text-xs outline-none"
         placeholder={fields?.name}
         name={fields?.name}
@@ -165,7 +174,7 @@ function FormFields({ fields }: { fields: FormFields }) {
       <div className="mb-4">
         <label className="flex rounded bg-gray-100 px-2">
           <input
-            aria-label="Add file"
+            aria-label="Choose file.."
             className="w-full rounded bg-gray-100 p-4 text-xs outline-none"
             type="file"
             placeholder="Choose file.."
@@ -179,7 +188,7 @@ function FormFields({ fields }: { fields: FormFields }) {
     return (
       <div className="mb-4 flex rounded bg-gray-100 p-4">
         <input
-          aria-label={fields?.type}
+          aria-label={fields?.name}
           className="w-full bg-gray-100 text-xs outline-none"
           type={showPassword ? "text" : "password"}
           placeholder={fields?.placeholder}
@@ -253,8 +262,9 @@ function FormFields({ fields }: { fields: FormFields }) {
           {fields?.label}
         </label>
         <select
+          aria-label={fields?.name}
           className="w-full rounded bg-gray-100 p-3 text-xs outline-none"
-          name={`header-${fields?.name}`}
+          name={fields?.name}
           defaultValue={"default-value"}
           required={fields?.isRequired}
         >
@@ -312,7 +322,7 @@ function FormFields({ fields }: { fields: FormFields }) {
                 value={item}
                 type="checkbox"
                 onChange={handleCheckboxChange}
-                checked={checked.some(v => v === item)}
+                checked={checked.some((v) => v === item)}
                 required={
                   fields?.isRequired && checked.length === 0 ? true : false
                 }

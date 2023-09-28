@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import { urlFor } from "lib/sanity";
-import { ConditionalBtnOrLink } from "helper";
+import { ConditionalLink } from "helper";
 import { LogoCloudProps } from ".";
 
 function VariantC({ title, images, button }: LogoCloudProps) {
@@ -13,10 +13,13 @@ function VariantC({ title, images, button }: LogoCloudProps) {
             {title}
           </h1>
           {button?.label && (
-            <ConditionalBtnOrLink
-              value={button}
-              style="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose"
-            />
+            <ConditionalLink
+              ariaLabel={button?.label}
+              link={button}
+              className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose"
+            >
+              {button?.label}
+            </ConditionalLink>
           )}
         </div>
         <div className="relative hidden lg:block">

@@ -19,7 +19,7 @@ export default function createProductsPublishAction(props) {
     "collectionSettings",
     "cartPage",
     "wishlistPage",
-    "searchPage"
+    "searchPage",
   ];
 
   useEffect(() => {
@@ -56,10 +56,12 @@ export default function createProductsPublishAction(props) {
 
     publish.disabled !== "ALREADY_PUBLISHED" &&
       publish.disabled !== "NO_CHANGES" &&
-    create();
+      create();
   }, [isPublishing]);
 
-  const isCStudioDisabled = NEXT_PUBLIC_SANITY_STUDIO_IN_CSTUDIO !== "true" && CStudioSchemas?.includes(props.type);
+  const isCStudioDisabled =
+    NEXT_PUBLIC_SANITY_STUDIO_IN_CSTUDIO !== "true" &&
+    CStudioSchemas?.includes(props.type);
   const isDisabled = validation.length !== 0 || isPublishing;
 
   return {
@@ -88,10 +90,10 @@ export default function createProductsPublishAction(props) {
       setIsPublishing(true);
 
       // Perform the publish
-      publish.execute()
+      publish.execute();
 
       // Signal that the action is completed
-      props.onComplete()
+      props.onComplete();
     },
   };
 }

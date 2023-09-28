@@ -1,5 +1,5 @@
 import React from "react";
-import { ConditionalBtnOrLink } from "helper";
+import { ConditionalLink } from "helper";
 
 import { HeaderProps } from ".";
 
@@ -31,16 +31,22 @@ function VariantC({
             </h1>
             <div>
               {primaryButton?.label && (
-                <ConditionalBtnOrLink
-                  value={primaryButton}
-                  style={`inline-block mb-3 lg:mb-0 lg:mr-3 w-auto py-2 px-6 leading-loose bg-${template.color}-darkblue hover:bg-${template.color}-blue text-white font-semibold rounded-l-xl rounded-t-xl transition duration-200`}
-                />
+                <ConditionalLink
+                  ariaLabel={primaryButton?.label}
+                  link={primaryButton}
+                  className={`inline-block mb-3 lg:mb-0 lg:mr-3 w-auto py-2 px-6 leading-loose bg-${template.color}-darkblue hover:bg-${template.color}-blue text-white font-semibold rounded-l-xl rounded-t-xl transition duration-200`}
+                >
+                  {primaryButton?.label}
+                </ConditionalLink>
               )}
               {secondaryButton?.label && (
-                <ConditionalBtnOrLink
-                  value={secondaryButton}
-                  style="inline-block w-auto py-2 px-6 leading-loose font-semibold bg-white hover:bg-gray-50 rounded-l-xl rounded-t-xl transition duration-200"
-                />
+                <ConditionalLink
+                  ariaLabel={secondaryButton?.label}
+                  link={secondaryButton}
+                  className="inline-block w-auto py-2 px-6 leading-loose font-semibold bg-white hover:bg-gray-50 rounded-l-xl rounded-t-xl transition duration-200"
+                >
+                  {secondaryButton?.label}
+                </ConditionalLink>
               )}
             </div>
           </div>

@@ -60,7 +60,7 @@ function VariantC({
           );
 
           if (data) {
-            data?.data?.forEach(item => {
+            data?.data?.forEach((item) => {
               if (
                 item.product === productResponse.data.id &&
                 item.recurring.interval === "month"
@@ -174,7 +174,7 @@ function VariantC({
                           <span className="text-gray-500">{`/${plan}`}</span>
                         )}
                         <button
-                          aria-label={`${planDescription?.checkoutButtonName} button`}
+                          aria-label={planDescription?.checkoutButtonName}
                           className={`mt-6 block w-full rounded-l-xl rounded-t-xl bg-webriq-darkblue px-6 py-2 font-bold leading-loose text-white transition duration-200 hover:bg-webriq-blue ${
                             !planDescription ||
                             (!planDescription?.variant_c_monthlyPriceCheckoutButton &&
