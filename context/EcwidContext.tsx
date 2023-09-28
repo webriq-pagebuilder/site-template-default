@@ -198,7 +198,8 @@ export function EcwidContextProvider({ children }) {
     window.ec.config = window.ec.config || {};
     window.ec.config.storefrontUrls = window.ec.config.storefrontUrls || {};
 
-    if (["/cart", "/collections/all-products"].includes(location.pathname)) {
+    // add pages to implement clean URLs for SEO purposes
+    if (["/cart"].includes(location.pathname)) {
       window.ec.config.storefrontUrls.cleanUrls = true;
       window.ec.config.storefrontUrls.queryBasedCleanUrls = true;
     }
