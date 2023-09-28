@@ -8,7 +8,7 @@ import AddToWishlist from "components/ecwid/AddToWishlist";
 import Ribbon from "components/ecwid/Ribbon";
 //import Description from "components/ecwid/Description";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Thumbs, Pagination, A11y } from "swiper";
+import { Navigation, Thumbs, Pagination, A11y } from "swiper/modules";
 import { ProductInfoProps } from ".";
 import { MyPortableTextComponents } from "types";
 
