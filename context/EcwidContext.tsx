@@ -324,7 +324,7 @@ export function EcwidContextProvider({ children }) {
   };
 
   const getPriceDisplay = (amount) => {
-    let priceFormated = amount;
+    let priceFormated = `$${amount}`;
     if (typeof Ecwid !== "undefined") {
       Ecwid.OnAPILoaded.add(function () {
         priceFormated = Ecwid.formatCurrency(amount);

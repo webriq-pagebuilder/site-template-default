@@ -150,10 +150,36 @@ function VariantB({ products }: PagesProductInfoProps) {
                   )}
                   <div className="mb-8">{/* Add product rating here */}</div>
                   {products?.price && (
-                    <p className="font-heading mb-8 inline-block text-2xl font-bold text-webriq-blue">
+                    <p
+                      className={`font-heading inline-block text-2xl font-bold text-webriq-darkblue ${
+                        !products?.compareToPrice && "mb-8"
+                      }`}
+                    >
                       {(ecwid &&
                         ecwid?.products?.defaultDisplayedPriceFormatted) ||
                         ecwid?.getPriceDisplay(products?.price)}
+                    </p>
+                  )}
+                  {products?.compareToPrice && (
+                    <p
+                      className="mt-3 mb-8 text-gray-500"
+                      style={{
+                        fontSize: "15px",
+                      }}
+                    >
+                      Before{" "}
+                      <span className="line-through">
+                        {ecwidProduct?.compareToPriceFormatted}
+                      </span>{" "}
+                      (
+                      <span
+                        className="text-webriq-babyblue"
+                        style={{ fontSize: "15px" }}
+                      >
+                        Save{" "}
+                        {ecwidProduct?.compareToPriceDiscountPercentFormatted}
+                      </span>
+                      )
                     </p>
                   )}
                   {products?.description && (

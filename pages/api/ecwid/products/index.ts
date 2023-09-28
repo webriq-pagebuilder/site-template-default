@@ -49,8 +49,8 @@ const getEcwidProducts = async (req, res) => {
         Authorization: `Bearer ${process.env.NEXT_PUBLIC_ECWID_PUBLIC_TOKEN}`,
       },
     })
-      .then(res => res.json())
-      .then(json => {
+      .then((res) => res.json())
+      .then((json) => {
         console.log("json", json);
         return res.status(200).json({ result: json });
       });
@@ -59,7 +59,7 @@ const getEcwidProducts = async (req, res) => {
   }
 };
 
-const getEcwidProductById = async id => {
+const getEcwidProductById = async (id) => {
   return fetch(`${URL}/${id}`, {
     method: "GET",
     headers: {
@@ -83,12 +83,13 @@ const addEcwidProduct = async (req, res) => {
       headers: reqHeaders,
       body: JSON.stringify({
         name: data?.name,
+        compareToPrice: data?.compareToPrice,
         price: data?.price,
         description: data?.description,
         unlimited: true,
         enabled: true,
       }),
-    }).then(response => {
+    }).then((response) => {
       if (!response.ok) {
         console.log("Failed to create Ecwid product!", response);
       } else {
@@ -110,7 +111,7 @@ const addEcwidProduct = async (req, res) => {
 // Update existing Ecwid product
 const updateEcwidProduct = async (req, res) => {
   const data = req.body;
-  const { ecwidProductId, name, price, description } = data;
+  const { ecwidProductId, name, price, description, compareToPrice } = data;
   if (!ecwidProductId) {
     return res
       .status(400)
@@ -119,7 +120,9 @@ const updateEcwidProduct = async (req, res) => {
 
   let product;
   try {
-    product = await getEcwidProductById(ecwidProductId).then(res => res.json());
+    product = await getEcwidProductById(ecwidProductId).then((res) =>
+      res.json()
+    );
     console.log("[INFO] ECWID product!", product);
 
     if (product?.errorMessage) {
@@ -141,9 +144,10 @@ const updateEcwidProduct = async (req, res) => {
         name,
         price,
         description,
+        compareToPrice,
         enabled: true,
       }),
-    }).then(res => {
+    }).then((res) => {
       if (!res.ok) {
         console.log(`Failed to update Ecwid product ${data?.name}`, res);
       } else {

@@ -243,16 +243,43 @@ function VariantA({
                   </h1>
                 )}
                 <div className="mb-8">{/* Ratings from Ecwid */}</div>
-                <p className="font-heading mb-8 inline-block text-2xl font-bold">
-                  {/* Product price from Ecwid */}
-                  <span className="text-webriq-darkblue">
+                {/* Product price */}
+                {product?.price && (
+                  <p
+                    className={`font-heading text-webriq-darkblue inline-block text-2xl font-bold ${
+                      !ecwidProduct?.compareToPrice && "mb-8"
+                    }`}
+                  >
+                    {/* Product price from Ecwid */}
                     {ecwidProduct
                       ? getPriceDisplay()
                       : ecwidProduct?.defaultDisplayedPriceFormatted}
-                  </span>
-                </p>
-                {/* <Description data={product} /> */}
+                  </p>
+                )}
+                {/* "CompareTo" price */}
+                {ecwidProduct?.compareToPrice && (
+                  <p
+                    className="mt-3 mb-8"
+                    style={{
+                      fontSize: "15px",
+                    }}
+                  >
+                    Before{" "}
+                    <span className="line-through">
+                      {ecwidProduct?.compareToPriceFormatted}
+                    </span>{" "}
+                    (
+                    <span
+                      className="text-webriq-babyblue"
+                      style={{ fontSize: "15px" }}
+                    >
+                      {`Save ${ecwidProduct?.compareToPriceDiscountPercentFormatted}`}
+                    </span>
+                    )
+                  </p>
+                )}
 
+                {/* <Description data={product} /> */}
                 {product?.description && (
                   <PortableText
                     value={product?.description}
