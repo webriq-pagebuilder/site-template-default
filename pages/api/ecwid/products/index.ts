@@ -49,8 +49,8 @@ const getEcwidProducts = async (req, res) => {
         Authorization: `Bearer ${process.env.NEXT_PUBLIC_ECWID_PUBLIC_TOKEN}`,
       },
     })
-      .then(res => res.json())
-      .then(json => {
+      .then((res) => res.json())
+      .then((json) => {
         console.log("json", json);
         return res.status(200).json({ result: json });
       });
@@ -59,7 +59,7 @@ const getEcwidProducts = async (req, res) => {
   }
 };
 
-const getEcwidProductById = async id => {
+const getEcwidProductById = async (id) => {
   return fetch(`${URL}/${id}`, {
     method: "GET",
     headers: {
@@ -89,7 +89,7 @@ const addEcwidProduct = async (req, res) => {
         unlimited: true,
         enabled: true,
       }),
-    }).then(response => {
+    }).then((response) => {
       if (!response.ok) {
         console.log("Failed to create Ecwid product!", response);
       } else {
@@ -120,7 +120,9 @@ const updateEcwidProduct = async (req, res) => {
 
   let product;
   try {
-    product = await getEcwidProductById(ecwidProductId).then(res => res.json());
+    product = await getEcwidProductById(ecwidProductId).then((res) =>
+      res.json()
+    );
     console.log("[INFO] ECWID product!", product);
 
     if (product?.errorMessage) {
@@ -145,7 +147,7 @@ const updateEcwidProduct = async (req, res) => {
         compareToPrice,
         enabled: true,
       }),
-    }).then(res => {
+    }).then((res) => {
       if (!res.ok) {
         console.log(`Failed to update Ecwid product ${data?.name}`, res);
       } else {

@@ -443,16 +443,16 @@ export interface CommonSections {
 
 export interface SearchItemsTypes {
   searchItems: {
-    _id: string,
-    label: string,
-    title: string,
-    variant: string,
-    _type: string,
-  }[],
-  onClickHandler: any
+    _id: string;
+    label: string;
+    title: string;
+    variant: string;
+    _type: string;
+  }[];
+  onClickHandler: any;
 }
 
 export interface ButtonWithTooltipTypes {
-  toolTipText?: string | undefined, 
-  children: ReactElement<any, string | JSXElementConstructor<any>>, 
+  toolTipText?: string | undefined;
+  children: ReactElement<any, string | JSXElementConstructor<any>>;
 }
