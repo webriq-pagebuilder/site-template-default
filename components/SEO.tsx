@@ -27,7 +27,7 @@ function SEO({
     defaultSeoKeywords,
     defaultSeoDescription,
     defaultSeoImage,
-  } = defaultSeo;
+  } = defaultSeo ?? {}; // add checking if defaultSeo is not null or undefined so it doesn't throw an error
 
   const finalSeo = getSEOValue(data, data?.type);
   const { title, description, image, synonyms, keywords } = finalSeo;
