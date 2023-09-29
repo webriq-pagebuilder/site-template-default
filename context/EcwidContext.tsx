@@ -198,7 +198,8 @@ export function EcwidContextProvider({ children }) {
     window.ec.config = window.ec.config || {};
     window.ec.config.storefrontUrls = window.ec.config.storefrontUrls || {};
 
-    if (["/cart", "/collections/all-products"].includes(location.pathname)) {
+    // add pages to implement clean URLs for SEO purposes
+    if (["/cart"].includes(location.pathname)) {
       window.ec.config.storefrontUrls.cleanUrls = true;
       window.ec.config.storefrontUrls.queryBasedCleanUrls = true;
     }
@@ -323,7 +324,7 @@ export function EcwidContextProvider({ children }) {
   };
 
   const getPriceDisplay = (amount) => {
-    let priceFormated = amount;
+    let priceFormated = `$${amount}`;
     if (typeof Ecwid !== "undefined") {
       Ecwid.OnAPILoaded.add(function () {
         priceFormated = Ecwid.formatCurrency(amount);

@@ -12,7 +12,7 @@ import { Products } from "./pages/products";
 import { Search } from "./pages/search";
 import { Wishlist } from "./pages/wishlist";
 
-export const Store = (S: StructureBuilder) =>  {
+export const Store = (S: StructureBuilder) => {
   return S.listItem()
     .title("Store")
     .icon(GiShop)
@@ -34,9 +34,9 @@ export const Store = (S: StructureBuilder) =>  {
                   Collections(S),
                   Cart(S),
                   Wishlist(S),
-                  Search(S)
+                  Search(S),
                 ])
             ),
         ])
     );
-}
+};

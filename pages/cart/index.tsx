@@ -17,6 +17,7 @@ interface CartPageProps {
   token?: string;
   source?: string;
   defaultSeo: DefaultSeoData;
+  hasCStudioComponents?: boolean;
 }
 
 interface Data {

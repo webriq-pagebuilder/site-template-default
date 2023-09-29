@@ -4,7 +4,7 @@ import { useClient, useDocumentOperation, useValidationStatus } from "sanity";
 import {
   NEXT_PUBLIC_SITE_URL,
   SITE_STORE_CORS_SECRET,
-  NEXT_PUBLIC_SANITY_STUDIO_IN_CSTUDIO
+  NEXT_PUBLIC_SANITY_STUDIO_IN_CSTUDIO,
 } from "../../config";
 import { useSecrets } from "@sanity/studio-secrets";
 import { namespace, getAuthHeaders } from "../sanity-secrets/config";
@@ -26,7 +26,10 @@ export default function createMainProductPublishAction(props) {
 
   // return the siteURL to use on development or production
   let siteUrl = "http://localhost:3000";
-  if (typeof window !== "undefined" && !window.location.hostname.includes("localhost")) {
+  if (
+    typeof window !== "undefined" &&
+    !window.location.hostname.includes("localhost")
+  ) {
     siteUrl = NEXT_PUBLIC_SITE_URL;
   }
 
@@ -38,7 +41,10 @@ export default function createMainProductPublishAction(props) {
     }
   }, [props]);
 
-  const isDisabled = validation.length !== 0 || isPublishing || NEXT_PUBLIC_SANITY_STUDIO_IN_CSTUDIO !== "true";
+  const isDisabled =
+    validation.length !== 0 ||
+    isPublishing ||
+    NEXT_PUBLIC_SANITY_STUDIO_IN_CSTUDIO !== "true";
 
   return {
     disabled: isDisabled || !draft,
@@ -59,7 +65,10 @@ export default function createMainProductPublishAction(props) {
             .then((result) => result);
 
           // update block type description to HTML
-          const updatedData = getData?.map((item) => ({ ...item, description: PortableTextToHTML(item?.description) }))
+          const updatedData = getData?.map((item) => ({
+            ...item,
+            description: PortableTextToHTML(item?.description),
+          }));
 
           // with data available, do the API request and pass the required data as payload
           if (getData) {
