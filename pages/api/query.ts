@@ -141,11 +141,11 @@ export const blogQuery = groq`
       "link": slug.current
     },
     categories[]->,
-    "navigation": *[_type=="page" && slug.current=="home"].sections[_type match "navigation"]->{
+    "navigation": *[_type=="page" && slug.current=="home"][0].sections[_type match "navigation"][0]->{
       ...,
       ${variants}
     },
-    "footer": *[_type=="page" && slug.current=="home"].sections[_type match "footer"]->{
+    "footer": *[_type=="page" && slug.current=="home"][0].sections[_type match "footer"][0]->{
       ...,
       ${variants},
     },
