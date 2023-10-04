@@ -36,7 +36,9 @@ const blockStyle: MyPortableTextComponents = {
     },
     h4: ({ children }) => {
       return (
-        <h4 className="mb-6 text-2xl leading-loose text-gray-900">{children}</h4>
+        <h4 className="mb-6 text-2xl leading-loose text-gray-900">
+          {children}
+        </h4>
       );
     },
     h5: ({ children }) => {
@@ -158,7 +160,13 @@ function BlogSections({ data }: BlogSectionsProps) {
       key={_id}
     >
       {navigation && (
-        <Navigation data={navigation} />
+        <Navigation
+          data={navigation}
+          template={{
+            bg: "gray",
+            color: "webriq",
+          }}
+        />
       )}
       <section className="pb-20">
         <div
@@ -251,7 +259,13 @@ function BlogSections({ data }: BlogSectionsProps) {
         </div>
       </section>
       {footer && (
-        <Footer data={footer} />
+        <Footer
+          data={footer}
+          template={{
+            bg: "gray",
+            color: "webriq",
+          }}
+        />
       )}
     </InlineEditor>
   );
