@@ -153,11 +153,11 @@ select[data-testid="field-group-select"] > option:first-child {
 }
 
 /** Help Guide **/
-div[aria-label="List of Content"] {
+ul[aria-label="List of Content"] {
   min-height: calc(100vh - 260px);
 }
 
-div[aria-label="List of Content"] > div:last-child {
+ul[aria-label="List of Content"] > li:last-child {
   border-top: 1px solid var(--card-border-color);
   position: absolute;
   width: 100%;
