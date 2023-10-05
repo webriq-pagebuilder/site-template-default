@@ -1,9 +1,10 @@
 import { deskTool as sanityDesktool } from "sanity/desk";
+import packageJson from "../../package.json";
 
 import { Page } from "./pages";
 import { Store } from "./store";
-import { StudioDocs } from "../components/StudioDocs";
-import { HelpCircleIcon } from "@sanity/icons";
+
+import { webriqStudioDeskVersion } from "@webriq-pagebuilder/sanity-plugin-desk-studio-version";
 
 export default sanityDesktool({
   structure: (S) =>
@@ -13,12 +14,7 @@ export default sanityDesktool({
         Page(S),
         S.divider(),
         Store(S),
-
-        // Help Guide below
-        S.listItem()
-          .title("Guide")
-          .icon(HelpCircleIcon)
-          .child(S.component(StudioDocs).title("Help Guide")),
+        webriqStudioDeskVersion(S, packageJson),
       ]),
   name: "desk",
   title: "Desk",

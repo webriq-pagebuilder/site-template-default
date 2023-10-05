@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import { urlFor } from "lib/sanity";
-import { ConditionalBtnOrLink } from "helper";
+import { ConditionalLink } from "helper";
 import { PortfolioProps } from ".";
 
 function VariantC({
@@ -31,10 +31,13 @@ function VariantC({
             </div>
             <div className="mt-5 hidden md:mt-0 lg:mt-0 lg:block xl:mt-0">
               {primaryButton?.label && (
-                <ConditionalBtnOrLink
-                  value={primaryButton}
-                  style="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose transition duration-200"
-                />
+                <ConditionalLink
+                  ariaLabel={primaryButton?.label}
+                  link={primaryButton}
+                  className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose transition duration-200"
+                >
+                  {primaryButton?.label}
+                </ConditionalLink>
               )}
             </div>
           </div>
@@ -51,7 +54,7 @@ function VariantC({
                       src={urlFor(content?.mainImage?.image)}
                       width={480}
                       height={320}
-                      sizes="100vw"
+                      sizes="(min-width: 1540px) 480px, (min-width: 1280px) 395px, (min-width: 1040px) 309px, (min-width: 780px) 352px, (min-width: 560px) 480px, 88.33vw"
                       alt={content?.mainImage?.alt ?? `portfolio-image${index}`}
                     />
                     <div className="p-6">
@@ -62,10 +65,13 @@ function VariantC({
                         {content?.title}
                       </p>
                       {content?.primaryButton?.label && (
-                        <ConditionalBtnOrLink
-                          value={content?.primaryButton}
-                          style="flex text-webriq-darkblue hover:text-webriq-blue font-bold"
-                        />
+                        <ConditionalLink
+                          ariaLabel={content?.primaryButton?.label}
+                          link={content?.primaryButton}
+                          className="flex text-webriq-darkblue hover:text-webriq-blue font-bold"
+                        >
+                          {content?.primaryButton?.label}
+                        </ConditionalLink>
                       )}
                     </div>
                   </div>
@@ -75,10 +81,13 @@ function VariantC({
           </div>
           <div className="mt-5 block text-center md:mt-0 lg:mt-0 lg:hidden xl:mt-0">
             {primaryButton?.label && (
-              <ConditionalBtnOrLink
-                value={primaryButton}
-                style="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose transition duration-200"
-              />
+              <ConditionalLink
+                ariaLabel={primaryButton?.label}
+                link={primaryButton}
+                className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose transition duration-200"
+              >
+                {primaryButton?.label}
+              </ConditionalLink>
             )}
           </div>
         </div>

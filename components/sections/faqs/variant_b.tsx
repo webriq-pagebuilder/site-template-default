@@ -3,31 +3,24 @@ import React from "react";
 import { FAQProps } from ".";
 
 function VariantB({ subtitle, title, faqsWithCategories }: FAQProps) {
-  const [view, setView] = React.useState([]);
+  const [show, setShow] = React.useState(false);
+  const [activeQA, setActiveQA] = React.useState(null);
   const [tabPane, setTabPane] = React.useState(
     faqsWithCategories?.[0]?.category
   );
 
-  React.useEffect(() => {
-    let tempFaqs = [];
-    faqsWithCategories &&
-      faqsWithCategories?.map(faqs => {
-        faqs?.askedQuestions?.map(items =>
-          tempFaqs.push({
-            category: faqs?.category,
-            question: items?.question,
-            answer: items?.answer,
-            hidden: true,
-          })
-        );
-      });
-    setView(tempFaqs);
-  }, [faqsWithCategories]);
+  const updatedFAQArray = faqsWithCategories?.map((items) => ({
+    ...items,
+    askedQuestions: items?.askedQuestions?.map((item) => ({
+      ...item,
+      hidden: true,
+    })),
+  }));
 
-  const toggleView = position => {
-    let newFaq = [...view];
-    newFaq[position].hidden = !view[position].hidden;
-    setView(newFaq);
+  // toggle view or hide answers on click for each FAQ items
+  const toggleView = (position: number) => {
+    setActiveQA(position);
+    setShow(!show);
   };
 
   return (
@@ -42,9 +35,9 @@ function VariantB({ subtitle, title, faqsWithCategories }: FAQProps) {
           </div>
           <div className="mx-auto max-w-3xl">
             <div className="flex flex-wrap px-4 text-center text-base lg:-mx-4 lg:space-x-4 lg:text-xl">
-              {faqsWithCategories?.map((tab, index) => (
+              {updatedFAQArray?.map((tab, index) => (
                 <button
-                  aria-label={`Frequently Asked Questions ${tab?.category} tab`}
+                  aria-label={tab?.category}
                   key={index}
                   onClick={() => setTabPane(tab?.category)}
                   className={
@@ -62,12 +55,12 @@ function VariantB({ subtitle, title, faqsWithCategories }: FAQProps) {
         <div className="container mx-auto px-4">
           <div className="mx-auto max-w-3xl">
             <ul>
-              {view
-                ?.filter(items => items?.category === tabPane)
-                ?.map((content, index) => (
+              {updatedFAQArray
+                ?.find((item) => item?.category === tabPane)
+                ?.askedQuestions?.map((content, index) => (
                   <li className="border-b py-12 pr-4" key={index}>
                     <button
-                      aria-label={`Show Question-${index} Answer`}
+                      aria-label={content?.question}
                       className="font-heading flex w-full items-center justify-between text-left font-bold hover:text-gray-600 focus:outline-none"
                       onClick={() => toggleView(index)}
                     >
@@ -86,14 +79,14 @@ function VariantB({ subtitle, title, faqsWithCategories }: FAQProps) {
                           strokeLinejoin="round"
                           strokeWidth={2}
                           d={
-                            view[index].hidden === false
+                            show && activeQA === index
                               ? "M5 10l7-7m0 0l7 7m-7-7v18"
                               : "M19 14l-7 7m0 0l-7-7m7 7V3"
                           }
                         />
                       </svg>
                     </button>
-                    {view[index].hidden === false && (
+                    {show && activeQA === index && (
                       <p className="mt-4 text-xs font-normal leading-loose text-gray-500 lg:text-xl xl:text-xl 2xl:text-xl">
                         {content?.answer}
                       </p>

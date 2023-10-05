@@ -7,9 +7,16 @@ import AddToWishlist from "components/ecwid/AddToWishlist";
 import Ribbon from "components/ecwid/Ribbon";
 //import Description from "components/ecwid/Description";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Thumbs, Pagination, A11y } from "swiper";
+import { Navigation, Thumbs, Pagination, A11y } from "swiper/modules";
 import { ProductInfoProps } from ".";
 import { MyPortableTextComponents } from "types";
+
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/thumbs";
+import "swiper/css/pagination";
+import "swiper/css/a11y";
 
 function VariantA({
   subtitle,
@@ -21,6 +28,9 @@ function VariantA({
   ecwidProduct,
   getPriceDisplay,
 }: ProductInfoProps) {
+  const [activeTab, setActiveTab] = useState(0);
+  const [thumbsSwiper, setThumbsSwiper] = useState(null);
+
   // get Ecwid product details
   const defaultProduct = ecwidProduct ? ecwidProduct : product;
 
@@ -106,13 +116,10 @@ function VariantA({
     },
   };
 
-  const [activeTab, setActiveTab] = useState(0);
-  const [thumbsSwiper, setThumbsSwiper] = useState(null);
-
   return (
     <section className="sm:p-12 md:p-20">
       <div className="container mx-auto px-4">
-        <div className="-mx-4 mb-24 flex flex-wrap">
+        <div className="-mx-4 mb-5 flex flex-wrap">
           <div className="mb-8 mt-14 w-full px-4 md:mb-0 lg:w-1/2">
             <div className="relative mb-10">
               <Swiper
@@ -127,18 +134,24 @@ function VariantA({
                 speed={500}
                 watchSlidesProgress={true}
                 thumbs={{ swiper: thumbsSwiper }}
+                style={{ height: "618px" }}
               >
                 {images &&
                   images?.map((item, index) => (
                     <SwiperSlide key={index}>
-                      <Image
-                        className="h-full w-full object-cover"
-                        sizes="100vw"
-                        width={736}
-                        height={564}
-                        src={urlFor(item?.image)}
-                        alt={item?.alt ?? `product-image-${index + 1}`}
-                      />
+                      <div className="h-full">
+                        <Image
+                          sizes="100vw"
+                          fill
+                          quality={100}
+                          src={urlFor(item?.image)}
+                          style={{
+                            objectFit: "cover",
+                            objectPosition: "center",
+                          }}
+                          alt={item?.alt ?? `product-image-${index + 1}`}
+                        />
+                      </div>
                     </SwiperSlide>
                   ))}
               </Swiper>
@@ -153,13 +166,13 @@ function VariantA({
                   prevEl: "#thumbPrev",
                   nextEl: "#thumbNext",
                 }}
-                className="product-images-thumbs-swiper hidden md:-mx-2 md:flex md:flex-wrap"
+                className="hidden md:-mx-2 md:flex md:flex-wrap"
                 pagination={{
                   clickable: true,
                 }}
               >
                 {images?.map((item, index) => (
-                  <SwiperSlide className="w-1/4 py-2" key={index}>
+                  <SwiperSlide className="w-1/4" key={index}>
                     {item?.image && (
                       <Image
                         className="flex h-[147px] object-cover hover:border hover:border-gray-400"
@@ -230,18 +243,48 @@ function VariantA({
                   </h1>
                 )}
                 <div className="mb-8">{/* Ratings from Ecwid */}</div>
-                <p className="font-heading mb-8 inline-block text-2xl font-bold">
-                  {/* Product price from Ecwid */}
-                  <span className="text-webriq-darkblue">
+                {/* Product price */}
+                {product?.price && (
+                  <p
+                    className={`font-heading text-webriq-darkblue inline-block text-2xl font-bold ${
+                      !ecwidProduct?.compareToPrice && "mb-8"
+                    }`}
+                  >
+                    {/* Product price from Ecwid */}
                     {ecwidProduct
                       ? getPriceDisplay()
                       : ecwidProduct?.defaultDisplayedPriceFormatted}
-                  </span>
-                </p>
-                {/* <Description data={product} /> */}
+                  </p>
+                )}
+                {/* "CompareTo" price */}
+                {ecwidProduct?.compareToPrice && (
+                  <p
+                    className="mt-3 mb-8"
+                    style={{
+                      fontSize: "15px",
+                    }}
+                  >
+                    Before{" "}
+                    <span className="line-through">
+                      {ecwidProduct?.compareToPriceFormatted}
+                    </span>{" "}
+                    (
+                    <span
+                      className="text-webriq-babyblue"
+                      style={{ fontSize: "15px" }}
+                    >
+                      {`Save ${ecwidProduct?.compareToPriceDiscountPercentFormatted}`}
+                    </span>
+                    )
+                  </p>
+                )}
 
+                {/* <Description data={product} /> */}
                 {product?.description && (
-                  <PortableText value={product?.description} components={blockStyle} />
+                  <PortableText
+                    value={product?.description}
+                    components={blockStyle}
+                  />
                 )}
               </div>
 
@@ -342,8 +385,11 @@ function VariantA({
                             </svg>
                           ) : (
                             social?.socialMediaIcon?.image && (
-                              <img
+                              <Image
                                 src={urlFor(social?.socialMediaIcon?.image)}
+                                width={32}
+                                height={32}
+                                quality={100}
                                 alt={
                                   social?.socialMediaIcon?.alt ??
                                   "contact-socialMedia-icon"

@@ -58,7 +58,7 @@ function VariantB({
           );
 
           if (data) {
-            data?.data?.forEach(item => {
+            data?.data?.forEach((item) => {
               if (item.product === productResponse.data.id) {
                 plans[i]["variant_b_checkoutButton"] = item.id;
               }
@@ -119,7 +119,7 @@ function VariantB({
           )}
 
           {usePlan &&
-            usePlan.map(plan => {
+            usePlan.map((plan) => {
               return (
                 <div
                   className="mb-8 flex w-full flex-wrap items-center rounded bg-white p-8 shadow"
@@ -132,7 +132,7 @@ function VariantB({
                   </div>
                   <div className="w-full px-3 lg:w-2/5">
                     <ul className="mb-4 text-gray-500">
-                      {plan.planIncludes?.map(include => (
+                      {plan.planIncludes?.map((include) => (
                         <li className="mb-4 flex" key={include}>
                           <svg
                             className="mr-2 h-5 w-5 text-webriq-darkblue"
@@ -163,7 +163,7 @@ function VariantB({
                   <div className="w-full px-3 lg:w-1/5">
                     {plan.checkoutButtonName && (
                       <button
-                        aria-label={`${plan.checkoutButtonName} button`}
+                        aria-label={plan.checkoutButtonName}
                         className={`mt-4 inline-block rounded-l-xl rounded-t-xl bg-webriq-darkblue px-6 py-2 font-bold leading-loose text-white transition duration-200 hover:bg-webriq-blue lg:mt-0  ${
                           !plan ||
                           (!plan?.variant_b_checkoutButton &&

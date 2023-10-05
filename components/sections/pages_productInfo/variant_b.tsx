@@ -32,13 +32,15 @@ function VariantB({ products }: PagesProductInfoProps) {
                     {products?.productInfo?.images ? (
                       <div className="h-full w-full">
                         <Image
-                          className="object-cover"
-                          sizes="100vw"
+                          sizes="(min-width: 1840px) 704px, (min-width: 1540px) calc(27.86vw + 197px), (min-width: 1320px) calc(30vw + 120px), (min-width: 1260px) calc(145vw - 1379px), (min-width: 1040px) 36vw, (min-width: 980px) 320px, (min-width: 780px) calc(41.11vw - 75px), (min-width: 640px) calc(66.67vw + 69px), calc(100vw - 64px)"
                           width={736}
                           height={564}
                           src={urlFor(
                             products?.productInfo?.images?.[0]?.image
                           )}
+                          style={{
+                            objectFit: "cover",
+                          }}
                           alt={
                             products?.productInfo?.images?.[0]?.alt ??
                             "product-info-main-image"
@@ -48,7 +50,7 @@ function VariantB({ products }: PagesProductInfoProps) {
                     ) : (
                       <Image
                         className="object-cover"
-                        sizes="100vw"
+                        sizes="(min-width: 1840px) 704px, (min-width: 1540px) calc(27.86vw + 197px), (min-width: 1320px) calc(30vw + 120px), (min-width: 1260px) calc(145vw - 1379px), (min-width: 1040px) 36vw, (min-width: 980px) 320px, (min-width: 780px) calc(41.11vw - 75px), (min-width: 640px) calc(66.67vw + 69px), calc(100vw - 64px)"
                         width={736}
                         height={564}
                         src="https://cdn.sanity.io/images/9itgab5x/production/9523d40461371b7b4948456c57bb663bd8998c4a-500x362.png"
@@ -58,7 +60,7 @@ function VariantB({ products }: PagesProductInfoProps) {
                   </div>
                 </div>
                 <div className="mr-auto mt-8 px-5">
-                  <div className="flex items-center">
+                  <div className="flex flex-wrap items-center">
                     <span className="font-heading mr-8 font-bold uppercase">
                       SHARE IT
                     </span>
@@ -114,8 +116,11 @@ function VariantB({ products }: PagesProductInfoProps) {
                               </svg>
                             ) : (
                               social?.socialMediaIcon?.image && (
-                                <img
+                                <Image
                                   src={urlFor(social?.socialMediaIcon?.image)}
+                                  width={32}
+                                  height={32}
+                                  quality={100}
                                   alt={
                                     social?.socialMediaIcon?.alt ??
                                     "contact-socialMedia-icon"
@@ -145,10 +150,36 @@ function VariantB({ products }: PagesProductInfoProps) {
                   )}
                   <div className="mb-8">{/* Add product rating here */}</div>
                   {products?.price && (
-                    <p className="font-heading mb-8 inline-block text-2xl font-bold text-webriq-blue">
+                    <p
+                      className={`font-heading inline-block text-2xl font-bold text-webriq-darkblue ${
+                        !products?.compareToPrice && "mb-8"
+                      }`}
+                    >
                       {(ecwid &&
                         ecwid?.products?.defaultDisplayedPriceFormatted) ||
                         ecwid?.getPriceDisplay(products?.price)}
+                    </p>
+                  )}
+                  {products?.compareToPrice && (
+                    <p
+                      className="mt-3 mb-8 text-gray-500"
+                      style={{
+                        fontSize: "15px",
+                      }}
+                    >
+                      Before{" "}
+                      <span className="line-through">
+                        {ecwidProduct?.compareToPriceFormatted}
+                      </span>{" "}
+                      (
+                      <span
+                        className="text-webriq-babyblue"
+                        style={{ fontSize: "15px" }}
+                      >
+                        Save{" "}
+                        {ecwidProduct?.compareToPriceDiscountPercentFormatted}
+                      </span>
+                      )
                     </p>
                   )}
                   {products?.description && (
@@ -157,7 +188,10 @@ function VariantB({ products }: PagesProductInfoProps) {
                     //     __html: products?.description,
                     //   }}
                     // />
-                    <PortableText value={products?.description} components={defaultBlockStyle} />
+                    <PortableText
+                      value={products?.description}
+                      components={defaultBlockStyle}
+                    />
                   )}
                 </div>
 
@@ -193,7 +227,7 @@ function VariantB({ products }: PagesProductInfoProps) {
                         />
                       </svg>
                       <span className="font-heading font-bold uppercase">
-                        Add to wishlists
+                        Add to wishlist
                       </span>
                     </AddToWishlist>
                   </div>

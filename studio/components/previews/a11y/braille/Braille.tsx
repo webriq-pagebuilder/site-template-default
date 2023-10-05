@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import br from "braille";
 import { Select } from "@sanity/ui";
 
-import styles from "styles/studio/a11y/Braille.module.css";
+import styles from "./Braille.module.css";
 
 const defaultFields = ["title", "excerpt", "body"];
 

@@ -1,8 +1,9 @@
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import WebriQForm from "components/webriq-form";
 import { urlFor } from "lib/sanity";
-import { logoLink, thankYouPageLink, ConditionalBtnOrLink } from "helper";
+import { logoLink, thankYouPageLink, ConditionalLink } from "helper";
 import { SignUpFormProps } from ".";
 import { FormFields } from "types";
 
@@ -20,9 +21,11 @@ function VariantB({ logo, form, formLinks, signInLink }: SignUpFormProps) {
                 className="flex justify-center text-3xl font-bold  leading-none text-white"
                 href={logoLink(logo)}
               >
-                <img
-                  className="h-12"
+                <Image
                   src={urlFor(logo?.image)}
+                  width={50}
+                  height={50}
+                  quality={100}
                   alt={logo?.alt ?? "signUp-logo"}
                 />
               </Link>
@@ -72,10 +75,13 @@ function VariantB({ logo, form, formLinks, signInLink }: SignUpFormProps) {
                   {signInLink?.label && (
                     <span className="text-xs text-gray-900">
                       <span>Already have an account?</span>{" "}
-                      <ConditionalBtnOrLink
-                        value={signInLink}
-                        style="text-webriq-darkblue hover:underline"
-                      />
+                      <ConditionalLink
+                        link={signInLink}
+                        className="text-webriq-darkblue hover:underline"
+                        ariaLabel={signInLink?.label}
+                      >
+                        {signInLink?.label}
+                      </ConditionalLink>
                     </span>
                   )}
                 </div>
@@ -86,10 +92,13 @@ function VariantB({ logo, form, formLinks, signInLink }: SignUpFormProps) {
             <p className="text-center text-xs text-webriq-lightblue">
               {formLinks?.map((link, index, { length }) => (
                 <span key={index}>
-                  <ConditionalBtnOrLink
-                    value={link}
-                    style="underline hover:text-gray-50"
-                  />
+                  <ConditionalLink
+                    link={link}
+                    className="underline hover:text-gray-50"
+                    ariaLabel={link?.label}
+                  >
+                    {link?.label}
+                  </ConditionalLink>
                   {index === length - 1 ? null : index === length - 2 ? (
                     <span>&nbsp;and&nbsp;</span>
                   ) : (
@@ -115,22 +124,22 @@ function FormFields({ fields }: { fields: FormFields }) {
   const [value, setValue] = React.useState(null); // setting selected value for input field radio type
   const [checked, setChecked] = React.useState([]); // setting selected value for input field checkbox type
 
-  const handleRadioChange = e => {
+  const handleRadioChange = (e) => {
     setValue(e.target.value);
   };
 
-  const handleCheckboxChange = e => {
+  const handleCheckboxChange = (e) => {
     const { checked, value } = e.target;
 
-    setChecked(prev =>
-      checked ? [...prev, value] : prev.filter(v => v !== value)
+    setChecked((prev) =>
+      checked ? [...prev, value] : prev.filter((v) => v !== value)
     );
   };
 
   if (fields?.type === "textarea") {
     return (
       <textarea
-        aria-label={`${fields?.name} text area`}
+        aria-label={fields?.placeholder ?? fields?.name}
         className="w-full rounded bg-gray-100 p-4 text-xs outline-none"
         placeholder={fields?.name}
         name={fields?.name}
@@ -141,7 +150,7 @@ function FormFields({ fields }: { fields: FormFields }) {
     return (
       <label className="flex rounded bg-gray-100 px-2">
         <input
-          aria-label="Add file"
+          aria-label={fields?.placeholder ?? "Choose file.."}
           className="w-full rounded bg-gray-100 p-4 text-xs outline-none"
           type="file"
           placeholder={fields?.placeholder ?? "Choose file.."}
@@ -154,7 +163,7 @@ function FormFields({ fields }: { fields: FormFields }) {
     return (
       <div className="mb-4 flex rounded bg-gray-100 p-4">
         <input
-          aria-label={fields?.type}
+          aria-label={fields?.placeholder ?? fields?.name}
           className="w-full bg-gray-100 text-xs outline-none"
           type={showPassword ? "text" : "password"}
           placeholder={fields?.placeholder}
@@ -209,7 +218,7 @@ function FormFields({ fields }: { fields: FormFields }) {
     return (
       <div className="mb-4 flex rounded bg-gray-100 p-4">
         <input
-          aria-label={fields?.name}
+          aria-label={fields?.placeholder ?? fields?.name}
           className="w-full bg-gray-100 text-xs outline-none"
           type="number"
           placeholder={fields?.placeholder}
@@ -287,7 +296,7 @@ function FormFields({ fields }: { fields: FormFields }) {
                 value={item}
                 type="checkbox"
                 onChange={handleCheckboxChange}
-                checked={checked.some(v => v === item)}
+                checked={checked.some((v) => v === item)}
                 required={
                   fields?.isRequired && checked.length === 0 ? true : false
                 }
@@ -302,11 +311,7 @@ function FormFields({ fields }: { fields: FormFields }) {
     return (
       <div className="mb-4 flex rounded bg-gray-100 p-4">
         <input
-          aria-label={`${
-            fields?.type === "inputText"
-              ? `Input ${fields?.name}`
-              : `${fields?.type}`
-          }`}
+          aria-label={fields?.placeholder ?? fields?.name}
           className="w-full bg-gray-100 text-xs outline-none"
           type={fields?.type === "inputEmail" ? "email" : "text"}
           placeholder={fields?.placeholder}

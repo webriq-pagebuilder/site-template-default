@@ -27,11 +27,9 @@ function VariantC({ title, text, features, form }: CTAProps) {
               >
                 {form?.fields?.[0] && form?.fields[0]?.type && (
                   <input
-                    aria-label={`${
-                      form?.fields[0]?.type === "inputText"
-                        ? `Input ${form?.fields[0]?.name}`
-                        : `${form?.fields[0]?.type}`
-                    }`}
+                    aria-label={
+                      form?.fields[0]?.placeholder ?? form?.fields[0]?.name
+                    }
                     className="mr-2 rounded bg-white px-4 py-2 leading-loose"
                     type={
                       form?.fields[0]?.type === "inputEmail"

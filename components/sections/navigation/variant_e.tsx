@@ -1,18 +1,28 @@
 import { memo, useState, Fragment, useEffect, useRef } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { urlFor, PortableText } from "lib/sanity";
 import { EcwidContextProvider } from "context/EcwidContext";
-import { logoLink, ConditionalBtnOrLink } from "helper";
+import { logoLink, ConditionalLink } from "helper";
 import { NavigationProps } from ".";
-import { PortableTextComponents } from "@portabletext/react";
 import { MyPortableTextComponents } from "types";
 
 function VariantE({ banner, logo, links }: NavigationProps) {
   const router = useRouter();
+  const [menu, setMenu] = useState(false);
   const [showSearchBar, setShowSearchBar] = useState(false);
   const [productQuery, setProductQuery] = useState("");
   const prevQuery = useRef(""); // the useRef React hook allows to persist data between renders
+
+  useEffect(() => {
+    if (typeof Ecwid !== "undefined") Ecwid.init();
+  }, []);
+
+  useEffect(() => {
+    //assign the ref's current value to the productQuery hook
+    prevQuery.current = productQuery;
+  }, [productQuery]); //run this code when the value of productQuery changes
 
   // block styling as props to `serializers` of the PortableText component
   const blockStyle: MyPortableTextComponents = {
@@ -50,23 +60,12 @@ function VariantE({ banner, logo, links }: NavigationProps) {
     },
   };
 
-  const [menu, setMenu] = useState(false);
-
   const showMenu = () => {
-    setMenu(prevState => !prevState);
+    setMenu((prevState) => !prevState);
   };
 
-  useEffect(() => {
-    if (typeof Ecwid !== "undefined") Ecwid.init();
-  }, []);
-
-  useEffect(() => {
-    //assign the ref's current value to the productQuery hook
-    prevQuery.current = productQuery;
-  }, [productQuery]); //run this code when the value of productQuery changes
-
   // Add query param to /search page based on search input
-  const handleSearchRouting = e => {
+  const handleSearchRouting = (e) => {
     const q = document.getElementById("query") as HTMLInputElement;
     e.preventDefault();
 
@@ -121,9 +120,10 @@ function VariantE({ banner, logo, links }: NavigationProps) {
                 href={logoLink(logo)}
                 prefetch={false}
               >
-                <img
-                  className="h-12"
+                <Image
                   src={urlFor(logo?.image)}
+                  width={48}
+                  height={48}
                   alt={logo?.alt ?? "navigation-logo"}
                 />
               </Link>
@@ -134,14 +134,17 @@ function VariantE({ banner, logo, links }: NavigationProps) {
                 links.map((link, index) => (
                   <Fragment key={index}>
                     <li>
-                      <ConditionalBtnOrLink
-                        value={link}
-                        style={
+                      <ConditionalLink
+                        ariaLabel={link?.label}
+                        link={link}
+                        className={
                           link?.type === "linkInternal"
                             ? "xl:mr-12 lg:mr-8 font-bold font-heading hover:text-gray-600"
                             : "mr-12 font-bold font-heading hover:text-gray-600"
                         }
-                      />
+                      >
+                        {link?.label}
+                      </ConditionalLink>
                     </li>
                   </Fragment>
                 ))}
@@ -151,7 +154,7 @@ function VariantE({ banner, logo, links }: NavigationProps) {
           <div className="mr-12 hidden items-center justify-end xl:flex">
             {/* Search button */}
             <button
-              aria-label="search button"
+              aria-label="Search button"
               type="button"
               onClick={() => setShowSearchBar(!showSearchBar)}
             >
@@ -177,10 +180,10 @@ function VariantE({ banner, logo, links }: NavigationProps) {
                 <input
                   id="query"
                   name="query"
-                  aria-label="Search product"
+                  aria-label="Search..."
                   className="mt-1 inline-block h-full w-40 border border-slate-300 bg-white p-2 text-sm placeholder-slate-400 shadow-sm focus:border-webriq-blue focus:outline-none focus:ring-1 focus:ring-webriq-blue"
                   placeholder="Search..."
-                  onChange={e => setProductQuery(e.target.value)}
+                  onChange={(e) => setProductQuery(e.target.value)}
                   type="search"
                 />
                 <button
@@ -214,7 +217,7 @@ function VariantE({ banner, logo, links }: NavigationProps) {
               <a
                 className="cart-link"
                 href="/cart?store-page=cart"
-                aria-label="cart button"
+                aria-label="Cart"
               />
             </div>
             {/* Account */}
@@ -283,15 +286,16 @@ function VariantE({ banner, logo, links }: NavigationProps) {
                   href={logoLink(logo)}
                   prefetch={false}
                 >
-                  <img
-                    className="h-12"
+                  <Image
                     src={urlFor(logo?.image)}
+                    width={48}
+                    height={48}
                     alt={logo?.alt ?? "navigation-logo"}
                   />
                 </Link>
               )}
               <button
-                aria-label="Navbar Close button"
+                aria-label="Close navigation menu"
                 className="ml-auto"
                 onClick={showMenu}
               >
@@ -327,7 +331,7 @@ function VariantE({ banner, logo, links }: NavigationProps) {
                 aria-label="Search product"
                 className="inline-block h-full w-full border border-slate-300 bg-white p-2 text-sm placeholder-slate-400 shadow-sm focus:border-webriq-blue focus:outline-none focus:ring-1 focus:ring-webriq-blue sm:w-60"
                 placeholder="Search..."
-                onChange={e => setProductQuery(e.target.value)}
+                onChange={(e) => setProductQuery(e.target.value)}
                 type="search"
               />
               <button
@@ -360,10 +364,13 @@ function VariantE({ banner, logo, links }: NavigationProps) {
                 links.map((link, index) => (
                   <Fragment key={index}>
                     <li className="mb-8">
-                      <ConditionalBtnOrLink
-                        value={link}
-                        style="font-bold font-heading hover:text-gray-600"
-                      />
+                      <ConditionalLink
+                        ariaLabel={link?.label}
+                        link={link}
+                        className="font-bold font-heading hover:text-gray-600"
+                      >
+                        {link?.label}
+                      </ConditionalLink>
                     </li>
                   </Fragment>
                 ))}
@@ -374,7 +381,7 @@ function VariantE({ banner, logo, links }: NavigationProps) {
               {/* Cart */}
               <a
                 className="cart-icon cart-link mr-10 flex"
-                aria-label="cart button"
+                aria-label="Cart"
                 href="/cart?store-page=cart"
               >
                 <div data-icon="BAG" className="ec-cart-widget" />
@@ -383,7 +390,7 @@ function VariantE({ banner, logo, links }: NavigationProps) {
               {/* Account */}
               <a
                 className="flex"
-                aria-label="account"
+                aria-label="Account"
                 href="/cart?store-page=account"
               >
                 <svg

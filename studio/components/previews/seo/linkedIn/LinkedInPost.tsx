@@ -1,16 +1,10 @@
 /* eslint-disable react/no-unused-prop-types, react/no-multi-comp, react/no-did-mount-set-state, react/forbid-prop-types */
 import React from "react";
-import { useClient } from "sanity";
-import imageUrlBuilder from "@sanity/image-url";
-import { assemblePageUrl } from "./frontendUtils";
-import styles from "styles/studio/seo/LinkedInPost.module.css";
+import { assemblePageUrl } from "../frontendUtils";
+import styles from "./LinkedInPost.module.css";
+import { urlFor } from "lib/sanity";
 
 function LinkedinPost(props) {
-  const client = useClient({ apiVersion: "2021-10-21" });
-  const builder = imageUrlBuilder(client);
-
-  const urlFor = (source) => builder.image(source)?.url();
-
   const { document, width = 500, options, defaultSeo } = props;
   const { title, seo } = document;
   const url = assemblePageUrl({ document, options });
@@ -24,10 +18,7 @@ function LinkedinPost(props) {
       <div className={styles.linkedinWrapper} style={{ width }}>
         <div className={styles.linkedinImageContainer}>
           {seoImage && (
-            <img
-              className={styles.linkedinCardImage}
-              src={urlFor(seo?.seoImage)}
-            />
+            <img className={styles.linkedinCardImage} src={urlFor(seoImage)} />
           )}
         </div>
         <div className={styles.linkedinCardContent}>

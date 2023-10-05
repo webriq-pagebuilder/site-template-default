@@ -3,38 +3,27 @@ import React from "react";
 import { FAQProps } from ".";
 
 function VariantA({ subtitle, title, faqs }: FAQProps) {
-  const [data, setData] = React.useState([]);
+  const [show, setShow] = React.useState(false);
+  const [activeTab, setActiveTab] = React.useState(null);
   const [currentPage, setCurrentPage] = React.useState(1);
   const [faqsPerPage] = React.useState(6);
   const [searchTerm, setSearchTerm] = React.useState(null);
 
-  React.useEffect(() => {
-    let tempFaqs = [];
-    faqs &&
-      faqs.forEach(faq =>
-        tempFaqs.push({
-          question: faq?.question,
-          answer: faq?.answer,
-          hidden: false,
-        })
-      );
-    setData(tempFaqs);
-  }, [faqs]);
+  const updatedFAQArray = faqs?.map((items) => ({ ...items, hidden: true }));
 
   // toggle view or hide answers on click for each FAQ items
-  const toggleView = position => {
-    let newFaq = [...data];
-    newFaq[position].hidden = !data[position].hidden;
-    setData(newFaq);
+  const toggleView = (position) => {
+    setActiveTab(position);
+    setShow(!show);
   };
 
   // get current FAQs
   const indexOfLastQuestion = currentPage * faqsPerPage;
   const indexOfFirstQuestion = indexOfLastQuestion - faqsPerPage;
   const searchedFAQs = !searchTerm
-    ? data?.slice(indexOfFirstQuestion, indexOfLastQuestion)
-    : data?.filter(items =>
-        items?.question?.toLowerCase().includes(searchTerm)
+    ? updatedFAQArray?.slice(indexOfFirstQuestion, indexOfLastQuestion)
+    : updatedFAQArray?.filter(
+        (items) => items?.question?.toLowerCase().includes(searchTerm)
       ); // get search results based on data
 
   // display FAQs
@@ -44,9 +33,7 @@ function VariantA({ subtitle, title, faqs }: FAQProps) {
         {items?.map((faq, index) => (
           <li className="rounded bg-gray-50 p-6 shadow" key={index}>
             <button
-              aria-label={`Show Question-${
-                index + indexOfFirstQuestion
-              } Answer`}
+              aria-label={faq?.question}
               className="font-heading flex w-full items-center justify-between border-none text-left font-bold hover:text-gray-600 focus:outline-none"
               onClick={() => toggleView(index + indexOfFirstQuestion)}
             >
@@ -63,25 +50,19 @@ function VariantA({ subtitle, title, faqs }: FAQProps) {
                   strokeLinejoin="round"
                   strokeWidth={2}
                   d={
-                    !searchTerm
-                      ? faq?.hidden === false
-                        ? "M19 14l-7 7m0 0l-7-7m7 7V3"
-                        : "M5 10l7-7m0 0l7 7m-7-7v18"
+                    show && activeTab === index
+                      ? "M5 10l7-7m0 0l7 7m-7-7v18"
                       : "M19 14l-7 7m0 0l-7-7m7 7V3"
                   }
                 />
               </svg>
             </button>
-            {!searchTerm ? (
+            {show && activeTab === index && (
               <p
-                className={`${
-                  faq?.hidden === false ? "hidden" : null
-                } mt-4 font-normal leading-loose text-gray-500`}
+                className={`mt-4 font-normal leading-loose text-gray-500 ${
+                  !show && "hidden"
+                }`}
               >
-                {faq?.answer}
-              </p>
-            ) : (
-              <p className="mt-4 font-normal leading-loose text-gray-500">
                 {faq?.answer}
               </p>
             )}
@@ -101,9 +82,9 @@ function VariantA({ subtitle, title, faqs }: FAQProps) {
 
     return (
       <div className="mb-16 flex justify-center space-x-4">
-        {pageButtons?.map(buttonNumber => (
+        {pageButtons?.map((buttonNumber) => (
           <button
-            aria-label={`Page ${buttonNumber} button`}
+            aria-label={`Page ${buttonNumber}`}
             key={buttonNumber}
             className="inline-block h-2 w-2 rounded-full bg-webriq-blue"
             onClick={() => changePage(buttonNumber)}
@@ -114,7 +95,7 @@ function VariantA({ subtitle, title, faqs }: FAQProps) {
   };
 
   // change page
-  const changePage = buttonNumber => setCurrentPage(buttonNumber);
+  const changePage = (buttonNumber) => setCurrentPage(buttonNumber);
 
   return (
     <section>
@@ -125,13 +106,13 @@ function VariantA({ subtitle, title, faqs }: FAQProps) {
               {subtitle}
             </span>
             <h1 className="font-heading mb-6 text-5xl font-bold">{title}</h1>
-            {faqs && faqs?.length > 1 && (
+            {updatedFAQArray && updatedFAQArray?.length > 1 && (
               <form className="flex justify-center">
                 <input
-                  aria-label="Enter question keyword to search"
+                  aria-label="Search, find any question you want to ask..."
                   className="font-heading w-2/3 rounded-l bg-white p-4 text-xs focus:border-gray-500 focus:outline-none"
                   placeholder="Search, find any question you want to ask..."
-                  onChange={e => setSearchTerm(e.target.value.toLowerCase())}
+                  onChange={(e) => setSearchTerm(e.target.value.toLowerCase())}
                 />
                 <button
                   aria-label="Search button"
@@ -155,16 +136,16 @@ function VariantA({ subtitle, title, faqs }: FAQProps) {
               </form>
             )}
           </div>
-          {!searchTerm && data?.length > 6 ? (
+          {!searchTerm && updatedFAQArray?.length > 6 && (
             <Pagination
               faqsPerPage={faqsPerPage}
-              totalFaqs={data?.length}
+              totalFaqs={updatedFAQArray?.length}
               changePage={changePage}
             />
-          ) : null}
+          )}
           <div className="mx-auto max-w-3xl">
             <ul className="space-y-4 lg:space-y-6">
-              {data && <FAQs items={searchedFAQs} />}
+              {updatedFAQArray && <FAQs items={searchedFAQs} />}
             </ul>
           </div>
         </div>

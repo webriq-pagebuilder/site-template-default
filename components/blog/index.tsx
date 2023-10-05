@@ -1,5 +1,7 @@
 import React from "react";
 import dynamic from "next/dynamic";
+import Image from "next/image";
+import Link from "next/link";
 import { urlFor, PortableText } from "lib/sanity";
 import { format } from "date-fns";
 import { InlineEditorContext } from "context/InlineEditorContext";
@@ -13,14 +15,14 @@ const blockStyle: MyPortableTextComponents = {
   block: {
     h1: ({ children }) => {
       return (
-        <h1 className="mb-6 text-7xl leading-loose text-gray-900">
+        <h1 className="mb-6 text-5xl leading-loose text-gray-900">
           {children}
         </h1>
       );
     },
     h2: ({ children }) => {
       return (
-        <h2 className="mb-6 text-5xl leading-loose text-gray-900">
+        <h2 className="mb-6 text-4xl leading-loose text-gray-900">
           {children}
         </h2>
       );
@@ -34,7 +36,19 @@ const blockStyle: MyPortableTextComponents = {
     },
     h4: ({ children }) => {
       return (
-        <h4 className="mb-6 text-xl leading-loose text-gray-900">{children}</h4>
+        <h4 className="mb-6 text-2xl leading-loose text-gray-900">
+          {children}
+        </h4>
+      );
+    },
+    h5: ({ children }) => {
+      return (
+        <h5 className="mb-6 text-xl leading-loose text-gray-900">{children}</h5>
+      );
+    },
+    h6: ({ children }) => {
+      return (
+        <h6 className="mb-6 text-lg leading-loose text-gray-900">{children}</h6>
       );
     },
     normal: ({ children }) => {
@@ -69,7 +83,7 @@ const blockStyle: MyPortableTextComponents = {
     },
     number: ({ children }) => {
       return (
-        <ol className="mb-6 list-decimal leading-loose text-gray-900">
+        <ol className="mb-6 list-decimal pl-10 leading-loose text-gray-900">
           {children}
         </ol>
       );
@@ -79,26 +93,31 @@ const blockStyle: MyPortableTextComponents = {
     bullet: ({ children }) => (
       <li className="mb-6 leading-loose text-gray-900">{children}</li>
     ),
+    number: ({ children }) => (
+      <li className="mb-6 leading-loose text-gray-900">{children}</li>
+    ),
   },
   marks: {
     strong: ({ children }) => <strong>{children}</strong>,
     em: ({ children }) => <em>{children}</em>,
     code: ({ children }) => <code>{children}</code>,
     link: ({ children, value }) => (
-      <a
-        className="hover:text-webriq-darkorange text-webriq-lightorange"
-        href={value.href}
+      <Link
+        className="hover:text-webriq-blue text-webriq-darkblue"
+        href={value?.href}
         target="_blank"
         rel="noopener noreferrer"
       >
         {children}
-      </a>
+      </Link>
     ),
   },
   types: {
     addImage: ({ value }) => (
-      <img
-        className="mb-5 h-full w-full"
+      <Image
+        className="mb-10 h-full w-full"
+        width={300}
+        height={300}
         src={urlFor(value?.image)}
         alt={value?.alt ?? value?.image?.asset?._ref}
       />
@@ -127,6 +146,8 @@ function BlogSections({ data }: BlogSectionsProps) {
     mainImage,
     publishedAt,
     title,
+    navigation,
+    footer,
   } = blogData;
 
   return (
@@ -136,17 +157,17 @@ function BlogSections({ data }: BlogSectionsProps) {
         type: _type,
       }}
       showInlineEditor={showInlineEditor}
+      key={_id}
     >
-      {blogData?.navigation?.map((nav) => (
+      {navigation && (
         <Navigation
-          key={nav?._key}
-          data={nav}
+          data={navigation}
           template={{
             bg: "gray",
             color: "webriq",
           }}
         />
-      ))}
+      )}
       <section className="pb-20">
         <div
           className="mb-12 p-20"
@@ -161,7 +182,7 @@ function BlogSections({ data }: BlogSectionsProps) {
               {categories &&
                 categories?.map((tag, index) => (
                   <span
-                    className="text-base uppercase text-webriq-blue mix-blend-difference lg:text-xl"
+                    className="text-base uppercase text-webriq-blue lg:text-xl"
                     key={index}
                   >
                     {tag?.title}
@@ -174,7 +195,7 @@ function BlogSections({ data }: BlogSectionsProps) {
               )}
               {publishedAt && (
                 <span
-                  className={`text-base text-white mix-blend-difference lg:text-xl ${
+                  className={`text-base text-white lg:text-xl ${
                     categories ?? "ml-2"
                   }`}
                 >
@@ -183,7 +204,7 @@ function BlogSections({ data }: BlogSectionsProps) {
               )}
               <div className="mt-2">
                 {title && (
-                  <h2 className="mb-6 text-4xl font-bold text-white mix-blend-difference lg:text-5xl">
+                  <h2 className="mb-6 text-4xl font-bold text-white lg:text-5xl">
                     {title}
                   </h2>
                 )}
@@ -193,8 +214,10 @@ function BlogSections({ data }: BlogSectionsProps) {
                       <div className="flex justify-center" key={index}>
                         <div className="mr-4">
                           {author?.profile?.image ? (
-                            <img
+                            <Image
                               className="h-12 w-12 rounded-full object-cover object-top"
+                              width={48}
+                              height={48}
                               src={urlFor(author?.profile?.image)}
                               alt={author?.profile?.alt ?? author?.name}
                             />
@@ -210,13 +233,13 @@ function BlogSections({ data }: BlogSectionsProps) {
                           )}
                         </div>
                         <div className="text-left">
-                          <h3 className="font-bold text-webriq-blue mix-blend-difference">
+                          <h3 className="font-bold text-webriq-blue">
                             {author?.name}
                           </h3>
                           {index + 1 !== length ? (
                             <span>&nbsp;and&nbsp;</span>
                           ) : null}
-                          <span className="text-xs italic text-webriq-lightblue mix-blend-difference">
+                          <span className="text-xs italic text-webriq-lightblue">
                             {authors?.length > 1 ? "Authors" : "Author"}
                           </span>
                         </div>
@@ -235,16 +258,15 @@ function BlogSections({ data }: BlogSectionsProps) {
           )}
         </div>
       </section>
-      {blogData?.footer?.map((footer) => (
+      {footer && (
         <Footer
-          key={footer?._key}
           data={footer}
           template={{
             bg: "gray",
             color: "webriq",
           }}
         />
-      ))}
+      )}
     </InlineEditor>
   );
 }

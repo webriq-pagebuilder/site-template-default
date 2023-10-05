@@ -1,7 +1,7 @@
 import React from "react";
 import { urlFor } from "lib/sanity";
 import Image from "next/image";
-import { ConditionalBtnOrLink } from "helper";
+import { ConditionalLink } from "helper";
 
 import { HeaderProps } from ".";
 
@@ -42,16 +42,22 @@ function VariantA({
                   )}
                   <div>
                     {primaryButton?.label && (
-                      <ConditionalBtnOrLink
-                        value={primaryButton}
-                        style={`inline-block mb-3 lg:mb-0 lg:mr-3 w-auto py-2 px-6 leading-loose bg-${template.color}-darkblue hover:bg-${template.color}-blue text-white font-semibold rounded-l-xl rounded-t-xl transition duration-200`}
-                      />
+                      <ConditionalLink
+                        link={primaryButton}
+                        className={`inline-block mb-3 lg:mb-0 lg:mr-3 w-auto py-2 px-6 leading-loose bg-${template.color}-darkblue hover:bg-${template.color}-blue text-white font-semibold rounded-l-xl rounded-t-xl transition duration-200`}
+                        ariaLabel={primaryButton?.label}
+                      >
+                        {primaryButton?.label}
+                      </ConditionalLink>
                     )}
                     {secondaryButton?.label && (
-                      <ConditionalBtnOrLink
-                        value={secondaryButton}
-                        style="inline-block w-auto py-2 px-6 leading-loose font-semibold bg-white hover:bg-gray-50 rounded-l-xl rounded-t-xl transition duration-200"
-                      />
+                      <ConditionalLink
+                        link={secondaryButton}
+                        className="inline-block w-auto py-2 px-6 leading-loose font-semibold bg-white hover:bg-gray-50 rounded-l-xl rounded-t-xl transition duration-200"
+                        ariaLabel={secondaryButton?.label}
+                      >
+                        {secondaryButton?.label}
+                      </ConditionalLink>
                     )}
                   </div>
                 </div>
@@ -60,14 +66,15 @@ function VariantA({
             <div className="flex w-full items-center justify-center px-4 lg:w-1/2">
               {mainImage && (
                 <div className="relative w-full max-w-md">
-                  {mainImage?.image?.asset?._ref && (
+                  {mainImage?.image && (
                     <Image
                       className="overflow-hidden rounded-3xl object-cover md:rounded-br-none lg:h-[448px]"
                       src={urlFor(mainImage?.image)}
-                      sizes="100vw"
+                      sizes="(min-width: 520px) 448px, 90vw"
                       width={448}
                       height={448}
                       alt={mainImage?.alt ?? "header-main-image"}
+                      priority={true}
                     />
                   )}
                   <div

@@ -35,9 +35,10 @@ function VariantA({ logo, subtitle, title, images }: AppPromoProps) {
                 className="mb-8 inline-block rounded-lg bg-white p-5"
                 href={logoLink(logo)}
               >
-                <img
-                  className="h-14"
+                <Image
                   src={urlFor(logo?.image)}
+                  width={50}
+                  height={56}
                   alt={logo?.alt ?? "appPromo-logo"}
                 />
               </Link>
@@ -47,28 +48,31 @@ function VariantA({ logo, subtitle, title, images }: AppPromoProps) {
               {title}
             </h1>
             <div className="hidden h-72 sm:block">
-              {images?.[0]?.image?.asset?._ref && (
+              {images?.[0]?.image && (
                 <Image
                   className="absolute bottom-0 left-1/2 z-20 -mb-10 h-80 -translate-x-1/2 transform rounded-t-2xl object-contain"
                   src={urlFor(images[0]?.image)}
+                  sizes="218px"
                   width={218}
                   height={320}
                   alt="appPromo-variantA-image-1"
                 />
               )}
-              {images?.[1]?.image?.asset?._ref && (
+              {images?.[1]?.image && (
                 <Image
                   className="absolute bottom-0 left-0 -mb-24 h-80 rounded-t-2xl object-contain"
                   src={urlFor(images[1]?.image)}
+                  sizes="218px"
                   width={218}
                   height={320}
                   alt="appPromo-variantA-image-2"
                 />
               )}
-              {images?.[2]?.image?.asset?._ref && (
+              {images?.[2]?.image && (
                 <Image
                   className="absolute bottom-0 right-0 -mb-24 h-80 rounded-t-2xl object-contain"
                   src={urlFor(images[2]?.image)}
+                  sizes="218px"
                   width={218}
                   height={320}
                   alt="appPromo-variantA-image-3"
@@ -81,14 +85,13 @@ function VariantA({ logo, subtitle, title, images }: AppPromoProps) {
                 <Image
                   className="h-full w-full object-contain"
                   src={urlFor(images?.[currentPosition]?.image)}
-                  sizes="100vw"
+                  sizes="(min-width: 520px) 224px, 45vw"
                   width={500}
                   height={850}
                   alt={
                     images?.[currentPosition]?.alt ??
                     `appPromo-variantB-image${currentPosition}`
                   }
-                  priority
                 />
               )}
             </div>

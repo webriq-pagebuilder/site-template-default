@@ -1,4 +1,4 @@
-import { groq } from 'next-sanity';
+import { groq } from "next-sanity";
 
 const conditionalLink = `
   "type": linkType,
@@ -141,11 +141,11 @@ export const blogQuery = groq`
       "link": slug.current
     },
     categories[]->,
-    "navigation": *[_type=="page" && slug.current=="home"].sections[_type match "navigation"]->{
+    "navigation": *[_type=="page" && slug.current=="home"][0].sections[_type match "navigation"][0]->{
       ...,
       ${variants}
     },
-    "footer": *[_type=="page" && slug.current=="home"].sections[_type match "footer"]->{
+    "footer": *[_type=="page" && slug.current=="home"][0].sections[_type match "footer"][0]->{
       ...,
       ${variants},
     },
@@ -256,3 +256,6 @@ export const wishlistPageQuery = groq`*[_type == "wishlistPage"] {
 
 // query search page
 export const searchPageQuery = groq`*[_type == "searchPage"] ${allProjections}`;
+
+// query Global or Default SEO values
+export const globalSEOQuery = groq`*[_type == 'defaultSeo' && !(_id in path("drafts.**"))][0]`;

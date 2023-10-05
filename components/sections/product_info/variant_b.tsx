@@ -8,7 +8,7 @@ import AddToWishlist from "components/ecwid/AddToWishlist";
 import Ribbon from "components/ecwid/Ribbon";
 //import Description from "components/ecwid/Description";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Thumbs, Pagination, A11y } from "swiper";
+import { Navigation, Thumbs, Pagination, A11y } from "swiper/modules";
 import { ProductInfoProps } from ".";
 import { MyPortableTextComponents } from "types";
 
@@ -348,17 +348,48 @@ function VariantB({
                   {/* TO DO: ADD PRODUCT RATING HERE */}
                 </div>
 
-                <p className="font-heading mb-8 inline-block text-2xl font-bold text-webriq-darkblue">
-                  {/* PRICING HERE */}
-                  {ecwidProduct
-                    ? getPriceDisplay()
-                    : ecwidProduct?.defaultDisplayedPriceFormatted}
-                </p>
+                {/* PRICING HERE */}
+                {product?.price && (
+                  <p
+                    className={`font-heading text-webriq-darkblue inline-block text-2xl font-bold ${
+                      !ecwidProduct?.compareToPrice && "mb-8"
+                    }`}
+                  >
+                    {ecwidProduct
+                      ? getPriceDisplay()
+                      : ecwidProduct?.defaultDisplayedPriceFormatted}
+                  </p>
+                )}
+
+                {/* "CompareTo" price */}
+                {ecwidProduct?.compareToPrice && (
+                  <p
+                    className="mt-3 mb-8"
+                    style={{
+                      fontSize: "15px",
+                    }}
+                  >
+                    Before{" "}
+                    <span className="line-through">
+                      {ecwidProduct?.compareToPriceFormatted}
+                    </span>{" "}
+                    (
+                    <span
+                      className="text-webriq-babyblue"
+                      style={{ fontSize: "15px" }}
+                    >
+                      {`Save ${ecwidProduct?.compareToPriceDiscountPercentFormatted}`}
+                    </span>
+                    )
+                  </p>
+                )}
 
                 {/* <Description data={product} /> */}
-
                 {product?.description && (
-                  <PortableText value={product?.description} components={blockStyle} />
+                  <PortableText
+                    value={product?.description}
+                    components={blockStyle}
+                  />
                 )}
               </div>
 

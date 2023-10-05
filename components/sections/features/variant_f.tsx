@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import { urlFor } from "lib/sanity";
-import { ConditionalBtnOrLink } from "helper";
+import { ConditionalLink } from "helper";
 import { FeaturesProps } from ".";
 
 function VariantF({
@@ -33,10 +33,13 @@ function VariantF({
                 )}
                 {primaryButton?.label && (
                   <div className="flex flex-wrap lg:-ml-5">
-                    <ConditionalBtnOrLink
-                      value={primaryButton}
-                      style="lg:w-auto py-2 px-6 leading-loose lg:ml-5 text-gray-50 font-bold bg-webriq-darkblue hover:bg-webriq-blue transition duration-200 rounded-l-xl rounded-t-xl"
-                    />
+                    <ConditionalLink
+                      link={primaryButton}
+                      className="lg:w-auto py-2 px-6 leading-loose lg:ml-5 text-gray-50 font-bold bg-webriq-darkblue hover:bg-webriq-blue transition duration-200 rounded-l-xl rounded-t-xl"
+                      ariaLabel={primaryButton?.label}
+                    >
+                      {primaryButton?.label}
+                    </ConditionalLink>
                   </div>
                 )}
               </div>

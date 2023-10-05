@@ -1,5 +1,5 @@
 /* ./src/brand/styles/variables.css */
-import { buildLegacyTheme } from "sanity"
+import { buildLegacyTheme } from "sanity";
 
 const props = {
   "--webriq-blue": "#093fe0",
@@ -9,7 +9,7 @@ const props = {
   "--state-success-color": "#0f9d58",
   "--state-warning-color": "#f4b400",
   "--state-danger-color": "#db4437",
-}
+};
 
 export const DefaultStudioTheme = buildLegacyTheme({
   /* Base theme colors */
@@ -39,5 +39,5 @@ export const DefaultStudioTheme = buildLegacyTheme({
   "--main-navigation-color": props["--brand-secondary"],
   "--main-navigation-color--inverted": props["--studio-white"],
 
-  "--focus-color": props["--webriq-blue"]
-})
+  "--focus-color": props["--webriq-blue"],
+});

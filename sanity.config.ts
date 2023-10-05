@@ -19,19 +19,16 @@ import { ResolveDocumentActions } from "studio/documentActions";
 import { schemaTypes } from "schemas/schema";
 
 // plugins
-import { media } from "sanity-plugin-media"
+import { media } from "sanity-plugin-media";
 import { codeInput } from "@sanity/code-input";
 
-import { openaiImageAsset } from "sanity-plugin-asset-source-openai"
-import { visionTool } from "@sanity/vision"
-import { webriqBlog } from "@webriq-pagebuilder/sanity-plugin-webriq-blog"
-import { webriqForms } from "@webriq-pagebuilder/sanity-plugin-webriq-forms"
-import { webriqPayments } from "@webriq-pagebuilder/sanity-plugin-webriq-payments"
-import { webriqGPT3 } from "@webriq-pagebuilder/sanity-plugin-input-component-gpt3"
-import { webriqComponents } from "@webriq-pagebuilder/sanity-plugin-webriq-components"
-
-// Open preview
-import resolveProductionUrl from "studio/resolvePreviewUrl";
+import { visionTool } from "@sanity/vision";
+import { webriqBlog } from "@webriq-pagebuilder/sanity-plugin-webriq-blog";
+import { webriqForms } from "@webriq-pagebuilder/sanity-plugin-webriq-forms";
+import { webriqPayments } from "@webriq-pagebuilder/sanity-plugin-webriq-payments";
+import { webriqGPT3 } from "@webriq-pagebuilder/sanity-plugin-input-component-gpt3";
+import { webriqComponents } from "@webriq-pagebuilder/sanity-plugin-webriq-components";
+import { webriQInspectorInlineEdit } from "@webriq-pagebuilder/sanity-plugin-inspector-inline-edit";
 
 export default defineConfig({
   basePath: "/studio",
@@ -39,18 +36,16 @@ export default defineConfig({
   projectId: NEXT_PUBLIC_SANITY_PROJECT_ID,
   dataset: NEXT_PUBLIC_SANITY_DATASET,
   plugins: [
-    deskStructure, 
-    visionTool(), 
+    deskStructure,
+    visionTool(),
     webriqComponents(),
-    webriqForms(), 
-    webriqPayments(), 
+    webriqForms(),
+    webriqPayments(),
     webriqBlog(),
     webriqGPT3(),
+    webriQInspectorInlineEdit(),
     media(),
     codeInput(), // for "code" schema type
-    openaiImageAsset({
-      API_KEY: NEXT_PUBLIC_SANITY_PROJECT_OPENAI_KEY
-    }),
   ],
   tools: (prev) => {
     // 👇 Uses environment variables set by Vite in development mode
@@ -78,14 +73,6 @@ export default defineConfig({
   },
   document: {
     badges: [LiveURLBadge],
-    actions: (prev, context) =>
-      ResolveDocumentActions({ prev, context }),
-    // Open preview link
-    productionUrl: async (prev, context) => {
-      // context includes the client and other details
-      const { document } = context;
-
-      return resolveProductionUrl(document);
-    },
+    actions: (prev, context) => ResolveDocumentActions({ prev, context }),
   },
 });

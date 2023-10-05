@@ -60,7 +60,7 @@ function VariantA({
           );
 
           if (data) {
-            data?.data?.forEach(item => {
+            data?.data?.forEach((item) => {
               if (
                 item.product === productResponse.data.id &&
                 item.recurring.interval === "month"
@@ -195,7 +195,7 @@ function VariantA({
                         index % 2 !== 0 ? "text-white" : "text-gray-500"
                       }`}
                     >
-                      {planDetail.planIncludes?.map(include => (
+                      {planDetail.planIncludes?.map((include) => (
                         <li className="mb-2 flex" key={include}>
                           <svg
                             className={`mr-2 h-5 w-5 ${
@@ -218,7 +218,7 @@ function VariantA({
                       ))}
                     </ul>
                     <button
-                      aria-label={`${planDetail.checkoutButtonName} button`}
+                      aria-label={planDetail.checkoutButtonName}
                       className={`inline-block w-full rounded-l-xl rounded-t-xl px-4 py-2 text-center ${
                         index % 2 !== 0
                           ? "bg-white text-black"

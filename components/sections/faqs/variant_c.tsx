@@ -11,9 +11,9 @@ function VariantC({ subtitle, title, faqs }: FAQProps) {
             <span className="font-bold text-webriq-darkblue">{subtitle}</span>
             <h1 className="text-5xl font-bold">{title}</h1>
           </div>
-          <div className="-mx-4 -mb-8 flex flex-wrap">
-            {faqs &&
-              faqs.map((faq, index) => (
+          {faqs && (
+            <div className="-mx-4 -mb-8 flex flex-wrap">
+              {faqs?.map((faq, index) => (
                 <div className="mb-8 w-full px-4 lg:w-1/2" key={index}>
                   {faq.question && (
                     <div className="h-full rounded bg-white p-8 shadow">
@@ -43,7 +43,8 @@ function VariantC({ subtitle, title, faqs }: FAQProps) {
                   )}
                 </div>
               ))}
-          </div>
+            </div>
+          )}
         </div>
       </div>
     </section>
