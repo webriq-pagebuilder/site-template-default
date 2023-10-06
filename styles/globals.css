@@ -154,7 +154,9 @@ select[data-testid="field-group-select"] > option:first-child {
 
 /** Help Guide **/
 ul[aria-label="List of Content"] {
-  min-height: calc(100vh - 260px);
+  /* min-height: calc(100vh - 260px); */
+  /* [Production only]: temp fix for min height */
+  min-height: calc(100vh - 190px);
 }
 
 ul[aria-label="List of Content"] > li:last-child {
