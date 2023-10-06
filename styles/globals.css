@@ -154,15 +154,31 @@ select[data-testid="field-group-select"] > option:first-child {
 
 /** Help Guide **/
 ul[aria-label="List of Content"] {
-  min-height: calc(100vh - 260px);
+  height: 100% !important;
+  display: flex !important;
+  flex-direction: column;
+}
+
+ul[aria-label="List of Content"] > li {
+  transform: none !important;
+  flex: none !important;
+  position: relative !important;
+  left: initial !important;
+  top: initial !important;
 }
 
 ul[aria-label="List of Content"] > li:last-child {
-  border-top: 1px solid var(--card-border-color);
-  position: absolute;
-  width: 100%;
-  transform: none;
-  bottom: 0;
-  top: inherit !important;
+  margin-top: auto;
+  padding-top: 10px;
 }
+
+ul[aria-label="List of Content"] > li:last-child:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  border-top: 1px solid var(--card-border-color);
+}
+
 /* End */
