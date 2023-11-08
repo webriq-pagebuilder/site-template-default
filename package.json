@@ -3,7 +3,10 @@
   "version": "3.6.3",
   "private": true,
   "license": "MIT",
-  "author": "WebriQ <info@webriq.com>",
+  "author": {
+    "name": "WebriQ",
+    "email": "info@webriq.com"
+  },
   "scripts": {
     "build": "next build",
     "postbuild": "next-sitemap --config next-sitemap.config.js",
@@ -12,7 +15,8 @@
     "start": "next start",
     "update:tag": "echo 'Enter custom tag: 👇 (eg: latest, next, your-own-tag)' && read ctag && yarn add @webriq-pagebuilder/sanity-plugin-input-component-gpt3@$ctag @webriq-pagebuilder/sanity-plugin-input-component-variants@$ctag @webriq-pagebuilder/sanity-plugin-schema-blog@$ctag @webriq-pagebuilder/sanity-plugin-schema-commerce@$ctag @webriq-pagebuilder/sanity-plugin-schema-default@$ctag @webriq-pagebuilder/sanity-plugin-webriq-blog@$ctag @webriq-pagebuilder/sanity-plugin-webriq-components@$ctag @webriq-pagebuilder/sanity-plugin-webriq-forms@$ctag @webriq-pagebuilder/sanity-plugin-webriq-payments@$ctag @webriq-pagebuilder/sanity-plugin-desk-studio-version@$ctag @webriq-pagebuilder/sanity-plugin-inspector-inline-edit@$ctag",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "chromatic": "npx chromatic --project-token=chpt_68d919151b3e677"
   },
   "dependencies": {
     "@portabletext/react": "^3.0.9",
@@ -77,6 +81,7 @@
     "@types/react": "^18.2.0",
     "@types/vhtml": "^2.2.4",
     "autoprefixer": "^10.4.15",
+    "chromatic": "^7.6.0",
     "eslint": "^8.39.0",
     "eslint-config-next": "^13.4.4",
     "eslint-plugin-storybook": "^0.6.15",
@@ -86,5 +91,7 @@
     "storybook": "^7.5.2",
     "tailwindcss": "^3.3.3",
     "typescript": "5.0.4"
-  }
+  },
+  "readme": "ERROR: No README data found!",
+  "_id": "@webriq-pagebuilder/site-template-default@3.6.3"
 }
