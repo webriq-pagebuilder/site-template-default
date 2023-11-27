@@ -5,7 +5,7 @@ import { IFormElements } from "../types";
 interface Input extends IFormElements {
   placeholder?: string;
   type: "number" | "password" | "email" | "text";
-  variant: Variant;
+  variant?: Variant;
 }
 
 type Variant = "primary" | "outline";

@@ -41,7 +41,6 @@ export const InputFile = ({
         placeholder={placeholder}
         name={name}
         required={isRequired}
-        {...props}
       />
       <span className="px-2 py-4 text-xs font-semibold leading-none">
         {filename}

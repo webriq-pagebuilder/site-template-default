@@ -1,5 +1,12 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { Form } from "./Form";
+import { Textarea } from "../Textarea";
+import { InputFile } from "../File";
+import { Input } from "../Input";
+import { Select } from "../Select";
+import { Radio } from "../Radio";
+import { Checkbox } from "../Checkbox";
+import { Button } from "../Button";
 
 const meta: Meta<typeof Form> = {
   title: "UI/Form",
@@ -113,7 +120,8 @@ export const Outline: Story = {
 const fields = DUMMY_FIELDS.map((f) => ({ ...f, isRequired: false }));
 export const CustomFields: Story = {
   args: {
-    buttonLabel: "Get Started",
+    className: " bg-slate-200 rounded-0",
+    buttonLabel: "Submit",
     subtitle: "",
     name: "Primary",
     id: "fc11c685-2d1a-447d-b891-ea63a38c5f57",
@@ -123,9 +131,9 @@ export const CustomFields: Story = {
           <div key={index}>
             {formFields?.type === "textarea" ? (
               <div className="mb-4">
-                <textarea
-                  aria-label={formFields?.placeholder ?? formFields?.name}
-                  className="h-24 w-full resize-none rounded bg-white p-4 text-xs font-semibold leading-none outline-none"
+                <Textarea
+                  ariaLabel={formFields?.placeholder ?? formFields?.name}
+                  className="text-base text-webriq-blue placeholder:text-webriq-blue"
                   placeholder={formFields?.placeholder}
                   name={formFields?.name}
                   required={formFields?.isRequired}
@@ -133,27 +141,20 @@ export const CustomFields: Story = {
               </div>
             ) : formFields?.type === "inputFile" ? (
               <div className="mb-4">
-                <label className="flex rounded bg-white px-2">
-                  <input
-                    aria-label={formFields?.name ?? "Choose file..."}
-                    className="absolute opacity-0"
-                    type="file"
-                    placeholder="Choose file.."
-                    name={formFields?.name}
-                    required={formFields?.isRequired}
-                  />
-                  <span className="w-full px-2 py-4 text-xs font-semibold leading-none">
-                    Name
-                  </span>
-                  <div className="my-1 ml-auto cursor-pointer rounded bg-gray-500 px-4 py-3 text-xs font-semibold leading-none text-white transition duration-200 hover:bg-gray-600">
-                    Browse
-                  </div>
-                </label>
+                <InputFile
+                  ariaLabel={formFields?.name ?? "Choose file..."}
+                  className="text-webriq-blue"
+                  variant="outline"
+                  type="file"
+                  placeholder="Choose file.."
+                  name={formFields?.name}
+                  required={formFields?.isRequired}
+                />
               </div>
             ) : formFields.type === "inputNumber" ? (
-              <input
-                aria-label={formFields?.placeholder ?? formFields?.name}
-                className="mb-4 w-full rounded bg-white p-4 text-xs font-semibold leading-none outline-none"
+              <Input
+                ariaLabel={formFields?.placeholder ?? formFields?.name}
+                className="text-base text-webriq-blue placeholder:text-webriq-blue"
                 type="number"
                 placeholder={formFields?.placeholder}
                 name={formFields?.name}
@@ -167,8 +168,8 @@ export const CustomFields: Story = {
                 >
                   {formFields?.label}
                 </label>
-                <select
-                  aria-label={formFields?.label}
+                <Select
+                  ariaLabel={formFields?.label}
                   className="w-full rounded bg-white p-3 text-xs font-semibold text-gray-500 outline-none"
                   name={`contact-${formFields?.name}`}
                   defaultValue={"default-value"}
@@ -180,7 +181,7 @@ export const CustomFields: Story = {
                       {item}
                     </option>
                   ))}
-                </select>
+                </Select>
               </div>
             ) : formFields?.type === "inputRadio" ? (
               <div className="mb-4 text-left">
@@ -196,7 +197,9 @@ export const CustomFields: Story = {
                       className="mr-4 text-xs font-semibold text-gray-500"
                       key={index}
                     >
-                      <input
+                      <Radio
+                        item={item}
+                        ariaLabel={item}
                         className="mr-2"
                         name={formFields?.name}
                         value={item}
@@ -222,7 +225,8 @@ export const CustomFields: Story = {
                       className="mr-4 text-xs font-semibold text-gray-500"
                       key={index}
                     >
-                      <input
+                      <Checkbox
+                        ariaLabel={item}
                         className="mr-2"
                         name={formFields?.name}
                         value={item}
@@ -236,9 +240,9 @@ export const CustomFields: Story = {
               </div>
             ) : (
               <div className="mb-4">
-                <input
-                  aria-label={formFields?.placeholder ?? formFields?.name}
-                  className="w-full rounded bg-white p-4 text-xs font-semibold leading-none outline-none"
+                <Input
+                  ariaLabel={formFields?.placeholder ?? formFields?.name}
+                  className="text-base text-webriq-blue placeholder:text-webriq-blue"
                   type={
                     formFields?.type === "inputEmail"
                       ? "email"
@@ -259,13 +263,13 @@ export const CustomFields: Story = {
             <div className="webriq-recaptcha" />
           </div>
 
-          <button
-            aria-label={"Contact form submit button"}
-            className="mt-5 inline-block rounded-l-xl rounded-t-xl bg-webriq-darkblue px-6 py-2 font-bold leading-loose text-white transition duration-200 hover:bg-webriq-blue sm:mt-0"
+          <Button
+            variant="outline"
+            ariaLabel={"Contact form submit button"}
             type="submit"
           >
             Submit
-          </button>
+          </Button>
         </div>
       </>
     ),

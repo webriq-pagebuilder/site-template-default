@@ -1,17 +1,13 @@
-import Link from "next/link";
 import React from "react";
-import { LabeledRoute, LabeledRouteWithKey } from "types";
 import { cn } from "utils/cn";
-import { IFormElements } from "../types";
 
-type Link = LabeledRoute | LabeledRouteWithKey;
 type Variant = "outline" | "primary" | "secondary";
-interface IButton extends IFormElements {
+interface IButton {
+  className?: string;
   variant?: Variant;
   ariaLabel: string; // required for A11Y
   children: React.ReactNode;
-  link: Link;
-  target?: "_self" | "_blank";
+  [key: string]: any;
 }
 
 export const Button = ({
@@ -19,8 +15,6 @@ export const Button = ({
   className,
   ariaLabel,
   children,
-  link,
-  target,
   ...props
 }: IButton) => {
   const commonStyles =
@@ -37,57 +31,13 @@ export const Button = ({
 
   const variantClass = variants[variant] ?? primary;
 
-  const commonProps = {
-    className: cn(variantClass, className),
-    ariaLabel,
-    target,
-  };
-
-  //not found page
-  if (!link?.internalLink && !link?.externalLink) {
-    return (
-      <a {...commonProps} {...props} href="/page-not-found">
-        {children}
-      </a>
-    );
-  }
-
-  //home page
-  if (
-    link?.type === "linkInternal" &&
-    link?.internalLink?.toLowerCase()?.includes("home")
-  ) {
-    return (
-      <Link href="/" {...commonProps} {...props}>
-        {children}
-      </Link>
-    );
-  }
-
-  //internal link
-  if (link?.type === "linkInternal") {
-    return (
-      <Link {...commonProps} {...props} href={`/${link?.internalLink}`}>
-        {children}
-      </Link>
-    );
-  }
-
-  //external link
-  if (link?.type === "linkExternal") {
-    return (
-      <a
-        {...commonProps}
-        {...props}
-        href={link?.externalLink}
-        rel={link?.linkTarget === "_blank" ? "noopener noreferrer" : null}
-      >
-        {children}
-      </a>
-    );
-  }
-
-  <Link {...commonProps} {...props} href={"/"}>
-    {children}
-  </Link>;
+  return (
+    <button
+      className={cn(variantClass, className)}
+      aria-label={ariaLabel}
+      {...props}
+    >
+      {children}
+    </button>
+  );
 };

@@ -12,6 +12,7 @@ import { Checkbox } from "../Checkbox";
 import { CheckboxGroup } from "../CheckboxGroup";
 
 interface IForm {
+  className?: string;
   id: string;
   name: string;
   thankyou_page?: string;
@@ -36,7 +37,7 @@ export const Form = (form: Form) => {
       method="POST"
       data-form-id={form?.id}
       name="Contact-VariantA-Form"
-      className="form-contacts w-full p-4 bg-gray-50 rounded-md max-w-[650px] mx-auto"
+      className={`form-contacts w-full p-4 bg-gray-50 rounded-md max-w-[650px] mx-auto ${form.className}`}
       data-thankyou-url={thankYouPageLink(form?.thankYouPage)}
       scriptsrc="https://pagebuilderforms.webriq.com/js/initReactForms"
     >
