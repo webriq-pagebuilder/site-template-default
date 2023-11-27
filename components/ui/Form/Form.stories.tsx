@@ -116,7 +116,7 @@ export const CustomFields: Story = {
     buttonLabel: "Get Started",
     subtitle: "",
     name: "Primary",
-    id: "fc31c685-2d1a-447d-b891-ea63a38c5f57",
+    id: "fc11c685-2d1a-447d-b891-ea63a38c5f57",
     children: (
       <>
         {fields.map((formFields, index) => (
