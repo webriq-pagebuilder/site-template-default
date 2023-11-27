@@ -2,6 +2,7 @@ import React from "react";
 import { urlFor } from "lib/sanity";
 import Image from "next/image";
 import { ContactProps } from ".";
+import { Form } from "components/ui/Form/Form";
 
 function VariantB({
   contactDescription,
