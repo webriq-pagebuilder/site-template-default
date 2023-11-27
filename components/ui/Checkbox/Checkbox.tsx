@@ -3,7 +3,6 @@ import { cn } from "utils/cn";
 import { IFormElements } from "../types";
 
 interface ICheckbox extends IFormElements {
-  key?: any;
   variant?: Variant;
 }
 type Variant = "primary";

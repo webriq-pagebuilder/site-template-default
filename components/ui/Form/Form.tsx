@@ -10,21 +10,24 @@ import { RadioGroup } from "../RadioGroup";
 import { Select } from "../Select";
 import { Checkbox } from "../Checkbox";
 import { CheckboxGroup } from "../CheckboxGroup";
+import { Button } from "../Button";
 
 interface IForm {
   className?: string;
   id: string;
   name: string;
-  thankyou_page?: string;
+  thankyouPage?: string;
   [key: string]: any;
 }
 
 interface FormWithChildren extends IForm {
+  btnLabel?: never;
   children: React.ReactNode;
   fields?: never;
 }
 
 interface FormWithDefaultFields extends IForm {
+  btnLabel: string;
   fields: any[];
   children?: never;
 }
@@ -36,9 +39,11 @@ export const Form = (form: Form) => {
     <WebriQForm
       method="POST"
       data-form-id={form?.id}
-      name="Contact-VariantA-Form"
+      name={form.name ?? "Form"}
       className={`form-contacts w-full p-4 bg-gray-50 rounded-md max-w-[650px] mx-auto ${form.className}`}
-      data-thankyou-url={thankYouPageLink(form?.thankYouPage)}
+      data-thankyou-url={
+        thankYouPageLink(form?.thankYouPage) ?? form.thankyouPage
+      }
       scriptsrc="https://pagebuilderforms.webriq.com/js/initReactForms"
     >
       {!form?.fields && form.children && form.children}
@@ -57,14 +62,13 @@ export const Form = (form: Form) => {
             <div>
               <div className="webriq-recaptcha" />
             </div>
-            {form?.buttonLabel && (
-              <button
-                aria-label={form?.buttonLabel ?? "Contact form submit button"}
-                className="mt-5 inline-block rounded-l-xl rounded-t-xl bg-webriq-darkblue px-6 py-2 font-bold leading-loose text-white transition duration-200 hover:bg-webriq-blue sm:mt-0"
+            {form?.btnLabel && (
+              <Button
+                ariaLabel={form?.btnLabel ?? "Contact form submit button"}
                 type="submit"
               >
-                {form?.buttonLabel}
-              </button>
+                {form?.btnLabel}
+              </Button>
             )}
           </div>
         </>

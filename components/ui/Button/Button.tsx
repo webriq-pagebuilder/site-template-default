@@ -7,6 +7,7 @@ interface IButton {
   variant?: Variant;
   ariaLabel: string; // required for A11Y
   children: React.ReactNode;
+  onClick?: () => any;
   [key: string]: any;
 }
 
@@ -15,6 +16,7 @@ export const Button = ({
   className,
   ariaLabel,
   children,
+  onClick,
   ...props
 }: IButton) => {
   const commonStyles =
@@ -33,6 +35,7 @@ export const Button = ({
 
   return (
     <button
+      onClick={onClick}
       className={cn(variantClass, className)}
       aria-label={ariaLabel}
       {...props}

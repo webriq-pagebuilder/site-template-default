@@ -17,9 +17,9 @@ const meta: Meta<typeof RadioGroup> = {
   args: {
     children: DUMMY_RADIO.items.map((item, index) => (
       <div className="flex items-center">
-        <Radio name={DUMMY_RADIO.name} item={item} />
+        <Radio ariaLabel={item} name={DUMMY_RADIO.name} item={item} />
         <label
-          className="mr-4 text-xs font-semibold text-gray-500"
+          className="mr-4 text-xs font-semibold text-white"
           key={index}
           htmlFor={item}
         >

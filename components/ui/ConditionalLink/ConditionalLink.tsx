@@ -2,13 +2,14 @@ import Link from "next/link";
 import React from "react";
 import { LabeledRoute, LabeledRouteWithKey } from "types";
 import { cn } from "utils/cn";
-import { IFormElements } from "../types";
 
 type Link = LabeledRoute | LabeledRouteWithKey;
 type Variant = "outline" | "primary" | "secondary";
-interface IConditionalLink extends IFormElements {
+
+interface IConditionalLink {
+  className?: string;
   variant?: Variant;
-  ariaLabel: string; // required for A11Y
+  ariaLabel: string;
   children: React.ReactNode;
   link: Link;
   target?: "_self" | "_blank";

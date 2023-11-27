@@ -84,8 +84,7 @@ const DUMMY_FIELDS = [
 
 export const Primary: Story = {
   args: {
-    buttonLabel: "Get Started",
-    subtitle: "",
+    btnLabel: "Get Started",
     name: "Primary",
     id: "fc31c685-2d1a-447d-b891-ea63a38c5f57",
     fields: DUMMY_FIELDS,
@@ -104,8 +103,7 @@ const outline_fields = DUMMY_FIELDS.map((field) => ({
 
 export const Outline: Story = {
   args: {
-    buttonLabel: "Get Started",
-    subtitle: "",
+    btnLabel: "Get Started",
     name: "Primary",
     id: "fc31c685-2d1a-447d-b891-ea63a38c5f57",
     fields: outline_fields,
@@ -121,8 +119,6 @@ const fields = DUMMY_FIELDS.map((f) => ({ ...f, isRequired: false }));
 export const CustomFields: Story = {
   args: {
     className: " bg-slate-200 rounded-0",
-    buttonLabel: "Submit",
-    subtitle: "",
     name: "Primary",
     id: "fc11c685-2d1a-447d-b891-ea63a38c5f57",
     children: (

@@ -1,9 +1,8 @@
-import React, { HTMLInputTypeAttribute } from "react";
+import React, { HTMLInputTypeAttribute, useState } from "react";
 import { cn } from "utils/cn";
 import { IFormElements } from "../types";
 
 interface IInputFile extends IFormElements {
-  placeholder?: string;
   filename?: string;
   variant?: Variant;
 }
@@ -15,13 +14,13 @@ export const InputFile = ({
   variant = "primary",
   isRequired = false,
   name,
-  placeholder,
-  filename,
+  filename: nameOfFile,
   ariaLabel,
   ...props
 }: IInputFile) => {
+  const [filename, setFilename] = useState("");
   const commonStyle =
-    "my-1 ml-auto cursor-pointer rounded  px-4 py-3 text-xs font-semibold leading-none text-white transition duration-200";
+    "my-1 ml-auto bg-white cursor-pointer rounded  px-4 py-3 text-xs font-semibold leading-none text-white transition duration-200";
   const primary = `${commonStyle} bg-webriq-blue hover:bg-webriq-darkblue`;
   const outline = `${commonStyle} text-webriq-blue border border-solid bg-white border-webriq-blue hover:bg-slate-100`;
 
@@ -33,19 +32,22 @@ export const InputFile = ({
   const variantClass = variants[variant] ?? primary;
 
   return (
-    <label className={"flex rounded bg-white px-2"}>
+    <div className={"relative rounded bg-white px-2 w-full"}>
       <input
         aria-label={ariaLabel ?? "Attach file"}
-        className="absolute opacity-0"
+        className="absolute opacity-0 w-full h-full cursor-pointer"
         type="file"
-        placeholder={placeholder}
         name={name}
         required={isRequired}
+        onChange={(e) => setFilename(e.target?.files[0]?.name ?? "")}
+        {...props}
       />
-      <span className="px-2 py-4 text-xs font-semibold leading-none">
-        {filename}
-      </span>
-      <div className={cn(variantClass, className)}>{name}</div>
-    </label>
+      <div className="flex">
+        <span className="px-2 py-4 text-xs font-semibold leading-none">
+          {filename ?? nameOfFile}
+        </span>
+        <label className={cn(variantClass, className)}>{name}</label>
+      </div>
+    </div>
   );
 };
