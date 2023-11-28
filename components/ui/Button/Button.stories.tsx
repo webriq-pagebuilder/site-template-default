@@ -1,13 +1,10 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { Button } from "./Button";
+import { ImSpinner2 } from "react-icons/im";
 
 const meta: Meta<typeof Button> = {
   title: "UI/Button",
   component: Button,
-  parameters: {
-    // Optional parameter to center the component in the Canvas. More info: https://storybook.js.org/docs/react/configure/story-layout
-    layout: "centered",
-  },
   tags: ["autodocs"],
   args: {
     children: "About Us",
@@ -28,6 +25,25 @@ export const Secondary: Story = {
 export const Outline: Story = {
   args: {
     variant: "outline",
+  },
+};
+
+export const Borderless: Story = {
+  args: {
+    variant: "borderless",
+  },
+};
+
+export const Loading: Story = {
+  args: {
+    loading: true,
+  },
+};
+
+export const WithLoadingComponent: Story = {
+  args: {
+    loading: true,
+    loadingComponent: <ImSpinner2 className="animate-spin" size={30} />,
   },
 };
 

@@ -45,6 +45,7 @@ export const Form = (form: Form) => {
         thankYouPageLink(form?.thankYouPage) ?? form.thankyouPage
       }
       scriptsrc="https://pagebuilderforms.webriq.com/js/initReactForms"
+      {...form}
     >
       {!form?.fields && form.children && form.children}
 

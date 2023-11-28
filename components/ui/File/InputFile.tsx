@@ -24,7 +24,7 @@ export const InputFile = ({
   const primary = `${commonStyle} bg-webriq-blue hover:bg-webriq-darkblue`;
   const outline = `${commonStyle} text-webriq-blue border border-solid bg-white border-webriq-blue hover:bg-slate-100`;
 
-  const variants: Record<Variant, string> = {
+  const variants: StyleVariants<Variant> = {
     primary,
     outline,
   };

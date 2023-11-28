@@ -22,7 +22,7 @@ export const Radio = ({
   const primary = `${commonStyle}`;
   const outline = `${commonStyle} border border-solid border-webriq-blue`;
 
-  const variants: Record<Variant, string> = {
+  const variants: StyleVariants<Variant> = {
     primary,
     outline,
   };

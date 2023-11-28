@@ -18,7 +18,7 @@ export const RadioGroup = ({
   const primary = `${commonClass} ml-4 block`;
   const inline = `${commonClass} flex`;
 
-  const variants: Record<Variant, string> = {
+  const variants: StyleVariants<Variant> = {
     primary,
     inline,
   };

@@ -5,3 +5,5 @@ export interface IFormElements {
   isRequired?: boolean;
   [key: string]: any;
 }
+
+export type StyleVariants<T extends string> = Record<T, string>;

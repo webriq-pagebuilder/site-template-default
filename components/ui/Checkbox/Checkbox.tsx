@@ -19,7 +19,7 @@ export const Checkbox = ({
   const commonStyle = "mr-2";
   const primary = `${commonStyle}`;
 
-  const variants: Record<Variant, string> = {
+  const variants: StyleVariants<Variant> = {
     primary,
   };
 

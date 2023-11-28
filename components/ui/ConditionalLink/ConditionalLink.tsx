@@ -30,7 +30,7 @@ export const ConditionalLink = ({
   const outline = `${commonStyles} bg-white hover:bg-slate-100  font-bold outline text-webriq-blue outline-webriq-blue `;
   const secondary = `${commonStyles} bg-webriq-babyblue hover:bg-webriq-darkblue font-bold  text-gray-50`;
 
-  const variants: Record<Variant, string> = {
+  const variants: StyleVariants<Variant> = {
     primary,
     secondary,
     outline,
