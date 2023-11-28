@@ -1,6 +1,6 @@
 import React from "react";
 import { cn } from "utils/cn";
-import { IFormElements } from "../types";
+import { IFormElements, StyleVariants } from "../types";
 
 interface IRadio extends IFormElements {
   item: any;
@@ -18,7 +18,7 @@ export const Radio = ({
   ariaLabel,
   ...props
 }: IRadio) => {
-  const commonStyle = "mr-2";
+  const commonStyle = "";
   const primary = `${commonStyle}`;
   const outline = `${commonStyle} border border-solid border-webriq-blue`;
 
@@ -30,13 +30,16 @@ export const Radio = ({
   const variantClass = variants[variant] ?? primary;
 
   return (
-    <input
-      className={cn(variantClass, className)}
-      name={name}
-      value={item}
-      type="radio"
-      aria-label={ariaLabel ?? name}
-      {...props}
-    />
+    <div className="flex items-center gap-2">
+      <input
+        className={cn(variantClass, className)}
+        name={name}
+        value={item}
+        type="radio"
+        aria-label={ariaLabel ?? name}
+        {...props}
+      />
+      <label htmlFor={name}>{item}</label>
+    </div>
   );
 };

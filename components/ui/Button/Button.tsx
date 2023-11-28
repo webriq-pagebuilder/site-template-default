@@ -1,6 +1,7 @@
 import React from "react";
 import { cn } from "utils/cn";
 import { FaSpinner } from "react-icons/fa";
+import { StyleVariants } from "../types";
 
 type Variant = "outline" | "primary" | "secondary" | "borderless";
 interface IButton {

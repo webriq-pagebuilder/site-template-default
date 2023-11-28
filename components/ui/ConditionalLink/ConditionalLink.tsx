@@ -2,6 +2,7 @@ import Link from "next/link";
 import React from "react";
 import { LabeledRoute, LabeledRouteWithKey } from "types";
 import { cn } from "utils/cn";
+import { StyleVariants } from "../types";
 
 type Link = LabeledRoute | LabeledRouteWithKey;
 type Variant = "outline" | "primary" | "secondary";

@@ -1,6 +1,6 @@
 import React from "react";
 import { cn } from "utils/cn";
-import { IFormElements } from "../types";
+import { IFormElements, StyleVariants } from "../types";
 
 interface Textarea extends IFormElements {
   placeholder?: string;
@@ -12,7 +12,9 @@ export const Textarea = ({
   className,
   variant = "primary",
   required = false,
+  labelClass,
   name,
+  label,
   key,
   placeholder,
   isRequired,
@@ -30,15 +32,20 @@ export const Textarea = ({
   };
 
   const variantClass = variants[variant] ?? primary;
-
+  console.log("placeholder", placeholder);
   return (
-    <textarea
-      aria-label={ariaLabel ?? name}
-      className={cn(variantClass, className)}
-      placeholder={placeholder}
-      name={name}
-      required={isRequired}
-      {...props}
-    />
+    <>
+      <label htmlFor={name} className={labelClass}>
+        {label}
+      </label>
+      <textarea
+        aria-label={ariaLabel ?? name}
+        className={cn(variantClass, className)}
+        placeholder={placeholder}
+        name={name}
+        required={isRequired}
+        {...props}
+      />
+    </>
   );
 };

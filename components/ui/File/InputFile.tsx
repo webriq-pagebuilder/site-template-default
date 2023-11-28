@@ -1,6 +1,6 @@
 import React, { HTMLInputTypeAttribute, useState } from "react";
 import { cn } from "utils/cn";
-import { IFormElements } from "../types";
+import { IFormElements, StyleVariants } from "../types";
 
 interface IInputFile extends IFormElements {
   filename?: string;

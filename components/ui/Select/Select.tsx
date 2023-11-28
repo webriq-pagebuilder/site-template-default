@@ -1,11 +1,12 @@
 import React from "react";
 import { cn } from "utils/cn";
-import { IFormElements } from "../types";
+import { IFormElements, StyleVariants } from "../types";
 
 interface Select extends IFormElements {
   defaultValue?: any;
   variant?: Variant;
   children: React.ReactNode;
+  label?: string;
 }
 
 type Variant = "primary" | "outline";
@@ -18,10 +19,11 @@ export const Select = ({
   key,
   defaultValue,
   children,
+  label,
   ...props
 }: Select) => {
   const commonStyle =
-    "w-full rounded bg-white p-4 text-xs font-semibold border-0 leading-none outline-none";
+    "w-full rounded bg-white p-4 text-xs font-semibold leading-none outline-none";
   const primary = `${commonStyle}`;
   const outline = `${commonStyle} border border-solid border-webriq-blue`;
 
@@ -33,15 +35,17 @@ export const Select = ({
   const variantClass = variants[variant] ?? primary;
 
   return (
-    <select
-      className={cn(variantClass, className)}
-      name={name}
-      defaultValue={defaultValue}
-      required={isRequired}
-      {...props}
-    >
-      <option value=""></option>
-      {children}
-    </select>
+    <>
+      <label htmlFor={name}>{label}</label>
+      <select
+        className={cn(variantClass, className)}
+        name={name}
+        defaultValue={defaultValue}
+        required={isRequired}
+        {...props}
+      >
+        {children}
+      </select>
+    </>
   );
 };

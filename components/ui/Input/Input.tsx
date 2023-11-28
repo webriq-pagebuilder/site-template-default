@@ -1,8 +1,11 @@
 import React, { HTMLInputTypeAttribute } from "react";
 import { cn } from "utils/cn";
-import { IFormElements } from "../types";
+import { IFormElements, StyleVariants } from "../types";
 
 interface Input extends IFormElements {
+  label: string;
+  labelClass?: string;
+  className?: string;
   placeholder?: string;
   type: "number" | "password" | "email" | "text";
   variant?: Variant;
@@ -13,7 +16,9 @@ type Variant = "primary" | "outline";
 export const Input = ({
   type = "text",
   ariaLabel,
+  labelClass,
   className,
+  label,
   variant = "primary",
   isRequired = false,
   name,
@@ -32,12 +37,17 @@ export const Input = ({
   const variantClass = variants[variant] ?? primary;
 
   return (
-    <input
-      required={isRequired}
-      aria-label={ariaLabel ?? name}
-      type={type}
-      className={cn(variantClass, className)}
-      {...props}
-    />
+    <>
+      <label className={labelClass} htmlFor={name}>
+        {label}
+      </label>
+      <input
+        required={isRequired}
+        aria-label={ariaLabel ?? name}
+        type={type}
+        className={cn(variantClass, className)}
+        {...props}
+      />
+    </>
   );
 };

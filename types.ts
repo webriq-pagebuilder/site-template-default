@@ -163,16 +163,7 @@ export interface FormFields {
   name?: string;
   placeholder?: string;
   pricingType?: string;
-  type?:
-    | "inputText"
-    | "inputEmail"
-    | "inputPassword"
-    | "inputNumber"
-    | "textarea"
-    | "inputFile"
-    | "inputRadio"
-    | "inputCheckbox"
-    | "inputSelect";
+  type?: FormTypes;
   _key?: string;
   _type?: string;
   isRequired?: boolean;
@@ -180,6 +171,16 @@ export interface FormFields {
   items?: string[];
 }
 
+export type FormTypes =
+  | "inputText"
+  | "inputEmail"
+  | "inputPassword"
+  | "inputNumber"
+  | "textarea"
+  | "inputFile"
+  | "inputRadio"
+  | "inputCheckbox"
+  | "inputSelect";
 export interface Seo {
   seoTitle?: string;
   seoDescription?: string;

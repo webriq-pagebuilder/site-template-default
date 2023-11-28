@@ -1,22 +1,28 @@
 import React from "react";
 import { cn } from "utils/cn";
-import { IFormElements } from "../types";
+import { IFormElements, StyleVariants } from "../types";
 
 interface ICheckbox extends IFormElements {
+  label?: string;
+  labelClass?: string;
+  className?: string;
   variant?: Variant;
 }
 type Variant = "primary";
 
 export const Checkbox = ({
-  className,
   variant = "primary",
   required = false,
   name,
+  label,
+  value,
   isRequired,
+  labelClass,
+  className,
   ariaLabel,
   ...props
 }: ICheckbox) => {
-  const commonStyle = "mr-2";
+  const commonStyle = "";
   const primary = `${commonStyle}`;
 
   const variants: StyleVariants<Variant> = {
@@ -26,13 +32,19 @@ export const Checkbox = ({
   const variantClass = variants[variant] ?? primary;
 
   return (
-    <input
-      aria-label={ariaLabel ?? name}
-      className={cn(variantClass, className)}
-      name={name}
-      type="checkbox"
-      required={isRequired}
-      {...props}
-    />
+    <div className="flex gap-2 items-center">
+      <input
+        aria-label={ariaLabel ?? name}
+        className={cn(variantClass, className)}
+        name={name}
+        type="checkbox"
+        value={value}
+        required={isRequired}
+        {...props}
+      />
+      <label className={labelClass} htmlFor={name} id={name}>
+        {label ?? value}
+      </label>
+    </div>
   );
 };
