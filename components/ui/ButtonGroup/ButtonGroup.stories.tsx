@@ -40,4 +40,39 @@ const meta: Meta<typeof ButtonGroup> = {
 export default meta;
 type Story = StoryObj<typeof ButtonGroup>;
 
-export const Primary: Story = {};
+export const Stacked: Story = {};
+
+export const Inline: Story = {
+  args: {
+    variant: "inline",
+  },
+};
+export const InlineFill: Story = {
+  args: {
+    variant: "inline-fill",
+  },
+};
+export const StackedFill: Story = {
+  args: {
+    variant: "stacked-fill",
+  },
+};
+
+export const Left: Story = {
+  args: {
+    variant: "stacked",
+    position: "left",
+  },
+};
+export const Middle: Story = {
+  args: {
+    variant: "stacked",
+    position: "middle",
+  },
+};
+export const Right: Story = {
+  args: {
+    variant: "stacked",
+    position: "right",
+  },
+};

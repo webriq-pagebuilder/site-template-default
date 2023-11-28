@@ -4,7 +4,7 @@ import { StyleVariants } from "../types";
 
 type Variant = "stacked" | "inline" | "inline-fill" | "stacked-fill";
 
-type Position = "left" | "right" | "middle";
+type Position = "left" | "middle" | "right";
 
 interface IButtonGroup {
   variant?: Variant;
