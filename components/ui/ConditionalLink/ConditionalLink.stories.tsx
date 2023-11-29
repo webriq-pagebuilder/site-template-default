@@ -4,13 +4,23 @@ import { ConditionalLink } from "./ConditionalLink";
 const meta: Meta<typeof ConditionalLink> = {
   title: "UI/ConditionalLink",
   component: ConditionalLink,
-  parameters: {
-    // Optional parameter to center the component in the Canvas. More info: https://storybook.js.org/docs/react/configure/story-layout
-    layout: "centered",
-  },
   tags: ["autodocs"],
   args: {
     children: "About Us",
+    link: {
+      externalLink: null,
+      internalLink: "initial-values-test",
+      label: "About Us",
+      linkInternal: {
+        _ref: "020142ce-cf61-4671-a5db-80b13a08f2d4",
+        _type: "reference",
+      },
+      linkTarget: "_self",
+      linkType: "linkInternal",
+      type: "linkInternal",
+      _key: "1XE3Dhz70dNTMXda86YUY",
+      _type: "conditionalLink",
+    },
   },
 } satisfies Meta<typeof ConditionalLink>;
 

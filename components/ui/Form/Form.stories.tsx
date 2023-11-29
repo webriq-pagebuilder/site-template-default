@@ -3,10 +3,16 @@ import { Form } from "./Form";
 import { FormField } from "../FormField/FormField";
 import { FormTypes } from "types";
 import { Input } from "../Input";
+import { Button } from "../Button";
 const meta: Meta<typeof Form> = {
   title: "UI/Form",
   component: Form,
   tags: ["autodocs"],
+  args: {
+    btnLabel: "Submit",
+    name: "Form name",
+    id: "fc31c685-2d1a-447d-b891-ea63a38c5f57",
+  },
 } satisfies Meta<typeof Form>;
 
 export default meta;
@@ -75,54 +81,74 @@ const DUMMY_FIELDS = [
 
 export const Primary: Story = {
   args: {
-    btnLabel: "Get Started",
-    name: "Primary",
-    id: "fc31c685-2d1a-447d-b891-ea63a38c5f57",
-    children: DUMMY_FIELDS.map((field) => {
-      return (
-        <FormField
-          label={field?.label}
-          items={field.items}
-          type={field.type as FormTypes}
-          name={field.name}
-          isRequired={false}
-          placeholder={field.placeholder}
-        />
-      );
-    }),
+    children: (
+      <>
+        {DUMMY_FIELDS.map((field) => {
+          return (
+            <FormField
+              label={field?.label}
+              items={field.items}
+              type={field.type as FormTypes}
+              name={field.name}
+              isRequired={false}
+              placeholder={field.placeholder}
+            />
+          );
+        })}
+        <div className="items-center sm:flex sm:justify-between">
+          <div>
+            <div className="webriq-recaptcha" />
+          </div>
+
+          <Button ariaLabel={"Form submit button"} type="submit">
+            Submit
+          </Button>
+        </div>
+      </>
+    ),
   },
 };
 
 export const WithCustomField: Story = {
   args: {
-    btnLabel: "Get Started",
-    name: "form",
-    id: "fc31c685-2d1a-447d-b891-ea63a38c5f57",
-    children: DUMMY_FIELDS.map((field) => {
-      if (field.type === "inputText") {
-        return (
-          <div className="mb-4">
-            <Input
-              className="placeholder:text-red-500 border border-solid border-red-400"
-              placeholder="This is a custom field!"
-              type={"text"}
+    children: (
+      <>
+        {DUMMY_FIELDS.map((field) => {
+          if (field.type === "inputText") {
+            return (
+              <div className="mb-4">
+                <Input
+                  className="placeholder:text-red-500 border border-solid border-red-400"
+                  placeholder="This is a custom field!"
+                  type={"text"}
+                  name={field.name}
+                  ariaLabel={field.name ?? field.label}
+                  label={field.label ?? field.name}
+                />
+              </div>
+            );
+          }
+          return (
+            <FormField
+              label={field?.label}
+              items={field.items}
+              type={field.type as FormTypes}
               name={field.name}
-              ariaLabel={field.name ?? field.label}
-              label={field.label ?? field.name}
+              isRequired={false}
+              placeholder={field.placeholder}
             />
+          );
+        })}
+        <div className="items-center sm:flex sm:justify-between">
+          <div>
+            <div className="webriq-recaptcha" />
           </div>
-        );
-      }
-      return (
-        <FormField
-          label={field?.label}
-          items={field.items}
-          type={field.type as FormTypes}
-          name={field.name}
-          isRequired={false}
-          placeholder={field.placeholder}
-        />
-      );
-    }),
+
+          <Button ariaLabel={"Form submit button"} type="submit">
+            Submit
+          </Button>
+        </div>
+      </>
+    ),
   },
 };

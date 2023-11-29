@@ -7,6 +7,8 @@ interface ICheckbox extends IFormElements {
   labelClass?: string;
   className?: string;
   variant?: Variant;
+  value: any;
+  onChange?: () => any;
 }
 type Variant = "primary";
 
@@ -20,6 +22,7 @@ export const Checkbox = ({
   labelClass,
   className,
   ariaLabel,
+  onChange,
   ...props
 }: ICheckbox) => {
   const commonStyle = "";
@@ -40,6 +43,7 @@ export const Checkbox = ({
         type="checkbox"
         value={value}
         required={isRequired}
+        onChange={onChange}
         {...props}
       />
       <label className={labelClass} htmlFor={name} id={name}>

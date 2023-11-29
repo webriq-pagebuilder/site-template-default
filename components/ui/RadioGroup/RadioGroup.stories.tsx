@@ -10,22 +10,19 @@ const DUMMY_RADIO = {
 const meta: Meta<typeof RadioGroup> = {
   title: "UI/RadioGroup",
   component: RadioGroup,
-  parameters: {
-    // Optional parameter to center the component in the Canvas. More info: https://storybook.js.org/docs/react/configure/story-layout
-    layout: "centered",
+  argTypes: {
+    onChange: { actions: "onChange" },
   },
+  decorators: [
+    (Story) => (
+      <div className="bg-gray-50 rounded-lg p-4">
+        <Story />
+      </div>
+    ),
+  ],
   args: {
     children: DUMMY_RADIO.items.map((item, index) => (
-      <div className="flex items-center">
-        <Radio ariaLabel={item} name={DUMMY_RADIO.name} item={item} />
-        <label
-          className="mr-4 text-xs font-semibold text-white"
-          key={index}
-          htmlFor={item}
-        >
-          {item}
-        </label>
-      </div>
+      <Radio ariaLabel={item} name={DUMMY_RADIO.name} item={item} />
     )),
   },
   tags: ["autodocs"],
@@ -38,20 +35,10 @@ export const Primary: Story = {
   args: {
     variant: "primary",
   },
-  parameters: {
-    backgrounds: {
-      default: "dark",
-    },
-  },
 };
 
 export const Inline: Story = {
   args: {
     variant: "inline",
-  },
-  parameters: {
-    backgrounds: {
-      default: "dark",
-    },
   },
 };

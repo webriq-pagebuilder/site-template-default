@@ -4,10 +4,13 @@ import { Textarea } from "./Textarea";
 const meta: Meta<typeof Textarea> = {
   title: "UI/Textarea",
   component: Textarea,
-  parameters: {
-    // Optional parameter to center the component in the Canvas. More info: https://storybook.js.org/docs/react/configure/story-layout
-    layout: "centered",
-  },
+  decorators: [
+    (Story) => (
+      <div className="bg-gray-50 rounded-lg p-4">
+        <Story />
+      </div>
+    ),
+  ],
   tags: ["autodocs"],
 } satisfies Meta<typeof Textarea>;
 
@@ -16,25 +19,15 @@ type Story = StoryObj<typeof Textarea>;
 
 export const Primary: Story = {
   args: {
-    placeholder: "Add your description here",
-    name: "description",
-  },
-  parameters: {
-    backgrounds: {
-      default: "dark",
-    },
+    placeholder: "Write your message here...",
+    name: "Message",
   },
 };
 
 export const Outline: Story = {
   args: {
     placeholder: "Write your message here...",
-    name: "message",
-    isRequired: true,
-  },
-  parameters: {
-    backgrounds: {
-      default: "dark",
-    },
+    name: "Message",
+    variant: "outline",
   },
 };

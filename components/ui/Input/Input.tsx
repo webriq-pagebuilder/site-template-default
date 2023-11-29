@@ -9,6 +9,7 @@ interface Input extends IFormElements {
   placeholder?: string;
   type: "number" | "password" | "email" | "text";
   variant?: Variant;
+  onChange?: () => any;
 }
 
 type Variant = "primary" | "outline";
@@ -22,6 +23,7 @@ export const Input = ({
   variant = "primary",
   isRequired = false,
   name,
+  onChange,
   ...props
 }: Input) => {
   const commonStyle =
@@ -39,13 +41,14 @@ export const Input = ({
   return (
     <>
       <label className={labelClass} htmlFor={name}>
-        {label}
+        {label ?? name}
       </label>
       <input
         required={isRequired}
         aria-label={ariaLabel ?? name}
         type={type}
         className={cn(variantClass, className)}
+        onChange={onChange}
         {...props}
       />
     </>

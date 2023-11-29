@@ -16,7 +16,7 @@ interface IFormField {
   variant?: Variant;
   name: string;
   label?: string;
-  isRequired: boolean;
+  isRequired?: boolean;
   placeholder?: string;
   className?: string;
   [key: string]: any;
@@ -55,6 +55,7 @@ export const FormField = ({
         placeholder={placeholder}
         label={label}
         isRequired={isRequired}
+        {...props}
       />
     </div>
   );
@@ -67,6 +68,7 @@ const RenderInput = ({
   label,
   isRequired,
   placeholder,
+  ...props
 }: {
   type: FormTypes;
   [key: string]: any;
@@ -83,7 +85,13 @@ const RenderInput = ({
       return (
         <RadioGroup label={label} name={name}>
           {items?.map((item, index) => (
-            <Radio ariaLabel={name} name={name} item={item} />
+            <Radio
+              key={item}
+              ariaLabel={name}
+              name={name}
+              item={item}
+              {...props}
+            />
           ))}
         </RadioGroup>
       );
@@ -95,6 +103,7 @@ const RenderInput = ({
           ariaLabel={label}
           name={name}
           isRequired={isRequired}
+          {...props}
         >
           {items?.map((item, index) => (
             <option key={index} value={item}>
@@ -115,6 +124,7 @@ const RenderInput = ({
               name={name}
               value={item}
               type="checkbox"
+              {...props}
             />
           ))}
         </CheckboxGroup>
@@ -127,6 +137,7 @@ const RenderInput = ({
           name={name}
           isRequired={isRequired}
           label={label}
+          {...props}
         />
       );
 
@@ -139,6 +150,7 @@ const RenderInput = ({
           placeholder={placeholder}
           name={name}
           required={isRequired}
+          {...props}
         />
       );
 
@@ -151,6 +163,7 @@ const RenderInput = ({
           name={name}
           placeholder={placeholder}
           type={formType}
+          {...props}
         />
       );
   }

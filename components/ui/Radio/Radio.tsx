@@ -5,17 +5,22 @@ import { IFormElements, StyleVariants } from "../types";
 interface IRadio extends IFormElements {
   item: any;
   variant?: Variant;
+  label?: string;
+  labelClass?: string;
+  onChange?: () => any;
 }
 
 type Variant = "primary" | "outline";
 
 export const Radio = ({
-  type = "text",
   className,
   variant = "primary",
   name,
   item,
   ariaLabel,
+  label,
+  labelClass,
+  onChange,
   ...props
 }: IRadio) => {
   const commonStyle = "";
@@ -32,6 +37,7 @@ export const Radio = ({
   return (
     <div className="flex items-center gap-2">
       <input
+        onChange={onChange}
         className={cn(variantClass, className)}
         name={name}
         value={item}
@@ -39,7 +45,9 @@ export const Radio = ({
         aria-label={ariaLabel ?? name}
         {...props}
       />
-      <label htmlFor={name}>{item}</label>
+      <label htmlFor={name} className={labelClass}>
+        {label ?? item}
+      </label>
     </div>
   );
 };

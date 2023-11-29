@@ -4,6 +4,8 @@ import { IFormElements, StyleVariants } from "../types";
 
 interface Textarea extends IFormElements {
   placeholder?: string;
+  onChange?: () => any;
+  labelClass?: string;
   variant?: Variant;
 }
 
@@ -19,6 +21,7 @@ export const Textarea = ({
   placeholder,
   isRequired,
   ariaLabel,
+  onChange,
   ...props
 }: Textarea) => {
   const commonStyle =
@@ -32,13 +35,13 @@ export const Textarea = ({
   };
 
   const variantClass = variants[variant] ?? primary;
-  console.log("placeholder", placeholder);
   return (
     <>
       <label htmlFor={name} className={labelClass}>
-        {label}
+        {label ?? name}
       </label>
       <textarea
+        onChange={onChange}
         aria-label={ariaLabel ?? name}
         className={cn(variantClass, className)}
         placeholder={placeholder}

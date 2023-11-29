@@ -6,8 +6,9 @@ interface RadioGroup {
   children: React.ReactNode;
   variant?: Variant;
   className?: string;
-  label: string;
+  label?: string;
   name: string;
+  labelClass?: string;
   [key: string]: any;
 }
 
@@ -18,11 +19,12 @@ export const RadioGroup = ({
   variant = "primary",
   name,
   className,
+  labelClass,
   label,
 }: RadioGroup) => {
   const commonClass = "ml-2";
   const primary = `${commonClass}`;
-  const inline = `${commonClass} flex`;
+  const inline = `${commonClass} flex items-center`;
 
   const variants: StyleVariants<Variant> = {
     primary,
@@ -32,7 +34,9 @@ export const RadioGroup = ({
   const variantClass = variants[variant] ?? primary;
   return (
     <div>
-      <label htmlFor={name}>{label}</label>
+      <label htmlFor={name} className={labelClass}>
+        {label ?? name}
+      </label>
       <div className={cn(variantClass, className)}>{children}</div>
     </div>
   );

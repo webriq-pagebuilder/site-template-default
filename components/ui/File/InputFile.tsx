@@ -3,7 +3,6 @@ import { cn } from "utils/cn";
 import { IFormElements, StyleVariants } from "../types";
 
 interface IInputFile extends IFormElements {
-  filename?: string;
   variant?: Variant;
 }
 
@@ -14,7 +13,6 @@ export const InputFile = ({
   variant = "primary",
   isRequired = false,
   name,
-  filename: nameOfFile,
   ariaLabel,
   ...props
 }: IInputFile) => {
@@ -44,7 +42,7 @@ export const InputFile = ({
       />
       <div className="flex">
         <span className="px-2 py-4 text-xs font-semibold leading-none">
-          {filename ?? nameOfFile}
+          {filename}
         </span>
         <label className={cn(variantClass, className)}>{name}</label>
       </div>

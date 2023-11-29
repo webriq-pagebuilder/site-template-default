@@ -111,6 +111,7 @@ export interface LabeledRoute extends ConditionalLink {
   linkTarget?: string;
   linkType?: string;
   _type?: string;
+  linkInternal?: any;
 }
 
 export interface LabeledRouteWithKey extends LabeledRoute {

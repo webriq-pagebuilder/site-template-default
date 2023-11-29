@@ -5,6 +5,9 @@ const meta: Meta<typeof Checkbox> = {
   title: "UI/Checkbox",
   component: Checkbox,
   tags: ["autodocs"],
+  argTypes: {
+    onChange: { action: "onChange" },
+  },
 } satisfies Meta<typeof Checkbox>;
 
 export default meta;

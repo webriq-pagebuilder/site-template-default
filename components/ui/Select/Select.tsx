@@ -7,6 +7,8 @@ interface Select extends IFormElements {
   variant?: Variant;
   children: React.ReactNode;
   label?: string;
+  labelClass?: string;
+  onChange?: () => any;
 }
 
 type Variant = "primary" | "outline";
@@ -16,10 +18,11 @@ export const Select = ({
   variant = "primary",
   isRequired = false,
   name,
-  key,
   defaultValue,
   children,
   label,
+  labelClass,
+  onChange,
   ...props
 }: Select) => {
   const commonStyle =
@@ -36,8 +39,11 @@ export const Select = ({
 
   return (
     <>
-      <label htmlFor={name}>{label}</label>
+      <label htmlFor={name} className={labelClass}>
+        {label ?? name}
+      </label>
       <select
+        onChange={onChange}
         className={cn(variantClass, className)}
         name={name}
         defaultValue={defaultValue}

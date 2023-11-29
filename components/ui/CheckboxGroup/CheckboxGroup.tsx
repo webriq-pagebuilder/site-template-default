@@ -21,7 +21,7 @@ export const CheckboxGroup = ({
 }: CheckboxGroup) => {
   const commonClass = "ml-2";
   const primary = `${commonClass} block`;
-  const inline = `${commonClass} flex`;
+  const inline = `${commonClass} flex gap-4`;
 
   const variants: StyleVariants<Variant> = {
     primary,
