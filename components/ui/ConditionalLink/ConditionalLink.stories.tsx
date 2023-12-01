@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { ConditionalLink } from "./ConditionalLink";
 
 const meta: Meta<typeof ConditionalLink> = {
-  title: "UI/ConditionalLink",
+  title: "Components/UI/ConditionalLink",
   component: ConditionalLink,
   tags: ["autodocs"],
   args: {

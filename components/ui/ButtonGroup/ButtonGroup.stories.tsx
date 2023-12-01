@@ -18,7 +18,7 @@ const DUMMY_BUTTON = [
 ];
 
 const meta: Meta<typeof ButtonGroup> = {
-  title: "UI/ButtonGroup",
+  title: "Components/UI/ButtonGroup",
   component: ButtonGroup,
   args: {
     children: DUMMY_BUTTON.map((btn) => (

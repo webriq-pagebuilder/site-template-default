@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { Radio } from "./Radio";
 
 const meta: Meta<typeof Radio> = {
-  title: "UI/Radio",
+  title: "Components/UI/Radio",
   component: Radio,
   decorators: [
     (Story) => (

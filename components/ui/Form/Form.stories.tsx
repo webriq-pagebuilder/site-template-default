@@ -5,7 +5,7 @@ import { FormTypes } from "types";
 import { Input } from "../Input";
 import { Button } from "../Button";
 const meta: Meta<typeof Form> = {
-  title: "UI/Form",
+  title: "Components/UI/Form",
   component: Form,
   tags: ["autodocs"],
   args: {

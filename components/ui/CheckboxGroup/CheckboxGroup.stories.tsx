@@ -9,7 +9,7 @@ const DUMMY_CHECKBOX = {
 };
 
 const meta: Meta<typeof CheckboxGroup> = {
-  title: "UI/CheckboxGroup",
+  title: "Components/UI/CheckboxGroup",
   component: CheckboxGroup,
   args: {
     children: DUMMY_CHECKBOX.items.map((item, index) => (

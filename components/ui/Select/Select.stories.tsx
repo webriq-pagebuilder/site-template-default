@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { Select } from "./Select";
 
 const meta: Meta<typeof Select> = {
-  title: "UI/Select",
+  title: "Components/UI/Select",
   component: Select,
   decorators: [
     (Story) => (

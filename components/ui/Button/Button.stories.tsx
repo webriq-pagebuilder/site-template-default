@@ -3,7 +3,7 @@ import { Button } from "./Button";
 import { ImSpinner2 } from "react-icons/im";
 
 const meta: Meta<typeof Button> = {
-  title: "UI/Button",
+  title: "Components/UI/Button",
   component: Button,
   tags: ["autodocs"],
   args: {

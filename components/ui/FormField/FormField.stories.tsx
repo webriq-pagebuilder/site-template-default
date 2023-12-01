@@ -3,7 +3,7 @@ import { FormField } from "./FormField";
 import { Form } from "../Form/Form";
 
 const meta: Meta<typeof FormField> = {
-  title: "UI/FormField",
+  title: "Components/UI/FormField",
   component: FormField,
   tags: ["autodocs"],
   args: {

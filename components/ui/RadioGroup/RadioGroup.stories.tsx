@@ -8,11 +8,8 @@ const DUMMY_RADIO = {
 };
 
 const meta: Meta<typeof RadioGroup> = {
-  title: "UI/RadioGroup",
+  title: "Components/UI/RadioGroup",
   component: RadioGroup,
-  argTypes: {
-    onChange: { actions: "onChange" },
-  },
   decorators: [
     (Story) => (
       <div className="bg-gray-50 rounded-lg p-4">
