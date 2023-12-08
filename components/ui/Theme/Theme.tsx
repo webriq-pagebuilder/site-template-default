@@ -1,26 +1,12 @@
 import React from "react";
+import { default as twConfig } from "../../../tailwind.config";
 
-//colors: -- brand colors, text colors, background colors, sizes
-export function Brand() {
-  const theme = [
-    {
-      tw: "webriq-blue",
-      value: "#296eff",
-    },
-    {
-      tw: "webriq-lightblue",
-      value: "#d5e3ff",
-    },
-    {
-      tw: "webriq-darkblue",
-      value: "#0045d8",
-    },
-    {
-      tw: "webriq-lightblue",
-      value: "#d5e3ff",
-    },
-  ];
+const colors = twConfig.theme.extend.colors;
+export const colorsArray = colors
+  ? Object.entries(colors).map(([key, value]) => ({ [key]: value }))
+  : [];
 
+export function Brand({ colors }) {
   return (
     <table className="w-full">
       <thead>
@@ -31,99 +17,16 @@ export function Brand() {
         </tr>
       </thead>
       <tbody className="text-center">
-        {theme.map((t) => {
-          return <PreviewTable tw={t.tw} value={t.value} />;
+        {colors.map((t) => {
+          const tw = Object.keys(t)[0];
+          return <PreviewTable tw={tw} value={t[tw]} />;
         })}
       </tbody>
     </table>
   );
 }
 
-export function Background() {
-  const theme = [
-    {
-      tw: "white",
-      value: "#ffffff",
-    },
-    {
-      tw: "gray-50",
-      value: "rgb(249 250 251)",
-    },
-    {
-      tw: "gray-100",
-      value: "rgb(243 244 246)",
-    },
-    {
-      tw: "gray-200",
-      value: "rgb(229 231 235)",
-    },
-    {
-      tw: "gray-900",
-      value: "rgb(17 24 39)",
-    },
-  ];
-
-  return (
-    <table className="w-full ">
-      <thead>
-        <tr className="!bg-white">
-          <th className="font-medium text-lg w-[20%]">Preview</th>
-          <th className="font-medium text-lg w-[40%]">Tailwind Class</th>
-          <th className="font-medium text-lg w-[40%]">Value</th>
-        </tr>
-      </thead>
-      <tbody className="text-center">
-        {theme.map((t) => {
-          return <PreviewTable tw={t.tw} value={t.value} />;
-        })}
-      </tbody>
-    </table>
-  );
-}
-
-export function Border() {
-  const theme = [
-    {
-      tw: "gray-50",
-      value: "#ffffff",
-    },
-    {
-      tw: "gray-200",
-      value: "rgb(249 250 251)",
-    },
-    {
-      tw: "gray-300",
-      value: "rgb(243 244 246)",
-    },
-    {
-      tw: "gray-400",
-      value: "rgb(229 231 235)",
-    },
-    {
-      tw: "gray-600",
-      value: "rgb(17 24 39)",
-    },
-  ];
-
-  return (
-    <table className="w-full ">
-      <thead>
-        <tr className="!bg-white">
-          <th className="font-medium text-lg w-[20%]">Preview</th>
-          <th className="font-medium text-lg w-[40%]">Tailwind Class</th>
-          <th className="font-medium text-lg w-[40%]">Value</th>
-        </tr>
-      </thead>
-      <tbody className="text-center">
-        {theme.map((t) => {
-          return <PreviewTable tw={t.tw} value={t.value} />;
-        })}
-      </tbody>
-    </table>
-  );
-}
-
-export function PreviewTable({ tw, value }) {
+function PreviewTable({ tw, value }) {
   return (
     <tr className="!bg-white">
       <td className="flex justify-center">

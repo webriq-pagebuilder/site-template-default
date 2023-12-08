@@ -1,0 +1,53 @@
+import { Meta, Canvas, Story } from "@storybook/blocks";
+import * as BlockStories from "./Blockstyle.stories.tsx";
+
+<Meta title="Components/UI/Blockstyle" />
+
+# Blockstyle
+
+Used to render block contents from Sanity. Commonly used for blogs.
+
+## Usage:
+
+```
+import { PortableText } form 'lib/sanity.ts'
+import { defaultBlockStyle } from 'helper/index.ts'
+
+<PortableText value={value} component={defaultBlockStyle} />
+
+```
+
+### Default Block Styles
+
+<Canvas of={BlockStories.Primary} />
+
+## Custom elements:
+
+```
+import { PortableText } form 'lib/sanity.ts'
+import { defaultBlockStyle } from 'helper/index.ts'
+
+// Import deepmerge function
+import deepmerge from 'deepmerge'
+
+// Define a new blockstyle
+const myBlockStyle = {
+    block: {
+        h1: ({children}) => {
+            return <h1 className="font-extrabold text-5xl text-black">{children}</h1>
+        }
+        //Add more values
+    },
+    //Add more values
+}
+
+//Override old styles
+const newBlockStyle = deepmerge(defaultBlockStyle, myBlockStyle)
+
+// Use newBlockStyle as value for component
+<PortableText value={value} component={newBlockStyle} />
+```
+
+### Custom Block Styles
+
+<Canvas of={BlockStories.CustomBlockStyle} />

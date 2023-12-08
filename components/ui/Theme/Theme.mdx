@@ -1,14 +1,31 @@
-import { Meta, Story, Canvas } from "@storybook/blocks";
-import { Brand, Background } from "./Theme.tsx";
+import { Meta, Canvas, Story } from "@storybook/blocks";
+import { Brand } from "./Theme.tsx";
+import { colorsArray } from "./Theme";
+import * as TextStories from "../Text/Text.stories";
+import * as BlockStories from "../BlockStyle/Blockstyle.stories.tsx";
 
-<Meta title="Theme/Colors" />
+<Meta title="Theme" />
 
 # Theme
 
 ## Brand Colors
 
-<Brand />
+Imported from `tailwind.config.ts` file. You may edit these directly on the config file.
 
-## Background Colors
+<div className="mb-10">
+  {colorsArray && colorsArray.length > 0 && <Brand colors={colorsArray} />}
+</div>
 
-<Background />
+## Typography
+
+Standard typography theme of the project. See the **Text** component under the **Components/UI** section for more information.
+
+<Canvas of={TextStories.Primary} />
+
+## Default Block Styles
+
+Different from the **Typography** section. This is used to render data using the **PortableText** component, commonly used for blogs. See **Blockstyle** under the **Components/UI** section for more info.
+
+<div className="p-8 boder-solid border border-gray-100/50">
+  <Story of={BlockStories.Primary} />
+</div>

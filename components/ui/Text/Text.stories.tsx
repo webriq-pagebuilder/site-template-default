@@ -13,14 +13,14 @@ type Story = StoryObj<typeof Text>;
 
 export const Primary: Story = {
   render: () => (
-    <>
-      <Text type="h1">This is a text</Text>
-      <Text type="h2">This is a text</Text>
-      <Text type="h3">This is a text</Text>
-      <Text type="h4">This is a text</Text>
-      <Text type="h5">This is a text</Text>
-      <Text type="h6">This is a text</Text>
-      <Text type="p">This is a text</Text>
-    </>
+    <div className="space-y-2">
+      <Text type="h1">Heading 1</Text>
+      <Text type="h2">Heading 2</Text>
+      <Text type="h3">Heading 3</Text>
+      <Text type="h4">Heading 4</Text>
+      <Text type="h5">Heading 5</Text>
+      <Text type="h6">Heading 6</Text>
+      <Text type="p">Normal</Text>
+    </div>
   ),
 };

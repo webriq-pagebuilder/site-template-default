@@ -7,6 +7,7 @@ import { format } from "date-fns";
 import { InlineEditorContext } from "context/InlineEditorContext";
 import InlineEditor from "components/InlineEditor";
 import { MyPortableTextComponents, BlogsData } from "types";
+import { defaultBlockStyle } from "helper";
 
 const Navigation = dynamic(() => import("components/sections/navigation"));
 const Footer = dynamic(() => import("components/sections/footer"));

@@ -201,7 +201,7 @@ export const defaultBlockStyle: MyPortableTextComponents = {
     code: ({ children }) => <code>{children}</code>,
     link: ({ children, value }) => (
       <a
-        className="hover:text-webriq-darkorange text-webriq-lightorange"
+        className="hover:text-webriq-blue text-webriq-darkblue"
         href={value.href}
         target="_blank"
         rel="noopener noreferrer"
