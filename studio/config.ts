@@ -35,3 +35,15 @@ export const SITE_STORE_CORS_SECRET =
 // Open AI key
 export const NEXT_PUBLIC_SANITY_PROJECT_OPENAI_KEY =
   process.env.NEXT_PUBLIC_SANITY_PROJECT_OPENAI_KEY;
+
+// Social media
+// Instagram long-lived access token
+export const NEXT_PUBLIC_INSTAGRAM_ACCESS_TOKEN =
+  process.env.NEXT_PUBLIC_INSTAGRAM_ACCESS_TOKEN;
+
+// These values should be retrieved from the Meta developer settings > Instagram App of your account
+export const NEXT_PUBLIC_INSTAGRAM_APP_ID =
+  process.env.NEXT_PUBLIC_INSTAGRAM_APP_ID;
+
+export const NEXT_PUBLIC_INSTAGRAM_APP_SECRET =
+  process.env.NEXT_PUBLIC_INSTAGRAM_APP_SECRET;
