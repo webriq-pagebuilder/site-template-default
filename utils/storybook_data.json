@@ -1,0 +1,27 @@
+{
+  "internal_link": {
+    "_key": "1XE3Dhz70dNTMXda86YUY",
+    "linkInternal": {
+      "_ref": "020142ce-cf61-4671-a5db-80b13a08f2d4",
+      "_type": "reference"
+    },
+    "internalLink": "initial-values-test",
+    "linkType": "linkInternal",
+    "label": "About Us",
+    "linkTarget": "_self",
+    "type": "linkInternal",
+    "externalLink": null,
+    "_type": "conditionalLink"
+  },
+  "external_link": {
+    "type": "linkExternal",
+    "externalLink": "www.webriq.com",
+    "_type": "conditionalLink",
+    "linkType": "linkExternal",
+    "label": "Services",
+    "internalLink": null,
+    "linkTarget": "_blank",
+    "_key": "QFLrmsaWnF5lz5hqpH5gL",
+    "linkExternal": "www.webriq.com"
+  }
+}

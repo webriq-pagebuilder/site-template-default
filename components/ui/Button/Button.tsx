@@ -2,21 +2,31 @@ import React from "react";
 import { cn } from "utils/cn";
 import { FaSpinner } from "react-icons/fa";
 import { StyleVariants } from "../types";
+import { LabeledRoute, LabeledRouteWithKey } from "types";
+import Link from "next/link";
 
 type Variant = "outline" | "primary" | "secondary" | "borderless";
-interface IButton {
+export type ButtonProps = {
+  /** Defines the classname of the button. */
   className?: string;
   variant?: Variant;
-  ariaLabel: string; // required for A11Y
+  /** String value that labels the interactive element e.g. "Submit" */
+  ariaLabel: string;
+  /** Defines the content inside the button. */
   children: React.ReactNode;
+  /** Sets the button in a loading state. */
   loading?: boolean;
+  /** Sets the button in a disabled state. */
   disabled?: boolean;
+  /** Custom loading component. */
   loadingComponent?: React.ReactNode;
-  onClick?: () => any;
-  [key: string]: any;
-}
+  /** Function that runs when the button is clicked. */
+  onClick?: () => void;
+  /** Set button type. Defaults to button */
+  type?: "button" | "submit";
+};
 
-export const Button = ({
+export function Button({
   variant = "primary",
   className,
   ariaLabel,
@@ -25,8 +35,8 @@ export const Button = ({
   disabled,
   loadingComponent,
   onClick,
-  ...props
-}: IButton) => {
+  type = "button",
+}: ButtonProps) {
   const commonStyles =
     "inline-block py-2 px-6 rounded-l-xl rounded-t-xl font-bold leading-loose transition duration-200";
   const primary = `${commonStyles} bg-webriq-darkblue hover:bg-webriq-blue text-gray-50  outline-none `;
@@ -42,6 +52,9 @@ export const Button = ({
   };
 
   const variantClass = variants[variant] ?? primary;
+  const Loader = loadingComponent ?? (
+    <FaSpinner className="animate-spin" size={30} />
+  );
 
   return (
     <button
@@ -49,17 +62,9 @@ export const Button = ({
       disabled={disabled ?? loading}
       className={cn(variantClass, className)}
       aria-label={ariaLabel}
-      {...props}
+      type={type}
     >
-      {loading ? (
-        loadingComponent ? (
-          loadingComponent
-        ) : (
-          <FaSpinner className="animate-spin" size={30} />
-        )
-      ) : (
-        children
-      )}
+      {loading ? Loader : children}
     </button>
   );
-};
+}

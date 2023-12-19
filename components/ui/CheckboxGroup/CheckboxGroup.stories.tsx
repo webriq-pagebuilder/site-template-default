@@ -2,25 +2,9 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { CheckboxGroup } from "./CheckboxGroup";
 import { Checkbox } from "../Checkbox/Checkbox";
 
-const DUMMY_CHECKBOX = {
-  name: "radio",
-  isRequired: false,
-  items: ["Option 1", "Option 2", "Option 3"],
-};
-
 const meta: Meta<typeof CheckboxGroup> = {
   title: "Components/UI/CheckboxGroup",
   component: CheckboxGroup,
-  args: {
-    children: DUMMY_CHECKBOX.items.map((item, index) => (
-      <Checkbox
-        ariaLabel={item}
-        isRequired={DUMMY_CHECKBOX.isRequired}
-        name={DUMMY_CHECKBOX.name}
-        value={item}
-      />
-    )),
-  },
   tags: ["autodocs"],
 } satisfies Meta<typeof CheckboxGroup>;
 
@@ -30,11 +14,47 @@ type Story = StoryObj<typeof CheckboxGroup>;
 export const Primary: Story = {
   args: {
     variant: "primary",
+    name: "Primary",
+    children: ["Option 1", "Option 2", "Option 3"].map((item, index) => (
+      <Checkbox
+        item={item}
+        key={index}
+        ariaLabel={item}
+        required={false}
+        name={"Primary"}
+      />
+    )),
   },
 };
 
 export const Inline: Story = {
   args: {
     variant: "inline",
+    name: "Inline",
+    children: ["Option 1", "Option 2", "Option 3"].map((item, index) => (
+      <Checkbox
+        item={item}
+        key={index}
+        ariaLabel={item}
+        required={false}
+        name={"Primary"}
+      />
+    )),
+  },
+};
+
+export const WithCustomLabel: Story = {
+  args: {
+    name: "With Custom Label",
+    label: "Custom Label",
+    children: ["Option 1", "Option 2", "Option 3"].map((item, index) => (
+      <Checkbox
+        item={item}
+        key={index}
+        ariaLabel={item}
+        required={false}
+        name={"With Custom Label"}
+      />
+    )),
   },
 };

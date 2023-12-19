@@ -1,30 +1,39 @@
 import React from "react";
 import { cn } from "utils/cn";
-import { IFormElements, StyleVariants } from "../types";
+import { StyleVariants } from "../types";
 
-interface Select extends IFormElements {
-  defaultValue?: any;
+type SelectProps = {
+  /** Default value for the select element */
+  defaultValue?: string;
   variant?: Variant;
-  children: React.ReactNode;
+  /** Label for the element. Defaults to name */
   label?: string;
+  /** Classname for the label element */
   labelClass?: string;
-  onChange?: () => any;
-}
+  /** Function that runs when the value changes */
+  onChange?: () => void;
+  className?: string;
+  required?: boolean;
+  /** Name of the select element */
+  name: string;
+  /** A list of string as options */
+  items: string[];
+  ariaLabel: string;
+};
 
 type Variant = "primary" | "outline";
 
 export const Select = ({
   className,
   variant = "primary",
-  isRequired = false,
+  required = false,
   name,
   defaultValue,
-  children,
   label,
   labelClass,
+  items,
   onChange,
-  ...props
-}: Select) => {
+}: SelectProps) => {
   const commonStyle =
     "w-full rounded bg-white p-4 text-xs font-semibold leading-none outline-none";
   const primary = `${commonStyle}`;
@@ -47,10 +56,17 @@ export const Select = ({
         className={cn(variantClass, className)}
         name={name}
         defaultValue={defaultValue}
-        required={isRequired}
-        {...props}
+        required={required}
       >
-        {children}
+        {items &&
+          items.length > 0 &&
+          items.map((opt) => {
+            return (
+              <option value={opt} key={opt}>
+                {opt}
+              </option>
+            );
+          })}
       </select>
     </>
   );

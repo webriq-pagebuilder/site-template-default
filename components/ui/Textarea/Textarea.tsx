@@ -2,28 +2,30 @@ import React from "react";
 import { cn } from "utils/cn";
 import { IFormElements, StyleVariants } from "../types";
 
-interface Textarea extends IFormElements {
+export type TextareaProps = {
+  className?: string;
+  required?: boolean;
+  name: string;
+  ariaLabel: string;
   placeholder?: string;
   onChange?: () => any;
   labelClass?: string;
   variant?: Variant;
-}
+  label?: string;
+};
 
 type Variant = "primary" | "outline";
 export const Textarea = ({
   className,
   variant = "primary",
-  required = false,
   labelClass,
   name,
   label,
-  key,
   placeholder,
-  isRequired,
+  required = false,
   ariaLabel,
   onChange,
-  ...props
-}: Textarea) => {
+}: TextareaProps) => {
   const commonStyle =
     "h-24 w-full resize-none rounded bg-white p-4 text-xs font-semibold leading-none";
   const primary = `${commonStyle} outline-none`;
@@ -46,8 +48,7 @@ export const Textarea = ({
         className={cn(variantClass, className)}
         placeholder={placeholder}
         name={name}
-        required={isRequired}
-        {...props}
+        required={required}
       />
     </>
   );

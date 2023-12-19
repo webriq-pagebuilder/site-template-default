@@ -2,29 +2,33 @@ import React from "react";
 import { cn } from "utils/cn";
 import { StyleVariants } from "../types";
 
-interface RadioGroup {
+type RadioGroup = {
   children: React.ReactNode;
   variant?: Variant;
   className?: string;
   label?: string;
   name: string;
   labelClass?: string;
-  [key: string]: any;
-}
+};
 
 type Variant = "primary" | "inline";
 
 export const RadioGroup = ({
+  /** Child radio elements */
   children,
   variant = "primary",
+  /** Html name for the radio element */
   name,
+  /** Classname for the elements that wraps the children */
   className,
+  /** Classname for label element */
   labelClass,
+  /** Optional label of the radio group. Defaults to the name */
   label,
 }: RadioGroup) => {
   const commonClass = "ml-2";
   const primary = `${commonClass}`;
-  const inline = `${commonClass} flex items-center`;
+  const inline = `${commonClass} flex items-center gap-2`;
 
   const variants: StyleVariants<Variant> = {
     primary,

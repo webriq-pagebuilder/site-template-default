@@ -2,15 +2,25 @@ import React, { HTMLInputTypeAttribute } from "react";
 import { cn } from "utils/cn";
 import { IFormElements, StyleVariants } from "../types";
 
-interface Input extends IFormElements {
-  label: string;
+type InputProps = {
+  /** Display label text */
+  label?: string;
+  /** A string value that labels an interactive element */
+  ariaLabel: string;
+  /** Is the input field required?*/
+  required?: boolean;
+  /** Html name for the input field*/
+  name: string;
+  /** Classname for the label element */
   labelClass?: string;
+  /** Classname for the input element*/
   className?: string;
   placeholder?: string;
-  type: "number" | "password" | "email" | "text";
+  type?: "number" | "password" | "email" | "text";
   variant?: Variant;
-  onChange?: () => any;
-}
+  /** Function that runs when an input value change*/
+  onChange?: () => void;
+};
 
 type Variant = "primary" | "outline";
 
@@ -21,11 +31,11 @@ export const Input = ({
   className,
   label,
   variant = "primary",
-  isRequired = false,
+  required = false,
   name,
+  placeholder,
   onChange,
-  ...props
-}: Input) => {
+}: InputProps) => {
   const commonStyle =
     "w-full rounded bg-white p-4 text-xs font-semibold leading-none";
   const primary = `${commonStyle} outline-none`;
@@ -44,12 +54,12 @@ export const Input = ({
         {label ?? name}
       </label>
       <input
-        required={isRequired}
+        placeholder={placeholder}
+        required={required}
         aria-label={ariaLabel ?? name}
         type={type}
         className={cn(variantClass, className)}
         onChange={onChange}
-        {...props}
       />
     </>
   );

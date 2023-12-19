@@ -47,7 +47,6 @@ export const ButtonGroup = ({
   const positionClass = positions[position] ?? left;
   return (
     <div className={`${cn(variantClass, positionClass, className)}`}>
-      {/* {children} */}
       {React.Children.map(children, (child) =>
         child ? (
           <div

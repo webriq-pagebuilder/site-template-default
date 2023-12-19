@@ -1,21 +1,26 @@
-import React, { HTMLInputTypeAttribute, useState } from "react";
+import React, { useState } from "react";
 import { cn } from "utils/cn";
-import { IFormElements, StyleVariants } from "../types";
+import { StyleVariants } from "../types";
 
-interface IInputFile extends IFormElements {
+type InputFileprops = {
+  /** Will apply on the label element */
+  className?: string;
+  /** Is this element required? */
+  required?: boolean;
+  name: string;
+  ariaLabel: string;
   variant?: Variant;
-}
+};
 
 type Variant = "primary" | "outline";
 
 export const InputFile = ({
   className,
   variant = "primary",
-  isRequired = false,
+  required = false,
   name,
   ariaLabel,
-  ...props
-}: IInputFile) => {
+}: InputFileprops) => {
   const [filename, setFilename] = useState("");
   const commonStyle =
     "my-1 ml-auto bg-white cursor-pointer rounded  px-4 py-3 text-xs font-semibold leading-none text-white transition duration-200";
@@ -36,9 +41,8 @@ export const InputFile = ({
         className="absolute opacity-0 w-full h-full cursor-pointer"
         type="file"
         name={name}
-        required={isRequired}
+        required={required}
         onChange={(e) => setFilename(e.target?.files[0]?.name ?? "")}
-        {...props}
       />
       <div className="flex">
         <span className="px-2 py-4 text-xs font-semibold leading-none">

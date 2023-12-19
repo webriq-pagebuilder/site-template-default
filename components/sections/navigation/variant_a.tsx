@@ -16,7 +16,7 @@ function VariantA({
   const showMenu = () => {
     setMenu((prevState) => !prevState);
   };
-
+  console.log("links", links);
   return (
     <section>
       <nav className="relative flex items-center justify-between bg-white px-6 py-6">

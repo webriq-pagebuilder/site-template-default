@@ -2,29 +2,38 @@ import React from "react";
 import { cn } from "utils/cn";
 import { IFormElements, StyleVariants } from "../types";
 
-interface ICheckbox extends IFormElements {
+type CheckboxProps = {
+  /** Is this required?  */
+  required?: boolean;
+  /** Name attribute for the checkbox element */
+  name: string;
+  /** String value that labels an interactive element */
+  ariaLabel: string;
+  /** Label for the checkbox element; defaults to the value */
   label?: string;
+  /** Classname for the LABEL element */
   labelClass?: string;
+  /** Classname for the INPUT element */
   className?: string;
   variant?: Variant;
-  value: any;
-  onChange?: () => any;
-}
+  /** Function that runs when the checkbox changes */
+  onChange?: () => void;
+  /** String value for the checkbox element */
+  item: string;
+};
 type Variant = "primary";
 
 export const Checkbox = ({
+  item,
   variant = "primary",
   required = false,
   name,
   label,
-  value,
-  isRequired,
   labelClass,
   className,
   ariaLabel,
   onChange,
-  ...props
-}: ICheckbox) => {
+}: CheckboxProps) => {
   const commonStyle = "";
   const primary = `${commonStyle}`;
 
@@ -33,22 +42,20 @@ export const Checkbox = ({
   };
 
   const variantClass = variants[variant] ?? primary;
-
+  const defaultLabelClass = "flex gap-2 items-center";
   return (
-    <div className="flex gap-2 items-center">
+    <label className={cn(defaultLabelClass, labelClass)} id={name}>
       <input
         aria-label={ariaLabel ?? name}
         className={cn(variantClass, className)}
         name={name}
         type="checkbox"
-        value={value}
-        required={isRequired}
+        value={item}
+        required={required}
         onChange={onChange}
-        {...props}
+        id={name}
       />
-      <label className={labelClass} htmlFor={name} id={name}>
-        {label ?? value}
-      </label>
-    </div>
+      {label ?? item}
+    </label>
   );
 };

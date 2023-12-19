@@ -9,8 +9,7 @@ const meta: Meta<typeof Form> = {
   component: Form,
   tags: ["autodocs"],
   args: {
-    btnLabel: "Submit",
-    name: "Form name",
+    name: "Form",
     id: "fc31c685-2d1a-447d-b891-ea63a38c5f57",
   },
 } satisfies Meta<typeof Form>;
@@ -90,7 +89,7 @@ export const Primary: Story = {
               items={field.items}
               type={field.type as FormTypes}
               name={field.name}
-              isRequired={false}
+              required={false}
               placeholder={field.placeholder}
             />
           );
@@ -134,7 +133,7 @@ export const WithCustomField: Story = {
               items={field.items}
               type={field.type as FormTypes}
               name={field.name}
-              isRequired={false}
+              required={false}
               placeholder={field.placeholder}
             />
           );

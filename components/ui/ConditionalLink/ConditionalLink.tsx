@@ -89,7 +89,9 @@ export const ConditionalLink = ({
     );
   }
 
-  <Link {...commonProps} {...props} href={"/"}>
-    {children}
-  </Link>;
+  return (
+    <Link {...commonProps} {...props} href={"/"}>
+      {children}
+    </Link>
+  );
 };

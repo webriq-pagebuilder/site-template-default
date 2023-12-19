@@ -10,31 +10,29 @@ import { Textarea } from "../Textarea";
 import { StyleVariants } from "../types";
 import { cn } from "utils/cn";
 
-interface IFormField {
-  type: FormTypes;
-  items?: any;
+type FormFieldProps = {
+  type?: FormTypes;
+  items?: string[];
   variant?: Variant;
   name: string;
   label?: string;
-  isRequired?: boolean;
+  required?: boolean;
   placeholder?: string;
   className?: string;
-  [key: string]: any;
-}
+};
 
 type Variant = "stacked" | "inline";
 
 export const FormField = ({
-  type,
+  type = "inputText",
   items,
   name,
   variant = "stacked",
   label,
-  isRequired,
+  required,
   placeholder,
   className,
-  ...props
-}: IFormField) => {
+}: FormFieldProps) => {
   const commonClass = "mb-4 flex gap-2";
   const stacked = `${commonClass} flex-col`;
   const inline = `${commonClass} items-center`;
@@ -54,8 +52,7 @@ export const FormField = ({
         name={name}
         placeholder={placeholder}
         label={label}
-        isRequired={isRequired}
-        {...props}
+        required={required}
       />
     </div>
   );
@@ -66,13 +63,9 @@ const RenderInput = ({
   items,
   name,
   label,
-  isRequired,
+  required,
   placeholder,
-  ...props
-}: {
-  type: FormTypes;
-  [key: string]: any;
-}) => {
+}: FormFieldProps) => {
   const formType = {
     inputText: "text",
     inputEmail: "email",
@@ -85,13 +78,7 @@ const RenderInput = ({
       return (
         <RadioGroup label={label} name={name}>
           {items?.map((item, index) => (
-            <Radio
-              key={item}
-              ariaLabel={name}
-              name={name}
-              item={item}
-              {...props}
-            />
+            <Radio key={item} ariaLabel={name} name={name} item={item} />
           ))}
         </RadioGroup>
       );
@@ -99,18 +86,12 @@ const RenderInput = ({
     case "inputSelect":
       return (
         <Select
+          items={items}
           label={label}
           ariaLabel={label}
           name={name}
-          isRequired={isRequired}
-          {...props}
-        >
-          {items?.map((item, index) => (
-            <option key={index} value={item}>
-              {item}
-            </option>
-          ))}
-        </Select>
+          required={required}
+        />
       );
 
     case "inputCheckbox":
@@ -122,35 +103,23 @@ const RenderInput = ({
               label={item}
               ariaLabel={name}
               name={name}
-              value={item}
-              type="checkbox"
-              {...props}
+              item={item}
             />
           ))}
         </CheckboxGroup>
       );
 
     case "inputFile":
-      return (
-        <InputFile
-          ariaLabel={name}
-          name={name}
-          isRequired={isRequired}
-          label={label}
-          {...props}
-        />
-      );
+      return <InputFile ariaLabel={name} name={name} required={required} />;
 
     case "textarea":
       return (
         <Textarea
-          isRequired={isRequired}
           ariaLabel={placeholder ?? name}
           className="h-24 w-full resize-none rounded bg-white p-4 text-xs font-semibold leading-none outline-none"
           placeholder={placeholder}
           name={name}
-          required={isRequired}
-          {...props}
+          required={required}
         />
       );
 
@@ -159,11 +128,10 @@ const RenderInput = ({
         <Input
           label={name}
           ariaLabel={name}
-          required={isRequired}
+          required={required}
           name={name}
           placeholder={placeholder}
           type={formType}
-          {...props}
         />
       );
   }

@@ -6,7 +6,9 @@ const meta: Meta<typeof InputFile> = {
   component: InputFile,
   tags: ["autodocs"],
   parameters: {
-    backgrounds: "dark",
+    backgrounds: {
+      default: "dark",
+    },
   },
 } satisfies Meta<typeof InputFile>;
 

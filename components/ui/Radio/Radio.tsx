@@ -2,13 +2,21 @@ import React from "react";
 import { cn } from "utils/cn";
 import { IFormElements, StyleVariants } from "../types";
 
-interface IRadio extends IFormElements {
-  item: any;
+type RadioProps = {
+  /** Classname for the input element */
+  className?: string;
+  /** Html name for the input element */
+  name: string;
+  /** String value that labels an interactive element */
+  ariaLabel: string;
   variant?: Variant;
-  label?: string;
+  /** String value of input element */
+  item: string;
+  /** Classname for the label element */
   labelClass?: string;
-  onChange?: () => any;
-}
+  /** Function that runs when an input value changes*/
+  onChange?: () => void;
+};
 
 type Variant = "primary" | "outline";
 
@@ -16,13 +24,11 @@ export const Radio = ({
   className,
   variant = "primary",
   name,
-  item,
   ariaLabel,
-  label,
   labelClass,
+  item,
   onChange,
-  ...props
-}: IRadio) => {
+}: RadioProps) => {
   const commonStyle = "";
   const primary = `${commonStyle}`;
   const outline = `${commonStyle} border border-solid border-webriq-blue`;
@@ -35,7 +41,7 @@ export const Radio = ({
   const variantClass = variants[variant] ?? primary;
 
   return (
-    <div className="flex items-center gap-2">
+    <label className={cn("flex items-center gap-2", labelClass)}>
       <input
         onChange={onChange}
         className={cn(variantClass, className)}
@@ -43,11 +49,8 @@ export const Radio = ({
         value={item}
         type="radio"
         aria-label={ariaLabel ?? name}
-        {...props}
       />
-      <label htmlFor={name} className={labelClass}>
-        {label ?? item}
-      </label>
-    </div>
+      {item}
+    </label>
   );
 };

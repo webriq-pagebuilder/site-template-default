@@ -29,7 +29,7 @@ const meta: Meta<typeof ButtonGroup> = {
   },
   decorators: [
     (Story) => (
-      <div className="border border-solid border-red-400 p-2">
+      <div className="border border-solid border-gray-100 p-2">
         <Story />
       </div>
     ),
