@@ -1,6 +1,6 @@
 import React from "react";
 import dynamic from "next/dynamic";
-import { SectionsProps, Testimonial } from "types";
+import { SectionsProps, Testimonial as ITestimonial } from "types";
 
 const Variants = {
   variant_a: dynamic(() => import("./variant_a")),
@@ -12,7 +12,7 @@ const Variants = {
 export interface TestimonialProps {
   caption?: string;
   title?: string;
-  testimonials?: Testimonial[];
+  testimonials?: ITestimonial[];
 }
 
 function Testimonial({ data }: SectionsProps) {
@@ -25,6 +25,7 @@ function Testimonial({ data }: SectionsProps) {
     testimonials: data?.variants?.testimonials,
   };
 
+  console.log("teesti", props);
   return Variant ? <Variant {...props} /> : null;
 }
 
