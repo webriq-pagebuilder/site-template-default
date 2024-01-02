@@ -33,6 +33,7 @@ function Navigation({ template, data }: SectionsProps) {
     banner: data?.variants?.banner,
   };
 
+  console.log("props", props);
   return Variant ? <Variant {...props} /> : null;
 }
 export default React.memo(Navigation);

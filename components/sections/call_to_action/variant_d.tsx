@@ -6,7 +6,8 @@ import WebriQForm from "components/webriq-form";
 import { logoLink, thankYouPageLink, ConditionalLink } from "helper";
 
 import { CTAProps } from ".";
-import { FormFields } from "types";
+import { FormFields as TypeFormFields } from "types";
+import { FormField as FormFieldComponent } from "components/ui/FormField";
 
 function VariantD({
   logo,
@@ -83,11 +84,13 @@ function VariantD({
                         </div>
                       ))}
                     </div>
-                    {form?.fields?.slice(2)?.map((formFields, index) => (
-                      <div key={index}>
-                        <FormFields fields={formFields} />
-                      </div>
-                    ))}
+                    <div className="space-y-3 mb-3">
+                      {form?.fields?.slice(2)?.map((formFields, index) => (
+                        <div key={index}>
+                          <FormFields fields={formFields} />
+                        </div>
+                      ))}
+                    </div>
                     <div>
                       <div className="webriq-recaptcha" />
                     </div>
@@ -151,7 +154,7 @@ function VariantD({
  * @param {fields}
  * @returns input fields according to type
  */
-function FormFields({ fields }: { fields: FormFields }) {
+function FormFields({ fields }: { fields: TypeFormFields }) {
   const [value, setValue] = React.useState(null); // setting selected value for input field radio type
   const [checked, setChecked] = React.useState([]); // setting selected value for input field checkbox type
 

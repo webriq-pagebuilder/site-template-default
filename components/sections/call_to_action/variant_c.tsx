@@ -3,6 +3,9 @@ import WebriQForm from "components/webriq-form";
 import { thankYouPageLink } from "helper";
 
 import { CTAProps } from ".";
+import { Text } from "components/ui/Text";
+import { Button } from "components/ui/Button";
+import { Form } from "components/ui/Form/Form";
 
 function VariantC({ title, text, features, form }: CTAProps) {
   return (
@@ -10,20 +13,16 @@ function VariantC({ title, text, features, form }: CTAProps) {
       <div className="container mx-auto px-4">
         <div className="-mx-4 flex flex-wrap items-center">
           <div className="mb-8 w-full px-4 lg:mb-0 lg:w-1/2">
-            <h1 className="font-heading mb-4 text-4xl font-bold lg:text-5xl">
-              {title}
-            </h1>
+            <Text type="h1">{title}</Text>
             <p className="max-w-lg leading-loose text-gray-700">{text}</p>
           </div>
           <div className="w-full px-4 lg:w-1/2">
             {form?.fields && (
-              <WebriQForm
-                method="POST"
-                data-form-id={form?.id}
+              <Form
+                id={form?.id}
                 name="Calltoaction-VariantC-Form"
-                className="form-callToAction mb-4 flex items-center lg:justify-end"
-                data-thankyou-url={thankYouPageLink(form?.thankYouPage)}
-                scriptsrc="https://pagebuilderforms.webriq.com/js/initReactForms"
+                className="form-callToAction mb-4 sm:flex items-center lg:justify-end"
+                thankyouPage={thankYouPageLink(form?.thankYouPage)}
               >
                 {form?.fields?.[0] && form?.fields[0]?.type && (
                   <input
@@ -49,17 +48,16 @@ function VariantC({ title, text, features, form }: CTAProps) {
                   <div className="webriq-recaptcha" />
                 </div>
                 {form?.buttonLabel && (
-                  <button
-                    aria-label={
+                  <Button
+                    ariaLabel={
                       form?.buttonLabel ?? "Call to action form submit button"
                     }
-                    className="inline-block rounded-l-xl rounded-t-xl bg-webriq-darkblue px-6 py-2 font-bold leading-loose text-white transition duration-200 hover:bg-webriq-blue"
                     type="submit"
                   >
                     {form?.buttonLabel}
-                  </button>
+                  </Button>
                 )}
-              </WebriQForm>
+              </Form>
             )}
             <div>
               <ul className="flex items-center text-gray-500 lg:justify-end">

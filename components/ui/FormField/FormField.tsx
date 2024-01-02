@@ -9,6 +9,7 @@ import { Select } from "../Select";
 import { Textarea } from "../Textarea";
 import { StyleVariants } from "../types";
 import { cn } from "utils/cn";
+import { Variant as InputVariant } from "../Input/Input";
 
 type FormFieldProps = {
   type?: FormTypes;
@@ -19,6 +20,8 @@ type FormFieldProps = {
   required?: boolean;
   placeholder?: string;
   className?: string;
+  textSize?: "sm" | "nm" | "lg";
+  inputVariant?: InputVariant;
 };
 
 type Variant = "stacked" | "inline";
@@ -32,6 +35,8 @@ export const FormField = ({
   required,
   placeholder,
   className,
+  textSize,
+  inputVariant,
 }: FormFieldProps) => {
   const commonClass = "mb-4 flex gap-2";
   const stacked = `${commonClass} flex-col`;
@@ -47,12 +52,14 @@ export const FormField = ({
   return (
     <div className={cn(variantClass, className)}>
       <RenderInput
+        inputVariant={inputVariant}
         type={type}
         items={items}
         name={name}
         placeholder={placeholder}
         label={label}
         required={required}
+        textSize={textSize}
       />
     </div>
   );
@@ -65,6 +72,8 @@ const RenderInput = ({
   label,
   required,
   placeholder,
+  textSize,
+  inputVariant,
 }: FormFieldProps) => {
   const formType = {
     inputText: "text",
@@ -126,12 +135,14 @@ const RenderInput = ({
     default:
       return (
         <Input
-          label={name}
+          textSize={textSize}
+          label={label ?? name}
           ariaLabel={name}
           required={required}
           name={name}
           placeholder={placeholder}
           type={formType}
+          variant={inputVariant}
         />
       );
   }

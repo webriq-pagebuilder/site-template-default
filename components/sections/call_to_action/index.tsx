@@ -6,6 +6,7 @@ import {
   Form,
   SectionsProps,
   LabeledRouteWithKey,
+  Variants as VariantsType,
 } from "types";
 
 export interface CTAProps {
@@ -19,7 +20,7 @@ export interface CTAProps {
   signInLink?: LabeledRoute;
 }
 
-const Variants = {
+export const Variants = {
   variant_a: dynamic(() => import("./variant_a")),
   variant_b: dynamic(() => import("./variant_b")),
   variant_c: dynamic(() => import("./variant_c")),
@@ -28,10 +29,10 @@ const Variants = {
 };
 
 function CallToAction({ data }: SectionsProps) {
-  const variant = data?.variant;
-  const Variant = Variants?.[variant];
+  const variantType = data?.variant;
+  const Variant = Variants?.[variantType];
 
-  const props = {
+  const props: CTAProps = {
     logo: data?.variants?.logo,
     title: data?.variants?.title,
     text: data?.variants?.plainText,

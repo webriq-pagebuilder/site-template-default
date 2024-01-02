@@ -1,10 +1,12 @@
 import { urlFor } from "lib/sanity";
 import Link from "next/link";
 import React from "react";
-import { logoLink, ConditionalLink } from "helper";
+import { logoLink } from "helper";
 
 import { CTAProps } from ".";
 import Image from "next/image";
+import { ConditionalLink } from "components/ui/ConditionalLink";
+import { Text } from "components/ui/Text";
 
 function VariantA({ logo, title, text, button }: CTAProps) {
   return (
@@ -40,18 +42,12 @@ function VariantA({ logo, title, text, button }: CTAProps) {
                 />
               </Link>
             )}
-            <h1 className="font-heading mb-4 text-4xl font-bold lg:text-5xl">
-              {title}
-            </h1>
+            <Text type="h1">{title}</Text>
             <p className="mx-auto mb-6 max-w-md leading-loose text-gray-700">
               {text}
             </p>
             {button?.label && (
-              <ConditionalLink
-                link={button}
-                className="inline-block py-2 px-6 bg-webriq-darkblue hover:bg-webriq-blue text-white font-bold leading-loose rounded-l-xl rounded-t-xl transition duration-200"
-                ariaLabel={button?.label}
-              >
+              <ConditionalLink link={button} ariaLabel={button?.label}>
                 {button?.label}
               </ConditionalLink>
             )}

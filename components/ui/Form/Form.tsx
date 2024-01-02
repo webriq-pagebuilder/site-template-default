@@ -23,7 +23,7 @@ export const Form = ({
       method="POST"
       data-form-id={id}
       name={name ?? "Form"}
-      className={`form-contacts w-full p-4 bg-gray-50 rounded-md max-w-[650px] mx-auto ${className}`}
+      className={className}
       data-thankyou-url={thankYouPageLink(thankyouPage)}
       scriptsrc="https://pagebuilderforms.webriq.com/js/initReactForms"
     >

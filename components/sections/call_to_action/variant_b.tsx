@@ -4,8 +4,13 @@ import Link from "next/link";
 import Image from "next/image";
 import WebriQForm from "components/webriq-form";
 import { logoLink, thankYouPageLink } from "helper";
+import { Text } from "components/ui/Text";
 
 import { CTAProps } from ".";
+import { Form } from "components/ui/Form/Form";
+import { FormField } from "components/ui/FormField";
+import { Button } from "components/ui/Button";
+import { Input } from "components/ui/Input";
 
 function VariantB({ logo, title, text, form }: CTAProps) {
   return (
@@ -40,9 +45,9 @@ function VariantB({ logo, title, text, form }: CTAProps) {
                 />
               </Link>
             )}
-            <h1 className="font-heading mb-4 text-4xl font-bold md:text-5xl">
+            <Text type="h1" className="mb4">
               {title}
-            </h1>
+            </Text>
             <p className="mb-6 text-gray-700">{text}</p>
             {form?.fields && (
               <WebriQForm
@@ -78,15 +83,9 @@ function VariantB({ logo, title, text, form }: CTAProps) {
                   <div className="webriq-recaptcha" />
                 </div>
                 {form?.buttonLabel && (
-                  <button
-                    aria-label={
-                      form?.buttonLabel ?? "Call to action form submit button"
-                    }
-                    className="w-full rounded-l-xl rounded-t-xl bg-webriq-darkblue px-4 py-2 font-bold leading-loose text-white transition duration-200 hover:bg-webriq-blue md:w-auto"
-                    type="submit"
-                  >
+                  <Button ariaLabel={form?.buttonLabel} type="submit">
                     {form?.buttonLabel}
-                  </button>
+                  </Button>
                 )}
               </WebriQForm>
             )}

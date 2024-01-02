@@ -20,9 +20,10 @@ type InputProps = {
   variant?: Variant;
   /** Function that runs when an input value change*/
   onChange?: () => void;
+  textSize?: "sm" | "nm" | "lg";
 };
 
-type Variant = "primary" | "outline";
+export type Variant = "primary" | "outline" | "dark";
 
 export const Input = ({
   type = "text",
@@ -34,16 +35,24 @@ export const Input = ({
   required = false,
   name,
   placeholder,
+  textSize,
   onChange,
 }: InputProps) => {
-  const commonStyle =
-    "w-full rounded bg-white p-4 text-xs font-semibold leading-none";
+  const commonStyle = "w-full rounded bg-white px-4 py-2 leading-none";
   const primary = `${commonStyle} outline-none`;
   const outline = `${commonStyle} border border-solid border-webriq-blue`;
+  const dark = `${commonStyle} bg-gray-100`;
+
+  const text = {
+    sm: "text-xs",
+    nm: "text-base",
+    lg: "text-lg",
+  }[textSize];
 
   const variants: StyleVariants<Variant> = {
     primary,
     outline,
+    dark,
   };
 
   const variantClass = variants[variant] ?? primary;
@@ -58,7 +67,7 @@ export const Input = ({
         required={required}
         aria-label={ariaLabel ?? name}
         type={type}
-        className={cn(variantClass, className)}
+        className={cn(variantClass, text, className)}
         onChange={onChange}
       />
     </>

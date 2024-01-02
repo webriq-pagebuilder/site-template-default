@@ -9,7 +9,7 @@ export interface SectionsProps {
 }
 //*EDIT THIS SECTION WHEN CREATING/UPDATING SCHEMAS ON STUDIO */
 export interface Variants {
-  multipleMenus: any;
+  multipleMenus?: any;
   arrayOfTitleAndText?: ArrayOfTitleAndText[] | null;
   logo?: Logo | null;
   primaryButton?: LabeledRoute | null;
@@ -61,6 +61,9 @@ export interface Variants {
   monthlyBilling?: string;
   productDetails?: ProductDetail[];
   btnLabel?: string;
+  text?: string;
+  button?: LabeledRoute;
+  features?: string[];
 }
 
 export interface Template {
@@ -78,11 +81,11 @@ export interface Stripe {
 }
 
 export interface SanityBody {
-  _createdAt: string;
-  _id: string;
-  _rev: string;
-  _type: string;
-  _updatedAt: string;
+  _createdAt?: string;
+  _id?: string;
+  _rev?: string;
+  _type?: string;
+  _updatedAt?: string;
 }
 
 export interface ConditionalLink {

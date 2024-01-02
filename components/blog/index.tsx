@@ -150,7 +150,6 @@ function BlogSections({ data }: BlogSectionsProps) {
     navigation,
     footer,
   } = blogData;
-  console.log("body", body);
 
   return (
     <InlineEditor
