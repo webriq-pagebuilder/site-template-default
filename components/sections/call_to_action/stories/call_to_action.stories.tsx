@@ -99,7 +99,7 @@ const args: Variants = {
 };
 
 const meta = {
-  title: "Sections/CallToActionA",
+  title: "Sections/Call To Action",
   component: CallToActionComponent,
   tags: ["autodocs"],
   render: ({ variant, ...args }) => {

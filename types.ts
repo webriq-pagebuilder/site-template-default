@@ -186,6 +186,7 @@ export type FormTypes =
   | "inputCheckbox"
   | "inputSelect";
 export interface Seo {
+  _type?: string;
   seoTitle?: string;
   seoDescription?: string;
   seoImage?: SanityImage;
