@@ -69,6 +69,7 @@ function Pricing({ data }: SectionsProps) {
     signInLink: data?.variants?.signInLink,
   };
 
+  console.log("pricing", props);
   return Variant ? <Variant {...props} /> : null;
 }
 
