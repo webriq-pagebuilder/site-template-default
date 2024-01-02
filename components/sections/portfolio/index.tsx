@@ -36,7 +36,7 @@ function Portfolio({ template, data }: SectionsProps) {
     portfolios: data?.variants?.portfolios,
     primaryButton: data?.variants?.primaryButton,
   };
-  console.log("portfolio", props);
+  "portfolio", props;
   return Variant ? <Variant {...props} /> : null;
 }
 export default React.memo(Portfolio);

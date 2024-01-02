@@ -40,7 +40,6 @@ function Footer({ data }: SectionsProps) {
     multipleMenus: data?.variants?.multipleMenus,
   };
 
-  console.log("footer", props);
   return Variant ? <Variant {...props} /> : null;
 }
 export default React.memo(Footer);

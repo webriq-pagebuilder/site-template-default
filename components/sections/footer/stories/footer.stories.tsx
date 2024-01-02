@@ -189,7 +189,6 @@ const meta = {
       variants: args,
     };
 
-    console.log("data", data);
     return <FooterComponent data={data} />;
   },
 } satisfies Meta<typeof FooterComponent> & any;

@@ -1103,7 +1103,6 @@ const meta = {
       variants: args,
     };
 
-    console.log("data", data);
     return <BlogComponent data={data} />;
   },
 } satisfies Meta<typeof BlogComponent> & any;

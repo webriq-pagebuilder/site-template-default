@@ -154,7 +154,6 @@ const meta = {
       variants: args,
     };
 
-    console.log("data", data);
     return <HeaderComponent data={data} template={args.template} />;
   },
 } satisfies Meta<typeof HeaderComponent> & any;

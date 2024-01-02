@@ -29,7 +29,6 @@ function Cookies({ data }: SectionsProps) {
     block: data?.variants?.block,
   };
 
-  console.log("cookies", props);
   return Variant ? <Variant {...props} /> : null;
 }
 export default React.memo(Cookies);

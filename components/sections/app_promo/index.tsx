@@ -33,7 +33,6 @@ function AppPromo({ data }: SectionsProps) {
     images: data?.variants?.images,
   };
 
-  console.log("apppromo", props);
   return Variant ? <Variant {...props} /> : null;
 }
 export default React.memo(AppPromo);

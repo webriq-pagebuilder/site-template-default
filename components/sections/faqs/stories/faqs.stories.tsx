@@ -130,7 +130,6 @@ const meta = {
       variants: args,
     };
 
-    console.log("data", data);
     return <FAQsComponent data={data} />;
   },
 } satisfies Meta<typeof FAQsComponent> & any;

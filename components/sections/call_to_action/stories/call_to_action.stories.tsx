@@ -108,7 +108,6 @@ const meta = {
       variants: args,
     };
 
-    console.log("data", data);
     return <CallToActionComponent data={data} />;
   },
 } satisfies Meta<typeof CallToActionComponent> & any;

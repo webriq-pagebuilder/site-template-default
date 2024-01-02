@@ -24,7 +24,6 @@ function Team({ data }: SectionsProps) {
     title: data?.variants?.title,
     team: data?.variants?.teams,
   };
-  console.log("team", props);
   return Variant ? <Variant {...props} /> : null;
 }
 

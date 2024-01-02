@@ -121,7 +121,6 @@ const meta = {
       variants: args,
     };
 
-    console.log("data", data);
     return <ContactComponent data={data} />;
   },
 } satisfies Meta<typeof ContactComponent> & any;

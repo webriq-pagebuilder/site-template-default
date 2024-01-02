@@ -39,7 +39,6 @@ const meta = {
       variants: args,
     };
 
-    console.log("data", data);
     return <HowItWorksComponent data={data} />;
   },
 } satisfies Meta<typeof HowItWorksComponent> & any;

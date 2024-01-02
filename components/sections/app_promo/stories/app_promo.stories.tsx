@@ -109,7 +109,6 @@ const meta = {
       variants: args,
     };
 
-    console.log("data", data);
     return <AppPromoComponent data={data} />;
   },
 } satisfies Meta<typeof AppPromoComponent> & any;

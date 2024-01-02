@@ -180,7 +180,6 @@ const meta = {
       variants: args,
     };
 
-    console.log("data", data);
     return <FeaturesComponent data={data} />;
   },
 } satisfies Meta<typeof FeaturesComponent> & any;

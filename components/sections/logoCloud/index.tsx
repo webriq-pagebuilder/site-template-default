@@ -27,7 +27,6 @@ function LogoCloud({ data }: SectionsProps) {
     text: data?.variants?.plainText,
     button: data?.variants?.primaryButton,
   };
-  console.log("logocloud", props);
   return Variant ? <Variant {...props} /> : null;
 }
 export default React.memo(LogoCloud);

@@ -25,7 +25,6 @@ function Testimonial({ data }: SectionsProps) {
     testimonials: data?.variants?.testimonials,
   };
 
-  console.log("teesti", props);
   return Variant ? <Variant {...props} /> : null;
 }
 

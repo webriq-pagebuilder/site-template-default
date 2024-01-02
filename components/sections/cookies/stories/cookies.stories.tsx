@@ -52,7 +52,6 @@ const meta = {
       variants: args,
     };
 
-    console.log("data", data);
     return (
       <div className="h-[400px]">
         <CookiesComponent data={data} />
