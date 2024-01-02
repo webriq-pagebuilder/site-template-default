@@ -31,6 +31,7 @@ function HowItWorks({ data }: SectionsProps) {
     steps: data?.variants?.arrayOfTitleAndText,
   };
 
+  console.log("how it works", props);
   return Variant ? <Variant {...props} /> : null;
 }
 export default React.memo(HowItWorks);
