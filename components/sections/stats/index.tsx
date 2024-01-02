@@ -20,6 +20,7 @@ function Stats({ data }: SectionsProps) {
     stats: data?.variants?.statItems,
   };
 
+  console.log("stats", props);
   return Variant ? <Variant {...props} /> : null;
 }
 export default React.memo(Stats);
