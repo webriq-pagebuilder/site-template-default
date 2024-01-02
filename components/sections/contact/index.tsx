@@ -34,6 +34,7 @@ function Contact({ data }: SectionsProps) {
     block: data?.variants?.block,
   };
 
+  console.log("Contact", props);
   return Variant ? <Variant {...props} /> : null;
 }
 export default React.memo(Contact);
