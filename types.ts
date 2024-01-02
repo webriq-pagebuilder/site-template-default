@@ -9,6 +9,7 @@ export interface SectionsProps {
 }
 //*EDIT THIS SECTION WHEN CREATING/UPDATING SCHEMAS ON STUDIO */
 export interface Variants {
+  template?: Template;
   multipleMenus?: any;
   arrayOfTitleAndText?: ArrayOfTitleAndText[] | null;
   logo?: Logo | null;

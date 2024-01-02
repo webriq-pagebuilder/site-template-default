@@ -80,13 +80,13 @@ function VariantE({
                       <div className="-mx-2 flex flex-wrap">
                         {form?.fields?.slice(0, 2)?.map((formFields, index) => (
                           <div className="w-full px-2 lg:w-1/2" key={index}>
-                            <FormFields fields={formFields} />
+                            <FormFieldsComponent fields={formFields} />
                           </div>
                         ))}
                       </div>
                       {form?.fields?.slice(2)?.map((formFields) => (
                         <div key={formFields?._key}>
-                          <FormFields fields={formFields} />
+                          <FormFieldsComponent fields={formFields} />
                         </div>
                       ))}
                       <div>
@@ -142,7 +142,7 @@ function VariantE({
  * @param {fields}
  * @returns input fields according to type
  */
-function FormFields({ fields }: { fields: FormFields }) {
+function FormFieldsComponent({ fields }: { fields: FormFields }) {
   const [showPassword, setShowPassword] = React.useState(false);
   const [value, setValue] = React.useState(null); // setting selected value for input field radio type
   const [checked, setChecked] = React.useState([]); // setting selected value for input field checkbox type
