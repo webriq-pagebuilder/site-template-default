@@ -5,7 +5,7 @@ import WebriQForm from "components/webriq-form";
 import { urlFor } from "lib/sanity";
 import { logoLink, thankYouPageLink, ConditionalLink } from "helper";
 import { SignUpFormProps } from ".";
-import { FormFields } from "types";
+import { FormFields as TFormFields } from "types";
 
 function VariantA({ logo, form, formLinks, signInLink }: SignUpFormProps) {
   return (
@@ -123,7 +123,7 @@ function VariantA({ logo, form, formLinks, signInLink }: SignUpFormProps) {
  * @param {fields}
  * @returns input fields according to type
  */
-function FormFields({ fields }: { fields: FormFields }) {
+function FormFields({ fields }: { fields: TFormFields }) {
   const [showPassword, setShowPassword] = React.useState(false);
   const [value, setValue] = React.useState(null); // setting selected value for input field radio type
   const [checked, setChecked] = React.useState([]); // setting selected value for input field checkbox type

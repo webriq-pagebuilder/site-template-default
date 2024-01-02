@@ -41,6 +41,7 @@ function SignUpForm({ data }: SectionsProps) {
     form: data?.variants?.form,
   };
 
+  console.log("signin", props);
   return Variant ? <Variant {...props} /> : null;
 }
 export default React.memo(SignUpForm);
