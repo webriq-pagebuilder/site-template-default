@@ -4,7 +4,7 @@ import dynamic from "next/dynamic";
 import {
   SectionsProps,
   PortfoliosWithCategories,
-  Portfolio,
+  Portfolio as TPortfolio,
   LabeledRoute,
 } from "types";
 
@@ -20,7 +20,7 @@ export interface PortfolioProps {
   caption?: string;
   title?: string;
   portfoliosWithCategory?: PortfoliosWithCategories[];
-  portfolios?: Portfolio[];
+  portfolios?: TPortfolio[];
   primaryButton?: LabeledRoute;
 }
 
@@ -36,7 +36,7 @@ function Portfolio({ template, data }: SectionsProps) {
     portfolios: data?.variants?.portfolios,
     primaryButton: data?.variants?.primaryButton,
   };
-
+  console.log("portfolio", props);
   return Variant ? <Variant {...props} /> : null;
 }
 export default React.memo(Portfolio);
