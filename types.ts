@@ -105,7 +105,7 @@ export interface SanityImage {
 
 export interface MainImage {
   image: SanityImage;
-  alt: string;
+  alt?: string;
 }
 
 //Generic type for routes with label e.g. primaryButtons, secondaryButton, menu, etc

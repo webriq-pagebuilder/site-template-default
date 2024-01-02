@@ -46,6 +46,7 @@ function Features({ data }: SectionsProps) {
     primaryButton: data?.variants?.primaryButton,
   };
 
+  console.log("features", props);
   return Variant ? <Variant {...props} /> : null;
 }
 
