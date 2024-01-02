@@ -27,6 +27,7 @@ function FAQs({ data }: SectionsProps) {
     faqsWithCategories: data?.variants?.faqsWithCategory,
   };
 
+  console.log("faqs", props);
   return Variant ? <Variant {...props} /> : null;
 }
 export default React.memo(FAQs);
