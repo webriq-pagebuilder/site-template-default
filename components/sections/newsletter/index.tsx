@@ -26,6 +26,7 @@ function Newsletter({ data }: SectionsProps) {
     form: data?.variants?.form,
   };
 
+  console.log("newsletter", props);
   return Variant ? <Variant {...props} /> : null;
 }
 export default React.memo(Newsletter);
