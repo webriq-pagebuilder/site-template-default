@@ -38,9 +38,9 @@ export function Button({
   type = "button",
 }: ButtonProps) {
   const commonStyles =
-    "inline-block py-2 px-6 rounded-l-xl rounded-t-xl font-bold leading-loose transition duration-200";
+    "inline-block py-2 px-6 rounded-l-xl rounded-t-xl font-bold  transition duration-200";
   const primary = `${commonStyles} bg-webriq-darkblue hover:bg-webriq-blue text-gray-50  outline-none `;
-  const outline = `${commonStyles} bg-white hover:bg-slate-100  font-bold outline text-webriq-blue outline-webriq-blue `;
+  const outline = `${commonStyles} bg-white hover:bg-slate-100  font-bold border text-webriq-blue border-webriq-blue `;
   const secondary = `${commonStyles} bg-webriq-babyblue hover:bg-webriq-darkblue font-bold  text-gray-50`;
   const borderless = `${commonStyles} bg-transparent hover:bg-slate-100 border-0`;
 

@@ -8,6 +8,7 @@ import { PortableTextComponents } from "@portabletext/react";
 import { ContactProps } from ".";
 import { Form } from "components/ui/Form/Form";
 import { FormField } from "components/ui/FormField";
+import { Button } from "components/ui/Button";
 
 function VariantA({
   contactDescription,
@@ -210,155 +211,6 @@ function VariantA({
                             label=" "
                           />
                         )}
-                        {/* {formFields?.type === "textarea" ? (
-                          <div className="mb-4">
-                            <textarea
-                              aria-label={
-                                formFields?.placeholder ?? formFields?.name
-                              }
-                              className="h-24 w-full resize-none rounded bg-white p-4 text-xs font-semibold leading-none outline-none"
-                              placeholder={formFields?.placeholder}
-                              name={formFields?.name}
-                              required={formFields?.isRequired}
-                            />
-                          </div>
-                        ) : formFields?.type === "inputFile" ? (
-                          <div className="mb-4">
-                            <label className="flex rounded bg-white px-2">
-                              <input
-                                aria-label={
-                                  formFields?.name ?? "Choose file..."
-                                }
-                                className="absolute opacity-0"
-                                type="file"
-                                placeholder="Choose file.."
-                                name={formFields?.name}
-                                required={formFields?.isRequired}
-                                onChange={handleShowFileName}
-                              />
-                              <span className="w-full px-2 py-4 text-xs font-semibold leading-none">
-                                {filename}
-                              </span>
-                              <div className="my-1 ml-auto cursor-pointer rounded bg-gray-500 px-4 py-3 text-xs font-semibold leading-none text-white transition duration-200 hover:bg-gray-600">
-                                Browse
-                              </div>
-                            </label>
-                          </div>
-                        ) : formFields.type === "inputNumber" ? (
-                          <input
-                            aria-label={
-                              formFields?.placeholder ?? formFields?.name
-                            }
-                            className="mb-4 w-full rounded bg-white p-4 text-xs font-semibold leading-none outline-none"
-                            type="number"
-                            placeholder={formFields?.placeholder}
-                            name={formFields?.name}
-                            required={formFields?.isRequired}
-                          />
-                        ) : formFields.type === "inputSelect" ? (
-                          <div className="mb-4 flex">
-                            <label
-                              className="m-auto text-left text-xs font-semibold leading-none text-gray-500"
-                              htmlFor={formFields?.name}
-                            >
-                              {formFields?.label}
-                            </label>
-                            <select
-                              aria-label={formFields?.label}
-                              className="w-full rounded bg-white p-3 text-xs font-semibold text-gray-500 outline-none"
-                              name={`contact-${formFields?.name}`}
-                              defaultValue={"default-value"}
-                              required={formFields?.isRequired}
-                            >
-                              <option value=""></option>
-                              {formFields?.items?.map((item, index) => (
-                                <option key={index} value={item}>
-                                  {item}
-                                </option>
-                              ))}
-                            </select>
-                          </div>
-                        ) : formFields?.type === "inputRadio" ? (
-                          <div className="mb-4 text-left">
-                            <label
-                              className="m-auto text-left text-xs font-semibold text-gray-500"
-                              htmlFor={formFields?.name}
-                            >
-                              {formFields?.label}
-                            </label>
-                            <div>
-                              {formFields?.items?.map((item, index) => (
-                                <label
-                                  className="mr-4 text-xs font-semibold text-gray-500"
-                                  key={index}
-                                >
-                                  <input
-                                    className="mr-2"
-                                    name={formFields?.name}
-                                    value={item}
-                                    type="radio"
-                                    onChange={handleRadioChange}
-                                    checked={value === item}
-                                    required={formFields?.isRequired}
-                                  />
-                                  {item}
-                                </label>
-                              ))}
-                            </div>
-                          </div>
-                        ) : formFields?.type === "inputCheckbox" ? (
-                          <div className="mb-4 text-left">
-                            <label
-                              className="m-auto text-left text-xs font-semibold text-gray-500"
-                              htmlFor={formFields?.name}
-                            >
-                              {formFields?.label}
-                            </label>
-                            <div>
-                              {formFields?.items?.map((item, index) => (
-                                <label
-                                  className="mr-4 text-xs font-semibold text-gray-500"
-                                  key={index}
-                                >
-                                  <input
-                                    className="mr-2"
-                                    name={formFields?.name}
-                                    value={item}
-                                    type="checkbox"
-                                    onChange={handleCheckboxChange}
-                                    checked={checked.some((v) => v === item)}
-                                    required={
-                                      formFields?.isRequired &&
-                                      checked.length === 0
-                                        ? true
-                                        : false
-                                    }
-                                  />
-                                  {item}
-                                </label>
-                              ))}
-                            </div>
-                          </div>
-                        ) : (
-                          <div className="mb-4">
-                            <input
-                              aria-label={
-                                formFields?.placeholder ?? formFields?.name
-                              }
-                              className="w-full rounded bg-white p-4 text-xs font-semibold leading-none outline-none"
-                              type={
-                                formFields?.type === "inputEmail"
-                                  ? "email"
-                                  : formFields?.type === "inputPassword"
-                                  ? "password"
-                                  : "text"
-                              }
-                              placeholder={formFields?.placeholder}
-                              name={formFields?.name}
-                              required={formFields?.isRequired}
-                            />
-                          </div>
-                        )} */}
                       </div>
                     ))}
                     <div className="items-center sm:flex sm:justify-between">
@@ -385,15 +237,15 @@ function VariantA({
                         <div className="webriq-recaptcha" />
                       </div>
                       {form?.buttonLabel && (
-                        <button
-                          aria-label={
+                        <Button
+                          ariaLabel={
                             form?.buttonLabel ?? "Contact form submit button"
                           }
                           className="mt-5 inline-block rounded-l-xl rounded-t-xl bg-webriq-darkblue px-6 py-2 font-bold leading-loose text-white transition duration-200 hover:bg-webriq-blue sm:mt-0"
                           type="submit"
                         >
                           {form?.buttonLabel}
-                        </button>
+                        </Button>
                       )}
                     </div>
                   </Form>

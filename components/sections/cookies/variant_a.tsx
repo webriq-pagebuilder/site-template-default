@@ -4,6 +4,7 @@ import { setCookie, getCookie } from "utils/cookies";
 
 import { PortableTextComponents } from "@portabletext/react";
 import { CookiesProps } from ".";
+import { Button } from "components/ui/Button";
 
 // block styling as props to `components` of the PortableText component
 export const cookiesBlockStyling: PortableTextComponents = {
@@ -39,11 +40,11 @@ function VariantA({
   return (
     <div className="fixed bottom-0 z-50">
       {!showCookie ? (
-        <div className="container mx-auto px-4">
+        <div className="container px-4 mx-auto">
           {(title || block) && (
-            <div className="mb-6 flex flex-wrap items-center rounded-lg bg-gray-800 p-6 text-white">
+            <div className="flex flex-wrap items-center p-6 mb-6 text-white bg-gray-800 rounded-lg">
               <div className="w-full px-4 lg:w-2/3">
-                <p className="font-heading font-bold">{title}</p>
+                <p className="font-bold font-heading">{title}</p>
                 {block && (
                   <PortableText
                     value={block}
@@ -53,30 +54,31 @@ function VariantA({
               </div>
               <div className="px-4 lg:w-1/3 lg:text-right">
                 {allowCookieBtn && (
-                  <button
-                    aria-label={allowCookieBtn}
+                  <Button
+                    ariaLabel={allowCookieBtn}
                     type="button"
-                    className="m-2 inline-block rounded-l-xl rounded-t-xl border-2 border-webriq-darkblue bg-webriq-darkblue px-4 py-2 transition duration-500 hover:border-webriq-blue hover:bg-webriq-blue"
+                    className="m-2 border-2 border-webriq-darkblue bg-webriq-darkblue hover:border-webriq-blue"
                     onClick={() => {
                       setCookie("allow");
                       setShowCookie(!showCookie);
                     }}
                   >
                     {allowCookieBtn}
-                  </button>
+                  </Button>
                 )}
                 {denyCookieBtn && (
-                  <button
-                    aria-label={denyCookieBtn}
+                  <Button
+                    ariaLabel={denyCookieBtn}
+                    variant="outline"
                     type="button"
-                    className="m-2 inline-block rounded-r-xl rounded-t-xl border-2 border-gray-400 px-4 py-2 transition duration-500 hover:bg-gray-700"
+                    className="inline-block m-2 font-normal text-white bg-transparent border-2 border-gray-400 rounded-bl-none rounded-r-xl rounded-t-xl hover:bg-gray-700"
                     onClick={() => {
                       setCookie("dismiss");
                       setShowCookie(!showCookie);
                     }}
                   >
                     {denyCookieBtn}
-                  </button>
+                  </Button>
                 )}
               </div>
             </div>

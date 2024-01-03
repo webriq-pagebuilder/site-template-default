@@ -4,6 +4,7 @@ import { setCookie, getCookie } from "utils/cookies";
 import { cookiesBlockStyling } from "./variant_a";
 
 import { CookiesProps } from ".";
+import { Button } from "components/ui/Button";
 
 function VariantC({
   title,
@@ -18,9 +19,9 @@ function VariantC({
     <div className="fixed bottom-0 z-50">
       {!showCookie
         ? title && (
-            <div className="mx-4 mb-6 max-w-md rounded-lg bg-gray-800 p-6 px-10 text-white md:mx-0 md:ml-10">
+            <div className="max-w-md p-6 px-10 mx-4 mb-6 text-white bg-gray-800 rounded-lg md:mx-0 md:ml-10">
               <div className="text-center">
-                <p className="font-heading font-bold">{title}</p>
+                <p className="font-bold font-heading">{title}</p>
                 {block && (
                   <PortableText
                     value={block}
@@ -28,30 +29,31 @@ function VariantC({
                   />
                 )}
                 {allowCookieBtn && (
-                  <button
-                    aria-label={allowCookieBtn}
+                  <Button
+                    ariaLabel={allowCookieBtn}
                     type="button"
-                    className="mr-4 inline-block rounded-l-xl rounded-t-xl border-2 border-webriq-darkblue bg-webriq-darkblue px-4 py-2 transition duration-500 hover:border-webriq-blue hover:bg-webriq-blue"
+                    className="mr-4 border-2 border-webriq-darkblue bg-webriq-darkblue hover:border-webriq-blue hover:bg-webriq-blue"
                     onClick={() => {
                       setCookie("allow");
                       setShowCookie(!showCookie);
                     }}
                   >
                     {allowCookieBtn}
-                  </button>
+                  </Button>
                 )}
                 {denyCookieBtn && (
-                  <button
-                    aria-label={denyCookieBtn}
+                  <Button
+                    ariaLabel={denyCookieBtn}
                     type="button"
-                    className="m-2 inline-block rounded-r-xl rounded-t-xl border-2 border-gray-400 px-4 py-2 transition duration-500 hover:bg-gray-700"
+                    variant="outline"
+                    className="m-2 text-white bg-transparent border-2 border-gray-400 rounded -bl-none rounded-r-xl rounded-t-xl hover:bg-gray-700"
                     onClick={() => {
                       setCookie("dismiss");
                       setShowCookie(!showCookie);
                     }}
                   >
                     {denyCookieBtn}
-                  </button>
+                  </Button>
                 )}
               </div>
             </div>
