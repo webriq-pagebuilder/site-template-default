@@ -12,7 +12,7 @@ type CheckboxGroupProps = {
   label?: string;
 };
 
-type Variant = "primary" | "inline";
+export type Variant = "primary" | "inline";
 
 export const CheckboxGroup = ({
   children,

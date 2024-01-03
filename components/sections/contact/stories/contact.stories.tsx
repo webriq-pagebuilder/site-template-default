@@ -90,6 +90,7 @@ const args: Variants = {
         _key: "be3fca5ba2c5",
         type: "inputSelect",
         _type: "webriqFormField",
+        items: ["checkbox 1", "checkbox 2", "checkbox 3"],
       },
     ],
   },

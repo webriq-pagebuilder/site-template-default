@@ -16,6 +16,7 @@ function VariantA({ title, featured }: FeaturedProductsProps) {
     }
   }, []);
 
+  console.log("featured", featured);
   return (
     <section className="relative py-20">
       <div className="container relative mx-auto px-4">

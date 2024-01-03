@@ -50,21 +50,20 @@ function VariantB({ logo, title, text, form }: CTAProps) {
             </Text>
             <p className="mb-6 text-gray-700">{text}</p>
             {form?.fields && (
-              <WebriQForm
-                method="POST"
-                data-form-id={form?.id}
+              <Form
+                id={form?.id}
                 name="Calltoaction-VariantB-Form"
                 className="flex flex-wrap items-center justify-center"
                 data-thankyou-url={thankYouPageLink(form?.thankYouPage)}
-                scriptsrc="https://pagebuilderforms.webriq.com/js/initReactForms"
               >
                 {form?.fields
                   ?.slice(0, 2)
                   ?.map((field) => (
-                    <input
+                    <Input
+                      label=" "
                       key={field?._key}
-                      aria-label={field?.placeholder ?? field?.name}
-                      className="mb-3 w-full rounded bg-white px-4 py-2 leading-loose md:mb-0 md:mr-4 md:w-auto"
+                      ariaLabel={field?.placeholder ?? field?.name}
+                      className="mb-3 md:mb-0 md:mr-4 md:w-auto"
                       type={
                         field?.type === "inputEmail"
                           ? "email"
@@ -87,7 +86,7 @@ function VariantB({ logo, title, text, form }: CTAProps) {
                     {form?.buttonLabel}
                   </Button>
                 )}
-              </WebriQForm>
+              </Form>
             )}
           </div>
         </div>

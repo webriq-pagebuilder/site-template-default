@@ -6,6 +6,7 @@ import { CTAProps } from ".";
 import { Text } from "components/ui/Text";
 import { Button } from "components/ui/Button";
 import { Form } from "components/ui/Form/Form";
+import { Input } from "components/ui/Input";
 
 function VariantC({ title, text, features, form }: CTAProps) {
   return (
@@ -25,11 +26,12 @@ function VariantC({ title, text, features, form }: CTAProps) {
                 thankyouPage={thankYouPageLink(form?.thankYouPage)}
               >
                 {form?.fields?.[0] && form?.fields[0]?.type && (
-                  <input
-                    aria-label={
+                  <Input
+                    label=" "
+                    ariaLabel={
                       form?.fields[0]?.placeholder ?? form?.fields[0]?.name
                     }
-                    className="mr-2 rounded bg-white px-4 py-2 leading-loose"
+                    className="mr-2"
                     type={
                       form?.fields[0]?.type === "inputEmail"
                         ? "email"

@@ -23,7 +23,7 @@ type InputProps = {
   textSize?: "sm" | "nm" | "lg";
 };
 
-export type Variant = "primary" | "outline" | "dark";
+export type Variant = "primary" | "outline" | "dark" | "secondary";
 
 export const Input = ({
   type = "text",
@@ -38,8 +38,9 @@ export const Input = ({
   textSize,
   onChange,
 }: InputProps) => {
-  const commonStyle = "w-full rounded bg-white px-4 py-2 leading-none";
-  const primary = `${commonStyle} outline-none`;
+  const commonStyle = "w-full rounded bg-white px-4 py-2 leading-loose";
+  const primary = `${commonStyle}`;
+  const secondary = `${commonStyle} bg-gray-100 p-4 text-xs outline-none`;
   const outline = `${commonStyle} border border-solid border-webriq-blue`;
   const dark = `${commonStyle} bg-gray-100`;
 
@@ -51,6 +52,7 @@ export const Input = ({
 
   const variants: StyleVariants<Variant> = {
     primary,
+    secondary,
     outline,
     dark,
   };

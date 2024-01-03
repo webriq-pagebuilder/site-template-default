@@ -10,6 +10,7 @@ import { Textarea } from "../Textarea";
 import { StyleVariants } from "../types";
 import { cn } from "utils/cn";
 import { Variant as InputVariant } from "../Input/Input";
+import { Variant as CheckboxVariant } from "../CheckboxGroup/CheckboxGroup";
 
 type FormFieldProps = {
   type?: FormTypes;
@@ -22,6 +23,7 @@ type FormFieldProps = {
   className?: string;
   textSize?: "sm" | "nm" | "lg";
   inputVariant?: InputVariant;
+  checkboxVariant?: CheckboxVariant;
 };
 
 type Variant = "stacked" | "inline";
@@ -37,8 +39,9 @@ export const FormField = ({
   className,
   textSize,
   inputVariant,
+  checkboxVariant,
 }: FormFieldProps) => {
-  const commonClass = "mb-4 flex gap-2";
+  const commonClass = "flex";
   const stacked = `${commonClass} flex-col`;
   const inline = `${commonClass} items-center`;
 
@@ -60,6 +63,7 @@ export const FormField = ({
         label={label}
         required={required}
         textSize={textSize}
+        checkboxVariant={checkboxVariant}
       />
     </div>
   );
@@ -74,6 +78,7 @@ const RenderInput = ({
   placeholder,
   textSize,
   inputVariant,
+  checkboxVariant,
 }: FormFieldProps) => {
   const formType = {
     inputText: "text",
@@ -105,7 +110,7 @@ const RenderInput = ({
 
     case "inputCheckbox":
       return (
-        <CheckboxGroup name={name} label={label}>
+        <CheckboxGroup variant={checkboxVariant} name={name} label={label}>
           {items?.map((item, index) => (
             <Checkbox
               key={item}
@@ -129,6 +134,7 @@ const RenderInput = ({
           placeholder={placeholder}
           name={name}
           required={required}
+          label={label}
         />
       );
 

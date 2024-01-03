@@ -21,7 +21,7 @@ type CheckboxProps = {
   /** String value for the checkbox element */
   item: string;
 };
-type Variant = "primary";
+export type Variant = "primary";
 
 export const Checkbox = ({
   item,

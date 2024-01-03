@@ -7,7 +7,8 @@ import { logoLink, thankYouPageLink, ConditionalLink } from "helper";
 
 import { CTAProps } from ".";
 import { FormFields as TypeFormFields } from "types";
-import { FormField as FormFieldComponent } from "components/ui/FormField";
+import { FormField } from "components/ui/FormField";
+import { Form } from "components/ui/Form/Form";
 
 function VariantD({
   logo,
@@ -60,13 +61,11 @@ function VariantD({
             <div className="mx-auto max-w-sm lg:ml-auto lg:mr-0">
               {form?.fields && (
                 <div className="mb-6 rounded-t-3xl rounded-bl-3xl bg-white px-6 py-8 text-center shadow">
-                  <WebriQForm
-                    method="POST"
-                    data-form-id={form?.id}
+                  <Form
+                    id={form?.id}
                     name="Calltoaction-VariantD-Form"
                     className="form-callToAction"
-                    data-thankyou-url={thankYouPageLink(form?.thankYouPage)}
-                    scriptsrc="https://pagebuilderforms.webriq.com/js/initReactForms"
+                    thankyouPage-={thankYouPageLink(form?.thankYouPage)}
                   >
                     <div className="mb-6">
                       <span className="text-sm text-gray-500">
@@ -80,14 +79,26 @@ function VariantD({
                           className="mb-3 w-full px-2 lg:mb-0 lg:w-1/2 xl:mb-0 2xl:mb-0"
                           key={index}
                         >
-                          <FormFields fields={formFields} />
+                          <FormField
+                            name={formFields?.name}
+                            label=" "
+                            placeholder={formFields?.placeholder}
+                            required={formFields?.isRequired}
+                            inputVariant="secondary"
+                            {...formFields}
+                          />
                         </div>
                       ))}
                     </div>
                     <div className="space-y-3 mb-3">
                       {form?.fields?.slice(2)?.map((formFields, index) => (
                         <div key={index}>
-                          <FormFields fields={formFields} />
+                          <FormField
+                            label=" "
+                            name={formFields?.name}
+                            inputVariant={"secondary"}
+                            {...formFields}
+                          />
                         </div>
                       ))}
                     </div>
@@ -106,7 +117,7 @@ function VariantD({
                         {form?.buttonLabel}
                       </button>
                     )}
-                  </WebriQForm>
+                  </Form>
                   {signInLink?.label && (
                     <p className="text-xs text-gray-500">
                       <span>Already have an account?</span>
@@ -149,159 +160,159 @@ function VariantD({
   );
 }
 
-/**
- *
- * @param {fields}
- * @returns input fields according to type
- */
-function FormFields({ fields }: { fields: TypeFormFields }) {
-  const [value, setValue] = React.useState(null); // setting selected value for input field radio type
-  const [checked, setChecked] = React.useState([]); // setting selected value for input field checkbox type
+// /**
+//  *
+//  * @param {fields}
+//  * @returns input fields according to type
+//  */
+// function FormFields({ fields }: { fields: TypeFormFields }) {
+//   const [value, setValue] = React.useState(null); // setting selected value for input field radio type
+//   const [checked, setChecked] = React.useState([]); // setting selected value for input field checkbox type
 
-  const handleRadioChange = (e) => {
-    setValue(e.target.value);
-  };
+//   const handleRadioChange = (e) => {
+//     setValue(e.target.value);
+//   };
 
-  const handleCheckboxChange = (e) => {
-    const { checked, value } = e.target;
+//   const handleCheckboxChange = (e) => {
+//     const { checked, value } = e.target;
 
-    setChecked((prev) =>
-      checked ? [...prev, value] : prev.filter((v) => v !== value)
-    );
-  };
+//     setChecked((prev) =>
+//       checked ? [...prev, value] : prev.filter((v) => v !== value)
+//     );
+//   };
 
-  if (fields?.type === "textarea") {
-    return (
-      <textarea
-        aria-label={fields?.placeholder ?? fields?.name}
-        className="w-full rounded bg-gray-100 p-4 text-xs outline-none"
-        placeholder={fields?.placeholder}
-        name={fields?.name}
-        required={fields?.isRequired}
-      />
-    );
-  } else if (fields?.type === "inputFile") {
-    return (
-      <label className="flex rounded bg-gray-100 px-2">
-        <input
-          aria-label={fields?.placeholder ?? fields?.name}
-          className="w-full rounded bg-gray-100 p-4 text-xs outline-none"
-          type="file"
-          placeholder={fields?.placeholder ?? "Choose file.."}
-          name={fields?.name}
-          required={fields?.isRequired}
-        />
-      </label>
-    );
-  } else if (fields?.type === "inputNumber") {
-    return (
-      <input
-        aria-label={fields?.placeholder ?? fields?.name}
-        className="w-full rounded bg-gray-100 p-4 text-xs outline-none"
-        type="number"
-        placeholder={fields?.placeholder}
-        name={fields?.name}
-        required={fields?.isRequired}
-      />
-    );
-  } else if (fields?.type === "inputSelect") {
-    return (
-      <div className="mb-4 flex">
-        <label
-          className="m-auto text-left text-xs text-gray-500"
-          htmlFor={fields?.name}
-        >
-          {fields?.label}
-        </label>
-        <select
-          className="w-full rounded bg-gray-100 p-3 text-xs outline-none"
-          name={`cta-${fields?.name}`}
-          defaultValue={"default-value"}
-          required={fields?.isRequired}
-        >
-          <option value=""></option>
-          {fields?.items?.map((item, index) => (
-            <option key={index} value={item}>
-              {item}
-            </option>
-          ))}
-        </select>
-      </div>
-    );
-  } else if (fields?.type === "inputRadio") {
-    return (
-      <div className="mb-4 text-left">
-        <label
-          className="m-auto text-left text-xs text-gray-500"
-          htmlFor={fields?.name}
-        >
-          {fields?.label}
-        </label>
-        <div>
-          {fields?.items?.map((item, index) => (
-            <label className="mr-4 text-xs text-gray-500" key={index}>
-              <input
-                className="mr-2"
-                name={fields?.name}
-                value={item}
-                type="radio"
-                onChange={handleRadioChange}
-                checked={value === item}
-                required={fields?.isRequired}
-              />
-              {item}
-            </label>
-          ))}
-        </div>
-      </div>
-    );
-  } else if (fields?.type === "inputCheckbox") {
-    return (
-      <div className="mb-4 text-left">
-        <label
-          className="m-auto text-left text-xs text-gray-500"
-          htmlFor={fields?.name}
-        >
-          {fields?.label}
-        </label>
-        <div>
-          {fields?.items?.map((item, index) => (
-            <label className="mr-4 text-xs text-gray-500" key={index}>
-              <input
-                className="mr-2"
-                name={fields?.name}
-                value={item}
-                type="checkbox"
-                onChange={handleCheckboxChange}
-                checked={checked.some((v) => v === item)}
-                required={
-                  fields?.isRequired && checked.length === 0 ? true : false
-                }
-              />
-              {item}
-            </label>
-          ))}
-        </div>
-      </div>
-    );
-  } else {
-    return (
-      <input
-        aria-label={fields?.placeholder ?? fields?.name}
-        className="w-full rounded bg-gray-100 p-4 text-xs outline-none"
-        type={
-          fields?.type === "inputEmail"
-            ? "email"
-            : fields?.type === "inputPassword"
-            ? "password"
-            : "text"
-        }
-        placeholder={fields?.placeholder}
-        name={fields?.name}
-        required={fields?.isRequired}
-      />
-    );
-  }
-}
+//   if (fields?.type === "textarea") {
+//     return (
+//       <textarea
+//         aria-label={fields?.placeholder ?? fields?.name}
+//         className="w-full rounded bg-gray-100 p-4 text-xs outline-none"
+//         placeholder={fields?.placeholder}
+//         name={fields?.name}
+//         required={fields?.isRequired}
+//       />
+//     );
+//   } else if (fields?.type === "inputFile") {
+//     return (
+//       <label className="flex rounded bg-gray-100 px-2">
+//         <input
+//           aria-label={fields?.placeholder ?? fields?.name}
+//           className="w-full rounded bg-gray-100 p-4 text-xs outline-none"
+//           type="file"
+//           placeholder={fields?.placeholder ?? "Choose file.."}
+//           name={fields?.name}
+//           required={fields?.isRequired}
+//         />
+//       </label>
+//     );
+//   } else if (fields?.type === "inputNumber") {
+//     return (
+//       <input
+//         aria-label={fields?.placeholder ?? fields?.name}
+//         className="w-full rounded bg-gray-100 p-4 text-xs outline-none"
+//         type="number"
+//         placeholder={fields?.placeholder}
+//         name={fields?.name}
+//         required={fields?.isRequired}
+//       />
+//     );
+//   } else if (fields?.type === "inputSelect") {
+//     return (
+//       <div className="mb-4 flex">
+//         <label
+//           className="m-auto text-left text-xs text-gray-500"
+//           htmlFor={fields?.name}
+//         >
+//           {fields?.label}
+//         </label>
+//         <select
+//           className="w-full rounded bg-gray-100 p-3 text-xs outline-none"
+//           name={`cta-${fields?.name}`}
+//           defaultValue={"default-value"}
+//           required={fields?.isRequired}
+//         >
+//           <option value=""></option>
+//           {fields?.items?.map((item, index) => (
+//             <option key={index} value={item}>
+//               {item}
+//             </option>
+//           ))}
+//         </select>
+//       </div>
+//     );
+//   } else if (fields?.type === "inputRadio") {
+//     return (
+//       <div className="mb-4 text-left">
+//         <label
+//           className="m-auto text-left text-xs text-gray-500"
+//           htmlFor={fields?.name}
+//         >
+//           {fields?.label}
+//         </label>
+//         <div>
+//           {fields?.items?.map((item, index) => (
+//             <label className="mr-4 text-xs text-gray-500" key={index}>
+//               <input
+//                 className="mr-2"
+//                 name={fields?.name}
+//                 value={item}
+//                 type="radio"
+//                 onChange={handleRadioChange}
+//                 checked={value === item}
+//                 required={fields?.isRequired}
+//               />
+//               {item}
+//             </label>
+//           ))}
+//         </div>
+//       </div>
+//     );
+//   } else if (fields?.type === "inputCheckbox") {
+//     return (
+//       <div className="mb-4 text-left">
+//         <label
+//           className="m-auto text-left text-xs text-gray-500"
+//           htmlFor={fields?.name}
+//         >
+//           {fields?.label}
+//         </label>
+//         <div>
+//           {fields?.items?.map((item, index) => (
+//             <label className="mr-4 text-xs text-gray-500" key={index}>
+//               <input
+//                 className="mr-2"
+//                 name={fields?.name}
+//                 value={item}
+//                 type="checkbox"
+//                 onChange={handleCheckboxChange}
+//                 checked={checked.some((v) => v === item)}
+//                 required={
+//                   fields?.isRequired && checked.length === 0 ? true : false
+//                 }
+//               />
+//               {item}
+//             </label>
+//           ))}
+//         </div>
+//       </div>
+//     );
+//   } else {
+//     return (
+//       <input
+//         aria-label={fields?.placeholder ?? fields?.name}
+//         className="w-full rounded bg-gray-100 p-4 text-xs outline-none"
+//         type={
+//           fields?.type === "inputEmail"
+//             ? "email"
+//             : fields?.type === "inputPassword"
+//             ? "password"
+//             : "text"
+//         }
+//         placeholder={fields?.placeholder}
+//         name={fields?.name}
+//         required={fields?.isRequired}
+//       />
+//     );
+//   }
+// }
 
 export default React.memo(VariantD);
