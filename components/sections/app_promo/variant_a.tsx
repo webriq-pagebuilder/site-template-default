@@ -5,6 +5,7 @@ import { urlFor } from "lib/sanity";
 import { logoLink } from "helper";
 import { Text } from "components/ui/Text";
 import { AppPromoProps } from ".";
+import { SwiperButton } from "components/ui/SwiperButton";
 
 function VariantA({ logo, subtitle, title, images }: AppPromoProps) {
   //for image carousel
@@ -97,46 +98,19 @@ function VariantA({ logo, subtitle, title, images }: AppPromoProps) {
               )}
             </div>
             <div className="flex justify-between mb-16 sm:hidden">
-              <button
-                aria-label="Left Arrow button"
-                className="inline-block p-2 bg-white rounded-full shadow order-0 md:order-0 lg:order-0 text-webriq-darkblue hover:text-webriq-babyblue focus:outline-none xl:order-1 2xl:order-1"
+              <SwiperButton
+                type="left"
+                ariaLabel="Left Arrow button"
+                className="order-0 md:order-0 lg:order-0 xl:order-1 2xl:order-1"
                 onClick={arrowLeftClick}
-              >
-                <svg
-                  className="w-6 h-6"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M10 19l-7-7m0 0l7-7m-7 7h18"
-                  />
-                </svg>
-              </button>
-              <button
-                aria-label="Right Arrow button"
-                className="order-2 inline-block p-2 bg-white rounded-full shadow text-webriq-darkblue hover:text-webriq-babyblue focus:outline-none"
+              />
+
+              <SwiperButton
+                type="right"
+                ariaLabel="Left Arrow button"
+                className="order-2"
                 onClick={arrowRightClick}
-              >
-                <svg
-                  className="w-6 h-6"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M14 5l7 7m0 0l-7 7m7-7H3"
-                  />
-                </svg>
-              </button>
+              />
             </div>
           </div>
         </div>
