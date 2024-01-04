@@ -77,11 +77,11 @@ function VariantA({
 
   return (
     <section>
-      <div className="bg-gray-50 py-20">
-        <div className="container mx-auto px-4">
+      <div className="py-20 bg-gray-50">
+        <div className="container px-4 mx-auto">
           {contactDescription && (
-            <div className="mb-12 px-5 sm:px-10 lg:px-0 lg:pl-10">
-              <h1 className="font-heading text-4xl font-bold lg:text-5xl">
+            <div className="px-5 mb-12 sm:px-10 lg:px-0 lg:pl-10">
+              <h1 className="text-4xl font-bold font-heading lg:text-5xl">
                 Contact
               </h1>
               <p className="mt-5 leading-loose text-gray-700">
@@ -90,10 +90,10 @@ function VariantA({
             </div>
           )}
           <div className="flex flex-wrap">
-            <div className="mb-16 w-full px-5 sm:px-10 lg:mb-0 lg:w-1/2 lg:pr-0 lg:pl-10">
+            <div className="w-full px-5 mb-16 sm:px-10 lg:mb-0 lg:w-1/2 lg:pr-0 lg:pl-10">
               <div className="flex flex-wrap">
                 {officeInformation && (
-                  <div className="mb-12 w-full pr-10 md:w-1/2 lg:w-1/2">
+                  <div className="w-full pr-10 mb-12 md:w-1/2 lg:w-1/2">
                     <h2 className="mb-5 text-3xl font-bold lg:text-4xl">
                       Office
                     </h2>
@@ -101,7 +101,7 @@ function VariantA({
                   </div>
                 )}
                 {contactEmail || contactNumber ? (
-                  <div className="mb-12 w-full pr-10 md:w-1/2">
+                  <div className="w-full pr-10 mb-12 md:w-1/2">
                     <h2 className="mb-5 text-3xl font-bold lg:text-4xl">
                       Contacts
                     </h2>
@@ -123,7 +123,7 @@ function VariantA({
                                 social?.socialMedia ||
                                 social?.socialMediaPlatform
                               }
-                              className="mr-5 inline-block rounded bg-gray-50 hover:bg-gray-100"
+                              className="inline-block mr-5 rounded bg-gray-50 hover:bg-gray-100"
                               target="_blank"
                               rel="noopener noreferrer"
                               href={social?.socialMediaLink}
@@ -192,7 +192,7 @@ function VariantA({
                   <Form
                     id={form?.id}
                     name="Contact-VariantA-Form"
-                    className="form-contacts space-y-3"
+                    className="space-y-3 form-contacts"
                     thankyouPage={thankYouPageLink(form?.thankYouPage)}
                   >
                     {form?.fields?.map((formFields, index) => (
@@ -208,7 +208,7 @@ function VariantA({
                           <FormField
                             {...formFields}
                             name={formFields?.name}
-                            label=" "
+                            label={""}
                           />
                         )}
                       </div>
@@ -218,7 +218,7 @@ function VariantA({
                         <div className="inline-flex">
                           <input
                             aria-label="Agree to terms"
-                            className="mr-2 mt-1"
+                            className="mt-1 mr-2"
                             type="checkbox"
                             id="terms"
                             name="terms"
@@ -241,7 +241,7 @@ function VariantA({
                           ariaLabel={
                             form?.buttonLabel ?? "Contact form submit button"
                           }
-                          className="mt-5 inline-block rounded-l-xl rounded-t-xl bg-webriq-darkblue px-6 py-2 font-bold leading-loose text-white transition duration-200 hover:bg-webriq-blue sm:mt-0"
+                          className="inline-block px-6 py-2 mt-5 font-bold leading-loose text-white transition duration-200 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue sm:mt-0"
                           type="submit"
                         >
                           {form?.buttonLabel}

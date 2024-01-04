@@ -3,11 +3,11 @@ import { RadioGroup } from "./RadioGroup";
 import { Radio } from "../Radio/Radio";
 
 const meta: Meta<typeof RadioGroup> = {
-  title: "Components/UI/RadioGroup",
+  title: "Components/UI/Radio Group",
   component: RadioGroup,
   decorators: [
     (Story) => (
-      <div className="bg-gray-50 rounded-lg p-4">
+      <div className="p-4 rounded-lg bg-gray-50">
         <Story />
       </div>
     ),

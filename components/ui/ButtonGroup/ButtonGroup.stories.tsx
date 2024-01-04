@@ -18,7 +18,7 @@ const DUMMY_BUTTON = [
 ];
 
 const meta: Meta<typeof ButtonGroup> = {
-  title: "Components/UI/ButtonGroup",
+  title: "Components/UI/Button Group",
   component: ButtonGroup,
   args: {
     children: DUMMY_BUTTON.map((btn) => (
@@ -29,7 +29,7 @@ const meta: Meta<typeof ButtonGroup> = {
   },
   decorators: [
     (Story) => (
-      <div className="border border-solid border-gray-100 p-2">
+      <div className="p-2 border border-gray-100 border-solid">
         <Story />
       </div>
     ),

@@ -18,7 +18,7 @@ export function Text({ type = "p", className, children, style }: TextProps) {
   const commonClass = "";
 
   const variants: StyleVariants<Type> = {
-    h1: `${commonClass} text-4xl font-bold lg:text-5xl font-heading mb-4`,
+    h1: `${commonClass} text-4xl font-bold lg:text-5xl font-heading`,
     h2: `${commonClass} text-3xl font-bold lg:text-4xl`,
     h3: `${commonClass} text-2xl font-bold lg:text-3xl`,
     h4: `${commonClass} font-bold text-2xl`,

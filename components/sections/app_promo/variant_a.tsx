@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { urlFor } from "lib/sanity";
 import { logoLink } from "helper";
+import { Text } from "components/ui/Text";
 import { AppPromoProps } from ".";
 
 function VariantA({ logo, subtitle, title, images }: AppPromoProps) {
@@ -22,9 +23,9 @@ function VariantA({ logo, subtitle, title, images }: AppPromoProps) {
 
   return (
     <section>
-      <div className="radius-for-skewed overflow-hidden bg-webriq-darkblue pt-16">
-        <div className="container mx-auto px-4">
-          <div className="relative mx-auto max-w-md text-center">
+      <div className="pt-16 overflow-hidden radius-for-skewed bg-webriq-darkblue">
+        <div className="container px-4 mx-auto">
+          <div className="relative max-w-md mx-auto text-center">
             {logo?.image && (
               <Link
                 aria-label={
@@ -32,7 +33,7 @@ function VariantA({ logo, subtitle, title, images }: AppPromoProps) {
                     ? "Go to home page"
                     : `Go to ${logoLink(logo)}`
                 }
-                className="mb-8 inline-block rounded-lg bg-white p-5"
+                className="inline-block p-5 mb-8 bg-white rounded-lg"
                 href={logoLink(logo)}
               >
                 <Image
@@ -43,14 +44,14 @@ function VariantA({ logo, subtitle, title, images }: AppPromoProps) {
                 />
               </Link>
             )}
-            <p className="mb-3 text-gray-50">{subtitle}</p>
-            <h1 className="mb-8 text-3xl font-bold text-white lg:text-5xl">
+            <Text className="mb-3 text-gray-50">{subtitle}</Text>
+            <Text type="h1" className="mb-8 text-white">
               {title}
-            </h1>
+            </Text>
             <div className="hidden h-72 sm:block">
               {images?.[0]?.image && (
                 <Image
-                  className="absolute bottom-0 left-1/2 z-20 -mb-10 h-80 -translate-x-1/2 transform rounded-t-2xl object-contain"
+                  className="absolute bottom-0 z-20 object-contain -mb-10 transform -translate-x-1/2 left-1/2 h-80 rounded-t-2xl"
                   src={urlFor(images[0]?.image)}
                   sizes="218px"
                   width={218}
@@ -60,7 +61,7 @@ function VariantA({ logo, subtitle, title, images }: AppPromoProps) {
               )}
               {images?.[1]?.image && (
                 <Image
-                  className="absolute bottom-0 left-0 -mb-24 h-80 rounded-t-2xl object-contain"
+                  className="absolute bottom-0 left-0 object-contain -mb-24 h-80 rounded-t-2xl"
                   src={urlFor(images[1]?.image)}
                   sizes="218px"
                   width={218}
@@ -70,7 +71,7 @@ function VariantA({ logo, subtitle, title, images }: AppPromoProps) {
               )}
               {images?.[2]?.image && (
                 <Image
-                  className="absolute bottom-0 right-0 -mb-24 h-80 rounded-t-2xl object-contain"
+                  className="absolute bottom-0 right-0 object-contain -mb-24 h-80 rounded-t-2xl"
                   src={urlFor(images[2]?.image)}
                   sizes="218px"
                   width={218}
@@ -80,10 +81,10 @@ function VariantA({ logo, subtitle, title, images }: AppPromoProps) {
               )}
             </div>
             {/* mobile image view less than 640px */}
-            <div className="mx-auto w-1/2 object-contain sm:hidden">
+            <div className="object-contain w-1/2 mx-auto sm:hidden">
               {images?.[currentPosition]?.image && (
                 <Image
-                  className="h-full w-full object-contain"
+                  className="object-contain w-full h-full"
                   src={urlFor(images?.[currentPosition]?.image)}
                   sizes="(min-width: 520px) 224px, 45vw"
                   width={500}
@@ -95,14 +96,14 @@ function VariantA({ logo, subtitle, title, images }: AppPromoProps) {
                 />
               )}
             </div>
-            <div className="mb-16 flex justify-between sm:hidden">
+            <div className="flex justify-between mb-16 sm:hidden">
               <button
                 aria-label="Left Arrow button"
-                className="order-0 md:order-0 lg:order-0 inline-block rounded-full bg-white p-2 text-webriq-darkblue shadow hover:text-webriq-babyblue focus:outline-none xl:order-1 2xl:order-1"
+                className="inline-block p-2 bg-white rounded-full shadow order-0 md:order-0 lg:order-0 text-webriq-darkblue hover:text-webriq-babyblue focus:outline-none xl:order-1 2xl:order-1"
                 onClick={arrowLeftClick}
               >
                 <svg
-                  className="h-6 w-6"
+                  className="w-6 h-6"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
@@ -118,11 +119,11 @@ function VariantA({ logo, subtitle, title, images }: AppPromoProps) {
               </button>
               <button
                 aria-label="Right Arrow button"
-                className="order-2 inline-block rounded-full bg-white p-2 text-webriq-darkblue shadow hover:text-webriq-babyblue focus:outline-none"
+                className="order-2 inline-block p-2 bg-white rounded-full shadow text-webriq-darkblue hover:text-webriq-babyblue focus:outline-none"
                 onClick={arrowRightClick}
               >
                 <svg
-                  className="h-6 w-6"
+                  className="w-6 h-6"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
