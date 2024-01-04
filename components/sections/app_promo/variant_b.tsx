@@ -3,6 +3,7 @@ import Image from "next/image";
 import { urlFor } from "lib/sanity";
 import { AppPromoProps } from ".";
 import { Text } from "components/ui/Text";
+import { SwiperButton } from "components/ui/SwiperButton";
 
 function VariantB({
   subtitle,
@@ -64,26 +65,13 @@ function VariantB({
               {images &&
                 (images.length > 1 ? (
                   <>
-                    <button
-                      aria-label="Left Arrow button"
-                      className="hidden p-2 mx-2 bg-white rounded-full shadow order-0 md:order-0 lg:order-0 text-webriq-darkblue hover:text-webriq-babyblue focus:outline-none sm:inline-block md:mr-12 md:p-4 lg:mr-12 lg:p-4 xl:order-1 xl:mr-12 xl:p-4 2xl:order-1 2xl:mr-12 2xl:p-4"
+                    <SwiperButton
+                      type="left"
+                      ariaLabel="Left Arrow button"
+                      className="hidden mx-2 order-0 md:order-0 lg:order-0 sm:inline-block md:mr-12 md:p-4 lg:mr-12 lg:p-4 xl:order-1 xl:mr-12 xl:p-4 2xl:order-1 2xl:mr-12 2xl:p-4"
                       onClick={arrowLeftClick}
-                    >
-                      <svg
-                        className="w-6 h-6"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M10 19l-7-7m0 0l7-7m-7 7h18"
-                        />
-                      </svg>
-                    </button>
+                    />
+
                     <div className="order-1 object-contain w-1/2 mr-2 xl:order-0 2xl:order-0 md:order-1 lg:order-1">
                       {images?.[currentPosition]?.image && (
                         <Image
@@ -99,26 +87,12 @@ function VariantB({
                         />
                       )}
                     </div>
-                    <button
-                      aria-label="Right Arrow button"
-                      className="order-2 hidden p-2 bg-white rounded-full shadow text-webriq-darkblue hover:text-webriq-babyblue focus:outline-none sm:inline-block md:ml-12 md:p-4 lg:ml-12 lg:p-4 xl:ml-12 xl:p-4 2xl:ml-12 2xl:p-4"
+                    <SwiperButton
+                      type="right"
+                      ariaLabel="Right Arrow button"
+                      className="order-2 hidden sm:inline-block md:ml-12 md:p-4 lg:ml-12 lg:p-4 xl:ml-12 xl:p-4 2xl:ml-12 2xl:p-4"
                       onClick={arrowRightClick}
-                    >
-                      <svg
-                        className="w-6 h-6"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M14 5l7 7m0 0l-7 7m7-7H3"
-                        />
-                      </svg>
-                    </button>
+                    />
                   </>
                 ) : (
                   <div className="object-contain md:w-2/5 xl:w-2/5">
@@ -139,46 +113,18 @@ function VariantB({
                 ))}
             </div>
             <div className="flex justify-between sm:hidden">
-              <button
-                aria-label="Left Arrow button"
-                className="inline-block p-2 bg-white rounded-full shadow order-0 md:order-0 lg:order-0 text-webriq-darkblue hover:text-webriq-babyblue focus:outline-none xl:order-1 2xl:order-1"
+              <SwiperButton
+                type="left"
+                ariaLabel="Left Arrow button"
+                className="order-0 md:order-0 lg:order-0xl:order-1 2xl:order-1"
                 onClick={arrowLeftClick}
-              >
-                <svg
-                  className="w-6 h-6"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M10 19l-7-7m0 0l7-7m-7 7h18"
-                  />
-                </svg>
-              </button>
-              <button
-                aria-label="Right Arrow button"
-                className="order-2 inline-block p-2 bg-white rounded-full shadow text-webriq-darkblue hover:text-webriq-babyblue focus:outline-none"
+              />
+              <SwiperButton
+                type="right"
+                ariaLabel="Right Arrow button"
+                className="order-2 "
                 onClick={arrowRightClick}
-              >
-                <svg
-                  className="w-6 h-6"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M14 5l7 7m0 0l-7 7m7-7H3"
-                  />
-                </svg>
-              </button>
+              />
             </div>
           </div>
         </div>
