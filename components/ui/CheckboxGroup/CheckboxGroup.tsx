@@ -33,7 +33,7 @@ export const CheckboxGroup = ({
   const variantClass = variants[variant] ?? primary;
   return (
     <div>
-      <label htmlFor={name}>{label ?? name}</label>
+      <p>{label || name}</p>
       <div className={cn(variantClass, className)}>{children}</div>
     </div>
   );

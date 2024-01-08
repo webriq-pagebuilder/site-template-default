@@ -38,9 +38,7 @@ export const RadioGroup = ({
   const variantClass = variants[variant] ?? primary;
   return (
     <div>
-      <label htmlFor={name} className={labelClass}>
-        {label ?? name}
-      </label>
+      <p className={labelClass}>{label || name}</p>
       <div className={cn(variantClass, className)}>{children}</div>
     </div>
   );

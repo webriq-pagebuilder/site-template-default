@@ -21,6 +21,7 @@ type InputProps = {
   /** Function that runs when an input value change*/
   onChange?: () => void;
   textSize?: "sm" | "nm" | "lg";
+  [key: string]: any;
 };
 
 export type Variant = "primary" | "outline" | "dark" | "secondary";
@@ -37,6 +38,7 @@ export const Input = ({
   placeholder,
   textSize,
   onChange,
+  ...props
 }: InputProps) => {
   const commonStyle = "w-full rounded bg-white px-4 py-2 leading-loose";
   const primary = `${commonStyle}`;
@@ -62,15 +64,18 @@ export const Input = ({
   return (
     <>
       <label className={labelClass} htmlFor={name}>
-        {label ?? name}
+        {label || name}
       </label>
       <input
+        name={name}
+        id={name}
         placeholder={placeholder}
         required={required}
-        aria-label={ariaLabel ?? name}
+        aria-label={ariaLabel || name}
         type={type}
         className={cn(variantClass, text, className)}
         onChange={onChange}
+        {...props}
       />
     </>
   );

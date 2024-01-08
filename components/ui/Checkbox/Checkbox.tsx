@@ -20,6 +20,7 @@ type CheckboxProps = {
   onChange?: () => void;
   /** String value for the checkbox element */
   item: string;
+  [key: string]: any;
 };
 export type Variant = "primary";
 
@@ -33,6 +34,7 @@ export const Checkbox = ({
   className,
   ariaLabel,
   onChange,
+  ...props
 }: CheckboxProps) => {
   const commonStyle = "";
   const primary = `${commonStyle}`;
@@ -44,18 +46,19 @@ export const Checkbox = ({
   const variantClass = variants[variant] ?? primary;
   const defaultLabelClass = "flex gap-2 items-center";
   return (
-    <label className={cn(defaultLabelClass, labelClass)} id={name}>
+    <label htmlFor={item} className={cn(defaultLabelClass, labelClass)}>
       <input
-        aria-label={ariaLabel ?? name}
+        aria-label={ariaLabel || name}
         className={cn(variantClass, className)}
         name={name}
         type="checkbox"
         value={item}
         required={required}
         onChange={onChange}
-        id={name}
+        id={item}
+        {...props}
       />
-      {label ?? item}
+      {label || item}
     </label>
   );
 };

@@ -16,6 +16,7 @@ type RadioProps = {
   labelClass?: string;
   /** Function that runs when an input value changes*/
   onChange?: () => void;
+  [key: string]: any;
 };
 
 type Variant = "primary" | "outline";
@@ -28,6 +29,7 @@ export const Radio = ({
   labelClass,
   item,
   onChange,
+  ...props
 }: RadioProps) => {
   const commonStyle = "";
   const primary = `${commonStyle}`;
@@ -41,14 +43,16 @@ export const Radio = ({
   const variantClass = variants[variant] ?? primary;
 
   return (
-    <label className={cn("flex items-center gap-2", labelClass)}>
+    <label htmlFor={item} className={cn("flex items-center gap-2", labelClass)}>
       <input
         onChange={onChange}
         className={cn(variantClass, className)}
         name={name}
         value={item}
         type="radio"
-        aria-label={ariaLabel ?? name}
+        aria-label={ariaLabel || name}
+        id={item}
+        {...props}
       />
       {item}
     </label>

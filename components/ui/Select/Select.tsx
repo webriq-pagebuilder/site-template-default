@@ -19,6 +19,7 @@ type SelectProps = {
   /** A list of string as options */
   items: string[];
   ariaLabel: string;
+  [key: string]: any;
 };
 
 type Variant = "primary" | "outline";
@@ -33,6 +34,7 @@ export const Select = ({
   labelClass,
   items,
   onChange,
+  ...props
 }: SelectProps) => {
   const commonStyle =
     "w-full rounded bg-white p-4 text-xs font-semibold leading-none outline-none";
@@ -46,10 +48,12 @@ export const Select = ({
 
   const variantClass = variants[variant] ?? primary;
 
+  console.log("name", name);
+  console.log("label", label);
   return (
     <>
       <label htmlFor={name} className={labelClass}>
-        {label ?? name}
+        {label || name}
       </label>
       <select
         onChange={onChange}
@@ -57,6 +61,7 @@ export const Select = ({
         name={name}
         defaultValue={defaultValue}
         required={required}
+        {...props}
       >
         {items &&
           items.length > 0 &&

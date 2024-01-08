@@ -40,11 +40,11 @@ export const Textarea = ({
   return (
     <>
       <label htmlFor={name} className={labelClass}>
-        {label ?? name}
+        {label || name}
       </label>
       <textarea
         onChange={onChange}
-        aria-label={ariaLabel ?? name}
+        aria-label={ariaLabel || name}
         className={cn(variantClass, className)}
         placeholder={placeholder}
         name={name}

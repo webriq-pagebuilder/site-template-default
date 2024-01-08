@@ -130,7 +130,7 @@ const RenderInput = ({
       return (
         <Textarea
           ariaLabel={placeholder ?? name}
-          className="h-24 w-full resize-none rounded bg-white p-4 text-xs font-semibold leading-none outline-none"
+          className="w-full h-24 p-4 text-xs font-semibold leading-none bg-white rounded outline-none resize-none"
           placeholder={placeholder}
           name={name}
           required={required}
@@ -142,7 +142,7 @@ const RenderInput = ({
       return (
         <Input
           textSize={textSize}
-          label={label ?? name}
+          label={label || name}
           ariaLabel={name}
           required={required}
           name={name}
