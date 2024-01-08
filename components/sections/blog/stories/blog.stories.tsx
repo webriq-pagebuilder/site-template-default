@@ -1133,7 +1133,7 @@ export const variant_c: Story = {
 
 export const variant_d: Story = {
   args: {
-    variant: "variant_c",
+    variant: "variant_d",
     ...args,
   },
 };

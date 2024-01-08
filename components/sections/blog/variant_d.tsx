@@ -6,6 +6,7 @@ import { format } from "date-fns";
 import { SanityBody, SanityImage, Author } from "types";
 
 import { BlogProps } from ".";
+import { CategoriesList } from "./stories/use-cases/categories-list";
 
 interface BlogPostProps extends SanityBody {
   category?: string;
@@ -54,11 +55,12 @@ function VariantD({ subtitle, title, posts }: BlogProps) {
     (items) => items?.category === activeTab
   );
 
+  console.log("categories", categories);
   return (
     <section>
-      <div className="radius-for-skewed bg-gray-50 py-20">
-        <div className="container mx-auto px-4">
-          <div className="mb-16 flex flex-wrap items-center">
+      <div className="py-20 radius-for-skewed bg-gray-50">
+        <div className="container px-4 mx-auto">
+          <div className="flex flex-wrap items-center mb-16">
             <div className="w-full lg:w-1/2">
               {subtitle && (
                 <span className="font-bold text-webriq-darkblue">
@@ -66,18 +68,18 @@ function VariantD({ subtitle, title, posts }: BlogProps) {
                 </span>
               )}
               {title && (
-                <h1 className="font-heading text-4xl font-bold lg:text-5xl">
+                <h1 className="text-4xl font-bold font-heading lg:text-5xl">
                   {title}
                 </h1>
               )}
             </div>
           </div>
-          <div className="-mx-3 flex flex-wrap">
-            <div className="mb-8 w-full px-3 lg:mb-0 lg:w-1/4">
-              <div className="rounded bg-white px-6 py-4 shadow">
+          <div className="flex flex-wrap -mx-3">
+            <div className="w-full px-3 mb-8 lg:mb-0 lg:w-1/4">
+              {/* <div className="px-6 py-4 bg-white rounded shadow">
                 {categories && (
                   <>
-                    <h1 className="mb-4 font-bold uppercase text-gray-500">
+                    <h1 className="mb-4 font-bold text-gray-500 uppercase">
                       Topics
                     </h1>
                     <ul>
@@ -125,20 +127,25 @@ function VariantD({ subtitle, title, posts }: BlogProps) {
                     </ul>
                   </>
                 )}
-              </div>
+              </div> */}
+              <CategoriesList
+                categories={categories}
+                activeTab={activeTab}
+                setActiveTab={setActiveTab}
+              />
             </div>
             {posts && (
               <div className="w-full px-3 lg:w-3/4">
                 {activeTab === "All"
                   ? posts?.slice(0, blogsPerPage)?.map((post, index) => (
                       <div
-                        className="-mx-3 mb-8 flex flex-wrap lg:mb-6"
+                        className="flex flex-wrap mb-8 -mx-3 lg:mb-6"
                         key={index}
                       >
-                        <div className="mb-4 h-full w-full px-3 lg:mb-0 lg:w-1/4">
+                        <div className="w-full h-full px-3 mb-4 lg:mb-0 lg:w-1/4">
                           {post?.mainImage && (
                             <Image
-                              className="h-full w-full overflow-hidden rounded object-cover"
+                              className="object-cover w-full h-full overflow-hidden rounded"
                               src={urlFor(post?.mainImage)}
                               sizes="100vw"
                               width={188}
@@ -156,12 +163,12 @@ function VariantD({ subtitle, title, posts }: BlogProps) {
                                 post?.slug?.current ?? "page-not-added"
                               }`}
                             >
-                              <p className="font-heading mb-1 text-2xl font-bold">
+                              <p className="mb-1 text-2xl font-bold font-heading">
                                 {post?.title}
                               </p>
                             </Link>
                           )}
-                          <div className="mb-2 flex items-center text-sm">
+                          <div className="flex items-center mb-2 text-sm">
                             {post?.authors &&
                               post?.authors?.map(
                                 (author, index, { length }) => (
@@ -197,13 +204,13 @@ function VariantD({ subtitle, title, posts }: BlogProps) {
                     ))
                   : postsPerCategory?.map((post, index) => (
                       <div
-                        className="-mx-3 mb-8 flex flex-wrap lg:mb-6"
+                        className="flex flex-wrap mb-8 -mx-3 lg:mb-6"
                         key={index}
                       >
-                        <div className="mb-4 h-full w-full px-3 lg:mb-0 lg:w-1/4">
+                        <div className="w-full h-full px-3 mb-4 lg:mb-0 lg:w-1/4">
                           {post?.mainImage && (
                             <Image
-                              className="h-full w-full overflow-hidden rounded object-cover"
+                              className="object-cover w-full h-full overflow-hidden rounded"
                               src={urlFor(post?.mainImage)}
                               sizes="100vw"
                               width={188}
@@ -221,12 +228,12 @@ function VariantD({ subtitle, title, posts }: BlogProps) {
                                 `/${post?.slug?.current}` ?? "/page-not-found"
                               }
                             >
-                              <p className="font-heading mb-1 text-2xl font-bold">
+                              <p className="mb-1 text-2xl font-bold font-heading">
                                 {post?.title}
                               </p>
                             </Link>
                           )}
-                          <div className="mb-2 flex items-center text-sm">
+                          <div className="flex items-center mb-2 text-sm">
                             {post?.authors &&
                               post?.authors?.map(
                                 (author, index, { length }) => (

@@ -3,10 +3,11 @@ import Link from "next/link";
 import Image from "next/image";
 import { urlFor } from "lib/sanity";
 import { format } from "date-fns";
-import { ConditionalLink } from "helper";
+import { Text } from "components/ui/Text";
 
 import { BlogProps } from ".";
 import { Badge } from "components/ui/Badge";
+import { ConditionalLink } from "components/ui/ConditionalLink";
 
 function VariantA({ subtitle, title, posts, primaryButton }: BlogProps) {
   let blogsPerPage = 6,
@@ -18,13 +19,9 @@ function VariantA({ subtitle, title, posts, primaryButton }: BlogProps) {
         <div className="container px-4 mx-auto">
           <div className="mb-16 text-center">
             {subtitle && (
-              <span className="font-bold text-webriq-darkblue">{subtitle}</span>
+              <Text className="font-bold text-webriq-darkblue">{subtitle}</Text>
             )}
-            {title && (
-              <h1 className="text-4xl font-bold font-heading lg:text-5xl">
-                {title}
-              </h1>
-            )}
+            {title && <Text type="h1">{title}</Text>}
           </div>
           {posts && (
             <div className="flex flex-wrap justify-center -mx-3">
