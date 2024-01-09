@@ -57,7 +57,7 @@ function VariantA({
                   <Button
                     ariaLabel={allowCookieBtn}
                     type="button"
-                    className="m-2 border-2 border-webriq-darkblue bg-webriq-darkblue hover:border-webriq-blue"
+                    className="py-2 m-2 border-2 border-webriq-darkblue hover:border-webriq-blue"
                     onClick={() => {
                       setCookie("allow");
                       setShowCookie(!showCookie);
@@ -71,7 +71,7 @@ function VariantA({
                     ariaLabel={denyCookieBtn}
                     variant="outline"
                     type="button"
-                    className="inline-block m-2 font-normal text-white bg-transparent border-2 border-gray-400 rounded-bl-none rounded-r-xl rounded-t-xl hover:bg-gray-700"
+                    className="m-2 font-normal text-white bg-transparent border-2 border-gray-400 rounded-bl-none rounded-r-xl rounded-t-xl hover:bg-gray-700"
                     onClick={() => {
                       setCookie("dismiss");
                       setShowCookie(!showCookie);

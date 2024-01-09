@@ -2,30 +2,31 @@ import React from "react";
 import { urlFor } from "lib/sanity";
 import Image from "next/image";
 import { FeaturesProps } from ".";
+import { Card } from "components/ui/Card";
 
 function VariantC({ caption, title, features }: FeaturesProps) {
   return (
     <section>
-      <div className="radius-for-skewed bg-gray-50 py-20">
-        <div className="container mx-auto px-4">
-          <div className="mx-auto mb-16 max-w-md text-center">
+      <div className="py-20 radius-for-skewed bg-gray-50">
+        <div className="container px-4 mx-auto">
+          <div className="max-w-md mx-auto mb-16 text-center">
             {caption && (
               <span className="font-bold text-webriq-darkblue">{caption}</span>
             )}
             {title && (
-              <h1 className="font-heading text-4xl font-bold lg:text-5xl">
+              <h1 className="text-4xl font-bold font-heading lg:text-5xl">
                 {title}
               </h1>
             )}
           </div>
-          <div className="-mx-3 flex flex-wrap justify-start">
+          <div className="flex flex-wrap justify-start -mx-3">
             {features &&
               features.map((feature, index) => {
                 return (
-                  <div className="mb-6 w-full px-3 lg:w-1/2" key={index}>
-                    <div className="flex h-full flex-wrap rounded-lg bg-white p-6 shadow">
+                  <div className="w-full px-3 mb-6 lg:w-1/2" key={index}>
+                    <Card className="flex flex-wrap h-full p-6">
                       <div>
-                        <span className="mb-4 mr-6 inline-block rounded-lg bg-webriq-lightblue p-3 md:p-5 lg:mb-0">
+                        <span className="inline-block p-3 mb-4 mr-6 rounded-lg bg-webriq-lightblue md:p-5 lg:mb-0">
                           {feature?.mainImage?.image && (
                             <Image
                               className="object-scale-down"
@@ -40,12 +41,12 @@ function VariantC({ caption, title, features }: FeaturesProps) {
                         </span>
                       </div>
                       <div className="w-full lg:w-2/3">
-                        <p className="font-heading mb-2 text-2xl font-bold">
+                        <p className="mb-2 text-2xl font-bold font-heading">
                           {feature?.title}
                         </p>
                         <p className="text-gray-500">{feature?.plainText}</p>
                       </div>
-                    </div>
+                    </Card>
                   </div>
                 );
               })}

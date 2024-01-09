@@ -2,6 +2,7 @@ import React from "react";
 import { urlFor } from "lib/sanity";
 import Image from "next/image";
 import { FeaturesProps } from ".";
+import { Card } from "components/ui/Card";
 
 function VariantB({
   caption,
@@ -12,10 +13,10 @@ function VariantB({
 }: FeaturesProps) {
   return (
     <section>
-      <div className="radius-for-skewed bg-gray-50 py-20">
-        <div className="container mx-auto px-4">
+      <div className="py-20 radius-for-skewed bg-gray-50">
+        <div className="container px-4 mx-auto">
           <div className="flex flex-wrap items-center">
-            <div className="mb-12 w-full lg:mb-0 lg:w-1/2">
+            <div className="w-full mb-12 lg:mb-0 lg:w-1/2">
               <div className="max-w-md lg:mx-auto">
                 {caption && (
                   <span className="font-bold text-webriq-darkblue">
@@ -23,7 +24,7 @@ function VariantB({
                   </span>
                 )}
                 {title && (
-                  <h1 className="font-heading my-2 text-4xl font-bold lg:text-5xl">
+                  <h1 className="my-2 text-4xl font-bold font-heading lg:text-5xl">
                     {title}
                   </h1>
                 )}
@@ -35,9 +36,9 @@ function VariantB({
                 <ul className="font-bold text-gray-500">
                   {tags &&
                     tags.map((item) => (
-                      <li className="mb-4 flex" key={item}>
+                      <li className="flex mb-4" key={item}>
                         <svg
-                          className="mr-2 h-6 w-6 text-webriq-babyblue"
+                          className="w-6 h-6 mr-2 text-webriq-babyblue"
                           xmlns="http://www.w3.org/2000/svg"
                           viewBox="0 0 20 20"
                           fill="currentColor"
@@ -54,16 +55,16 @@ function VariantB({
                 </ul>
               </div>
             </div>
-            <div className="-mx-4 flex w-full flex-wrap lg:w-1/2">
+            <div className="flex flex-wrap w-full -mx-4 lg:w-1/2">
               {features &&
                 features?.map((feature, index) =>
                   index % 2 === 0 ? (
                     <div
-                      className="mb-8 w-full px-4 md:w-1/2 lg:mb-0"
+                      className="w-full px-4 mb-8 md:w-1/2 lg:mb-0"
                       key={index}
                     >
-                      <div className="mb-8 rounded bg-white py-6 pl-6 pr-4 shadow">
-                        <span className="mb-4 inline-block rounded-lg bg-webriq-lightblue p-3">
+                      <Card className="py-6 pl-6 pr-4 mb-8">
+                        <span className="inline-block p-3 mb-4 rounded-lg bg-webriq-lightblue">
                           {feature?.mainImage?.image && (
                             <Image
                               className="object-scale-down"
@@ -77,18 +78,18 @@ function VariantB({
                             />
                           )}
                         </span>
-                        <p className="font-heading mb-2 text-2xl font-bold">
+                        <p className="mb-2 text-2xl font-bold font-heading">
                           {feature?.title}
                         </p>
                         <p className="leading-loose text-gray-500">
                           {feature?.plainText}
                         </p>
-                      </div>
+                      </Card>
                     </div>
                   ) : (
                     <div className="w-full px-4 md:w-1/2 lg:mt-12" key={index}>
-                      <div className="mb-8 rounded-lg bg-white py-6 pl-6 pr-4 shadow lg:mb-0">
-                        <span className="mb-4 inline-block rounded bg-webriq-lightblue p-3">
+                      <Card className="py-6 pl-6 pr-4 mb-8 lg:mb-0">
+                        <span className="inline-block p-3 mb-4 rounded bg-webriq-lightblue">
                           {feature?.mainImage?.image && (
                             <Image
                               className="object-scale-down"
@@ -102,13 +103,13 @@ function VariantB({
                             />
                           )}
                         </span>
-                        <p className="font-heading mb-2 text-2xl font-bold">
+                        <p className="mb-2 text-2xl font-bold font-heading">
                           {feature?.title}
                         </p>
                         <p className="leading-loose text-gray-500">
                           {feature?.plainText}
                         </p>
-                      </div>
+                      </Card>
                     </div>
                   )
                 )}

@@ -1,9 +1,12 @@
 import React from "react";
+import Image from "next/image";
 import { Text } from "components/ui/Text";
 
 import { BlogProps } from "./index";
 import { ConditionalLink } from "components/ui/ConditionalLink";
-import { BlogCard } from "./stories/use-cases/blog-card";
+import { urlFor } from "lib/sanity";
+import { format } from "date-fns";
+import Link from "next/link";
 
 function VariantB({ subtitle, title, posts, primaryButton }: BlogProps) {
   let blogsPerPage = 5,
@@ -24,18 +27,98 @@ function VariantB({ subtitle, title, posts, primaryButton }: BlogProps) {
             </div>
             <div className="flex flex-wrap mb-16 -mx-3">
               <div className="w-full px-3 mb-6 lg:mb-0 lg:w-1/2">
-                {posts
-                  ?.slice(count, count + 1)
-                  ?.map((post, key) => <BlogCard post={post} key={key} />)}
+                {posts?.slice(count, count + 1)?.map((post, key) => (
+                  <div className="overflow-hidden rounded shadow" key={key}>
+                    {post?.mainImage && (
+                      <Image
+                        className="object-cover w-full h-full overflow-hidden rounded-t"
+                        src={urlFor(post?.mainImage)}
+                        sizes="100vw"
+                        style={{
+                          width: "100%",
+                          height: "auto",
+                          objectFit: "cover",
+                        }}
+                        width={271}
+                        height={248}
+                        alt={`blog-variantB-image-${key}`}
+                      />
+                    )}
+                    <div className="p-6 mt-auto bg-white rounded-b">
+                      {post?.publishedAt && (
+                        <span className="text-sm text-gray-500">
+                          {format(new Date(post?.publishedAt), " dd MMM, yyyy")}
+                        </span>
+                      )}
+                      {post?.title && (
+                        <h1 className="my-2 text-lg font-bold lg:text-2xl xl:text-2xl 2xl:text-2xl">
+                          {post?.title}
+                        </h1>
+                      )}
+                      {post?.excerpt && (
+                        <p className="mb-6 text-xs leading-loose text-justify text-gray-500 lg:text-base xl:text-base 2xl:text-base">
+                          {post?.excerpt}
+                        </p>
+                      )}
+                      {post?.slug?.current && (
+                        <Link
+                          aria-label="View Blog Post"
+                          className="font-bold text-webriq-darkblue hover:text-webriq-babyblue"
+                          href={`/${post?.slug?.current}` ?? "/page-not-found"}
+                        >
+                          View Blog Post
+                        </Link>
+                      )}
+                    </div>
+                  </div>
+                ))}
               </div>
               <div className="flex flex-wrap w-full lg:w-1/2">
                 {posts?.slice(count + 1, blogsPerPage)?.map((post, key) => (
                   <div className="w-full px-3 mb-6 lg:w-1/2" key={key}>
-                    <BlogCard
-                      className="overflow-hidden rounded shadow"
-                      post={post}
-                      key={key}
-                    />
+                    <div className="overflow-hidden rounded shadow">
+                      {post?.mainImage && (
+                        <Image
+                          className="object-cover w-full h-full overflow-hidden rounded-t"
+                          src={urlFor(post?.mainImage)}
+                          sizes="100vw"
+                          width={259}
+                          height={192}
+                          alt={`blog-variantB-image-${key}`}
+                        />
+                      )}
+                      <div className="p-6 mt-auto bg-white rounded-b">
+                        {post?.publishedAt && (
+                          <span className="text-sm text-gray-500">
+                            {format(
+                              new Date(post?.publishedAt),
+                              " dd MMM, yyyy"
+                            )}
+                          </span>
+                        )}
+                        {post?.title && (
+                          <h1 className="my-2 text-lg font-bold lg:text-2xl xl:text-2xl 2xl:text-2xl">
+                            {post?.title}
+                          </h1>
+                        )}
+                        {post?.excerpt && (
+                          <p className="mb-6 leading-loose text-justify text-gray-500">
+                            {post?.excerpt}
+                          </p>
+                        )}
+                        {post?.slug?.current && (
+                          <Link
+                            aria-label="View Blog Post"
+                            className="font-bold text-webriq-darkblue hover:text-webriq-babyblue"
+                            href={
+                              `/${post?.slug?.current}` ?? "/page-not-found"
+                            }
+                          >
+                            View Blog Post
+                          </Link>
+                        )}
+                      </div>
+                    </div>
                   </div>
                 ))}
               </div>

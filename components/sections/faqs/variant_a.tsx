@@ -1,6 +1,7 @@
 import React from "react";
 
 import { FAQProps } from ".";
+import { Card } from "components/ui/Card";
 
 function VariantA({ subtitle, title, faqs }: FAQProps) {
   const [show, setShow] = React.useState(false);
@@ -31,32 +32,35 @@ function VariantA({ subtitle, title, faqs }: FAQProps) {
     return (
       <ul className="space-y-4 lg:space-y-6">
         {items?.map((faq, index) => (
-          <li className="rounded bg-gray-50 p-6 shadow" key={index}>
-            <button
-              aria-label={faq?.question}
-              className="font-heading flex w-full items-center justify-between border-none text-left font-bold hover:text-gray-600 focus:outline-none"
-              onClick={() => toggleView(index + indexOfFirstQuestion)}
-            >
-              <span className="text-xl">{faq?.question}</span>
-              <svg
-                className="h-4 w-4 text-webriq-darkblue"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
+          <li key={index}>
+            <Card className="p-6  bg-gray-50">
+              <button
+                aria-label={faq?.question}
+                className="flex items-center justify-between w-full font-bold text-left border-none font-heading hover:text-gray-600 focus:outline-none"
+                onClick={() => toggleView(index + indexOfFirstQuestion)}
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d={
-                    show && activeTab === index
-                      ? "M5 10l7-7m0 0l7 7m-7-7v18"
-                      : "M19 14l-7 7m0 0l-7-7m7 7V3"
-                  }
-                />
-              </svg>
-            </button>
+                <span className="text-xl">{faq?.question}</span>
+                <svg
+                  className="w-4 h-4 text-webriq-darkblue"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d={
+                      show && activeTab === index
+                        ? "M5 10l7-7m0 0l7 7m-7-7v18"
+                        : "M19 14l-7 7m0 0l-7-7m7 7V3"
+                    }
+                  />
+                </svg>
+              </button>
+            </Card>
+
             {show && activeTab === index && (
               <p
                 className={`mt-4 font-normal leading-loose text-gray-500 ${
@@ -81,12 +85,12 @@ function VariantA({ subtitle, title, faqs }: FAQProps) {
     }
 
     return (
-      <div className="mb-16 flex justify-center space-x-4">
+      <div className="flex justify-center mb-16 space-x-4">
         {pageButtons?.map((buttonNumber) => (
           <button
             aria-label={`Page ${buttonNumber}`}
             key={buttonNumber}
-            className="inline-block h-2 w-2 rounded-full bg-webriq-blue"
+            className="inline-block w-2 h-2 rounded-full bg-webriq-blue"
             onClick={() => changePage(buttonNumber)}
           />
         ))}
@@ -99,27 +103,27 @@ function VariantA({ subtitle, title, faqs }: FAQProps) {
 
   return (
     <section>
-      <div className="radius-for-skewed bg-gray-50 py-20">
-        <div className="container mx-auto px-4">
-          <div className="mx-auto mb-16 max-w-xl text-center">
-            <span className="font-heading font-bold text-webriq-darkblue">
+      <div className="py-20 radius-for-skewed bg-gray-50">
+        <div className="container px-4 mx-auto">
+          <div className="max-w-xl mx-auto mb-16 text-center">
+            <span className="font-bold font-heading text-webriq-darkblue">
               {subtitle}
             </span>
-            <h1 className="font-heading mb-6 text-5xl font-bold">{title}</h1>
+            <h1 className="mb-6 text-5xl font-bold font-heading">{title}</h1>
             {updatedFAQArray && updatedFAQArray?.length > 1 && (
               <form className="flex justify-center">
                 <input
                   aria-label="Search, find any question you want to ask..."
-                  className="font-heading w-2/3 rounded-l bg-white p-4 text-xs focus:border-gray-500 focus:outline-none"
+                  className="w-2/3 p-4 text-xs bg-white rounded-l font-heading focus:border-gray-500 focus:outline-none"
                   placeholder="Search, find any question you want to ask..."
                   onChange={(e) => setSearchTerm(e.target.value.toLowerCase())}
                 />
                 <button
                   aria-label="Search button"
-                  className="rounded-r-lg bg-white pr-4 text-webriq-darkblue"
+                  className="pr-4 bg-white rounded-r-lg text-webriq-darkblue"
                 >
                   <svg
-                    className="h-6 w-6"
+                    className="w-6 h-6"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -143,7 +147,7 @@ function VariantA({ subtitle, title, faqs }: FAQProps) {
               changePage={changePage}
             />
           )}
-          <div className="mx-auto max-w-3xl">
+          <div className="max-w-3xl mx-auto">
             <ul className="space-y-4 lg:space-y-6">
               {updatedFAQArray && <FAQs items={searchedFAQs} />}
             </ul>

@@ -6,7 +6,6 @@ import { format } from "date-fns";
 import { SanityBody, SanityImage, Author } from "types";
 
 import { BlogProps } from ".";
-import { CategoriesList } from "./stories/use-cases/categories-list";
 
 interface BlogPostProps extends SanityBody {
   category?: string;
@@ -55,7 +54,6 @@ function VariantD({ subtitle, title, posts }: BlogProps) {
     (items) => items?.category === activeTab
   );
 
-  console.log("categories", categories);
   return (
     <section>
       <div className="py-20 radius-for-skewed bg-gray-50">
@@ -76,7 +74,7 @@ function VariantD({ subtitle, title, posts }: BlogProps) {
           </div>
           <div className="flex flex-wrap -mx-3">
             <div className="w-full px-3 mb-8 lg:mb-0 lg:w-1/4">
-              {/* <div className="px-6 py-4 bg-white rounded shadow">
+              <div className="px-6 py-4 bg-white rounded shadow">
                 {categories && (
                   <>
                     <h1 className="mb-4 font-bold text-gray-500 uppercase">
@@ -127,12 +125,7 @@ function VariantD({ subtitle, title, posts }: BlogProps) {
                     </ul>
                   </>
                 )}
-              </div> */}
-              <CategoriesList
-                categories={categories}
-                activeTab={activeTab}
-                setActiveTab={setActiveTab}
-              />
+              </div>
             </div>
             {posts && (
               <div className="w-full px-3 lg:w-3/4">

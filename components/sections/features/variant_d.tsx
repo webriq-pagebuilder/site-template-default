@@ -2,27 +2,28 @@ import React from "react";
 import { urlFor } from "lib/sanity";
 import Image from "next/image";
 import { FeaturesProps } from ".";
+import { Card } from "components/ui/Card";
 
 function VariantD({ caption, title, features }: FeaturesProps) {
   return (
     <section>
-      <div className="radius-for-skewed bg-gray-50 py-20">
-        <div className="container mx-auto px-4">
-          <div className="mx-auto mb-8 max-w-md text-center">
+      <div className="py-20 radius-for-skewed bg-gray-50">
+        <div className="container px-4 mx-auto">
+          <div className="max-w-md mx-auto mb-8 text-center">
             {caption && (
               <span className="font-bold text-webriq-darkblue">{caption}</span>
             )}
             {title && (
-              <h1 className="font-heading text-4xl font-bold lg:text-5xl">
+              <h1 className="text-4xl font-bold font-heading lg:text-5xl">
                 {title}
               </h1>
             )}
           </div>
-          <div className="-mx-4 flex flex-wrap justify-center">
+          <div className="flex flex-wrap justify-center -mx-4">
             {features.map((feature, index) => (
-              <div className="mt-8 w-full px-4 lg:mb-0 lg:w-1/3" key={index}>
-                <div className="h-full rounded bg-white px-6 py-12 text-center shadow">
-                  <span className="mb-6 inline-block rounded-lg bg-webriq-lightblue p-3 md:p-5">
+              <div className="w-full px-4 mt-8 lg:mb-0 lg:w-1/3" key={index}>
+                <Card className="h-full px-6 py-12 text-center">
+                  <span className="inline-block p-3 mb-6 rounded-lg bg-webriq-lightblue md:p-5">
                     {feature?.mainImage?.image?.asset?._ref && (
                       <Image
                         className="object-scale-down"
@@ -35,11 +36,11 @@ function VariantD({ caption, title, features }: FeaturesProps) {
                       />
                     )}
                   </span>
-                  <p className="font-heading mb-4 px-8 text-2xl font-bold">
+                  <p className="px-8 mb-4 text-2xl font-bold font-heading">
                     {feature?.title}
                   </p>
                   <p className="text-gray-500">{feature?.plainText}</p>
-                </div>
+                </Card>
               </div>
             ))}
           </div>

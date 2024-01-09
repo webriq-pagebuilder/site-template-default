@@ -1,26 +1,27 @@
 import React from "react";
 
 import { FAQProps } from ".";
+import { Card } from "components/ui/Card";
 
 function VariantC({ subtitle, title, faqs }: FAQProps) {
   return (
     <section>
-      <div className="radius-for-skewed bg-gray-50 py-20">
-        <div className="container mx-auto px-4">
-          <div className="mx-auto mb-16 max-w-xl text-center">
+      <div className="py-20 radius-for-skewed bg-gray-50">
+        <div className="container px-4 mx-auto">
+          <div className="max-w-xl mx-auto mb-16 text-center">
             <span className="font-bold text-webriq-darkblue">{subtitle}</span>
             <h1 className="text-5xl font-bold">{title}</h1>
           </div>
           {faqs && (
-            <div className="-mx-4 -mb-8 flex flex-wrap">
+            <div className="flex flex-wrap -mx-4 -mb-8">
               {faqs?.map((faq, index) => (
-                <div className="mb-8 w-full px-4 lg:w-1/2" key={index}>
+                <div className="w-full px-4 mb-8 lg:w-1/2" key={index}>
                   {faq.question && (
-                    <div className="h-full rounded bg-white p-8 shadow">
-                      <div className="mb-6 flex items-start">
-                        <span className="mr-4 inline-block rounded-full bg-webriq-darkblue p-3">
+                    <Card className="h-full p-8 ">
+                      <div className="flex items-start mb-6">
+                        <span className="inline-block p-3 mr-4 rounded-full bg-webriq-darkblue">
                           <svg
-                            className="h-6 w-6 text-white"
+                            className="w-6 h-6 text-white"
                             xmlns="http://www.w3.org/2000/svg"
                             fill="none"
                             viewBox="0 0 24 24"
@@ -39,7 +40,7 @@ function VariantC({ subtitle, title, faqs }: FAQProps) {
                       <p className="leading-loose text-gray-500">
                         {faq?.answer}
                       </p>
-                    </div>
+                    </Card>
                   )}
                 </div>
               ))}
