@@ -12,6 +12,7 @@ export type TextareaProps = {
   labelClass?: string;
   variant?: Variant;
   label?: string;
+  [key: string]: any;
 };
 
 type Variant = "primary" | "outline";
@@ -25,6 +26,7 @@ export const Textarea = ({
   required = false,
   ariaLabel,
   onChange,
+  ...props
 }: TextareaProps) => {
   const commonStyle =
     "h-24 w-full resize-none rounded bg-white p-4 text-xs font-semibold leading-none";
@@ -49,6 +51,8 @@ export const Textarea = ({
         placeholder={placeholder}
         name={name}
         required={required}
+        id={name}
+        {...props}
       />
     </>
   );

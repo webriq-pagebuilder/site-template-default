@@ -17,16 +17,16 @@ function VariantB({ logo, title, text, form }: CTAProps) {
     <section>
       <div>
         <svg
-          className="h-8 w-full text-gray-50 md:h-12 lg:h-20"
+          className="w-full h-8 text-gray-50 md:h-12 lg:h-20"
           viewBox="0 0 10 10"
           preserveAspectRatio="none"
         >
           <polygon fill="currentColor" points="0 10 10 0 10 10"></polygon>
         </svg>
       </div>
-      <div className="rounded-br-3xl rounded-tl-3xl bg-gray-50 py-20">
-        <div className="container mx-auto px-4">
-          <div className="mx-auto max-w-xl text-center">
+      <div className="py-20 rounded-br-3xl rounded-tl-3xl bg-gray-50">
+        <div className="container px-4 mx-auto">
+          <div className="max-w-xl mx-auto text-center">
             {logo?.image && (
               <Link
                 aria-label={
@@ -34,7 +34,7 @@ function VariantB({ logo, title, text, form }: CTAProps) {
                     ? "Go to home page"
                     : `Go to ${logoLink(logo)}`
                 }
-                className="mb-6 inline-block rounded p-3"
+                className="inline-block p-3 mb-6 rounded"
                 href={logoLink(logo)}
               >
                 <Image
@@ -54,7 +54,7 @@ function VariantB({ logo, title, text, form }: CTAProps) {
                 id={form?.id}
                 name="Calltoaction-VariantB-Form"
                 className="flex flex-wrap items-center justify-center"
-                data-thankyou-url={thankYouPageLink(form?.thankYouPage)}
+                thankyouPage={thankYouPageLink(form?.thankYouPage)}
               >
                 {form?.fields
                   ?.slice(0, 2)
@@ -93,7 +93,7 @@ function VariantB({ logo, title, text, form }: CTAProps) {
       </div>
       <div>
         <svg
-          className="h-8 w-full text-gray-50 md:h-12 lg:h-20"
+          className="w-full h-8 text-gray-50 md:h-12 lg:h-20"
           viewBox="0 0 10 10"
           preserveAspectRatio="none"
         >

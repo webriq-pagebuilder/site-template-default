@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { useState } from "react";
+import { cn } from "utils/cn";
 
 type TAvatar = {
   src: string;
@@ -7,6 +8,8 @@ type TAvatar = {
   size?: ImageSize;
   customSize?: number;
   text?: string;
+  className?: string;
+  [key: string]: any;
 };
 
 export type ImageSize = "sm" | "md" | "lg" | "xl";
@@ -17,6 +20,7 @@ export function Avatar({
   size = "sm",
   customSize = null,
   text,
+  className,
   ...props
 }: TAvatar) {
   const [loaded, setLoaded] = useState(false);
@@ -30,13 +34,13 @@ export function Avatar({
   const initials = text
     ? text?.split(" ")?.reduce((acc, curr) => acc + curr[0], "")
     : "AB";
-  console.log("initials");
+  const baseClass = `relative rounded-full aspect-square overflow-hidden border-2 border-solid border-webriq-blue`;
   return (
     <div
       style={{
         maxWidth: avatarSize,
       }}
-      className={`relative rounded-full aspect-square overflow-hidden border-2 border-solid border-webriq-blue`}
+      className={cn(baseClass, className)}
       {...props}
     >
       {(!loaded || !src) && (

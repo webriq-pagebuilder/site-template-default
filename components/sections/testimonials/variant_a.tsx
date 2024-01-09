@@ -2,6 +2,7 @@ import React from "react";
 import Image from "next/image";
 import { urlFor } from "lib/sanity";
 import { TestimonialProps } from ".";
+import { Avatar } from "components/ui/Avatar";
 
 function VariantA({ testimonials }: TestimonialProps) {
   const [testimony, setTestimony] = React.useState(0);
@@ -12,23 +13,32 @@ function VariantA({ testimonials }: TestimonialProps) {
 
   return (
     <section>
-      <div className="radius-for-skewed bg-gray-50 py-20">
-        <div className="container mx-auto px-4">
-          <div className="mx-auto rounded bg-white py-10 shadow">
-            <div className="flex max-w-5xl flex-wrap items-center justify-center p-4">
+      <div className="py-20 radius-for-skewed bg-gray-50">
+        <div className="container px-4 mx-auto">
+          <div className="py-10 mx-auto bg-white rounded shadow">
+            <div className="flex flex-wrap items-center justify-center max-w-5xl p-4">
               {testimonials?.[testimony] && (
-                <div className="mb-6 w-full text-center lg:w-1/3">
+                <div className="w-full mb-6 text-center lg:w-1/3">
                   {testimonials?.[testimony]?.mainImage?.image && (
-                    <Image
-                      className="relative mx-auto mb-6 h-32 w-32 overflow-hidden rounded-full object-cover"
-                      src={urlFor(testimonials?.[testimony]?.mainImage?.image)}
-                      sizes="100vw"
-                      width={128}
-                      height={128}
+                    // <Image
+                    //   className="relative object-cover w-32 h-32 mx-auto mb-6 overflow-hidden rounded-full"
+                    //   src={urlFor(testimonials?.[testimony]?.mainImage?.image)}
+                    //   sizes="100vw"
+                    //   width={128}
+                    //   height={128}
+                    //   alt={
+                    //     testimonials?.[testimony]?.mainImage?.alt ??
+                    //     `testimonial-source-${testimonials?.[testimony]?.name}-profile-image`
+                    //   }
+                    // />
+                    <Avatar
+                      className={"border-0 mx-auto"}
+                      customSize={128}
                       alt={
                         testimonials?.[testimony]?.mainImage?.alt ??
                         `testimonial-source-${testimonials?.[testimony]?.name}-profile-image`
                       }
+                      src={urlFor(testimonials?.[testimony]?.mainImage?.image)}
                     />
                   )}
                   {testimonials?.[testimony]?.name && (
@@ -44,7 +54,7 @@ function VariantA({ testimonials }: TestimonialProps) {
               {testimonials?.[testimony] && (
                 <div className="w-full lg:w-2/3">
                   <svg
-                    className="mb-4 h-10 text-webriq-darkblue"
+                    className="h-10 mb-4 text-webriq-darkblue"
                     viewBox="0 0 32 28"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
@@ -58,7 +68,7 @@ function VariantA({ testimonials }: TestimonialProps) {
                       fill="currentColor"
                     />
                   </svg>
-                  <p className="text-md font-heading mb-6 font-bold lg:text-4xl">
+                  <p className="mb-6 font-bold text-md font-heading lg:text-4xl">
                     {testimonials?.[testimony]?.testimony}
                   </p>
                   {testimonials?.length > 1 && (

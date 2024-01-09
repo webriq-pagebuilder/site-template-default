@@ -1,5 +1,6 @@
 import React from "react";
 import { TestimonialProps } from ".";
+import { SwiperButton } from "components/ui/SwiperButton";
 
 function VariantB({ caption, title, testimonials }: TestimonialProps) {
   const [testimony, setTestimony] = React.useState(testimonials);
@@ -22,62 +23,34 @@ function VariantB({ caption, title, testimonials }: TestimonialProps) {
 
   return (
     <section>
-      <div className="radius-for-skewed overflow-hidden bg-gray-50 py-20">
-        <div className="container mx-auto px-4">
-          <div className="flex flex-wrap items-center justify-center pb-16 pt-8">
+      <div className="py-20 overflow-hidden radius-for-skewed bg-gray-50">
+        <div className="container px-4 mx-auto">
+          <div className="flex flex-wrap items-center justify-center pt-8 pb-16">
             {testimony?.length >= 4 && (
-              <button
-                aria-label="Show previous testimonial"
-                className="order-last mr-3 rounded-full bg-white p-4 text-webriq-darkblue shadow-md transition duration-200 hover:text-webriq-babyblue lg:order-first lg:mr-0"
+              <SwiperButton
+                type="left"
+                className="order-last p-4 mr-3 lg:order-first lg:mr-0"
                 onClick={() => slider("prev")}
-              >
-                <svg
-                  className="h-6 w-6"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M10 19l-7-7m0 0l7-7m-7 7h18"
-                  />
-                </svg>
-              </button>
+                ariaLabel="Show previous testimonial"
+              />
             )}
-            <div className="mx-auto mb-10 max-w-lg text-center">
+            <div className="max-w-lg mx-auto mb-10 text-center">
               <span className="font-bold text-webriq-darkblue">{caption}</span>
-              <h1 className="font-heading mt-4 text-4xl font-bold lg:text-5xl">
+              <h1 className="mt-4 text-4xl font-bold font-heading lg:text-5xl">
                 {title}
               </h1>
             </div>
             {testimony?.length >= 4 && (
-              <button
-                aria-label="Show next testimonial"
-                className="order-last rounded-full bg-white p-4 text-webriq-darkblue shadow-md transition duration-200 hover:text-webriq-babyblue"
+              <SwiperButton
+                type="right"
+                className="order-last p-4"
                 onClick={() => slider("next")}
-              >
-                <svg
-                  className="h-6 w-6"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M14 5l7 7m0 0l-7 7m7-7H3"
-                  />
-                </svg>
-              </button>
+                ariaLabel="Show next testimonial"
+              />
             )}
           </div>
           <div className="relative flex w-full">
-            <div className="mx-auto flex flex-wrap justify-center">
+            <div className="flex flex-wrap justify-center mx-auto">
               {testimonials &&
                 testimony?.slice(0, 3)?.map((testimonial, index) => (
                   <div
@@ -86,9 +59,9 @@ function VariantB({ caption, title, testimonials }: TestimonialProps) {
                       testimony?.length >= 3 ? "lg:w-1/3" : "lg:w-1/3"
                     } px-3`}
                   >
-                    <div className="rounded bg-white p-5 shadow">
+                    <div className="p-5 bg-white rounded shadow">
                       <svg
-                        className="mb-6 h-8 text-webriq-darkblue"
+                        className="h-8 mb-6 text-webriq-darkblue"
                         viewBox="0 0 32 28"
                         fill="none"
                         xmlns="http://www.w3.org/2000/svg"
@@ -105,7 +78,7 @@ function VariantB({ caption, title, testimonials }: TestimonialProps) {
                       <p className="mb-4 leading-loose text-gray-500">
                         {testimonial?.testimony}
                       </p>
-                      <p className="font-heading font-bold">
+                      <p className="font-bold font-heading">
                         {testimonial?.name}
                       </p>
                       <p className="text-gray-500">{testimonial?.jobTitle}</p>

@@ -3,7 +3,7 @@ import { cn } from "utils/cn";
 
 type TSocialIcons = {
   social: Socials;
-  classname?: string;
+  className?: string;
 };
 
 const SocialIconMap: Record<Socials, (x: any) => JSX.Element> = {
@@ -17,11 +17,11 @@ export type Socials = "facebook" | "instagram" | "youtube" | "linkedin";
 
 export function SocialIcon({
   social = "facebook",
-  classname,
+  className,
   ...props
 }: TSocialIcons) {
   const Component = SocialIconMap[social] ?? FaFacebook;
   console.log("Component", Component);
   const commonClass = `w-8 h-8 text-webriq-blue`;
-  return <Component className={cn(commonClass, classname)} {...props} />;
+  return <Component className={cn(commonClass, className)} {...props} />;
 }

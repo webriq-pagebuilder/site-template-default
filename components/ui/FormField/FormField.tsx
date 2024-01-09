@@ -24,6 +24,7 @@ type FormFieldProps = {
   textSize?: "sm" | "nm" | "lg";
   inputVariant?: InputVariant;
   checkboxVariant?: CheckboxVariant;
+  noLabel?: boolean;
 };
 
 type Variant = "stacked" | "inline";
@@ -40,6 +41,7 @@ export const FormField = ({
   textSize,
   inputVariant,
   checkboxVariant,
+  noLabel,
 }: FormFieldProps) => {
   const commonClass = "flex";
   const stacked = `${commonClass} flex-col`;
@@ -64,6 +66,7 @@ export const FormField = ({
         required={required}
         textSize={textSize}
         checkboxVariant={checkboxVariant}
+        noLabel={noLabel}
       />
     </div>
   );
@@ -79,6 +82,7 @@ const RenderInput = ({
   textSize,
   inputVariant,
   checkboxVariant,
+  noLabel,
 }: FormFieldProps) => {
   const formType = {
     inputText: "text",
@@ -141,6 +145,7 @@ const RenderInput = ({
     default:
       return (
         <Input
+          noLabel={noLabel}
           textSize={textSize}
           label={label || name}
           ariaLabel={name}

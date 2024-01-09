@@ -2,6 +2,7 @@ import React from "react";
 import Image from "next/image";
 import { urlFor } from "lib/sanity";
 import { TestimonialProps } from ".";
+import { SwiperButton } from "components/ui/SwiperButton";
 
 function VariantD({ testimonials }: TestimonialProps) {
   const [testimony, setTestimony] = React.useState(0);
@@ -18,63 +19,35 @@ function VariantD({ testimonials }: TestimonialProps) {
 
   return (
     <section>
-      <div className="radius-for-skewed bg-gray-50 py-20">
-        <div className="container mx-auto px-4">
+      <div className="py-20 radius-for-skewed bg-gray-50">
+        <div className="container px-4 mx-auto">
           <div className="items-center justify-center md:space-x-8 lg:flex">
             <div className="mb-10 text-center lg:hidden">
               {testimonials?.length > 1 && (
-                <button
-                  aria-label="Show previous testimonial"
-                  className="mr-6 rounded-full bg-white p-4 text-webriq-darkblue shadow-md transition duration-200 hover:text-webriq-babyblue lg:mr-0"
+                <SwiperButton
+                  type="left"
+                  className="p-4 mr-6 lg:order-first lg:mr-0"
                   onClick={() => slider("prev")}
-                >
-                  <svg
-                    className="h-6 w-6"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M10 19l-7-7m0 0l7-7m-7 7h18"
-                    />
-                  </svg>
-                </button>
+                  ariaLabel="Show previous testimonial"
+                />
               )}
               {testimonials?.length > 1 && (
-                <button
-                  aria-label="Show next testimonial"
-                  className="rounded-full bg-white p-4 text-webriq-darkblue shadow-md transition duration-200 hover:text-webriq-babyblue"
-                  onClick={() => slider("next")}
-                >
-                  <svg
-                    className="h-6 w-6"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M14 5l7 7m0 0l-7 7m7-7H3"
-                    />
-                  </svg>
-                </button>
+                <SwiperButton
+                  type="right"
+                  className="p-4 mr-6 lg:order-first lg:mr-0"
+                  onClick={() => slider("prev")}
+                  ariaLabel="Show next testimonial"
+                />
               )}
             </div>
             {testimonials?.length > 1 && (
               <button
                 aria-label="Show previous testimonial"
-                className="hidden rounded-full bg-white p-5 text-webriq-darkblue shadow-md transition  duration-200 hover:text-webriq-babyblue focus:outline-none lg:mr-0 lg:block"
+                className="hidden p-5 transition duration-200 bg-white rounded-full shadow-md text-webriq-darkblue hover:text-webriq-babyblue focus:outline-none lg:mr-0 lg:block"
                 onClick={() => slider("prev")}
               >
                 <svg
-                  className="h-6 w-6"
+                  className="w-6 h-6"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
@@ -90,16 +63,16 @@ function VariantD({ testimonials }: TestimonialProps) {
               </button>
             )}
             {testimonials?.[testimony] && (
-              <div className="flex w-full flex-wrap rounded bg-white shadow">
+              <div className="flex flex-wrap w-full bg-white rounded shadow">
                 {testimonials?.[testimony]?.rating && (
-                  <div className="w-full border-r py-10 text-center lg:w-1/3">
+                  <div className="w-full py-10 text-center border-r lg:w-1/3">
                     <span className="text-5xl font-bold lg:text-6xl">
                       {`${testimonials?.[testimony]?.rating}.0`}
                     </span>
-                    <div className="mb-6 flex justify-center text-webriq-darkblue">
+                    <div className="flex justify-center mb-6 text-webriq-darkblue">
                       {testimonials?.[testimony]?.rating === "1" ? (
                         <svg
-                          className="h-6 w-6"
+                          className="w-6 h-6"
                           xmlns="http://www.w3.org/2000/svg"
                           viewBox="0 0 20 20"
                           fill="currentColor"
@@ -110,7 +83,7 @@ function VariantD({ testimonials }: TestimonialProps) {
                         [1, 2].map((rate) => (
                           <svg
                             key={rate}
-                            className="h-6 w-6"
+                            className="w-6 h-6"
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 20 20"
                             fill="currentColor"
@@ -122,7 +95,7 @@ function VariantD({ testimonials }: TestimonialProps) {
                         [1, 2, 3].map((rate) => (
                           <svg
                             key={rate}
-                            className="h-6 w-6"
+                            className="w-6 h-6"
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 20 20"
                             fill="currentColor"
@@ -134,7 +107,7 @@ function VariantD({ testimonials }: TestimonialProps) {
                         [1, 2, 3, 4].map((rate) => (
                           <svg
                             key={rate}
-                            className="h-6 w-6"
+                            className="w-6 h-6"
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 20 20"
                             fill="currentColor"
@@ -146,7 +119,7 @@ function VariantD({ testimonials }: TestimonialProps) {
                         [1, 2, 3, 4, 5].map((rate) => (
                           <svg
                             key={rate}
-                            className="h-6 w-6"
+                            className="w-6 h-6"
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 20 20"
                             fill="currentColor"
@@ -156,7 +129,7 @@ function VariantD({ testimonials }: TestimonialProps) {
                         ))
                       )}
                     </div>
-                    <div className="mx-auto mb-6 h-24 w-32 rounded-full object-contain">
+                    <div className="object-contain w-32 h-24 mx-auto mb-6 rounded-full">
                       {testimonials[testimony]?.mainImage?.image && (
                         <Image
                           className="h-[96px] w-[128px] object-scale-down"
@@ -176,7 +149,7 @@ function VariantD({ testimonials }: TestimonialProps) {
                 )}
                 <div className="w-full px-6 py-10 lg:w-2/3">
                   <svg
-                    className="mb-4 h-10 text-webriq-darkblue"
+                    className="h-10 mb-4 text-webriq-darkblue"
                     viewBox="0 0 32 28"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
@@ -193,7 +166,7 @@ function VariantD({ testimonials }: TestimonialProps) {
                   <p className="mb-10 text-xl leading-loose text-gray-500 lg:text-2xl">
                     {testimonials[testimony]?.testimony}
                   </p>
-                  <p className="font-heading text-2xl font-bold">
+                  <p className="text-2xl font-bold font-heading">
                     {testimonials[testimony]?.name}
                   </p>
                   <p className="text-gray-500">
@@ -205,11 +178,11 @@ function VariantD({ testimonials }: TestimonialProps) {
             {testimonials?.length > 1 && (
               <button
                 aria-label="Show next testimonial"
-                className="hidden rounded-full bg-white p-5 text-webriq-darkblue shadow-md transition duration-200 hover:text-webriq-babyblue focus:outline-none lg:block"
+                className="hidden p-5 transition duration-200 bg-white rounded-full shadow-md text-webriq-darkblue hover:text-webriq-babyblue focus:outline-none lg:block"
                 onClick={() => slider("next")}
               >
                 <svg
-                  className="h-6 w-6"
+                  className="w-6 h-6"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"

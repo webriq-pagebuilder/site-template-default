@@ -3,6 +3,8 @@ import { cn } from "utils/cn";
 import { IFormElements, StyleVariants } from "../types";
 
 type InputProps = {
+  /** Determines if the label should be displayed */
+  noLabel?: boolean;
   /** Display label text */
   label?: string;
   /** A string value that labels an interactive element */
@@ -38,6 +40,7 @@ export const Input = ({
   placeholder,
   textSize,
   onChange,
+  noLabel,
   ...props
 }: InputProps) => {
   const commonStyle = "w-full rounded bg-white px-4 py-2 leading-loose";
@@ -63,9 +66,11 @@ export const Input = ({
 
   return (
     <>
-      <label className={labelClass} htmlFor={name}>
-        {label || name}
-      </label>
+      {!noLabel && (
+        <label className={labelClass} htmlFor={name}>
+          {label || name}
+        </label>
+      )}
       <input
         name={name}
         id={name}
