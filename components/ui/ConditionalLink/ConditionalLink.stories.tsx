@@ -47,3 +47,9 @@ export const CustomClass: Story = {
       "rounded-none bg-orange-600 tracking-widest text-gray-200 hover:bg-orange-400",
   },
 };
+
+export const Link: Story = {
+  args: {
+    variant: "link",
+  },
+};

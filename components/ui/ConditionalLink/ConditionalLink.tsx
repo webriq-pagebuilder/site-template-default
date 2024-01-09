@@ -5,7 +5,7 @@ import { cn } from "utils/cn";
 import { StyleVariants } from "../types";
 
 type Link = LabeledRoute | LabeledRouteWithKey;
-type Variant = "outline" | "primary" | "secondary";
+type Variant = "outline" | "primary" | "secondary" | "link";
 
 interface IConditionalLink {
   className?: string;
@@ -30,11 +30,12 @@ export const ConditionalLink = ({
   const primary = `${commonStyles} bg-webriq-darkblue hover:bg-webriq-blue text-gray-50  outline-none `;
   const outline = `${commonStyles} bg-white hover:bg-slate-100  font-bold outline text-webriq-blue outline-webriq-blue `;
   const secondary = `${commonStyles} bg-webriq-babyblue hover:bg-webriq-darkblue font-bold  text-gray-50`;
-
+  const linkStyle = ``;
   const variants: StyleVariants<Variant> = {
     primary,
     secondary,
     outline,
+    link: linkStyle,
   };
 
   const variantClass = variants[variant] ?? primary;
