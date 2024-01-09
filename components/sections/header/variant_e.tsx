@@ -1,10 +1,11 @@
 import React from "react";
 import WebriQForm from "components/webriq-form";
-import { thankYouPageLink, ConditionalLink } from "helper";
+import { thankYouPageLink } from "helper";
 
 import { HeaderProps } from ".";
 
 import { FormFields } from "types";
+import { ConditionalLink } from "components/ui/ConditionalLink";
 
 function VariantE({
   template,
@@ -16,15 +17,15 @@ function VariantE({
   form,
 }: HeaderProps) {
   return (
-    <section className="relative bg-gray-100 px-10">
+    <section className="relative px-10 bg-gray-100">
       <div className="relative py-20">
-        <div className="container mx-auto px-4">
-          <div className="-mx-4 flex flex-wrap">
-            <div className="mb-12 flex w-full items-center px-4 md:mb-20 lg:mb-0 lg:w-1/2">
+        <div className="container px-4 mx-auto">
+          <div className="flex flex-wrap -mx-4">
+            <div className="flex items-center w-full px-4 mb-12 md:mb-20 lg:mb-0 lg:w-1/2">
               <div className="w-full text-center lg:text-left">
-                <div className="mx-auto max-w-md lg:mx-0">
+                <div className="max-w-md mx-auto lg:mx-0">
                   {title && (
-                    <h1 className="font-heading mb-3 text-4xl font-bold lg:text-5xl">
+                    <h1 className="mb-3 text-4xl font-bold font-heading lg:text-5xl">
                       <span>{String(title).split("*")[0]}</span>
                       <span className={`text-${template.color}-900`}>
                         {String(title).split("*")[1]}
@@ -32,7 +33,7 @@ function VariantE({
                     </h1>
                   )}
                 </div>
-                <div className="mx-auto max-w-sm lg:mx-0">
+                <div className="max-w-sm mx-auto lg:mx-0">
                   <p className="mb-6 leading-loose text-gray-500">
                     {description}
                   </p>
@@ -41,7 +42,7 @@ function VariantE({
                       <ConditionalLink
                         ariaLabel={primaryButton?.label}
                         link={primaryButton}
-                        className={`inline-block mb-3 lg:mb-0 lg:mr-3 w-auto py-2 px-6 leading-loose bg-${template.color}-darkblue hover:bg-${template.color}-blue text-white font-semibold rounded-l-xl rounded-t-xl transition duration-200`}
+                        className={`mb-3 lg:mb-0 lg:mr-3 `}
                       >
                         {primaryButton?.label}
                       </ConditionalLink>
@@ -50,7 +51,7 @@ function VariantE({
                       <ConditionalLink
                         ariaLabel={secondaryButton?.label}
                         link={secondaryButton}
-                        className="inline-block w-auto py-2 px-6 leading-loose font-semibold bg-white hover:bg-gray-50 rounded-l-xl rounded-t-xl transition duration-200"
+                        className="text-black bg-white  hover:bg-gray-50"
                       >
                         {secondaryButton?.label}
                       </ConditionalLink>
@@ -60,9 +61,9 @@ function VariantE({
               </div>
             </div>
             <div className="w-full lg:w-1/2">
-              <div className="mx-auto max-w-sm text-center">
+              <div className="max-w-sm mx-auto text-center">
                 {form?.fields && (
-                  <div className="mb-4 rounded-xl bg-white px-6 py-8 shadow-md">
+                  <div className="px-6 py-8 mb-4 bg-white shadow-md rounded-xl">
                     <div className="mb-6">
                       <span className="text-sm text-gray-500">
                         {form?.subtitle}
@@ -77,7 +78,7 @@ function VariantE({
                       data-thankyou-url={thankYouPageLink(form?.thankYouPage)}
                       scriptsrc="https://pagebuilderforms.webriq.com/js/initReactForms"
                     >
-                      <div className="-mx-2 flex flex-wrap">
+                      <div className="flex flex-wrap -mx-2">
                         {form?.fields?.slice(0, 2)?.map((formFields, index) => (
                           <div className="w-full px-2 lg:w-1/2" key={index}>
                             <FormFieldsComponent fields={formFields} />
@@ -98,7 +99,7 @@ function VariantE({
                             aria-label={
                               form?.buttonLabel ?? "Header form submit button"
                             }
-                            className="mb-2 w-full rounded bg-webriq-darkblue py-4 text-sm font-bold text-gray-50 transition duration-200 hover:bg-webriq-blue"
+                            className="w-full py-4 mb-2 text-sm font-bold transition duration-200 rounded bg-webriq-darkblue text-gray-50 hover:bg-webriq-blue"
                             type="submit"
                           >
                             {form?.buttonLabel}
@@ -163,7 +164,7 @@ function FormFieldsComponent({ fields }: { fields: FormFields }) {
     return (
       <textarea
         aria-label={fields?.name}
-        className="mb-3 w-full rounded bg-gray-100 p-4 text-xs outline-none"
+        className="w-full p-4 mb-3 text-xs bg-gray-100 rounded outline-none"
         placeholder={fields?.name}
         name={fields?.name}
         required={fields?.isRequired}
@@ -172,10 +173,10 @@ function FormFieldsComponent({ fields }: { fields: FormFields }) {
   } else if (fields?.type === "inputFile") {
     return (
       <div className="mb-4">
-        <label className="flex rounded bg-gray-100 px-2">
+        <label className="flex px-2 bg-gray-100 rounded">
           <input
             aria-label="Choose file.."
-            className="w-full rounded bg-gray-100 p-4 text-xs outline-none"
+            className="w-full p-4 text-xs bg-gray-100 rounded outline-none"
             type="file"
             placeholder="Choose file.."
             name={fields?.name}
@@ -186,10 +187,10 @@ function FormFieldsComponent({ fields }: { fields: FormFields }) {
     );
   } else if (fields?.type === "inputPassword") {
     return (
-      <div className="mb-4 flex rounded bg-gray-100 p-4">
+      <div className="flex p-4 mb-4 bg-gray-100 rounded">
         <input
           aria-label={fields?.name}
-          className="w-full bg-gray-100 text-xs outline-none"
+          className="w-full text-xs bg-gray-100 outline-none"
           type={showPassword ? "text" : "password"}
           placeholder={fields?.placeholder}
           name={fields?.name}
@@ -204,7 +205,7 @@ function FormFieldsComponent({ fields }: { fields: FormFields }) {
         >
           {showPassword ? (
             <svg
-              className="my-auto ml-4 h-5 w-5 text-gray-500"
+              className="w-5 h-5 my-auto ml-4 text-gray-500"
               xmlns="http://www.w3.org/2000/svg"
               aria-hidden="true"
               role="img"
@@ -221,7 +222,7 @@ function FormFieldsComponent({ fields }: { fields: FormFields }) {
             </svg>
           ) : (
             <svg
-              className="my-auto ml-4 h-5 w-5 text-gray-500"
+              className="w-5 h-5 my-auto ml-4 text-gray-500"
               xmlns="http://www.w3.org/2000/svg"
               aria-hidden="true"
               role="img"
@@ -241,10 +242,10 @@ function FormFieldsComponent({ fields }: { fields: FormFields }) {
     );
   } else if (fields?.type === "inputNumber") {
     return (
-      <div className="mb-4 flex rounded bg-gray-100 p-4">
+      <div className="flex p-4 mb-4 bg-gray-100 rounded">
         <input
           aria-label={fields?.name}
-          className="w-full bg-gray-100 text-xs outline-none"
+          className="w-full text-xs bg-gray-100 outline-none"
           type="number"
           placeholder={fields?.placeholder}
           name={fields?.name}
@@ -254,16 +255,16 @@ function FormFieldsComponent({ fields }: { fields: FormFields }) {
     );
   } else if (fields?.type === "inputSelect") {
     return (
-      <div className="mb-4 flex">
+      <div className="flex mb-4">
         <label
-          className="m-auto text-left text-xs text-gray-500"
+          className="m-auto text-xs text-left text-gray-500"
           htmlFor={fields?.name}
         >
           {fields?.label}
         </label>
         <select
           aria-label={fields?.name}
-          className="w-full rounded bg-gray-100 p-3 text-xs outline-none"
+          className="w-full p-3 text-xs bg-gray-100 rounded outline-none"
           name={fields?.name}
           defaultValue={"default-value"}
           required={fields?.isRequired}
@@ -281,7 +282,7 @@ function FormFieldsComponent({ fields }: { fields: FormFields }) {
     return (
       <div className="mb-4 text-left">
         <label
-          className="m-auto text-left text-xs text-gray-500"
+          className="m-auto text-xs text-left text-gray-500"
           htmlFor={fields?.name}
         >
           {fields?.label}
@@ -308,7 +309,7 @@ function FormFieldsComponent({ fields }: { fields: FormFields }) {
     return (
       <div className="mb-4 text-left">
         <label
-          className="m-auto text-left text-xs text-gray-500"
+          className="m-auto text-xs text-left text-gray-500"
           htmlFor={fields?.name}
         >
           {fields?.label}
@@ -335,14 +336,14 @@ function FormFieldsComponent({ fields }: { fields: FormFields }) {
     );
   } else {
     return (
-      <div className="mb-4 flex rounded bg-gray-100 p-4">
+      <div className="flex p-4 mb-4 bg-gray-100 rounded">
         <input
           aria-label={`${
             fields?.type === "inputText"
               ? `Input ${fields?.name}`
               : `${fields?.type}`
           }`}
-          className="w-full bg-gray-100 text-xs outline-none"
+          className="w-full text-xs bg-gray-100 outline-none"
           type={fields?.type === "inputEmail" ? "email" : "text"}
           placeholder={fields?.placeholder}
           name={fields?.name}
@@ -351,7 +352,7 @@ function FormFieldsComponent({ fields }: { fields: FormFields }) {
         {/* SVG icon on the right of the email input field */}
         {fields?.type === "inputEmail" && (
           <svg
-            className="my-auto ml-4 h-6 w-6 text-gray-500"
+            className="w-6 h-6 my-auto ml-4 text-gray-500"
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"

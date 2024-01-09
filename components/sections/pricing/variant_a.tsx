@@ -2,6 +2,8 @@ import React from "react";
 import axios from "axios";
 import { initiateCheckout } from "lib/checkout";
 import { PricingProps } from ".";
+import { Card } from "components/ui/Card";
+import { Button } from "components/ui/Button";
 
 function VariantA({
   caption,
@@ -87,21 +89,22 @@ function VariantA({
 
   return (
     <section>
-      <div className="radius-for-skewed bg-gray-50 py-20">
-        <div className="container mx-auto px-4">
-          <div className="mx-auto mb-16 max-w-2xl text-center">
+      <div className="py-20 radius-for-skewed bg-gray-50">
+        <div className="container px-4 mx-auto">
+          <div className="max-w-2xl mx-auto mb-16 text-center">
             <span className="font-bold text-webriq-darkblue">
               {caption && caption}
             </span>
-            <h2 className="font-heading mb-2 text-4xl font-bold lg:text-5xl">
+            <h2 className="mb-2 text-4xl font-bold font-heading lg:text-5xl">
               {title && title}
             </h2>
             <p className="mb-6 text-gray-500">{description && description}</p>
             {plans?.[0]?.monthlyPrice && (
-              <div className="inline-block rounded-lg bg-white px-1 py-1">
-                <button
-                  aria-label="Monthly Plan"
-                  className={`mr-1 px-4 py-2 text-sm ${
+              <div className="inline-block px-1 py-1 bg-white rounded-lg">
+                <Button
+                  variant="tertiary"
+                  ariaLabel="Monthly Plan"
+                  className={`mr-1 px-4 py-2 text-sm bg-white hover:bg-white ${
                     plan === "monthly"
                       ? "rounded-lg bg-gray-50 text-gray-900 shadow"
                       : "text-gray-500"
@@ -109,10 +112,11 @@ function VariantA({
                   onClick={() => setPlan("monthly")}
                 >
                   Monthly
-                </button>
-                <button
-                  aria-label="Yearly Plan"
-                  className={`px-4 py-2 text-sm ${
+                </Button>
+                <Button
+                  variant="tertiary"
+                  ariaLabel="Yearly Plan"
+                  className={`px-4 py-2 text-sm bg-white hover:bg-white ${
                     plan === "yearly"
                       ? "rounded-lg bg-gray-50 text-gray-900 shadow"
                       : "text-gray-500"
@@ -120,7 +124,7 @@ function VariantA({
                   onClick={() => setPlan("yearly")}
                 >
                   Yearly
-                </button>
+                </Button>
               </div>
             )}
           </div>
@@ -140,19 +144,19 @@ function VariantA({
               </p>
             </div>
           )}
-          <div className="-mx-4 flex flex-wrap">
+          <div className="flex flex-wrap -mx-4">
             {usePlan?.map((planDetail, index) => {
               return (
                 <div
-                  className="mb-8 w-full px-4 md:w-1/2 lg:mb-5 lg:w-1/3"
+                  className="w-full px-4 mb-8 md:w-1/2 lg:mb-5 lg:w-1/3"
                   key={planDetail._key}
                 >
-                  <div
+                  <Card
                     className={`p-8 ${
                       index % 2 !== 0
                         ? "bg-webriq-darkblue text-white"
                         : "bg-white"
-                    } rounded shadow`}
+                    }`}
                   >
                     <h4
                       className={`font-heading mb-2 text-2xl font-bold ${
@@ -196,7 +200,7 @@ function VariantA({
                       }`}
                     >
                       {planDetail.planIncludes?.map((include) => (
-                        <li className="mb-2 flex" key={include}>
+                        <li className="flex mb-2" key={include}>
                           <svg
                             className={`mr-2 h-5 w-5 ${
                               index % 2 !== 0
@@ -217,11 +221,11 @@ function VariantA({
                         </li>
                       ))}
                     </ul>
-                    <button
-                      aria-label={planDetail.checkoutButtonName}
+                    <Button
+                      ariaLabel={planDetail.checkoutButtonName}
                       className={`inline-block w-full rounded-l-xl rounded-t-xl px-4 py-2 text-center ${
                         index % 2 !== 0
-                          ? "bg-white text-black"
+                          ? "bg-white text-black hover:bg-white"
                           : "bg-webriq-darkblue text-white  hover:bg-webriq-blue"
                       } cursor-pointer font-bold leading-loose transition duration-200 ${
                         !planDetail ||
@@ -258,8 +262,8 @@ function VariantA({
                       {!planDetail
                         ? "Processing..."
                         : planDetail.checkoutButtonName}
-                    </button>
-                  </div>
+                    </Button>
+                  </Card>
                 </div>
               );
             })}

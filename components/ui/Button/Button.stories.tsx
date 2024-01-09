@@ -30,6 +30,12 @@ export const Secondary: Story = {
   },
 };
 
+export const Tertiary: Story = {
+  args: {
+    variant: "tertiary",
+  },
+};
+
 export const Outline: Story = {
   args: {
     variant: "outline",

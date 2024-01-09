@@ -2,6 +2,8 @@ import React from "react";
 import axios from "axios";
 import { initiateCheckout } from "lib/checkout";
 import { PricingProps } from ".";
+import { Button } from "components/ui/Button";
+import { Card } from "components/ui/Card";
 
 function VariantC({
   caption,
@@ -88,20 +90,20 @@ function VariantC({
 
   return (
     <section>
-      <div className="radius-for-skewed bg-gray-50 py-20">
-        <div className="container mx-auto px-4">
-          <div className="mx-auto mb-16 max-w-lg text-center">
+      <div className="py-20 radius-for-skewed bg-gray-50">
+        <div className="container px-4 mx-auto">
+          <div className="max-w-lg mx-auto mb-16 text-center">
             {caption && (
               <span className="font-bold text-webriq-darkblue">{caption}</span>
             )}
             {title && (
-              <h2 className="font-heading mb-2 text-4xl font-bold lg:text-5xl">
+              <h2 className="mb-2 text-4xl font-bold font-heading lg:text-5xl">
                 {title}
               </h2>
             )}
             {description && <p className="mb-6 text-gray-500">{description}</p>}
             {usePlan && (
-              <div className="inline-block rounded-lg bg-white px-1 py-1">
+              <div className="inline-block px-1 py-1 bg-white rounded-lg">
                 <button
                   aria-label="Monthly Plan"
                   className={`mr-1 px-4 py-2 text-sm ${
@@ -143,17 +145,17 @@ function VariantC({
               </p>
             </div>
           )}
-          <div className="-mx-4 flex flex-wrap">
+          <div className="flex flex-wrap -mx-4">
             {usePlan &&
               usePlan?.map((planDescription, index) => {
                 return (
                   <div
-                    className="mb-8 w-full px-4 md:w-1/2 lg:mb-8 lg:w-1/3"
+                    className="w-full px-4 mb-8 md:w-1/2 lg:mb-8 lg:w-1/3"
                     key={index}
                   >
-                    <div className="mx-auto max-w-md rounded bg-white px-10 py-8 text-center shadow">
+                    <Card className="max-w-md px-10 py-8 mx-auto text-center ">
                       <div className="mb-12">
-                        <h3 className="font-heading mb-4 text-2xl font-bold">
+                        <h3 className="mb-4 text-2xl font-bold font-heading">
                           {planDescription?.planType}
                         </h3>
                         <p className="mb-6 text-gray-500">
@@ -173,12 +175,12 @@ function VariantC({
                         {!isNaN(parseInt(planDescription?.price)) && (
                           <span className="text-gray-500">{`/${plan}`}</span>
                         )}
-                        <button
-                          aria-label={planDescription?.checkoutButtonName}
-                          className={`mt-6 block w-full rounded-l-xl rounded-t-xl bg-webriq-darkblue px-6 py-2 font-bold leading-loose text-white transition duration-200 hover:bg-webriq-blue ${
+                        <Button
+                          ariaLabel={planDescription?.checkoutButtonName}
+                          className={`mt-6 block w-full ${
                             !planDescription ||
                             (!planDescription?.variant_c_monthlyPriceCheckoutButton &&
-                              "cursor-not-allowed bg-gray-100 disabled:opacity-50")
+                              "cursor-not-allowed disabled:opacity-50")
                           }`}
                           disabled={
                             !planDescription ||
@@ -208,9 +210,9 @@ function VariantC({
                           {!usePlan[0]
                             ? "Processing..."
                             : planDescription?.checkoutButtonName}
-                        </button>
+                        </Button>
                       </div>
-                    </div>
+                    </Card>
                   </div>
                 );
               })}

@@ -6,19 +6,22 @@ import { urlFor } from "lib/sanity";
 import { logoLink, thankYouPageLink, ConditionalLink } from "helper";
 import { SignUpFormProps } from ".";
 import { FormFields as TFormFields } from "types";
+import { Card } from "components/ui/Card";
+import { Form } from "components/ui/Form/Form";
+import { Button } from "components/ui/Button";
 
 function VariantB({ logo, form, formLinks, signInLink }: SignUpFormProps) {
   return (
-    <section className="bg-webriq-darkblue py-10 lg:py-20">
-      <div className="container mx-auto px-4">
-        <div className="mx-auto max-w-xl">
+    <section className="py-10 bg-webriq-darkblue lg:py-20">
+      <div className="container px-4 mx-auto">
+        <div className="max-w-xl mx-auto">
           <div className="mb-10">
             {logo?.image && (
               <Link
                 aria-label={`Go to ${
                   logoLink(logo) === "/" ? "home page" : logoLink(logo)
                 }`}
-                className="flex justify-center text-3xl font-bold  leading-none text-white"
+                className="flex justify-center text-3xl font-bold leading-none text-white"
                 href={logoLink(logo)}
               >
                 <Image
@@ -31,23 +34,21 @@ function VariantB({ logo, form, formLinks, signInLink }: SignUpFormProps) {
               </Link>
             )}
           </div>
-          <div className="mb-6 rounded bg-white p-6 shadow-md lg:mb-10 lg:p-12">
+          <Card className="p-6 mb-6 bg-white lg:mb-10 lg:p-12">
             <div className="mb-6">
               <span className="text-gray-500">{form?.subtitle}</span>
               <h1 className="text-2xl font-bold">{form?.name}</h1>
             </div>
             {form?.fields && (
-              <WebriQForm
-                method="POST"
-                data-form-id={form?.id}
+              <Form
+                id={form?.id}
                 name="SignUp-VariantB-Form"
                 className="form-signup"
-                data-thankyou-url={thankYouPageLink(form?.thankYouPage)}
-                scriptsrc="https://pagebuilderforms.webriq.com/js/initReactForms"
+                thankyouPage={thankYouPageLink(form?.thankYouPage)}
               >
-                <div className="-mx-2 flex flex-wrap">
+                <div className="flex flex-wrap -mx-2">
                   {form?.fields?.slice(0, 2)?.map((formFields, index) => (
-                    <div className="mb-3 w-full px-2 lg:w-1/2" key={index}>
+                    <div className="w-full px-2 mb-3 lg:w-1/2" key={index}>
                       <FormFields fields={formFields} />
                     </div>
                   ))}
@@ -62,15 +63,16 @@ function VariantB({ logo, form, formLinks, signInLink }: SignUpFormProps) {
                 </div>
                 <div className="text-center">
                   {form?.buttonLabel && (
-                    <button
-                      aria-label={
+                    <Button
+                      className="w-full py-4"
+                      ariaLabel={
                         form?.buttonLabel ?? "Sign Up form submit button"
                       }
-                      className="mb-2 w-full rounded bg-webriq-darkblue py-4 text-sm font-bold text-gray-50 transition duration-200 hover:bg-webriq-blue"
+                      variant="tertiary"
                       type="submit"
                     >
                       {form?.buttonLabel}
-                    </button>
+                    </Button>
                   )}
                   {signInLink?.label && (
                     <span className="text-xs text-gray-900">
@@ -85,11 +87,11 @@ function VariantB({ logo, form, formLinks, signInLink }: SignUpFormProps) {
                     </span>
                   )}
                 </div>
-              </WebriQForm>
+              </Form>
             )}
-          </div>
+          </Card>
           {formLinks && (
-            <p className="text-center text-xs text-webriq-lightblue">
+            <p className="text-xs text-center text-webriq-lightblue">
               {formLinks?.map((link, index, { length }) => (
                 <span key={index}>
                   <ConditionalLink
@@ -140,7 +142,7 @@ function FormFields({ fields }: { fields: TFormFields }) {
     return (
       <textarea
         aria-label={fields?.placeholder ?? fields?.name}
-        className="w-full rounded bg-gray-100 p-4 text-xs outline-none"
+        className="w-full p-4 text-xs bg-gray-100 rounded outline-none"
         placeholder={fields?.name}
         name={fields?.name}
         required={fields?.isRequired}
@@ -148,10 +150,10 @@ function FormFields({ fields }: { fields: TFormFields }) {
     );
   } else if (fields?.type === "inputFile") {
     return (
-      <label className="flex rounded bg-gray-100 px-2">
+      <label className="flex px-2 bg-gray-100 rounded">
         <input
           aria-label={fields?.placeholder ?? "Choose file.."}
-          className="w-full rounded bg-gray-100 p-4 text-xs outline-none"
+          className="w-full p-4 text-xs bg-gray-100 rounded outline-none"
           type="file"
           placeholder={fields?.placeholder ?? "Choose file.."}
           name={fields?.name}
@@ -161,10 +163,10 @@ function FormFields({ fields }: { fields: TFormFields }) {
     );
   } else if (fields?.type === "inputPassword") {
     return (
-      <div className="mb-4 flex rounded bg-gray-100 p-4">
+      <div className="flex p-4 mb-4 bg-gray-100 rounded">
         <input
           aria-label={fields?.placeholder ?? fields?.name}
-          className="w-full bg-gray-100 text-xs outline-none"
+          className="w-full text-xs bg-gray-100 outline-none"
           type={showPassword ? "text" : "password"}
           placeholder={fields?.placeholder}
           name={fields?.name}
@@ -179,7 +181,7 @@ function FormFields({ fields }: { fields: TFormFields }) {
         >
           {showPassword ? (
             <svg
-              className="my-auto ml-4 h-5 w-5 text-gray-500"
+              className="w-5 h-5 my-auto ml-4 text-gray-500"
               xmlns="http://www.w3.org/2000/svg"
               aria-hidden="true"
               role="img"
@@ -196,7 +198,7 @@ function FormFields({ fields }: { fields: TFormFields }) {
             </svg>
           ) : (
             <svg
-              className="my-auto ml-4 h-5 w-5 text-gray-500"
+              className="w-5 h-5 my-auto ml-4 text-gray-500"
               xmlns="http://www.w3.org/2000/svg"
               aria-hidden="true"
               role="img"
@@ -216,10 +218,10 @@ function FormFields({ fields }: { fields: TFormFields }) {
     );
   } else if (fields?.type === "inputNumber") {
     return (
-      <div className="mb-4 flex rounded bg-gray-100 p-4">
+      <div className="flex p-4 mb-4 bg-gray-100 rounded">
         <input
           aria-label={fields?.placeholder ?? fields?.name}
-          className="w-full bg-gray-100 text-xs outline-none"
+          className="w-full text-xs bg-gray-100 outline-none"
           type="number"
           placeholder={fields?.placeholder}
           name={fields?.name}
@@ -229,15 +231,15 @@ function FormFields({ fields }: { fields: TFormFields }) {
     );
   } else if (fields?.type === "inputSelect") {
     return (
-      <div className="mb-4 flex">
+      <div className="flex mb-4">
         <label
-          className="m-auto text-left text-xs text-gray-500"
+          className="m-auto text-xs text-left text-gray-500"
           htmlFor={fields?.name}
         >
           {fields?.label}
         </label>
         <select
-          className="w-full rounded bg-gray-100 p-3 text-xs outline-none"
+          className="w-full p-3 text-xs bg-gray-100 rounded outline-none"
           name={`header-${fields?.name}`}
           defaultValue={"default-value"}
           required={fields?.isRequired}
@@ -255,7 +257,7 @@ function FormFields({ fields }: { fields: TFormFields }) {
     return (
       <div className="mb-4 text-left">
         <label
-          className="m-auto text-left text-xs text-gray-500"
+          className="m-auto text-xs text-left text-gray-500"
           htmlFor={fields?.name}
         >
           {fields?.label}
@@ -282,7 +284,7 @@ function FormFields({ fields }: { fields: TFormFields }) {
     return (
       <div className="mb-4 text-left">
         <label
-          className="m-auto text-left text-xs text-gray-500"
+          className="m-auto text-xs text-left text-gray-500"
           htmlFor={fields?.name}
         >
           {fields?.label}
@@ -309,10 +311,10 @@ function FormFields({ fields }: { fields: TFormFields }) {
     );
   } else {
     return (
-      <div className="mb-4 flex rounded bg-gray-100 p-4">
+      <div className="flex p-4 mb-4 bg-gray-100 rounded">
         <input
           aria-label={fields?.placeholder ?? fields?.name}
-          className="w-full bg-gray-100 text-xs outline-none"
+          className="w-full text-xs bg-gray-100 outline-none"
           type={fields?.type === "inputEmail" ? "email" : "text"}
           placeholder={fields?.placeholder}
           name={fields?.name}
@@ -321,7 +323,7 @@ function FormFields({ fields }: { fields: TFormFields }) {
         {/* SVG icon on the right of the email input field */}
         {fields?.type === "inputEmail" && (
           <svg
-            className="my-auto ml-4 h-6 w-6 text-gray-500"
+            className="w-6 h-6 my-auto ml-4 text-gray-500"
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"

@@ -2,6 +2,8 @@ import React from "react";
 import axios from "axios";
 import { initiateCheckout } from "lib/checkout";
 import { PricingProps } from ".";
+import { Card } from "components/ui/Card";
+import { Button } from "components/ui/Button";
 
 function VariantB({
   caption,
@@ -78,9 +80,9 @@ function VariantB({
 
   return (
     <section>
-      <div className="radius-for-skewed bg-gray-50 py-20">
-        <div className="container mx-auto px-4">
-          <div className="mb-16 flex w-full flex-wrap items-center">
+      <div className="py-20 radius-for-skewed bg-gray-50">
+        <div className="container px-4 mx-auto">
+          <div className="flex flex-wrap items-center w-full mb-16">
             <div className="w-full lg:w-1/2">
               {caption && (
                 <span className="lg:text=base text-sm font-bold text-webriq-darkblue xl:text-base 2xl:text-base">
@@ -88,7 +90,7 @@ function VariantB({
                 </span>
               )}
               {title && (
-                <h1 className="font-heading mb-2 text-2xl font-bold lg:text-5xl xl:text-5xl 2xl:text-5xl">
+                <h1 className="mb-2 text-2xl font-bold font-heading lg:text-5xl xl:text-5xl 2xl:text-5xl">
                   {title}
                 </h1>
               )}
@@ -121,21 +123,21 @@ function VariantB({
           {usePlan &&
             usePlan.map((plan) => {
               return (
-                <div
-                  className="mb-8 flex w-full flex-wrap items-center rounded bg-white p-8 shadow"
+                <Card
+                  className="flex flex-wrap items-center w-full p-8 mb-8"
                   key={plan._key}
                 >
-                  <div className="w-full self-start px-3 lg:w-1/5">
-                    <h3 className="font-heading mb-4 text-xl font-bold lg:text-2xl xl:text-2xl 2xl:text-2xl">
+                  <div className="self-start w-full px-3 lg:w-1/5">
+                    <h3 className="mb-4 text-xl font-bold font-heading lg:text-2xl xl:text-2xl 2xl:text-2xl">
                       {plan.planType}
                     </h3>
                   </div>
                   <div className="w-full px-3 lg:w-2/5">
                     <ul className="mb-4 text-gray-500">
                       {plan.planIncludes?.map((include) => (
-                        <li className="mb-4 flex" key={include}>
+                        <li className="flex mb-4" key={include}>
                           <svg
-                            className="mr-2 h-5 w-5 text-webriq-darkblue"
+                            className="w-5 h-5 mr-2 text-webriq-darkblue"
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 20 20"
                             fill="currentColor"
@@ -162,12 +164,12 @@ function VariantB({
                   </div>
                   <div className="w-full px-3 lg:w-1/5">
                     {plan.checkoutButtonName && (
-                      <button
-                        aria-label={plan.checkoutButtonName}
-                        className={`mt-4 inline-block rounded-l-xl rounded-t-xl bg-webriq-darkblue px-6 py-2 font-bold leading-loose text-white transition duration-200 hover:bg-webriq-blue lg:mt-0  ${
+                      <Button
+                        ariaLabel={plan.checkoutButtonName}
+                        className={`mt-4 lg:mt-0  ${
                           !plan ||
                           (!plan?.variant_b_checkoutButton &&
-                            "cursor-not-allowed bg-gray-100 disabled:opacity-50")
+                            "cursor-not-allowed  disabled:opacity-50")
                         }`}
                         disabled={!plan || !plan?.variant_b_checkoutButton}
                         onClick={() => {
@@ -189,10 +191,10 @@ function VariantB({
                         }}
                       >
                         {!usePlan ? "Processing..." : plan.checkoutButtonName}
-                      </button>
+                      </Button>
                     )}
                   </div>
-                </div>
+                </Card>
               );
             })}
         </div>

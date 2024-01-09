@@ -1,9 +1,9 @@
 import React from "react";
 import { urlFor } from "lib/sanity";
 import Image from "next/image";
-import { ConditionalLink } from "helper";
 
 import { HeaderProps } from ".";
+import { ConditionalLink } from "components/ui/ConditionalLink";
 
 function VariantA({
   template,
@@ -18,12 +18,12 @@ function VariantA({
       <div
         className={`bg-${template.bg}-lightblue radius-for-skewed pb-20 pt-12 lg:pt-20`}
       >
-        <div className="container mx-auto px-4">
-          <div className="-mx-4 flex flex-wrap">
-            <div className="mb-12 flex w-full items-center px-4 md:mb-20 lg:mb-0 lg:w-1/2">
+        <div className="container px-4 mx-auto">
+          <div className="flex flex-wrap -mx-4">
+            <div className="flex items-center w-full px-4 mb-12 md:mb-20 lg:mb-0 lg:w-1/2">
               <div className="w-full text-center lg:text-left xl:text-left 2xl:text-left">
-                <div className="mx-auto max-w-md">
-                  <h1 className="font-heading mb-3 text-2xl font-bold md:text-4xl lg:text-5xl">
+                <div className="max-w-md mx-auto">
+                  <h1 className="mb-3 text-2xl font-bold font-heading md:text-4xl lg:text-5xl">
                     {title && (
                       <>
                         <span>{String(title).split("*")[0]}</span>
@@ -34,7 +34,7 @@ function VariantA({
                     )}
                   </h1>
                 </div>
-                <div className="mx-auto max-w-md">
+                <div className="max-w-md mx-auto">
                   {description && (
                     <p className="my-6 text-xs leading-loose text-gray-500 md:text-base lg:text-base">
                       {description}
@@ -44,7 +44,7 @@ function VariantA({
                     {primaryButton?.label && (
                       <ConditionalLink
                         link={primaryButton}
-                        className={`inline-block mb-3 lg:mb-0 lg:mr-3 w-auto py-2 px-6 leading-loose bg-${template.color}-darkblue hover:bg-${template.color}-blue text-white font-semibold rounded-l-xl rounded-t-xl transition duration-200`}
+                        className={`mb-3 lg:mb-0 lg:mr-3 `}
                         ariaLabel={primaryButton?.label}
                       >
                         {primaryButton?.label}
@@ -53,7 +53,7 @@ function VariantA({
                     {secondaryButton?.label && (
                       <ConditionalLink
                         link={secondaryButton}
-                        className="inline-block w-auto py-2 px-6 leading-loose font-semibold bg-white hover:bg-gray-50 rounded-l-xl rounded-t-xl transition duration-200"
+                        className="text-black bg-white hover:bg-gray-50"
                         ariaLabel={secondaryButton?.label}
                       >
                         {secondaryButton?.label}
@@ -63,7 +63,7 @@ function VariantA({
                 </div>
               </div>
             </div>
-            <div className="flex w-full items-center justify-center px-4 lg:w-1/2">
+            <div className="flex items-center justify-center w-full px-4 lg:w-1/2">
               {mainImage && (
                 <div className="relative w-full max-w-md">
                   {mainImage?.image && (
