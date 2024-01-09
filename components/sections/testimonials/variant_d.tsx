@@ -3,6 +3,7 @@ import Image from "next/image";
 import { urlFor } from "lib/sanity";
 import { TestimonialProps } from ".";
 import { SwiperButton } from "components/ui/SwiperButton";
+import { Card } from "components/ui/Card";
 
 function VariantD({ testimonials }: TestimonialProps) {
   const [testimony, setTestimony] = React.useState(0);
@@ -63,7 +64,7 @@ function VariantD({ testimonials }: TestimonialProps) {
               </button>
             )}
             {testimonials?.[testimony] && (
-              <div className="flex flex-wrap w-full bg-white rounded shadow">
+              <Card className="flex flex-wrap w-full ">
                 {testimonials?.[testimony]?.rating && (
                   <div className="w-full py-10 text-center border-r lg:w-1/3">
                     <span className="text-5xl font-bold lg:text-6xl">
@@ -173,7 +174,7 @@ function VariantD({ testimonials }: TestimonialProps) {
                     {testimonials[testimony]?.jobTitle}
                   </p>
                 </div>
-              </div>
+              </Card>
             )}
             {testimonials?.length > 1 && (
               <button

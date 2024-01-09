@@ -8,6 +8,6 @@ export function Card({
   children: React.ReactNode;
   className?: string;
 }) {
-  const classes = `rounded-lg border border-solid border-slate-200/30 p-4 shadow-sm `;
+  const classes = `rounded-lg border border-solid border-slate-300/30 p-4 shadow-sm `;
   return <div className={cn(classes, className)}>{children}</div>;
 }

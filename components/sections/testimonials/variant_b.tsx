@@ -1,6 +1,7 @@
 import React from "react";
 import { TestimonialProps } from ".";
 import { SwiperButton } from "components/ui/SwiperButton";
+import { Card } from "components/ui/Card";
 
 function VariantB({ caption, title, testimonials }: TestimonialProps) {
   const [testimony, setTestimony] = React.useState(testimonials);
@@ -59,7 +60,7 @@ function VariantB({ caption, title, testimonials }: TestimonialProps) {
                       testimony?.length >= 3 ? "lg:w-1/3" : "lg:w-1/3"
                     } px-3`}
                   >
-                    <div className="p-5 bg-white rounded shadow">
+                    <Card className="p-5 ">
                       <svg
                         className="h-8 mb-6 text-webriq-darkblue"
                         viewBox="0 0 32 28"
@@ -82,7 +83,7 @@ function VariantB({ caption, title, testimonials }: TestimonialProps) {
                         {testimonial?.name}
                       </p>
                       <p className="text-gray-500">{testimonial?.jobTitle}</p>
-                    </div>
+                    </Card>
                   </div>
                 ))}
             </div>

@@ -3,6 +3,7 @@ import Image from "next/image";
 import { urlFor } from "lib/sanity";
 import { TestimonialProps } from ".";
 import { Avatar } from "components/ui/Avatar";
+import { Card } from "components/ui/Card";
 
 function VariantA({ testimonials }: TestimonialProps) {
   const [testimony, setTestimony] = React.useState(0);
@@ -15,25 +16,14 @@ function VariantA({ testimonials }: TestimonialProps) {
     <section>
       <div className="py-20 radius-for-skewed bg-gray-50">
         <div className="container px-4 mx-auto">
-          <div className="py-10 mx-auto bg-white rounded shadow">
+          <Card className="py-10 mx-auto">
             <div className="flex flex-wrap items-center justify-center max-w-5xl p-4">
               {testimonials?.[testimony] && (
                 <div className="w-full mb-6 text-center lg:w-1/3">
                   {testimonials?.[testimony]?.mainImage?.image && (
-                    // <Image
-                    //   className="relative object-cover w-32 h-32 mx-auto mb-6 overflow-hidden rounded-full"
-                    //   src={urlFor(testimonials?.[testimony]?.mainImage?.image)}
-                    //   sizes="100vw"
-                    //   width={128}
-                    //   height={128}
-                    //   alt={
-                    //     testimonials?.[testimony]?.mainImage?.alt ??
-                    //     `testimonial-source-${testimonials?.[testimony]?.name}-profile-image`
-                    //   }
-                    // />
                     <Avatar
                       className={"border-0 mx-auto"}
-                      customSize={128}
+                      size={128}
                       alt={
                         testimonials?.[testimony]?.mainImage?.alt ??
                         `testimonial-source-${testimonials?.[testimony]?.name}-profile-image`
@@ -90,7 +80,7 @@ function VariantA({ testimonials }: TestimonialProps) {
                 </div>
               )}
             </div>
-          </div>
+          </Card>
         </div>
       </div>
     </section>

@@ -5,8 +5,7 @@ import { cn } from "utils/cn";
 type TAvatar = {
   src: string;
   alt: string;
-  size?: ImageSize;
-  customSize?: number;
+  size?: ImageSize | number;
   text?: string;
   className?: string;
   [key: string]: any;
@@ -18,7 +17,6 @@ export function Avatar({
   src,
   alt = "image",
   size = "sm",
-  customSize = null,
   text,
   className,
   ...props
@@ -30,7 +28,8 @@ export function Avatar({
     lg: 120,
     xl: 160,
   };
-  const avatarSize = customSize ? `${customSize}px` : `${sizeMap[size]}px`;
+  const avatarSize =
+    typeof size === "number" ? `${size}px` : `${sizeMap[size]}px`;
   const initials = text
     ? text?.split(" ")?.reduce((acc, curr) => acc + curr[0], "")
     : "AB";

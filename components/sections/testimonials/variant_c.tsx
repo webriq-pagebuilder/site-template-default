@@ -4,6 +4,7 @@ import { urlFor } from "lib/sanity";
 import { TestimonialProps } from ".";
 import { SwiperButton } from "components/ui/SwiperButton/SwiperButton";
 import { Avatar } from "components/ui/Avatar";
+import { Card } from "components/ui/Card";
 
 function VariantC({ caption, title, testimonials }: TestimonialProps) {
   const [testimony, setTestimony] = React.useState(testimonials);
@@ -60,13 +61,13 @@ function VariantC({ caption, title, testimonials }: TestimonialProps) {
             <div className="flex flex-wrap max-w-6xl px-2 mx-auto">
               {testimony?.slice(0, 3)?.map((item, index) => (
                 <div className="w-full px-3 mb-4 lg:w-1/3" key={index}>
-                  <div className="p-8 text-center bg-white rounded shadow">
+                  <Card className="p-8 text-center ">
                     <p className="mb-8 leading-loose text-gray-500">
                       {item?.testimony}
                     </p>
                     {item?.mainImage?.image && (
                       <Avatar
-                        customSize={48}
+                        size={48}
                         className="mx-auto border-0"
                         src={urlFor(item?.mainImage?.image)}
                         alt={
@@ -79,7 +80,7 @@ function VariantC({ caption, title, testimonials }: TestimonialProps) {
                       {item?.name}
                     </p>
                     <p className="text-gray-500">{item?.jobTitle}</p>
-                  </div>
+                  </Card>
                 </div>
               ))}
             </div>
