@@ -2,18 +2,19 @@ import React from "react";
 import Image from "next/image";
 import { urlFor } from "lib/sanity";
 import { TeamsProps } from ".";
+import { Card } from "components/ui/Card";
 
 function VariantC({ caption, title, team }: TeamsProps) {
   return (
     <section>
-      <div className="radius-for-skewed bg-gray-50 py-20">
-        <div className="container mx-auto px-4">
-          <div className="mx-auto mb-12 max-w-xl text-center">
+      <div className="py-20 radius-for-skewed bg-gray-50">
+        <div className="container px-4 mx-auto">
+          <div className="max-w-xl mx-auto mb-12 text-center">
             {caption && (
               <span className="font-bold text-webriq-darkblue">{caption}</span>
             )}
             {title && (
-              <h1 className="font-heading text-4xl font-bold lg:text-5xl">
+              <h1 className="text-4xl font-bold font-heading lg:text-5xl">
                 {title}
               </h1>
             )}
@@ -22,10 +23,10 @@ function VariantC({ caption, title, team }: TeamsProps) {
             {team &&
               team.map((member) => (
                 <div
-                  className="mb-6 w-full px-3 md:w-1/2 lg:w-1/3"
+                  className="w-full px-3 mb-6 md:w-1/2 lg:w-1/3"
                   key={member?.name}
                 >
-                  <div className="w-full overflow-hidden rounded bg-white pb-8 text-center shadow">
+                  <Card className="w-full p-0 pb-8 overflow-hidden text-center">
                     {member.mainImage?.image && (
                       <div>
                         <Image
@@ -41,11 +42,11 @@ function VariantC({ caption, title, team }: TeamsProps) {
                         />
                       </div>
                     )}
-                    <p className="font-heading mb-2 text-2xl font-bold">
+                    <p className="mb-2 text-2xl font-bold font-heading">
                       {member?.name}
                     </p>
                     <p className="text-gray-500">{member?.jobTitle}</p>
-                  </div>
+                  </Card>
                 </div>
               ))}
           </div>
