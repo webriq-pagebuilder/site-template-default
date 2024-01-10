@@ -51,7 +51,7 @@ function VariantE({
                       <ConditionalLink
                         ariaLabel={secondaryButton?.label}
                         link={secondaryButton}
-                        className="text-black bg-white  hover:bg-gray-50"
+                        className="text-black bg-white hover:bg-gray-50"
                       >
                         {secondaryButton?.label}
                       </ConditionalLink>
@@ -114,6 +114,7 @@ function VariantE({
                     {formLinks?.map((link, index, { length }) => (
                       <span key={index}>
                         <ConditionalLink
+                          variant="link"
                           ariaLabel={link?.label}
                           link={link}
                           className="underline text-webriq-darkblue hover:text-webriq-blue"

@@ -13,7 +13,7 @@ const meta: Meta<typeof Input> = {
   },
   decorators: [
     (Story) => (
-      <div className="bg-gray-50 p-4 rounded-lg">
+      <div className="p-4 rounded-lg bg-gray-50">
         <Story />
       </div>
     ),
@@ -25,6 +25,19 @@ type Story = StoryObj<typeof Input>;
 
 export const Primary: Story = {
   args: {
+    variant: "primary",
+  },
+};
+
+export const Secondary: Story = {
+  args: {
+    variant: "secondary",
+  },
+};
+
+export const NoLabel: Story = {
+  args: {
+    noLabel: true,
     variant: "primary",
   },
 };

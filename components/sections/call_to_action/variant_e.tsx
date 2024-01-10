@@ -9,11 +9,11 @@ import { Form } from "components/ui/Form/Form";
 
 function VariantE({ form, formLinks, signInLink }: CTAProps) {
   return (
-    <section className="bg-gray-50 px-5 py-20 sm:px-10">
-      <div className="container mx-auto px-4">
+    <section className="px-5 py-20 bg-gray-50 sm:px-10">
+      <div className="container px-4 mx-auto">
         <div className="mx-auto sm:max-w-md">
           {form?.fields && (
-            <div className="mb-6 rounded-t-3xl rounded-bl-3xl bg-white px-6 py-8 text-center shadow">
+            <div className="px-6 py-8 mb-6 text-center bg-white shadow rounded-t-3xl rounded-bl-3xl">
               <Form
                 id={form?.id}
                 name="Calltoaction-VariantE-Form"
@@ -26,17 +26,17 @@ function VariantE({ form, formLinks, signInLink }: CTAProps) {
                   </span>
                   <p className="text-2xl">{form?.name}</p>
                 </div>
-                <div className="-mx-2 mb-3 flex flex-wrap">
+                <div className="flex flex-wrap mb-3 -mx-2">
                   {form?.fields?.slice(0, 2)?.map((formFields, index) => (
                     <div
-                      className="mb-3 w-full px-2 lg:mb-0 lg:w-1/2 xl:mb-0 2xl:mb-0"
+                      className="w-full px-2 mb-3 lg:mb-0 lg:w-1/2 xl:mb-0 2xl:mb-0"
                       key={index}
                     >
                       <FormField
                         {...formFields}
-                        label=" "
+                        noLabel
                         name={formFields?.name}
-                        inputVariant="secondary"
+                        variant="secondary"
                       />
                     </div>
                   ))}
@@ -45,9 +45,9 @@ function VariantE({ form, formLinks, signInLink }: CTAProps) {
                   <div className="mb-3" key={index}>
                     <FormField
                       {...formFields}
-                      label=" "
+                      noLabel
                       name={formFields?.name}
-                      inputVariant="secondary"
+                      variant="secondary"
                     />
                   </div>
                 ))}
@@ -59,7 +59,7 @@ function VariantE({ form, formLinks, signInLink }: CTAProps) {
                     ariaLabel={
                       form?.buttonLabel ?? "Call to action form submit button"
                     }
-                    className="mb-4 w-full rounded bg-webriq-blue py-4 text-sm font-bold leading-normal text-white transition duration-200 hover:bg-webriq-darkblue"
+                    className="w-full py-4 mb-4 text-sm font-bold leading-normal text-white transition duration-200 rounded bg-webriq-blue hover:bg-webriq-darkblue"
                     type="submit"
                   >
                     {form?.buttonLabel}
@@ -86,7 +86,7 @@ function VariantE({ form, formLinks, signInLink }: CTAProps) {
                 <div key={index}>
                   <ConditionalLink
                     link={link}
-                    className="text-webriq-darkblue hover:text-webriq-blue font-bold"
+                    className="font-bold text-webriq-darkblue hover:text-webriq-blue"
                     ariaLabel={link?.label}
                   >
                     {link?.label}
@@ -131,7 +131,7 @@ function VariantE({ form, formLinks, signInLink }: CTAProps) {
 //     return (
 //       <textarea
 //         aria-label={fields?.placeholder ?? fields?.name}
-//         className="w-full rounded bg-gray-100 p-4 text-xs outline-none"
+//         className="w-full p-4 text-xs bg-gray-100 rounded outline-none"
 //         placeholder={fields?.placeholder}
 //         name={fields?.name}
 //         required={fields?.isRequired}
@@ -139,10 +139,10 @@ function VariantE({ form, formLinks, signInLink }: CTAProps) {
 //     );
 //   } else if (fields?.type === "inputFile") {
 //     return (
-//       <label className="flex rounded bg-gray-100 px-2">
+//       <label className="flex px-2 bg-gray-100 rounded">
 //         <input
 //           aria-label={fields?.placeholder ?? fields?.name}
-//           className="w-full rounded bg-gray-100 p-4 text-xs outline-none"
+//           className="w-full p-4 text-xs bg-gray-100 rounded outline-none"
 //           type="file"
 //           placeholder="Choose file.."
 //           name={fields?.name}
@@ -154,7 +154,7 @@ function VariantE({ form, formLinks, signInLink }: CTAProps) {
 //     return (
 //       <input
 //         aria-label={fields?.placeholder ?? fields?.name}
-//         className="w-full rounded bg-gray-100 p-4 text-xs outline-none"
+//         className="w-full p-4 text-xs bg-gray-100 rounded outline-none"
 //         type="number"
 //         placeholder={fields?.placeholder}
 //         name={fields?.name}
@@ -163,16 +163,16 @@ function VariantE({ form, formLinks, signInLink }: CTAProps) {
 //     );
 //   } else if (fields?.type === "inputSelect") {
 //     return (
-//       <div className="mb-4 flex">
+//       <div className="flex mb-4">
 //         <label
-//           className="m-auto text-left text-xs text-gray-500"
+//           className="m-auto text-xs text-left text-gray-500"
 //           htmlFor={fields?.name}
 //         >
 //           {fields?.label}
 //         </label>
 //         <select
 //           aria-label={fields?.name}
-//           className="w-full rounded bg-gray-100 p-3 text-xs outline-none"
+//           className="w-full p-3 text-xs bg-gray-100 rounded outline-none"
 //           name={`cta-${fields?.name}`}
 //           defaultValue={"default-value"}
 //           required={fields?.isRequired}
@@ -190,7 +190,7 @@ function VariantE({ form, formLinks, signInLink }: CTAProps) {
 //     return (
 //       <div className="mb-4 text-left">
 //         <label
-//           className="m-auto text-left text-xs text-gray-500"
+//           className="m-auto text-xs text-left text-gray-500"
 //           htmlFor={fields?.name}
 //         >
 //           {fields?.label}
@@ -217,7 +217,7 @@ function VariantE({ form, formLinks, signInLink }: CTAProps) {
 //     return (
 //       <div className="mb-4 text-left">
 //         <label
-//           className="m-auto text-left text-xs text-gray-500"
+//           className="m-auto text-xs text-left text-gray-500"
 //           htmlFor={fields?.name}
 //         >
 //           {fields?.label}
@@ -246,7 +246,7 @@ function VariantE({ form, formLinks, signInLink }: CTAProps) {
 //     return (
 //       <input
 //         aria-label={fields?.placeholder ?? fields?.name}
-//         className="w-full rounded bg-gray-100 p-4 text-xs outline-none"
+//         className="w-full p-4 text-xs bg-gray-100 rounded outline-none"
 //         type={
 //           fields?.type === "inputEmail"
 //             ? "email"

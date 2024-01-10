@@ -19,7 +19,7 @@ type RadioProps = {
   [key: string]: any;
 };
 
-type Variant = "primary" | "outline";
+type Variant = "primary";
 
 export const Radio = ({
   className,
@@ -33,11 +33,9 @@ export const Radio = ({
 }: RadioProps) => {
   const commonStyle = "";
   const primary = `${commonStyle}`;
-  const outline = `${commonStyle} border border-solid border-webriq-blue`;
 
   const variants: StyleVariants<Variant> = {
     primary,
-    outline,
   };
 
   const variantClass = variants[variant] ?? primary;

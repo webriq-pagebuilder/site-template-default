@@ -27,7 +27,7 @@ function VariantC({ title, text, features, form }: CTAProps) {
               >
                 {form?.fields?.[0] && form?.fields[0]?.type && (
                   <Input
-                    label=" "
+                    noLabel
                     ariaLabel={
                       form?.fields[0]?.placeholder ?? form?.fields[0]?.name
                     }

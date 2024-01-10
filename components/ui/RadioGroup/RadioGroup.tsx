@@ -9,6 +9,7 @@ type RadioGroup = {
   label?: string;
   name: string;
   labelClass?: string;
+  noLabel?: boolean;
 };
 
 type Variant = "primary" | "inline";
@@ -25,6 +26,7 @@ export const RadioGroup = ({
   labelClass,
   /** Optional label of the radio group. Defaults to the name */
   label,
+  noLabel = false,
 }: RadioGroup) => {
   const commonClass = "ml-2";
   const primary = `${commonClass}`;
@@ -38,7 +40,7 @@ export const RadioGroup = ({
   const variantClass = variants[variant] ?? primary;
   return (
     <div>
-      <p className={labelClass}>{label || name}</p>
+      {!noLabel && <p className={labelClass}>{label || name}</p>}
       <div className={cn(variantClass, className)}>{children}</div>
     </div>
   );

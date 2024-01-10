@@ -7,10 +7,6 @@ import { Radio } from "../Radio";
 import { RadioGroup } from "../RadioGroup";
 import { Select } from "../Select";
 import { Textarea } from "../Textarea";
-import { StyleVariants } from "../types";
-import { cn } from "utils/cn";
-import { Variant as InputVariant } from "../Input/Input";
-import { Variant as CheckboxVariant } from "../CheckboxGroup/CheckboxGroup";
 
 type FormFieldProps = {
   type?: FormTypes;
@@ -21,58 +17,57 @@ type FormFieldProps = {
   required?: boolean;
   placeholder?: string;
   className?: string;
-  textSize?: "sm" | "nm" | "lg";
-  inputVariant?: InputVariant;
-  checkboxVariant?: CheckboxVariant;
+  textSize?: "sm" | "md" | "lg";
   noLabel?: boolean;
+  [key: string]: any;
 };
 
-type Variant = "stacked" | "inline";
+type Variant = "primary" | "secondary" | "outline";
+
+// export const FormField = ({
+//   type = "inputText",
+//   items,
+//   name,
+//   variant = "stacked",
+//   label,
+//   required,
+//   placeholder,
+//   className,
+//   textSize,
+//   inputVariant,
+//   checkboxVariant,
+//   noLabel,
+// }: FormFieldProps) => {
+//   const commonClass = "flex";
+//   const stacked = `${commonClass} flex-col`;
+//   const inline = `${commonClass} items-center`;
+
+//   const variants: StyleVariants<Variant> = {
+//     stacked,
+//     inline,
+//   };
+
+//   const variantClass = variants[variant] ?? stacked;
+
+//   return (
+//     <div className={cn(variantClass, className)}>
+//       <RenderInput
+//         inputVariant={inputVariant}
+//         type={type}
+//         items={items}
+//         name={name}
+//         placeholder={placeholder}
+//         label={label}
+//         required={required}
+//         textSize={textSize}
+//         checkboxVariant={checkboxVariant}
+//         noLabel={noLabel}
+//       />
+//     </div>
+//   );
+// };
 
 export const FormField = ({
-  type = "inputText",
-  items,
-  name,
-  variant = "stacked",
-  label,
-  required,
-  placeholder,
-  className,
-  textSize,
-  inputVariant,
-  checkboxVariant,
-  noLabel,
-}: FormFieldProps) => {
-  const commonClass = "flex";
-  const stacked = `${commonClass} flex-col`;
-  const inline = `${commonClass} items-center`;
-
-  const variants: StyleVariants<Variant> = {
-    stacked,
-    inline,
-  };
-
-  const variantClass = variants[variant] ?? stacked;
-
-  return (
-    <div className={cn(variantClass, className)}>
-      <RenderInput
-        inputVariant={inputVariant}
-        type={type}
-        items={items}
-        name={name}
-        placeholder={placeholder}
-        label={label}
-        required={required}
-        textSize={textSize}
-        checkboxVariant={checkboxVariant}
-        noLabel={noLabel}
-      />
-    </div>
-  );
-};
-
-const RenderInput = ({
   type,
   items,
   name,
@@ -80,9 +75,9 @@ const RenderInput = ({
   required,
   placeholder,
   textSize,
-  inputVariant,
-  checkboxVariant,
   noLabel,
+  variant,
+  ...props
 }: FormFieldProps) => {
   const formType = {
     inputText: "text",
@@ -94,9 +89,15 @@ const RenderInput = ({
   switch (type) {
     case "inputRadio":
       return (
-        <RadioGroup label={label} name={name}>
+        <RadioGroup noLabel={noLabel} label={label} name={name}>
           {items?.map((item, index) => (
-            <Radio key={item} ariaLabel={name} name={name} item={item} />
+            <Radio
+              key={item}
+              ariaLabel={name}
+              name={name}
+              item={item}
+              {...props}
+            />
           ))}
         </RadioGroup>
       );
@@ -109,12 +110,19 @@ const RenderInput = ({
           ariaLabel={label}
           name={name}
           required={required}
+          noLabel={noLabel}
+          {...props}
         />
       );
 
     case "inputCheckbox":
       return (
-        <CheckboxGroup variant={checkboxVariant} name={name} label={label}>
+        <CheckboxGroup
+          noLabel={noLabel}
+          variant={variant}
+          name={name}
+          label={label}
+        >
           {items?.map((item, index) => (
             <Checkbox
               key={item}
@@ -122,23 +130,33 @@ const RenderInput = ({
               ariaLabel={name}
               name={name}
               item={item}
+              {...props}
             />
           ))}
         </CheckboxGroup>
       );
 
     case "inputFile":
-      return <InputFile ariaLabel={name} name={name} required={required} />;
+      return (
+        <InputFile
+          ariaLabel={name}
+          name={name}
+          required={required}
+          {...props}
+        />
+      );
 
     case "textarea":
       return (
         <Textarea
+          noLabel={noLabel}
           ariaLabel={placeholder ?? name}
           className="w-full h-24 p-4 text-xs font-semibold leading-none bg-white rounded outline-none resize-none"
           placeholder={placeholder}
           name={name}
           required={required}
           label={label}
+          {...props}
         />
       );
 
@@ -153,7 +171,8 @@ const RenderInput = ({
           name={name}
           placeholder={placeholder}
           type={formType}
-          variant={inputVariant}
+          variant={variant}
+          {...props}
         />
       );
   }

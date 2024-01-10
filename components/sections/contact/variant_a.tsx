@@ -201,14 +201,15 @@ function VariantA({
                           <FormField
                             {...formFields}
                             name={formFields?.name}
-                            label=" "
-                            checkboxVariant="inline"
+                            noLabel
+                            variant="inline"
                           />
                         ) : (
                           <FormField
                             {...formFields}
                             name={formFields?.name}
-                            label={""}
+                            noLabel
+                            variant="primary"
                           />
                         )}
                       </div>

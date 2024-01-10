@@ -60,7 +60,7 @@ function VariantB({ logo, title, text, form }: CTAProps) {
                   ?.slice(0, 2)
                   ?.map((field) => (
                     <Input
-                      label=" "
+                      noLabel
                       key={field?._key}
                       ariaLabel={field?.placeholder ?? field?.name}
                       className="mb-3 md:mb-0 md:mr-4 md:w-auto"

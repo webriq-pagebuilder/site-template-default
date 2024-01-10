@@ -20,10 +20,10 @@ function VariantD({
   signInLink,
 }: CTAProps) {
   return (
-    <section className="bg-gray-50 px-10 py-20">
-      <div className="container mx-auto px-4">
-        <div className="-mx-4 flex flex-wrap items-center justify-center">
-          <div className="mb-16 max-w-2xl px-4 lg:mb-0 lg:w-1/2">
+    <section className="px-10 py-20 bg-gray-50">
+      <div className="container px-4 mx-auto">
+        <div className="flex flex-wrap items-center justify-center -mx-4">
+          <div className="max-w-2xl px-4 mb-16 lg:mb-0 lg:w-1/2">
             {logo?.image && (
               <Link
                 aria-label={
@@ -31,7 +31,7 @@ function VariantD({
                     ? "Go to home page"
                     : `Go to ${logoLink(logo)}`
                 }
-                className="mb-10 inline-block text-3xl font-bold leading-none"
+                className="inline-block mb-10 text-3xl font-bold leading-none"
                 href={logoLink(logo)}
               >
                 <Image
@@ -43,14 +43,14 @@ function VariantD({
                 />
               </Link>
             )}
-            <h1 className="font-heading mb-4 text-4xl font-bold md:text-5xl">
+            <h1 className="mb-4 text-4xl font-bold font-heading md:text-5xl">
               {title}
             </h1>
             <p className="mb-8 leading-loose text-gray-700">{text}</p>
             {button?.label && (
               <ConditionalLink
                 link={button}
-                className="inline-block py-2 px-6 bg-webriq-darkblue hover:bg-webriq-blue text-white font-bold leading-loose transition duration-250 rounded-l-xl rounded-t-xl"
+                className="inline-block px-6 py-2 font-bold leading-loose text-white transition bg-webriq-darkblue hover:bg-webriq-blue duration-250 rounded-l-xl rounded-t-xl"
                 ariaLabel={button?.label}
               >
                 {button?.label}
@@ -58,9 +58,9 @@ function VariantD({
             )}
           </div>
           <div className="w-full lg:w-1/2">
-            <div className="mx-auto max-w-sm lg:ml-auto lg:mr-0">
+            <div className="max-w-sm mx-auto lg:ml-auto lg:mr-0">
               {form?.fields && (
-                <div className="mb-6 rounded-t-3xl rounded-bl-3xl bg-white px-6 py-8 text-center shadow">
+                <div className="px-6 py-8 mb-6 text-center bg-white shadow rounded-t-3xl rounded-bl-3xl">
                   <Form
                     id={form?.id}
                     name="Calltoaction-VariantD-Form"
@@ -73,30 +73,30 @@ function VariantD({
                       </span>
                       <p className="text-2xl">{form?.name}</p>
                     </div>
-                    <div className="-mx-2 mb-3 flex flex-wrap">
+                    <div className="flex flex-wrap mb-3 -mx-2">
                       {form?.fields?.slice(0, 2)?.map((formFields, index) => (
                         <div
-                          className="mb-3 w-full px-2 lg:mb-0 lg:w-1/2 xl:mb-0 2xl:mb-0"
+                          className="w-full px-2 mb-3 lg:mb-0 lg:w-1/2 xl:mb-0 2xl:mb-0"
                           key={index}
                         >
                           <FormField
+                            noLabel
+                            variant={"secondary"}
                             name={formFields?.name}
-                            label=" "
                             placeholder={formFields?.placeholder}
                             required={formFields?.isRequired}
-                            inputVariant="secondary"
                             {...formFields}
                           />
                         </div>
                       ))}
                     </div>
-                    <div className="space-y-3 mb-3">
+                    <div className="mb-3 space-y-3">
                       {form?.fields?.slice(2)?.map((formFields, index) => (
                         <div key={index}>
                           <FormField
-                            label=" "
+                            noLabel
                             name={formFields?.name}
-                            inputVariant={"secondary"}
+                            variant={"secondary"}
                             {...formFields}
                           />
                         </div>
@@ -111,7 +111,7 @@ function VariantD({
                           form?.buttonLabel ??
                           "Call to action form submit button"
                         }
-                        className="mb-4 w-full rounded bg-webriq-blue py-4 text-sm font-bold leading-normal text-white transition duration-200 hover:bg-webriq-darkblue"
+                        className="w-full py-4 mb-4 text-sm font-bold leading-normal text-white transition duration-200 rounded bg-webriq-blue hover:bg-webriq-darkblue"
                         type="submit"
                       >
                         {form?.buttonLabel}
@@ -138,7 +138,7 @@ function VariantD({
                     <div key={index}>
                       <ConditionalLink
                         link={link}
-                        className="text-webriq-darkblue hover:text-webriq-blue font-bold"
+                        className="font-bold text-webriq-darkblue hover:text-webriq-blue"
                         ariaLabel={link?.label}
                       >
                         {link?.label}
@@ -185,7 +185,7 @@ function VariantD({
 //     return (
 //       <textarea
 //         aria-label={fields?.placeholder ?? fields?.name}
-//         className="w-full rounded bg-gray-100 p-4 text-xs outline-none"
+//         className="w-full p-4 text-xs bg-gray-100 rounded outline-none"
 //         placeholder={fields?.placeholder}
 //         name={fields?.name}
 //         required={fields?.isRequired}
@@ -193,10 +193,10 @@ function VariantD({
 //     );
 //   } else if (fields?.type === "inputFile") {
 //     return (
-//       <label className="flex rounded bg-gray-100 px-2">
+//       <label className="flex px-2 bg-gray-100 rounded">
 //         <input
 //           aria-label={fields?.placeholder ?? fields?.name}
-//           className="w-full rounded bg-gray-100 p-4 text-xs outline-none"
+//           className="w-full p-4 text-xs bg-gray-100 rounded outline-none"
 //           type="file"
 //           placeholder={fields?.placeholder ?? "Choose file.."}
 //           name={fields?.name}
@@ -208,7 +208,7 @@ function VariantD({
 //     return (
 //       <input
 //         aria-label={fields?.placeholder ?? fields?.name}
-//         className="w-full rounded bg-gray-100 p-4 text-xs outline-none"
+//         className="w-full p-4 text-xs bg-gray-100 rounded outline-none"
 //         type="number"
 //         placeholder={fields?.placeholder}
 //         name={fields?.name}
@@ -217,15 +217,15 @@ function VariantD({
 //     );
 //   } else if (fields?.type === "inputSelect") {
 //     return (
-//       <div className="mb-4 flex">
+//       <div className="flex mb-4">
 //         <label
-//           className="m-auto text-left text-xs text-gray-500"
+//           className="m-auto text-xs text-left text-gray-500"
 //           htmlFor={fields?.name}
 //         >
 //           {fields?.label}
 //         </label>
 //         <select
-//           className="w-full rounded bg-gray-100 p-3 text-xs outline-none"
+//           className="w-full p-3 text-xs bg-gray-100 rounded outline-none"
 //           name={`cta-${fields?.name}`}
 //           defaultValue={"default-value"}
 //           required={fields?.isRequired}
@@ -243,7 +243,7 @@ function VariantD({
 //     return (
 //       <div className="mb-4 text-left">
 //         <label
-//           className="m-auto text-left text-xs text-gray-500"
+//           className="m-auto text-xs text-left text-gray-500"
 //           htmlFor={fields?.name}
 //         >
 //           {fields?.label}
@@ -270,7 +270,7 @@ function VariantD({
 //     return (
 //       <div className="mb-4 text-left">
 //         <label
-//           className="m-auto text-left text-xs text-gray-500"
+//           className="m-auto text-xs text-left text-gray-500"
 //           htmlFor={fields?.name}
 //         >
 //           {fields?.label}
@@ -299,7 +299,7 @@ function VariantD({
 //     return (
 //       <input
 //         aria-label={fields?.placeholder ?? fields?.name}
-//         className="w-full rounded bg-gray-100 p-4 text-xs outline-none"
+//         className="w-full p-4 text-xs bg-gray-100 rounded outline-none"
 //         type={
 //           fields?.type === "inputEmail"
 //             ? "email"

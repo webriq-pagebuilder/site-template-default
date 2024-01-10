@@ -19,6 +19,7 @@ type SelectProps = {
   /** A list of string as options */
   items: string[];
   ariaLabel: string;
+  noLabel?: boolean;
   [key: string]: any;
 };
 
@@ -34,6 +35,7 @@ export const Select = ({
   labelClass,
   items,
   onChange,
+  noLabel = false,
   ...props
 }: SelectProps) => {
   const commonStyle =
@@ -47,14 +49,13 @@ export const Select = ({
   };
 
   const variantClass = variants[variant] ?? primary;
-
-  console.log("name", name);
-  console.log("label", label);
   return (
     <>
-      <label htmlFor={name} className={labelClass}>
-        {label || name}
-      </label>
+      {!noLabel && (
+        <label htmlFor={name} className={labelClass}>
+          {label || name}
+        </label>
+      )}
       <select
         onChange={onChange}
         className={cn(variantClass, className)}

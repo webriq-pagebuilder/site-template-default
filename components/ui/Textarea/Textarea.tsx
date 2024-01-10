@@ -8,14 +8,15 @@ export type TextareaProps = {
   name: string;
   ariaLabel: string;
   placeholder?: string;
-  onChange?: () => any;
+  onChange?: (...args: any) => any;
   labelClass?: string;
   variant?: Variant;
   label?: string;
+  noLabel?: boolean;
   [key: string]: any;
 };
 
-type Variant = "primary" | "outline";
+type Variant = "primary" | "outline" | "secondary";
 export const Textarea = ({
   className,
   variant = "primary",
@@ -26,24 +27,29 @@ export const Textarea = ({
   required = false,
   ariaLabel,
   onChange,
+  noLabel = false,
   ...props
 }: TextareaProps) => {
   const commonStyle =
     "h-24 w-full resize-none rounded bg-white p-4 text-xs font-semibold leading-none";
-  const primary = `${commonStyle} outline-none`;
-  const outline = `${commonStyle} border border-solid border-webriq-blue`;
+  const primary = `${commonStyle}`;
+  const secondary = `${commonStyle} bg-gray-100 p-4 text-xs outline-none`;
+  const outline = `${commonStyle}  text-xs py-3 border border-slate-300`;
 
   const variants: StyleVariants<Variant> = {
     primary,
     outline,
+    secondary,
   };
 
   const variantClass = variants[variant] ?? primary;
   return (
     <>
-      <label htmlFor={name} className={labelClass}>
-        {label || name}
-      </label>
+      {!noLabel && (
+        <label htmlFor={name} className={labelClass}>
+          {label || name}
+        </label>
+      )}
       <textarea
         onChange={onChange}
         aria-label={ariaLabel || name}

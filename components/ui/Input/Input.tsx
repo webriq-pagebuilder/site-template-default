@@ -22,11 +22,11 @@ type InputProps = {
   variant?: Variant;
   /** Function that runs when an input value change*/
   onChange?: () => void;
-  textSize?: "sm" | "nm" | "lg";
+  textSize?: "sm" | "md" | "lg";
   [key: string]: any;
 };
 
-export type Variant = "primary" | "outline" | "dark" | "secondary";
+export type Variant = "primary" | "outline" | "secondary";
 
 export const Input = ({
   type = "text",
@@ -46,8 +46,7 @@ export const Input = ({
   const commonStyle = "w-full rounded bg-white px-4 py-2 leading-loose";
   const primary = `${commonStyle}`;
   const secondary = `${commonStyle} bg-gray-100 p-4 text-xs outline-none`;
-  const outline = `${commonStyle} border border-solid border-webriq-blue`;
-  const dark = `${commonStyle} bg-gray-100`;
+  const outline = `${commonStyle}  text-xs py-3 border border-slate-300`;
 
   const text = {
     sm: "text-xs",
@@ -59,7 +58,6 @@ export const Input = ({
     primary,
     secondary,
     outline,
-    dark,
   };
 
   const variantClass = variants[variant] ?? primary;

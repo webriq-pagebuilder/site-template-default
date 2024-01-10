@@ -10,6 +10,9 @@ type CheckboxGroupProps = {
   name: string;
   /** Label for the checkboxes. Defaults to the name property */
   label?: string;
+  noLabel?: boolean;
+  labelClass?: string;
+  [key: string]: any;
 };
 
 export type Variant = "primary" | "inline";
@@ -20,6 +23,9 @@ export const CheckboxGroup = ({
   className,
   name,
   label,
+  noLabel = false,
+  labelClass,
+  ...props
 }: CheckboxGroupProps) => {
   const commonClass = "ml-2";
   const primary = `${commonClass} block`;
@@ -33,8 +39,10 @@ export const CheckboxGroup = ({
   const variantClass = variants[variant] ?? primary;
   return (
     <div>
-      <p>{label || name}</p>
-      <div className={cn(variantClass, className)}>{children}</div>
+      {!noLabel && <p className={labelClass}>{label || name}</p>}
+      <div className={cn(variantClass, className)} {...props}>
+        {children}
+      </div>
     </div>
   );
 };
