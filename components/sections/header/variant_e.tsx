@@ -6,6 +6,7 @@ import { HeaderProps } from ".";
 
 import { FormFields } from "types";
 import { ConditionalLink } from "components/ui/ConditionalLink";
+import { SignUpForm } from "components/common/form/sign-up-form";
 
 function VariantE({
   template,
@@ -63,51 +64,7 @@ function VariantE({
             <div className="w-full lg:w-1/2">
               <div className="max-w-sm mx-auto text-center">
                 {form?.fields && (
-                  <div className="px-6 py-8 mb-4 bg-white shadow-md rounded-xl">
-                    <div className="mb-6">
-                      <span className="text-sm text-gray-500">
-                        {form?.subtitle}
-                      </span>
-                      <p className="text-2xl font-bold">{form?.name}</p>
-                    </div>
-                    <WebriQForm
-                      method="POST"
-                      data-form-id={form?.id}
-                      name="Header-VariantE-Form"
-                      className="form-header"
-                      data-thankyou-url={thankYouPageLink(form?.thankYouPage)}
-                      scriptsrc="https://pagebuilderforms.webriq.com/js/initReactForms"
-                    >
-                      <div className="flex flex-wrap -mx-2">
-                        {form?.fields?.slice(0, 2)?.map((formFields, index) => (
-                          <div className="w-full px-2 lg:w-1/2" key={index}>
-                            <FormFieldsComponent fields={formFields} />
-                          </div>
-                        ))}
-                      </div>
-                      {form?.fields?.slice(2)?.map((formFields) => (
-                        <div key={formFields?._key}>
-                          <FormFieldsComponent fields={formFields} />
-                        </div>
-                      ))}
-                      <div>
-                        <div className="webriq-recaptcha" />
-                      </div>
-                      <div className="text-center">
-                        {form?.buttonLabel && (
-                          <button
-                            aria-label={
-                              form?.buttonLabel ?? "Header form submit button"
-                            }
-                            className="w-full py-4 mb-2 text-sm font-bold transition duration-200 rounded bg-webriq-darkblue text-gray-50 hover:bg-webriq-blue"
-                            type="submit"
-                          >
-                            {form?.buttonLabel}
-                          </button>
-                        )}
-                      </div>
-                    </WebriQForm>
-                  </div>
+                  <SignUpForm form={form} className="bg-white" />
                 )}
                 {formLinks && (
                   <div className="text-xs text-gray-500">

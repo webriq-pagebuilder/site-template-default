@@ -6,6 +6,7 @@ import { CTAProps } from ".";
 import { FormField } from "components/ui/FormField";
 import { Button } from "components/ui/Button";
 import { Form } from "components/ui/Form/Form";
+import { SignUpForm } from "components/common/form/sign-up-form";
 
 function VariantE({ form, formLinks, signInLink }: CTAProps) {
   return (
@@ -13,72 +14,73 @@ function VariantE({ form, formLinks, signInLink }: CTAProps) {
       <div className="container px-4 mx-auto">
         <div className="mx-auto sm:max-w-md">
           {form?.fields && (
-            <div className="px-6 py-8 mb-6 text-center bg-white shadow rounded-t-3xl rounded-bl-3xl">
-              <Form
-                id={form?.id}
-                name="Calltoaction-VariantE-Form"
-                className="form-callToAction"
-                thankyouPage={thankYouPageLink(form?.thankYouPage)}
-              >
-                <div className="mb-6">
-                  <span className="text-sm text-gray-500">
-                    {form?.subtitle}
-                  </span>
-                  <p className="text-2xl">{form?.name}</p>
-                </div>
-                <div className="flex flex-wrap mb-3 -mx-2">
-                  {form?.fields?.slice(0, 2)?.map((formFields, index) => (
-                    <div
-                      className="w-full px-2 mb-3 lg:mb-0 lg:w-1/2 xl:mb-0 2xl:mb-0"
-                      key={index}
-                    >
-                      <FormField
-                        {...formFields}
-                        noLabel
-                        name={formFields?.name}
-                        variant="secondary"
-                      />
-                    </div>
-                  ))}
-                </div>
-                {form?.fields?.slice(2)?.map((formFields, index) => (
-                  <div className="mb-3" key={index}>
-                    <FormField
-                      {...formFields}
-                      noLabel
-                      name={formFields?.name}
-                      variant="secondary"
-                    />
-                  </div>
-                ))}
-                <div>
-                  <div className="webriq-recaptcha" />
-                </div>
-                {form?.buttonLabel && (
-                  <Button
-                    ariaLabel={
-                      form?.buttonLabel ?? "Call to action form submit button"
-                    }
-                    className="w-full py-4 mb-4 text-sm font-bold leading-normal text-white transition duration-200 rounded bg-webriq-blue hover:bg-webriq-darkblue"
-                    type="submit"
-                  >
-                    {form?.buttonLabel}
-                  </Button>
-                )}
-              </Form>
-              {signInLink?.label && (
-                <p className="text-xs text-gray-500">
-                  <span>Already have an account?</span>
-                  <ConditionalLink
-                    link={signInLink}
-                    className="text-webriq-darkblue hover:text-webriq-babyblue"
-                    ariaLabel={signInLink?.label}
-                  >
-                    {signInLink?.label}
-                  </ConditionalLink>
-                </p>
-              )}
-            </div>
+            // <div className="px-6 py-8 mb-6 text-center bg-white shadow rounded-t-3xl rounded-bl-3xl">
+            //   <Form
+            //     id={form?.id}
+            //     name="Calltoaction-VariantE-Form"
+            //     className="form-callToAction"
+            //     thankyouPage={thankYouPageLink(form?.thankYouPage)}
+            //   >
+            //     <div className="mb-6">
+            //       <span className="text-sm text-gray-500">
+            //         {form?.subtitle}
+            //       </span>
+            //       <p className="text-2xl">{form?.name}</p>
+            //     </div>
+            //     <div className="flex flex-wrap mb-3 -mx-2">
+            //       {form?.fields?.slice(0, 2)?.map((formFields, index) => (
+            //         <div
+            //           className="w-full px-2 mb-3 lg:mb-0 lg:w-1/2 xl:mb-0 2xl:mb-0"
+            //           key={index}
+            //         >
+            //           <FormField
+            //             {...formFields}
+            //             noLabel
+            //             name={formFields?.name}
+            //             variant="secondary"
+            //           />
+            //         </div>
+            //       ))}
+            //     </div>
+            //     {form?.fields?.slice(2)?.map((formFields, index) => (
+            //       <div className="mb-3" key={index}>
+            //         <FormField
+            //           {...formFields}
+            //           noLabel
+            //           name={formFields?.name}
+            //           variant="secondary"
+            //         />
+            //       </div>
+            //     ))}
+            //     <div>
+            //       <div className="webriq-recaptcha" />
+            //     </div>
+            //     {form?.buttonLabel && (
+            //       <Button
+            //         ariaLabel={
+            //           form?.buttonLabel ?? "Call to action form submit button"
+            //         }
+            //         className="w-full py-4 mb-4 text-sm font-bold leading-normal text-white transition duration-200 rounded bg-webriq-blue hover:bg-webriq-darkblue"
+            //         type="submit"
+            //       >
+            //         {form?.buttonLabel}
+            //       </Button>
+            //     )}
+            //   </Form>
+            //   {signInLink?.label && (
+            //     <p className="text-xs text-gray-500">
+            //       <span>Already have an account?</span>
+            //       <ConditionalLink
+            //         link={signInLink}
+            //         className="text-webriq-darkblue hover:text-webriq-babyblue"
+            //         ariaLabel={signInLink?.label}
+            //       >
+            //         {signInLink?.label}
+            //       </ConditionalLink>
+            //     </p>
+            //   )}
+            // </div>
+            <SignUpForm form={form} signInLink={signInLink} />
           )}
           {formLinks && (
             <div className="flex flex-wrap items-center justify-center text-sm text-gray-500">
