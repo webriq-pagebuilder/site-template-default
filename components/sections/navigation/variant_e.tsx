@@ -4,9 +4,10 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { urlFor, PortableText } from "lib/sanity";
 import { EcwidContextProvider } from "context/EcwidContext";
-import { logoLink, ConditionalLink } from "helper";
+import { logoLink } from "helper";
 import { NavigationProps } from ".";
 import { MyPortableTextComponents } from "types";
+import { ConditionalLink } from "components/ui/ConditionalLink";
 
 function VariantE({ banner, logo, links }: NavigationProps) {
   const router = useRouter();
@@ -29,7 +30,7 @@ function VariantE({ banner, logo, links }: NavigationProps) {
     block: {
       normal: ({ children }) => {
         return (
-          <p className="font-heading text-xs font-bold text-white">
+          <p className="text-xs font-bold text-white font-heading">
             {children}
           </p>
         );
@@ -77,7 +78,7 @@ function VariantE({ banner, logo, links }: NavigationProps) {
     <EcwidContextProvider>
       <section className="relative">
         {banner && (
-          <div className="bg-webriq-darkblue py-2">
+          <div className="py-2 bg-webriq-darkblue">
             <div className="flex items-center justify-center">
               <svg
                 className="mr-2"
@@ -110,7 +111,7 @@ function VariantE({ banner, logo, links }: NavigationProps) {
           </div>
         )}
         <nav className="relative flex justify-between">
-          <div className="flex w-full items-center px-12 py-8">
+          <div className="flex items-center w-full px-12 py-8">
             {logo?.image && (
               <Link
                 aria-label={`Go to ${
@@ -129,12 +130,13 @@ function VariantE({ banner, logo, links }: NavigationProps) {
               </Link>
             )}
             {/* larger screens navigation menu links */}
-            <ul className="main-nav absolute top-1/2 hidden transform lg:flex lg:-translate-x-1/2 lg:-translate-y-1/2">
+            <ul className="absolute hidden transform main-nav top-1/2 lg:flex lg:-translate-x-1/2 lg:-translate-y-1/2">
               {links &&
                 links.map((link, index) => (
                   <Fragment key={index}>
                     <li>
                       <ConditionalLink
+                        variant="link"
                         ariaLabel={link?.label}
                         link={link}
                         className={
@@ -151,7 +153,7 @@ function VariantE({ banner, logo, links }: NavigationProps) {
             </ul>
           </div>
           {/* larger screens search, cart and account icons/buttons */}
-          <div className="mr-12 hidden items-center justify-end xl:flex">
+          <div className="items-center justify-end hidden mr-12 xl:flex">
             {/* Search button */}
             <button
               aria-label="Search button"
@@ -172,7 +174,7 @@ function VariantE({ banner, logo, links }: NavigationProps) {
             {showSearchBar && (
               <form
                 id="form"
-                className="mb-10 mr-auto flex items-center bg-white pl-8 lg:mb-0"
+                className="flex items-center pl-8 mb-10 mr-auto bg-white lg:mb-0"
                 method="get"
                 role="search"
                 onSubmit={handleSearchRouting}
@@ -181,7 +183,7 @@ function VariantE({ banner, logo, links }: NavigationProps) {
                   id="query"
                   name="query"
                   aria-label="Search..."
-                  className="mt-1 inline-block h-full w-40 border border-slate-300 bg-white p-2 text-sm placeholder-slate-400 shadow-sm focus:border-webriq-blue focus:outline-none focus:ring-1 focus:ring-webriq-blue"
+                  className="inline-block w-40 h-full p-2 mt-1 text-sm bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:border-webriq-blue focus:outline-none focus:ring-1 focus:ring-webriq-blue"
                   placeholder="Search..."
                   onChange={(e) => setProductQuery(e.target.value)}
                   type="search"
@@ -212,7 +214,7 @@ function VariantE({ banner, logo, links }: NavigationProps) {
               </form>
             )}
             {/* Cart */}
-            <div className="cart-icon mx-10">
+            <div className="mx-10 cart-icon">
               <div data-icon="BAG" className="ec-cart-widget" />
               <a
                 className="cart-link"
@@ -248,7 +250,7 @@ function VariantE({ banner, logo, links }: NavigationProps) {
           </div>
           {/* nav menu sidebar button on mobile view */}
           <button
-            className="navbar-burger mr-12 self-center xl:hidden"
+            className="self-center mr-12 navbar-burger xl:hidden"
             onClick={showMenu}
           >
             <svg
@@ -275,8 +277,8 @@ function VariantE({ banner, logo, links }: NavigationProps) {
             className="fixed inset-0 bg-gray-800 opacity-25"
             onClick={showMenu}
           />
-          <nav className="relative flex h-full w-full flex-col overflow-y-auto border-r bg-white px-6 py-6">
-            <div className="mb-8 flex items-center">
+          <nav className="relative flex flex-col w-full h-full px-6 py-6 overflow-y-auto bg-white border-r">
+            <div className="flex items-center mb-8">
               {logo?.image && (
                 <Link
                   aria-label={`Go to ${
@@ -300,7 +302,7 @@ function VariantE({ banner, logo, links }: NavigationProps) {
                 onClick={showMenu}
               >
                 <svg
-                  className="h-2 w-2 cursor-pointer text-gray-500"
+                  className="w-2 h-2 text-gray-500 cursor-pointer"
                   width={10}
                   height={10}
                   viewBox="0 0 10 10"
@@ -320,7 +322,7 @@ function VariantE({ banner, logo, links }: NavigationProps) {
             {/* show search bar on mobile view */}
             <form
               id="form"
-              className="mt-3 flex bg-white"
+              className="flex mt-3 bg-white"
               method="get"
               role="search"
               onSubmit={handleSearchRouting}
@@ -329,7 +331,7 @@ function VariantE({ banner, logo, links }: NavigationProps) {
                 id="query"
                 name="query"
                 aria-label="Search product"
-                className="inline-block h-full w-full border border-slate-300 bg-white p-2 text-sm placeholder-slate-400 shadow-sm focus:border-webriq-blue focus:outline-none focus:ring-1 focus:ring-webriq-blue sm:w-60"
+                className="inline-block w-full h-full p-2 text-sm bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:border-webriq-blue focus:outline-none focus:ring-1 focus:ring-webriq-blue sm:w-60"
                 placeholder="Search..."
                 onChange={(e) => setProductQuery(e.target.value)}
                 type="search"
@@ -359,12 +361,13 @@ function VariantE({ banner, logo, links }: NavigationProps) {
               </button>
             </form>
             {/* mobile view navigation sidebar */}
-            <ul className="mb-5 mt-10">
+            <ul className="mt-10 mb-5">
               {links &&
                 links.map((link, index) => (
                   <Fragment key={index}>
                     <li className="mb-8">
                       <ConditionalLink
+                        variant="link"
                         ariaLabel={link?.label}
                         link={link}
                         className="font-bold font-heading hover:text-gray-600"
@@ -377,10 +380,10 @@ function VariantE({ banner, logo, links }: NavigationProps) {
             </ul>
             <hr />
             {/* mobile view cart and account buttons */}
-            <div className="mx-auto mt-3 flex items-center">
+            <div className="flex items-center mx-auto mt-3">
               {/* Cart */}
               <a
-                className="cart-icon cart-link mr-10 flex"
+                className="flex mr-10 cart-icon cart-link"
                 aria-label="Cart"
                 href="/cart?store-page=cart"
               >

@@ -2,8 +2,9 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { urlFor } from "lib/sanity";
-import { logoLink, ConditionalLink } from "helper";
+import { logoLink } from "helper";
 import { NavigationProps } from ".";
+import { ConditionalLink } from "components/ui/ConditionalLink";
 
 function VariantA({
   template,
@@ -18,7 +19,7 @@ function VariantA({
   };
   return (
     <section>
-      <nav className="relative flex items-center justify-between bg-white px-6 py-6">
+      <nav className="relative flex items-center justify-between px-6 py-6 bg-white">
         {logo?.image && (
           <Link
             aria-label={`Go to ${
@@ -38,11 +39,11 @@ function VariantA({
         <div className="lg:hidden">
           <button
             aria-label="Navigation Menu"
-            className="navbar-burger flex items-center p-3 text-webriq-darkblue"
+            className="flex items-center p-3 navbar-burger text-webriq-darkblue"
             onClick={showMenu}
           >
             <svg
-              className="block h-4 w-4 fill-current"
+              className="block w-4 h-4 fill-current"
               viewBox="0 0 20 20"
               xmlns="http://www.w3.org/2000/svg"
             >
@@ -51,12 +52,13 @@ function VariantA({
             </svg>
           </button>
         </div>
-        <ul className="absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 transform lg:mx-auto lg:flex lg:w-auto lg:items-center lg:space-x-6">
+        <ul className="absolute hidden transform -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2 lg:mx-auto lg:flex lg:w-auto lg:items-center lg:space-x-6">
           {links &&
             links?.map((link, index) => (
               <React.Fragment key={index}>
                 <li>
                   <ConditionalLink
+                    variant="link"
                     ariaLabel={link?.label}
                     link={link}
                     className="text-sm text-gray-500 hover:text-gray-900"
@@ -67,7 +69,7 @@ function VariantA({
                 {links.length !== index + 1 ? (
                   <li className="text-gray-500">
                     <svg
-                      className="current-fill h-4 w-4"
+                      className="w-4 h-4 current-fill"
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
                       viewBox="0 0 24 24"
@@ -89,7 +91,7 @@ function VariantA({
           <ConditionalLink
             ariaLabel={primaryButton?.label}
             link={primaryButton}
-            className="hidden lg:inline-block lg:ml-auto lg:mr-3 py-2 px-6 bg-gray-50 hover:bg-gray-100 text-sm text-gray-900 font-bold rounded-l-xl rounded-t-xl transition duration-200"
+            className="hidden px-6 py-2 text-sm font-bold text-gray-900 transition duration-200 lg:inline-block lg:ml-auto lg:mr-3 bg-gray-50 hover:bg-gray-100 rounded-l-xl rounded-t-xl"
           >
             {primaryButton?.label}
           </ConditionalLink>
@@ -106,18 +108,18 @@ function VariantA({
       </nav>
       <div className={`${menu ? null : "hidden"} navbar-menu relative z-50`}>
         <div
-          className="navbar-backdrop fixed inset-0 bg-gray-800 opacity-25"
+          className="fixed inset-0 bg-gray-800 opacity-25 navbar-backdrop"
           onClick={showMenu}
         />
-        <nav className="fixed bottom-0 left-0 top-0 flex w-5/6 max-w-sm flex-col overflow-y-auto border-r bg-white px-6 py-6">
-          <div className="mb-8 flex items-center">
+        <nav className="fixed top-0 bottom-0 left-0 flex flex-col w-5/6 max-w-sm px-6 py-6 overflow-y-auto bg-white border-r">
+          <div className="flex items-center mb-8">
             <button
               aria-label="Navigation Menu"
               className="navbar-close"
               onClick={showMenu}
             >
               <svg
-                className="h-6 w-6 cursor-pointer text-gray-500 hover:text-gray-500"
+                className="w-6 h-6 text-gray-500 cursor-pointer hover:text-gray-500"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
@@ -138,8 +140,9 @@ function VariantA({
                 {links?.map((link, index) => (
                   <li className="mb-1" key={index}>
                     <ConditionalLink
+                      variant="link"
                       ariaLabel={link?.label}
-                      className="block p-4 text-sm font-semibold text-gray-900 hover:bg-webriq-lightblue hover:text-webriq-darkblue rounded"
+                      className="block p-4 text-sm font-semibold text-gray-900 rounded hover:bg-webriq-lightblue hover:text-webriq-darkblue"
                       link={link}
                     >
                       {link?.label}
@@ -155,7 +158,7 @@ function VariantA({
                 <ConditionalLink
                   ariaLabel={primaryButton?.label}
                   link={primaryButton}
-                  className="block px-4 py-3 mb-3 leading-loose text-xs text-center font-semibold bg-gray-50 hover:bg-gray-100 rounded-l-xl rounded-t-xl"
+                  className="block px-4 py-3 mb-3 text-xs font-semibold leading-loose text-center text-gray-900 bg-gray-50 hover:bg-gray-100 rounded-l-xl rounded-t-xl"
                 >
                   {primaryButton?.label}
                 </ConditionalLink>
@@ -170,7 +173,7 @@ function VariantA({
                 </ConditionalLink>
               )}
             </div>
-            <p className="my-4 text-center text-xs text-gray-900">
+            <p className="my-4 text-xs text-center text-gray-900">
               <span>{`© ${new Date().getFullYear()} All rights reserved.`}</span>
             </p>
           </div>
