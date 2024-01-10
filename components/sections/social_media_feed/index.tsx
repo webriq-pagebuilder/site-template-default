@@ -12,16 +12,21 @@ const Variants = {
 function SocialMediaFeed({ data }: SectionsProps) {
   const variant = data?.variant;
   const Variant = Variants?.[variant];
+  let accountInfo;
   const { profileFeed, setProfileFeed } = useSocialMediaFeed();
 
+  if (data?.variants?.selectAccount) {
+    accountInfo = JSON.parse(data?.variants?.selectAccount);
+  }
+
   useEffect(() => {
-    setProfileFeed({ platform: data?.variants?.platform });
-  }, [data?.variants?.platform, setProfileFeed]);
+    setProfileFeed(accountInfo);
+  }, [accountInfo, setProfileFeed]);
 
   const props = {
     media: profileFeed?.media,
-    username: profileFeed?.media?.[0]?.username,
-    platform: data?.variants?.platform,
+    username: profileFeed?.userName,
+    platform: profileFeed?.platform,
   };
 
   return Variant ? <Variant {...props} /> : null;

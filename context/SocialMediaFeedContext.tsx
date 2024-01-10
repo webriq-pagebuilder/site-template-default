@@ -1,5 +1,8 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { NEXT_PUBLIC_SITE_URL } from "studio/config";
+import {
+  NEXT_PUBLIC_APP_URL,
+  NEXT_PUBLIC_SANITY_PROJECT_ID,
+} from "studio/config";
 
 interface SocialMediaFeedContextProps {
   children: React.ReactNode;
@@ -15,50 +18,54 @@ export function SocialMediaFeedContextProvider({
   children,
 }: SocialMediaFeedContextProps) {
   const initialState = {
+    itemId: "",
     platform: "",
+    userName: "",
     status: "loading",
     media: [],
   };
-
   const [profileFeed, setProfileFeed] = useState(initialState);
 
   useEffect(() => {
-    setProfileFeed((prevState) => ({
-      ...prevState,
-      platform: profileFeed?.platform,
-    }));
-
-    if (profileFeed?.platform === "instagram") {
-      fetchInstagramMedia();
-    }
-  }, [profileFeed?.platform]);
-
-  async function fetchInstagramMedia() {
-    fetch(`${NEXT_PUBLIC_SITE_URL}/api/social-accounts/instagram`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => response.json())
-      .then((response) => {
-        const userMedia = response?.data;
-
-        userMedia &&
-          setProfileFeed({
-            platform: "instagram",
-            status: "success",
-            media: userMedia,
-          });
+    async function fetchUserMedia() {
+      fetch(`${NEXT_PUBLIC_APP_URL}/api/social-accounts`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          action: "get_usermedia",
+          platform: profileFeed?.platform,
+          studioId: NEXT_PUBLIC_SANITY_PROJECT_ID,
+          itemId: profileFeed?.itemId,
+        }),
       })
-      .catch((error) => {
-        console.error(error);
-        setProfileFeed((prevState) => ({
-          ...prevState,
-          status: "error",
-        }));
-      });
-  }
+        .then((response) => response.json())
+        .then((response) => {
+          const userMedia = response?.data;
+
+          userMedia &&
+            setProfileFeed({
+              itemId: profileFeed?.itemId,
+              platform: profileFeed?.platform,
+              userName: profileFeed?.userName,
+              status: "success",
+              media: userMedia,
+            });
+        })
+        .catch((error) => {
+          console.error(error);
+          setProfileFeed((prevState) => ({
+            ...prevState,
+            status: "error",
+          }));
+        });
+    }
+
+    if (profileFeed?.platform && profileFeed?.itemId) {
+      fetchUserMedia();
+    }
+  }, [profileFeed]);
 
   return (
     <SocialMediaFeedContext.Provider value={{ profileFeed, setProfileFeed }}>
