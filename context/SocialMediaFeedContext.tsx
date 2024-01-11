@@ -24,11 +24,15 @@ export function SocialMediaFeedContextProvider({
     status: "loading",
     media: [],
   };
+
+  const URL =
+    "https://feat-socialmedia--dxpstudio-staging.netlify.app/api/social-accounts/media";
+
   const [profileFeed, setProfileFeed] = useState(initialState);
 
   useEffect(() => {
     async function fetchUserMedia() {
-      fetch(`${NEXT_PUBLIC_APP_URL}/api/social-accounts/media`, {
+      fetch(URL, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
