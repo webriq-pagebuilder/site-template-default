@@ -3,6 +3,7 @@ import Image from "next/image";
 import { urlFor } from "lib/sanity";
 import { TeamsProps } from ".";
 import { Card } from "components/ui/Card";
+import { Text } from "components/ui/Text";
 
 function VariantD({ caption, title, team }: TeamsProps) {
   return (
@@ -13,11 +14,7 @@ function VariantD({ caption, title, team }: TeamsProps) {
             {caption && (
               <span className="font-bold text-webriq-darkblue">{caption}</span>
             )}
-            {title && (
-              <h1 className="text-4xl font-bold font-heading lg:text-5xl">
-                {title}
-              </h1>
-            )}
+            {title && <Text type="h1">{title}</Text>}
           </div>
           <div className="flex flex-wrap -mx-4">
             {team &&
@@ -43,9 +40,9 @@ function VariantD({ caption, title, team }: TeamsProps) {
                       <p className="mb-2 text-2xl font-bold font-heading">
                         {member?.name}
                       </p>
-                      <p className="mb-4 leading-loose text-gray-500">
+                      <Text className="mb-4 leading-loose " muted>
                         {member?.plainText}
-                      </p>
+                      </Text>
                     </div>
                   </Card>
                 </div>

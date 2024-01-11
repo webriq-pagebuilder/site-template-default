@@ -2,6 +2,7 @@ import React from "react";
 import { TestimonialProps } from ".";
 import { SwiperButton } from "components/ui/SwiperButton";
 import { Card } from "components/ui/Card";
+import { Text } from "components/ui/Text";
 
 function VariantB({ caption, title, testimonials }: TestimonialProps) {
   const [testimony, setTestimony] = React.useState(testimonials);
@@ -37,9 +38,9 @@ function VariantB({ caption, title, testimonials }: TestimonialProps) {
             )}
             <div className="max-w-lg mx-auto mb-10 text-center">
               <span className="font-bold text-webriq-darkblue">{caption}</span>
-              <h1 className="mt-4 text-4xl font-bold font-heading lg:text-5xl">
+              <Text type="h1" className="mt-4">
                 {title}
-              </h1>
+              </Text>
             </div>
             {testimony?.length >= 4 && (
               <SwiperButton
@@ -76,13 +77,13 @@ function VariantB({ caption, title, testimonials }: TestimonialProps) {
                           fill="currentColor"
                         />
                       </svg>
-                      <p className="mb-4 leading-loose text-gray-500">
+                      <Text className="mb-4 leading-loose" muted>
                         {testimonial?.testimony}
-                      </p>
+                      </Text>
                       <p className="font-bold font-heading">
                         {testimonial?.name}
                       </p>
-                      <p className="text-gray-500">{testimonial?.jobTitle}</p>
+                      <Text muted>{testimonial?.jobTitle}</Text>
                     </Card>
                   </div>
                 ))}

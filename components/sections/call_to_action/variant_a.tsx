@@ -13,16 +13,16 @@ function VariantA({ logo, title, text, button }: CTAProps) {
     <section>
       <div>
         <svg
-          className="h-8 w-full text-gray-50 md:h-12 lg:h-20"
+          className="w-full h-8 text-gray-50 md:h-12 lg:h-20"
           viewBox="0 0 10 10"
           preserveAspectRatio="none"
         >
           <polygon fill="currentColor" points="0 10 10 0 10 10"></polygon>
         </svg>
       </div>
-      <div className="rounded-br-3xl rounded-tl-3xl bg-gray-50 py-20">
-        <div className="container mx-auto px-4">
-          <div className="mx-auto max-w-xl text-center">
+      <div className="py-20 rounded-br-3xl rounded-tl-3xl bg-gray-50">
+        <div className="container px-4 mx-auto">
+          <div className="max-w-xl mx-auto text-center">
             {logo?.image && (
               <Link
                 aria-label={
@@ -30,7 +30,7 @@ function VariantA({ logo, title, text, button }: CTAProps) {
                     ? "Go to home page"
                     : `Go to ${logoLink(logo)}`
                 }
-                className="mb-6 inline-block text-3xl font-bold leading-none"
+                className="inline-block mb-6 text-3xl font-bold leading-none"
                 href={logoLink(logo)}
               >
                 <Image
@@ -43,7 +43,7 @@ function VariantA({ logo, title, text, button }: CTAProps) {
               </Link>
             )}
             <Text type="h1">{title}</Text>
-            <p className="mx-auto mb-6 max-w-md leading-loose text-gray-700">
+            <p className="max-w-md mx-auto mb-6 leading-loose text-gray-700">
               {text}
             </p>
             {button?.label && (
@@ -56,7 +56,7 @@ function VariantA({ logo, title, text, button }: CTAProps) {
       </div>
       <div>
         <svg
-          className="h-8 w-full text-gray-50 md:h-12 lg:h-20"
+          className="w-full h-8 text-gray-50 md:h-12 lg:h-20"
           viewBox="0 0 10 10"
           preserveAspectRatio="none"
         >

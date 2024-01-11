@@ -103,6 +103,11 @@ const meta = {
   title: "Sections/App Promo",
   component: AppPromoComponent,
   tags: ["autodocs"],
+  argTypes: {
+    statItems: {
+      if: { arg: "variant", eq: "variant_b" },
+    },
+  },
   render: ({ variant, ...args }) => {
     const data = {
       variant: variant,
@@ -114,7 +119,7 @@ const meta = {
 } satisfies Meta<typeof AppPromoComponent> & any;
 
 export default meta;
-type Story = StoryObj<Sections>;
+type Story = StoryObj<Sections> & any;
 
 export const variant_a: Story = {
   args: {

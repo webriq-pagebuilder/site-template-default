@@ -8,14 +8,23 @@ type TextProps = {
   className?: string;
   children: React.ReactNode;
   style?: React.CSSProperties;
+  muted?: boolean;
+  [key: string]: any;
 };
 
-export function Text({ type = "p", className, children, style }: TextProps) {
+export function Text({
+  type = "p",
+  className,
+  children,
+  style,
+  muted = false,
+  ...props
+}: TextProps) {
   const Element: Type = ["h1", "h2", "h3", "h4", "h5", "h6", "p"].includes(type)
     ? type
     : "p";
 
-  const commonClass = "";
+  const commonClass = `${muted && "text-gray-500"}`;
 
   const variants: StyleVariants<Type> = {
     h1: `${commonClass} text-4xl font-bold lg:text-5xl font-heading`,
@@ -29,7 +38,7 @@ export function Text({ type = "p", className, children, style }: TextProps) {
 
   const variantClass = variants[type] ?? variants["p"];
   return (
-    <Element style={style} className={cn(variantClass, className)}>
+    <Element style={style} className={cn(variantClass, className)} {...props}>
       {children}
     </Element>
   );

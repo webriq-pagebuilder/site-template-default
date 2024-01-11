@@ -3,6 +3,7 @@ import Image from "next/image";
 import { urlFor } from "lib/sanity";
 import { TeamsProps } from ".";
 import { Card } from "components/ui/Card";
+import { Text } from "components/ui/Text";
 
 function VariantB({ team }: TeamsProps) {
   const [activeTab, setActiveTab] = React.useState(team?.[0]?.name); // default active tab is the first tab
@@ -56,10 +57,12 @@ function VariantB({ team }: TeamsProps) {
                         <p className="text-2xl font-bold font-heading">
                           {member?.name}
                         </p>
-                        <p className="mb-6 text-gray-500">{member?.jobTitle}</p>
-                        <p className="mb-6 text-justify text-gray-500">
+                        <Text className="mb-6" muted>
+                          {member?.jobTitle}
+                        </Text>
+                        <Text className="mb-6 text-justify " muted>
                           {member?.plainText}
-                        </p>
+                        </Text>
                       </div>
                     </Card>
                   ))}

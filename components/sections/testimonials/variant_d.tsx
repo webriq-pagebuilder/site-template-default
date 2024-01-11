@@ -4,6 +4,7 @@ import { urlFor } from "lib/sanity";
 import { TestimonialProps } from ".";
 import { SwiperButton } from "components/ui/SwiperButton";
 import { Card } from "components/ui/Card";
+import { Text } from "components/ui/Text";
 
 function VariantD({ testimonials }: TestimonialProps) {
   const [testimony, setTestimony] = React.useState(0);
@@ -164,15 +165,16 @@ function VariantD({ testimonials }: TestimonialProps) {
                       fill="currentColor"
                     />
                   </svg>
-                  <p className="mb-10 text-xl leading-loose text-gray-500 lg:text-2xl">
+                  <Text
+                    muted
+                    className="mb-10 text-xl leading-loose lg:text-2xl"
+                  >
                     {testimonials[testimony]?.testimony}
-                  </p>
+                  </Text>
                   <p className="text-2xl font-bold font-heading">
                     {testimonials[testimony]?.name}
                   </p>
-                  <p className="text-gray-500">
-                    {testimonials[testimony]?.jobTitle}
-                  </p>
+                  <Text muted>{testimonials[testimony]?.jobTitle}</Text>
                 </div>
               </Card>
             )}

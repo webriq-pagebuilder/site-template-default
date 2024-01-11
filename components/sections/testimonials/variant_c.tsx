@@ -1,10 +1,10 @@
 import React from "react";
-import Image from "next/image";
 import { urlFor } from "lib/sanity";
 import { TestimonialProps } from ".";
 import { SwiperButton } from "components/ui/SwiperButton/SwiperButton";
 import { Avatar } from "components/ui/Avatar";
 import { Card } from "components/ui/Card";
+import { Text } from "components/ui/Text";
 
 function VariantC({ caption, title, testimonials }: TestimonialProps) {
   const [testimony, setTestimony] = React.useState(testimonials);
@@ -32,9 +32,9 @@ function VariantC({ caption, title, testimonials }: TestimonialProps) {
           <div className="flex flex-wrap items-center justify-center text-center lg:justify-between lg:text-left">
             <div className="w-full mb-4 lg:mb-0 lg:w-4/5">
               <span className="font-bold text-webriq-darkblue">{caption}</span>
-              <h1 className="text-4xl font-bold font-heading lg:text-5xl">
+              <Text type="h1" className="">
                 {title}
-              </h1>
+              </Text>
             </div>
             <div className="w-full lg:w-1/5">
               {testimony?.length >= 4 && (
@@ -62,9 +62,9 @@ function VariantC({ caption, title, testimonials }: TestimonialProps) {
               {testimony?.slice(0, 3)?.map((item, index) => (
                 <div className="w-full px-3 mb-4 lg:w-1/3" key={index}>
                   <Card className="p-8 text-center ">
-                    <p className="mb-8 leading-loose text-gray-500">
+                    <Text className="mb-8 leading-loose" muted>
                       {item?.testimony}
-                    </p>
+                    </Text>
                     {item?.mainImage?.image && (
                       <Avatar
                         size={48}
@@ -79,7 +79,7 @@ function VariantC({ caption, title, testimonials }: TestimonialProps) {
                     <p className="mb-1 text-2xl font-bold font-heading">
                       {item?.name}
                     </p>
-                    <p className="text-gray-500">{item?.jobTitle}</p>
+                    <Text muted>{item?.jobTitle}</Text>
                   </Card>
                 </div>
               ))}

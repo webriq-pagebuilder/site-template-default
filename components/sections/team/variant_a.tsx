@@ -4,6 +4,7 @@ import { urlFor } from "lib/sanity";
 import { TeamsProps } from ".";
 import { Card } from "components/ui/Card";
 import { Avatar } from "components/ui/Avatar";
+import { Text } from "components/ui/Text";
 
 function VariantA({ caption, title, team }: TeamsProps) {
   return (
@@ -14,11 +15,7 @@ function VariantA({ caption, title, team }: TeamsProps) {
             {caption && (
               <span className="font-bold text-webriq-darkblue">{caption}</span>
             )}
-            {title && (
-              <h1 className="text-4xl font-bold font-heading lg:text-5xl">
-                {title}
-              </h1>
-            )}
+            {title && <Text type="h1">{title}</Text>}
           </div>
           <div className="flex flex-wrap">
             {team &&
@@ -42,7 +39,7 @@ function VariantA({ caption, title, team }: TeamsProps) {
                     <h1 className="mb-2 text-2xl font-bold font-heading">
                       {member?.name}
                     </h1>
-                    <p className="text-gray-500">{member?.jobTitle}</p>
+                    <Text muted>{member?.jobTitle}</Text>
                   </Card>
                 </div>
               ))}

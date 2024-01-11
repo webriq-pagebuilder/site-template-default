@@ -4,6 +4,7 @@ import { urlFor } from "lib/sanity";
 import { TestimonialProps } from ".";
 import { Avatar } from "components/ui/Avatar";
 import { Card } from "components/ui/Card";
+import { Text } from "components/ui/Text";
 
 function VariantA({ testimonials }: TestimonialProps) {
   const [testimony, setTestimony] = React.useState(0);
@@ -58,9 +59,9 @@ function VariantA({ testimonials }: TestimonialProps) {
                       fill="currentColor"
                     />
                   </svg>
-                  <p className="mb-6 font-bold text-md font-heading lg:text-4xl">
+                  <Text type="h1" className="mb-6 text-md lg:text-4xl">
                     {testimonials?.[testimony]?.testimony}
-                  </p>
+                  </Text>
                   {testimonials?.length > 1 && (
                     <div>
                       {testimonials.map((item, index) => (
