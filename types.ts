@@ -61,7 +61,7 @@ export interface Variants {
   monthlyBilling?: string;
   productDetails?: ProductDetail[];
   btnLabel?: string;
-  platform?: string;
+  selectAccount?: string;
 }
 
 export interface Template {

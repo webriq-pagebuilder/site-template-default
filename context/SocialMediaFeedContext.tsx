@@ -28,7 +28,7 @@ export function SocialMediaFeedContextProvider({
 
   useEffect(() => {
     async function fetchUserMedia() {
-      fetch(`${NEXT_PUBLIC_APP_URL}/api/social-accounts`, {
+      fetch(`${NEXT_PUBLIC_APP_URL}/api/social-accounts/media`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -43,7 +43,6 @@ export function SocialMediaFeedContextProvider({
         .then((response) => response.json())
         .then((response) => {
           const userMedia = response?.data;
-
           userMedia &&
             setProfileFeed({
               itemId: profileFeed?.itemId,
@@ -62,10 +61,8 @@ export function SocialMediaFeedContextProvider({
         });
     }
 
-    if (profileFeed?.platform && profileFeed?.itemId) {
-      fetchUserMedia();
-    }
-  }, [profileFeed]);
+    fetchUserMedia();
+  }, [profileFeed?.itemId, profileFeed?.platform, profileFeed?.userName]);
 
   return (
     <SocialMediaFeedContext.Provider value={{ profileFeed, setProfileFeed }}>
