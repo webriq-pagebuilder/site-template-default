@@ -3,6 +3,7 @@ import Image from "next/image";
 import { urlFor } from "lib/sanity";
 import { ConditionalLink } from "components/ui/ConditionalLink";
 import { PortfolioProps } from ".";
+import { Text } from "components/ui/Text";
 
 function VariantA({ caption, title, portfoliosWithCategory }: PortfolioProps) {
   let portfolioLength = 8; //set initial number of portfolios to display for this variant
@@ -23,11 +24,7 @@ function VariantA({ caption, title, portfoliosWithCategory }: PortfolioProps) {
             {caption && (
               <span className="font-bold text-webriq-darkblue">{caption}</span>
             )}
-            {title && (
-              <h1 className="mb-6 text-4xl font-bold font-heading lg:text-5xl">
-                {title}
-              </h1>
-            )}
+            {title && <Text className="mb-6 ">{title}</Text>}
             {portfoliosWithCategory && (
               <div className="inline-flex flex-wrap py-1 text-sm bg-white rounded">
                 {portfoliosWithCategory?.map((content, index) => (

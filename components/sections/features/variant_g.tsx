@@ -2,6 +2,7 @@ import React from "react";
 import Image from "next/image";
 import { urlFor } from "lib/sanity";
 import { FeaturesProps } from ".";
+import { Text } from "components/ui/Text";
 
 function VariantG({
   caption,
@@ -12,10 +13,10 @@ function VariantG({
 }: FeaturesProps) {
   return (
     <section>
-      <div className="radius-for-skewed bg-gray-50 py-20">
-        <div className="container mx-auto px-4">
-          <div className="-mx-4 flex flex-wrap items-center">
-            <div className="mb-12 w-full px-4 lg:mb-0 lg:w-1/2">
+      <div className="py-20 radius-for-skewed bg-gray-50">
+        <div className="container px-4 mx-auto">
+          <div className="flex flex-wrap items-center -mx-4">
+            <div className="w-full px-4 mb-12 lg:mb-0 lg:w-1/2">
               <div className="max-w-md">
                 {caption && (
                   <span className="font-bold text-webriq-darkblue">
@@ -23,21 +24,21 @@ function VariantG({
                   </span>
                 )}
                 {title && (
-                  <h1 className="font-heading mb-3 text-4xl font-bold lg:text-5xl">
+                  <Text type="h1" className="mb-3">
                     {title}
-                  </h1>
+                  </Text>
                 )}
                 {description && (
-                  <p className="mb-6 max-w-sm leading-loose text-gray-500">
+                  <p className="max-w-sm mb-6 leading-loose text-gray-500">
                     {description}
                   </p>
                 )}
                 <ul className="font-bold text-gray-500">
                   {tags &&
                     tags.map((item) => (
-                      <li className="mb-2 flex items-center" key={item}>
+                      <li className="flex items-center mb-2" key={item}>
                         <svg
-                          className="mr-2 h-5 w-5 text-webriq-blue"
+                          className="w-5 h-5 mr-2 text-webriq-blue"
                           xmlns="http://www.w3.org/2000/svg"
                           viewBox="0 0 20 20"
                           fill="currentColor"
@@ -56,8 +57,8 @@ function VariantG({
             </div>
             {images && (
               <div className="w-full lg:w-1/2">
-                <div className="mb-4 items-end lg:flex lg:flex-wrap xl:flex xl:flex-wrap 2xl:flex 2xl:flex-wrap">
-                  <div className="mb-4 h-full px-3 lg:mb-0 lg:w-2/3 xl:mb-0 xl:w-2/3 2xl:mb-0 2xl:w-2/3">
+                <div className="items-end mb-4 lg:flex lg:flex-wrap xl:flex xl:flex-wrap 2xl:flex 2xl:flex-wrap">
+                  <div className="h-full px-3 mb-4 lg:mb-0 lg:w-2/3 xl:mb-0 xl:w-2/3 2xl:mb-0 2xl:w-2/3">
                     {images?.[0]?.image && (
                       <div className="overflow-hidden rounded">
                         <Image
@@ -75,7 +76,7 @@ function VariantG({
                     {images?.[1]?.image && (
                       <div className="overflow-hidden rounded">
                         <Image
-                          className="h-auto w-full object-cover"
+                          className="object-cover w-full h-auto"
                           src={urlFor(images[1]?.image)}
                           sizes="100vw"
                           width={166}
@@ -86,8 +87,8 @@ function VariantG({
                     )}
                   </div>
                 </div>
-                <div className="mb-4 items-start lg:flex lg:flex-wrap xl:flex xl:flex-wrap 2xl:flex 2xl:flex-wrap">
-                  <div className="mb-4 h-full px-3 lg:mb-0 lg:w-1/3 xl:mb-0 xl:w-1/3 2xl:mb-0 2xl:w-1/3">
+                <div className="items-start mb-4 lg:flex lg:flex-wrap xl:flex xl:flex-wrap 2xl:flex 2xl:flex-wrap">
+                  <div className="h-full px-3 mb-4 lg:mb-0 lg:w-1/3 xl:mb-0 xl:w-1/3 2xl:mb-0 2xl:w-1/3">
                     {images?.[2]?.image && (
                       <div className="overflow-hidden rounded">
                         <Image
@@ -105,7 +106,7 @@ function VariantG({
                     {images?.[3]?.image && (
                       <div className="overflow-hidden rounded">
                         <Image
-                          className="h-auto w-full object-cover"
+                          className="object-cover w-full h-auto"
                           src={urlFor(images[3]?.image)}
                           width={356}
                           height={192}

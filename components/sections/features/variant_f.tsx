@@ -3,6 +3,7 @@ import Image from "next/image";
 import { urlFor } from "lib/sanity";
 import { FeaturesProps } from ".";
 import { ConditionalLink } from "components/ui/ConditionalLink";
+import { Text } from "components/ui/Text";
 
 function VariantF({
   caption,
@@ -21,11 +22,7 @@ function VariantF({
                 <span className="font-bold text-webriq-darkblue">
                   {caption}
                 </span>
-                {title && (
-                  <h1 className="mb-6 text-4xl font-bold font-heading lg:text-5xl">
-                    {title}
-                  </h1>
-                )}
+                {title && <Text className="mb-6">{title}</Text>}
                 {description && (
                   <div className="max-w-sm mb-6">
                     <p className="leading-loose text-gray-500">{description}</p>

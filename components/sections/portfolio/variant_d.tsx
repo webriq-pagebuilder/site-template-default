@@ -3,6 +3,7 @@ import Image from "next/image";
 import { urlFor } from "lib/sanity";
 import { ConditionalLink } from "helper";
 import { PortfolioProps } from ".";
+import { Text } from "components/ui/Text";
 
 function VariantD({ caption, title, portfoliosWithCategory }: PortfolioProps) {
   let portfoliosPerPage = 6,
@@ -18,19 +19,19 @@ function VariantD({ caption, title, portfoliosWithCategory }: PortfolioProps) {
 
   return (
     <section>
-      <div className="radius-for-skewed bg-gray-50 py-20">
-        <div className="container mx-auto px-4">
-          <div className="mx-auto mb-8 max-w-lg text-center md:mb-16">
+      <div className="py-20 radius-for-skewed bg-gray-50">
+        <div className="container px-4 mx-auto">
+          <div className="max-w-lg mx-auto mb-8 text-center md:mb-16">
             {caption && (
               <span className="font-bold text-webriq-darkblue">{caption}</span>
             )}
             {title && (
-              <h1 className="font-heading mb-6 text-4xl font-bold lg:text-5xl">
+              <Text type="h1" className="mb-6">
                 {title}
-              </h1>
+              </Text>
             )}
             {portfoliosWithCategory && (
-              <div className="inline-flex flex-wrap rounded bg-white py-1 text-sm">
+              <div className="inline-flex flex-wrap py-1 text-sm bg-white rounded">
                 {portfoliosWithCategory?.map((content, index) => (
                   <button
                     aria-label={content?.category}
@@ -48,34 +49,34 @@ function VariantD({ caption, title, portfoliosWithCategory }: PortfolioProps) {
               </div>
             )}
           </div>
-          <div className="-mx-4 mb-12 sm:flex">
-            <div className="mb-8 flex w-full flex-wrap lg:mb-0 lg:w-1/2">
+          <div className="mb-12 -mx-4 sm:flex">
+            <div className="flex flex-wrap w-full mb-8 lg:mb-0 lg:w-1/2">
               {portfoliosPerCategory?.[0]?.content
                 ?.slice(count, count + 2)
                 ?.map((content) => (
                   <div
-                    className="mb-8 w-full px-4 lg:w-1/2"
+                    className="w-full px-4 mb-8 lg:w-1/2"
                     key={content?._key}
                   >
                     {content?.mainImage?.image && (
                       <div className="relative overflow-hidden rounded">
                         <Image
-                          className="h-64 w-full object-cover"
+                          className="object-cover w-full h-64"
                           src={urlFor(content?.mainImage?.image)}
                           sizes="100vw"
                           width={352}
                           height={280}
                           alt={`portfolio-image-${content?._key}`}
                         />
-                        <div className="absolute inset-0 z-10 justify-center rounded-lg bg-gray-900 p-6 opacity-0 duration-300 hover:opacity-80">
-                          <div className="my-auto max-w-md text-xs">
+                        <div className="absolute inset-0 z-10 justify-center p-6 duration-300 bg-gray-900 rounded-lg opacity-0 hover:opacity-80">
+                          <div className="max-w-md my-auto text-xs">
                             <span className="font-bold text-webriq-blue">
                               {content?.subtitle}
                             </span>
                             <h1 className="my-5 font-bold text-white">
                               {content?.title}
                             </h1>
-                            <div className="my-5 max-w-xs">
+                            <div className="max-w-xs my-5">
                               <p className="mb-6 text-gray-500">
                                 {content?.description}
                               </p>
@@ -83,7 +84,7 @@ function VariantD({ caption, title, portfoliosWithCategory }: PortfolioProps) {
                                 <ConditionalLink
                                   ariaLabel={content?.primaryButton?.label}
                                   link={content?.primaryButton}
-                                  className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose"
+                                  className="inline-block px-6 py-2 font-bold leading-loose rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50"
                                 >
                                   {content?.primaryButton?.label}
                                 </ConditionalLink>
@@ -99,28 +100,28 @@ function VariantD({ caption, title, portfoliosWithCategory }: PortfolioProps) {
                 ?.slice(count + 2, count + 3)
                 ?.map((content) => (
                   <div
-                    className="mb-8 w-full px-4 lg:h-full lg:w-full lg:px-4 xl:px-4"
+                    className="w-full px-4 mb-8 lg:h-full lg:w-full lg:px-4 xl:px-4"
                     key={content?._key}
                   >
                     {content?.mainImage?.image && (
                       <div className="relative overflow-hidden rounded">
                         <Image
-                          className="h-128 w-full object-cover"
+                          className="object-cover w-full h-128"
                           src={urlFor(content?.mainImage?.image)}
                           sizes="100vw"
                           width={352}
                           height={256}
                           alt={`portfolio-image-${content?._key}`}
                         />
-                        <div className="absolute inset-0 z-10 h-full justify-center rounded-lg bg-gray-900 p-6 opacity-0 duration-300 hover:opacity-80">
-                          <div className="my-auto max-w-md text-xs lg:mt-10 lg:text-sm xl:mt-10 xl:text-sm 2xl:mt-10 2xl:text-sm">
+                        <div className="absolute inset-0 z-10 justify-center h-full p-6 duration-300 bg-gray-900 rounded-lg opacity-0 hover:opacity-80">
+                          <div className="max-w-md my-auto text-xs lg:mt-10 lg:text-sm xl:mt-10 xl:text-sm 2xl:mt-10 2xl:text-sm">
                             <span className="font-bold text-webriq-blue">
                               {content?.subtitle}
                             </span>
                             <h1 className="my-5 font-bold text-white lg:text-4xl xl:text-4xl 2xl:text-4xl">
                               {content?.title}
                             </h1>
-                            <div className="my-5 max-w-sm">
+                            <div className="max-w-sm my-5">
                               <p className="mb-6 text-gray-500">
                                 {content?.description}
                               </p>
@@ -128,7 +129,7 @@ function VariantD({ caption, title, portfoliosWithCategory }: PortfolioProps) {
                                 <ConditionalLink
                                   ariaLabel={content?.primaryButton?.label}
                                   link={content?.primaryButton}
-                                  className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose"
+                                  className="inline-block px-6 py-2 font-bold leading-loose rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50"
                                 >
                                   {content?.primaryButton?.label}
                                 </ConditionalLink>
@@ -146,28 +147,28 @@ function VariantD({ caption, title, portfoliosWithCategory }: PortfolioProps) {
                 ?.slice(count + 3, count + 4)
                 ?.map((content) => (
                   <div
-                    className="mb-8 w-full px-4 lg:w-full lg:px-4 xl:w-full xl:px-4"
+                    className="w-full px-4 mb-8 lg:w-full lg:px-4 xl:w-full xl:px-4"
                     key={content?._key}
                   >
                     {content?.mainImage?.image && (
                       <div className="relative overflow-hidden rounded">
                         <Image
-                          className="h-128 w-full object-cover"
+                          className="object-cover w-full h-128"
                           src={urlFor(content?.mainImage?.image)}
                           sizes="100vw"
                           width={352}
                           height={256}
                           alt={`portfolio-image-${content?._key}`}
                         />
-                        <div className="absolute inset-0 z-10 h-full justify-center rounded-lg bg-gray-900 p-6 opacity-0 duration-300 hover:opacity-80 ">
-                          <div className="my-auto max-w-md text-xs lg:mt-10 lg:text-sm xl:mt-10 xl:text-sm 2xl:mt-10 2xl:text-sm">
+                        <div className="absolute inset-0 z-10 justify-center h-full p-6 duration-300 bg-gray-900 rounded-lg opacity-0 hover:opacity-80 ">
+                          <div className="max-w-md my-auto text-xs lg:mt-10 lg:text-sm xl:mt-10 xl:text-sm 2xl:mt-10 2xl:text-sm">
                             <span className="font-bold text-webriq-blue">
                               {content?.subtitle}
                             </span>
                             <h1 className="my-5 font-bold text-white lg:text-4xl xl:text-4xl 2xl:text-4xl">
                               {content?.title}
                             </h1>
-                            <div className="my-5 max-w-xs">
+                            <div className="max-w-xs my-5">
                               <p className="mb-6 text-gray-500">
                                 {content?.description}
                               </p>
@@ -175,7 +176,7 @@ function VariantD({ caption, title, portfoliosWithCategory }: PortfolioProps) {
                                 <ConditionalLink
                                   ariaLabel={content?.primaryButton?.label}
                                   link={content?.primaryButton}
-                                  className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose"
+                                  className="inline-block px-6 py-2 font-bold leading-loose rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50"
                                 >
                                   {content?.primaryButton?.label}
                                 </ConditionalLink>
@@ -192,28 +193,28 @@ function VariantD({ caption, title, portfoliosWithCategory }: PortfolioProps) {
                   ?.slice(count + 4, portfoliosPerPage)
                   ?.map((content) => (
                     <div
-                      className="relative mb-8 w-full px-4 lg:mb-0 lg:w-1/2"
+                      className="relative w-full px-4 mb-8 lg:mb-0 lg:w-1/2"
                       key={content?._key}
                     >
                       {content?.mainImage?.image && (
                         <div className="relative overflow-hidden rounded">
                           <Image
-                            className="h-64 w-full object-cover"
+                            className="object-cover w-full h-64"
                             src={urlFor(content?.mainImage?.image)}
                             width={352}
                             height={280}
                             sizes="100vw"
                             alt={`portfolio-image${content?._key}`}
                           />
-                          <div className="absolute inset-0 z-10 h-full justify-center rounded-lg bg-gray-900 p-6 opacity-0 duration-300 hover:opacity-80 ">
-                            <div className="my-auto max-w-md text-xs">
+                          <div className="absolute inset-0 z-10 justify-center h-full p-6 duration-300 bg-gray-900 rounded-lg opacity-0 hover:opacity-80 ">
+                            <div className="max-w-md my-auto text-xs">
                               <span className="font-bold text-webriq-blue">
                                 {content?.subtitle}
                               </span>
                               <h1 className="my-5 font-bold text-white">
                                 {content?.title}
                               </h1>
-                              <div className="my-5 max-w-xs">
+                              <div className="max-w-xs my-5">
                                 <p className="mb-6 text-gray-500">
                                   {content?.description}
                                 </p>
@@ -221,7 +222,7 @@ function VariantD({ caption, title, portfoliosWithCategory }: PortfolioProps) {
                                   <ConditionalLink
                                     ariaLabel={content?.primaryButton?.label}
                                     link={content?.primaryButton}
-                                    className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose"
+                                    className="inline-block px-6 py-2 font-bold leading-loose rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50"
                                   >
                                     {content?.primaryButton?.label}
                                   </ConditionalLink>
@@ -241,7 +242,7 @@ function VariantD({ caption, title, portfoliosWithCategory }: PortfolioProps) {
               <ConditionalLink
                 ariaLabel={portfoliosPerCategory?.[0]?.primaryButton?.label}
                 link={portfoliosPerCategory?.[0]?.primaryButton}
-                className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose outline-none transition duration-200"
+                className="inline-block px-6 py-2 font-bold leading-loose transition duration-200 outline-none rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50"
               >
                 {portfoliosPerCategory?.[0]?.primaryButton?.label}
               </ConditionalLink>

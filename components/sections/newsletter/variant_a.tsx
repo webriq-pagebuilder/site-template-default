@@ -8,6 +8,7 @@ import { logoLink, thankYouPageLink } from "helper";
 import { NewsletterProps } from ".";
 import { Form } from "components/ui/Form/Form";
 import { Button } from "components/ui/Button";
+import { Text } from "components/ui/Text";
 
 function VariantA({ logo, title, description, form }: NewsletterProps) {
   const { id, fields, buttonLabel, thankYouPage } = form;
@@ -35,9 +36,9 @@ function VariantA({ logo, title, description, form }: NewsletterProps) {
                 />
               </Link>
             )}
-            <h1 className="mb-2 text-4xl font-bold font-heading lg:text-5xl">
+            <Text type="h1" className="mb-2 ">
               {title}
-            </h1>
+            </Text>
             <p className="mb-8 leading-loose text-gray-700">{description}</p>
             {fields && fields[0]?.name && (
               <Form

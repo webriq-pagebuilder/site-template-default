@@ -1,3 +1,4 @@
+import { Text } from "components/ui/Text";
 import Image from "next/image";
 import { cn } from "utils/cn";
 type TStatsCard = {
@@ -47,7 +48,7 @@ export function StatsCard({
       )}
       <div>
         <p className="text-2xl font-bold">{value}</p>
-        <p className="text-gray-500">{label}</p>
+        <Text muted>{label}</Text>
       </div>
     </div>
   );

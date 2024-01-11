@@ -3,6 +3,7 @@ import { urlFor } from "lib/sanity";
 import Image from "next/image";
 import { FeaturesProps } from ".";
 import { Card } from "components/ui/Card";
+import { Text } from "components/ui/Text";
 
 function VariantC({ caption, title, features }: FeaturesProps) {
   return (
@@ -13,11 +14,7 @@ function VariantC({ caption, title, features }: FeaturesProps) {
             {caption && (
               <span className="font-bold text-webriq-darkblue">{caption}</span>
             )}
-            {title && (
-              <h1 className="text-4xl font-bold font-heading lg:text-5xl">
-                {title}
-              </h1>
-            )}
+            {title && <Text type="h1">{title}</Text>}
           </div>
           <div className="flex flex-wrap justify-start -mx-3">
             {features &&

@@ -2,27 +2,28 @@ import React from "react";
 import Image from "next/image";
 import { urlFor } from "lib/sanity";
 import { FeaturesProps } from ".";
+import { Text } from "components/ui/Text";
 
 function VariantH({ caption, title, features, images }: FeaturesProps) {
   return (
     <section>
-      <div className="radius-for-skewed bg-gray-50 py-20">
-        <div className="container mx-auto px-4">
-          <div className="-mx-4 flex flex-wrap items-center">
-            <div className="mb-12 w-full px-4 lg:mb-0 lg:w-1/2">
+      <div className="py-20 radius-for-skewed bg-gray-50">
+        <div className="container px-4 mx-auto">
+          <div className="flex flex-wrap items-center -mx-4">
+            <div className="w-full px-4 mb-12 lg:mb-0 lg:w-1/2">
               <div className="max-w-md">
                 <span className="font-bold text-webriq-darkblue">
                   {caption && caption}
                 </span>
-                <h1 className="font-heading mb-6 text-4xl font-bold lg:text-5xl">
+                <Text className="mb-6" type="h1">
                   {title && title}
-                </h1>
+                </Text>
                 <ul>
                   {features?.[0] && (
-                    <li className="mb-4 flex">
+                    <li className="flex mb-4">
                       <div>
                         <svg
-                          className="mr-3 h-8 w-8 text-webriq-darkblue"
+                          className="w-8 h-8 mr-3 text-webriq-darkblue"
                           xmlns="http://www.w3.org/2000/svg"
                           fill="none"
                           viewBox="0 0 24 24"
@@ -37,7 +38,7 @@ function VariantH({ caption, title, features, images }: FeaturesProps) {
                         </svg>
                       </div>
                       <div className="max-w-xs">
-                        <p className="font-heading font-bold">
+                        <p className="font-bold font-heading">
                           {features?.[0]?.title}
                         </p>
                         <p className="leading-loose text-gray-500">
@@ -47,10 +48,10 @@ function VariantH({ caption, title, features, images }: FeaturesProps) {
                     </li>
                   )}
                   {features?.[1] && (
-                    <li className="mb-4 flex">
+                    <li className="flex mb-4">
                       <div>
                         <svg
-                          className="mr-3 h-8 w-8 text-webriq-darkblue"
+                          className="w-8 h-8 mr-3 text-webriq-darkblue"
                           xmlns="http://www.w3.org/2000/svg"
                           fill="none"
                           viewBox="0 0 24 24"
@@ -65,7 +66,7 @@ function VariantH({ caption, title, features, images }: FeaturesProps) {
                         </svg>
                       </div>
                       <div className="max-w-xs">
-                        <p className="font-heading font-bold">
+                        <p className="font-bold font-heading">
                           {features?.[1]?.title}
                         </p>
                         <p className="leading-loose text-gray-500">
@@ -78,7 +79,7 @@ function VariantH({ caption, title, features, images }: FeaturesProps) {
                     <li className="flex">
                       <div>
                         <svg
-                          className="mr-3 h-8 w-8 text-webriq-darkblue"
+                          className="w-8 h-8 mr-3 text-webriq-darkblue"
                           xmlns="http://www.w3.org/2000/svg"
                           fill="none"
                           viewBox="0 0 24 24"
@@ -93,7 +94,7 @@ function VariantH({ caption, title, features, images }: FeaturesProps) {
                         </svg>
                       </div>
                       <div className="max-w-xs">
-                        <p className="font-heading font-bold">
+                        <p className="font-bold font-heading">
                           {features?.[2]?.title}
                         </p>
                         <p className="leading-loose text-gray-500">
@@ -106,11 +107,11 @@ function VariantH({ caption, title, features, images }: FeaturesProps) {
               </div>
             </div>
             {images && (
-              <div className="w-full items-center px-4 sm:flex md:px-0 lg:w-1/2">
+              <div className="items-center w-full px-4 sm:flex md:px-0 lg:w-1/2">
                 <div className="mb-5 sm:mb-0 sm:w-1/2">
                   {images?.[0]?.image && (
                     <Image
-                      className="overflow-hidden rounded-xl object-cover"
+                      className="object-cover overflow-hidden rounded-xl"
                       src={urlFor(images?.[0]?.image)}
                       width={640}
                       height={800}
@@ -120,7 +121,7 @@ function VariantH({ caption, title, features, images }: FeaturesProps) {
                   )}
                   {images?.[1]?.image && (
                     <Image
-                      className="mt-6 overflow-hidden rounded-xl object-cover"
+                      className="object-cover mt-6 overflow-hidden rounded-xl"
                       src={urlFor(images?.[1]?.image)}
                       width={640}
                       height={800}
@@ -131,7 +132,7 @@ function VariantH({ caption, title, features, images }: FeaturesProps) {
                 </div>
                 {images?.[2]?.image && (
                   <Image
-                    className="overflow-hidden rounded-xl object-cover sm:ml-6 sm:w-1/2"
+                    className="object-cover overflow-hidden rounded-xl sm:ml-6 sm:w-1/2"
                     src={urlFor(images?.[2]?.image)}
                     width={640}
                     height={800}

@@ -4,6 +4,7 @@ import { initiateCheckout } from "lib/checkout";
 import { PricingProps } from ".";
 import { Card } from "components/ui/Card";
 import { Button } from "components/ui/Button";
+import { Text } from "components/ui/Text";
 
 function VariantA({
   caption,
@@ -95,9 +96,9 @@ function VariantA({
             <span className="font-bold text-webriq-darkblue">
               {caption && caption}
             </span>
-            <h2 className="mb-2 text-4xl font-bold font-heading lg:text-5xl">
+            <Text type="h1" className="mb-2 ">
               {title && title}
-            </h2>
+            </Text>
             <p className="mb-6 text-gray-500">{description && description}</p>
             {plans?.[0]?.monthlyPrice && (
               <div className="inline-block px-1 py-1 bg-white rounded-lg">

@@ -3,6 +3,7 @@ import { urlFor } from "lib/sanity";
 import Image from "next/image";
 import { FeaturesProps } from ".";
 import { Card } from "components/ui/Card";
+import { Text } from "components/ui/Text";
 
 function VariantB({
   caption,
@@ -24,9 +25,9 @@ function VariantB({
                   </span>
                 )}
                 {title && (
-                  <h1 className="my-2 text-4xl font-bold font-heading lg:text-5xl">
+                  <Text type="h1" className="my-2 ">
                     {title}
-                  </h1>
+                  </Text>
                 )}
                 {description && (
                   <p className="mb-6 leading-loose text-gray-500">

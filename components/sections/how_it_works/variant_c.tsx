@@ -1,6 +1,7 @@
 import React from "react";
 import { HowItWorksProps } from ".";
 import { Card } from "components/ui/Card";
+import { Text } from "components/ui/Text";
 
 function VariantC({ subtitle, title, steps }: HowItWorksProps) {
   return (
@@ -9,9 +10,7 @@ function VariantC({ subtitle, title, steps }: HowItWorksProps) {
         <div className="container px-4 mx-auto">
           <div className="max-w-md mx-auto mb-8 text-center">
             <span className="font-bold text-webriq-darkblue">{subtitle}</span>
-            <h1 className="text-4xl font-bold font-heading lg:text-5xl">
-              {title}
-            </h1>
+            <Text type="h1">{title}</Text>
           </div>
           <div className="flex flex-wrap justify-center -mx-4">
             {steps &&

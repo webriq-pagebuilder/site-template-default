@@ -2,6 +2,7 @@ import React from "react";
 
 import { FAQProps } from ".";
 import { Card } from "components/ui/Card";
+import { Text } from "components/ui/Text";
 
 function VariantA({ subtitle, title, faqs }: FAQProps) {
   const [show, setShow] = React.useState(false);
@@ -33,7 +34,7 @@ function VariantA({ subtitle, title, faqs }: FAQProps) {
       <ul className="space-y-4 lg:space-y-6">
         {items?.map((faq, index) => (
           <li key={index}>
-            <Card className="p-6  bg-gray-50">
+            <Card className="p-6 bg-gray-50">
               <button
                 aria-label={faq?.question}
                 className="flex items-center justify-between w-full font-bold text-left border-none font-heading hover:text-gray-600 focus:outline-none"
@@ -109,7 +110,9 @@ function VariantA({ subtitle, title, faqs }: FAQProps) {
             <span className="font-bold font-heading text-webriq-darkblue">
               {subtitle}
             </span>
-            <h1 className="mb-6 text-5xl font-bold font-heading">{title}</h1>
+            <Text type="h1" className="mb-6 ">
+              {title}
+            </Text>
             {updatedFAQArray && updatedFAQArray?.length > 1 && (
               <form className="flex justify-center">
                 <input

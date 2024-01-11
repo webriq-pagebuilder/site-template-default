@@ -2,6 +2,7 @@ import React from "react";
 
 import { FAQProps } from ".";
 import { Card } from "components/ui/Card";
+import { Text } from "components/ui/Text";
 
 function VariantC({ subtitle, title, faqs }: FAQProps) {
   return (
@@ -37,9 +38,9 @@ function VariantC({ subtitle, title, faqs }: FAQProps) {
                         </span>
                         <p className="text-xl font-bold">{faq?.question}</p>
                       </div>
-                      <p className="leading-loose text-gray-500">
+                      <Text className="leading-loose " muted>
                         {faq?.answer}
-                      </p>
+                      </Text>
                     </Card>
                   )}
                 </div>

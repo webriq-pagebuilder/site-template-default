@@ -4,6 +4,7 @@ import { initiateCheckout } from "lib/checkout";
 import { PricingProps } from ".";
 import { Card } from "components/ui/Card";
 import { Button } from "components/ui/Button";
+import { Text } from "components/ui/Text";
 
 function VariantB({
   caption,
@@ -90,9 +91,12 @@ function VariantB({
                 </span>
               )}
               {title && (
-                <h1 className="mb-2 text-2xl font-bold font-heading lg:text-5xl xl:text-5xl 2xl:text-5xl">
+                <Text
+                  type="h1"
+                  className="mb-2 text-2xl font-bold font-heading lg:text-5xl xl:text-5xl 2xl:text-5xl"
+                >
                   {title}
-                </h1>
+                </Text>
               )}
             </div>
             <div className="w-full lg:w-1/2">

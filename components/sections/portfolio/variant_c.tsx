@@ -3,6 +3,7 @@ import Image from "next/image";
 import { urlFor } from "lib/sanity";
 import { PortfolioProps } from ".";
 import { ConditionalLink } from "components/ui/ConditionalLink";
+import { Text } from "components/ui/Text";
 
 function VariantC({
   caption,
@@ -23,11 +24,7 @@ function VariantC({
                   {caption}
                 </span>
               )}
-              {title && (
-                <h1 className="text-4xl font-bold font-heading lg:text-5xl">
-                  {title}
-                </h1>
-              )}
+              {title && <Text type="h1">{title}</Text>}
             </div>
             <div className="hidden mt-5 md:mt-0 lg:mt-0 lg:block xl:mt-0">
               {primaryButton?.label && (

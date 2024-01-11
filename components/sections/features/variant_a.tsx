@@ -1,31 +1,30 @@
 import React from "react";
 import { urlFor } from "lib/sanity";
 import Image from "next/image";
+import { Text } from "components/ui/Text";
 
 import { FeaturesProps } from ".";
 
 function VariantA({ caption, title, features }: FeaturesProps) {
   return (
     <section>
-      <div className="radius-for-skewed bg-gray-50 py-20">
-        <div className="container mx-auto px-4">
-          <div className="mx-auto mb-16 max-w-md text-center">
+      <div className="py-20 radius-for-skewed bg-gray-50">
+        <div className="container px-4 mx-auto">
+          <div className="max-w-md mx-auto mb-16 text-center">
             {caption && (
               <span className="font-bold text-webriq-darkblue">{caption}</span>
             )}
-            {title && (
-              <h1 className="text-4xl font-bold md:text-5xl">{title}</h1>
-            )}
+            {title && <Text type="h1">{title}</Text>}
           </div>
-          <div className="-mx-4 flex flex-wrap">
+          <div className="flex flex-wrap -mx-4">
             {features &&
               features?.map((feature, index) => {
                 return (
                   <div
-                    className="mb-12 mt-16 w-full px-4 md:w-1/2 lg:mb-0 lg:w-1/4"
+                    className="w-full px-4 mt-16 mb-12 md:w-1/2 lg:mb-0 lg:w-1/4"
                     key={index}
                   >
-                    <span className="mb-4 inline-block rounded bg-webriq-lightblue p-3 text-webriq-blue md:mb-6">
+                    <span className="inline-block p-3 mb-4 rounded bg-webriq-lightblue text-webriq-blue md:mb-6">
                       {feature?.mainImage?.image && (
                         <Image
                           className="object-scale-down"
@@ -40,7 +39,7 @@ function VariantA({ caption, title, features }: FeaturesProps) {
                     </span>
 
                     {feature?.title && (
-                      <p className="font-heading mb-4 text-2xl font-bold">
+                      <p className="mb-4 text-2xl font-bold font-heading">
                         {feature?.title}
                       </p>
                     )}
