@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import {
-  NEXT_PUBLIC_APP_URL,
+  SOCIAL_ACCOUNTS_API_URL,
   NEXT_PUBLIC_SANITY_PROJECT_ID,
 } from "studio/config";
 
@@ -25,20 +25,16 @@ export function SocialMediaFeedContextProvider({
     media: [],
   };
 
-  const URL =
-    "https://feat-socialmedia--dxpstudio-staging.netlify.app/api/social-accounts/media";
-
   const [profileFeed, setProfileFeed] = useState(initialState);
 
   useEffect(() => {
     async function fetchUserMedia() {
-      fetch(URL, {
+      fetch(`${SOCIAL_ACCOUNTS_API_URL}/media`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          action: "get_usermedia",
           platform: profileFeed?.platform,
           studioId: NEXT_PUBLIC_SANITY_PROJECT_ID,
           itemId: profileFeed?.itemId,

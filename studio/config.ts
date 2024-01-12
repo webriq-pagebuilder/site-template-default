@@ -35,3 +35,9 @@ export const SITE_STORE_CORS_SECRET =
 // Open AI key
 export const NEXT_PUBLIC_SANITY_PROJECT_OPENAI_KEY =
   process.env.NEXT_PUBLIC_SANITY_PROJECT_OPENAI_KEY;
+
+export const SOCIAL_ACCOUNTS_API_URL =
+  process.env.NEXT_PUBLIC_SOCIAL_ACCOUNTS_API_URL ||
+  (typeof window !== "undefined" && window.location.hostname === "localhost"
+    ? `http://localhost:9000/api/social-accounts`
+    : `https://feat-socialmedia--dxpstudio-staging.netlify.app/api/social-accounts`);
