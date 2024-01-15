@@ -48,11 +48,11 @@ export const Borderless: Story = {
   },
 };
 
-export const Loading: Story = {
-  args: {
-    loading: true,
-  },
-};
+// export const Loading: Story = {
+//   args: {
+//     loading: true,
+//   },
+// };
 
 export const WithLoadingComponent: Story = {
   args: {
