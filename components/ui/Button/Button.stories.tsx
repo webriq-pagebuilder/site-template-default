@@ -1,7 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { Button } from "./Button";
 import { ImSpinner2 } from "react-icons/im";
-import * as data from "utils/storybook_data.json";
 
 const meta: Meta<typeof Button> = {
   title: "Components/UI/Button",
