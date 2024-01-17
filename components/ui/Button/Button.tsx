@@ -40,7 +40,7 @@ export function Button({
   ...props
 }: ButtonProps) {
   const commonStyles =
-    "inline-block py-2 px-6 rounded-l-xl rounded-t-xl font-bold  transition duration-200";
+    "inline-block py-4 px-8 rounded-l-xl rounded-t-xl font-bold  transition duration-200";
   const primary = `${commonStyles} bg-webriq-darkblue hover:bg-webriq-blue text-gray-50  outline-none `;
   const outline = `${commonStyles} bg-white hover:bg-slate-100  font-bold border text-webriq-blue border-webriq-blue `;
   const secondary = `${commonStyles} bg-webriq-babyblue hover:bg-webriq-darkblue font-bold  text-gray-50`;
