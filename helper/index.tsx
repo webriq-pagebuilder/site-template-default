@@ -126,74 +126,58 @@ export const ConditionalLink = ({
 
 export const defaultBlockStyle: MyPortableTextComponents = {
   block: {
-    h1: ({ children }) => {
-      return (
-        <h1 className="mb-6 text-7xl leading-loose text-gray-900">
-          {children}
-        </h1>
-      );
-    },
-    h2: ({ children }) => {
-      return (
-        <h2 className="mb-6 text-5xl leading-loose text-gray-900">
-          {children}
-        </h2>
-      );
-    },
-    h3: ({ children }) => {
-      return (
-        <h3 className="mb-6 text-3xl leading-loose text-gray-900">
-          {children}
-        </h3>
-      );
-    },
-    h4: ({ children }) => {
-      return (
-        <h4 className="mb-6 text-xl leading-loose text-gray-900">{children}</h4>
-      );
-    },
-    normal: ({ children }) => {
-      return (
-        <p className="mb-6 text-justify leading-loose text-gray-900">
-          {children}
-        </p>
-      );
-    },
-    blockquote: ({ children }) => {
-      return (
-        <blockquote className="mb-6 px-14 italic leading-loose text-gray-500">
-          - {children}
-        </blockquote>
-      );
-    },
+    h1: ({ children }) => (
+      <h1 className="mb-8 text-3xl leading-normal text-black dark:text-white">
+        {" "}
+        {children}
+      </h1>
+    ),
+    h2: ({ children }) => (
+      <h2 className="mb-8 text-2xl font-bold text-black dark:text-white">
+        {children}
+      </h2>
+    ),
+    h3: ({ children }) => (
+      <h3 className="mb-8 text-xl font-bold leading-normal text-black dark:text-white">
+        {" "}
+        {children}
+      </h3>
+    ),
+    h4: ({ children }) => (
+      <h4 className="mb-8 text-lg font-bold leading-normal text-black dark:text-white">
+        {" "}
+        {children}
+      </h4>
+    ),
+    normal: ({ children }) => (
+      <p className="mb-8 leading-relaxed">{children}</p>
+    ),
+    blockquote: ({ children }) => (
+      <blockquote className="mb-6 italic leading-loose text-gray-500 px-14">
+        - {children}
+      </blockquote>
+    ),
   },
-  code: ({ value }) => {
-    return (
-      <pre data-language={value.language}>
-        <code>{value.code}</code>
-      </pre>
-    );
-  },
+  code: ({ value }) => (
+    <pre data-language={value.language}>
+      <code>{value.code}</code>
+    </pre>
+  ),
   list: {
-    bullet: ({ children }) => {
-      return (
-        <ul className="mb-6 list-disc pl-10 leading-loose text-gray-900">
-          {children}
-        </ul>
-      );
-    },
-    number: ({ children }) => {
-      return (
-        <ol className="mb-6 list-decimal leading-loose text-gray-900">
-          {children}
-        </ol>
-      );
-    },
+    bullet: ({ children }) => (
+      <ul className="flex flex-col pl-10 mb-8 space-y-4 leading-relaxed list-disc">
+        {children}
+      </ul>
+    ),
+    number: ({ children }) => (
+      <ol className="flex flex-col pl-10 mb-8 space-y-4 leading-relaxed list-decimal">
+        {children}
+      </ol>
+    ),
   },
   listItem: {
-    bullet: ({ children }) => (
-      <li className="mb-6 leading-loose text-gray-900">{children}</li>
-    ),
+    bullet: ({ children }) => <li className="leading-relaxed">{children}</li>,
+    number: ({ children }) => <li className="leading-relaxed">{children}</li>,
   },
   marks: {
     strong: ({ children }) => <strong>{children}</strong>,
@@ -213,7 +197,7 @@ export const defaultBlockStyle: MyPortableTextComponents = {
   types: {
     addImage: ({ value }) => (
       <Image
-        className="mb-5 h-full w-full"
+        className="w-full h-full mb-5"
         width={500}
         height={500}
         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
