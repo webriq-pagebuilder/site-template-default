@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import AppPromoComponent from "../index";
-import { Sections, SectionsProps, Variants } from "types";
+import { Sections, Variants } from "types";
 
 const args: Variants = {
   logo: {
@@ -115,13 +115,6 @@ const meta = {
 
 export default meta;
 type Story = StoryObj<Sections> & any;
-
-const AArg = Object.keys(args).filter(
-  (key) => !["logo", "subtitle", "title", "images"].includes(key)
-);
-console.log("AA", AArg);
-
-const DUMMY = ["description", "statItems", "tags"] as const;
 
 export const variant_a: Story = {
   args: {
