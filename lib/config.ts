@@ -9,7 +9,7 @@ interface Config {
 let config: Config = {
   // Find your project ID and dataset in `sanity.json` in your studio project
   dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || "production",
-  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
+  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || "9itgab5x",
   useCdn:
     typeof document !== "undefined" && process.env.NODE_ENV === "production",
   // useCdn == true gives fast, cheap responses using a globally distributed cache.
@@ -22,7 +22,10 @@ let config: Config = {
 };
 
 // Require READ token when in production since `dataset` is set to `private`
-if (process.env.NODE_ENV === "production" || process.env.NODE_ENV === "development") {
+if (
+  process.env.NODE_ENV === "production" ||
+  process.env.NODE_ENV === "development"
+) {
   config = {
     ...config,
     token: process.env.NEXT_PUBLIC_SANITY_API_READ_TOKEN,
