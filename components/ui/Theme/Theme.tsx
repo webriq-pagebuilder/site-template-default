@@ -1,7 +1,7 @@
 import React from "react";
 import { default as twConfig } from "../../../tailwind.config";
 
-const colors = twConfig.theme.extend.colors;
+const colors = twConfig?.theme?.extend?.colors;
 export const colorsArray = colors
   ? Object.entries(colors).map(([key, value]) => ({ [key]: value }))
   : [];

@@ -16,6 +16,100 @@ Imported from `tailwind.config.ts` file. You may edit these directly on the conf
   {colorsArray && colorsArray.length > 0 && <Brand colors={colorsArray} />}
 </div>
 
+## Background Colors
+
+Background colors used throughout the whole app.
+
+<table className="w-full">
+  <thead>
+    <tr>
+      <th className="font-medium text-lg w-[50%]">Preview</th>
+      <th className="font-medium text-lg w-[50%]">Tailwind Class</th>
+    </tr>
+  </thead>
+  <tbody className="text-center">
+    <tr className="!bg-white">
+      <td className="flex justify-center">
+        <div
+          className="bg-gray-50"
+          style={{
+            height: "40px",
+            width: "100px",
+          }}
+        ></div>
+      </td>
+      <td>bg-gray-50</td>
+    </tr>
+
+    <tr className="!bg-white">
+      <td className="flex justify-center">
+        <div
+          className="bg-gray-100"
+          style={{
+            height: "40px",
+            width: "100px",
+          }}
+        ></div>
+      </td>
+      <td>bg-gray-100</td>
+    </tr>
+
+
+       <tr className="!bg-white">
+      <td className="flex justify-center">
+        <div
+          className="bg-gray-800"
+          style={{
+            height: "40px",
+            width: "100px",
+          }}
+        ></div>
+      </td>
+      <td>bg-gray-800</td>
+    </tr>
+
+       <tr className="!bg-white">
+      <td className="flex justify-center">
+        <div
+          className="bg-gray-900"
+          style={{
+            height: "40px",
+            width: "100px",
+          }}
+        ></div>
+      </td>
+      <td>bg-gray-900</td>
+    </tr>
+
+  </tbody>
+</table>
+
+## Border size and radius
+
+<table className="w-full">
+  <thead>
+    <tr>
+      <th className="font-medium text-lg w-[50%]">Preview</th>
+      <th className="font-medium text-lg w-[50%]">Tailwind Class</th>
+    </tr>
+  </thead>
+  <tbody className="text-center">
+    <tr className="!bg-white">
+      <td className="flex justify-center">
+        <div
+          className="border border-slate-300 rounded-lg"
+          style={{
+            height: "100px",
+            width: "100px",
+          }}
+        ></div>
+      </td>
+      <td>border-slate-300 rounded-lg</td>
+    </tr>
+
+  </tbody>
+</table>
+
 ## Typography
 
 Standard typography theme of the project. See the **Text** component under the **Components/UI** section for more information.
