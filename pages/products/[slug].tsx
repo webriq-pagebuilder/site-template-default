@@ -22,6 +22,7 @@ interface ProductPageBySlugProps {
   token: string;
   source: string;
   defaultSeo: DefaultSeoData;
+  hasCStudioComponents?: boolean;
 }
 
 interface Data {
@@ -226,6 +227,7 @@ export async function getStaticProps({
         productData: singleProductsData || null,
       },
       defaultSeo: globalSEO,
+      hasCStudioComponents: true,
     },
     // If webhooks isn't setup then attempt to re-generate in 1 minute intervals
     revalidate: process.env.SANITY_REVALIDATE_SECRET ? undefined : 60,

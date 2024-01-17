@@ -17,6 +17,7 @@ interface WishListPageProps {
   token?: string;
   source?: string;
   defaultSeo: DefaultSeoData;
+  hasCStudioComponents?: boolean;
 }
 
 interface Data {
@@ -193,6 +194,7 @@ export async function getStaticProps({
       source: (preview && previewData.source) || "",
       data: { wishlistData },
       defaultSeo: globalSEO,
+      hasCStudioComponents: true,
     },
   };
 }

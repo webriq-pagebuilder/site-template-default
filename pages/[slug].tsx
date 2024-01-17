@@ -15,6 +15,7 @@ import PageNotFound from "pages/404";
 import InlineEditorContextProvider from "context/InlineEditorContext";
 import { GetStaticPaths, GetStaticProps } from "next";
 import { CommonPageData, BlogsData, DefaultSeoData } from "types";
+import { hasCStudioComponents } from "helper/hasCStudioComponents";
 
 interface PageBySlugProps {
   data: Data;
@@ -22,6 +23,7 @@ interface PageBySlugProps {
   token: string | null;
   source: string;
   defaultSeo: DefaultSeoData;
+  hasCStudioComponents?: boolean;
 }
 
 interface DocumentWithPreviewProps {
@@ -207,6 +209,10 @@ export const getStaticProps: GetStaticProps = async ({
   const singlePageData: PageData = filterDataToSingleItem(page, preview);
   const singleBlogData: BlogsData = filterDataToSingleItem(blogData, preview);
 
+  const hasCStudioComponentsResult = hasCStudioComponents(
+    singlePageData?.sections || singleBlogData?.sections
+  );
+
   return {
     props: {
       preview,
@@ -217,6 +223,7 @@ export const getStaticProps: GetStaticProps = async ({
         blogData: singleBlogData || null,
       },
       defaultSeo: globalSEO,
+      hasCStudioComponents: hasCStudioComponentsResult,
     },
     // If webhooks isn't setup then attempt to re-generate in 1 minute intervals
     revalidate: process.env.SANITY_REVALIDATE_SECRET ? undefined : 60,

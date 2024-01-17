@@ -17,6 +17,7 @@ interface CartPageProps {
   token?: string;
   source?: string;
   defaultSeo: DefaultSeoData;
+  hasCStudioComponents?: boolean;
 }
 
 interface Data {
@@ -172,6 +173,7 @@ export async function getStaticProps({
       source: (preview && previewData.source) || "",
       data: { cartData },
       defaultSeo: globalSEO,
+      hasCStudioComponents: true,
     },
   };
 }

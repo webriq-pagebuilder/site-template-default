@@ -10,6 +10,7 @@ import { filterDataToSingleItem, SEO } from "components/list";
 import { PreviewBanner } from "components/PreviewBanner";
 import InlineEditorContextProvider from "context/InlineEditorContext";
 import { CommonPageData, DefaultSeoData } from "types";
+import { hasCStudioComponents } from "helper/hasCStudioComponents";
 
 interface HomeProps {
   data: Data;
@@ -17,6 +18,7 @@ interface HomeProps {
   token?: string | null;
   source?: string;
   defaultSeo: DefaultSeoData;
+  hasCStudioComponents?: boolean;
 }
 
 interface DocumentWithPreviewProps {
@@ -177,6 +179,8 @@ export const getStaticProps = async ({
     };
   }
 
+  const hasCStudioComponentsResult = hasCStudioComponents(pageData?.sections);
+
   return {
     props: {
       preview,
@@ -184,6 +188,7 @@ export const getStaticProps = async ({
       source: (preview && previewData.source) || "",
       data: { pageData },
       defaultSeo: globalSEO,
+      hasCStudioComponents: hasCStudioComponentsResult,
     },
   };
 };
