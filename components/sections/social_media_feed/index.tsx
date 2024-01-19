@@ -30,7 +30,7 @@ function SocialMediaFeed({ data }: SectionsProps) {
     setProfileFeed(account);
   }, [data?.variants?.selectAccount, setProfileFeed]);
 
-  const hashtags = profileFeed?.media
+  const allHashtags = profileFeed?.media
     ?.flatMap((post) => post?.caption?.match(/#[^\s#]+/g) || [])
     .filter((tag, index, self) => self.indexOf(tag) === index);
 
@@ -38,7 +38,8 @@ function SocialMediaFeed({ data }: SectionsProps) {
     media: profileFeed?.media,
     username: profileFeed?.userName,
     platform: profileFeed?.platform,
-    hashtags,
+    hashtags: data?.variants?.hashtags ?? allHashtags,
+    numberOfPosts: data?.variants?.numberOfPosts,
   };
 
   return Variant ? <Variant {...props} /> : null;

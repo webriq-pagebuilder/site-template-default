@@ -62,6 +62,8 @@ export interface Variants {
   productDetails?: ProductDetail[];
   btnLabel?: string;
   selectAccount?: string;
+  hashtags?: string[];
+  numberOfPosts?: Number;
 }
 
 export interface Template {

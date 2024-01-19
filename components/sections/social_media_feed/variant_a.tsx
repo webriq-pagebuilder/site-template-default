@@ -3,13 +3,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { DefaultSocialMediaIcons } from "helper";
 
-function VariantA({ username, media, platform, hashtags }) {
+function VariantA({ username, media, platform, hashtags, numberOfPosts }) {
   const [selected, setSelected] = useState("");
 
   return (
     <section className="py-20">
       {media && (
-        <div className="container mx-auto lg:px-4 xl:px-6 w-full lg:w-2/3">
+        <div className="container mx-auto lg:px-4 w-full lg:w-2/3">
           <div className="grid justify-center sm:flex sm:flex-wrap sm:justify-between mb-4">
             <div className="flex sm:my-auto">
               <DefaultSocialMediaIcons {...{ platform }} />
@@ -40,6 +40,7 @@ function VariantA({ username, media, platform, hashtags }) {
           </div>
           <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-3 justify-center">
             {media
+              ?.slice(0, numberOfPosts)
               ?.filter((post) => post?.caption?.includes(selected))
               ?.map((post, index) => (
                 <Link href={post?.permalink} key={index} target="_blank">
@@ -66,6 +67,17 @@ function VariantA({ username, media, platform, hashtags }) {
                 </Link>
               ))}
           </div>
+          {media?.length > numberOfPosts && (
+            <div className="mt-10 text-center">
+              <Link
+                className="bg-webriq-darkblue hover:bg-webriq-blue text-white px-4 py-3 rounded-t-xl rounded-l-xl"
+                href={`https://www.instagram.com/${username ?? "username"}`}
+                target="_blank"
+              >
+                View more posts
+              </Link>
+            </div>
+          )}
         </div>
       )}
     </section>

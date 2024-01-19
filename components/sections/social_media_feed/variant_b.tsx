@@ -3,19 +3,19 @@ import Image from "next/image";
 import Link from "next/link";
 import { DefaultSocialMediaIcons } from "helper";
 
-function VariantB({ username, media, platform, hashtags }) {
+function VariantB({ username, media, platform, hashtags, numberOfPosts }) {
   const [selected, setSelected] = useState("");
 
   return (
     <section className="py-20">
       {media && (
-        <div className="container mx-auto lg:px-4 xl:px-6 w-full lg:w-2/3">
+        <div className="container mx-auto lg:px-4 w-full lg:w-2/3">
           <div className="mb-4">
             <h1 className="text-2xl font-bold text-center">
               {`Follow us on ${platform ?? "social media"}`}
             </h1>
           </div>
-          <div className="mb-4 w-1/3 ml-auto">
+          <div className="mb-4 sm:w-1/3 sm:ml-auto">
             <select
               aria-label="socialMediaHashtags"
               name="socialMediaHashtags"
@@ -31,8 +31,9 @@ function VariantB({ username, media, platform, hashtags }) {
               ))}
             </select>
           </div>
-          <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-3 justify-center">
+          <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-5 sm:gap-3 justify-center">
             {media
+              ?.slice(0, numberOfPosts)
               ?.filter((post) => post?.caption?.includes(selected))
               ?.map((post, index) => (
                 <Link href={post?.permalink} key={index} target="_blank">
@@ -54,11 +55,11 @@ function VariantB({ username, media, platform, hashtags }) {
                         </div>
                       </div>
                       <Image
-                        className="h-full sm:h-[350px] sm:w-full object-cover"
+                        className="h-full w-full sm:h-[350px] object-cover"
                         src={post?.media_url}
                         width={350}
                         height={350}
-                        sizes="(min-width: 1540px) 480px, (min-width: 1280px) 395px, (min-width: 1040px) 309px, (min-width: 780px) 352px, (min-width: 560px) 480px, 88.33vw"
+                        sizes="100vw"
                         alt={post?.id ?? `${platform} post`} // post media ID
                       />
                       <div className="p-4">
@@ -71,6 +72,17 @@ function VariantB({ username, media, platform, hashtags }) {
                 </Link>
               ))}
           </div>
+          {media?.length > numberOfPosts && (
+            <div className="mt-10 text-center">
+              <Link
+                className="bg-webriq-darkblue hover:bg-webriq-blue text-white px-4 py-3 rounded-t-xl rounded-l-xl"
+                href={`https://www.instagram.com/${username ?? "username"}`}
+                target="_blank"
+              >
+                View more posts
+              </Link>
+            </div>
+          )}
         </div>
       )}
     </section>
