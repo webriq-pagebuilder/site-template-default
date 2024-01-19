@@ -4,6 +4,7 @@ import Link from "next/link";
 import { DefaultSocialMediaIcons } from "helper";
 
 function VariantB({ username, media, platform, hashtags, numberOfPosts }) {
+  const postsToDisplay = numberOfPosts < 1 ? media?.length : numberOfPosts;
   const [selected, setSelected] = useState("");
 
   return (
@@ -33,7 +34,7 @@ function VariantB({ username, media, platform, hashtags, numberOfPosts }) {
           </div>
           <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-5 sm:gap-3 justify-center">
             {media
-              ?.slice(0, numberOfPosts)
+              ?.slice(0, postsToDisplay)
               ?.filter((post) => post?.caption?.includes(selected))
               ?.map((post, index) => (
                 <Link href={post?.permalink} key={index} target="_blank">
