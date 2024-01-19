@@ -1,52 +1,70 @@
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { DefaultSocialMediaIcons } from "helper";
 
-function VariantA({ username, media, platform }) {
+function VariantA({ username, media, platform, hashtags }) {
+  const [selected, setSelected] = useState("");
+
   return (
     <section className="py-20">
       {media && (
         <div className="container mx-auto lg:px-4 xl:px-6 w-full lg:w-2/3">
-          <div className="flex flex-wrap justify-between mb-4">
-            <div className="flex my-auto">
+          <div className="grid justify-center sm:flex sm:flex-wrap sm:justify-between mb-4">
+            <div className="flex sm:my-auto">
               <DefaultSocialMediaIcons {...{ platform }} />
-              <p className="font-bold align-middle ml-3">
+              <Link
+                className="font-bold align-middle ml-3"
+                href={`https://www.instagram.com/${username ?? "username"}`}
+                target="_blank"
+              >
                 {`@${username ?? "username"}`}
-              </p>
+              </Link>
             </div>
-            <Link
-              className="bg-webriq-darkblue text-white px-4 py-3 rounded"
-              href={`https://www.instagram.com/${username ?? "username"}`}
-            >
-              Follow
-            </Link>
+            <div className="mt-4 sm:mt-0 sm:mb-4 sm:w-1/3 ml-auto">
+              <select
+                aria-label="socialMediaHashtags"
+                name="socialMediaHashtags"
+                className="w-full rounded bg-white border border-gray-200 p-3 outline-none"
+                value={selected}
+                onChange={(e) => setSelected(e.target.value)}
+              >
+                <option value="">Filter by hashtag</option>
+                {hashtags?.map((tag, index) => (
+                  <option key={index} value={tag}>
+                    {tag}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
           <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-3 justify-center">
-            {media?.map((post, index) => (
-              <Link href={post?.permalink} key={index} target="_blank">
-                <div className="relative overflow-hidden">
-                  {post?.media_url && (
-                    <Image
-                      className="h-full sm:h-[350px] sm:w-full object-cover"
-                      src={post?.media_url}
-                      sizes="100vw"
-                      height={350}
-                      width={350}
-                      alt={post?.id ?? `${platform} post`} // post media ID
-                    />
-                  )}
-                  <div className="absolute inset-0 z-10 flex flex-col items-start rounded bg-gray-900 p-6 opacity-0 duration-300 hover:opacity-75">
-                    <p className="mb-auto font-bold text-white md:text-xl">
-                      {post?.caption}
-                    </p>
-                    <span className="text-white">
-                      {`${new Date(post?.timestamp).toDateString()}`}
-                    </span>
+            {media
+              ?.filter((post) => post?.caption?.includes(selected))
+              ?.map((post, index) => (
+                <Link href={post?.permalink} key={index} target="_blank">
+                  <div className="relative overflow-hidden">
+                    {post?.media_url && (
+                      <Image
+                        className="h-full sm:h-[350px] sm:w-full object-cover"
+                        src={post?.media_url}
+                        sizes="100vw"
+                        height={350}
+                        width={350}
+                        alt={post?.id ?? `${platform} post`} // post media ID
+                      />
+                    )}
+                    <div className="absolute inset-0 z-10 flex flex-col items-start bg-gray-900 p-6 opacity-0 duration-300 hover:opacity-75">
+                      <p className="mb-auto font-bold text-white md:text-xl">
+                        {post?.caption}
+                      </p>
+                      <span className="text-white">
+                        {`${new Date(post?.timestamp).toDateString()}`}
+                      </span>
+                    </div>
                   </div>
-                </div>
-              </Link>
-            ))}
+                </Link>
+              ))}
           </div>
         </div>
       )}

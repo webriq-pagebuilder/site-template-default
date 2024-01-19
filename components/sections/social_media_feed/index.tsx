@@ -30,10 +30,15 @@ function SocialMediaFeed({ data }: SectionsProps) {
     setProfileFeed(account);
   }, [data?.variants?.selectAccount, setProfileFeed]);
 
+  const hashtags = profileFeed?.media
+    ?.flatMap((post) => post?.caption?.match(/#[^\s#]+/g) || [])
+    .filter((tag, index, self) => self.indexOf(tag) === index);
+
   const props = {
     media: profileFeed?.media,
     username: profileFeed?.userName,
     platform: profileFeed?.platform,
+    hashtags,
   };
 
   return Variant ? <Variant {...props} /> : null;
