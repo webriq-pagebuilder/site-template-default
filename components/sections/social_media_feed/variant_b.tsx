@@ -4,7 +4,8 @@ import Link from "next/link";
 import { DefaultSocialMediaIcons } from "helper";
 
 function VariantB({ username, media, platform, hashtags, numberOfPosts }) {
-  const postsToDisplay = numberOfPosts < 1 ? media?.length : numberOfPosts;
+  const defaultPosts = 6;
+  const postsToDisplay = numberOfPosts < 1 ? defaultPosts : numberOfPosts;
   const [selected, setSelected] = useState("");
 
   return (
