@@ -13,6 +13,10 @@ function SocialMediaFeed({ data }: SectionsProps) {
   const variant = data?.variant;
   const Variant = Variants?.[variant];
   const { profileFeed, setProfileFeed } = useSocialMediaFeed();
+  const postsToDisplay =
+    data?.variants?.numberOfPosts < 1
+      ? profileFeed?.media?.length
+      : data?.variants?.numberOfPosts;
 
   useEffect(() => {
     let account = {
@@ -31,6 +35,7 @@ function SocialMediaFeed({ data }: SectionsProps) {
   }, [data?.variants?.selectAccount, setProfileFeed]);
 
   const allHashtags = profileFeed?.media
+    ?.slice(0, postsToDisplay)
     ?.flatMap((post) => post?.caption?.match(/#[^\s#]+/g) || [])
     .filter((tag, index, self) => self.indexOf(tag) === index);
 

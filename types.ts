@@ -63,7 +63,7 @@ export interface Variants {
   btnLabel?: string;
   selectAccount?: string;
   hashtags?: string[];
-  numberOfPosts?: Number;
+  numberOfPosts?: number;
 }
 
 export interface Template {
