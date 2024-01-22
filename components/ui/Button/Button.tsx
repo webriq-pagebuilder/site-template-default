@@ -41,11 +41,11 @@ export function Button({
 }: ButtonProps) {
   const commonStyles =
     "inline-block py-2 px-6 rounded-l-xl rounded-t-xl font-bold  transition duration-200";
-  const primary = `${commonStyles} bg-rose-500 hover:bg-webriq-blue text-gray-50  outline-none `;
+  const primary = `${commonStyles} bg-pink-500 hover:bg-webriq-blue text-gray-50  outline-none `;
   const outline = `${commonStyles} bg-white hover:bg-slate-100  font-bold border text-webriq-blue border-webriq-blue `;
-  const secondary = `${commonStyles} bg-webriq-babyblue hover:bg-rose-500 font-bold  text-gray-50`;
+  const secondary = `${commonStyles} bg-webriq-babyblue hover:bg-pink-500 font-bold  text-gray-50`;
   const borderless = `${commonStyles} bg-transparent hover:bg-slate-100 border-0`;
-  const tertiary = `${commonStyles} rounded bg-rose-500 hover:bg-webriq-blue text-gray-50  outline-none`;
+  const tertiary = `${commonStyles} rounded bg-pink-500 hover:bg-webriq-blue text-gray-50  outline-none`;
   const variants: StyleVariants<Variant> = {
     primary,
     secondary,
