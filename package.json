@@ -72,6 +72,7 @@
   },
   "devDependencies": {
     "@netlify/plugin-nextjs": "^4.40.1",
+    "@storybook/addon-designs": "^7.0.9",
     "@storybook/addon-docs": "^7.6.5",
     "@storybook/addon-essentials": "^7.6.5",
     "@storybook/addon-interactions": "^7.6.5",

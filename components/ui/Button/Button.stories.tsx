@@ -21,6 +21,12 @@ export const Primary: Story = {
   args: {
     variant: "primary",
   },
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/file/laxmsC3qbrWj78YfgVICoQ/Untitled?type=design&node-id=1%3A2&mode=design&t=x1yQYz0fX8AM0isU-1",
+    },
+  },
 };
 
 export const Secondary: Story = {
