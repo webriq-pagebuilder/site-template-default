@@ -1,3 +1,5 @@
+import { SANITY_PROJECT_ID, SANITY_PROJECT_DATASET } from "studio/config";
+
 interface Config {
   dataset: string;
   projectId: string;
@@ -8,8 +10,8 @@ interface Config {
 
 let config: Config = {
   // Find your project ID and dataset in `sanity.json` in your studio project
-  dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || "production",
-  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || "9itgab5x",
+  dataset: SANITY_PROJECT_DATASET,
+  projectId: SANITY_PROJECT_ID,
   useCdn:
     typeof document !== "undefined" && process.env.NODE_ENV === "production",
   // useCdn == true gives fast, cheap responses using a globally distributed cache.
