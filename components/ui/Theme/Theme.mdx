@@ -1,8 +1,10 @@
 import { Meta, Canvas, Story } from "@storybook/blocks";
-import { Brand } from "./Theme.tsx";
-import { colorsArray } from "./Theme";
+import { Table } from "./Theme.tsx";
 import * as TextStories from "../Text/Text.stories";
 import * as BlockStories from "../BlockStyle/Blockstyle.stories.tsx";
+import { default as twConfig } from "../../../tailwind.config";
+
+export const config = twConfig.theme.extend?.colors;
 
 <Meta title="Theme" />
 
@@ -10,79 +12,23 @@ import * as BlockStories from "../BlockStyle/Blockstyle.stories.tsx";
 
 ## Brand Colors
 
+export const brandColors = "brand" in config ? config?.brand : {};
+
 Imported from `tailwind.config.ts` file. You may edit these directly on the config file.
 
 <div className="mb-10">
-  {colorsArray && colorsArray.length > 0 && <Brand colors={colorsArray} />}
+  {brandColors && <Table colors={brandColors} prefix={"brand"} />}
 </div>
 
-## Background Colors
+## Neutral Colors
 
-Background colors used throughout the whole app.
+export const neutralColors = "neutral" in config ? config?.neutral : {};
 
-<table className="w-full">
-  <thead>
-    <tr>
-      <th className="font-medium text-lg w-[50%]">Preview</th>
-      <th className="font-medium text-lg w-[50%]">Tailwind Class</th>
-    </tr>
-  </thead>
-  <tbody className="text-center">
-    <tr className="!bg-white">
-      <td className="flex justify-center">
-        <div
-          className="bg-gray-50"
-          style={{
-            height: "40px",
-            width: "100px",
-          }}
-        ></div>
-      </td>
-      <td>bg-gray-50</td>
-    </tr>
+Neutral colors used throughout the whole app.
 
-    <tr className="!bg-white">
-      <td className="flex justify-center">
-        <div
-          className="bg-gray-100"
-          style={{
-            height: "40px",
-            width: "100px",
-          }}
-        ></div>
-      </td>
-      <td>bg-gray-100</td>
-    </tr>
-
-
-       <tr className="!bg-white">
-      <td className="flex justify-center">
-        <div
-          className="bg-gray-800"
-          style={{
-            height: "40px",
-            width: "100px",
-          }}
-        ></div>
-      </td>
-      <td>bg-gray-800</td>
-    </tr>
-
-       <tr className="!bg-white">
-      <td className="flex justify-center">
-        <div
-          className="bg-gray-900"
-          style={{
-            height: "40px",
-            width: "100px",
-          }}
-        ></div>
-      </td>
-      <td>bg-gray-900</td>
-    </tr>
-
-  </tbody>
-</table>
+<div className="mb-10">
+  {neutralColors && <Table colors={neutralColors} prefix={"neutral"} />}
+</div>
 
 ## Border size and radius
 
@@ -97,14 +43,14 @@ Background colors used throughout the whole app.
     <tr className="!bg-white">
       <td className="flex justify-center">
         <div
-          className="border border-slate-300 rounded-lg"
+          className="border  rounded-lg"
           style={{
             height: "100px",
             width: "100px",
           }}
         ></div>
       </td>
-      <td>border-slate-300 rounded-lg</td>
+      <td>rounded-lg</td>
     </tr>
 
   </tbody>

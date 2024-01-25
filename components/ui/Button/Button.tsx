@@ -41,9 +41,9 @@ export function Button({
 }: ButtonProps) {
   const commonStyles =
     "inline-block py-2 px-6 rounded-l-xl rounded-t-xl font-bold  transition duration-200";
-  const primary = `${commonStyles} bg-webriq-darkblue hover:bg-webriq-blue text-gray-50  outline-none `;
-  const outline = `${commonStyles} bg-white hover:bg-slate-100  font-bold border text-webriq-blue border-webriq-blue `;
-  const secondary = `${commonStyles} bg-webriq-babyblue hover:bg-webriq-darkblue font-bold  text-gray-50`;
+  const primary = `${commonStyles} bg-brand-primary hover:bg-brand-primary-foreground text-gray-50  outline-none `;
+  const outline = `${commonStyles} bg-white hover:bg-slate-100 font-bold border text-webriq-blue border-webriq-blue `;
+  const secondary = `${commonStyles} bg-brand0secondary hover:bg-brand-secondary-foreground font-bold  text-gray-50`;
   const borderless = `${commonStyles} bg-transparent hover:bg-slate-100 border-0`;
   const tertiary = `${commonStyles} rounded bg-webriq-darkblue hover:bg-webriq-blue text-gray-50  outline-none`;
   const variants: StyleVariants<Variant> = {
