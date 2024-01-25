@@ -42,7 +42,7 @@ function VariantA({ subtitle, title, faqs }: FAQProps) {
               >
                 <span className="text-xl">{faq?.question}</span>
                 <svg
-                  className="w-4 h-4 text-webriq-darkblue"
+                  className="w-4 h-4 text-brand-primary"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
@@ -91,7 +91,7 @@ function VariantA({ subtitle, title, faqs }: FAQProps) {
           <button
             aria-label={`Page ${buttonNumber}`}
             key={buttonNumber}
-            className="inline-block w-2 h-2 rounded-full bg-webriq-blue"
+            className="inline-block w-2 h-2 rounded-full bg-brand-primary-foreground"
             onClick={() => changePage(buttonNumber)}
           />
         ))}
@@ -107,7 +107,7 @@ function VariantA({ subtitle, title, faqs }: FAQProps) {
       <div className="py-20 radius-for-skewed bg-gray-50">
         <div className="container px-4 mx-auto">
           <div className="max-w-xl mx-auto mb-16 text-center">
-            <span className="font-bold font-heading text-webriq-darkblue">
+            <span className="font-bold font-heading text-brand-primary">
               {subtitle}
             </span>
             <Text type="h1" className="mb-6 ">
@@ -123,7 +123,7 @@ function VariantA({ subtitle, title, faqs }: FAQProps) {
                 />
                 <button
                   aria-label="Search button"
-                  className="pr-4 bg-white rounded-r-lg text-webriq-darkblue"
+                  className="pr-4 bg-white rounded-r-lg text-brand-primary"
                 >
                   <svg
                     className="w-6 h-6"

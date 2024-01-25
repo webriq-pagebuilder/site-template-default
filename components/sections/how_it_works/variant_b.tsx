@@ -11,9 +11,7 @@ function VariantB({ subtitle, title, text, steps }: HowItWorksProps) {
           <div className="flex flex-wrap items-center">
             <div className="w-full mb-12 lg:mb-0 lg:w-1/2">
               <div className="max-w-md mx-20">
-                <span className="font-bold text-webriq-darkblue">
-                  {subtitle}
-                </span>
+                <span className="font-bold text-brand-primary">{subtitle}</span>
                 <Text type="h1" className="mb-2">
                   {title}
                 </Text>
@@ -29,7 +27,7 @@ function VariantB({ subtitle, title, text, steps }: HowItWorksProps) {
                     className="flex flex-wrap items-start mb-12 lg:mb-8 lg:ml-10"
                     key={index}
                   >
-                    <span className="inline-flex items-center justify-center w-16 h-16 mb-4 text-2xl font-bold rounded bg-webriq-lightblue text-webriq-darkblue lg:mb-0 lg:mr-6">
+                    <span className="inline-flex items-center justify-center w-16 h-16 mb-4 text-2xl font-bold rounded bg-brand-secondary-foreground text-brand-primary lg:mb-0 lg:mr-6">
                       {index + 1}
                     </span>
                     <div className="w-full lg:w-3/4">

@@ -18,7 +18,7 @@ function VariantC({
           <div className="flex flex-wrap items-center">
             <div className="w-full px-4 mb-12 lg:mb-0 lg:w-1/2">
               <div className="max-w-xl">
-                <Text className="mb-5 text-sm font-bold text-left text-webriq-darkblue md:text-lg lg:text-xl">
+                <Text className="mb-5 text-sm font-bold text-left text-brand-primary md:text-lg lg:text-xl">
                   {subtitle}
                 </Text>
                 <Text
@@ -35,7 +35,7 @@ function VariantC({
                     features.map((feature, index) => (
                       <li className="flex items-center mb-3" key={index}>
                         <svg
-                          className="w-5 h-5 mr-2 text-webriq-blue"
+                          className="w-5 h-5 mr-2 text-brand-primary-foreground"
                           xmlns="http://www.w3.org/2000/svg"
                           viewBox="0 0 20 20"
                           fill="currentColor"

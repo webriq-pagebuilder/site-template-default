@@ -12,7 +12,7 @@ function VariantD({ caption, title, features }: FeaturesProps) {
         <div className="container px-4 mx-auto">
           <div className="max-w-md mx-auto mb-8 text-center">
             {caption && (
-              <span className="font-bold text-webriq-darkblue">{caption}</span>
+              <span className="font-bold text-brand-primary">{caption}</span>
             )}
             {title && (
               <Text
@@ -27,7 +27,7 @@ function VariantD({ caption, title, features }: FeaturesProps) {
             {features.map((feature, index) => (
               <div className="w-full px-4 mt-8 lg:mb-0 lg:w-1/3" key={index}>
                 <Card className="h-full px-6 py-12 text-center">
-                  <span className="inline-block p-3 mb-6 rounded-lg bg-webriq-lightblue md:p-5">
+                  <span className="inline-block p-3 mb-6 rounded-lg bg-brand-secondary-foreground md:p-5">
                     {feature?.mainImage?.image?.asset?._ref && (
                       <Image
                         className="object-scale-down"

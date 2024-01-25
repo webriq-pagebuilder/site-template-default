@@ -17,6 +17,7 @@ export const Primary: Story = {};
 
 export const WithClassName: Story = {
   args: {
-    className: "bg-gray-200 border-solid border border-webriq-blue",
+    className:
+      "bg-gray-200 border-solid border border-brand-primary-foreground",
   },
 };

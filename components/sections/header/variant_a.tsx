@@ -15,9 +15,7 @@ function VariantA({
 }: HeaderProps) {
   return (
     <section className="skewed-bottom-right">
-      <div
-        className={`bg-${template.bg}-lightblue radius-for-skewed pb-20 pt-12 lg:pt-20`}
-      >
+      <div className={`bg-white radius-for-skewed pb-20 pt-12 lg:pt-20`}>
         <div className="container px-4 mx-auto">
           <div className="flex flex-wrap -mx-4">
             <div className="flex items-center w-full px-4 mb-12 md:mb-20 lg:mb-0 lg:w-1/2">
@@ -82,10 +80,10 @@ function VariantA({
                     style={{ top: "-2rem", right: "3rem", zIndex: "-1" }}
                   >
                     <Image
-                      src="/assets/elements/webriq-blue-dark-up.png"
+                      src="/assets/elements/brand-primary-foreground-dark-up.png"
                       width={112}
                       height={112}
-                      alt="webriq-blue-dark-up-mainImage-element"
+                      alt="brand-primary-foreground-dark-up-mainImage-element"
                     />
                   </div>
                   <div
@@ -93,10 +91,10 @@ function VariantA({
                     style={{ bottom: "-2rem", right: "-2rem", zIndex: "-1" }}
                   >
                     <Image
-                      src="/assets/elements/wing-webriq-blue-down.png"
+                      src="/assets/elements/wing-brand-primary-foreground-down.png"
                       width={144}
                       height={144}
-                      alt="wing-webriq-blue-down-mainImage-element"
+                      alt="wing-brand-primary-foreground-down-mainImage-element"
                     />
                   </div>
                   <div

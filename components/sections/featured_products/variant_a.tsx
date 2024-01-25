@@ -84,7 +84,7 @@ function VariantA({ title, featured }: FeaturedProductsProps) {
                       </p>
                     </a>
                     <p className="font-heading text-lg font-bold text-white sm:text-xl">
-                      <span className="mr-2 text-webriq-darkblue">
+                      <span className="mr-2 text-brand-primary">
                         {featuredCollections?.defaultDisplayedPriceFormatted}
                       </span>
                     </p>

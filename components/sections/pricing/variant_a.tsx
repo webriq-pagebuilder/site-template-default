@@ -93,7 +93,7 @@ function VariantA({
       <div className="py-20 radius-for-skewed bg-gray-50">
         <div className="container px-4 mx-auto">
           <div className="max-w-2xl mx-auto mb-16 text-center">
-            <span className="font-bold text-webriq-darkblue">
+            <span className="font-bold text-brand-primary">
               {caption && caption}
             </span>
             <Text type="h1" className="mb-2 ">
@@ -155,7 +155,7 @@ function VariantA({
                   <Card
                     className={`p-8 ${
                       index % 2 !== 0
-                        ? "bg-webriq-darkblue text-white"
+                        ? "bg-brand-primary text-white"
                         : "bg-white"
                     }`}
                   >
@@ -206,7 +206,7 @@ function VariantA({
                             className={`mr-2 h-5 w-5 ${
                               index % 2 !== 0
                                 ? "text-baby-darkblue"
-                                : "text-webriq-darkblue"
+                                : "text-brand-primary"
                             }`}
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 20 20"
@@ -227,7 +227,7 @@ function VariantA({
                       className={`inline-block w-full rounded-l-xl rounded-t-xl px-4 py-2 text-center ${
                         index % 2 !== 0
                           ? "bg-white text-black hover:bg-white"
-                          : "bg-webriq-darkblue text-white  hover:bg-webriq-blue"
+                          : "bg-brand-primary text-white  hover:bg-brand-primary-foreground"
                       } cursor-pointer font-bold leading-loose transition duration-200 ${
                         !planDetail ||
                         ("variant_a_monthlyPriceCheckoutButton" in planDetail &&

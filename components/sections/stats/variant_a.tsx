@@ -15,7 +15,7 @@ function VariantA({ stats }: StatsProps) {
                 key={index}
               >
                 <Card className="relative py-10 ">
-                  <p className="mb-1 text-webriq-darkblue">{items?.label}</p>
+                  <p className="mb-1 text-brand-primary">{items?.label}</p>
                   <span className="text-3xl font-bold lg:text-4xl">
                     {items?.value}
                   </span>

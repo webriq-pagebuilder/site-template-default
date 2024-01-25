@@ -37,7 +37,7 @@ function VariantB({ caption, title, testimonials }: TestimonialProps) {
               />
             )}
             <div className="max-w-lg mx-auto mb-10 text-center">
-              <span className="font-bold text-webriq-darkblue">{caption}</span>
+              <span className="font-bold text-brand-primary">{caption}</span>
               <Text type="h1" className="mt-4">
                 {title}
               </Text>
@@ -63,7 +63,7 @@ function VariantB({ caption, title, testimonials }: TestimonialProps) {
                   >
                     <Card className="p-5 ">
                       <svg
-                        className="h-8 mb-6 text-webriq-darkblue"
+                        className="h-8 mb-6 text-brand-primary"
                         viewBox="0 0 32 28"
                         fill="none"
                         xmlns="http://www.w3.org/2000/svg"

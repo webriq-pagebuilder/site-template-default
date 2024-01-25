@@ -26,8 +26,8 @@ export const InputFile = ({
   const [filename, setFilename] = useState("");
   const commonStyle =
     "my-1 ml-auto bg-white cursor-pointer rounded  px-4 py-3 text-xs font-semibold leading-none text-white transition duration-200";
-  const primary = `${commonStyle} bg-webriq-blue hover:bg-webriq-darkblue`;
-  const outline = `${commonStyle} text-webriq-blue border border-solid bg-white border-webriq-blue hover:bg-slate-100`;
+  const primary = `${commonStyle} bg-brand-primary-foreground hover:bg-brand-primary`;
+  const outline = `${commonStyle} text-brand-primary-foreground border border-solid bg-white border-brand-primary-foreground hover:bg-slate-100`;
 
   const variants: StyleVariants<Variant> = {
     primary,

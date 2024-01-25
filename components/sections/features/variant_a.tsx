@@ -12,7 +12,7 @@ function VariantA({ caption, title, features }: FeaturesProps) {
         <div className="container px-4 mx-auto">
           <div className="max-w-md mx-auto mb-16 text-center">
             {caption && (
-              <span className="font-bold text-webriq-darkblue">{caption}</span>
+              <span className="font-bold text-brand-primary">{caption}</span>
             )}
             {title && <Text type="h1">{title}</Text>}
           </div>
@@ -24,7 +24,7 @@ function VariantA({ caption, title, features }: FeaturesProps) {
                     className="w-full px-4 mt-16 mb-12 md:w-1/2 lg:mb-0 lg:w-1/4"
                     key={index}
                   >
-                    <span className="inline-block p-3 mb-4 rounded bg-webriq-lightblue text-webriq-blue md:mb-6">
+                    <span className="inline-block p-3 mb-4 rounded bg-brand-secondary-foreground text-brand-primary-foreground md:mb-6">
                       {feature?.mainImage?.image && (
                         <Image
                           className="object-scale-down"

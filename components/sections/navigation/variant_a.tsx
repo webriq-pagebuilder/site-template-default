@@ -39,7 +39,7 @@ function VariantA({
         <div className="lg:hidden">
           <button
             aria-label="Navigation Menu"
-            className="flex items-center p-3 navbar-burger text-webriq-darkblue"
+            className="flex items-center p-3 navbar-burger text-brand-primary"
             onClick={showMenu}
           >
             <svg
@@ -100,7 +100,7 @@ function VariantA({
           <ConditionalLink
             ariaLabel={secondaryButton?.label}
             link={secondaryButton}
-            className={`hidden lg:inline-block py-2 px-6 bg-${template.color}-darkblue hover:bg-${template.color}-blue text-sm text-white font-bold rounded-l-xl rounded-t-xl transition duration-200`}
+            className={`hidden lg:inline-block py-2 px-6 bg-brand-primary hover:bg-brand-primary-foreground text-sm text-white font-bold rounded-l-xl rounded-t-xl transition duration-200`}
           >
             {secondaryButton?.label}
           </ConditionalLink>
@@ -142,7 +142,7 @@ function VariantA({
                     <ConditionalLink
                       variant="link"
                       ariaLabel={link?.label}
-                      className="block p-4 text-sm font-semibold text-gray-900 rounded hover:bg-webriq-lightblue hover:text-webriq-darkblue"
+                      className="block p-4 text-sm font-semibold text-gray-900 rounded hover:bg-brand-secondary-foreground hover:text-brand-primary"
                       link={link}
                     >
                       {link?.label}
@@ -167,7 +167,7 @@ function VariantA({
                 <ConditionalLink
                   ariaLabel={secondaryButton?.label}
                   link={secondaryButton}
-                  className={`block px-4 py-3 mb-2 leading-loose text-xs text-center text-white font-semibold bg-${template.color}-darkblue hover:bg-${template.color}-blue rounded-l-xl rounded-t-xl`}
+                  className={`block px-4 py-3 mb-2 leading-loose text-xs text-center text-white font-semibold bg-brand-primary hover:bg-brand-primary-foreground rounded-l-xl rounded-t-xl`}
                 >
                   {secondaryButton?.label}
                 </ConditionalLink>

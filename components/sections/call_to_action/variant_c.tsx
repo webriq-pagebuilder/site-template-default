@@ -68,7 +68,7 @@ function VariantC({ title, text, features, form }: CTAProps) {
                     <li className="mr-4 flex items-center" key={index}>
                       <span>
                         <svg
-                          className="mr-2 h-6 w-6 text-webriq-blue"
+                          className="mr-2 h-6 w-6 text-brand-primary-foreground"
                           xmlns="http://www.w3.org/2000/svg"
                           viewBox="0 0 20 20"
                           fill="currentColor"

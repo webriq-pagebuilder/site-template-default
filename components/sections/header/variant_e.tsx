@@ -74,7 +74,7 @@ function VariantE({
                           variant="link"
                           ariaLabel={link?.label}
                           link={link}
-                          className="underline text-webriq-darkblue hover:text-webriq-blue"
+                          className="underline text-brand-primary hover:text-brand-primary-foreground"
                         >
                           {link?.label}
                         </ConditionalLink>

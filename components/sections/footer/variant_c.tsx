@@ -13,19 +13,19 @@ function VariantC({ logo, menu, copyright, socialMedia }: FooterProps) {
     <section className="bg-gray-50">
       <div className="flex w-full">
         <div className="flex w-1/3">
-          <div className="w-1/3 py-1 bg-webriq-babyblue" />
-          <div className="w-1/3 py-1 bg-webriq-blue" />
-          <div className="w-1/3 py-1 bg-webriq-darkblue" />
+          <div className="w-1/3 py-1 bg-brand-secondary" />
+          <div className="w-1/3 py-1 bg-brand-primary-foreground" />
+          <div className="w-1/3 py-1 bg-brand-primary" />
         </div>
         <div className="flex w-1/3">
-          <div className="w-1/3 py-1 bg-webriq-babyblue" />
-          <div className="w-1/3 py-1 bg-webriq-blue" />
-          <div className="w-1/3 py-1 bg-webriq-darkblue" />
+          <div className="w-1/3 py-1 bg-brand-secondary" />
+          <div className="w-1/3 py-1 bg-brand-primary-foreground" />
+          <div className="w-1/3 py-1 bg-brand-primary" />
         </div>
         <div className="flex w-1/3">
-          <div className="w-1/3 py-1 bg-webriq-babyblue" />
-          <div className="w-1/3 py-1 bg-webriq-blue" />
-          <div className="w-1/3 py-1 bg-webriq-darkblue" />
+          <div className="w-1/3 py-1 bg-brand-secondary" />
+          <div className="w-1/3 py-1 bg-brand-primary-foreground" />
+          <div className="w-1/3 py-1 bg-brand-primary" />
         </div>
       </div>
       <div className="container px-4 mx-auto">

@@ -129,7 +129,7 @@ function VariantD({
       link: ({ children, value }) => (
         <a
           aria-label={value.href ?? "external link"}
-          className="font-bold text-webriq-darkblue hover:text-webriq-darkblue"
+          className="font-bold text-brand-primary hover:text-brand-primary"
           href={value.href}
         >
           {children}
@@ -509,7 +509,7 @@ function VariantD({
                 //     setPKError
                 //   )
                 // }
-                className={`block w-full rounded-l-xl rounded-t-xl bg-webriq-blue p-4 text-center font-bold leading-none text-white transition duration-200 hover:bg-webriq-darkblue ${
+                className={`block w-full rounded-l-xl rounded-t-xl bg-brand-primary-foreground p-4 text-center font-bold leading-none text-white transition duration-200 hover:bg-brand-primary ${
                   billing.billType === "" &&
                   "cursor-not-allowed disabled:opacity-50"
                 }`}
@@ -528,7 +528,7 @@ function VariantD({
               <ConditionalLink
                 variant="link"
                 link={signInLink}
-                className="text-webriq-darkblue hover:underline"
+                className="text-brand-primary hover:underline"
                 ariaLabel={signInLink?.label}
               >
                 {signInLink?.label}
@@ -546,7 +546,7 @@ function VariantD({
         <div className="container px-4 mx-auto">
           <div className="max-w-2xl mx-auto mb-16 text-center">
             <div className="max-w-lg mx-auto">
-              <span className="font-bold text-webriq-darkblue">{caption}</span>
+              <span className="font-bold text-brand-primary">{caption}</span>
               <h1 className="mb-2 text-4xl font-bold font-heading lg:text-5xl">
                 {title}
               </h1>
@@ -563,7 +563,7 @@ function VariantD({
                     onChange={(e) => handleChange(e)}
                   />
                   <span className="mx-2 font-semibold">Monthly Billing</span>
-                  <span className="inline-flex items-center justify-center w-16 h-10 font-semibold text-white rounded-lg bg-webriq-darkblue">
+                  <span className="inline-flex items-center justify-center w-16 h-10 font-semibold text-white rounded-lg bg-brand-primary">
                     ${monthlyBilling}
                   </span>
                 </label>
@@ -578,7 +578,7 @@ function VariantD({
                     onChange={(e) => handleChange(e)}
                   />
                   <span className="mx-2 font-semibold">Annual Billing</span>
-                  <span className="inline-flex items-center justify-center w-16 h-10 font-semibold text-white rounded-lg bg-webriq-darkblue">
+                  <span className="inline-flex items-center justify-center w-16 h-10 font-semibold text-white rounded-lg bg-brand-primary">
                     ${annualBilling}
                   </span>
                 </label>
@@ -589,7 +589,7 @@ function VariantD({
             <Elements stripe={stripePromise}>
               <Form />
             </Elements>
-            <div className="flex flex-col w-full py-10 overflow-hidden bg-webriq-darkblue md:w-1/2 lg:rounded-r">
+            <div className="flex flex-col w-full py-10 overflow-hidden bg-brand-primary md:w-1/2 lg:rounded-r">
               {banner?.[banners]?.mainImage?.image?.asset?._ref && (
                 <div className="w-full mx-auto my-auto md:max-w-xs">
                   <Image
@@ -613,7 +613,7 @@ function VariantD({
                     className={` ${
                       banners === index
                         ? "mr-2 inline-block h-2 w-2 rounded-full bg-white focus:outline-none"
-                        : "mr-2 inline-block h-2 w-2 rounded-full bg-webriq-babyblue focus:outline-none"
+                        : "mr-2 inline-block h-2 w-2 rounded-full bg-brand-secondary focus:outline-none"
                     } `}
                     onClick={() => setBanners(index)}
                   />

@@ -19,7 +19,7 @@ function VariantA({ subtitle, title, posts, primaryButton }: BlogProps) {
         <div className="container px-4 mx-auto">
           <div className="mb-16 text-center">
             {subtitle && (
-              <Text className="font-bold text-webriq-darkblue">{subtitle}</Text>
+              <Text className="font-bold text-brand-primary">{subtitle}</Text>
             )}
             {title && <Text type="h1">{title}</Text>}
           </div>
@@ -58,7 +58,7 @@ function VariantA({ subtitle, title, posts, primaryButton }: BlogProps) {
                         {post?.title && (
                           <Link
                             aria-label={post?.title}
-                            className="text-xl font-bold text-white transform hover:scale-110 hover:text-webriq-babyblue motion-reduce:transform-none lg:text-2xl"
+                            className="text-xl font-bold text-white transform hover:scale-110 hover:text-brand-secondary motion-reduce:transform-none lg:text-2xl"
                             href={
                               `/${post?.slug?.current}` ?? "/page-not-found"
                             }
@@ -93,7 +93,7 @@ function VariantA({ subtitle, title, posts, primaryButton }: BlogProps) {
                           <div className="absolute flex left-5 top-5">
                             {post?.categories?.map((category, index) => (
                               <span
-                                className="px-3 py-1 mb-auto mr-3 text-sm font-bold uppercase bg-white rounded-full text-webriq-darkblue"
+                                className="px-3 py-1 mb-auto mr-3 text-sm font-bold uppercase bg-white rounded-full text-brand-primary"
                                 key={index}
                               >
                                 {category?.title}
@@ -111,7 +111,7 @@ function VariantA({ subtitle, title, posts, primaryButton }: BlogProps) {
                         )}
                         {post?.title && (
                           <Link
-                            className="text-xl font-bold text-white transform hover:scale-110 hover:text-webriq-babyblue motion-reduce:transform-none lg:text-2xl"
+                            className="text-xl font-bold text-white transform hover:scale-110 hover:text-brand-secondary motion-reduce:transform-none lg:text-2xl"
                             href={
                               `/${post?.slug?.current}` ?? "/page-not-found"
                             }
@@ -145,7 +145,7 @@ function VariantA({ subtitle, title, posts, primaryButton }: BlogProps) {
                           <div className="absolute flex left-5 top-5">
                             {post?.categories?.map((category, index) => (
                               <span
-                                className="px-3 py-1 mb-auto mr-3 text-sm font-bold uppercase bg-white rounded-full text-webriq-darkblue"
+                                className="px-3 py-1 mb-auto mr-3 text-sm font-bold uppercase bg-white rounded-full text-brand-primary"
                                 key={index}
                               >
                                 {category?.title}
@@ -163,7 +163,7 @@ function VariantA({ subtitle, title, posts, primaryButton }: BlogProps) {
                         )}
                         {post?.title && (
                           <Link
-                            className="text-xl font-bold text-white transform hover:scale-110 hover:text-webriq-babyblue motion-reduce:transform-none lg:text-2xl"
+                            className="text-xl font-bold text-white transform hover:scale-110 hover:text-brand-secondary motion-reduce:transform-none lg:text-2xl"
                             href={
                               `/${post?.slug?.current}` ?? "/page-not-found"
                             }
@@ -195,7 +195,7 @@ function VariantA({ subtitle, title, posts, primaryButton }: BlogProps) {
                           <div className="absolute flex left-5 top-5">
                             {post?.categories?.map((category, index) => (
                               <span
-                                className="px-3 py-1 mb-auto mr-3 text-sm font-bold uppercase bg-white rounded-full text-webriq-darkblue"
+                                className="px-3 py-1 mb-auto mr-3 text-sm font-bold uppercase bg-white rounded-full text-brand-primary"
                                 key={index}
                               >
                                 {category?.title}
@@ -213,7 +213,7 @@ function VariantA({ subtitle, title, posts, primaryButton }: BlogProps) {
                         )}
                         {post?.title && (
                           <Link
-                            className="text-xl font-bold text-white transform hover:scale-110 hover:text-webriq-babyblue motion-reduce:transform-none lg:text-2xl"
+                            className="text-xl font-bold text-white transform hover:scale-110 hover:text-brand-secondary motion-reduce:transform-none lg:text-2xl"
                             href={
                               `/${post?.slug?.current}` ?? "/page-not-found"
                             }
@@ -232,7 +232,7 @@ function VariantA({ subtitle, title, posts, primaryButton }: BlogProps) {
                 {primaryButton?.label && (
                   <ConditionalLink
                     link={primaryButton}
-                    className="inline-block px-6 py-2 font-bold leading-loose transition duration-200 outline-none rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50"
+                    className="inline-block px-6 py-2 font-bold leading-loose transition duration-200 outline-none rounded-l-xl rounded-t-xl bg-brand-primary hover:bg-brand-primary-foreground text-gray-50"
                     ariaLabel={primaryButton?.label}
                   >
                     {primaryButton?.label}

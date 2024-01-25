@@ -89,7 +89,7 @@ function VariantC({
               <ConditionalLink
                 ariaLabel={secondaryButton?.label}
                 link={secondaryButton}
-                className="hidden px-6 py-2 text-sm font-bold text-white transition duration-200 lg:inline-block bg-webriq-darkblue hover:bg-webriq-blue rounded-l-xl rounded-t-xl"
+                className="hidden px-6 py-2 text-sm font-bold text-white transition duration-200 lg:inline-block bg-brand-primary hover:bg-brand-primary-foreground rounded-l-xl rounded-t-xl"
               >
                 {secondaryButton?.label}
               </ConditionalLink>
@@ -98,7 +98,7 @@ function VariantC({
           <div className="ml-auto lg:hidden">
             <button
               aria-label="Navigation menu"
-              className="flex items-center p-3 navbar-burger text-webriq-darkblue"
+              className="flex items-center p-3 navbar-burger text-brand-primary"
               onClick={showMenu}
             >
               <svg
@@ -150,7 +150,7 @@ function VariantC({
                       variant="link"
                       ariaLabel={link?.label}
                       link={link}
-                      className="block p-4 text-sm font-semibold text-gray-700 rounded hover:bg-webriq-lightblue hover:text-webriq-darkblue"
+                      className="block p-4 text-sm font-semibold text-gray-700 rounded hover:bg-brand-secondary-foreground hover:text-brand-primary"
                     >
                       {link?.label}
                     </ConditionalLink>
@@ -173,7 +173,7 @@ function VariantC({
                 <ConditionalLink
                   ariaLabel={secondaryButton?.label}
                   link={secondaryButton}
-                  className="block px-4 py-3 mb-2 text-xs font-semibold leading-loose text-center text-white bg-webriq-darkblue hover:bg-webriq-blue rounded-l-xl rounded-t-xl"
+                  className="block px-4 py-3 mb-2 text-xs font-semibold leading-loose text-center text-white bg-brand-primary hover:bg-brand-primary-foreground rounded-l-xl rounded-t-xl"
                 >
                   {secondaryButton?.label}
                 </ConditionalLink>

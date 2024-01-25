@@ -26,8 +26,8 @@ export function StatsCard({
   };
 
   const imageVariantClass = {
-    inline: `inline-block p-4 mr-4 rounded bg-webriq-lightblue`,
-    stacked: `inline-block p-4 mx-auto rounded bg-webriq-lightblue`,
+    inline: `inline-block p-4 mr-4 rounded bg-brand-secondary-foreground`,
+    stacked: `inline-block p-4 mx-auto rounded bg-brand-secondary-foreground`,
   };
 
   const classes = variantClass[variant] ?? variantClass["inline"];

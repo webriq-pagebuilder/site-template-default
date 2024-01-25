@@ -16,7 +16,7 @@ function VariantC({ title, images, button }: LogoCloudProps) {
             <ConditionalLink
               ariaLabel={button?.label}
               link={button}
-              className="inline-block px-6 py-2 font-bold leading-loose rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50"
+              className="inline-block px-6 py-2 font-bold leading-loose rounded-l-xl rounded-t-xl bg-brand-primary hover:bg-brand-primary-foreground text-gray-50"
             >
               {button?.label}
             </ConditionalLink>

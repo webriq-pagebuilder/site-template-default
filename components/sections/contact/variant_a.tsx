@@ -242,7 +242,7 @@ function VariantA({
                           ariaLabel={
                             form?.buttonLabel ?? "Contact form submit button"
                           }
-                          className="inline-block px-6 py-2 mt-5 font-bold leading-loose text-white transition duration-200 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue sm:mt-0"
+                          className="inline-block px-6 py-2 mt-5 font-bold leading-loose text-white transition duration-200 rounded-l-xl rounded-t-xl bg-brand-primary hover:bg-brand-primary-foreground sm:mt-0"
                           type="submit"
                         >
                           {form?.buttonLabel}

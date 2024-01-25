@@ -33,7 +33,7 @@ export function Avatar({
   const initials = text
     ? text?.split(" ")?.reduce((acc, curr) => acc + curr[0], "")
     : "AB";
-  const baseClass = `relative rounded-full aspect-square overflow-hidden border-2 border-solid border-webriq-blue`;
+  const baseClass = `relative rounded-full aspect-square overflow-hidden border-2 border-solid border-brand-primary-foreground`;
   return (
     <div
       style={{
@@ -43,7 +43,7 @@ export function Avatar({
       {...props}
     >
       {(!loaded || !src) && (
-        <div className="flex items-center justify-center w-full h-full bg-webriq-blue">
+        <div className="flex items-center justify-center w-full h-full bg-brand-primary-foreground">
           <p
             style={{
               fontSize: `calc(${avatarSize}/2)`,

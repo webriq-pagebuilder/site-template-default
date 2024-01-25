@@ -7,7 +7,6 @@
   IF NOT, THEN ADD THEM BY CSS MODULES (e.g. Products.module.css - contains all styling for product pages only).
 **/
 
-
 html {
   -webkit-text-size-adjust: 100%;
 }
@@ -15,7 +14,7 @@ html {
 /* ECWID COMPONENT CUSTOM STYLING */
 /* TODO: MIGRATE THIS TO CSS MODULE */
 /* .cart-icon {
-  @apply relative before:content-[attr(data-count)] before:absolute before:flex before:items-center before:justify-center before:bg-webriq-darkblue before:rounded-full before:h-6 before:w-6 before:-top-3 before:-right-3 before:text-white;
+  @apply relative before:content-[attr(data-count)] before:absolute before:flex before:items-center before:justify-center before:bg-brand-primary before:rounded-full before:h-6 before:w-6 before:-top-3 before:-right-3 before:text-white;
 } */
 html#ecwid_html body#ecwid_body .cart-icon {
   position: relative;
@@ -74,7 +73,7 @@ html#ecwid_html body#ecwid_body .ec-size .ec-store .ec-breadcrumbs {
   padding-bottom: 25%;
 }
 
-.product-images-thumbs-swiper.swiper-container .swiper-slide>div {
+.product-images-thumbs-swiper.swiper-container .swiper-slide > div {
   height: 0 !important;
   padding-bottom: 100%;
 }
@@ -103,7 +102,7 @@ html#ecwid_html body#ecwid_body .ec-size .ec-store .ec-breadcrumbs {
   padding-bottom: 100%;
 }
 
-.product-images-swiper.swiper-container .swiper-slide>div {
+.product-images-swiper.swiper-container .swiper-slide > div {
   height: 0 !important;
   padding-bottom: 100%;
 }

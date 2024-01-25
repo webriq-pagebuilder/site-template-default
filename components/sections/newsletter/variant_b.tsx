@@ -75,7 +75,7 @@ function VariantB({ logo, title, description, form }: NewsletterProps) {
                           buttonLabel ?? "Newsletter form submit button"
                         }
                         className="py-2 leading-loose"
-                        // className="flex-none px-6 py-2 font-bold leading-loose transition duration-200 rounded-l-xl rounded-t-xl bg-webriq-darkblue text-gray-50 hover:bg-webriq-blue"
+                        // className="flex-none px-6 py-2 font-bold leading-loose transition duration-200 rounded-l-xl rounded-t-xl bg-brand-primary text-gray-50 hover:bg-brand-primary-foreground"
                         type="submit"
                       >
                         {buttonLabel}

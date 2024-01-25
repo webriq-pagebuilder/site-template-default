@@ -31,7 +31,7 @@ function VariantC({ caption, title, testimonials }: TestimonialProps) {
         <div className="max-w-6xl px-4 pb-6 mx-auto lg:pb-16">
           <div className="flex flex-wrap items-center justify-center text-center lg:justify-between lg:text-left">
             <div className="w-full mb-4 lg:mb-0 lg:w-4/5">
-              <span className="font-bold text-webriq-darkblue">{caption}</span>
+              <span className="font-bold text-brand-primary">{caption}</span>
               <Text type="h1" className="">
                 {title}
               </Text>
