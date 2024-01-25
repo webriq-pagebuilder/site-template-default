@@ -100,7 +100,7 @@ function VariantA({
           <ConditionalLink
             ariaLabel={secondaryButton?.label}
             link={secondaryButton}
-            className={`hidden lg:inline-block py-2 px-6 bg-${template.color}-darkblue hover:bg-${template.color}-blue text-sm text-white font-bold rounded-l-xl rounded-t-xl transition duration-200`}
+            className={`hidden lg:inline-block py-2 px-6 bg-brand-primary hover:bg-brand-primary-foreground text-sm text-white font-bold rounded-l-xl rounded-t-xl transition duration-200`}
           >
             {secondaryButton?.label}
           </ConditionalLink>
