@@ -1,12 +1,26 @@
 import React from "react";
-import { default as twConfig } from "../../../tailwind.config";
 
-const colors = twConfig?.theme?.extend?.colors;
-export const colorsArray = colors
-  ? Object.entries(colors).map(([key, value]) => ({ [key]: value }))
-  : [];
+function transformBrandColors(brandColors) {
+  const colors = [];
+  for (const category in brandColors) {
+    const categoryValue = brandColors[category];
+    if (typeof categoryValue === "object") {
+      // Handle object children
+      for (const key in categoryValue) {
+        const colorKey = key === "DEFAULT" ? category : `${category}-${key}`;
+        colors.push({ [colorKey]: categoryValue[key].toUpperCase() });
+      }
+    } else {
+      // Handle direct color value
+      colors.push({ [category]: categoryValue });
+    }
+  }
+  return colors;
+}
 
-export function Brand({ colors }) {
+export function Table({ colors, prefix }) {
+  const colorList = transformBrandColors(colors);
+
   return (
     <table className="w-full">
       <thead>
@@ -17,16 +31,24 @@ export function Brand({ colors }) {
         </tr>
       </thead>
       <tbody className="text-center">
-        {colors.map((t) => {
-          const tw = Object.keys(t)[0];
-          return <PreviewTable tw={tw} value={t[tw]} />;
+        {colorList.map((color) => {
+          const key = Object.keys(color)[0];
+          const tailwindClass = `${prefix}-${key}`;
+          const colorValue = color[key];
+          return (
+            <PreviewValues
+              key={colorValue}
+              tailwinClass={tailwindClass}
+              value={colorValue}
+            />
+          );
         })}
       </tbody>
     </table>
   );
 }
 
-function PreviewTable({ tw, value }) {
+function PreviewValues({ tailwinClass, value }) {
   return (
     <tr className="!bg-white">
       <td className="flex justify-center">
@@ -38,7 +60,7 @@ function PreviewTable({ tw, value }) {
           }}
         ></div>
       </td>
-      <td>{tw}</td>
+      <td>{tailwinClass}</td>
       <td>{value}</td>
     </tr>
   );
