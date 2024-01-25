@@ -3,30 +3,7 @@ import { Sections, Variants } from "types";
 import FeaturedProducts from "../index";
 
 const args = {
-  _type: "mainCollection",
   name: "All Products",
-  _id: "2bb70613-7104-4c43-a953-ed73eb74473b",
-  seo: {
-    seoTitle: "Collections | All Products",
-    _type: "seoSettings",
-  },
-  collectionInfoVariant: {
-    variant: "defaultVariant",
-  },
-  sections: [
-    {
-      _ref: "dfdec206-de4a-4d27-94f3-00eff2ee64bc",
-      _type: "slotCollectionInfo",
-      _key: "0b81040b8275a8cdc3a52da1f5e37061",
-    },
-  ],
-  _createdAt: "2022-12-02T01:21:56Z",
-  _rev: "XghJoDIHyYaQPLh88D8rHt",
-  slug: {
-    current: "all-products",
-    _type: "slug",
-  },
-  _updatedAt: "2023-05-10T06:29:31Z",
   products: [
     {
       _rev: "uDpwmdKblEGdbs8fmGorpj",

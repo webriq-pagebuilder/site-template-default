@@ -80,6 +80,7 @@ export function EcwidContextProvider({ children }) {
   const [count, setCount] = useState(0);
   const [isScript, setIsScript] = useState<boolean>(false);
 
+  console.log("rpoducts", products);
   useEffect(() => {
     const fetchProducts = () => {
       id !== null &&

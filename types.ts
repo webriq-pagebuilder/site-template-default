@@ -260,7 +260,7 @@ export interface Collection extends SanityBody {
 }
 
 export interface CollectionProduct extends SanityBody {
-  compareToPrice: number | null;
+  compareToPrice?: number | null;
   description?: string | null;
   ecwidProductId?: number | null;
   name?: string | null;
