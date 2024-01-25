@@ -39,7 +39,7 @@ function VariantA({
         <div className="lg:hidden">
           <button
             aria-label="Navigation Menu"
-            className="flex items-center p-3 navbar-burger text-webriq-darkblue"
+            className="flex items-center p-3 navbar-burger text-brand-primary"
             onClick={showMenu}
           >
             <svg
@@ -142,7 +142,7 @@ function VariantA({
                     <ConditionalLink
                       variant="link"
                       ariaLabel={link?.label}
-                      className="block p-4 text-sm font-semibold text-gray-900 rounded hover:bg-webriq-lightblue hover:text-webriq-darkblue"
+                      className="block p-4 text-sm font-semibold text-gray-900 rounded hover:bg-brand-secondary-foreground hover:text-brand-primary"
                       link={link}
                     >
                       {link?.label}

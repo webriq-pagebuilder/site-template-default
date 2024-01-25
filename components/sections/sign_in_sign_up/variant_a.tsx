@@ -95,7 +95,7 @@ function VariantA({ logo, form, formLinks, signInLink }: SignUpFormProps) {
                       <span>Already have an account?</span>{" "}
                       <ConditionalLink
                         link={signInLink}
-                        className="text-webriq-darkblue hover:underline"
+                        className="text-brand-primary hover:underline"
                         ariaLabel={signInLink?.label}
                       >
                         {signInLink?.label}
@@ -115,7 +115,7 @@ function VariantA({ logo, form, formLinks, signInLink }: SignUpFormProps) {
                     className={
                       link?.type === "linkInternal"
                         ? "underline hover:text-gray-500"
-                        : "text-webriq-darkblue hover:underline"
+                        : "text-brand-primary hover:underline"
                     }
                     ariaLabel={link?.label}
                   >

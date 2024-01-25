@@ -36,7 +36,7 @@ function VariantB({
                       <Button
                         ariaLabel={allowCookieBtn}
                         type="button"
-                        className="m-2 border-2 rounded-l-xl rounded-t-xl border-webriq-darkblue bg-webriq-darkblue hover:border-webriq-blue"
+                        className="m-2 border-2 rounded-l-xl rounded-t-xl border-brand-primary bg-brand-primary hover:border-brand-primary-foreground"
                         onClick={() => {
                           setCookie("allow");
                           setShowCookie(!showCookie);

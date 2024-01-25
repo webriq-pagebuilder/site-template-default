@@ -9,10 +9,6 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        "webriq-blue": "#296eff",
-        "webriq-lightblue": "#d5e3ff",
-        "webriq-darkblue": "#0045d8",
-        "webriq-babyblue": "#3576ff",
         brand: {
           primary: {
             DEFAULT: "#0045d8",

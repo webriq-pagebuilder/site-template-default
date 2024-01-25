@@ -20,9 +20,7 @@ function VariantC({
           <div className="flex flex-wrap items-center justify-center mb-16 md:justify-between">
             <div className="text-center lg:text-left">
               {caption && (
-                <span className="font-bold text-webriq-darkblue">
-                  {caption}
-                </span>
+                <span className="font-bold text-brand-primary">{caption}</span>
               )}
               {title && <Text type="h1">{title}</Text>}
             </div>
@@ -65,7 +63,7 @@ function VariantC({
                           variant="link"
                           ariaLabel={content?.primaryButton?.label}
                           link={content?.primaryButton}
-                          className="flex font-bold text-webriq-darkblue hover:text-webriq-blue"
+                          className="flex font-bold text-brand-primary hover:text-brand-primary-foreground"
                         >
                           {content?.primaryButton?.label}
                         </ConditionalLink>

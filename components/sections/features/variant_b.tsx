@@ -20,7 +20,7 @@ function VariantB({
             <div className="w-full mb-12 lg:mb-0 lg:w-1/2">
               <div className="max-w-md lg:mx-auto">
                 {caption && (
-                  <span className="font-bold text-webriq-darkblue">
+                  <span className="font-bold text-brand-primary">
                     {caption}
                   </span>
                 )}
@@ -39,7 +39,7 @@ function VariantB({
                     tags.map((item) => (
                       <li className="flex mb-4" key={item}>
                         <svg
-                          className="w-6 h-6 mr-2 text-webriq-babyblue"
+                          className="w-6 h-6 mr-2 text-brand-secondary"
                           xmlns="http://www.w3.org/2000/svg"
                           viewBox="0 0 20 20"
                           fill="currentColor"
@@ -65,7 +65,7 @@ function VariantB({
                       key={index}
                     >
                       <Card className="py-6 pl-6 pr-4 mb-8">
-                        <span className="inline-block p-3 mb-4 rounded-lg bg-webriq-lightblue">
+                        <span className="inline-block p-3 mb-4 rounded-lg bg-brand-secondary-foreground">
                           {feature?.mainImage?.image && (
                             <Image
                               className="object-scale-down"
@@ -90,7 +90,7 @@ function VariantB({
                   ) : (
                     <div className="w-full px-4 md:w-1/2 lg:mt-12" key={index}>
                       <Card className="py-6 pl-6 pr-4 mb-8 lg:mb-0">
-                        <span className="inline-block p-3 mb-4 rounded bg-webriq-lightblue">
+                        <span className="inline-block p-3 mb-4 rounded bg-brand-secondary-foreground">
                           {feature?.mainImage?.image && (
                             <Image
                               className="object-scale-down"

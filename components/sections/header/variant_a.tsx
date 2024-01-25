@@ -82,10 +82,10 @@ function VariantA({
                     style={{ top: "-2rem", right: "3rem", zIndex: "-1" }}
                   >
                     <Image
-                      src="/assets/elements/webriq-blue-dark-up.png"
+                      src="/assets/elements/brand-primary-foreground-dark-up.png"
                       width={112}
                       height={112}
-                      alt="webriq-blue-dark-up-mainImage-element"
+                      alt="brand-primary-foreground-dark-up-mainImage-element"
                     />
                   </div>
                   <div
@@ -93,10 +93,10 @@ function VariantA({
                     style={{ bottom: "-2rem", right: "-2rem", zIndex: "-1" }}
                   >
                     <Image
-                      src="/assets/elements/wing-webriq-blue-down.png"
+                      src="/assets/elements/wing-brand-primary-foreground-down.png"
                       width={144}
                       height={144}
-                      alt="wing-webriq-blue-down-mainImage-element"
+                      alt="wing-brand-primary-foreground-down-mainImage-element"
                     />
                   </div>
                   <div

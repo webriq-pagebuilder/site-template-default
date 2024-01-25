@@ -95,7 +95,7 @@ function VariantC({
         <div className="container px-4 mx-auto">
           <div className="max-w-lg mx-auto mb-16 text-center">
             {caption && (
-              <span className="font-bold text-webriq-darkblue">{caption}</span>
+              <span className="font-bold text-brand-primary">{caption}</span>
             )}
             {title && (
               <Text type="h1" className="mb-2 ">

@@ -25,7 +25,7 @@ const AddMoreButton = ({ product }: AddMoreButtonProps) => {
           <div className="w-full">
             <button
               type="submit"
-              className="font-heading block w-full rounded-md border border-webriq-darkblue px-8 py-5 text-center font-bold uppercase text-webriq-darkblue transition duration-200"
+              className="font-heading block w-full rounded-md border border-brand-primary px-8 py-5 text-center font-bold uppercase text-brand-primary transition duration-200"
               disabled={isAddingToBag}
             >
               {isAddingToBag ? "Adding..." : "Add More"}
@@ -33,7 +33,7 @@ const AddMoreButton = ({ product }: AddMoreButtonProps) => {
           </div>
 
           <AddToWishlist
-            classNames="ml-auto sm:ml-0 flex-shrink-0 inline-flex items-center justify-center w-full h-16 rounded-md border hover:border-webriq-darkblue"
+            classNames="ml-auto sm:ml-0 flex-shrink-0 inline-flex items-center justify-center w-full h-16 rounded-md border hover:border-brand-primary"
             product={product}
           >
             <svg
@@ -56,7 +56,7 @@ const AddMoreButton = ({ product }: AddMoreButtonProps) => {
         </div>
 
         <a
-          className="font-heading block w-full rounded-md bg-webriq-darkblue px-8 py-5 text-center font-bold uppercase text-white transition duration-200"
+          className="font-heading block w-full rounded-md bg-brand-primary px-8 py-5 text-center font-bold uppercase text-white transition duration-200"
           href="/cart?store-page=cart"
         >
           Go to Checkout

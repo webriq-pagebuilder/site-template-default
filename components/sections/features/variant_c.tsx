@@ -12,7 +12,7 @@ function VariantC({ caption, title, features }: FeaturesProps) {
         <div className="container px-4 mx-auto">
           <div className="max-w-md mx-auto mb-16 text-center">
             {caption && (
-              <span className="font-bold text-webriq-darkblue">{caption}</span>
+              <span className="font-bold text-brand-primary">{caption}</span>
             )}
             {title && <Text type="h1">{title}</Text>}
           </div>
@@ -23,7 +23,7 @@ function VariantC({ caption, title, features }: FeaturesProps) {
                   <div className="w-full px-3 mb-6 lg:w-1/2" key={index}>
                     <Card className="flex flex-wrap h-full p-6">
                       <div>
-                        <span className="inline-block p-3 mb-4 mr-6 rounded-lg bg-webriq-lightblue md:p-5 lg:mb-0">
+                        <span className="inline-block p-3 mb-4 mr-6 rounded-lg bg-brand-secondary-foreground md:p-5 lg:mb-0">
                           {feature?.mainImage?.image && (
                             <Image
                               className="object-scale-down"

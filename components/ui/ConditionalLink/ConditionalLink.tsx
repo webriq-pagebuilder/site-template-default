@@ -27,9 +27,9 @@ export const ConditionalLink = ({
 }: IConditionalLink) => {
   const commonStyles =
     "inline-block py-2 px-6 rounded-l-xl rounded-t-xl font-bold leading-loose transition duration-200";
-  const primary = `${commonStyles} bg-webriq-darkblue hover:bg-webriq-blue text-gray-50  outline-none `;
-  const outline = `${commonStyles} bg-white hover:bg-slate-100  font-bold outline text-webriq-blue outline-webriq-blue `;
-  const secondary = `${commonStyles} bg-webriq-babyblue hover:bg-webriq-darkblue font-bold  text-gray-50`;
+  const primary = `${commonStyles} bg-brand-primary hover:bg-brand-primary-foreground text-gray-50  outline-none `;
+  const outline = `${commonStyles} bg-white hover:bg-slate-100  font-bold outline text-brand-primary-foreground outline-brand-primary-foreground `;
+  const secondary = `${commonStyles} bg-brand-secondary hover:bg-brand-primary font-bold  text-gray-50`;
   const linkStyle = ``;
   const variants: StyleVariants<Variant> = {
     primary,

@@ -45,7 +45,7 @@ function VariantD({ testimonials }: TestimonialProps) {
             {testimonials?.length > 1 && (
               <button
                 aria-label="Show previous testimonial"
-                className="hidden p-5 transition duration-200 bg-white rounded-full shadow-md text-webriq-darkblue hover:text-webriq-babyblue focus:outline-none lg:mr-0 lg:block"
+                className="hidden p-5 transition duration-200 bg-white rounded-full shadow-md text-brand-primary hover:text-brand-secondary focus:outline-none lg:mr-0 lg:block"
                 onClick={() => slider("prev")}
               >
                 <svg
@@ -71,7 +71,7 @@ function VariantD({ testimonials }: TestimonialProps) {
                     <span className="text-5xl font-bold lg:text-6xl">
                       {`${testimonials?.[testimony]?.rating}.0`}
                     </span>
-                    <div className="flex justify-center mb-6 text-webriq-darkblue">
+                    <div className="flex justify-center mb-6 text-brand-primary">
                       {testimonials?.[testimony]?.rating === "1" ? (
                         <svg
                           className="w-6 h-6"
@@ -151,7 +151,7 @@ function VariantD({ testimonials }: TestimonialProps) {
                 )}
                 <div className="w-full px-6 py-10 lg:w-2/3">
                   <svg
-                    className="h-10 mb-4 text-webriq-darkblue"
+                    className="h-10 mb-4 text-brand-primary"
                     viewBox="0 0 32 28"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
@@ -181,7 +181,7 @@ function VariantD({ testimonials }: TestimonialProps) {
             {testimonials?.length > 1 && (
               <button
                 aria-label="Show next testimonial"
-                className="hidden p-5 transition duration-200 bg-white rounded-full shadow-md text-webriq-darkblue hover:text-webriq-babyblue focus:outline-none lg:block"
+                className="hidden p-5 transition duration-200 bg-white rounded-full shadow-md text-brand-primary hover:text-brand-secondary focus:outline-none lg:block"
                 onClick={() => slider("next")}
               >
                 <svg

@@ -86,7 +86,7 @@ function VariantB({
           <div className="flex flex-wrap items-center w-full mb-16">
             <div className="w-full lg:w-1/2">
               {caption && (
-                <span className="lg:text=base text-sm font-bold text-webriq-darkblue xl:text-base 2xl:text-base">
+                <span className="lg:text=base text-sm font-bold text-brand-primary xl:text-base 2xl:text-base">
                   {caption}
                 </span>
               )}
@@ -141,7 +141,7 @@ function VariantB({
                       {plan.planIncludes?.map((include) => (
                         <li className="flex mb-4" key={include}>
                           <svg
-                            className="w-5 h-5 mr-2 text-webriq-darkblue"
+                            className="w-5 h-5 mr-2 text-brand-primary"
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 20 20"
                             fill="currentColor"

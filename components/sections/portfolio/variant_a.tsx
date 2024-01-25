@@ -22,7 +22,7 @@ function VariantA({ caption, title, portfoliosWithCategory }: PortfolioProps) {
         <div className="container px-4 mx-auto">
           <div className="max-w-lg mx-auto mb-8 text-center md:mb-16">
             {caption && (
-              <span className="font-bold text-webriq-darkblue">{caption}</span>
+              <span className="font-bold text-brand-primary">{caption}</span>
             )}
             {title && <Text className="mb-6 ">{title}</Text>}
             {portfoliosWithCategory && (
@@ -33,8 +33,8 @@ function VariantA({ caption, title, portfoliosWithCategory }: PortfolioProps) {
                     key={index}
                     className={`mx-auto mb-1 w-auto px-4 py-2 ${
                       activeTab === content?.category
-                        ? "rounded bg-gray-50 font-bold text-webriq-darkblue shadow transition duration-200 focus:outline-none"
-                        : "rounded font-bold text-gray-700 transition duration-200 hover:bg-webriq-lightblue hover:text-webriq-blue hover:shadow focus:outline-none"
+                        ? "rounded bg-gray-50 font-bold text-brand-primary shadow transition duration-200 focus:outline-none"
+                        : "rounded font-bold text-gray-700 transition duration-200 hover:bg-brand-secondary-foreground hover:text-brand-primary-foreground hover:shadow focus:outline-none"
                     }`}
                     onClick={() => setActiveTab(content?.category)}
                   >
@@ -88,7 +88,7 @@ function VariantA({ caption, title, portfoliosWithCategory }: PortfolioProps) {
               <ConditionalLink
                 ariaLabel={portfoliosPerCategory?.[0]?.primaryButton?.label}
                 link={portfoliosPerCategory?.[0]?.primaryButton}
-                className="inline-block px-6 py-2 font-bold leading-loose transition duration-200 outline-none rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50"
+                className="inline-block px-6 py-2 font-bold leading-loose transition duration-200 outline-none rounded-l-xl rounded-t-xl bg-brand-primary hover:bg-brand-primary-foreground text-gray-50"
               >
                 {portfoliosPerCategory?.[0]?.primaryButton?.label}
               </ConditionalLink>

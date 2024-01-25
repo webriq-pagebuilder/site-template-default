@@ -17,9 +17,7 @@ function VariantC({ subtitle, title, posts, primaryButton }: BlogProps) {
           <div className="flex flex-wrap items-center mb-16">
             <div className="w-full text-center lg:w-1/2 lg:text-left">
               {subtitle && (
-                <span className="font-bold text-webriq-darkblue">
-                  {subtitle}
-                </span>
+                <span className="font-bold text-brand-primary">{subtitle}</span>
               )}
               {title && (
                 <h1 className="text-4xl font-bold font-heading lg:text-5xl xl:text-5xl">
@@ -30,7 +28,7 @@ function VariantC({ subtitle, title, posts, primaryButton }: BlogProps) {
             {primaryButton?.label && (
               <ConditionalLink
                 link={primaryButton}
-                className="inline-block px-6 py-2 font-bold leading-loose transition duration-200 outline-none rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50"
+                className="inline-block px-6 py-2 font-bold leading-loose transition duration-200 outline-none rounded-l-xl rounded-t-xl bg-brand-primary hover:bg-brand-primary-foreground text-gray-50"
                 ariaLabel={primaryButton?.label}
               >
                 {primaryButton?.label}
@@ -60,7 +58,7 @@ function VariantC({ subtitle, title, posts, primaryButton }: BlogProps) {
                         {post?.categories &&
                           post?.categories?.map((category, index) => (
                             <span
-                              className="px-3 py-1 mb-auto mr-3 text-sm font-bold uppercase rounded-full bg-webriq-lightblue text-webriq-darkblue"
+                              className="px-3 py-1 mb-auto mr-3 text-sm font-bold uppercase rounded-full bg-brand-secondary-foreground text-brand-primary"
                               key={index}
                             >
                               {category?.title}
@@ -81,12 +79,12 @@ function VariantC({ subtitle, title, posts, primaryButton }: BlogProps) {
                         )}
                         {post?.authors && (
                           <div className="flex mb-10">
-                            <span className="italic text-webriq-darkblue">
+                            <span className="italic text-brand-primary">
                               By&nbsp;
                             </span>
                             {post?.authors?.map((author, index, { length }) => (
                               <div key={index}>
-                                <span className="italic text-webriq-darkblue">
+                                <span className="italic text-brand-primary">
                                   {author?.name}
                                 </span>
                                 {index + 1 !== length ? (
@@ -104,7 +102,7 @@ function VariantC({ subtitle, title, posts, primaryButton }: BlogProps) {
                         {post?.slug?.current && (
                           <Link
                             aria-label="View Blog Post"
-                            className="font-bold text-webriq-darkblue hover:text-webriq-blue"
+                            className="font-bold text-brand-primary hover:text-brand-primary-foreground"
                             href={
                               `/${post?.slug?.current}` ?? "/page-not-found"
                             }
@@ -120,7 +118,7 @@ function VariantC({ subtitle, title, posts, primaryButton }: BlogProps) {
                         {post?.categories &&
                           post?.categories?.map((category, index) => (
                             <span
-                              className="px-3 py-1 mb-auto mr-3 text-sm font-bold uppercase rounded-full bg-webriq-lightblue text-webriq-darkblue"
+                              className="px-3 py-1 mb-auto mr-3 text-sm font-bold uppercase rounded-full bg-brand-secondary-foreground text-brand-primary"
                               key={index}
                             >
                               {category?.title}
@@ -141,12 +139,12 @@ function VariantC({ subtitle, title, posts, primaryButton }: BlogProps) {
                         )}
                         {post?.authors && (
                           <div className="flex mb-10">
-                            <span className="italic text-webriq-darkblue">
+                            <span className="italic text-brand-primary">
                               By&nbsp;
                             </span>
                             {post?.authors?.map((author, index, { length }) => (
                               <div key={index}>
-                                <span className="italic text-webriq-darkblue">
+                                <span className="italic text-brand-primary">
                                   {author?.name}
                                 </span>
                                 {index + 1 !== length ? (
@@ -164,7 +162,7 @@ function VariantC({ subtitle, title, posts, primaryButton }: BlogProps) {
                         {post?.slug?.current && (
                           <Link
                             aria-label="View Blog Post"
-                            className="font-bold text-webriq-darkblue hover:text-webriq-blue"
+                            className="font-bold text-brand-primary hover:text-brand-primary-foreground"
                             href={
                               `/${post?.slug?.current}` ?? "/page-not-found"
                             }
@@ -193,7 +191,7 @@ function VariantC({ subtitle, title, posts, primaryButton }: BlogProps) {
             <div className="block text-center lg:hidden lg:w-1/2">
               <ConditionalLink
                 link={primaryButton}
-                className="inline-block px-6 py-2 font-bold leading-loose transition duration-200 outline-none rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50"
+                className="inline-block px-6 py-2 font-bold leading-loose transition duration-200 outline-none rounded-l-xl rounded-t-xl bg-brand-primary hover:bg-brand-primary-foreground text-gray-50"
                 ariaLabel={primaryButton?.label}
               >
                 {primaryButton?.label}

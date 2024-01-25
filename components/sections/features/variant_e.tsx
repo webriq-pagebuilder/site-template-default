@@ -27,7 +27,7 @@ function VariantE({ featuredItems }: FeaturesProps) {
               {featuredItems?.length >= 2 && (
                 <button
                   aria-label="Show Previous Feature"
-                  className="z-10 p-4 text-white rounded-l-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue focus:outline-none"
+                  className="z-10 p-4 text-white rounded-l-xl rounded-t-xl bg-brand-primary-foreground hover:bg-brand-primary focus:outline-none"
                   onClick={() => slider("prev")}
                 >
                   <svg
@@ -64,7 +64,7 @@ function VariantE({ featuredItems }: FeaturesProps) {
                 </div>
               )}
               <Card className="top-0 left-0 max-w-xl p-6 mx-auto text-center md:mt-12 md:p-10 lg:mt-12 lg:p-10 xl:absolute xl:mx-0 xl:mt-20 xl:py-24">
-                <span className="text-xs font-bold lg:text-md text-webriq-darkblue md:text-sm xl:text-lg">
+                <span className="text-xs font-bold lg:text-md text-brand-primary md:text-sm xl:text-lg">
                   {featuredItems?.[item]?.subtitle &&
                     featuredItems?.[item]?.subtitle}
                 </span>
@@ -81,7 +81,7 @@ function VariantE({ featuredItems }: FeaturesProps) {
               {featuredItems?.length >= 2 && (
                 <button
                   aria-label="Show Next Feature"
-                  className="p-4 text-white rounded-r-xl rounded-t-xl bg-webriq-blue hover:bg-webriq-darkblue focus:outline-none"
+                  className="p-4 text-white rounded-r-xl rounded-t-xl bg-brand-primary-foreground hover:bg-brand-primary focus:outline-none"
                   onClick={() => slider("next")}
                 >
                   <svg

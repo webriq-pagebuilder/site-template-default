@@ -84,7 +84,7 @@ export const textComponentBlockStyling: MyPortableTextComponents = {
     link: ({ children, value }) => (
       <a
         aria-label={value.href ?? "external link"}
-        className="text-webriq-blue hover:text-webriq-lightblue"
+        className="text-brand-primary-foreground hover:text-brand-secondary-foreground"
         href={value?.href}
         target="_blank"
         rel="noopener noreferrer"

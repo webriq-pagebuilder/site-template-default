@@ -50,7 +50,7 @@ export function SwiperButton({
     );
 
   const classes =
-    "inline-block p-2 bg-white rounded-full shadow text-webriq-darkblue hover:text-webriq-babyblue focus:outline-none";
+    "inline-block p-2 bg-white rounded-full shadow text-brand-primary hover:text-brand-secondary focus:outline-none";
   return (
     <button
       onClick={onClick}

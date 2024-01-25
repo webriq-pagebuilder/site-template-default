@@ -46,7 +46,7 @@ function VariantE({
                   <button
                     aria-label={allowCookieBtn}
                     type="button"
-                    className="inline-block w-1/2 rounded-br-lg py-4 text-sm font-bold text-webriq-lightblue transition duration-200 hover:bg-webriq-babyblue"
+                    className="inline-block w-1/2 rounded-br-lg py-4 text-sm font-bold text-brand-secondary-foreground transition duration-200 hover:bg-brand-secondary"
                     onClick={() => {
                       setCookie("allow");
                       setShowCookie(!showCookie);

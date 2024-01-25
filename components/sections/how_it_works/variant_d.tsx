@@ -9,7 +9,7 @@ function VariantD({ subtitle, title, steps }: HowItWorksProps) {
       <div className="py-20 radius-for-skewed bg-gray-50">
         <div className="container px-4 mx-auto">
           <div className="max-w-md mx-auto mb-8 text-center">
-            <span className="font-bold text-webriq-darkblue">{subtitle}</span>
+            <span className="font-bold text-brand-primary">{subtitle}</span>
             <Text type="h1">{title}</Text>
           </div>
           {steps && (
@@ -20,7 +20,7 @@ function VariantD({ subtitle, title, steps }: HowItWorksProps) {
                   key={index}
                 >
                   <p
-                    className="absolute top-0 left-0 ml-10 font-semibold -mt-14 text-9xl text-webriq-darkblue opacity-20"
+                    className="absolute top-0 left-0 ml-10 font-semibold -mt-14 text-9xl text-brand-primary opacity-20"
                     style={{ width: "69px", height: "103px" }}
                   >
                     {index + 1}
