@@ -15,7 +15,10 @@ export default async (req, res) => {
   try {
     return await fetch(URL, options)
       .then((res) => res.json())
-      .then((json) => res.status(200).json(json));
+      .then((json) => {
+        console.log("json", json);
+        return res.status(200).json(json);
+      });
   } catch (err) {
     return res.status(400).send(err);
   }

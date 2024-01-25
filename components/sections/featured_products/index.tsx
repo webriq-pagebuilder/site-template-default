@@ -23,6 +23,8 @@ function FeaturedProducts({ data }: SectionsProps) {
     featured: data?.variants?.collections?.products,
   };
 
+  console.log("props", data);
+
   return Variant ? (
     <EcwidContextProvider>
       <Variant {...props} />
