@@ -22,9 +22,6 @@ function VariantA({ logo, subtitle, title, images }: AppPromoProps) {
       : setCurrentPosition((currentPosition = images.length - 1));
   };
 
-  console.log("image", logo);
-  console.log("url", urlFor(logo?.image));
-
   return (
     <section>
       <div className="pt-16 overflow-hidden radius-for-skewed bg-webriq-darkblue">

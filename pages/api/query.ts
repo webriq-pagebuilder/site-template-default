@@ -99,6 +99,12 @@ const variants = `
         ${conditionalLink}
       }
     },
+    signinLink != null => {
+        signinLink {
+        ...,
+        ${conditionalLink}
+      }
+    },
     blogPosts != null => {
       blogPosts[]->{
         ...,

@@ -1,32 +1,18 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import HowItWorksComponent from "../index";
 import { Sections, SectionsProps, Variants } from "types";
+import {
+  howItWorksSchema,
+  howItWorksInitialValue,
+} from "@webriq-pagebuilder/sanity-plugin-schema-default";
+import { filterArgsByVariant } from "components/common";
 
 const args: Variants = {
-  subtitle: "Dolor sit amet consectutar",
-  title: "Build & Launch without problems",
-  text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque efficitur nisl sodales egestas lobortis.",
-  youtubeLink: "https://www.youtube.com/watch?v=HfPdTL7Isx8",
-  arrayOfTitleAndText: [
-    {
-      plainText:
-        "Fusce quam tellus, placerat eu metus ut, viverra aliquet purus. Suspendisse potenti. Nulla non nibh feugiat.",
-      _key: "SwAy62Gi3BwysiXVZqj-0",
-      title: "Lorem ipsum dolor sit amet consectutar",
-    },
-    {
-      plainText:
-        "Fusce quam tellus, placerat eu metus ut, viverra aliquet purus. Suspendisse potenti. Nulla non nibh feugiat.",
-      _key: "v7nqgX4K-9-Bliz7JjsX4",
-      title: "Lorem ipsum dolor sit amet consectutar",
-    },
-    {
-      plainText:
-        "Fusce quam tellus, placerat eu metus ut, viverra aliquet purus. Suspendisse potenti. Nulla non nibh feugiat.",
-      _key: "NiHBKvyiEalSXQY-9YXZU",
-      title: "Lorem ipsum dolor sit amet consectutar",
-    },
-  ],
+  template: {
+    bg: "gray",
+    color: "webriq",
+  },
+  ...howItWorksInitialValue,
 };
 
 const meta = {
@@ -46,37 +32,17 @@ const meta = {
 export default meta;
 type Story = StoryObj<Sections>;
 
-export const variant_a: Story = {
-  args: {
-    variant: "variant_a",
-    ...args,
-  },
+const filterArgs = (variant: string) => {
+  return {
+    args: {
+      variant: variant,
+      ...filterArgsByVariant(howItWorksSchema, args, variant),
+    },
+  };
 };
 
-export const variant_b: Story = {
-  args: {
-    variant: "variant_b",
-    ...args,
-  },
-};
-
-export const variant_c: Story = {
-  args: {
-    variant: "variant_c",
-    ...args,
-  },
-};
-
-export const variant_d: Story = {
-  args: {
-    variant: "variant_d",
-    ...args,
-  },
-};
-
-export const variant_e: Story = {
-  args: {
-    variant: "variant_e",
-    ...args,
-  },
-};
+export const variant_a: Story = filterArgs("variant_a");
+export const variant_b: Story = filterArgs("variant_b");
+export const variant_c: Story = filterArgs("variant_c");
+export const variant_d: Story = filterArgs("variant_d");
+export const variant_e: Story = filterArgs("variant_e");

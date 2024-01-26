@@ -1,115 +1,18 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import ContactComponent from "../index";
 import { Sections, SectionsProps, Variants } from "types";
+import {
+  contactSchema,
+  contactInitialValue,
+} from "@webriq-pagebuilder/sanity-plugin-schema-default";
+import { filterArgsByVariant } from "components/common";
 
 const args: Variants = {
-  title: "Contact",
-  contactDescription: "Got any question? Let's talk about it.",
-  officeInformation: "359 Hidden Valley Road, NY",
-  contactEmail: "hello@webriq.com",
-  contactNumber: "+48 698 033 101",
-  socialLinks: [
-    {
-      _type: "details",
-      socialMediaLink: "https://www.facebook.com/",
-      _key: "uJ_jttcv_Q_42QdH9RWe-",
-      socialMedia: "facebook",
-    },
-    {
-      _type: "details",
-      socialMediaLink: "https://www.twitter.com/",
-      _key: "xbppOsiDlTxRYl6Qay6Wz",
-      socialMedia: "twitter",
-    },
-    {
-      _type: "details",
-      socialMediaLink: "https://www.instagram.com/",
-      _key: "nkSALScyLpwZdePA2uoTd",
-      socialMedia: "instagram",
-    },
-  ],
-  form: {
-    buttonLabel: "Get Started",
-    subtitle: "",
-    name: "",
-    id: "fc31c685-2d1a-447d-b891-ea63a38c5f57",
-    thankYouPage: null,
-    fields: [
-      {
-        name: "Name",
-        placeholder: "Name",
-        _key: "KF4Watp0rdbnQFDzoNJaj",
-        type: "inputText",
-        _type: "webriqFormField",
-      },
-      {
-        _type: "webriqFormField",
-        name: "Email",
-        placeholder: "name@example.com",
-        _key: "WncOcChbz0IIlmTXT3Pf4",
-        type: "inputEmail",
-      },
-      {
-        _type: "webriqFormField",
-        name: "Password",
-        placeholder: "*****",
-        _key: "544e404591c5",
-        type: "inputPassword",
-      },
-      {
-        _type: "webriqFormField",
-        name: "Message...",
-        placeholder: "Message...",
-        _key: "HH5DNYs-47nFOLhp7ePSR",
-        type: "textarea",
-      },
-      {
-        name: "Add file",
-        _key: "JVOHwWl7SKkl_Nz8IBYBC",
-        type: "inputFile",
-        _type: "webriqFormField",
-      },
-      {
-        name: "Radio",
-        label: "Radio label",
-        _key: "0cf9d7383c63",
-        type: "inputRadio",
-        _type: "webriqFormField",
-      },
-      {
-        name: "Checkbox",
-        label: "Checkbox",
-        _key: "5e8d1abf787a",
-        type: "inputCheckbox",
-        items: ["checkbox 1", "checkbox 2", "checkbox 3"],
-        _type: "webriqFormField",
-      },
-      {
-        name: "Select",
-        label: "Select",
-        _key: "be3fca5ba2c5",
-        type: "inputSelect",
-        _type: "webriqFormField",
-        items: ["checkbox 1", "checkbox 2", "checkbox 3"],
-      },
-    ],
+  template: {
+    bg: "gray",
+    color: "webriq",
   },
-  block: [
-    {
-      markDefs: [],
-      children: [
-        {
-          _type: "span",
-          marks: [],
-          text: "I agree to terms and conditions.",
-          _key: "lvytjsMWyUVXGztYUuYMu",
-        },
-      ],
-      _type: "block",
-      style: "normal",
-      _key: "Nh_9BIaP6qXKNx5FziEbZ",
-    },
-  ],
+  ...contactInitialValue,
 };
 
 const meta = {
@@ -129,16 +32,14 @@ const meta = {
 export default meta;
 type Story = StoryObj<Sections>;
 
-export const variant_a: Story = {
-  args: {
-    variant: "variant_a",
-    ...args,
-  },
+const filterArgs = (variant: string) => {
+  return {
+    args: {
+      variant: variant,
+      ...filterArgsByVariant(contactSchema, args, variant),
+    },
+  };
 };
 
-export const variant_b: Story = {
-  args: {
-    variant: "variant_b",
-    ...args,
-  },
-};
+export const variant_a: Story = filterArgs("variant_a");
+export const variant_b: Story = filterArgs("variant_b");

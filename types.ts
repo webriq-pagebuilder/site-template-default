@@ -22,6 +22,7 @@ export interface Variants {
   portfolios?: Portfolio[] | null;
   portfoliosWithCategories?: PortfoliosWithCategories[] | null;
   signInLink?: LabeledRoute | null;
+  signinLink?: LabeledRoute | null;
   tags?: string[] | null;
   blogPosts?: BlogPost[] | null;
   form?: Form | null;
