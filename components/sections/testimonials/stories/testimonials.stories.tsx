@@ -11,7 +11,6 @@ const args = {
       _key: "M9lpwgf6NdTr8uLsxfmt6",
       mainImage: {
         image: {
-          _type: "image",
           asset: {
             _ref: "image-a1794d2d559bc1f48556040a6251c5616b73571c-600x900-jpg",
             _type: "reference",
@@ -21,18 +20,17 @@ const args = {
       testimony:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
       jobTitle: "Product Development",
-      _type: "object",
+
       name: "Daisy Carter",
     },
     {
       jobTitle: "Backend Developer",
-      _type: "object",
+
       name: "Alice Bradley",
       rating: "4",
       _key: "j5GzamEnTgmconFvCPskQ",
       mainImage: {
         image: {
-          _type: "image",
           asset: {
             _type: "reference",
             _ref: "image-954606f82d77732a8169672368006482bd3df41b-600x900-jpg",
@@ -46,13 +44,12 @@ const args = {
       testimony:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
       jobTitle: "Head of Development",
-      _type: "object",
+
       name: "Ian Brown",
       rating: "5",
       _key: "mQhFGvp-SSm8qWaU2zAdv",
       mainImage: {
         image: {
-          _type: "image",
           asset: {
             _ref: "image-e9ca974577fc294a1d421a31dc5eefca6d31f645-1055x699-jpg",
             _type: "reference",
@@ -66,7 +63,6 @@ const args = {
       _key: "JenHJcaK947IeMbXtRbWs",
       mainImage: {
         image: {
-          _type: "image",
           asset: {
             _ref: "image-85c37ba1943759d8d17977197d97ff790fd4f880-600x400-jpg",
             _type: "reference",
@@ -76,7 +72,6 @@ const args = {
       testimony:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
       jobTitle: "Frontend Developer",
-      _type: "object",
     },
   ],
 };

@@ -1,12 +1,11 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import CallToActionComponent, { CTAProps } from "../index";
-import { Sections, SectionsProps, Variants } from "types";
+import { Sections } from "types";
+import CallToActionComponent from "../index";
 
-const args: Variants = {
+const args = {
   logo: {
     alt: "Logo",
     image: {
-      _type: "image",
       asset: {
         _ref: "image-b3b0a815c21cc9fd95261a2a0dd737e0827915cd-664x833-png",
         _type: "reference",
@@ -21,7 +20,7 @@ const args: Variants = {
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque efficitur nisl sodales egestas lobortis.",
   primaryButton: {
     linkTarget: "_self",
-    _type: "conditionalLink",
+
     linkType: "linkInternal",
     label: "Get Started",
     type: "linkInternal",
@@ -31,7 +30,6 @@ const args: Variants = {
   tags: ["No credit card needed", "Easy to use"],
   formLinks: [
     {
-      _type: "conditionalLink",
       linkType: "linkInternal",
       label: "Police privacy",
       type: "linkInternal",
@@ -41,7 +39,6 @@ const args: Variants = {
       linkTarget: "_self",
     },
     {
-      _type: "conditionalLink",
       linkType: "linkInternal",
       label: "Terms of Use",
       type: "linkInternal",
@@ -54,7 +51,6 @@ const args: Variants = {
   form: {
     fields: [
       {
-        _type: "webriqFormField",
         name: "First Name",
         placeholder: "First Name",
         _key: "dSFFjMBkXVDZYezFxQ6Rn",
@@ -65,18 +61,17 @@ const args: Variants = {
         placeholder: "Last Name",
         _key: "6DMOG1JfjbcysZl5xExNM",
         type: "inputText",
-        _type: "webriqFormField",
       },
       {
         type: "inputEmail",
-        _type: "webriqFormField",
+
         name: "Email",
         placeholder: "Enter your email address",
         _key: "kJTXeFPZecA6Vgcz1qRLy",
       },
       {
         type: "inputPassword",
-        _type: "webriqFormField",
+
         name: "Password",
         placeholder: "Enter your password",
         _key: "wdhApcde2w34sfE4yzf8f",
@@ -94,7 +89,6 @@ const args: Variants = {
     externalLink: null,
     label: "Sign In",
     linkTarget: "_self",
-    _type: "conditionalLink",
   },
 };
 

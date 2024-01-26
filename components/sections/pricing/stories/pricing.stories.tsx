@@ -9,7 +9,7 @@ const args = {
   plans: [
     {
       planType: "Beginner",
-      _type: "planItems",
+
       monthlyPrice: "Free",
       _key: "OKW6k1QMNaP74DNPLfsEL",
       primaryButton: null,
@@ -27,7 +27,6 @@ const args = {
       ],
     },
     {
-      _type: "planItems",
       planIncludes: [
         "Vestibulum viverra",
         "Morbi mollis metus pretium",
@@ -49,7 +48,7 @@ const args = {
       yearlyPrice: "576",
       checkoutButtonName: "Get Started",
       _key: "AnnEzDEGzmWX8I0IHN1xB",
-      _type: "planItems",
+
       planType: "Professional",
       monthlyPrice: "48",
       price: "48",
@@ -70,7 +69,6 @@ const args = {
   form: {
     fields: [
       {
-        _type: "webriqFormField",
         name: "Email",
         placeholder: "Enter your email address",
         _key: "Y6BgLGwnfnx3S5i8Ueecg",
@@ -81,12 +79,11 @@ const args = {
         placeholder: "Enter your password",
         _key: "1bm2m1uSwj5ouVvRiqs-N",
         pricingType: "inputPassword",
-        _type: "webriqFormField",
       },
       {
         _key: "79dbuCAYKBlyTdPGDcBQo",
         pricingType: "inputCard",
-        _type: "webriqFormField",
+
         name: "Card number",
       },
     ],
@@ -95,12 +92,10 @@ const args = {
   },
   banner: [
     {
-      _type: "object",
       _key: "8mzs4NHddmj72FyyXlnmB",
       title: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
       mainImage: {
         image: {
-          _type: "image",
           asset: {
             _ref: "image-8f90c590ada0a2f3c89c35535c323320627b9622-554x312-png",
             _type: "reference",
@@ -112,42 +107,39 @@ const args = {
       title: "Faucibus scelerisque eleifend donec pretium nec sagittis.",
       mainImage: {
         image: {
-          _type: "image",
           asset: {
             _ref: "image-46679d44ed8f85d5712b275646920191e557535f-608x456-png",
             _type: "reference",
           },
         },
       },
-      _type: "object",
+
       _key: "MnHfWu5zbhRfwJlOwVXgn",
     },
     {
       title: "Ipsum consequat nisl vel pretium lectus quam.",
       mainImage: {
         image: {
-          _type: "image",
           asset: {
             _ref: "image-173f0ca9bd52a7a0b8a507216400f2fcad77b273-646x598-png",
             _type: "reference",
           },
         },
       },
-      _type: "object",
+
       _key: "oeI-f8TYKMDuVV0IcQO0W",
     },
     {
       title: "Viverra maecenas accumsan lacus vel facilisis.",
       mainImage: {
         image: {
-          _type: "image",
           asset: {
             _ref: "image-46679d44ed8f85d5712b275646920191e557535f-608x456-png",
             _type: "reference",
           },
         },
       },
-      _type: "object",
+
       _key: "sciGp3FqxnbGjrqqpZP2O",
     },
   ],
@@ -178,7 +170,7 @@ const args = {
   ],
   signInLink: {
     linkTarget: "_self",
-    _type: "conditionalLink",
+
     linkType: "linkInternal",
     label: "Sign In",
     type: "linkInternal",

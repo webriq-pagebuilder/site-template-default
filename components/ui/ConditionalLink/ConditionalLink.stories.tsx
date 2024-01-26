@@ -19,7 +19,6 @@ const meta: Meta<typeof ConditionalLink> = {
       linkType: "linkInternal",
       type: "linkInternal",
       _key: "1XE3Dhz70dNTMXda86YUY",
-      _type: "conditionalLink",
     },
   },
 } satisfies Meta<typeof ConditionalLink>;

@@ -8,13 +8,12 @@ const args = {
   images: [
     {
       image: {
-        _type: "image",
         asset: {
           _ref: "image-68925d2831f3d2a863ee277f1cbb3169364888a5-346x500-jpg",
           _type: "reference",
         },
       },
-      _type: "item",
+
       _key: "zTUJwGIUCHzxEV-rDjig9",
     },
   ],
@@ -69,10 +68,8 @@ const args = {
   ],
   socialLinks: [
     {
-      _type: "details",
       socialMediaIcon: {
         image: {
-          _type: "image",
           asset: {
             _ref: "image-d8a80a1dcaf6f729ba58f5f73fa81aac66a75e0a-48x48-png",
             _type: "reference",
@@ -88,10 +85,9 @@ const args = {
       _key: "hoBuACxqfIiZi6cI9RG_8",
       socialMedia: "other",
       socialMediaPlatform: "Instagram",
-      _type: "details",
+
       socialMediaIcon: {
         image: {
-          _type: "image",
           asset: {
             _ref: "image-f35437826c6054fcf8e1b3adb604e8c67b4fd398-48x48-png",
             _type: "reference",
@@ -103,10 +99,9 @@ const args = {
     {
       socialMedia: "other",
       socialMediaPlatform: "Twitter",
-      _type: "details",
+
       socialMediaIcon: {
         image: {
-          _type: "image",
           asset: {
             _ref: "image-b651ff0764c0ec2a49db93ca4320d534791bf501-48x48-png",
             _type: "reference",

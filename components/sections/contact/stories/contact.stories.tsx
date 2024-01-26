@@ -10,19 +10,16 @@ const args: Variants = {
   contactNumber: "+48 698 033 101",
   socialLinks: [
     {
-      _type: "details",
       socialMediaLink: "https://www.facebook.com/",
       _key: "uJ_jttcv_Q_42QdH9RWe-",
       socialMedia: "facebook",
     },
     {
-      _type: "details",
       socialMediaLink: "https://www.twitter.com/",
       _key: "xbppOsiDlTxRYl6Qay6Wz",
       socialMedia: "twitter",
     },
     {
-      _type: "details",
       socialMediaLink: "https://www.instagram.com/",
       _key: "nkSALScyLpwZdePA2uoTd",
       socialMedia: "instagram",
@@ -40,24 +37,20 @@ const args: Variants = {
         placeholder: "Name",
         _key: "KF4Watp0rdbnQFDzoNJaj",
         type: "inputText",
-        _type: "webriqFormField",
       },
       {
-        _type: "webriqFormField",
         name: "Email",
         placeholder: "name@example.com",
         _key: "WncOcChbz0IIlmTXT3Pf4",
         type: "inputEmail",
       },
       {
-        _type: "webriqFormField",
         name: "Password",
         placeholder: "*****",
         _key: "544e404591c5",
         type: "inputPassword",
       },
       {
-        _type: "webriqFormField",
         name: "Message...",
         placeholder: "Message...",
         _key: "HH5DNYs-47nFOLhp7ePSR",
@@ -67,14 +60,12 @@ const args: Variants = {
         name: "Add file",
         _key: "JVOHwWl7SKkl_Nz8IBYBC",
         type: "inputFile",
-        _type: "webriqFormField",
       },
       {
         name: "Radio",
         label: "Radio label",
         _key: "0cf9d7383c63",
         type: "inputRadio",
-        _type: "webriqFormField",
       },
       {
         name: "Checkbox",
@@ -82,14 +73,13 @@ const args: Variants = {
         _key: "5e8d1abf787a",
         type: "inputCheckbox",
         items: ["checkbox 1", "checkbox 2", "checkbox 3"],
-        _type: "webriqFormField",
       },
       {
         name: "Select",
         label: "Select",
         _key: "be3fca5ba2c5",
         type: "inputSelect",
-        _type: "webriqFormField",
+
         items: ["checkbox 1", "checkbox 2", "checkbox 3"],
       },
     ],

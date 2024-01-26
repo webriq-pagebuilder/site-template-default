@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/react";
+import { Sections } from "types";
 import FeaturesComponent from "../index";
-import { Sections, SectionsProps, Variants } from "types";
 
-const args: Variants = {
+const args = {
   subtitle: "Dolor sit amet consectutar",
   title: "Build & Launch without problems",
   description:
@@ -11,14 +11,13 @@ const args: Variants = {
     {
       mainImage: {
         image: {
-          _type: "image",
           asset: {
             _ref: "image-97b6696849c90facc200537fd780b03d373e5212-980x830-png",
             _type: "reference",
           },
         },
       },
-      _type: "object",
+
       plainText:
         "Fusce quam tellus, placerat eu metus ut, viverra aliquet purus. Suspendisse potenti. Nulla non nibh feugiat.",
       _key: "hdENhvVde3I8gwcMJj-bu",
@@ -31,26 +30,23 @@ const args: Variants = {
       title: "Ut congue nec leo eget aliquam",
       mainImage: {
         image: {
-          _type: "image",
           asset: {
             _ref: "image-d52b2d79a8c0ff7df5bac2ab9b31e4f8b35b2d49-515x485-png",
             _type: "reference",
           },
         },
       },
-      _type: "object",
     },
     {
       mainImage: {
         image: {
-          _type: "image",
           asset: {
             _ref: "image-b362a413487c075bc56646b996ffaf5b888b8fd1-1200x1063-png",
             _type: "reference",
           },
         },
       },
-      _type: "object",
+
       plainText:
         "Donec ut ligula nunc. Mauris blandit vel est et facilisis. Integer sapien felis, aliquet at posuere et, porttitor quis ligula.",
       _key: "_eC4VW77F4oPch9MUh0G-",
@@ -59,14 +55,13 @@ const args: Variants = {
     {
       mainImage: {
         image: {
-          _type: "image",
           asset: {
             _ref: "image-46503b9f97de2e422010bcde0a1e33e954bca584-981x860-png",
             _type: "reference",
           },
         },
       },
-      _type: "object",
+
       plainText:
         "Duis ut facilisis orci. Morbi lacinia nunc a augue eleifend, sed placerat ex faucibus. Duis ante arcu, pretium ac luctus vulputate.",
       _key: "LoT4CeJfOCJDwwI87U4gW",
@@ -84,7 +79,6 @@ const args: Variants = {
       title: "Build & Launch without problems",
       mainImage: {
         image: {
-          _type: "image",
           asset: {
             _ref: "image-3a1ef9b3424fabd086e3d7bdea95583ba9ea6363-1048x701-jpg",
             _type: "reference",
@@ -92,7 +86,7 @@ const args: Variants = {
         },
       },
       subtitle: "Dolor sit amet consectutar",
-      _type: "items",
+
       description:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque efficitur nisl sodales egestas lobortis.",
     },
@@ -103,11 +97,10 @@ const args: Variants = {
             _type: "reference",
             _ref: "image-2d9f87020c05fba5986084e4744c829844bf21b6-1050x700-jpg",
           },
-          _type: "image",
         },
       },
       subtitle: "Lorem ipsum dolor sit amet",
-      _type: "items",
+
       description: "Pellentesque efficitur nisl sodales egestas lobortis.",
       _key: "nSgyw4Yt6gcqpYplqhTQA",
       title: "Learn how We will help you to reach your goals",
@@ -116,20 +109,17 @@ const args: Variants = {
   images: [
     {
       image: {
-        _type: "image",
         asset: {
           _ref: "image-1d0655534230a5cb4e08d8b7bd14b271c5317d82-634x951-jpg",
           _type: "reference",
         },
       },
-      _type: "item",
+
       _key: "jZEUqfFzUCvFpFlhrZSp2",
     },
     {
-      _type: "item",
       _key: "2xMbhEBA6YrAvkTcA0Vce",
       image: {
-        _type: "image",
         asset: {
           _ref: "image-0dcfa20067460d48780f59c2c4a7a57e7c507969-1050x701-jpg",
           _type: "reference",
@@ -137,10 +127,8 @@ const args: Variants = {
       },
     },
     {
-      _type: "item",
       _key: "naxU-3wvrVhhMCDRuriZC",
       image: {
-        _type: "image",
         asset: {
           _ref: "image-881fdf41f1db63ed80d886037220b4fecc0c39b6-701x876-jpg",
           _type: "reference",
@@ -149,13 +137,12 @@ const args: Variants = {
     },
     {
       image: {
-        _type: "image",
         asset: {
           _ref: "image-04732685ec70933bc8c49683b2930032929b1fbe-1050x701-jpg",
           _type: "reference",
         },
       },
-      _type: "item",
+
       _key: "XBJdIjpSypq4N4CNsDXnE",
     },
   ],
@@ -164,7 +151,6 @@ const args: Variants = {
     internalLink: null,
     externalLink: null,
     linkTarget: "_self",
-    _type: "conditionalLink",
     linkType: "linkInternal",
     label: "Get Started",
   },

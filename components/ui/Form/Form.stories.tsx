@@ -19,14 +19,12 @@ type Story = StoryObj<typeof Form>;
 
 const DUMMY_FIELDS = [
   {
-    _type: "webriqFormField",
     name: "Name",
     placeholder: "Name",
     _key: "KF4Watp0rdbnQFDzoNJaj",
     type: "inputText",
   },
   {
-    _type: "webriqFormField",
     placeholder: "name@example.com",
     _key: "WncOcChbz0IIlmTXT3Pf4",
     type: "inputEmail",
@@ -35,19 +33,18 @@ const DUMMY_FIELDS = [
   {
     _key: "544e404591c5",
     type: "inputPassword",
-    _type: "webriqFormField",
+
     name: "Password",
     placeholder: "*****",
   },
   {
     _key: "HH5DNYs-47nFOLhp7ePSR",
     type: "textarea",
-    _type: "webriqFormField",
+
     name: "Message...",
     placeholder: "Message...",
   },
   {
-    _type: "webriqFormField",
     name: "Add file",
     _key: "JVOHwWl7SKkl_Nz8IBYBC",
     type: "inputFile",
@@ -55,7 +52,7 @@ const DUMMY_FIELDS = [
   {
     _key: "0cf9d7383c63",
     type: "inputRadio",
-    _type: "webriqFormField",
+
     name: "Radio",
     label: "Radio label",
     items: ["Option 1", "Option 2", "Option 3"],
@@ -65,13 +62,13 @@ const DUMMY_FIELDS = [
     label: "Checkbox",
     _key: "5e8d1abf787a",
     type: "inputCheckbox",
-    _type: "webriqFormField",
+
     items: ["Option 1", "Option 2", "Option 3"],
   },
   {
     _key: "be3fca5ba2c5",
     type: "inputSelect",
-    _type: "webriqFormField",
+
     name: "Select",
     label: "Select",
     items: ["Select 1", "Select 2", "Select 3"],
@@ -117,7 +114,7 @@ export const WithCustomField: Story = {
             return (
               <div className="mb-4">
                 <Input
-                  className="placeholder:text-red-500 border border-solid border-red-400"
+                  className="border border-red-400 border-solid placeholder:text-red-500"
                   placeholder="This is a custom field!"
                   type={"text"}
                   name={field.name}

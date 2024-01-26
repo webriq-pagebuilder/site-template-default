@@ -13,7 +13,6 @@ const NAV_PROPS = {
     externalLink: null,
     alt: "Logo",
     image: {
-      _type: "image",
       asset: {
         _ref: "image-7f9353c628ae4dd0bdd479d3b1407a3c242755e8-1963x833-png",
         _type: "reference",
@@ -23,7 +22,7 @@ const NAV_PROPS = {
   routes: [
     {
       linkTarget: "_self",
-      _type: "conditionalLink",
+
       linkType: "linkInternal",
       label: "Start",
       _key: "2QueLs46ZdpbNaaZgs13V",
@@ -42,7 +41,7 @@ const NAV_PROPS = {
         _ref: "020142ce-cf61-4671-a5db-80b13a08f2d4",
         _type: "reference",
       },
-      _type: "conditionalLink",
+
       type: "linkInternal",
     },
     {
@@ -51,7 +50,7 @@ const NAV_PROPS = {
       type: "linkExternal",
       internalLink: null,
       linkTarget: "_blank",
-      _type: "conditionalLink",
+
       externalLink: "www.webriq.com",
       label: "Services",
       _key: "QFLrmsaWnF5lz5hqpH5gL",
@@ -61,7 +60,7 @@ const NAV_PROPS = {
       internalLink: null,
       externalLink: null,
       linkTarget: "_self",
-      _type: "conditionalLink",
+
       linkType: "linkInternal",
       label: "Platform",
       _key: "99DLguYhQ9lu8OPdkXV-Y",
@@ -73,12 +72,11 @@ const NAV_PROPS = {
       type: "linkInternal",
       internalLink: null,
       externalLink: null,
-      _type: "conditionalLink",
+
       linkType: "linkInternal",
     },
   ],
   primaryButton: {
-    _type: "conditionalLink",
     linkType: "linkInternal",
     label: "Sign In",
     type: "linkInternal",
@@ -87,7 +85,6 @@ const NAV_PROPS = {
     linkTarget: "_self",
   },
   secondaryButton: {
-    _type: "conditionalLink",
     linkType: "linkInternal",
     label: "Sign Up",
     type: "linkInternal",

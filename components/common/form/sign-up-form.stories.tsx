@@ -6,7 +6,6 @@ const ARGS = {
   FORM: {
     fields: [
       {
-        _type: "webriqFormField",
         name: "First Name",
         placeholder: "First Name",
         _key: "dSFFjMBkXVDZYezFxQ6Rn",
@@ -17,18 +16,15 @@ const ARGS = {
         placeholder: "Last Name",
         _key: "6DMOG1JfjbcysZl5xExNM",
         type: "inputText",
-        _type: "webriqFormField",
       },
       {
         type: "inputEmail",
-        _type: "webriqFormField",
         name: "Email",
         placeholder: "Enter your email address",
         _key: "kJTXeFPZecA6Vgcz1qRLy",
       },
       {
         type: "inputPassword",
-        _type: "webriqFormField",
         name: "Password",
         placeholder: "Enter your password",
         _key: "wdhApcde2w34sfE4yzf8f",
@@ -46,7 +42,6 @@ const ARGS = {
     externalLink: null,
     label: "Sign In",
     linkTarget: "_self",
-    _type: "conditionalLink",
   },
 };
 const meta = {

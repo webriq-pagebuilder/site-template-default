@@ -6,7 +6,6 @@ const args = {
   logo: {
     alt: "Logo",
     image: {
-      _type: "image",
       asset: {
         _ref: "image-b3b0a815c21cc9fd95261a2a0dd737e0827915cd-664x833-png",
         _type: "reference",
@@ -24,7 +23,7 @@ const args = {
     fields: [
       {
         type: "inputEmail",
-        _type: "webriqFormField",
+
         name: "Email",
         placeholder: "Enter your email address",
         _key: "wCLzadfOyzDvZS6h2U2P8",

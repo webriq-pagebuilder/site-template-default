@@ -9,7 +9,6 @@ const args = {
     externalLink: null,
     alt: "Logo",
     image: {
-      _type: "image",
       asset: {
         _ref: "image-7f9353c628ae4dd0bdd479d3b1407a3c242755e8-1963x833-png",
         _type: "reference",
@@ -25,7 +24,7 @@ const args = {
       externalLink: null,
       _key: "aueu6E9PlM-_09x4hRPu0",
       linkTarget: "_self",
-      _type: "conditionalLink",
+
       linkType: "linkInternal",
       label: "Police privacy",
     },
@@ -33,7 +32,7 @@ const args = {
       externalLink: null,
       _key: "MK172flvMX1vCNXEG4SwV",
       linkTarget: "_self",
-      _type: "conditionalLink",
+
       linkType: "linkInternal",
       label: "Terms of Use",
       type: "linkInternal",
@@ -48,7 +47,7 @@ const args = {
     fields: [
       {
         type: "inputText",
-        _type: "webriqFormField",
+
         name: "First Name",
         placeholder: "First Name",
         _key: "GZHte7Hl_3a5YHJlTbWEr",
@@ -56,7 +55,7 @@ const args = {
       {
         _key: "WHwy0o8uQzxnlC8DYfx0x",
         type: "inputText",
-        _type: "webriqFormField",
+
         name: "Last Name",
         placeholder: "Last Name",
       },
@@ -64,13 +63,13 @@ const args = {
         placeholder: "Enter your email address",
         _key: "bvAQFTMcYfegk_eMhm-KY",
         type: "inputEmail",
-        _type: "webriqFormField",
+
         name: "Email",
       },
       {
         _key: "erbDnFN_f_qXh-T82JGYU",
         type: "inputPassword",
-        _type: "webriqFormField",
+
         name: "Password",
         placeholder: "Enter your password",
       },
