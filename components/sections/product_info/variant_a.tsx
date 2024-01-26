@@ -39,28 +39,28 @@ function VariantA({
     block: {
       h1: ({ children }) => {
         return (
-          <h1 className="font-heading mb-8 text-7xl font-bold leading-loose">
+          <h1 className="mb-8 font-bold leading-loose font-heading text-7xl">
             {children}
           </h1>
         );
       },
       h2: ({ children }) => {
         return (
-          <h2 className="font-heading mb-8 text-5xl font-bold leading-loose">
+          <h2 className="mb-8 text-5xl font-bold leading-loose font-heading">
             {children}
           </h2>
         );
       },
       h3: ({ children }) => {
         return (
-          <h3 className="font-heading mb-8 text-3xl font-bold leading-loose">
+          <h3 className="mb-8 text-3xl font-bold leading-loose font-heading">
             {children}
           </h3>
         );
       },
       h4: ({ children }) => {
         return (
-          <h4 className="font-heading mb-6 text-xl font-bold leading-loose">
+          <h4 className="mb-6 text-xl font-bold leading-loose font-heading">
             {children}
           </h4>
         );
@@ -71,7 +71,7 @@ function VariantA({
       },
       blockquote: ({ children }) => {
         return (
-          <blockquote className="mb-6 px-14 italic leading-loose text-gray-500">
+          <blockquote className="mb-6 italic leading-loose text-gray-500 px-14">
             - {children}
           </blockquote>
         );
@@ -80,14 +80,14 @@ function VariantA({
     list: {
       bullet: ({ children }) => {
         return (
-          <ul className="mb-6 list-disc pl-10 leading-loose text-gray-900">
+          <ul className="pl-10 mb-6 leading-loose text-gray-900 list-disc">
             {children}
           </ul>
         );
       },
       number: ({ children }) => {
         return (
-          <ol className="mb-6 list-decimal leading-loose text-gray-900">
+          <ol className="mb-6 leading-loose text-gray-900 list-decimal">
             {children}
           </ol>
         );
@@ -118,9 +118,9 @@ function VariantA({
 
   return (
     <section className="sm:p-12 md:p-20">
-      <div className="container mx-auto px-4">
-        <div className="-mx-4 mb-5 flex flex-wrap">
-          <div className="mb-8 mt-14 w-full px-4 md:mb-0 lg:w-1/2">
+      <div className="container px-4 mx-auto">
+        <div className="flex flex-wrap mb-5 -mx-4">
+          <div className="w-full px-4 mb-8 mt-14 md:mb-0 lg:w-1/2">
             <div className="relative mb-10">
               <Swiper
                 navigation={{
@@ -189,7 +189,7 @@ function VariantA({
               <div className="mt-5">
                 <button
                   id="piprev"
-                  className="absolute left-0 top-60 z-40 ml-5 rounded-l-md rounded-r-sm px-2 py-5 transition duration-200 hover:bg-gray-50 hover:opacity-50"
+                  className="absolute left-0 z-40 px-2 py-5 ml-5 transition duration-200 rounded-r-sm top-60 rounded-l-md hover:bg-gray-50 hover:opacity-50"
                 >
                   <svg
                     width={36}
@@ -206,7 +206,7 @@ function VariantA({
                 </button>
                 <button
                   id="pinext"
-                  className="absolute right-0 top-60 z-40 mr-5 rounded-l-sm rounded-r-md px-2 py-5 transition duration-200 hover:bg-gray-50 hover:opacity-50"
+                  className="absolute right-0 z-40 px-2 py-5 mr-5 transition duration-200 rounded-l-sm top-60 rounded-r-md hover:bg-gray-50 hover:opacity-50"
                 >
                   <svg
                     width={36}
@@ -226,19 +226,19 @@ function VariantA({
           </div>
           <div className="w-full px-4 lg:w-1/2">
             <div className="lg:px-10">
-              <div className="border-b pb-10">
+              <div className="pb-10 border-b">
                 {ecwidProduct && product?.ecwidProductId && (
                   <div className="mb-3">
                     <Ribbon data={ecwidProduct} />
                   </div>
                 )}
                 {subtitle && (
-                  <span className="font-custom font-bold text-brand-primary">
+                  <span className="font-bold font-custom text-brand-primary">
                     {subtitle}
                   </span>
                 )}
                 {product?.name && (
-                  <h1 className="font-heading mb-6 mt-2 text-5xl font-bold md:text-6xl lg:max-w-xl">
+                  <h1 className="mt-2 mb-6 text-5xl font-bold font-heading md:text-6xl lg:max-w-xl">
                     {product?.name}
                   </h1>
                 )}
@@ -290,7 +290,7 @@ function VariantA({
 
               {product?.ecwidProductId && ecwidProduct && (
                 <ProductDetail product={defaultProduct}>
-                  <div className="my-8 flex items-start gap-4 flex-row">
+                  <div className="flex flex-row items-start gap-4 my-8">
                     {btnLabel && ecwidProduct?.inStock && (
                       <div className="w-full lg:mb-4 xl:mb-0">
                         <AddToBag
@@ -308,7 +308,7 @@ function VariantA({
                       product={defaultProduct}
                     >
                       <svg
-                        className="h-6 w-6"
+                        className="w-6 h-6"
                         width={27}
                         height={27}
                         viewBox="0 0 27 27"
@@ -329,8 +329,8 @@ function VariantA({
               )}
 
               {socialLinks && (
-                <div className="mt-4 flex items-center">
-                  <span className="font-heading mr-8 font-bold uppercase">
+                <div className="flex items-center mt-4">
+                  <span className="mr-8 font-bold uppercase font-heading">
                     SHARE IT
                   </span>
                   {socialLinks?.map(
@@ -340,7 +340,7 @@ function VariantA({
                           aria-label={
                             social?.socialMedia || social?.socialMediaPlatform
                           }
-                          className="mr-1 h-8 w-8"
+                          className="w-8 h-8 mr-1"
                           target="_blank"
                           rel="noopener noreferrer"
                           href={social?.socialMediaLink}
@@ -407,7 +407,7 @@ function VariantA({
         </div>
         {productDetails && (
           <div>
-            <ul className="mb-16 flex flex-wrap border-b-2">
+            <ul className="flex flex-wrap mb-16 border-b-2">
               {productDetails?.map((details, index) => (
                 <li className="w-1/2 md:w-auto" key={index}>
                   <button
@@ -430,7 +430,7 @@ function VariantA({
                 productDetails?.[activeTab]?.media === "imageArray" ? (
                   <Fragment>
                     {productDetails?.[activeTab]?.images?.map((item, index) => (
-                      <div className="h-full w-1/4" key={index}>
+                      <div className="w-1/4 h-full" key={index}>
                         {item?.image && (
                           <Image
                             className="object-cover"

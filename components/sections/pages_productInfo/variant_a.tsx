@@ -15,7 +15,6 @@ function VariantA({ products }: PagesProductInfoProps) {
   const ecwid: EcwidTypes = useEcwid();
   const ecwidProduct = ecwid?.products;
 
-  console.log("ecwidProduct", ecwidProduct);
   useEffect(() => {
     if (products?.ecwidProductId) {
       ecwid.setId(products.ecwidProductId);
