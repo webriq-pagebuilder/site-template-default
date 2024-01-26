@@ -1,39 +1,54 @@
 import React from "react";
 import {
   Badge,
-  Box, 
-  Card, 
+  Box,
+  Card,
   Flex,
-  Inline, 
-  Stack, 
-  Switch, 
-  Text, 
+  Inline,
+  Stack,
+  Switch,
+  Text,
   TextInput,
 } from "@sanity/ui";
-import { ComposeIcon, ArrowLeftIcon, RestoreIcon, CloseCircleIcon } from "@sanity/icons"
+import {
+  ComposeIcon,
+  ArrowLeftIcon,
+  RestoreIcon,
+  CloseCircleIcon,
+} from "@sanity/icons";
 import { ButtonWithTooltip, SearchBar } from ".";
 
+export default function DuplicatePageSettings({
+  page,
+  variants,
+  setValues,
+  setDialogOpen,
+}) {
+  let variantStr = "",
+    sectionVariant = "Variant not selected";
 
-export default function DuplicatePageSettings({ page, variants, setValues, setDialogOpen }) {
-  let variantStr = "", sectionVariant = "Variant not selected";
-
-  const [duplicateSections, setDuplicateSections] = React.useState(page?.sections);
+  const [duplicateSections, setDuplicateSections] = React.useState(
+    page?.sections
+  );
   const [pageTitle, setPageTitle] = React.useState("");
 
   // FEATURE BUTTONS: NEW | EXCLUDE | REVERT REFERENCES
-  const handleFeatureButtons = (type: "new" | "exclude" | "revert", position: number) => {
+  const handleFeatureButtons = (
+    type: "new" | "exclude" | "revert",
+    position: number
+  ) => {
     const updated = duplicateSections?.map((section, index) => {
-      if(index !== position) {
+      if (index !== position) {
         return section; // no change
       } else {
-        if(type === "new") {  
-          if(section?.current) {             
+        if (type === "new") {
+          if (section?.current) {
             // create new copy of section
             return {
               ...section,
               label: `Copy of ${section?.label}`,
               current: !section.current,
-            }
+            };
           } else {
             // use current section
             return {
@@ -42,17 +57,19 @@ export default function DuplicatePageSettings({ page, variants, setValues, setDi
               current: true,
               include: true,
               isEditing: false,
-            }
+            };
           }
-        } else if(type === "exclude") {
+        } else if (type === "exclude") {
           return {
             ...section,
-            label: !section?.customLabel ? section?.label?.replace("Copy of ", "") : section?.customLabel,
+            label: !section?.customLabel
+              ? section?.label?.replace("Copy of ", "")
+              : section?.customLabel,
             include: !section?.include,
             current: true,
             isEditing: false,
-          }
-        } else if(type === "revert") {
+          };
+        } else if (type === "revert") {
           return {
             ...page?.sections[position],
             current: true,
@@ -61,30 +78,36 @@ export default function DuplicatePageSettings({ page, variants, setValues, setDi
             isEditing: false,
           };
         } else {
-          console.log("[ERROR] Supported types: 'new' | 'exclude' | 'revert' only")
+          console.log(
+            "[ERROR] Supported types: 'new' | 'exclude' | 'revert' only"
+          );
         }
       }
     });
 
     setDuplicateSections(updated);
-    setValues((prev) => ({...prev, sections: updated, dialogFn: setDialogOpen}));
-  }
+    setValues((prev) => ({
+      ...prev,
+      sections: updated,
+      dialogFn: setDialogOpen,
+    }));
+  };
 
   // EDIT REFERENCE
   const handleEditReferenceBtn = (value: any, position) => {
     const updated = duplicateSections?.map((section, index) => {
-      if(index !== position) {
+      if (index !== position) {
         return section; // no change
       } else {
-        if(value) {
+        if (value) {
           // return new shape
           const { replaced, isEditing, ...rest } = value;
 
-          return duplicateSections[index] = { 
-            replaced: true, 
-            isEditing: false, 
-            ...rest 
-          };
+          return (duplicateSections[index] = {
+            replaced: true,
+            isEditing: false,
+            ...rest,
+          });
         }
 
         return {
@@ -95,8 +118,12 @@ export default function DuplicatePageSettings({ page, variants, setValues, setDi
     });
 
     setDuplicateSections(updated);
-    setValues((prev) => ({...prev, sections: updated, dialogFn: setDialogOpen}));
-  }
+    setValues((prev) => ({
+      ...prev,
+      sections: updated,
+      dialogFn: setDialogOpen,
+    }));
+  };
 
   // UPDATE SECTION LABEL FOR NEW COPY
   const handleUpdateSectionLabel = (event, position: number) => {
@@ -104,20 +131,24 @@ export default function DuplicatePageSettings({ page, variants, setValues, setDi
     const hasValue = value?.trim()?.length !== 0;
 
     const updated = duplicateSections?.map((section, index) => {
-      if(index !== position) {
+      if (index !== position) {
         return section; // no change
       } else {
         // return new shape
-        return { 
+        return {
           ...section,
-          customLabel: hasValue ? value : ""
+          customLabel: hasValue ? value : "",
         };
       }
     });
 
     setDuplicateSections(updated);
-    setValues((prev) => ({...prev, sections: updated, dialogFn: setDialogOpen}));
-  }
+    setValues((prev) => ({
+      ...prev,
+      sections: updated,
+      dialogFn: setDialogOpen,
+    }));
+  };
 
   return (
     <Card padding={2}>
@@ -135,22 +166,23 @@ export default function DuplicatePageSettings({ page, variants, setValues, setDi
             padding={[3, 3, 4]}
             placeholder={`Copy of ${page?.title || page?.name}`}
             onChange={(event) => {
-              setPageTitle(event.target.value)
-              setValues((prev) => ({...prev, title: event.target.value}))
+              setPageTitle(event.target.value);
+              setValues((prev) => ({ ...prev, title: event.target.value }));
             }}
             radius={2}
           />
-          {pageTitle?.trim()?.length !== 0 && (pageTitle?.toUpperCase() !== page?.title?.toUpperCase()) && (
-            <ButtonWithTooltip toolTipText="Revert">
-              <button
-                aria-label="Revert title changes"
-                className="absolute top-0 right-0 z-20 mt-3 mr-3"
-                onClick={() => setPageTitle("")}
-              >
-                <RestoreIcon style={{ fontSize: 24 }} />
-              </button>
-            </ButtonWithTooltip>
-          )}
+          {pageTitle?.trim()?.length !== 0 &&
+            pageTitle?.toUpperCase() !== page?.title?.toUpperCase() && (
+              <ButtonWithTooltip toolTipText="Revert">
+                <button
+                  aria-label="Revert title changes"
+                  className="absolute top-0 right-0 z-20 mt-3 mr-3"
+                  onClick={() => setPageTitle("")}
+                >
+                  <RestoreIcon style={{ fontSize: 24 }} />
+                </button>
+              </ButtonWithTooltip>
+            )}
         </div>
       </Stack>
       <Box paddingY={4}>
@@ -163,19 +195,21 @@ export default function DuplicatePageSettings({ page, variants, setValues, setDi
               variantStr =
                 section?.variant?.charAt(0).toUpperCase() +
                 section?.variant?.substr(1, section?.variant.length - 2) +
-                section?.variant?.charAt(section?.variant.length - 1).toUpperCase() // the first and last letters of variant to uppercase
-    
-              sectionVariant = variantStr?.replace(/_/g, " ") // replace underscore (_) with whitespace
+                section?.variant
+                  ?.charAt(section?.variant.length - 1)
+                  .toUpperCase(); // the first and last letters of variant to uppercase
+
+              sectionVariant = variantStr?.replace(/_/g, " "); // replace underscore (_) with whitespace
             }
 
             return (
               <React.Fragment key={section?._id}>
-                <Card 
-                  padding={3} 
-                  radius={2} 
+                <Card
+                  padding={3}
+                  radius={2}
                   shadow={1}
                   style={{
-                    backgroundColor: !section?.include && "#e5e7ebb5"
+                    backgroundColor: !section?.include && "#e5e7ebb5",
                   }}
                 >
                   {section?.isEditing ? (
@@ -185,7 +219,7 @@ export default function DuplicatePageSettings({ page, variants, setValues, setDi
                         <ButtonWithTooltip toolTipText="Cancel">
                           <button
                             aria-label="Go back to previous window"
-                            className="items-center text-center font-medium text-webriq-darkblue hover:text-webriq-babyblue"
+                            className="items-center text-center font-medium text-brand-primary hover:text-brand-secondary"
                             onClick={() => handleEditReferenceBtn(null, index)}
                           >
                             <ArrowLeftIcon style={{ fontSize: 30 }} />
@@ -193,11 +227,15 @@ export default function DuplicatePageSettings({ page, variants, setValues, setDi
                         </ButtonWithTooltip>
                         {/* Search bar to select variant */}
                         <Box padding={2} style={{ width: "90%" }}>
-                          <SearchBar 
-                            searchItems={variants?.filter((variant) => 
-                              variant?._type === section?._type && variant?.label !== section?.variants?.label
-                            )} 
-                            onClickHandler={(value) => handleEditReferenceBtn(value, index)}
+                          <SearchBar
+                            searchItems={variants?.filter(
+                              (variant) =>
+                                variant?._type === section?._type &&
+                                variant?.label !== section?.variants?.label
+                            )}
+                            onClickHandler={(value) =>
+                              handleEditReferenceBtn(value, index)
+                            }
                           />
                         </Box>
                       </div>
@@ -208,7 +246,9 @@ export default function DuplicatePageSettings({ page, variants, setValues, setDi
                             <button
                               aria-label="Revert changes"
                               className="mr-3"
-                              onClick={() => handleFeatureButtons("revert", index)}
+                              onClick={() =>
+                                handleFeatureButtons("revert", index)
+                              }
                             >
                               <RestoreIcon style={{ fontSize: 30 }} />
                             </button>
@@ -218,9 +258,13 @@ export default function DuplicatePageSettings({ page, variants, setValues, setDi
                         <ButtonWithTooltip toolTipText="Exclude">
                           <button
                             aria-label="Exclude reference"
-                            onClick={() => handleFeatureButtons("exclude", index)}
+                            onClick={() =>
+                              handleFeatureButtons("exclude", index)
+                            }
                           >
-                            <CloseCircleIcon style={{ fontSize: 30, color: "maroon" }} />
+                            <CloseCircleIcon
+                              style={{ fontSize: 30, color: "maroon" }}
+                            />
                           </button>
                         </ButtonWithTooltip>
                       </div>
@@ -230,31 +274,48 @@ export default function DuplicatePageSettings({ page, variants, setValues, setDi
                       <Flex justify="space-between">
                         <Inline className="showBtn" space={2} padding={2}>
                           {!section?.current ? (
-                            <Inline space={2} style={{ paddingBottom: 3, minHeight: "24px" }}>
+                            <Inline
+                              space={2}
+                              style={{ paddingBottom: 3, minHeight: "24px" }}
+                            >
                               <TextInput
-                                fontSize={2} 
+                                fontSize={2}
                                 padding={2}
-                                value={!section?.current && section?.customLabel ? section?.customLabel : ""}
+                                value={
+                                  !section?.current && section?.customLabel
+                                    ? section?.customLabel
+                                    : ""
+                                }
                                 placeholder={section?.label}
-                                onChange={(event) => handleUpdateSectionLabel(event, index)}
+                                onChange={(event) =>
+                                  handleUpdateSectionLabel(event, index)
+                                }
                                 radius={2}
                                 size={30}
                                 autoFocus
                               />
                               {!section?.include && (
-                                <Badge mode="outline" tone="critical">Not included</Badge> 
+                                <Badge mode="outline" tone="critical">
+                                  Not included
+                                </Badge>
                               )}
                               {!section?.current && (
-                                <Badge mode="outline" tone="primary">New</Badge>
+                                <Badge mode="outline" tone="primary">
+                                  New
+                                </Badge>
                               )}
                             </Inline>
                           ) : (
                             <Inline space={2}>
-                              <Text style={{ paddingTop: 8, minHeight: "24px" }}>
+                              <Text
+                                style={{ paddingTop: 8, minHeight: "24px" }}
+                              >
                                 {section?.label ?? "Untitled document"}
                               </Text>
                               {!section?.include && (
-                                <Badge mode="outline" tone="critical">Not included</Badge> 
+                                <Badge mode="outline" tone="critical">
+                                  Not included
+                                </Badge>
                               )}
                             </Inline>
                           )}
@@ -263,8 +324,12 @@ export default function DuplicatePageSettings({ page, variants, setValues, setDi
                             <ButtonWithTooltip toolTipText="Edit">
                               <button
                                 aria-label="Replace reference"
-                                className={`text-webriq-darkblue hover:text-webriq-babyblue ${!section?.isEditing && "hide"}`}
-                                onClick={() => handleEditReferenceBtn(null, index)}
+                                className={`text-brand-primary hover:text-brand-secondary ${
+                                  !section?.isEditing && "hide"
+                                }`}
+                                onClick={() =>
+                                  handleEditReferenceBtn(null, index)
+                                }
                               >
                                 <ComposeIcon style={{ fontSize: 24 }} />
                               </button>
@@ -276,7 +341,9 @@ export default function DuplicatePageSettings({ page, variants, setValues, setDi
                               <button
                                 aria-label="Revert changes"
                                 className="mr-3"
-                                onClick={() => handleFeatureButtons("revert", index)}
+                                onClick={() =>
+                                  handleFeatureButtons("revert", index)
+                                }
                               >
                                 <RestoreIcon style={{ fontSize: 30 }} />
                               </button>
@@ -285,15 +352,25 @@ export default function DuplicatePageSettings({ page, variants, setValues, setDi
                         </Inline>
                         {/* Reference toggle button */}
                         <Box padding={3}>
-                          <ButtonWithTooltip toolTipText={!section?.current ? "Use Current" : "New Copy"}>
-                            <Switch 
+                          <ButtonWithTooltip
+                            toolTipText={
+                              !section?.current ? "Use Current" : "New Copy"
+                            }
+                          >
+                            <Switch
                               id={`${section?._type}-${index + 1}`}
-                              aria-label={`${!section?.current ? "Use Current" : "New Copy"} for ${section?.label}`}
-                              name={`${!section?.current ? "Use Current" : "New Copy"} for ${section?.label}`}
+                              aria-label={`${
+                                !section?.current ? "Use Current" : "New Copy"
+                              } for ${section?.label}`}
+                              name={`${
+                                !section?.current ? "Use Current" : "New Copy"
+                              } for ${section?.label}`}
                               value={section?._type}
                               disabled={!section?.include}
                               checked={!section?.current}
-                              onChange={() => handleFeatureButtons("new", index)}
+                              onChange={() =>
+                                handleFeatureButtons("new", index)
+                              }
                             />
                           </ButtonWithTooltip>
                         </Box>
@@ -305,7 +382,11 @@ export default function DuplicatePageSettings({ page, variants, setValues, setDi
                       </Box>
                       {section?.replaced && (
                         <Box padding={2}>
-                          <Text size={1} style={{ fontStyle: "italic", color: "blue" }} muted>
+                          <Text
+                            size={1}
+                            style={{ fontStyle: "italic", color: "blue" }}
+                            muted
+                          >
                             This section has been updated
                           </Text>
                         </Box>
@@ -314,10 +395,10 @@ export default function DuplicatePageSettings({ page, variants, setValues, setDi
                   )}
                 </Card>
               </React.Fragment>
-            )
+            );
           })}
         </Stack>
       </Box>
     </Card>
-  )
+  );
 }

@@ -75,7 +75,7 @@ export function SocialIcon({
   ...props
 }: TSocialIcons) {
   const Component = SocialIconMap[social] ?? FaFacebook;
-  const commonClass = `w-8 h-8 text-webriq-blue`;
+  const commonClass = `w-8 h-8 text-brand-primary-foreground`;
   return <Component className={cn(commonClass, className)} {...props} />;
 
   // return <Component />;

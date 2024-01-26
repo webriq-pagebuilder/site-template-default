@@ -41,7 +41,7 @@ export const Select = ({
   const commonStyle =
     "w-full rounded bg-white p-4 text-xs font-semibold leading-none outline-none";
   const primary = `${commonStyle}`;
-  const outline = `${commonStyle} border border-solid border-webriq-blue`;
+  const outline = `${commonStyle} border border-solid border-brand-primary-foreground`;
 
   const variants: StyleVariants<Variant> = {
     primary,

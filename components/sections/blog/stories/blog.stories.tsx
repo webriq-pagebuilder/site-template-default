@@ -22,7 +22,7 @@ const args: Variants = {
           _updatedAt: "2021-11-30T12:32:15Z",
           _createdAt: "2021-11-11T13:45:58Z",
           _rev: "4Xbp5us36NAn0n6sWosfBc",
-          _type: "category",
+
           _id: "5ce52ceb-d6f0-4ea3-b14e-8087b2f73061",
           title: "TRAVEL",
         },
@@ -271,14 +271,14 @@ const args: Variants = {
           _updatedAt: "2021-11-30T12:32:15Z",
           _createdAt: "2021-11-11T13:45:58Z",
           _rev: "4Xbp5us36NAn0n6sWosfBc",
-          _type: "category",
+
           _id: "5ce52ceb-d6f0-4ea3-b14e-8087b2f73061",
           title: "TRAVEL",
         },
         {
           _createdAt: "2021-11-22T04:45:02Z",
           _rev: "4Xbp5us36NAn0n6sWosfBc",
-          _type: "category",
+
           _id: "49f1e1b6-9c77-4671-bc0d-43ba97977db0",
           title: "Culture",
           _updatedAt: "2021-11-30T12:32:15Z",
@@ -378,7 +378,7 @@ const args: Variants = {
         {
           _createdAt: "2021-11-11T13:45:58Z",
           _rev: "4Xbp5us36NAn0n6sWosfBc",
-          _type: "category",
+
           _id: "5ce52ceb-d6f0-4ea3-b14e-8087b2f73061",
           title: "TRAVEL",
           _updatedAt: "2021-11-30T12:32:15Z",
@@ -552,7 +552,7 @@ const args: Variants = {
         {
           _createdAt: "2021-11-11T13:45:58Z",
           _rev: "4Xbp5us36NAn0n6sWosfBc",
-          _type: "category",
+
           _id: "5ce52ceb-d6f0-4ea3-b14e-8087b2f73061",
           title: "TRAVEL",
           _updatedAt: "2021-11-30T12:32:15Z",
@@ -563,7 +563,6 @@ const args: Variants = {
           _updatedAt: "2021-11-30T12:32:15Z",
           _createdAt: "2021-11-22T04:45:02Z",
           _rev: "4Xbp5us36NAn0n6sWosfBc",
-          _type: "category",
         },
       ],
       link: "vestibulum-vehicle-leo-eget-libero-eleifend",
@@ -576,7 +575,6 @@ const args: Variants = {
           _updatedAt: "2021-11-30T12:32:15Z",
           _createdAt: "2021-11-11T13:45:58Z",
           _rev: "4Xbp5us36NAn0n6sWosfBc",
-          _type: "category",
         },
       ],
       _createdAt: "2021-11-22T03:18:25Z",
@@ -763,7 +761,7 @@ const args: Variants = {
           _updatedAt: "2021-11-30T12:32:15Z",
           _createdAt: "2021-11-11T13:45:58Z",
           _rev: "4Xbp5us36NAn0n6sWosfBc",
-          _type: "category",
+
           _id: "5ce52ceb-d6f0-4ea3-b14e-8087b2f73061",
           title: "TRAVEL",
         },

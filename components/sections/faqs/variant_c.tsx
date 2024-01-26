@@ -10,7 +10,7 @@ function VariantC({ subtitle, title, faqs }: FAQProps) {
       <div className="py-20 radius-for-skewed bg-gray-50">
         <div className="container px-4 mx-auto">
           <div className="max-w-xl mx-auto mb-16 text-center">
-            <span className="font-bold text-webriq-darkblue">{subtitle}</span>
+            <span className="font-bold text-brand-primary">{subtitle}</span>
             <h1 className="text-5xl font-bold">{title}</h1>
           </div>
           {faqs && (
@@ -20,7 +20,7 @@ function VariantC({ subtitle, title, faqs }: FAQProps) {
                   {faq.question && (
                     <Card className="h-full p-8 ">
                       <div className="flex items-start mb-6">
-                        <span className="inline-block p-3 mr-4 rounded-full bg-webriq-darkblue">
+                        <span className="inline-block p-3 mr-4 rounded-full bg-brand-primary">
                           <svg
                             className="w-6 h-6 text-white"
                             xmlns="http://www.w3.org/2000/svg"

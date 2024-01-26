@@ -2,7 +2,7 @@
 import { buildLegacyTheme } from "sanity";
 
 const props = {
-  "--webriq-blue": "#093fe0",
+  "--brand-primary-foreground": "#093fe0",
   "--studio-white": "#ffffff",
   "--brand-secondary": "#0d1f3c",
   "--brand-secondary--inverted": "#093fe0",
@@ -20,17 +20,17 @@ export const DefaultStudioTheme = buildLegacyTheme({
   "--component-text-color": props["--brand-secondary"],
 
   /* Brand */
-  "--brand-primary": props["--webriq-blue"],
+  "--brand-primary": props["--brand-primary-foreground"],
 
   // Default button
   "--default-button-color": "#666",
-  "--default-button-primary-color": props["--webriq-blue"],
-  "--default-button-success-color": props["--webriq-blue"],
-  "--default-button-warning-color": props["--webriq-blue"],
-  "--default-button-danger-color": props["--webriq-blue"],
+  "--default-button-primary-color": props["--brand-primary-foreground"],
+  "--default-button-success-color": props["--brand-primary-foreground"],
+  "--default-button-warning-color": props["--brand-primary-foreground"],
+  "--default-button-danger-color": props["--brand-primary-foreground"],
 
   /* State */
-  "--state-info-color": props["--webriq-blue"],
+  "--state-info-color": props["--brand-primary-foreground"],
   "--state-success-color": props["--state-success-color"],
   "--state-warning-color": props["--state-warning-color"],
   "--state-danger-color": props["--state-danger-color"],
@@ -39,5 +39,5 @@ export const DefaultStudioTheme = buildLegacyTheme({
   "--main-navigation-color": props["--brand-secondary"],
   "--main-navigation-color--inverted": props["--studio-white"],
 
-  "--focus-color": props["--webriq-blue"],
+  "--focus-color": props["--brand-primary-foreground"],
 });

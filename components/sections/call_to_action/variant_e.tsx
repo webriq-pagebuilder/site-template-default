@@ -60,7 +60,7 @@ function VariantE({ form, formLinks, signInLink }: CTAProps) {
             //         ariaLabel={
             //           form?.buttonLabel ?? "Call to action form submit button"
             //         }
-            //         className="w-full py-4 mb-4 text-sm font-bold leading-normal text-white transition duration-200 rounded bg-webriq-blue hover:bg-webriq-darkblue"
+            //         className="w-full py-4 mb-4 text-sm font-bold leading-normal text-white transition duration-200 rounded bg-brand-primary-foreground hover:bg-brand-primary"
             //         type="submit"
             //       >
             //         {form?.buttonLabel}
@@ -72,7 +72,7 @@ function VariantE({ form, formLinks, signInLink }: CTAProps) {
             //       <span>Already have an account?</span>
             //       <ConditionalLink
             //         link={signInLink}
-            //         className="text-webriq-darkblue hover:text-webriq-babyblue"
+            //         className="text-brand-primary hover:text-brand-secondary"
             //         ariaLabel={signInLink?.label}
             //       >
             //         {signInLink?.label}
@@ -88,7 +88,7 @@ function VariantE({ form, formLinks, signInLink }: CTAProps) {
                 <div key={index}>
                   <ConditionalLink
                     link={link}
-                    className="font-bold text-webriq-darkblue hover:text-webriq-blue"
+                    className="font-bold text-brand-primary hover:text-brand-primary-foreground"
                     ariaLabel={link?.label}
                   >
                     {link?.label}

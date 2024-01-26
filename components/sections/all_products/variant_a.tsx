@@ -43,7 +43,7 @@ function VariantA({ products }: AllProductsProps) {
           </div>
           {!productQuery && products?.length > 1 && (
             <select
-              className="rounded-md border border-gray-400 bg-white p-4 text-lg focus:border-webriq-blue focus:ring-webriq-blue"
+              className="rounded-md border border-gray-400 bg-white p-4 text-lg focus:border-brand-primary-foreground focus:ring-brand-primary-foreground"
               name="by-collection"
               value={selectInput}
               onChange={handleSelectInput}
@@ -107,7 +107,7 @@ function VariantA({ products }: AllProductsProps) {
                             </h2>
                           )}
                           {product?.price && (
-                            <p className="text-center sm:text-left font-heading text-lg font-bold text-webriq-darkblue">
+                            <p className="text-center sm:text-left font-heading text-lg font-bold text-brand-primary">
                               ${product?.price}
                             </p>
                           )}
@@ -125,7 +125,7 @@ function VariantA({ products }: AllProductsProps) {
                     height={384}
                     alt="no-query-results"
                   />
-                  <span className="mb-6 text-4xl font-bold text-webriq-darkblue">
+                  <span className="mb-6 text-4xl font-bold text-brand-primary">
                     Whoops!
                   </span>
                   <p className="my-8 text-gray-700">

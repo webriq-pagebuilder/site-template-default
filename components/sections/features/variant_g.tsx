@@ -19,7 +19,7 @@ function VariantG({
             <div className="w-full px-4 mb-12 lg:mb-0 lg:w-1/2">
               <div className="max-w-md">
                 {caption && (
-                  <span className="font-bold text-webriq-darkblue">
+                  <span className="font-bold text-brand-primary">
                     {caption}
                   </span>
                 )}
@@ -38,7 +38,7 @@ function VariantG({
                     tags.map((item) => (
                       <li className="flex items-center mb-2" key={item}>
                         <svg
-                          className="w-5 h-5 mr-2 text-webriq-blue"
+                          className="w-5 h-5 mr-2 text-brand-primary-foreground"
                           xmlns="http://www.w3.org/2000/svg"
                           viewBox="0 0 20 20"
                           fill="currentColor"

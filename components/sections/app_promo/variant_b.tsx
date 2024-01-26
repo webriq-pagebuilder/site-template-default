@@ -33,7 +33,7 @@ function VariantB({
           <div className="lg:mx-4 lg:flex lg:flex-wrap">
             <div className="w-full px-4 lg:w-1/2">
               <div className="max-w-xl mt-8">
-                <Text className="font-bold text-center text-webriq-darkblue md:text-left lg:text-left">
+                <Text className="font-bold text-center text-brand-primary md:text-left lg:text-left">
                   {subtitle}
                 </Text>
                 <Text

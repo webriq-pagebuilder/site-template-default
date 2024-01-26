@@ -24,7 +24,7 @@ function VariantA({ logo, subtitle, title, images }: AppPromoProps) {
 
   return (
     <section>
-      <div className="pt-16 overflow-hidden radius-for-skewed bg-webriq-darkblue">
+      <div className="pt-16 overflow-hidden radius-for-skewed bg-brand-primary">
         <div className="container px-4 mx-auto">
           <div className="relative max-w-md mx-auto text-center">
             {logo?.image && (

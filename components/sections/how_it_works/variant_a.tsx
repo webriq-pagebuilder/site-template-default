@@ -22,7 +22,7 @@ function VariantA({ subtitle, title, text, video, steps }: HowItWorksProps) {
           <div className="flex flex-wrap mb-10">
             <div className="w-full mb-10 lg:mb-0 lg:w-1/2">
               <div className="max-w-lg mx-10">
-                <span className="text-sm font-bold text-webriq-darkblue md:text-lg lg:text-lg">
+                <span className="text-sm font-bold text-brand-primary md:text-lg lg:text-lg">
                   {subtitle}
                 </span>
                 <Text className="my-5">{title}</Text>
@@ -53,7 +53,7 @@ function VariantA({ subtitle, title, text, video, steps }: HowItWorksProps) {
                   className="w-full px-5 mb-12 md:w-1/2 lg:mb-0 lg:w-1/3"
                   key={index}
                 >
-                  <span className="flex items-center justify-center w-12 h-12 mt-6 mb-6 font-bold rounded bg-webriq-lightblue text-webriq-darkblue">
+                  <span className="flex items-center justify-center w-12 h-12 mt-6 mb-6 font-bold rounded bg-brand-secondary-foreground text-brand-primary">
                     {index + 1}
                   </span>
                   <p className="mb-2 text-lg font-bold font-heading md:text-2xl lg:text-2xl">

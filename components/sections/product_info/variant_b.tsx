@@ -95,7 +95,7 @@ function VariantB({
       link: ({ children, value }) => (
         <a
           aria-label={value.href ?? "external link"}
-          className="text-webriq-blue hover:text-webriq-lightblue"
+          className="text-brand-primary-foreground hover:text-brand-secondary-foreground"
           href={value.href}
           target="_blank"
           rel="noopener noreferrer"
@@ -333,7 +333,7 @@ function VariantB({
                 )}
 
                 {subtitle && (
-                  <span className="font-custom font-bold text-webriq-darkblue">
+                  <span className="font-custom font-bold text-brand-primary">
                     {subtitle}
                   </span>
                 )}
@@ -351,7 +351,7 @@ function VariantB({
                 {/* PRICING HERE */}
                 {product?.price && (
                   <p
-                    className={`font-heading text-webriq-darkblue inline-block text-2xl font-bold ${
+                    className={`font-heading text-brand-primary inline-block text-2xl font-bold ${
                       !ecwidProduct?.compareToPrice && "mb-8"
                     }`}
                   >
@@ -375,7 +375,7 @@ function VariantB({
                     </span>{" "}
                     (
                     <span
-                      className="text-webriq-babyblue"
+                      className="text-brand-secondary"
                       style={{ fontSize: "15px" }}
                     >
                       {`Save ${ecwidProduct?.compareToPriceDiscountPercentFormatted}`}
@@ -400,14 +400,14 @@ function VariantB({
                       <div className="w-full lg:mb-4 xl:mb-0">
                         <AddToBag
                           inStock={!ecwidProduct?.inStock}
-                          classNames="block w-full mb-4 lg:mb-0 text-center text-white font-bold font-heading py-5 px-8 rounded-md uppercase transition duration-200 bg-webriq-darkblue hover:bg-webriq-blue cursor-pointer"
+                          classNames="block w-full mb-4 lg:mb-0 text-center text-white font-bold font-heading py-5 px-8 rounded-md uppercase transition duration-200 bg-brand-primary hover:bg-brand-primary-foreground cursor-pointer"
                         >
                           {btnLabel}
                         </AddToBag>
                       </div>
                     )}
                     <AddToWishlist
-                      classNames="w-full flex-shrink-0 flex flex-wrap items-center justify-center py-5 px-8 rounded-md border hover:border-webriq-darkblue"
+                      classNames="w-full flex-shrink-0 flex flex-wrap items-center justify-center py-5 px-8 rounded-md border hover:border-brand-primary"
                       product={defaultProduct}
                       containerClass="w-full"
                     >
@@ -440,7 +440,7 @@ function VariantB({
                   {productDetails?.map((details, index) => (
                     <Fragment key={index}>
                       <div
-                        className={`flex items-center justify-between px-3 py-6 hover:bg-webriq-lightblue ${
+                        className={`flex items-center justify-between px-3 py-6 hover:bg-brand-secondary-foreground ${
                           index !== productDetails?.length - 1 && "border-b"
                         }`}
                         onClick={() =>
@@ -451,7 +451,7 @@ function VariantB({
                       >
                         <p
                           className={`font-heading text-xl font-bold ${
-                            activeTab === index && "text-webriq-darkblue"
+                            activeTab === index && "text-brand-primary"
                           }`}
                         >
                           {details?.tabName}

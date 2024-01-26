@@ -29,7 +29,7 @@ function VariantB({ subtitle, title, faqsWithCategories }: FAQProps) {
       <div className="py-20 radius-for-skewed bg-gray-50">
         <div className="border-b">
           <div className="max-w-xl px-4 mx-auto mb-16 text-center">
-            <span className="font-bold text-webriq-darkblue">{subtitle}</span>
+            <span className="font-bold text-brand-primary">{subtitle}</span>
             <Text type="h1">{title}</Text>
           </div>
           <div className="max-w-3xl mx-auto">
@@ -41,8 +41,8 @@ function VariantB({ subtitle, title, faqsWithCategories }: FAQProps) {
                   onClick={() => setTabPane(tab?.category)}
                   className={
                     tabPane === tab?.category
-                      ? "w-full border-b-2 border-webriq-blue px-4 py-4 font-bold text-webriq-darkblue md:w-1/2 lg:w-auto"
-                      : "w-full border-b-2 border-transparent px-4 py-4 font-bold text-gray-500 transition duration-150 hover:border-webriq-blue hover:text-webriq-darkblue md:w-1/2 lg:w-auto"
+                      ? "w-full border-b-2 border-brand-primary-foreground px-4 py-4 font-bold text-brand-primary md:w-1/2 lg:w-auto"
+                      : "w-full border-b-2 border-transparent px-4 py-4 font-bold text-gray-500 transition duration-150 hover:border-brand-primary-foreground hover:text-brand-primary md:w-1/2 lg:w-auto"
                   }
                 >
                   {tab?.category}
@@ -67,7 +67,7 @@ function VariantB({ subtitle, title, faqsWithCategories }: FAQProps) {
                         {content?.question}
                       </span>
                       <svg
-                        className="w-4 h-4 text-webriq-darkblue lg:h-6 lg:w-6 xl:h-6 xl:w-6 2xl:h-6 2xl:w-6"
+                        className="w-4 h-4 text-brand-primary lg:h-6 lg:w-6 xl:h-6 xl:w-6 2xl:h-6 2xl:w-6"
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
                         viewBox="0 0 24 24"

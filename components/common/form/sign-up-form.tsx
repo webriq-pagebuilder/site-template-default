@@ -61,7 +61,7 @@ export function SignUpForm({ form, signInLink, className }: SignUpFormProps) {
             aria-label={
               form?.buttonLabel ?? "Call to action form submit button"
             }
-            className="w-full py-4 mb-4 text-sm font-bold leading-normal text-white transition duration-200 rounded bg-webriq-blue hover:bg-webriq-darkblue"
+            className="w-full py-4 mb-4 text-sm font-bold leading-normal text-white transition duration-200 rounded bg-brand-primary-foreground hover:bg-brand-primary"
             type="submit"
           >
             {form?.buttonLabel}
@@ -74,7 +74,7 @@ export function SignUpForm({ form, signInLink, className }: SignUpFormProps) {
           <ConditionalLink
             variant="link"
             link={signInLink}
-            className="text-webriq-darkblue hover:text-webriq-babyblue"
+            className="text-brand-primary hover:text-brand-secondary"
             ariaLabel={signInLink?.label}
           >
             {signInLink?.label}

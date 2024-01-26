@@ -23,7 +23,7 @@ function VariantD({ caption, title, portfoliosWithCategory }: PortfolioProps) {
         <div className="container px-4 mx-auto">
           <div className="max-w-lg mx-auto mb-8 text-center md:mb-16">
             {caption && (
-              <span className="font-bold text-webriq-darkblue">{caption}</span>
+              <span className="font-bold text-brand-primary">{caption}</span>
             )}
             {title && (
               <Text type="h1" className="mb-6">
@@ -39,8 +39,8 @@ function VariantD({ caption, title, portfoliosWithCategory }: PortfolioProps) {
                     onClick={() => setActiveTab(content?.category)}
                     className={`mx-auto mb-1 w-auto px-4 py-2 ${
                       activeTab === content?.category
-                        ? "rounded bg-gray-50 font-bold text-webriq-darkblue shadow transition duration-200 focus:outline-none"
-                        : "rounded font-bold text-gray-500 transition duration-200 hover:bg-webriq-lightblue hover:text-webriq-blue hover:shadow focus:outline-none"
+                        ? "rounded bg-gray-50 font-bold text-brand-primary shadow transition duration-200 focus:outline-none"
+                        : "rounded font-bold text-gray-500 transition duration-200 hover:bg-brand-secondary-foreground hover:text-brand-primary-foreground hover:shadow focus:outline-none"
                     }`}
                   >
                     {content?.category}
@@ -70,7 +70,7 @@ function VariantD({ caption, title, portfoliosWithCategory }: PortfolioProps) {
                         />
                         <div className="absolute inset-0 z-10 justify-center p-6 duration-300 bg-gray-900 rounded-lg opacity-0 hover:opacity-80">
                           <div className="max-w-md my-auto text-xs">
-                            <span className="font-bold text-webriq-blue">
+                            <span className="font-bold text-brand-primary-foreground">
                               {content?.subtitle}
                             </span>
                             <h1 className="my-5 font-bold text-white">
@@ -84,7 +84,7 @@ function VariantD({ caption, title, portfoliosWithCategory }: PortfolioProps) {
                                 <ConditionalLink
                                   ariaLabel={content?.primaryButton?.label}
                                   link={content?.primaryButton}
-                                  className="inline-block px-6 py-2 font-bold leading-loose rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50"
+                                  className="inline-block px-6 py-2 font-bold leading-loose rounded-l-xl rounded-t-xl bg-brand-primary hover:bg-brand-primary-foreground text-gray-50"
                                 >
                                   {content?.primaryButton?.label}
                                 </ConditionalLink>
@@ -115,7 +115,7 @@ function VariantD({ caption, title, portfoliosWithCategory }: PortfolioProps) {
                         />
                         <div className="absolute inset-0 z-10 justify-center h-full p-6 duration-300 bg-gray-900 rounded-lg opacity-0 hover:opacity-80">
                           <div className="max-w-md my-auto text-xs lg:mt-10 lg:text-sm xl:mt-10 xl:text-sm 2xl:mt-10 2xl:text-sm">
-                            <span className="font-bold text-webriq-blue">
+                            <span className="font-bold text-brand-primary-foreground">
                               {content?.subtitle}
                             </span>
                             <h1 className="my-5 font-bold text-white lg:text-4xl xl:text-4xl 2xl:text-4xl">
@@ -129,7 +129,7 @@ function VariantD({ caption, title, portfoliosWithCategory }: PortfolioProps) {
                                 <ConditionalLink
                                   ariaLabel={content?.primaryButton?.label}
                                   link={content?.primaryButton}
-                                  className="inline-block px-6 py-2 font-bold leading-loose rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50"
+                                  className="inline-block px-6 py-2 font-bold leading-loose rounded-l-xl rounded-t-xl bg-brand-primary hover:bg-brand-primary-foreground text-gray-50"
                                 >
                                   {content?.primaryButton?.label}
                                 </ConditionalLink>
@@ -162,7 +162,7 @@ function VariantD({ caption, title, portfoliosWithCategory }: PortfolioProps) {
                         />
                         <div className="absolute inset-0 z-10 justify-center h-full p-6 duration-300 bg-gray-900 rounded-lg opacity-0 hover:opacity-80 ">
                           <div className="max-w-md my-auto text-xs lg:mt-10 lg:text-sm xl:mt-10 xl:text-sm 2xl:mt-10 2xl:text-sm">
-                            <span className="font-bold text-webriq-blue">
+                            <span className="font-bold text-brand-primary-foreground">
                               {content?.subtitle}
                             </span>
                             <h1 className="my-5 font-bold text-white lg:text-4xl xl:text-4xl 2xl:text-4xl">
@@ -176,7 +176,7 @@ function VariantD({ caption, title, portfoliosWithCategory }: PortfolioProps) {
                                 <ConditionalLink
                                   ariaLabel={content?.primaryButton?.label}
                                   link={content?.primaryButton}
-                                  className="inline-block px-6 py-2 font-bold leading-loose rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50"
+                                  className="inline-block px-6 py-2 font-bold leading-loose rounded-l-xl rounded-t-xl bg-brand-primary hover:bg-brand-primary-foreground text-gray-50"
                                 >
                                   {content?.primaryButton?.label}
                                 </ConditionalLink>
@@ -208,7 +208,7 @@ function VariantD({ caption, title, portfoliosWithCategory }: PortfolioProps) {
                           />
                           <div className="absolute inset-0 z-10 justify-center h-full p-6 duration-300 bg-gray-900 rounded-lg opacity-0 hover:opacity-80 ">
                             <div className="max-w-md my-auto text-xs">
-                              <span className="font-bold text-webriq-blue">
+                              <span className="font-bold text-brand-primary-foreground">
                                 {content?.subtitle}
                               </span>
                               <h1 className="my-5 font-bold text-white">
@@ -222,7 +222,7 @@ function VariantD({ caption, title, portfoliosWithCategory }: PortfolioProps) {
                                   <ConditionalLink
                                     ariaLabel={content?.primaryButton?.label}
                                     link={content?.primaryButton}
-                                    className="inline-block px-6 py-2 font-bold leading-loose rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50"
+                                    className="inline-block px-6 py-2 font-bold leading-loose rounded-l-xl rounded-t-xl bg-brand-primary hover:bg-brand-primary-foreground text-gray-50"
                                   >
                                     {content?.primaryButton?.label}
                                   </ConditionalLink>
@@ -242,7 +242,7 @@ function VariantD({ caption, title, portfoliosWithCategory }: PortfolioProps) {
               <ConditionalLink
                 ariaLabel={portfoliosPerCategory?.[0]?.primaryButton?.label}
                 link={portfoliosPerCategory?.[0]?.primaryButton}
-                className="inline-block px-6 py-2 font-bold leading-loose transition duration-200 outline-none rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50"
+                className="inline-block px-6 py-2 font-bold leading-loose transition duration-200 outline-none rounded-l-xl rounded-t-xl bg-brand-primary hover:bg-brand-primary-foreground text-gray-50"
               >
                 {portfoliosPerCategory?.[0]?.primaryButton?.label}
               </ConditionalLink>

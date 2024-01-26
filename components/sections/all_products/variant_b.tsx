@@ -43,8 +43,8 @@ function VariantB({ products }: AllProductsProps) {
                       <li
                         className={`mb-4 ${
                           activeTab === collection?.name
-                            ? " font-bold text-webriq-darkblue"
-                            : "hover:text-webriq-blue"
+                            ? " font-bold text-brand-primary"
+                            : "hover:text-brand-primary-foreground"
                         }`}
                         key={index}
                       >
@@ -114,7 +114,7 @@ function VariantB({ products }: AllProductsProps) {
                             </h2>
                           )}
                           {product?.price && (
-                            <p className="text-lg font-bold font-heading text-webriq-darkblue">
+                            <p className="text-lg font-bold font-heading text-brand-primary">
                               ${product?.price}
                             </p>
                           )}
@@ -132,7 +132,7 @@ function VariantB({ products }: AllProductsProps) {
                     height={384}
                     alt="no-query-results"
                   />
-                  <span className="mb-6 text-4xl text-webriq-darkblue font-bold">
+                  <span className="mb-6 text-4xl text-brand-primary font-bold">
                     Whoops!
                   </span>
                   <p className="my-8 text-gray-700">

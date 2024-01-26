@@ -12,7 +12,7 @@ import { Button } from "components/ui/Button";
 
 function VariantB({ logo, form, formLinks, signInLink }: SignUpFormProps) {
   return (
-    <section className="py-10 bg-webriq-darkblue lg:py-20">
+    <section className="py-10 bg-brand-primary lg:py-20">
       <div className="container px-4 mx-auto">
         <div className="max-w-xl mx-auto">
           <div className="mb-10">
@@ -79,7 +79,7 @@ function VariantB({ logo, form, formLinks, signInLink }: SignUpFormProps) {
                       <span>Already have an account?</span>{" "}
                       <ConditionalLink
                         link={signInLink}
-                        className="text-webriq-darkblue hover:underline"
+                        className="text-brand-primary hover:underline"
                         ariaLabel={signInLink?.label}
                       >
                         {signInLink?.label}
@@ -91,7 +91,7 @@ function VariantB({ logo, form, formLinks, signInLink }: SignUpFormProps) {
             )}
           </Card>
           {formLinks && (
-            <p className="text-xs text-center text-webriq-lightblue">
+            <p className="text-xs text-center text-brand-secondary-foreground">
               {formLinks?.map((link, index, { length }) => (
                 <span key={index}>
                   <ConditionalLink

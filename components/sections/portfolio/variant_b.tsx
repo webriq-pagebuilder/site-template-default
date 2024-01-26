@@ -20,9 +20,7 @@ function VariantB({
           <div className="flex flex-wrap items-center justify-center mb-16 md:justify-between">
             <div className="text-center lg:text-left">
               {caption && (
-                <span className="font-bold text-webriq-darkblue">
-                  {caption}
-                </span>
+                <span className="font-bold text-brand-primary">{caption}</span>
               )}
               {title && (
                 <Text type="h1" className="">
@@ -60,7 +58,7 @@ function VariantB({
                   )}
 
                   <div className="absolute inset-0 z-10 flex flex-col items-start p-6 duration-300 bg-gray-900 rounded opacity-0 hover:opacity-75">
-                    <span className="text-webriq-lightblue">
+                    <span className="text-brand-secondary-foreground">
                       {content?.dateAdded}
                     </span>
                     <p className="mb-auto font-bold text-white md:text-xl lg:text-2xl">
@@ -71,7 +69,7 @@ function VariantB({
                         variant="outline"
                         ariaLabel={content?.primaryButton?.label}
                         link={content?.primaryButton}
-                        className="bg-transparent !outline-none border-2 border-gray-400 hover:border-webriq-darkblue text-gray-50 hover:bg-webriq-darkblue hover:text-white "
+                        className="bg-transparent !outline-none border-2 border-gray-400 hover:border-brand-primary text-gray-50 hover:bg-brand-primary hover:text-white "
                       >
                         {content?.primaryButton?.label}
                       </ConditionalLink>
@@ -86,7 +84,7 @@ function VariantB({
               <ConditionalLink
                 ariaLabel={primaryButton?.label}
                 link={primaryButton}
-                className="inline-block px-6 py-2 font-bold leading-loose transition duration-200 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50"
+                className="inline-block px-6 py-2 font-bold leading-loose transition duration-200 rounded-l-xl rounded-t-xl bg-brand-primary hover:bg-brand-primary-foreground text-gray-50"
               >
                 {primaryButton?.label}
               </ConditionalLink>

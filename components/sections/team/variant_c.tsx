@@ -12,7 +12,7 @@ function VariantC({ caption, title, team }: TeamsProps) {
         <div className="container px-4 mx-auto">
           <div className="max-w-xl mx-auto mb-12 text-center">
             {caption && (
-              <span className="font-bold text-webriq-darkblue">{caption}</span>
+              <span className="font-bold text-brand-primary">{caption}</span>
             )}
             {title && <Text type="h1">{title}</Text>}
           </div>

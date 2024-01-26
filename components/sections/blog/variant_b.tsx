@@ -19,9 +19,7 @@ function VariantB({ subtitle, title, posts, primaryButton }: BlogProps) {
           <div className="flex flex-wrap justify-center mb-6">
             <div className="w-full mb-16 text-center">
               {subtitle && (
-                <Text className="font-bold text-webriq-darkblue">
-                  {subtitle}
-                </Text>
+                <Text className="font-bold text-brand-primary">{subtitle}</Text>
               )}
               {title && <Text type="h1">{title}</Text>}
             </div>
@@ -63,7 +61,7 @@ function VariantB({ subtitle, title, posts, primaryButton }: BlogProps) {
                       {post?.slug?.current && (
                         <Link
                           aria-label="View Blog Post"
-                          className="font-bold text-webriq-darkblue hover:text-webriq-babyblue"
+                          className="font-bold text-brand-primary hover:text-brand-secondary"
                           href={`/${post?.slug?.current}` ?? "/page-not-found"}
                         >
                           View Blog Post
@@ -109,7 +107,7 @@ function VariantB({ subtitle, title, posts, primaryButton }: BlogProps) {
                         {post?.slug?.current && (
                           <Link
                             aria-label="View Blog Post"
-                            className="font-bold text-webriq-darkblue hover:text-webriq-babyblue"
+                            className="font-bold text-brand-primary hover:text-brand-secondary"
                             href={
                               `/${post?.slug?.current}` ?? "/page-not-found"
                             }
@@ -127,7 +125,7 @@ function VariantB({ subtitle, title, posts, primaryButton }: BlogProps) {
               {primaryButton?.label && (
                 <ConditionalLink
                   link={primaryButton}
-                  className="inline-block px-6 py-2 font-bold leading-loose transition duration-200 outline-none rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50"
+                  className="inline-block px-6 py-2 font-bold leading-loose transition duration-200 outline-none rounded-l-xl rounded-t-xl bg-brand-primary hover:bg-brand-primary-foreground text-gray-50"
                   ariaLabel={primaryButton?.label}
                 >
                   {primaryButton?.label}

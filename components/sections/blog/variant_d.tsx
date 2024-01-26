@@ -61,9 +61,7 @@ function VariantD({ subtitle, title, posts }: BlogProps) {
           <div className="flex flex-wrap items-center mb-16">
             <div className="w-full lg:w-1/2">
               {subtitle && (
-                <span className="font-bold text-webriq-darkblue">
-                  {subtitle}
-                </span>
+                <span className="font-bold text-brand-primary">{subtitle}</span>
               )}
               {title && (
                 <h1 className="text-4xl font-bold font-heading lg:text-5xl">
@@ -83,15 +81,17 @@ function VariantD({ subtitle, title, posts }: BlogProps) {
                     <ul>
                       {categories?.length > 1 && (
                         <li
-                          className={`rounded hover:bg-webriq-lightblue hover:text-webriq-darkblue ${
-                            activeTab === "All" ? "bg-webriq-lightblue" : null
+                          className={`rounded hover:bg-brand-secondary-foreground hover:text-brand-primary ${
+                            activeTab === "All"
+                              ? "bg-brand-secondary-foreground"
+                              : null
                           }`}
                         >
                           <button
                             aria-label="Show all blog posts"
                             className={`mb-4 block px-3 py-2 focus:outline-none ${
                               activeTab === "All"
-                                ? "font-bold text-webriq-darkblue focus:outline-none"
+                                ? "font-bold text-brand-primary focus:outline-none"
                                 : null
                             }`}
                             onClick={() => setActiveTab("All")}
@@ -102,9 +102,9 @@ function VariantD({ subtitle, title, posts }: BlogProps) {
                       )}
                       {categories?.map((category, index) => (
                         <li
-                          className={`rounded hover:bg-webriq-lightblue hover:text-webriq-darkblue ${
+                          className={`rounded hover:bg-brand-secondary-foreground hover:text-brand-primary ${
                             activeTab === category
-                              ? "bg-webriq-lightblue"
+                              ? "bg-brand-secondary-foreground"
                               : null
                           }`}
                           key={index}
@@ -113,7 +113,7 @@ function VariantD({ subtitle, title, posts }: BlogProps) {
                             aria-label={category}
                             className={`mb-4 block px-3 py-2 focus:outline-none ${
                               activeTab === category
-                                ? "font-bold text-webriq-darkblue focus:outline-none"
+                                ? "font-bold text-brand-primary focus:outline-none"
                                 : null
                             }`}
                             onClick={() => setActiveTab(category)}
@@ -151,7 +151,7 @@ function VariantD({ subtitle, title, posts }: BlogProps) {
                           {post?.title && (
                             <Link
                               aria-label={post?.title}
-                              className="hover:text-webriq-babyblue"
+                              className="hover:text-brand-secondary"
                               href={`/${
                                 post?.slug?.current ?? "page-not-added"
                               }`}
@@ -166,7 +166,7 @@ function VariantD({ subtitle, title, posts }: BlogProps) {
                               post?.authors?.map(
                                 (author, index, { length }) => (
                                   <div className="flex" key={index}>
-                                    <span className="text-webriq-darkblue">
+                                    <span className="text-brand-primary">
                                       {author?.name}
                                     </span>
                                     {index + 1 !== length ? (
@@ -216,7 +216,7 @@ function VariantD({ subtitle, title, posts }: BlogProps) {
                           {post?.title && (
                             <Link
                               aria-label={post?.title}
-                              className="hover:text-webriq-babyblue"
+                              className="hover:text-brand-secondary"
                               href={
                                 `/${post?.slug?.current}` ?? "/page-not-found"
                               }
@@ -231,7 +231,7 @@ function VariantD({ subtitle, title, posts }: BlogProps) {
                               post?.authors?.map(
                                 (author, index, { length }) => (
                                   <div className="flex" key={index}>
-                                    <span className="text-webriq-darkblue">
+                                    <span className="text-brand-primary">
                                       {author?.name}
                                     </span>
                                     {index + 1 !== length ? (

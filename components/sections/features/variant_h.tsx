@@ -12,7 +12,7 @@ function VariantH({ caption, title, features, images }: FeaturesProps) {
           <div className="flex flex-wrap items-center -mx-4">
             <div className="w-full px-4 mb-12 lg:mb-0 lg:w-1/2">
               <div className="max-w-md">
-                <span className="font-bold text-webriq-darkblue">
+                <span className="font-bold text-brand-primary">
                   {caption && caption}
                 </span>
                 <Text className="mb-6" type="h1">
@@ -23,7 +23,7 @@ function VariantH({ caption, title, features, images }: FeaturesProps) {
                     <li className="flex mb-4">
                       <div>
                         <svg
-                          className="w-8 h-8 mr-3 text-webriq-darkblue"
+                          className="w-8 h-8 mr-3 text-brand-primary"
                           xmlns="http://www.w3.org/2000/svg"
                           fill="none"
                           viewBox="0 0 24 24"
@@ -51,7 +51,7 @@ function VariantH({ caption, title, features, images }: FeaturesProps) {
                     <li className="flex mb-4">
                       <div>
                         <svg
-                          className="w-8 h-8 mr-3 text-webriq-darkblue"
+                          className="w-8 h-8 mr-3 text-brand-primary"
                           xmlns="http://www.w3.org/2000/svg"
                           fill="none"
                           viewBox="0 0 24 24"
@@ -79,7 +79,7 @@ function VariantH({ caption, title, features, images }: FeaturesProps) {
                     <li className="flex">
                       <div>
                         <svg
-                          className="w-8 h-8 mr-3 text-webriq-darkblue"
+                          className="w-8 h-8 mr-3 text-brand-primary"
                           xmlns="http://www.w3.org/2000/svg"
                           fill="none"
                           viewBox="0 0 24 24"

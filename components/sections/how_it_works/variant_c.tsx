@@ -9,7 +9,7 @@ function VariantC({ subtitle, title, steps }: HowItWorksProps) {
       <div className="py-20 radius-for-skewed bg-gray-50">
         <div className="container px-4 mx-auto">
           <div className="max-w-md mx-auto mb-8 text-center">
-            <span className="font-bold text-webriq-darkblue">{subtitle}</span>
+            <span className="font-bold text-brand-primary">{subtitle}</span>
             <Text type="h1">{title}</Text>
           </div>
           <div className="flex flex-wrap justify-center -mx-4">
@@ -20,7 +20,7 @@ function VariantC({ subtitle, title, steps }: HowItWorksProps) {
                   key={index}
                 >
                   <Card className="px-6 py-10 text-center ">
-                    <span className="inline-flex items-center justify-center w-16 h-16 mb-6 text-2xl font-bold rounded bg-webriq-lightblue text-webriq-darkblue">
+                    <span className="inline-flex items-center justify-center w-16 h-16 mb-6 text-2xl font-bold rounded bg-brand-secondary-foreground text-brand-primary">
                       {index + 1}
                     </span>
                     <p className="mb-4 text-2xl font-bold font-heading">

@@ -36,7 +36,7 @@ function VariantA({ testimonials }: TestimonialProps) {
                     <p className="text-xl">{testimonials?.[testimony]?.name}</p>
                   )}
                   {testimonials?.[testimony]?.jobTitle && (
-                    <p className="text-webriq-darkblue">
+                    <p className="text-brand-primary">
                       {testimonials?.[testimony]?.jobTitle}
                     </p>
                   )}
@@ -45,7 +45,7 @@ function VariantA({ testimonials }: TestimonialProps) {
               {testimonials?.[testimony] && (
                 <div className="w-full lg:w-2/3">
                   <svg
-                    className="h-10 mb-4 text-webriq-darkblue"
+                    className="h-10 mb-4 text-brand-primary"
                     viewBox="0 0 32 28"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
@@ -70,7 +70,7 @@ function VariantA({ testimonials }: TestimonialProps) {
                           key={index}
                           className={`mr-1 ${
                             index === testimony
-                              ? "bg-webriq-darkblue"
+                              ? "bg-brand-primary"
                               : "bg-gray-200"
                           } rounded-full p-1 focus:outline-none`}
                           onClick={() => slider(index)}

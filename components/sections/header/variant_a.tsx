@@ -15,9 +15,7 @@ function VariantA({
 }: HeaderProps) {
   return (
     <section className="skewed-bottom-right">
-      <div
-        className={`bg-${template.bg}-lightblue radius-for-skewed pb-20 pt-12 lg:pt-20`}
-      >
+      <div className={`bg-white radius-for-skewed pb-20 pt-12 lg:pt-20`}>
         <div className="container px-4 mx-auto">
           <div className="flex flex-wrap -mx-4">
             <div className="flex items-center w-full px-4 mb-12 md:mb-20 lg:mb-0 lg:w-1/2">
