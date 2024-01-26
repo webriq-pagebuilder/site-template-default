@@ -34,25 +34,3 @@ module.exports = {
     },
   },
 };
-
-// 	colors: {
-// 	  border: "hsl(var(--border))",
-// 	  background: "hsl(var(--background))",
-// 	  primary: {
-// 		DEFAULT: "#0045d8",
-// 		foreground: "#296eff",
-// 	  },
-// 	  secondary: {
-// 		DEFAULT: "hsl(var(--secondary))",
-// 		foreground: "hsl(var(--secondary-foreground))",
-// 	  },
-// 	  muted: {
-// 		DEFAULT: "hsl(var(--muted))",
-// 		foreground: "hsl(var(--muted-foreground))",
-// 	  },
-// 	},
-// 	borderRadius: {
-// 	  lg: "var(--radius)",
-// 	  md: "calc(var(--radius) - 2px)",
-// 	  sm: "calc(var(--radius) - 4px)",
-// 	},

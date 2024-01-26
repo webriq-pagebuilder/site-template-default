@@ -42,7 +42,7 @@ export const ConditionalLink = ({
 
   const commonProps = {
     className: cn(variantClass, className),
-    ariaLabel,
+    "aria-label": ariaLabel,
     target,
   };
 
