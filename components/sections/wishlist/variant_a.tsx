@@ -10,7 +10,7 @@ function VariantA() {
 
   return (
     <section className="py-20">
-      <div className="container mx-auto px-5">
+      <div className="container px-5 mx-auto">
         <div className="py-8">
           <div className="flex flex-col gap-x-4 sm:flex-row">
             {favorites ? (
@@ -21,7 +21,7 @@ function VariantA() {
                 }
 
                 return (
-                  <div className="mb-5 w-full sm:w-1/2 md:w-1/3" key={index}>
+                  <div className="w-full mb-5 sm:w-1/2 md:w-1/3" key={index}>
                     <a
                       href={`/products/${items?.slug?.current}`}
                       className="flex flex-col gap-4"
@@ -30,7 +30,7 @@ function VariantA() {
                         <div className="absolute z-10">
                           <Ribbon data={items} />
                         </div>
-                        <div className="w-full object-cover">
+                        <div className="object-cover w-full">
                           {items?.productInfo?.images ? (
                             <Image
                               sizes="100vw"
@@ -59,7 +59,7 @@ function VariantA() {
                       <p className="text-2xl font-bold xl:text-3xl">
                         {items?.name}
                       </p>
-                      <p className="font-heading text-xl font-bold text-white">
+                      <p className="text-xl font-bold text-white font-heading">
                         <span className="mr-2 text-brand-primary">
                           {items?.price}
                         </span>

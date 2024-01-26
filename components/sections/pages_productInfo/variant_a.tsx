@@ -23,13 +23,13 @@ function VariantA({ products }: PagesProductInfoProps) {
 
   return (
     <section className="sm:p-10 md:p-20">
-      <div className="container mx-auto px-4">
+      <div className="container px-4 mx-auto">
         {products && (
-          <div className="-mx-4 mb-24 flex flex-wrap">
-            <div className="mb-8 w-full px-4 md:mb-0 md:w-1/2">
+          <div className="flex flex-wrap mb-24 -mx-4">
+            <div className="w-full px-4 mb-8 md:mb-0 md:w-1/2">
               <div className="relative mb-10">
                 {products?.productInfo?.images ? (
-                  <div className="h-full w-full">
+                  <div className="w-full h-full">
                     <Image
                       className="object-cover"
                       sizes="(min-width: 1840px) 704px, (min-width: 1540px) calc(27.86vw + 197px), (min-width: 1320px) calc(30vw + 120px), (min-width: 1260px) calc(145vw - 1379px), (min-width: 1040px) 36vw, (min-width: 980px) 320px, (min-width: 780px) calc(41.11vw - 75px), (min-width: 640px) calc(66.67vw + 69px), calc(100vw - 64px)"
@@ -61,9 +61,9 @@ function VariantA({ products }: PagesProductInfoProps) {
                     <Ribbon data={ecwidProduct} />
                   </div>
                 )}
-                <div className="mb-10 border-b pb-10">
+                <div className="pb-10 mb-10 border-b">
                   {products?.name && (
-                    <h1 className="font-heading mb-6 mt-2 text-5xl font-bold md:text-6xl lg:max-w-xl">
+                    <h1 className="mt-2 mb-6 text-5xl font-bold font-heading md:text-6xl lg:max-w-xl">
                       {products?.name}
                     </h1>
                   )}
@@ -117,7 +117,7 @@ function VariantA({ products }: PagesProductInfoProps) {
                 </div>
 
                 <ProductDetail product={ecwidProduct}>
-                  <div className="my-8 flex items-start gap-4 flex-row">
+                  <div className="flex flex-row items-start gap-4 my-8">
                     <div className="w-full lg:mb-4 xl:mb-0">
                       <AddToBag
                         inStock={!ecwidProduct?.inStock}
@@ -133,7 +133,7 @@ function VariantA({ products }: PagesProductInfoProps) {
                       product={ecwidProduct}
                     >
                       <svg
-                        className="h-6 w-6"
+                        className="w-6 h-6"
                         width={27}
                         height={27}
                         viewBox="0 0 27 27"
@@ -152,7 +152,7 @@ function VariantA({ products }: PagesProductInfoProps) {
                   </div>
                 </ProductDetail>
                 <div className="flex flex-wrap items-center">
-                  <span className="font-heading mr-8 my-auto font-bold uppercase">
+                  <span className="my-auto mr-8 font-bold uppercase font-heading">
                     SHARE IT
                   </span>
                   {products?.productInfo?.socialLinks?.map(
@@ -162,7 +162,7 @@ function VariantA({ products }: PagesProductInfoProps) {
                           aria-label={
                             social?.socialMedia || social?.socialMediaPlatform
                           }
-                          className="h-8 w-8 mr-3"
+                          className="w-8 h-8 mr-3"
                           target="_blank"
                           rel="noopener noreferrer"
                           href={social?.socialMediaLink}

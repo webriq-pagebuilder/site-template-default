@@ -16,17 +16,16 @@ function VariantA({ title, featured }: FeaturedProductsProps) {
     }
   }, []);
 
-  console.log("featured", featured);
   return (
     <section className="relative py-20">
-      <div className="container relative mx-auto px-4">
+      <div className="container relative px-4 mx-auto">
         {title && (
           <h1 className="mb-8 text-4xl font-bold md:mb-16 md:text-5xl">
             {title}
           </h1>
         )}
         {featured && (
-          <div className="-mx-3 flex flex-wrap">
+          <div className="flex flex-wrap -mx-3">
             {featured?.map((product, index) => {
               let items = [];
               ecwid?.productCollection &&
@@ -40,7 +39,7 @@ function VariantA({ title, featured }: FeaturedProductsProps) {
                 items?.length > 0 &&
                 items?.map((featuredCollections) => (
                   <div
-                    className="mb-10 w-full px-3 transition-all duration-700 md:w-1/2 md:hover:scale-110 lg:mb-6 lg:w-1/3"
+                    className="w-full px-3 mb-10 transition-all duration-700 md:w-1/2 md:hover:scale-110 lg:mb-6 lg:w-1/3"
                     key={index}
                   >
                     <a
@@ -83,7 +82,7 @@ function VariantA({ title, featured }: FeaturedProductsProps) {
                         {product?.name}
                       </p>
                     </a>
-                    <p className="font-heading text-lg font-bold text-white sm:text-xl">
+                    <p className="text-lg font-bold text-white font-heading sm:text-xl">
                       <span className="mr-2 text-brand-primary">
                         {featuredCollections?.defaultDisplayedPriceFormatted}
                       </span>
