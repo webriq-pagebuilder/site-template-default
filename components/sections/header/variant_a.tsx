@@ -5,8 +5,17 @@ import Image from "next/image";
 import { HeaderProps } from ".";
 import { ConditionalLink } from "components/ui/ConditionalLink";
 
+// chakra-ui components
+import {
+  Box,
+  Container,
+  Heading,
+  SimpleGrid,
+  Stack,
+  Text,
+} from "@chakra-ui/react";
+
 function VariantA({
-  template,
   mainImage,
   title,
   description,
@@ -14,56 +23,61 @@ function VariantA({
   secondaryButton,
 }: HeaderProps) {
   return (
-    <section className="skewed-bottom-right">
-      <div className={`bg-white radius-for-skewed pb-20 pt-12 lg:pt-20`}>
-        <div className="container px-4 mx-auto">
-          <div className="flex flex-wrap -mx-4">
-            <div className="flex items-center w-full px-4 mb-12 md:mb-20 lg:mb-0 lg:w-1/2">
-              <div className="w-full text-center lg:text-left xl:text-left 2xl:text-left">
-                <div className="max-w-md mx-auto">
-                  <h1 className="mb-3 text-2xl font-bold font-heading md:text-4xl lg:text-5xl">
-                    {title && (
-                      <>
-                        <span>{String(title).split("*")[0]}</span>
-                        <span className={`text-${template.color}-900`}>
-                          {String(title).split("*")[1]}
-                        </span>
-                      </>
-                    )}
-                  </h1>
-                </div>
-                <div className="max-w-md mx-auto">
-                  {description && (
-                    <p className="my-6 text-xs leading-loose text-gray-500 md:text-base lg:text-base">
-                      {description}
-                    </p>
-                  )}
-                  <div>
-                    {primaryButton?.label && (
-                      <ConditionalLink
-                        link={primaryButton}
-                        className={`mb-3 lg:mb-0 lg:mr-3 `}
-                        ariaLabel={primaryButton?.label}
-                      >
-                        {primaryButton?.label}
-                      </ConditionalLink>
-                    )}
-                    {secondaryButton?.label && (
-                      <ConditionalLink
-                        link={secondaryButton}
-                        className="text-black bg-white hover:bg-gray-50"
-                        ariaLabel={secondaryButton?.label}
-                      >
-                        {secondaryButton?.label}
-                      </ConditionalLink>
-                    )}
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="flex items-center justify-center w-full px-4 lg:w-1/2">
-              {mainImage && (
-                <div className="relative w-full max-w-md">
+    <section>
+      <Container
+        maxW={["640px", "768px", "1024px", "1280px", "1536px"]}
+        bg="white"
+        px={4}
+        py={["48px", "80px"]}
+        mx="auto"
+        centerContent
+      >
+        <SimpleGrid columns={{ lg: 2 }} spacing="64px" alignItems="center">
+          <Stack
+            spacing="24px"
+            maxW="md"
+            mx="auto"
+            className="text-center lg:text-left"
+          >
+            {title && (
+              <Heading as="h1" size="2xl">
+                {title}
+              </Heading>
+            )}
+            {description && (
+              <Text fontSize="md" color="GrayText">
+                {description}
+              </Text>
+            )}
+            <Stack
+              direction="row"
+              flexWrap="wrap"
+              className="justify-center lg:justify-normal"
+              spacing="12px"
+            >
+              {primaryButton?.label && (
+                <ConditionalLink
+                  link={primaryButton}
+                  ariaLabel={primaryButton?.label}
+                >
+                  {primaryButton?.label}
+                </ConditionalLink>
+              )}
+              {secondaryButton?.label && (
+                <ConditionalLink
+                  link={secondaryButton}
+                  className="text-black bg-white hover:bg-gray-50"
+                  ariaLabel={secondaryButton?.label}
+                >
+                  {secondaryButton?.label}
+                </ConditionalLink>
+              )}
+            </Stack>
+          </Stack>
+          <Stack alignItems="center" justifyContent="center" w="100%" px={16}>
+            {mainImage && (
+              <Box position="relative">
+                <Box position="relative" zIndex={2}>
                   {mainImage?.image && (
                     <Image
                       className="overflow-hidden rounded-3xl object-cover md:rounded-br-none lg:h-[448px]"
@@ -75,60 +89,60 @@ function VariantA({
                       priority={true}
                     />
                   )}
-                  <div
-                    className="absolute hidden md:block"
-                    style={{ top: "-2rem", right: "3rem", zIndex: "-1" }}
-                  >
-                    <Image
-                      src="/assets/elements/webriq-blue-dark-up.png"
-                      width={112}
-                      height={112}
-                      alt="webriq-blue-dark-up-mainImage-element"
-                    />
-                  </div>
-                  <div
-                    className="absolute hidden md:block"
-                    style={{ bottom: "-2rem", right: "-2rem", zIndex: "-1" }}
-                  >
-                    <Image
-                      src="/assets/elements/wing-webriq-blue-down.png"
-                      width={144}
-                      height={144}
-                      alt="wing-webriq-blue-down-mainImage-element"
-                    />
-                  </div>
-                  <div
-                    className="absolute hidden md:block"
-                    style={{ top: "3rem", right: "-3rem", zIndex: "-1" }}
-                  >
-                    <Image
-                      src="/assets/elements/bullets-gray-right.svg"
-                      width={115}
-                      height={157}
-                      alt="bullets-gray-right-mainImage-element"
-                    />
-                  </div>
-                  <div
-                    className="absolute hidden md:block"
-                    style={{
-                      bottom: "2.5rem",
-                      left: "-4.5rem",
-                      zIndex: "-1",
-                    }}
-                  >
-                    <Image
-                      src="/assets/elements/bullets-gray-left.svg"
-                      width={157}
-                      height={115}
-                      alt="bullets-gray-left-mainImage-element"
-                    />
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-      </div>
+                </Box>
+                <Box
+                  className="hidden lg:block lg:top-[-2rem] lg:right-[3rem]"
+                  position="absolute"
+                  zIndex={1}
+                >
+                  <Image
+                    src="/assets/elements/webriq-blue-dark-up.png"
+                    width={112}
+                    height={112}
+                    alt="webriq-blue-dark-up-mainImage-element"
+                  />
+                </Box>
+                <Box
+                  className="hidden lg:block lg:bottom-[-2rem] lg:right-[-2rem]"
+                  position="absolute"
+                  zIndex={1}
+                >
+                  <Image
+                    src="/assets/elements/wing-webriq-blue-down.png"
+                    width={144}
+                    height={144}
+                    alt="wing-webriq-blue-down-mainImage-element"
+                  />
+                </Box>
+                <Box
+                  className="hidden lg:block lg:top-[3rem] lg:right-[-3rem]"
+                  position="absolute"
+                  zIndex={1}
+                >
+                  <Image
+                    src="/assets/elements/bullets-gray-right.svg"
+                    width={115}
+                    height={157}
+                    alt="bullets-gray-right-mainImage-element"
+                  />
+                </Box>
+                <Box
+                  className="hidden lg:block lg:bottom-[2.5rem] lg:left-[-4.5rem]"
+                  position="absolute"
+                  zIndex={1}
+                >
+                  <Image
+                    src="/assets/elements/bullets-gray-left.svg"
+                    width={157}
+                    height={115}
+                    alt="bullets-gray-left-mainImage-element"
+                  />
+                </Box>
+              </Box>
+            )}
+          </Stack>
+        </SimpleGrid>
+      </Container>
     </section>
   );
 }

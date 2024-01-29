@@ -10,7 +10,9 @@ const config: StorybookConfig = {
     "@storybook/addon-interactions",
     "@storybook/addon-docs",
     "@storybook/addon-mdx-gfm",
+    "@chakra-ui/storybook-addon",
   ],
+  features: { emotionAlias: false },
   framework: {
     name: "@storybook/nextjs",
     options: {},

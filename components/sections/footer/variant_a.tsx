@@ -8,6 +8,17 @@ import { FooterProps } from ".";
 import { SocialIcon } from "components/ui/SocialIcons";
 import { Socials } from "components/ui/SocialIcons/SocialIcons";
 
+// chakra-ui components
+import {
+  Box,
+  Flex,
+  Spacer,
+  Stack,
+  Text,
+  Wrap,
+  WrapItem,
+} from "@chakra-ui/react";
+
 function VariantA({
   logo,
   text,
@@ -19,8 +30,8 @@ function VariantA({
     <section>
       <div className="py-20 radius-for-skewed bg-gray-50">
         <div className="container px-4 mx-auto">
-          <div className="flex flex-wrap mb-5 lg:mb-20">
-            <div className="w-full mb-5 lg:w-1/5">
+          <Flex className="mb-5 lg:mb-20">
+            <Box mb="20px">
               {logo?.image && (
                 <Link
                   aria-label={
@@ -41,46 +52,79 @@ function VariantA({
                   />
                 </Link>
               )}
-            </div>
-            <div className="w-full mb-5 lg:w-1/5">
-              <p className="leading-loose text-gray-500">{text}</p>
-            </div>
-            {contacts && (
-              <div className="hidden w-full mt-1 ml-auto sm:block lg:w-1/2">
-                {contacts?.length > 1 ? (
-                  <div className="grid grid-flow-col grid-cols-3 gap-10">
-                    <p className="mb-4 font-bold">Addresses</p>
-                    <p className="mb-4 font-bold">Emails</p>
-                    <p className="mb-4 font-bold">Numbers</p>
-                  </div>
-                ) : (
-                  <div className="grid grid-flow-col grid-cols-3 gap-10">
-                    <p className="mb-4 font-bold">Address</p>
-                    <p className="mb-4 font-bold">Email</p>
-                    <p className="mb-4 font-bold">Number</p>
-                  </div>
-                )}
-                {contacts?.map((contact) => (
-                  <div
-                    className="grid grid-flow-col grid-cols-3 gap-10"
-                    key={contact?._key}
-                  >
-                    <p className="mb-5 text-gray-500">{contact?.addressInfo}</p>
-                    <p className="mb-5 text-gray-500">{contact?.emailInfo}</p>
-                    <p className="mb-5 text-gray-500">{contact?.contactInfo}</p>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-          <div className="justify-between w-full mx-auto lg:flex">
-            <p className="mb-6 text-sm text-gray-500">{copyright}</p>
+            </Box>
+            <Spacer />
+            <Box w="20%">
+              <Text className="text-gray-500 leading-loose">{text}</Text>
+            </Box>
+            <Spacer />
+            <Box>
+              {contacts && (
+                <div className="hidden sm:block">
+                  {contacts?.length > 1 ? (
+                    <Wrap spacing={20}>
+                      <WrapItem>
+                        <p className="mb-4 font-bold">Addresses</p>
+                      </WrapItem>
+                      <WrapItem>
+                        <p className="mb-4 font-bold">Emails</p>
+                      </WrapItem>
+                      <WrapItem>
+                        <p className="mb-4 font-bold">Numbers</p>
+                      </WrapItem>
+                    </Wrap>
+                  ) : (
+                    <Wrap spacing={20}>
+                      <WrapItem>
+                        <p className="mb-4 font-bold">Address</p>
+                      </WrapItem>
+                      <WrapItem>
+                        <p className="mb-4 font-bold">Email</p>
+                      </WrapItem>
+                      <WrapItem>
+                        <p className="mb-4 font-bold">Number</p>
+                      </WrapItem>
+                    </Wrap>
+                  )}
+                  {contacts?.map((contact) => (
+                    <Wrap spacing={20} key={contact?._key}>
+                      <WrapItem>
+                        <p className="mb-5 text-gray-500">
+                          {contact?.addressInfo}
+                        </p>
+                      </WrapItem>
+                      <WrapItem>
+                        <p className="mb-5 text-gray-500">
+                          {contact?.emailInfo}
+                        </p>
+                      </WrapItem>
+                      <WrapItem>
+                        <p className="mb-5 text-gray-500">
+                          {contact?.contactInfo}
+                        </p>
+                      </WrapItem>
+                    </Wrap>
+                  ))}
+                </div>
+              )}
+            </Box>
+          </Flex>
+          <Flex>
+            <Text size="sm" color="GrayText">
+              {copyright}
+            </Text>
+            <Spacer />
             {socialMedia && (
-              <div className="flex flex-wrap space-x-2 lg:mx-24 lg:space-x-4">
+              <Stack
+                direction="row"
+                flexWrap="wrap"
+                spacing="12px"
+                mx={{ lg: "65px" }}
+              >
                 {socialMedia?.map(
                   (social) =>
                     social?.socialMediaLink && (
-                      <a
+                      <Link
                         aria-label={
                           social?.socialMedia || social?.socialMediaPlatform
                         }
@@ -105,12 +149,12 @@ function VariantA({
                         ) : (
                           <SocialIcon social={social?.socialMedia as Socials} />
                         )}
-                      </a>
+                      </Link>
                     )
                 )}
-              </div>
+              </Stack>
             )}
-          </div>
+          </Flex>
         </div>
       </div>
     </section>

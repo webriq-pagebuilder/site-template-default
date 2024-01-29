@@ -3,6 +3,7 @@ import "../styles/globals.css";
 // import React, { useEffect } from "react";
 // import useScript from "utils/useScript";
 // import { useRouter } from "next/router";
+import { ChakraProvider } from "@chakra-ui/react";
 
 function App({ Component, pageProps }: AppProps) {
   // let script_status = useScript(process.env.NEXT_PUBLIC_ECWID_SCRIPT);
@@ -47,7 +48,12 @@ function App({ Component, pageProps }: AppProps) {
   //   }
   // }, [script_status]);
 
-  return <Component {...pageProps} />;
+  //return <Component {...pageProps} />;
+  return (
+    <ChakraProvider>
+      <Component {...pageProps} />
+    </ChakraProvider>
+  );
 }
 
 export default App;
