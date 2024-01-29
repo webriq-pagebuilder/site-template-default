@@ -1,174 +1,18 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { Sections } from "types";
 import FooterComponent from "../index";
+import { Sections, SectionsProps, Variants } from "types";
+import {
+  footerSchema,
+  footerInitialValue,
+} from "@webriq-pagebuilder/sanity-plugin-schema-default";
+import { filterArgsByVariant } from "components/common";
 
-const args = {
-  logo: {
-    alt: "Logo",
-    image: {
-      asset: {
-        _ref: "image-7f9353c628ae4dd0bdd479d3b1407a3c242755e8-1963x833-png",
-        _type: "reference",
-      },
-    },
-    type: "linkInternal",
-    internalLink: null,
-    externalLink: null,
+const args: Variants = {
+  template: {
+    bg: "gray",
+    color: "webriq",
   },
-  text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed luctus eget justo.",
-  contactDetails: [
-    {
-      addressInfo: "359 Hidden Valley Road, NY",
-      contactInfo: "+48 698 033 101",
-      emailInfo: "hello@webriq.com",
-      _key: "lZ5H73DRBzFrJwwqBSGv4",
-    },
-  ],
-  copyright: "© 2024 All rights reserved.",
-  socialLinks: [
-    {
-      socialMediaLink: "https://www.facebook.com",
-      _key: "wnTrsX1WsSG6g3tmF7f4A",
-      socialMedia: "facebook",
-    },
-    {
-      socialMediaLink: "https://www.twitter.com",
-      _key: "eh__Jy_wM-ZbdRKjaT_QX",
-      socialMedia: "twitter",
-    },
-    {
-      socialMediaLink: "https://www.instagram.com",
-      _key: "hi_qN2DzoAyeOv68a8eVm",
-      socialMedia: "instagram",
-    },
-  ],
-  menu: [
-    {
-      linkType: "linkInternal",
-      label: "Start",
-      _key: "f7LZmPpFvN9_rEfohMfBd",
-      linkTarget: "_self",
-      type: "linkInternal",
-      internalLink: null,
-      externalLink: null,
-    },
-    {
-      label: "About Us",
-      _key: "3IWMSpurIlbXXt8rb3y7v",
-      linkTarget: "_self",
-      type: "linkInternal",
-      internalLink: null,
-      externalLink: null,
-
-      linkType: "linkInternal",
-    },
-    {
-      externalLink: null,
-      linkTarget: "_self",
-
-      linkType: "linkInternal",
-      label: "Services",
-      _key: "eArBRz5Wr8QpVSiGFbfZt",
-      type: "linkInternal",
-      internalLink: null,
-    },
-    {
-      linkTarget: "_self",
-
-      linkType: "linkInternal",
-      label: "Platform",
-      _key: "DGmSrWhx6vlon_A_MaKFn",
-      type: "linkInternal",
-      internalLink: null,
-      externalLink: null,
-    },
-    {
-      _key: "T_H3j_f11v7afTlPcoRXR",
-      linkTarget: "_self",
-
-      linkType: "linkInternal",
-      label: "Testimonials",
-      type: "linkInternal",
-      internalLink: null,
-      externalLink: null,
-    },
-  ],
-  multipleMenus: [
-    {
-      title: "Quick Links",
-
-      links: [
-        {
-          linkTarget: "_self",
-
-          linkType: "linkInternal",
-          label: "Start",
-          _key: "iKlzpwaP_Hv8tgQWJL6s4",
-        },
-        {
-          linkTarget: "_self",
-
-          linkType: "linkInternal",
-          label: "About Us",
-          _key: "qXi93FPKEnIBNsDNrKSK5",
-        },
-        {
-          linkTarget: "_self",
-
-          linkType: "linkInternal",
-          label: "Services",
-          _key: "w50ZVJcbeRCH8ahiVOAAi",
-        },
-      ],
-      _key: "w9Fb3osbjRODQhbEUWUiT",
-    },
-    {
-      links: [
-        {
-          linkTarget: "_self",
-
-          linkType: "linkInternal",
-          label: "Platform",
-          _key: "Ya4_oUC-5CssngXmGawAS",
-        },
-        {
-          linkType: "linkInternal",
-          label: "Testimonials",
-          _key: "Y2QNaByJkF2S3t1hLAZv8",
-          linkTarget: "_self",
-        },
-      ],
-      _key: "aJti14Xrg3nTnRnwa7dMz",
-      title: "Helpful Links",
-    },
-    {
-      links: [
-        {
-          linkTarget: "_self",
-
-          linkType: "linkInternal",
-          label: "Terms and Conditions",
-          _key: "_ITtAWHhhGQu2JVdt9HiM",
-        },
-        {
-          _key: "z_2OBF-dySYyygZPcK92_",
-          linkTarget: "_self",
-
-          linkType: "linkInternal",
-          label: "Privacy Policy",
-        },
-        {
-          label: "Cookies",
-          _key: "aljAXPs9roFb73FVOw2H9",
-          linkTarget: "_self",
-
-          linkType: "linkInternal",
-        },
-      ],
-      _key: "f1fnvc5iM6smavE9bZ7H_",
-      title: "Explore",
-    },
-  ],
+  ...footerInitialValue,
 };
 
 const meta = {
@@ -188,30 +32,16 @@ const meta = {
 export default meta;
 type Story = StoryObj<Sections>;
 
-export const variant_a: Story = {
-  args: {
-    variant: "variant_a",
-    ...args,
-  },
+const filterArgs = (variant: string) => {
+  return {
+    args: {
+      variant: variant,
+      ...filterArgsByVariant(footerSchema, args, variant),
+    },
+  };
 };
 
-export const variant_b: Story = {
-  args: {
-    variant: "variant_b",
-    ...args,
-  },
-};
-
-export const variant_c: Story = {
-  args: {
-    variant: "variant_c",
-    ...args,
-  },
-};
-
-export const variant_d: Story = {
-  args: {
-    variant: "variant_d",
-    ...args,
-  },
-};
+export const variant_a: Story = filterArgs("variant_a");
+export const variant_b: Story = filterArgs("variant_b");
+export const variant_c: Story = filterArgs("variant_c");
+export const variant_d: Story = filterArgs("variant_d");
