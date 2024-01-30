@@ -20,6 +20,7 @@
     "chromatic": "npx chromatic --project-token=chpt_68d919151b3e677"
   },
   "dependencies": {
+    "@chakra-ui/next-js": "^2.2.0",
     "@chakra-ui/react": "^2.8.2",
     "@emotion/react": "^11.11.3",
     "@emotion/styled": "^11.11.0",
