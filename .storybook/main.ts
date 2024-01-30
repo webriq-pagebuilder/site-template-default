@@ -12,7 +12,6 @@ const config: StorybookConfig = {
     "@storybook/addon-mdx-gfm",
     "@chakra-ui/storybook-addon",
   ],
-  features: { emotionAlias: false },
   framework: {
     name: "@storybook/nextjs",
     options: {},

@@ -2,7 +2,6 @@ import { useContext } from "react";
 import { Components } from "components/list";
 import { InlineEditorContext } from "context/InlineEditorContext";
 import InlineEditor from "components/InlineEditor";
-import { Chakra } from "components/Chakra";
 import { PageData } from "pages/[slug]";
 
 interface PageSectionsProps {
@@ -53,16 +52,14 @@ export function PageSections({ data }: PageSectionsProps) {
               showInlineEditor={showInlineEditor}
               key={index}
             >
-              <Chakra>
-                <Component
-                  template={{
-                    bg: "gray",
-                    color: "webriq",
-                  }}
-                  {...{ [section._type]: section }}
-                  data={section}
-                />
-              </Chakra>
+              <Component
+                template={{
+                  bg: "gray",
+                  color: "webriq",
+                }}
+                {...{ [section._type]: section }}
+                data={section}
+              />
             </InlineEditor>
           );
         })}
