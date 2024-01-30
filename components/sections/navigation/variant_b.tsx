@@ -33,11 +33,10 @@ function VariantB({
   const menuRef = useRef();
 
   return (
-    <section>
+    <section className="bg-white">
       <nav className="relative py-6">
         <Container
           maxW={["640px", "768px", "1024px", "1280px", "1536px"]}
-          bg="white"
           mx="auto"
         >
           <Flex>

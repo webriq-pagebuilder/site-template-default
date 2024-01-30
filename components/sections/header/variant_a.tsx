@@ -23,10 +23,9 @@ function VariantA({
   secondaryButton,
 }: HeaderProps) {
   return (
-    <section>
+    <section className="bg-white">
       <Container
         maxW={["640px", "768px", "1024px", "1280px", "1536px"]}
-        bg="white"
         px={4}
         py={["48px", "80px"]}
         mx="auto"
