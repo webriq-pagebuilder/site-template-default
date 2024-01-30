@@ -3,7 +3,22 @@ import "../styles/globals.css";
 // import React, { useEffect } from "react";
 // import useScript from "utils/useScript";
 // import { useRouter } from "next/router";
-import { ChakraProvider } from "@chakra-ui/react";
+import {
+  ChakraBaseProvider,
+  extendBaseTheme,
+  theme as chakraTheme,
+} from "@chakra-ui/react";
+
+const { Button, Container, Drawer, Heading } = chakraTheme.components;
+
+const theme = extendBaseTheme({
+  components: {
+    Button,
+    Container,
+    Drawer,
+    Heading,
+  },
+});
 
 function App({ Component, pageProps }: AppProps) {
   // let script_status = useScript(process.env.NEXT_PUBLIC_ECWID_SCRIPT);
@@ -50,9 +65,9 @@ function App({ Component, pageProps }: AppProps) {
 
   //return <Component {...pageProps} />;
   return (
-    <ChakraProvider>
+    <ChakraBaseProvider theme={theme}>
       <Component {...pageProps} />
-    </ChakraProvider>
+    </ChakraBaseProvider>
   );
 }
 
