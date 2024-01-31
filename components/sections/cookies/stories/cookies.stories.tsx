@@ -8,10 +8,6 @@ import {
 import { filterArgsByVariant } from "components/common";
 
 const args: Variants = {
-  template: {
-    bg: "gray",
-    color: "webriq",
-  },
   ...cookiesInitialValue,
 };
 

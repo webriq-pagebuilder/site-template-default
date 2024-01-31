@@ -3,7 +3,7 @@ import { Variants } from "types";
 // filter out args that are not listed on hidden array
 export const filterArgsByVariant = (
   component: any,
-  args: Variants,
+  args: any,
   variant: string
 ) => {
   return Object.keys(args).reduce((result, key) => {
@@ -17,6 +17,11 @@ export const filterArgsByVariant = (
     ) {
       result[key] = args[key];
     }
-    return { ...result, template: args.template };
+
+    if (args?.template) {
+      return { ...result, template: args?.template };
+    }
+
+    return result;
   }, {});
 };
