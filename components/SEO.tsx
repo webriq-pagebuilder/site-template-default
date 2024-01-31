@@ -12,6 +12,21 @@ type SEOData = {
   seoImage?: SanityImage;
 };
 
+const url = process.env.NEXT_PUBLIC_SITE_URL;
+
+const contacts = [
+  {
+    "@type": "ContactPoint",
+    telephone: "+1 503 436 6644",
+    contactType: "customer service",
+  },
+  {
+    "@type": "ContactPoint",
+    telephone: "+1 516 858 2325",
+    contactType: "customer service",
+  },
+];
+
 function SEO({
   data,
   defaultSeo,
@@ -19,8 +34,6 @@ function SEO({
   data: SEOData | undefined;
   defaultSeo: DefaultSeoData;
 }) {
-  const url = process.env.NEXT_PUBLIC_SITE_URL;
-
   const {
     defaultSeoTitle,
     defaultSeoSynonyms,
@@ -127,3 +140,73 @@ function getSEOValue(seoData: SEOData, dataType: string) {
 }
 
 export default SEO;
+
+export function addSEOJsonLd({ seo, type, defaults, slug, pageData }) {
+  if (type === "post") {
+    // blog posts
+    return {
+      __html: `{
+          "@context": "https://schema.org/",
+          "@type": "BlogPosting",
+          "name": "${seo?.seoTitle ?? pageData?.title}"
+          "description": "${
+            seo?.seoDescription ??
+            blogPostBody(pageData?.excerpt ?? pageData?.body) ??
+            defaults?.description
+          }",
+          "url": "${url}/${slug}",
+          "images": ["${
+            seoImageUrl(seo?.seoImage ?? pageData?.mainImage) ?? defaults?.image
+          }"],
+          "datePublished": "${pageData?.publishedAt ?? pageData?._createdAt}",
+          "dateModified": "${pageData?._updatedAt}",
+          "author": "${pageData?.authors?.[0]?.name}",
+        }
+      `,
+    };
+  } else if (type === "mainProduct") {
+    // product pages
+    return {
+      __html: `{
+        "@context": "https://schema.org/",
+        "@type": "Product",
+        "name": "${seo?.seoTitle ?? pageData?.title}",
+        "image": ${
+          pageData?.productInfo?.images?.length === 0
+            ? `${seoImageUrl(seo?.seoImage)}`
+            : pageData?.productInfo?.images?.map((item) =>
+                seoImageUrl(item?.image)
+              )
+        },
+        "description": "${seo?.seoDescription ?? defaults?.description}",
+        "brand": {
+          "@type": "Brand",
+          "name": "WebriQ"
+        },
+        "offers": {
+          "@type": "Offer",
+          "url": "${url}/products/${slug}",
+          "priceCurrency": "USD",
+          "price": "${pageData?.price}",
+          "itemCondition": "https://schema.org/UsedCondition",
+          "availability": "https://schema.org/InStock",
+        }
+      }
+    `,
+    };
+  } else {
+    // default schema type for all pages
+    return {
+      __html: `{
+          "@context": "https://schema.org/",
+          "@type": "Corporation",
+          "name": "${seo?.seoTitle ?? pageData?.title}",
+          "description": "${seo?.seoDescription ?? defaults?.description}",
+          "url": "${url}/${slug}",
+          "logo": "${seoImageUrl(seo?.seoImage) ?? defaults?.image}",
+          "contactPoint": ${JSON.stringify(contacts)},
+        }
+      `,
+    };
+  }
+}

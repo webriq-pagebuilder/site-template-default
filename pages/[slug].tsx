@@ -15,6 +15,7 @@ import PageNotFound from "pages/404";
 import InlineEditorContextProvider from "context/InlineEditorContext";
 import { GetStaticPaths, GetStaticProps } from "next";
 import { CommonPageData, BlogsData, DefaultSeoData } from "types";
+import { addSEOJsonLd } from "components/SEO";
 
 interface PageBySlugProps {
   data: Data;
@@ -110,6 +111,18 @@ function Document({
           }}
           defaultSeo={defaultSeo}
         />
+        {/* Structured data (JSON-LD encoding) */}
+        <script
+          key={`${_type}-jsonld`}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={addSEOJsonLd({
+            seo: seo,
+            type: _type,
+            slug: publishedData?.slug,
+            defaults: defaultSeo,
+            pageData: publishedData,
+          })}
+        />
         <title>{seo?.seoTitle ?? title ?? "WebriQ Studio"}</title>
       </Head>
 
@@ -167,6 +180,18 @@ function DocumentWithPreview({
             ...seo,
           }}
           defaultSeo={defaultSeo}
+        />
+        {/* Structured data (JSON-LD encoding) */}
+        <script
+          key={`${_type}-jsonld`}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={addSEOJsonLd({
+            seo: seo,
+            type: _type,
+            slug: previewData?.slug,
+            defaults: defaultSeo,
+            pageData: previewData,
+          })}
         />
         <title>{seo?.seoTitle ?? title ?? "WebriQ Studio"}</title>
       </Head>
