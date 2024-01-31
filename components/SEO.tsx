@@ -157,12 +157,16 @@ export function addSEOJsonLd({ seo, type, defaults, slug, pageData }) {
             defaults?.description
           }",
           "url": "${url}/${slug}",
-          "images": ["${
-            seoImageUrl(seo?.seoImage ?? pageData?.mainImage) ?? defaults?.image
-          }"],
+          "image": "${seoImageUrl(
+            seo?.seoImage ?? pageData?.mainImage ?? defaults?.image
+          )}",
           "datePublished": "${pageData?.publishedAt ?? pageData?._createdAt}",
           "dateModified": "${pageData?._updatedAt}",
-          "author": "${pageData?.authors?.[0]?.name}"
+          "author": {
+            "@type": "Person",
+            "@id": "${pageData?.authors?.[0]?.slug?.current}/#Person",
+            "name": "${pageData?.authors?.[0]?.name}"
+          }
         }
       `,
     };
@@ -173,13 +177,9 @@ export function addSEOJsonLd({ seo, type, defaults, slug, pageData }) {
         "@context": "https://schema.org",
         "@type": "Product",
         "name": "${seo?.seoTitle ?? pageData?.title}",
-        "image": ${
-          pageData?.productInfo?.images?.length === 0
-            ? `${seoImageUrl(seo?.seoImage)}`
-            : pageData?.productInfo?.images?.map((item) =>
-                seoImageUrl(item?.image)
-              )
-        },
+        "image": "${seoImageUrl(
+          seo?.seoImage ?? pageData?.productInfo?.images?.[0]?.image
+        )}",
         "description": "${seo?.seoDescription ?? defaults?.description}",
         "brand": {
           "@type": "Brand",
@@ -205,7 +205,7 @@ export function addSEOJsonLd({ seo, type, defaults, slug, pageData }) {
           "name": "${seo?.seoTitle ?? pageData?.title}",
           "description": "${seo?.seoDescription ?? defaults?.description}",
           "url": "${url}/${slug}",
-          "logo": "${seoImageUrl(seo?.seoImage) ?? defaults?.image}",
+          "logo": "${seoImageUrl(seo?.seoImage ?? defaults?.image)}",
           "contactPoint": ${JSON.stringify(contacts)}
         }
       `,
