@@ -18,11 +18,13 @@ const contacts = [
   {
     "@type": "ContactPoint",
     telephone: "+1 503 436 6644",
+    email: "info.webriq.com",
     contactType: "customer service",
   },
   {
     "@type": "ContactPoint",
     telephone: "+1 516 858 2325",
+    email: "info.webriq.com",
     contactType: "customer service",
   },
 ];
@@ -146,7 +148,7 @@ export function addSEOJsonLd({ seo, type, defaults, slug, pageData }) {
     // blog posts
     return {
       __html: `{
-          "@context": "https://schema.org/",
+          "@context": "https://schema.org",
           "@type": "BlogPosting",
           "name": "${seo?.seoTitle ?? pageData?.title}"
           "description": "${
@@ -160,7 +162,7 @@ export function addSEOJsonLd({ seo, type, defaults, slug, pageData }) {
           }"],
           "datePublished": "${pageData?.publishedAt ?? pageData?._createdAt}",
           "dateModified": "${pageData?._updatedAt}",
-          "author": "${pageData?.authors?.[0]?.name}",
+          "author": "${pageData?.authors?.[0]?.name}"
         }
       `,
     };
@@ -168,7 +170,7 @@ export function addSEOJsonLd({ seo, type, defaults, slug, pageData }) {
     // product pages
     return {
       __html: `{
-        "@context": "https://schema.org/",
+        "@context": "https://schema.org",
         "@type": "Product",
         "name": "${seo?.seoTitle ?? pageData?.title}",
         "image": ${
@@ -189,7 +191,7 @@ export function addSEOJsonLd({ seo, type, defaults, slug, pageData }) {
           "priceCurrency": "USD",
           "price": "${pageData?.price}",
           "itemCondition": "https://schema.org/UsedCondition",
-          "availability": "https://schema.org/InStock",
+          "availability": "https://schema.org/InStock"
         }
       }
     `,
@@ -198,13 +200,13 @@ export function addSEOJsonLd({ seo, type, defaults, slug, pageData }) {
     // default schema type for all pages
     return {
       __html: `{
-          "@context": "https://schema.org/",
+          "@context": "https://schema.org",
           "@type": "Corporation",
           "name": "${seo?.seoTitle ?? pageData?.title}",
           "description": "${seo?.seoDescription ?? defaults?.description}",
           "url": "${url}/${slug}",
           "logo": "${seoImageUrl(seo?.seoImage) ?? defaults?.image}",
-          "contactPoint": ${JSON.stringify(contacts)},
+          "contactPoint": ${JSON.stringify(contacts)}
         }
       `,
     };
