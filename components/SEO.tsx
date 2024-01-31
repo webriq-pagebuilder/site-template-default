@@ -156,7 +156,7 @@ export function addSEOJsonLd({ seo, type, defaults, slug, pageData }) {
             blogPostBody(pageData?.excerpt ?? pageData?.body) ??
             defaults?.description
           }",
-          "url": "${url}/${slug}",
+          "url": "${url}/${slug?.current}",
           "image": "${seoImageUrl(
             seo?.seoImage ?? pageData?.mainImage ?? defaults?.image
           )}",
@@ -164,7 +164,6 @@ export function addSEOJsonLd({ seo, type, defaults, slug, pageData }) {
           "dateModified": "${pageData?._updatedAt}",
           "author": {
             "@type": "Person",
-            "@id": "${pageData?.authors?.[0]?.slug?.current}/#Person",
             "name": "${pageData?.authors?.[0]?.name}"
           }
         }
