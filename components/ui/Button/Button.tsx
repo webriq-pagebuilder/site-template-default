@@ -4,6 +4,7 @@ import { FaSpinner } from "react-icons/fa";
 import { StyleVariants } from "../types";
 import { LabeledRoute, LabeledRouteWithKey } from "types";
 import Link from "next/link";
+import { extractLink } from "helper";
 
 type Variant = "outline" | "primary" | "secondary" | "borderless" | "tertiary";
 export type ButtonProps = {
@@ -24,6 +25,8 @@ export type ButtonProps = {
   onClick?: () => void;
   /** Set button type. Defaults to button */
   type?: "button" | "submit";
+  asLink?: boolean;
+  link?: LabeledRoute;
   [key: string]: any;
 };
 
@@ -37,6 +40,8 @@ export function Button({
   loadingComponent,
   onClick,
   type = "button",
+  link,
+  asLink = false,
   ...props
 }: ButtonProps) {
   const commonStyles =
@@ -58,6 +63,19 @@ export function Button({
   const Loader = loadingComponent ?? (
     <FaSpinner className="animate-spin" size={30} />
   );
+
+  if (asLink) {
+    return (
+      <Link
+        className={cn(variantClass, className)}
+        aria-label={ariaLabel}
+        href={extractLink(link)}
+        {...props}
+      >
+        {children}
+      </Link>
+    );
+  }
 
   return (
     <button
