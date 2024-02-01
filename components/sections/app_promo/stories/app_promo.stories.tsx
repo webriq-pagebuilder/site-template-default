@@ -7,7 +7,7 @@ import {
 } from "@webriq-pagebuilder/sanity-plugin-schema-default";
 import { filterArgsByVariant } from "components/common";
 
-const args: Variants = {
+const args = {
   ...appPromoInitialValue,
 };
 

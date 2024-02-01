@@ -45,6 +45,33 @@ export const logoLink = (logo: Logo) => {
   }
 };
 
+export const extractLink = (link: LabeledRoute): string => {
+  //not found page
+  if (!link?.internalLink && !link?.externalLink) {
+    return "/page-not-found";
+  }
+
+  //home page
+  if (
+    link?.type === "linkInternal" &&
+    link?.internalLink?.toLowerCase()?.includes("home")
+  ) {
+    return "/";
+  }
+
+  //internal link
+  if (link?.type === "linkInternal") {
+    return `/${link?.internalLink}`;
+  }
+
+  //external link
+  if (link?.type === "linkExternal") {
+    return link?.externalLink;
+  }
+
+  return "/";
+};
+
 // Conditional Link
 export const ConditionalLink = ({
   className,

@@ -6,12 +6,12 @@ export const Container = ({
   maxWidth,
   children,
 }: {
-  className: string;
+  className?: string;
   maxWidth?: number;
   children: React.ReactNode;
 }) => {
   const width = `${maxWidth?.toString()}px` ?? "1220px";
-  const classes = "mx-auto w-full py-10 px-4 ";
+  const classes = "mx-auto w-full  px-4 ";
   return (
     <div
       style={{
