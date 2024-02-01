@@ -15,7 +15,6 @@ import { PreviewNoContent } from "components/PreviewNoContent";
 import { ProductSections } from "components/page/store/products";
 import InlineEditorContextProvider from "context/InlineEditorContext";
 import { CollectionProduct, CommonSections, DefaultSeoData } from "types";
-import { addSEOJsonLd } from "components/SEO";
 
 interface ProductPageBySlugProps {
   data: Data;
@@ -118,18 +117,6 @@ function Document({
           defaultSeo={defaultSeo}
         />
         <link rel="icon" href="../favicon.ico" />
-        {/* Structured data (JSON-LD encoding) */}
-        <script
-          key={`${_type}-jsonld`}
-          type="application/ld+json"
-          dangerouslySetInnerHTML={addSEOJsonLd({
-            seo: seo,
-            type: _type,
-            slug: publishedData?.slug,
-            defaults: defaultSeo,
-            pageData: publishedData,
-          })}
-        />
         <title>
           {seo?.seoTitle ??
             commonSections?.seo?.seoTitle ??
@@ -190,18 +177,6 @@ function DocumentWithPreview({
           defaultSeo={defaultSeo}
         />
         <link rel="icon" href="../favicon.ico" />
-        {/* Structured data (JSON-LD encoding) */}
-        <script
-          key={`${_type}-jsonld`}
-          type="application/ld+json"
-          dangerouslySetInnerHTML={addSEOJsonLd({
-            seo: seo,
-            type: _type,
-            slug: previewData?.slug,
-            defaults: defaultSeo,
-            pageData: previewData,
-          })}
-        />
         <title>
           {seo?.seoTitle ??
             commonSections?.seo?.seoTitle ??

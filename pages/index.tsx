@@ -10,7 +10,6 @@ import { filterDataToSingleItem, SEO } from "components/list";
 import { PreviewBanner } from "components/PreviewBanner";
 import InlineEditorContextProvider from "context/InlineEditorContext";
 import { CommonPageData, DefaultSeoData } from "types";
-import { addSEOJsonLd } from "components/SEO";
 
 interface HomeProps {
   data: Data;
@@ -89,18 +88,6 @@ function Document({
           }}
           defaultSeo={defaultSeo}
         />
-        {/* Structured data (JSON-LD encoding) */}
-        <script
-          key={`${_type}-jsonld`}
-          type="application/ld+json"
-          dangerouslySetInnerHTML={addSEOJsonLd({
-            seo: seo,
-            type: _type,
-            slug: publishedData?.slug,
-            defaults: defaultSeo,
-            pageData: publishedData,
-          })}
-        />
         <title>{seo?.seoTitle ?? title ?? "WebriQ Studio"}</title>
       </Head>
 
@@ -146,18 +133,6 @@ function DocumentWithPreview({
             ...seo,
           }}
           defaultSeo={defaultSeo}
-        />
-        {/* Structured data (JSON-LD encoding) */}
-        <script
-          key={`${_type}-jsonld`}
-          type="application/ld+json"
-          dangerouslySetInnerHTML={addSEOJsonLd({
-            seo: seo,
-            type: _type,
-            slug: previewData?.slug,
-            defaults: defaultSeo,
-            pageData: previewData,
-          })}
         />
         <title>{seo?.seoTitle ?? title ?? "WebriQ Studio"}</title>
       </Head>
