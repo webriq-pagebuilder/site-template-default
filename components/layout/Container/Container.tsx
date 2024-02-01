@@ -10,7 +10,7 @@ export const Container = ({
   maxWidth?: number;
   children: React.ReactNode;
 }) => {
-  const width = `${maxWidth?.toString()}px` ?? "1220px";
+  const width = maxWidth ? `${maxWidth?.toString()}px` : "90rem";
   const classes = "mx-auto w-full  px-4 ";
   return (
     <div

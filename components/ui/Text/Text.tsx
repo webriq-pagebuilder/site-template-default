@@ -9,8 +9,21 @@ type TextProps = {
   children: React.ReactNode;
   style?: React.CSSProperties;
   muted?: boolean;
+  weight?: Weight;
+  color?: string;
   [key: string]: any;
 };
+
+type Weight =
+  | "thin"
+  | "extralight"
+  | "light"
+  | "normal"
+  | "semibold"
+  | "bold"
+  | "mediun"
+  | "extrabold"
+  | "black";
 
 export function Text({
   type = "p",
@@ -18,13 +31,17 @@ export function Text({
   children,
   style,
   muted = false,
+  color = "black",
+  weight = "normal",
   ...props
 }: TextProps) {
   const Element: Type = ["h1", "h2", "h3", "h4", "h5", "h6", "p"].includes(type)
     ? type
     : "p";
 
-  const commonClass = `${muted && "text-gray-500"}`;
+  const commonClass = `text-${color} font-${weight} ${
+    muted && "text-gray-500"
+  }`;
 
   const variants: StyleVariants<Type> = {
     h1: `${commonClass} text-4xl font-bold lg:text-5xl font-heading`,
