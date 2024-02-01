@@ -180,7 +180,7 @@ export function addSEOJsonLd({ seo, type, defaults, slug, pageData }) {
       name: seo?.seoTitle ?? pageData?.title,
       description: seo?.seoDescription ?? defaults?.description,
       url: `${url}/${slug}`,
-      logo: seoImageUrl(seo?.seoImage ?? defaults?.image),
+      logo: `${url}/favicon.ico`,
       contactPoint: contacts,
     });
   }
