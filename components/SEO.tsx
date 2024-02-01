@@ -1,6 +1,5 @@
 import { seoImageUrl } from "lib/sanity";
 import { DefaultSeoData, SanityImage, SanitySlug } from "types";
-import { BlogJsonLd, PagesJsonLd, ProductJsonLd } from "utils/seo/jsonLd";
 
 type SEOData = {
   pageTitle: string; // page title
@@ -89,12 +88,6 @@ function SEO({
         property="twitter:image"
         content={image ? seoImageUrl(image) : seoImageUrl(defaultSeoImage)}
       />
-      <StructuredData
-        seo={finalSeo}
-        type={data?.type}
-        pageData={data}
-        defaults={{ ...defaultSeo, contacts }}
-      />
     </>
   );
 }
@@ -148,53 +141,73 @@ function getSEOValue(seoData: SEOData, dataType: string) {
   return seo;
 }
 
-function StructuredData({ seo, type, pageData, defaults }) {
+export default SEO;
+
+export function addSEOJsonLd({ seo, type, defaults, slug, pageData }) {
   if (type === "post") {
     // blog posts
-    return (
-      <BlogJsonLd
-        title={seo?.seoTitle ?? pageData?.title}
-        description={
-          seo?.seoDescription ??
-          blogPostBody(pageData?.excerpt ?? pageData?.body) ??
-          defaults?.description
+    return {
+      __html: `{
+          "@context": "https://schema.org",
+          "@type": "BlogPosting",
+          "name": "${seo?.seoTitle ?? pageData?.title}"
+          "description": "${
+            seo?.seoDescription ??
+            blogPostBody(pageData?.excerpt ?? pageData?.body) ??
+            defaults?.description
+          }",
+          "url": "${url}/${slug?.current}",
+          "image": "${seoImageUrl(
+            seo?.seoImage ?? pageData?.mainImage ?? defaults?.image
+          )}",
+          "datePublished": "${pageData?.publishedAt ?? pageData?._createdAt}",
+          "dateModified": "${pageData?._updatedAt}",
+          "author": {
+            "@type": "Person",
+            "name": "${pageData?.authors?.[0]?.name}"
+          }
         }
-        url={`${url}/${pageData?.slug?.current}`}
-        images={seoImageUrl(
-          seo?.seoImage ?? pageData?.mainImage ?? defaults?.image
-        )}
-        authorName={pageData?.authors}
-        publisherName="WebriQ"
-        publisherLogo={seoImageUrl(seo?.seoImage ?? defaults?.image)}
-        dateModified={pageData?._updatedAt}
-        datePublished={pageData?.publishedAt ?? pageData?._updatedAt}
-      />
-    );
+      `,
+    };
   } else if (type === "mainProduct") {
     // product pages
-    return (
-      <ProductJsonLd
-        productName={seo?.seoTitle ?? pageData?.name}
-        images={seo?.seoImage ?? pageData?.productInfo?.images}
-        url={`${url}/products/${pageData?.route}`}
-        brand="WebriQ"
-        description={seo?.seoDescription ?? defaults?.description}
-        price={pageData?.price}
-        priceCurrency="USD"
-      />
-    );
+    return {
+      __html: `{
+        "@context": "https://schema.org",
+        "@type": "Product",
+        "name": "${seo?.seoTitle ?? pageData?.title}",
+        "image": "${seoImageUrl(
+          seo?.seoImage ?? pageData?.productInfo?.images?.[0]?.image
+        )}",
+        "description": "${seo?.seoDescription ?? defaults?.description}",
+        "brand": {
+          "@type": "Brand",
+          "name": "WebriQ"
+        },
+        "offers": {
+          "@type": "Offer",
+          "url": "${url}/products/${slug}",
+          "priceCurrency": "USD",
+          "price": "${pageData?.price}",
+          "itemCondition": "https://schema.org/UsedCondition",
+          "availability": "https://schema.org/InStock"
+        }
+      }
+    `,
+    };
   } else {
     // default schema type for all pages
-    return (
-      <PagesJsonLd
-        name={seo?.seoTitle ?? pageData?.title}
-        description={seo?.seoDescription ?? defaults?.description}
-        url={`${url}/${pageData?.route}`}
-        logo={seoImageUrl(seo?.seoImage ?? defaults?.image)}
-        contactPoint={defaults?.contacts}
-      />
-    );
+    return {
+      __html: `{
+          "@context": "https://schema.org",
+          "@type": "Corporation",
+          "name": "${seo?.seoTitle ?? pageData?.title}",
+          "description": "${seo?.seoDescription ?? defaults?.description}",
+          "url": "${url}/${slug}",
+          "logo": "${seoImageUrl(seo?.seoImage ?? defaults?.image)}",
+          "contactPoint": ${JSON.stringify(contacts)}
+        }
+      `,
+    };
   }
 }
-
-export default SEO;
