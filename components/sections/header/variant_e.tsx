@@ -1,12 +1,18 @@
 import React from "react";
 import WebriQForm from "components/webriq-form";
-import { thankYouPageLink } from "helper";
+import { extractLink, thankYouPageLink } from "helper";
 
 import { HeaderProps } from ".";
 
 import { FormFields } from "types";
 import { ConditionalLink } from "components/ui/ConditionalLink";
 import { SignUpForm } from "components/common/form/sign-up-form";
+import { Container } from "components/layout/Container";
+import { Flex } from "components/layout/Flex/Flex";
+import { Heading } from "components/ui/Heading";
+import { Text } from "components/ui/Text";
+import { Button } from "components/ui/Button";
+import Link from "next/link";
 
 function VariantE({
   template,
@@ -18,80 +24,66 @@ function VariantE({
   form,
 }: HeaderProps) {
   return (
-    <section className="relative px-10 bg-gray-100">
-      <div className="relative py-20">
-        <div className="container px-4 mx-auto">
-          <div className="flex flex-wrap -mx-4">
-            <div className="flex items-center w-full px-4 mb-12 md:mb-20 lg:mb-0 lg:w-1/2">
-              <div className="w-full text-center lg:text-left">
-                <div className="max-w-md mx-auto lg:mx-0">
-                  {title && (
-                    <h1 className="mb-3 text-4xl font-bold font-heading lg:text-5xl">
-                      <span>{String(title).split("*")[0]}</span>
-                      <span className={`text-${template.color}-900`}>
-                        {String(title).split("*")[1]}
-                      </span>
-                    </h1>
-                  )}
-                </div>
-                <div className="max-w-sm mx-auto lg:mx-0">
-                  <p className="mb-6 leading-loose text-gray-500">
-                    {description}
-                  </p>
-                  <div>
-                    {primaryButton?.label && (
-                      <ConditionalLink
-                        ariaLabel={primaryButton?.label}
-                        link={primaryButton}
-                        className={`mb-3 lg:mb-0 lg:mr-3 `}
-                      >
-                        {primaryButton?.label}
-                      </ConditionalLink>
-                    )}
-                    {secondaryButton?.label && (
-                      <ConditionalLink
-                        ariaLabel={secondaryButton?.label}
-                        link={secondaryButton}
-                        className="text-black bg-white hover:bg-gray-50"
-                      >
-                        {secondaryButton?.label}
-                      </ConditionalLink>
-                    )}
-                  </div>
-                </div>
-              </div>
+    <section className="relative py-20 bg-gray-50">
+      <Container>
+        <Flex align="center" className="flex-col lg:flex-row" gap={4}>
+          <Flex align="center" direction="col" className="w-full basis-1/2">
+            <div className="max-w-md mx-auto">
+              {title && <Heading className="mb-3">{title}</Heading>}
+              {description && (
+                <Text muted className="my-6">
+                  {description}
+                </Text>
+              )}
+              <Flex align="center" gap={2} className="flex-col md:flex-row">
+                {primaryButton?.label && (
+                  <Button
+                    asLink
+                    link={primaryButton}
+                    ariaLabel={primaryButton?.label}
+                  >
+                    {primaryButton?.label}
+                  </Button>
+                )}
+                {secondaryButton?.label && (
+                  <Button
+                    asLink
+                    link={secondaryButton}
+                    className="text-black bg-white hover:bg-gray-50"
+                    ariaLabel={secondaryButton?.label}
+                  >
+                    {secondaryButton?.label}
+                  </Button>
+                )}
+              </Flex>
             </div>
-            <div className="w-full lg:w-1/2">
-              <div className="max-w-sm mx-auto text-center">
-                {form?.fields && (
-                  <SignUpForm form={form} className="bg-white" />
-                )}
-                {formLinks && (
-                  <div className="text-xs text-gray-500">
-                    {formLinks?.map((link, index, { length }) => (
-                      <span key={index}>
-                        <ConditionalLink
-                          variant="link"
-                          ariaLabel={link?.label}
-                          link={link}
-                          className="underline text-brand-primary hover:text-brand-primary-foreground"
-                        >
-                          {link?.label}
-                        </ConditionalLink>
-                        {index === length - 1 ? null : index === length - 2 ? (
-                          <span>&nbsp;and&nbsp;</span>
-                        ) : (
-                          <span>&nbsp;,&nbsp;</span>
-                        )}
-                      </span>
-                    ))}
-                  </div>
-                )}
-              </div>
+          </Flex>
+          <div className="w-full lg:w-1/2">
+            <div className="max-w-sm mx-auto text-center">
+              {form?.fields && <SignUpForm form={form} className="bg-white" />}
+              {formLinks && (
+                <div className="text-xs text-gray-500">
+                  {formLinks?.map((link, index, { length }) => (
+                    <span key={index}>
+                      <Link
+                        href={extractLink(link)}
+                        className="underline text-brand-primary hover:text-brand-primary-foreground"
+                      >
+                        {link?.label}
+                      </Link>
+                      {index === length - 1 ? null : index === length - 2 ? (
+                        <span>&nbsp;and&nbsp;</span>
+                      ) : (
+                        <span>&nbsp;,&nbsp;</span>
+                      )}
+                    </span>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
-        </div>
-      </div>
+        </Flex>
+      </Container>
     </section>
   );
 }
