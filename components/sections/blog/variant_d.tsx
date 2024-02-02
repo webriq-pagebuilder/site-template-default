@@ -79,7 +79,7 @@ function VariantD({ subtitle, title, posts }: BlogProps) {
                   type="h3"
                   muted
                   weight={"bold"}
-                  className="mb-4 text-base uppercase"
+                  className="mb-4 text-base uppercase lg:text-base"
                 >
                   Topics
                 </Heading>
@@ -127,7 +127,7 @@ function CategoryItem({ activeTab, setActiveTab, category }) {
   return (
     <button
       aria-label="Show all blog posts"
-      className={`mb-4 block px-3 py-2 focus:outline-none w-full text-left rounded ${
+      className={`mb-4 block px-3 py-2 hover:bg-brand-secondary-foreground focus:outline-none w-full text-left rounded ${
         activeTab === category
           ? "font-bold text-brand-primary focus:outline-none bg-brand-secondary-foreground"
           : null
