@@ -9,8 +9,20 @@ type TextProps = {
   children: React.ReactNode;
   style?: React.CSSProperties;
   muted?: boolean;
+  weight?: Weight;
   [key: string]: any;
 };
+
+type Weight =
+  | "thin"
+  | "extralight"
+  | "light"
+  | "normal"
+  | "semibold"
+  | "bold"
+  | "mediun"
+  | "extrabold"
+  | "black";
 
 export function Heading({
   type = "h1",
@@ -18,13 +30,16 @@ export function Heading({
   children,
   style,
   muted = false,
+  weight = "normal",
   ...props
 }: TextProps) {
   const Element: Type = ["h1", "h2", "h3", "h4", "h5", "h6", "p"].includes(type)
     ? type
     : "h1";
 
-  const commonClass = `${muted && "text-gray-500"}`;
+  const commonClass = `${muted && "text-gray-500"} ${
+    weight && `font-${weight}`
+  }`;
 
   const variants: StyleVariants<Type> = {
     h1: `${commonClass} text-4xl font-bold lg:text-5xl font-heading`,

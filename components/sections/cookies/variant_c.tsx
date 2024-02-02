@@ -5,6 +5,9 @@ import { cookiesBlockStyling } from "./variant_a";
 
 import { CookiesProps } from ".";
 import { Button } from "components/ui/Button";
+import { Container } from "components/layout/Container";
+import { Flex } from "components/layout/Flex/Flex";
+import { Text } from "components/ui/Text";
 
 function VariantC({
   title,
@@ -17,48 +20,59 @@ function VariantC({
 
   return (
     <div className="fixed bottom-0 z-50">
-      {!showCookie
-        ? title && (
-            <div className="max-w-md p-6 px-10 mx-4 mb-6 text-white bg-gray-800 rounded-lg md:mx-0 md:ml-10">
-              <div className="text-center">
-                <p className="font-bold font-heading">{title}</p>
+      {!showCookie ? (
+        <Container maxWidth={576}>
+          <Flex
+            align="center"
+            direction="col"
+            wrap
+            className="p-6 mb-6 bg-gray-800 rounded-lg"
+          >
+            {(title || block) && (
+              <div className="w-full px-4 ">
+                <Text weight="bold" className="text-white">
+                  {title}
+                </Text>
                 {block && (
                   <PortableText
                     value={block}
                     components={cookiesBlockStyling}
                   />
                 )}
-                {allowCookieBtn && (
-                  <Button
-                    ariaLabel={allowCookieBtn}
-                    type="button"
-                    className="mr-4 border-2 border-brand-primary bg-brand-primary hover:border-brand-primary-foreground hover:bg-brand-primary-foreground"
-                    onClick={() => {
-                      setCookie("allow");
-                      setShowCookie(!showCookie);
-                    }}
-                  >
-                    {allowCookieBtn}
-                  </Button>
-                )}
-                {denyCookieBtn && (
-                  <Button
-                    ariaLabel={denyCookieBtn}
-                    type="button"
-                    variant="outline"
-                    className="m-2 text-white bg-transparent border-2 border-gray-400 rounded -bl-none rounded-r-xl rounded-t-xl hover:bg-gray-700"
-                    onClick={() => {
-                      setCookie("dismiss");
-                      setShowCookie(!showCookie);
-                    }}
-                  >
-                    {denyCookieBtn}
-                  </Button>
-                )}
               </div>
+            )}
+            <div>
+              {allowCookieBtn && (
+                <Button
+                  ariaLabel={allowCookieBtn}
+                  type="button"
+                  className="py-2 m-2 border-2 border-brand-primary hover:border-brand-primary-foreground"
+                  onClick={() => {
+                    setCookie("allow");
+                    setShowCookie(!showCookie);
+                  }}
+                >
+                  {allowCookieBtn}
+                </Button>
+              )}
+              {denyCookieBtn && (
+                <Button
+                  ariaLabel={denyCookieBtn}
+                  variant="outline"
+                  type="button"
+                  className="m-2 font-normal text-white bg-transparent border-2 border-gray-400 rounded-bl-none rounded-r-xl rounded-t-xl hover:bg-gray-700"
+                  onClick={() => {
+                    setCookie("dismiss");
+                    setShowCookie(!showCookie);
+                  }}
+                >
+                  {denyCookieBtn}
+                </Button>
+              )}
             </div>
-          )
-        : null}
+          </Flex>
+        </Container>
+      ) : null}
     </div>
   );
 }

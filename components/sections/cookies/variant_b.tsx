@@ -5,6 +5,9 @@ import { cookiesBlockStyling } from "./variant_a";
 
 import { CookiesProps } from ".";
 import { Button } from "components/ui/Button";
+import { Container } from "components/layout/Container";
+import { Flex } from "components/layout/Flex/Flex";
+import { Text } from "components/ui/Text";
 
 function VariantB({
   title,
@@ -16,55 +19,55 @@ function VariantB({
   const [showCookie, setShowCookie] = React.useState(!!cookie);
 
   return (
-    <div className="fixed inset-x-0 top-0 z-50">
-      {!showCookie
-        ? title && (
-            <div className="py-6 text-white bg-gray-800">
-              <div className="container px-4 mx-auto">
-                <div className="flex flex-wrap items-center -mx-4">
-                  <div className="w-full px-4 lg:w-3/4">
-                    <p className="font-bold font-heading">{title}</p>
-                    {block && (
-                      <PortableText
-                        value={block}
-                        components={cookiesBlockStyling}
-                      />
-                    )}
-                  </div>
-                  <div className="w-full px-4 lg:w-1/4 lg:text-right">
-                    {allowCookieBtn && (
-                      <Button
-                        ariaLabel={allowCookieBtn}
-                        type="button"
-                        className="m-2 border-2 rounded-l-xl rounded-t-xl border-brand-primary bg-brand-primary hover:border-brand-primary-foreground"
-                        onClick={() => {
-                          setCookie("allow");
-                          setShowCookie(!showCookie);
-                        }}
-                      >
-                        {allowCookieBtn}
-                      </Button>
-                    )}
-                    {denyCookieBtn && (
-                      <Button
-                        variant="outline"
-                        ariaLabel={denyCookieBtn}
-                        type="button"
-                        className="m-2 font-normal text-white bg-transparent border-2 border-gray-400 rounded-bl-none rounded-r-xl rounded-t-xl hover:bg-gray-700"
-                        onClick={() => {
-                          setCookie("dismiss");
-                          setShowCookie(!showCookie);
-                        }}
-                      >
-                        {denyCookieBtn}
-                      </Button>
-                    )}
-                  </div>
-                </div>
+    <div className="fixed inset-x-0 top-0 z-50 px-4 mt-4">
+      {!showCookie ? (
+        <Container>
+          <Flex align="center" wrap className="p-6 mb-6 bg-gray-800 rounded-lg">
+            {(title || block) && (
+              <div className="w-full px-4 lg:w-2/3">
+                <Text weight="bold" className="text-white">
+                  {title}
+                </Text>
+                {block && (
+                  <PortableText
+                    value={block}
+                    components={cookiesBlockStyling}
+                  />
+                )}
               </div>
+            )}
+            <div className="px-4 lg:w-1/3 lg:text-right">
+              {allowCookieBtn && (
+                <Button
+                  ariaLabel={allowCookieBtn}
+                  type="button"
+                  className="py-2 m-2 border-2 border-brand-primary hover:border-brand-primary-foreground"
+                  onClick={() => {
+                    setCookie("allow");
+                    setShowCookie(!showCookie);
+                  }}
+                >
+                  {allowCookieBtn}
+                </Button>
+              )}
+              {denyCookieBtn && (
+                <Button
+                  ariaLabel={denyCookieBtn}
+                  variant="outline"
+                  type="button"
+                  className="m-2 font-normal text-white bg-transparent border-2 border-gray-400 rounded-bl-none rounded-r-xl rounded-t-xl hover:bg-gray-700"
+                  onClick={() => {
+                    setCookie("dismiss");
+                    setShowCookie(!showCookie);
+                  }}
+                >
+                  {denyCookieBtn}
+                </Button>
+              )}
             </div>
-          )
-        : null}
+          </Flex>
+        </Container>
+      ) : null}
     </div>
   );
 }
