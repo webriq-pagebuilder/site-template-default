@@ -6,7 +6,7 @@ export default function AutologinPrepage({ status }) {
       <div className="py-24 text-center justify-center h-full">
         <Image
           className="mx-auto"
-          src="/webriq-logo.png"
+          src="/webriq-logo-lg.png"
           alt="WebriQ Logo"
           width={50}
           height={50}
@@ -24,7 +24,7 @@ export default function AutologinPrepage({ status }) {
     <div className="py-20 text-center justify-center h-full">
       <Image
         className="mx-auto"
-        src="/webriq-logo.png"
+        src="/webriq-logo-lg.png"
         alt="WebriQ Logo"
         width={50}
         height={50}
