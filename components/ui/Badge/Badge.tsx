@@ -8,7 +8,7 @@ export type IBadgeProps = {
 
 export function Badge({ children, className }: IBadgeProps) {
   const defaultClass =
-    "px-3 py-1 mr-3 text-sm font-bold uppercase bg-white rounded-full text-brand-primary";
+    "px-3 py-1 text-sm font-bold uppercase bg-white rounded-full text-brand-primary";
   return (
     <div className="flex">
       <div className={cn(defaultClass, className)}>{children}</div>

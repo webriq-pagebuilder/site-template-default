@@ -2,46 +2,29 @@ import React from "react";
 import { StyleVariants } from "../types";
 import { cn } from "utils/cn";
 
-type Type = "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "p";
+type Type = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
 type TextProps = {
   type?: Type;
   className?: string;
   children: React.ReactNode;
   style?: React.CSSProperties;
   muted?: boolean;
-  weight?: Weight;
-  color?: string;
   [key: string]: any;
 };
 
-type Weight =
-  | "thin"
-  | "extralight"
-  | "light"
-  | "normal"
-  | "semibold"
-  | "bold"
-  | "mediun"
-  | "extrabold"
-  | "black";
-
-export function Text({
-  type = "p",
+export function Heading({
+  type = "h1",
   className,
   children,
   style,
   muted = false,
-  color = "black",
-  weight = "normal",
   ...props
 }: TextProps) {
   const Element: Type = ["h1", "h2", "h3", "h4", "h5", "h6", "p"].includes(type)
     ? type
-    : "p";
+    : "h1";
 
-  const commonClass = `text-${color} font-${weight} ${
-    muted && "text-gray-500"
-  }`;
+  const commonClass = `${muted && "text-gray-500"}`;
 
   const variants: StyleVariants<Type> = {
     h1: `${commonClass} text-4xl font-bold lg:text-5xl font-heading`,
@@ -50,10 +33,9 @@ export function Text({
     h4: `${commonClass} font-bold text-2xl`,
     h5: `${commonClass} font-medium text-xl`,
     h6: `${commonClass} font-medium text-lg`,
-    p: `${commonClass} text-base`,
   };
 
-  const variantClass = variants[type] ?? variants["p"];
+  const variantClass = variants[type] ?? variants["h1"];
   return (
     <Element style={style} className={cn(variantClass, className)} {...props}>
       {children}

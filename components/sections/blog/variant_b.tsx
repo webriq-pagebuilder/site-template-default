@@ -1,141 +1,108 @@
-import React from "react";
-import Image from "next/image";
 import { Text } from "components/ui/Text";
+import Image from "next/image";
+import React from "react";
 
-import { BlogProps } from "./index";
-import { ConditionalLink } from "components/ui/ConditionalLink";
-import { urlFor } from "lib/sanity";
+import { Container } from "components/layout/Container";
+import { Flex } from "components/layout/Flex/Flex";
+import { Button } from "components/ui/Button";
+import { Heading } from "components/ui/Heading";
 import { format } from "date-fns";
+import { urlFor } from "lib/sanity";
 import Link from "next/link";
+import { BlogPost } from "types";
+import { BlogProps } from "./index";
 
 function VariantB({ subtitle, title, posts, primaryButton }: BlogProps) {
   let blogsPerPage = 5,
     count = 0;
 
   return (
-    <section>
-      <div className="py-20 radius-for-skewed bg-gray-50">
-        <div className="container px-4 mx-auto">
-          <div className="flex flex-wrap justify-center mb-6">
-            <div className="w-full mb-16 text-center">
-              {subtitle && (
-                <Text className="font-bold text-brand-primary">{subtitle}</Text>
-              )}
-              {title && <Text type="h1">{title}</Text>}
-            </div>
-            <div className="flex flex-wrap mb-16 -mx-3">
-              <div className="w-full px-3 mb-6 lg:mb-0 lg:w-1/2">
-                {posts?.slice(count, count + 1)?.map((post, key) => (
-                  <div className="overflow-hidden rounded shadow" key={key}>
-                    {post?.mainImage && (
-                      <Image
-                        className="object-cover w-full h-full overflow-hidden rounded-t"
-                        src={urlFor(post?.mainImage)}
-                        sizes="100vw"
-                        style={{
-                          width: "100%",
-                          height: "auto",
-                          objectFit: "cover",
-                        }}
-                        width={271}
-                        height={248}
-                        alt={`blog-variantB-image-${key}`}
-                      />
-                    )}
-                    <div className="p-6 mt-auto bg-white rounded-b">
-                      {post?.publishedAt && (
-                        <span className="text-sm text-gray-500">
-                          {format(new Date(post?.publishedAt), " dd MMM, yyyy")}
-                        </span>
-                      )}
-                      {post?.title && (
-                        <h1 className="my-2 text-lg font-bold lg:text-2xl xl:text-2xl 2xl:text-2xl">
-                          {post?.title}
-                        </h1>
-                      )}
-                      {post?.excerpt && (
-                        <p className="mb-6 text-xs leading-loose text-justify text-gray-500 lg:text-base xl:text-base 2xl:text-base">
-                          {post?.excerpt}
-                        </p>
-                      )}
-                      {post?.slug?.current && (
-                        <Link
-                          aria-label="View Blog Post"
-                          className="font-bold text-brand-primary hover:text-brand-secondary"
-                          href={`/${post?.slug?.current}` ?? "/page-not-found"}
-                        >
-                          View Blog Post
-                        </Link>
-                      )}
-                    </div>
-                  </div>
-                ))}
-              </div>
-              <div className="flex flex-wrap w-full lg:w-1/2">
-                {posts?.slice(count + 1, blogsPerPage)?.map((post, key) => (
-                  <div className="w-full px-3 mb-6 lg:w-1/2" key={key}>
-                    <div className="overflow-hidden rounded shadow">
-                      {post?.mainImage && (
-                        <Image
-                          className="object-cover w-full h-full overflow-hidden rounded-t"
-                          src={urlFor(post?.mainImage)}
-                          sizes="100vw"
-                          width={259}
-                          height={192}
-                          alt={`blog-variantB-image-${key}`}
-                        />
-                      )}
-                      <div className="p-6 mt-auto bg-white rounded-b">
-                        {post?.publishedAt && (
-                          <span className="text-sm text-gray-500">
-                            {format(
-                              new Date(post?.publishedAt),
-                              " dd MMM, yyyy"
-                            )}
-                          </span>
-                        )}
-                        {post?.title && (
-                          <h1 className="my-2 text-lg font-bold lg:text-2xl xl:text-2xl 2xl:text-2xl">
-                            {post?.title}
-                          </h1>
-                        )}
-                        {post?.excerpt && (
-                          <p className="mb-6 leading-loose text-justify text-gray-500">
-                            {post?.excerpt}
-                          </p>
-                        )}
-                        {post?.slug?.current && (
-                          <Link
-                            aria-label="View Blog Post"
-                            className="font-bold text-brand-primary hover:text-brand-secondary"
-                            href={
-                              `/${post?.slug?.current}` ?? "/page-not-found"
-                            }
-                          >
-                            View Blog Post
-                          </Link>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div className="text-center">
-              {primaryButton?.label && (
-                <ConditionalLink
-                  link={primaryButton}
-                  className="inline-block px-6 py-2 font-bold leading-loose transition duration-200 outline-none rounded-l-xl rounded-t-xl bg-brand-primary hover:bg-brand-primary-foreground text-gray-50"
-                  ariaLabel={primaryButton?.label}
-                >
-                  {primaryButton?.label}
-                </ConditionalLink>
-              )}
-            </div>
-          </div>
+    <section className="py-20 bg-gray-50">
+      <Container>
+        <div className="w-full mb-16 text-center">
+          {subtitle && (
+            <Text weight="bold" color="brand-primary">
+              {subtitle}
+            </Text>
+          )}
+          {title && <Heading>{title}</Heading>}
         </div>
-      </div>
+        <Flex wrap justify="center" className="mb-16" gap={4}>
+          <div className="w-full lg:w-[45%]">
+            {posts
+              ?.slice(count, count + 1)
+              ?.map((post, key) => <BlogItem post={post} key={key} />)}
+          </div>
+          <Flex wrap className="w-full lg:w-[45%]" gap={4}>
+            {posts?.slice(count + 1, blogsPerPage)?.map((post, key) => (
+              <div className="w-full lg:basis-[45%]" key={key}>
+                <BlogItem post={post} />
+              </div>
+            ))}
+          </Flex>
+        </Flex>
+
+        <div className="text-center">
+          {primaryButton?.label && (
+            <Button
+              asLink
+              link={primaryButton}
+              ariaLabel={primaryButton?.label}
+            >
+              {primaryButton?.label}
+            </Button>
+          )}
+        </div>
+      </Container>
     </section>
+  );
+}
+
+function BlogItem({ post }: { post: BlogPost }) {
+  return (
+    <div className="overflow-hidden rounded shadow">
+      {post?.mainImage && (
+        <Image
+          className="object-cover w-full h-full overflow-hidden rounded-t"
+          src={urlFor(post?.mainImage)}
+          sizes="100vw"
+          style={{
+            width: "100%",
+            height: "auto",
+            objectFit: "cover",
+          }}
+          width={271}
+          height={248}
+          alt={`blog-variantB-image-`}
+        />
+      )}
+      <div className="p-6 bg-white ">
+        {post?.publishedAt && (
+          <Text muted className="text-sm ">
+            {format(new Date(post?.publishedAt), " dd MMM, yyyy")}
+          </Text>
+        )}
+        {post?.title && (
+          <Heading type="h3" className="my-2">
+            {post?.title}
+          </Heading>
+        )}
+        {post?.excerpt && (
+          <Text muted className="mb-6 text-justify">
+            {post?.excerpt}
+          </Text>
+        )}
+        {post?.slug?.current && (
+          <Link
+            aria-label="View Blog Post"
+            className="font-bold text-brand-primary hover:text-brand-secondary"
+            href={`/${post?.slug?.current}` ?? "/page-not-found"}
+          >
+            View Blog Post
+          </Link>
+        )}
+      </div>
+    </div>
   );
 }
 export default React.memo(VariantB);
