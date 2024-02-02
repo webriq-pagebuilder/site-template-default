@@ -24,11 +24,11 @@ function VariantD({
         <Container maxWidth={906}>
           <Flex
             align="center"
-            className="flex-col p-6 mb-6 bg-gray-800 sm:flex-row"
+            className="flex-col p-6 mb-6 bg-gray-800 rounded-lg sm:flex-row"
           >
             {(title || block) && (
               <div className="w-full px-4 ">
-                <Text weight="bold" muted>
+                <Text weight="bold" className="text-white">
                   {title}
                 </Text>
                 {block && (

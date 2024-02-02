@@ -26,11 +26,11 @@ function VariantC({
             align="center"
             direction="col"
             wrap
-            className="p-6 mb-6 bg-gray-800"
+            className="p-6 mb-6 bg-gray-800 rounded-lg"
           >
             {(title || block) && (
               <div className="w-full px-4 ">
-                <Text weight="bold" muted>
+                <Text weight="bold" className="text-white">
                   {title}
                 </Text>
                 {block && (
