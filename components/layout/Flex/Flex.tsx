@@ -8,6 +8,7 @@ interface FlexProps {
   className?: string;
   gap?: number;
   children: React.ReactNode;
+  as?: keyof JSX.IntrinsicElements;
   [key: string]: any;
 }
 
@@ -32,15 +33,18 @@ export function Flex({
   className,
   children,
   gap,
+  as = "div",
   ...props
 }: FlexProps) {
   const classes = `flex flex-${direction} items-${align} justify-${justify} ${
     wrap ? "flex-wrap" : ""
   } gap-${gap ? gap : 0} `;
 
+  const Element = as;
+
   return (
-    <div className={cn(classes, className)} {...props}>
+    <Element className={cn(classes, className)} {...props}>
       {children}
-    </div>
+    </Element>
   );
 }

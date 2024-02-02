@@ -1,19 +1,17 @@
-import { urlFor } from "lib/sanity";
-import React from "react";
-import Link from "next/link";
-import Image from "next/image";
-import WebriQForm from "components/webriq-form";
-import { logoLink, thankYouPageLink } from "helper";
 import { Text } from "components/ui/Text";
+import { logoLink, thankYouPageLink } from "helper";
+import { urlFor } from "lib/sanity";
+import Image from "next/image";
+import Link from "next/link";
+import React from "react";
 
-import { CTAProps } from ".";
-import { Form } from "components/ui/Form/Form";
-import { FormField } from "components/ui/FormField";
-import { Button } from "components/ui/Button";
-import { Input } from "components/ui/Input";
 import { Container } from "components/layout/Container";
-import { Heading } from "components/ui/Heading";
 import { Flex } from "components/layout/Flex/Flex";
+import { Button } from "components/ui/Button";
+import { Form } from "components/ui/Form/Form";
+import { Heading } from "components/ui/Heading";
+import { Input } from "components/ui/Input";
+import { CTAProps } from ".";
 
 function VariantB({ logo, title, text, form }: CTAProps) {
   return (
