@@ -1,18 +1,17 @@
-import React from "react";
-import Link from "next/link";
-import Image from "next/image";
-import { urlFor } from "lib/sanity";
 import { format } from "date-fns";
-import { ConditionalLink } from "helper";
+import { urlFor } from "lib/sanity";
+import Image from "next/image";
+import Link from "next/link";
+import React from "react";
 
-import Blog, { BlogProps } from ".";
 import { Container } from "components/layout/Container";
 import { Flex } from "components/layout/Flex/Flex";
-import { Button } from "components/ui/Button";
-import { Text } from "components/ui/Text";
-import { Heading } from "components/ui/Heading";
-import { BlogPost } from "types";
 import { Badge } from "components/ui/Badge";
+import { Button } from "components/ui/Button";
+import { Heading } from "components/ui/Heading";
+import { Text } from "components/ui/Text";
+import { BlogPost } from "types";
+import { BlogProps } from ".";
 
 function VariantC({ subtitle, title, posts, primaryButton }: BlogProps) {
   let blogsPerPage = 3;

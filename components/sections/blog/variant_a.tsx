@@ -7,11 +7,10 @@ import React from "react";
 
 import { Container } from "components/layout/Container";
 import { Flex } from "components/layout/Flex/Flex";
-import { Badge } from "components/ui/Badge";
 import { Button } from "components/ui/Button";
 import { Heading } from "components/ui/Heading";
-import { BlogProps } from ".";
 import { BlogPost } from "types";
+import { BlogProps } from ".";
 
 function VariantA({ subtitle, title, posts, primaryButton }: BlogProps) {
   let blogsPerPage = 6,
