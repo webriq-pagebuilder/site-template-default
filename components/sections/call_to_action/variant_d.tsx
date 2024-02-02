@@ -1,15 +1,16 @@
+import { ConditionalLink, extractLink, logoLink } from "helper";
 import { urlFor } from "lib/sanity";
-import React from "react";
-import Link from "next/link";
 import Image from "next/image";
-import WebriQForm from "components/webriq-form";
-import { logoLink, thankYouPageLink, ConditionalLink } from "helper";
+import Link from "next/link";
+import React from "react";
 
-import { CTAProps } from ".";
-import { FormFields as TypeFormFields } from "types";
-import { FormField } from "components/ui/FormField";
-import { Form } from "components/ui/Form/Form";
 import { SignUpForm } from "components/common/form/sign-up-form";
+import { CTAProps } from ".";
+import { Container } from "components/layout/Container";
+import { Flex } from "components/layout/Flex/Flex";
+import { Heading } from "components/ui/Heading";
+import { Text } from "components/ui/Text";
+import { Button } from "components/ui/Button";
 
 function VariantD({
   logo,
@@ -22,9 +23,14 @@ function VariantD({
 }: CTAProps) {
   return (
     <section className="px-10 py-20 bg-gray-50">
-      <div className="container px-4 mx-auto">
-        <div className="flex flex-wrap items-center justify-center -mx-4">
-          <div className="max-w-2xl px-4 mb-16 lg:mb-0 lg:w-1/2">
+      <Container>
+        <Flex
+          align="center"
+          justify="between"
+          gap={4}
+          className="flex-col lg:flex-row"
+        >
+          <div className="basis-1/2">
             {logo?.image && (
               <Link
                 aria-label={
@@ -44,120 +50,40 @@ function VariantD({
                 />
               </Link>
             )}
-            <h1 className="mb-4 text-4xl font-bold font-heading md:text-5xl">
-              {title}
-            </h1>
-            <p className="mb-8 leading-loose text-gray-700">{text}</p>
+            <Heading className="mb-4">{title}</Heading>
+            <Text className="mb-8 leading-loose" muted>
+              {text}
+            </Text>
             {button?.label && (
-              <ConditionalLink
-                link={button}
-                className="inline-block px-6 py-2 font-bold leading-loose text-white transition bg-brand-primary hover:bg-brand-primary-foreground duration-250 rounded-l-xl rounded-t-xl"
-                ariaLabel={button?.label}
-              >
+              <Button asLink link={button} ariaLabel={button?.label}>
                 {button?.label}
-              </ConditionalLink>
+              </Button>
             )}
           </div>
-          <div className="w-full lg:w-1/2">
-            <div className="max-w-sm mx-auto lg:ml-auto lg:mr-0">
-              {form?.fields && (
-                // <div className="px-6 py-8 mb-6 text-center bg-white shadow rounded-t-3xl rounded-bl-3xl">
-                //   <Form
-                //     id={form?.id}
-                //     name="Calltoaction-VariantD-Form"
-                //     className="form-callToAction"
-                //     thankyouPage-={thankYouPageLink(form?.thankYouPage)}
-                //   >
-                //     <div className="mb-6">
-                //       <span className="text-sm text-gray-500">
-                //         {form?.subtitle}
-                //       </span>
-                //       <p className="text-2xl">{form?.name}</p>
-                //     </div>
-                //     <div className="flex flex-wrap mb-3 -mx-2">
-                //       {form?.fields?.slice(0, 2)?.map((formFields, index) => (
-                //         <div
-                //           className="w-full px-2 mb-3 lg:mb-0 lg:w-1/2 xl:mb-0 2xl:mb-0"
-                //           key={index}
-                //         >
-                //           <FormField
-                //             noLabel
-                //             variant={"secondary"}
-                //             name={formFields?.name}
-                //             placeholder={formFields?.placeholder}
-                //             required={formFields?.isRequired}
-                //             {...formFields}
-                //           />
-                //         </div>
-                //       ))}
-                //     </div>
-                //     <div className="mb-3 space-y-3">
-                //       {form?.fields?.slice(2)?.map((formFields, index) => (
-                //         <div key={index}>
-                //           <FormField
-                //             noLabel
-                //             name={formFields?.name}
-                //             variant={"secondary"}
-                //             {...formFields}
-                //           />
-                //         </div>
-                //       ))}
-                //     </div>
-                //     <div>
-                //       <div className="webriq-recaptcha" />
-                //     </div>
-                //     {form?.buttonLabel && (
-                //       <button
-                //         aria-label={
-                //           form?.buttonLabel ??
-                //           "Call to action form submit button"
-                //         }
-                //         className="w-full py-4 mb-4 text-sm font-bold leading-normal text-white transition duration-200 rounded bg-brand-primary-foreground hover:bg-brand-primary"
-                //         type="submit"
-                //       >
-                //         {form?.buttonLabel}
-                //       </button>
-                //     )}
-                //   </Form>
-                //   {signInLink?.label && (
-                //     <p className="text-xs text-gray-500">
-                //       <span>Already have an account?</span>
-                //       <ConditionalLink
-                //         link={signInLink}
-                //         className="text-brand-primary hover:text-brand-secondary"
-                //         ariaLabel={signInLink?.label}
-                //       >
-                //         {signInLink?.label}
-                //       </ConditionalLink>
-                //     </p>
-                //   )}
-                // </div>
-                <SignUpForm form={form} signInLink={signInLink} />
-              )}
-              {formLinks && (
-                <div className="flex flex-wrap items-center justify-center text-sm text-gray-500">
-                  {formLinks?.map((link, index, { length }) => (
-                    <div key={index}>
-                      <ConditionalLink
-                        link={link}
-                        className="font-bold text-brand-primary hover:text-brand-primary-foreground"
-                        ariaLabel={link?.label}
-                      >
-                        {link?.label}
-                      </ConditionalLink>
-                      {index === length - 1 ? null : index === length - 2 ? (
-                        <span>&nbsp;and&nbsp;</span>
-                      ) : (
-                        <span>&nbsp;,&nbsp;</span>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
+          <div className="max-w-sm ">
+            {form?.fields && <SignUpForm form={form} signInLink={signInLink} />}
+            {formLinks && (
+              <div className="flex flex-wrap items-center justify-center text-sm text-gray-500">
+                {formLinks?.map((link, index, { length }) => (
+                  <div key={index}>
+                    <Link
+                      href={extractLink(link)}
+                      className="font-bold text-brand-primary hover:text-brand-primary-foreground"
+                    >
+                      {link?.label}
+                    </Link>
+                    {index === length - 1 ? null : index === length - 2 ? (
+                      <span>&nbsp;and&nbsp;</span>
+                    ) : (
+                      <span>&nbsp;,&nbsp;</span>
+                    )}
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
-        </div>
-      </div>
+        </Flex>
+      </Container>
     </section>
   );
 }
