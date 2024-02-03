@@ -9,12 +9,16 @@ import { FormFields as TFormFields } from "types";
 import { Card } from "components/ui/Card";
 import { Form } from "components/ui/Form/Form";
 import { Button } from "components/ui/Button";
+import { Container } from "components/layout/Container";
+import { Heading } from "components/ui/Heading";
+import { Text } from "components/ui/Text";
+import { Flex } from "components/layout/Flex/Flex";
 
 function VariantB({ logo, form, formLinks, signInLink }: SignUpFormProps) {
   return (
     <section className="py-10 bg-brand-primary lg:py-20">
-      <div className="container px-4 mx-auto">
-        <div className="max-w-xl mx-auto">
+      <Container>
+        <Container maxWidth={576}>
           <div className="mb-10">
             {logo?.image && (
               <Link
@@ -36,8 +40,8 @@ function VariantB({ logo, form, formLinks, signInLink }: SignUpFormProps) {
           </div>
           <Card className="p-6 mb-6 bg-white lg:mb-10 lg:p-12">
             <div className="mb-6">
-              <span className="text-gray-500">{form?.subtitle}</span>
-              <h1 className="text-2xl font-bold">{form?.name}</h1>
+              <Text muted>{form?.subtitle}</Text>
+              <Heading className="text-2xl lg:text-2xl">{form?.name}</Heading>
             </div>
             {form?.fields && (
               <Form
@@ -46,13 +50,13 @@ function VariantB({ logo, form, formLinks, signInLink }: SignUpFormProps) {
                 className="form-signup"
                 thankyouPage={thankYouPageLink(form?.thankYouPage)}
               >
-                <div className="flex flex-wrap -mx-2">
+                <Flex wrap>
                   {form?.fields?.slice(0, 2)?.map((formFields, index) => (
                     <div className="w-full px-2 mb-3 lg:w-1/2" key={index}>
                       <FormFields fields={formFields} />
                     </div>
                   ))}
-                </div>
+                </Flex>
                 {form?.fields?.slice(2)?.map((formFields, index) => (
                   <div key={index}>
                     <FormFields fields={formFields} />
@@ -77,13 +81,15 @@ function VariantB({ logo, form, formLinks, signInLink }: SignUpFormProps) {
                   {signInLink?.label && (
                     <span className="text-xs text-gray-900">
                       <span>Already have an account?</span>{" "}
-                      <ConditionalLink
+                      <Button
+                        asLink
+                        variant="link"
                         link={signInLink}
                         className="text-brand-primary hover:underline"
                         ariaLabel={signInLink?.label}
                       >
                         {signInLink?.label}
-                      </ConditionalLink>
+                      </Button>
                     </span>
                   )}
                 </div>
@@ -94,13 +100,15 @@ function VariantB({ logo, form, formLinks, signInLink }: SignUpFormProps) {
             <p className="text-xs text-center text-brand-secondary-foreground">
               {formLinks?.map((link, index, { length }) => (
                 <span key={index}>
-                  <ConditionalLink
+                  <Button
+                    asLink
+                    variant="link"
                     link={link}
-                    className="underline hover:text-gray-50"
+                    className="text-xs underline text-brand-secondary-foreground hover:text-gray-50"
                     ariaLabel={link?.label}
                   >
                     {link?.label}
-                  </ConditionalLink>
+                  </Button>
                   {index === length - 1 ? null : index === length - 2 ? (
                     <span>&nbsp;and&nbsp;</span>
                   ) : (
@@ -110,8 +118,8 @@ function VariantB({ logo, form, formLinks, signInLink }: SignUpFormProps) {
               ))}
             </p>
           )}
-        </div>
-      </div>
+        </Container>
+      </Container>
     </section>
   );
 }

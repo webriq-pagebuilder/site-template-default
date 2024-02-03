@@ -21,7 +21,7 @@ export interface SignUpFormProps {
   firstButton?: LabeledRoute;
   secondButton?: LabeledRoute;
   formLinks?: LabeledRouteWithKey[];
-  signinLink?: LabeledRoute;
+  signInLink?: LabeledRoute;
   form?: Form;
 }
 
