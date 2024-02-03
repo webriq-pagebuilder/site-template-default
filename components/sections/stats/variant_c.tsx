@@ -3,13 +3,15 @@ import Image from "next/image";
 import { urlFor } from "lib/sanity";
 import { StatsProps } from ".";
 import { StatsCard } from "components/common/stats/stats-card";
+import { Container } from "components/layout/Container";
+import { Flex } from "components/layout/Flex/Flex";
 
 function VariantC({ stats }: StatsProps) {
   return (
     <section className="py-20">
-      <div className="container px-4 mx-auto">
+      <Container>
         {stats && (
-          <div className="flex flex-wrap items-center text-center">
+          <Flex wrap align="center" className="text-center ">
             {stats?.map((stat, index) => (
               <StatsCard
                 key={index}
@@ -20,9 +22,9 @@ function VariantC({ stats }: StatsProps) {
                 icon={urlFor(stat?.mainImage?.image)}
               />
             ))}
-          </div>
+          </Flex>
         )}
-      </div>
+      </Container>
     </section>
   );
 }
