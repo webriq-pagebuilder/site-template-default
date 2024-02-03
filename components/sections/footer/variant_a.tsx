@@ -7,6 +7,9 @@ import { logoLink } from "helper";
 import { FooterProps } from ".";
 import { SocialIcon } from "components/ui/SocialIcons";
 import { Socials } from "components/ui/SocialIcons/SocialIcons";
+import { Container } from "components/layout/Container";
+import { Flex } from "components/layout/Flex/Flex";
+import { Text } from "components/ui/Text";
 
 function VariantA({
   logo,
@@ -16,103 +19,107 @@ function VariantA({
   socialMedia,
 }: FooterProps) {
   return (
-    <section>
-      <div className="py-20 radius-for-skewed bg-gray-50">
-        <div className="container px-4 mx-auto">
-          <div className="flex flex-wrap mb-5 lg:mb-20">
-            <div className="w-full mb-5 lg:w-1/5">
-              {logo?.image && (
-                <Link
-                  aria-label={
-                    logoLink(logo) === "/"
-                      ? "Go to home page"
-                      : `Go to ${logoLink(logo)}`
-                  }
-                  className="text-3xl font-bold leading-none"
-                  href={logoLink(logo)}
+    <section className="py-20 bg-gray-50">
+      <Container>
+        <Flex wrap className="mb-5 lg:mb-20">
+          <div className="w-full mb-5 lg:w-1/5">
+            {logo?.image && (
+              <Link
+                aria-label={
+                  logoLink(logo) === "/"
+                    ? "Go to home page"
+                    : `Go to ${logoLink(logo)}`
+                }
+                className="text-3xl font-bold leading-none"
+                href={logoLink(logo)}
+              >
+                <Image
+                  className="h-14"
+                  src={urlFor(logo?.image)}
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  width={132}
+                  height={56}
+                  alt={logo?.alt ?? "footer-logo"}
+                />
+              </Link>
+            )}
+          </div>
+          <div className="w-full mb-5 lg:w-1/5">
+            <Text muted className="leading-loose ">
+              {text}
+            </Text>
+          </div>
+          {contacts && (
+            <div className="w-full mt-1 ml-auto lg:w-1/2">
+              {contacts?.map((contact) => (
+                <div
+                  className="grid grid-cols-1 gap-10 md:grid-cols-3"
+                  key={contact?._key}
                 >
-                  <Image
-                    className="h-14"
-                    src={urlFor(logo?.image)}
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    width={132}
-                    height={56}
-                    alt={logo?.alt ?? "footer-logo"}
-                  />
-                </Link>
-              )}
-            </div>
-            <div className="w-full mb-5 lg:w-1/5">
-              <p className="leading-loose text-gray-500">{text}</p>
-            </div>
-            {contacts && (
-              <div className="hidden w-full mt-1 ml-auto sm:block lg:w-1/2">
-                {contacts?.length > 1 ? (
-                  <div className="grid grid-flow-col grid-cols-3 gap-10">
-                    <p className="mb-4 font-bold">Addresses</p>
-                    <p className="mb-4 font-bold">Emails</p>
-                    <p className="mb-4 font-bold">Numbers</p>
-                  </div>
-                ) : (
-                  <div className="grid grid-flow-col grid-cols-3 gap-10">
+                  <div>
                     <p className="mb-4 font-bold">Address</p>
+                    <Text muted className="mb-5">
+                      {contact?.addressInfo}
+                    </Text>
+                  </div>
+                  <div>
                     <p className="mb-4 font-bold">Email</p>
+                    <Text muted className="mb-5">
+                      {contact?.emailInfo}
+                    </Text>
+                  </div>
+                  <div>
                     <p className="mb-4 font-bold">Number</p>
+                    <Text muted className="mb-5">
+                      {contact?.contactInfo}
+                    </Text>
                   </div>
-                )}
-                {contacts?.map((contact) => (
-                  <div
-                    className="grid grid-flow-col grid-cols-3 gap-10"
-                    key={contact?._key}
-                  >
-                    <p className="mb-5 text-gray-500">{contact?.addressInfo}</p>
-                    <p className="mb-5 text-gray-500">{contact?.emailInfo}</p>
-                    <p className="mb-5 text-gray-500">{contact?.contactInfo}</p>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-          <div className="justify-between w-full mx-auto lg:flex">
-            <p className="mb-6 text-sm text-gray-500">{copyright}</p>
-            {socialMedia && (
-              <div className="flex flex-wrap space-x-2 lg:mx-24 lg:space-x-4">
-                {socialMedia?.map(
-                  (social) =>
-                    social?.socialMediaLink && (
-                      <a
-                        aria-label={
-                          social?.socialMedia || social?.socialMediaPlatform
-                        }
-                        className="inline-block p-2 mr-2 rounded bg-gray-50 hover:bg-gray-100"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        href={social?.socialMediaLink}
-                        key={social?._key}
-                      >
-                        {social?.socialMediaIcon?.image ? (
-                          <Image
-                            className="h-6"
-                            src={urlFor(social?.socialMediaIcon?.image)}
-                            quality={100}
-                            width={24}
-                            height={24}
-                            alt={
-                              social?.socialMediaIcon?.alt ??
-                              "contact-socialMedia-icon"
-                            }
-                          />
-                        ) : (
-                          <SocialIcon social={social?.socialMedia as Socials} />
-                        )}
-                      </a>
-                    )
-                )}
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </Flex>
+        <Flex justify="between" className="w-full mx-auto lg:flex">
+          <Text muted className="mb-6 text-sm ">
+            {copyright}
+          </Text>
+          {socialMedia && (
+            <Flex wrap className="space-x-2 lg:mx-24 lg:space-x-4">
+              {socialMedia?.map(
+                (social) =>
+                  social?.socialMediaLink && (
+                    <a
+                      aria-label={
+                        social?.socialMedia || social?.socialMediaPlatform
+                      }
+                      className="inline-block p-2 mr-2 rounded bg-gray-50 hover:bg-gray-100"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      href={social?.socialMediaLink}
+                      key={social?._key}
+                    >
+                      {social?.socialMediaIcon?.image ? (
+                        <Image
+                          className="h-6"
+                          src={urlFor(social?.socialMediaIcon?.image)}
+                          quality={100}
+                          width={24}
+                          height={24}
+                          alt={
+                            social?.socialMediaIcon?.alt ??
+                            "contact-socialMedia-icon"
+                          }
+                        />
+                      ) : (
+                        <SocialIcon social={social?.socialMedia as Socials} />
+                      )}
+                    </a>
+                  )
+              )}
+            </Flex>
+          )}
+        </Flex>
+      </Container>
     </section>
   );
 }

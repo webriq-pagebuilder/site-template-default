@@ -6,7 +6,13 @@ import { LabeledRoute, LabeledRouteWithKey } from "types";
 import Link from "next/link";
 import { extractLink } from "helper";
 
-type Variant = "outline" | "primary" | "secondary" | "borderless" | "tertiary";
+type Variant =
+  | "outline"
+  | "primary"
+  | "secondary"
+  | "borderless"
+  | "tertiary"
+  | "link";
 export type ButtonProps = {
   /** Defines the classname of the button. */
   className?: string;
@@ -40,7 +46,7 @@ export function Button({
   loadingComponent,
   onClick,
   type = "button",
-  link,
+  link: linkObject,
   asLink = false,
   ...props
 }: ButtonProps) {
@@ -51,12 +57,14 @@ export function Button({
   const secondary = `${commonStyles} bg-brand-secondary hover:bg-brand-secondary-foreground font-bold  text-gray-50`;
   const borderless = `${commonStyles} bg-transparent hover:bg-slate-100 border-0`;
   const tertiary = `${commonStyles} rounded bg-brand-primary hover:bg-brand-primary-foreground text-gray-50  outline-none`;
+  const link = `transition-200 text-sm text-brand-primary hover:text-brand-primary-foreground`;
   const variants: StyleVariants<Variant> = {
     primary,
     secondary,
     outline,
     borderless,
     tertiary,
+    link,
   };
 
   const variantClass = variants[variant] ?? primary;
@@ -69,7 +77,7 @@ export function Button({
       <Link
         className={cn(variantClass, className)}
         aria-label={ariaLabel}
-        href={extractLink(link)}
+        href={extractLink(linkObject)}
         {...props}
       >
         {children}
