@@ -29,7 +29,7 @@ function VariantD({ subtitle, title, steps }: HowItWorksProps) {
 
 function StepItem({ step, index }) {
   return (
-    <div className="w-full px-16 mb-8 text-center lg:w-1/3">
+    <div className="w-full px-0 mb-8 text-center md:px-10 lg:w-1/3">
       <span className="relative z-10 flex items-center justify-center w-16 h-16 mx-auto mb-6 text-2xl text-white rounded-full bg-brand-primary lg:mb-10">
         {index + 1}
       </span>
