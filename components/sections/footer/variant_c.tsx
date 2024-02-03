@@ -71,7 +71,7 @@ function VariantC({ logo, menu, copyright, socialMedia }: FooterProps) {
             </div>
           </Flex>
           {socialMedia && (
-            <div className="flex flex-wrap justify-center space-y-2 sm:space-y-0">
+            <Flex wrap justify="center" className="space-y-2 sm:space-y-0">
               {socialMedia?.map(
                 (social) =>
                   social?.socialMediaLink && (
@@ -101,7 +101,7 @@ function VariantC({ logo, menu, copyright, socialMedia }: FooterProps) {
                     </a>
                   )
               )}
-            </div>
+            </Flex>
           )}
         </div>
       </Container>
