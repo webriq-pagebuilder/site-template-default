@@ -28,7 +28,7 @@ export type ButtonProps = {
   /** Custom loading component. */
   loadingComponent?: React.ReactNode;
   /** Function that runs when the button is clicked. */
-  onClick?: () => void;
+  onClick?: (...args: any) => any;
   /** Set button type. Defaults to button */
   type?: "button" | "submit";
   asLink?: boolean;
