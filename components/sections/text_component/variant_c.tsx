@@ -2,6 +2,9 @@ import React from "react";
 import { PortableText } from "lib/sanity";
 import { textComponentBlockStyling } from "./variant_a";
 import { TextComponentProps } from ".";
+import { Container } from "components/layout/Container";
+import { Heading } from "components/ui/Heading";
+import { Flex } from "components/layout/Flex/Flex";
 
 function VariantC({
   heading,
@@ -11,13 +14,11 @@ function VariantC({
 }: TextComponentProps) {
   return (
     <section className="py-20">
-      <div className="container mx-auto px-4">
-        <h1 className="font-heading mb-5 text-center text-xl font-semibold lg:text-3xl">
-          {heading}
-        </h1>
-        <div className="mx-auto flex flex-wrap justify-center">
+      <Container className="container px-4 mx-auto">
+        <Heading className="w-full mb-5 text-center">{heading}</Heading>
+        <Flex wrap justify="center" className="mx-auto">
           {firstColumn && (
-            <div className="mb-6 px-3 text-justify text-xs leading-relaxed text-gray-500 md:mb-0 lg:w-1/4 lg:text-base">
+            <div className="px-3 mb-6 text-xs leading-relaxed text-justify text-gray-500 md:mb-0 lg:w-1/4 lg:text-base">
               <PortableText
                 value={firstColumn}
                 components={textComponentBlockStyling}
@@ -25,7 +26,7 @@ function VariantC({
             </div>
           )}
           {secondColumn && (
-            <div className="mb-6 px-3 text-justify text-xs leading-relaxed text-gray-500 md:mb-0 lg:w-1/4 lg:text-base">
+            <div className="px-3 mb-6 text-xs leading-relaxed text-justify text-gray-500 md:mb-0 lg:w-1/4 lg:text-base">
               <PortableText
                 value={secondColumn}
                 components={textComponentBlockStyling}
@@ -33,15 +34,15 @@ function VariantC({
             </div>
           )}
           {thirdColumn && (
-            <div className="mb-6 px-3 text-justify text-xs leading-relaxed text-gray-500 md:mb-0 lg:w-1/4 lg:text-base">
+            <div className="px-3 mb-6 text-xs leading-relaxed text-justify text-gray-500 md:mb-0 lg:w-1/4 lg:text-base">
               <PortableText
                 value={thirdColumn}
                 components={textComponentBlockStyling}
               />
             </div>
           )}
-        </div>
-      </div>
+        </Flex>
+      </Container>
     </section>
   );
 }
