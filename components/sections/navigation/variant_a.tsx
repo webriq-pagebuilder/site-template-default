@@ -5,6 +5,9 @@ import { urlFor } from "lib/sanity";
 import { logoLink } from "helper";
 import { NavigationProps } from ".";
 import { ConditionalLink } from "components/ui/ConditionalLink";
+import { Flex } from "components/layout/Flex/Flex";
+import { Button } from "components/ui/Button";
+import { Text } from "components/ui/Text";
 
 function VariantA({
   template,
@@ -19,7 +22,11 @@ function VariantA({
   };
   return (
     <section>
-      <nav className="relative flex items-center justify-between px-6 py-6 bg-white">
+      <Flex
+        align="center"
+        justify="between"
+        className="relative px-6 py-6 bg-white"
+      >
         {logo?.image && (
           <Link
             aria-label={`Go to ${
@@ -56,62 +63,40 @@ function VariantA({
           {links &&
             links?.map((link, index) => (
               <React.Fragment key={index}>
-                <li>
-                  <ConditionalLink
-                    variant="link"
-                    ariaLabel={link?.label}
-                    link={link}
-                    className="text-sm text-gray-500 hover:text-gray-900"
-                  >
-                    {link?.label}
-                  </ConditionalLink>
-                </li>
-                {links.length !== index + 1 ? (
-                  <li className="text-gray-500">
-                    <svg
-                      className="w-4 h-4 current-fill"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"
-                      ></path>
-                    </svg>
-                  </li>
-                ) : null}
+                <NavItem link={link} index={index} key={link._key} />
+                {links.length !== index + 1 ? <NavIcon /> : null}
               </React.Fragment>
             ))}
         </ul>
         {primaryButton?.label && (
-          <ConditionalLink
+          <Button
             ariaLabel={primaryButton?.label}
             link={primaryButton}
-            className="hidden px-6 py-2 text-sm font-bold text-gray-900 transition duration-200 lg:inline-block lg:ml-auto lg:mr-3 bg-gray-50 hover:bg-gray-100 rounded-l-xl rounded-t-xl"
+            className="hidden text-gray-900 lg:inline-block lg:ml-auto lg:mr-3 bg-gray-50 hover:bg-gray-100 "
           >
             {primaryButton?.label}
-          </ConditionalLink>
+          </Button>
         )}
         {secondaryButton?.label && (
-          <ConditionalLink
+          <Button
             ariaLabel={secondaryButton?.label}
             link={secondaryButton}
-            className={`hidden lg:inline-block py-2 px-6 bg-brand-primary hover:bg-brand-primary-foreground text-sm text-white font-bold rounded-l-xl rounded-t-xl transition duration-200`}
+            className="hidden lg:inline-block"
           >
             {secondaryButton?.label}
-          </ConditionalLink>
+          </Button>
         )}
-      </nav>
+      </Flex>
       <div className={`${menu ? null : "hidden"} navbar-menu relative z-50`}>
         <div
           className="fixed inset-0 bg-gray-800 opacity-25 navbar-backdrop"
           onClick={showMenu}
         />
-        <nav className="fixed top-0 bottom-0 left-0 flex flex-col w-5/6 max-w-sm px-6 py-6 overflow-y-auto bg-white border-r">
+        <Flex
+          as="nav"
+          direction="col"
+          className="fixed top-0 bottom-0 left-0 w-5/6 max-w-sm px-6 py-6 overflow-y-auto bg-white border-r"
+        >
           <div className="flex items-center mb-8">
             <button
               aria-label="Navigation Menu"
@@ -134,53 +119,95 @@ function VariantA({
               </svg>
             </button>
           </div>
-          <div>
+          <div className="w-full">
             {links && (
               <ul>
                 {links?.map((link, index) => (
                   <li className="mb-1" key={index}>
-                    <ConditionalLink
+                    <Button
+                      asLink
                       variant="link"
                       ariaLabel={link?.label}
-                      className="block p-4 text-sm font-semibold text-gray-900 rounded hover:bg-brand-secondary-foreground hover:text-brand-primary"
+                      className="block w-full p-4 text-sm font-semibold text-gray-900 rounded hover:bg-brand-secondary-foreground hover:text-brand-primary"
                       link={link}
                     >
                       {link?.label}
-                    </ConditionalLink>
+                    </Button>
                   </li>
                 ))}
               </ul>
             )}
           </div>
-          <div className="mt-auto">
+          <div className="w-full mt-auto">
             <div className="pt-6">
               {primaryButton?.label && (
-                <ConditionalLink
+                <Button
+                  asLink
                   ariaLabel={primaryButton?.label}
                   link={primaryButton}
                   className="block px-4 py-3 mb-3 text-xs font-semibold leading-loose text-center text-gray-900 bg-gray-50 hover:bg-gray-100 rounded-l-xl rounded-t-xl"
                 >
                   {primaryButton?.label}
-                </ConditionalLink>
+                </Button>
               )}
               {secondaryButton?.label && (
-                <ConditionalLink
+                <Button
+                  asLink
                   ariaLabel={secondaryButton?.label}
                   link={secondaryButton}
                   className={`block px-4 py-3 mb-2 leading-loose text-xs text-center text-white font-semibold bg-brand-primary hover:bg-brand-primary-foreground rounded-l-xl rounded-t-xl`}
                 >
                   {secondaryButton?.label}
-                </ConditionalLink>
+                </Button>
               )}
             </div>
-            <p className="my-4 text-xs text-center text-gray-900">
+            <Text className="my-4 text-xs text-center text-gray-900">
               <span>{`© ${new Date().getFullYear()} All rights reserved.`}</span>
-            </p>
+            </Text>
           </div>
-        </nav>
+        </Flex>
       </div>
     </section>
   );
 }
 
 export default React.memo(VariantA);
+
+function NavIcon() {
+  return (
+    <li className="text-gray-500">
+      <svg
+        className="w-4 h-4 current-fill"
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="2"
+          d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"
+        ></path>
+      </svg>
+    </li>
+  );
+}
+
+function NavItem({ link, index }) {
+  return (
+    <React.Fragment key={index}>
+      <li>
+        <Button
+          asLink
+          variant="link"
+          ariaLabel={link?.label}
+          link={link}
+          className="text-sm text-gray-500 hover:text-gray-900"
+        >
+          {link?.label}
+        </Button>
+      </li>
+    </React.Fragment>
+  );
+}

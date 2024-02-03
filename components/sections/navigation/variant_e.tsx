@@ -1,13 +1,14 @@
-import { memo, useState, Fragment, useEffect, useRef } from "react";
+import { Flex } from "components/layout/Flex/Flex";
+import { Button } from "components/ui/Button";
+import { EcwidContextProvider } from "context/EcwidContext";
+import { logoLink } from "helper";
+import { PortableText, urlFor } from "lib/sanity";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { urlFor, PortableText } from "lib/sanity";
-import { EcwidContextProvider } from "context/EcwidContext";
-import { logoLink } from "helper";
-import { NavigationProps } from ".";
+import { Fragment, memo, useEffect, useRef, useState } from "react";
 import { MyPortableTextComponents } from "types";
-import { ConditionalLink } from "components/ui/ConditionalLink";
+import { NavigationProps } from ".";
 
 function VariantE({ banner, logo, links }: NavigationProps) {
   const router = useRouter();
@@ -79,7 +80,7 @@ function VariantE({ banner, logo, links }: NavigationProps) {
       <section className="relative">
         {banner && (
           <div className="py-2 bg-brand-primary">
-            <div className="flex items-center justify-center">
+            <Flex align="center" justify="center">
               <svg
                 className="mr-2"
                 width={18}
@@ -107,11 +108,11 @@ function VariantE({ banner, logo, links }: NavigationProps) {
                 />
               </svg>
               <PortableText value={banner} components={blockStyle} />
-            </div>
+            </Flex>
           </div>
         )}
-        <nav className="relative flex justify-between">
-          <div className="flex items-center w-full px-12 py-8">
+        <Flex as="nav" justify="between" className="relative">
+          <Flex align="center" className="w-full px-12 py-8">
             {logo?.image && (
               <Link
                 aria-label={`Go to ${
@@ -135,7 +136,8 @@ function VariantE({ banner, logo, links }: NavigationProps) {
                 links.map((link, index) => (
                   <Fragment key={index}>
                     <li>
-                      <ConditionalLink
+                      <Button
+                        asLink
                         variant="link"
                         ariaLabel={link?.label}
                         link={link}
@@ -146,12 +148,12 @@ function VariantE({ banner, logo, links }: NavigationProps) {
                         }
                       >
                         {link?.label}
-                      </ConditionalLink>
+                      </Button>
                     </li>
                   </Fragment>
                 ))}
             </ul>
-          </div>
+          </Flex>
           {/* larger screens search, cart and account icons/buttons */}
           <div className="items-center justify-end hidden mr-12 xl:flex">
             {/* Search button */}
@@ -266,7 +268,7 @@ function VariantE({ banner, logo, links }: NavigationProps) {
               />
             </svg>
           </button>
-        </nav>
+        </Flex>
         <div
           className={`${
             menu ? null : "hidden"
@@ -366,14 +368,15 @@ function VariantE({ banner, logo, links }: NavigationProps) {
                 links.map((link, index) => (
                   <Fragment key={index}>
                     <li className="mb-8">
-                      <ConditionalLink
+                      <Button
+                        asLink
                         variant="link"
                         ariaLabel={link?.label}
                         link={link}
                         className="font-bold font-heading hover:text-gray-600"
                       >
                         {link?.label}
-                      </ConditionalLink>
+                      </Button>
                     </li>
                   </Fragment>
                 ))}
