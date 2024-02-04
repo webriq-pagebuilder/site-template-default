@@ -12,7 +12,7 @@ function VariantC({ subtitle, title, faqs }: FAQProps) {
     <section className="py-20 bg-gray-50">
       <Container>
         <Container maxWidth={576} className="mb-16 text-center">
-          <Text weight="bold" color="brand-primary">
+          <Text weight="bold" className="text-primary">
             {subtitle}
           </Text>
           <Heading>{title}</Heading>
@@ -32,7 +32,7 @@ function FAQItem({ faq }) {
       {faq.question && (
         <Card className="h-full p-8 ">
           <Flex align="start" className="mb-6">
-            <span className="inline-block p-3 mr-4 rounded-full bg-brand-primary">
+            <span className="inline-block p-3 mr-4 rounded-full bg-primary">
               <QuoteIcon />
             </span>
             <Text weight="bold" className="text-xl">

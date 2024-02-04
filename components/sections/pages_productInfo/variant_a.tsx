@@ -10,6 +10,10 @@ import { defaultBlockStyle } from "helper";
 import { PagesProductInfoProps } from ".";
 
 import { EcwidTypes } from "context/_ecwid-types";
+import { Container } from "components/layout/Container";
+import { Flex } from "components/layout/Flex/Flex";
+import { Heading } from "components/ui/Heading";
+import { Text } from "components/ui/Text";
 
 function VariantA({ products }: PagesProductInfoProps) {
   const ecwid: EcwidTypes = useEcwid();
@@ -23,9 +27,9 @@ function VariantA({ products }: PagesProductInfoProps) {
 
   return (
     <section className="sm:p-10 md:p-20">
-      <div className="container px-4 mx-auto">
+      <Container>
         {products && (
-          <div className="flex flex-wrap mb-24 -mx-4">
+          <Flex wrap className="mb-24 ">
             <div className="w-full px-4 mb-8 md:mb-0 md:w-1/2">
               <div className="relative mb-10">
                 {products?.productInfo?.images ? (
@@ -63,25 +67,27 @@ function VariantA({ products }: PagesProductInfoProps) {
                 )}
                 <div className="pb-10 mb-10 border-b">
                   {products?.name && (
-                    <h1 className="mt-2 mb-6 text-5xl font-bold font-heading md:text-6xl lg:max-w-xl">
+                    <Heading className="mt-2 mb-6 text-5xl md:text-6xl lg:max-w-xl">
                       {products?.name}
-                    </h1>
+                    </Heading>
                   )}
                   <div className="mb-8">{/* Add product rating here */}</div>
                   {products?.price && (
-                    <p
-                      className={`font-heading inline-block text-2xl font-bold text-brand-primary ${
+                    <Text
+                      weight="bold"
+                      className={`font-heading inline-block text-2xl text-primary ${
                         !products?.compareToPrice && "mb-8"
                       }`}
                     >
                       {(ecwid &&
                         ecwid?.products?.defaultDisplayedPriceFormatted) ||
                         ecwid?.getPriceDisplay(products?.price)}
-                    </p>
+                    </Text>
                   )}
                   {products?.compareToPrice && (
-                    <p
-                      className="mt-3 mb-8 text-gray-500"
+                    <Text
+                      muted
+                      className="mt-3 mb-8 "
                       style={{
                         fontSize: "15px",
                       }}
@@ -92,14 +98,14 @@ function VariantA({ products }: PagesProductInfoProps) {
                       </span>{" "}
                       (
                       <span
-                        className="text-brand-secondary"
+                        className="text-secondary"
                         style={{ fontSize: "15px" }}
                       >
                         Save{" "}
                         {ecwidProduct?.compareToPriceDiscountPercentFormatted}
                       </span>
                       )
-                    </p>
+                    </Text>
                   )}
 
                   {products?.description && (
@@ -117,11 +123,11 @@ function VariantA({ products }: PagesProductInfoProps) {
                 </div>
 
                 <ProductDetail product={ecwidProduct}>
-                  <div className="flex flex-row items-start gap-4 my-8">
+                  <Flex direction="row" align="start" gap={4} className="my-8">
                     <div className="w-full lg:mb-4 xl:mb-0">
                       <AddToBag
                         inStock={!ecwidProduct?.inStock}
-                        classNames="block w-full text-center text-white font-bold font-heading py-5 px-8 rounded-md uppercase transition duration-200 bg-brand-primary hover:bg-brand-primary-foreground cursor-pointer"
+                        classNames="block w-full text-center text-white font-bold font-heading py-5 px-8 rounded-md uppercase transition duration-200 bg-primary hover:bg-primary-foreground cursor-pointer"
                       >
                         {products?.productInfo?.btnLabel ?? "ADD TO CART"}
                       </AddToBag>
@@ -129,7 +135,7 @@ function VariantA({ products }: PagesProductInfoProps) {
 
                     {/* Add to wishlist button */}
                     <AddToWishlist
-                      classNames="ml-auto sm:ml-0 flex-shrink-0 inline-flex items-center justify-center w-full h-16 rounded-md border hover:border-brand-primary"
+                      classNames="ml-auto sm:ml-0 flex-shrink-0 inline-flex items-center justify-center w-full h-16 rounded-md border hover:border-primary"
                       product={ecwidProduct}
                     >
                       <svg
@@ -149,9 +155,9 @@ function VariantA({ products }: PagesProductInfoProps) {
                         />
                       </svg>
                     </AddToWishlist>
-                  </div>
+                  </Flex>
                 </ProductDetail>
-                <div className="flex flex-wrap items-center">
+                <Flex wrap align="center">
                   <span className="my-auto mr-8 font-bold uppercase font-heading">
                     SHARE IT
                   </span>
@@ -222,12 +228,12 @@ function VariantA({ products }: PagesProductInfoProps) {
                         </a>
                       )
                   )}
-                </div>
+                </Flex>
               </div>
             </div>
-          </div>
+          </Flex>
         )}
-      </div>
+      </Container>
     </section>
   );
 }

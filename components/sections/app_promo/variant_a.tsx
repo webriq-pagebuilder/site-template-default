@@ -26,7 +26,7 @@ function VariantA({ logo, subtitle, title, images }: AppPromoProps) {
   };
 
   return (
-    <section className="pt-16 overflow-hidden bg-brand-primary">
+    <section className="pt-16 overflow-hidden bg-primary">
       <Container className="relative text-center" maxWidth={448}>
         {logo?.image && (
           <Link

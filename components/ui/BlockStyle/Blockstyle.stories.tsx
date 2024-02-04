@@ -290,32 +290,7 @@ export const Primary: Story = {};
 const myBlock = {
   block: {
     h1: ({ children }) => {
-      return (
-        <h1 className="mb-0 text-4xl font-extrabold text-black-500 text-brand-primary-foreground">
-          {children}
-        </h1>
-      );
-    },
-    h2: ({ children }) => {
-      return (
-        <h1 className="mb-0 text-3xl font-extrabold text-black-500 text-brand-primary-foreground">
-          {children}
-        </h1>
-      );
-    },
-    h3: ({ children }) => {
-      return (
-        <h1 className="mb-0 text-2xl font-extrabold text-black-500 text-brand-primary-foreground">
-          {children}
-        </h1>
-      );
-    },
-    h4: ({ children }) => {
-      return (
-        <h1 className="mb-0 text-xl font-extrabold text-black-500 text-brand-primary-foreground">
-          {children}
-        </h1>
-      );
+      return <h1 className="text-5xl font-extrabold text-black">{children}</h1>;
     },
   },
 };

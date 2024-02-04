@@ -1,26 +1,6 @@
 import React from "react";
 
-function transformBrandColors(brandColors) {
-  const colors = [];
-  for (const category in brandColors) {
-    const categoryValue = brandColors[category];
-    if (typeof categoryValue === "object") {
-      // Handle object children
-      for (const key in categoryValue) {
-        const colorKey = key === "DEFAULT" ? category : `${category}-${key}`;
-        colors.push({ [colorKey]: categoryValue[key].toUpperCase() });
-      }
-    } else {
-      // Handle direct color value
-      colors.push({ [category]: categoryValue });
-    }
-  }
-  return colors;
-}
-
-export function Table({ colors, prefix }) {
-  const colorList = transformBrandColors(colors);
-
+export function ColorTable({ colors }) {
   return (
     <table className="w-full">
       <thead>
@@ -31,15 +11,11 @@ export function Table({ colors, prefix }) {
         </tr>
       </thead>
       <tbody className="text-center">
-        {colorList.map((color) => {
-          const key = Object.keys(color)[0];
-          const tailwindClass = `${prefix}-${key}`;
-          const colorValue = color[key];
+        {colors.map((color) => {
           return (
             <PreviewValues
-              key={colorValue}
-              tailwinClass={tailwindClass}
-              value={colorValue}
+              tailwindClass={color.name}
+              value={color.value.toUpperCase()}
             />
           );
         })}
@@ -48,7 +24,49 @@ export function Table({ colors, prefix }) {
   );
 }
 
-function PreviewValues({ tailwinClass, value }) {
+export function SpacingTable({ spacing }) {
+  return (
+    <table className="w-full">
+      <thead>
+        <tr>
+          <th className="font-medium text-lg w-[20%]">Preview</th>
+          <th className="font-medium text-lg w-[40%]">Tailwind Class</th>
+          <th className="font-medium text-lg w-[40%]">Value</th>
+        </tr>
+      </thead>
+      <tbody className="text-center">
+        {spacing.map((spacing) => {
+          return (
+            <PreviewSpacing
+              tailwindClass={spacing.name}
+              value={spacing.value}
+            />
+          );
+        })}
+      </tbody>
+    </table>
+  );
+}
+
+function PreviewSpacing({ tailwindClass, value }) {
+  return (
+    <tr className="!bg-white">
+      <td className="flex justify-start">
+        <div
+          style={{
+            height: "40px",
+            width: value,
+            border: "2px dashed black",
+          }}
+        ></div>
+      </td>
+      <td>{tailwindClass}</td>
+      <td>{value}</td>
+    </tr>
+  );
+}
+
+function PreviewValues({ tailwindClass, value }) {
   return (
     <tr className="!bg-white">
       <td className="flex justify-center">
@@ -60,7 +78,7 @@ function PreviewValues({ tailwinClass, value }) {
           }}
         ></div>
       </td>
-      <td>{tailwinClass}</td>
+      <td>{tailwindClass}</td>
       <td>{value}</td>
     </tr>
   );

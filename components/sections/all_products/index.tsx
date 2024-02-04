@@ -19,6 +19,8 @@ function AllProducts({ data }: SectionsProps) {
     products: data?.variants?.allProducts,
   };
 
+  console.log("props", props);
+
   return Variant ? <Variant {...props} /> : null;
 }
 export default memo(AllProducts);

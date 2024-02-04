@@ -4,9 +4,12 @@ import Image from "next/image";
 import React from "react";
 import { logoLink } from "helper";
 import { FooterProps } from ".";
-import { ConditionalLink } from "components/ui/ConditionalLink";
 import { SocialIcon } from "components/ui/SocialIcons";
 import { Socials } from "components/ui/SocialIcons/SocialIcons";
+import { Container } from "components/layout/Container";
+import { Flex } from "components/layout/Flex/Flex";
+import { Text } from "components/ui/Text";
+import { Button } from "components/ui/Button";
 
 function VariantD({
   logo,
@@ -17,10 +20,10 @@ function VariantD({
 }: FooterProps) {
   return (
     <section className="py-10 overflow-hidden bg-gray-50">
-      <div className="container px-4 mx-auto">
-        <div className="flex flex-wrap -mx-4 space-y-4 lg:space-y-0">
+      <Container>
+        <Flex wrap className="space-y-4 lg:space-y-0">
           {(logo?.image || text) && (
-            <div className="flex flex-col w-full max-w-2xl p-4 space-y-4 lg:w-1/4">
+            <div className="w-full max-w-2xl space-y-4 lg:w-1/4">
               {logo?.image && (
                 <Link
                   className="inline-block text-xl font-bold leading-none"
@@ -41,40 +44,46 @@ function VariantD({
                   />
                 </Link>
               )}
-              {text && <p className="leading-normal text-gray-500">{text}</p>}
+              {text && (
+                <Text muted className="leading-normal ">
+                  {text}
+                </Text>
+              )}
             </div>
           )}
 
           {multipleMenus?.length > 0 && (
-            <div className="flex flex-wrap flex-grow p-4 -mx-4 lg:justify-around">
+            <Flex wrap className="flex-grow lg:justify-around" gap={4}>
               {multipleMenus?.map((menu) => (
-                <div key={menu?._key} className="p-4 w-[200px] flex-none">
+                <div key={menu?._key} className="w-[200px] flex-none">
                   {menu?.title && (
-                    <p className="mb-3 font-bold text-black">{menu?.title}</p>
+                    <Text weight="bold" className="mb-3">
+                      {menu?.title}
+                    </Text>
                   )}
                   {menu?.links?.length > 0 && (
-                    <ul className="flex flex-col space-y-2">
+                    <Flex as="ul" direction="col" className="space-y-2">
                       {menu?.links?.map((link) => (
                         <li key={link?._key}>
-                          <ConditionalLink
+                          <Button
                             variant="link"
                             link={link}
-                            className="text-gray-500 hover:text-gray-700"
+                            className="text-gray-500 no-underline hover:text-gray-700"
                             ariaLabel={link?.label}
                           >
                             {link?.label}
-                          </ConditionalLink>
+                          </Button>
                         </li>
                       ))}
-                    </ul>
+                    </Flex>
                   )}
                 </div>
               ))}
-            </div>
+            </Flex>
           )}
 
           {socialMedia && (
-            <div className="flex w-full p-4 ml-auto lg:justify-end lg:w-1/6">
+            <Flex className="w-full ml-auto lg:justify-end lg:w-1/6">
               {socialMedia?.map(
                 (social) =>
                   social?.socialMediaLink && (
@@ -108,15 +117,11 @@ function VariantD({
                     </span>
                   )
               )}
-            </div>
+            </Flex>
           )}
-        </div>
-        {copyright && (
-          <div className="pt-10">
-            <p className="text-sm text-gray-900">{copyright}</p>
-          </div>
-        )}
-      </div>
+        </Flex>
+        {copyright && <Text className="pt-10 text-sm">{copyright}</Text>}
+      </Container>
     </section>
   );
 }

@@ -14,7 +14,7 @@ function VariantA({ caption, title, features }: FeaturesProps) {
       <Container>
         <Container maxWidth={448} className="mb-16 text-center ">
           {caption && (
-            <Text weight="bold" color="brand-primary">
+            <Text weight="bold" className="text-primary">
               {caption}
             </Text>
           )}
@@ -36,7 +36,7 @@ export default React.memo(VariantA);
 function FeatureItem({ feature }) {
   return (
     <div className="w-full px-4 mt-16 mb-12 md:w-1/2 lg:mb-0 lg:w-1/4">
-      <span className="inline-block p-3 mb-4 rounded bg-brand-secondary-foreground text-brand-primary-foreground md:mb-6">
+      <span className="inline-block p-3 mb-4 rounded bg-secondary-foreground text-primary-foreground md:mb-6">
         {feature?.mainImage?.image && (
           <Image
             className="object-scale-down"

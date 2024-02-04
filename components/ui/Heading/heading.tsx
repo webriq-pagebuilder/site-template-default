@@ -3,6 +3,21 @@ import { StyleVariants } from "../types";
 import { cn } from "utils/cn";
 
 type Type = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
+type fontSize =
+  | "xs"
+  | "sm"
+  | "base"
+  | "lg"
+  | "xl"
+  | "2xl"
+  | "3xl"
+  | "4xl"
+  | "5xl"
+  | "6xl"
+  | "7xl"
+  | "8xl"
+  | "9xl";
+
 type TextProps = {
   type?: Type;
   className?: string;
@@ -10,6 +25,7 @@ type TextProps = {
   style?: React.CSSProperties;
   muted?: boolean;
   weight?: Weight;
+  fontSize?: fontSize;
   [key: string]: any;
 };
 
@@ -31,16 +47,43 @@ export function Heading({
   style,
   muted = false,
   weight = "normal",
+  color = "black",
+  fontSize,
+  bg,
   ...props
 }: TextProps) {
-  const Element: Type = ["h1", "h2", "h3", "h4", "h5", "h6", "p"].includes(type)
+  const Element: Type = ["h1", "h2", "h3", "h4", "h5", "h6"].includes(type)
     ? type
     : "h1";
 
-  const commonClass = `${muted && "text-gray-500"} ${
-    weight && `font-${weight}`
-  }`;
+  const fontSizeMap = {
+    xs: "text-xs",
+    sm: "text-sm",
+    base: "text-base",
+    lg: "text-lg",
+    xl: "text-xl",
+    "2xl": "text-2xl",
+    "3xl": "text-3xl",
+    "4xl": "text-4xl",
+    "5xl": "text-5xl",
+  };
 
+  const fontWeightMap = {
+    thin: "font-thin",
+    extralight: "font-extralight",
+    light: "font-light",
+    normal: "font-normal",
+    semibold: "font-semibold",
+    bold: "font-bold",
+    medium: "font-mediun",
+    extrabold: "font-extrabold",
+    black: "font-black",
+  };
+  const size = fontSizeMap[fontSize] || "text-4xl";
+  const fontWeight = fontWeightMap[weight] || "font-bold";
+  const commonClass = `text-${color} bg-${bg} ${muted && "text-gray-500"}  ${
+    weight && `${fontWeight} ${size}`
+  }`;
   const variants: StyleVariants<Type> = {
     h1: `${commonClass} text-4xl font-bold lg:text-5xl font-heading`,
     h2: `${commonClass} text-3xl font-bold lg:text-4xl`,

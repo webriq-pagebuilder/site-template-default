@@ -22,7 +22,7 @@ function VariantB({
           <div className="w-full mb-12 lg:mb-0 lg:w-1/2">
             <Container maxWidth={448}>
               {caption && (
-                <Text weight="bold" color="brand-primary">
+                <Text weight="bold" className="text-primary">
                   {caption}
                 </Text>
               )}
@@ -37,7 +37,7 @@ function VariantB({
                   tags.map((item) => (
                     <li className="flex mb-4" key={item}>
                       <svg
-                        className="w-6 h-6 mr-2 text-brand-secondary"
+                        className="w-6 h-6 mr-2 text-secondary"
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 20 20"
                         fill="currentColor"
@@ -66,7 +66,7 @@ function VariantB({
                   key={index}
                 >
                   <Card className="py-6 pl-6 pr-4 mb-8">
-                    <span className="inline-block p-3 mb-4 rounded-lg bg-brand-secondary-foreground">
+                    <span className="inline-block p-3 mb-4 rounded-lg bg-secondary-foreground">
                       {feature?.mainImage?.image && (
                         <Image
                           className="object-scale-down"

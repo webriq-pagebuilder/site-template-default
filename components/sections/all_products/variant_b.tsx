@@ -5,6 +5,10 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { Collection, CollectionProduct } from "types";
 import { AllProductsProps } from ".";
+import { Container } from "components/layout/Container";
+import { Flex } from "components/layout/Flex/Flex";
+import { Heading } from "components/ui/Heading";
+import { Text } from "components/ui/Text";
 
 function VariantB({ products }: AllProductsProps) {
   const [productQuery, setProductQuery] = useState("");
@@ -28,23 +32,23 @@ function VariantB({ products }: AllProductsProps) {
   const displayProducts = getFinalProducts(products, productQuery, activeTab);
 
   return (
-    <section className="pt-20">
-      <div className="container mx-auto px-4 bg-white">
-        <div className="flex flex-wrap -mx-3 mb-24">
+    <section className="pt-20 bg-white">
+      <Container>
+        <Flex wrap className="mb-24 ">
           {!productQuery && (
-            <div className="block w-full sm:w-1/3 lg:w-1/4 px-3">
-              <div className="lg:mb-6 py-5 lg:py-10 px-6 lg:px-12 font-custom bg-gray-50">
-                <h1 className="mb-8 text-2xl font-bold font-heading">
+            <div className="block w-full px-3 sm:w-1/3 lg:w-1/4">
+              <div className="px-6 py-5 lg:mb-6 lg:py-10 lg:px-12 font-custom bg-gray-50">
+                <Heading fontSize="2xl" className="mb-8 ">
                   Category
-                </h1>
+                </Heading>
                 {products && (
                   <ul>
                     {products?.map((collection, index) => (
                       <li
                         className={`mb-4 ${
                           activeTab === collection?.name
-                            ? " font-bold text-brand-primary"
-                            : "hover:text-brand-primary-foreground"
+                            ? " font-bold text-primary"
+                            : "hover:text-primary-foreground"
                         }`}
                         key={index}
                       >
@@ -65,12 +69,12 @@ function VariantB({ products }: AllProductsProps) {
           {displayProducts && (
             <div className={`w-full ${!productQuery && "lg:w-3/4"} px-3`}>
               {productQuery && (
-                <h1 className="text-4xl font-bold font-heading">
+                <Heading>
                   {`Showing ${displayProducts?.length} results for "${productQuery}"`}
-                </h1>
+                </Heading>
               )}
               {displayProducts?.length !== 0 ? (
-                <div className="flex flex-wrap -mx-3">
+                <Flex wrap>
                   {displayProducts?.map((product, index) => (
                     <div
                       className={`w-full sm:w-1/2 ${
@@ -85,7 +89,7 @@ function VariantB({ products }: AllProductsProps) {
                         >
                           {product?.productInfo?.images ? (
                             <Image
-                              className="mb-5 mx-auto h-56 w-full object-contain hover:scale-110 transition-all duration-700"
+                              className="object-contain w-full h-56 mx-auto mb-5 transition-all duration-700 hover:scale-110"
                               src={urlFor(
                                 product?.productInfo?.images?.[0]?.image
                               )}
@@ -98,7 +102,7 @@ function VariantB({ products }: AllProductsProps) {
                             />
                           ) : (
                             <Image
-                              className="mb-5 mx-auto h-56 w-full object-contain hover:scale-110 transition-all duration-700"
+                              className="object-contain w-full h-56 mx-auto mb-5 transition-all duration-700 hover:scale-110"
                               src="https://cdn.sanity.io/images/9itgab5x/production/9523d40461371b7b4948456c57bb663bd8998c4a-500x362.png"
                               width={350}
                               height={250}
@@ -109,41 +113,45 @@ function VariantB({ products }: AllProductsProps) {
                             />
                           )}
                           {product?.name && (
-                            <h2 className="mb-2 text-xl font-heading">
+                            <Heading type="h2" fontSize="xl" className="mb-2">
                               {product?.name}
-                            </h2>
+                            </Heading>
                           )}
                           {product?.price && (
-                            <p className="text-lg font-bold font-heading text-brand-primary">
+                            <Text
+                              fontSize="lg"
+                              weight="bold"
+                              className="text-primary"
+                            >
                               ${product?.price}
-                            </p>
+                            </Text>
                           )}
                         </Link>
                       </div>
                     </div>
                   ))}
-                </div>
+                </Flex>
               ) : (
                 <div className="text-center">
                   <Image
-                    className="w-96 h-96 object-contain mx-auto"
+                    className="object-contain mx-auto w-96 h-96"
                     src="https://cdn.sanity.io/images/9itgab5x/production/951b1f5f26048374711fa6800e0b542528240432-982x638.png"
                     width={384}
                     height={384}
                     alt="no-query-results"
                   />
-                  <span className="mb-6 text-4xl text-brand-primary font-bold">
+                  <span className="mb-6 text-4xl font-bold text-primary">
                     Whoops!
                   </span>
-                  <p className="my-8 text-gray-700">
+                  <Text className="my-8 text-gray-700">
                     {`No results for query "${productQuery}". Kindly try another keyword.`}
-                  </p>
+                  </Text>
                 </div>
               )}
             </div>
           )}
-        </div>
-      </div>
+        </Flex>
+      </Container>
     </section>
   );
 }

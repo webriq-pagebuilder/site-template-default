@@ -1,57 +1,74 @@
 import { Meta, Canvas, Story } from "@storybook/blocks";
-import { Table } from "./Theme.tsx";
+import { ColorTable, SpacingTable } from "./Theme.tsx";
 import * as TextStories from "../Text/Text.stories";
 import * as BlockStories from "../BlockStyle/Blockstyle.stories.tsx";
 import { default as twConfig } from "../../../tailwind.config";
 
-export const config = twConfig.theme.extend?.colors;
+export const config = twConfig.theme.extend;
 
 <Meta title="Theme" />
 
 # Theme
 
-## Brand Colors
+## Colors
 
-export const brandColors = "brand" in config ? config?.brand : {};
+export const colors = config?.colors;
+export const colorList = Object.entries(colors).map(([name, value]) => ({
+  name,
+  value,
+}));
 
 Imported from `tailwind.config.ts` file. You may edit these directly on the config file.
 
-<div className="mb-10">
-  {brandColors && <Table colors={brandColors} prefix={"brand"} />}
-</div>
+<div className="mb-10">{colors && <ColorTable colors={colorList} />}</div>
 
-## Neutral Colors
+## Spacing
 
-export const neutralColors = "neutral" in config ? config?.neutral : {};
+export const spacing = config?.spacing;
+export const spacingList = Object.entries(spacing).map(([name, value]) => ({
+  name,
+  value,
+}));
 
-Neutral colors used throughout the whole app.
+Imported from `tailwind.config.ts` file. You may edit these directly on the config file.
 
-<div className="mb-10">
-  {neutralColors && <Table colors={neutralColors} prefix={"neutral"} />}
-</div>
+<div className="mb-10">{colors && <SpacingTable spacing={spacingList} />}</div>
 
-## Border size and radius
+## Border Radius
+
+Imported from `tailwind.config.ts` file. You may edit these directly on the config file.
+
+export const radi = config?.borderRadius;
+export const radiList = Object.entries(radi).map(([name, value]) => ({
+  name,
+  value,
+}));
 
 <table className="w-full">
   <thead>
     <tr>
-      <th className="font-medium text-lg w-[50%]">Preview</th>
-      <th className="font-medium text-lg w-[50%]">Tailwind Class</th>
+      <th className="font-medium text-lg w-[20%]">Preview</th>
+      <th className="font-medium text-lg w-[40%]">Tailwind Class</th>
+      <th className="font-medium text-lg w-[40%]">Value</th>
     </tr>
   </thead>
   <tbody className="text-center">
-    <tr className="!bg-white">
+   {radiList.map(radius => {
+    return  <tr className="!bg-white">
       <td className="flex justify-center">
         <div
-          className="border  rounded-lg"
+          className={`border  rounded-${radius.name}`}
           style={{
             height: "100px",
             width: "100px",
+            borderColor: "black"
           }}
         ></div>
       </td>
-      <td>rounded-lg</td>
+      <td>{radius.name}</td>
+      <td>{radius.value}</td>
     </tr>
+   })}
 
   </tbody>
 </table>

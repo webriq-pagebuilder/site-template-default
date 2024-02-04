@@ -21,7 +21,7 @@ function VariantB({ subtitle, title, posts, primaryButton }: BlogProps) {
       <Container>
         <div className="w-full mb-16 text-center">
           {subtitle && (
-            <Text weight="bold" color="brand-primary">
+            <Text weight="bold" className="text-primary">
               {subtitle}
             </Text>
           )}
@@ -95,7 +95,7 @@ function BlogItem({ post }: { post: BlogPost }) {
         {post?.slug?.current && (
           <Link
             aria-label="View Blog Post"
-            className="font-bold text-brand-primary hover:text-brand-secondary"
+            className="font-bold text-primary hover:text-secondary"
             href={`/${post?.slug?.current}` ?? "/page-not-found"}
           >
             View Blog Post

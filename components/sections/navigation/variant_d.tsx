@@ -1,10 +1,12 @@
-import React from "react";
-import Link from "next/link";
-import Image from "next/image";
-import { urlFor } from "lib/sanity";
+import { Flex } from "components/layout/Flex/Flex";
+import { Button } from "components/ui/Button";
 import { logoLink } from "helper";
+import { urlFor } from "lib/sanity";
+import Image from "next/image";
+import Link from "next/link";
+import React from "react";
 import { NavigationProps } from ".";
-import { ConditionalLink } from "components/ui/ConditionalLink";
+import { Text } from "components/ui/Text";
 
 function VariantD({
   links,
@@ -20,20 +22,21 @@ function VariantD({
   return (
     <section>
       <nav className="relative px-6 py-6 bg-white">
-        <div className="flex items-center">
+        <Flex align="center">
           <ul className="hidden lg:flex lg:w-auto lg:items-center lg:space-x-5">
             {links &&
               links.map((link, index) => (
                 <React.Fragment key={index}>
                   <li>
-                    <ConditionalLink
+                    <Button
+                      asLink
                       variant="link"
                       ariaLabel={link?.label}
                       link={link}
-                      className="text-sm text-gray-500 hover:text-gray-900"
+                      className="text-sm text-gray-500 no-underline hover:text-gray-900"
                     >
                       {link?.label}
-                    </ConditionalLink>
+                    </Button>
                   </li>
                   {links.length !== index + 1 ? (
                     <li className="text-gray-500">
@@ -76,27 +79,28 @@ function VariantD({
             )}
           </div>
           {primaryButton?.label && (
-            <ConditionalLink
+            <Button
+              asLink
               ariaLabel={primaryButton?.label}
               link={primaryButton}
-              className="hidden px-6 py-2 text-sm font-bold text-gray-900 transition duration-200 lg:inline-block lg:ml-auto lg:mr-3 bg-gray-50 hover:bg-gray-100 rounded-l-xl rounded-t-xl"
+              className="hidden text-sm text-gray-900 lg:inline-block lg:ml-auto lg:mr-3 bg-gray-50 hover:bg-gray-100 "
             >
               {primaryButton?.label}
-            </ConditionalLink>
+            </Button>
           )}
           {secondaryButton?.label && (
-            <ConditionalLink
+            <Button
               ariaLabel={secondaryButton?.label}
               link={secondaryButton}
-              className="hidden px-6 py-2 text-sm font-bold text-white transition duration-200 lg:inline-block bg-brand-primary hover:bg-brand-primary-foreground rounded-l-xl rounded-t-xl"
+              className="hidden text-sm lg:inline-block "
             >
               {secondaryButton?.label}
-            </ConditionalLink>
+            </Button>
           )}
           <div className="ml-auto lg:hidden">
             <button
               aria-label="Navigation menu"
-              className="flex items-center p-3 navbar-burger text-brand-primary"
+              className="flex items-center p-3 navbar-burger text-primary"
               onClick={showMenu}
             >
               <svg
@@ -109,7 +113,7 @@ function VariantD({
               </svg>
             </button>
           </div>
-        </div>
+        </Flex>
       </nav>
       <div className={`${menu ? null : "hidden"} navbar-menu relative z-50`}>
         <div
@@ -144,14 +148,15 @@ function VariantD({
               {links &&
                 links?.map((link, index) => (
                   <li className="mb-1" key={index}>
-                    <ConditionalLink
+                    <Button
+                      asLink
                       variant="link"
                       ariaLabel={link?.label}
                       link={link}
-                      className="block p-4 text-sm font-semibold text-gray-700 rounded hover:bg-brand-secondary-foreground hover:text-brand-primary"
+                      className="block p-4 text-sm font-semibold text-gray-700 no-underline rounded hover:bg-secondary-foreground hover:text-primary"
                     >
                       {link?.label}
-                    </ConditionalLink>
+                    </Button>
                   </li>
                 ))}
             </ul>
@@ -159,27 +164,29 @@ function VariantD({
           <div className="mt-auto">
             <div className="pt-6">
               {primaryButton?.label && (
-                <ConditionalLink
+                <Button
+                  asLink
                   ariaLabel={primaryButton?.label}
                   link={primaryButton}
-                  className="hidden px-6 py-2 text-sm font-bold text-gray-900 transition duration-200 lg:inline-block lg:ml-auto lg:mr-3 bg-gray-50 hover:bg-gray-100 rounded-l-xl rounded-t-xl"
+                  className="w-full text-sm text-center text-gray-900 lg:inline-block lg:ml-auto lg:mr-3 bg-gray-50 hover:bg-gray-100"
                 >
                   {primaryButton?.label}
-                </ConditionalLink>
+                </Button>
               )}
               {secondaryButton?.label && (
-                <ConditionalLink
+                <Button
+                  asLink
                   ariaLabel={secondaryButton?.label}
                   link={secondaryButton}
-                  className="block px-4 py-3 mb-3 text-xs font-semibold leading-loose text-center text-white bg-brand-primary hover:bg-brand-primary-foreground rounded-l-xl rounded-t-xl"
+                  className="block mb-3 text-xs text-center"
                 >
                   {secondaryButton?.label}
-                </ConditionalLink>
+                </Button>
               )}
             </div>
-            <p className="my-4 text-xs text-center text-gray-500">
+            <Text fontSize="xs" muted className="my-4 text-center ">
               <span>{`© ${new Date().getFullYear()} All rights reserved.`}</span>
-            </p>
+            </Text>
           </div>
         </nav>
       </div>

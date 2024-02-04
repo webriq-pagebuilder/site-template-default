@@ -4,55 +4,50 @@ import Image from "next/image";
 import React from "react";
 import { logoLink } from "helper";
 import { FooterProps } from ".";
-import { ConditionalLink } from "components/ui/ConditionalLink";
 import { SocialIcon } from "components/ui/SocialIcons";
 import { Socials } from "components/ui/SocialIcons/SocialIcons";
+import { Container } from "components/layout/Container";
+import { Flex } from "components/layout/Flex/Flex";
+import { Text } from "components/ui/Text";
+import { Button } from "components/ui/Button";
 
 function VariantC({ logo, menu, copyright, socialMedia }: FooterProps) {
   return (
     <section className="bg-gray-50">
-      <div className="flex w-full">
-        <div className="flex w-1/3">
-          <div className="w-1/3 py-1 bg-brand-secondary" />
-          <div className="w-1/3 py-1 bg-brand-primary-foreground" />
-          <div className="w-1/3 py-1 bg-brand-primary" />
-        </div>
-        <div className="flex w-1/3">
-          <div className="w-1/3 py-1 bg-brand-secondary" />
-          <div className="w-1/3 py-1 bg-brand-primary-foreground" />
-          <div className="w-1/3 py-1 bg-brand-primary" />
-        </div>
-        <div className="flex w-1/3">
-          <div className="w-1/3 py-1 bg-brand-secondary" />
-          <div className="w-1/3 py-1 bg-brand-primary-foreground" />
-          <div className="w-1/3 py-1 bg-brand-primary" />
-        </div>
-      </div>
-      <div className="container px-4 mx-auto">
+      <BorderStyle />
+      <Container>
         <div className="pt-10 pb-12">
-          <div className="relative flex flex-wrap mb-8 lg:border-b lg:border-gray-300 lg:pb-8">
-            <p className="order-last w-full text-sm text-center text-gray-900 lg:order-first lg:w-auto lg:text-left">
-              {copyright}
-            </p>
+          <Flex
+            justify="between"
+            align="center"
+            className="relative flex-col gap-8 mb-8 md:flex-row lg:border-b lg:border-gray-300 lg:pb-8"
+          >
+            <Text className="w-full text-sm text-center">{copyright}</Text>
             {menu && (
-              <div className="mx-auto mb-6 lg:absolute lg:left-1/2 lg:mb-0 lg:-translate-x-1/2 lg:transform">
-                <ul className="flex flex-wrap items-center justify-between mx-20 lg:space-x-5">
+              <div className="mx-auto">
+                <Flex
+                  className="flex-col gap-0 lg:flex-row lg:gap-10"
+                  as="ul"
+                  align="center"
+                  justify="center"
+                >
                   {menu?.map((links, index) => (
-                    <li className="w-full mb-2 md:mb-0 md:w-auto" key={index}>
-                      <ConditionalLink
+                    <li className="w-full text-center" key={index}>
+                      <Button
+                        asLink
                         variant="link"
                         link={links}
-                        className="mr-6 text-sm hover:text-gray-500"
+                        className="text-sm text-center text-black no-underline hover:text-gray-500 whitespace-nowrap"
                         ariaLabel={links?.label}
                       >
                         {links?.label}
-                      </ConditionalLink>
+                      </Button>
                     </li>
                   ))}
-                </ul>
+                </Flex>
               </div>
             )}
-            <div className="order-first w-full mb-12 text-center lg:order-last lg:mb-0 lg:ml-auto lg:w-auto lg:text-left">
+            <div className="w-full text-center ">
               {logo?.image && (
                 <Link
                   className="inline-block text-xl font-bold leading-none"
@@ -73,9 +68,9 @@ function VariantC({ logo, menu, copyright, socialMedia }: FooterProps) {
                 </Link>
               )}
             </div>
-          </div>
+          </Flex>
           {socialMedia && (
-            <div className="flex flex-wrap justify-center space-y-2 sm:space-y-0">
+            <Flex wrap justify="center" className="space-y-2 sm:space-y-0">
               {socialMedia?.map(
                 (social) =>
                   social?.socialMediaLink && (
@@ -105,11 +100,33 @@ function VariantC({ logo, menu, copyright, socialMedia }: FooterProps) {
                     </a>
                   )
               )}
-            </div>
+            </Flex>
           )}
         </div>
-      </div>
+      </Container>
     </section>
   );
 }
 export default React.memo(VariantC);
+
+function BorderStyle() {
+  return (
+    <div className="flex w-full">
+      <div className="flex w-1/3">
+        <div className="w-1/3 py-1 bg-secondary" />
+        <div className="w-1/3 py-1 bg-primary-foreground" />
+        <div className="w-1/3 py-1 bg-primary" />
+      </div>
+      <div className="flex w-1/3">
+        <div className="w-1/3 py-1 bg-secondary" />
+        <div className="w-1/3 py-1 bg-primary-foreground" />
+        <div className="w-1/3 py-1 bg-primary" />
+      </div>
+      <div className="flex w-1/3">
+        <div className="w-1/3 py-1 bg-secondary" />
+        <div className="w-1/3 py-1 bg-primary-foreground" />
+        <div className="w-1/3 py-1 bg-primary" />
+      </div>
+    </div>
+  );
+}

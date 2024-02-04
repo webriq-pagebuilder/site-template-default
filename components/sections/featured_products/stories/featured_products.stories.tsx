@@ -643,7 +643,7 @@ const args = {
 };
 
 const meta = {
-  title: "Sections/Featured Products",
+  title: "CStudio/Featured Products",
   component: FeaturedProducts,
   tags: ["autodocs"],
   render: ({ variant, ...args }) => {

@@ -50,7 +50,7 @@ export const Input = ({
 
   const text = {
     sm: "text-xs",
-    nm: "text-base",
+    md: "text-base",
     lg: "text-lg",
   }[textSize];
 

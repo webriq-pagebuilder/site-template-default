@@ -1,9 +1,3 @@
-import React from "react";
-import WebriQForm from "components/webriq-form";
-import Image from "next/image";
-import Link from "next/link";
-import { PortableText, urlFor } from "lib/sanity";
-import { initiateCheckout } from "lib/checkout";
 import {
   CardElement,
   Elements,
@@ -12,11 +6,19 @@ import {
 } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import axios from "axios";
-import router from "next/router";
+import WebriQForm from "components/webriq-form";
 import { thankYouPageLink } from "helper";
-import { PricingProps } from ".";
+import { PortableText, urlFor } from "lib/sanity";
+import Image from "next/image";
+import router from "next/router";
+import React from "react";
 import { MyPortableTextComponents } from "types";
-import { ConditionalLink } from "components/ui/ConditionalLink";
+import { PricingProps } from ".";
+import { Text } from "components/ui/Text";
+import { Button } from "components/ui/Button";
+import { Container } from "components/layout/Container";
+import { Heading } from "components/ui/Heading";
+import { Flex } from "components/layout/Flex/Flex";
 
 function VariantD({
   caption,
@@ -129,7 +131,7 @@ function VariantD({
       link: ({ children, value }) => (
         <a
           aria-label={value.href ?? "external link"}
-          className="font-bold text-brand-primary hover:text-brand-primary"
+          className="font-bold text-primary hover:text-primary"
           href={value.href}
         >
           {children}
@@ -224,7 +226,7 @@ function VariantD({
     return (
       <div className="w-full mb-8 md:mb-0 md:w-1/2">
         <div className="px-6 py-8 text-center lg:px-8">
-          <p className="mb-8 text-2xl font-heading">{formName}</p>
+          <Text className="mb-8 text-2xl">{formName}</Text>
           {formFields && (
             <WebriQForm
               stripepkey={stripePKey}
@@ -484,9 +486,10 @@ function VariantD({
               <div>
                 <div className="webriq-recaptcha" />
               </div>
-              <button
+              <Button
+                asLink={false}
                 id="submitBtn"
-                aria-label="Submit Pricing Form button"
+                ariaLabel="Submit Pricing Form button"
                 onClick={(e) => handleSubmit(e)}
                 // type="submit"
                 // onClick={() =>
@@ -509,7 +512,7 @@ function VariantD({
                 //     setPKError
                 //   )
                 // }
-                className={`block w-full rounded-l-xl rounded-t-xl bg-brand-primary-foreground p-4 text-center font-bold leading-none text-white transition duration-200 hover:bg-brand-primary ${
+                className={`w-full ${
                   billing.billType === "" &&
                   "cursor-not-allowed disabled:opacity-50"
                 }`}
@@ -519,21 +522,22 @@ function VariantD({
                   ? "Processing Payment...."
                   : `Buy ${billing.billType} Supply`} */}
                 Buy {billing.billType} Supply
-              </button>
+              </Button>
             </WebriQForm>
           )}
           {signInLink?.label && (
-            <p className="text-xs text-gray-500">
+            <Text muted className="text-xs">
               Already have an account?{" "}
-              <ConditionalLink
+              <Button
+                asLink
                 variant="link"
                 link={signInLink}
-                className="text-brand-primary hover:underline"
+                className="text-xs  hover:underline"
                 ariaLabel={signInLink?.label}
               >
                 {signInLink?.label}
-              </ConditionalLink>
-            </p>
+              </Button>
+            </Text>
           )}
         </div>
       </div>
@@ -541,88 +545,88 @@ function VariantD({
   };
 
   return (
-    <section>
-      <div className="py-20 radius-for-skewed bg-gray-50">
-        <div className="container px-4 mx-auto">
-          <div className="max-w-2xl mx-auto mb-16 text-center">
-            <div className="max-w-lg mx-auto">
-              <span className="font-bold text-brand-primary">{caption}</span>
-              <h1 className="mb-2 text-4xl font-bold font-heading lg:text-5xl">
-                {title}
-              </h1>
-              <p className="mb-8 text-gray-500">{description}</p>
-            </div>
-            <div className="flex flex-wrap justify-center">
-              {monthlyBilling && (
-                <label className="flex items-center w-full mb-2 mr-8 sm:w-auto md:mr-4">
-                  <input
-                    aria-label={`Select ${monthlyBilling}`}
-                    type="radio"
-                    name="billing"
-                    defaultValue={monthlyBilling}
-                    onChange={(e) => handleChange(e)}
-                  />
-                  <span className="mx-2 font-semibold">Monthly Billing</span>
-                  <span className="inline-flex items-center justify-center w-16 h-10 font-semibold text-white rounded-lg bg-brand-primary">
-                    ${monthlyBilling}
-                  </span>
-                </label>
-              )}
-              {annualBilling && (
-                <label className="flex items-center w-full mb-2 sm:w-auto">
-                  <input
-                    aria-label={`Select ${annualBilling}`}
-                    type="radio"
-                    name="billing"
-                    defaultValue={annualBilling}
-                    onChange={(e) => handleChange(e)}
-                  />
-                  <span className="mx-2 font-semibold">Annual Billing</span>
-                  <span className="inline-flex items-center justify-center w-16 h-10 font-semibold text-white rounded-lg bg-brand-primary">
-                    ${annualBilling}
-                  </span>
-                </label>
-              )}
-            </div>
-          </div>
-          <div className="flex flex-wrap bg-white rounded shadow">
-            <Elements stripe={stripePromise}>
-              <Form />
-            </Elements>
-            <div className="flex flex-col w-full py-10 overflow-hidden bg-brand-primary md:w-1/2 lg:rounded-r">
-              {banner?.[banners]?.mainImage?.image?.asset?._ref && (
-                <div className="w-full mx-auto my-auto md:max-w-xs">
-                  <Image
-                    className="object-cover"
-                    src={urlFor(banner?.[banners]?.mainImage.image)}
-                    sizes="100vw"
-                    width={320}
-                    height={296}
-                    alt={`pricing-image-${banners}`}
-                  />
-                </div>
-              )}
-              <p className="max-w-sm mx-auto mb-4 text-xl text-center text-white">
-                {banner?.[banners]?.title}
-              </p>
-              <div className="text-center">
-                {banner?.map((item, index) => (
-                  <button
-                    aria-label={`Page ${index} button`}
-                    key={item?._key}
-                    className={` ${
-                      banners === index
-                        ? "mr-2 inline-block h-2 w-2 rounded-full bg-white focus:outline-none"
-                        : "mr-2 inline-block h-2 w-2 rounded-full bg-brand-secondary focus:outline-none"
-                    } `}
-                    onClick={() => setBanners(index)}
-                  />
-                ))}
+    <section className="py-20 radius-for-skewed bg-gray-50">
+      <Container>
+        <Container maxWidth={672} className="mb-16 text-center ">
+          <Container maxWidth={512}>
+            <Text weight="bold" className="text-primary">
+              {caption}
+            </Text>
+            {title && <Heading>{title}</Heading>}
+            <Text muted className="mb-8 ">
+              {description}
+            </Text>
+          </Container>
+          <Flex wrap justify="center">
+            {monthlyBilling && (
+              <label className="flex items-center w-full mb-2 mr-8 sm:w-auto md:mr-4">
+                <input
+                  aria-label={`Select ${monthlyBilling}`}
+                  type="radio"
+                  name="billing"
+                  defaultValue={monthlyBilling}
+                  onChange={(e) => handleChange(e)}
+                />
+                <span className="mx-2 font-semibold">Monthly Billing</span>
+                <span className="inline-flex items-center justify-center w-16 h-10 font-semibold text-white rounded-lg bg-primary">
+                  ${monthlyBilling}
+                </span>
+              </label>
+            )}
+            {annualBilling && (
+              <label className="flex items-center w-full mb-2 sm:w-auto">
+                <input
+                  aria-label={`Select ${annualBilling}`}
+                  type="radio"
+                  name="billing"
+                  defaultValue={annualBilling}
+                  onChange={(e) => handleChange(e)}
+                />
+                <span className="mx-2 font-semibold">Annual Billing</span>
+                <span className="inline-flex items-center justify-center w-16 h-10 font-semibold text-white rounded-lg bg-primary">
+                  ${annualBilling}
+                </span>
+              </label>
+            )}
+          </Flex>
+        </Container>
+        <Flex wrap className="bg-white rounded shadow ">
+          <Elements stripe={stripePromise}>
+            <Form />
+          </Elements>
+          <div className="flex flex-col w-full h-full py-10 overflow-hidden bg-primary md:w-1/2 lg:rounded-r">
+            {banner?.[banners]?.mainImage?.image?.asset?._ref && (
+              <div className="w-full mx-auto my-auto md:max-w-xs">
+                <Image
+                  className="object-cover"
+                  src={urlFor(banner?.[banners]?.mainImage.image)}
+                  sizes="100vw"
+                  width={320}
+                  height={296}
+                  alt={`pricing-image-${banners}`}
+                />
               </div>
+            )}
+            <Text className="max-w-sm mx-auto mb-4 text-xl text-center text-white">
+              {banner?.[banners]?.title}
+            </Text>
+            <div className="text-center">
+              {banner?.map((item, index) => (
+                <button
+                  aria-label={`Page ${index} button`}
+                  key={item?._key}
+                  className={` ${
+                    banners === index
+                      ? "mr-2 inline-block h-2 w-2 rounded-full bg-white focus:outline-none"
+                      : "mr-2 inline-block h-2 w-2 rounded-full bg-secondary focus:outline-none"
+                  } `}
+                  onClick={() => setBanners(index)}
+                />
+              ))}
             </div>
           </div>
-        </div>
-      </div>
+        </Flex>
+      </Container>
     </section>
   );
 }

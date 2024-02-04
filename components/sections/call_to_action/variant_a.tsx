@@ -5,7 +5,6 @@ import { logoLink } from "helper";
 
 import { CTAProps } from ".";
 import Image from "next/image";
-import { ConditionalLink } from "components/ui/ConditionalLink";
 import { Text } from "components/ui/Text";
 import { Container } from "components/layout/Container";
 import { Heading } from "components/ui/Heading";

@@ -22,7 +22,7 @@ function VariantE({ form, formLinks, signInLink }: CTAProps) {
               <div key={index}>
                 <Link
                   href={extractLink(link)}
-                  className="text-sm font-bold text-brand-primary hover:text-brand-primary-foreground"
+                  className="text-sm font-bold text-primary hover:text-primary-foreground"
                 >
                   {link?.label}
                 </Link>

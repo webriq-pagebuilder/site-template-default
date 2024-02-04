@@ -1,13 +1,14 @@
-import { memo, useState, Fragment, useEffect, useRef } from "react";
+import { Flex } from "components/layout/Flex/Flex";
+import { Button } from "components/ui/Button";
+import { EcwidContextProvider } from "context/EcwidContext";
+import { logoLink } from "helper";
+import { PortableText, urlFor } from "lib/sanity";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { urlFor, PortableText } from "lib/sanity";
-import { EcwidContextProvider } from "context/EcwidContext";
-import { logoLink } from "helper";
-import { NavigationProps } from ".";
+import { Fragment, memo, useEffect, useRef, useState } from "react";
 import { MyPortableTextComponents } from "types";
-import { ConditionalLink } from "components/ui/ConditionalLink";
+import { NavigationProps } from ".";
 
 function VariantE({ banner, logo, links }: NavigationProps) {
   const router = useRouter();
@@ -50,7 +51,7 @@ function VariantE({ banner, logo, links }: NavigationProps) {
       link: ({ children, value }) => (
         <Link
           aria-label={value?.href ?? "external link"}
-          className="text-brand-primary-foreground hover:text-brand-secondary-foreground"
+          className="text-primary-foreground hover:text-secondary-foreground"
           href={value?.href}
           target="_blank"
           rel="noopener noreferrer"
@@ -78,8 +79,8 @@ function VariantE({ banner, logo, links }: NavigationProps) {
     <EcwidContextProvider>
       <section className="relative">
         {banner && (
-          <div className="py-2 bg-brand-primary">
-            <div className="flex items-center justify-center">
+          <div className="py-2 bg-primary">
+            <Flex align="center" justify="center">
               <svg
                 className="mr-2"
                 width={18}
@@ -107,11 +108,11 @@ function VariantE({ banner, logo, links }: NavigationProps) {
                 />
               </svg>
               <PortableText value={banner} components={blockStyle} />
-            </div>
+            </Flex>
           </div>
         )}
-        <nav className="relative flex justify-between">
-          <div className="flex items-center w-full px-12 py-8">
+        <Flex as="nav" justify="between" className="relative">
+          <Flex align="center" className="w-full px-12 py-8">
             {logo?.image && (
               <Link
                 aria-label={`Go to ${
@@ -135,23 +136,24 @@ function VariantE({ banner, logo, links }: NavigationProps) {
                 links.map((link, index) => (
                   <Fragment key={index}>
                     <li>
-                      <ConditionalLink
+                      <Button
+                        asLink
                         variant="link"
                         ariaLabel={link?.label}
                         link={link}
                         className={
                           link?.type === "linkInternal"
-                            ? "xl:mr-12 lg:mr-8 font-bold font-heading hover:text-gray-600"
-                            : "mr-12 font-bold font-heading hover:text-gray-600"
+                            ? "xl:mr-12 lg:mr-8 font-bold font-heading hover:text-gray-600 no-underline text-black"
+                            : "mr-12 font-bold font-heading hover:text-gray-600 no-underline text-black"
                         }
                       >
                         {link?.label}
-                      </ConditionalLink>
+                      </Button>
                     </li>
                   </Fragment>
                 ))}
             </ul>
-          </div>
+          </Flex>
           {/* larger screens search, cart and account icons/buttons */}
           <div className="items-center justify-end hidden mr-12 xl:flex">
             {/* Search button */}
@@ -183,17 +185,17 @@ function VariantE({ banner, logo, links }: NavigationProps) {
                   id="query"
                   name="query"
                   aria-label="Search..."
-                  className="inline-block w-40 h-full p-2 mt-1 text-sm bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:border-brand-primary-foreground focus:outline-none focus:ring-1 focus:ring-brand-primary-foreground"
+                  className="inline-block w-40 h-full p-2 mt-1 text-sm bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:border-primary-foreground focus:outline-none focus:ring-1 focus:ring-primary-foreground"
                   placeholder="Search..."
                   onChange={(e) => setProductQuery(e.target.value)}
                   type="search"
                 />
                 <button
                   aria-label="Submit product search"
-                  className={`mt-1 inline-flex h-[35px] w-10 items-center justify-center bg-brand-primary ${
+                  className={`mt-1 inline-flex h-[35px] w-10 items-center justify-center bg-primary ${
                     productQuery === ""
                       ? "cursor-not-allowed opacity-50"
-                      : "transition duration-200 hover:bg-brand-primary-foreground"
+                      : "transition duration-200 hover:bg-primary-foreground"
                   }`}
                   disabled={productQuery === ""}
                   type="submit"
@@ -266,7 +268,7 @@ function VariantE({ banner, logo, links }: NavigationProps) {
               />
             </svg>
           </button>
-        </nav>
+        </Flex>
         <div
           className={`${
             menu ? null : "hidden"
@@ -331,17 +333,17 @@ function VariantE({ banner, logo, links }: NavigationProps) {
                 id="query"
                 name="query"
                 aria-label="Search product"
-                className="inline-block w-full h-full p-2 text-sm bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:border-brand-primary-foreground focus:outline-none focus:ring-1 focus:ring-brand-primary-foreground sm:w-60"
+                className="inline-block w-full h-full p-2 text-sm bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:border-primary-foreground focus:outline-none focus:ring-1 focus:ring-primary-foreground sm:w-60"
                 placeholder="Search..."
                 onChange={(e) => setProductQuery(e.target.value)}
                 type="search"
               />
               <button
                 aria-label="Submit product search"
-                className={`inline-flex h-full w-10 items-center justify-center bg-brand-primary ${
+                className={`inline-flex h-full w-10 items-center justify-center bg-primary ${
                   productQuery === ""
                     ? "cursor-not-allowed opacity-50"
-                    : "transition duration-200 hover:bg-brand-primary-foreground"
+                    : "transition duration-200 hover:bg-primary-foreground"
                 }`}
                 disabled={productQuery === ""}
                 type="submit"
@@ -366,14 +368,15 @@ function VariantE({ banner, logo, links }: NavigationProps) {
                 links.map((link, index) => (
                   <Fragment key={index}>
                     <li className="mb-8">
-                      <ConditionalLink
+                      <Button
+                        asLink
                         variant="link"
                         ariaLabel={link?.label}
                         link={link}
-                        className="font-bold font-heading hover:text-gray-600"
+                        className="font-bold text-black no-underline font-heading hover:text-gray-600"
                       >
                         {link?.label}
-                      </ConditionalLink>
+                      </Button>
                     </li>
                   </Fragment>
                 ))}

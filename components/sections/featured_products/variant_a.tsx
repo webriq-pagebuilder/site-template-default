@@ -5,6 +5,10 @@ import { useEcwid } from "context/EcwidContext";
 import Ribbon from "components/ecwid/Ribbon";
 
 import { FeaturedProductsProps } from ".";
+import { Container } from "components/layout/Container";
+import { Heading } from "components/ui/Heading";
+import { Flex } from "components/layout/Flex/Flex";
+import { Text } from "components/ui/Text";
 
 function VariantA({ title, featured }: FeaturedProductsProps) {
   const ecwid = useEcwid();
@@ -18,14 +22,10 @@ function VariantA({ title, featured }: FeaturedProductsProps) {
 
   return (
     <section className="relative py-20">
-      <div className="container relative px-4 mx-auto">
-        {title && (
-          <h1 className="mb-8 text-4xl font-bold md:mb-16 md:text-5xl">
-            {title}
-          </h1>
-        )}
+      <Container className="relative ">
+        {title && <Heading className="mb-8 md:mb-16 ">{title}</Heading>}
         {featured && (
-          <div className="flex flex-wrap -mx-3">
+          <Flex wrap>
             {featured?.map((product, index) => {
               let items = [];
               ecwid?.productCollection &&
@@ -78,22 +78,28 @@ function VariantA({ title, featured }: FeaturedProductsProps) {
                         </div>
                       </div>
 
-                      <p className="text-xl font-bold hover:text-opacity-80 sm:text-2xl xl:text-3xl">
+                      <Text
+                        weight="bold"
+                        className="text-xl hover:text-opacity-80 sm:text-2xl xl:text-3xl"
+                      >
                         {product?.name}
-                      </p>
+                      </Text>
                     </a>
-                    <p className="text-lg font-bold text-white font-heading sm:text-xl">
-                      <span className="mr-2 text-brand-primary">
+                    <Text
+                      weight="bold"
+                      className="text-lg text-white sm:text-xl"
+                    >
+                      <span className="mr-2 text-primary">
                         {featuredCollections?.defaultDisplayedPriceFormatted}
                       </span>
-                    </p>
+                    </Text>
                   </div>
                 ))
               );
             })}
-          </div>
+          </Flex>
         )}
-      </div>
+      </Container>
     </section>
   );
 }

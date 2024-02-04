@@ -5,7 +5,7 @@ import { extractLink, thankYouPageLink } from "helper";
 import { HeaderProps } from ".";
 
 import { FormFields } from "types";
-import { ConditionalLink } from "components/ui/ConditionalLink";
+
 import { SignUpForm } from "components/common/form/sign-up-form";
 import { Container } from "components/layout/Container";
 import { Flex } from "components/layout/Flex/Flex";
@@ -67,7 +67,7 @@ function VariantE({
                     <span key={index}>
                       <Link
                         href={extractLink(link)}
-                        className="underline text-brand-primary hover:text-brand-primary-foreground"
+                        className="underline text-primary hover:text-primary-foreground"
                       >
                         {link?.label}
                       </Link>

@@ -3,7 +3,6 @@ import { urlFor } from "lib/sanity";
 import Image from "next/image";
 
 import { HeaderProps } from ".";
-import { ConditionalLink } from "components/ui/ConditionalLink";
 import { Container } from "components/layout/Container";
 import { Flex } from "components/layout/Flex/Flex";
 import { Heading } from "components/ui/Heading";

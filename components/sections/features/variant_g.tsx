@@ -21,7 +21,7 @@ function VariantG({
           <div className="w-full px-4 mb-12 lg:mb-0 lg:w-1/2">
             <Container maxWidth={448}>
               {caption && (
-                <Text weight="bold" color="brand-primary">
+                <Text weight="bold" className="text-primary">
                   {caption}
                 </Text>
               )}
@@ -110,7 +110,7 @@ function FeatureItem({ item }) {
   return (
     <Flex as="li" align="center" className="mb-2 ">
       <svg
-        className="w-5 h-5 mr-2 text-brand-primary-foreground"
+        className="w-5 h-5 mr-2 text-primary-foreground"
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 20 20"
         fill="currentColor"

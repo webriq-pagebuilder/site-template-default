@@ -14,7 +14,7 @@ html {
 /* ECWID COMPONENT CUSTOM STYLING */
 /* TODO: MIGRATE THIS TO CSS MODULE */
 /* .cart-icon {
-  @apply relative before:content-[attr(data-count)] before:absolute before:flex before:items-center before:justify-center before:bg-brand-primary before:rounded-full before:h-6 before:w-6 before:-top-3 before:-right-3 before:text-white;
+  @apply relative before:content-[attr(data-count)] before:absolute before:flex before:items-center before:justify-center before:bg-primary before:rounded-full before:h-6 before:w-6 before:-top-3 before:-right-3 before:text-white;
 } */
 html#ecwid_html body#ecwid_body .cart-icon {
   position: relative;

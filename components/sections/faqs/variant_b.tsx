@@ -31,7 +31,7 @@ function VariantB({ subtitle, title, faqsWithCategories }: FAQProps) {
     <section className="py-20 bg-gray-50">
       <div className="border-b">
         <Container maxWidth={576} className="mb-16 text-center ">
-          <Text weight="bold" color="brand-primary">
+          <Text weight="bold" className="text-primary">
             {subtitle}
           </Text>
           <Heading>{title}</Heading>
@@ -45,8 +45,8 @@ function VariantB({ subtitle, title, faqsWithCategories }: FAQProps) {
                 onClick={() => setTabPane(tab?.category)}
                 className={
                   tabPane === tab?.category
-                    ? "w-full border-b-2 border-brand-primary-foreground px-4 py-4 font-bold text-brand-primary md:w-1/2 lg:w-auto"
-                    : "w-full border-b-2 border-transparent px-4 py-4 font-bold text-gray-500 transition duration-150 hover:border-brand-primary-foreground hover:text-brand-primary md:w-1/2 lg:w-auto"
+                    ? "w-full border-b-2 border-primary-foreground px-4 py-4 font-bold text-primary md:w-1/2 lg:w-auto"
+                    : "w-full border-b-2 border-transparent px-4 py-4 font-bold text-gray-500 transition duration-150 hover:border-primary-foreground hover:text-primary md:w-1/2 lg:w-auto"
                 }
               >
                 {tab?.category}
@@ -99,7 +99,7 @@ function FAQItem({ content, activeQA, show, index, toggleView }) {
 function ArrowIcon({ show, activeQA, index }) {
   return (
     <svg
-      className="w-4 h-4 text-brand-primary lg:h-6 lg:w-6 xl:h-6 xl:w-6 2xl:h-6 2xl:w-6"
+      className="w-4 h-4 text-primary lg:h-6 lg:w-6 xl:h-6 xl:w-6 2xl:h-6 2xl:w-6"
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
       viewBox="0 0 24 24"

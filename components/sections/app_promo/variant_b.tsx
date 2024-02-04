@@ -36,8 +36,7 @@ function VariantB({
           <div className="w-full mt-8 lg:w-1/2">
             <Text
               weight="bold"
-              color="brand-primary"
-              className="text-center md:text-left"
+              className="text-center md:text-left text-primary"
             >
               {subtitle}
             </Text>

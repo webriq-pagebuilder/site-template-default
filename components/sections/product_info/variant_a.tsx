@@ -17,6 +17,10 @@ import "swiper/css/navigation";
 import "swiper/css/thumbs";
 import "swiper/css/pagination";
 import "swiper/css/a11y";
+import { Container } from "components/layout/Container";
+import { Flex } from "components/layout/Flex/Flex";
+import { Text } from "components/ui/Text";
+import { Heading } from "components/ui/Heading";
 
 function VariantA({
   subtitle,
@@ -105,7 +109,7 @@ function VariantA({
       link: ({ children, value }) => (
         <a
           aria-label={value.href ?? "external link"}
-          className="text-brand-primary-foreground hover:text-brand-secondary-foreground"
+          className="text-primary-foreground hover:text-secondary-foreground"
           href={value.href}
           target="_blank"
           rel="noopener noreferrer"
@@ -118,8 +122,8 @@ function VariantA({
 
   return (
     <section className="sm:p-12 md:p-20">
-      <div className="container px-4 mx-auto">
-        <div className="flex flex-wrap mb-5 -mx-4">
+      <Container>
+        <Flex wrap className="mb-5 ">
           <div className="w-full px-4 mb-8 mt-14 md:mb-0 lg:w-1/2">
             <div className="relative mb-10">
               <Swiper
@@ -233,20 +237,25 @@ function VariantA({
                   </div>
                 )}
                 {subtitle && (
-                  <span className="font-bold font-custom text-brand-primary">
+                  <Text weight="bold" className="text-primary">
                     {subtitle}
-                  </span>
+                  </Text>
                 )}
                 {product?.name && (
-                  <h1 className="mt-2 mb-6 text-5xl font-bold font-heading md:text-6xl lg:max-w-xl">
+                  <Heading
+                    weight="bold"
+                    className="mt-2 mb-6 text-5xl md:text-6xl lg:max-w-xl"
+                  >
                     {product?.name}
-                  </h1>
+                  </Heading>
                 )}
                 <div className="mb-8">{/* Ratings from Ecwid */}</div>
                 {/* Product price */}
                 {product?.price && (
-                  <p
-                    className={`font-heading text-brand-primary inline-block text-2xl font-bold ${
+                  <Text
+                    weight="bold"
+                    fontSize="2xl"
+                    className={` text-primary inline-block ${
                       !ecwidProduct?.compareToPrice && "mb-8"
                     }`}
                   >
@@ -254,7 +263,7 @@ function VariantA({
                     {ecwidProduct
                       ? getPriceDisplay()
                       : ecwidProduct?.defaultDisplayedPriceFormatted}
-                  </p>
+                  </Text>
                 )}
                 {/* "CompareTo" price */}
                 {ecwidProduct?.compareToPrice && (
@@ -270,7 +279,7 @@ function VariantA({
                     </span>{" "}
                     (
                     <span
-                      className="text-brand-secondary"
+                      className="text-secondary"
                       style={{ fontSize: "15px" }}
                     >
                       {`Save ${ecwidProduct?.compareToPriceDiscountPercentFormatted}`}
@@ -295,7 +304,7 @@ function VariantA({
                       <div className="w-full lg:mb-4 xl:mb-0">
                         <AddToBag
                           inStock={!ecwidProduct?.inStock}
-                          classNames="block w-full text-center text-white font-bold font-heading py-5 px-8 rounded-md uppercase transition duration-200 bg-brand-primary hover:bg-brand-primary-foreground cursor-pointer"
+                          classNames="block w-full text-center text-white font-bold font-heading py-5 px-8 rounded-md uppercase transition duration-200 bg-primary hover:bg-primary-foreground cursor-pointer"
                         >
                           {btnLabel}
                         </AddToBag>
@@ -304,7 +313,7 @@ function VariantA({
 
                     {/* Add to wishlist button */}
                     <AddToWishlist
-                      classNames="ml-auto sm:ml-0 flex-shrink-0 inline-flex items-center justify-center w-full h-16 rounded-md border hover:border-brand-primary"
+                      classNames="ml-auto sm:ml-0 flex-shrink-0 inline-flex items-center justify-center w-full h-16 rounded-md border hover:border-primary"
                       product={defaultProduct}
                     >
                       <svg
@@ -404,16 +413,16 @@ function VariantA({
               )}
             </div>
           </div>
-        </div>
+        </Flex>
         {productDetails && (
           <div>
-            <ul className="flex flex-wrap mb-16 border-b-2">
+            <Flex as="ul" wrap className="mb-16 border-b-2">
               {productDetails?.map((details, index) => (
                 <li className="w-1/2 md:w-auto" key={index}>
                   <button
                     className={`font-heading inline-block px-7 py-6 font-bold lg:px-10 ${
                       activeTab === index
-                        ? "bg-white text-brand-primary shadow-2xl"
+                        ? "bg-white text-primary shadow-2xl"
                         : "text-gray-500 hover:shadow-2xl"
                     }`}
                     onClick={() => setActiveTab(index)}
@@ -423,7 +432,7 @@ function VariantA({
                   </button>
                 </li>
               ))}
-            </ul>
+            </Flex>
             {productDetails?.[activeTab]?.contentType !== "textOnly" ? (
               <div className="flex flex-wrap gap-x-5">
                 {productDetails?.[activeTab]?.media &&
@@ -474,7 +483,7 @@ function VariantA({
             {/* @TO DO: ADD VALUE SOURCE FOR CUSTOMER REVIEWS HERE */}
           </div>
         )}
-      </div>
+      </Container>
     </section>
   );
 }

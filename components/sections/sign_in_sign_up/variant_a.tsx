@@ -1,21 +1,23 @@
-import React from "react";
-import Link from "next/link";
-import Image from "next/image";
-import WebriQForm from "components/webriq-form";
-import { urlFor } from "lib/sanity";
-import { logoLink, thankYouPageLink, ConditionalLink } from "helper";
-import { SignUpFormProps } from ".";
-import { FormFields as TFormFields } from "types";
+import { Container } from "components/layout/Container";
+import { Button } from "components/ui/Button";
 import { Form } from "components/ui/Form/Form";
 import { FormField } from "components/ui/FormField";
-import { Button } from "components/ui/Button";
+import { Heading } from "components/ui/Heading";
 import { Input } from "components/ui/Input";
+import { Text } from "components/ui/Text";
+import { logoLink, thankYouPageLink } from "helper";
+import { urlFor } from "lib/sanity";
+import Image from "next/image";
+import Link from "next/link";
+import React from "react";
+import { FormFields as TFormFields } from "types";
+import { SignUpFormProps } from ".";
 
 function VariantA({ logo, form, formLinks, signInLink }: SignUpFormProps) {
   return (
     <section className="py-10 bg-gray-50 lg:py-20">
-      <div className="container px-4 mx-auto">
-        <div className="max-w-md mx-auto">
+      <Container>
+        <Container maxWidth={576}>
           <div className="mb-10">
             {logo?.image && (
               <Link
@@ -37,8 +39,8 @@ function VariantA({ logo, form, formLinks, signInLink }: SignUpFormProps) {
           </div>
           <div className="mb-6 text-center lg:mb-10">
             <div className="mb-6">
-              <span className="text-gray-500">{form?.subtitle}</span>
-              <h1 className="text-2xl font-bold">{form?.name}</h1>
+              <Text muted>{form?.subtitle}</Text>
+              <Heading className="text-2xl lg:text-2xl">{form.name}</Heading>
             </div>
             {form?.fields && (
               <Form
@@ -80,7 +82,8 @@ function VariantA({ logo, form, formLinks, signInLink }: SignUpFormProps) {
                 <div className="text-center">
                   {form?.buttonLabel && (
                     <Button
-                      variant="tertiary"
+                      asLink={false}
+                      variant="custom"
                       ariaLabel={
                         form?.buttonLabel ?? "Sign Up form submit button"
                       }
@@ -90,19 +93,23 @@ function VariantA({ logo, form, formLinks, signInLink }: SignUpFormProps) {
                       {form?.buttonLabel}
                     </Button>
                   )}
-                  {signInLink?.label && (
-                    <span className="text-xs text-gray-500">
-                      <span>Already have an account?</span>{" "}
-                      <ConditionalLink
-                        link={signInLink}
-                        className="text-brand-primary hover:underline"
-                        ariaLabel={signInLink?.label}
-                      >
-                        {signInLink?.label}
-                      </ConditionalLink>
-                    </span>
-                  )}
                 </div>
+                {signInLink?.label && (
+                  <div className="w-full text-center ">
+                    <span className="text-xs text-gray-500">
+                      Already have an account?
+                    </span>
+
+                    <Button
+                      variant="link"
+                      link={signInLink}
+                      className="text-xs text-primary hover:underline"
+                      ariaLabel={signInLink?.label}
+                    >
+                      {signInLink?.label}
+                    </Button>
+                  </div>
+                )}
               </Form>
             )}
           </div>
@@ -110,17 +117,19 @@ function VariantA({ logo, form, formLinks, signInLink }: SignUpFormProps) {
             <p className="mt-16 text-xs text-center text-gray-700">
               {formLinks?.map((link, index, { length }) => (
                 <span key={index}>
-                  <ConditionalLink
+                  <Button
+                    asLink
+                    variant="link"
                     link={link}
-                    className={
+                    className={` text-gray-700 text-xs ${
                       link?.type === "linkInternal"
                         ? "underline hover:text-gray-500"
-                        : "text-brand-primary hover:underline"
-                    }
+                        : "text-primary hover:underline"
+                    }`}
                     ariaLabel={link?.label}
                   >
                     {link?.label}
-                  </ConditionalLink>
+                  </Button>
                   {index === length - 1 ? null : index === length - 2 ? (
                     <span>&nbsp;and&nbsp;</span>
                   ) : (
@@ -130,8 +139,8 @@ function VariantA({ logo, form, formLinks, signInLink }: SignUpFormProps) {
               ))}
             </p>
           )}
-        </div>
-      </div>
+        </Container>
+      </Container>
     </section>
   );
 }

@@ -37,7 +37,7 @@ function VariantA({ subtitle, title, faqs }: FAQProps) {
     <section className="py-20 bg-gray-50">
       <Container>
         <Container maxWidth={576} className="mb-16 text-center ">
-          <Text weight="bold" color="brand-primary">
+          <Text weight="bold" className="text-primary">
             {subtitle}
           </Text>
           <Heading className="mb-6 ">{title}</Heading>
@@ -51,7 +51,7 @@ function VariantA({ subtitle, title, faqs }: FAQProps) {
               />
               <button
                 aria-label="Search button"
-                className="pr-4 bg-white rounded-r-lg text-brand-primary"
+                className="pr-4 bg-white rounded-r-lg text-primary"
               >
                 <svg
                   className="w-6 h-6"
@@ -109,7 +109,7 @@ const FAQs = ({ items, toggleView, indexOfFirstQuestion, show, activeTab }) => {
             >
               <span className="text-xl">{faq?.question}</span>
               <svg
-                className="w-4 h-4 text-brand-primary"
+                className="w-4 h-4 text-primary"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
@@ -157,7 +157,7 @@ const Pagination = ({ faqsPerPage, totalFaqs, changePage }) => {
         <button
           aria-label={`Page ${buttonNumber}`}
           key={buttonNumber}
-          className="inline-block w-2 h-2 rounded-full bg-brand-primary-foreground"
+          className="inline-block w-2 h-2 rounded-full bg-primary-foreground"
           onClick={() => changePage(buttonNumber)}
         />
       ))}
