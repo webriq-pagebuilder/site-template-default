@@ -9,6 +9,10 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        primary: {
+          DEFAULT: "#0045d8",
+          foreground: "#296eff",
+        },
         brand: {
           primary: {
             DEFAULT: "#0045d8",

@@ -31,13 +31,15 @@ export function Heading({
   style,
   muted = false,
   weight = "normal",
+  color = "black",
+  bg,
   ...props
 }: TextProps) {
   const Element: Type = ["h1", "h2", "h3", "h4", "h5", "h6", "p"].includes(type)
     ? type
     : "h1";
 
-  const commonClass = `${muted && "text-gray-500"} ${
+  const commonClass = `text-${color} bg-${bg} ${muted && "text-gray-500"}  ${
     weight && `font-${weight}`
   }`;
 

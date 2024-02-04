@@ -17,21 +17,9 @@ const meta: Meta<typeof Button> = {
 export default meta;
 type Story = StoryObj<typeof Button>;
 
-export const Primary: Story = {
+export const Solid: Story = {
   args: {
-    variant: "primary",
-  },
-};
-
-export const Secondary: Story = {
-  args: {
-    variant: "secondary",
-  },
-};
-
-export const Tertiary: Story = {
-  args: {
-    variant: "tertiary",
+    variant: "solid",
   },
 };
 
@@ -41,28 +29,20 @@ export const Outline: Story = {
   },
 };
 
-export const Borderless: Story = {
+export const Ghost: Story = {
   args: {
-    variant: "borderless",
+    variant: "ghost",
   },
 };
 
-export const Loading: Story = {
+export const Link: Story = {
   args: {
-    loading: true,
+    variant: "link",
   },
 };
 
-export const WithLoadingComponent: Story = {
+export const Custom: Story = {
   args: {
-    loading: true,
-    loadingComponent: <ImSpinner2 className="animate-spin" size={30} />,
-  },
-};
-
-export const CustomClass: Story = {
-  args: {
-    className:
-      "rounded-none bg-orange-600 tracking-widest text-gray-200 hover:bg-orange-400",
+    variant: "custom",
   },
 };

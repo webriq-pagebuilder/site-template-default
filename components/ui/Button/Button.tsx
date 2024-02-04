@@ -1,18 +1,14 @@
-import React from "react";
-import { cn } from "utils/cn";
-import { FaSpinner } from "react-icons/fa";
-import { StyleVariants } from "../types";
-import { LabeledRoute, LabeledRouteWithKey } from "types";
-import Link from "next/link";
 import { extractLink } from "helper";
+import Link from "next/link";
+import React from "react";
+import { FaSpinner } from "react-icons/fa";
+import { LabeledRoute } from "types";
+import { cn } from "utils/cn";
+import { StyleVariants } from "../types";
 
-type Variant =
-  | "outline"
-  | "primary"
-  | "secondary"
-  | "borderless"
-  | "tertiary"
-  | "link";
+type Variant = "outline" | "ghost" | "link" | "custom" | "solid";
+type TextSize = "sm" | "md" | "lg";
+type RadiusSize = "sm" | "md" | "lg" | "xl" | "2xl" | "none";
 export type ButtonProps = {
   /** Defines the classname of the button. */
   className?: string;
@@ -31,13 +27,17 @@ export type ButtonProps = {
   onClick?: (...args: any) => any;
   /** Set button type. Defaults to button */
   type?: "button" | "submit";
+  /** Set button to link component */
   asLink?: boolean;
+  /** Link data pass to the button */
   link?: LabeledRoute;
+  size?: TextSize;
+  borderRadius?: RadiusSize;
   [key: string]: any;
 };
 
 export function Button({
-  variant = "primary",
+  variant = "solid",
   className,
   ariaLabel,
   children,
@@ -48,26 +48,50 @@ export function Button({
   type = "button",
   link: linkObject,
   asLink = false,
+  size = "md",
+  borderRadius,
   ...props
 }: ButtonProps) {
-  const commonStyles =
-    "inline-block py-2 px-6 rounded-l-xl rounded-t-xl font-bold  transition duration-200";
-  const primary = `${commonStyles} bg-brand-primary hover:bg-brand-primary-foreground text-gray-50  outline-none `;
-  const outline = `${commonStyles} bg-white hover:bg-slate-100 font-bold border text-brand-primary-foreground border-brand-primary-foreground `;
-  const secondary = `${commonStyles} bg-brand-secondary hover:bg-brand-secondary-foreground font-bold  text-gray-50`;
-  const borderless = `${commonStyles} bg-transparent hover:bg-slate-100 border-0`;
-  const tertiary = `${commonStyles} rounded bg-brand-primary hover:bg-brand-primary-foreground text-gray-50  outline-none`;
-  const link = `transition-200 text-sm text-brand-primary hover:text-brand-primary-foreground`;
-  const variants: StyleVariants<Variant> = {
-    primary,
-    secondary,
-    outline,
-    borderless,
-    tertiary,
-    link,
+  const sizes = {
+    sm: "py-2 px-4 text-sm",
+    md: "py-3 px-6 text-base",
+    lg: "py-4 px-7 text-lg",
   };
 
-  const variantClass = variants[variant] ?? primary;
+  const borderRadiusMap = {
+    none: "rounded-none",
+    sm: "rounded-sm",
+    md: "rounded-md",
+    lg: "rounded-lg",
+    xl: "rounded-xl",
+    "2xl": "rounded-2xl",
+  };
+
+  const buttonRadius = borderRadiusMap[borderRadius];
+  const buttonSize = sizes[size] || sizes["md"];
+
+  const commonStyles =
+    "inline-block rounded-l-xl rounded-t-xl font-bold transition duration-200";
+  const solid = `${commonStyles} ${buttonSize} ${buttonRadius} bg-brand-primary hover:bg-brand-primary-foreground text-gray-50`;
+  const custom = `inline-block bg-primary hover:bg-primary-foreground ${buttonSize} ${
+    buttonRadius || "rounded-md"
+  } text-gray-50 font-bold transition duration-200`;
+  const outline = `${commonStyles} ${buttonSize} ${buttonRadius} bg-white hover:bg-brand-primary-foreground/20 border text-brand-primary border-brand-primary`;
+  const ghost = `${commonStyles}  ${buttonRadius} ${buttonSize} bg-transparent hover:bg-brand-primary-foreground/20 text-brand-primary`;
+  const link = `transition-200 text-brand-primary hover:text-brand-primary-foreground underline  ${buttonRadius} ${cn(
+    buttonSize,
+    "px-0 py-0"
+  )} `;
+  const variants: StyleVariants<Variant> = {
+    outline,
+    ghost,
+    link,
+    custom,
+    solid,
+  };
+
+  const variantClass = variants[variant] ?? solid;
+
   const Loader = loadingComponent ?? (
     <FaSpinner className="animate-spin" size={30} />
   );
