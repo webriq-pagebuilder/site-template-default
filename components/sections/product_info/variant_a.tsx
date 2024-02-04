@@ -17,6 +17,10 @@ import "swiper/css/navigation";
 import "swiper/css/thumbs";
 import "swiper/css/pagination";
 import "swiper/css/a11y";
+import { Container } from "components/layout/Container";
+import { Flex } from "components/layout/Flex/Flex";
+import { Text } from "components/ui/Text";
+import { Heading } from "components/ui/Heading";
 
 function VariantA({
   subtitle,
@@ -118,8 +122,8 @@ function VariantA({
 
   return (
     <section className="sm:p-12 md:p-20">
-      <div className="container px-4 mx-auto">
-        <div className="flex flex-wrap mb-5 -mx-4">
+      <Container>
+        <Flex wrap className="mb-5 ">
           <div className="w-full px-4 mb-8 mt-14 md:mb-0 lg:w-1/2">
             <div className="relative mb-10">
               <Swiper
@@ -233,20 +237,25 @@ function VariantA({
                   </div>
                 )}
                 {subtitle && (
-                  <span className="font-bold font-custom text-primary">
+                  <Text weight="bold" className="text-primary">
                     {subtitle}
-                  </span>
+                  </Text>
                 )}
                 {product?.name && (
-                  <h1 className="mt-2 mb-6 text-5xl font-bold font-heading md:text-6xl lg:max-w-xl">
+                  <Heading
+                    weight="bold"
+                    className="mt-2 mb-6 text-5xl md:text-6xl lg:max-w-xl"
+                  >
                     {product?.name}
-                  </h1>
+                  </Heading>
                 )}
                 <div className="mb-8">{/* Ratings from Ecwid */}</div>
                 {/* Product price */}
                 {product?.price && (
-                  <p
-                    className={`font-heading text-primary inline-block text-2xl font-bold ${
+                  <Text
+                    weight="bold"
+                    fontSize="2xl"
+                    className={` text-primary inline-block ${
                       !ecwidProduct?.compareToPrice && "mb-8"
                     }`}
                   >
@@ -254,7 +263,7 @@ function VariantA({
                     {ecwidProduct
                       ? getPriceDisplay()
                       : ecwidProduct?.defaultDisplayedPriceFormatted}
-                  </p>
+                  </Text>
                 )}
                 {/* "CompareTo" price */}
                 {ecwidProduct?.compareToPrice && (
@@ -404,10 +413,10 @@ function VariantA({
               )}
             </div>
           </div>
-        </div>
+        </Flex>
         {productDetails && (
           <div>
-            <ul className="flex flex-wrap mb-16 border-b-2">
+            <Flex as="ul" wrap className="mb-16 border-b-2">
               {productDetails?.map((details, index) => (
                 <li className="w-1/2 md:w-auto" key={index}>
                   <button
@@ -423,7 +432,7 @@ function VariantA({
                   </button>
                 </li>
               ))}
-            </ul>
+            </Flex>
             {productDetails?.[activeTab]?.contentType !== "textOnly" ? (
               <div className="flex flex-wrap gap-x-5">
                 {productDetails?.[activeTab]?.media &&
@@ -474,7 +483,7 @@ function VariantA({
             {/* @TO DO: ADD VALUE SOURCE FOR CUSTOMER REVIEWS HERE */}
           </div>
         )}
-      </div>
+      </Container>
     </section>
   );
 }

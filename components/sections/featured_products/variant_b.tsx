@@ -5,6 +5,10 @@ import Ribbon from "components/ecwid/Ribbon";
 import Image from "next/image";
 
 import { FeaturedProductsProps } from ".";
+import { Container } from "components/layout/Container";
+import { Flex } from "components/layout/Flex/Flex";
+import { Heading } from "components/ui/Heading";
+import { Text } from "components/ui/Text";
 
 function VariantB({ title, featured }: FeaturedProductsProps) {
   const ecwid = useEcwid();
@@ -17,13 +21,13 @@ function VariantB({ title, featured }: FeaturedProductsProps) {
   }, []);
 
   return (
-    <section className="overflow-x-hidden bg-gray-50 py-20">
-      <div className="container mx-auto px-4">
-        <div className="mb-20 flex flex-wrap justify-between md:mb-16">
-          {title && <h1 className="text-4xl font-bold md:text-5xl">{title}</h1>}
-        </div>
+    <section className="py-20 overflow-x-hidden bg-gray-50">
+      <Container>
+        <Flex wrap justify="between" className="mb-20 md:mb-16">
+          {title && <Heading>{title}</Heading>}
+        </Flex>
         {featured && (
-          <div className="-mx-3 flex flex-wrap">
+          <Flex wrap>
             {featured?.map((product, index) => {
               let items = [];
               ecwid?.productCollection &&
@@ -37,10 +41,10 @@ function VariantB({ title, featured }: FeaturedProductsProps) {
                 items?.length > 0 &&
                 items?.map((featuredCollections) => (
                   <div
-                    className="mb-10 w-full px-3 md:w-1/2 lg:mb-6 lg:w-1/3 xl:w-1/4"
+                    className="w-full px-3 mb-10 md:w-1/2 lg:mb-6 lg:w-1/3 xl:w-1/4"
                     key={index}
                   >
-                    <div className="h-full w-full bg-white shadow-md transition-all duration-700 md:hover:scale-110">
+                    <div className="w-full h-full transition-all duration-700 bg-white shadow-md md:hover:scale-110">
                       <a href={`/products/${product?.slug?.current}`}>
                         <div className="absolute z-10">
                           <Ribbon data={featuredCollections} />
@@ -73,7 +77,7 @@ function VariantB({ title, featured }: FeaturedProductsProps) {
                           )}
                         </div>
                       </a>
-                      <div className="mt-8 break-words px-6 pb-6">
+                      <div className="px-6 pb-6 mt-8 break-words">
                         {product?.name && (
                           <a
                             className="text-xl font-bold sm:text-2xl"
@@ -82,22 +86,22 @@ function VariantB({ title, featured }: FeaturedProductsProps) {
                             {product?.name}
                           </a>
                         )}
-                        <p className="font-heading text-lg font-bold">
+                        <Text weight="bold" className="text-lg ">
                           <span className="text-primary">
                             {
                               featuredCollections?.defaultDisplayedPriceFormatted
                             }
                           </span>
-                        </p>
+                        </Text>
                       </div>
                     </div>
                   </div>
                 ))
               );
             })}
-          </div>
+          </Flex>
         )}
-      </div>
+      </Container>
     </section>
   );
 }

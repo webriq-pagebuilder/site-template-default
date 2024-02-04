@@ -13,6 +13,7 @@ function Cart({ data }: SectionsProps) {
   const Variant = Variants?.[variant];
   const ecwid = useEcwid();
 
+  console.log("eciwd", ecwid);
   const props = {
     isReady: ecwid.isScript,
   };
