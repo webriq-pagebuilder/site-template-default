@@ -2,7 +2,6 @@ import React from "react";
 import Image from "next/image";
 import { urlFor } from "lib/sanity";
 import { FeaturesProps } from ".";
-import { ConditionalLink } from "components/ui/ConditionalLink";
 import { Text } from "components/ui/Text";
 import { Container } from "components/layout/Container";
 import { Flex } from "components/layout/Flex/Flex";
@@ -22,11 +21,7 @@ function VariantF({
         <Flex wrap align="center">
           <Flex direction="col" className="w-full mb-12 lg:mb-0 lg:w-1/2">
             <Container maxWidth={448} className="ml-0">
-              <Text
-                weight="bold"
-                color="primary-brand"
-                className="font-bold text-primary"
-              >
+              <Text weight="bold" className="font-bold text-primary">
                 {caption}
               </Text>
               {title && <Heading className="mb-6">{title}</Heading>}

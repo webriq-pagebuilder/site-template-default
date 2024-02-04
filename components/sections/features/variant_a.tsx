@@ -14,7 +14,7 @@ function VariantA({ caption, title, features }: FeaturesProps) {
       <Container>
         <Container maxWidth={448} className="mb-16 text-center ">
           {caption && (
-            <Text weight="bold" color="primary">
+            <Text weight="bold" className="text-primary">
               {caption}
             </Text>
           )}

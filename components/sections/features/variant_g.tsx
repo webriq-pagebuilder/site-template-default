@@ -21,7 +21,7 @@ function VariantG({
           <div className="w-full px-4 mb-12 lg:mb-0 lg:w-1/2">
             <Container maxWidth={448}>
               {caption && (
-                <Text weight="bold" color="primary">
+                <Text weight="bold" className="text-primary">
                   {caption}
                 </Text>
               )}

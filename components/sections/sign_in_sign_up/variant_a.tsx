@@ -82,7 +82,8 @@ function VariantA({ logo, form, formLinks, signInLink }: SignUpFormProps) {
                 <div className="text-center">
                   {form?.buttonLabel && (
                     <Button
-                      variant="tertiary"
+                      asLink={false}
+                      variant="custom"
                       ariaLabel={
                         form?.buttonLabel ?? "Sign Up form submit button"
                       }

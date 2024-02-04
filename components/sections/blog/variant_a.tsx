@@ -21,7 +21,7 @@ function VariantA({ subtitle, title, posts, primaryButton }: BlogProps) {
       <Container>
         <div className="mb-16 text-center">
           {subtitle && (
-            <Text weight="bold" color="primary">
+            <Text weight="bold" className="text-primary">
               {subtitle}
             </Text>
           )}

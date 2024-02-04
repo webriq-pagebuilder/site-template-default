@@ -24,7 +24,7 @@ function VariantA({ caption, title, portfoliosWithCategory }: PortfolioProps) {
       <Container>
         <Container maxWidth={512} className="mb-8 text-center md:mb-16">
           {caption && (
-            <Text weight="bold" color="primary">
+            <Text weight="bold" className="text-primary">
               {caption}
             </Text>
           )}

@@ -1,7 +1,6 @@
 import React from "react";
 import Image from "next/image";
 import { urlFor } from "lib/sanity";
-import { ConditionalLink } from "components/ui/ConditionalLink";
 import { PortfolioProps } from ".";
 import { Text } from "components/ui/Text";
 import { Container } from "components/layout/Container";
@@ -28,7 +27,7 @@ function VariantB({
         >
           <div className="text-center lg:text-left">
             {caption && (
-              <Text weight="bold" color="primary">
+              <Text weight="bold" className="text-primary">
                 {caption}
               </Text>
             )}
@@ -86,8 +85,7 @@ function ProjectItem({ content }) {
           </Text>
           <Text
             weight="bold"
-            color="white"
-            className="mb-auto md:text-xl lg:text-2xl"
+            className="mb-auto text-white md:text-xl lg:text-2xl"
           >
             {content?.title}
           </Text>

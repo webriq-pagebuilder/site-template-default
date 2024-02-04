@@ -39,9 +39,10 @@ function VariantB({
             <div className="px-4 lg:w-1/3 lg:text-right">
               {allowCookieBtn && (
                 <Button
+                  asLink={false}
                   ariaLabel={allowCookieBtn}
                   type="button"
-                  className="py-2 m-2 border-2 border-primary hover:border-primary-foreground"
+                  className="m-2 "
                   onClick={() => {
                     setCookie("allow");
                     setShowCookie(!showCookie);
@@ -52,10 +53,11 @@ function VariantB({
               )}
               {denyCookieBtn && (
                 <Button
+                  asLink={false}
                   ariaLabel={denyCookieBtn}
                   variant="outline"
                   type="button"
-                  className="m-2 font-normal text-white bg-transparent border-2 border-gray-400 rounded-bl-none rounded-r-xl rounded-t-xl hover:bg-gray-700"
+                  className="m-2 font-normal text-white bg-transparent outline-gray-400 hover:bg-gray-700"
                   onClick={() => {
                     setCookie("dismiss");
                     setShowCookie(!showCookie);

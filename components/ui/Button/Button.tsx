@@ -7,7 +7,7 @@ import { cn } from "utils/cn";
 import { StyleVariants } from "../types";
 
 type Variant = "outline" | "ghost" | "link" | "custom" | "solid";
-type TextSize = "sm" | "md" | "lg";
+type TextSize = "xs" | "sm" | "md" | "lg";
 type RadiusSize = "sm" | "md" | "lg" | "xl" | "2xl" | "none";
 export type ButtonProps = {
   /** Defines the classname of the button. */
@@ -53,6 +53,7 @@ export function Button({
   ...props
 }: ButtonProps) {
   const sizes = {
+    xs: "py-1 px-3 text-xs",
     sm: "py-2 px-4 text-sm",
     md: "py-3 px-6 text-base",
     lg: "py-4 px-7 text-lg",
@@ -76,7 +77,7 @@ export function Button({
   const custom = `inline-block bg-primary hover:bg-primary-foreground ${buttonSize} ${
     buttonRadius || "rounded-md"
   } text-gray-50 font-bold transition duration-200`;
-  const outline = `${commonStyles} ${buttonSize} ${buttonRadius} bg-white hover:bg-primary-foreground/20 border text-primary border-primary`;
+  const outline = `${commonStyles} ${buttonSize} ${buttonRadius} bg-white hover:bg-primary-foreground/20 outline outline-1 text-primary outline-primary`;
   const ghost = `${commonStyles}  ${buttonRadius} ${buttonSize} bg-transparent hover:bg-primary-foreground/20 text-primary`;
   const link = `transition-200 text-primary hover:text-primary-foreground underline  ${buttonRadius} ${cn(
     buttonSize,

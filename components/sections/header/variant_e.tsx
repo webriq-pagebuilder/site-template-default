@@ -5,7 +5,7 @@ import { extractLink, thankYouPageLink } from "helper";
 import { HeaderProps } from ".";
 
 import { FormFields } from "types";
-import { ConditionalLink } from "components/ui/ConditionalLink";
+
 import { SignUpForm } from "components/common/form/sign-up-form";
 import { Container } from "components/layout/Container";
 import { Flex } from "components/layout/Flex/Flex";

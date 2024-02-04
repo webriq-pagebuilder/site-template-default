@@ -143,9 +143,13 @@ function VariantB({
               </li>
               <li>
                 {product?.name && (
-                  <p className="inline-block text-xs font-bold uppercase font-heading">
+                  <Text
+                    fontSize="xs"
+                    weight="bold"
+                    className="inline-block uppercase "
+                  >
                     {product?.name}
-                  </p>
+                  </Text>
                 )}
               </li>
             </Flex>

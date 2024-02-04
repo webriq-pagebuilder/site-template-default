@@ -67,7 +67,7 @@ function VariantB({
                         variant="link"
                         ariaLabel={link?.label}
                         link={link}
-                        className="text-sm text-gray-500 hover:text-gray-900"
+                        className="text-sm text-gray-500 no-underline hover:text-gray-900"
                       >
                         {link?.label}
                       </Button>
@@ -154,7 +154,7 @@ function VariantB({
                       variant="link"
                       ariaLabel={link?.label}
                       link={link}
-                      className="block p-4 text-sm font-semibold text-gray-700 rounded hover:bg-secondary-foreground hover:text-primary"
+                      className="block p-4 text-sm font-semibold text-gray-700 no-underline rounded hover:bg-secondary-foreground hover:text-primary"
                     >
                       {link?.label}
                     </Button>
@@ -178,13 +178,13 @@ function VariantB({
                 <Button
                   ariaLabel={secondaryButton?.label}
                   link={secondaryButton}
-                  className="block w-full mb-2 text-xs ftext-center"
+                  className="block w-full mb-2 text-xs text-center"
                 >
                   {secondaryButton?.label}
                 </Button>
               )}
             </div>
-            <Text className="my-4 text-xs text-center text-gray-900">
+            <Text fontSize="xs" className="my-4 text-center text-gray-900">
               <span>{`© ${new Date().getFullYear()} All rights reserved.`}</span>
             </Text>
           </div>

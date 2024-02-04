@@ -1,6 +1,5 @@
 import React from "react";
 
-import { ConditionalLink } from "components/ui/ConditionalLink";
 import { HeaderProps } from ".";
 import { Container } from "components/layout/Container";
 import { Heading } from "components/ui/Heading";

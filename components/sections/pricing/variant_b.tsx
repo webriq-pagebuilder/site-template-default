@@ -88,7 +88,7 @@ function VariantB({
         <Flex wrap aligncenter className="w-full mb-16">
           <div className="w-full lg:w-1/2">
             {caption && (
-              <Text color="primary" className="text-sm font-bold lg:text-base">
+              <Text fontSize="sm" className="text-sm lg:text-base text-primary">
                 {caption}
               </Text>
             )}
@@ -154,6 +154,7 @@ function VariantB({
                 <div className="w-full px-3 lg:w-1/5">
                   {plan.checkoutButtonName && (
                     <Button
+                      asLink={false}
                       ariaLabel={plan.checkoutButtonName}
                       className={`mt-4 lg:mt-0  ${
                         !plan ||

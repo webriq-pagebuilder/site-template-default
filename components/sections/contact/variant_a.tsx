@@ -178,6 +178,7 @@ function VariantA({
                 </div>
                 {form?.buttonLabel && (
                   <Button
+                    asLink={false}
                     ariaLabel={
                       form?.buttonLabel ?? "Contact form submit button"
                     }

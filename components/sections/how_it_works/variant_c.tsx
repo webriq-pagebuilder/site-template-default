@@ -11,7 +11,7 @@ function VariantC({ subtitle, title, steps }: HowItWorksProps) {
     <section className="py-20 bg-gray-50">
       <Container>
         <Container maxWidth={448} className="mb-8 text-center">
-          <Text weight="bold" color="primary">
+          <Text weight="bold" className="text-primary">
             {subtitle}
           </Text>
           <Heading>{title}</Heading>

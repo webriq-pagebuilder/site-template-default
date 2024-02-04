@@ -68,11 +68,12 @@ function VariantB({ logo, form, formLinks, signInLink }: SignUpFormProps) {
                 <div className="text-center">
                   {form?.buttonLabel && (
                     <Button
+                      asLink={false}
                       className="w-full py-4"
                       ariaLabel={
                         form?.buttonLabel ?? "Sign Up form submit button"
                       }
-                      variant="tertiary"
+                      variant="custom"
                       type="submit"
                     >
                       {form?.buttonLabel}
@@ -85,7 +86,7 @@ function VariantB({ logo, form, formLinks, signInLink }: SignUpFormProps) {
                         asLink
                         variant="link"
                         link={signInLink}
-                        className="text-primary hover:underline"
+                        className="text-xs text-primary hover:underline"
                         ariaLabel={signInLink?.label}
                       >
                         {signInLink?.label}

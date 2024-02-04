@@ -27,7 +27,7 @@ function VariantC({ subtitle, title, posts, primaryButton }: BlogProps) {
         >
           <div className="text-center md:text-left">
             {subtitle && (
-              <Text weight="bold" color="primary">
+              <Text weight="bold" className="text-primary">
                 {subtitle}
               </Text>
             )}
@@ -95,15 +95,18 @@ function BlogItem({ post, className }: { post: BlogPost; className?: string }) {
         />
       )}
       <div className="w-full px-6 py-6 bg-white rounded-r lg:w-1/2 lg:pt-10">
-        {post?.categories &&
-          post?.categories?.map((category, index) => (
-            <Badge
-              className=" bg-secondary-foreground text-primary"
-              key={index}
-            >
-              {category?.title}
-            </Badge>
-          ))}
+        <Flex gap={2}>
+          {post?.categories &&
+            post?.categories?.map((category, index) => (
+              <Badge
+                className=" bg-secondary-foreground text-primary"
+                key={index}
+              >
+                {category?.title}
+              </Badge>
+            ))}
+        </Flex>
+
         {post?.publishedAt && (
           <Text muted>
             {format(new Date(post?.publishedAt), " dd MMM, yyyy")}

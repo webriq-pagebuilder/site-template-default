@@ -39,7 +39,7 @@ function VariantB({ caption, title, testimonials }: TestimonialProps) {
             />
           )}
           <Container maxWidth={576} className="mb-10 text-center ">
-            <Text weight="bold" color="primary">
+            <Text weight="bold" className="text-primary">
               {caption}
             </Text>
             <Heading className="mt-4">{title}</Heading>

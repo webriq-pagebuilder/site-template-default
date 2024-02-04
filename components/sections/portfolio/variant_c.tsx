@@ -2,7 +2,6 @@ import React from "react";
 import Image from "next/image";
 import { urlFor } from "lib/sanity";
 import { PortfolioProps } from ".";
-import { ConditionalLink } from "components/ui/ConditionalLink";
 import { Text } from "components/ui/Text";
 import { Container } from "components/layout/Container";
 import { Flex } from "components/layout/Flex/Flex";
@@ -28,7 +27,7 @@ function VariantC({
         >
           <div className="text-center lg:text-left">
             {caption && (
-              <Text weight="bold" color="primary">
+              <Text weight="bold" className="text-primary">
                 {caption}
               </Text>
             )}
@@ -82,7 +81,7 @@ function ProjectItem({ content }) {
           />
           <div className="p-6">
             <Text muted>{content?.dateAdded}</Text>
-            <Text weight="bold" className="mb-4 text-2xl">
+            <Text weight="bold" fontSize="2xl" className="mb-4 ">
               {content?.title}
             </Text>
             {content?.primaryButton?.label && (
@@ -91,7 +90,7 @@ function ProjectItem({ content }) {
                 variant="link"
                 ariaLabel={content?.primaryButton?.label}
                 link={content?.primaryButton}
-                className="font-bold"
+                className="font-bold no-underline"
               >
                 {content?.primaryButton?.label}
               </Button>

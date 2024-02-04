@@ -173,6 +173,7 @@ function VariantC({
                         <span className="text-gray-500">{`/${plan}`}</span>
                       )}
                       <Button
+                        asLink={false}
                         ariaLabel={planDescription?.checkoutButtonName}
                         className={`mt-6 block w-full ${
                           !planDescription ||

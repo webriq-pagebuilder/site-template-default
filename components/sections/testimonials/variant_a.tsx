@@ -40,7 +40,7 @@ function VariantA({ testimonials }: TestimonialProps) {
                   </Text>
                 )}
                 {testimonials?.[testimony]?.jobTitle && (
-                  <Text color="primary">
+                  <Text className="text-primary">
                     {testimonials?.[testimony]?.jobTitle}
                   </Text>
                 )}

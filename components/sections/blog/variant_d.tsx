@@ -64,7 +64,7 @@ function VariantD({ subtitle, title, posts }: BlogProps) {
       <Container>
         <div className="w-full mb-16">
           {subtitle && (
-            <Text weight={"bold"} color="primary">
+            <Text weight={"bold"} className="text-primary">
               {subtitle}
             </Text>
           )}

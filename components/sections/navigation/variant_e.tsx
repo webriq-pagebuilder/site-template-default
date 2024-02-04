@@ -143,8 +143,8 @@ function VariantE({ banner, logo, links }: NavigationProps) {
                         link={link}
                         className={
                           link?.type === "linkInternal"
-                            ? "xl:mr-12 lg:mr-8 font-bold font-heading hover:text-gray-600"
-                            : "mr-12 font-bold font-heading hover:text-gray-600"
+                            ? "xl:mr-12 lg:mr-8 font-bold font-heading hover:text-gray-600 no-underline text-black"
+                            : "mr-12 font-bold font-heading hover:text-gray-600 no-underline text-black"
                         }
                       >
                         {link?.label}
@@ -373,7 +373,7 @@ function VariantE({ banner, logo, links }: NavigationProps) {
                         variant="link"
                         ariaLabel={link?.label}
                         link={link}
-                        className="font-bold font-heading hover:text-gray-600"
+                        className="font-bold text-black no-underline font-heading hover:text-gray-600"
                       >
                         {link?.label}
                       </Button>

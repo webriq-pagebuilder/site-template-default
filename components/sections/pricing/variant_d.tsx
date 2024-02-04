@@ -6,7 +6,6 @@ import {
 } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import axios from "axios";
-import { ConditionalLink } from "components/ui/ConditionalLink";
 import WebriQForm from "components/webriq-form";
 import { thankYouPageLink } from "helper";
 import { PortableText, urlFor } from "lib/sanity";
@@ -488,6 +487,7 @@ function VariantD({
                 <div className="webriq-recaptcha" />
               </div>
               <Button
+                asLink={false}
                 id="submitBtn"
                 ariaLabel="Submit Pricing Form button"
                 onClick={(e) => handleSubmit(e)}
@@ -532,7 +532,7 @@ function VariantD({
                 asLink
                 variant="link"
                 link={signInLink}
-                className=" hover:underline"
+                className="text-xs  hover:underline"
                 ariaLabel={signInLink?.label}
               >
                 {signInLink?.label}
@@ -549,7 +549,7 @@ function VariantD({
       <Container>
         <Container maxWidth={672} className="mb-16 text-center ">
           <Container maxWidth={512}>
-            <Text weight="bold" color="primary">
+            <Text weight="bold" className="text-primary">
               {caption}
             </Text>
             {title && <Heading>{title}</Heading>}

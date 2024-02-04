@@ -4,7 +4,6 @@ import Image from "next/image";
 import { urlFor } from "lib/sanity";
 import { logoLink } from "helper";
 import { NavigationProps } from ".";
-import { ConditionalLink } from "components/ui/ConditionalLink";
 import { Flex } from "components/layout/Flex/Flex";
 import { Button } from "components/ui/Button";
 import { Text } from "components/ui/Text";
@@ -128,7 +127,7 @@ function VariantA({
                       asLink
                       variant="link"
                       ariaLabel={link?.label}
-                      className="block w-full p-4 text-sm font-semibold text-gray-900 rounded hover:bg-secondary-foreground hover:text-primary"
+                      className="block w-full p-4 text-sm font-semibold text-gray-900 no-underline rounded hover:bg-secondary-foreground hover:text-primary"
                       link={link}
                     >
                       {link?.label}
@@ -161,7 +160,7 @@ function VariantA({
                 </Button>
               )}
             </div>
-            <Text className="my-4 text-xs text-center text-gray-900">
+            <Text fontSize="xs" className="my-4 text-center text-gray-900">
               <span>{`© ${new Date().getFullYear()} All rights reserved.`}</span>
             </Text>
           </div>
@@ -203,7 +202,7 @@ function NavItem({ link, index }) {
           variant="link"
           ariaLabel={link?.label}
           link={link}
-          className="text-sm text-gray-500 hover:text-gray-900"
+          className="text-sm text-gray-500 no-underline hover:text-gray-900"
         >
           {link?.label}
         </Button>

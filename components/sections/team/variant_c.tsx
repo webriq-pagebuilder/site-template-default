@@ -14,7 +14,7 @@ function VariantC({ caption, title, team }: TeamsProps) {
       <Container>
         <Container maxWidth={576} className="mb-12 text-center ">
           {caption && (
-            <Text weight="bold" color="primary">
+            <Text weight="bold" className="text-primary">
               {caption}
             </Text>
           )}

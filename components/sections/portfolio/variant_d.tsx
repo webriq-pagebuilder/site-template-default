@@ -26,7 +26,7 @@ function VariantD({ caption, title, portfoliosWithCategory }: PortfolioProps) {
       <Container>
         <Container maxWidth={512} className="mb-8 text-center md:mb-16">
           {caption && (
-            <Text weight="bold" color="primary">
+            <Text weight="bold" className="text-primary">
               {caption}
             </Text>
           )}
@@ -117,7 +117,7 @@ function ProjectItem({ size, content }) {
           />
           <div className="absolute inset-0 z-10 justify-center p-6 duration-300 bg-gray-900 rounded-lg opacity-0 hover:opacity-80">
             <div className="max-w-md my-auto text-xs">
-              <Text className="text-sm" weight="bold" color="primary">
+              <Text className="text-sm text-primary" weight="bold">
                 {content?.subtitle}
               </Text>
               <Heading
@@ -131,7 +131,7 @@ function ProjectItem({ size, content }) {
                 {content?.title}
               </Heading>
               <div className="max-w-xs my-5">
-                <Text muted className="mb-6 text-xs">
+                <Text fontSize="xs" muted className="mb-6 ">
                   {content?.description}
                 </Text>
                 {content?.primaryButton?.label && (

@@ -4,7 +4,6 @@ import Image from "next/image";
 import React from "react";
 import { logoLink } from "helper";
 import { FooterProps } from ".";
-import { ConditionalLink } from "components/ui/ConditionalLink";
 import { SocialIcon } from "components/ui/SocialIcons";
 import { Socials } from "components/ui/SocialIcons/SocialIcons";
 import { Container } from "components/layout/Container";
@@ -38,7 +37,7 @@ function VariantC({ logo, menu, copyright, socialMedia }: FooterProps) {
                         asLink
                         variant="link"
                         link={links}
-                        className="text-sm text-center text-black hover:text-gray-500 whitespace-nowrap"
+                        className="text-sm text-center text-black no-underline hover:text-gray-500 whitespace-nowrap"
                         ariaLabel={links?.label}
                       >
                         {links?.label}

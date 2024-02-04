@@ -2,7 +2,7 @@ import React from "react";
 import Image from "next/image";
 import { urlFor } from "lib/sanity";
 import { LogoCloudProps } from ".";
-import { ConditionalLink } from "components/ui/ConditionalLink";
+
 import { Container } from "components/layout/Container";
 import { Heading } from "components/ui/Heading";
 import { Button } from "components/ui/Button";

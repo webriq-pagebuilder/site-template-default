@@ -69,6 +69,7 @@ function VariantA({ logo, title, description, form }: NewsletterProps) {
                 </div>
                 {buttonLabel && (
                   <Button
+                    asLink={false}
                     ariaLabel={buttonLabel ?? "Newsletter form submit button"}
                     type="submit"
                   >

@@ -23,11 +23,7 @@ function VariantA({ subtitle, title, text, video, steps }: HowItWorksProps) {
       <Container>
         <Flex wrap className="mb-10" gap={10} justify="between">
           <div className="w-full mb-10 lg:mb-0 lg:w-1/2">
-            <Text
-              weight="bold"
-              color="primary"
-              className="md:text-lg lg:text-lg"
-            >
+            <Text weight="bold" className="md:text-lg lg:text-lg text-primary">
               {subtitle}
             </Text>
             <Heading className="my-5">{title}</Heading>

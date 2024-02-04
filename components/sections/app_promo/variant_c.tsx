@@ -21,8 +21,7 @@ function VariantC({
           <div className="max-w-xl space-y-5">
             <Text
               weight="bold"
-              color="primary"
-              className="text-sm md:text-lg lg:text-xl"
+              className="text-sm md:text-lg lg:text-xl text-primary"
             >
               {subtitle}
             </Text>

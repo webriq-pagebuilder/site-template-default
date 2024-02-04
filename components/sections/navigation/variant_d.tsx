@@ -6,6 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import { NavigationProps } from ".";
+import { Text } from "components/ui/Text";
 
 function VariantD({
   links,
@@ -32,7 +33,7 @@ function VariantD({
                       variant="link"
                       ariaLabel={link?.label}
                       link={link}
-                      className="text-sm text-gray-500 hover:text-gray-900"
+                      className="text-sm text-gray-500 no-underline hover:text-gray-900"
                     >
                       {link?.label}
                     </Button>
@@ -152,7 +153,7 @@ function VariantD({
                       variant="link"
                       ariaLabel={link?.label}
                       link={link}
-                      className="block p-4 text-sm font-semibold text-gray-700 rounded hover:bg-secondary-foreground hover:text-primary"
+                      className="block p-4 text-sm font-semibold text-gray-700 no-underline rounded hover:bg-secondary-foreground hover:text-primary"
                     >
                       {link?.label}
                     </Button>
@@ -183,9 +184,9 @@ function VariantD({
                 </Button>
               )}
             </div>
-            <p className="my-4 text-xs text-center text-gray-500">
+            <Text fontSize="xs" muted className="my-4 text-center ">
               <span>{`© ${new Date().getFullYear()} All rights reserved.`}</span>
-            </p>
+            </Text>
           </div>
         </nav>
       </div>

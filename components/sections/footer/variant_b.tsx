@@ -7,7 +7,6 @@ import { logoLink } from "helper";
 import { FooterProps } from ".";
 import { SocialIcon } from "components/ui/SocialIcons";
 import { Socials } from "components/ui/SocialIcons/SocialIcons";
-import { ConditionalLink } from "components/ui/ConditionalLink";
 import { Container } from "components/layout/Container";
 import { Flex } from "components/layout/Flex/Flex";
 import { Button } from "components/ui/Button";
@@ -60,7 +59,7 @@ function VariantB({ logo, copyright, socialMedia, menu }: FooterProps) {
                         asLink
                         variant="link"
                         link={links}
-                        className="text-gray-500 lg:text-sm hover:text-gray-700"
+                        className="text-gray-500 no-underline lg:text-sm hover:text-gray-700"
                         ariaLabel={links?.label}
                       >
                         {links?.label}

@@ -2,6 +2,7 @@ import { Button } from "components/ui/Button";
 import { Card } from "components/ui/Card";
 import { Form } from "components/ui/Form/Form";
 import { FormField } from "components/ui/FormField";
+import { Text } from "components/ui/Text";
 import { thankYouPageLink } from "helper";
 import { LabeledRoute, Form as TForm } from "types";
 
@@ -69,17 +70,18 @@ export function SignUpForm({ form, signInLink, className }: SignUpFormProps) {
         )}
       </Form>
       {signInLink?.label && (
-        <p className="text-xs text-gray-500">
-          <span>Already have an account?</span>
+        <Text fontSize="xs" muted>
+          <span>Already have an account?</span>{" "}
           <Button
-            size="sm"
+            asLink
+            size="xs"
             variant="link"
             link={signInLink}
             ariaLabel={signInLink?.label}
           >
             {signInLink?.label}
           </Button>
-        </p>
+        </Text>
       )}
     </Card>
   );

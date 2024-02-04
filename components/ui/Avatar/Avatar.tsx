@@ -5,7 +5,7 @@ import { cn } from "utils/cn";
 type TAvatar = {
   src: string;
   alt: string;
-  size?: ImageSize;
+  size?: ImageSize | number;
   text?: string;
   className?: string;
   [key: string]: any;

@@ -96,7 +96,7 @@ function VariantA({
       <Container>
         <Container maxWidth={672} className="mb-16 text-center">
           {caption && (
-            <Text weight="bold" color="primary">
+            <Text weight="bold" className="text-primary">
               {caption}
             </Text>
           )}
@@ -110,7 +110,8 @@ function VariantA({
           {plans?.[0]?.monthlyPrice && (
             <div className="inline-block px-1 py-1 bg-white rounded-lg">
               <Button
-                variant="tertiary"
+                asLink={false}
+                variant="custom"
                 ariaLabel="Monthly Plan"
                 className={`mr-1 px-4 py-2 text-sm bg-white hover:bg-white ${
                   plan === "monthly"
@@ -122,7 +123,8 @@ function VariantA({
                 Monthly
               </Button>
               <Button
-                variant="tertiary"
+                asLink={false}
+                variant="custom"
                 ariaLabel="Yearly Plan"
                 className={`px-4 py-2 text-sm bg-white hover:bg-white ${
                   plan === "yearly"
@@ -229,6 +231,7 @@ function VariantA({
                     ))}
                   </ul>
                   <Button
+                    asLink={false}
                     ariaLabel={planDetail.checkoutButtonName}
                     className={`inline-block w-full rounded-l-xl rounded-t-xl px-4 py-2 text-center ${
                       index % 2 !== 0
