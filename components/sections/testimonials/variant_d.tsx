@@ -68,7 +68,7 @@ function VariantD({ testimonials }: TestimonialProps) {
                   <span className="text-5xl font-bold lg:text-6xl">
                     {`${testimonials?.[testimony]?.rating}.0`}
                   </span>
-                  <Flex align="center" className="mb-6 text-brand-primary">
+                  <Flex align="center" className="mb-6 text-primary">
                     {testimonials?.[testimony]?.rating &&
                       getRatingToArray(+testimonials?.[testimony]?.rating).map(
                         () => {
@@ -134,7 +134,7 @@ function RatingIcon() {
 function QuoteIcon() {
   return (
     <svg
-      className="h-10 mb-4 text-brand-primary"
+      className="h-10 mb-4 text-primary"
       viewBox="0 0 32 28"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

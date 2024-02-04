@@ -13,7 +13,7 @@ function VariantB({ subtitle, title, text, steps }: HowItWorksProps) {
         <Flex align="center" justify="between" wrap>
           <div className="w-full mb-12 lg:mb-0 lg:w-1/2">
             <Container maxWidth={448}>
-              <Text weight="bold" color="brand-primary">
+              <Text weight="bold" color="primary">
                 {subtitle}
               </Text>
               <Heading className="mb-2">{title}</Heading>
@@ -39,7 +39,7 @@ function VariantB({ subtitle, title, text, steps }: HowItWorksProps) {
 function StepItem({ index, step }) {
   return (
     <Flex wrap align="start" className="mb-12 " key={index}>
-      <span className="inline-flex items-center justify-center w-16 h-16 mb-4 text-2xl font-bold rounded bg-brand-secondary-foreground text-brand-primary lg:mb-0 lg:mr-6">
+      <span className="inline-flex items-center justify-center w-16 h-16 mb-4 text-2xl font-bold rounded bg-secondary-foreground text-primary lg:mb-0 lg:mr-6">
         {index + 1}
       </span>
       <div className="w-full lg:w-3/4">

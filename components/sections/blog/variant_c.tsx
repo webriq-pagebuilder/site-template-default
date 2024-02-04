@@ -27,7 +27,7 @@ function VariantC({ subtitle, title, posts, primaryButton }: BlogProps) {
         >
           <div className="text-center md:text-left">
             {subtitle && (
-              <Text weight="bold" color="brand-primary">
+              <Text weight="bold" color="primary">
                 {subtitle}
               </Text>
             )}
@@ -98,7 +98,7 @@ function BlogItem({ post, className }: { post: BlogPost; className?: string }) {
         {post?.categories &&
           post?.categories?.map((category, index) => (
             <Badge
-              className=" bg-brand-secondary-foreground text-brand-primary"
+              className=" bg-secondary-foreground text-primary"
               key={index}
             >
               {category?.title}
@@ -116,12 +116,10 @@ function BlogItem({ post, className }: { post: BlogPost; className?: string }) {
         )}
         {post?.authors && (
           <div className="flex mb-10">
-            <span className="italic text-brand-primary">By&nbsp;</span>
+            <span className="italic text-primary">By&nbsp;</span>
             {post?.authors?.map((author, index, { length }) => (
               <>
-                <Text className="italic text-brand-primary">
-                  {author?.name}
-                </Text>
+                <Text className="italic text-primary">{author?.name}</Text>
                 {index + 1 !== length ? <span>&nbsp;,&nbsp;</span> : null}
               </>
             ))}
@@ -135,7 +133,7 @@ function BlogItem({ post, className }: { post: BlogPost; className?: string }) {
         {post?.slug?.current && (
           <Link
             aria-label="View Blog Post"
-            className="font-bold text-brand-primary hover:text-brand-primary-foreground"
+            className="font-bold text-primary hover:text-primary-foreground"
             href={`/${post?.slug?.current}` ?? "/page-not-found"}
           >
             View Blog Post

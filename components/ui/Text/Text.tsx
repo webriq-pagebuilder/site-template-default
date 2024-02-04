@@ -1,18 +1,30 @@
 import React from "react";
-import { StyleVariants } from "../types";
 import { cn } from "utils/cn";
 
-type Type = "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "p";
 type TextProps = {
-  type?: Type;
   className?: string;
   children: React.ReactNode;
   style?: React.CSSProperties;
   muted?: boolean;
   weight?: Weight;
-  color?: string;
+  fontSize?: fontSize;
   [key: string]: any;
 };
+
+type fontSize =
+  | "xs"
+  | "sm"
+  | "base"
+  | "lg"
+  | "xl"
+  | "2xl"
+  | "3xl"
+  | "4xl"
+  | "5xl"
+  | "6xl"
+  | "7xl"
+  | "8xl"
+  | "9xl";
 
 type Weight =
   | "thin"
@@ -21,7 +33,7 @@ type Weight =
   | "normal"
   | "semibold"
   | "bold"
-  | "mediun"
+  | "medium"
   | "extrabold"
   | "black";
 
@@ -31,32 +43,45 @@ export function Text({
   children,
   style,
   muted = false,
-  color = "black",
   weight = "normal",
+  fontSize,
   ...props
 }: TextProps) {
-  const Element: Type = ["h1", "h2", "h3", "h4", "h5", "h6", "p"].includes(type)
-    ? type
-    : "p";
+  const fontSizeMap = {
+    xs: "text-xs",
+    sm: "text-sm",
+    base: "text-base",
+    lg: "text-lg",
+    xl: "text-xl",
+    "2xl": "text-2xl",
+    "3xl": "text-3xl",
+    "4xl": "text-4xl",
+    "5xl": "text-5xl",
+  };
 
-  const commonClass = `text-${color} font-${weight} ${
-    muted && "text-gray-500"
-  }`;
+  const fontWeightMap = {
+    thin: "font-thin",
+    extralight: "font-extralight",
+    light: "font-light",
+    normal: "font-normal",
+    semibold: "font-semibold",
+    bold: "font-bold",
+    medium: "font-mediun",
+    extrabold: "font-extrabold",
+    black: "font-black",
+  };
+  const size = fontSizeMap[fontSize] || "text-base";
+  const fontWeight = fontWeightMap[weight] || "font-normal";
+  const commonClass = `${size} ${fontWeight} ${muted && "text-gray-500"}`;
 
-  const variants: StyleVariants<Type> = {
-    h1: `${commonClass} text-4xl font-bold lg:text-5xl font-heading`,
-    h2: `${commonClass} text-3xl font-bold lg:text-4xl`,
-    h3: `${commonClass} text-2xl font-bold lg:text-3xl`,
-    h4: `${commonClass} font-bold text-2xl`,
-    h5: `${commonClass} font-medium text-xl`,
-    h6: `${commonClass} font-medium text-lg`,
-    p: `${commonClass} text-base`,
+  const variants = {
+    p: `${commonClass}`,
   };
 
   const variantClass = variants[type] ?? variants["p"];
   return (
-    <Element style={style} className={cn(variantClass, className)} {...props}>
+    <p style={style} className={cn(variantClass, className)} {...props}>
       {children}
-    </Element>
+    </p>
   );
 }

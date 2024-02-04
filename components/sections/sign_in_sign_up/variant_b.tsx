@@ -16,7 +16,7 @@ import { Flex } from "components/layout/Flex/Flex";
 
 function VariantB({ logo, form, formLinks, signInLink }: SignUpFormProps) {
   return (
-    <section className="py-10 bg-brand-primary lg:py-20">
+    <section className="py-10 bg-primary lg:py-20">
       <Container>
         <Container maxWidth={576}>
           <div className="mb-10">
@@ -85,7 +85,7 @@ function VariantB({ logo, form, formLinks, signInLink }: SignUpFormProps) {
                         asLink
                         variant="link"
                         link={signInLink}
-                        className="text-brand-primary hover:underline"
+                        className="text-primary hover:underline"
                         ariaLabel={signInLink?.label}
                       >
                         {signInLink?.label}
@@ -97,14 +97,14 @@ function VariantB({ logo, form, formLinks, signInLink }: SignUpFormProps) {
             )}
           </Card>
           {formLinks && (
-            <p className="text-xs text-center text-brand-secondary-foreground">
+            <p className="text-xs text-center text-secondary-foreground">
               {formLinks?.map((link, index, { length }) => (
                 <span key={index}>
                   <Button
                     asLink
                     variant="link"
                     link={link}
-                    className="text-xs underline text-brand-secondary-foreground hover:text-gray-50"
+                    className="text-xs underline text-secondary-foreground hover:text-gray-50"
                     ariaLabel={link?.label}
                   >
                     {link?.label}

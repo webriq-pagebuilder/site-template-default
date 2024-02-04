@@ -105,7 +105,7 @@ function VariantA({
       link: ({ children, value }) => (
         <a
           aria-label={value.href ?? "external link"}
-          className="text-brand-primary-foreground hover:text-brand-secondary-foreground"
+          className="text-primary-foreground hover:text-secondary-foreground"
           href={value.href}
           target="_blank"
           rel="noopener noreferrer"
@@ -233,7 +233,7 @@ function VariantA({
                   </div>
                 )}
                 {subtitle && (
-                  <span className="font-bold font-custom text-brand-primary">
+                  <span className="font-bold font-custom text-primary">
                     {subtitle}
                   </span>
                 )}
@@ -246,7 +246,7 @@ function VariantA({
                 {/* Product price */}
                 {product?.price && (
                   <p
-                    className={`font-heading text-brand-primary inline-block text-2xl font-bold ${
+                    className={`font-heading text-primary inline-block text-2xl font-bold ${
                       !ecwidProduct?.compareToPrice && "mb-8"
                     }`}
                   >
@@ -270,7 +270,7 @@ function VariantA({
                     </span>{" "}
                     (
                     <span
-                      className="text-brand-secondary"
+                      className="text-secondary"
                       style={{ fontSize: "15px" }}
                     >
                       {`Save ${ecwidProduct?.compareToPriceDiscountPercentFormatted}`}
@@ -295,7 +295,7 @@ function VariantA({
                       <div className="w-full lg:mb-4 xl:mb-0">
                         <AddToBag
                           inStock={!ecwidProduct?.inStock}
-                          classNames="block w-full text-center text-white font-bold font-heading py-5 px-8 rounded-md uppercase transition duration-200 bg-brand-primary hover:bg-brand-primary-foreground cursor-pointer"
+                          classNames="block w-full text-center text-white font-bold font-heading py-5 px-8 rounded-md uppercase transition duration-200 bg-primary hover:bg-primary-foreground cursor-pointer"
                         >
                           {btnLabel}
                         </AddToBag>
@@ -304,7 +304,7 @@ function VariantA({
 
                     {/* Add to wishlist button */}
                     <AddToWishlist
-                      classNames="ml-auto sm:ml-0 flex-shrink-0 inline-flex items-center justify-center w-full h-16 rounded-md border hover:border-brand-primary"
+                      classNames="ml-auto sm:ml-0 flex-shrink-0 inline-flex items-center justify-center w-full h-16 rounded-md border hover:border-primary"
                       product={defaultProduct}
                     >
                       <svg
@@ -413,7 +413,7 @@ function VariantA({
                   <button
                     className={`font-heading inline-block px-7 py-6 font-bold lg:px-10 ${
                       activeTab === index
-                        ? "bg-white text-brand-primary shadow-2xl"
+                        ? "bg-white text-primary shadow-2xl"
                         : "text-gray-500 hover:shadow-2xl"
                     }`}
                     onClick={() => setActiveTab(index)}

@@ -114,19 +114,19 @@ function BorderStyle() {
   return (
     <div className="flex w-full">
       <div className="flex w-1/3">
-        <div className="w-1/3 py-1 bg-brand-secondary" />
-        <div className="w-1/3 py-1 bg-brand-primary-foreground" />
-        <div className="w-1/3 py-1 bg-brand-primary" />
+        <div className="w-1/3 py-1 bg-secondary" />
+        <div className="w-1/3 py-1 bg-primary-foreground" />
+        <div className="w-1/3 py-1 bg-primary" />
       </div>
       <div className="flex w-1/3">
-        <div className="w-1/3 py-1 bg-brand-secondary" />
-        <div className="w-1/3 py-1 bg-brand-primary-foreground" />
-        <div className="w-1/3 py-1 bg-brand-primary" />
+        <div className="w-1/3 py-1 bg-secondary" />
+        <div className="w-1/3 py-1 bg-primary-foreground" />
+        <div className="w-1/3 py-1 bg-primary" />
       </div>
       <div className="flex w-1/3">
-        <div className="w-1/3 py-1 bg-brand-secondary" />
-        <div className="w-1/3 py-1 bg-brand-primary-foreground" />
-        <div className="w-1/3 py-1 bg-brand-primary" />
+        <div className="w-1/3 py-1 bg-secondary" />
+        <div className="w-1/3 py-1 bg-primary-foreground" />
+        <div className="w-1/3 py-1 bg-primary" />
       </div>
     </div>
   );

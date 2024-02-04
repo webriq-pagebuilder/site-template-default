@@ -46,7 +46,7 @@ function VariantC({
                 <Button
                   ariaLabel={allowCookieBtn}
                   type="button"
-                  className="py-2 m-2 border-2 border-brand-primary hover:border-brand-primary-foreground"
+                  className="py-2 m-2 border-2 border-primary hover:border-primary-foreground"
                   onClick={() => {
                     setCookie("allow");
                     setShowCookie(!showCookie);

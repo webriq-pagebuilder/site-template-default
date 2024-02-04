@@ -95,9 +95,7 @@ function VariantC({
     <section className="py-20 bg-gray-50">
       <Container>
         <Container maxWidth={512} className="mb-16 text-center ">
-          {caption && (
-            <span className="font-bold text-brand-primary">{caption}</span>
-          )}
+          {caption && <span className="font-bold text-primary">{caption}</span>}
           {title && <Heading className="mb-4">{title}</Heading>}
           {description && (
             <Text muted className="mb-6 ">

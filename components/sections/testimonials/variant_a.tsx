@@ -40,7 +40,7 @@ function VariantA({ testimonials }: TestimonialProps) {
                   </Text>
                 )}
                 {testimonials?.[testimony]?.jobTitle && (
-                  <Text color="brand-primary">
+                  <Text color="primary">
                     {testimonials?.[testimony]?.jobTitle}
                   </Text>
                 )}
@@ -49,7 +49,7 @@ function VariantA({ testimonials }: TestimonialProps) {
             {testimonials?.[testimony] && (
               <div className="w-full lg:w-2/3">
                 <svg
-                  className="h-10 mb-4 text-brand-primary"
+                  className="h-10 mb-4 text-primary"
                   viewBox="0 0 32 28"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
@@ -71,9 +71,7 @@ function VariantA({ testimonials }: TestimonialProps) {
                         aria-label={`Show Testimonial ${index}`}
                         key={index}
                         className={`mr-1 ${
-                          index === testimony
-                            ? "bg-brand-primary"
-                            : "bg-gray-200"
+                          index === testimony ? "bg-primary" : "bg-gray-200"
                         } rounded-full p-1 focus:outline-none`}
                         onClick={() => slider(index)}
                       />

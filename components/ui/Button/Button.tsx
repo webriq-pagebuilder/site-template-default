@@ -47,7 +47,7 @@ export function Button({
   onClick,
   type = "button",
   link: linkObject,
-  asLink = false,
+  asLink = true,
   size = "md",
   borderRadius,
   ...props
@@ -72,13 +72,13 @@ export function Button({
 
   const commonStyles =
     "inline-block rounded-l-xl rounded-t-xl font-bold transition duration-200";
-  const solid = `${commonStyles} ${buttonSize} ${buttonRadius} bg-brand-primary hover:bg-brand-primary-foreground text-gray-50`;
+  const solid = `${commonStyles} ${buttonSize} ${buttonRadius} bg-primary hover:bg-primary-foreground text-gray-50`;
   const custom = `inline-block bg-primary hover:bg-primary-foreground ${buttonSize} ${
     buttonRadius || "rounded-md"
   } text-gray-50 font-bold transition duration-200`;
-  const outline = `${commonStyles} ${buttonSize} ${buttonRadius} bg-white hover:bg-brand-primary-foreground/20 border text-brand-primary border-brand-primary`;
-  const ghost = `${commonStyles}  ${buttonRadius} ${buttonSize} bg-transparent hover:bg-brand-primary-foreground/20 text-brand-primary`;
-  const link = `transition-200 text-brand-primary hover:text-brand-primary-foreground underline  ${buttonRadius} ${cn(
+  const outline = `${commonStyles} ${buttonSize} ${buttonRadius} bg-white hover:bg-primary-foreground/20 border text-primary border-primary`;
+  const ghost = `${commonStyles}  ${buttonRadius} ${buttonSize} bg-transparent hover:bg-primary-foreground/20 text-primary`;
+  const link = `transition-200 text-primary hover:text-primary-foreground underline  ${buttonRadius} ${cn(
     buttonSize,
     "px-0 py-0"
   )} `;

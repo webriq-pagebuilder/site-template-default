@@ -151,7 +151,7 @@ function VariantB({ products }: PagesProductInfoProps) {
                   <div className="mb-8">{/* Add product rating here */}</div>
                   {products?.price && (
                     <p
-                      className={`font-heading inline-block text-2xl font-bold text-brand-primary ${
+                      className={`font-heading inline-block text-2xl font-bold text-primary ${
                         !products?.compareToPrice && "mb-8"
                       }`}
                     >
@@ -173,7 +173,7 @@ function VariantB({ products }: PagesProductInfoProps) {
                       </span>{" "}
                       (
                       <span
-                        className="text-brand-secondary"
+                        className="text-secondary"
                         style={{ fontSize: "15px" }}
                       >
                         Save{" "}
@@ -200,13 +200,13 @@ function VariantB({ products }: PagesProductInfoProps) {
                     <div className="w-full lg:mb-4 xl:mb-0">
                       <AddToBag
                         inStock={!ecwidProduct?.inStock}
-                        classNames="block w-full mb-4 lg:mb-0 text-center text-white font-bold font-heading py-5 px-8 rounded-md uppercase transition duration-200 bg-brand-primary hover:bg-brand-primary-foreground cursor-pointer"
+                        classNames="block w-full mb-4 lg:mb-0 text-center text-white font-bold font-heading py-5 px-8 rounded-md uppercase transition duration-200 bg-primary hover:bg-primary-foreground cursor-pointer"
                       >
                         {products?.productInfo?.btnLabel ?? "ADD TO CART"}
                       </AddToBag>
                     </div>
                     <AddToWishlist
-                      classNames="w-full flex-shrink-0 flex flex-wrap items-center justify-center py-5 px-8 rounded-md border hover:border-brand-primary"
+                      classNames="w-full flex-shrink-0 flex flex-wrap items-center justify-center py-5 px-8 rounded-md border hover:border-primary"
                       product={ecwidProduct}
                       containerClass="w-full"
                     >

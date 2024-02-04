@@ -21,7 +21,7 @@ function VariantA({ subtitle, title, posts, primaryButton }: BlogProps) {
       <Container>
         <div className="mb-16 text-center">
           {subtitle && (
-            <Text weight="bold" color="brand-primary">
+            <Text weight="bold" color="primary">
               {subtitle}
             </Text>
           )}
@@ -86,7 +86,7 @@ export function BlogItem({ post }: { post: BlogPost }) {
           <div className="absolute flex left-5 top-5">
             {post?.categories?.map((category, index) => (
               <span
-                className="px-3 py-1 mb-auto mr-3 text-sm font-bold uppercase bg-white rounded-full text-brand-primary"
+                className="px-3 py-1 mb-auto mr-3 text-sm font-bold uppercase bg-white rounded-full text-primary"
                 key={index}
               >
                 {category?.title}
@@ -101,7 +101,7 @@ export function BlogItem({ post }: { post: BlogPost }) {
         )}
         {post?.title && (
           <Link
-            className="text-xl font-bold text-white transform hover:scale-110 hover:text-brand-secondary motion-reduce:transform-none lg:text-2xl"
+            className="text-xl font-bold text-white transform hover:scale-110 hover:text-secondary motion-reduce:transform-none lg:text-2xl"
             href={`/${post?.slug?.current}` ?? "/page-not-found"}
           >
             {post?.title?.length > 50

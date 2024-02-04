@@ -5,7 +5,7 @@ import { cn } from "utils/cn";
 type TAvatar = {
   src: string;
   alt: string;
-  size?: ImageSize | number;
+  size?: ImageSize;
   text?: string;
   className?: string;
   [key: string]: any;
@@ -33,7 +33,7 @@ export function Avatar({
   const initials = text
     ? text?.split(" ")?.reduce((acc, curr) => acc + curr[0], "")
     : "AB";
-  const baseClass = `relative rounded-full aspect-square overflow-hidden border-2 border-solid border-brand-primary-foreground`;
+  const baseClass = `relative rounded-full aspect-square overflow-hidden border-2 border-solid border-primary-foreground`;
   return (
     <div
       style={{
@@ -43,7 +43,7 @@ export function Avatar({
       {...props}
     >
       {(!loaded || !src) && (
-        <div className="flex items-center justify-center w-full h-full bg-brand-primary-foreground">
+        <div className="flex items-center justify-center w-full h-full bg-primary-foreground">
           <p
             style={{
               fontSize: `calc(${avatarSize}/2)`,

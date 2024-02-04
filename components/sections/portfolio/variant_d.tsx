@@ -26,7 +26,7 @@ function VariantD({ caption, title, portfoliosWithCategory }: PortfolioProps) {
       <Container>
         <Container maxWidth={512} className="mb-8 text-center md:mb-16">
           {caption && (
-            <Text weight="bold" color="brand-primary">
+            <Text weight="bold" color="primary">
               {caption}
             </Text>
           )}
@@ -40,8 +40,8 @@ function VariantD({ caption, title, portfoliosWithCategory }: PortfolioProps) {
                   onClick={() => setActiveTab(content?.category)}
                   className={`mx-auto mb-1 w-auto px-4 py-2 ${
                     activeTab === content?.category
-                      ? "rounded bg-gray-50 font-bold text-brand-primary shadow transition duration-200 focus:outline-none"
-                      : "rounded font-bold text-gray-500 transition duration-200 hover:bg-brand-secondary-foreground hover:text-brand-primary-foreground hover:shadow focus:outline-none"
+                      ? "rounded bg-gray-50 font-bold text-primary shadow transition duration-200 focus:outline-none"
+                      : "rounded font-bold text-gray-500 transition duration-200 hover:bg-secondary-foreground hover:text-primary-foreground hover:shadow focus:outline-none"
                   }`}
                 >
                   {content?.category}
@@ -117,7 +117,7 @@ function ProjectItem({ size, content }) {
           />
           <div className="absolute inset-0 z-10 justify-center p-6 duration-300 bg-gray-900 rounded-lg opacity-0 hover:opacity-80">
             <div className="max-w-md my-auto text-xs">
-              <Text className="text-sm" weight="bold" color="brand-primary">
+              <Text className="text-sm" weight="bold" color="primary">
                 {content?.subtitle}
               </Text>
               <Heading

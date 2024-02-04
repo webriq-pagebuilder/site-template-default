@@ -14,7 +14,7 @@ function VariantD({ caption, title, features }: FeaturesProps) {
       <Container>
         <Container maxWidth={448} className="mb-8 text-center ">
           {caption && (
-            <Text weight="bold" color="brand-primary">
+            <Text weight="bold" color="primary">
               {caption}
             </Text>
           )}
@@ -36,7 +36,7 @@ function FeatureItem({ feature }) {
   return (
     <div className="w-full px-4 mt-8 lg:mb-0 lg:w-1/3">
       <Card className="h-full px-6 py-12 text-center">
-        <div className="self-start inline-block p-3 mb-6 rounded-lg bg-brand-secondary-foreground md:p-5">
+        <div className="self-start inline-block p-3 mb-6 rounded-lg bg-secondary-foreground md:p-5">
           {feature?.mainImage?.image?.asset?._ref && (
             <Image
               className="object-scale-down"

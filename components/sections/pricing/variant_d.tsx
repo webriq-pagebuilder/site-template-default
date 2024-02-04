@@ -132,7 +132,7 @@ function VariantD({
       link: ({ children, value }) => (
         <a
           aria-label={value.href ?? "external link"}
-          className="font-bold text-brand-primary hover:text-brand-primary"
+          className="font-bold text-primary hover:text-primary"
           href={value.href}
         >
           {children}
@@ -549,7 +549,7 @@ function VariantD({
       <Container>
         <Container maxWidth={672} className="mb-16 text-center ">
           <Container maxWidth={512}>
-            <Text weight="bold" color="brand-primary">
+            <Text weight="bold" color="primary">
               {caption}
             </Text>
             {title && <Heading>{title}</Heading>}
@@ -568,7 +568,7 @@ function VariantD({
                   onChange={(e) => handleChange(e)}
                 />
                 <span className="mx-2 font-semibold">Monthly Billing</span>
-                <span className="inline-flex items-center justify-center w-16 h-10 font-semibold text-white rounded-lg bg-brand-primary">
+                <span className="inline-flex items-center justify-center w-16 h-10 font-semibold text-white rounded-lg bg-primary">
                   ${monthlyBilling}
                 </span>
               </label>
@@ -583,7 +583,7 @@ function VariantD({
                   onChange={(e) => handleChange(e)}
                 />
                 <span className="mx-2 font-semibold">Annual Billing</span>
-                <span className="inline-flex items-center justify-center w-16 h-10 font-semibold text-white rounded-lg bg-brand-primary">
+                <span className="inline-flex items-center justify-center w-16 h-10 font-semibold text-white rounded-lg bg-primary">
                   ${annualBilling}
                 </span>
               </label>
@@ -594,7 +594,7 @@ function VariantD({
           <Elements stripe={stripePromise}>
             <Form />
           </Elements>
-          <div className="flex flex-col w-full h-full py-10 overflow-hidden bg-brand-primary md:w-1/2 lg:rounded-r">
+          <div className="flex flex-col w-full h-full py-10 overflow-hidden bg-primary md:w-1/2 lg:rounded-r">
             {banner?.[banners]?.mainImage?.image?.asset?._ref && (
               <div className="w-full mx-auto my-auto md:max-w-xs">
                 <Image
@@ -618,7 +618,7 @@ function VariantD({
                   className={` ${
                     banners === index
                       ? "mr-2 inline-block h-2 w-2 rounded-full bg-white focus:outline-none"
-                      : "mr-2 inline-block h-2 w-2 rounded-full bg-brand-secondary focus:outline-none"
+                      : "mr-2 inline-block h-2 w-2 rounded-full bg-secondary focus:outline-none"
                   } `}
                   onClick={() => setBanners(index)}
                 />

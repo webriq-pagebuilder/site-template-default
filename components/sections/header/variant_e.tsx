@@ -67,7 +67,7 @@ function VariantE({
                     <span key={index}>
                       <Link
                         href={extractLink(link)}
-                        className="underline text-brand-primary hover:text-brand-primary-foreground"
+                        className="underline text-primary hover:text-primary-foreground"
                       >
                         {link?.label}
                       </Link>

@@ -88,10 +88,7 @@ function VariantB({
         <Flex wrap aligncenter className="w-full mb-16">
           <div className="w-full lg:w-1/2">
             {caption && (
-              <Text
-                color="brand-primary"
-                className="text-sm font-bold lg:text-base"
-              >
+              <Text color="primary" className="text-sm font-bold lg:text-base">
                 {caption}
               </Text>
             )}
@@ -196,7 +193,7 @@ function VariantB({
 function ListIcon() {
   return (
     <svg
-      className="w-5 h-5 mr-2 text-brand-primary"
+      className="w-5 h-5 mr-2 text-primary"
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 20 20"
       fill="currentColor"

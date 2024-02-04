@@ -96,7 +96,7 @@ function VariantA({
       <Container>
         <Container maxWidth={672} className="mb-16 text-center">
           {caption && (
-            <Text weight="bold" color="brand-primary">
+            <Text weight="bold" color="primary">
               {caption}
             </Text>
           )}
@@ -161,7 +161,7 @@ function VariantA({
               >
                 <Card
                   className={`p-8 ${
-                    index % 2 !== 0 ? "bg-brand-primary text-white" : "bg-white"
+                    index % 2 !== 0 ? "bg-primary text-white" : "bg-white"
                   }`}
                 >
                   <Heading
@@ -212,7 +212,7 @@ function VariantA({
                           className={`mr-2 h-5 w-5 ${
                             index % 2 !== 0
                               ? "text-baby-darkblue"
-                              : "text-brand-primary"
+                              : "text-primary"
                           }`}
                           xmlns="http://www.w3.org/2000/svg"
                           viewBox="0 0 20 20"
@@ -233,7 +233,7 @@ function VariantA({
                     className={`inline-block w-full rounded-l-xl rounded-t-xl px-4 py-2 text-center ${
                       index % 2 !== 0
                         ? "bg-white text-black hover:bg-white"
-                        : "bg-brand-primary text-white  hover:bg-brand-primary-foreground"
+                        : "bg-primary text-white  hover:bg-primary-foreground"
                     } cursor-pointer font-bold leading-loose transition duration-200 ${
                       !planDetail ||
                       ("variant_a_monthlyPriceCheckoutButton" in planDetail &&

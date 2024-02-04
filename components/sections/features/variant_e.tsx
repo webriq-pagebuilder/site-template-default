@@ -69,7 +69,7 @@ function VariantE({ featuredItems }: FeaturesProps) {
             )}
             <Card className="top-0 left-0 max-w-xl p-6 mx-auto text-center bg-white md:mt-12 md:p-10 lg:mt-12 lg:p-10 xl:absolute xl:mx-0 xl:mt-20 xl:py-24">
               <Text
-                color="brand-primary"
+                color="primary"
                 weight="bold"
                 className="text-xs lg:text-md md:text-sm xl:text-lg"
               >

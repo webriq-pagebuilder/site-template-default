@@ -46,7 +46,7 @@ function VariantA({
         <div className="lg:hidden">
           <button
             aria-label="Navigation Menu"
-            className="flex items-center p-3 navbar-burger text-brand-primary"
+            className="flex items-center p-3 navbar-burger text-primary"
             onClick={showMenu}
           >
             <svg
@@ -128,7 +128,7 @@ function VariantA({
                       asLink
                       variant="link"
                       ariaLabel={link?.label}
-                      className="block w-full p-4 text-sm font-semibold text-gray-900 rounded hover:bg-brand-secondary-foreground hover:text-brand-primary"
+                      className="block w-full p-4 text-sm font-semibold text-gray-900 rounded hover:bg-secondary-foreground hover:text-primary"
                       link={link}
                     >
                       {link?.label}
@@ -155,7 +155,7 @@ function VariantA({
                   asLink
                   ariaLabel={secondaryButton?.label}
                   link={secondaryButton}
-                  className={`block px-4 py-3 mb-2 leading-loose text-xs text-center text-white font-semibold bg-brand-primary hover:bg-brand-primary-foreground rounded-l-xl rounded-t-xl`}
+                  className={`block px-4 py-3 mb-2 leading-loose text-xs text-center text-white font-semibold bg-primary hover:bg-primary-foreground rounded-l-xl rounded-t-xl`}
                 >
                   {secondaryButton?.label}
                 </Button>

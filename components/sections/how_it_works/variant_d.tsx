@@ -13,8 +13,8 @@ function VariantD({ subtitle, title, steps }: HowItWorksProps) {
         <Container maxWidth={448} className="mb-8 text-center">
           <Text
             weight="bold"
-            color="brand-primary"
-            className="font-bold text-brand-primary"
+            color="primary"
+            className="font-bold text-primary"
           >
             {subtitle}
           </Text>
@@ -39,7 +39,7 @@ function StepItem({ index, step }) {
       key={index}
     >
       <p
-        className="absolute top-0 left-0 ml-10 font-semibold -mt-14 text-9xl text-brand-primary opacity-20"
+        className="absolute top-0 left-0 ml-10 font-semibold -mt-14 text-9xl text-primary opacity-20"
         style={{ width: "69px", height: "103px" }}
       >
         {index + 1}

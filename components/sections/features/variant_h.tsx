@@ -15,7 +15,7 @@ function VariantH({ caption, title, features, images }: FeaturesProps) {
           <div className="w-full mb-12 lg:mb-0 lg:w-1/2">
             <Container maxWidth={448}>
               {caption && (
-                <Text weight="bold" color="brand-primary">
+                <Text weight="bold" color="primary">
                   {caption}
                 </Text>
               )}
@@ -78,7 +78,7 @@ function FeatureItem({ feature }) {
     <li className="flex">
       <div>
         <svg
-          className="w-8 h-8 mr-3 text-brand-primary"
+          className="w-8 h-8 mr-3 text-primary"
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"

@@ -13,7 +13,7 @@ function VariantC({ caption, title, features }: FeaturesProps) {
       <Container>
         <Container maxWidth={448} className="mb-16 text-center ">
           {caption && (
-            <Text weight="bold" color="brand-primary">
+            <Text weight="bold" color="primary">
               {caption}
             </Text>
           )}
@@ -36,7 +36,7 @@ function FeatureItem({ feature }) {
   return (
     <div className="w-full px-3 mb-6 lg:w-1/2">
       <Card className="flex flex-wrap h-full p-6">
-        <div className="self-start inline-block p-3 mb-4 mr-6 rounded-lg bg-brand-secondary-foreground md:p-5 lg:mb-0">
+        <div className="self-start inline-block p-3 mb-4 mr-6 rounded-lg bg-secondary-foreground md:p-5 lg:mb-0">
           {feature?.mainImage?.image && (
             <Image
               className="object-scale-down"

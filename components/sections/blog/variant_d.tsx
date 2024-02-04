@@ -64,7 +64,7 @@ function VariantD({ subtitle, title, posts }: BlogProps) {
       <Container>
         <div className="w-full mb-16">
           {subtitle && (
-            <Text weight={"bold"} color="brand-primary">
+            <Text weight={"bold"} color="primary">
               {subtitle}
             </Text>
           )}
@@ -127,9 +127,9 @@ function CategoryItem({ activeTab, setActiveTab, category }) {
   return (
     <button
       aria-label="Show all blog posts"
-      className={`mb-4 block px-3 py-2 hover:bg-brand-secondary-foreground focus:outline-none w-full text-left rounded ${
+      className={`mb-4 block px-3 py-2 hover:bg-secondary-foreground focus:outline-none w-full text-left rounded ${
         activeTab === category
-          ? "font-bold text-brand-primary focus:outline-none bg-brand-secondary-foreground"
+          ? "font-bold text-primary focus:outline-none bg-secondary-foreground"
           : null
       }`}
       onClick={() => setActiveTab(category)}
@@ -158,7 +158,7 @@ function PostItem({ post }) {
         {post?.title && (
           <Link
             aria-label={post?.title}
-            className="mb-1 text-2xl font-bold hover:text-brand-secondary font-heading"
+            className="mb-1 text-2xl font-bold hover:text-secondary font-heading"
             href={`/${post?.slug?.current ?? "page-not-added"}`}
           >
             {post?.title}
@@ -168,7 +168,7 @@ function PostItem({ post }) {
           {post?.authors &&
             post?.authors?.map((author, index, { length }) => (
               <div className="flex" key={index}>
-                <Text className="text-brand-primary">{author?.name}</Text>
+                <Text className="text-primary">{author?.name}</Text>
                 {index + 1 !== length ? <span>&nbsp;,&nbsp;</span> : null}
               </div>
             ))}

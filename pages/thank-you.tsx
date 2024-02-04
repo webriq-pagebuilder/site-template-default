@@ -26,15 +26,13 @@ function ThankYouForm() {
         <div className="radius-for-skewed bg-gray-50 py-20">
           <div className="container mx-auto px-4">
             <div className="text-center">
-              <p className="mb-10 text-4xl font-bold text-brand-primary">
-                Success!
-              </p>
+              <p className="mb-10 text-4xl font-bold text-primary">Success!</p>
               <h4 className="mb-10 text-4xl font-bold">
                 Thank you for your response
               </h4>
               <div>
                 <Link
-                  className="mb-2 inline-block w-full rounded-l-xl rounded-t-xl bg-brand-primary-foreground px-6 py-2 font-bold leading-loose text-gray-50 hover:bg-brand-primary lg:mb-0 lg:mr-4 lg:w-auto"
+                  className="mb-2 inline-block w-full rounded-l-xl rounded-t-xl bg-primary-foreground px-6 py-2 font-bold leading-loose text-gray-50 hover:bg-primary lg:mb-0 lg:mr-4 lg:w-auto"
                   href="/"
                 >
                   Go back to Homepage

@@ -82,7 +82,7 @@ export const ConditionalLink = ({
   target,
 }: ConditionalLinkTypes) => {
   const defaultStyle =
-    "inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-brand-primary hover:bg-brand-primary-foreground text-gray-50 font-bold leading-loose outline-none transition duration-200";
+    "inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-primary hover:bg-primary-foreground text-gray-50 font-bold leading-loose outline-none transition duration-200";
 
   if (!link?.internalLink && !link?.externalLink) {
     return (
@@ -212,7 +212,7 @@ export const defaultBlockStyle: MyPortableTextComponents = {
     code: ({ children }) => <code>{children}</code>,
     link: ({ children, value }) => (
       <a
-        className="hover:text-brand-primary-foreground text-brand-primary"
+        className="hover:text-primary-foreground text-primary"
         href={value.href}
         target="_blank"
         rel="noopener noreferrer"

@@ -24,7 +24,7 @@ function VariantA({ caption, title, portfoliosWithCategory }: PortfolioProps) {
       <Container>
         <Container maxWidth={512} className="mb-8 text-center md:mb-16">
           {caption && (
-            <Text weight="bold" color="brand-primary">
+            <Text weight="bold" color="primary">
               {caption}
             </Text>
           )}
@@ -37,8 +37,8 @@ function VariantA({ caption, title, portfoliosWithCategory }: PortfolioProps) {
                   key={index}
                   className={`mx-auto mb-1 w-auto px-4 py-2 ${
                     activeTab === content?.category
-                      ? "rounded bg-gray-50 font-bold text-brand-primary shadow transition duration-200 focus:outline-none"
-                      : "rounded font-bold text-gray-700 transition duration-200 hover:bg-brand-secondary-foreground hover:text-brand-primary-foreground hover:shadow focus:outline-none"
+                      ? "rounded bg-gray-50 font-bold text-primary shadow transition duration-200 focus:outline-none"
+                      : "rounded font-bold text-gray-700 transition duration-200 hover:bg-secondary-foreground hover:text-primary-foreground hover:shadow focus:outline-none"
                   }`}
                   onClick={() => setActiveTab(content?.category)}
                 >

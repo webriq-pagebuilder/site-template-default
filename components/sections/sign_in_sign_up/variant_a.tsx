@@ -102,7 +102,7 @@ function VariantA({ logo, form, formLinks, signInLink }: SignUpFormProps) {
                     <Button
                       variant="link"
                       link={signInLink}
-                      className="text-xs text-brand-primary hover:underline"
+                      className="text-xs text-primary hover:underline"
                       ariaLabel={signInLink?.label}
                     >
                       {signInLink?.label}
@@ -123,7 +123,7 @@ function VariantA({ logo, form, formLinks, signInLink }: SignUpFormProps) {
                     className={` text-gray-700 text-xs ${
                       link?.type === "linkInternal"
                         ? "underline hover:text-gray-500"
-                        : "text-brand-primary hover:underline"
+                        : "text-primary hover:underline"
                     }`}
                     ariaLabel={link?.label}
                   >

@@ -104,7 +104,7 @@ const blockStyle: MyPortableTextComponents = {
     code: ({ children }) => <code>{children}</code>,
     link: ({ children, value }) => (
       <Link
-        className="hover:text-brand-primary-foreground text-brand-primary"
+        className="hover:text-primary-foreground text-primary"
         href={value?.href}
         target="_blank"
         rel="noopener noreferrer"
@@ -183,7 +183,7 @@ function BlogSections({ data }: BlogSectionsProps) {
               {categories &&
                 categories?.map((tag, index) => (
                   <span
-                    className="text-base uppercase text-brand-primary-foreground lg:text-xl"
+                    className="text-base uppercase text-primary-foreground lg:text-xl"
                     key={index}
                   >
                     {tag?.title}
@@ -234,13 +234,13 @@ function BlogSections({ data }: BlogSectionsProps) {
                           )}
                         </div>
                         <div className="text-left">
-                          <h3 className="font-bold text-brand-primary-foreground">
+                          <h3 className="font-bold text-primary-foreground">
                             {author?.name}
                           </h3>
                           {index + 1 !== length ? (
                             <span>&nbsp;and&nbsp;</span>
                           ) : null}
-                          <span className="text-xs italic text-brand-secondary-foreground">
+                          <span className="text-xs italic text-secondary-foreground">
                             {authors?.length > 1 ? "Authors" : "Author"}
                           </span>
                         </div>

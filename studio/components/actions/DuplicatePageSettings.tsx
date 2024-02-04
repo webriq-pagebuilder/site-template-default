@@ -219,7 +219,7 @@ export default function DuplicatePageSettings({
                         <ButtonWithTooltip toolTipText="Cancel">
                           <button
                             aria-label="Go back to previous window"
-                            className="items-center text-center font-medium text-brand-primary hover:text-brand-secondary"
+                            className="items-center text-center font-medium text-primary hover:text-secondary"
                             onClick={() => handleEditReferenceBtn(null, index)}
                           >
                             <ArrowLeftIcon style={{ fontSize: 30 }} />
@@ -324,7 +324,7 @@ export default function DuplicatePageSettings({
                             <ButtonWithTooltip toolTipText="Edit">
                               <button
                                 aria-label="Replace reference"
-                                className={`text-brand-primary hover:text-brand-secondary ${
+                                className={`text-primary hover:text-secondary ${
                                   !section?.isEditing && "hide"
                                 }`}
                                 onClick={() =>

@@ -25,7 +25,7 @@ function VariantF({
               <Text
                 weight="bold"
                 color="primary-brand"
-                className="font-bold text-brand-primary"
+                className="font-bold text-primary"
               >
                 {caption}
               </Text>

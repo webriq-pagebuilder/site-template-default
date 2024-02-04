@@ -51,7 +51,7 @@ function VariantE({ banner, logo, links }: NavigationProps) {
       link: ({ children, value }) => (
         <Link
           aria-label={value?.href ?? "external link"}
-          className="text-brand-primary-foreground hover:text-brand-secondary-foreground"
+          className="text-primary-foreground hover:text-secondary-foreground"
           href={value?.href}
           target="_blank"
           rel="noopener noreferrer"
@@ -79,7 +79,7 @@ function VariantE({ banner, logo, links }: NavigationProps) {
     <EcwidContextProvider>
       <section className="relative">
         {banner && (
-          <div className="py-2 bg-brand-primary">
+          <div className="py-2 bg-primary">
             <Flex align="center" justify="center">
               <svg
                 className="mr-2"
@@ -185,17 +185,17 @@ function VariantE({ banner, logo, links }: NavigationProps) {
                   id="query"
                   name="query"
                   aria-label="Search..."
-                  className="inline-block w-40 h-full p-2 mt-1 text-sm bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:border-brand-primary-foreground focus:outline-none focus:ring-1 focus:ring-brand-primary-foreground"
+                  className="inline-block w-40 h-full p-2 mt-1 text-sm bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:border-primary-foreground focus:outline-none focus:ring-1 focus:ring-primary-foreground"
                   placeholder="Search..."
                   onChange={(e) => setProductQuery(e.target.value)}
                   type="search"
                 />
                 <button
                   aria-label="Submit product search"
-                  className={`mt-1 inline-flex h-[35px] w-10 items-center justify-center bg-brand-primary ${
+                  className={`mt-1 inline-flex h-[35px] w-10 items-center justify-center bg-primary ${
                     productQuery === ""
                       ? "cursor-not-allowed opacity-50"
-                      : "transition duration-200 hover:bg-brand-primary-foreground"
+                      : "transition duration-200 hover:bg-primary-foreground"
                   }`}
                   disabled={productQuery === ""}
                   type="submit"
@@ -333,17 +333,17 @@ function VariantE({ banner, logo, links }: NavigationProps) {
                 id="query"
                 name="query"
                 aria-label="Search product"
-                className="inline-block w-full h-full p-2 text-sm bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:border-brand-primary-foreground focus:outline-none focus:ring-1 focus:ring-brand-primary-foreground sm:w-60"
+                className="inline-block w-full h-full p-2 text-sm bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:border-primary-foreground focus:outline-none focus:ring-1 focus:ring-primary-foreground sm:w-60"
                 placeholder="Search..."
                 onChange={(e) => setProductQuery(e.target.value)}
                 type="search"
               />
               <button
                 aria-label="Submit product search"
-                className={`inline-flex h-full w-10 items-center justify-center bg-brand-primary ${
+                className={`inline-flex h-full w-10 items-center justify-center bg-primary ${
                   productQuery === ""
                     ? "cursor-not-allowed opacity-50"
-                    : "transition duration-200 hover:bg-brand-primary-foreground"
+                    : "transition duration-200 hover:bg-primary-foreground"
                 }`}
                 disabled={productQuery === ""}
                 type="submit"

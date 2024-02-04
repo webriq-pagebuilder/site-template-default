@@ -25,7 +25,7 @@ function VariantA({ subtitle, title, text, video, steps }: HowItWorksProps) {
           <div className="w-full mb-10 lg:mb-0 lg:w-1/2">
             <Text
               weight="bold"
-              color="brand-primary"
+              color="primary"
               className="md:text-lg lg:text-lg"
             >
               {subtitle}
@@ -68,7 +68,7 @@ function YoutubeVideo({ videoLinkId, title }) {
 function StepsItem({ index, step }) {
   return (
     <div className="w-full px-5 mb-12 md:w-1/2 lg:mb-0 lg:w-1/3">
-      <span className="flex items-center justify-center w-12 h-12 mt-6 mb-6 font-bold rounded bg-brand-secondary-foreground text-brand-primary">
+      <span className="flex items-center justify-center w-12 h-12 mt-6 mb-6 font-bold rounded bg-secondary-foreground text-primary">
         {index + 1}
       </span>
       <Text weight="bold" className="mb-2 text-lg md:text-2xl">

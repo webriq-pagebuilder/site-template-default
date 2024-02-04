@@ -1,5 +1,5 @@
+import { Button } from "components/ui/Button";
 import { Card } from "components/ui/Card";
-import { ConditionalLink } from "components/ui/ConditionalLink";
 import { Form } from "components/ui/Form/Form";
 import { FormField } from "components/ui/FormField";
 import { thankYouPageLink } from "helper";
@@ -61,7 +61,7 @@ export function SignUpForm({ form, signInLink, className }: SignUpFormProps) {
             aria-label={
               form?.buttonLabel ?? "Call to action form submit button"
             }
-            className="w-full py-4 mb-4 text-sm font-bold leading-normal text-white transition duration-200 rounded bg-brand-primary-foreground hover:bg-brand-primary"
+            className="w-full py-4 mb-4 text-sm font-bold leading-normal text-white transition duration-200 rounded bg-primary-foreground hover:bg-primary"
             type="submit"
           >
             {form?.buttonLabel}
@@ -71,14 +71,14 @@ export function SignUpForm({ form, signInLink, className }: SignUpFormProps) {
       {signInLink?.label && (
         <p className="text-xs text-gray-500">
           <span>Already have an account?</span>
-          <ConditionalLink
+          <Button
+            size="sm"
             variant="link"
             link={signInLink}
-            className="text-brand-primary hover:text-brand-secondary"
             ariaLabel={signInLink?.label}
           >
             {signInLink?.label}
-          </ConditionalLink>
+          </Button>
         </p>
       )}
     </Card>

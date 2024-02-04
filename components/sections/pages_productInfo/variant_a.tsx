@@ -70,7 +70,7 @@ function VariantA({ products }: PagesProductInfoProps) {
                   <div className="mb-8">{/* Add product rating here */}</div>
                   {products?.price && (
                     <p
-                      className={`font-heading inline-block text-2xl font-bold text-brand-primary ${
+                      className={`font-heading inline-block text-2xl font-bold text-primary ${
                         !products?.compareToPrice && "mb-8"
                       }`}
                     >
@@ -92,7 +92,7 @@ function VariantA({ products }: PagesProductInfoProps) {
                       </span>{" "}
                       (
                       <span
-                        className="text-brand-secondary"
+                        className="text-secondary"
                         style={{ fontSize: "15px" }}
                       >
                         Save{" "}
@@ -121,7 +121,7 @@ function VariantA({ products }: PagesProductInfoProps) {
                     <div className="w-full lg:mb-4 xl:mb-0">
                       <AddToBag
                         inStock={!ecwidProduct?.inStock}
-                        classNames="block w-full text-center text-white font-bold font-heading py-5 px-8 rounded-md uppercase transition duration-200 bg-brand-primary hover:bg-brand-primary-foreground cursor-pointer"
+                        classNames="block w-full text-center text-white font-bold font-heading py-5 px-8 rounded-md uppercase transition duration-200 bg-primary hover:bg-primary-foreground cursor-pointer"
                       >
                         {products?.productInfo?.btnLabel ?? "ADD TO CART"}
                       </AddToBag>
@@ -129,7 +129,7 @@ function VariantA({ products }: PagesProductInfoProps) {
 
                     {/* Add to wishlist button */}
                     <AddToWishlist
-                      classNames="ml-auto sm:ml-0 flex-shrink-0 inline-flex items-center justify-center w-full h-16 rounded-md border hover:border-brand-primary"
+                      classNames="ml-auto sm:ml-0 flex-shrink-0 inline-flex items-center justify-center w-full h-16 rounded-md border hover:border-primary"
                       product={ecwidProduct}
                     >
                       <svg

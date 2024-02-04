@@ -28,7 +28,7 @@ function VariantB({
         >
           <div className="text-center lg:text-left">
             {caption && (
-              <Text weight="bold" color="brand-primary">
+              <Text weight="bold" color="primary">
                 {caption}
               </Text>
             )}
@@ -81,7 +81,7 @@ function ProjectItem({ content }) {
         )}
 
         <div className="absolute inset-0 z-10 flex flex-col items-start p-6 duration-300 bg-gray-900 rounded opacity-0 hover:opacity-75">
-          <Text className="text-brand-secondary-foreground">
+          <Text className="text-secondary-foreground">
             {content?.dateAdded}
           </Text>
           <Text
@@ -97,7 +97,7 @@ function ProjectItem({ content }) {
               variant="outline"
               ariaLabel={content?.primaryButton?.label}
               link={content?.primaryButton}
-              className="bg-transparent !outline-none border-2 border-gray-400 hover:border-brand-primary text-gray-50 hover:bg-brand-primary hover:text-white "
+              className="bg-transparent !outline-none border-2 border-gray-400 hover:border-primary text-gray-50 hover:bg-primary hover:text-white "
             >
               {content?.primaryButton?.label}
             </Button>

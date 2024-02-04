@@ -103,7 +103,7 @@ function VariantC({
             <div className="ml-auto lg:hidden">
               <button
                 aria-label="Navigation menu"
-                className="flex items-center p-3 navbar-burger text-brand-primary"
+                className="flex items-center p-3 navbar-burger text-primary"
                 onClick={showMenu}
               >
                 <svg
@@ -157,7 +157,7 @@ function VariantC({
                       variant="link"
                       ariaLabel={link?.label}
                       link={link}
-                      className="block p-4 text-sm font-semibold text-gray-700 rounded hover:bg-brand-secondary-foreground hover:text-brand-primary"
+                      className="block p-4 text-sm font-semibold text-gray-700 rounded hover:bg-secondary-foreground hover:text-primary"
                     >
                       {link?.label}
                     </Button>

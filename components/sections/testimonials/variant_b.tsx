@@ -39,7 +39,7 @@ function VariantB({ caption, title, testimonials }: TestimonialProps) {
             />
           )}
           <Container maxWidth={576} className="mb-10 text-center ">
-            <Text weight="bold" color="brand-primary">
+            <Text weight="bold" color="primary">
               {caption}
             </Text>
             <Heading className="mt-4">{title}</Heading>
@@ -82,7 +82,7 @@ function VariantB({ caption, title, testimonials }: TestimonialProps) {
 function QuoteIcon() {
   return (
     <svg
-      className="h-8 mb-6 text-brand-primary"
+      className="h-8 mb-6 text-primary"
       viewBox="0 0 32 28"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

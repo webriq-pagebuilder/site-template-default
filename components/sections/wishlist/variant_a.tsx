@@ -60,7 +60,7 @@ function VariantA() {
                         {items?.name}
                       </p>
                       <p className="text-xl font-bold text-white font-heading">
-                        <span className="mr-2 text-brand-primary">
+                        <span className="mr-2 text-primary">
                           {items?.price}
                         </span>
                       </p>
@@ -82,7 +82,7 @@ function VariantA() {
                   alt="no products on wishlist"
                 />
                 <div className="text-center">
-                  <span className="mb-6 text-2xl font-bold text-brand-primary">
+                  <span className="mb-6 text-2xl font-bold text-primary">
                     Wishlist is empty
                   </span>
                   <p className="my-8 text-gray-700">

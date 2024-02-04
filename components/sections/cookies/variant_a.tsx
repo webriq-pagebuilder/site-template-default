@@ -24,7 +24,7 @@ export const cookiesBlockStyling: PortableTextComponents = {
     link: ({ children, value }) => (
       <a
         aria-label={value.href ?? "external link"}
-        className="text-blue-400 hover:text-brand-secondary-foreground"
+        className="text-blue-400 hover:text-secondary-foreground"
         target="_blank"
         href={value.href}
         rel="noopener noreferrer"
@@ -67,7 +67,7 @@ function VariantA({
                 <Button
                   ariaLabel={allowCookieBtn}
                   type="button"
-                  className="py-2 m-2 border-2 border-brand-primary hover:border-brand-primary-foreground"
+                  className="py-2 m-2 border-2 border-primary hover:border-primary-foreground"
                   onClick={() => {
                     setCookie("allow");
                     setShowCookie(!showCookie);

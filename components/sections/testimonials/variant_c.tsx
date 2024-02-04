@@ -37,7 +37,7 @@ function VariantC({ caption, title, testimonials }: TestimonialProps) {
           className="justify-center text-center lg:justify-between lg:text-left"
         >
           <div className="w-full mb-4 lg:mb-0 lg:w-4/5">
-            <Text weight="bold" color="brand-primary">
+            <Text weight="bold" color="primary">
               {caption}
             </Text>
             <Heading>{title}</Heading>

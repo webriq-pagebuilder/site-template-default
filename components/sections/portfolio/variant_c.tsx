@@ -28,7 +28,7 @@ function VariantC({
         >
           <div className="text-center lg:text-left">
             {caption && (
-              <Text weight="bold" color="brand-primary">
+              <Text weight="bold" color="primary">
                 {caption}
               </Text>
             )}
