@@ -82,7 +82,7 @@ function VariantA({ logo, form, formLinks, signInLink }: SignUpFormProps) {
                 <div className="text-center">
                   {form?.buttonLabel && (
                     <Button
-                      asLink={false}
+                      as="button"
                       variant="custom"
                       ariaLabel={
                         form?.buttonLabel ?? "Sign Up form submit button"
@@ -118,7 +118,6 @@ function VariantA({ logo, form, formLinks, signInLink }: SignUpFormProps) {
               {formLinks?.map((link, index, { length }) => (
                 <span key={index}>
                   <Button
-                    asLink
                     variant="link"
                     link={link}
                     className={` text-gray-700 text-xs ${

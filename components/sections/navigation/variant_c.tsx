@@ -152,7 +152,6 @@ function VariantC({
                 links?.map((link, index) => (
                   <li className="mb-1" key={index}>
                     <Button
-                      asLink
                       variant="link"
                       ariaLabel={link?.label}
                       link={link}
@@ -168,7 +167,6 @@ function VariantC({
             <div className="pt-6">
               {primaryButton?.label && (
                 <Button
-                  asLink
                   ariaLabel={primaryButton?.label}
                   link={primaryButton}
                   className="block mb-3 text-xs text-center text-gray-900 bg-gray-50 hover:bg-gray-100 "
@@ -178,7 +176,6 @@ function VariantC({
               )}
               {secondaryButton?.label && (
                 <Button
-                  asLink
                   ariaLabel={secondaryButton?.label}
                   link={secondaryButton}
                   className="block mb-2 text-xs text-center "

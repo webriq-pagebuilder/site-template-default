@@ -35,11 +35,7 @@ function VariantC({
           </div>
           <div className="hidden mt-5 md:mt-0 lg:block ">
             {primaryButton?.label && (
-              <Button
-                asLink
-                ariaLabel={primaryButton?.label}
-                link={primaryButton}
-              >
+              <Button ariaLabel={primaryButton?.label} link={primaryButton}>
                 {primaryButton?.label}
               </Button>
             )}
@@ -86,7 +82,6 @@ function ProjectItem({ content }) {
             </Text>
             {content?.primaryButton?.label && (
               <Button
-                asLink
                 variant="link"
                 ariaLabel={content?.primaryButton?.label}
                 link={content?.primaryButton}

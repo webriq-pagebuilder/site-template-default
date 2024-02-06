@@ -42,7 +42,7 @@ function VariantD({
             <Flex>
               {allowCookieBtn && (
                 <Button
-                  asLink={false}
+                  as="button"
                   ariaLabel={allowCookieBtn}
                   type="button"
                   className="m-2 "
@@ -56,7 +56,7 @@ function VariantD({
               )}
               {denyCookieBtn && (
                 <Button
-                  asLink={false}
+                  as="button"
                   ariaLabel={denyCookieBtn}
                   variant="outline"
                   type="button"

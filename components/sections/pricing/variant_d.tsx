@@ -487,7 +487,7 @@ function VariantD({
                 <div className="webriq-recaptcha" />
               </div>
               <Button
-                asLink={false}
+                as="button"
                 id="submitBtn"
                 ariaLabel="Submit Pricing Form button"
                 onClick={(e) => handleSubmit(e)}
@@ -529,7 +529,6 @@ function VariantD({
             <Text muted className="text-xs">
               Already have an account?{" "}
               <Button
-                asLink
                 variant="link"
                 link={signInLink}
                 className="text-xs  hover:underline"

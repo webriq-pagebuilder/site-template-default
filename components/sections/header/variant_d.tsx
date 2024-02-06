@@ -32,17 +32,12 @@ function VariantD({
               )}
               <Flex align="center" gap={2} className="flex-col md:flex-row">
                 {primaryButton?.label && (
-                  <Button
-                    asLink
-                    link={primaryButton}
-                    ariaLabel={primaryButton?.label}
-                  >
+                  <Button link={primaryButton} ariaLabel={primaryButton?.label}>
                     {primaryButton?.label}
                   </Button>
                 )}
                 {secondaryButton?.label && (
                   <Button
-                    asLink
                     link={secondaryButton}
                     className="text-black bg-white hover:bg-gray-50"
                     ariaLabel={secondaryButton?.label}

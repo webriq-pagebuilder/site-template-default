@@ -124,7 +124,6 @@ function VariantA({
                 {links?.map((link, index) => (
                   <li className="mb-1" key={index}>
                     <Button
-                      asLink
                       variant="link"
                       ariaLabel={link?.label}
                       className="block w-full p-4 text-sm font-semibold text-gray-900 no-underline rounded hover:bg-secondary-foreground hover:text-primary"
@@ -141,7 +140,6 @@ function VariantA({
             <div className="pt-6">
               {primaryButton?.label && (
                 <Button
-                  asLink
                   ariaLabel={primaryButton?.label}
                   link={primaryButton}
                   className="block px-4 py-3 mb-3 text-xs font-semibold leading-loose text-center text-gray-900 bg-gray-50 hover:bg-gray-100 rounded-l-xl rounded-t-xl"
@@ -151,7 +149,6 @@ function VariantA({
               )}
               {secondaryButton?.label && (
                 <Button
-                  asLink
                   ariaLabel={secondaryButton?.label}
                   link={secondaryButton}
                   className={`block px-4 py-3 mb-2 leading-loose text-xs text-center text-white font-semibold bg-primary hover:bg-primary-foreground rounded-l-xl rounded-t-xl`}
@@ -198,7 +195,6 @@ function NavItem({ link, index }) {
     <React.Fragment key={index}>
       <li>
         <Button
-          asLink
           variant="link"
           ariaLabel={link?.label}
           link={link}

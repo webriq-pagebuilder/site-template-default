@@ -44,11 +44,7 @@ function VariantB({ subtitle, title, posts, primaryButton }: BlogProps) {
 
         <div className="text-center">
           {primaryButton?.label && (
-            <Button
-              asLink
-              link={primaryButton}
-              ariaLabel={primaryButton?.label}
-            >
+            <Button link={primaryButton} ariaLabel={primaryButton?.label}>
               {primaryButton?.label}
             </Button>
           )}

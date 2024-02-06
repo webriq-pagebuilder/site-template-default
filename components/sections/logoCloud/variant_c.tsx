@@ -17,7 +17,7 @@ function VariantC({ title, images, button }: LogoCloudProps) {
             {title}
           </Heading>
           {button?.label && (
-            <Button asLink ariaLabel={button?.label} link={button}>
+            <Button ariaLabel={button?.label} link={button}>
               {button?.label}
             </Button>
           )}

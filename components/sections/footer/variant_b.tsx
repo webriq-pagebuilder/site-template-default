@@ -56,7 +56,6 @@ function VariantB({ logo, copyright, socialMedia, menu }: FooterProps) {
                   <React.Fragment key={links?._key || index}>
                     <li className="w-full mb-2 md:mb-0 md:w-auto" key={index}>
                       <Button
-                        asLink
                         variant="link"
                         link={links}
                         className="text-gray-500 no-underline lg:text-sm hover:text-gray-700"

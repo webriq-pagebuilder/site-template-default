@@ -35,11 +35,7 @@ function VariantC({ subtitle, title, posts, primaryButton }: BlogProps) {
           </div>
 
           {primaryButton?.label && (
-            <Button
-              asLink
-              link={primaryButton}
-              ariaLabel={primaryButton?.label}
-            >
+            <Button link={primaryButton} ariaLabel={primaryButton?.label}>
               {primaryButton?.label}
             </Button>
           )}
@@ -64,11 +60,7 @@ function VariantC({ subtitle, title, posts, primaryButton }: BlogProps) {
         )}
         {primaryButton?.label && (
           <div className="w-full text-center lg:hidden">
-            <Button
-              asLink
-              link={primaryButton}
-              ariaLabel={primaryButton?.label}
-            >
+            <Button link={primaryButton} ariaLabel={primaryButton?.label}>
               {primaryButton?.label}
             </Button>
           </div>

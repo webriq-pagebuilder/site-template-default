@@ -35,17 +35,12 @@ function VariantC({
             className="flex-col lg:flex-row"
           >
             {primaryButton?.label && (
-              <Button
-                asLink
-                ariaLabel={primaryButton?.label}
-                link={primaryButton}
-              >
+              <Button ariaLabel={primaryButton?.label} link={primaryButton}>
                 {primaryButton?.label}
               </Button>
             )}
             {secondaryButton?.label && (
               <Button
-                asLink
                 ariaLabel={secondaryButton?.label}
                 link={secondaryButton}
                 className="text-black bg-white hover:bg-gray-50"
