@@ -33,6 +33,8 @@ const preview: Preview = {
 
 export default preview;
 
+//CSTUDIO ECWID API MOCKS
+
 const DUMMY_SEARCH = {
   total: 4,
   count: 4,
