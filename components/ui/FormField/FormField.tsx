@@ -24,49 +24,6 @@ type FormFieldProps = {
 
 type Variant = "primary" | "secondary" | "outline";
 
-// export const FormField = ({
-//   type = "inputText",
-//   items,
-//   name,
-//   variant = "stacked",
-//   label,
-//   required,
-//   placeholder,
-//   className,
-//   textSize,
-//   inputVariant,
-//   checkboxVariant,
-//   noLabel,
-// }: FormFieldProps) => {
-//   const commonClass = "flex";
-//   const stacked = `${commonClass} flex-col`;
-//   const inline = `${commonClass} items-center`;
-
-//   const variants: StyleVariants<Variant> = {
-//     stacked,
-//     inline,
-//   };
-
-//   const variantClass = variants[variant] ?? stacked;
-
-//   return (
-//     <div className={cn(variantClass, className)}>
-//       <RenderInput
-//         inputVariant={inputVariant}
-//         type={type}
-//         items={items}
-//         name={name}
-//         placeholder={placeholder}
-//         label={label}
-//         required={required}
-//         textSize={textSize}
-//         checkboxVariant={checkboxVariant}
-//         noLabel={noLabel}
-//       />
-//     </div>
-//   );
-// };
-
 export const FormField = ({
   type,
   items,
@@ -117,12 +74,7 @@ export const FormField = ({
 
     case "inputCheckbox":
       return (
-        <CheckboxGroup
-          noLabel={noLabel}
-          variant={variant}
-          name={name}
-          label={label}
-        >
+        <CheckboxGroup noLabel={noLabel} name={name} label={label}>
           {items?.map((item, index) => (
             <Checkbox
               key={item}
