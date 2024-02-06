@@ -73,7 +73,6 @@ export function SignUpForm({ form, signInLink, className }: SignUpFormProps) {
         <Text fontSize="xs" muted>
           <span>Already have an account?</span>{" "}
           <Button
-            asLink
             size="xs"
             variant="link"
             link={signInLink}

@@ -1,7 +1,11 @@
 import type { StorybookConfig } from "@storybook/nextjs";
 
 const config: StorybookConfig = {
-  stories: ["../**/*.mdx", "../**/*.stories.@(js|jsx|mjs|ts|tsx)"],
+  stories: [
+    "../components/ui/Theme/Theme.mdx", // first page to open when starting up storybook
+    "../**/*.mdx",
+    "../**/*.stories.@(js|jsx|mjs|ts|tsx)",
+  ],
   staticDirs: ["../public"],
   addons: [
     "@storybook/addon-links",

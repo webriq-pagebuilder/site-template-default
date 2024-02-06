@@ -44,7 +44,7 @@ function VariantC({
             <div>
               {allowCookieBtn && (
                 <Button
-                  asLink={false}
+                  as="button"
                   ariaLabel={allowCookieBtn}
                   type="button"
                   className="m-2"
@@ -58,7 +58,7 @@ function VariantC({
               )}
               {denyCookieBtn && (
                 <Button
-                  asLink={false}
+                  as="button"
                   ariaLabel={denyCookieBtn}
                   variant="outline"
                   type="button"

@@ -34,7 +34,6 @@ function VariantC({ logo, menu, copyright, socialMedia }: FooterProps) {
                   {menu?.map((links, index) => (
                     <li className="w-full text-center" key={index}>
                       <Button
-                        asLink
                         variant="link"
                         link={links}
                         className="text-sm text-center text-black no-underline hover:text-gray-500 whitespace-nowrap"

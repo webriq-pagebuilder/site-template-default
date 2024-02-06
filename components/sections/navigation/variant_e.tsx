@@ -137,7 +137,6 @@ function VariantE({ banner, logo, links }: NavigationProps) {
                   <Fragment key={index}>
                     <li>
                       <Button
-                        asLink
                         variant="link"
                         ariaLabel={link?.label}
                         link={link}
@@ -369,7 +368,6 @@ function VariantE({ banner, logo, links }: NavigationProps) {
                   <Fragment key={index}>
                     <li className="mb-8">
                       <Button
-                        asLink
                         variant="link"
                         ariaLabel={link?.label}
                         link={link}

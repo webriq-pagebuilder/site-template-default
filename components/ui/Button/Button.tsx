@@ -9,7 +9,8 @@ import { StyleVariants } from "../types";
 type Variant = "outline" | "ghost" | "link" | "custom" | "solid";
 type TextSize = "xs" | "sm" | "md" | "lg";
 type RadiusSize = "sm" | "md" | "lg" | "xl" | "2xl" | "none";
-export type ButtonProps = {
+
+interface BaseType {
   /** Defines the classname of the button. */
   className?: string;
   variant?: Variant;
@@ -17,6 +18,20 @@ export type ButtonProps = {
   ariaLabel: string;
   /** Defines the content inside the button. */
   children: React.ReactNode;
+  /** Set button to link component */
+  size?: TextSize;
+  borderRadius?: RadiusSize;
+  // [key: string]: any;
+}
+
+interface Link extends BaseType {
+  /** Link data pass to the button */
+  link: LabeledRoute;
+  as?: "link";
+}
+
+interface Button extends BaseType {
+  as: "button";
   /** Sets the button in a loading state. */
   loading?: boolean;
   /** Sets the button in a disabled state. */
@@ -27,31 +42,15 @@ export type ButtonProps = {
   onClick?: (...args: any) => any;
   /** Set button type. Defaults to button */
   type?: "button" | "submit";
-  /** Set button to link component */
-  asLink?: boolean;
-  /** Link data pass to the button */
-  link?: LabeledRoute;
-  size?: TextSize;
-  borderRadius?: RadiusSize;
-  [key: string]: any;
-};
+}
 
-export function Button({
-  variant = "solid",
-  className,
-  ariaLabel,
-  children,
-  loading,
-  disabled,
-  loadingComponent,
-  onClick,
-  type = "button",
-  link: linkObject,
-  asLink = true,
-  size = "md",
-  borderRadius,
-  ...props
-}: ButtonProps) {
+type Prettify<T> = {
+  [K in keyof T]: T[K];
+} & {};
+
+type ButtonProps = Prettify<Button | Link>;
+
+export function Button(props: ButtonProps) {
   const sizes = {
     xs: "py-1 px-3 text-xs",
     sm: "py-2 px-4 text-sm",
@@ -67,6 +66,8 @@ export function Button({
     xl: "rounded-xl",
     "2xl": "rounded-2xl",
   };
+
+  const { borderRadius, size, variant, ariaLabel, className, children } = props;
 
   const buttonRadius = borderRadiusMap[borderRadius];
   const buttonSize = sizes[size] || sizes["md"];
@@ -93,22 +94,24 @@ export function Button({
 
   const variantClass = variants[variant] ?? solid;
 
-  const Loader = loadingComponent ?? (
-    <FaSpinner className="animate-spin" size={30} />
-  );
-
-  if (asLink) {
+  if (props.as === "link") {
+    const { link, ...rest } = props;
     return (
       <Link
         className={cn(variantClass, className)}
         aria-label={ariaLabel}
-        href={extractLink(linkObject)}
-        {...props}
+        href={extractLink(link)}
+        {...rest}
       >
         {children}
       </Link>
     );
   }
+
+  const { loadingComponent, onClick, loading, disabled, type } = props;
+  const Loader = loadingComponent ?? (
+    <FaSpinner className="animate-spin" size={30} />
+  );
 
   return (
     <button
@@ -117,7 +120,6 @@ export function Button({
       className={cn(variantClass, className)}
       aria-label={ariaLabel}
       type={type}
-      {...props}
     >
       {loading ? Loader : children}
     </button>

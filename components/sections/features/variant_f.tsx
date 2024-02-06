@@ -31,11 +31,7 @@ function VariantF({
                 </Text>
               )}
               {primaryButton?.label && (
-                <Button
-                  asLink
-                  link={primaryButton}
-                  ariaLabel={primaryButton?.label}
-                >
+                <Button link={primaryButton} ariaLabel={primaryButton?.label}>
                   {primaryButton?.label}
                 </Button>
               )}

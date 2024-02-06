@@ -63,7 +63,6 @@ function VariantB({
                   <React.Fragment key={index}>
                     <li>
                       <Button
-                        asLink
                         variant="link"
                         ariaLabel={link?.label}
                         link={link}
@@ -95,7 +94,6 @@ function VariantB({
             </ul>
             {primaryButton?.label && (
               <Button
-                asLink
                 ariaLabel={primaryButton?.label}
                 link={primaryButton}
                 className="hidden text-sm text-gray-900 lg:inline-block lg:ml-auto lg:mr-3 bg-gray-50 hover:bg-gray-100"
@@ -105,7 +103,6 @@ function VariantB({
             )}
             {secondaryButton?.label && (
               <Button
-                asLink
                 ariaLabel={secondaryButton?.label}
                 link={secondaryButton}
                 className="hidden text-sm lg:inline-block "
@@ -150,7 +147,6 @@ function VariantB({
                 links?.map((link, index) => (
                   <li className="mb-1" key={index}>
                     <Button
-                      asLink
                       variant="link"
                       ariaLabel={link?.label}
                       link={link}
@@ -166,7 +162,6 @@ function VariantB({
             <div className="pt-6">
               {primaryButton?.label && (
                 <Button
-                  asLink
                   ariaLabel={primaryButton?.label}
                   link={primaryButton}
                   className="block mb-3 text-xs text-center text-gray-900 bg-gray-50 hover:bg-gray-100 "

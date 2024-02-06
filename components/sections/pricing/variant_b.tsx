@@ -154,7 +154,7 @@ function VariantB({
                 <div className="w-full px-3 lg:w-1/5">
                   {plan.checkoutButtonName && (
                     <Button
-                      asLink={false}
+                      as="button"
                       ariaLabel={plan.checkoutButtonName}
                       className={`mt-4 lg:mt-0  ${
                         !plan ||

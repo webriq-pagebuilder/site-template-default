@@ -50,11 +50,7 @@ function VariantB({
         </Flex>
         <div className="block mt-5 text-center md:mt-0 lg:mt-0 lg:hidden xl:mt-0">
           {primaryButton?.label && (
-            <Button
-              asLink
-              ariaLabel={primaryButton?.label}
-              link={primaryButton}
-            >
+            <Button ariaLabel={primaryButton?.label} link={primaryButton}>
               {primaryButton?.label}
             </Button>
           )}
@@ -91,7 +87,6 @@ function ProjectItem({ content }) {
           </Text>
           {content?.primaryButton?.label && (
             <Button
-              asLink
               variant="outline"
               ariaLabel={content?.primaryButton?.label}
               link={content?.primaryButton}
