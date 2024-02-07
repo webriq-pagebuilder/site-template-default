@@ -18,7 +18,7 @@ function NoPreview() {
             />
           </div>
           <div className="text-center">
-            <span className="mb-6 text-4xl font-bold text-webriq-darkblue">
+            <span className="mb-6 text-4xl font-bold text-primary">
               Whoops!
             </span>
             <p className="my-8 text-gray-700">

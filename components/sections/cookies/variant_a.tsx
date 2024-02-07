@@ -4,19 +4,27 @@ import { setCookie, getCookie } from "utils/cookies";
 
 import { PortableTextComponents } from "@portabletext/react";
 import { CookiesProps } from ".";
+import { Button } from "components/ui/Button";
+import { Container } from "components/layout/Container";
+import { Text } from "components/ui/Text";
+import { Flex } from "components/layout/Flex/Flex";
 
 // block styling as props to `components` of the PortableText component
 export const cookiesBlockStyling: PortableTextComponents = {
   block: {
     normal: ({ children }) => {
-      return <p className="my-5 text-sm text-gray-500">{children}</p>;
+      return (
+        <Text muted className="my-5 text-sm ">
+          {children}
+        </Text>
+      );
     },
   },
   marks: {
     link: ({ children, value }) => (
       <a
         aria-label={value.href ?? "external link"}
-        className="text-blue-400 hover:text-webriq-lightblue"
+        className="text-blue-400 hover:text-secondary-foreground"
         target="_blank"
         href={value.href}
         rel="noopener noreferrer"
@@ -39,11 +47,13 @@ function VariantA({
   return (
     <div className="fixed bottom-0 z-50">
       {!showCookie ? (
-        <div className="container mx-auto px-4">
-          {(title || block) && (
-            <div className="mb-6 flex flex-wrap items-center rounded-lg bg-gray-800 p-6 text-white">
+        <Container>
+          <Flex align="center" wrap className="p-6 mb-6 bg-gray-800 rounded-lg">
+            {(title || block) && (
               <div className="w-full px-4 lg:w-2/3">
-                <p className="font-heading font-bold">{title}</p>
+                <Text weight="bold" className="text-white">
+                  {title}
+                </Text>
                 {block && (
                   <PortableText
                     value={block}
@@ -51,37 +61,40 @@ function VariantA({
                   />
                 )}
               </div>
-              <div className="px-4 lg:w-1/3 lg:text-right">
-                {allowCookieBtn && (
-                  <button
-                    aria-label={allowCookieBtn}
-                    type="button"
-                    className="m-2 inline-block rounded-l-xl rounded-t-xl border-2 border-webriq-darkblue bg-webriq-darkblue px-4 py-2 transition duration-500 hover:border-webriq-blue hover:bg-webriq-blue"
-                    onClick={() => {
-                      setCookie("allow");
-                      setShowCookie(!showCookie);
-                    }}
-                  >
-                    {allowCookieBtn}
-                  </button>
-                )}
-                {denyCookieBtn && (
-                  <button
-                    aria-label={denyCookieBtn}
-                    type="button"
-                    className="m-2 inline-block rounded-r-xl rounded-t-xl border-2 border-gray-400 px-4 py-2 transition duration-500 hover:bg-gray-700"
-                    onClick={() => {
-                      setCookie("dismiss");
-                      setShowCookie(!showCookie);
-                    }}
-                  >
-                    {denyCookieBtn}
-                  </button>
-                )}
-              </div>
+            )}
+            <div className="px-4 lg:w-1/3 lg:text-right">
+              {allowCookieBtn && (
+                <Button
+                  as="button"
+                  ariaLabel={allowCookieBtn}
+                  type="button"
+                  className="m-2 "
+                  onClick={() => {
+                    setCookie("allow");
+                    setShowCookie(!showCookie);
+                  }}
+                >
+                  {allowCookieBtn}
+                </Button>
+              )}
+              {denyCookieBtn && (
+                <Button
+                  as="button"
+                  ariaLabel={denyCookieBtn}
+                  variant="outline"
+                  type="button"
+                  className="m-2 font-normal text-white bg-transparent outline-gray-400 hover:bg-gray-700"
+                  onClick={() => {
+                    setCookie("dismiss");
+                    setShowCookie(!showCookie);
+                  }}
+                >
+                  {denyCookieBtn}
+                </Button>
+              )}
             </div>
-          )}
-        </div>
+          </Flex>
+        </Container>
       ) : null}
     </div>
   );

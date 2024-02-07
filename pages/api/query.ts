@@ -9,102 +9,135 @@ const conditionalLink = `
 const variants = `
   variants {
     ...,
-    arrayOfTitleAndText[],
-    logo {
-      alt,
-      image,
-      ${conditionalLink}
+    logo != null => {
+      logo {
+        alt,
+        image,
+        ${conditionalLink}
+      }
     },
-    primaryButton {
-      ...,
-      label,
-      ${conditionalLink}
-    },
-    secondaryButton {
-      ...,
-      label,
-      ${conditionalLink}
-    },
-    routes[] {
-      ...,
-      ${conditionalLink}
-    },
-    menu[] {
-      ...,
-      ${conditionalLink}
-    },
-    plans[] {
-      ...,
+    primaryButton != null => {
       primaryButton {
         ...,
         label,
         ${conditionalLink}
-      },
+      }
     },
-    formLinks[] {
-      ...,
-      ${conditionalLink}
-    },
-    portfolios[] {
-      ...,
-      content[] {
-        ...,
-        primaryButton {
-          label,
-          ${conditionalLink}
-        },
-      },
-      primaryButton {
+    secondaryButton != null => {
+      secondaryButton {
         ...,
         label,
         ${conditionalLink}
-      },
+      }
     },
-    portfoliosWithCategories[] {
-      ...,
-      content[] {
+    routes != null => {
+      routes[] {
+        ...,
+        ${conditionalLink}
+      }
+    },
+    menu != null => {
+      menu[] {
+        ...,
+        ${conditionalLink}
+      }
+    },
+    plans != null => {
+      plans[] {
         ...,
         primaryButton {
           ...,
           label,
           ${conditionalLink}
         },
-      },
-      primaryButton {
-        ...,
-        label,
-        ${conditionalLink}
-      },
+      }
     },
-    signInLink {
-      ...,
-      ${conditionalLink}
-    },
-    blogPosts[]->{
-      ...,
-      "link": slug.current,
-      authors[]->{
-        ...,
-        "link": slug.current
-      },
-      categories[]->
-    },
-    form {
-      ...,
-      thankYouPage {
+    formLinks != null => {
+      formLinks[] {
         ...,
         ${conditionalLink}
       }
     },
-    featured[]->,
-    collections->{
-      ...,
-      products[]->
+    portfolios != null => {
+      portfolios[] {
+        ...,
+        content[] {
+          ...,
+          primaryButton {
+            label,
+            ${conditionalLink}
+          },
+        },
+        primaryButton {
+          ...,
+          label,
+          ${conditionalLink}
+        },
+      }
     },
-    products->,
-    allProducts[]-> {
-      ...,
-      products[]->
+    portfoliosWithCategories != null => {
+      portfoliosWithCategories[] {
+        ...,
+        content[] {
+          ...,
+          primaryButton {
+            ...,
+            label,
+            ${conditionalLink}
+          },
+        },
+        primaryButton {
+          ...,
+          label,
+          ${conditionalLink}
+        },
+      }
+    },
+    signInLink != null => {
+        signInLink {
+        ...,
+        ${conditionalLink}
+      }
+    },
+    signinLink != null => {
+        signinLink {
+        ...,
+        ${conditionalLink}
+      }
+    },
+    blogPosts != null => {
+      blogPosts[]->{
+        ...,
+        "link": slug.current,
+        authors[]->{
+          ...,
+          "link": slug.current
+        },
+        categories[]->
+      }
+    },
+    form != null => {
+      form {
+        ...,
+        thankYouPage {
+          ...,
+          ${conditionalLink}
+        }
+      }
+    },
+    featured != null => { featured[]-> },
+    collections != null => {
+      collections->{
+        ...,
+        products[]->
+      }
+    },
+    products != null => { products-> },
+    allProducts != null => {
+      allProducts[]-> {
+        ...,
+        products[]->
+      }
     }
   }
 `;

@@ -1,24 +1,30 @@
-import React from "react";
-import Link from "next/link";
-import Image from "next/image";
-import WebriQForm from "components/webriq-form";
+import { Container } from "components/layout/Container";
+import { Button } from "components/ui/Button";
+import { Form } from "components/ui/Form/Form";
+import { FormField } from "components/ui/FormField";
+import { Heading } from "components/ui/Heading";
+import { Input } from "components/ui/Input";
+import { Text } from "components/ui/Text";
+import { logoLink, thankYouPageLink } from "helper";
 import { urlFor } from "lib/sanity";
-import { logoLink, thankYouPageLink, ConditionalLink } from "helper";
+import Image from "next/image";
+import Link from "next/link";
+import React from "react";
+import { FormFields as TFormFields } from "types";
 import { SignUpFormProps } from ".";
-import { FormFields } from "types";
 
 function VariantA({ logo, form, formLinks, signInLink }: SignUpFormProps) {
   return (
-    <section className="bg-gray-50 py-10 lg:py-20">
-      <div className="container mx-auto px-4">
-        <div className="mx-auto max-w-md">
+    <section className="py-10 bg-gray-50 lg:py-20">
+      <Container>
+        <Container maxWidth={576}>
           <div className="mb-10">
             {logo?.image && (
               <Link
                 aria-label={`Go to ${
                   logoLink(logo) === "/" ? "home page" : logoLink(logo)
                 }`}
-                className="mx-auto flex justify-center text-3xl font-bold leading-none"
+                className="flex justify-center mx-auto text-3xl font-bold leading-none"
                 href={logoLink(logo)}
               >
                 <Image
@@ -33,27 +39,40 @@ function VariantA({ logo, form, formLinks, signInLink }: SignUpFormProps) {
           </div>
           <div className="mb-6 text-center lg:mb-10">
             <div className="mb-6">
-              <span className="text-gray-500">{form?.subtitle}</span>
-              <h1 className="text-2xl font-bold">{form?.name}</h1>
+              <Text muted>{form?.subtitle}</Text>
+              <Heading className="text-2xl lg:text-2xl">{form.name}</Heading>
             </div>
             {form?.fields && (
-              <WebriQForm
-                method="POST"
-                data-form-id={form?.id}
+              <Form
+                id={form?.id}
                 name="SignUp-VariantA-Form"
                 className="form-signup"
-                data-thankyou-url={thankYouPageLink(form?.thankYouPage)}
-                scriptsrc="https://pagebuilderforms.webriq.com/js/initReactForms"
+                thankyouPage={thankYouPageLink(form?.thankYouPage)}
               >
-                <div className="-mx-2 flex flex-wrap">
+                <div className="flex flex-wrap -mx-2">
                   {form?.fields?.slice(0, 2)?.map((formFields, index) => (
-                    <div className="mb-3 w-full px-2 lg:w-1/2" key={index}>
-                      <FormFields fields={formFields} />
+                    <div className="w-full px-2 mb-3 lg:w-1/2" key={index}>
+                      {formFields.type === "inputText" ? (
+                        <Input
+                          noLabel
+                          className="w-full py-4 text-xs bg-white outline-none"
+                          name={formFields.name}
+                          ariaLabel={formFields.label}
+                          {...formFields}
+                          type="text"
+                        />
+                      ) : (
+                        <FormField
+                          noLabel
+                          name={formFields.name}
+                          {...formFields}
+                        />
+                      )}
                     </div>
                   ))}
                 </div>
                 {form?.fields?.slice(2)?.map((formFields, index) => (
-                  <div key={index}>
+                  <div key={index} className="mb-3">
                     <FormFields fields={formFields} />
                   </div>
                 ))}
@@ -62,47 +81,54 @@ function VariantA({ logo, form, formLinks, signInLink }: SignUpFormProps) {
                 </div>
                 <div className="text-center">
                   {form?.buttonLabel && (
-                    <button
-                      aria-label={
+                    <Button
+                      as="button"
+                      variant="custom"
+                      ariaLabel={
                         form?.buttonLabel ?? "Sign Up form submit button"
                       }
-                      className="mb-2 w-full rounded bg-webriq-darkblue py-4 text-sm font-bold text-gray-50 transition duration-200 hover:bg-webriq-blue"
+                      className="w-full py-4 text-sm font-bold tex-gray-50"
                       type="submit"
                     >
                       {form?.buttonLabel}
-                    </button>
-                  )}
-                  {signInLink?.label && (
-                    <span className="text-xs text-gray-500">
-                      <span>Already have an account?</span>{" "}
-                      <ConditionalLink
-                        link={signInLink}
-                        className="text-webriq-darkblue hover:underline"
-                        ariaLabel={signInLink?.label}
-                      >
-                        {signInLink?.label}
-                      </ConditionalLink>
-                    </span>
+                    </Button>
                   )}
                 </div>
-              </WebriQForm>
+                {signInLink?.label && (
+                  <div className="w-full text-center ">
+                    <span className="text-xs text-gray-500">
+                      Already have an account?
+                    </span>
+
+                    <Button
+                      variant="link"
+                      link={signInLink}
+                      className="text-xs text-primary hover:underline"
+                      ariaLabel={signInLink?.label}
+                    >
+                      {signInLink?.label}
+                    </Button>
+                  </div>
+                )}
+              </Form>
             )}
           </div>
           {formLinks && (
-            <p className="mt-16 text-center text-xs text-gray-700">
+            <p className="mt-16 text-xs text-center text-gray-700">
               {formLinks?.map((link, index, { length }) => (
                 <span key={index}>
-                  <ConditionalLink
+                  <Button
+                    variant="link"
                     link={link}
-                    className={
+                    className={` text-gray-700 text-xs ${
                       link?.type === "linkInternal"
                         ? "underline hover:text-gray-500"
-                        : "text-webriq-darkblue hover:underline"
-                    }
+                        : "text-primary hover:underline"
+                    }`}
                     ariaLabel={link?.label}
                   >
                     {link?.label}
-                  </ConditionalLink>
+                  </Button>
                   {index === length - 1 ? null : index === length - 2 ? (
                     <span>&nbsp;and&nbsp;</span>
                   ) : (
@@ -112,8 +138,8 @@ function VariantA({ logo, form, formLinks, signInLink }: SignUpFormProps) {
               ))}
             </p>
           )}
-        </div>
-      </div>
+        </Container>
+      </Container>
     </section>
   );
 }
@@ -123,7 +149,7 @@ function VariantA({ logo, form, formLinks, signInLink }: SignUpFormProps) {
  * @param {fields}
  * @returns input fields according to type
  */
-function FormFields({ fields }: { fields: FormFields }) {
+function FormFields({ fields }: { fields: TFormFields }) {
   const [showPassword, setShowPassword] = React.useState(false);
   const [value, setValue] = React.useState(null); // setting selected value for input field radio type
   const [checked, setChecked] = React.useState([]); // setting selected value for input field checkbox type
@@ -144,7 +170,7 @@ function FormFields({ fields }: { fields: FormFields }) {
     return (
       <textarea
         aria-label={fields?.name}
-        className="w-full rounded bg-white p-4 text-xs outline-none"
+        className="w-full p-4 text-xs bg-white rounded outline-none"
         placeholder={fields?.name}
         name={fields?.name}
         required={fields?.isRequired}
@@ -152,10 +178,10 @@ function FormFields({ fields }: { fields: FormFields }) {
     );
   } else if (fields?.type === "inputFile") {
     return (
-      <label className="flex rounded bg-white px-2">
+      <label className="flex px-2 bg-white rounded">
         <input
           aria-label={fields?.placeholder ?? "Choose file.."}
-          className="w-full rounded bg-white p-4 text-xs outline-none"
+          className="w-full p-4 text-xs bg-white rounded outline-none"
           type="file"
           placeholder={fields?.placeholder ?? "Choose file.."}
           name={fields?.name}
@@ -165,25 +191,27 @@ function FormFields({ fields }: { fields: FormFields }) {
     );
   } else if (fields?.type === "inputPassword") {
     return (
-      <div className="mb-4 flex rounded bg-white p-4">
+      <div className="flex p-4 mb-4 bg-white rounded">
         <input
           aria-label={fields?.placeholder ?? fields?.name}
-          className="w-full bg-white text-xs outline-none"
+          className="w-full text-xs bg-white outline-none"
           type={showPassword ? "text" : "password"}
           placeholder={fields?.placeholder}
           name={fields?.name}
           required={fields?.isRequired}
         />
         {/* SVG icon on the right of the password input field */}
-        <button
-          aria-label={showPassword ? "Show password" : "Hide password"}
+        <Button
+          variant="unstyled"
+          as="button"
+          ariaLabel={showPassword ? "Show password" : "Hide password"}
           className="focus:outline-none"
           type="button"
           onClick={() => setShowPassword(!showPassword)}
         >
           {showPassword ? (
             <svg
-              className="my-auto ml-4 h-5 w-5 text-gray-500"
+              className="w-5 h-5 my-auto ml-4 text-gray-500"
               xmlns="http://www.w3.org/2000/svg"
               aria-hidden="true"
               role="img"
@@ -200,7 +228,7 @@ function FormFields({ fields }: { fields: FormFields }) {
             </svg>
           ) : (
             <svg
-              className="my-auto ml-4 h-5 w-5 text-gray-500"
+              className="w-5 h-5 my-auto ml-4 text-gray-500"
               xmlns="http://www.w3.org/2000/svg"
               aria-hidden="true"
               role="img"
@@ -215,15 +243,15 @@ function FormFields({ fields }: { fields: FormFields }) {
               </g>
             </svg>
           )}
-        </button>
+        </Button>
       </div>
     );
   } else if (fields?.type === "inputNumber") {
     return (
-      <div className="mb-4 flex rounded bg-white p-4">
+      <div className="flex p-4 mb-4 bg-white rounded">
         <input
           aria-label={fields?.placeholder ?? fields?.name}
-          className="w-full bg-white text-xs outline-none"
+          className="w-full text-xs bg-white outline-none"
           type="number"
           placeholder={fields?.placeholder}
           name={fields?.name}
@@ -233,15 +261,15 @@ function FormFields({ fields }: { fields: FormFields }) {
     );
   } else if (fields?.type === "inputSelect") {
     return (
-      <div className="mb-4 flex">
+      <div className="flex mb-4">
         <label
-          className="m-auto text-left text-xs text-gray-500"
+          className="m-auto text-xs text-left text-gray-500"
           htmlFor={fields?.name}
         >
           {fields?.label}
         </label>
         <select
-          className="w-full rounded bg-white p-3 text-xs outline-none"
+          className="w-full p-3 text-xs bg-white rounded outline-none"
           name={`header-${fields?.name}`}
           defaultValue={"default-value"}
           required={fields?.isRequired}
@@ -259,7 +287,7 @@ function FormFields({ fields }: { fields: FormFields }) {
     return (
       <div className="mb-4 text-left">
         <label
-          className="m-auto text-left text-xs text-gray-500"
+          className="m-auto text-xs text-left text-gray-500"
           htmlFor={fields?.name}
         >
           {fields?.label}
@@ -286,7 +314,7 @@ function FormFields({ fields }: { fields: FormFields }) {
     return (
       <div className="mb-4 text-left">
         <label
-          className="m-auto text-left text-xs text-gray-500"
+          className="m-auto text-xs text-left text-gray-500"
           htmlFor={fields?.name}
         >
           {fields?.label}
@@ -313,10 +341,10 @@ function FormFields({ fields }: { fields: FormFields }) {
     );
   } else {
     return (
-      <div className="mb-4 flex rounded bg-white p-4">
+      <div className="flex p-4 mb-4 bg-white rounded">
         <input
           aria-label={fields?.placeholder ?? fields?.name}
-          className="w-full bg-white text-xs outline-none"
+          className="w-full text-xs bg-white outline-none"
           type={fields?.type === "inputEmail" ? "email" : "text"}
           placeholder={fields?.placeholder}
           name={fields?.name}
@@ -325,7 +353,7 @@ function FormFields({ fields }: { fields: FormFields }) {
         {/* SVG icon on the right of the email input field */}
         {fields?.type === "inputEmail" && (
           <svg
-            className="my-auto ml-4 h-6 w-6 text-gray-500"
+            className="w-6 h-6 my-auto ml-4 text-gray-500"
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"

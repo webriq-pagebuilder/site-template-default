@@ -11,6 +11,12 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Thumbs, Pagination, A11y } from "swiper/modules";
 import { ProductInfoProps } from ".";
 import { MyPortableTextComponents } from "types";
+import { Container } from "components/layout/Container";
+import { Flex } from "components/layout/Flex/Flex";
+import { Heading } from "components/ui/Heading";
+import { Text } from "components/ui/Text";
+import { Button } from "components/ui/Button";
+import { SwiperButton } from "components/ui/SwiperButton";
 
 function VariantB({
   subtitle,
@@ -30,38 +36,38 @@ function VariantB({
     block: {
       h1: ({ children }) => {
         return (
-          <h1 className="font-heading mt-6 text-7xl font-bold leading-loose">
+          <h1 className="mt-6 font-bold leading-loose font-heading text-7xl">
             {children}
           </h1>
         );
       },
       h2: ({ children }) => {
         return (
-          <h2 className="font-heading mt-6 text-5xl font-bold leading-loose">
+          <h2 className="mt-6 text-5xl font-bold leading-loose font-heading">
             {children}
           </h2>
         );
       },
       h3: ({ children }) => {
         return (
-          <h3 className="font-heading mt-6 text-3xl font-bold leading-loose">
+          <h3 className="mt-6 text-3xl font-bold leading-loose font-heading">
             {children}
           </h3>
         );
       },
       h4: ({ children }) => {
         return (
-          <h4 className="font-heading mt-6 text-xl font-bold leading-loose">
+          <h4 className="mt-6 text-xl font-bold leading-loose font-heading">
             {children}
           </h4>
         );
       },
       normal: ({ children }) => {
-        return <p className="my-6 max-w-2xl text-gray-500">{children}</p>;
+        return <p className="max-w-2xl my-6 text-gray-500">{children}</p>;
       },
       blockquote: ({ children }) => {
         return (
-          <blockquote className="mt-6 px-14 italic leading-loose text-gray-500">
+          <blockquote className="mt-6 italic leading-loose text-gray-500 px-14">
             - {children}
           </blockquote>
         );
@@ -70,14 +76,14 @@ function VariantB({
     list: {
       bullet: ({ children }) => {
         return (
-          <ul className="mb-6 list-disc pl-10 leading-loose text-gray-900">
+          <ul className="pl-10 mb-6 leading-loose text-gray-900 list-disc">
             {children}
           </ul>
         );
       },
       number: ({ children }) => {
         return (
-          <ol className="mb-6 list-decimal leading-loose text-gray-900">
+          <ol className="mb-6 leading-loose text-gray-900 list-decimal">
             {children}
           </ol>
         );
@@ -95,7 +101,7 @@ function VariantB({
       link: ({ children, value }) => (
         <a
           aria-label={value.href ?? "external link"}
-          className="text-webriq-blue hover:text-webriq-lightblue"
+          className="text-primary-foreground hover:text-secondary-foreground"
           href={value.href}
           target="_blank"
           rel="noopener noreferrer"
@@ -111,13 +117,13 @@ function VariantB({
 
   return (
     <section className="sm:p-12 md:p-20">
-      <div className="container mx-auto px-4">
-        <div className="-mx-4 xl:flex xl:flex-wrap">
+      <Container>
+        <div className=" xl:flex xl:flex-wrap">
           <div className="w-full px-4">
-            <ul className="mb-8 flex flex-wrap items-center">
+            <Flex as="ul" wrap align="center" className="items-center mb-8 ">
               <li className="mr-5">
                 <Link
-                  className="font-heading mr-5 inline-block text-xs font-bold uppercase"
+                  className="inline-block mr-5 text-xs font-bold uppercase font-heading"
                   href="/"
                 >
                   HOME
@@ -139,15 +145,19 @@ function VariantB({
               </li>
               <li>
                 {product?.name && (
-                  <p className="font-heading inline-block text-xs font-bold uppercase">
+                  <Text
+                    fontSize="xs"
+                    weight="bold"
+                    className="inline-block uppercase "
+                  >
                     {product?.name}
-                  </p>
+                  </Text>
                 )}
               </li>
-            </ul>
+            </Flex>
           </div>
-          <div className="mb-8 w-full px-4 xl:mb-0 xl:w-1/2">
-            <div className="relative -mx-1 flex gap-3">
+          <div className="w-full px-4 mb-8 xl:mb-0 xl:w-1/2">
+            <Flex gap={3} className="relative">
               <Swiper
                 modules={[Thumbs, Navigation, Pagination, A11y]}
                 onSwiper={setThumbsSwiper}
@@ -160,7 +170,7 @@ function VariantB({
                   prevEl: "#thumbPrevB",
                   nextEl: "#thumbNextB",
                 }}
-                className="thumb-swiper-B hidden w-40 md:flex md:flex-wrap"
+                className="hidden w-40 thumb-swiper-B md:flex md:flex-wrap"
                 style={{ height: "618px" }}
               >
                 {images &&
@@ -199,7 +209,7 @@ function VariantB({
                 {images &&
                   images.map((item, index) => (
                     <SwiperSlide key={index}>
-                      <div className="mx-auto h-full w-3/4 xl:mx-0 xl:w-full">
+                      <div className="w-3/4 h-full mx-auto xl:mx-0 xl:w-full">
                         <Image
                           className="object-cover"
                           sizes="100vw"
@@ -213,26 +223,19 @@ function VariantB({
                   ))}
               </Swiper>
               <div className="mt-5">
-                <button
+                <SwiperButton
+                  ariaLabel="previous"
+                  variant="variant_b"
+                  type="left"
                   id="piprevB"
-                  className="absolute left-0 top-60 z-40 ml-5 rounded-l-md rounded-r-sm px-2 py-5 transition duration-200 hover:bg-gray-50 hover:opacity-50 md:left-32"
-                >
-                  <svg
-                    width={36}
-                    height={36}
-                    viewBox="0 0 10 18"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M9 16.0185C9.268 16.2905 9.268 16.7275 9 16.9975C8.732 17.2675 8.299 17.2685 8.031 16.9975L0.201 9.0895C-0.067 8.8195 -0.067 8.3825 0.201 8.1105L8.031 0.2025C8.299 -0.0675 8.732 -0.0675 9 0.2025C9.268 0.4735 9.268 0.9115 9 1.1815L1.859 8.6005L9 16.0185Z"
-                      fill="#0045d8"
-                    />
-                  </svg>
-                </button>
-                <button
+                  className="absolute left-0 z-40 px-2 py-5 ml-5 transition duration-200 rounded-r-sm top-60 rounded-l-md hover:bg-gray-50 hover:opacity-50 md:left-32"
+                />
+                <SwiperButton
+                  ariaLabel="previous"
+                  variant="variant_b"
+                  type="right"
                   id="pinextB"
-                  className="absolute right-0 top-60 z-40 mr-5 rounded-l-sm rounded-r-md px-2 py-5 transition duration-200 hover:bg-gray-50 hover:opacity-50"
+                  className="absolute right-0 z-40 px-2 py-5 mr-5 transition duration-200 rounded-l-sm top-60 rounded-r-md hover:bg-gray-50 hover:opacity-50"
                 >
                   <svg
                     width={36}
@@ -246,13 +249,13 @@ function VariantB({
                       fill="#0045d8"
                     />
                   </svg>
-                </button>
+                </SwiperButton>
               </div>
-            </div>
-            <div className="ml-auto mt-12 w-full lg:w-3/4">
+            </Flex>
+            <div className="w-full mt-12 ml-auto lg:w-3/4">
               {socialLinks && (
-                <div className="flex items-center">
-                  <span className="font-heading mr-8 font-bold uppercase">
+                <Flex align="center">
+                  <span className="mr-8 font-bold uppercase font-heading">
                     SHARE IT
                   </span>
                   {socialLinks?.map(
@@ -262,7 +265,7 @@ function VariantB({
                           aria-label={
                             social?.socialMedia || social?.socialMediaPlatform
                           }
-                          className="mr-1 h-8 w-8"
+                          className="w-8 h-8 mr-1"
                           target="_blank"
                           rel="noopener noreferrer"
                           href={social?.socialMediaLink}
@@ -319,13 +322,13 @@ function VariantB({
                         </a>
                       )
                   )}
-                </div>
+                </Flex>
               )}
             </div>
           </div>
           <div className="w-full px-4 pt-20 xl:w-1/2 xl:pt-0">
             <div>
-              <div className="mb-10 border-b pb-10">
+              <div className="pb-10 mb-10 border-b">
                 {product?.ecwidProductId && (
                   <div className="mb-3">
                     <Ribbon data={ecwidProduct} />
@@ -333,15 +336,15 @@ function VariantB({
                 )}
 
                 {subtitle && (
-                  <span className="font-custom font-bold text-webriq-darkblue">
+                  <span className="font-bold font-custom text-primary">
                     {subtitle}
                   </span>
                 )}
 
                 {product?.name && (
-                  <h1 className="font-heading mb-6 mt-2 max-w-xl text-5xl font-bold md:text-6xl">
+                  <Heading className="max-w-xl mt-2 mb-6 text-5xl md:text-6xl">
                     {product?.name}
-                  </h1>
+                  </Heading>
                 )}
 
                 <div className="mb-8">
@@ -351,7 +354,7 @@ function VariantB({
                 {/* PRICING HERE */}
                 {product?.price && (
                   <p
-                    className={`font-heading text-webriq-darkblue inline-block text-2xl font-bold ${
+                    className={`font-heading text-primary inline-block text-2xl font-bold ${
                       !ecwidProduct?.compareToPrice && "mb-8"
                     }`}
                   >
@@ -375,7 +378,7 @@ function VariantB({
                     </span>{" "}
                     (
                     <span
-                      className="text-webriq-babyblue"
+                      className="text-secondary"
                       style={{ fontSize: "15px" }}
                     >
                       {`Save ${ecwidProduct?.compareToPriceDiscountPercentFormatted}`}
@@ -395,24 +398,24 @@ function VariantB({
 
               {product?.ecwidProductId && ecwidProduct && (
                 <ProductDetail product={defaultProduct}>
-                  <div className="mt-8 flex flex-col items-start gap-y-4 sm:flex-row sm:gap-x-4 sm:gap-y-0">
+                  <div className="flex flex-col items-start mt-8 gap-y-4 sm:flex-row sm:gap-x-4 sm:gap-y-0">
                     {btnLabel && ecwidProduct?.inStock && (
                       <div className="w-full lg:mb-4 xl:mb-0">
                         <AddToBag
                           inStock={!ecwidProduct?.inStock}
-                          classNames="block w-full mb-4 lg:mb-0 text-center text-white font-bold font-heading py-5 px-8 rounded-md uppercase transition duration-200 bg-webriq-darkblue hover:bg-webriq-blue cursor-pointer"
+                          classNames="block w-full py-5 px-8  cursor-pointer uppercase"
                         >
                           {btnLabel}
                         </AddToBag>
                       </div>
                     )}
                     <AddToWishlist
-                      classNames="w-full flex-shrink-0 flex flex-wrap items-center justify-center py-5 px-8 rounded-md border hover:border-webriq-darkblue"
+                      classNames="w-full flex-shrink-0 flex flex-wrap items-center justify-center py-5 px-8 rounded-md border hover:border-primary"
                       product={defaultProduct}
                       containerClass="w-full"
                     >
                       <svg
-                        className="-mt-1 mr-2"
+                        className="mr-2 -mt-1"
                         width={27}
                         height={27}
                         viewBox="0 0 27 27"
@@ -427,7 +430,7 @@ function VariantB({
                           strokeLinejoin="round"
                         />
                       </svg>
-                      <span className="font-heading font-bold uppercase">
+                      <span className="font-bold uppercase font-heading">
                         Add to wishlist
                       </span>
                     </AddToWishlist>
@@ -439,8 +442,10 @@ function VariantB({
                 <div className="mt-10">
                   {productDetails?.map((details, index) => (
                     <Fragment key={index}>
-                      <div
-                        className={`flex items-center justify-between px-3 py-6 hover:bg-webriq-lightblue ${
+                      <Flex
+                        align="center"
+                        justify="between"
+                        className={` px-3 py-6 hover:bg-secondary-foreground ${
                           index !== productDetails?.length - 1 && "border-b"
                         }`}
                         onClick={() =>
@@ -449,22 +454,27 @@ function VariantB({
                             : setActiveTab(null)
                         }
                       >
-                        <p
-                          className={`font-heading text-xl font-bold ${
-                            activeTab === index && "text-webriq-darkblue"
+                        <Text
+                          weight="bold"
+                          fontSize="xl"
+                          className={` ${
+                            activeTab === index && "text-primary"
                           }`}
                         >
                           {details?.tabName}
-                        </p>
-                        <button
-                          className="inline-flex h-12 w-12 items-center justify-center rounded-md border hover:border-gray-500"
+                        </Text>
+                        <Button
+                          variant="unstyled"
+                          as="button"
+                          ariaLabel=""
+                          className="inline-flex items-center justify-center w-12 h-12 text-black border rounded-md hover:border-gray-500"
                           type="button"
                         >
                           <svg
                             width={12}
                             height={12}
                             viewBox="0 0 12 12"
-                            fill="none"
+                            fill="#161616"
                             xmlns="http://www.w3.org/2000/svg"
                           >
                             {activeTab !== index && (
@@ -484,8 +494,8 @@ function VariantB({
                               fill="#161616"
                             />
                           </svg>
-                        </button>
-                      </div>
+                        </Button>
+                      </Flex>
                       {productDetails?.[activeTab]?.contentType && (
                         <div
                           className={`${
@@ -502,7 +512,7 @@ function VariantB({
                                   {productDetails?.[activeTab]?.images?.map(
                                     (item, index) => (
                                       <div
-                                        className="mt-5 h-full w-1/4"
+                                        className="w-1/4 h-full mt-5"
                                         key={index}
                                       >
                                         {item?.image && (
@@ -563,7 +573,7 @@ function VariantB({
             </div>
           </div>
         </div>
-      </div>
+      </Container>
     </section>
   );
 }

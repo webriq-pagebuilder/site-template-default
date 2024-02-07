@@ -1,3 +1,4 @@
+import { Button } from "components/ui/Button";
 import { useEcwid } from "context/EcwidContext";
 import { EcwidTypes } from "context/_ecwid-types";
 import React from "react";
@@ -14,13 +15,16 @@ const AddToBag = ({ children, classNames, inStock = false }: AddToBagProps) => {
 
   return (
     <>
-      <button
+      <Button
+        variant="custom"
+        as="button"
+        ariaLabel="Add to Bag button"
         className={classNames}
         type="submit"
         disabled={inStock || isAddingToBag}
       >
         {isAddingToBag ? "Adding..." : children}
-      </button>
+      </Button>
     </>
   );
 };

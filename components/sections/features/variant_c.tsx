@@ -2,58 +2,58 @@ import React from "react";
 import { urlFor } from "lib/sanity";
 import Image from "next/image";
 import { FeaturesProps } from ".";
+import { Card } from "components/ui/Card";
+import { Text } from "components/ui/Text";
+import { Container } from "components/layout/Container";
+import { Heading } from "components/ui/Heading";
 
 function VariantC({ caption, title, features }: FeaturesProps) {
   return (
-    <section>
-      <div className="radius-for-skewed bg-gray-50 py-20">
-        <div className="container mx-auto px-4">
-          <div className="mx-auto mb-16 max-w-md text-center">
-            {caption && (
-              <span className="font-bold text-webriq-darkblue">{caption}</span>
-            )}
-            {title && (
-              <h1 className="font-heading text-4xl font-bold lg:text-5xl">
-                {title}
-              </h1>
-            )}
-          </div>
-          <div className="-mx-3 flex flex-wrap justify-start">
-            {features &&
-              features.map((feature, index) => {
-                return (
-                  <div className="mb-6 w-full px-3 lg:w-1/2" key={index}>
-                    <div className="flex h-full flex-wrap rounded-lg bg-white p-6 shadow">
-                      <div>
-                        <span className="mb-4 mr-6 inline-block rounded-lg bg-webriq-lightblue p-3 md:p-5 lg:mb-0">
-                          {feature?.mainImage?.image && (
-                            <Image
-                              className="object-scale-down"
-                              src={urlFor(feature?.mainImage?.image)}
-                              width={40}
-                              height={40}
-                              alt={
-                                feature?.mainImage?.alt ?? "features-main-image"
-                              }
-                            />
-                          )}
-                        </span>
-                      </div>
-                      <div className="w-full lg:w-2/3">
-                        <p className="font-heading mb-2 text-2xl font-bold">
-                          {feature?.title}
-                        </p>
-                        <p className="text-gray-500">{feature?.plainText}</p>
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
-          </div>
+    <section className="py-20 bg-gray-50">
+      <Container>
+        <Container maxWidth={448} className="mb-16 text-center ">
+          {caption && (
+            <Text weight="bold" className="text-primary">
+              {caption}
+            </Text>
+          )}
+          {title && <Heading>{title}</Heading>}
+        </Container>
+        <div className="flex flex-wrap justify-start -mx-3">
+          {features &&
+            features.map((feature, index) => {
+              return <FeatureItem feature={feature} key={feature._key} />;
+            })}
         </div>
-      </div>
+      </Container>
     </section>
   );
 }
 
 export default React.memo(VariantC);
+
+function FeatureItem({ feature }) {
+  return (
+    <div className="w-full px-3 mb-6 lg:w-1/2">
+      <Card className="flex flex-wrap h-full p-6">
+        <div className="self-start inline-block p-3 mb-4 mr-6 rounded-lg bg-secondary-foreground md:p-5 lg:mb-0">
+          {feature?.mainImage?.image && (
+            <Image
+              className="object-scale-down"
+              src={urlFor(feature?.mainImage?.image)}
+              width={40}
+              height={40}
+              alt={feature?.mainImage?.alt ?? "features-main-image"}
+            />
+          )}
+        </div>
+        <div className="w-full lg:w-2/3">
+          <Text weight="bold" className="mb-2 text-2xl ">
+            {feature?.title}
+          </Text>
+          <Text muted>{feature?.plainText}</Text>
+        </div>
+      </Card>
+    </div>
+  );
+}

@@ -3,13 +3,16 @@ import { PortableText } from "lib/sanity";
 
 import { TextComponentProps } from ".";
 import { MyPortableTextComponents } from "types";
+import { Container } from "components/layout/Container";
+import { Heading } from "components/ui/Heading";
+import { Flex } from "components/layout/Flex/Flex";
 
 // block styling as props to `components` of the PortableText component
 export const textComponentBlockStyling: MyPortableTextComponents = {
   block: {
     h1: ({ children }) => {
       return (
-        <h1 className="mb-6 text-7xl leading-loose text-gray-900">
+        <h1 className="mb-6 leading-loose text-gray-900 text-7xl">
           {children}
         </h1>
       );
@@ -35,14 +38,14 @@ export const textComponentBlockStyling: MyPortableTextComponents = {
     },
     normal: ({ children }) => {
       return (
-        <p className="mb-5 text-justify leading-relaxed text-gray-500">
+        <p className="mb-5 leading-relaxed text-justify text-gray-500">
           {children}
         </p>
       );
     },
     blockquote: ({ children }) => {
       return (
-        <blockquote className="mb-6 px-14 italic leading-loose text-gray-500">
+        <blockquote className="mb-6 italic leading-loose text-gray-500 px-14">
           - {children}
         </blockquote>
       );
@@ -59,14 +62,14 @@ export const textComponentBlockStyling: MyPortableTextComponents = {
   list: {
     bullet: ({ children }) => {
       return (
-        <ul className="mb-6 list-disc pl-10 leading-loose text-gray-900">
+        <ul className="pl-10 mb-6 leading-loose text-gray-900 list-disc">
           {children}
         </ul>
       );
     },
     number: ({ children }) => {
       return (
-        <ol className="mb-6 list-decimal leading-loose text-gray-900">
+        <ol className="mb-6 leading-loose text-gray-900 list-decimal">
           {children}
         </ol>
       );
@@ -84,7 +87,7 @@ export const textComponentBlockStyling: MyPortableTextComponents = {
     link: ({ children, value }) => (
       <a
         aria-label={value.href ?? "external link"}
-        className="text-webriq-blue hover:text-webriq-lightblue"
+        className="text-primary-foreground hover:text-secondary-foreground"
         href={value?.href}
         target="_blank"
         rel="noopener noreferrer"
@@ -98,11 +101,9 @@ export const textComponentBlockStyling: MyPortableTextComponents = {
 function VariantA({ heading, firstColumn }: TextComponentProps) {
   return (
     <section className="py-20">
-      <div className="container mx-auto px-4">
-        <h1 className="font-heading mb-5 text-center text-xl font-semibold lg:text-3xl">
-          {heading}
-        </h1>
-        <div className="mx-auto flex flex-wrap justify-center">
+      <Container>
+        <Heading className="mb-5 text-center">{heading}</Heading>
+        <Flex wrap justify="center" className="mx-auto">
           {firstColumn && (
             <div className="mb-2 text-xs md:mb-0 md:w-1/2 lg:text-base">
               <PortableText
@@ -111,8 +112,8 @@ function VariantA({ heading, firstColumn }: TextComponentProps) {
               />
             </div>
           )}
-        </div>
-      </div>
+        </Flex>
+      </Container>
     </section>
   );
 }
