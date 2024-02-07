@@ -4,7 +4,9 @@ export const SANITY_PROJECT_ID =
   process.env.STORYBOOK_SANITY_PROJECT_ID ||
   "9itgab5x";
 export const SANITY_PROJECT_DATASET =
-  process.env.NEXT_PUBLIC_SANITY_DATASET || "production";
+  process.env.NEXT_PUBLIC_SANITY_DATASET ||
+  process.env.STORYBOOK_SANITY_DATASET ||
+  "production";
 export const NEXT_PUBLIC_SANITY_PROJECT_NAME =
   process.env.NEXT_PUBLIC_SANITY_PROJECT_NAME || "landing-page-builder";
 

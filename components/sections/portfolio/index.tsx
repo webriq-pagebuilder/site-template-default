@@ -38,6 +38,8 @@ function Portfolio({ template, data }: SectionsProps) {
     primaryButton: data?.variants?.primaryButton,
   };
 
+  console.log("dataset", SANITY_PROJECT_DATASET);
+
   return Variant ? <Variant {...props} /> : null;
 }
 export default React.memo(Portfolio);
