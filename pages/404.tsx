@@ -1,6 +1,9 @@
 import React from "react";
 import Link from "next/link";
 import Head from "next/head";
+import { Container } from "components/layout/Container";
+import { Text } from "components/ui/Text";
+import { Heading } from "components/ui/Heading";
 
 function PageNotFound() {
   return (
@@ -11,7 +14,7 @@ function PageNotFound() {
       <section>
         <div className="skew skew-top mr-for-radius">
           <svg
-            className="h-8 w-full text-gray-50 md:h-12 lg:h-20"
+            className="w-full h-8 text-gray-50 md:h-12 lg:h-20"
             viewBox="0 0 10 10"
             preserveAspectRatio="none"
           >
@@ -20,43 +23,45 @@ function PageNotFound() {
         </div>
         <div className="skew skew-top ml-for-radius">
           <svg
-            className="h-8 w-full text-gray-50 md:h-12 lg:h-20"
+            className="w-full h-8 text-gray-50 md:h-12 lg:h-20"
             viewBox="0 0 10 10"
             preserveAspectRatio="none"
           >
             <polygon fill="currentColor" points="0 10 10 0 10 10" />
           </svg>
         </div>
-        <div className="radius-for-skewed bg-gray-50 py-20">
-          <div className="container mx-auto px-4">
+        <div className="py-20 radius-for-skewed bg-gray-50">
+          <Container>
             <div className="text-center">
-              <span className="mb-6 text-4xl font-bold text-webriq-darkblue">
+              <Text fontSize="4xl" weight="bold" className="mb-6 text-primary">
                 Whoops!
-              </span>
-              <h3 className="mb-2 text-4xl font-bold">Something went wrong!</h3>
-              <p className="mb-8 text-gray-400">
+              </Text>
+              <Heading type="h3" fontSize="4xl" className="mb-2" weight="bold">
+                Something went wrong!
+              </Heading>
+              <Text muted className="mb-8">
                 Sorry, but we are unable to open this page
-              </p>
+              </Text>
               <div>
                 <Link
-                  className="mb-2 inline-block w-full rounded-l-xl rounded-t-xl bg-webriq-blue px-6 py-2 font-bold leading-loose text-gray-50 hover:bg-webriq-darkblue lg:mb-0 lg:mr-4 lg:w-auto"
+                  className="inline-block w-full px-6 py-2 mb-2 font-bold leading-loose rounded-l-xl rounded-t-xl bg-primary-foreground text-gray-50 hover:bg-primary lg:mb-0 lg:mr-4 lg:w-auto"
                   href="/"
                 >
                   Go back to Homepage
                 </Link>
                 <a
-                  className="inline-block w-full rounded-l-xl rounded-t-xl bg-white px-6 py-2 font-bold leading-loose hover:bg-gray-50 lg:w-auto"
+                  className="inline-block w-full px-6 py-2 font-bold leading-loose bg-white rounded-l-xl rounded-t-xl hover:bg-gray-50 lg:w-auto"
                   href="#"
                 >
                   Try Again
                 </a>
               </div>
             </div>
-          </div>
+          </Container>
         </div>
         <div className="skew skew-bottom mr-for-radius">
           <svg
-            className="h-8 w-full text-gray-50 md:h-12 lg:h-20"
+            className="w-full h-8 text-gray-50 md:h-12 lg:h-20"
             viewBox="0 0 10 10"
             preserveAspectRatio="none"
           >
@@ -65,7 +70,7 @@ function PageNotFound() {
         </div>
         <div className="skew skew-bottom ml-for-radius">
           <svg
-            className="h-8 w-full text-gray-50 md:h-12 lg:h-20"
+            className="w-full h-8 text-gray-50 md:h-12 lg:h-20"
             viewBox="0 0 10 10"
             preserveAspectRatio="none"
           >

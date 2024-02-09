@@ -1,40 +1,47 @@
 import React from "react";
 import { HowItWorksProps } from ".";
+import { Text } from "components/ui/Text";
+import { Container } from "components/layout/Container";
+import { Heading } from "components/ui/Heading";
+import { Flex } from "components/layout/Flex/Flex";
 
 function VariantD({ subtitle, title, steps }: HowItWorksProps) {
   return (
-    <section>
-      <div className="radius-for-skewed bg-gray-50 py-20">
-        <div className="container mx-auto px-4">
-          <div className="mx-auto mb-16 max-w-md text-center">
-            <span className="font-bold text-webriq-darkblue">{subtitle}</span>
-            <h1 className="font-heading text-4xl font-bold lg:text-5xl">
-              {title}
-            </h1>
-          </div>
-          {steps && (
-            <div className="relative mx-auto flex flex-wrap">
-              {steps?.map((step, index) => (
-                <div
-                  className="mb-8 w-full px-16 text-center lg:w-1/3"
-                  key={step?._key}
-                >
-                  <span className="relative z-10 mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-webriq-darkblue text-2xl text-white lg:mb-10">
-                    {index + 1}
-                  </span>
-                  <h3 className="font-heading mb-4 text-2xl font-bold">
-                    {step?.title}
-                  </h3>
-                  <p className="leading-loose text-gray-500">
-                    {step?.plainText}
-                  </p>
-                </div>
-              ))}
-            </div>
+    <section className="py-20 bg-gray-50">
+      <Container>
+        <Container maxWidth={448} className="mb-16 text-center ">
+          {subtitle && (
+            <Text weight="bold" className="text-primary">
+              {subtitle}
+            </Text>
           )}
-        </div>
-      </div>
+          {title && <Heading>{title}</Heading>}
+        </Container>
+        {steps && (
+          <Flex wrap className="relative mx-auto">
+            {steps?.map((step, index) => (
+              <StepItem step={step} index={index} key={step._key} />
+            ))}
+          </Flex>
+        )}
+      </Container>
     </section>
+  );
+}
+
+function StepItem({ step, index }) {
+  return (
+    <div className="w-full px-0 mb-8 text-center md:px-10 lg:w-1/3">
+      <span className="relative z-10 flex items-center justify-center w-16 h-16 mx-auto mb-6 text-2xl text-white rounded-full bg-primary lg:mb-10">
+        {index + 1}
+      </span>
+      <Heading type="h3" classname="mb-4 text-2xl font-bold font-heading">
+        {step?.title}
+      </Heading>
+      <Text muted className="leading-loose ">
+        {step?.plainText}
+      </Text>
+    </div>
   );
 }
 export default React.memo(VariantD);

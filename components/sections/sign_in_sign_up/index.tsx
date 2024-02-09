@@ -37,7 +37,7 @@ function SignUpForm({ data }: SectionsProps) {
     firstButton: data?.variants?.primaryButton,
     secondButton: data?.variants?.secondaryButton,
     formLinks: data?.variants?.formLinks,
-    signInLink: data?.variants?.signInLink,
+    signInLink: data?.variants?.signinLink,
     form: data?.variants?.form,
   };
 

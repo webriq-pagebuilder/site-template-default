@@ -1,6 +1,6 @@
 import React from "react";
 import dynamic from "next/dynamic";
-import { SectionsProps, Team } from "types";
+import { SectionsProps, Team as ITeam } from "types";
 
 const Variants = {
   variant_a: dynamic(() => import("./variant_a")),
@@ -12,7 +12,7 @@ const Variants = {
 export interface TeamsProps {
   caption?: string;
   title?: string;
-  team?: Team[];
+  team?: ITeam[];
 }
 
 function Team({ data }: SectionsProps) {
@@ -24,7 +24,6 @@ function Team({ data }: SectionsProps) {
     title: data?.variants?.title,
     team: data?.variants?.teams,
   };
-
   return Variant ? <Variant {...props} /> : null;
 }
 

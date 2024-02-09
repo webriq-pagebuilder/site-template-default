@@ -17,6 +17,11 @@ import "swiper/css/navigation";
 import "swiper/css/thumbs";
 import "swiper/css/pagination";
 import "swiper/css/a11y";
+import { Container } from "components/layout/Container";
+import { Flex } from "components/layout/Flex/Flex";
+import { Text } from "components/ui/Text";
+import { Heading } from "components/ui/Heading";
+import { Button } from "components/ui/Button";
 
 function VariantA({
   subtitle,
@@ -39,39 +44,53 @@ function VariantA({
     block: {
       h1: ({ children }) => {
         return (
-          <h1 className="font-heading mb-8 text-7xl font-bold leading-loose">
+          <Heading fontSize="7xl" weight="bold" className="mb-8 leading-loose ">
             {children}
-          </h1>
+          </Heading>
         );
       },
       h2: ({ children }) => {
         return (
-          <h2 className="font-heading mb-8 text-5xl font-bold leading-loose">
+          <Heading
+            type="h2"
+            weight="bold"
+            fontSize="5xl"
+            className="mb-8 leading-loose "
+          >
             {children}
-          </h2>
+          </Heading>
         );
       },
       h3: ({ children }) => {
         return (
-          <h3 className="font-heading mb-8 text-3xl font-bold leading-loose">
+          <Heading
+            type="h3"
+            weight="bold"
+            fontSize="3xl"
+            className="mb-8 leading-loose"
+          >
             {children}
-          </h3>
+          </Heading>
         );
       },
       h4: ({ children }) => {
         return (
-          <h4 className="font-heading mb-6 text-xl font-bold leading-loose">
+          <Heading
+            type="h4"
+            weight="bold"
+            fontSize="xl"
+            className="mb-6 leading-loose"
+          >
             {children}
-          </h4>
+          </Heading>
         );
       },
       normal: ({ children }) => {
-        // return <p className="max-w-2xl text-gray-500">{children}</p>;
-        return <p className="text-gray-500">{children}</p>;
+        return <Text muted>{children}</Text>;
       },
       blockquote: ({ children }) => {
         return (
-          <blockquote className="mb-6 px-14 italic leading-loose text-gray-500">
+          <blockquote className="mb-6 italic leading-loose text-gray-500 px-14">
             - {children}
           </blockquote>
         );
@@ -80,14 +99,14 @@ function VariantA({
     list: {
       bullet: ({ children }) => {
         return (
-          <ul className="mb-6 list-disc pl-10 leading-loose text-gray-900">
+          <ul className="pl-10 mb-6 leading-loose text-gray-900 list-disc">
             {children}
           </ul>
         );
       },
       number: ({ children }) => {
         return (
-          <ol className="mb-6 list-decimal leading-loose text-gray-900">
+          <ol className="mb-6 leading-loose text-gray-900 list-decimal">
             {children}
           </ol>
         );
@@ -105,7 +124,7 @@ function VariantA({
       link: ({ children, value }) => (
         <a
           aria-label={value.href ?? "external link"}
-          className="text-webriq-blue hover:text-webriq-lightblue"
+          className="text-primary-foreground hover:text-secondary-foreground"
           href={value.href}
           target="_blank"
           rel="noopener noreferrer"
@@ -118,9 +137,9 @@ function VariantA({
 
   return (
     <section className="sm:p-12 md:p-20">
-      <div className="container mx-auto px-4">
-        <div className="-mx-4 mb-5 flex flex-wrap">
-          <div className="mb-8 mt-14 w-full px-4 md:mb-0 lg:w-1/2">
+      <Container>
+        <Flex wrap className="mb-5 ">
+          <div className="w-full px-4 mb-8 mt-14 md:mb-0 lg:w-1/2">
             <div className="relative mb-10">
               <Swiper
                 navigation={{
@@ -187,9 +206,12 @@ function VariantA({
                 ))}
               </Swiper>
               <div className="mt-5">
-                <button
+                <Button
+                  variant="unstyled"
+                  as="button"
+                  ariaLabel="Previous"
                   id="piprev"
-                  className="absolute left-0 top-60 z-40 ml-5 rounded-l-md rounded-r-sm px-2 py-5 transition duration-200 hover:bg-gray-50 hover:opacity-50"
+                  className="absolute left-0 z-40 px-2 py-5 ml-5 transition duration-200 rounded-r-sm top-60 rounded-l-md hover:bg-gray-50 hover:opacity-50"
                 >
                   <svg
                     width={36}
@@ -203,10 +225,13 @@ function VariantA({
                       fill="#0045d8"
                     />
                   </svg>
-                </button>
-                <button
+                </Button>
+                <Button
+                  variant="unstyled"
+                  as="button"
+                  ariaLabel="Next"
                   id="pinext"
-                  className="absolute right-0 top-60 z-40 mr-5 rounded-l-sm rounded-r-md px-2 py-5 transition duration-200 hover:bg-gray-50 hover:opacity-50"
+                  className="absolute right-0 z-40 px-2 py-5 mr-5 transition duration-200 rounded-l-sm top-60 rounded-r-md hover:bg-gray-50 hover:opacity-50"
                 >
                   <svg
                     width={36}
@@ -220,33 +245,38 @@ function VariantA({
                       fill="#0045d8"
                     />
                   </svg>
-                </button>
+                </Button>
               </div>
             </div>
           </div>
           <div className="w-full px-4 lg:w-1/2">
             <div className="lg:px-10">
-              <div className="border-b pb-10">
+              <div className="pb-10 border-b">
                 {ecwidProduct && product?.ecwidProductId && (
                   <div className="mb-3">
                     <Ribbon data={ecwidProduct} />
                   </div>
                 )}
                 {subtitle && (
-                  <span className="font-custom font-bold text-webriq-darkblue">
+                  <Text weight="bold" className="text-primary">
                     {subtitle}
-                  </span>
+                  </Text>
                 )}
                 {product?.name && (
-                  <h1 className="font-heading mb-6 mt-2 text-5xl font-bold md:text-6xl lg:max-w-xl">
+                  <Heading
+                    weight="bold"
+                    className="mt-2 mb-6 text-5xl md:text-6xl lg:max-w-xl"
+                  >
                     {product?.name}
-                  </h1>
+                  </Heading>
                 )}
                 <div className="mb-8">{/* Ratings from Ecwid */}</div>
                 {/* Product price */}
                 {product?.price && (
-                  <p
-                    className={`font-heading text-webriq-darkblue inline-block text-2xl font-bold ${
+                  <Text
+                    weight="bold"
+                    fontSize="2xl"
+                    className={` text-primary inline-block ${
                       !ecwidProduct?.compareToPrice && "mb-8"
                     }`}
                   >
@@ -254,7 +284,7 @@ function VariantA({
                     {ecwidProduct
                       ? getPriceDisplay()
                       : ecwidProduct?.defaultDisplayedPriceFormatted}
-                  </p>
+                  </Text>
                 )}
                 {/* "CompareTo" price */}
                 {ecwidProduct?.compareToPrice && (
@@ -270,7 +300,7 @@ function VariantA({
                     </span>{" "}
                     (
                     <span
-                      className="text-webriq-babyblue"
+                      className="text-secondary"
                       style={{ fontSize: "15px" }}
                     >
                       {`Save ${ecwidProduct?.compareToPriceDiscountPercentFormatted}`}
@@ -290,12 +320,12 @@ function VariantA({
 
               {product?.ecwidProductId && ecwidProduct && (
                 <ProductDetail product={defaultProduct}>
-                  <div className="my-8 flex items-start gap-4 flex-row">
+                  <div className="flex flex-row items-start gap-4 my-8">
                     {btnLabel && ecwidProduct?.inStock && (
                       <div className="w-full lg:mb-4 xl:mb-0">
                         <AddToBag
                           inStock={!ecwidProduct?.inStock}
-                          classNames="block w-full text-center text-white font-bold font-heading py-5 px-8 rounded-md uppercase transition duration-200 bg-webriq-darkblue hover:bg-webriq-blue cursor-pointer"
+                          classNames="block w-full py-5 px-8  cursor-pointer uppercase"
                         >
                           {btnLabel}
                         </AddToBag>
@@ -304,11 +334,11 @@ function VariantA({
 
                     {/* Add to wishlist button */}
                     <AddToWishlist
-                      classNames="ml-auto sm:ml-0 flex-shrink-0 inline-flex items-center justify-center w-full h-16 rounded-md border hover:border-webriq-darkblue"
+                      classNames="ml-auto sm:ml-0 flex-shrink-0 inline-flex items-center justify-center w-full h-16 rounded-md border hover:border-primary"
                       product={defaultProduct}
                     >
                       <svg
-                        className="h-6 w-6"
+                        className="w-6 h-6"
                         width={27}
                         height={27}
                         viewBox="0 0 27 27"
@@ -329,8 +359,8 @@ function VariantA({
               )}
 
               {socialLinks && (
-                <div className="mt-4 flex items-center">
-                  <span className="font-heading mr-8 font-bold uppercase">
+                <div className="flex items-center mt-4">
+                  <span className="mr-8 font-bold uppercase font-heading">
                     SHARE IT
                   </span>
                   {socialLinks?.map(
@@ -340,7 +370,7 @@ function VariantA({
                           aria-label={
                             social?.socialMedia || social?.socialMediaPlatform
                           }
-                          className="mr-1 h-8 w-8"
+                          className="w-8 h-8 mr-1"
                           target="_blank"
                           rel="noopener noreferrer"
                           href={social?.socialMediaLink}
@@ -404,33 +434,36 @@ function VariantA({
               )}
             </div>
           </div>
-        </div>
+        </Flex>
         {productDetails && (
           <div>
-            <ul className="mb-16 flex flex-wrap border-b-2">
+            <Flex as="ul" wrap className="mb-16 border-b-2">
               {productDetails?.map((details, index) => (
                 <li className="w-1/2 md:w-auto" key={index}>
-                  <button
+                  <Button
+                    variant="unstyled"
+                    as="button"
+                    ariaLabel="Current Image"
                     className={`font-heading inline-block px-7 py-6 font-bold lg:px-10 ${
                       activeTab === index
-                        ? "bg-white text-webriq-darkblue shadow-2xl"
+                        ? "bg-white text-primary shadow-2xl"
                         : "text-gray-500 hover:shadow-2xl"
                     }`}
                     onClick={() => setActiveTab(index)}
                     type="button"
                   >
                     {details?.tabName}
-                  </button>
+                  </Button>
                 </li>
               ))}
-            </ul>
+            </Flex>
             {productDetails?.[activeTab]?.contentType !== "textOnly" ? (
               <div className="flex flex-wrap gap-x-5">
                 {productDetails?.[activeTab]?.media &&
                 productDetails?.[activeTab]?.media === "imageArray" ? (
                   <Fragment>
                     {productDetails?.[activeTab]?.images?.map((item, index) => (
-                      <div className="h-full w-1/4" key={index}>
+                      <div className="w-1/4 h-full" key={index}>
                         {item?.image && (
                           <Image
                             className="object-cover"
@@ -474,7 +507,7 @@ function VariantA({
             {/* @TO DO: ADD VALUE SOURCE FOR CUSTOMER REVIEWS HERE */}
           </div>
         )}
-      </div>
+      </Container>
     </section>
   );
 }
