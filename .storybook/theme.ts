@@ -2,7 +2,7 @@ import { create } from "@storybook/theming/create";
 
 export default create({
   // Typography
-  fontBase: "Open-sans, sans-serif",
+  fontBase: '"Roboto", sans-serif',
   fontCode: "monospace",
 
   base: "light",

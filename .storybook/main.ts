@@ -6,6 +6,11 @@ const config: StorybookConfig = {
     "../**/*.mdx",
     "../**/*.stories.@(js|jsx|mjs|ts|tsx)",
   ],
+  managerHead: (head) => `
+  ${head}
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">`,
   staticDirs: ["../public"],
   addons: [
     "@storybook/addon-links",
