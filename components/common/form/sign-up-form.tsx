@@ -26,9 +26,9 @@ export function SignUpForm({ form, signInLink, className }: SignUpFormProps) {
           <span className="text-sm text-gray-500">{form?.subtitle}</span>
           <Text fontSize="2xl">{form?.name}</Text>
         </div>
-        <Flex wrap className="mb-3 ">
+        <Flex className="flex-col mb-3 lg:flex-row" gap={2}>
           {form?.fields?.slice(0, 2)?.map((formFields, index) => (
-            <div className="w-full px-2 mb-3 lg:mb-0 lg:w-1/2" key={index}>
+            <div className="w-full " key={index}>
               <FormField
                 noLabel
                 variant={"secondary"}

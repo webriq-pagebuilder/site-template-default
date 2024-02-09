@@ -6,6 +6,7 @@ import { Text } from "components/ui/Text";
 import { Container } from "components/layout/Container";
 import { Heading } from "components/ui/Heading";
 import { Button } from "components/ui/Button";
+import { Flex } from "components/layout/Flex";
 
 function VariantA({ subtitle, title, faqs }: FAQProps) {
   const [show, setShow] = React.useState(false);
@@ -38,10 +39,12 @@ function VariantA({ subtitle, title, faqs }: FAQProps) {
     <section className="py-20 bg-gray-50">
       <Container>
         <Container maxWidth={576} className="mb-16 text-center ">
-          <Text weight="bold" className="text-primary">
-            {subtitle}
-          </Text>
-          <Heading className="mb-6 ">{title}</Heading>
+          {subtitle && (
+            <Text weight="bold" className="text-primary">
+              {subtitle}
+            </Text>
+          )}
+          {title && <Heading className="mb-6 ">{title}</Heading>}
           {updatedFAQArray && updatedFAQArray?.length > 1 && (
             <form className="flex justify-center">
               <input
@@ -157,7 +160,7 @@ const Pagination = ({ faqsPerPage, totalFaqs, changePage }) => {
   }
 
   return (
-    <div className="flex justify-center mb-16 space-x-4">
+    <Flex justify="center" className="mb-16 space-x-4">
       {pageButtons?.map((buttonNumber) => (
         <Button
           variant="unstyled"
@@ -168,7 +171,7 @@ const Pagination = ({ faqsPerPage, totalFaqs, changePage }) => {
           onClick={() => changePage(buttonNumber)}
         />
       ))}
-    </div>
+    </Flex>
   );
 };
 export default React.memo(VariantA);

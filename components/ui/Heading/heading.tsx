@@ -46,7 +46,7 @@ export function Heading({
   children,
   style,
   muted = false,
-  weight = "normal",
+  weight,
   fontSize,
   ...props
 }: TextProps) {
@@ -77,24 +77,20 @@ export function Heading({
     extrabold: "font-extrabold",
     black: "font-black",
   };
-  const size = fontSizeMap[fontSize] || "text-4xl";
+  const size = fontSizeMap[fontSize];
   const fontWeight = fontWeightMap[weight] || "font-bold";
   const commonClass = ` ${muted && "text-gray-500"}  ${
-    weight && `${fontWeight}`
-  } ${size}`;
+    weight ? `${fontWeight}` : "font-bold"
+  } `;
   const variants: StyleVariants<Type> = {
     h1: `${commonClass} font-bold font-heading ${
       size ?? `text-4xl lg:text-5xl`
-    } ${fontWeight}`,
-    h2: `${commonClass}  ${
-      size ?? `text-3xl lg:text-4xl`
-    } font-bold ${fontWeight}`,
-    h3: `${commonClass}  font-bold  ${
-      size ?? `text-2xl lg:text-3xl`
-    } ${fontWeight}`,
-    h4: `${commonClass} font-bold text-2xl ${size} ${fontWeight}`,
-    h5: `${commonClass} font-medium text-xl ${size} ${fontWeight}`,
-    h6: `${commonClass} font-medium text-lg ${size} ${fontWeight}`,
+    } `,
+    h2: `${commonClass}  ${size ?? `text-3xl lg:text-4xl`} font-bold`,
+    h3: `${commonClass}  font-bold  ${size ?? `text-2xl lg:text-3xl`} `,
+    h4: `${commonClass} font-bold text-2xl ${size} `,
+    h5: `${commonClass} font-medium text-xl ${size} `,
+    h6: `${commonClass} font-medium text-lg ${size} `,
   };
 
   const variantClass = variants[type] ?? variants["h1"];

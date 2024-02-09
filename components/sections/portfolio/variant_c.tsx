@@ -41,13 +41,15 @@ function VariantC({
             )}
           </div>
         </Flex>
-        <Flex wrap className="mb-4 ">
-          {portfolios
-            ?.slice(0, portfolioLength)
-            ?.map((content, index) => (
-              <ProjectItem content={content} key={content._key} />
-            ))}
-        </Flex>
+        {portfolios && portfolios?.length > 0 && (
+          <Flex wrap className="mb-4 ">
+            {portfolios
+              ?.slice(0, portfolioLength)
+              ?.map((content, index) => (
+                <ProjectItem content={content} key={content._key} />
+              ))}
+          </Flex>
+        )}
         <div className="block mt-5 text-center md:mt-0 lg:hidden">
           {primaryButton?.label && (
             <Button ariaLabel={primaryButton?.label} link={primaryButton}>

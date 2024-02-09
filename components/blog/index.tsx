@@ -2,6 +2,7 @@ import InlineEditor from "components/InlineEditor";
 import { Container } from "components/layout/Container";
 import { Flex } from "components/layout/Flex";
 import { Heading } from "components/ui/Heading";
+import { Text } from "components/ui/Text";
 import { InlineEditorContext } from "context/InlineEditorContext";
 import { format } from "date-fns";
 import { PortableText, urlFor } from "lib/sanity";
@@ -18,47 +19,71 @@ const blockStyle: MyPortableTextComponents = {
   block: {
     h1: ({ children }) => {
       return (
-        <h1 className="mb-6 text-5xl leading-loose text-gray-900">
+        <Heading fontSize="5xl" className="mb-6 leading-loose text-gray-900">
           {children}
-        </h1>
+        </Heading>
       );
     },
     h2: ({ children }) => {
       return (
-        <h2 className="mb-6 text-4xl leading-loose text-gray-900">
+        <Heading
+          type="h2"
+          fontSize="4xl"
+          className="mb-6 leading-loose text-gray-900"
+        >
           {children}
-        </h2>
+        </Heading>
       );
     },
     h3: ({ children }) => {
       return (
-        <h3 className="mb-6 text-3xl leading-loose text-gray-900">
+        <Heading
+          type="h3"
+          fontSize="3xl"
+          className="mb-6 leading-loose text-gray-900"
+        >
           {children}
-        </h3>
+        </Heading>
       );
     },
     h4: ({ children }) => {
       return (
-        <h4 className="mb-6 text-2xl leading-loose text-gray-900">
+        <Heading
+          fontSize="2xl"
+          type="h4"
+          className="mb-6 leading-loose text-gray-900"
+        >
           {children}
-        </h4>
+        </Heading>
       );
     },
     h5: ({ children }) => {
       return (
-        <h5 className="mb-6 text-xl leading-loose text-gray-900">{children}</h5>
+        <Heading
+          fontSize="xl"
+          type="h5"
+          className="mb-6 leading-loose text-gray-900"
+        >
+          {children}
+        </Heading>
       );
     },
     h6: ({ children }) => {
       return (
-        <h6 className="mb-6 text-lg leading-loose text-gray-900">{children}</h6>
+        <Heading
+          fontSize="lg"
+          type="h6"
+          className="mb-6 leading-loose text-gray-900"
+        >
+          {children}
+        </Heading>
       );
     },
     normal: ({ children }) => {
       return (
-        <p className="mb-6 leading-loose text-justify text-gray-900">
+        <Text className="mb-6 leading-loose text-justify text-gray-900">
           {children}
-        </p>
+        </Text>
       );
     },
     blockquote: ({ children }) => {
@@ -153,7 +178,6 @@ function BlogSections({ data }: BlogSectionsProps) {
     footer,
   } = blogData;
 
-  console.log("navigations", footer);
   return (
     <InlineEditor
       document={{

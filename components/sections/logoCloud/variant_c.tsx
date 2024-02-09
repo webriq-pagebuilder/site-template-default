@@ -13,16 +13,18 @@ function VariantC({ title, images, button }: LogoCloudProps) {
     <section className="relative pt-20 pb-12 overflow-hidden lg:pb-80">
       <Container>
         <Container maxWidth={448} className="text-center">
-          <Heading weight="bold" className="mb-8 text-4xl lg:text-5xl">
-            {title}
-          </Heading>
+          {title && (
+            <Heading weight="bold" className="mb-8 text-4xl lg:text-5xl">
+              {title}
+            </Heading>
+          )}
           {button?.label && (
             <Button ariaLabel={button?.label} link={button}>
               {button?.label}
             </Button>
           )}
         </Container>
-        <Logos images={images} />
+        {images && images?.length > 0 && <Logos images={images} />}
         <Flex wrap justify="center" className="mt-16 lg:hidden">
           {images &&
             images?.length > 0 &&

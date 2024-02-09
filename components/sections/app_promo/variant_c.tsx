@@ -19,20 +19,24 @@ function VariantC({
       <Container>
         <Flex align="center" wrap gap={8}>
           <div className="max-w-xl space-y-5">
-            <Text
-              weight="bold"
-              className="text-sm md:text-lg lg:text-xl text-primary"
-            >
-              {subtitle}
-            </Text>
-            <Heading>{title}</Heading>
-            <Text muted className="text-sm md:text-lg lg:text-xl">
-              {description}
-            </Text>
+            {subtitle && (
+              <Text
+                weight="bold"
+                className="text-sm md:text-lg lg:text-xl text-primary"
+              >
+                {subtitle}
+              </Text>
+            )}
+            {title && <Heading>{title}</Heading>}
+            {description && (
+              <Text muted className="text-sm md:text-lg lg:text-xl">
+                {description}
+              </Text>
+            )}
             <ul className="mb-8 ">
               {features &&
                 features.map((feature, index) => (
-                  <li className="flex items-center mb-3" key={index}>
+                  <Flex as="li" align="center" className="mb-3" key={index}>
                     <CheckIcon />
                     <Text
                       className="text-sm md:text-lg lg:text-xl"
@@ -41,7 +45,7 @@ function VariantC({
                     >
                       {feature}
                     </Text>
-                  </li>
+                  </Flex>
                 ))}
             </ul>
           </div>

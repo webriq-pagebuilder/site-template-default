@@ -89,9 +89,11 @@ function VariantB({ logo, copyright, socialMedia, menu }: FooterProps) {
           )}
         </Flex>
         <Flex wrap align="center" justify="between" className="mx-20 mt-8">
-          <Text muted className="order-last text-sm ">
-            {copyright}
-          </Text>
+          {copyright && (
+            <Text muted className="order-last text-sm ">
+              {copyright}
+            </Text>
+          )}
           {socialMedia && (
             <div className="order-first mb-4 lg:order-last lg:mb-0">
               {socialMedia?.map(

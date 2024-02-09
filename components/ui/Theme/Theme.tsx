@@ -24,7 +24,8 @@ export function ColorTable({ colors }) {
   );
 }
 
-export function SpacingTable({ spacing }) {
+export function SpacingTable({ spacing, theme }) {
+  console.log("theme", theme);
   return (
     <table className="w-full">
       <thead>

@@ -34,7 +34,7 @@ function VariantA({ logo, title, text, button }: CTAProps) {
           </Link>
         )}
         {title && <Heading className="mb-4">{title}</Heading>}
-        <Text className="mb-6">{text}</Text>
+        {text && <Text className="mb-6">{text}</Text>}
         {button?.label && (
           <Button link={button} ariaLabel={button?.label}>
             {button?.label}

@@ -4,6 +4,7 @@ import { TypedObject } from "sanity";
 import _ from "lodash";
 import { EcwidTypes } from "context/_ecwid-types";
 import { Button } from "components/ui/Button";
+import { Text } from "components/ui/Text";
 
 interface AddToWishlistProps {
   children?: React.ReactNode;
@@ -66,9 +67,9 @@ const AddToWishlist = ({
                   strokeLinejoin="round"
                 />
               </svg>
-              <span className="mt-1 ml-1 font-bold uppercase font-heading">
+              <Text weight="bold" className="mt-1 ml-1 uppercase">
                 Remove from wishlist
-              </span>
+              </Text>
             </>
           )}
         </Button>

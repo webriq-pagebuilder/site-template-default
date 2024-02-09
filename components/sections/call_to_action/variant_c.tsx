@@ -22,8 +22,8 @@ function VariantC({ title, text, features, form }: CTAProps) {
           justify="between"
         >
           <div className="w-full px-4 mb-8 lg:mb-0 lg:w-1/2">
-            <Heading className="mb-4">{title}</Heading>
-            <Text muted>{text}</Text>
+            {title && <Heading className="mb-4">{title}</Heading>}
+            {text && <Text muted>{text}</Text>}
           </div>
           <div className="w-full px-4 lg:w-1/2">
             {form?.fields && (
@@ -60,6 +60,7 @@ function VariantC({ title, text, features, form }: CTAProps) {
                   </div>
                   {form?.buttonLabel && (
                     <Button
+                      as="button"
                       ariaLabel={
                         form?.buttonLabel ?? "Call to action form submit button"
                       }
@@ -72,14 +73,14 @@ function VariantC({ title, text, features, form }: CTAProps) {
               </Form>
             )}
 
-            <Flex
-              as="ul"
-              align="center"
-              className="text-gray-500 lg:justify-end"
-              gap={4}
-            >
-              {features &&
-                features?.map((feature, index) => (
+            {features && features?.length > 0 && (
+              <Flex
+                as="ul"
+                align="center"
+                className="text-gray-500 lg:justify-end"
+                gap={4}
+              >
+                {features?.map((feature, index) => (
                   <li className="flex items-center" key={index}>
                     <span>
                       <svg
@@ -98,7 +99,8 @@ function VariantC({ title, text, features, form }: CTAProps) {
                     <Text muted>{feature}</Text>
                   </li>
                 ))}
-            </Flex>
+              </Flex>
+            )}
           </div>
         </Flex>
       </Container>

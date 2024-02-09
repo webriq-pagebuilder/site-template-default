@@ -5,6 +5,7 @@ import { Text } from "components/ui/Text";
 import { Container } from "components/layout/Container";
 import { Flex } from "components/layout/Flex/Flex";
 import { Heading } from "components/ui/Heading";
+import { YoutubeVideo } from "components/common/youtube_video/youtube-video";
 
 function VariantA({ subtitle, title, text, video, steps }: HowItWorksProps) {
   // get the video link ID
@@ -42,22 +43,6 @@ function VariantA({ subtitle, title, text, video, steps }: HowItWorksProps) {
         </Flex>
       </Container>
     </section>
-  );
-}
-
-function YoutubeVideo({ videoLinkId, title }) {
-  return (
-    <div className="relative w-full px-10 lg:h-128 md:h-96 md:w-2/5 md:px-0 lg:w-2/5 lg:px-0">
-      <iframe
-        aria-label="Show Video Frame"
-        className="w-full h-full rounded-lg"
-        src={`https://www.youtube.com/embed/${videoLinkId}`}
-        srcDoc={`<style>*{padding:0;margin:0;overflow:hidden;border-radius:8px}html,body{height:100%}img,span{position:absolute;width:100%;top:0;bottom:0;margin:auto}span{height:1.5em;text-align:center;font:48px/1.5 sans-serif;color:white;text-shadow:0 0 0.5em black}</style><a href=${`https://www.youtube.com/embed/${videoLinkId}`}><img src=${`https://i.ytimg.com/vi_webp/${videoLinkId}/maxresdefault.webp`} alt=${title} loading="lazy" /><span>▶</span></a>`}
-        frameBorder="0"
-        loading="lazy"
-        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-      ></iframe>
-    </div>
   );
 }
 

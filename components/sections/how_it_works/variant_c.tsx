@@ -11,10 +11,12 @@ function VariantC({ subtitle, title, steps }: HowItWorksProps) {
     <section className="py-20 bg-gray-50">
       <Container>
         <Container maxWidth={448} className="mb-8 text-center">
-          <Text weight="bold" className="text-primary">
-            {subtitle}
-          </Text>
-          <Heading>{title}</Heading>
+          {subtitle && (
+            <Text weight="bold" className="text-primary">
+              {subtitle}
+            </Text>
+          )}
+          {title && <Heading>{title}</Heading>}
         </Container>
         <Flex wrap justify="center">
           {steps &&

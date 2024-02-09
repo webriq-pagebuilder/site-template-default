@@ -8,6 +8,8 @@ import {
   Logo,
   MyPortableTextComponents,
 } from "types";
+import { Heading } from "components/ui/Heading";
+import { Text } from "components/ui/Text";
 
 interface ConditionalLinkTypes {
   className?: string;
@@ -154,30 +156,46 @@ export const ConditionalLink = ({
 export const defaultBlockStyle: MyPortableTextComponents = {
   block: {
     h1: ({ children }) => (
-      <h1 className="mb-8 text-3xl leading-normal text-black dark:text-white">
-        {" "}
+      <Heading
+        fontSize="3xl"
+        weight="bold"
+        className="mb-8 leading-normal text-black dark:text-white"
+      >
         {children}
-      </h1>
+      </Heading>
     ),
     h2: ({ children }) => (
-      <h2 className="mb-8 text-2xl font-bold text-black dark:text-white">
+      <Heading
+        type="h2"
+        weight="bold"
+        fontSize="2xl"
+        className="mb-8 text-black dark:text-white"
+      >
         {children}
-      </h2>
+      </Heading>
     ),
     h3: ({ children }) => (
-      <h3 className="mb-8 text-xl font-bold leading-normal text-black dark:text-white">
-        {" "}
+      <Heading
+        type="h3"
+        fontSize="xl"
+        weight="bold"
+        className="mb-8 leading-normal text-black dark:text-white"
+      >
         {children}
-      </h3>
+      </Heading>
     ),
     h4: ({ children }) => (
-      <h4 className="mb-8 text-lg font-bold leading-normal text-black dark:text-white">
-        {" "}
+      <Heading
+        type="h4"
+        weight="bold"
+        fontSize="lg"
+        className="mb-8 leading-normal text-black dark:text-white"
+      >
         {children}
-      </h4>
+      </Heading>
     ),
     normal: ({ children }) => (
-      <p className="mb-8 leading-relaxed">{children}</p>
+      <Text className="mb-8 leading-relaxed">{children}</Text>
     ),
     blockquote: ({ children }) => (
       <blockquote className="mb-6 italic leading-loose text-gray-500 px-14">

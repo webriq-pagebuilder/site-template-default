@@ -36,7 +36,7 @@ function VariantB({ logo, title, text, form }: CTAProps) {
           </Link>
         )}
         {title && <Heading className="mb-4">{title}</Heading>}
-        <Text className="mb-6">{text}</Text>
+        {text && <Text className="mb-6">{text}</Text>}
         {form?.fields && (
           <Form
             id={form?.id}
@@ -70,6 +70,7 @@ function VariantB({ logo, title, text, form }: CTAProps) {
               </div>
               {form?.buttonLabel && (
                 <Button
+                  as="button"
                   className="w-full"
                   ariaLabel={form?.buttonLabel}
                   type="submit"

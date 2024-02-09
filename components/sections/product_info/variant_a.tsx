@@ -44,35 +44,49 @@ function VariantA({
     block: {
       h1: ({ children }) => {
         return (
-          <h1 className="mb-8 font-bold leading-loose font-heading text-7xl">
+          <Heading fontSize="7xl" weight="bold" className="mb-8 leading-loose ">
             {children}
-          </h1>
+          </Heading>
         );
       },
       h2: ({ children }) => {
         return (
-          <h2 className="mb-8 text-5xl font-bold leading-loose font-heading">
+          <Heading
+            type="h2"
+            weight="bold"
+            fontSize="5xl"
+            className="mb-8 leading-loose "
+          >
             {children}
-          </h2>
+          </Heading>
         );
       },
       h3: ({ children }) => {
         return (
-          <h3 className="mb-8 text-3xl font-bold leading-loose font-heading">
+          <Heading
+            type="h3"
+            weight="bold"
+            fontSize="3xl"
+            className="mb-8 leading-loose"
+          >
             {children}
-          </h3>
+          </Heading>
         );
       },
       h4: ({ children }) => {
         return (
-          <h4 className="mb-6 text-xl font-bold leading-loose font-heading">
+          <Heading
+            type="h4"
+            weight="bold"
+            fontSize="xl"
+            className="mb-6 leading-loose"
+          >
             {children}
-          </h4>
+          </Heading>
         );
       },
       normal: ({ children }) => {
-        // return <p className="max-w-2xl text-gray-500">{children}</p>;
-        return <p className="text-gray-500">{children}</p>;
+        return <Text muted>{children}</Text>;
       },
       blockquote: ({ children }) => {
         return (

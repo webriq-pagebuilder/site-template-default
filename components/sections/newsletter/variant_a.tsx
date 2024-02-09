@@ -12,6 +12,7 @@ import { Text } from "components/ui/Text";
 import { Container } from "components/layout/Container";
 import { Heading } from "components/ui/Heading";
 import { Flex } from "components/layout/Flex/Flex";
+import { Input } from "components/ui/Input";
 
 function VariantA({ logo, title, description, form }: NewsletterProps) {
   const { id, fields, buttonLabel, thankYouPage } = form;
@@ -38,10 +39,12 @@ function VariantA({ logo, title, description, form }: NewsletterProps) {
               />
             </Link>
           )}
-          <Heading className="mb-2 ">{title}</Heading>
-          <Text className="mb-8 leading-loose text-gray-700">
-            {description}
-          </Text>
+          {title && <Heading className="mb-2 ">{title}</Heading>}
+          {description && (
+            <Text className="mb-8 leading-loose text-gray-700">
+              {description}
+            </Text>
+          )}
           {fields && fields[0]?.name && (
             <Form
               id={id}
@@ -50,9 +53,12 @@ function VariantA({ logo, title, description, form }: NewsletterProps) {
               thankyouPage={thankYouPageLink(thankYouPage)}
             >
               <Flex wrap align="center" className="max-w-md mx-auto">
-                <input
-                  aria-label={fields[0]?.placeholder ?? fields[0]?.name}
-                  className="flex-grow px-4 py-3 mr-4 text-xs leading-loose border rounded border-slate-300"
+                <Input
+                  variant="outline"
+                  noLabel
+                  ariaLabel={fields[0]?.placeholder ?? fields[0]?.name}
+                  className="flex-grow mr-4 w-auto"
+                  // className="flex-grow px-4 py-3 mr-4 text-xs leading-loose border rounded border-slate-300"
                   type={
                     fields[0].type === "inputEmail"
                       ? "email"

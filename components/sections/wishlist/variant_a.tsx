@@ -85,9 +85,13 @@ function VariantA() {
                   alt="no products on wishlist"
                 />
                 <div className="text-center">
-                  <span className="mb-6 text-2xl font-bold text-primary">
+                  <Text
+                    fontSize="2xl"
+                    weight="bold"
+                    className="mb-6 text-primary"
+                  >
                     Wishlist is empty
-                  </span>
+                  </Text>
                   <Text className="my-8 text-gray-700">
                     {`Add your favorite products to wishlist to display them here.`}
                   </Text>
