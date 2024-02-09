@@ -436,8 +436,8 @@ export interface BlogsData extends SanityBody {
   categories?: Categories[] | null;
   excerpt?: string | null;
   mainImage?: SanityImage | null;
-  footer?: Sections[] | null;
-  navigation?: Sections[] | null;
+  footer?: Sections | null;
+  navigation?: Sections | null;
   publishedAt?: string | null;
   slug?: SanitySlug | null;
   title?: string | null;
