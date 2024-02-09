@@ -1,3 +1,4 @@
+import { Flex } from "components/layout/Flex";
 import { Button } from "components/ui/Button";
 import { Card } from "components/ui/Card";
 import { Form } from "components/ui/Form/Form";
@@ -23,14 +24,11 @@ export function SignUpForm({ form, signInLink, className }: SignUpFormProps) {
       >
         <div className="mb-6">
           <span className="text-sm text-gray-500">{form?.subtitle}</span>
-          <p className="text-2xl">{form?.name}</p>
+          <Text fontSize="2xl">{form?.name}</Text>
         </div>
-        <div className="flex flex-wrap mb-3 -mx-2">
+        <Flex wrap className="mb-3 ">
           {form?.fields?.slice(0, 2)?.map((formFields, index) => (
-            <div
-              className="w-full px-2 mb-3 lg:mb-0 lg:w-1/2 xl:mb-0 2xl:mb-0"
-              key={index}
-            >
+            <div className="w-full px-2 mb-3 lg:mb-0 lg:w-1/2" key={index}>
               <FormField
                 noLabel
                 variant={"secondary"}
@@ -41,7 +39,7 @@ export function SignUpForm({ form, signInLink, className }: SignUpFormProps) {
               />
             </div>
           ))}
-        </div>
+        </Flex>
         <div className="mb-3 space-y-3">
           {form?.fields?.slice(2)?.map((formFields, index) => (
             <div key={index}>

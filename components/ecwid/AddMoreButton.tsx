@@ -3,6 +3,7 @@ import React from "react";
 import AddToWishlist from "./AddToWishlist";
 import { EcwidTypes } from "context/_ecwid-types";
 import { Button } from "components/ui/Button";
+import { Flex } from "components/layout/Flex";
 
 interface AddMoreButtonProps {
   product:
@@ -21,8 +22,8 @@ const AddMoreButton = ({ product }: AddMoreButtonProps) => {
 
   return (
     <>
-      <div className="flex flex-col gap-y-4 ">
-        <div className="flex flex-col gap-y-4 sm:flex-row sm:gap-x-4 sm:gap-y-0">
+      <Flex direction="col" className="gap-y-4 ">
+        <Flex className="flex-col gap-y-4 sm:flex-row sm:gap-x-4 sm:gap-y-0">
           <div className="w-full">
             <Button
               variant="outline"
@@ -55,7 +56,7 @@ const AddMoreButton = ({ product }: AddMoreButtonProps) => {
               />
             </svg>
           </AddToWishlist>
-        </div>
+        </Flex>
 
         <a
           className="block w-full px-8 py-5 font-bold text-center text-white uppercase transition duration-200 rounded-md font-heading bg-primary"
@@ -63,7 +64,7 @@ const AddMoreButton = ({ product }: AddMoreButtonProps) => {
         >
           Go to Checkout
         </a>
-      </div>
+      </Flex>
     </>
   );
 };

@@ -24,23 +24,25 @@ function VariantC({ title, images, button }: LogoCloudProps) {
         </Container>
         <Logos images={images} />
         <Flex wrap justify="center" className="mt-16 lg:hidden">
-          {images?.map((images, index) => (
-            <Flex
-              align="center"
-              justify="center"
-              className="w-24 h-24 mx-4 mb-8 rounded-full  bg-gray-50"
-              key={index}
-            >
-              <Image
-                className="object-scale-down w-16 h-16"
-                src={urlFor(images?.image)}
-                sizes="100vw"
-                width={64}
-                height={64}
-                alt={images?.alt ?? `logoCloud-image-${index}`}
-              />
-            </Flex>
-          ))}
+          {images &&
+            images?.length > 0 &&
+            images?.map((images, index) => (
+              <Flex
+                align="center"
+                justify="center"
+                className="w-24 h-24 mx-4 mb-8 rounded-full bg-gray-50"
+                key={index}
+              >
+                <Image
+                  className="object-scale-down w-16 h-16"
+                  src={urlFor(images?.image)}
+                  sizes="100vw"
+                  width={64}
+                  height={64}
+                  alt={images?.alt ?? `logoCloud-image-${index}`}
+                />
+              </Flex>
+            ))}
         </Flex>
       </Container>
     </section>
