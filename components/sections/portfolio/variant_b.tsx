@@ -41,13 +41,15 @@ function VariantB({
             )}
           </div>
         </Flex>
-        <Flex wrap className="mb-4 ">
-          {portfolios
-            ?.slice(0, portfolioLength)
-            .map((content, index) => (
-              <ProjectItem content={content} key={content._key} />
-            ))}
-        </Flex>
+        {portfolios && portfolios?.length > 0 && (
+          <Flex wrap className="mb-4 ">
+            {portfolios
+              ?.slice(0, portfolioLength)
+              .map((content, index) => (
+                <ProjectItem content={content} key={content._key} />
+              ))}
+          </Flex>
+        )}
         <div className="block mt-5 text-center md:mt-0 lg:mt-0 lg:hidden xl:mt-0">
           {primaryButton?.label && (
             <Button ariaLabel={primaryButton?.label} link={primaryButton}>
@@ -75,7 +77,11 @@ function ProjectItem({ content }) {
           />
         )}
 
-        <div className="absolute inset-0 z-10 flex flex-col items-start p-6 duration-300 bg-gray-900 rounded opacity-0 hover:opacity-75">
+        <Flex
+          direction="col"
+          align="start"
+          className="absolute inset-0 z-10 items-start p-6 duration-300 bg-gray-900 rounded opacity-0 hover:opacity-75"
+        >
           <Text className="text-secondary-foreground">
             {content?.dateAdded}
           </Text>
@@ -95,7 +101,7 @@ function ProjectItem({ content }) {
               {content?.primaryButton?.label}
             </Button>
           )}
-        </div>
+        </Flex>
       </div>
     </div>
   );

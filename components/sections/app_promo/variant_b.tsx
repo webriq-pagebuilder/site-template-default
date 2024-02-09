@@ -34,22 +34,30 @@ function VariantB({
       <Container>
         <Flex wrap>
           <div className="w-full mt-8 lg:w-1/2">
-            <Text
-              weight="bold"
-              className="text-center md:text-left text-primary"
-            >
-              {subtitle}
-            </Text>
-            <Heading className="mt-3 text-center md:text-left">{title}</Heading>
-            <Text
-              className="mt-3 mb-10 leading-loose text-center break-words md:text-left"
-              muted
-            >
-              {description}
-            </Text>
-            <Flex wrap>
-              {statistics &&
-                statistics.map((items, index) => (
+            {subtitle && (
+              <Text
+                weight="bold"
+                className="text-center md:text-left text-primary"
+              >
+                {subtitle}
+              </Text>
+            )}
+            {title && (
+              <Heading className="mt-3 text-center md:text-left">
+                {title}
+              </Heading>
+            )}
+            {description && (
+              <Text
+                className="mt-3 mb-10 leading-loose text-center break-words md:text-left"
+                muted
+              >
+                {description}
+              </Text>
+            )}
+            {statistics && statistics?.length > 0 && (
+              <Flex wrap>
+                {statistics.map((items, index) => (
                   <div
                     className="w-full mb-8 text-center md:text-left lg:w-1/2"
                     key={index}
@@ -62,7 +70,8 @@ function VariantB({
                     </span>
                   </div>
                 ))}
-            </Flex>
+              </Flex>
+            )}
           </div>
           <Flex
             align="center"

@@ -13,14 +13,18 @@ function VariantB({ subtitle, title, text, steps }: HowItWorksProps) {
         <Flex align="center" justify="between" wrap>
           <div className="w-full mb-12 lg:mb-0 lg:w-1/2">
             <Container maxWidth={448}>
-              <Text weight="bold" className="text-primary">
-                {subtitle}
-              </Text>
-              <Heading className="mb-2">{title}</Heading>
+              {subtitle && (
+                <Text weight="bold" className="text-primary">
+                  {subtitle}
+                </Text>
+              )}
+              {title && <Heading className="mb-2">{title}</Heading>}
 
-              <Text muted className="leading-loose">
-                {text}
-              </Text>
+              {text && (
+                <Text muted className="leading-loose">
+                  {text}
+                </Text>
+              )}
             </Container>
           </div>
 

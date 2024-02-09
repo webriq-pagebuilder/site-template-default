@@ -102,7 +102,7 @@ function VariantA({ heading, firstColumn }: TextComponentProps) {
   return (
     <section className="py-20">
       <Container>
-        <Heading className="mb-5 text-center">{heading}</Heading>
+        {heading && <Heading className="mb-5 text-center">{heading}</Heading>}
         <Flex wrap justify="center" className="mx-auto">
           {firstColumn && (
             <div className="mb-2 text-xs md:mb-0 md:w-1/2 lg:text-base">

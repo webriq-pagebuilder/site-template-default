@@ -75,7 +75,7 @@ export default React.memo(VariantH);
 
 function FeatureItem({ feature }) {
   return (
-    <li className="flex">
+    <Flex as="li">
       <div>
         <svg
           className="w-8 h-8 mr-3 text-primary"
@@ -98,6 +98,6 @@ function FeatureItem({ feature }) {
           {feature?.plainText}
         </Text>
       </div>
-    </li>
+    </Flex>
   );
 }

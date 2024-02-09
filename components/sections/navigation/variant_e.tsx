@@ -9,6 +9,7 @@ import { useRouter } from "next/router";
 import { Fragment, memo, useEffect, useRef, useState } from "react";
 import { MyPortableTextComponents } from "types";
 import { NavigationProps } from ".";
+import { Text } from "components/ui/Text";
 
 function VariantE({ banner, logo, links }: NavigationProps) {
   const router = useRouter();
@@ -31,9 +32,9 @@ function VariantE({ banner, logo, links }: NavigationProps) {
     block: {
       normal: ({ children }) => {
         return (
-          <p className="text-xs font-bold text-white font-heading">
+          <Text fontSize="xs" weight="bold" className="text-white ">
             {children}
-          </p>
+          </Text>
         );
       },
     },

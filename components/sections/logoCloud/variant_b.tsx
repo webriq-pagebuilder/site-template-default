@@ -14,12 +14,16 @@ function VariantB({ title, text, images }: LogoCloudProps) {
         <Flex wrap align="center" justify="between">
           <div className="w-full mb-12 lg:mb-0 lg:w-1/2">
             <Container maxWidth={448}>
-              <Heading weight="bold" className="mb-4">
-                {title}
-              </Heading>
-              <Text muted className="leading-loose">
-                {text}
-              </Text>
+              {title && (
+                <Heading weight="bold" className="mb-4">
+                  {title}
+                </Heading>
+              )}
+              {text && (
+                <Text muted className="leading-loose">
+                  {text}
+                </Text>
+              )}
             </Container>
           </div>
           <Flex wrap className="w-full lg:w-1/2">

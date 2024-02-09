@@ -109,12 +109,6 @@ function VariantA({ products }: PagesProductInfoProps) {
                   )}
 
                   {products?.description && (
-                    // <p
-                    //   className="max-w-md"
-                    //   dangerouslySetInnerHTML={{
-                    //     __html: products?.description,
-                    //   }}
-                    // />
                     <PortableText
                       value={products?.description}
                       components={defaultBlockStyle}
@@ -139,7 +133,7 @@ function VariantA({ products }: PagesProductInfoProps) {
                       product={ecwidProduct}
                     >
                       <svg
-                        className="w-6 h-6"
+                        className="w-6 h-6 text-black"
                         width={27}
                         height={27}
                         viewBox="0 0 27 27"

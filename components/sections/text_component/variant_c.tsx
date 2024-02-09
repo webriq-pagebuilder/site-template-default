@@ -15,7 +15,9 @@ function VariantC({
   return (
     <section className="py-20">
       <Container className="container px-4 mx-auto">
-        <Heading className="w-full mb-5 text-center">{heading}</Heading>
+        {heading && (
+          <Heading className="w-full mb-5 text-center">{heading}</Heading>
+        )}
         <Flex wrap justify="center" className="mx-auto">
           {firstColumn && (
             <div className="px-3 mb-6 text-xs leading-relaxed text-justify text-gray-500 md:mb-0 lg:w-1/4 lg:text-base">

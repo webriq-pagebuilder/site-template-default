@@ -21,9 +21,11 @@ function VariantF({
         <Flex wrap align="center">
           <Flex direction="col" className="w-full mb-12 lg:mb-0 lg:w-1/2">
             <Container maxWidth={448} className="ml-0">
-              <Text weight="bold" className="font-bold text-primary">
-                {caption}
-              </Text>
+              {caption && (
+                <Text weight="bold" className="font-bold text-primary">
+                  {caption}
+                </Text>
+              )}
               {title && <Heading className="mb-6">{title}</Heading>}
               {description && (
                 <Text muted className="mb-6 leading-loose">

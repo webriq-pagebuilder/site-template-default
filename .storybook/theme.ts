@@ -1,6 +1,10 @@
 import { create } from "@storybook/theming/create";
 
 export default create({
+  // Typography
+  fontBase: "Open-sans, sans-serif",
+  fontCode: "monospace",
+
   base: "light",
   brandTitle: "WebriQ",
   brandUrl: "https://www.webriq.com",

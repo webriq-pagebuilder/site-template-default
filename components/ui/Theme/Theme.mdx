@@ -3,8 +3,10 @@ import { ColorTable, SpacingTable } from "./Theme.tsx";
 import * as TextStories from "../Text/Text.stories";
 import * as BlockStories from "../BlockStyle/Blockstyle.stories.tsx";
 import { default as twConfig } from "../../../tailwind.config";
+import theme from "../../../theme.config";
 
 export const config = twConfig.theme.extend;
+export const themeConfig = theme;
 
 <Meta title="Theme" />
 
@@ -32,7 +34,9 @@ export const spacingList = Object.entries(spacing).map(([name, value]) => ({
 
 Imported from `tailwind.config.ts` file. You may edit these directly on the config file.
 
-<div className="mb-10">{colors && <SpacingTable spacing={spacingList} />}</div>
+<div className="mb-10">
+  {colors && <SpacingTable spacing={spacingList} theme={config} />}
+</div>
 
 ## Border Radius
 

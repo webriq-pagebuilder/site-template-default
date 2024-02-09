@@ -10,9 +10,11 @@ function VariantA({ title, images }: LogoCloudProps) {
   return (
     <section className="py-20">
       <Container>
-        <Heading className="mb-12 text-2xl text-center lg:text-2xl">
-          {title}
-        </Heading>
+        {title && (
+          <Heading className="mb-12 text-2xl text-center lg:text-2xl">
+            {title}
+          </Heading>
+        )}
         <Flex wrap justify="center" align="center">
           {images &&
             images?.map((image, index) => (

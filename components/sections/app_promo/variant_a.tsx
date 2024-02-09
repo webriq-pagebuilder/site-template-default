@@ -42,8 +42,8 @@ function VariantA({ logo, subtitle, title, images }: AppPromoProps) {
             />
           </Link>
         )}
-        <Text className="mb-3 text-gray-50">{subtitle}</Text>
-        <Heading className="mb-8 text-white">{title}</Heading>
+        {subtitle && <Text className="mb-3 text-gray-50">{subtitle}</Text>}
+        {title && <Heading className="mb-8 text-white">{title}</Heading>}
         <div className="hidden h-72 sm:block">
           {images?.[0]?.image && (
             <Image

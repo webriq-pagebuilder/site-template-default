@@ -11,6 +11,7 @@ import { Container } from "components/layout/Container";
 import { Flex } from "components/layout/Flex/Flex";
 import { Heading } from "components/ui/Heading";
 import { Text } from "components/ui/Text";
+import { Input } from "components/ui/Input";
 
 function VariantB({ logo, title, description, form }: NewsletterProps) {
   const { id, fields, buttonLabel, thankYouPage } = form;
@@ -46,8 +47,8 @@ function VariantB({ logo, title, description, form }: NewsletterProps) {
             maxWidth={512}
             className="w-full mb-6 mr-auto text-center lg:ml-0 lg:w-auto lg:text-left"
           >
-            <Heading>{title}</Heading>
-            <Text muted>{description}</Text>
+            {title && <Heading>{title}</Heading>}
+            {description && <Text muted>{description}</Text>}
           </Container>
           {fields && fields[0]?.name && (
             <div className="w-full lg:w-2/5">
@@ -57,10 +58,17 @@ function VariantB({ logo, title, description, form }: NewsletterProps) {
                 className="form-newsletter"
                 thankyouPage={thankYouPageLink(thankYouPage)}
               >
-                <div className="flex flex-wrap items-center max-w-md mx-auto lg:max-w-sm">
-                  <input
-                    aria-label={fields[0]?.placeholder ?? fields[0]?.name}
-                    className="flex-grow px-4 py-3 mr-4 text-xs leading-loose border rounded border-slate-300"
+                <Flex
+                  wrap
+                  align="center"
+                  className="max-w-md mx-auto lg:max-w-sm"
+                >
+                  <Input
+                    variant="outline"
+                    noLabel
+                    ariaLabel={fields[0]?.placeholder ?? fields[0]?.name}
+                    className="flex-grow mr-4 w-auto"
+                    // className="flex-grow px-4 py-3 mr-4 text-xs leading-loose border rounded border-slate-300"
                     type={
                       fields[0].type === "inputEmail"
                         ? "email"
@@ -84,7 +92,7 @@ function VariantB({ logo, title, description, form }: NewsletterProps) {
                       {buttonLabel}
                     </Button>
                   )}
-                </div>
+                </Flex>
               </Form>
             </div>
           )}

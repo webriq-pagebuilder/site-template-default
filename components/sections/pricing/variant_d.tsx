@@ -20,6 +20,9 @@ import { Container } from "components/layout/Container";
 import { Heading } from "components/ui/Heading";
 import { Flex } from "components/layout/Flex/Flex";
 import { SwiperPagination } from "components/ui/SwiperPagination";
+import { FormField } from "components/ui/FormField";
+import { Textarea } from "components/ui/Textarea";
+import { Input } from "components/ui/Input";
 
 function VariantD({
   caption,
@@ -125,7 +128,7 @@ function VariantD({
   const blockCustomization: MyPortableTextComponents = {
     block: {
       normal: ({ children }) => {
-        return <p className="text-xs">{children}</p>;
+        return <Text className="text-xs">{children}</Text>;
       },
     },
     marks: {
@@ -234,40 +237,14 @@ function VariantD({
               method="POST"
               data-form-id={formId}
               name={formName}
-              className="form-pricing"
+              className="form-pricing space-y-2"
               data-thankyou-url={thankYouPageLink(formThankYouPage)}
               scriptsrc="https://pagebuilderforms.webriq.com/js/initReactForms"
             >
               {formFields?.map((field, index) => {
                 return (
-                  <div key={index}>
-                    {field.pricingType === "textarea" ? (
-                      <div className="mb-4">
-                        <textarea
-                          aria-label={field?.placeholder ?? field?.name}
-                          className="w-full h-24 p-4 text-xs font-semibold leading-none rounded outline-none resize-none bg-gray-50"
-                          placeholder={field?.placeholder}
-                          name={field?.name}
-                          required={field?.isRequired}
-                        />
-                      </div>
-                    ) : field.pricingType === "inputFile" ? (
-                      <div className="mb-4">
-                        <label className="flex px-2 bg-white rounded">
-                          <input
-                            aria-label="Choose file.."
-                            className="hidden"
-                            type="file"
-                            placeholder="Choose file.."
-                            name={field?.name}
-                            required={field?.isRequired}
-                          />
-                          <div className="px-4 py-3 my-1 ml-auto text-xs font-semibold leading-none text-white transition duration-200 bg-gray-500 rounded cursor-pointer hover:bg-gray-600">
-                            Browse
-                          </div>
-                        </label>
-                      </div>
-                    ) : field.pricingType === "inputCard" ? (
+                  <>
+                    {field.pricingType === "inputCard" ? (
                       <div className="mb-4">
                         <CardElement className="w-full p-4 text-xs font-semibold leading-none rounded outline-none bg-gray-50" />
                         {paymentOngoing && (
@@ -283,21 +260,11 @@ function VariantD({
                           </div>
                         )}
                       </div>
-                    ) : field.pricingType === "inputNumber" ? (
-                      <div className="mb-4">
-                        <input
-                          aria-label={field?.placeholder ?? field?.name}
-                          className="w-full p-4 text-xs font-semibold leading-none rounded outline-none bg-gray-50"
-                          type="number"
-                          placeholder={field?.placeholder}
-                          name={field?.name}
-                          required={field?.isRequired}
-                        />
-                      </div>
                     ) : field.pricingType === "inputPassword" ? (
                       <div className="flex mb-4 rounded bg-gray-50">
-                        <input
-                          aria-label={field?.placeholder ?? field?.name}
+                        <Input
+                          noLabel
+                          ariaLabel={field?.placeholder ?? field?.name}
                           className="w-full p-4 text-xs font-semibold leading-none rounded outline-none bg-gray-50"
                           type={showPassword ? "text" : "password"}
                           placeholder={field?.placeholder}
@@ -312,7 +279,10 @@ function VariantD({
                             showPassword ? "Show password" : "Hide password"
                           }
                           className="pr-4 focus:outline-none"
-                          onClick={() => setShowPassword(!showPassword)}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            setShowPassword(!showPassword);
+                          }}
                         >
                           {showPassword ? (
                             <svg
@@ -350,128 +320,16 @@ function VariantD({
                           )}
                         </Button>
                       </div>
-                    ) : field.pricingType === "inputSelect" ? (
-                      <div className="flex mb-4">
-                        <label
-                          className="m-auto text-xs text-left text-gray-500"
-                          htmlFor={field?.name}
-                        >
-                          {field?.label}
-                        </label>
-                        <select
-                          className="w-full p-3 text-xs rounded outline-none bg-gray-50"
-                          name={`pricing-${field?.name}`}
-                          defaultValue={"default-value"}
-                          required={field?.isRequired}
-                        >
-                          <option value=""></option>
-                          {field?.items?.map((item, index) => (
-                            <option key={index} value={item}>
-                              {item}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
-                    ) : field?.type === "inputRadio" ? (
-                      <div className="mb-4 text-left">
-                        <label
-                          className="m-auto text-xs text-left text-gray-500"
-                          htmlFor={field?.name}
-                        >
-                          {field?.label}
-                        </label>
-                        <div>
-                          {field?.items?.map((item, index) => (
-                            <label
-                              className="mr-4 text-xs text-gray-500"
-                              key={index}
-                            >
-                              <input
-                                className="mr-2"
-                                name={field?.name}
-                                value={item}
-                                type="radio"
-                                onChange={handleRadioChange}
-                                checked={value === item}
-                                required={field?.isRequired}
-                              />
-                              {item}
-                            </label>
-                          ))}
-                        </div>
-                      </div>
-                    ) : field?.type === "inputCheckbox" ? (
-                      <div className="mb-4 text-left">
-                        <label
-                          className="m-auto text-xs text-left text-gray-500"
-                          htmlFor={field?.name}
-                        >
-                          {field?.label}
-                        </label>
-                        <div>
-                          {field?.items?.map((item, index) => (
-                            <label
-                              className="mr-4 text-xs text-gray-500"
-                              key={index}
-                            >
-                              <input
-                                className="mr-2"
-                                name={field?.name}
-                                value={item}
-                                type="checkbox"
-                                onChange={handleCheckboxChange}
-                                checked={checked.some((v) => v === item)}
-                                required={
-                                  field?.isRequired && checked.length === 0
-                                    ? true
-                                    : false
-                                }
-                              />
-                              {item}
-                            </label>
-                          ))}
-                        </div>
-                      </div>
                     ) : (
-                      <div className="flex mb-4 rounded bg-gray-50">
-                        <input
-                          aria-label={`${
-                            field?.type === "inputText"
-                              ? `Input ${field?.name}`
-                              : `${field?.type}`
-                          }`}
-                          className="w-full p-4 text-xs font-semibold leading-none rounded outline-none bg-gray-50"
-                          type={
-                            field.pricingType === "inputEmail"
-                              ? "email"
-                              : field.pricingType === "inputPassword"
-                              ? "password"
-                              : "text"
-                          }
-                          placeholder={field?.placeholder}
-                          name={field?.name}
-                          required={field?.isRequired}
-                        />
-                        {/* SVG icon on the right of the email input field */}
-                        {field?.pricingType === "inputEmail" && (
-                          <svg
-                            className="w-6 h-6 my-auto ml-4 mr-4 text-gray-500"
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207"
-                            />
-                          </svg>
-                        )}
-                      </div>
+                      <FormField
+                        type={field?.pricingType || field?.type}
+                        name={field?.name}
+                        noLabel
+                        variant="secondary"
+                        {...field}
+                      />
                     )}
-                  </div>
+                  </>
                 );
               })}
               <div className="mb-5 text-sm text-left text-gray-500">
@@ -619,11 +477,6 @@ function VariantD({
                   isActive={banners === index}
                   ariaLabel={`Page ${index} button`}
                   key={item?._key}
-                  // className={` ${
-                  //   banners === index
-                  //     ? "mr-2 inline-block h-2 w-2 rounded-full bg-white focus:outline-none"
-                  //     : "mr-2 inline-block h-2 w-2 rounded-full bg-secondary focus:outline-none"
-                  // } `}
                   onClick={() => setBanners(index)}
                 />
               ))}

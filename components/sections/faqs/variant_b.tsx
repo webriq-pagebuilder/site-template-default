@@ -32,30 +32,34 @@ function VariantB({ subtitle, title, faqsWithCategories }: FAQProps) {
     <section className="py-20 bg-gray-50">
       <div className="border-b">
         <Container maxWidth={576} className="mb-16 text-center ">
-          <Text weight="bold" className="text-primary">
-            {subtitle}
-          </Text>
-          <Heading>{title}</Heading>
+          {subtitle && (
+            <Text weight="bold" className="text-primary">
+              {subtitle}
+            </Text>
+          )}
+          {title && <Heading>{title}</Heading>}
         </Container>
         <Container maxWidth={768}>
-          <Flex wrap className="text-base text-center sm:text-md lg:text-xl">
-            {updatedFAQArray?.map((tab, index) => (
-              <Button
-                variant="unstyled"
-                as="button"
-                ariaLabel={tab?.category}
-                key={index}
-                onClick={() => setTabPane(tab?.category)}
-                className={`w-full  px-4 py-4 font-bold md:w-1/2 lg:w-auto ${
-                  tabPane === tab?.category
-                    ? " text-primary border-b-2 border-primary-foreground"
-                    : "text-gray-500 transition duration-150 hover:border-primary-foreground hover:text-primary "
-                }`}
-              >
-                {tab?.category}
-              </Button>
-            ))}
-          </Flex>
+          {updatedFAQArray && updatedFAQArray?.length > 0 && (
+            <Flex wrap className="text-base text-center sm:text-md lg:text-xl">
+              {updatedFAQArray?.map((tab, index) => (
+                <Button
+                  variant="unstyled"
+                  as="button"
+                  ariaLabel={tab?.category}
+                  key={index}
+                  onClick={() => setTabPane(tab?.category)}
+                  className={`w-full  px-4 py-4 font-bold md:w-1/2 lg:w-auto ${
+                    tabPane === tab?.category
+                      ? " text-primary border-b-2 border-primary-foreground"
+                      : "text-gray-500 transition duration-150 hover:border-primary-foreground hover:text-primary "
+                  }`}
+                >
+                  {tab?.category}
+                </Button>
+              ))}
+            </Flex>
+          )}
         </Container>
       </div>
       <Container maxWidth={768}>
@@ -87,9 +91,7 @@ function FAQItem({ content, activeQA, show, index, toggleView }) {
         className="flex items-center justify-between w-full font-bold text-left font-heading hover:text-gray-600 focus:outline-none"
         onClick={() => toggleView(index)}
       >
-        <span className="w-3/4 text-xs lg:text-xl xl:text-xl 2xl:text-xl">
-          {content?.question}
-        </span>
+        <span className="w-3/4 text-xs lg:text-xl">{content?.question}</span>
         <ArrowIcon show={show} activeQA={activeQA} index={index} />
       </Button>
       {show && activeQA === index && (

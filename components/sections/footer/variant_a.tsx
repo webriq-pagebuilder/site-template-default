@@ -45,9 +45,11 @@ function VariantA({
             )}
           </div>
           <div className="w-full mb-5 lg:w-1/5">
-            <Text muted className="leading-loose ">
-              {text}
-            </Text>
+            {Text && (
+              <Text muted className="leading-loose ">
+                {text}
+              </Text>
+            )}
           </div>
           {contacts && (
             <div className="w-full mt-1 ml-auto lg:w-1/2">
@@ -57,19 +59,25 @@ function VariantA({
                   key={contact?._key}
                 >
                   <div>
-                    <p className="mb-4 font-bold">Address</p>
+                    <Text weight="bold" className="mb-4">
+                      Address
+                    </Text>
                     <Text muted className="mb-5">
                       {contact?.addressInfo}
                     </Text>
                   </div>
                   <div>
-                    <p className="mb-4 font-bold">Email</p>
+                    <Text weight="bold" className="mb-4 ">
+                      Email
+                    </Text>
                     <Text muted className="mb-5">
                       {contact?.emailInfo}
                     </Text>
                   </div>
                   <div>
-                    <p className="mb-4 font-bold">Number</p>
+                    <Text weight="bold" className="mb-4 ">
+                      Number
+                    </Text>
                     <Text muted className="mb-5">
                       {contact?.contactInfo}
                     </Text>
@@ -80,9 +88,11 @@ function VariantA({
           )}
         </Flex>
         <Flex justify="between" className="w-full mx-auto lg:flex">
-          <Text muted className="mb-6 text-sm ">
-            {copyright}
-          </Text>
+          {copyright && (
+            <Text muted className="mb-6 text-sm ">
+              {copyright}
+            </Text>
+          )}
           {socialMedia && (
             <Flex wrap className="space-x-2 lg:mx-24 lg:space-x-4">
               {socialMedia?.map(

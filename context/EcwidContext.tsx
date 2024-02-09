@@ -364,8 +364,6 @@ export function EcwidContextProvider({ children }) {
       },
     };
 
-    console.log("adding to bag", isAddingToBag);
-
     if (options && Object.keys(options).length) payload.options = options;
 
     setTimeout(() => {
