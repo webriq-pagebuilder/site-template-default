@@ -1,7 +1,6 @@
 import React from "react";
 import Image from "next/image";
-import Link from "next/link";
-import { Container } from "components/layout/Container";
+import { Container } from "components/layout/index";
 import { Text } from "components/ui/Text";
 
 function NoPreview() {

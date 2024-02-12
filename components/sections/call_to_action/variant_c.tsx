@@ -1,15 +1,10 @@
-import React from "react";
-import WebriQForm from "components/webriq-form";
 import { thankYouPageLink } from "helper";
+import React from "react";
+
+import { Container, Flex } from "components/layout/index";
+import { Button, Form, Heading, Input, Text } from "components/ui";
 
 import { CTAProps } from ".";
-import { Text } from "components/ui/Text";
-import { Button } from "components/ui/Button";
-import { Form } from "components/ui/Form/Form";
-import { Input } from "components/ui/Input";
-import { Container } from "components/layout/Container";
-import { Flex } from "components/layout/Flex/Flex";
-import { Heading } from "components/ui/Heading";
 
 function VariantC({ title, text, features, form }: CTAProps) {
   return (

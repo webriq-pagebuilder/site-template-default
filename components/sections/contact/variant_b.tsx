@@ -1,14 +1,11 @@
-import { Card } from "components/ui/Card";
-import { SocialIcon } from "components/ui/SocialIcons";
 import { Socials } from "components/ui/SocialIcons/SocialIcons";
 import { urlFor } from "lib/sanity";
 import Image from "next/image";
 import React from "react";
 import { ContactProps } from ".";
-import { Heading } from "components/ui/Heading";
-import { Text } from "components/ui/Text";
-import { Flex } from "components/layout/Flex/Flex";
-import { Container } from "components/layout/Container";
+
+import { Text, Heading, Card, SocialIcon } from "components/ui";
+import { Flex, Container } from "components/layout/index";
 
 function VariantB({
   contactDescription,

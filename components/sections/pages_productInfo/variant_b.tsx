@@ -8,10 +8,8 @@ import ProductDetail from "components/ecwid/ProductDetail";
 import { useEcwid } from "context/EcwidContext";
 import { defaultBlockStyle } from "helper";
 import { PagesProductInfoProps } from ".";
-import { Container } from "components/layout/Container";
-import { Flex } from "components/layout/Flex/Flex";
-import { Heading } from "components/ui/Heading";
-import { Text } from "components/ui/Text";
+import { Container, Flex } from "components/layout/index";
+import { Heading, Text } from "components/ui";
 
 function VariantB({ products }: PagesProductInfoProps) {
   const ecwid = useEcwid();

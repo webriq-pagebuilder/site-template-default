@@ -2,11 +2,8 @@ import React from "react";
 import Image from "next/image";
 import { urlFor } from "lib/sanity";
 import { LogoCloudProps } from ".";
-
-import { Container } from "components/layout/Container";
-import { Heading } from "components/ui/Heading";
-import { Button } from "components/ui/Button";
-import { Flex } from "components/layout/Flex/Flex";
+import { Container, Flex } from "components/layout/index";
+import { Button, Heading } from "components/ui";
 
 function VariantC({ title, images, button }: LogoCloudProps) {
   return (

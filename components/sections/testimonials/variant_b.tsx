@@ -1,11 +1,7 @@
 import React from "react";
 import { TestimonialProps } from ".";
-import { SwiperButton } from "components/ui/SwiperButton";
-import { Card } from "components/ui/Card";
-import { Text } from "components/ui/Text";
-import { Container } from "components/layout/Container";
-import { Flex } from "components/layout/Flex/Flex";
-import { Heading } from "components/ui/Heading";
+import { Card, Text, SwiperButton, Heading } from "components/ui";
+import { Container, Flex } from "components/layout/index";
 
 function VariantB({ caption, title, testimonials }: TestimonialProps) {
   const [testimony, setTestimony] = React.useState(testimonials);

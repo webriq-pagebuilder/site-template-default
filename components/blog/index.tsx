@@ -1,8 +1,6 @@
 import InlineEditor from "components/InlineEditor";
-import { Container } from "components/layout/Container";
-import { Flex } from "components/layout/Flex";
-import { Heading } from "components/ui/Heading";
-import { Text } from "components/ui/Text";
+import { Container, Flex } from "components/layout/index";
+import { Heading, Text } from "components/ui";
 import { InlineEditorContext } from "context/InlineEditorContext";
 import { format } from "date-fns";
 import { PortableText, urlFor } from "lib/sanity";

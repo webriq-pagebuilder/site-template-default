@@ -2,11 +2,8 @@ import React from "react";
 import Image from "next/image";
 import { urlFor } from "lib/sanity";
 import { TestimonialProps } from ".";
-import { SwiperButton } from "components/ui/SwiperButton";
-import { Card } from "components/ui/Card";
-import { Text } from "components/ui/Text";
-import { Container } from "components/layout/Container";
-import { Flex } from "components/layout/Flex/Flex";
+import { SwiperButton, Card, Text } from "components/ui";
+import { Container, Flex } from "components/layout/index";
 
 function VariantD({ testimonials }: TestimonialProps) {
   const [testimony, setTestimony] = React.useState(0);

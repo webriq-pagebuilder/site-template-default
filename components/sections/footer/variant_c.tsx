@@ -4,12 +4,9 @@ import Image from "next/image";
 import React from "react";
 import { logoLink } from "helper";
 import { FooterProps } from ".";
-import { SocialIcon } from "components/ui/SocialIcons";
 import { Socials } from "components/ui/SocialIcons/SocialIcons";
-import { Container } from "components/layout/Container";
-import { Flex } from "components/layout/Flex/Flex";
-import { Text } from "components/ui/Text";
-import { Button } from "components/ui/Button";
+import { Container, Flex } from "components/layout/index";
+import { Button, Text, SocialIcon } from "components/ui";
 
 function VariantC({ logo, menu, copyright, socialMedia }: FooterProps) {
   return (

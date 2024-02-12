@@ -1,10 +1,8 @@
-import React from "react";
-import Image from "next/image";
-import { urlFor } from "lib/sanity";
-import { StatsProps } from ".";
 import { StatsCard } from "components/common/stats/stats-card";
-import { Container } from "components/layout/Container";
-import { Flex } from "components/layout/Flex/Flex";
+import { Container, Flex } from "components/layout/index";
+import { urlFor } from "lib/sanity";
+import React from "react";
+import { StatsProps } from ".";
 
 function VariantC({ stats }: StatsProps) {
   return (

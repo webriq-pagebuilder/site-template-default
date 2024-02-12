@@ -4,10 +4,8 @@ import { setCookie, getCookie } from "utils/cookies";
 import { cookiesBlockStyling } from "./variant_a";
 
 import { CookiesProps } from ".";
-import { Container } from "components/layout/Container";
-import { Flex } from "components/layout/Flex/Flex";
-import { Text } from "components/ui/Text";
-import { Button } from "components/ui/Button";
+import { Flex, Container } from "components/layout/index";
+import { Button, Text } from "components/ui";
 
 function VariantE({
   title,

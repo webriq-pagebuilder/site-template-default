@@ -3,10 +3,8 @@ import Image from "next/image";
 import { urlFor } from "lib/sanity";
 import { PortfolioProps } from ".";
 import { Text } from "components/ui/Text";
-import { Container } from "components/layout/Container";
-import { Flex } from "components/layout/Flex/Flex";
-import { Heading } from "components/ui/Heading";
-import { Button } from "components/ui/Button";
+import { Container, Flex } from "components/layout/index";
+import { Heading, Button } from "components/ui";
 
 function VariantC({
   caption,

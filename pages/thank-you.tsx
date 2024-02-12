@@ -1,8 +1,7 @@
 import React from "react";
 import Link from "next/link";
-import { Container } from "components/layout/Container";
-import { Text } from "components/ui/Text";
-import { Heading } from "components/ui/Heading";
+import { Container } from "components/layout/index";
+import { Heading, Text } from "components/ui";
 
 function ThankYouForm() {
   return (

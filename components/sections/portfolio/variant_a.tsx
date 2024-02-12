@@ -1,8 +1,5 @@
-import { Container } from "components/layout/Container";
-import { Flex } from "components/layout/Flex/Flex";
-import { Button } from "components/ui/Button";
-import { Heading } from "components/ui/Heading";
-import { Text } from "components/ui/Text";
+import { Container, Flex } from "components/layout/index";
+import { Button, Heading, Text } from "components/ui";
 import { urlFor } from "lib/sanity";
 import Image from "next/image";
 import React from "react";

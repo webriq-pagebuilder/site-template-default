@@ -2,10 +2,9 @@ import React from "react";
 import { urlFor } from "lib/sanity";
 import Image from "next/image";
 import { FeaturesProps } from ".";
-import { Card } from "components/ui/Card";
-import { Text } from "components/ui/Text";
-import { Container } from "components/layout/Container";
-import { Heading } from "components/ui/Heading";
+
+import { Text, Card, Heading } from "components/ui";
+import { Container } from "components/layout/index";
 
 function VariantC({ caption, title, features }: FeaturesProps) {
   return (

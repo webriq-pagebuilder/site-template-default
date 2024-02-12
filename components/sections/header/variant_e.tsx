@@ -1,18 +1,11 @@
-import React from "react";
-import WebriQForm from "components/webriq-form";
-import { extractLink, thankYouPageLink } from "helper";
-
-import { HeaderProps } from ".";
-
-import { FormFields } from "types";
-
 import { SignUpForm } from "components/common/form/sign-up-form";
-import { Container } from "components/layout/Container";
-import { Flex } from "components/layout/Flex/Flex";
-import { Heading } from "components/ui/Heading";
-import { Text } from "components/ui/Text";
-import { Button } from "components/ui/Button";
+import { Container, Flex } from "components/layout/index";
+import { Button, Heading, Text } from "components/ui";
+import { extractLink } from "helper";
 import Link from "next/link";
+import React from "react";
+import { FormFields } from "types";
+import { HeaderProps } from ".";
 
 function VariantE({
   template,

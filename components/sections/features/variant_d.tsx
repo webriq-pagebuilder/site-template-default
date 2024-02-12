@@ -2,11 +2,8 @@ import React from "react";
 import { urlFor } from "lib/sanity";
 import Image from "next/image";
 import { FeaturesProps } from ".";
-import { Card } from "components/ui/Card";
-import { Text } from "components/ui/Text";
-import { Container } from "components/layout/Container";
-import { Heading } from "components/ui/Heading";
-import { Flex } from "components/layout/Flex/Flex";
+import { Card, Text, Heading } from "components/ui";
+import { Container, Flex } from "components/layout/index";
 
 function VariantD({ caption, title, features }: FeaturesProps) {
   return (

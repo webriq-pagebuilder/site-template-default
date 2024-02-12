@@ -2,12 +2,9 @@ import React from "react";
 import Image from "next/image";
 import { urlFor } from "lib/sanity";
 import { FeaturesProps } from ".";
-import { Card } from "components/ui/Card";
-import { Container } from "components/layout/Container";
-import { Flex } from "components/layout/Flex/Flex";
-import { Button } from "components/ui/Button";
-import { Heading } from "components/ui/Heading";
-import { Text } from "components/ui/Text";
+
+import { Container, Flex } from "components/layout/index";
+import { Button, Heading, Text, Card } from "components/ui";
 
 function VariantE({ featuredItems }: FeaturesProps) {
   //for image carousel
@@ -30,6 +27,7 @@ function VariantE({ featuredItems }: FeaturesProps) {
           <div className="absolute left-0 z-40 items-center mt-20 -mx-3 order-0 md:mt-40 lg:mt-60 xl:-mx-6 xl:flex">
             {featuredItems?.length >= 2 && (
               <Button
+                as="button"
                 ariaLabel="Show Previous Feature"
                 className="z-10 p-4 text-white "
                 onClick={() => slider("prev")}
@@ -90,6 +88,7 @@ function VariantE({ featuredItems }: FeaturesProps) {
           <div className="absolute right-0 items-center order-2 mt-20 -mx-3 md:mt-40 lg:mt-60 xl:-mx-6 xl:flex">
             {featuredItems?.length >= 2 && (
               <Button
+                as="button"
                 ariaLabel="Show Next Feature"
                 className="p-4 text-white "
                 onClick={() => slider("next")}

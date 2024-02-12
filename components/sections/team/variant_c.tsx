@@ -2,11 +2,8 @@ import React from "react";
 import Image from "next/image";
 import { urlFor } from "lib/sanity";
 import { TeamsProps } from ".";
-import { Card } from "components/ui/Card";
-import { Text } from "components/ui/Text";
-import { Container } from "components/layout/Container";
-import { Heading } from "components/ui/Heading";
-import { Flex } from "components/layout/Flex/Flex";
+import { Card, Text, Heading } from "components/ui";
+import { Container, Flex } from "components/layout/index";
 
 function VariantC({ caption, title, team }: TeamsProps) {
   return (

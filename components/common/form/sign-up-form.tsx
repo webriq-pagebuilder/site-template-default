@@ -1,11 +1,7 @@
-import { Flex } from "components/layout/Flex";
-import { Button } from "components/ui/Button";
-import { Card } from "components/ui/Card";
-import { Form } from "components/ui/Form/Form";
-import { FormField } from "components/ui/FormField";
-import { Text } from "components/ui/Text";
+import { Button, Card, Form, FormField, Text } from "components/ui";
 import { thankYouPageLink } from "helper";
 import { LabeledRoute, Form as TForm } from "types";
+import { Flex } from "components/layout/index";
 
 export type SignUpFormProps = {
   form: TForm;

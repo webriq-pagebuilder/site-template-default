@@ -1,10 +1,9 @@
 import React from "react";
 
+import { Container, Flex } from "components/layout/index";
+import { Heading, Text } from "components/ui";
 import { HowItWorksProps } from ".";
-import { Text } from "components/ui/Text";
-import { Container } from "components/layout/Container";
-import { Flex } from "components/layout/Flex/Flex";
-import { Heading } from "components/ui/Heading";
+
 import { YoutubeVideo } from "components/common/youtube_video/youtube-video";
 
 function VariantA({ subtitle, title, text, video, steps }: HowItWorksProps) {

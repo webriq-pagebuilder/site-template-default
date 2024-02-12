@@ -5,8 +5,7 @@ import { urlFor } from "lib/sanity";
 import { logoLink } from "helper";
 import { NavigationProps } from ".";
 import { Flex } from "components/layout/Flex/Flex";
-import { Button } from "components/ui/Button";
-import { Text } from "components/ui/Text";
+import { Button, Text } from "components/ui";
 
 function VariantA({
   template,

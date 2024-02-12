@@ -2,11 +2,8 @@ import React from "react";
 import Image from "next/image";
 import { urlFor } from "lib/sanity";
 import { AppPromoProps } from ".";
-import { Text } from "components/ui/Text";
-import { SwiperButton } from "components/ui/SwiperButton";
-import { Container } from "components/layout/Container";
-import { Flex } from "components/layout/Flex/Flex";
-import { Heading } from "components/ui/Heading";
+import { Container, Flex } from "components/layout/index";
+import { Heading, Text, SwiperButton } from "components/ui";
 
 function VariantB({
   subtitle,

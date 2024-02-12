@@ -1,12 +1,11 @@
-import { Flex } from "components/layout/Flex/Flex";
-import { Button } from "components/ui/Button";
 import { logoLink } from "helper";
 import { urlFor } from "lib/sanity";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import { NavigationProps } from ".";
-import { Text } from "components/ui/Text";
+import { Text, Button } from "components/ui";
+import { Flex } from "components/layout/index";
 
 function VariantD({
   links,

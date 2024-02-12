@@ -2,11 +2,9 @@ import React from "react";
 import Image from "next/image";
 import { urlFor } from "lib/sanity";
 import { FeaturesProps } from ".";
-import { Text } from "components/ui/Text";
-import { Container } from "components/layout/Container";
-import { Flex } from "components/layout/Flex/Flex";
-import { Heading } from "components/ui/Heading";
-import { Button } from "components/ui/Button";
+
+import { Container, Flex } from "components/layout/index";
+import { Button, Heading, Text } from "components/ui";
 
 function VariantF({
   caption,

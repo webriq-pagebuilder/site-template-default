@@ -2,8 +2,7 @@ import { extractLink } from "helper";
 import React from "react";
 
 import { SignUpForm } from "components/common/form/sign-up-form";
-import { Container } from "components/layout/Container";
-import { Flex } from "components/layout/Flex/Flex";
+import { Container, Flex } from "components/layout/index";
 import Link from "next/link";
 import { CTAProps } from ".";
 

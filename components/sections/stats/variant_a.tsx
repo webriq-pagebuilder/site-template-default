@@ -1,10 +1,8 @@
 import React from "react";
 
 import { StatsProps } from ".";
-import { Card } from "components/ui/Card";
-import { Container } from "components/layout/Container";
-import { Flex } from "components/layout/Flex/Flex";
-import { Text } from "components/ui/Text";
+import { Card, Text } from "components/ui";
+import { Container, Flex } from "components/layout/index";
 
 function VariantA({ stats }: StatsProps) {
   return (

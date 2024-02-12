@@ -2,11 +2,9 @@ import React from "react";
 import axios from "axios";
 import { initiateCheckout } from "lib/checkout";
 import { PricingProps } from ".";
-import { Card } from "components/ui/Card";
-import { Button } from "components/ui/Button";
-import { Text } from "components/ui/Text";
-import { Container } from "components/layout/Container";
-import { Flex } from "components/layout/Flex/Flex";
+import { Text, Card, Button } from "components/ui";
+import { Container, Flex } from "components/layout/index";
+
 import { Heading } from "components/ui/Heading";
 
 function VariantB({

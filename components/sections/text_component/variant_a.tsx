@@ -3,9 +3,8 @@ import { PortableText } from "lib/sanity";
 
 import { TextComponentProps } from ".";
 import { MyPortableTextComponents } from "types";
-import { Container } from "components/layout/Container";
+import { Container, Flex } from "components/layout/index";
 import { Heading } from "components/ui/Heading";
-import { Flex } from "components/layout/Flex/Flex";
 
 // block styling as props to `components` of the PortableText component
 export const textComponentBlockStyling: MyPortableTextComponents = {

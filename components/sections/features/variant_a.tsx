@@ -1,12 +1,10 @@
 import React from "react";
 import { urlFor } from "lib/sanity";
 import Image from "next/image";
-import { Text } from "components/ui/Text";
 
 import { FeaturesProps } from ".";
-import { Container } from "components/layout/Container";
-import { Heading } from "components/ui/Heading";
-import { Flex } from "components/layout/Flex/Flex";
+import { Container, Flex } from "components/layout/index";
+import { Heading, Text } from "components/ui";
 
 function VariantA({ caption, title, features }: FeaturesProps) {
   return (

@@ -1,10 +1,7 @@
 import React from "react";
 import { HowItWorksProps } from ".";
-import { Card } from "components/ui/Card";
-import { Text } from "components/ui/Text";
-import { Container } from "components/layout/Container";
-import { Heading } from "components/ui/Heading";
-import { Flex } from "components/layout/Flex/Flex";
+import { Text, Heading, Card } from "components/ui";
+import { Container, Flex } from "components/layout/index";
 
 function VariantC({ subtitle, title, steps }: HowItWorksProps) {
   return (

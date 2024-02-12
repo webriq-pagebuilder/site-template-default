@@ -5,10 +5,8 @@ import { useEcwid } from "context/EcwidContext";
 import Ribbon from "components/ecwid/Ribbon";
 
 import { FeaturedProductsProps } from ".";
-import { Container } from "components/layout/Container";
-import { Heading } from "components/ui/Heading";
-import { Flex } from "components/layout/Flex/Flex";
-import { Text } from "components/ui/Text";
+import { Container, Flex } from "components/layout/index";
+import { Heading, Text } from "components/ui";
 
 function VariantA({ title, featured }: FeaturedProductsProps) {
   const ecwid = useEcwid();

@@ -4,11 +4,8 @@ import Image from "next/image";
 
 import { HeaderProps } from ".";
 
-import { Container } from "components/layout/Container";
-import { Flex } from "components/layout/Flex/Flex";
-import { Heading } from "components/ui/Heading";
-import { Button } from "components/ui/Button";
-import { Text } from "components/ui/Text";
+import { Container, Flex } from "components/layout/index";
+import { Text, Button, Heading } from "components/ui";
 
 function VariantD({
   template,
