@@ -5,12 +5,9 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
-import { Container } from "components/layout/Container";
-import { Flex } from "components/layout/Flex/Flex";
-import { Button } from "components/ui/Button";
-import { Form } from "components/ui/Form/Form";
-import { Heading } from "components/ui/Heading";
-import { Input } from "components/ui/Input";
+import { Container, Flex } from "components/layout/index";
+import { Button, Form, Heading, Input } from "components/ui";
+
 import { CTAProps } from ".";
 
 function VariantB({ logo, title, text, form }: CTAProps) {

@@ -1,19 +1,19 @@
-import React from "react";
-import Image from "next/image";
-import WebriQForm from "components/webriq-form";
-import { PortableText, urlFor } from "lib/sanity";
-import { thankYouPageLink } from "helper";
 import { PortableTextComponents } from "@portabletext/react";
+import { thankYouPageLink } from "helper";
+import { PortableText } from "lib/sanity";
+import React from "react";
+
+import { Container, Flex } from "components/layout/index";
+import {
+  Button,
+  Form,
+  FormField,
+  Heading,
+  SocialIcon,
+  Text,
+} from "components/ui";
 
 import { ContactProps } from ".";
-import { Form } from "components/ui/Form/Form";
-import { FormField } from "components/ui/FormField";
-import { Button } from "components/ui/Button";
-import { Container } from "components/layout/Container";
-import { Heading } from "components/ui/Heading";
-import { Text } from "components/ui/Text";
-import { Flex } from "components/layout/Flex/Flex";
-import { SocialIcon } from "components/ui/SocialIcons";
 import { Socials } from "components/ui/SocialIcons/SocialIcons";
 
 function VariantA({

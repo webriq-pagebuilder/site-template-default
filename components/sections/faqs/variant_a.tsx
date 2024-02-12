@@ -1,12 +1,7 @@
 import React from "react";
-
 import { FAQProps } from ".";
-import { Card } from "components/ui/Card";
-import { Text } from "components/ui/Text";
-import { Container } from "components/layout/Container";
-import { Heading } from "components/ui/Heading";
-import { Button } from "components/ui/Button";
-import { Flex } from "components/layout/Flex";
+import { Button, Heading, Text, Card } from "components/ui";
+import { Flex, Container } from "components/layout/index";
 
 function VariantA({ subtitle, title, faqs }: FAQProps) {
   const [show, setShow] = React.useState(false);

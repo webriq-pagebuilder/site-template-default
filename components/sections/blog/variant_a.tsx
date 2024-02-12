@@ -1,14 +1,12 @@
-import { Text } from "components/ui/Text";
 import { format } from "date-fns";
 import { urlFor } from "lib/sanity";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
-import { Container } from "components/layout/Container";
-import { Flex } from "components/layout/Flex/Flex";
-import { Button } from "components/ui/Button";
-import { Heading } from "components/ui/Heading";
+import { Flex, Container } from "components/layout/index";
+import { Button, Heading, Text } from "components/ui";
+
 import { BlogPost } from "types";
 import { BlogProps } from ".";
 

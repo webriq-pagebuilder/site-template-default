@@ -1,13 +1,8 @@
 import React from "react";
 import { urlFor } from "lib/sanity";
 import { TestimonialProps } from ".";
-import { SwiperButton } from "components/ui/SwiperButton/SwiperButton";
-import { Avatar } from "components/ui/Avatar";
-import { Card } from "components/ui/Card";
-import { Text } from "components/ui/Text";
-import { Container } from "components/layout/Container";
-import { Flex } from "components/layout/Flex/Flex";
-import { Heading } from "components/ui/Heading";
+import { SwiperButton, Avatar, Card, Text, Heading } from "components/ui";
+import { Container, Flex } from "components/layout/index";
 
 function VariantC({ caption, title, testimonials }: TestimonialProps) {
   const [testimony, setTestimony] = React.useState(testimonials);

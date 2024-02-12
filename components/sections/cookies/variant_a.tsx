@@ -4,10 +4,8 @@ import { setCookie, getCookie } from "utils/cookies";
 
 import { PortableTextComponents } from "@portabletext/react";
 import { CookiesProps } from ".";
-import { Button } from "components/ui/Button";
-import { Container } from "components/layout/Container";
-import { Text } from "components/ui/Text";
-import { Flex } from "components/layout/Flex/Flex";
+import { Button, Text } from "components/ui";
+import { Flex, Container } from "components/layout/index";
 
 // block styling as props to `components` of the PortableText component
 export const cookiesBlockStyling: PortableTextComponents = {

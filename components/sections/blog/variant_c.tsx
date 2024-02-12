@@ -4,12 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
-import { Container } from "components/layout/Container";
-import { Flex } from "components/layout/Flex/Flex";
-import { Badge } from "components/ui/Badge";
-import { Button } from "components/ui/Button";
-import { Heading } from "components/ui/Heading";
-import { Text } from "components/ui/Text";
+import { Container, Flex } from "components/layout/index";
+import { Badge, Button, Heading, Text } from "components/ui";
 import { BlogPost } from "types";
 import { BlogProps } from ".";
 

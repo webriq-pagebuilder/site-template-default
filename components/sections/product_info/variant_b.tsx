@@ -11,12 +11,8 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Thumbs, Pagination, A11y } from "swiper/modules";
 import { ProductInfoProps } from ".";
 import { MyPortableTextComponents } from "types";
-import { Container } from "components/layout/Container";
-import { Flex } from "components/layout/Flex/Flex";
-import { Heading } from "components/ui/Heading";
-import { Text } from "components/ui/Text";
-import { Button } from "components/ui/Button";
-import { SwiperButton } from "components/ui/SwiperButton";
+import { Container, Flex } from "components/layout/index";
+import { Heading, Text, Button, SwiperButton } from "components/ui";
 
 function VariantB({
   subtitle,

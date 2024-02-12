@@ -1,11 +1,9 @@
 import React from "react";
 
 import { FAQProps } from ".";
-import { Card } from "components/ui/Card";
-import { Text } from "components/ui/Text";
-import { Container } from "components/layout/Container";
-import { Heading } from "components/ui/Heading";
-import { Flex } from "components/layout/Flex/Flex";
+
+import { Container, Flex } from "components/layout/index";
+import { Heading, Text, Card } from "components/ui";
 
 function VariantC({ subtitle, title, faqs }: FAQProps) {
   return (

@@ -3,8 +3,7 @@ import React, { useEffect } from "react";
 import { TypedObject } from "sanity";
 import _ from "lodash";
 import { EcwidTypes } from "context/_ecwid-types";
-import { Button } from "components/ui/Button";
-import { Text } from "components/ui/Text";
+import { Button, Text } from "components/ui";
 
 interface AddToWishlistProps {
   children?: React.ReactNode;

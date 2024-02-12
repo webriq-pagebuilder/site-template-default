@@ -1,9 +1,5 @@
-import { Container } from "components/layout/Container";
-import { Flex } from "components/layout/Flex/Flex";
-import { Avatar } from "components/ui/Avatar";
-import { Card } from "components/ui/Card";
-import { Heading } from "components/ui/Heading";
-import { Text } from "components/ui/Text";
+import { Container, Flex } from "components/layout/index";
+import { Avatar, Card, Heading, Text } from "components/ui";
 import { urlFor } from "lib/sanity";
 import React from "react";
 import { TeamsProps } from ".";

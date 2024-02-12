@@ -3,7 +3,7 @@ import React from "react";
 import AddToWishlist from "./AddToWishlist";
 import { EcwidTypes } from "context/_ecwid-types";
 import { Button } from "components/ui/Button";
-import { Flex } from "components/layout/Flex";
+import { Flex } from "components/layout/index";
 
 interface AddMoreButtonProps {
   product:

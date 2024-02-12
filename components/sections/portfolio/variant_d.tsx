@@ -1,13 +1,10 @@
-import React from "react";
-import Image from "next/image";
-import { urlFor } from "lib/sanity";
-import { ConditionalLink } from "helper";
-import { PortfolioProps } from ".";
+import { Container, Flex } from "components/layout/index";
+import { Button, Heading } from "components/ui";
 import { Text } from "components/ui/Text";
-import { Container } from "components/layout/Container";
-import { Heading } from "components/ui/Heading";
-import { Flex } from "components/layout/Flex/Flex";
-import { Button } from "components/ui/Button";
+import { urlFor } from "lib/sanity";
+import Image from "next/image";
+import React from "react";
+import { PortfolioProps } from ".";
 
 function VariantD({ caption, title, portfoliosWithCategory }: PortfolioProps) {
   let portfoliosPerPage = 6,

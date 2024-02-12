@@ -5,12 +5,9 @@ import React from "react";
 import { logoLink } from "helper";
 
 import { FooterProps } from ".";
-import { SocialIcon } from "components/ui/SocialIcons";
 import { Socials } from "components/ui/SocialIcons/SocialIcons";
-import { Container } from "components/layout/Container";
-import { Flex } from "components/layout/Flex/Flex";
-import { Button } from "components/ui/Button";
-import { Text } from "components/ui/Text";
+import { Container, Flex } from "components/layout/index";
+import { Text, Button, SocialIcon } from "components/ui";
 
 function VariantB({ logo, copyright, socialMedia, menu }: FooterProps) {
   return (

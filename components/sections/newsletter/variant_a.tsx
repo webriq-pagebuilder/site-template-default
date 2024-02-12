@@ -1,18 +1,11 @@
-import React from "react";
-import { urlFor } from "lib/sanity";
-import Link from "next/link";
-import Image from "next/image";
-import WebriQForm from "components/webriq-form";
 import { logoLink, thankYouPageLink } from "helper";
-
+import { urlFor } from "lib/sanity";
+import Image from "next/image";
+import Link from "next/link";
+import React from "react";
+import { Container, Flex } from "components/layout/index";
+import { Button, Form, Heading, Text, Input } from "components/ui";
 import { NewsletterProps } from ".";
-import { Form } from "components/ui/Form/Form";
-import { Button } from "components/ui/Button";
-import { Text } from "components/ui/Text";
-import { Container } from "components/layout/Container";
-import { Heading } from "components/ui/Heading";
-import { Flex } from "components/layout/Flex/Flex";
-import { Input } from "components/ui/Input";
 
 function VariantA({ logo, title, description, form }: NewsletterProps) {
   const { id, fields, buttonLabel, thankYouPage } = form;

@@ -1,7 +1,5 @@
-import { Container } from "components/layout/Container";
-import { Flex } from "components/layout/Flex/Flex";
-import { Button } from "components/ui/Button";
-import { Text } from "components/ui/Text";
+import { Container, Flex } from "components/layout/index";
+import { Button, Text } from "components/ui";
 import { logoLink } from "helper";
 import { urlFor } from "lib/sanity";
 import Image from "next/image";

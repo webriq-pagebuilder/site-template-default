@@ -5,11 +5,8 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { Collection, CollectionProduct } from "types";
 import { AllProductsProps } from ".";
-import { Container } from "components/layout/Container";
-import { Flex } from "components/layout/Flex/Flex";
-import { Heading } from "components/ui/Heading";
-import { Text } from "components/ui/Text";
-import { Button } from "components/ui/Button";
+import { Flex, Container } from "components/layout/index";
+import { Heading, Text, Button } from "components/ui";
 
 function VariantB({ products }: AllProductsProps) {
   const [productQuery, setProductQuery] = useState("");

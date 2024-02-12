@@ -1,10 +1,8 @@
 import React from "react";
 
 import { HowItWorksProps } from ".";
-import { Text } from "components/ui/Text";
-import { Container } from "components/layout/Container";
-import { Heading } from "components/ui/Heading";
-import { Flex } from "components/layout/Flex/Flex";
+import { Container, Flex } from "components/layout/index";
+import { Heading, Text } from "components/ui";
 
 function VariantD({ subtitle, title, steps }: HowItWorksProps) {
   return (

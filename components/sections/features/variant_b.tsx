@@ -2,10 +2,9 @@ import React from "react";
 import { urlFor } from "lib/sanity";
 import Image from "next/image";
 import { FeaturesProps } from ".";
-import { Card } from "components/ui/Card";
-import { Text } from "components/ui/Text";
-import { Container } from "components/layout/Container";
-import { Flex } from "components/layout/Flex/Flex";
+import { Text, Card } from "components/ui";
+import { Container, Flex } from "components/layout/index";
+
 import { Heading } from "components/ui/Heading";
 
 function VariantB({

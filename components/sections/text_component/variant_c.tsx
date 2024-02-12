@@ -2,9 +2,8 @@ import React from "react";
 import { PortableText } from "lib/sanity";
 import { textComponentBlockStyling } from "./variant_a";
 import { TextComponentProps } from ".";
-import { Container } from "components/layout/Container";
+import { Container, Flex } from "components/layout/index";
 import { Heading } from "components/ui/Heading";
-import { Flex } from "components/layout/Flex/Flex";
 
 function VariantC({
   heading,

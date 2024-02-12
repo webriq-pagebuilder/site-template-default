@@ -1,5 +1,5 @@
 import { Flex } from "components/layout/Flex/Flex";
-import { Button } from "components/ui/Button";
+import { Button, Text } from "components/ui";
 import { EcwidContextProvider } from "context/EcwidContext";
 import { logoLink } from "helper";
 import { PortableText, urlFor } from "lib/sanity";
@@ -9,7 +9,6 @@ import { useRouter } from "next/router";
 import { Fragment, memo, useEffect, useRef, useState } from "react";
 import { MyPortableTextComponents } from "types";
 import { NavigationProps } from ".";
-import { Text } from "components/ui/Text";
 
 function VariantE({ banner, logo, links }: NavigationProps) {
   const router = useRouter();

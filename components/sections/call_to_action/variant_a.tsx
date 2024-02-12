@@ -5,10 +5,8 @@ import { logoLink } from "helper";
 
 import { CTAProps } from ".";
 import Image from "next/image";
-import { Text } from "components/ui/Text";
-import { Container } from "components/layout/Container";
-import { Heading } from "components/ui/Heading";
-import { Button } from "components/ui/Button";
+import { Text, Heading, Button } from "components/ui";
+import { Container } from "components/layout/index";
 
 function VariantA({ logo, title, text, button }: CTAProps) {
   return (

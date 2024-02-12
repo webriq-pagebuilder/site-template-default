@@ -1,14 +1,11 @@
-import { Container } from "components/layout/Container";
-import { Heading } from "components/ui/Heading";
-import { SwiperButton } from "components/ui/SwiperButton";
-import { Text } from "components/ui/Text";
+import { Container, Flex } from "components/layout/index";
+import { Heading, SwiperButton, Text } from "components/ui";
 import { extractLink } from "helper";
 import { urlFor } from "lib/sanity";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import { AppPromoProps } from ".";
-import { Flex } from "components/layout/Flex/Flex";
 
 function VariantA({ logo, subtitle, title, images }: AppPromoProps) {
   //for image carousel

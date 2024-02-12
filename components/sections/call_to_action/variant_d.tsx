@@ -6,11 +6,8 @@ import React from "react";
 
 import { SignUpForm } from "components/common/form/sign-up-form";
 import { CTAProps } from ".";
-import { Container } from "components/layout/Container";
-import { Flex } from "components/layout/Flex/Flex";
-import { Heading } from "components/ui/Heading";
-import { Text } from "components/ui/Text";
-import { Button } from "components/ui/Button";
+import { Container, Flex } from "components/layout/index";
+import { Heading, Text, Button } from "components/ui";
 
 function VariantD({
   logo,

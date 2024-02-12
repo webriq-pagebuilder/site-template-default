@@ -1,12 +1,13 @@
-import { Container } from "components/layout/Container";
-import { Flex } from "components/layout/Flex/Flex";
-import { Button } from "components/ui/Button";
-import { Card } from "components/ui/Card";
-import { Form } from "components/ui/Form/Form";
-import { FormField } from "components/ui/FormField";
-import { Heading } from "components/ui/Heading";
-import { Input } from "components/ui/Input";
-import { Text } from "components/ui/Text";
+import { Container, Flex } from "components/layout/index";
+import {
+  Button,
+  Card,
+  Form,
+  FormField,
+  Heading,
+  Input,
+  Text,
+} from "components/ui";
 import { logoLink, thankYouPageLink } from "helper";
 import { urlFor } from "lib/sanity";
 import Image from "next/image";

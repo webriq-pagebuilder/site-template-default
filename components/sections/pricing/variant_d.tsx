@@ -14,15 +14,15 @@ import router from "next/router";
 import React from "react";
 import { MyPortableTextComponents } from "types";
 import { PricingProps } from ".";
-import { Text } from "components/ui/Text";
-import { Button } from "components/ui/Button";
-import { Container } from "components/layout/Container";
-import { Heading } from "components/ui/Heading";
-import { Flex } from "components/layout/Flex/Flex";
-import { SwiperPagination } from "components/ui/SwiperPagination";
-import { FormField } from "components/ui/FormField";
-import { Textarea } from "components/ui/Textarea";
-import { Input } from "components/ui/Input";
+import {
+  Text,
+  Button,
+  Heading,
+  SwiperPagination,
+  Input,
+  FormField,
+} from "components/ui";
+import { Container, Flex } from "components/layout/index";
 
 function VariantD({
   caption,

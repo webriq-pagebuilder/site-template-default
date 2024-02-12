@@ -17,11 +17,8 @@ import "swiper/css/navigation";
 import "swiper/css/thumbs";
 import "swiper/css/pagination";
 import "swiper/css/a11y";
-import { Container } from "components/layout/Container";
-import { Flex } from "components/layout/Flex/Flex";
-import { Text } from "components/ui/Text";
-import { Heading } from "components/ui/Heading";
-import { Button } from "components/ui/Button";
+import { Container, Flex } from "components/layout/index";
+import { Text, Heading, Button } from "components/ui";
 
 function VariantA({
   subtitle,

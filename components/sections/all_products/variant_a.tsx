@@ -5,10 +5,8 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { AllProductsProps } from ".";
 import { Collection, CollectionProduct } from "types";
-import { Container } from "components/layout/Container";
-import { Flex } from "components/layout/Flex/Flex";
-import { Heading } from "components/ui/Heading";
-import { Text } from "components/ui/Text";
+import { Container, Flex } from "components/layout/index";
+import { Heading, Text } from "components/ui";
 
 function VariantA({ products }: AllProductsProps) {
   // get Ecwid product details

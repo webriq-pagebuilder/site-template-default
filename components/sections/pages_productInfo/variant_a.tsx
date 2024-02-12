@@ -10,10 +10,8 @@ import { defaultBlockStyle } from "helper";
 import { PagesProductInfoProps } from ".";
 
 import { EcwidTypes } from "context/_ecwid-types";
-import { Container } from "components/layout/Container";
-import { Flex } from "components/layout/Flex/Flex";
-import { Heading } from "components/ui/Heading";
-import { Text } from "components/ui/Text";
+import { Container, Flex } from "components/layout/index";
+import { Heading, Text } from "components/ui";
 
 function VariantA({ products }: PagesProductInfoProps) {
   const ecwid: EcwidTypes = useEcwid();

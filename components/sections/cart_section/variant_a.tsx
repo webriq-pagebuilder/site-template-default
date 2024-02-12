@@ -1,6 +1,6 @@
 import React from "react";
 import { EcwidContextProvider } from "context/EcwidContext";
-import { Container } from "components/layout/Container";
+import { Container } from "components/layout/index";
 
 function VariantA() {
   return (

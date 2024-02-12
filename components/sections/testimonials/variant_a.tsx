@@ -1,15 +1,9 @@
-import React from "react";
-import Image from "next/image";
+import { Container, Flex } from "components/layout/index";
+
+import { Avatar, Card, Heading, SwiperPagination, Text } from "components/ui";
 import { urlFor } from "lib/sanity";
+import React from "react";
 import { TestimonialProps } from ".";
-import { Avatar } from "components/ui/Avatar";
-import { Card } from "components/ui/Card";
-import { Text } from "components/ui/Text";
-import { Container } from "components/layout/Container";
-import { Flex } from "components/layout/Flex/Flex";
-import { Heading } from "components/ui/Heading";
-import { Button } from "components/ui/Button";
-import { SwiperPagination } from "components/ui/SwiperPagination";
 
 function VariantA({ testimonials }: TestimonialProps) {
   const [testimony, setTestimony] = React.useState(0);

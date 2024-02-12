@@ -3,8 +3,7 @@ import { PortableText } from "lib/sanity";
 import { textComponentBlockStyling } from "./variant_a";
 import { TextComponentProps } from ".";
 import { Heading } from "components/ui/Heading";
-import { Container } from "components/layout/Container";
-import { Flex } from "components/layout/Flex/Flex";
+import { Container, Flex } from "components/layout/index";
 
 function VariantB({ heading, firstColumn, secondColumn }: TextComponentProps) {
   return (

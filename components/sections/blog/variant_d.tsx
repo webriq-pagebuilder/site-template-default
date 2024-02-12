@@ -6,12 +6,8 @@ import { format } from "date-fns";
 import { SanityBody, SanityImage, Author, BlogPost } from "types";
 
 import { BlogProps } from ".";
-import { Container } from "components/layout/Container";
-import { Text } from "components/ui/Text";
-import { Heading } from "components/ui/Heading";
-import { Card } from "components/ui/Card";
-import { Flex } from "components/layout/Flex/Flex";
-import { Button } from "components/ui/Button";
+import { Container, Flex } from "components/layout/index";
+import { Text, Heading, Card, Button } from "components/ui";
 
 interface BlogPostProps extends SanityBody {
   category?: string;
