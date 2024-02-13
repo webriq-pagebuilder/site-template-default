@@ -13,6 +13,7 @@ export default {
         "primary-foreground": "#296eff",
         secondary: "#3576ff",
         "secondary-foreground": "#d5e3ff",
+        yellow: "#7f7f27",
         light: "#F9FAFB",
         "light-foreground": "#F3F4F6",
         dark: "#1F2937",
