@@ -30,6 +30,7 @@ type Story = StoryObj<typeof Button>;
 
 export const Solid: Story = {
   args: {
+    children: "Login",
     variant: "solid",
   },
 };
@@ -79,5 +80,11 @@ export const SwiperPagination: Story = {
 export const Tab: Story = {
   args: {
     variant: "tab",
+  },
+};
+
+export const Error: Story = {
+  args: {
+    variant: "error",
   },
 };

@@ -84,7 +84,7 @@ export function Heading({
   } `;
   const variants: StyleVariants<Type> = {
     h1: `${commonClass} font-bold font-heading ${
-      size ?? `text-4xl lg:text-5xl`
+      size ?? `text-4xl lg:text-6xl text-red-400`
     } `,
     h2: `${commonClass}  ${size ?? `text-3xl lg:text-4xl`} font-bold`,
     h3: `${commonClass}  font-bold  ${size ?? `text-2xl lg:text-3xl`} `,

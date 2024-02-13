@@ -17,6 +17,7 @@ const Variants = {
   variant_c: dynamic(() => import("./variant_c")),
   variant_d: dynamic(() => import("./variant_d")),
   variant_e: dynamic(() => import("./variant_e")),
+  variant_f: dynamic(() => import("./variant_f")),
 };
 
 export interface HeaderProps {

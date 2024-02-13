@@ -15,7 +15,8 @@ type Variant =
   | "addToWishlist"
   | "unstyled"
   | "swiper_pagination"
-  | "tab";
+  | "tab"
+  | "error";
 type TextSize = "xs" | "sm" | "md" | "lg";
 type RadiusSize = "sm" | "md" | "lg" | "xl" | "2xl" | "none";
 
@@ -108,7 +109,7 @@ export function Button(props: ButtonProps) {
       : "  text-gray-700  hover:bg-secondary-foreground hover:text-primary-foreground hover:shadow"
   }`;
   const addToWishlist = ` ${commonStyles} ${buttonRadius} ${buttonSize} classNames="ml-auto sm:ml-0 flex-shrink-0 inline-flex items-center justify-center w-full  rounded-md border hover:border-primary`;
-
+  const error = `${commonStyles} ${buttonSize} ${buttonRadius} bg-red-500 text-white`;
   const variants: StyleVariants<Variant> = {
     outline,
     ghost,
@@ -119,6 +120,7 @@ export function Button(props: ButtonProps) {
     unstyled,
     swiper_pagination,
     tab,
+    error,
   };
 
   const variantClass = variants[variant] ?? solid;
