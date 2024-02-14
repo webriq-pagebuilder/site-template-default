@@ -1,0 +1,105 @@
+.callToAction {
+  width: 500px;
+  height: 250px;
+  object-fit: contain;
+}
+
+.contact {
+  width: 500px;
+  height: 250px;
+  object-fit: contain;
+}
+
+.cookies {
+  width: 500px;
+  height: 150px;
+  object-fit: contain;
+}
+
+.faqs {
+  width: 250px;
+  height: 500px;
+  object-fit: cover;
+}
+
+.feature {
+  width: 400px;
+  height: 250px;
+  object-fit: contain;
+}
+
+.footer {
+  width: 650px;
+  height: 200px;
+  object-fit: scale-down;
+}
+
+.header {
+  width: 400px;
+  height: 250px;
+  object-fit: contain;
+}
+
+.howItWorks {
+  width: 400px;
+  height: 250px;
+  object-fit: scale-down;
+}
+
+.logoCloud {
+  width: 650px;
+  height: 150px;
+  object-fit: cover;
+}
+
+.navigation {
+  width: 650px;
+  height: 100px;
+  object-fit: contain;
+}
+
+.newsletter {
+  width: 400px;
+  height: 250px;
+  object-fit: contain;
+}
+
+.portfolio {
+  object-fit: scale-down;
+}
+
+.pricing {
+  width: 400px;
+  height: 250px;
+  object-fit: contain;
+}
+
+.promo {
+  width: 500px;
+  height: 250px;
+  object-fit: contain;
+}
+
+.stats {
+  width: 675px;
+  height: 150px;
+  object-fit: contain;
+}
+
+.signInSignUp {
+  width: 500px;
+  height: 250px;
+  object-fit: contain;
+}
+
+.team {
+  width: 400px;
+  height: 250px;
+  object-fit: contain;
+}
+
+.testimonial {
+  width: 400px;
+  height: 250px;
+  object-fit: contain;
+}
