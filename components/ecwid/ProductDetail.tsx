@@ -95,7 +95,7 @@ const ProductDetail = ({ product, children }: ProductDetailProps) => {
     if (options && Object.keys(options).length) {
       let priceModifier = 0,
         modifiedPrice = 0;
-      let priceModifierType: "ABSOLUTE" | "PERCENT";
+      let priceModifierType;
       let basePrice = product?.defaultDisplayedPrice;
 
       if (selected?.defaultDisplayedPrice && options?.Size !== "") {
@@ -113,9 +113,10 @@ const ProductDetail = ({ product, children }: ProductDetailProps) => {
             const selectedChoice = selectedOption?.choices?.find(
               (el) => el.text === value
             );
+
             if (selectedChoice) {
               priceModifier += selectedChoice?.priceModifier;
-              priceModifierType += selectedChoice?.priceModifierType;
+              priceModifierType = selectedChoice?.priceModifierType;
             }
           }
         }
