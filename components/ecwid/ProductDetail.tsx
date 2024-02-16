@@ -94,7 +94,9 @@ const ProductDetail = ({ product, children }: ProductDetailProps) => {
 
   useEffect(() => {
     if (options && Object.keys(options).length) {
-      let priceModifier = 0;
+      let priceModifier = 0,
+        modifiedPrice = 0;
+      let priceModifierType;
       let basePrice = product?.defaultDisplayedPrice;
 
       if (selected?.defaultDisplayedPrice && options?.Size !== "") {
@@ -112,14 +114,22 @@ const ProductDetail = ({ product, children }: ProductDetailProps) => {
             const selectedChoice = selectedOption?.choices?.find(
               (el) => el.text === value
             );
+
             if (selectedChoice) {
               priceModifier += selectedChoice?.priceModifier;
+              priceModifierType = selectedChoice?.priceModifierType;
             }
           }
         }
       });
 
-      setPrice(basePrice + priceModifier);
+      if (priceModifierType === "PERCENT") {
+        modifiedPrice = basePrice + basePrice * (priceModifier / 100);
+      } else {
+        modifiedPrice = basePrice + priceModifier;
+      }
+
+      setPrice(modifiedPrice);
     }
   }, [
     options,
@@ -223,6 +233,21 @@ const ProductDetail = ({ product, children }: ProductDetailProps) => {
     return false;
   };
 
+  const handleModifiedPrice = (
+    priceModifier: number,
+    priceModifierType: "ABSOLUTE" | "PERCENT"
+  ) => {
+    if (priceModifierType === "ABSOLUTE") {
+      return isNegative(priceModifier)
+        ? `(-${getPriceDisplay(Math.abs(priceModifier))})`
+        : `(+${getPriceDisplay(priceModifier)})`;
+    } else {
+      return isNegative(priceModifier)
+        ? `(-${priceModifier}%)`
+        : `(+${priceModifier}%)`;
+    }
+  };
+
   return (
     <>
       <form onSubmit={handleSubmit}>
@@ -273,11 +298,10 @@ const ProductDetail = ({ product, children }: ProductDetailProps) => {
                     <option key={ii} value={choice?.text}>
                       {choice?.text}{" "}
                       {choice?.priceModifier > 0
-                        ? isNegative(choice?.priceModifier)
-                          ? `(-${getPriceDisplay(
-                              Math.abs(choice?.priceModifier)
-                            )})`
-                          : `(+${getPriceDisplay(choice?.priceModifier)})`
+                        ? handleModifiedPrice(
+                            choice?.priceModifier,
+                            choice?.priceModifierType
+                          )
                         : ""}
                     </option>
                   ))}
@@ -307,11 +331,10 @@ const ProductDetail = ({ product, children }: ProductDetailProps) => {
                     >
                       {choice?.text}{" "}
                       {choice?.priceModifier > 0
-                        ? isNegative(choice?.priceModifier)
-                          ? `(-${getPriceDisplay(
-                              Math.abs(choice?.priceModifier)
-                            )})`
-                          : `(+${getPriceDisplay(choice?.priceModifier)})`
+                        ? handleModifiedPrice(
+                            choice?.priceModifier,
+                            choice?.priceModifierType
+                          )
                         : ""}
                     </label>
                   </div>
@@ -346,11 +369,10 @@ const ProductDetail = ({ product, children }: ProductDetailProps) => {
                           <div className="w-full font-semibold text-md">
                             {choice?.text}{" "}
                             {choice?.priceModifier > 0
-                              ? isNegative(choice?.priceModifier)
-                                ? `(-${getPriceDisplay(
-                                    Math.abs(choice?.priceModifier)
-                                  )})`
-                                : `(+${getPriceDisplay(choice?.priceModifier)})`
+                              ? handleModifiedPrice(
+                                  choice?.priceModifier,
+                                  choice?.priceModifierType
+                                )
                               : ""}
                           </div>
                         </div>
@@ -385,11 +407,10 @@ const ProductDetail = ({ product, children }: ProductDetailProps) => {
                     >
                       {choice?.text}{" "}
                       {choice?.priceModifier > 0
-                        ? isNegative(choice?.priceModifier)
-                          ? `(-${getPriceDisplay(
-                              Math.abs(choice?.priceModifier)
-                            )})`
-                          : `(+${getPriceDisplay(choice?.priceModifier)})`
+                        ? handleModifiedPrice(
+                            choice?.priceModifier,
+                            choice?.priceModifierType
+                          )
                         : ""}
                     </label>
                   </div>
