@@ -10,7 +10,8 @@ const blogSchemaArray = Object.values(blogSchema);
 import { commerceSchema } from "@webriq-pagebuilder/sanity-plugin-schema-commerce";
 const commerceSchemaArray = Object.values(commerceSchema);
 
-const allSchemas = mergeReplaceAndAdd(baseSchemaArray, commerceSchemaArray);
+const defaultSchemas = [...baseSchemaArray, ...blogSchemaArray];
+const allSchemas = mergeReplaceAndAdd(defaultSchemas, commerceSchemaArray); // with C-Studio schema
 
 // uncomment the block of code below if we have custom components
 /**
@@ -18,11 +19,11 @@ const allSchemas = mergeReplaceAndAdd(baseSchemaArray, commerceSchemaArray);
  * import customSchema from "./custom";
  * const updatedSchemaArray = Object.values(customSchema);
  *
- * const updatedSchemas = mergeReplaceAndAdd(allSchemas, commerceSchemaArray);
+ * const updatedSchemas = mergeReplaceAndAdd(allSchemas, updatedSchemaArray);
  *
  * export const schemaTypes = [pages, ...updatedSchemas];
  *
  */
 
-// NOTE: COMMENT THIS OUT IF WE HAVE CUSTOM COMPONENTS
-export const schemaTypes = [pages, ...allSchemas, ...blogSchemaArray];
+// NOTE: COMMENT THIS LINE IF WE HAVE CUSTOM COMPONENTS
+export const schemaTypes = [pages, ...allSchemas];
