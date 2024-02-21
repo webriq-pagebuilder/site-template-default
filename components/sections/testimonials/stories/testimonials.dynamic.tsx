@@ -1,4 +1,4 @@
-import { headerSchema } from "@webriq-pagebuilder/sanity-plugin-schema-default";
+import { testimonialSchema } from "@webriq-pagebuilder/sanity-plugin-schema-default";
 import { filterArgsByVariant } from "components/common";
 import { StoryConfigs, defineStories } from "utils/stories";
 import { sanityClient } from "lib/sanity.client";
@@ -7,30 +7,30 @@ import dedent from "ts-dedent";
 
 export default defineStories({
   baseCsf: dedent`
-    import HeaderComponent from "../index.tsx";
+    import TestimonialsComponent from "../index.tsx";
     export default {
-      title: "Sections/Header",
-      component: HeaderComponent,
+      title: "Sections/Testimonials",
+      component: TestimonialsComponent,
       tags: ["autodocs"],
     };
   `,
   stories: async () => {
     // only fetch components that are referenced or added in pages
-    const headerData = await sanityClient.fetch(componentsQuery, {
-      schema: "header",
+    const testimonialData = await sanityClient.fetch(componentsQuery, {
+      schema: "testimonials",
     });
 
     const result: StoryConfigs = {};
 
     await Promise.allSettled(
-      headerData?.map(
+      testimonialData?.map(
         (item, index) =>
           (result[`${item?.variant}${index + 1}`] = {
             args: {
               data: {
                 variant: item?.variant,
                 variants: filterArgsByVariant(
-                  headerSchema,
+                  testimonialSchema,
                   item?.variants,
                   item?.variant
                 ),
