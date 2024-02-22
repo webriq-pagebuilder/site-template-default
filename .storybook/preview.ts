@@ -25,6 +25,34 @@ const preview: Preview = {
             return res(ctx.json({ result: DUMMY_ECWID_PRODUCT }));
           }),
         ],
+        stripe: [
+          rest.post(
+            `${process.env.NEXT_PUBLIC_APP_URL}/api/payments/stripe`,
+            (req, res, ctx) => {
+              const mockResponse = {
+                params: {
+                  resource: "products",
+                  action: "retrieve",
+                },
+                payload: stripeMockProductPayload,
+              };
+              return res(ctx.json(mockResponse));
+            }
+          ),
+          rest.post(
+            `${process.env.NEXT_PUBLIC_APP_URL}/api/payments/stripe`,
+            (req, res, ctx) => {
+              const mockResponse = {
+                params: {
+                  resource: "prices",
+                  action: "list",
+                },
+                payload: stripeMockPricePayload,
+              };
+              return res(ctx.json(mockResponse));
+            }
+          ),
+        ],
       },
     },
   },
@@ -531,4 +559,29 @@ const DUMMY_ECWID_PRODUCT = {
     en: "Sale",
   },
   nameYourPriceEnabled: false,
+};
+
+// PRICING STRIPE MOCK DATA
+const stripeMockProductPayload = {
+  credentials: {
+    hashKey:
+      "QXD2R--veD0ZXWRJ7lKT4fqKugiZ5SdtD01rYOgrFzNMVpMZhztbDO7um7zatmBpaA0nC7wrpx2pc_tlUaZI46ek70x8VMrYZtWFcGdtNFjSGZAi75HStVX20N-jAfnz7FYv7urw0S3KOz0c5EyQ5m",
+    stripeSKey:
+      "U2FsdGVkX1/uoC/uBcmiG8J0BKU+7VGLefIg7f2j51ZmTRQQEuhvftlaJEtPs2jV/YCkh20aNUbzPP4eAUb/rw==",
+    apiVersion: "2019-03-14",
+  },
+  stripeParams: {
+    id: "webriq-studio-pricing-formPayment-cabe9917-1767-4715-8027-16ef6fe86e8c-recurring-monthlyPrice-59-yearlyPrice-99",
+  },
+};
+
+const stripeMockPricePayload = {
+  credentials: {
+    hashKey:
+      "QXD2R--veD0ZXWRJ7lKT4fqKugiZ5SdtD01rYOgrFzNMVpMZhztbDO7um7zatmBpaA0nC7wrpx2pc_tlUaZI46ek70x8VMrYZtWFcGdtNFjSGZAi75HStVX20N-jAfnz7FYv7urw0S3KOz0c5EyQ5m",
+    stripeSKey:
+      "U2FsdGVkX1/uoC/uBcmiG8J0BKU+7VGLefIg7f2j51ZmTRQQEuhvftlaJEtPs2jV/YCkh20aNUbzPP4eAUb/rw==",
+    apiVersion: "2019-03-14",
+  },
+  stripeParams: {},
 };

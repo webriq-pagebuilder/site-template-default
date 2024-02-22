@@ -84,7 +84,9 @@ function VariantA({
       }
     }
 
-    getPriceId(usePlan);
+    if (apiVersion && hashKey && stripeSKey) {
+      getPriceId(usePlan);
+    }
   }, [NEXT_PUBLIC_APP_URL, apiVersion, hashKey, stripeSKey, usePlan]);
 
   return (
