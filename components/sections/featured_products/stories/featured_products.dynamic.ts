@@ -1,4 +1,3 @@
-import { filterArgsByVariant } from "components/common";
 import { StoryConfigs, defineStories } from "utils/stories";
 import { sanityClient } from "lib/sanity.client";
 import { componentsQuery } from "pages/api/query";
@@ -7,11 +6,23 @@ import dedent from "ts-dedent";
 
 export default defineStories({
   baseCsf: dedent`
+    import React from "react";
     import FeaturedProducts from "../index.tsx";
     export default {
       title: "CStudio/Featured Products",
       component: FeaturedProducts,
       tags: ["autodocs"],
+      render: ({ variant, ...args }) => {
+        const data = {
+          variant: variant,
+          variants: {
+            collections: args
+          },
+        };
+
+        // Using React.createElement instead of JSX to avoid JSX parsing issues in template literals
+        return React.createElement(FeaturedProducts, { data: data });
+      }
     };
   `,
   stories: async () => {
@@ -27,10 +38,8 @@ export default defineStories({
         (item, index) =>
           (result[`${item?.variant}${index + 1}`] = {
             args: {
-              data: {
-                variant: item?.variant,
-                variants: featuredProductDefaultValues,
-              },
+              variant: item?.variant,
+              ...featuredProductDefaultValues,
             },
           })
       )

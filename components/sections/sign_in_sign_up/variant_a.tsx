@@ -35,7 +35,7 @@ function VariantA({ logo, form, formLinks, signInLink }: SignUpFormProps) {
           <div className="mb-6 text-center lg:mb-10">
             <div className="mb-6">
               <Text muted>{form?.subtitle}</Text>
-              <Heading className="text-2xl lg:text-2xl">{form.name}</Heading>
+              <Heading className="text-2xl lg:text-2xl">{form?.name}</Heading>
             </div>
             {form?.fields && (
               <Form
@@ -47,14 +47,14 @@ function VariantA({ logo, form, formLinks, signInLink }: SignUpFormProps) {
                 <div className="flex flex-wrap -mx-2">
                   {form?.fields?.slice(0, 2)?.map((formFields, index) => (
                     <div className="w-full px-2 mb-3 lg:w-1/2" key={index}>
-                      {formFields.type === "inputText" ? (
+                      {formFields?.type === "inputText" ? (
                         <Input
                           textSize="sm"
                           variant="primary"
                           noLabel
                           className="w-full py-4 text-xs bg-white"
-                          name={formFields.name}
-                          ariaLabel={formFields.label}
+                          name={formFields?.name}
+                          ariaLabel={formFields?.label}
                           {...formFields}
                           type="text"
                         />
@@ -62,7 +62,7 @@ function VariantA({ logo, form, formLinks, signInLink }: SignUpFormProps) {
                         <FormField
                           textSize="sm"
                           noLabel
-                          name={formFields.name}
+                          name={formFields?.name}
                           {...formFields}
                         />
                       )}

@@ -1,39 +1,56 @@
 import { productInfoDefaultValues } from "helper/defaultValues";
-import { filterArgsByVariant } from "components/common";
 import { StoryConfigs, defineStories } from "utils/stories";
 import { sanityClient } from "lib/sanity.client";
 import { componentsQuery } from "pages/api/query";
 import dedent from "ts-dedent";
 
-const initialProduct = {
-  name: "SAMPLE. Yellow Dress",
-  ecwidProductId: 543066127,
-  price: "50",
-  description: [
-    {
-      style: "normal",
-      _key: "66a51b976fd7",
-      markDefs: [],
-      children: [
-        {
-          _type: "span",
-          marks: [],
-          text: "Test product",
-          _key: "66a51b976fd70",
-        },
-      ],
-      _type: "block",
-    },
-  ],
-};
-
 export default defineStories({
   baseCsf: dedent`
+    import React from "react";
     import ProductInfo from "../index.tsx";
+    import { EcwidContextProvider } from "context/EcwidContext";
     export default {
       title: "CStudio/Product Info",
       component: ProductInfo,
       tags: ["autodocs"],
+      render: ({ variant, ...args }) => {
+        const data = {
+          variant: variant,
+          variants: args,
+        };
+
+        const initialProduct = {
+          name: "SAMPLE. Yellow Dress",
+          ecwidProductId: 543066127,
+          price: "50",
+          description: [
+            {
+              style: "normal",
+              _key: "66a51b976fd7",
+              markDefs: [],
+              children: [
+                {
+                  _type: "span",
+                  marks: [],
+                  text: "Test product",
+                  _key: "66a51b976fd70",
+                },
+              ],
+              _type: "block",
+            },
+          ],
+        };
+
+        // Using React.createElement instead of JSX to avoid JSX parsing issues in template literals
+        return React.createElement(ProductInfo, { data: data, product: initialProduct });
+      },
+      decorators: [
+        (Story) => (
+          <EcwidContextProvider>
+            <Story />
+          </EcwidContextProvider>
+        ),
+      ],
     };
   `,
   stories: async () => {
@@ -49,11 +66,8 @@ export default defineStories({
         (item, index) =>
           (result[`${item?.variant}${index + 1}`] = {
             args: {
-              data: {
-                variant: item?.variant,
-                variants: productInfoDefaultValues,
-              },
-              product: initialProduct,
+              variant: item?.variant,
+              ...productInfoDefaultValues,
             },
           })
       )

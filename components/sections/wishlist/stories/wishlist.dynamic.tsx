@@ -6,11 +6,21 @@ import dedent from "ts-dedent";
 
 export default defineStories({
   baseCsf: dedent`
+    import React from "react";
     import Wishlist from "../index.tsx";
     export default {
       title: "CStudio/Wishlist",
       component: Wishlist,
       tags: ["autodocs"],
+      render: ({ variant, ...args }) => {
+        const data = {
+          variant: variant,
+          variants: args,
+        };
+
+        // Using React.createElement instead of JSX to avoid JSX parsing issues in template literals
+        return React.createElement(Wishlist, { data: data });
+      },
     };
   `,
   stories: async () => {
@@ -26,9 +36,7 @@ export default defineStories({
         (item, index) =>
           (result[`${item?.variant ?? "variant_a"}${index + 1}`] = {
             args: {
-              data: {
-                variant: item?.variant ?? "variant_a",
-              },
+              variant: item?.variant ?? "variant_a",
             },
           })
       )

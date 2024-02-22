@@ -1,9 +1,12 @@
-import { headerSchema } from "@webriq-pagebuilder/sanity-plugin-schema-default";
 import { filterArgsByVariant } from "components/common";
 import { StoryConfigs, defineStories } from "utils/stories";
 import { sanityClient } from "lib/sanity.client";
 import { componentsQuery } from "pages/api/query";
 import dedent from "ts-dedent";
+
+// NOTE: If this component has a custom component, comment out this line and import that instead
+// Example: import { headerSchema } from "schemas/custom/sanity-plugin-schema-default/src/schemas/sections/header/schema";
+import { headerSchema } from "@webriq-pagebuilder/sanity-plugin-schema-default";
 
 export default defineStories({
   baseCsf: dedent`
