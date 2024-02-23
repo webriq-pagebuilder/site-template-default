@@ -25,6 +25,32 @@ const preview: Preview = {
             return res(ctx.json({ result: DUMMY_ECWID_PRODUCT }));
           }),
         ],
+        stripe: [
+          rest.post(
+            `${process.env.NEXT_PUBLIC_APP_URL}/api/payments/stripe`,
+            (req, res, ctx) => {
+              const mockResponse = {
+                params: {
+                  resource: "products",
+                  action: "retrieve",
+                },
+              };
+              return res(ctx.json(mockResponse));
+            }
+          ),
+          rest.post(
+            `${process.env.NEXT_PUBLIC_APP_URL}/api/payments/stripe`,
+            (req, res, ctx) => {
+              const mockResponse = {
+                params: {
+                  resource: "prices",
+                  action: "list",
+                },
+              };
+              return res(ctx.json(mockResponse));
+            }
+          ),
+        ],
       },
     },
   },

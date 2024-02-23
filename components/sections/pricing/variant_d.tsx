@@ -112,7 +112,9 @@ function VariantD({
       }
     }
 
-    getPriceId();
+    if (apiVersion && hashKey && stripeSKey) {
+      getPriceId();
+    }
   }, [
     NEXT_PUBLIC_APP_URL,
     annualBilling,
@@ -243,8 +245,8 @@ function VariantD({
             >
               {formFields?.map((field, index) => {
                 return (
-                  <>
-                    {field.pricingType === "inputCard" ? (
+                  <React.Fragment key={index}>
+                    {field?.pricingType === "inputCard" ? (
                       <div className="mb-4">
                         <CardElement className="w-full p-4 text-xs font-semibold leading-none rounded outline-none bg-gray-50" />
                         {paymentOngoing && (
@@ -260,7 +262,7 @@ function VariantD({
                           </div>
                         )}
                       </div>
-                    ) : field.pricingType === "inputPassword" ? (
+                    ) : field?.pricingType === "inputPassword" ? (
                       <div className="flex mb-4 rounded bg-gray-50">
                         <Input
                           noLabel
@@ -329,7 +331,7 @@ function VariantD({
                         {...field}
                       />
                     )}
-                  </>
+                  </React.Fragment>
                 );
               })}
               <div className="mb-5 text-sm text-left text-gray-500">
