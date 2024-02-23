@@ -51,7 +51,6 @@ const getEcwidProducts = async (req, res) => {
     })
       .then((res) => res.json())
       .then((json) => {
-        console.log("json", json);
         return res.status(200).json({ result: json });
       });
   } catch (error) {

@@ -3,6 +3,7 @@ import React, { useEffect } from "react";
 import { TypedObject } from "sanity";
 import _ from "lodash";
 import { EcwidTypes } from "context/_ecwid-types";
+import { Button, Text } from "components/ui";
 
 interface AddToWishlistProps {
   children?: React.ReactNode;
@@ -37,7 +38,10 @@ const AddToWishlist = ({
   return (
     <>
       <div className={favorited ? "w-full" : containerClass}>
-        <button
+        <Button
+          as="button"
+          variant="addToWishlist"
+          ariaLabel="Add to Wishlist"
           onClick={() => addWishlist(productId)}
           className={classNames}
           type="button"
@@ -47,7 +51,7 @@ const AddToWishlist = ({
           ) : (
             <>
               <svg
-                className="h-6 w-6"
+                className="w-6 h-6"
                 width={27}
                 height={27}
                 viewBox="0 0 27 27"
@@ -62,12 +66,12 @@ const AddToWishlist = ({
                   strokeLinejoin="round"
                 />
               </svg>
-              <span className="font-heading ml-1 mt-1 font-bold uppercase">
+              <Text weight="bold" className="mt-1 ml-1 uppercase">
                 Remove from wishlist
-              </span>
+              </Text>
             </>
           )}
-        </button>
+        </Button>
       </div>
     </>
   );

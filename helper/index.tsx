@@ -8,6 +8,8 @@ import {
   Logo,
   MyPortableTextComponents,
 } from "types";
+import { Heading } from "components/ui/Heading";
+import { Text } from "components/ui/Text";
 
 interface ConditionalLinkTypes {
   className?: string;
@@ -45,6 +47,33 @@ export const logoLink = (logo: Logo) => {
   }
 };
 
+export const extractLink = (link: LabeledRoute): string => {
+  //not found page
+  if (!link?.internalLink && !link?.externalLink) {
+    return "/page-not-found";
+  }
+
+  //home page
+  if (
+    link?.type === "linkInternal" &&
+    link?.internalLink?.toLowerCase()?.includes("home")
+  ) {
+    return "/";
+  }
+
+  //internal link
+  if (link?.type === "linkInternal") {
+    return `/${link?.internalLink}`;
+  }
+
+  //external link
+  if (link?.type === "linkExternal") {
+    return link?.externalLink;
+  }
+
+  return "/";
+};
+
 // Conditional Link
 export const ConditionalLink = ({
   className,
@@ -55,7 +84,7 @@ export const ConditionalLink = ({
   target,
 }: ConditionalLinkTypes) => {
   const defaultStyle =
-    "inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-webriq-darkblue hover:bg-webriq-blue text-gray-50 font-bold leading-loose outline-none transition duration-200";
+    "inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-primary hover:bg-primary-foreground text-gray-50 font-bold leading-loose outline-none transition duration-200";
 
   if (!link?.internalLink && !link?.externalLink) {
     return (
@@ -126,74 +155,74 @@ export const ConditionalLink = ({
 
 export const defaultBlockStyle: MyPortableTextComponents = {
   block: {
-    h1: ({ children }) => {
-      return (
-        <h1 className="mb-6 text-7xl leading-loose text-gray-900">
-          {children}
-        </h1>
-      );
-    },
-    h2: ({ children }) => {
-      return (
-        <h2 className="mb-6 text-5xl leading-loose text-gray-900">
-          {children}
-        </h2>
-      );
-    },
-    h3: ({ children }) => {
-      return (
-        <h3 className="mb-6 text-3xl leading-loose text-gray-900">
-          {children}
-        </h3>
-      );
-    },
-    h4: ({ children }) => {
-      return (
-        <h4 className="mb-6 text-xl leading-loose text-gray-900">{children}</h4>
-      );
-    },
-    normal: ({ children }) => {
-      return (
-        <p className="mb-6 text-justify leading-loose text-gray-900">
-          {children}
-        </p>
-      );
-    },
-    blockquote: ({ children }) => {
-      return (
-        <blockquote className="mb-6 px-14 italic leading-loose text-gray-500">
-          - {children}
-        </blockquote>
-      );
-    },
+    h1: ({ children }) => (
+      <Heading
+        fontSize="3xl"
+        weight="bold"
+        className="mb-8 leading-normal text-black dark:text-white"
+      >
+        {children}
+      </Heading>
+    ),
+    h2: ({ children }) => (
+      <Heading
+        type="h2"
+        weight="bold"
+        fontSize="2xl"
+        className="mb-8 text-black dark:text-white"
+      >
+        {children}
+      </Heading>
+    ),
+    h3: ({ children }) => (
+      <Heading
+        type="h3"
+        fontSize="xl"
+        weight="bold"
+        className="mb-8 leading-normal text-black dark:text-white"
+      >
+        {children}
+      </Heading>
+    ),
+    h4: ({ children }) => (
+      <Heading
+        type="h4"
+        weight="bold"
+        fontSize="lg"
+        className="mb-8 leading-normal text-black dark:text-white"
+      >
+        {children}
+      </Heading>
+    ),
+    normal: ({ children }) => (
+      <Text className="mb-8 leading-relaxed">{children}</Text>
+    ),
+    blockquote: ({ children }) => (
+      <blockquote className="mb-6 italic leading-loose text-gray-500 px-14">
+        - {children}
+      </blockquote>
+    ),
   },
-  code: ({ value }) => {
-    return (
-      <pre data-language={value.language}>
-        <code>{value.code}</code>
-      </pre>
-    );
-  },
+  code: ({ value }) => (
+    <pre data-language={value.language}>
+      <code>{value.code}</code>
+    </pre>
+  ),
   list: {
-    bullet: ({ children }) => {
-      return (
-        <ul className="mb-6 list-disc pl-10 leading-loose text-gray-900">
-          {children}
-        </ul>
-      );
-    },
-    number: ({ children }) => {
-      return (
-        <ol className="mb-6 list-decimal leading-loose text-gray-900">
-          {children}
-        </ol>
-      );
-    },
+    bullet: ({ children }) => (
+      <ul className="flex flex-col pl-10 mb-8 space-y-4 leading-relaxed list-disc">
+        {children}
+      </ul>
+    ),
+    number: ({ children }) => (
+      <ol className="flex flex-col pl-10 mb-8 space-y-4 leading-relaxed list-decimal">
+        {children}
+      </ol>
+    ),
   },
   listItem: {
-    bullet: ({ children }) => (
-      <li className="mb-6 leading-loose text-gray-900">{children}</li>
-    ),
+    bullet: ({ children }) => <li className="leading-relaxed">{children}</li>,
+    number: ({ children }) => <li className="leading-relaxed">{children}</li>,
   },
   marks: {
     strong: ({ children }) => <strong>{children}</strong>,
@@ -201,7 +230,7 @@ export const defaultBlockStyle: MyPortableTextComponents = {
     code: ({ children }) => <code>{children}</code>,
     link: ({ children, value }) => (
       <a
-        className="hover:text-webriq-darkorange text-webriq-lightorange"
+        className="hover:text-primary-foreground text-primary"
         href={value.href}
         target="_blank"
         rel="noopener noreferrer"
@@ -213,7 +242,7 @@ export const defaultBlockStyle: MyPortableTextComponents = {
   types: {
     addImage: ({ value }) => (
       <Image
-        className="mb-5 h-full w-full"
+        className="w-full h-full mb-5"
         width={500}
         height={500}
         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"

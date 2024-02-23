@@ -1,12 +1,14 @@
-import React from "react";
+import InlineEditor from "components/InlineEditor";
+import { Container, Flex } from "components/layout/index";
+import { Heading, Text } from "components/ui";
+import { InlineEditorContext } from "context/InlineEditorContext";
+import { format } from "date-fns";
+import { PortableText, urlFor } from "lib/sanity";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
-import { urlFor, PortableText } from "lib/sanity";
-import { format } from "date-fns";
-import { InlineEditorContext } from "context/InlineEditorContext";
-import InlineEditor from "components/InlineEditor";
-import { MyPortableTextComponents, BlogsData } from "types";
+import React from "react";
+import { BlogsData, MyPortableTextComponents } from "types";
 
 const Navigation = dynamic(() => import("components/sections/navigation"));
 const Footer = dynamic(() => import("components/sections/footer"));
@@ -15,52 +17,76 @@ const blockStyle: MyPortableTextComponents = {
   block: {
     h1: ({ children }) => {
       return (
-        <h1 className="mb-6 text-5xl leading-loose text-gray-900">
+        <Heading fontSize="5xl" className="mb-6 leading-loose text-gray-900">
           {children}
-        </h1>
+        </Heading>
       );
     },
     h2: ({ children }) => {
       return (
-        <h2 className="mb-6 text-4xl leading-loose text-gray-900">
+        <Heading
+          type="h2"
+          fontSize="4xl"
+          className="mb-6 leading-loose text-gray-900"
+        >
           {children}
-        </h2>
+        </Heading>
       );
     },
     h3: ({ children }) => {
       return (
-        <h3 className="mb-6 text-3xl leading-loose text-gray-900">
+        <Heading
+          type="h3"
+          fontSize="3xl"
+          className="mb-6 leading-loose text-gray-900"
+        >
           {children}
-        </h3>
+        </Heading>
       );
     },
     h4: ({ children }) => {
       return (
-        <h4 className="mb-6 text-2xl leading-loose text-gray-900">
+        <Heading
+          fontSize="2xl"
+          type="h4"
+          className="mb-6 leading-loose text-gray-900"
+        >
           {children}
-        </h4>
+        </Heading>
       );
     },
     h5: ({ children }) => {
       return (
-        <h5 className="mb-6 text-xl leading-loose text-gray-900">{children}</h5>
+        <Heading
+          fontSize="xl"
+          type="h5"
+          className="mb-6 leading-loose text-gray-900"
+        >
+          {children}
+        </Heading>
       );
     },
     h6: ({ children }) => {
       return (
-        <h6 className="mb-6 text-lg leading-loose text-gray-900">{children}</h6>
+        <Heading
+          fontSize="lg"
+          type="h6"
+          className="mb-6 leading-loose text-gray-900"
+        >
+          {children}
+        </Heading>
       );
     },
     normal: ({ children }) => {
       return (
-        <p className="mb-6 text-justify leading-loose text-gray-900">
+        <Text className="mb-6 leading-loose text-justify text-gray-900">
           {children}
-        </p>
+        </Text>
       );
     },
     blockquote: ({ children }) => {
       return (
-        <blockquote className="mb-6 px-14 italic leading-loose text-gray-500">
+        <blockquote className="mb-6 italic leading-loose text-gray-500 px-14">
           - {children}
         </blockquote>
       );
@@ -76,14 +102,14 @@ const blockStyle: MyPortableTextComponents = {
   list: {
     bullet: ({ children }) => {
       return (
-        <ul className="mb-6 list-disc pl-10 leading-loose text-gray-900">
+        <ul className="pl-10 mb-6 leading-loose text-gray-900 list-disc">
           {children}
         </ul>
       );
     },
     number: ({ children }) => {
       return (
-        <ol className="mb-6 list-decimal pl-10 leading-loose text-gray-900">
+        <ol className="pl-10 mb-6 leading-loose text-gray-900 list-decimal">
           {children}
         </ol>
       );
@@ -103,7 +129,7 @@ const blockStyle: MyPortableTextComponents = {
     code: ({ children }) => <code>{children}</code>,
     link: ({ children, value }) => (
       <Link
-        className="hover:text-webriq-blue text-webriq-darkblue"
+        className="hover:text-primary-foreground text-primary"
         href={value?.href}
         target="_blank"
         rel="noopener noreferrer"
@@ -115,7 +141,7 @@ const blockStyle: MyPortableTextComponents = {
   types: {
     addImage: ({ value }) => (
       <Image
-        className="mb-10 h-full w-full"
+        className="w-full h-full mb-10"
         width={300}
         height={300}
         src={urlFor(value?.image)}
@@ -170,26 +196,26 @@ function BlogSections({ data }: BlogSectionsProps) {
       )}
       <section className="pb-20">
         <div
-          className="mb-12 p-20"
+          className="p-20 mb-12"
           style={{
             backgroundImage: `url(${mainImage && urlFor(mainImage)})`,
             backgroundRepeat: "no-repeat",
             backgroundSize: "cover",
           }}
         >
-          <div className="container mx-auto px-4">
-            <div className="mx-auto max-w-2xl text-center">
+          <Container>
+            <Container maxWidth={"2xl"} className="text-center">
               {categories &&
                 categories?.map((tag, index) => (
                   <span
-                    className="text-base uppercase text-webriq-blue lg:text-xl"
+                    className="mr-2 text-base uppercase text-primary-foreground lg:text-xl"
                     key={index}
                   >
                     {tag?.title}
                   </span>
                 ))}
               {categories && publishedAt && (
-                <span className="mx-2 text-base uppercase text-gray-500 lg:text-xl">
+                <span className="mx-2 text-base text-gray-500 uppercase lg:text-xl">
                   •
                 </span>
               )}
@@ -204,18 +230,18 @@ function BlogSections({ data }: BlogSectionsProps) {
               )}
               <div className="mt-2">
                 {title && (
-                  <h2 className="mb-6 text-4xl font-bold text-white lg:text-5xl">
+                  <Heading weight="bold" className="mb-6 text-white">
                     {title}
-                  </h2>
+                  </Heading>
                 )}
                 <div className="flex justify-center">
                   {authors &&
                     authors?.map((author, index, { length }) => (
-                      <div className="flex justify-center" key={index}>
+                      <Flex justify="center" className="mr-2" key={index}>
                         <div className="mr-4">
                           {author?.profile?.image ? (
                             <Image
-                              className="h-12 w-12 rounded-full object-cover object-top"
+                              className="object-cover object-top w-12 h-12 rounded-full"
                               width={48}
                               height={48}
                               src={urlFor(author?.profile?.image)}
@@ -233,30 +259,35 @@ function BlogSections({ data }: BlogSectionsProps) {
                           )}
                         </div>
                         <div className="text-left">
-                          <h3 className="font-bold text-webriq-blue">
+                          <Heading
+                            type="h3"
+                            weight="bold"
+                            fontSize="base"
+                            className="text-primary-foreground"
+                          >
                             {author?.name}
-                          </h3>
+                          </Heading>
                           {index + 1 !== length ? (
                             <span>&nbsp;and&nbsp;</span>
                           ) : null}
-                          <span className="text-xs italic text-webriq-lightblue">
+                          <span className="text-xs italic text-secondary-foreground">
                             {authors?.length > 1 ? "Authors" : "Author"}
                           </span>
                         </div>
-                      </div>
+                      </Flex>
                     ))}
                 </div>
               </div>
-            </div>
-          </div>
+            </Container>
+          </Container>
         </div>
-        <div className="container mx-auto px-4">
+        <Container>
           {body && (
-            <div className="mx-auto max-w-4xl break-all">
+            <div className="max-w-4xl mx-auto break-all">
               <PortableText value={body} components={blockStyle} />
             </div>
           )}
-        </div>
+        </Container>
       </section>
       {footer && (
         <Footer

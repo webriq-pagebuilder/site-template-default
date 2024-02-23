@@ -1,0 +1,90 @@
+import { Meta, Canvas, Story } from "@storybook/blocks";
+import { ColorTable, SpacingTable } from "./Theme.tsx";
+import * as TextStories from "../Text/Text.stories";
+import * as BlockStories from "../BlockStyle/Blockstyle.stories.tsx";
+import { default as twConfig } from "../../../tailwind.config";
+
+export const config = twConfig.theme.extend;
+
+<Meta title="Theme" />
+
+# Theme
+
+## Colors
+
+export const colors = config?.colors;
+export const colorList = Object.entries(colors).map(([name, value]) => ({
+  name,
+  value,
+}));
+
+Imported from `tailwind.config.ts` file. You may edit these directly on the config file.
+
+<div className="mb-10">{colors && <ColorTable colors={colorList} />}</div>
+
+## Spacing
+
+export const spacing = config?.spacing;
+export const spacingList = Object.entries(spacing).map(([name, value]) => ({
+  name,
+  value,
+}));
+
+Imported from `tailwind.config.ts` file. You may edit these directly on the config file.
+
+<div className="mb-10">
+  {colors && <SpacingTable spacing={spacingList} theme={config} />}
+</div>
+
+## Border Radius
+
+Imported from `tailwind.config.ts` file. You may edit these directly on the config file.
+
+export const radi = config?.borderRadius;
+export const radiList = Object.entries(radi).map(([name, value]) => ({
+  name,
+  value,
+}));
+
+<table className="w-full">
+  <thead>
+    <tr>
+      <th className="font-medium text-lg w-[20%]">Preview</th>
+      <th className="font-medium text-lg w-[40%]">Tailwind Class</th>
+      <th className="font-medium text-lg w-[40%]">Value</th>
+    </tr>
+  </thead>
+  <tbody className="text-center">
+   {radiList.map(radius => {
+    return  <tr className="!bg-white">
+      <td className="flex justify-center">
+        <div
+          className={`border  rounded-${radius.name}`}
+          style={{
+            height: "100px",
+            width: "100px",
+            borderColor: "black"
+          }}
+        ></div>
+      </td>
+      <td>{radius.name}</td>
+      <td>{radius.value}</td>
+    </tr>
+   })}
+
+  </tbody>
+</table>
+
+## Typography
+
+Standard typography theme of the project. See the **Text** component under the **Components/UI** section for more information.
+
+<Canvas of={TextStories.Primary} />
+
+## Default Block Styles
+
+Different from the **Typography** section. This is used to render data using the **PortableText** component, commonly used for blogs. See **Blockstyle** under the **Components/UI** section for more info.
+
+<div className="p-8 boder-solid border border-gray-100/50">
+  <Story of={BlockStories.Primary} />
+</div>

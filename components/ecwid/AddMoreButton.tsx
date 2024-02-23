@@ -2,6 +2,8 @@ import { useEcwid } from "context/EcwidContext";
 import React from "react";
 import AddToWishlist from "./AddToWishlist";
 import { EcwidTypes } from "context/_ecwid-types";
+import { Button } from "components/ui/Button";
+import { Flex } from "components/layout/index";
 
 interface AddMoreButtonProps {
   product:
@@ -20,24 +22,25 @@ const AddMoreButton = ({ product }: AddMoreButtonProps) => {
 
   return (
     <>
-      <div className="flex flex-col gap-y-4 ">
-        <div className="flex flex-col gap-y-4 sm:flex-row sm:gap-x-4 sm:gap-y-0">
+      <Flex direction="col" className="gap-y-4 ">
+        <Flex className="flex-col gap-y-4 sm:flex-row sm:gap-x-4 sm:gap-y-0">
           <div className="w-full">
-            <button
+            <Button
+              variant="outline"
+              as="button"
+              ariaLabel="Add More Button"
               type="submit"
-              className="font-heading block w-full rounded-md border border-webriq-darkblue px-8 py-5 text-center font-bold uppercase text-webriq-darkblue transition duration-200"
+              borderRadius="md"
+              className="block w-full px-8 py-5 uppercase text-primary"
               disabled={isAddingToBag}
             >
               {isAddingToBag ? "Adding..." : "Add More"}
-            </button>
+            </Button>
           </div>
 
-          <AddToWishlist
-            classNames="ml-auto sm:ml-0 flex-shrink-0 inline-flex items-center justify-center w-full h-16 rounded-md border hover:border-webriq-darkblue"
-            product={product}
-          >
+          <AddToWishlist product={product}>
             <svg
-              className="h-6 w-6"
+              className="w-6 h-6"
               width={27}
               height={27}
               viewBox="0 0 27 27"
@@ -53,15 +56,15 @@ const AddMoreButton = ({ product }: AddMoreButtonProps) => {
               />
             </svg>
           </AddToWishlist>
-        </div>
+        </Flex>
 
         <a
-          className="font-heading block w-full rounded-md bg-webriq-darkblue px-8 py-5 text-center font-bold uppercase text-white transition duration-200"
+          className="block w-full px-8 py-5 font-bold text-center text-white uppercase transition duration-200 rounded-md font-heading bg-primary"
           href="/cart?store-page=cart"
         >
           Go to Checkout
         </a>
-      </div>
+      </Flex>
     </>
   );
 };

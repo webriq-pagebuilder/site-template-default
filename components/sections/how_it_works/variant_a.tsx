@@ -1,6 +1,10 @@
 import React from "react";
 
+import { Container, Flex } from "components/layout/index";
+import { Heading, Text } from "components/ui";
 import { HowItWorksProps } from ".";
+
+import { YoutubeVideo } from "components/common/youtube_video/youtube-video";
 
 function VariantA({ subtitle, title, text, video, steps }: HowItWorksProps) {
   // get the video link ID
@@ -15,60 +19,45 @@ function VariantA({ subtitle, title, text, video, steps }: HowItWorksProps) {
   }
 
   return (
-    <section>
-      <div className="radius-for-skewed bg-gray-50 py-20">
-        <div className="container mx-auto px-4">
-          <div className="mb-10 flex flex-wrap">
-            <div className="mb-10 w-full lg:mb-0 lg:w-1/2">
-              <div className="mx-10 max-w-lg">
-                <span className="text-sm font-bold text-webriq-darkblue md:text-lg lg:text-lg">
-                  {subtitle}
-                </span>
-                <h1 className="font-heading my-5 text-2xl font-bold md:text-4xl lg:text-5xl">
-                  {title}
-                </h1>
-                <p className="text-sm text-gray-500 md:text-lg md:leading-loose lg:text-lg lg:leading-loose">
-                  {text}
-                </p>
-              </div>
-            </div>
-            <div className="lg:h-128 relative w-full px-10 md:h-96 md:w-2/5 md:px-0 lg:w-2/5 lg:px-0">
-              {video && (
-                <iframe
-                  aria-label="Show Video Frame"
-                  className="h-full w-full rounded-lg"
-                  src={`https://www.youtube.com/embed/${videoLinkId}`}
-                  srcDoc={`<style>*{padding:0;margin:0;overflow:hidden;border-radius:8px}html,body{height:100%}img,span{position:absolute;width:100%;top:0;bottom:0;margin:auto}span{height:1.5em;text-align:center;font:48px/1.5 sans-serif;color:white;text-shadow:0 0 0.5em black}</style><a href=${`https://www.youtube.com/embed/${videoLinkId}`}><img src=${`https://i.ytimg.com/vi_webp/${videoLinkId}/maxresdefault.webp`} alt=${title} loading="lazy" /><span>▶</span></a>`}
-                  frameBorder="0"
-                  loading="lazy"
-                  allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                ></iframe>
-              )}
-            </div>
+    <section className="py-20 bg-gray-50">
+      <Container>
+        <Flex wrap className="mb-10" gap={10} justify="between">
+          <div className="w-full mb-10 lg:mb-0 lg:w-1/2">
+            <Text weight="bold" className="md:text-lg lg:text-lg text-primary">
+              {subtitle}
+            </Text>
+            <Heading className="my-5">{title}</Heading>
+            <Text muted className="text-sm md:text-lg md:leading-loose">
+              {text}
+            </Text>
           </div>
+          {video && <YoutubeVideo videoLinkId={videoLinkId} title={title} />}
+        </Flex>
 
-          <div className="flex flex-wrap px-10">
-            {steps &&
-              steps?.map((step, index) => (
-                <div
-                  className="mb-12 w-full px-5 md:w-1/2 lg:mb-0 lg:w-1/3"
-                  key={index}
-                >
-                  <span className="mb-6 mt-6 flex h-12 w-12 items-center justify-center rounded bg-webriq-lightblue font-bold text-webriq-darkblue">
-                    {index + 1}
-                  </span>
-                  <p className="font-heading mb-2 text-lg font-bold md:text-2xl lg:text-2xl">
-                    {step?.title}
-                  </p>
-                  <p className="text-xs text-gray-500 md:text-lg md:leading-loose lg:text-lg lg:leading-loose">
-                    {step?.plainText}
-                  </p>
-                </div>
-              ))}
-          </div>
-        </div>
-      </div>
+        <Flex wrap>
+          {steps &&
+            steps?.map((step, index) => (
+              <StepsItem index={index} step={step} key={step._key} />
+            ))}
+        </Flex>
+      </Container>
     </section>
+  );
+}
+
+function StepsItem({ index, step }) {
+  return (
+    <div className="w-full px-5 mb-12 md:w-1/2 lg:mb-0 lg:w-1/3">
+      <span className="flex items-center justify-center w-12 h-12 mt-6 mb-6 font-bold rounded bg-secondary-foreground text-primary">
+        {index + 1}
+      </span>
+      <Text weight="bold" className="mb-2 text-lg md:text-2xl">
+        {step?.title}
+      </Text>
+      <Text muted className="text-xs md:text-lg md:leading-loose ">
+        {step?.plainText}
+      </Text>
+    </div>
   );
 }
 export default React.memo(VariantA);

@@ -7,6 +7,7 @@ import ItemInBag from "./ItemInBag";
 import { isEmpty } from "lodash";
 
 import { EcwidTypes } from "context/_ecwid-types";
+import { Button } from "components/ui/Button";
 
 interface ProductDetailProps {
   product:
@@ -93,7 +94,9 @@ const ProductDetail = ({ product, children }: ProductDetailProps) => {
 
   useEffect(() => {
     if (options && Object.keys(options).length) {
-      let priceModifier = 0;
+      let priceModifier = 0,
+        modifiedPrice = 0;
+      let priceModifierType;
       let basePrice = product?.defaultDisplayedPrice;
 
       if (selected?.defaultDisplayedPrice && options?.Size !== "") {
@@ -111,14 +114,22 @@ const ProductDetail = ({ product, children }: ProductDetailProps) => {
             const selectedChoice = selectedOption?.choices?.find(
               (el) => el.text === value
             );
+
             if (selectedChoice) {
               priceModifier += selectedChoice?.priceModifier;
+              priceModifierType = selectedChoice?.priceModifierType;
             }
           }
         }
       });
 
-      setPrice(basePrice + priceModifier);
+      if (priceModifierType === "PERCENT") {
+        modifiedPrice = basePrice + basePrice * (priceModifier / 100);
+      } else {
+        modifiedPrice = basePrice + priceModifier;
+      }
+
+      setPrice(modifiedPrice);
     }
   }, [
     options,
@@ -222,6 +233,21 @@ const ProductDetail = ({ product, children }: ProductDetailProps) => {
     return false;
   };
 
+  const handleModifiedPrice = (
+    priceModifier: number,
+    priceModifierType: "ABSOLUTE" | "PERCENT"
+  ) => {
+    if (priceModifierType === "ABSOLUTE") {
+      return isNegative(priceModifier)
+        ? `(-${getPriceDisplay(Math.abs(priceModifier))})`
+        : `(+${getPriceDisplay(priceModifier)})`;
+    } else {
+      return isNegative(priceModifier)
+        ? `(-${priceModifier}%)`
+        : `(+${priceModifier}%)`;
+    }
+  };
+
   return (
     <>
       <form onSubmit={handleSubmit}>
@@ -229,10 +255,10 @@ const ProductDetail = ({ product, children }: ProductDetailProps) => {
           const value = !isEmpty(options) ? options[option?.name] : "";
           if (option?.type === "TEXTFIELD") {
             return (
-              <div key={index} className="mb-4 flex flex-col">
+              <div key={index} className="flex flex-col mb-4">
                 <label
                   htmlFor={index}
-                  className="mb-2 font-medium uppercase text-gray-900"
+                  className="mb-2 font-medium text-gray-900 uppercase"
                 >
                   {option?.name}
                 </label>
@@ -240,7 +266,7 @@ const ProductDetail = ({ product, children }: ProductDetailProps) => {
                   type="text"
                   name={`name_${option?.name}`}
                   id={index}
-                  className="focus:shadow-outline block w-full appearance-none rounded border border-gray-400 bg-white px-4 py-2 pr-8 leading-tight shadow hover:border-gray-500 focus:outline-none"
+                  className="block w-full px-4 py-2 pr-8 leading-tight bg-white border border-gray-400 rounded shadow appearance-none focus:shadow-outline hover:border-gray-500 focus:outline-none"
                   required={option?.required}
                   value={value}
                   onChange={(e) => handleChanged(option, null, e)}
@@ -251,10 +277,10 @@ const ProductDetail = ({ product, children }: ProductDetailProps) => {
 
           if (option?.type === "SELECT") {
             return (
-              <div key={index} className="mb-4 flex flex-col w-full">
+              <div key={index} className="flex flex-col w-full mb-4">
                 <label
                   htmlFor={index}
-                  className="mb-2 font-medium uppercase text-gray-900"
+                  className="mb-2 font-medium text-gray-900 uppercase"
                 >
                   {option?.name}
                 </label>
@@ -262,7 +288,7 @@ const ProductDetail = ({ product, children }: ProductDetailProps) => {
                   name={`name_${option?.name}`}
                   id={index}
                   //style={{ maxWidth: "420px" }}
-                  className="focus:shadow-outline block appearance-none rounded border border-gray-400 bg-white px-4 py-3 pr-8 leading-tight shadow hover:border-gray-500 focus:outline-none"
+                  className="block px-4 py-3 pr-8 leading-tight bg-white border border-gray-400 rounded shadow appearance-none focus:shadow-outline hover:border-gray-500 focus:outline-none"
                   required={option?.required}
                   value={value}
                   onChange={(e) => handleChanged(option, null, e)}
@@ -272,11 +298,10 @@ const ProductDetail = ({ product, children }: ProductDetailProps) => {
                     <option key={ii} value={choice?.text}>
                       {choice?.text}{" "}
                       {choice?.priceModifier > 0
-                        ? isNegative(choice?.priceModifier)
-                          ? `(-${getPriceDisplay(
-                              Math.abs(choice?.priceModifier)
-                            )})`
-                          : `(+${getPriceDisplay(choice?.priceModifier)})`
+                        ? handleModifiedPrice(
+                            choice?.priceModifier,
+                            choice?.priceModifierType
+                          )
                         : ""}
                     </option>
                   ))}
@@ -295,7 +320,7 @@ const ProductDetail = ({ product, children }: ProductDetailProps) => {
                       id={choice?.text}
                       type="radio"
                       name={`name_${option?.name}`}
-                      className="h-4 w-4 border-gray-300 bg-gray-100 text-blue-600 focus:ring-2  focus:ring-blue-500 "
+                      className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-2 focus:ring-blue-500 "
                       required={option?.required}
                       checked={value === choice?.text}
                       onChange={(e) => handleChanged(option, choice, e)}
@@ -306,11 +331,10 @@ const ProductDetail = ({ product, children }: ProductDetailProps) => {
                     >
                       {choice?.text}{" "}
                       {choice?.priceModifier > 0
-                        ? isNegative(choice?.priceModifier)
-                          ? `(-${getPriceDisplay(
-                              Math.abs(choice?.priceModifier)
-                            )})`
-                          : `(+${getPriceDisplay(choice?.priceModifier)})`
+                        ? handleModifiedPrice(
+                            choice?.priceModifier,
+                            choice?.priceModifierType
+                          )
                         : ""}
                     </label>
                   </div>
@@ -322,7 +346,7 @@ const ProductDetail = ({ product, children }: ProductDetailProps) => {
           if (option?.type === "SIZE") {
             return (
               <div className="flex w-full" key={index}>
-                <p className="mb-2 font-medium uppercase text-gray-900">
+                <p className="mb-2 font-medium text-gray-900 uppercase">
                   {option.name}
                 </p>
                 <ul className="flex-wrap space-x-4">
@@ -332,24 +356,23 @@ const ProductDetail = ({ product, children }: ProductDetailProps) => {
                         id={choice?.text}
                         type="radio"
                         name={`name_${option?.name}`}
-                        className="peer hidden"
+                        className="hidden peer"
                         required={option?.required}
                         checked={value === choice?.text}
                         onChange={(e) => handleChanged(option, choice, e)}
                       />
                       <label
                         htmlFor={choice?.text}
-                        className="inline-flex w-full cursor-pointer items-center justify-between rounded-md border border-gray-200 bg-white p-3 text-gray-500 hover:bg-gray-100 hover:text-gray-600 peer-checked:border-blue-600 peer-checked:text-blue-600 dark:peer-checked:text-blue-500"
+                        className="inline-flex items-center justify-between w-full p-3 text-gray-500 bg-white border border-gray-200 rounded-md cursor-pointer hover:bg-gray-100 hover:text-gray-600 peer-checked:border-blue-600 peer-checked:text-blue-600 dark:peer-checked:text-blue-500"
                       >
                         <div className="block">
-                          <div className="text-md w-full font-semibold">
+                          <div className="w-full font-semibold text-md">
                             {choice?.text}{" "}
                             {choice?.priceModifier > 0
-                              ? isNegative(choice?.priceModifier)
-                                ? `(-${getPriceDisplay(
-                                    Math.abs(choice?.priceModifier)
-                                  )})`
-                                : `(+${getPriceDisplay(choice?.priceModifier)})`
+                              ? handleModifiedPrice(
+                                  choice?.priceModifier,
+                                  choice?.priceModifierType
+                                )
                               : ""}
                           </div>
                         </div>
@@ -364,7 +387,7 @@ const ProductDetail = ({ product, children }: ProductDetailProps) => {
           if (option?.type === "CHECKBOX") {
             return (
               <div key={index} className="mb-4">
-                <p className="mb-2 font-medium uppercase text-gray-900">
+                <p className="mb-2 font-medium text-gray-900 uppercase">
                   {option?.name}
                 </p>
                 {option?.choices?.map((choice, ii) => (
@@ -373,7 +396,7 @@ const ProductDetail = ({ product, children }: ProductDetailProps) => {
                       id={choice?.text}
                       type="checkbox"
                       name={`name_${option?.name}`}
-                      className="h-4 w-4 border-gray-300 bg-gray-100 text-blue-600 focus:ring-2  focus:ring-blue-500 "
+                      className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-2 focus:ring-blue-500 "
                       required={option?.required}
                       checked={Boolean(value.includes(choice?.text))}
                       onChange={(e) => handleChanged(option, choice, e)}
@@ -384,11 +407,10 @@ const ProductDetail = ({ product, children }: ProductDetailProps) => {
                     >
                       {choice?.text}{" "}
                       {choice?.priceModifier > 0
-                        ? isNegative(choice?.priceModifier)
-                          ? `(-${getPriceDisplay(
-                              Math.abs(choice?.priceModifier)
-                            )})`
-                          : `(+${getPriceDisplay(choice?.priceModifier)})`
+                        ? handleModifiedPrice(
+                            choice?.priceModifier,
+                            choice?.priceModifierType
+                          )
                         : ""}
                     </label>
                   </div>
@@ -400,38 +422,44 @@ const ProductDetail = ({ product, children }: ProductDetailProps) => {
           return null;
         })}
 
-        <div className="mb-4 flex flex-col">
+        <div className="flex flex-col mb-4">
           <label
             htmlFor="quantity"
-            className="mb-2 font-medium uppercase text-gray-900"
+            className="mb-2 font-medium text-gray-900 uppercase"
           >
             Qty
           </label>
-          <div className="flex w-full flex-row rounded border border-gray-400 shadow hover:border-gray-500 justify-between">
-            <button
+          <div className="flex flex-row justify-between w-full border border-gray-400 rounded shadow hover:border-gray-500">
+            <Button
+              variant="unstyled"
+              ariaLabel="Decrease Quantity"
+              as="button"
               className="text-gray-400 text-xl w-[44px] h-[44px] flex items-center justify-center"
               type="button"
               onClick={() => setQuantity((prev) => prev - 1)}
               disabled={quantity === 1 ? true : false}
             >
               -
-            </button>
+            </Button>
             <input
               type="text"
               name="quantity"
               id="quantity"
-              className="focus:shadow-outline bg-white text-center focus:outline-none"
+              className="text-center bg-white focus:shadow-outline focus:outline-none"
               value={quantity}
               onChange={handleQuantityInput}
               required
             />
-            <button
+            <Button
+              variant="unstyled"
+              as="button"
+              ariaLabel="Increase Quantity"
               className="text-gray-400 text-xl w-[44px] h-[44px] flex items-center justify-center"
               type="button"
               onClick={() => setQuantity((prev) => prev + 1)}
             >
               +
-            </button>
+            </Button>
           </div>
         </div>
         {itemsCount > 0 && <ItemInBag itemsCount={itemsCount} />}

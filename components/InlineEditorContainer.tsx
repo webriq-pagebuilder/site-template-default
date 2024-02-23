@@ -8,6 +8,7 @@ import { InlineEditorProps } from "./InlineEditor";
 
 import "split-pane-react/esm/themes/default.css";
 import styles from "styles/InlineEditing.module.css";
+import { Button } from "./ui/Button";
 
 export default function InlineEditorContainer({
   document,
@@ -39,10 +40,13 @@ export default function InlineEditorContainer({
       }`}
     >
       {!breakpoint && !sectionsWithoutEditor?.includes(document?.type) && (
-        <div className="absolute top-0 left-0 w-full h-full text-right p-4 pointer-events-none">
-          <button
+        <div className="absolute top-0 left-0 w-full h-full p-4 text-right pointer-events-none">
+          <Button
+            as="button"
+            ariaLabel="Inline Editing Button"
+            variant="outline"
             id={document?.type}
-            className={`pointer-events-auto z-40 items-center border border-webriq-darkblue bg-white px-2 py-2.5 text-center text-sm font-medium text-webriq-darkblue shadow-lg hover:border-webriq-blue hover:bg-webriq-blue hover:text-white ${
+            className={`pointer-events-auto z-40 items-center  px-2 py-2.5 text-center text-sm font-medium text-primary shadow-lg hover:border-primary-foreground hover:bg-primary-foreground hover:text-white rounded-none ${
               !splitPane && `styles.hide`
             }`}
             style={{
@@ -53,7 +57,7 @@ export default function InlineEditorContainer({
           >
             {!splitPane ? (
               <svg
-                className="h-4 w-4 fill-current"
+                className="w-4 h-4 fill-current"
                 clipRule="evenodd"
                 fillRule="evenodd"
                 strokeLinejoin="round"
@@ -69,7 +73,7 @@ export default function InlineEditorContainer({
             ) : (
               // close button
               <svg
-                className="h-4 w-4 fill-current"
+                className="w-4 h-4 fill-current"
                 clipRule="evenodd"
                 fillRule="evenodd"
                 strokeLinejoin="round"
@@ -80,7 +84,7 @@ export default function InlineEditorContainer({
                 <path d="m12 10.93 5.719-5.72c.146-.146.339-.219.531-.219.404 0 .75.324.75.749 0 .193-.073.385-.219.532l-5.72 5.719 5.719 5.719c.147.147.22.339.22.531 0 .427-.349.75-.75.75-.192 0-.385-.073-.531-.219l-5.719-5.719-5.719 5.719c-.146.146-.339.219-.531.219-.401 0-.75-.323-.75-.75 0-.192.073-.384.22-.531l5.719-5.719-5.72-5.719c-.146-.147-.219-.339-.219-.532 0-.425.346-.749.75-.749.192 0 .385.073.531.219z" />
               </svg>
             )}
-          </button>
+          </Button>
         </div>
       )}
       {/* TODO: [Improvement] Add feature to view pane in different device screen sizes */}
@@ -91,7 +95,7 @@ export default function InlineEditorContainer({
               sizes={sizes}
               onChange={setSizes}
               resizerSize={5}
-              className="border-y border-webriq-darkblue"
+              className="border-y border-primary"
               sashRender={() => (
                 <SashContent style={{ backgroundColor: "#d5e3ff" }} />
               )}
@@ -128,16 +132,19 @@ export default function InlineEditorContainer({
           </div>
         ) : (
           <>
-            <div className="z-30 mt-2 w-full bg-webriq-darkblue px-3 py-2.5 text-center text-sm text-white shadow md:flex md:flex-wrap">
+            <div className="z-30 mt-2 w-full bg-primary px-3 py-2.5 text-center text-sm text-white shadow md:flex md:flex-wrap">
               To continue using the inline editor, adjust screen width to
               DESKTOP view (screen width 1024px above).
-              <button
+              <Button
+                variant="link"
+                ariaLabel="Close Banner Button"
+                as="button"
                 id={document?.type}
-                className="absolute z-40 ml-2 inline-flex items-center text-center text-sm font-medium md:right-2"
+                className="absolute z-40 inline-flex items-center ml-2 text-sm font-medium text-center text-white no-underline md:right-2 hover:text-white"
                 onClick={() => setSplitPane(!splitPane)}
               >
                 Close
-              </button>
+              </Button>
             </div>
             {children}
           </>

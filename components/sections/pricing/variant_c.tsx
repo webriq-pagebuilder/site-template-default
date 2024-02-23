@@ -2,6 +2,8 @@ import React from "react";
 import axios from "axios";
 import { initiateCheckout } from "lib/checkout";
 import { PricingProps } from ".";
+import { Button, Card, Text, Heading } from "components/ui";
+import { Container, Flex } from "components/layout/index";
 
 function VariantC({
   caption,
@@ -83,140 +85,132 @@ function VariantC({
       }
     }
 
-    getPriceId(usePlan);
+    if (apiVersion && hashKey && stripeSKey) {
+      getPriceId(usePlan);
+    }
   }, [NEXT_PUBLIC_APP_URL, apiVersion, hashKey, plans, stripeSKey, usePlan]);
 
   return (
-    <section>
-      <div className="radius-for-skewed bg-gray-50 py-20">
-        <div className="container mx-auto px-4">
-          <div className="mx-auto mb-16 max-w-lg text-center">
-            {caption && (
-              <span className="font-bold text-webriq-darkblue">{caption}</span>
-            )}
-            {title && (
-              <h2 className="font-heading mb-2 text-4xl font-bold lg:text-5xl">
-                {title}
-              </h2>
-            )}
-            {description && <p className="mb-6 text-gray-500">{description}</p>}
-            {usePlan && (
-              <div className="inline-block rounded-lg bg-white px-1 py-1">
-                <button
-                  aria-label="Monthly Plan"
-                  className={`mr-1 px-4 py-2 text-sm ${
-                    plan === "monthly"
-                      ? "rounded-lg bg-gray-50 text-gray-900 shadow"
-                      : "text-gray-500"
-                  } font-bold focus:outline-none`}
-                  onClick={() => setPlan("monthly")}
-                >
-                  Monthly
-                </button>
-                <button
-                  aria-label="Yearly Plan"
-                  className={`px-4 py-2 text-sm ${
-                    plan === "yearly"
-                      ? "rounded-lg bg-gray-50 text-gray-900 shadow"
-                      : "text-gray-500"
-                  } font-bold focus:outline-none`}
-                  onClick={() => setPlan("yearly")}
-                >
-                  Yearly
-                </button>
-              </div>
-            )}
-          </div>
-          {pKeyError && (
-            <div>
-              <p
-                style={{
-                  fontSize: 9,
-                  color: "red",
-                  textAlign: "center",
-                  padding: 20,
-                }}
+    <section className="py-20 bg-gray-50">
+      <Container>
+        <Container maxWidth={512} className="mb-16 text-center ">
+          {caption && <span className="font-bold text-primary">{caption}</span>}
+          {title && <Heading className="mb-4">{title}</Heading>}
+          {description && (
+            <Text muted className="mb-6 ">
+              {description}
+            </Text>
+          )}
+          {usePlan && (
+            <div className="inline-block px-1 py-1 bg-white rounded-lg">
+              <Button
+                variant="tab"
+                as="button"
+                ariaLabel="Monthly Plan"
+                isActive={plan === "monthly"}
+                onClick={() => setPlan("monthly")}
               >
-                {`Stripe Checkout won't work because of an Invalid`}
-                <strong> Stripe Public Key</strong>, please fix it in your
-                studio under webriq-payments to get rid of this error message.
-              </p>
+                Monthly
+              </Button>
+              <Button
+                variant="tab"
+                as="button"
+                isActive={plan === "yearly"}
+                ariaLabel="Yearly Plan"
+                onClick={() => setPlan("yearly")}
+              >
+                Yearly
+              </Button>
             </div>
           )}
-          <div className="-mx-4 flex flex-wrap">
-            {usePlan &&
-              usePlan?.map((planDescription, index) => {
-                return (
-                  <div
-                    className="mb-8 w-full px-4 md:w-1/2 lg:mb-8 lg:w-1/3"
-                    key={index}
-                  >
-                    <div className="mx-auto max-w-md rounded bg-white px-10 py-8 text-center shadow">
-                      <div className="mb-12">
-                        <h3 className="font-heading mb-4 text-2xl font-bold">
-                          {planDescription?.planType}
-                        </h3>
-                        <p className="mb-6 text-gray-500">
-                          {planDescription?.description}
-                        </p>
-                      </div>
-                      <div>
-                        <span className="text-5xl font-bold lg:text-6xl">
-                          {isNaN(parseInt(planDescription?.monthlyPrice))
-                            ? planDescription?.monthlyPrice
-                            : `$${
-                                plan === "yearly"
-                                  ? comma.format(+planDescription?.yearlyPrice)
-                                  : comma.format(+planDescription?.monthlyPrice)
-                              }`}
-                        </span>
-                        {!isNaN(parseInt(planDescription?.price)) && (
-                          <span className="text-gray-500">{`/${plan}`}</span>
-                        )}
-                        <button
-                          aria-label={planDescription?.checkoutButtonName}
-                          className={`mt-6 block w-full rounded-l-xl rounded-t-xl bg-webriq-darkblue px-6 py-2 font-bold leading-loose text-white transition duration-200 hover:bg-webriq-blue ${
-                            !planDescription ||
-                            (!planDescription?.variant_c_monthlyPriceCheckoutButton &&
-                              "cursor-not-allowed bg-gray-100 disabled:opacity-50")
-                          }`}
-                          disabled={
-                            !planDescription ||
-                            !planDescription?.variant_c_monthlyPriceCheckoutButton
-                          }
-                          onClick={() => {
-                            initiateCheckout(
-                              {
-                                lineItems: [
-                                  {
-                                    price:
-                                      plan === "monthly"
-                                        ? planDescription?.variant_c_monthlyPriceCheckoutButton
-                                        : planDescription?.variant_c_yearlyPriceCheckoutButton,
-                                    quantity: 1,
-                                  },
-                                ],
-                              },
-                              stripePKey,
-                              window.location.origin + "/success",
-                              window.location.href,
-                              true
-                              // setPKError
-                            );
-                          }}
-                        >
-                          {!usePlan[0]
-                            ? "Processing..."
-                            : planDescription?.checkoutButtonName}
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
+        </Container>
+        {pKeyError && (
+          <div>
+            <p
+              style={{
+                fontSize: 9,
+                color: "red",
+                textAlign: "center",
+                padding: 20,
+              }}
+            >
+              {`Stripe Checkout won't work because of an Invalid`}
+              <strong> Stripe Public Key</strong>, please fix it in your studio
+              under webriq-payments to get rid of this error message.
+            </p>
           </div>
+        )}
+        <div className="flex flex-wrap -mx-4">
+          {usePlan &&
+            usePlan?.map((planDescription, index) => {
+              return (
+                <div className="w-full px-4 mb-8 md:w-1/2 lg:w-1/3" key={index}>
+                  <Card className="max-w-md px-10 py-8 mx-auto text-center ">
+                    <div className="mb-12">
+                      <Heading type="h3" className="mb-4 text-2xl">
+                        {planDescription?.planType}
+                      </Heading>
+                      <Text muted className="mb-6 ">
+                        {planDescription?.description}
+                      </Text>
+                    </div>
+                    <div>
+                      <span className="text-5xl font-bold lg:text-6xl">
+                        {isNaN(parseInt(planDescription?.monthlyPrice))
+                          ? planDescription?.monthlyPrice
+                          : `$${
+                              plan === "yearly"
+                                ? comma.format(+planDescription?.yearlyPrice)
+                                : comma.format(+planDescription?.monthlyPrice)
+                            }`}
+                      </span>
+                      {!isNaN(parseInt(planDescription?.price)) && (
+                        <span className="text-gray-500">{`/${plan}`}</span>
+                      )}
+                      <Button
+                        as="button"
+                        ariaLabel={planDescription?.checkoutButtonName}
+                        className={`mt-6 block w-full ${
+                          !planDescription ||
+                          (!planDescription?.variant_c_monthlyPriceCheckoutButton &&
+                            "cursor-not-allowed disabled:opacity-50")
+                        }`}
+                        disabled={
+                          !planDescription ||
+                          !planDescription?.variant_c_monthlyPriceCheckoutButton
+                        }
+                        onClick={() => {
+                          initiateCheckout(
+                            {
+                              lineItems: [
+                                {
+                                  price:
+                                    plan === "monthly"
+                                      ? planDescription?.variant_c_monthlyPriceCheckoutButton
+                                      : planDescription?.variant_c_yearlyPriceCheckoutButton,
+                                  quantity: 1,
+                                },
+                              ],
+                            },
+                            stripePKey,
+                            window.location.origin + "/success",
+                            window.location.href,
+                            true
+                            // setPKError
+                          );
+                        }}
+                      >
+                        {!usePlan[0]
+                          ? "Processing..."
+                          : planDescription?.checkoutButtonName}
+                      </Button>
+                    </div>
+                  </Card>
+                </div>
+              );
+            })}
         </div>
-      </div>
+      </Container>
     </section>
   );
 }

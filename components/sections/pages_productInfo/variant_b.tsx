@@ -8,6 +8,8 @@ import ProductDetail from "components/ecwid/ProductDetail";
 import { useEcwid } from "context/EcwidContext";
 import { defaultBlockStyle } from "helper";
 import { PagesProductInfoProps } from ".";
+import { Container, Flex } from "components/layout/index";
+import { Heading, Text } from "components/ui";
 
 function VariantB({ products }: PagesProductInfoProps) {
   const ecwid = useEcwid();
@@ -22,15 +24,15 @@ function VariantB({ products }: PagesProductInfoProps) {
 
   return (
     <section className="sm:p-10 md:p-20">
-      <div className="container mx-auto px-4">
+      <Container>
         {products && (
-          <div className="-mx-4 flex flex-wrap">
-            <div className="mb-8 w-full px-4 md:mb-0 md:w-1/2">
-              <div className="-mx-1 flex flex-wrap">
+          <Flex wrap>
+            <div className="w-full px-4 mb-8 md:mb-0 md:w-1/2">
+              <Flex wrap>
                 <div className="px-5 md:w-full">
                   <div className="relative">
                     {products?.productInfo?.images ? (
-                      <div className="h-full w-full">
+                      <div className="w-full h-full">
                         <Image
                           sizes="(min-width: 1840px) 704px, (min-width: 1540px) calc(27.86vw + 197px), (min-width: 1320px) calc(30vw + 120px), (min-width: 1260px) calc(145vw - 1379px), (min-width: 1040px) 36vw, (min-width: 980px) 320px, (min-width: 780px) calc(41.11vw - 75px), (min-width: 640px) calc(66.67vw + 69px), calc(100vw - 64px)"
                           width={736}
@@ -59,9 +61,9 @@ function VariantB({ products }: PagesProductInfoProps) {
                     )}
                   </div>
                 </div>
-                <div className="mr-auto mt-8 px-5">
-                  <div className="flex flex-wrap items-center">
-                    <span className="font-heading mr-8 font-bold uppercase">
+                <div className="px-5 mt-8 mr-auto">
+                  <Flex wrap align="center">
+                    <span className="mr-8 font-bold uppercase font-heading">
                       SHARE IT
                     </span>
                     {products?.productInfo?.socialLinks?.map(
@@ -71,7 +73,7 @@ function VariantB({ products }: PagesProductInfoProps) {
                             aria-label={
                               social?.socialMedia || social?.socialMediaPlatform
                             }
-                            className="mr-2 h-8 w-8"
+                            className="w-8 h-8 mr-2"
                             target="_blank"
                             rel="noopener noreferrer"
                             href={social?.socialMediaLink}
@@ -131,38 +133,44 @@ function VariantB({ products }: PagesProductInfoProps) {
                           </a>
                         )
                     )}
-                  </div>
+                  </Flex>
                 </div>
-              </div>
+              </Flex>
             </div>
             <div className="w-full px-4 md:w-1/2">
               <div>
-                <div className="mb-10 border-b pb-10">
+                <div className="pb-10 mb-10 border-b">
                   {products?.ecwidProductId && (
                     <div className="mb-3">
                       <Ribbon data={ecwidProduct} />
                     </div>
                   )}
                   {products?.name && (
-                    <h1 className="font-heading mb-6 mt-2 max-w-xl text-5xl font-bold md:text-6xl">
+                    <Heading
+                      weight="bold"
+                      className="max-w-xl mt-2 mb-6 text-5xl md:text-6xl"
+                    >
                       {products?.name}
-                    </h1>
+                    </Heading>
                   )}
                   <div className="mb-8">{/* Add product rating here */}</div>
                   {products?.price && (
-                    <p
-                      className={`font-heading inline-block text-2xl font-bold text-webriq-darkblue ${
+                    <Text
+                      weight="bold"
+                      fontSize="2xl"
+                      className={`inline-blockd text-primary ${
                         !products?.compareToPrice && "mb-8"
                       }`}
                     >
                       {(ecwid &&
                         ecwid?.products?.defaultDisplayedPriceFormatted) ||
                         ecwid?.getPriceDisplay(products?.price)}
-                    </p>
+                    </Text>
                   )}
                   {products?.compareToPrice && (
-                    <p
-                      className="mt-3 mb-8 text-gray-500"
+                    <Text
+                      muted
+                      className="mt-3 mb-8 "
                       style={{
                         fontSize: "15px",
                       }}
@@ -173,14 +181,14 @@ function VariantB({ products }: PagesProductInfoProps) {
                       </span>{" "}
                       (
                       <span
-                        className="text-webriq-babyblue"
+                        className="text-secondary"
                         style={{ fontSize: "15px" }}
                       >
                         Save{" "}
                         {ecwidProduct?.compareToPriceDiscountPercentFormatted}
                       </span>
                       )
-                    </p>
+                    </Text>
                   )}
                   {products?.description && (
                     // <p
@@ -196,22 +204,27 @@ function VariantB({ products }: PagesProductInfoProps) {
                 </div>
 
                 <ProductDetail product={ecwidProduct}>
-                  <div className="my-8 flex items-start gap-4 flex-row">
+                  <Flex
+                    direction="row"
+                    align="center"
+                    gap={4}
+                    className="my-8 "
+                  >
                     <div className="w-full lg:mb-4 xl:mb-0">
                       <AddToBag
                         inStock={!ecwidProduct?.inStock}
-                        classNames="block w-full mb-4 lg:mb-0 text-center text-white font-bold font-heading py-5 px-8 rounded-md uppercase transition duration-200 bg-webriq-darkblue hover:bg-webriq-blue cursor-pointer"
+                        classNames="block w-full py-5 px-8  cursor-pointer uppercase"
                       >
                         {products?.productInfo?.btnLabel ?? "ADD TO CART"}
                       </AddToBag>
                     </div>
                     <AddToWishlist
-                      classNames="w-full flex-shrink-0 flex flex-wrap items-center justify-center py-5 px-8 rounded-md border hover:border-webriq-darkblue"
+                      classNames="w-full flex-shrink-0 flex flex-wrap items-center justify-center py-5 px-8 rounded-md border hover:border-primary"
                       product={ecwidProduct}
                       containerClass="w-full"
                     >
                       <svg
-                        className="-mt-1 mr-2"
+                        className="mr-2 -mt-1"
                         width={27}
                         height={27}
                         viewBox="0 0 27 27"
@@ -226,17 +239,17 @@ function VariantB({ products }: PagesProductInfoProps) {
                           strokeLinejoin="round"
                         />
                       </svg>
-                      <span className="font-heading font-bold uppercase">
+                      <span className="font-bold uppercase font-heading">
                         Add to wishlist
                       </span>
                     </AddToWishlist>
-                  </div>
+                  </Flex>
                 </ProductDetail>
               </div>
             </div>
-          </div>
+          </Flex>
         )}
-      </div>
+      </Container>
     </section>
   );
 }

@@ -28,7 +28,6 @@ function Blog({ data }: SectionsProps) {
     posts: data?.variants?.blogPosts,
     primaryButton: data?.variants?.primaryButton,
   };
-
   return Variant ? <Variant {...props} /> : null;
 }
 export default React.memo(Blog);

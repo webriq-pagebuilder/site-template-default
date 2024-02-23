@@ -1,28 +1,27 @@
 import React from "react";
 
 import { StatsProps } from ".";
+import { Card, Text } from "components/ui";
+import { Container, Flex } from "components/layout/index";
 
 function VariantA({ stats }: StatsProps) {
   return (
-    <section className="bg-gray-50 py-20">
-      <div className="container mx-auto px-4">
-        <div className="justify-left -mx-4 flex flex-wrap items-center text-center">
+    <section className="py-20 bg-gray-50">
+      <Container>
+        <Flex wrap align="center" justify="start" className="text-center ">
           {stats &&
             stats.map((items, index) => (
-              <div
-                className="my-8 w-full px-4 sm:w-1/4 md:w-1/2 lg:w-1/4"
-                key={index}
-              >
-                <div className="relative rounded bg-white py-10 shadow">
-                  <p className="mb-1 text-webriq-darkblue">{items?.label}</p>
+              <div className="w-full px-4 my-8 sm:w-1/4 lg:w-1/4" key={index}>
+                <Card className="relative py-10 ">
+                  <Text className="mb-1 text-primary">{items?.label}</Text>
                   <span className="text-3xl font-bold lg:text-4xl">
                     {items?.value}
                   </span>
-                </div>
+                </Card>
               </div>
             ))}
-        </div>
-      </div>
+        </Flex>
+      </Container>
     </section>
   );
 }
