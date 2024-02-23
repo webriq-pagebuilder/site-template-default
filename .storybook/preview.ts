@@ -4,7 +4,9 @@ import "../styles/globals.css";
 import { rest } from "msw";
 
 // Initialize MSW
-initialize();
+initialize({
+  onUnhandledRequest: "bypass",
+});
 
 const preview: Preview = {
   parameters: {
