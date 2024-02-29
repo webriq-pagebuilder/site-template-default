@@ -23,7 +23,7 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 18
-          cache: 'yarn'
+          cache: "yarn"
 
       - run: yarn
 
@@ -31,6 +31,7 @@ jobs:
         with:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
           token: ${{ secrets.GITHUB_TOKEN }}
+          onlyChanged: true
         env:
           STORYBOOK_SANITY_PROJECT_ID: ${{ secrets.STORYBOOK_SANITY_PROJECT_ID }}
           STORYBOOK_SANITY_DATASET: ${{ secrets.STORYBOOK_SANITY_DATASET }}

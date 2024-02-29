@@ -17,7 +17,7 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "build-storybook-docs": "storybook build --docs",
-    "chromatic": "npx chromatic --project-token=chpt_68d919151b3e677"
+    "chromatic": "npx chromatic --project-token=chpt_68d919151b3e677 --only-changed"
   },
   "dependencies": {
     "@portabletext/react": "^3.0.9",
