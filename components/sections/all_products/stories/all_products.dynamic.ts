@@ -12,8 +12,9 @@ export default defineStories({
       title: "CStudio/All Products",
       component: AllProductsComponent,
       tags: ["autodocs"],
-      render: ({ variant, ...args }) => {
+      render: ({ variant, label, ...args }) => {
         const data = {
+          label: label,
           variant: variant,
           variants: args,
         };
@@ -24,24 +25,24 @@ export default defineStories({
     };
   `,
   stories: async () => {
-    // only fetch components that are referenced or added in pages
-    const allProductsData = await sanityClient.fetch(componentsQuery, {
-      schema: "allProducts",
-    });
+    const allProductsData =
+      (await sanityClient.fetch(componentsQuery, {
+        schema: "allProducts",
+      })) || []; // Provide a default empty array
 
     const result: StoryConfigs = {};
 
-    await Promise.allSettled(
-      allProductsData?.map(
-        (item, index) =>
-          (result[`${item?.variant}${index + 1}`] = {
-            args: {
-              variant: item?.variant,
-              ...allProductsDefaultValues,
-            },
-          })
-      )
-    );
+    allProductsData?.map((item, index) => {
+      if (!item || !item.variants) return; // Skip iteration if item or item.variants is falsy
+
+      result[`${item.variant}${index + 1}`] = {
+        args: {
+          variant: item.variant,
+          label: item.label,
+          ...allProductsDefaultValues,
+        },
+      };
+    });
 
     return result;
   },

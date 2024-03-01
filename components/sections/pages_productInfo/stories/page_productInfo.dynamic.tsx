@@ -12,12 +12,11 @@ export default defineStories({
       title: "Sections/Product Info",
       component: PageProductInfo,
       tags: ["autodocs"],
-      render: ({ variant, ...args }) => {
+      render: ({ variant, label, ...args }) => {
         const data = {
+          label: label,
           variant: variant,
-          variants: {
-            products: args
-          },
+          variants: args,
         };
 
         // Using React.createElement instead of JSX to avoid JSX parsing issues in template literals
@@ -26,24 +25,24 @@ export default defineStories({
     };
   `,
   stories: async () => {
-    // only fetch components that are referenced or added in pages
-    const pagesProductInfoData = await sanityClient.fetch(componentsQuery, {
-      schema: "pages_productInfo",
-    });
+    const pagesProductInfoData =
+      (await sanityClient.fetch(componentsQuery, {
+        schema: "pages_productInfo",
+      })) || []; // Provide a default empty array
 
     const result: StoryConfigs = {};
 
-    await Promise.allSettled(
-      pagesProductInfoData?.map(
-        (item, index) =>
-          (result[`${item?.variant}${index + 1}`] = {
-            args: {
-              variant: item?.variant,
-              ...productInfoPageDefaultValues,
-            },
-          })
-      )
-    );
+    pagesProductInfoData?.map((item, index) => {
+      if (!item || !item.variants) return; // Skip iteration if item or item.variants is falsy
+
+      result[`${item.variant}${index + 1}`] = {
+        args: {
+          variant: item.variant,
+          label: item.label,
+          ...productInfoPageDefaultValues,
+        },
+      };
+    });
 
     return result;
   },

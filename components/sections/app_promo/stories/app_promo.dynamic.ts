@@ -1,3 +1,5 @@
+// THIS IS THE STORY FILE TO GENERATE DYNAMIC STORIES FOR APP PROMO AS ADDED IN THE STUDIO
+
 import { filterArgsByVariant } from "components/common";
 import { StoryConfigs, defineStories } from "utils/stories";
 import { sanityClient } from "lib/sanity.client";
@@ -16,8 +18,9 @@ export default defineStories({
       title: "Sections/App Promo",
       component: AppPromoComponent,
       tags: ["autodocs"],
-      render: ({ variant, ...args }) => {
+      render: ({ variant, label, ...args }) => {
         const data = {
+          label: label,
           variant: variant,
           variants: args,
         };
@@ -28,28 +31,24 @@ export default defineStories({
     };
   `,
   stories: async () => {
-    // only fetch components that are referenced or added in pages
-    const appPromoData = await sanityClient.fetch(componentsQuery, {
-      schema: "appPromo",
-    });
+    const appPromoData =
+      (await sanityClient.fetch(componentsQuery, {
+        schema: "appPromo",
+      })) || []; // Provide a default empty array
 
     const result: StoryConfigs = {};
 
-    await Promise.allSettled(
-      appPromoData?.map(
-        (item, index) =>
-          (result[`${item?.variant}${index + 1}`] = {
-            args: {
-              variant: item?.variant,
-              ...filterArgsByVariant(
-                appPromoSchema,
-                item?.variants,
-                item?.variant
-              ),
-            },
-          })
-      )
-    );
+    appPromoData?.map((item, index) => {
+      if (!item || !item.variants) return; // Skip iteration if item or item.variants is falsy
+
+      result[`${item.variant}${index + 1}`] = {
+        args: {
+          variant: item.variant,
+          label: item.label,
+          ...filterArgsByVariant(appPromoSchema, item.variants, item.variant),
+        },
+      };
+    });
 
     return result;
   },

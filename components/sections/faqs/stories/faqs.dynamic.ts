@@ -13,39 +13,40 @@ export default defineStories({
     import React from "react";
     import FAQComponent from "../index.tsx";
     export default {
-      title: "Sections/FAQ",
+      title: "Sections/FAQs",
       component: FAQComponent,
       tags: ["autodocs"],
-      render: ({ variant, ...args }) => {
+      render: ({ variant, label, ...args }) => {
         const data = {
+          label: label,
           variant: variant,
           variants: args,
         };
-
+        
         // Using React.createElement instead of JSX to avoid JSX parsing issues in template literals
         return React.createElement(FAQComponent, { data: data });
       }
     };
   `,
   stories: async () => {
-    // only fetch components that are referenced or added in pages
-    const faqsData = await sanityClient.fetch(componentsQuery, {
-      schema: "faqs",
-    });
+    const faqsData =
+      (await sanityClient.fetch(componentsQuery, {
+        schema: "faqs",
+      })) || []; // Provide a default empty array
 
     const result: StoryConfigs = {};
 
-    await Promise.allSettled(
-      faqsData?.map(
-        (item, index) =>
-          (result[`${item?.variant}${index + 1}`] = {
-            args: {
-              variant: item?.variant,
-              ...filterArgsByVariant(faqsSchema, item?.variants, item?.variant),
-            },
-          })
-      )
-    );
+    faqsData?.map((item, index) => {
+      if (!item || !item.variants) return; // Skip iteration if item or item.variants is falsy
+
+      result[`${item.variant}${index + 1}`] = {
+        args: {
+          variant: item.variant,
+          label: item.label,
+          ...filterArgsByVariant(faqsSchema, item.variants, item.variant),
+        },
+      };
+    });
 
     return result;
   },

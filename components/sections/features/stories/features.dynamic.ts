@@ -28,28 +28,24 @@ export default defineStories({
     };
   `,
   stories: async () => {
-    // only fetch components that are referenced or added in pages
-    const featuresData = await sanityClient.fetch(componentsQuery, {
-      schema: "features",
-    });
+    const featuresData =
+      (await sanityClient.fetch(componentsQuery, {
+        schema: "features",
+      })) || []; // Provide a default empty array
 
     const result: StoryConfigs = {};
 
-    await Promise.allSettled(
-      featuresData?.map(
-        (item, index) =>
-          (result[`${item?.variant}${index + 1}`] = {
-            args: {
-              variant: item?.variant,
-              ...filterArgsByVariant(
-                featuresSchema,
-                item?.variants,
-                item?.variant
-              ),
-            },
-          })
-      )
-    );
+    featuresData?.map((item, index) => {
+      if (!item || !item.variants) return; // Skip iteration if item or item.variants is falsy
+
+      result[`${item.variant}${index + 1}`] = {
+        args: {
+          variant: item.variant,
+          label: item.label,
+          ...filterArgsByVariant(featuresSchema, item.variants, item.variant),
+        },
+      };
+    });
 
     return result;
   },

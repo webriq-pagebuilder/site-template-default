@@ -12,12 +12,11 @@ export default defineStories({
       title: "CStudio/Featured Products",
       component: FeaturedProducts,
       tags: ["autodocs"],
-      render: ({ variant, ...args }) => {
+      render: ({ variant, label, ...args }) => {
         const data = {
+          label: label,
           variant: variant,
-          variants: {
-            collections: args
-          },
+          variants: args,
         };
 
         // Using React.createElement instead of JSX to avoid JSX parsing issues in template literals
@@ -26,24 +25,24 @@ export default defineStories({
     };
   `,
   stories: async () => {
-    // only fetch components that are referenced or added in pages
-    const featuredProductsData = await sanityClient.fetch(componentsQuery, {
-      schema: "featuredProducts",
-    });
+    const featuredProductsData =
+      (await sanityClient.fetch(componentsQuery, {
+        schema: "featuredProducts",
+      })) || []; // Provide a default empty array
 
     const result: StoryConfigs = {};
 
-    await Promise.allSettled(
-      featuredProductsData?.map(
-        (item, index) =>
-          (result[`${item?.variant}${index + 1}`] = {
-            args: {
-              variant: item?.variant,
-              ...featuredProductDefaultValues,
-            },
-          })
-      )
-    );
+    featuredProductsData?.map((item, index) => {
+      if (!item || !item.variants) return; // Skip iteration if item or item.variants is falsy
+
+      result[`${item.variant}${index + 1}`] = {
+        args: {
+          variant: item.variant,
+          label: item.label,
+          ...featuredProductDefaultValues,
+        },
+      };
+    });
 
     return result;
   },
