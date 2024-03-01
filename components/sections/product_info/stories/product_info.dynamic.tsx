@@ -55,6 +55,11 @@ export default defineStories({
     };
   `,
   stories: async () => {
+    // Check if SANITY_STUDIO_IN_CSTUDIO is false and return an empty object to not render any story
+    if (process.env.STORYBOOK_SANITY_STUDIO_IN_CSTUDIO === "false") {
+      return {};
+    }
+
     const productInfoData =
       (await sanityClient.fetch(componentsQuery, {
         schema: "productInfo",
