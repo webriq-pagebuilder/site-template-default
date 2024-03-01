@@ -1,7 +1,8 @@
 import type { Preview } from "@storybook/react";
+import { fn } from "@storybook/test";
+import { rest } from "msw";
 import { initialize, mswLoader } from "msw-storybook-addon";
 import "../styles/globals.css";
-import { rest } from "msw";
 
 // Initialize MSW
 initialize({
@@ -10,7 +11,7 @@ initialize({
 
 const preview: Preview = {
   parameters: {
-    actions: { argTypesRegex: "^on[A-Z].*" },
+    args: { onClick: fn() },
     controls: {
       matchers: {
         color: /(background|color)$/i,

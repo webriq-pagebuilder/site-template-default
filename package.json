@@ -90,7 +90,7 @@
     "@types/react": "^18.2.0",
     "@types/vhtml": "^2.2.4",
     "autoprefixer": "^10.4.15",
-    "chromatic": "^7.6.0",
+    "chromatic": "^11.0.0",
     "eslint": "^8.39.0",
     "eslint-config-next": "^14.1.0",
     "eslint-plugin-storybook": "^0.6.15",
