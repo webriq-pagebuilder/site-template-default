@@ -1,4 +1,8 @@
-import { SANITY_PROJECT_ID, SANITY_PROJECT_DATASET } from "studio/config";
+import {
+  SANITY_PROJECT_ID,
+  SANITY_PROJECT_DATASET,
+  SANITY_API_READ_TOKEN,
+} from "studio/config";
 
 interface Config {
   dataset: string;
@@ -21,17 +25,7 @@ let config: Config = {
   // And every page load calls getStaticProps.
   // To get the lowest latency, lowest cost, and latest data, use the Instant Preview mode
   apiVersion: "2022-03-13",
+  token: SANITY_API_READ_TOKEN,
 };
-
-// Require READ token when in production since `dataset` is set to `private`
-if (
-  process.env.NODE_ENV === "production" ||
-  process.env.NODE_ENV === "development"
-) {
-  config = {
-    ...config,
-    token: process.env.NEXT_PUBLIC_SANITY_API_READ_TOKEN,
-  };
-}
 
 export { config };

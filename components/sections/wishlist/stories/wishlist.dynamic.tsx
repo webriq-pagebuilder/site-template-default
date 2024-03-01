@@ -12,8 +12,9 @@ export default defineStories({
       title: "CStudio/Wishlist",
       component: Wishlist,
       tags: ["autodocs"],
-      render: ({ variant, ...args }) => {
+      render: ({ variant, label, ...args }) => {
         const data = {
+          label: label,
           variant: variant,
           variants: args,
         };
@@ -24,23 +25,28 @@ export default defineStories({
     };
   `,
   stories: async () => {
-    // only fetch components that are referenced or added in pages
-    const wishlistData = await sanityClient.fetch(componentsQuery, {
-      schema: "slotWishlist",
-    });
+    // Check if SANITY_STUDIO_IN_CSTUDIO is false and return an empty object to not render any story
+    if (process.env.STORYBOOK_SANITY_STUDIO_IN_CSTUDIO === "false") {
+      return {};
+    }
+
+    const wishlistData =
+      (await sanityClient.fetch(componentsQuery, {
+        schema: "slotWishlist",
+      })) || []; // Provide a default empty array
 
     const result: StoryConfigs = {};
 
-    await Promise.allSettled(
-      wishlistData?.map(
-        (item, index) =>
-          (result[`${item?.variant ?? "variant_a"}${index + 1}`] = {
-            args: {
-              variant: item?.variant ?? "variant_a",
-            },
-          })
-      )
-    );
+    wishlistData?.map((item, index) => {
+      if (!item || !item.variants) return; // Skip iteration if item or item.variants is falsy
+
+      result[`${item.variant}${index + 1}`] = {
+        args: {
+          variant: item.variant ?? "variant_a",
+          label: item.label,
+        },
+      };
+    });
 
     return result;
   },

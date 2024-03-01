@@ -16,8 +16,9 @@ export default defineStories({
       title: "Sections/Navigation",
       component: NavigationComponent,
       tags: ["autodocs"],
-      render: ({ variant, ...args }) => {
+      render: ({ variant, label, ...args }) => {
         const data = {
+          label: label,
           variant: variant,
           variants: args,
         };
@@ -28,28 +29,24 @@ export default defineStories({
     };
   `,
   stories: async () => {
-    // only fetch components that are referenced or added in pages
-    const navigationData = await sanityClient.fetch(componentsQuery, {
-      schema: "navigation",
-    });
+    const navigationData =
+      (await sanityClient.fetch(componentsQuery, {
+        schema: "navigation",
+      })) || []; // Provide a default empty array
 
     const result: StoryConfigs = {};
 
-    await Promise.allSettled(
-      navigationData?.map(
-        (item, index) =>
-          (result[`${item?.variant}${index + 1}`] = {
-            args: {
-              variant: item?.variant,
-              ...filterArgsByVariant(
-                navigationSchema,
-                item?.variants,
-                item?.variant
-              ),
-            },
-          })
-      )
-    );
+    navigationData?.map((item, index) => {
+      if (!item || !item.variants) return; // Skip iteration if item or item.variants is falsy
+
+      result[`${item.variant}${index + 1}`] = {
+        args: {
+          variant: item.variant,
+          label: item.label,
+          ...filterArgsByVariant(navigationSchema, item.variants, item.variant),
+        },
+      };
+    });
 
     return result;
   },

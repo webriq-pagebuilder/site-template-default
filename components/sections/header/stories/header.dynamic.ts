@@ -16,8 +16,9 @@ export default defineStories({
       title: "Sections/Header",
       component: HeaderComponent,
       tags: ["autodocs"],
-      render: ({ variant, ...args }) => {
+      render: ({ variant, label, ...args }) => {
         const data = {
+          label: label,
           variant: variant,
           variants: args,
         };
@@ -28,28 +29,24 @@ export default defineStories({
     };
   `,
   stories: async () => {
-    // only fetch components that are referenced or added in pages
-    const headerData = await sanityClient.fetch(componentsQuery, {
-      schema: "header",
-    });
+    const headerData =
+      (await sanityClient.fetch(componentsQuery, {
+        schema: "header",
+      })) || []; // Provide a default empty array
 
     const result: StoryConfigs = {};
 
-    await Promise.allSettled(
-      headerData?.map(
-        (item, index) =>
-          (result[`${item?.variant}${index + 1}`] = {
-            args: {
-              variant: item?.variant,
-              ...filterArgsByVariant(
-                headerSchema,
-                item?.variants,
-                item?.variant
-              ),
-            },
-          })
-      )
-    );
+    headerData?.map((item, index) => {
+      if (!item || !item.variants) return; // Skip iteration if item or item.variants is falsy
+
+      result[`${item.variant}${index + 1}`] = {
+        args: {
+          variant: item.variant,
+          label: item.label,
+          ...filterArgsByVariant(headerSchema, item.variants, item.variant),
+        },
+      };
+    });
 
     return result;
   },

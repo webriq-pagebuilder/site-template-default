@@ -294,6 +294,4 @@ export const searchPageQuery = groq`*[_type == "searchPage"] ${allProjections}`;
 export const globalSEOQuery = groq`*[_type == 'defaultSeo' && !(_id in path("drafts.**"))][0]`;
 
 // query sections/components
-export const componentsQuery = groq`*[_type==$schema && !(_id in path("drafts.**"))] | order(variant asc, _updatedAt desc){
-  ...,"referencedBy": count(*[references(^._id)])
-}[referencedBy != 0]`;
+export const componentsQuery = groq`*[_type==$schema && !(_id in path("drafts.**"))] | order(variant asc, _updatedAt desc)`;
