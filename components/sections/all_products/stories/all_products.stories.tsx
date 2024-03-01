@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import AppPromoComponent from "../index";
+import AllProductsComponent from "../index";
 import { Sections } from "types";
 import { allProductsDefaultValues } from "helper/defaultValues";
 
@@ -9,7 +9,7 @@ const args = {
 
 const meta = {
   title: "CStudio/All Products/Defaults",
-  component: AppPromoComponent,
+  component: AllProductsComponent,
   tags: ["autodocs"],
   render: ({ variant, ...args }) => {
     const data = {
@@ -17,9 +17,9 @@ const meta = {
       variants: args,
     };
 
-    return <AppPromoComponent data={data} />;
+    return <AllProductsComponent data={data} />;
   },
-} satisfies Meta<typeof AppPromoComponent> & any;
+} satisfies Meta<typeof AllProductsComponent> & any;
 
 export default meta;
 type Story = StoryObj<Sections> & any;
