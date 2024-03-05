@@ -1,28 +1,30 @@
 import React from "react";
 import Head from "next/head";
-import { PreviewSuspense } from "next-sanity/preview";
+import { GetStaticProps } from "next";
+import { QueryParams, SanityDocument } from "next-sanity";
+import { useLiveQuery } from "next-sanity/preview";
 import { getClient } from "lib/sanity.client";
+import { token } from "lib/token";
 import { homeQuery, globalSEOQuery } from "./api/query";
-import { usePreview } from "lib/sanity.preview";
+import { CommonPageData, DefaultSeoData } from "types";
+import InlineEditorContextProvider from "context/InlineEditorContext";
+import { PreviewBanner } from "components/PreviewBanner";
 import { PageSections } from "components/page";
 import { PreviewNoContent } from "components/PreviewNoContent";
-import { filterDataToSingleItem, SEO } from "components/list";
-import { PreviewBanner } from "components/PreviewBanner";
-import InlineEditorContextProvider from "context/InlineEditorContext";
-import { CommonPageData, DefaultSeoData } from "types";
+import SEO from "components/SEO";
 import { addSEOJsonLd } from "components/SEO";
 
 interface HomeProps {
+  draftMode: boolean;
+  token: string;
+  params: QueryParams;
+  source: string;
   data: Data;
-  preview: boolean;
-  token?: string | null;
-  source?: string;
   defaultSeo: DefaultSeoData;
 }
 
-interface DocumentWithPreviewProps {
+interface DocumentProps {
   data: Data;
-  token: string | null;
   defaultSeo: DefaultSeoData;
 }
 
@@ -36,18 +38,16 @@ interface PageData extends CommonPageData {
   title: string;
 }
 
-function Home({ data, preview, token, source, defaultSeo }: HomeProps) {
+function Home({ draftMode, source, data, defaultSeo }: HomeProps) {
   const showInlineEditor = source === "studio";
 
-  if (preview) {
+  if (draftMode) {
     return (
       <>
         <PreviewBanner />
-        <PreviewSuspense fallback="Loading...">
-          <InlineEditorContextProvider showInlineEditor={showInlineEditor}>
-            <DocumentWithPreview {...{ data, token, defaultSeo }} />
-          </InlineEditorContextProvider>
-        </PreviewSuspense>
+        <InlineEditorContextProvider showInlineEditor={showInlineEditor}>
+          <DocumentWithPreview {...{ data, defaultSeo }} />
+        </InlineEditorContextProvider>
       </>
     );
   }
@@ -61,13 +61,7 @@ function Home({ data, preview, token, source, defaultSeo }: HomeProps) {
  *
  * @returns Document with published data
  */
-function Document({
-  data,
-  defaultSeo,
-}: {
-  data: Data;
-  defaultSeo: DefaultSeoData;
-}) {
+function Document({ data, defaultSeo }: DocumentProps) {
   const publishedData = data?.pageData;
 
   // General safeguard against empty data
@@ -113,17 +107,14 @@ function Document({
 /**
  *
  * @param data Data from getStaticProps based on current slug value
- * @param token Token value supplied via `/api/preview` route
+ * @param params object from getStaticProps
+ * @param defaultSeo default values for SEO
  * @param source Source value supplied via `/api/preview` route
  *
  * @returns Document with preview data
  */
-function DocumentWithPreview({
-  data,
-  token = null,
-  defaultSeo,
-}: DocumentWithPreviewProps) {
-  const previewDataEventSource = usePreview(token, homeQuery);
+function DocumentWithPreview({ data, defaultSeo }: DocumentProps) {
+  const [previewDataEventSource] = useLiveQuery(data, homeQuery);
 
   const previewData: PageData =
     previewDataEventSource?.[0] || previewDataEventSource;
@@ -174,40 +165,26 @@ function DocumentWithPreview({
   );
 }
 
-export const getStaticProps = async ({
-  preview = false,
+export const getStaticProps: GetStaticProps = async ({
+  draftMode = false,
   previewData = {},
-}: any): Promise<{ props: HomeProps }> => {
-  const client =
-    preview && previewData?.token
-      ? getClient(false).withConfig({ token: previewData.token })
-      : getClient(preview);
+}: any) => {
+  const client = getClient(draftMode ? token : undefined);
 
   const [indexPage, globalSEO] = await Promise.all([
-    client.fetch(homeQuery),
-    client.fetch(globalSEOQuery),
+    client.fetch<SanityDocument>(homeQuery),
+    client.fetch<SanityDocument>(globalSEOQuery),
   ]);
-
-  // pass page data and preview to helper function
-  const pageData: PageData = filterDataToSingleItem(indexPage, preview);
-
-  // if our query failed, then return null to display custom no-preview page
-  if (!pageData) {
-    return {
-      props: {
-        preview,
-        data: { pageData: null },
-        defaultSeo: globalSEO,
-      },
-    };
-  }
 
   return {
     props: {
-      preview,
-      token: (preview && previewData.token) || "",
-      source: (preview && previewData.source) || "",
-      data: { pageData },
+      draftMode,
+      token: draftMode ? token : "",
+      source: (draftMode && previewData?.source) || "",
+      data: {
+        pageData: indexPage || null,
+      },
+
       defaultSeo: globalSEO,
     },
   };

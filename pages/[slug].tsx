@@ -13,7 +13,7 @@ import { PreviewBanner } from "components/PreviewBanner";
 import { PageSections } from "components/page";
 import BlogSections from "components/blog";
 import { PreviewNoContent } from "components/PreviewNoContent";
-import SEO from "components/SEO";
+import { SEO } from "components/list";
 import { addSEOJsonLd } from "components/SEO";
 
 interface PageProps {
@@ -30,10 +30,9 @@ interface Data {
   blogData: BlogsData | null;
 }
 
-interface DocumentWithPreviewProps {
+interface DocumentProps {
   data: Data;
   slug: string | string[];
-  //token: string | null;
   source: string;
   defaultSeo: DefaultSeoData;
 }
@@ -140,12 +139,7 @@ function Document({
  * @returns Document with preview data
  */
 
-function DocumentWithPreview({
-  data,
-  slug,
-  source,
-  defaultSeo,
-}: DocumentWithPreviewProps) {
+function DocumentWithPreview({ data, slug, defaultSeo }: DocumentProps) {
   const pageQuery = data?.pageData ? slugQuery : blogQuery;
   const [previewDataEventSource] = useLiveQuery(data, pageQuery, { slug });
 
