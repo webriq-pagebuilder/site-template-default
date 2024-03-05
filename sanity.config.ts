@@ -3,13 +3,14 @@ import {
   NEXT_PUBLIC_SANITY_PROJECT_NAME,
   SANITY_PROJECT_DATASET,
   SANITY_PROJECT_ID,
-  NEXT_PUBLIC_SANITY_PROJECT_OPENAI_KEY,
 } from "studio/config";
 
 // desk customization
-import deskStructure from "studio/deskStructure";
+import { structureTool } from "sanity/structure";
+import { stackshiftDesk } from "studio/deskStructure";
 import { Logo } from "studio/brand/logo";
 import { DefaultStudioTheme } from "studio/brand/theme";
+import { StackshiftStudioTools } from "studio/brand/tools";
 
 // document badge and action
 import { LiveURLBadge } from "studio/badges/LiveURLBadge";
@@ -18,11 +19,12 @@ import { ResolveDocumentActions } from "studio/documentActions";
 // schemas
 import { schemaTypes } from "schemas/schema";
 
-// plugins
+// sanity plugins/tools
 import { media } from "sanity-plugin-media";
 import { codeInput } from "@sanity/code-input";
-
 import { visionTool } from "@sanity/vision";
+
+// Stackshift plugins
 import { webriqBlog } from "@webriq-pagebuilder/sanity-plugin-webriq-blog";
 import { webriqForms } from "@webriq-pagebuilder/sanity-plugin-webriq-forms";
 import { webriqPayments } from "@webriq-pagebuilder/sanity-plugin-webriq-payments";
@@ -32,11 +34,14 @@ import { webriQInspectorInlineEdit } from "@webriq-pagebuilder/sanity-plugin-ins
 
 export default defineConfig({
   basePath: "/studio",
+  icon: Logo,
   title: NEXT_PUBLIC_SANITY_PROJECT_NAME,
   projectId: SANITY_PROJECT_ID,
   dataset: SANITY_PROJECT_DATASET,
   plugins: [
-    deskStructure,
+    structureTool({
+      structure: stackshiftDesk,
+    }),
     visionTool(),
     webriqComponents(),
     webriqForms(),
@@ -56,7 +61,9 @@ export default defineConfig({
   },
   studio: {
     components: {
-      logo: Logo,
+      // logo: Logo, // logo is deprecated - added as ICON to current workspace config
+      // Customize Sanity Studio UI with Studio Components: https://www.sanity.io/docs/studio-components
+      toolMenu: StackshiftStudioTools,
     },
   },
   theme: DefaultStudioTheme,

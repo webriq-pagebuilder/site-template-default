@@ -113,6 +113,11 @@ html#ecwid_html body#ecwid_body .ec-size .ec-store .ec-breadcrumbs {
 
 /** Sanity Studio embed **/
 
+/* Hide the Sanity Studio "Create new document" button beside the nav logo by default */
+div > div > button[data-testid="new-document-button"] {
+  display: none !important;
+}
+
 /* Cosmetic: Remove border-right of tools menu */
 div[data-ui="Navbar"] > div > div:first-child > div:last-child {
   border-right: 0 !important;
@@ -123,7 +128,11 @@ div[data-ui="Navbar"] > div > div:last-child {
   display: none !important;
 }
 
-/*  Fallback: Hide manage project from menu */
+[data-ui='Navbar'] > div {
+  padding: 0.2em;
+}
+
+ Fallback: Hide manage project from menu
 a[data-ui="MenuItem"][href^="https://sanity.io/manage/project"],
 a[data-ui="MenuItem"][href^="https://sanity.io/manage/project"] + hr
 {
@@ -152,32 +161,34 @@ select[data-testid="field-group-select"] > option:first-child {
 }
 
 /** Help Guide **/
-ul[aria-label="List of Content"] {
+ul[aria-label="Content"] {
   height: 100% !important;
   display: flex !important;
   flex-direction: column;
 }
 
-ul[aria-label="List of Content"] > li {
+ul[aria-label="Content"] > li {
   transform: none !important;
   flex: none !important;
   position: relative !important;
   left: initial !important;
   top: initial !important;
+  padding-bottom: 5px;
 }
 
-ul[aria-label="List of Content"] > li:last-child {
+ul[aria-label="Content"] > li:last-child {
   margin-top: auto;
   padding-top: 10px;
 }
 
-ul[aria-label="List of Content"] > li:last-child:before {
+ul[aria-label="Content"] > li:last-child:before {
   content: "";
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   border-top: 1px solid var(--card-border-color);
+  padding: 5px;
 }
 
 /* End */

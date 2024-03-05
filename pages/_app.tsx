@@ -1,10 +1,18 @@
-import type { AppProps } from "next/app";
 import "../styles/globals.css";
-// import React, { useEffect } from "react";
+
+import { AppProps } from "next/app";
+import { lazy, Suspense } from "react";
 // import useScript from "utils/useScript";
 // import { useRouter } from "next/router";
 
-function App({ Component, pageProps }: AppProps) {
+export interface SharedPageProps {
+  draftMode: boolean;
+  token: string;
+}
+
+const PreviewProvider = lazy(() => import("components/PreviewProvider"));
+
+function App({ Component, pageProps }: AppProps<SharedPageProps>) {
   // let script_status = useScript(process.env.NEXT_PUBLIC_ECWID_SCRIPT);
   // const { preview } = pageProps;
   // const router = useRouter();
@@ -47,7 +55,15 @@ function App({ Component, pageProps }: AppProps) {
   //   }
   // }, [script_status]);
 
-  return <Component {...pageProps} />;
+  const { draftMode, token } = pageProps;
+
+  return draftMode ? (
+    <PreviewProvider token={token}>
+      <Component {...pageProps} />
+    </PreviewProvider>
+  ) : (
+    <Component {...pageProps} />
+  );
 }
 
 export default App;

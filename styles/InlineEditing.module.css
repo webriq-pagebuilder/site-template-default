@@ -7,7 +7,7 @@
   display: none !important;
 }
 
-.desk-listpane div[data-testid="desk-tool-list-pane"] {
+.desk-listpane div[data-testid="structure-tool-list-pane"] {
   display: none !important;
 }
 

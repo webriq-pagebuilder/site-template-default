@@ -1,4 +1,3 @@
-import { StructureBuilder, deskTool as sanityDesktool } from "sanity/desk";
 import packageJson from "../../package.json";
 import {
   NEXT_PUBLIC_SANITY_STUDIO_FROM_STAGING_APP,
@@ -18,20 +17,16 @@ if (NEXT_PUBLIC_SANITY_STUDIO_FROM_STAGING_APP !== "true") {
   }
 }
 
-export default sanityDesktool({
-  structure: (S) =>
-    S.list()
-      .title("Content")
-      .items(
-        showStore
-          ? [
-              Page(S),
-              S.divider(),
-              Store(S),
-              webriqStudioDeskVersion(S, packageJson),
-            ]
-          : [Page(S), webriqStudioDeskVersion(S, packageJson)]
-      ),
-  name: "desk",
-  title: "Desk",
-});
+export const stackshiftDesk = (S) =>
+  S.list()
+    .title("Content")
+    .items(
+      showStore
+        ? [
+            Page(S),
+            S.divider(),
+            Store(S),
+            webriqStudioDeskVersion(S, packageJson),
+          ]
+        : [Page(S), webriqStudioDeskVersion(S, packageJson)]
+    );

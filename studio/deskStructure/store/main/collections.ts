@@ -1,11 +1,10 @@
 import type { SanityDocument } from "sanity";
-import { StructureBuilder } from "sanity/desk";
 
 import { EditIcon, EyeOpenIcon, EarthGlobeIcon } from "@sanity/icons";
 import { MdAccessibility } from "react-icons/md";
 import { BsFillTagFill } from "react-icons/bs";
 
-import Iframe from "sanity-plugin-iframe-pane";
+import { Iframe } from "sanity-plugin-iframe-pane";
 
 import resolveProductionUrl from "../../../resolvePreviewUrl";
 import SeoPreviews from "../../../components/previews/seo/SeoPreviews";
@@ -29,7 +28,7 @@ const previewURL =
 const publishedURL = NEXT_PUBLIC_SITE_URL;
 
 /** This shows all main collections. If collections with the same name are added from overrides/collections, it will replace the values shown on preview. **/
-export const CollectionStructure = (S: StructureBuilder) => {
+export const CollectionStructure = (S) => {
   return S.listItem()
     .title("Collections")
     .schemaType("mainCollection")

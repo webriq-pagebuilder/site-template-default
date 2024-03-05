@@ -1,8 +1,6 @@
-import { StructureBuilder } from "sanity/desk";
-
 import { BsFillBagFill } from "react-icons/bs";
 
-export const Products = (S: StructureBuilder) => {
+export const Products = (S) => {
   return S.listItem()
     .title("Products")
     .schemaType("productSettings")

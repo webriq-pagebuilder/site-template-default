@@ -1,8 +1,6 @@
-import { StructureBuilder } from "sanity/desk";
-
 import { BsFillTagFill } from "react-icons/bs";
 
-export const Collections = (S: StructureBuilder) => {
+export const Collections = (S) => {
   return S.listItem()
     .title("Collections")
     .schemaType("collectionSettings")
