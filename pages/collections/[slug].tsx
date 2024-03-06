@@ -2,14 +2,12 @@
 
 import React, { useEffect } from "react";
 import Head from "next/head";
-import { useRouter } from "next/router";
-import { groq } from "next-sanity";
-import { PreviewSuspense } from "next-sanity/preview";
-import { sanityClient, getClient } from "lib/sanity.client";
-import { usePreview } from "lib/sanity.preview";
+import { QueryParams, SanityDocument, groq } from "next-sanity";
+import { useLiveQuery } from "next-sanity/preview";
+import { getClient, apiReadToken } from "lib/sanity.client";
 import { collectionsQuery, globalSEOQuery } from "pages/api/query";
 import PageNotFound from "pages/404";
-import { filterDataToSingleItem, SEO } from "components/list";
+import { SEO, PreviewProvider } from "components/list";
 import { PreviewBanner } from "components/PreviewBanner";
 import { PreviewNoContent } from "components/PreviewNoContent";
 import { CollectionSections } from "components/page/store/collections";
@@ -23,10 +21,11 @@ import {
 } from "types";
 
 interface CollectionPageBySlugProps {
-  data: Data;
-  preview: boolean;
+  draftMode: boolean;
   token: string;
+  params: QueryParams;
   source: string;
+  data: Data;
   defaultSeo: DefaultSeoData;
 }
 interface Data {
@@ -46,19 +45,18 @@ export interface CollectionData extends CommonPageData {
 interface DocumentWithPreviewProps {
   data: Data;
   slug: string | string[];
-  token: string;
   defaultSeo: DefaultSeoData;
 }
 
 function CollectionPageBySlug({
   data,
-  preview,
+  draftMode,
+  params,
   token,
   source,
   defaultSeo,
 }: CollectionPageBySlugProps) {
-  const router = useRouter();
-  const slug = router.query.slug;
+  const slug = params?.slug;
   const showInlineEditor = source === "studio";
 
   useEffect(() => {
@@ -68,17 +66,15 @@ function CollectionPageBySlug({
   if (!data?.collectionData) {
     return <PageNotFound />;
   } else {
-    if (preview) {
+    if (draftMode) {
       return (
         <>
           <PreviewBanner />
-          <PreviewSuspense fallback="Loading...">
+          <PreviewProvider token={token}>
             <InlineEditorContextProvider showInlineEditor={showInlineEditor}>
-              <DocumentWithPreview
-                {...{ data, token: token || null, slug, defaultSeo }}
-              />
+              <DocumentWithPreview {...{ data, slug, source, defaultSeo }} />
             </InlineEditorContextProvider>
-          </PreviewSuspense>
+          </PreviewProvider>
         </>
       );
     }
@@ -138,7 +134,7 @@ function Document({
       </Head>
 
       {/* Show Product page sections */}
-      {data?.collectionData && <CollectionSections data={publishedData} />}
+      {data?.collectionData?.[0] && <CollectionSections data={publishedData} />}
     </>
   );
 }
@@ -146,22 +142,21 @@ function Document({
 /**
  *
  * @param data Data from getStaticProps based on current slug value
- * @param slug Slug value from getStaticProps
- * @param token Token value supplied via `/api/preview` route
- * @param source Source value supplied via `/api/preview` route
+ * @param slug page route
+ * @param defaultSeo default values for SEO
  *
  * @returns Document with preview data
  */
+
 function DocumentWithPreview({
   data,
   slug,
-  token = null,
   defaultSeo,
 }: DocumentWithPreviewProps) {
-  // Current drafts data in Sanity
-  const previewDataEventSource = usePreview(token, collectionsQuery, { slug });
-  const previewData: CollectionData =
-    previewDataEventSource?.[0] || previewDataEventSource; // Latest preview data in Sanity
+  const [previewDataEventSource] = useLiveQuery(data, collectionsQuery, {
+    slug,
+  });
+  const previewData = previewDataEventSource?.[0] || previewDataEventSource; // Latest preview data in Sanity
 
   // General safeguard against empty data
   if (!previewData) {
@@ -204,41 +199,31 @@ function DocumentWithPreview({
         previewData?.sections?.length === 0) && <PreviewNoContent />}
 
       {/* Show Product page sections */}
-      {data?.collectionData && <CollectionSections data={previewData} />}
+      {data?.collectionData?.[0] && <CollectionSections data={previewData} />}
     </>
   );
 }
 
 export async function getStaticProps({
   params,
-  preview = false,
+  draftMode = false,
   previewData = {},
-}: any): Promise<{ props: CollectionPageBySlugProps; revalidate: number }> {
-  const client =
-    preview && previewData?.token
-      ? getClient(false).withConfig({ token: previewData.token })
-      : getClient(preview);
+}: any) {
+  const client = getClient(draftMode ? apiReadToken : undefined);
 
   const [collections, globalSEO] = await Promise.all([
-    client.fetch(collectionsQuery, {
-      slug: params.slug,
-    }),
-    client.fetch(globalSEOQuery),
+    client.fetch<SanityDocument>(collectionsQuery, { slug: params.slug }),
+    client.fetch<SanityDocument>(globalSEOQuery),
   ]);
-
-  // pass collections data and preview to helper function
-  const singleCollectionsData: CollectionData = filterDataToSingleItem(
-    collections,
-    preview
-  );
 
   return {
     props: {
-      preview,
-      token: (preview && previewData.token) || "",
-      source: (preview && previewData.source) || "",
+      draftMode,
+      token: draftMode ? apiReadToken : "",
+      params,
+      source: (draftMode && previewData?.source) || "",
       data: {
-        collectionData: singleCollectionsData || null,
+        collectionData: collections || null,
       },
       defaultSeo: globalSEO,
     },
@@ -258,14 +243,11 @@ export async function getStaticPaths() {
     };
   }
 
-  const collections = await sanityClient.fetch(
+  const collections = await getClient().fetch(
     groq`*[_type == "mainCollection" && defined(slug.current)][].slug.current`
   );
 
-  return {
-    paths: collections.map((slug) => ({ params: { slug } })),
-    fallback: true,
-  };
+  return { paths: collections, fallback: true };
 }
 
 export default React.memo(CollectionPageBySlug);

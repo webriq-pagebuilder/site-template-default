@@ -90,6 +90,11 @@ export default function StudioPage() {
     <>
       <Head>
         <link rel="icon" href="/favicon.ico" />
+        {/* https://github.com/sanity-io/next-sanity/blob/main/packages/next-sanity/MIGRATE-v5-to-v6.md */}
+        <meta
+          name="viewport"
+          content="width=device-width,initial-scale=1,viewport-fit=cover"
+        />
       </Head>
 
       <NextStudio config={config}>

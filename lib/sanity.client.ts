@@ -5,12 +5,15 @@
  */
 import { createClient, SanityClient } from "next-sanity";
 import { config } from "./config";
+import { SANITY_API_READ_TOKEN } from "studio/config";
 
 // Set up the client for fetching data in the getProps page functions
 export const client = createClient(config);
 
 // Set up the client for fetching data in the getProps page functions
 export const sanityClient = createClient(config);
+
+export const apiReadToken = SANITY_API_READ_TOKEN;
 
 // Set up a preview client with serverless authentication for drafts
 export function getClient(previewToken?: string): SanityClient {
@@ -20,11 +23,7 @@ export function getClient(previewToken?: string): SanityClient {
     // Fallback to using the WRITE token until https://www.sanity.io/docs/vercel-integration starts shipping a READ token.
     // As this client only exists on the server and the token is never shared with the browser, we ddon't risk escalating permissions to untrustworthy users
     perspective: previewToken ? "previewDrafts" : "published",
-    stega: {
-      enabled: previewToken ? true : false,
-      studioUrl: "/studio",
-    },
-    token: previewToken,
+    token: apiReadToken,
   });
 }
 

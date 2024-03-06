@@ -2,12 +2,11 @@ import React, { useEffect } from "react";
 import Head from "next/head";
 import { QueryParams, SanityDocument } from "next-sanity";
 import { useLiveQuery } from "next-sanity/preview";
-import { getClient } from "lib/sanity.client";
-import { token } from "lib/token";
+import { getClient, apiReadToken } from "lib/sanity.client";
 import { wishlistPageQuery, globalSEOQuery } from "pages/api/query";
 import { WishlistSections } from "components/page/store/wishlist";
 import { PreviewNoContent } from "components/PreviewNoContent";
-import { SEO } from "components/list";
+import { SEO, PreviewProvider } from "components/list";
 import { PreviewBanner } from "components/PreviewBanner";
 import InlineEditorContextProvider from "context/InlineEditorContext";
 import { CommonPageData, DefaultSeoData } from "types";
@@ -56,9 +55,11 @@ function WishlistPage({
     return (
       <>
         <PreviewBanner />
-        <InlineEditorContextProvider showInlineEditor={showInlineEditor}>
-          <DocumentWithPreview {...{ data, defaultSeo }} />
-        </InlineEditorContextProvider>
+        <PreviewProvider token={token}>
+          <InlineEditorContextProvider showInlineEditor={showInlineEditor}>
+            <DocumentWithPreview {...{ data, defaultSeo }} />
+          </InlineEditorContextProvider>
+        </PreviewProvider>
       </>
     );
   }
@@ -153,11 +154,11 @@ export async function getStaticProps({
   draftMode = false,
   previewData = {},
 }: any) {
-  const client = getClient(draftMode ? token : undefined);
+  const client = getClient(draftMode ? apiReadToken : undefined);
 
   const [wishlistPage, globalSEO] = await Promise.all([
-    client.fetch(wishlistPageQuery),
-    client.fetch(globalSEOQuery),
+    client.fetch<SanityDocument>(wishlistPageQuery),
+    client.fetch<SanityDocument>(globalSEOQuery),
   ]);
 
   if (!wishlistPage) {
@@ -173,13 +174,15 @@ export async function getStaticProps({
   return {
     props: {
       draftMode,
-      token: draftMode ? token : "",
+      token: draftMode ? apiReadToken : "",
       source: (draftMode && previewData.source) || "",
       data: {
         wishlistData: wishlistPage,
       },
       defaultSeo: globalSEO,
     },
+    // If webhooks isn't setup then attempt to re-generate in 1 minute intervals
+    revalidate: process.env.SANITY_REVALIDATE_SECRET ? undefined : 60,
   };
 }
 

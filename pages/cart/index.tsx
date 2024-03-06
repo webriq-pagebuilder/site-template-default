@@ -2,12 +2,11 @@ import React from "react";
 import Head from "next/head";
 import { QueryParams, SanityDocument } from "next-sanity";
 import { useLiveQuery } from "next-sanity/preview";
-import { getClient } from "lib/sanity.client";
-import { token } from "lib/token";
+import { getClient, apiReadToken } from "lib/sanity.client";
 import { cartPageQuery, globalSEOQuery } from "pages/api/query";
 import { CartSections } from "components/page/store/cart";
 import { PreviewNoContent } from "components/PreviewNoContent";
-import { SEO } from "components/list";
+import { SEO, PreviewProvider } from "components/list";
 import { PreviewBanner } from "components/PreviewBanner";
 import InlineEditorContextProvider from "context/InlineEditorContext";
 import { CommonPageData, DefaultSeoData } from "types";
@@ -37,16 +36,24 @@ interface DocumentProps {
   defaultSeo: DefaultSeoData;
 }
 
-function CartPage({ data, draftMode, source, defaultSeo }: CartPageProps) {
+function CartPage({
+  data,
+  draftMode,
+  token,
+  source,
+  defaultSeo,
+}: CartPageProps) {
   const showInlineEditor = source === "studio";
 
   if (draftMode) {
     return (
       <>
         <PreviewBanner />
-        <InlineEditorContextProvider showInlineEditor={showInlineEditor}>
-          <DocumentWithPreview {...{ data, source, defaultSeo }} />
-        </InlineEditorContextProvider>
+        <PreviewProvider token={token}>
+          <InlineEditorContextProvider showInlineEditor={showInlineEditor}>
+            <DocumentWithPreview {...{ data, source, defaultSeo }} />
+          </InlineEditorContextProvider>
+        </PreviewProvider>
       </>
     );
   }
@@ -131,7 +138,7 @@ export async function getStaticProps({
   draftMode = false,
   previewData = {},
 }: any) {
-  const client = getClient(draftMode ? token : undefined);
+  const client = getClient(draftMode ? apiReadToken : undefined);
 
   const [cartPage, globalSEO] = await Promise.all([
     client.fetch<SanityDocument>(cartPageQuery),
@@ -151,13 +158,15 @@ export async function getStaticProps({
   return {
     props: {
       draftMode,
-      token: draftMode ? token : "",
+      token: draftMode ? apiReadToken : "",
       source: (draftMode && previewData.source) || "",
       data: {
         cartData: cartPage,
       },
       defaultSeo: globalSEO,
     },
+    // If webhooks isn't setup then attempt to re-generate in 1 minute intervals
+    revalidate: process.env.SANITY_REVALIDATE_SECRET ? undefined : 60,
   };
 }
 

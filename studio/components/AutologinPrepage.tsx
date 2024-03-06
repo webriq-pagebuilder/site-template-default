@@ -11,6 +11,7 @@ export default function AutologinPrepage({ status }) {
           width={50}
           height={50}
           quality={100}
+          priority
         />
         <h1 className="font-bold text-lg sm:text-2xl mt-8 mb-5">
           Logging in to Stackshift UI
@@ -29,6 +30,7 @@ export default function AutologinPrepage({ status }) {
         width={50}
         height={50}
         quality={100}
+        priority
       />
       <h1 className="font-bold text-lg sm:text-2xl mt-8 mb-5">
         Oops, unable to autologin!

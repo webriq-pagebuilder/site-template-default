@@ -3,8 +3,7 @@ import Head from "next/head";
 import { GetStaticProps } from "next";
 import { QueryParams, SanityDocument } from "next-sanity";
 import { useLiveQuery } from "next-sanity/preview";
-import { getClient } from "lib/sanity.client";
-import { token } from "lib/token";
+import { getClient, apiReadToken } from "lib/sanity.client";
 import { homeQuery, globalSEOQuery } from "./api/query";
 import { CommonPageData, DefaultSeoData } from "types";
 import InlineEditorContextProvider from "context/InlineEditorContext";
@@ -169,7 +168,7 @@ export const getStaticProps: GetStaticProps = async ({
   draftMode = false,
   previewData = {},
 }: any) => {
-  const client = getClient(draftMode ? token : undefined);
+  const client = getClient(draftMode ? apiReadToken : undefined);
 
   const [indexPage, globalSEO] = await Promise.all([
     client.fetch<SanityDocument>(homeQuery),
@@ -179,7 +178,7 @@ export const getStaticProps: GetStaticProps = async ({
   return {
     props: {
       draftMode,
-      token: draftMode ? token : "",
+      token: draftMode ? apiReadToken : "",
       source: (draftMode && previewData?.source) || "",
       data: {
         pageData: indexPage || null,
@@ -187,6 +186,8 @@ export const getStaticProps: GetStaticProps = async ({
 
       defaultSeo: globalSEO,
     },
+    // If webhooks isn't setup then attempt to re-generate in 1 minute intervals
+    revalidate: process.env.SANITY_REVALIDATE_SECRET ? undefined : 60,
   };
 };
 

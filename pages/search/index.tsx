@@ -2,12 +2,11 @@ import React, { useEffect } from "react";
 import Head from "next/head";
 import { QueryParams, SanityDocument } from "next-sanity";
 import { useLiveQuery } from "next-sanity/preview";
-import { getClient } from "lib/sanity.client";
-import { token } from "lib/token";
+import { getClient, apiReadToken } from "lib/sanity.client";
 import { searchPageQuery, globalSEOQuery } from "pages/api/query";
 import { SearchPageSections } from "components/page/store/search";
 import { PreviewNoContent } from "components/PreviewNoContent";
-import { SEO } from "components/list";
+import { SEO, PreviewProvider } from "components/list";
 import { PreviewBanner } from "components/PreviewBanner";
 import InlineEditorContextProvider from "context/InlineEditorContext";
 
@@ -56,9 +55,11 @@ function SearchPage({
     return (
       <>
         <PreviewBanner />
-        <InlineEditorContextProvider showInlineEditor={showInlineEditor}>
-          <DocumentWithPreview {...{ data, token, defaultSeo }} />
-        </InlineEditorContextProvider>
+        <PreviewProvider token={token}>
+          <InlineEditorContextProvider showInlineEditor={showInlineEditor}>
+            <DocumentWithPreview {...{ data, token, defaultSeo }} />
+          </InlineEditorContextProvider>
+        </PreviewProvider>
       </>
     );
   }
@@ -152,7 +153,7 @@ export async function getStaticProps({
   draftMode = false,
   previewData = {},
 }: any) {
-  const client = getClient(draftMode ? token : undefined);
+  const client = getClient(draftMode ? apiReadToken : undefined);
 
   const [searchPage, globalSEO] = await Promise.all([
     client.fetch<SanityDocument>(searchPageQuery),
@@ -172,13 +173,15 @@ export async function getStaticProps({
   return {
     props: {
       draftMode,
-      token: draftMode ? token : "",
+      token: draftMode ? apiReadToken : "",
       source: (draftMode && previewData.source) || "",
       data: {
         searchData: searchPage,
       },
       defaultSeo: globalSEO,
     },
+    // If webhooks isn't setup then attempt to re-generate in 1 minute intervals
+    revalidate: process.env.SANITY_REVALIDATE_SECRET ? undefined : 60,
   };
 }
 

@@ -2,14 +2,13 @@
 
 import React, { useEffect } from "react";
 import Head from "next/head";
-import { useRouter } from "next/router";
-import { groq } from "next-sanity";
-import { PreviewSuspense } from "next-sanity/preview";
-import { sanityClient, getClient } from "lib/sanity.client";
-import { usePreview } from "lib/sanity.preview";
+import { GetStaticPaths, GetStaticProps } from "next";
+import { QueryParams, SanityDocument, groq } from "next-sanity";
+import { useLiveQuery } from "next-sanity/preview";
+import { getClient, apiReadToken } from "lib/sanity.client";
 import { globalSEOQuery, productsQuery } from "pages/api/query";
 import PageNotFound from "pages/404";
-import { filterDataToSingleItem, SEO } from "components/list";
+import { SEO, PreviewProvider } from "components/list";
 import { PreviewBanner } from "components/PreviewBanner";
 import { PreviewNoContent } from "components/PreviewNoContent";
 import { ProductSections } from "components/page/store/products";
@@ -18,10 +17,11 @@ import { CollectionProduct, CommonSections, DefaultSeoData } from "types";
 import { addSEOJsonLd } from "components/SEO";
 
 interface ProductPageBySlugProps {
-  data: Data;
-  preview: boolean;
+  draftMode: boolean;
   token: string;
+  params: QueryParams;
   source: string;
+  data: Data;
   defaultSeo: DefaultSeoData;
 }
 
@@ -35,21 +35,21 @@ export interface ProductData extends CollectionProduct {
 
 interface DocumentWithPreviewProps {
   data: Data;
-  token: string;
   slug: string | string[];
   defaultSeo: DefaultSeoData;
 }
 
 function ProductPageBySlug({
   data,
-  preview,
+  draftMode,
+  params,
   token,
   source,
   defaultSeo,
 }: ProductPageBySlugProps) {
-  const router = useRouter();
-  const slug = router.query.slug;
+  const slug = params?.slug;
   const showInlineEditor = source === "studio";
+
   useEffect(() => {
     if (typeof Ecwid !== "undefined") Ecwid.init();
   }, []);
@@ -57,17 +57,15 @@ function ProductPageBySlug({
   if (!data?.productData) {
     return <PageNotFound />;
   } else {
-    if (preview) {
+    if (draftMode) {
       return (
         <>
           <PreviewBanner />
-          <PreviewSuspense fallback={"Loading..."}>
+          <PreviewProvider token={token}>
             <InlineEditorContextProvider showInlineEditor={showInlineEditor}>
-              <DocumentWithPreview
-                {...{ data, token: token || null, slug, defaultSeo }}
-              />
+              <DocumentWithPreview {...{ data, slug, source, defaultSeo }} />
             </InlineEditorContextProvider>
-          </PreviewSuspense>
+          </PreviewProvider>
         </>
       );
     }
@@ -89,7 +87,7 @@ function Document({
   data: Data;
   defaultSeo: DefaultSeoData;
 }) {
-  const publishedData = data?.productData; // latest published data in Sanity
+  const publishedData = data?.productData?.[0]; // latest published data in Sanity
 
   // General safeguard against empty data
   if (!publishedData) {
@@ -139,7 +137,7 @@ function Document({
       </Head>
 
       {/* Show Product page sections */}
-      {data?.productData && <ProductSections data={publishedData} />}
+      {data?.productData?.[0] && <ProductSections data={publishedData} />}
     </>
   );
 }
@@ -147,20 +145,18 @@ function Document({
 /**
  *
  * @param data Data from getStaticProps based on current slug value
- * @param slug Slug value from getStaticProps
- * @param token Token value supplied via `/api/preview` route
- * @param source Source value supplied via `/api/preview` route
+ * @param slug page route
+ * @param defaultSeo default values for SEO
  *
  * @returns Document with preview data
  */
+
 function DocumentWithPreview({
   data,
   slug,
-  token = null,
   defaultSeo,
 }: DocumentWithPreviewProps) {
-  // Current drafts data in Sanity
-  const previewDataEventSource = usePreview(token, productsQuery, { slug });
+  const [previewDataEventSource] = useLiveQuery(data, productsQuery, { slug });
   const previewData = previewDataEventSource?.[0] || previewDataEventSource; // Latest preview data in Sanity
 
   // General safeguard against empty data
@@ -202,12 +198,7 @@ function DocumentWithPreview({
             pageData: previewData,
           })}
         />
-        <title>
-          {seo?.seoTitle ??
-            commonSections?.seo?.seoTitle ??
-            name ??
-            "WebriQ Studio"}
-        </title>
+        <title>{seo?.seoTitle ?? commonSections?.seo?.seoTitle ?? name}</title>
       </Head>
 
       {/* if no sections, show no sections only in preview */}
@@ -216,48 +207,40 @@ function DocumentWithPreview({
         previewData?.sections?.length === 0) && <PreviewNoContent />}
 
       {/* Show Product page sections */}
-      {data?.productData && <ProductSections data={previewData} />}
+      {data?.productData?.[0] && <ProductSections data={previewData} />}
     </>
   );
 }
 
-export async function getStaticProps({
+export const getStaticProps: GetStaticProps = async ({
   params,
-  preview = false,
+  draftMode = false,
   previewData = {},
-}: any): Promise<{ props: ProductPageBySlugProps; revalidate: number }> {
-  const client =
-    preview && previewData?.token
-      ? getClient(false).withConfig({ token: previewData.token })
-      : getClient(preview);
+}: any) => {
+  const client = getClient(draftMode ? apiReadToken : undefined);
 
-  const [products, globalSEO] = await Promise.all([
-    client.fetch(productsQuery, { slug: params.slug }),
-    client.fetch(globalSEOQuery),
+  const [product, globalSEO] = await Promise.all([
+    client.fetch<SanityDocument>(productsQuery, { slug: params.slug }),
+    client.fetch<SanityDocument>(globalSEOQuery),
   ]);
-
-  // pass products data and preview to helper function
-  const singleProductsData: ProductData = filterDataToSingleItem(
-    products,
-    preview
-  );
 
   return {
     props: {
-      preview,
-      token: (preview && previewData.token) || "",
-      source: (preview && previewData.source) || "",
+      draftMode,
+      token: draftMode ? apiReadToken : "",
+      params,
+      source: (draftMode && previewData?.source) || "",
       data: {
-        productData: singleProductsData || null,
+        productData: product || null,
       },
       defaultSeo: globalSEO,
     },
     // If webhooks isn't setup then attempt to re-generate in 1 minute intervals
     revalidate: process.env.SANITY_REVALIDATE_SECRET ? undefined : 60,
   };
-}
+};
 
-export async function getStaticPaths() {
+export const getStaticPaths: GetStaticPaths = async () => {
   // When this is true (in preview environments) don't
   // prerender any static pages
   // (faster builds, but slower initial page load)
@@ -268,14 +251,11 @@ export async function getStaticPaths() {
     };
   }
 
-  const products = await sanityClient.fetch(
+  const products = await getClient().fetch(
     groq`*[_type == "mainProduct" && defined(slug.current)][].slug.current`
   );
 
-  return {
-    paths: products.map((slug) => ({ params: { slug } })),
-    fallback: true,
-  };
-}
+  return { paths: products, fallback: true };
+};
 
 export default React.memo(ProductPageBySlug);

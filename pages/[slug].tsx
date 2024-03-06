@@ -3,8 +3,7 @@ import Head from "next/head";
 import { GetStaticPaths, GetStaticProps } from "next";
 import { QueryParams, SanityDocument, groq } from "next-sanity";
 import { useLiveQuery } from "next-sanity/preview";
-import { getClient } from "lib/sanity.client";
-import { token } from "lib/token";
+import { getClient, apiReadToken } from "lib/sanity.client";
 import { blogQuery, slugQuery, globalSEOQuery } from "./api/query";
 import { CommonPageData, BlogsData, DefaultSeoData } from "types";
 import PageNotFound from "pages/404";
@@ -13,7 +12,7 @@ import { PreviewBanner } from "components/PreviewBanner";
 import { PageSections } from "components/page";
 import BlogSections from "components/blog";
 import { PreviewNoContent } from "components/PreviewNoContent";
-import { SEO } from "components/list";
+import { SEO, PreviewProvider } from "components/list";
 import { addSEOJsonLd } from "components/SEO";
 
 interface PageProps {
@@ -45,6 +44,7 @@ export interface PageData extends CommonPageData {
 
 export function PageBySlug({
   draftMode,
+  token,
   params,
   source,
   data,
@@ -60,9 +60,11 @@ export function PageBySlug({
       return (
         <>
           <PreviewBanner />
-          <InlineEditorContextProvider showInlineEditor={showInlineEditor}>
-            <DocumentWithPreview {...{ data, slug, source, defaultSeo }} />
-          </InlineEditorContextProvider>
+          <PreviewProvider token={token}>
+            <InlineEditorContextProvider showInlineEditor={showInlineEditor}>
+              <DocumentWithPreview {...{ data, slug, source, defaultSeo }} />
+            </InlineEditorContextProvider>
+          </PreviewProvider>
         </>
       );
     }
@@ -84,7 +86,7 @@ function Document({
   data: Data;
   defaultSeo: DefaultSeoData;
 }) {
-  const publishedData = data?.pageData || data?.blogData; // latest published data in Sanity
+  const publishedData = data?.pageData?.[0] || data?.blogData?.[0]; // latest published data in Sanity
 
   // General safeguard against empty data
   if (!publishedData) {
@@ -117,14 +119,14 @@ function Document({
             pageData: publishedData,
           })}
         />
-        <title>{seo?.seoTitle ?? title ?? "WebriQ Studio"}</title>
+        <title>{seo?.seoTitle ?? title}</title>
       </Head>
 
       {/*  Show page sections */}
-      {data?.pageData && <PageSections data={data?.pageData} />}
+      {data?.pageData?.[0] && <PageSections data={publishedData} />}
 
       {/* Show Blog sections */}
-      {data?.blogData && <BlogSections data={data?.blogData} />}
+      {data?.blogData?.[0] && <BlogSections data={publishedData} />}
     </>
   );
 }
@@ -132,9 +134,8 @@ function Document({
 /**
  *
  * @param data Data from getStaticProps based on current slug value
- * @param params object from getStaticProps
+ * @param slug page route
  * @param defaultSeo default values for SEO
- * @param source Source value supplied via `/api/preview` route
  *
  * @returns Document with preview data
  */
@@ -160,7 +161,7 @@ function DocumentWithPreview({ data, slug, defaultSeo }: DocumentProps) {
           data={{
             pageTitle: title,
             type: _type,
-            route: previewData?.slug,
+            route: slug,
             ...seo,
           }}
           defaultSeo={defaultSeo}
@@ -177,7 +178,7 @@ function DocumentWithPreview({ data, slug, defaultSeo }: DocumentProps) {
             pageData: previewData,
           })}
         />
-        <title>{seo?.seoTitle ?? title ?? "WebriQ Studio"}</title>
+        <title>{seo?.seoTitle ?? title}</title>
       </Head>
 
       {/* if page has no sections, show no sections only in preview */}
@@ -188,10 +189,10 @@ function DocumentWithPreview({ data, slug, defaultSeo }: DocumentProps) {
           previewData?.sections?.length === 0) && <PreviewNoContent />}
 
       {/*  Show page sections */}
-      {data?.pageData && <PageSections data={previewData as PageData} />}
+      {data?.pageData?.[0] && <PageSections data={previewData as PageData} />}
 
       {/* Show Blog sections */}
-      {data?.blogData && <BlogSections data={previewData as BlogsData} />}
+      {data?.blogData?.[0] && <BlogSections data={previewData as BlogsData} />}
     </>
   );
 }
@@ -201,7 +202,7 @@ export const getStaticProps: GetStaticProps = async ({
   draftMode = false,
   previewData = {},
 }: any) => {
-  const client = getClient(draftMode ? token : undefined);
+  const client = getClient(draftMode ? apiReadToken : undefined);
 
   const [page, blogData, globalSEO] = await Promise.all([
     client.fetch<SanityDocument>(slugQuery, { slug: params.slug }),
@@ -212,7 +213,7 @@ export const getStaticProps: GetStaticProps = async ({
   return {
     props: {
       draftMode,
-      token: draftMode ? token : "",
+      token: draftMode ? apiReadToken : "",
       params,
       source: (draftMode && previewData?.source) || "",
       data: {
@@ -222,6 +223,8 @@ export const getStaticProps: GetStaticProps = async ({
 
       defaultSeo: globalSEO,
     },
+    // If webhooks isn't setup then attempt to re-generate in 1 minute intervals
+    revalidate: process.env.SANITY_REVALIDATE_SECRET ? undefined : 60,
   };
 };
 
@@ -242,10 +245,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
     groq`*[_type in ["page", "post"] && defined(slug.current)][].slug.current`
   );
 
-  return {
-    paths: paths.map((slug) => ({ params: { slug } })),
-    fallback: true,
-  };
+  return { paths, fallback: true };
 };
 
 export default React.memo(PageBySlug);
