@@ -80,7 +80,7 @@ function Document({
   data: Data;
   defaultSeo: DefaultSeoData;
 }) {
-  const publishedData = data?.searchData;
+  const publishedData = data?.searchData?.[0];
 
   // General safeguard against empty data
   if (!publishedData) {
@@ -100,7 +100,7 @@ function Document({
       </Head>
 
       {/*  Show page sections */}
-      {data?.searchData && <SearchPageSections data={publishedData} />}
+      {data?.searchData?.[0] && <SearchPageSections data={publishedData} />}
     </>
   );
 }

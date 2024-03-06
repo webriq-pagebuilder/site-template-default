@@ -68,7 +68,7 @@ function CartPage({
  * @returns Document with published data
  */
 function Document({ data, defaultSeo }: DocumentProps) {
-  const publishedData = data?.cartData;
+  const publishedData = data?.cartData?.[0];
 
   // General safeguard against empty data
   if (!publishedData) {
@@ -129,7 +129,7 @@ function DocumentWithPreview({ data, defaultSeo }: DocumentProps) {
         previewData?.sections?.length === 0) && <PreviewNoContent />}
 
       {/*  Show page sections */}
-      {data?.cartData && <CartSections data={previewData} />}
+      {data?.cartData?.[0] && <CartSections data={previewData} />}
     </>
   );
 }

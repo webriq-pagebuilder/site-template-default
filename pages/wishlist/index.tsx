@@ -74,7 +74,7 @@ function WishlistPage({
  * @returns Document with published data
  */
 function Document({ data, defaultSeo }: DocumentProps) {
-  const publishedData = data?.wishlistData;
+  const publishedData = data?.wishlistData?.[0];
 
   // General safeguard against empty data
   if (!publishedData) {
@@ -99,7 +99,7 @@ function Document({ data, defaultSeo }: DocumentProps) {
       </Head>
 
       {/*  Show page sections */}
-      {data?.wishlistData && <WishlistSections data={publishedData} />}
+      {data?.wishlistData?.[0] && <WishlistSections data={publishedData} />}
     </>
   );
 }

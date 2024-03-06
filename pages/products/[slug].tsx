@@ -255,7 +255,10 @@ export const getStaticPaths: GetStaticPaths = async () => {
     groq`*[_type == "mainProduct" && defined(slug.current)][].slug.current`
   );
 
-  return { paths: products, fallback: true };
+  return {
+    paths: products.map((slug) => ({ params: { slug } })),
+    fallback: true,
+  };
 };
 
 export default React.memo(ProductPageBySlug);

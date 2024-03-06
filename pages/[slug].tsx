@@ -241,11 +241,14 @@ export const getStaticPaths: GetStaticPaths = async () => {
     };
   }
 
-  const paths = await getClient().fetch(
+  const pages = await getClient().fetch(
     groq`*[_type in ["page", "post"] && defined(slug.current)][].slug.current`
   );
 
-  return { paths, fallback: true };
+  return {
+    paths: pages.map((slug) => ({ params: { slug } })),
+    fallback: true,
+  };
 };
 
 export default React.memo(PageBySlug);

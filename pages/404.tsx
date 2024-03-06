@@ -1,10 +1,17 @@
 import React from "react";
 import Link from "next/link";
 import Head from "next/head";
+import { useRouter } from "next/router";
 import { Container } from "components/layout/index";
 import { Heading, Text } from "components/ui";
 
 function PageNotFound() {
+  const router = useRouter();
+
+  const handleReloadPage = () => {
+    router.reload();
+  };
+
   return (
     <>
       <Head>
@@ -48,12 +55,12 @@ function PageNotFound() {
                 >
                   Go back to Homepage
                 </Link>
-                <a
+                <button
                   className="inline-block w-full px-6 py-2 font-bold leading-loose bg-white rounded-l-xl rounded-t-xl hover:bg-gray-50 lg:w-auto"
-                  href="#"
+                  onClick={handleReloadPage}
                 >
                   Try Again
-                </a>
+                </button>
               </div>
             </div>
           </Container>

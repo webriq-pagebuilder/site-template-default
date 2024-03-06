@@ -96,7 +96,7 @@ function Document({
   data: Data;
   defaultSeo: DefaultSeoData;
 }) {
-  const publishedData = data?.collectionData; // latest published data in Sanity
+  const publishedData = data?.collectionData?.[0]; // latest published data in Sanity
 
   // General safeguard against empty data
   if (!publishedData) {
@@ -247,7 +247,10 @@ export async function getStaticPaths() {
     groq`*[_type == "mainCollection" && defined(slug.current)][].slug.current`
   );
 
-  return { paths: collections, fallback: true };
+  return {
+    paths: collections.map((slug) => ({ params: { slug } })),
+    fallback: true,
+  };
 }
 
 export default React.memo(CollectionPageBySlug);
