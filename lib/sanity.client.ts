@@ -19,7 +19,7 @@ export const apiReadToken = SANITY_API_READ_TOKEN;
 export function getClient(previewToken?: string): SanityClient {
   return createClient({
     ...config,
-    useCdn: !previewToken,
+    useCdn: false, // since we're static generation at build time, setting this to `false` to guarantee no stale content
     // Fallback to using the WRITE token until https://www.sanity.io/docs/vercel-integration starts shipping a READ token.
     // As this client only exists on the server and the token is never shared with the browser, we ddon't risk escalating permissions to untrustworthy users
     perspective: previewToken ? "previewDrafts" : "published",

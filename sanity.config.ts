@@ -81,5 +81,8 @@ export default defineConfig({
   document: {
     badges: [LiveURLBadge],
     actions: (prev, context) => ResolveDocumentActions({ prev, context }),
+    unstable_comments: {
+      enabled: false, // Comments disabled
+    },
   },
 });
