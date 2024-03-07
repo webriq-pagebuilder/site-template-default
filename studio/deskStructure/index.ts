@@ -23,6 +23,7 @@ export const stackshiftDesk = (S) =>
     .items(
       showStore
         ? [
+            S.divider(),
             Page(S),
             S.divider(),
             Store(S),
