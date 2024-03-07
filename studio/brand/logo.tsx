@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 export const Logo = () => (
-  <img width="60px" height="60px" src="/webriq-logo.png" alt="WebriQ logo" />
+  <Image width={60} height={60} src="/webriq-logo.png" alt="WebriQ logo" />
 );
