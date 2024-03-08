@@ -111,27 +111,6 @@ html#ecwid_html body#ecwid_body .ec-size .ec-store .ec-breadcrumbs {
   z-index: 1;
 }
 
-/** Sanity Studio embed **/
-
-/* Hide the Sanity Studio "Create new document" button beside the nav logo by default */
-div > div > button[data-testid="new-document-button"] {
-  display: none !important;
-}
-
-/* Cosmetic: Remove border-right of tools menu */
-div[data-ui="Navbar"] > div > div:first-child > div:last-child {
-  border-right: 0 !important;
-}
-
-/* Hide every thing in the right navbar */
-div[data-ui="Navbar"] > div > div:last-child {
-  display: none !important;
-}
-
-[data-ui="Navbar"] > div {
-  padding: 0.3em;
-}
-
 /* Fallback: Hide manage project from menu */
 a[data-ui="MenuItem"][href^="https://sanity.io/manage/project"],
 a[data-ui="MenuItem"][href^="https://sanity.io/manage/project"] + hr
@@ -189,81 +168,6 @@ ul[aria-label="Content"] > li:last-child:before {
   width: 100%;
   border-top: 1px solid var(--card-border-color);
   padding: 5px;
-}
-
-/* Nav Styling */
-div[data-testid="studio-navbar"] {
-  @apply bg-[#0c1f3c];
-}
-
-/* WebriQ Logo hide background of white */
-[data-ui="Navbar"] > div:first-child > div > div > div > a > div > div {
-  @apply bg-transparent;
-}
-
-/* Nav Plugins with Search Icon */
-[data-ui="Navbar"] span {
-  @apply text-base;
-}
-
-/* Staging WebriQ Studio Text */
-div[data-ui="Navbar"] > div > div > div > div > a > div > div > div > span {
-  @apply hidden;
-}
-
-/* Pane Header */
-div[data-testid="pane-header"] > div > div:first-child span {
-  @apply text-base;
-}
-
-/* Header Plugins */
-div[data-testid="pane-header"] div[data-ui="Text"] span {
-  @apply text-['13px'];
-}
-
-/* Search icon */
-div[data-ui="Navbar"] > div > div:first-child > span > button {
-  box-shadow: unset;
-  background-color: transparent;
-}
-div[data-ui="Navbar"]
-  > div
-  > div:first-child
-  > span
-  > button
-  > span
-  > span
-  > div
-  > span
-  > svg {
-  color: white;
-  width: 1.5em;
-  height: 1.5em;
-}
-
-/* Structure - Pages - Store - Guide */
-div[data-testid="compact-preview"] {
-  @apply p-3 text-xl font-medium;
-}
-
-/* Contents of the header */
-[data-testid="pane-content"] ul li div[data-ui="Text"] span {
-  @apply text-base font-light;
-}
-
-/* Content SVG's */
-div[data-testid="pane-content"] svg {
-  @apply text-2xl font-light;
-}
-
-/* FIELDS */
-div[data-ui="Stack"] label {
-  @apply font-medium text-sm;
-}
-
-/* PANE CONTENT */
-div[data-ui="Stack"] div:first-child {
-  @apply font-medium text-sm;
 }
 
 /* End */

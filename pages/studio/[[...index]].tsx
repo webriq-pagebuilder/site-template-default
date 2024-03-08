@@ -6,6 +6,7 @@ import { StudioLayout, StudioProvider } from "sanity";
 import config from "sanity.config";
 import { NEXT_PUBLIC_APP_URL } from "studio/config";
 import AutologinPrepage from "studio/components/AutologinPrepage";
+import styles from "../../styles/Studio.module.css";
 
 export default function StudioPage() {
   const maxRetries = 10;
@@ -99,7 +100,17 @@ export default function StudioPage() {
 
       <NextStudio config={config}>
         <StudioProvider config={config}>
-          <StudioLayout />
+          <div
+            className={`${styles["studio-nav"]} ${styles["studio-nav-bg"]}
+          ${styles["studio-nav-text"]} ${styles["webriq-studio-text"]} 
+          ${styles["pane-header"]} ${styles["header-plugins"]}
+          ${styles["search-icon-bg"]} ${styles["search-icon"]} ${styles["list-pane"]}
+          ${styles["pane-content"]} ${styles["svg-content"]} ${styles["fields"]}
+          ${styles["document-panel"]} ${styles["new-document-button"]}
+          ${styles["tools-menu"]} ${styles["right-nav"]} ${styles["testing"]} h-screen`}
+          >
+            <StudioLayout />
+          </div>
         </StudioProvider>
       </NextStudio>
     </>

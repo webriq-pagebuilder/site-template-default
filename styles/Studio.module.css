@@ -1,0 +1,122 @@
+/** Sanity Studio embed **/
+
+/* Hide the Sanity Studio "Create new document" button beside the nav logo by default */
+.new-document-button div > div > button[data-testid="new-document-button"] {
+  display: none !important;
+}
+
+/* Cosmetic: Remove border-right of tools menu */
+.tools-menu div[data-ui="Navbar"] > div > div:first-child > div:last-child {
+  border-right: 0 !important;
+}
+
+/* Hide every thing in the right navbar */
+.right-nav div[data-ui="Navbar"] > div > div:last-child {
+  display: none !important;
+}
+
+.testing [data-ui="Navbar"] > div {
+  padding: 0.3em;
+}
+
+/* Nav Styling */
+.studio-nav div[data-testid="studio-navbar"] {
+  background-color: #0c1f3c;
+}
+
+/* WebriQ Logo hide background of white */
+.studio-nav-bg
+  [data-ui="Navbar"]
+  > div:first-child
+  > div
+  > div
+  > div
+  > a
+  > div
+  > div {
+  background-color: transparent;
+}
+
+/* Nav Plugins with Search Icon */
+.studio-nav-text [data-ui="Navbar"] span {
+  font-size: 1rem;
+}
+
+/* Staging WebriQ Studio Text */
+.webriq-studio-text
+  div[data-ui="Navbar"]
+  > div
+  > div
+  > div
+  > div
+  > a
+  > div
+  > div
+  > div
+  > span {
+  display: none;
+}
+
+/* Pane Header */
+.pane-header div[data-testid="pane-header"] > div > div:first-child span {
+  font-size: 1rem;
+}
+
+/* Header Plugins */
+.header-plugins div[data-testid="pane-header"] div[data-ui="Text"] span {
+  font-size: 13px;
+}
+
+/* Search icon */
+.search-icon-bg div[data-ui="Navbar"] > div > div:first-child > span > button {
+  box-shadow: unset;
+  background-color: transparent;
+}
+
+.search-icon
+  div[data-ui="Navbar"]
+  > div
+  > div:first-child
+  > span
+  > button
+  > span
+  > span
+  > div
+  > span
+  > svg {
+  color: white;
+  width: 1.5em;
+  height: 1.5em;
+}
+
+/* CHECK THIS */
+/* Structure - Pages - Store - Guide */
+.list-pane div[data-testid="compact-preview"] {
+  font-weight: 500;
+  font-size: 1.25rem;
+  padding: 0.75rem;
+}
+
+/* Content SVG's */
+.svg-content div[data-testid="pane-content"] svg {
+  font-weight: 300;
+  font-size: 1.5rem;
+}
+
+/* Contents of the header */
+.pane-content [data-testid="pane-content"] ul li div[data-ui="Text"] span {
+  font-weight: 300;
+  font-size: 1rem;
+}
+
+/* FIELDS */
+.fields div[data-ui="Stack"] label {
+  font-weight: 500;
+  font-size: 0.875rem;
+}
+
+/* DOCUMENT PANEL CONTENT */
+.document-panel div[data-ui="Stack"] div:first-child {
+  font-weight: 500;
+  font-size: 0.875rem;
+}
