@@ -107,7 +107,9 @@ export default function StudioPage() {
           ${styles["search-icon-bg"]} ${styles["search-icon"]} ${styles["list-pane"]}
           ${styles["pane-content"]} ${styles["svg-content"]} ${styles["fields"]}
           ${styles["document-panel"]} ${styles["new-document-button"]}
-          ${styles["tools-menu"]} ${styles["right-nav"]} ${styles["testing"]} h-screen`}
+          ${styles["tools-menu"]} ${styles["right-nav"]} ${styles["pane-footer-url"]} ${styles["footer-right-buttons"]}
+          ${styles["doc-action-button"]} ${styles["pane-footer"]}
+         ${styles["media-file-metadata"]} ${styles["media-tags"]} ${styles["publish-button"]} h-screen`}
           >
             <StudioLayout />
           </div>

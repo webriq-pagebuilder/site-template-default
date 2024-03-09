@@ -10,7 +10,7 @@ export function StackshiftStudioTools(props) {
   // Change flex direction depending on context
   const direction = isSidebar ? "column" : "row";
 
-  const [activeTab, setActiveTab] = useState("structure");
+  const [activeTab, setActiveTab] = useState(activeToolName);
   const [hoverTab, setHoverTab] = useState(null);
 
   const handleActiveTab = (tabName: string) => {

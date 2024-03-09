@@ -1,4 +1,4 @@
-/** Sanity Studio embed **/
+/* * Sanity Studio embed * */
 
 /* Hide the Sanity Studio "Create new document" button beside the nav logo by default */
 .new-document-button div > div > button[data-testid="new-document-button"] {
@@ -13,10 +13,6 @@
 /* Hide every thing in the right navbar */
 .right-nav div[data-ui="Navbar"] > div > div:last-child {
   display: none !important;
-}
-
-.testing [data-ui="Navbar"] > div {
-  padding: 0.3em;
 }
 
 /* Nav Styling */
@@ -89,7 +85,6 @@
   height: 1.5em;
 }
 
-/* CHECK THIS */
 /* Structure - Pages - Store - Guide */
 .list-pane div[data-testid="compact-preview"] {
   font-weight: 500;
@@ -119,4 +114,123 @@
 .document-panel div[data-ui="Stack"] div:first-child {
   font-weight: 500;
   font-size: 0.875rem;
+}
+
+/* Published timer */
+.pane-footer
+  div[data-testid="pane-footer"]
+  > div
+  > div
+  > div
+  > div
+  > div
+  > div:first-child {
+  display: none;
+}
+
+/* Live Url */
+.pane-footer-url
+  div[data-testid="pane-footer"]
+  > div
+  > div
+  > div
+  > div
+  > div
+  > div:last-child {
+  text-align: left;
+  align-items: center;
+  width: 100%;
+  display: flex;
+}
+
+/* Document action button */
+.doc-action-button
+  div[data-testid="pane-footer"]
+  > div
+  > div
+  > div
+  > div:last-child
+  span
+  button {
+  border: 1px solid #d3d3d3;
+  width: 40px;
+}
+
+/* Pane footer right buttons */
+.footer-right-buttons
+  div[data-testid="pane-footer"]
+  > div
+  > div
+  > div
+  > div:last-child {
+  align-items: center;
+}
+
+.publish-button
+  div[data-testid="pane-footer"]
+  > div
+  > div
+  > div
+  > div
+  > div:last-child
+  > div
+  > div
+  > button
+  > span {
+  width: 13.5em;
+}
+
+/* Search Icon Styles */
+/*HEADER PRODUCT TITLE*/
+.search-results
+  div[data-testid="search-results"]
+  > ul
+  > li
+  > div
+  > a
+  > div
+  > div
+  > div
+  > div
+  > div[data-testid="default-preview__header"]
+  > div:first-child
+  > span {
+  font-size: 1rem;
+  font-weight: 400;
+}
+
+/* HEADER SVG */
+.search-result-svg
+  div[data-testid="search-results"]
+  > ul
+  > li
+  > div
+  > a
+  > div
+  > div
+  > div
+  > div
+  > div:first-child
+  > span
+  > svg {
+  font-size: 1.3rem;
+}
+
+/* MEDIA TOOL STLYES */
+/* FILE METADATA */
+.media-file-metadata
+  div[data-test-id="virtuoso-top-item-list"]
+  > div
+  > div
+  > div[data-ui="Label"]
+  > span
+  > div
+  > span {
+  /* background-color: red; */
+  font-size: 0.6rem;
+}
+
+/* TAGS */
+.media-tags div[data-ui="Inline"] > div > div[data-ui="Label"] span {
+  font-size: 0.6rem;
 }

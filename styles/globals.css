@@ -170,4 +170,86 @@ ul[aria-label="Content"] > li:last-child:before {
   padding: 5px;
 }
 
+/* TODO: MIGRATE THIS TO CSS MODULE */
+/*HEADER PRODUCT TITLE*/
+div[data-testid="search-results"]
+  > ul
+  > li
+  > div
+  > a
+  > div
+  > div
+  > div
+  > div
+  > div[data-testid="default-preview__header"]
+  > div:first-child
+  > span {
+  font-size: 1rem;
+  font-weight: 400;
+}
+
+/* HEADER SVG */
+div[data-testid="search-results"]
+  > ul
+  > li
+  > div
+  > a
+  > div
+  > div
+  > div
+  > div
+  > div:first-child
+  > span
+  > svg {
+  font-size: 1.3rem;
+}
+div[data-testid="search-results"]
+  > ul
+  > li
+  > div
+  > a
+  > div
+  > div
+  > div
+  > div
+  > div:first-child
+  > span[data-testid="Media"]
+  span {
+  /* background-color: red; */
+  box-shadow: none;
+}
+
+/* PRODUCT INFO */
+div[data-testid="search-results"]
+  > ul
+  > li
+  > div
+  > a
+  > div
+  > div
+  > div
+  > div
+  > div:last-child
+  span {
+  font-size: 0.7rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  /* background-color: red; */
+}
+div[data-testid="search-results"]
+  > ul
+  > li
+  > div
+  > a
+  > div
+  > div
+  > div
+  > div
+  > div:last-child
+  > div
+  > div
+  > div {
+  background-color: transparent;
+}
+
 /* End */

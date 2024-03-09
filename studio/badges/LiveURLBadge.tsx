@@ -110,9 +110,13 @@ const Link = ({
       target="_blank"
       style={{
         marginRight: 5,
-        padding: 8,
-        fontSize: "1.5em",
+        padding: "1px 15px",
+        fontSize: "1.2em",
+        fontWeight: 600,
+        textDecoration: "none",
         textTransform: "lowercase",
+        borderRadius: "10px",
+        border: `.7px solid ${isPublished ? "#31975e" : "#958228"}`,
         color: isPublished ? "#31975e" : "#958228",
         cursor: isPublished ? "pointer" : "default",
       }}

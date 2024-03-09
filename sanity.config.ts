@@ -13,6 +13,7 @@ import { DefaultStudioTheme } from "studio/brand/theme";
 import { StackshiftStudioTools } from "studio/brand/tools";
 
 // document badge and action
+import { PublishBadge } from "studio/badges/PublishBadge";
 import { LiveURLBadge } from "studio/badges/LiveURLBadge";
 import { ResolveDocumentActions } from "studio/documentActions";
 
@@ -31,6 +32,7 @@ import { webriqPayments } from "@webriq-pagebuilder/sanity-plugin-webriq-payment
 import { webriqGPT3 } from "@webriq-pagebuilder/sanity-plugin-input-component-gpt3";
 import { webriqComponents } from "@webriq-pagebuilder/sanity-plugin-webriq-components";
 import { webriQInspectorInlineEdit } from "@webriq-pagebuilder/sanity-plugin-inspector-inline-edit";
+import { DraftBadge } from "studio/badges/DraftBadge";
 
 export default defineConfig({
   basePath: "/studio",
@@ -79,7 +81,7 @@ export default defineConfig({
     types: schemaTypes,
   },
   document: {
-    badges: [LiveURLBadge],
+    badges: [PublishBadge, DraftBadge, LiveURLBadge],
     actions: (prev, context) => ResolveDocumentActions({ prev, context }),
     unstable_comments: {
       enabled: false, // Comments disabled
