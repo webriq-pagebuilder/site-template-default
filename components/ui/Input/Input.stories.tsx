@@ -1,5 +1,7 @@
+import React from "react";
 import type { Meta, StoryObj } from "@storybook/react";
 import { Input } from "./Input";
+import { config } from "../../../lib/storybook.figma.urls";
 
 const meta: Meta<typeof Input> = {
   title: "Components/UI/Input",
@@ -10,6 +12,12 @@ const meta: Meta<typeof Input> = {
     name: "Email",
     type: "email",
     variant: "outline",
+  },
+  parameters: {
+    design: {
+      type: "figma",
+      url: config.components.ui.Input.primary,
+    },
   },
   decorators: [
     (Story) => (
@@ -27,11 +35,23 @@ export const Primary: Story = {
   args: {
     variant: "primary",
   },
+  parameters: {
+    design: {
+      type: "figma",
+      url: config.components.ui.Input.primary,
+    },
+  },
 };
 
 export const Secondary: Story = {
   args: {
     variant: "secondary",
+  },
+  parameters: {
+    design: {
+      type: "figma",
+      url: config.components.ui.Input.secondary,
+    },
   },
 };
 
@@ -40,10 +60,22 @@ export const NoLabel: Story = {
     noLabel: true,
     variant: "primary",
   },
+  parameters: {
+    design: {
+      type: "figma",
+      url: config.components.ui.Input.noLabel,
+    },
+  },
 };
 
 export const Outline: Story = {
   args: {
     variant: "outline",
+  },
+  parameters: {
+    design: {
+      type: "figma",
+      url: config.components.ui.Input.outline,
+    },
   },
 };

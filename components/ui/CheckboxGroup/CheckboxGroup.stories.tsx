@@ -1,11 +1,19 @@
+import React from "react";
 import type { Meta, StoryObj } from "@storybook/react";
 import { CheckboxGroup } from "./CheckboxGroup";
 import { Checkbox } from "../Checkbox/Checkbox";
+import { config } from "../../../lib/storybook.figma.urls";
 
 const meta: Meta<typeof CheckboxGroup> = {
   title: "Components/UI/Checkbox Group",
   component: CheckboxGroup,
   tags: ["autodocs"],
+  parameters: {
+    design: {
+      type: "figma",
+      url: config.components.ui.CheckboxGroup.primary,
+    },
+  },
 } satisfies Meta<typeof CheckboxGroup>;
 
 export default meta;
@@ -25,6 +33,12 @@ export const Primary: Story = {
       />
     )),
   },
+  parameters: {
+    design: {
+      type: "figma",
+      url: config.components.ui.CheckboxGroup.primary,
+    },
+  },
 };
 
 export const Inline: Story = {
@@ -41,6 +55,12 @@ export const Inline: Story = {
       />
     )),
   },
+  parameters: {
+    design: {
+      type: "figma",
+      url: config.components.ui.CheckboxGroup.inline,
+    },
+  },
 };
 
 export const WithCustomLabel: Story = {
@@ -56,5 +76,11 @@ export const WithCustomLabel: Story = {
         name={"With Custom Label"}
       />
     )),
+  },
+  parameters: {
+    design: {
+      type: "figma",
+      url: config.components.ui.CheckboxGroup.custom,
+    },
   },
 };

@@ -1,11 +1,18 @@
+import React from "react";
 import type { Meta, StoryObj } from "@storybook/react";
 import { Text } from "./Text";
+import { config } from "../../../lib/storybook.figma.urls";
 
 const meta: Meta<typeof Text> = {
   title: "Components/UI/Text",
   component: Text,
-
   tags: ["autodocs"],
+  parameters: {
+    design: {
+      type: "figma",
+      url: config.components.ui.Text.primary,
+    },
+  },
 } satisfies Meta<typeof Text>;
 
 export default meta;

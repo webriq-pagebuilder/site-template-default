@@ -1,7 +1,9 @@
+import React from "react";
 import type { Meta, StoryObj } from "@storybook/react";
 import { SignUpForm } from "./sign-up-form";
 import { Sections, SectionsProps, Variants } from "types";
 import { signUpDefaultValues } from "helper/defaultValues";
+import { config } from "../../../lib/storybook.figma.urls";
 
 const ARGS = {
   ...signUpDefaultValues,
@@ -21,6 +23,12 @@ const meta = {
       </div>
     ),
   ],
+  parameters: {
+    design: {
+      type: "figma",
+      url: config.components.common.Form.primary,
+    },
+  },
 } satisfies Meta<typeof SignUpForm> & any;
 
 export default meta;
