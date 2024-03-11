@@ -70,3 +70,7 @@
   right: 10px;
   z-index: 40;
 }
+
+.pane-footer-published div[data-testid="pane-footer"] > div > div > div > div > div:first-child > div:first-child{
+  display: none;
+}

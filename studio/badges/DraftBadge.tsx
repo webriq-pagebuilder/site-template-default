@@ -9,7 +9,6 @@ export function DraftBadge(
   const { draft } = props;
   const [draftTime, setDraftTime] = useState<number | null>(null);
 
-  console.log("draft", draft);
   useEffect(() => {
     let intervalId: NodeJS.Timeout;
 
@@ -58,12 +57,10 @@ export function DraftBadge(
 
     return {
       label: <DraftTimer label={draft} />,
-      title: (
-        <div className="text-left">
-          <div className="mb-2 font-medium text-sm">Review Changes</div>
-          <div className="text-xs">Changes saved {draft} ago</div>
-        </div>
-      ),
+      title:
+        draftTime <= 0
+          ? "Changes Saved Just now"
+          : `Changes Saved ${draft} ago`,
       color: "warning",
     };
   }
@@ -71,11 +68,22 @@ export function DraftBadge(
 }
 
 const DraftTimer = ({ label }) => {
+  const [isHovered, setIsHovered] = useState<boolean>(false);
+
   return (
     <>
       {/* should have function onclick to open the review changes */}
-      <div className="flex space-x-2 text-sm font-medium items-center cursor-pointer">
-        <EditIcon />
+      <div
+        className="flex space-x-2 text-sm font-normal items-center cursor-pointer"
+        style={{
+          padding: "10px",
+          borderRadius: "4px",
+          color: isHovered ? "black" : "#958228",
+          backgroundColor: isHovered ? "#95822820" : "transparent",
+        }}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}>
+        <EditIcon style={{ color: isHovered ? "black" : "#958228" }} />
         <span>{label}</span>
       </div>
     </>

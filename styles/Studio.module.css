@@ -166,7 +166,7 @@
   align-items: center;
 }
 
-.publish-button
+/* .publish-button
   div[data-testid="pane-footer"]
   > div
   > div
@@ -178,7 +178,7 @@
   > button
   > span {
   width: 13.5em;
-}
+} */
 
 /* Search Icon Styles */
 /*HEADER PRODUCT TITLE*/

@@ -119,8 +119,7 @@ const Link = ({
         border: `.7px solid ${isPublished ? "#31975e" : "#958228"}`,
         color: isPublished ? "#31975e" : "#958228",
         cursor: isPublished ? "pointer" : "default",
-      }}
-    >
+      }}>
       {target}
     </a>
   );

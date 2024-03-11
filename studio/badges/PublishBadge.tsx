@@ -70,9 +70,20 @@ export function PublishBadge(
 }
 
 const Timer = ({ publishedLabel }) => {
+  const [isHovered, setIsHovered] = useState<boolean>(false);
+
   return (
-    <div className="flex space-x-2 text-sm font-medium items-center cursor-pointer">
-      <CheckmarkCircleIcon />
+    <div
+      className="flex space-x-2 text-sm font-normal items-center cursor-pointer"
+      style={{
+        padding: "10px",
+        borderRadius: "4px",
+        color: isHovered ? "black" : "#31975e",
+        backgroundColor: isHovered ? "#31975e20" : "transparent",
+      }}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}>
+      <CheckmarkCircleIcon style={{ color: isHovered ? "black" : "#31975e" }} />
       <span>{publishedLabel}</span>
     </div>
   );
