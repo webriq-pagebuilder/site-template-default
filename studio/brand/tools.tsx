@@ -38,7 +38,7 @@ export function StackshiftStudioTools(props) {
             backgroundColor:
               activeTab === tool?.name || hoverTab === tool?.name
                 ? "#184082"
-                : "transparent",
+                : "#0c1f3c",
             boxShadow: "unset",
           }}
           onClick={() => handleActiveTab(tool?.name)}

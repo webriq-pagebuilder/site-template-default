@@ -28,6 +28,8 @@ export function PublishBadge(
 
       updateTimes(); // Update immediately
       intervalId = setInterval(updateTimes, 60000); // Update every minute
+
+      return () => clearInterval(intervalId);
     }
   }, [published]);
 
@@ -82,7 +84,8 @@ const Timer = ({ publishedLabel }) => {
         backgroundColor: isHovered ? "#31975e20" : "transparent",
       }}
       onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}>
+      onMouseLeave={() => setIsHovered(false)}
+    >
       <CheckmarkCircleIcon style={{ color: isHovered ? "black" : "#31975e" }} />
       <span>{publishedLabel}</span>
     </div>
