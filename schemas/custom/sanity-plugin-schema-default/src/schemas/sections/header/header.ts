@@ -14,7 +14,7 @@ import { headerSchema } from "./schema";
  *     title: "Variant A",
  *    description: "This is a new variant A for header",
  *     value: "variant_a",
- *     image: variantAImage,
+ *     image: variantAImage.src,
  *   },
  * ]
  *
