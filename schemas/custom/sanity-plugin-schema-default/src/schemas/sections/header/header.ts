@@ -26,7 +26,7 @@ export const variantsList = [
     title: "New Variant",
     description: "A new variant for header component",
     value: "variant_a", // update this with the correct variant letter
-    image: variantAImage, // update with the correct variant image import
+    image: variantAImage.src, // update with the correct variant image import
   },
 ];
 
