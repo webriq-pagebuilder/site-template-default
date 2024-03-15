@@ -29,11 +29,7 @@ yarn-debug.log*
 yarn-error.log*
 
 # local env files
-.env.local
-.env.development
-.env.test.local
-.env.production.local
-.env.staging*
+.env.*
 
 # vercel
 .vercel
@@ -48,4 +44,6 @@ yarn-error.log*
 public/sitemap.xml
 
 # chromatic
+chromatic.log
+build-storybook.log
 storybook-static/

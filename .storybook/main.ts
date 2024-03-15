@@ -15,12 +15,14 @@ const config: StorybookConfig = {
   `,
   staticDirs: ["../public"],
   addons: [
+    "@storybook/addon-designs",
     "@storybook/addon-links",
     "@storybook/addon-essentials",
     "@storybook/addon-onboarding",
     "@storybook/addon-interactions",
     "@storybook/addon-docs",
     "@storybook/addon-mdx-gfm",
+    "storybook-addon-designs",
     "./preset",
   ],
   framework: {

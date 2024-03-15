@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { Checkbox } from "./Checkbox";
+import { config } from "../../../lib/storybook.figma.urls";
 
 const meta: Meta<typeof Checkbox> = {
   title: "Components/UI/Checkbox",
@@ -7,6 +8,12 @@ const meta: Meta<typeof Checkbox> = {
   tags: ["autodocs"],
   argTypes: {
     onChange: { action: "onChange" },
+  },
+  parameters: {
+    design: {
+      type: "figma",
+      url: config.components.ui.Checkbox.primary,
+    },
   },
 } satisfies Meta<typeof Checkbox>;
 
@@ -18,6 +25,12 @@ export const Primary: Story = {
     name: "Checkbox 1",
     item: "Checkbox 1",
   },
+  parameters: {
+    design: {
+      type: "figma",
+      url: config.components.ui.Checkbox.primary,
+    },
+  },
 };
 
 export const WithLabelClass: Story = {
@@ -25,5 +38,11 @@ export const WithLabelClass: Story = {
     name: "Checkbox 2",
     labelClass: "text-lg font-bold",
     item: "Checkbox 2",
+  },
+  parameters: {
+    design: {
+      type: "figma",
+      url: config.components.ui.Checkbox.custom,
+    },
   },
 };
