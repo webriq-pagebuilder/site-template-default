@@ -1,6 +1,8 @@
+import React from "react";
 import type { Meta, StoryObj } from "@storybook/react";
 import { StatsCard } from "./stats-card";
 import { Sections, SectionsProps, Variants } from "types";
+import { config } from "../../../lib/storybook.figma.urls";
 
 const ARGS = {
   LABEL: "Total Revenue",
@@ -23,6 +25,12 @@ const meta = {
       </div>
     ),
   ],
+  parameters: {
+    design: {
+      type: "figma",
+      url: config.components.common.StatsCard.primary,
+    },
+  },
 } satisfies Meta<typeof StatsCard>;
 
 export default meta;

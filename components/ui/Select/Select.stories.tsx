@@ -1,5 +1,7 @@
+import React from "react";
 import type { Meta, StoryObj } from "@storybook/react";
 import { Select } from "./Select";
+import { config } from "../../../lib/storybook.figma.urls";
 
 const meta: Meta<typeof Select> = {
   title: "Components/UI/Select",
@@ -16,6 +18,12 @@ const meta: Meta<typeof Select> = {
     ),
   ],
   tags: ["autodocs"],
+  parameters: {
+    design: {
+      type: "figma",
+      url: config.components.ui.Select.primary,
+    },
+  },
 } satisfies Meta<typeof Select>;
 
 export default meta;

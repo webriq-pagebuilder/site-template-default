@@ -1,10 +1,18 @@
+import React from "react";
 import type { Meta, StoryObj } from "@storybook/react";
 import { SocialIcon, Socials } from "./SocialIcons";
+import { config } from "../../../lib/storybook.figma.urls";
 
 const meta: Meta<typeof SocialIcon> = {
   title: "Components/UI/Social Icons",
   component: SocialIcon,
   tags: ["autodocs"],
+  parameters: {
+    design: {
+      type: "figma",
+      url: config.components.ui.SocialIcons.primary,
+    },
+  },
 } satisfies Meta<typeof SocialIcon>;
 
 export default meta;
@@ -15,10 +23,9 @@ export const AllIcons: Story = {
     const icons = ["facebook", "linkedin", "instagram", "youtube"];
     return (
       <div className="flex gap-4">
-        {icons.map((i) => {
-          return <SocialIcon social={i as Socials} />;
-          //   return <div>test</div>;
-        })}
+        {icons.map((i, index) => (
+          <SocialIcon social={i as Socials} key={index} />
+        ))}
       </div>
     );
   },
