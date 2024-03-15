@@ -1,9 +1,12 @@
+import React from "react";
 import type { Meta, StoryObj } from "@storybook/react";
 import { Form } from "./Form";
 import { FormField } from "../FormField/FormField";
-import { FormTypes } from "types";
+import { FormTypes } from "../../../types";
 import { Input } from "../Input";
 import { Button } from "../Button";
+import { config } from "../../../lib/storybook.figma.urls";
+
 const meta: Meta<typeof Form> = {
   title: "Components/UI/Form",
   component: Form,
@@ -11,6 +14,12 @@ const meta: Meta<typeof Form> = {
   args: {
     name: "Form",
     id: "fc31c685-2d1a-447d-b891-ea63a38c5f57",
+  },
+  parameters: {
+    design: {
+      type: "figma",
+      url: config.components.ui.Form.primary,
+    },
   },
 } satisfies Meta<typeof Form>;
 
@@ -79,7 +88,7 @@ export const Primary: Story = {
   args: {
     children: (
       <>
-        {DUMMY_FIELDS.map((field) => {
+        {DUMMY_FIELDS.map((field, index) => {
           return (
             <FormField
               label={field?.label}
@@ -88,6 +97,7 @@ export const Primary: Story = {
               name={field.name}
               required={false}
               placeholder={field.placeholder}
+              key={index}
             />
           );
         })}
@@ -103,6 +113,12 @@ export const Primary: Story = {
       </>
     ),
   },
+  parameters: {
+    design: {
+      type: "figma",
+      url: config.components.ui.Form.primary,
+    },
+  },
 };
 
 export const WithCustomField: Story = {
@@ -112,7 +128,7 @@ export const WithCustomField: Story = {
         {DUMMY_FIELDS.map((field) => {
           if (field.type === "inputText") {
             return (
-              <div className="mb-4">
+              <div className="mb-4" key={field?.name}>
                 <Input
                   className="border border-red-400 border-solid placeholder:text-red-500"
                   placeholder="This is a custom field!"
@@ -132,6 +148,7 @@ export const WithCustomField: Story = {
               name={field.name}
               required={false}
               placeholder={field.placeholder}
+              key={field?.name}
             />
           );
         })}
@@ -146,5 +163,11 @@ export const WithCustomField: Story = {
         </div>
       </>
     ),
+  },
+  parameters: {
+    design: {
+      type: "figma",
+      url: config.components.ui.Form.custom,
+    },
   },
 };

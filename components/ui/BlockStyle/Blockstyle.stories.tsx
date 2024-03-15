@@ -1,6 +1,8 @@
+import React from "react";
 import type { Meta, StoryObj } from "@storybook/react";
 import { PortableText } from "lib/sanity";
 import { defaultBlockStyle } from "helper";
+import { config } from "../../../lib/storybook.figma.urls";
 import deepmerge from "deepmerge";
 
 const DUMMY_PORTABLE_DATA = [
@@ -280,6 +282,12 @@ const meta: Meta<typeof PortableText> = {
     value: DUMMY_PORTABLE_DATA,
     components: defaultBlockStyle,
   },
+  parameters: {
+    design: {
+      type: "figma",
+      url: config.components.ui.BlockStyle.primary,
+    },
+  },
 } satisfies Meta<typeof PortableText>;
 
 export default meta;
@@ -299,5 +307,11 @@ const newBlock = deepmerge(defaultBlockStyle, myBlock);
 export const CustomBlockStyle: Story = {
   args: {
     components: newBlock,
+  },
+  parameters: {
+    design: {
+      type: "figma",
+      url: config.components.ui.BlockStyle.custom,
+    },
   },
 };

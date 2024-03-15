@@ -1,11 +1,18 @@
+import React from "react";
 import type { Meta, StoryObj } from "@storybook/react";
 import { Heading } from "./heading";
+import { config } from "../../../lib/storybook.figma.urls";
 
 const meta: Meta<typeof Heading> = {
   title: "Components/UI/Heading",
   component: Heading,
-
   tags: ["autodocs"],
+  parameters: {
+    design: {
+      type: "figma",
+      url: config.components.ui.Heading.primary,
+    },
+  },
 } satisfies Meta<typeof Heading>;
 
 export default meta;

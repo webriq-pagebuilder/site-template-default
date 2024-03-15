@@ -1,5 +1,7 @@
+import React from "react";
 import type { Meta, StoryObj } from "@storybook/react";
 import { Textarea } from "./Textarea";
+import { config } from "../../../lib/storybook.figma.urls";
 
 const meta: Meta<typeof Textarea> = {
   title: "Components/UI/Textarea",
@@ -12,6 +14,12 @@ const meta: Meta<typeof Textarea> = {
     ),
   ],
   tags: ["autodocs"],
+  parameters: {
+    design: {
+      type: "figma",
+      url: config.components.ui.Textarea.primary,
+    },
+  },
 } satisfies Meta<typeof Textarea>;
 
 export default meta;
@@ -22,6 +30,12 @@ export const Primary: Story = {
     placeholder: "Write your message here...",
     name: "Message",
   },
+  parameters: {
+    design: {
+      type: "figma",
+      url: config.components.ui.Textarea.primary,
+    },
+  },
 };
 
 export const Outline: Story = {
@@ -29,5 +43,11 @@ export const Outline: Story = {
     placeholder: "Write your message here...",
     name: "Message",
     variant: "outline",
+  },
+  parameters: {
+    design: {
+      type: "figma",
+      url: config.components.ui.Textarea.outline,
+    },
   },
 };

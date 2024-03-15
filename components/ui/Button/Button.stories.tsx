@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { Button } from "./Button";
+import { config } from "../../../lib/storybook.figma.urls";
 
 const meta: Meta<typeof Button> = {
   title: "Components/UI/Button",
@@ -23,6 +24,12 @@ const meta: Meta<typeof Button> = {
   argTypes: {
     onClick: { action: "onClick" },
   },
+  parameters: {
+    design: {
+      type: "figma",
+      url: config.components.ui.Button?.default,
+    },
+  },
 } satisfies Meta<typeof Button>;
 
 export default meta;
@@ -32,11 +39,23 @@ export const Solid: Story = {
   args: {
     variant: "solid",
   },
+  parameters: {
+    design: {
+      type: "figma",
+      url: config.components.ui.Button?.solid,
+    },
+  },
 };
 
 export const Outline: Story = {
   args: {
     variant: "outline",
+  },
+  parameters: {
+    design: {
+      type: "figma",
+      url: config.components.ui.Button?.outline,
+    },
   },
 };
 
@@ -44,11 +63,23 @@ export const Ghost: Story = {
   args: {
     variant: "ghost",
   },
+  parameters: {
+    design: {
+      type: "figma",
+      url: config.components.ui.Button?.ghost,
+    },
+  },
 };
 
 export const Link: Story = {
   args: {
     variant: "link",
+  },
+  parameters: {
+    design: {
+      type: "figma",
+      url: config.components.ui.Button?.link,
+    },
   },
 };
 
@@ -56,16 +87,34 @@ export const Custom: Story = {
   args: {
     variant: "custom",
   },
+  parameters: {
+    design: {
+      type: "figma",
+      url: config.components.ui.Button?.custom,
+    },
+  },
 };
 
 export const Unstyled: Story = {
   args: {
     variant: "unstyled",
   },
+  parameters: {
+    design: {
+      type: "figma",
+      url: config.components.ui.Button?.unstyled,
+    },
+  },
 };
 export const AddToWishlist: Story = {
   args: {
     variant: "addToWishlist",
+  },
+  parameters: {
+    design: {
+      type: "figma",
+      url: config.components.ui.Button?.addToWishlist,
+    },
   },
 };
 
@@ -75,9 +124,21 @@ export const SwiperPagination: Story = {
     isActive: true,
     children: "",
   },
+  parameters: {
+    design: {
+      type: "figma",
+      url: config.components.ui.Button?.swiperPagination,
+    },
+  },
 };
 export const Tab: Story = {
   args: {
     variant: "tab",
+  },
+  parameters: {
+    design: {
+      type: "figma",
+      url: config.components.ui.Button?.tab,
+    },
   },
 };
