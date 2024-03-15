@@ -14,7 +14,7 @@ import { headerSchema } from "./schema";
  *     title: "Variant A",
  *    description: "This is a new variant A for header",
  *     value: "variant_a",
- *     image: variantAImage,
+ *     image: variantAImage.src,
  *   },
  * ]
  *
@@ -26,7 +26,7 @@ export const variantsList = [
     title: "New Variant",
     description: "A new variant for header component",
     value: "variant_a", // update this with the correct variant letter
-    image: variantAImage, // update with the correct variant image import
+    image: variantAImage.src, // update with the correct variant image import
   },
 ];
 
