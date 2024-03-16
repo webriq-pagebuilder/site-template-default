@@ -2,10 +2,12 @@ import { useState } from "react";
 import { defineConfig, ToolMenuProps, ToolLink } from "sanity";
 import { Flex, Button } from "@sanity/ui";
 import { PlugIcon } from "@sanity/icons";
+import { useMediaQuery } from "hooks/useMediaQuery";
 
 export function StackshiftStudioTools(props) {
   const { activeToolName, context, tools } = props;
   const isSidebar = context === "sidebar";
+  const breakpoint = useMediaQuery("899");
 
   // Change flex direction depending on context
   const direction = isSidebar ? "column" : "row";
@@ -32,13 +34,15 @@ export function StackshiftStudioTools(props) {
           padding={3}
           selected={tool.name === activeToolName}
           text={tool.title || tool.name}
-          mode="default"
+          mode={breakpoint ? "ghost" : "default"}
           tone="primary"
+          justify={"flex-start"}
+          fontSize={2}
           style={{
             backgroundColor:
               activeTab === tool?.name || hoverTab === tool?.name
                 ? "#184082"
-                : "#0c1f3c",
+                : "transparent",
             boxShadow: "unset",
           }}
           onClick={() => handleActiveTab(tool?.name)}

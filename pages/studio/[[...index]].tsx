@@ -109,7 +109,7 @@ export default function StudioPage() {
           ${styles["document-panel"]} ${styles["new-document-button"]}
           ${styles["tools-menu"]} ${styles["right-nav"]} ${styles["pane-footer-url"]} ${styles["footer-right-buttons"]}
           ${styles["doc-action-button"]} ${styles["pane-footer"]}
-         ${styles["media-file-metadata"]} ${styles["media-tags"]} ${styles["publish-button"]} h-screen`}
+         ${styles["media-file-metadata"]} ${styles["media-tags"]} ${styles["publish-button"]} ${styles["burger-menu-background"]} ${styles["burger-menu-svg"]} h-screen`}
           >
             <StudioLayout />
           </div>

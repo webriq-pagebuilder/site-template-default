@@ -10,6 +10,36 @@
   border-right: 0 !important;
 }
 
+.burger-menu-background
+  div[data-testid="studio-navbar"]
+  > div
+  > div
+  > div:first-child
+  > span
+  > button {
+  background-color: transparent;
+  box-shadow: unset;
+}
+
+.burger-menu-svg
+  div[data-testid="studio-navbar"]
+  > div
+  > div
+  > div:first-child
+  > span
+  > button
+  > span
+  > span
+  > div
+  > span
+  > svg {
+  color: white;
+  font-size: 1.7em;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+}
+
 /* Hide every thing in the right navbar */
 .right-nav div[data-ui="Navbar"] > div > div:last-child {
   display: none !important;
