@@ -131,6 +131,8 @@ export function Button(props: ButtonProps) {
         className={cn(variantClass, className)}
         aria-label={ariaLabel}
         href={extractLink(link)}
+        target={link?.linkTarget}
+        rel={link?.linkTarget === "_blank" ? "noopener noreferrer" : ""}
         {...rest}
       >
         {children}
