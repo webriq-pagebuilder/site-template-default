@@ -69,6 +69,7 @@ export function SignUpForm({ form, signInLink, className }: SignUpFormProps) {
           <Button
             size="xs"
             variant="link"
+            as="link"
             link={signInLink}
             ariaLabel={signInLink?.label}
           >
