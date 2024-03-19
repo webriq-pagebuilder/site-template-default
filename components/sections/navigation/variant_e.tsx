@@ -50,6 +50,7 @@ function VariantE({ banner, logo, links }: NavigationProps) {
       code: ({ children }) => <code>{children}</code>,
       link: ({ children, value }) => (
         <Link
+          as="link"
           aria-label={value?.href ?? "external link"}
           className="text-primary-foreground hover:text-secondary-foreground"
           href={value?.href}
@@ -115,6 +116,7 @@ function VariantE({ banner, logo, links }: NavigationProps) {
           <Flex align="center" className="w-full px-12 py-8">
             {logo?.image && (
               <Link
+                as="link"
                 aria-label={`Go to ${
                   logoLink(logo) === "/" ? "home page" : logoLink(logo)
                 }`}
@@ -137,6 +139,7 @@ function VariantE({ banner, logo, links }: NavigationProps) {
                   <Fragment key={index}>
                     <li>
                       <Button
+                        as="link"
                         variant="link"
                         ariaLabel={link?.label}
                         link={link}
