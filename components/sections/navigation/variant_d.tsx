@@ -28,7 +28,7 @@ function VariantD({
                 <React.Fragment key={index}>
                   <li>
                     <Button
-                      variant="link"
+                      as="link"
                       ariaLabel={link?.label}
                       link={link}
                       className="text-sm text-gray-500 no-underline hover:text-gray-900"
@@ -78,18 +78,20 @@ function VariantD({
           </div>
           {primaryButton?.label && (
             <Button
+              as="link"
               ariaLabel={primaryButton?.label}
               link={primaryButton}
-              className="hidden text-sm text-gray-900 lg:inline-block lg:ml-auto lg:mr-3 bg-gray-50 hover:bg-gray-100 "
+              className="hidden lg:inline-block px-4 py-3 mb-2 text-gray-900 lg:ml-auto lg:mr-3 bg-gray-50 hover:bg-gray-100 font-semibold rounded-l-xl rounded-t-xl"
             >
               {primaryButton?.label}
             </Button>
           )}
           {secondaryButton?.label && (
             <Button
+              as="link"
               ariaLabel={secondaryButton?.label}
               link={secondaryButton}
-              className="hidden text-sm lg:inline-block "
+              className="hidden lg:inline-block px-4 py-3 mb-2 leading-loose text-center text-white font-semibold bg-primary hover:bg-primary-foreground rounded-l-xl rounded-t-xl"
             >
               {secondaryButton?.label}
             </Button>
@@ -150,7 +152,7 @@ function VariantD({
                 links?.map((link, index) => (
                   <li className="mb-1" key={index}>
                     <Button
-                      variant="link"
+                      as="link"
                       ariaLabel={link?.label}
                       link={link}
                       className="block p-4 text-sm font-semibold text-gray-700 no-underline rounded hover:bg-secondary-foreground hover:text-primary"
@@ -165,18 +167,20 @@ function VariantD({
             <div className="pt-6">
               {primaryButton?.label && (
                 <Button
+                  as="link"
                   ariaLabel={primaryButton?.label}
                   link={primaryButton}
-                  className="w-full text-sm text-center text-gray-900 lg:inline-block lg:ml-auto lg:mr-3 bg-gray-50 hover:bg-gray-100"
+                  className="block px-4 py-3 mb-2 text-gray-900 text-center lg:ml-auto lg:mr-3 bg-gray-50 hover:bg-gray-100 font-semibold rounded-l-xl rounded-t-xl"
                 >
                   {primaryButton?.label}
                 </Button>
               )}
               {secondaryButton?.label && (
                 <Button
+                  as="link"
                   ariaLabel={secondaryButton?.label}
                   link={secondaryButton}
-                  className="block mb-3 text-xs text-center"
+                  className="block px-4 py-3 mb-2 leading-loose text-center text-white font-semibold bg-primary hover:bg-primary-foreground rounded-l-xl rounded-t-xl"
                 >
                   {secondaryButton?.label}
                 </Button>
