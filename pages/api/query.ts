@@ -36,6 +36,17 @@ const variants = `
         ${conditionalLink}
       }
     },
+    multipleMenus != null => {
+      multipleMenus[] {
+        ...,
+        links != null => {
+          links[] {
+            ...,
+            ${conditionalLink}
+          }
+        }
+      }
+    },
     menu != null => {
       menu[] {
         ...,

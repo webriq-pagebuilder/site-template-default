@@ -63,7 +63,7 @@ function VariantD({
                       {menu?.links?.map((link) => (
                         <li key={link?._key}>
                           <Button
-                            variant="link"
+                            as="link"
                             link={link}
                             className="text-gray-500 no-underline hover:text-gray-700"
                             ariaLabel={link?.label}
