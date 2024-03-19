@@ -29,12 +29,13 @@ function VariantD({
               )}
               <Flex align="center" gap={2} className="flex-col md:flex-row">
                 {primaryButton?.label && (
-                  <Button link={primaryButton} ariaLabel={primaryButton?.label}>
+                  <Button as="link" link={primaryButton} ariaLabel={primaryButton?.label}>
                     {primaryButton?.label}
                   </Button>
                 )}
                 {secondaryButton?.label && (
                   <Button
+                    as="link"
                     link={secondaryButton}
                     className="text-black bg-white hover:bg-gray-50"
                     ariaLabel={secondaryButton?.label}
