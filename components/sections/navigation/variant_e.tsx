@@ -116,7 +116,6 @@ function VariantE({ banner, logo, links }: NavigationProps) {
           <Flex align="center" className="w-full px-12 py-8">
             {logo?.image && (
               <Link
-                as="link"
                 aria-label={`Go to ${
                   logoLink(logo) === "/" ? "home page" : logoLink(logo)
                 }`}
@@ -157,7 +156,7 @@ function VariantE({ banner, logo, links }: NavigationProps) {
             </ul>
           </Flex>
           {/* larger screens search, cart and account icons/buttons */}
-          <div className="items-center justify-end hidden mr-12 xl:flex">
+          <div className="items-center justify-end hidden mt-10 mr-12 xl:flex">
             {/* Search button */}
             <Button
               as="button"

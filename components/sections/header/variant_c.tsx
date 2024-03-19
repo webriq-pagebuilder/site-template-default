@@ -42,7 +42,7 @@ function VariantC({
                 as="link"
                 ariaLabel={secondaryButton?.label}
                 link={secondaryButton}
-                className="text-black bg-white hover:bg-gray-50"
+                className="text-black bg-white hover:bg-gray-50 inline-block rounded-l-xl rounded-t-xl font-bold transition duration-200 px-3 py-4"
               >
                 {secondaryButton?.label}
               </Button>

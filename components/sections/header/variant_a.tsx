@@ -28,7 +28,11 @@ function VariantA({
               )}
               <Flex align="center" gap={2} className="flex-col md:flex-row">
                 {primaryButton?.label && (
-                  <Button as="link" link={primaryButton} ariaLabel={primaryButton?.label}>
+                  <Button
+                    as="link"
+                    link={primaryButton}
+                    ariaLabel={primaryButton?.label}
+                  >
                     {primaryButton?.label}
                   </Button>
                 )}
@@ -36,7 +40,7 @@ function VariantA({
                   <Button
                     as="link"
                     link={secondaryButton}
-                    className="text-black bg-white hover:bg-gray-50"
+                    className="text-black bg-white hover:bg-gray-50 inline-block rounded-l-xl rounded-t-xl font-bold transition duration-200 px-3 py-4"
                     ariaLabel={secondaryButton?.label}
                   >
                     {secondaryButton?.label}
