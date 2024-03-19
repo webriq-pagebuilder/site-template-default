@@ -92,10 +92,9 @@ function ProjectItem({ content }) {
           {content?.primaryButton?.label && (
             <Button
               as="link"
-              variant="outline"
+              variant="solid"
               ariaLabel={content?.primaryButton?.label}
               link={content?.primaryButton}
-              className="bg-transparent !outline-none border-2 border-gray-400 hover:border-primary text-gray-50 hover:bg-primary hover:text-white "
             >
               {content?.primaryButton?.label}
             </Button>

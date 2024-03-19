@@ -72,7 +72,7 @@ function VariantA({ caption, title, portfoliosWithCategory }: PortfolioProps) {
                           variant="outline"
                           ariaLabel={content?.primaryButton?.label}
                           link={content?.primaryButton}
-                          className="bg-transparent border-2 border-gray-400 !outline-none hover:border-white hover:opacity-100 text-gray-50 hover:bg-white hover:text-gray-900"
+                          className="bg-transparent border-secondary-foreground outline text-white hover:bg-secondary-foreground/20 hover:border-secondary-foreground/20 inline-block rounded-l-xl rounded-t-xl font-bold transition duration-200 px-3 py-4"
                         >
                           {content?.primaryButton?.label}
                         </Button>
