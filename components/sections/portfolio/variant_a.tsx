@@ -68,6 +68,7 @@ function VariantA({ caption, title, portfoliosWithCategory }: PortfolioProps) {
                     <div className="absolute inset-0 z-10 flex items-center justify-center duration-300 bg-gray-900 rounded-lg opacity-0 hover:opacity-75">
                       {content?.primaryButton?.label && (
                         <Button
+                          as="link"
                           variant="outline"
                           ariaLabel={content?.primaryButton?.label}
                           link={content?.primaryButton}
@@ -85,6 +86,7 @@ function VariantA({ caption, title, portfoliosWithCategory }: PortfolioProps) {
         {portfoliosPerCategory?.[0]?.primaryButton?.label && (
           <div className="text-center">
             <Button
+              as="link"
               ariaLabel={portfoliosPerCategory?.[0]?.primaryButton?.label}
               link={portfoliosPerCategory?.[0]?.primaryButton}
             >

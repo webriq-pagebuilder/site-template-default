@@ -80,6 +80,7 @@ function VariantD({ caption, title, portfoliosWithCategory }: PortfolioProps) {
         {portfoliosPerCategory?.[0]?.primaryButton?.label && (
           <div className="text-center">
             <Button
+              as="link"
               ariaLabel={portfoliosPerCategory?.[0]?.primaryButton?.label}
               link={portfoliosPerCategory?.[0]?.primaryButton}
             >
@@ -130,6 +131,7 @@ function ProjectItem({ size, content }) {
                 </Text>
                 {content?.primaryButton?.label && (
                   <Button
+                    as="link"
                     ariaLabel={content?.primaryButton?.label}
                     link={content?.primaryButton}
                   >

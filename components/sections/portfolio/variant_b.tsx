@@ -33,7 +33,7 @@ function VariantB({
           </div>
           <div className="hidden mt-5 text-right md:mt-0 lg:mt-0 lg:block xl:mt-0">
             {primaryButton?.label && (
-              <Button ariaLabel={primaryButton?.label} link={primaryButton}>
+              <Button as="link" ariaLabel={primaryButton?.label} link={primaryButton}>
                 {primaryButton?.label}
               </Button>
             )}
@@ -50,7 +50,7 @@ function VariantB({
         )}
         <div className="block mt-5 text-center md:mt-0 lg:mt-0 lg:hidden xl:mt-0">
           {primaryButton?.label && (
-            <Button ariaLabel={primaryButton?.label} link={primaryButton}>
+            <Button as="link" ariaLabel={primaryButton?.label} link={primaryButton}>
               {primaryButton?.label}
             </Button>
           )}
@@ -91,6 +91,7 @@ function ProjectItem({ content }) {
           </Text>
           {content?.primaryButton?.label && (
             <Button
+              as="link"
               variant="outline"
               ariaLabel={content?.primaryButton?.label}
               link={content?.primaryButton}
