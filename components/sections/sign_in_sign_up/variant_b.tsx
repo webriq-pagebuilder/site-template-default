@@ -32,8 +32,8 @@ function VariantB({ logo, form, formLinks, signInLink }: SignUpFormProps) {
               >
                 <Image
                   src={urlFor(logo?.image)}
-                  width={50}
-                  height={50}
+                  width={100}
+                  height={10}
                   quality={100}
                   alt={logo?.alt ?? "signUp-logo"}
                 />

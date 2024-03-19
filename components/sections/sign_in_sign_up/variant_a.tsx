@@ -24,8 +24,8 @@ function VariantA({ logo, form, formLinks, signInLink }: SignUpFormProps) {
               >
                 <Image
                   src={urlFor(logo?.image)}
-                  width={50}
-                  height={50}
+                  width={100}
+                  height={100}
                   quality={100}
                   alt={logo?.alt ?? "signUp-logo"}
                 />
@@ -168,7 +168,7 @@ function VariantA({ logo, form, formLinks, signInLink }: SignUpFormProps) {
                 {signInLink?.label && (
                   <div className="w-full text-center ">
                     <span className="text-xs text-gray-500">
-                      Already have an account?
+                      Already have an account?{" "}
                     </span>
 
                     <Button
