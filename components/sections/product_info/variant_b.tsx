@@ -280,7 +280,7 @@ function VariantB({
                           aria-label={
                             social?.socialMedia || social?.socialMediaPlatform
                           }
-                          className="w-8 h-8 mr-1"
+                          className="w-8 h-8 mr-1 flex items-center justify-center"
                           target="_blank"
                           rel="noopener noreferrer"
                           href={social?.socialMediaLink}
