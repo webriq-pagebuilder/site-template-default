@@ -30,10 +30,11 @@ function VariantE({
               )}
               <Flex align="center" gap={2} className="flex-col md:flex-row">
                 {primaryButton?.label && (
-                  <Button 
-                   as="link"
-                   link={primaryButton} 
-                   ariaLabel={primaryButton?.label}>
+                  <Button
+                    as="link"
+                    link={primaryButton}
+                    ariaLabel={primaryButton?.label}
+                  >
                     {primaryButton?.label}
                   </Button>
                 )}
