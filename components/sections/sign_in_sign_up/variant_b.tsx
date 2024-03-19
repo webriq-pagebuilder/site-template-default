@@ -149,7 +149,7 @@ function VariantB({ logo, form, formLinks, signInLink }: SignUpFormProps) {
                   {form?.buttonLabel && (
                     <Button
                       as="button"
-                      className="w-full py-4"
+                      className="w-full py-4 mb-3"
                       ariaLabel={
                         form?.buttonLabel ?? "Sign Up form submit button"
                       }

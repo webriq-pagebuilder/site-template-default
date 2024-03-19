@@ -102,12 +102,22 @@ function VariantA({
               >
                 <div>
                   <Heading type="h2">{"Office"}</Heading>
-                  <Text muted>{officeInformation}</Text>
+                  <Text className="mt-3" muted>
+                    {officeInformation}
+                  </Text>
                 </div>
                 <div>
                   <Heading type="h2">{"Contacts"}</Heading>
-                  <Text muted>{contactEmail}</Text>
-                  <Text muted>{contactNumber}</Text>
+                  <Text className="my-3" muted>
+                    {contactEmail && (
+                      <a href={`mailto:${contactEmail}`}>{contactEmail}</a>
+                    )}
+                  </Text>
+                  <Text muted>
+                    {contactNumber && (
+                      <a href={`tel:${contactNumber}`}>{contactNumber}</a>
+                    )}
+                  </Text>
                 </div>
               </Flex>
             )}
@@ -165,7 +175,7 @@ function VariantA({
                     )}
                   </div>
                 ))}
-                <div className="items-center sm:flex sm:justify-between mt-3">
+                <div className="items-center sm:flex sm:justify-between">
                   {block && (
                     <div className="inline-flex mt-2">
                       <input
