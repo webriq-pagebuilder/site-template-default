@@ -163,6 +163,7 @@ function VariantB({ logo, form, formLinks, signInLink }: SignUpFormProps) {
                     <span className="text-xs text-gray-900">
                       <span>Already have an account?</span>{" "}
                       <Button
+                        as="link"
                         variant="link"
                         link={signInLink}
                         className="text-xs text-primary hover:underline"
@@ -181,6 +182,7 @@ function VariantB({ logo, form, formLinks, signInLink }: SignUpFormProps) {
               {formLinks?.map((link, index, { length }) => (
                 <span key={index}>
                   <Button
+                    as="link"
                     variant="link"
                     link={link}
                     className="text-xs underline text-secondary-foreground hover:text-gray-50"

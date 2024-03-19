@@ -172,6 +172,7 @@ function VariantA({ logo, form, formLinks, signInLink }: SignUpFormProps) {
                     </span>
 
                     <Button
+                      as="link"
                       variant="link"
                       link={signInLink}
                       className="text-xs text-primary hover:underline"
@@ -189,6 +190,7 @@ function VariantA({ logo, form, formLinks, signInLink }: SignUpFormProps) {
               {formLinks?.map((link, index, { length }) => (
                 <span key={index}>
                   <Button
+                    as="link"
                     variant="link"
                     link={link}
                     className={` text-gray-700 text-xs ${
