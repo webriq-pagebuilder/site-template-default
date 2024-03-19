@@ -10,6 +10,8 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Thumbs, Pagination, A11y } from "swiper/modules";
 import { ProductInfoProps } from ".";
 import { MyPortableTextComponents } from "types";
+import { Container, Flex } from "components/layout/index";
+import { Text, Heading, Button } from "components/ui";
 
 // Import Swiper styles
 import "swiper/css";
@@ -17,8 +19,6 @@ import "swiper/css/navigation";
 import "swiper/css/thumbs";
 import "swiper/css/pagination";
 import "swiper/css/a11y";
-import { Container, Flex } from "components/layout/index";
-import { Text, Heading, Button } from "components/ui";
 
 function VariantA({
   subtitle,
@@ -182,7 +182,7 @@ function VariantA({
                   prevEl: "#thumbPrev",
                   nextEl: "#thumbNext",
                 }}
-                className="hidden md:-mx-2 md:flex md:flex-wrap"
+                className="hidden md:-mx-2 md:flex md:flex-wrap mt-3"
                 pagination={{
                   clickable: true,
                 }}
@@ -203,12 +203,9 @@ function VariantA({
                 ))}
               </Swiper>
               <div className="mt-5">
-                <Button
-                  variant="unstyled"
-                  as="button"
-                  ariaLabel="Previous"
+                <button
                   id="piprev"
-                  className="absolute left-0 z-40 px-2 py-5 ml-5 transition duration-200 rounded-r-sm top-60 rounded-l-md hover:bg-gray-50 hover:opacity-50"
+                  className="absolute left-0 top-60 z-40 ml-5 rounded-l-md rounded-r-sm px-2 py-5 transition duration-200 hover:bg-gray-50 hover:opacity-50"
                 >
                   <svg
                     width={36}
@@ -222,13 +219,10 @@ function VariantA({
                       fill="#0045d8"
                     />
                   </svg>
-                </Button>
-                <Button
-                  variant="unstyled"
-                  as="button"
-                  ariaLabel="Next"
+                </button>
+                <button
                   id="pinext"
-                  className="absolute right-0 z-40 px-2 py-5 mr-5 transition duration-200 rounded-l-sm top-60 rounded-r-md hover:bg-gray-50 hover:opacity-50"
+                  className="absolute right-0 top-60 z-40 mr-5 rounded-l-sm rounded-r-md px-2 py-5 transition duration-200 hover:bg-gray-50 hover:opacity-50"
                 >
                   <svg
                     width={36}
@@ -242,7 +236,7 @@ function VariantA({
                       fill="#0045d8"
                     />
                   </svg>
-                </Button>
+                </button>
               </div>
             </div>
           </div>
@@ -380,11 +374,11 @@ function VariantA({
                               width="24"
                               height="24"
                               viewBox="0 0 24 24"
-                              >
+                            >
                               <path
                                 fill="#0045d8"
                                 d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z"
-                                />
+                              />
                             </svg>
                           ) : social?.socialMedia === "twitter" ? (
                             <svg
