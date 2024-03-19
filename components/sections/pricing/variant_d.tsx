@@ -392,6 +392,7 @@ function VariantD({
             <Text muted className="text-xs">
               Already have an account?{" "}
               <Button
+                as="link"
                 variant="link"
                 link={signInLink}
                 className="text-xs hover:underline"
