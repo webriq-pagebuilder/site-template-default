@@ -52,13 +52,13 @@ function VariantA({ caption, title, portfoliosWithCategory }: PortfolioProps) {
                   className="w-full px-4 mb-8 sm:w-1/2 lg:w-1/4 "
                   key={index}
                 >
-                  <div className="relative mx-auto h-[256px] w-[352px] overflow-hidden rounded-lg">
+                  <div className="relative mx-auto h-[256px] w-[332px] overflow-hidden rounded-lg">
                     {content?.mainImage?.image && (
                       <Image
-                        className="object-cover w-full h-full"
-                        src={urlFor(content?.mainImage?.image)}
-                        sizes="100vw"
-                        width={352}
+                      className="object-cover w-full h-full"
+                      src={urlFor(content?.mainImage?.image)}
+                      sizes="100vw"
+                      width={332}
                         height={256}
                         alt={
                           content?.mainImage?.alt ?? `portfolio-image${index}`
