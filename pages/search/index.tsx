@@ -1,22 +1,23 @@
 import React, { useEffect } from "react";
 import Head from "next/head";
-import { PreviewSuspense } from "next-sanity/preview";
-import { getClient } from "lib/sanity.client";
-import { usePreview } from "lib/sanity.preview";
+import { QueryParams, SanityDocument } from "next-sanity";
+import { useLiveQuery } from "next-sanity/preview";
+import { getClient, apiReadToken } from "lib/sanity.client";
 import { searchPageQuery, globalSEOQuery } from "pages/api/query";
 import { SearchPageSections } from "components/page/store/search";
 import { PreviewNoContent } from "components/PreviewNoContent";
-import { filterDataToSingleItem, SEO } from "components/list";
+import { SEO, PreviewProvider } from "components/list";
 import { PreviewBanner } from "components/PreviewBanner";
 import InlineEditorContextProvider from "context/InlineEditorContext";
 
 import { CommonPageData, DefaultSeoData } from "types";
 
 interface SeachPageProps {
+  draftMode: boolean;
+  token: string;
+  params: QueryParams;
+  source: string;
   data: Data;
-  preview: boolean;
-  token?: string;
-  source?: string;
   defaultSeo: DefaultSeoData;
 }
 
@@ -29,7 +30,7 @@ export interface SearchData extends CommonPageData {
   slug: string | string[] | null;
 }
 
-interface DocumentWithPreviewProps {
+interface DocumentProps {
   data: Data;
   token?: string | null;
   defaultSeo: DefaultSeoData;
@@ -37,7 +38,7 @@ interface DocumentWithPreviewProps {
 
 function SearchPage({
   data,
-  preview,
+  draftMode,
   token,
   source,
   defaultSeo,
@@ -47,16 +48,18 @@ function SearchPage({
       window.Ecwid.init();
     }
   }, []);
+
   const showInlineEditor = source === "studio";
-  if (preview) {
+
+  if (draftMode) {
     return (
       <>
         <PreviewBanner />
-        <PreviewSuspense fallback="Loading...">
+        <PreviewProvider token={token}>
           <InlineEditorContextProvider showInlineEditor={showInlineEditor}>
             <DocumentWithPreview {...{ data, token, defaultSeo }} />
           </InlineEditorContextProvider>
-        </PreviewSuspense>
+        </PreviewProvider>
       </>
     );
   }
@@ -77,7 +80,7 @@ function Document({
   data: Data;
   defaultSeo: DefaultSeoData;
 }) {
-  const publishedData = data?.searchData;
+  const publishedData = data?.searchData?.[0];
 
   // General safeguard against empty data
   if (!publishedData) {
@@ -97,7 +100,7 @@ function Document({
       </Head>
 
       {/*  Show page sections */}
-      {data?.searchData && <SearchPageSections data={publishedData} />}
+      {data?.searchData?.[0] && <SearchPageSections data={publishedData} />}
     </>
   );
 }
@@ -113,8 +116,8 @@ function DocumentWithPreview({
   data,
   token = null,
   defaultSeo,
-}: DocumentWithPreviewProps) {
-  const previewDataEventSource = usePreview(token, searchPageQuery);
+}: DocumentProps) {
+  const [previewDataEventSource] = useLiveQuery(data, searchPageQuery);
   const previewData = previewDataEventSource?.[0] || previewDataEventSource;
 
   // General safeguard against empty data
@@ -147,26 +150,20 @@ function DocumentWithPreview({
 }
 
 export async function getStaticProps({
-  preview = false,
+  draftMode = false,
   previewData = {},
-}: any): Promise<{ props: SeachPageProps }> {
-  const client =
-    preview && previewData?.token
-      ? getClient(false).withConfig({ token: previewData.token })
-      : getClient(preview);
+}: any) {
+  const client = getClient(draftMode ? apiReadToken : undefined);
 
   const [searchPage, globalSEO] = await Promise.all([
-    client.fetch(searchPageQuery),
-    client.fetch(globalSEOQuery),
+    client.fetch<SanityDocument>(searchPageQuery),
+    client.fetch<SanityDocument>(globalSEOQuery),
   ]);
 
-  // pass page data and preview to helper function
-  const searchData: SearchData = filterDataToSingleItem(searchPage, preview);
-
-  if (!searchData) {
+  if (!searchPage) {
     return {
       props: {
-        preview,
+        draftMode,
         data: { searchData: null },
         defaultSeo: globalSEO,
       },
@@ -175,12 +172,16 @@ export async function getStaticProps({
 
   return {
     props: {
-      preview,
-      token: (preview && previewData.token) || "",
-      source: (preview && previewData.source) || "",
-      data: { searchData },
+      draftMode,
+      token: draftMode ? apiReadToken : "",
+      source: (draftMode && previewData.source) || "",
+      data: {
+        searchData: searchPage,
+      },
       defaultSeo: globalSEO,
     },
+    // If webhooks isn't setup then attempt to re-generate in 1 minute intervals
+    revalidate: process.env.SANITY_REVALIDATE_SECRET ? undefined : 60,
   };
 }
 

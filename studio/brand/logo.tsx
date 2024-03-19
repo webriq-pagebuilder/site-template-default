@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 export const Logo = () => (
-  <img style={{ padding: "12px" }} src="/webriq-logo.png" alt="Webriq" />
+  <Image width={60} height={60} src="/webriq-logo.png" alt="WebriQ logo" />
 );

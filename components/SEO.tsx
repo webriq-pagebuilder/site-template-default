@@ -3,9 +3,9 @@ import { DefaultSeoData, SanityImage, SanitySlug } from "types";
 import { BlogJsonLd, PagesJsonLd, ProductJsonLd } from "utils/seo/jsonLd";
 
 type SEOData = {
-  pageTitle: string; // page title
+  pageTitle: string | null | undefined; // page title
   route: string | SanitySlug | string[]; // page slug
-  type: string; // page type e.g. blog
+  type: string | undefined; // page type e.g. blog
   seoTitle?: string;
   seoKeywords?: string;
   seoSynonyms?: string;

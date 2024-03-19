@@ -130,8 +130,7 @@ export function Button(props: ButtonProps) {
         className={cn(variantClass, className)}
         aria-label={ariaLabel}
         href={extractLink(link)}
-        {...rest}
-      >
+        {...rest}>
         {children}
       </Link>
     );
@@ -148,8 +147,7 @@ export function Button(props: ButtonProps) {
       disabled={disabled ?? loading}
       className={cn(variantClass, className)}
       aria-label={ariaLabel}
-      type={type}
-    >
+      type={type}>
       {loading ? Loader : children}
     </button>
   );

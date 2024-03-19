@@ -1,11 +1,10 @@
 import type { SanityDocument } from "sanity";
-import { StructureBuilder } from "sanity/desk";
 
 import { EditIcon, EyeOpenIcon, EarthGlobeIcon } from "@sanity/icons";
 import { BiBody } from "react-icons/bi";
 import { MdDashboard } from "react-icons/md";
 
-import Iframe from "sanity-plugin-iframe-pane";
+import { Iframe } from "sanity-plugin-iframe-pane";
 
 import resolveProductionUrl from "../resolvePreviewUrl";
 
@@ -29,7 +28,7 @@ const previewURL =
     : remotePreviewUrl;
 const publishedURL = NEXT_PUBLIC_SITE_URL;
 
-export const Page = (S: StructureBuilder) => {
+export const Page = (S) => {
   return S.listItem()
     .title("Pages")
     .icon(MdDashboard)

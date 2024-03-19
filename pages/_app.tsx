@@ -1,10 +1,10 @@
-import type { AppProps } from "next/app";
 import "../styles/globals.css";
-// import React, { useEffect } from "react";
+
+// import { useEffect } from "react";
 // import useScript from "utils/useScript";
 // import { useRouter } from "next/router";
 
-function App({ Component, pageProps }: AppProps) {
+function App({ Component, pageProps }) {
   // let script_status = useScript(process.env.NEXT_PUBLIC_ECWID_SCRIPT);
   // const { preview } = pageProps;
   // const router = useRouter();

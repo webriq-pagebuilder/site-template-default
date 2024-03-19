@@ -15,7 +15,7 @@ export default function InlineEditorContainer({
   children,
 }: InlineEditorProps) {
   const history = useMagicRouter(
-    `/studio/desk/__edit__${document?.id},type=${document?.type}`
+    `/studio/structure/__edit__${document?.id},type=${document?.type}`
   );
   const [splitPane, setSplitPane] = React.useState(false);
   const [sizes, setSizes] = React.useState([350, 250]);
@@ -119,7 +119,7 @@ export default function InlineEditorContainer({
                       document?.type === "mainProduct"
                         ? `product-fieldgroup-tabs product-fieldgroup-select`
                         : ` fieldgroup-tabs fieldgroup-select`
-                    }`}
+                    } ${styles["pane-footer-published"]}`}
                   >
                     <StudioLayout />
                   </div>
@@ -129,7 +129,7 @@ export default function InlineEditorContainer({
           </div>
         ) : (
           <>
-            <div className="z-30 mt-2 w-full bg-primary px-3 py-2.5 text-center text-sm text-white shadow md:flex md:flex-wrap">
+            <div className="z-50 mt-2 w-full bg-primary px-3 py-2.5 text-center text-sm text-white shadow md:flex md:flex-wrap">
               To continue using the inline editor, adjust screen width to
               DESKTOP view (screen width 1024px above).
               <button
