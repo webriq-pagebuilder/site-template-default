@@ -119,9 +119,20 @@ function VariantA({
                 <Flex gap={4}>
                   {socialLinks?.map(
                     (social) =>
-                      social?.socialMediaLink && (
+                     <a
+                      aria-label={
+                        social?.socialMedia || social?.socialMediaPlatform
+                      }
+                      className="inline-block mr-4 rounded hover:bg-gray-100"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      href={social?.socialMediaLink}
+                      key={social?._key}
+                      >
+                      {social?.socialMediaLink && (
                         <SocialIcon social={social.socialMedia as Socials} />
-                      )
+                      )}
+                    </a>
                   )}
                 </Flex>
               </div>
