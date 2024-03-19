@@ -50,6 +50,7 @@ function VariantE({ banner, logo, links }: NavigationProps) {
       code: ({ children }) => <code>{children}</code>,
       link: ({ children, value }) => (
         <Link
+          as="link"
           aria-label={value?.href ?? "external link"}
           className="text-primary-foreground hover:text-secondary-foreground"
           href={value?.href}
@@ -137,6 +138,7 @@ function VariantE({ banner, logo, links }: NavigationProps) {
                   <Fragment key={index}>
                     <li>
                       <Button
+                        as="link"
                         variant="link"
                         ariaLabel={link?.label}
                         link={link}
@@ -154,7 +156,7 @@ function VariantE({ banner, logo, links }: NavigationProps) {
             </ul>
           </Flex>
           {/* larger screens search, cart and account icons/buttons */}
-          <div className="items-center justify-end hidden mr-12 xl:flex">
+          <div className="items-center justify-end hidden mt-10 mr-12 xl:flex">
             {/* Search button */}
             <Button
               as="button"

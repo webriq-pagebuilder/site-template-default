@@ -103,7 +103,10 @@ export const FormField = ({
         <Textarea
           noLabel={noLabel}
           ariaLabel={placeholder ?? name}
-          className="w-full h-24 p-4 text-xs font-semibold leading-none bg-white rounded outline-none resize-none"
+          className={
+            props?.className ??
+            "w-full h-24 p-4 text-xs font-semibold leading-none bg-white rounded outline-none"
+          }
           placeholder={placeholder}
           name={name}
           required={required}

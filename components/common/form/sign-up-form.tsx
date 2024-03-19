@@ -14,8 +14,7 @@ export function SignUpForm({ form, signInLink, className }: SignUpFormProps) {
     <Card className={`px-6 py-8 mb-6 text-center ${className}`}>
       <Form
         id={form?.id}
-        name="Calltoaction-VariantD-Form"
-        className="form-callToAction"
+        name="Stackshift-Form"
         thankyouPage-={thankYouPageLink(form?.thankYouPage)}
       >
         <div className="mb-6">
@@ -69,6 +68,7 @@ export function SignUpForm({ form, signInLink, className }: SignUpFormProps) {
           <Button
             size="xs"
             variant="link"
+            as="link"
             link={signInLink}
             ariaLabel={signInLink?.label}
           >

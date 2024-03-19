@@ -73,7 +73,7 @@ function VariantB({ products }: PagesProductInfoProps) {
                             aria-label={
                               social?.socialMedia || social?.socialMediaPlatform
                             }
-                            className="w-8 h-8 mr-2"
+                            className="w-8 h-8 mr-2 flex items-center justify-center"
                             target="_blank"
                             rel="noopener noreferrer"
                             href={social?.socialMediaLink}

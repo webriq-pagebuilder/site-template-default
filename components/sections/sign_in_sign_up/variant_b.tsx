@@ -32,8 +32,8 @@ function VariantB({ logo, form, formLinks, signInLink }: SignUpFormProps) {
               >
                 <Image
                   src={urlFor(logo?.image)}
-                  width={50}
-                  height={50}
+                  width={100}
+                  height={10}
                   quality={100}
                   alt={logo?.alt ?? "signUp-logo"}
                 />
@@ -149,7 +149,7 @@ function VariantB({ logo, form, formLinks, signInLink }: SignUpFormProps) {
                   {form?.buttonLabel && (
                     <Button
                       as="button"
-                      className="w-full py-4"
+                      className="w-full py-4 mb-3"
                       ariaLabel={
                         form?.buttonLabel ?? "Sign Up form submit button"
                       }
@@ -163,6 +163,7 @@ function VariantB({ logo, form, formLinks, signInLink }: SignUpFormProps) {
                     <span className="text-xs text-gray-900">
                       <span>Already have an account?</span>{" "}
                       <Button
+                        as="link"
                         variant="link"
                         link={signInLink}
                         className="text-xs text-primary hover:underline"
@@ -181,6 +182,7 @@ function VariantB({ logo, form, formLinks, signInLink }: SignUpFormProps) {
               {formLinks?.map((link, index, { length }) => (
                 <span key={index}>
                   <Button
+                    as="link"
                     variant="link"
                     link={link}
                     className="text-xs underline text-secondary-foreground hover:text-gray-50"

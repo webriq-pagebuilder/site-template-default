@@ -85,7 +85,7 @@ function VariantA({
     <section className="py-20 bg-gray-50">
       <Container>
         <Flex className="flex-col lg:flex-row" gap={8} justify="between">
-          <Flex direction="col" className="w-full basis-1/2" gap={8}>
+          <Flex direction="col" className="px-10 w-full basis-1/2" gap={8}>
             {contactDescription && (
               <div>
                 <Heading>Contact</Heading>
@@ -102,12 +102,22 @@ function VariantA({
               >
                 <div>
                   <Heading type="h2">{"Office"}</Heading>
-                  <Text muted>{officeInformation}</Text>
+                  <Text className="mt-3" muted>
+                    {officeInformation}
+                  </Text>
                 </div>
                 <div>
                   <Heading type="h2">{"Contacts"}</Heading>
-                  <Text muted>{contactEmail}</Text>
-                  <Text muted>{contactNumber}</Text>
+                  <Text className="my-3" muted>
+                    {contactEmail && (
+                      <a href={`mailto:${contactEmail}`}>{contactEmail}</a>
+                    )}
+                  </Text>
+                  <Text muted>
+                    {contactNumber && (
+                      <a href={`tel:${contactNumber}`}>{contactNumber}</a>
+                    )}
+                  </Text>
                 </div>
               </Flex>
             )}
@@ -117,80 +127,93 @@ function VariantA({
                   Socials
                 </Heading>
                 <Flex gap={4}>
-                  {socialLinks?.map(
-                    (social) =>
-                      social?.socialMediaLink && (
+                  {socialLinks?.map((social) => (
+                    <a
+                      aria-label={
+                        social?.socialMedia || social?.socialMediaPlatform
+                      }
+                      className="inline-block mr-4 rounded hover:bg-gray-100"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      href={social?.socialMediaLink}
+                      key={social?._key}
+                    >
+                      {social?.socialMediaLink && (
                         <SocialIcon social={social.socialMedia as Socials} />
-                      )
-                  )}
+                      )}
+                    </a>
+                  ))}
                 </Flex>
               </div>
             )}
           </Flex>
 
-          {form?.fields && (
-            <Form
-              id={form?.id}
-              name="Contact-VariantA-Form"
-              className="space-y-3 form-contacts"
-              thankyouPage={thankYouPageLink(form?.thankYouPage)}
-            >
-              {form?.fields?.map((formFields, index) => (
-                <div key={index}>
-                  {formFields?.type === "inputCheckbox" ? (
-                    <FormField
-                      {...formFields}
-                      name={formFields?.name}
-                      noLabel
-                    />
-                  ) : (
-                    <FormField
-                      {...formFields}
-                      name={formFields?.name}
-                      noLabel
-                      variant="primary"
-                    />
+          <div className="w-full px-5 sm:px-10 lg:w-1/2 lg:px-0 lg:pl-10 lg:pt-10">
+            {form?.fields && (
+              <Form
+                id={form?.id}
+                name="Contact-VariantA-Form"
+                className="lg:mx-auto lg:max-w-md space-y-3 text-xs font-semibold"
+                thankyouPage={thankYouPageLink(form?.thankYouPage)}
+              >
+                {form?.fields?.map((formFields, index) => (
+                  <div key={index}>
+                    {formFields?.type === "inputCheckbox" ? (
+                      <FormField
+                        {...formFields}
+                        name={formFields?.name}
+                        noLabel
+                      />
+                    ) : (
+                      <FormField
+                        {...formFields}
+                        name={formFields?.name}
+                        placeholder={formFields?.name}
+                        noLabel
+                        variant="primary"
+                      />
+                    )}
+                  </div>
+                ))}
+                <div className="items-center sm:flex sm:justify-between">
+                  {block && (
+                    <div className="inline-flex mt-2">
+                      <input
+                        aria-label="Agree to terms"
+                        className="mt-1 mr-2"
+                        type="checkbox"
+                        id="terms"
+                        name="terms"
+                        defaultValue={1}
+                        required
+                      />
+                      <span className="text-sm font-semibold">
+                        <PortableText
+                          value={block}
+                          components={blockCustomization}
+                        />
+                      </span>
+                    </div>
+                  )}
+                  <div>
+                    <div className="webriq-recaptcha" />
+                  </div>
+                  {form?.buttonLabel && (
+                    <Button
+                      as="button"
+                      ariaLabel={
+                        form?.buttonLabel ?? "Contact form submit button"
+                      }
+                      className="inline-block px-6 py-2 mt-5 font-bold leading-loose text-white transition duration-200 rounded-l-xl rounded-t-xl bg-primary hover:bg-primary-foreground sm:mt-0"
+                      type="submit"
+                    >
+                      {form?.buttonLabel}
+                    </Button>
                   )}
                 </div>
-              ))}
-              <div className="items-center sm:flex sm:justify-between">
-                {block && (
-                  <div className="inline-flex">
-                    <input
-                      aria-label="Agree to terms"
-                      className="mt-1 mr-2"
-                      type="checkbox"
-                      id="terms"
-                      name="terms"
-                      defaultValue={1}
-                      required
-                    />
-                    <span className="text-sm font-semibold">
-                      <PortableText
-                        value={block}
-                        components={blockCustomization}
-                      />
-                    </span>
-                  </div>
-                )}
-                <div>
-                  <div className="webriq-recaptcha" />
-                </div>
-                {form?.buttonLabel && (
-                  <Button
-                    as="button"
-                    ariaLabel={
-                      form?.buttonLabel ?? "Contact form submit button"
-                    }
-                    className="inline-block px-6 py-2 mt-5 font-bold leading-loose text-white transition duration-200 rounded-l-xl rounded-t-xl bg-primary hover:bg-primary-foreground sm:mt-0"
-                    type="submit"
-                  >
-                    {form?.buttonLabel}
-                  </Button>
-                )}
-              </div>
-            </Form>
-          )}
+              </Form>
+            )}
+          </div>
         </Flex>
       </Container>
     </section>

@@ -12,7 +12,14 @@ import { Navigation, Thumbs, Pagination, A11y } from "swiper/modules";
 import { ProductInfoProps } from ".";
 import { MyPortableTextComponents } from "types";
 import { Container, Flex } from "components/layout/index";
-import { Heading, Text, Button, SwiperButton } from "components/ui";
+import { Heading, Text, Button } from "components/ui";
+
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/thumbs";
+import "swiper/css/pagination";
+import "swiper/css/a11y";
 
 function VariantB({
   subtitle,
@@ -238,19 +245,26 @@ function VariantB({
                   ))}
               </Swiper>
               <div className="mt-5">
-                <SwiperButton
-                  ariaLabel="previous"
-                  variant="variant_b"
-                  type="left"
+                <button
                   id="piprevB"
-                  className="absolute left-0 z-40 px-2 py-5 ml-5 transition duration-200 rounded-r-sm top-60 rounded-l-md hover:bg-gray-50 hover:opacity-50 md:left-32"
-                />
-                <SwiperButton
-                  ariaLabel="previous"
-                  variant="variant_b"
-                  type="right"
+                  className="absolute left-0 top-60 z-40 ml-5 rounded-l-md rounded-r-sm px-2 py-5 transition duration-200 hover:bg-gray-50 hover:opacity-50 md:left-32"
+                >
+                  <svg
+                    width={36}
+                    height={36}
+                    viewBox="0 0 10 18"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M9 16.0185C9.268 16.2905 9.268 16.7275 9 16.9975C8.732 17.2675 8.299 17.2685 8.031 16.9975L0.201 9.0895C-0.067 8.8195 -0.067 8.3825 0.201 8.1105L8.031 0.2025C8.299 -0.0675 8.732 -0.0675 9 0.2025C9.268 0.4735 9.268 0.9115 9 1.1815L1.859 8.6005L9 16.0185Z"
+                      fill="#0045d8"
+                    />
+                  </svg>
+                </button>
+                <button
                   id="pinextB"
-                  className="absolute right-0 z-40 px-2 py-5 mr-5 transition duration-200 rounded-l-sm top-60 rounded-r-md hover:bg-gray-50 hover:opacity-50"
+                  className="absolute right-0 top-60 z-40 mr-5 rounded-l-sm rounded-r-md px-2 py-5 transition duration-200 hover:bg-gray-50 hover:opacity-50"
                 >
                   <svg
                     width={36}
@@ -264,7 +278,7 @@ function VariantB({
                       fill="#0045d8"
                     />
                   </svg>
-                </SwiperButton>
+                </button>
               </div>
             </Flex>
             <div className="w-full mt-12 ml-auto lg:w-3/4">
@@ -280,7 +294,7 @@ function VariantB({
                           aria-label={
                             social?.socialMedia || social?.socialMediaPlatform
                           }
-                          className="w-8 h-8 mr-1"
+                          className="w-8 h-8 mr-1 flex items-center justify-center"
                           target="_blank"
                           rel="noopener noreferrer"
                           href={social?.socialMediaLink}

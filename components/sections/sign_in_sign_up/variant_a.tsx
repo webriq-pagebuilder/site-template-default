@@ -24,8 +24,8 @@ function VariantA({ logo, form, formLinks, signInLink }: SignUpFormProps) {
               >
                 <Image
                   src={urlFor(logo?.image)}
-                  width={50}
-                  height={50}
+                  width={100}
+                  height={100}
                   quality={100}
                   alt={logo?.alt ?? "signUp-logo"}
                 />
@@ -99,7 +99,7 @@ function VariantA({ logo, form, formLinks, signInLink }: SignUpFormProps) {
                         >
                           {showPassword ? (
                             <svg
-                              className="w-5 h-5 my-auto text-gray-500"
+                              className="w-5 h-5 my-auto ml-4 text-gray-500"
                               xmlns="http://www.w3.org/2000/svg"
                               aria-hidden="true"
                               role="img"
@@ -166,12 +166,13 @@ function VariantA({ logo, form, formLinks, signInLink }: SignUpFormProps) {
                   )}
                 </div>
                 {signInLink?.label && (
-                  <div className="w-full text-center ">
+                  <div className="w-full text-center mt-3">
                     <span className="text-xs text-gray-500">
-                      Already have an account?
+                      Already have an account?{" "}
                     </span>
 
                     <Button
+                      as="link"
                       variant="link"
                       link={signInLink}
                       className="text-xs text-primary hover:underline"
@@ -185,17 +186,14 @@ function VariantA({ logo, form, formLinks, signInLink }: SignUpFormProps) {
             )}
           </div>
           {formLinks && (
-            <p className="mt-16 text-xs text-center text-gray-700">
+            <p className="mt-10 text-xs text-center text-gray-700">
               {formLinks?.map((link, index, { length }) => (
                 <span key={index}>
                   <Button
+                    as="link"
                     variant="link"
                     link={link}
-                    className={` text-gray-700 text-xs ${
-                      link?.type === "linkInternal"
-                        ? "underline hover:text-gray-500"
-                        : "text-primary hover:underline"
-                    }`}
+                    className="text-xs text-primary hover:underline"
                     ariaLabel={link?.label}
                   >
                     {link?.label}

@@ -59,29 +59,32 @@ function VariantA({
             </svg>
           </Button>
         </div>
-        <ul className="absolute hidden transform -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2 lg:mx-auto lg:flex lg:w-auto lg:items-center lg:space-x-6">
-          {links &&
-            links?.map((link, index) => (
+        {links && (
+          <ul className="absolute hidden transform -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2 lg:mx-auto lg:flex lg:w-auto lg:items-center lg:space-x-6">
+            {links?.map((link, index) => (
               <React.Fragment key={index}>
-                <NavItem link={link} index={index} key={link._key} />
+                <NavItem link={link} key={link._key} />
                 {links.length !== index + 1 ? <NavIcon /> : null}
               </React.Fragment>
             ))}
-        </ul>
+          </ul>
+        )}
         {primaryButton?.label && (
           <Button
+            as="link"
             ariaLabel={primaryButton?.label}
             link={primaryButton}
-            className="hidden text-gray-900 lg:inline-block lg:ml-auto lg:mr-3 bg-gray-50 hover:bg-gray-100 "
+            className="hidden lg:inline-block px-4 py-3 mb-2 text-gray-900 lg:ml-auto lg:mr-3 bg-gray-50 hover:bg-gray-100 font-semibold rounded-l-xl rounded-t-xl"
           >
             {primaryButton?.label}
           </Button>
         )}
         {secondaryButton?.label && (
           <Button
+            as="link"
             ariaLabel={secondaryButton?.label}
             link={secondaryButton}
-            className="hidden lg:inline-block"
+            className="hidden lg:inline-block px-4 py-3 mb-2 leading-loose text-center text-white font-semibold bg-primary hover:bg-primary-foreground rounded-l-xl rounded-t-xl"
           >
             {secondaryButton?.label}
           </Button>
@@ -127,7 +130,7 @@ function VariantA({
                 {links?.map((link, index) => (
                   <li className="mb-1" key={index}>
                     <Button
-                      variant="link"
+                      as="link"
                       ariaLabel={link?.label}
                       className="block w-full p-4 text-sm font-semibold text-gray-900 no-underline rounded hover:bg-secondary-foreground hover:text-primary"
                       link={link}
@@ -145,6 +148,7 @@ function VariantA({
                 <Button
                   ariaLabel={primaryButton?.label}
                   link={primaryButton}
+                  as="link"
                   className="block px-4 py-3 mb-3 text-xs font-semibold leading-loose text-center text-gray-900 bg-gray-50 hover:bg-gray-100 rounded-l-xl rounded-t-xl"
                 >
                   {primaryButton?.label}
@@ -154,6 +158,7 @@ function VariantA({
                 <Button
                   ariaLabel={secondaryButton?.label}
                   link={secondaryButton}
+                  as="link"
                   className={`block px-4 py-3 mb-2 leading-loose text-xs text-center text-white font-semibold bg-primary hover:bg-primary-foreground rounded-l-xl rounded-t-xl`}
                 >
                   {secondaryButton?.label}
@@ -193,19 +198,17 @@ function NavIcon() {
   );
 }
 
-function NavItem({ link, index }) {
+function NavItem({ link }) {
   return (
-    <React.Fragment key={index}>
-      <li>
-        <Button
-          variant="link"
-          ariaLabel={link?.label}
-          link={link}
-          className="text-sm text-gray-500 no-underline hover:text-gray-900"
-        >
-          {link?.label}
-        </Button>
-      </li>
-    </React.Fragment>
+    <li>
+      <Button
+        as="link"
+        ariaLabel={link?.label}
+        link={link}
+        className="text-sm text-gray-500 no-underline hover:text-gray-900"
+      >
+        {link?.label}
+      </Button>
+    </li>
   );
 }
