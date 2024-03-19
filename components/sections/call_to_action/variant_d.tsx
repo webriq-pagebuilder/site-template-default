@@ -54,7 +54,7 @@ function VariantD({
               </Text>
             )}
             {button?.label && (
-              <Button link={button} ariaLabel={button?.label}>
+              <Button as="link" link={button} ariaLabel={button?.label}>
                 {button?.label}
               </Button>
             )}
