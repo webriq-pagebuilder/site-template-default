@@ -42,7 +42,11 @@ function VariantB({ logo, title, description, form }: NewsletterProps) {
             className="w-full mb-6 mr-auto text-center lg:ml-0 lg:w-auto lg:text-left"
           >
             {title && <Heading>{title}</Heading>}
-            {description && <Text muted>{description}</Text>}
+            {description && (
+              <Text className="my-4" muted>
+                {description}
+              </Text>
+            )}
           </Container>
           {fields && fields[0]?.name && (
             <div className="w-full lg:w-2/5">
@@ -67,8 +71,8 @@ function VariantB({ logo, title, description, form }: NewsletterProps) {
                       fields[0].type === "inputEmail"
                         ? "email"
                         : "inputNumber"
-                        ? "number"
-                        : "text"
+                          ? "number"
+                          : "text"
                     }
                     placeholder={fields[0]?.placeholder}
                     name={fields[0]?.name}

@@ -32,9 +32,9 @@ function VariantA({ logo, title, description, form }: NewsletterProps) {
               />
             </Link>
           )}
-          {title && <Heading className="mb-2 ">{title}</Heading>}
+          {title && <Heading className="mb-2">{title}</Heading>}
           {description && (
-            <Text className="mb-8 leading-loose text-gray-700">
+            <Text className="my-8 leading-loose text-gray-700">
               {description}
             </Text>
           )}
@@ -56,8 +56,8 @@ function VariantA({ logo, title, description, form }: NewsletterProps) {
                     fields[0].type === "inputEmail"
                       ? "email"
                       : "inputNumber"
-                      ? "number"
-                      : "text"
+                        ? "number"
+                        : "text"
                   }
                   placeholder={fields[0]?.placeholder}
                   name={fields[0]?.name}

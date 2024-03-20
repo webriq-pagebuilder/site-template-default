@@ -23,7 +23,7 @@ const AddMoreButton = ({ product }: AddMoreButtonProps) => {
   return (
     <>
       <Flex direction="col" className="gap-y-4 ">
-        <Flex className="flex-col gap-y-4 sm:flex-row sm:gap-x-4 sm:gap-y-0">
+        <Flex className="flex-col gap-y-4 sm:flex-row sm:gap-x-4 sm:gap-y-0 w-full">
           <div className="w-full">
             <Button
               variant="outline"
