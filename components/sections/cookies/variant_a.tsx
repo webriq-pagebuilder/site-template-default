@@ -40,12 +40,16 @@ function VariantA({
   denyCookieBtn,
 }: CookiesProps) {
   const cookie = getCookie();
-  const [showCookie, setShowCookie] = React.useState<boolean>(!!cookie);
+  const [showCookie, setShowCookie] = React.useState<boolean>(false);
+
+  React.useEffect(() => {
+    setShowCookie(!cookie);
+  }, []);
 
   return (
     <div className="fixed bottom-0 z-50">
       {!showCookie ? (
-        <Container>
+        <Container className="mb-10">
           <Flex align="center" wrap className="p-6 mb-6 bg-gray-800 rounded-lg">
             {(title || block) && (
               <div className="w-full px-4 lg:w-2/3">
@@ -65,8 +69,8 @@ function VariantA({
                 <Button
                   as="button"
                   ariaLabel={allowCookieBtn}
-                  type="button"
-                  className="m-2 "
+                  // type="button"
+                  className="m-2"
                   onClick={() => {
                     setCookie("allow");
                     setShowCookie(!showCookie);
@@ -80,7 +84,7 @@ function VariantA({
                   as="button"
                   ariaLabel={denyCookieBtn}
                   variant="outline"
-                  type="button"
+                  // type="button"
                   className="m-2 font-normal text-white bg-transparent outline-gray-400 hover:bg-gray-700"
                   onClick={() => {
                     setCookie("dismiss");
@@ -90,10 +94,12 @@ function VariantA({
                   {denyCookieBtn}
                 </Button>
               )}
+
+                {/* Test button for debugging */}
             </div>
           </Flex>
         </Container>
-      ) : null}
+       ) : null}
     </div>
   );
 }

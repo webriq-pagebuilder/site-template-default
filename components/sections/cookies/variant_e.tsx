@@ -14,7 +14,11 @@ function VariantE({
   denyCookieBtn,
 }: CookiesProps) {
   const cookie = getCookie();
-  const [showCookie, setShowCookie] = React.useState(!!cookie);
+  const [showCookie, setShowCookie] = React.useState(false);
+
+  React.useEffect(() => {
+    setShowCookie(!cookie)
+  }, [])
 
   return (
     <div className="fixed bottom-0 z-50">

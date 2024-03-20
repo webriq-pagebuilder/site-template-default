@@ -14,7 +14,11 @@ function VariantB({
   denyCookieBtn,
 }: CookiesProps) {
   const cookie = getCookie();
-  const [showCookie, setShowCookie] = React.useState(!!cookie);
+  const [showCookie, setShowCookie] = React.useState(false);
+  
+  React.useEffect(() => {
+    setShowCookie(!cookie)
+  }, [])
 
   return (
     <div className="fixed inset-x-0 top-0 z-50 px-4 mt-4">
