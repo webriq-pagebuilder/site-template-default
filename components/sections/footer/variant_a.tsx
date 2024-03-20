@@ -91,7 +91,7 @@ function VariantA({
             </Text>
           )}
           {socialMedia && (
-            <Flex wrap className="space-x-2 lg:mx-24 lg:space-x-4">
+            <Flex wrap className="space-x-2 lg:mx-10 lg:space-x-4">
               {socialMedia?.map(
                 (social) =>
                   social?.socialMediaLink && (

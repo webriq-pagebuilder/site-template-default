@@ -6,9 +6,11 @@ import React from "react";
 import { Container, Flex } from "components/layout/index";
 import { Button, Form, Heading, Text, Input } from "components/ui";
 import { NewsletterProps } from ".";
+import { useMediaQuery } from "hooks/useMediaQuery";
 
 function VariantA({ logo, title, description, form }: NewsletterProps) {
   const { id, fields, buttonLabel, thankYouPage } = form;
+  const breakpoint = useMediaQuery("401");
 
   return (
     <section className="py-20 bg-gray-50">
@@ -71,6 +73,7 @@ function VariantA({ logo, title, description, form }: NewsletterProps) {
                     as="button"
                     ariaLabel={buttonLabel ?? "Newsletter form submit button"}
                     type="submit"
+                    className={`${breakpoint ? 'mt-2' : "mt-0"}`}
                   >
                     {buttonLabel}
                   </Button>

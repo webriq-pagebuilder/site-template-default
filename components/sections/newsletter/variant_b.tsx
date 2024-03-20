@@ -6,9 +6,11 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import { NewsletterProps } from ".";
+import { useMediaQuery } from "hooks/useMediaQuery";
 
 function VariantB({ logo, title, description, form }: NewsletterProps) {
   const { id, fields, buttonLabel, thankYouPage } = form;
+  const breakpoint = useMediaQuery("369")
 
   return (
     <section className="py-20 bg-gray-50">
@@ -49,7 +51,7 @@ function VariantB({ logo, title, description, form }: NewsletterProps) {
             )}
           </Container>
           {fields && fields[0]?.name && (
-            <div className="w-full lg:w-2/5">
+            <div className="w-full lg:w-[35%]">
               <Form
                 id={id}
                 name="Newsletter-VariantB-Form"
@@ -57,7 +59,7 @@ function VariantB({ logo, title, description, form }: NewsletterProps) {
                 thankyouPage={thankYouPageLink(thankYouPage)}
               >
                 <Flex
-                  wrap
+                  // wrap
                   align="center"
                   className="max-w-md mx-auto lg:max-w-sm"
                 >
@@ -86,6 +88,7 @@ function VariantB({ logo, title, description, form }: NewsletterProps) {
                       as="button"
                       ariaLabel={buttonLabel ?? "Newsletter form submit button"}
                       type="submit"
+                      className={`${breakpoint ? "text-sm" : ""}`}
                     >
                       {buttonLabel}
                     </Button>
