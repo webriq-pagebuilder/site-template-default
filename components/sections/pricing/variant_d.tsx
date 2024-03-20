@@ -1,17 +1,10 @@
-import {
-  CardElement,
-  Elements,
-  useElements,
-  useStripe,
-} from "@stripe/react-stripe-js";
-import { loadStripe } from "@stripe/stripe-js";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
+import Image from "next/image";
+import router from "next/router";
 import WebriQForm from "components/webriq-form";
 import { thankYouPageLink } from "helper";
 import { PortableText, urlFor } from "lib/sanity";
-import Image from "next/image";
-import router from "next/router";
-import React from "react";
 import { MyPortableTextComponents } from "types";
 import { PricingProps } from ".";
 import {
@@ -23,6 +16,10 @@ import {
   FormField,
 } from "components/ui";
 import { Container, Flex } from "components/layout/index";
+
+// for Stripe
+import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
+import { CheckoutForm } from "../../CheckoutForm";
 
 function VariantD({
   caption,
@@ -51,15 +48,8 @@ function VariantD({
   const [banners, setBanners] = React.useState(0);
   const [billing, setBilling] = React.useState({ amount: 0, billType: "" });
   const [paymentOngoing, setPaymentOngoing] = React.useState(false);
-  const stripePromise = loadStripe(stripePKey);
 
-  const handleChange = (e) => {
-    e.target.value === monthlyBilling
-      ? setBilling({ amount: e.target.value, billType: "Monthly" })
-      : setBilling({ amount: e.target.value, billType: "Annual" });
-  };
-
-  React.useEffect(() => {
+  useEffect(() => {
     async function getPriceId() {
       const productPayload = {
         credentials: {
@@ -115,16 +105,13 @@ function VariantD({
     if (apiVersion && hashKey && stripeSKey) {
       getPriceId();
     }
-  }, [
-    NEXT_PUBLIC_APP_URL,
-    annualBilling,
-    apiVersion,
-    formId,
-    hashKey,
-    monthlyBilling,
-    stripeSKey,
-    useCheckout,
-  ]);
+  }, []);
+
+  const handleChange = (e) => {
+    e.target.value === monthlyBilling
+      ? setBilling({ amount: e.target.value, billType: "Monthly" })
+      : setBilling({ amount: e.target.value, billType: "Annual" });
+  };
 
   // block styling as props to `components` of the PortableText component
   const blockCustomization: MyPortableTextComponents = {
@@ -152,6 +139,8 @@ function VariantD({
     const [showPassword, setShowPassword] = React.useState(false); // show or hide password field value
     const [value, setValue] = React.useState(null); // setting selected value for input field radio type
     const [checked, setChecked] = React.useState([]); // setting selected value for input field checkbox type
+    const [processing, setIsProcessing] = React.useState(false);
+    const [paymentStatus, setPaymentStatus] = React.useState("idle");
 
     const handleRadioChange = (e) => {
       setValue(e.target.value);
@@ -167,11 +156,15 @@ function VariantD({
 
     const handleSubmit = async (event) => {
       event.preventDefault();
+      setIsProcessing(true);
+
       let data = {};
+
       formFields?.forEach((field) => {
         const formData = new FormData(
           document.querySelector(`form[name='${formName}']`)
         ).get(field.name);
+
         if (field.name === "Card number") {
           data["creditCard"] = "************************";
         } else {
@@ -182,6 +175,7 @@ function VariantD({
       if (elements == null) {
         return;
       }
+
       const { data: monthlyBilling_ClientSecret } = await axios.post(
         "/api/paymentIntent",
         {
@@ -200,32 +194,39 @@ function VariantD({
         }
       );
 
-      const { paymentMethod } = await stripe.createPaymentMethod({
-        type: "card",
-        card: elements.getElement(CardElement),
+      const response = await fetch("/api/submitForm", {
+        method: "POST",
+        body: JSON.stringify({ data, id: formId }),
       });
 
-      if (paymentMethod) {
-        const { error, paymentIntent } = await stripe.confirmCardPayment(
+      const responseData = await response.json();
+
+      if (response.statusText === "OK") {
+        setIsProcessing(false);
+        setPaymentStatus("success");
+
+        const payload = await stripe?.confirmCardPayment(
           billing.billType === "Monthly"
             ? monthlyBilling_ClientSecret
             : yearlyBilling_ClientSecret,
           {
-            payment_method: paymentMethod.id,
+            payment_method: {
+              card: elements.getElement(CardElement),
+            },
           }
         );
-        if (paymentIntent) {
-          const response = await fetch("/api/submitForm", {
-            method: "POST",
-            body: JSON.stringify({ data, id: formId }),
-          });
-          const responseData = await response.json();
 
-          setPaymentOngoing(true);
-          if (response.statusText === "OK") {
-            router.push("/success");
-          }
+        if (payload?.error) {
+          setIsProcessing(false);
+          setPaymentStatus("failed");
         }
+
+        setTimeout(() => {
+          router.push("/success");
+        }, 5000);
+      } else {
+        setIsProcessing(false);
+        setPaymentStatus("failed");
       }
     };
 
@@ -249,7 +250,7 @@ function VariantD({
                     {field?.pricingType === "inputCard" ? (
                       <div className="mb-4">
                         <CardElement className="w-full p-4 text-xs font-semibold leading-none rounded outline-none bg-gray-50" />
-                        {paymentOngoing && (
+                        {paymentStatus === "success" ? (
                           <div
                             style={{
                               textAlign: "left",
@@ -260,7 +261,18 @@ function VariantD({
                           >
                             Payment Success!
                           </div>
-                        )}
+                        ) : paymentStatus === "failed" ? (
+                          <div
+                            style={{
+                              textAlign: "left",
+                              marginTop: 12,
+                              fontSize: 12,
+                              color: "red",
+                            }}
+                          >
+                            Payment Failed!
+                          </div>
+                        ) : null}
                       </div>
                     ) : field?.pricingType === "inputPassword" ? (
                       <div className="flex mb-4 rounded bg-gray-50">
@@ -376,20 +388,19 @@ function VariantD({
                 //   )
                 // }
                 className={`w-full ${
-                  billing.billType === "" &&
+                  (billing.billType === "" || processing) &&
                   "cursor-not-allowed disabled:opacity-50"
                 }`}
-                disabled={billing.billType === ""}
+                disabled={billing.billType === "" || processing}
               >
-                {/* {paymentOngoing
+                {processing
                   ? "Processing Payment...."
-                  : `Buy ${billing.billType} Supply`} */}
-                Buy {billing.billType} Supply
+                  : `Buy ${billing.billType} Supply`}
               </Button>
             </WebriQForm>
           )}
           {signInLink?.label && (
-            <Text muted className="text-xs">
+            <Text muted className="text-xs mt-3">
               Already have an account?{" "}
               <Button
                 as="link"
@@ -454,9 +465,7 @@ function VariantD({
           </Flex>
         </Container>
         <Flex wrap className="bg-white rounded shadow ">
-          <Elements stripe={stripePromise}>
-            <Form />
-          </Elements>
+          <Form />
           <div className="flex flex-col w-full h-full py-10 overflow-hidden bg-primary md:w-1/2 lg:rounded-r">
             {banner?.[banners]?.mainImage?.image?.asset?._ref && (
               <div className="w-full mx-auto my-auto md:max-w-xs">
