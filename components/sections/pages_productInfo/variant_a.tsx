@@ -12,10 +12,12 @@ import { PagesProductInfoProps } from ".";
 import { EcwidTypes } from "context/_ecwid-types";
 import { Container, Flex } from "components/layout/index";
 import { Heading, Text } from "components/ui";
+import { useMediaQuery } from "hooks/useMediaQuery";
 
 function VariantA({ products }: PagesProductInfoProps) {
   const ecwid: EcwidTypes = useEcwid();
   const ecwidProduct = ecwid?.products;
+  const breakpoint = useMediaQuery("1191")
 
   useEffect(() => {
     if (products?.ecwidProductId) {
@@ -127,7 +129,7 @@ function VariantA({ products }: PagesProductInfoProps) {
 
                     {/* Add to wishlist button */}
                     <AddToWishlist
-                      classNames="ml-auto sm:ml-0 flex-shrink-0 inline-flex items-center justify-center w-full h-16 rounded-md border hover:border-primary"
+                      classNames={`flex-shrink-0 inline-flex items-center justify-center w-full ${breakpoint ? "py-2" : "h-16"} rounded-md border hover:border-primary`}
                       product={ecwidProduct}
                     >
                       <svg
