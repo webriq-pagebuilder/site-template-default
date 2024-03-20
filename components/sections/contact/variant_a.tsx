@@ -160,17 +160,20 @@ function VariantA({
                   <div key={index}>
                     {formFields?.type === "inputCheckbox" ? (
                       <FormField
-                        {...formFields}
-                        name={formFields?.name}
                         noLabel
+                        name={formFields?.name}
+                        placeholder={formFields?.placeholder}
+                        required={formFields?.isRequired}
+                        {...formFields}
                       />
                     ) : (
                       <FormField
-                        {...formFields}
-                        name={formFields?.name}
-                        placeholder={formFields?.name}
                         noLabel
                         variant="primary"
+                        name={formFields?.name}
+                        placeholder={formFields?.name}
+                        required={formFields?.isRequired}
+                        {...formFields}
                       />
                     )}
                   </div>

@@ -58,6 +58,8 @@ function VariantB({ logo, form, formLinks, signInLink }: SignUpFormProps) {
                       <FormField
                         noLabel
                         variant="secondary"
+                        placeholder={formFields?.placeholder}
+                        required={formFields?.isRequired}
                         name={formFields?.name}
                         items={formFields?.items}
                         type={formFields?.type}
@@ -134,6 +136,8 @@ function VariantB({ logo, form, formLinks, signInLink }: SignUpFormProps) {
                         noLabel
                         variant="secondary"
                         name={formFields?.name}
+                        placeholder={formFields?.placeholder}
+                        required={formFields?.isRequired}
                         items={formFields?.items}
                         type={formFields?.type}
                         {...formFields}
