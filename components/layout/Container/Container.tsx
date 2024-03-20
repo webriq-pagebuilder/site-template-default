@@ -26,7 +26,7 @@ export const Container = ({
       : widthVariants[maxWidth];
   const width = widthClass ?? "80rem";
 
-  const classes = "mx-auto w-full  px-4";
+  const classes = "mx-auto w-full px-4";
   return (
     <div
       style={{

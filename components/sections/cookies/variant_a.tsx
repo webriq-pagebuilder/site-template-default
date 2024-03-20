@@ -49,7 +49,7 @@ function VariantA({
   return (
     <div className="fixed bottom-0 z-50">
       {!showCookie ? (
-        <Container className="mb-10">
+        <Container>
           <Flex align="center" wrap className="p-6 mb-6 bg-gray-800 rounded-lg">
             {(title || block) && (
               <div className="w-full px-4 lg:w-2/3">
