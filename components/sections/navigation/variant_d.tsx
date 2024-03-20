@@ -116,7 +116,7 @@ function VariantD({
           </div>
         </Flex>
       </nav>
-      <div className={`${menu ? null : "hidden"} navbar-menu relative z-50`}>
+      <div className={`${menu ? null : "hidden"} mobile-nav relative z-50`}>
         <div
           className="fixed inset-0 bg-gray-800 opacity-25 navbar-backdrop"
           onClick={showMenu}

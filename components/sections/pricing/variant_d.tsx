@@ -68,7 +68,7 @@ function VariantD({
           apiVersion,
         },
         stripeParams: {
-          id: `webriq-studio-pricing-formPayment-${formId}-recurring-monthlyPrice-${monthlyBilling}-yearlyPrice-${annualBilling}`,
+          id: `pricing-formPayment-${formId}-recurring-monthlyPrice-${monthlyBilling}-yearlyPrice-${annualBilling}`,
         },
       };
 

@@ -382,7 +382,9 @@ function VariantE({ banner, logo, links }: NavigationProps) {
                     <li className="mb-8">
                       <Button
                         variant="link"
-                        ariaLabel={link?.label}
+                        ariaLabel={
+                          link?.label ?? `navigation link ${index + 1}`
+                        }
                         link={link}
                         className="font-bold text-black no-underline font-heading hover:text-gray-600"
                       >

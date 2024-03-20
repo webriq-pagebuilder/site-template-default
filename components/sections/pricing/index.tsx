@@ -64,7 +64,7 @@ function Pricing({ data }: SectionsProps) {
     stripeSKey: stripeAccount?.stripeSKey,
     hashKey: stripeAccount?.hashKey,
     apiVersion: stripeAccount?.apiVersion,
-    NEXT_PUBLIC_APP_URL: NEXT_PUBLIC_APP_URL || "https://dxpstudio.webriq.com",
+    NEXT_PUBLIC_APP_URL: NEXT_PUBLIC_APP_URL || "https://stackshift.webriq.com",
     block: data?.variants?.block,
     signInLink: data?.variants?.signInLink,
   };
