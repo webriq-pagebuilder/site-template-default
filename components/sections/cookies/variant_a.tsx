@@ -69,7 +69,7 @@ function VariantA({
                 <Button
                   as="button"
                   ariaLabel={allowCookieBtn}
-                  // type="button"
+                  type="button"
                   className="m-2"
                   onClick={() => {
                     setCookie("allow");
@@ -84,7 +84,7 @@ function VariantA({
                   as="button"
                   ariaLabel={denyCookieBtn}
                   variant="outline"
-                  // type="button"
+                  type="button"
                   className="m-2 font-normal text-white bg-transparent outline-gray-400 hover:bg-gray-700"
                   onClick={() => {
                     setCookie("dismiss");
