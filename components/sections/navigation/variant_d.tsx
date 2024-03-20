@@ -68,8 +68,8 @@ function VariantD({
               >
                 <Image
                   src={urlFor(logo?.image)}
-                  width={48}
-                  height={48}
+                  width={100}
+                  height={100}
                   quality={100}
                   alt={logo?.alt ?? "navigation-logo"}
                 />

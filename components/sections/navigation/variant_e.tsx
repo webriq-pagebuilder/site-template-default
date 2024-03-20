@@ -156,7 +156,7 @@ function VariantE({ banner, logo, links }: NavigationProps) {
             </ul>
           </Flex>
           {/* larger screens search, cart and account icons/buttons */}
-          <div className="items-center justify-end hidden mt-10 mr-12 xl:flex">
+          <div className="items-center justify-end hidden mt-6 mr-12 xl:flex">
             {/* Search button */}
             <Button
               as="button"

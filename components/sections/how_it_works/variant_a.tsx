@@ -22,7 +22,7 @@ function VariantA({ subtitle, title, text, video, steps }: HowItWorksProps) {
     <section className="py-20 bg-gray-50">
       <Container>
         <Flex wrap className="mb-10" gap={10} justify="between">
-          <div className="w-full mb-10 lg:mb-0 lg:w-1/2">
+          <div className="w-full mb-10 lg:mb-0 lg:w-[45%]">
             <Text weight="bold" className="md:text-lg lg:text-lg text-primary">
               {subtitle}
             </Text>
@@ -31,7 +31,11 @@ function VariantA({ subtitle, title, text, video, steps }: HowItWorksProps) {
               {text}
             </Text>
           </div>
-          {video && <YoutubeVideo videoLinkId={videoLinkId} title={title} />}
+          {video && 
+            <div className="h-full w-full lg:w-[40%]">
+              <YoutubeVideo videoLinkId={videoLinkId} title={title} />
+            </div>
+          }
         </Flex>
 
         <Flex wrap>
