@@ -66,6 +66,8 @@ function VariantC({
                   }`}
                   className="text-3xl font-bold leading-none"
                   href={logoLink(logo)}
+                  target={logo?.linkTarget}
+                  rel={logo?.linkTarget === "_blank" ? "noopener noreferrer" : ""}
                 >
                   <Image
                     src={urlFor(logo?.image)}

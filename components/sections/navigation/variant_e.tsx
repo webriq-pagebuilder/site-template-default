@@ -122,6 +122,8 @@ function VariantE({ banner, logo, links }: NavigationProps) {
                 className="text-3xl font-bold leading-none"
                 href={logoLink(logo)}
                 prefetch={false}
+                target={logo?.linkTarget}
+                rel={logo?.linkTarget === "_blank" ? "noopener noreferrer" : ""}
               >
                 <Image
                   src={urlFor(logo?.image)}
@@ -297,6 +299,8 @@ function VariantE({ banner, logo, links }: NavigationProps) {
                   className="text-3xl font-bold leading-none"
                   href={logoLink(logo)}
                   prefetch={false}
+                  target={logo?.linkTarget}
+                  rel={logo?.linkTarget === "_blank" ? "noopener noreferrer" : ""}
                 >
                   <Image
                     src={urlFor(logo?.image)}
@@ -381,6 +385,7 @@ function VariantE({ banner, logo, links }: NavigationProps) {
                   <Fragment key={index}>
                     <li className="mb-8">
                       <Button
+                        as="link"
                         variant="link"
                         ariaLabel={
                           link?.label ?? `navigation link ${index + 1}`

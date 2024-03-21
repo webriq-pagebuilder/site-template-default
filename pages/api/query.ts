@@ -13,6 +13,7 @@ const variants = `
       logo {
         alt,
         image,
+        linkTarget,
         ${conditionalLink}
       }
     },
