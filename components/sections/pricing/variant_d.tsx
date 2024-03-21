@@ -185,7 +185,7 @@ function VariantD({
         body: JSON.stringify({ data, id: formId }),
       });
 
-      const responseData = await response.json();
+      console.log("Submitting form... ", response);
 
       if (response.statusText === "OK") {
         setIsProcessing(false);
@@ -201,6 +201,8 @@ function VariantD({
             },
           }
         );
+
+        console.log("Form details... ", payload);
 
         if (payload?.error) {
           setIsProcessing(false);
