@@ -19,7 +19,6 @@ import { Container, Flex } from "components/layout/index";
 
 // for Stripe
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
-import { CheckoutForm } from "../../CheckoutForm";
 
 function VariantD({
   caption,
@@ -47,7 +46,6 @@ function VariantD({
   });
   const [banners, setBanners] = React.useState(0);
   const [billing, setBilling] = React.useState({ amount: 0, billType: "" });
-  const [paymentOngoing, setPaymentOngoing] = React.useState(false);
 
   useEffect(() => {
     async function getPriceId() {
@@ -142,18 +140,6 @@ function VariantD({
     const [processing, setIsProcessing] = React.useState(false);
     const [paymentStatus, setPaymentStatus] = React.useState("idle");
 
-    const handleRadioChange = (e) => {
-      setValue(e.target.value);
-    };
-
-    const handleCheckboxChange = (e) => {
-      const { checked, value } = e.target;
-
-      setChecked((prev) =>
-        checked ? [...prev, value] : prev.filter((v) => v !== value)
-      );
-    };
-
     const handleSubmit = async (event) => {
       event.preventDefault();
       setIsProcessing(true);
@@ -165,8 +151,8 @@ function VariantD({
           document.querySelector(`form[name='${formName}']`)
         ).get(field.name);
 
-        if (field.name === "Card number") {
-          data["creditCard"] = "************************";
+        if (field.pricingType === "inputCard") {
+          data["cardDetails"] = "************************";
         } else {
           data[field.name] = formData;
         }
@@ -221,9 +207,7 @@ function VariantD({
           setPaymentStatus("failed");
         }
 
-        setTimeout(() => {
-          router.push("/success");
-        }, 5000);
+        router.push("/success");
       } else {
         setIsProcessing(false);
         setPaymentStatus("failed");
@@ -251,26 +235,12 @@ function VariantD({
                       <div className="mb-4">
                         <CardElement className="w-full p-4 text-xs font-semibold leading-none rounded outline-none bg-gray-50" />
                         {paymentStatus === "success" ? (
-                          <div
-                            style={{
-                              textAlign: "left",
-                              marginTop: 12,
-                              fontSize: 12,
-                              color: "green",
-                            }}
-                          >
-                            Payment Success!
+                          <div className="text-xs font-semibold leading-none py-4 text-left mt-3 text-green-600">
+                            Payment Success! Redirecting...
                           </div>
                         ) : paymentStatus === "failed" ? (
-                          <div
-                            style={{
-                              textAlign: "left",
-                              marginTop: 12,
-                              fontSize: 12,
-                              color: "red",
-                            }}
-                          >
-                            Payment Failed!
+                          <div className="text-xs font-semibold leading-none py-4 text-left mt-3 text-red-600">
+                            {`Something went wrong! Payment can't be processed.`}
                           </div>
                         ) : null}
                       </div>
