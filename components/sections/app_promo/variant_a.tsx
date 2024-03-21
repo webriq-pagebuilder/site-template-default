@@ -33,6 +33,8 @@ function VariantA({ logo, subtitle, title, images }: AppPromoProps) {
             }`}
             className="inline-block p-5 mb-8 bg-white rounded-lg"
             href={logoLink(logo)}
+            target={logo?.linkTarget}
+            rel={logo?.linkTarget === "_blank" ? "noopener noreferrer" : ""}
           >
             <Image
               src={urlFor(logo?.image)}

@@ -29,6 +29,8 @@ function VariantB({ logo, copyright, socialMedia, menu }: FooterProps) {
                 }
                 className="inline-block text-3xl font-bold leading-none"
                 href={logoLink(logo)}
+                target={logo?.linkTarget}
+                rel={logo?.linkTarget === "_blank" ? "noopener noreferrer" : ""}
               >
                 <Image
                   className="h-14"

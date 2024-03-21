@@ -30,6 +30,8 @@ function VariantD({
                       : `Go to ${logoLink(logo)}`
                   }
                   href={logoLink(logo)}
+                  target={logo?.linkTarget}
+                  rel={logo?.linkTarget === "_blank" ? "noopener noreferrer" : ""}
                 >
                   <Image
                     className="h-14"

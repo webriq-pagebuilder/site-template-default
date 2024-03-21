@@ -27,6 +27,8 @@ function VariantB({ logo, title, description, form }: NewsletterProps) {
                   }
                   className="inline-block p-5 mb-8 bg-white rounded"
                   href={logoLink(logo)}
+                  target={logo?.linkTarget}
+                  rel={logo?.linkTarget === "_blank" ? "noopener noreferrer" : ""}
                 >
                   <Image
                     src={urlFor(logo?.image)}

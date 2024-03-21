@@ -29,6 +29,8 @@ function VariantB({ logo, form, formLinks, signInLink }: SignUpFormProps) {
                 }`}
                 className="flex justify-center text-3xl font-bold leading-none text-white"
                 href={logoLink(logo)}
+                target={logo?.linkTarget}
+                rel={logo?.linkTarget === "_blank" ? "noopener noreferrer" : ""}
               >
                 <Image
                   src={urlFor(logo?.image)}

@@ -23,6 +23,8 @@ function VariantB({ logo, title, text, form }: CTAProps) {
             }
             className="inline-block p-3 mb-6 rounded"
             href={logoLink(logo)}
+            target={logo?.linkTarget}
+            rel={logo?.linkTarget === "_blank" ? "noopener noreferrer" : ""}
           >
             <Image
               src={urlFor(logo?.image)}
