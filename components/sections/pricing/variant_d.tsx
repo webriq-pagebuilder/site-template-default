@@ -135,10 +135,19 @@ function VariantD({
     const elements = useElements();
     const stripe = useStripe();
     const [showPassword, setShowPassword] = React.useState(false); // show or hide password field value
-    const [value, setValue] = React.useState(null); // setting selected value for input field radio type
+    const [checkedValue, setCheckedValue] = React.useState(1); // form default checkbox
     const [checked, setChecked] = React.useState([]); // setting selected value for input field checkbox type
     const [processing, setIsProcessing] = React.useState(false);
     const [paymentStatus, setPaymentStatus] = React.useState("idle");
+
+    const handleCheckboxChange = (e) => {
+      const { checked, value } = e.target;
+
+      setCheckedValue(value);
+      setChecked((prev) =>
+        checked ? [...prev, value] : prev.filter((v) => v !== value)
+      );
+    };
 
     const handleSubmit = async (event) => {
       event.preventDefault();
@@ -204,8 +213,6 @@ function VariantD({
           setIsProcessing(false);
           setPaymentStatus("failed");
         }
-
-        router.push("/success");
       } else {
         setIsProcessing(false);
         setPaymentStatus("failed");
@@ -225,6 +232,7 @@ function VariantD({
               className="form-pricing space-y-2"
               data-thankyou-url={thankYouPageLink(formThankYouPage)}
               scriptsrc="https://pagebuilderforms.webriq.com/js/initReactForms"
+              onSubmit={handleSubmit}
             >
               {formFields?.map((field, index) => {
                 return (
@@ -321,7 +329,9 @@ function VariantD({
                     className="mr-2"
                     type="checkbox"
                     name="terms"
-                    defaultValue={1}
+                    value={checkedValue}
+                    onChange={handleCheckboxChange}
+                    checked={checked.some((v) => v === checkedValue)}
                   />
                   <PortableText
                     value={block}
@@ -337,7 +347,7 @@ function VariantD({
                 as="button"
                 id="submitBtn"
                 ariaLabel="Submit Pricing Form button"
-                onClick={(e) => handleSubmit(e)}
+                type="submit"
                 // type="submit"
                 // onClick={() =>
                 //   initiateCheckout(
