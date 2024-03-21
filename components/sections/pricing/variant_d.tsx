@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Image from "next/image";
-import router from "next/router";
 import WebriQForm from "components/webriq-form";
 import { thankYouPageLink } from "helper";
 import { PortableText, urlFor } from "lib/sanity";
@@ -161,7 +160,7 @@ function VariantD({
         ).get(field.name);
 
         if (field.pricingType === "inputCard") {
-          data["cardDetails"] = "************************";
+          data[field.name] = "************************";
         } else {
           data[field.name] = formData;
         }
@@ -348,27 +347,6 @@ function VariantD({
                 id="submitBtn"
                 ariaLabel="Submit Pricing Form button"
                 type="submit"
-                // type="submit"
-                // onClick={() =>
-                //   initiateCheckout(
-                //     {
-                //       lineItems: [
-                //         {
-                //           price:
-                //             billing.billType === "Monthly"
-                //               ? useCheckout.monthlyCheckout
-                //               : useCheckout.yearlyCheckout,
-                //           quantity: 1,
-                //         },
-                //       ],
-                //     },
-                //     stripePKey,
-                //     window.location.origin + "/success",
-                //     window.location.href,
-                //     true,
-                //     setPKError
-                //   )
-                // }
                 className={`w-full ${
                   (billing.billType === "" || processing) &&
                   "cursor-not-allowed disabled:opacity-50"
