@@ -31,10 +31,10 @@ export const Textarea = ({
   ...props
 }: TextareaProps) => {
   const commonStyle =
-    "h-24 w-full resize-none rounded bg-white p-4 text-xs font-semibold leading-none";
+    "h-24 w-full resize rounded bg-white p-4 text-xs leading-none";
   const primary = `${commonStyle}`;
   const secondary = `${commonStyle} bg-gray-100 p-4 text-xs outline-none`;
-  const outline = `${commonStyle}  text-xs py-3 border border-slate-300`;
+  const outline = `${commonStyle} text-xs py-3 border border-slate-300`;
 
   const variants: StyleVariants<Variant> = {
     primary,
