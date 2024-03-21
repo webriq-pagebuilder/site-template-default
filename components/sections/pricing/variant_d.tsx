@@ -185,9 +185,7 @@ function VariantD({
         body: JSON.stringify({ data, id: formId }),
       });
 
-      console.log("Submitting form... ", response);
-
-      if (response.statusText === "OK") {
+      if (response.ok) {
         setIsProcessing(false);
         setPaymentStatus("success");
 
@@ -201,8 +199,6 @@ function VariantD({
             },
           }
         );
-
-        console.log("Form details... ", payload);
 
         if (payload?.error) {
           setIsProcessing(false);
