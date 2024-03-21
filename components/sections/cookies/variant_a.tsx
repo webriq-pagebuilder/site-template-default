@@ -60,6 +60,7 @@ function VariantA({
                   <PortableText
                     value={block}
                     components={cookiesBlockStyling}
+                    onMissingComponent={false} // Disabling warnings / handling unknown types
                   />
                 )}
               </div>
@@ -95,11 +96,11 @@ function VariantA({
                 </Button>
               )}
 
-                {/* Test button for debugging */}
+              {/* Test button for debugging */}
             </div>
           </Flex>
         </Container>
-       ) : null}
+      ) : null}
     </div>
   );
 }

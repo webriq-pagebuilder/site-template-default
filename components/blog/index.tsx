@@ -284,7 +284,11 @@ function BlogSections({ data }: BlogSectionsProps) {
         <Container>
           {body && (
             <div className="max-w-4xl mx-auto break-all">
-              <PortableText value={body} components={blockStyle} />
+              <PortableText
+                value={body}
+                components={blockStyle}
+                onMissingComponent={false} // Disabling warnings / handling unknown types
+              />
             </div>
           )}
         </Container>

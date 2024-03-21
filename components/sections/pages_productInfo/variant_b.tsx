@@ -199,6 +199,7 @@ function VariantB({ products }: PagesProductInfoProps) {
                     <PortableText
                       value={products?.description}
                       components={defaultBlockStyle}
+                      onMissingComponent={false} // Disabling warnings / handling unknown types
                     />
                   )}
                 </div>

@@ -108,7 +108,11 @@ function VariantE({ banner, logo, links }: NavigationProps) {
                   fill="white"
                 />
               </svg>
-              <PortableText value={banner} components={blockStyle} />
+              <PortableText
+                value={banner}
+                components={blockStyle}
+                onMissingComponent={false} // Disabling warnings / handling unknown types
+              />
             </Flex>
           </div>
         )}
@@ -300,7 +304,9 @@ function VariantE({ banner, logo, links }: NavigationProps) {
                   href={logoLink(logo)}
                   prefetch={false}
                   target={logo?.linkTarget}
-                  rel={logo?.linkTarget === "_blank" ? "noopener noreferrer" : ""}
+                  rel={
+                    logo?.linkTarget === "_blank" ? "noopener noreferrer" : ""
+                  }
                 >
                   <Image
                     src={urlFor(logo?.image)}

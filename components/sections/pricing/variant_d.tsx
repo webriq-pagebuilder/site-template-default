@@ -325,7 +325,11 @@ function VariantD({
                     name="terms"
                     defaultValue={1}
                   />
-                  <PortableText value={block} components={blockCustomization} />
+                  <PortableText
+                    value={block}
+                    components={blockCustomization}
+                    onMissingComponent={false} // Disabling warnings / handling unknown types
+                  />
                 </label>
               </div>
               <div>

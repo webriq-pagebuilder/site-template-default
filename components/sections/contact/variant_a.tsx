@@ -194,6 +194,7 @@ function VariantA({
                         <PortableText
                           value={block}
                           components={blockCustomization}
+                          onMissingComponent={false} // Disabling warnings / handling unknown types
                         />
                       </span>
                     </div>
