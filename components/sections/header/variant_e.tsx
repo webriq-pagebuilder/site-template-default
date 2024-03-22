@@ -21,14 +21,18 @@ function VariantE({
       <Container>
         <Flex align="center" className="flex-col lg:flex-row" gap={4}>
           <Flex align="center" direction="col" className="w-full basis-1/2">
-            <div className="max-w-md mx-auto">
+            <div className="max-w-md mx-auto text-center lg:text-left">
               {title && <Heading className="mb-3">{title}</Heading>}
               {description && (
                 <Text muted className="my-6">
                   {description}
                 </Text>
               )}
-              <Flex align="center" gap={2} className="flex-col md:flex-row">
+              <Flex
+                align="center"
+                gap={2}
+                className="flex-col md:flex-row justify-center lg:justify-start"
+              >
                 {primaryButton?.label && (
                   <Button
                     as="link"
@@ -42,7 +46,7 @@ function VariantE({
                   <Button
                     as="link"
                     link={secondaryButton}
-                    className="text-black bg-white hover:bg-gray-50 inline-block rounded-l-xl rounded-t-xl font-bold transition duration-200 px-3 py-4"
+                    className="text-black bg-white hover:bg-gray-50 inline-block rounded-l-xl rounded-t-xl font-bold transition duration-200 px-6 py-3"
                     ariaLabel={secondaryButton?.label}
                   >
                     {secondaryButton?.label}
@@ -62,7 +66,11 @@ function VariantE({
                         href={extractLink(link)}
                         className="underline text-primary hover:text-primary-foreground"
                         target={link?.linkTarget}
-                        rel={link?.linkTarget === "_blank" ? "noopener noreferrer" : ""}
+                        rel={
+                          link?.linkTarget === "_blank"
+                            ? "noopener noreferrer"
+                            : ""
+                        }
                       >
                         {link?.label}
                       </Link>
