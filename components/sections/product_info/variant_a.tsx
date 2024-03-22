@@ -187,20 +187,21 @@ function VariantA({
                   clickable: true,
                 }}
               >
-                {images?.map((item, index) => (
-                  <SwiperSlide className="w-1/4" key={index}>
-                    {item?.image && (
-                      <Image
-                        className="flex h-[147px] object-cover hover:border hover:border-gray-400"
-                        sizes="100vw"
-                        width={170}
-                        height={128}
-                        src={urlFor(item?.image)}
-                        alt={item?.alt ?? `product-image-${index + 1}`}
-                      />
-                    )}
-                  </SwiperSlide>
-                ))}
+                {images &&
+                  images?.map((item, index) => (
+                    <SwiperSlide className="w-1/4" key={index}>
+                      {item?.image && (
+                        <Image
+                          className="flex h-[147px] object-cover hover:border hover:border-gray-400"
+                          sizes="100vw"
+                          width={170}
+                          height={128}
+                          src={urlFor(item?.image)}
+                          alt={item?.alt ?? `product-image-${index + 1}`}
+                        />
+                      )}
+                    </SwiperSlide>
+                  ))}
               </Swiper>
               <div className="mt-5">
                 <button
@@ -454,20 +455,23 @@ function VariantA({
                 {productDetails?.[activeTab]?.media &&
                 productDetails?.[activeTab]?.media === "imageArray" ? (
                   <Fragment>
-                    {productDetails?.[activeTab]?.images?.map((item, index) => (
-                      <div className="w-1/4 h-full" key={index}>
-                        {item?.image && (
-                          <Image
-                            className="object-cover"
-                            sizes="100vw"
-                            width={250}
-                            height={128}
-                            src={urlFor(item?.image)}
-                            alt={item?.alt ?? `product-image-${index + 1}`}
-                          />
-                        )}
-                      </div>
-                    ))}
+                    {productDetails?.[activeTab]?.images &&
+                      productDetails?.[activeTab]?.images?.map(
+                        (item, index) => (
+                          <div className="w-1/4 h-full" key={index}>
+                            {item?.image && (
+                              <Image
+                                className="object-cover"
+                                sizes="100vw"
+                                width={250}
+                                height={128}
+                                src={urlFor(item?.image)}
+                                alt={item?.alt ?? `product-image-${index + 1}`}
+                              />
+                            )}
+                          </div>
+                        )
+                      )}
                   </Fragment>
                 ) : (
                   <div className="aspect-video">
