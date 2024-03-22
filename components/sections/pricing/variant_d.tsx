@@ -313,6 +313,7 @@ function VariantD({
                       <FormField
                         type={field?.pricingType || field?.type}
                         name={field?.name}
+                        required={field?.isRequired}
                         noLabel
                         variant="secondary"
                         {...field}

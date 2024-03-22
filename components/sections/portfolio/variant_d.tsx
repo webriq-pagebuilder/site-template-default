@@ -46,17 +46,17 @@ function VariantD({ caption, title, portfoliosWithCategory }: PortfolioProps) {
           )}
         </Container>
         <div className="mb-12 sm:flex">
-          <Flex wrap className="w-full mb-8 lg:mb-0 lg:w-1/2" style={{ alignItems: "flex-end" }}>
+          <Flex wrap className="w-full mb-8 lg:mb-0 lg:w-1/2">
             {portfoliosPerCategory?.[0]?.content
               ?.slice(count, count + 2)
               ?.map((content) => (
                 <ProjectItem size={"sm"} content={content} key={content._key} />
-              ))}
+                ))}
             {portfoliosPerCategory?.[0]?.content
               ?.slice(count + 2, count + 3)
               ?.map((content) => (
                 <ProjectItem size={"lg"} content={content} key={content._key} />
-              ))}
+                ))}
           </Flex>
           <div className="w-full lg:w-1/2">
             {portfoliosPerCategory?.[0]?.content
