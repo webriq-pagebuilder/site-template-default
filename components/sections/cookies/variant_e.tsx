@@ -13,15 +13,12 @@ function VariantE({
   allowCookieBtn,
   denyCookieBtn,
 }: CookiesProps) {
-  const cookie = getCookie(); // Retrieves the current cookie value, if any
-  const [showCookie, setShowCookie] = React.useState(
-    // Show the cookie container by default if no cookie is set or if the cookie value is "dismiss"
-    cookie === undefined || cookie === "dismiss"
-  );
+  const cookie = getCookie();
+  const [showCookie, setShowCookie] = React.useState(!!cookie);
 
   return (
     <div className="fixed bottom-0 z-50">
-      {showCookie ? (
+      {!showCookie ? (
         <Container maxWidth={576}>
           <Flex
             align="center"
@@ -37,22 +34,21 @@ function VariantE({
                   <PortableText
                     value={block}
                     components={cookiesBlockStyling}
-                    onMissingComponent={false} // Disabling warnings / handling unknown types
                   />
                 )}
               </div>
             )}
-            <div className="flex w-full text-center text-gray-500 border-y border-gray-700">
+            <div className="flex w-full text-center text-gray-500 border-t border-gray-700">
               {denyCookieBtn && (
                 <Button
                   as="button"
                   variant="unstyled"
                   ariaLabel={denyCookieBtn}
                   type="button"
-                  className="inline-block w-1/2 py-4 text-sm font-bold transition duration-200 border-l border-r border-gray-700 hover:bg-gray-700"
+                  className="inline-block w-1/2 py-4 text-sm font-bold transition duration-200 border-r border-gray-700 rounded-bl-lg hover:bg-gray-700"
                   onClick={() => {
                     setCookie("dismiss");
-                    setShowCookie(false);
+                    setShowCookie(!showCookie);
                   }}
                 >
                   {denyCookieBtn}
@@ -64,10 +60,10 @@ function VariantE({
                   variant="unstyled"
                   ariaLabel={allowCookieBtn}
                   type="button"
-                  className="inline-block w-1/2 py-4 text-sm font-bold transition duration-200 border-r border-gray-700 hover:bg-gray-700"
+                  className="inline-block w-1/2 py-4 text-sm font-bold transition duration-200 border-r border-gray-700 rounded-bl-lg hover:bg-gray-700"
                   onClick={() => {
                     setCookie("allow");
-                    setShowCookie(false);
+                    setShowCookie(!showCookie);
                   }}
                 >
                   {allowCookieBtn}

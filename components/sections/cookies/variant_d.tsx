@@ -13,15 +13,12 @@ function VariantD({
   allowCookieBtn,
   denyCookieBtn,
 }: CookiesProps) {
-  const cookie = getCookie(); // Retrieves the current cookie value, if any
-  const [showCookie, setShowCookie] = React.useState(
-    // Show the cookie container by default if no cookie is set or if the cookie value is "dismiss"
-    cookie === undefined || cookie === "dismiss"
-  );
+  const cookie = getCookie();
+  const [showCookie, setShowCookie] = React.useState(!!cookie);
 
   return (
     <div className="fixed bottom-0 z-50">
-      {showCookie ? (
+      {!showCookie ? (
         <Container maxWidth={906}>
           <Flex
             align="center"
@@ -36,7 +33,6 @@ function VariantD({
                   <PortableText
                     value={block}
                     components={cookiesBlockStyling}
-                    onMissingComponent={false} // Disabling warnings / handling unknown types
                   />
                 )}
               </div>
@@ -50,7 +46,7 @@ function VariantD({
                   className="m-2 "
                   onClick={() => {
                     setCookie("allow");
-                    setShowCookie(false);
+                    setShowCookie(!showCookie);
                   }}
                 >
                   {allowCookieBtn}
@@ -65,7 +61,7 @@ function VariantD({
                   className="m-2 font-normal text-white bg-transparent outline-gray-400 hover:bg-gray-700"
                   onClick={() => {
                     setCookie("dismiss");
-                    setShowCookie(false);
+                    setShowCookie(!showCookie);
                   }}
                 >
                   {denyCookieBtn}
