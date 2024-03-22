@@ -61,6 +61,8 @@ function VariantE({
                       <Link
                         href={extractLink(link)}
                         className="underline text-primary hover:text-primary-foreground"
+                        target={link?.linkTarget}
+                        rel={link?.linkTarget === "_blank" ? "noopener noreferrer" : ""}
                       >
                         {link?.label}
                       </Link>

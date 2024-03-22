@@ -19,7 +19,7 @@ function VariantB({ logo, copyright, socialMedia, menu }: FooterProps) {
           justify="between"
           className="pb-12 border-b border-gray-100 "
         >
-          <div className="w-full mx-20 mb-12 lg:mb-4 lg:w-1/5">
+          <div className="w-full mb-12 lg:mb-4 lg:w-1/5">
             {logo?.image && (
               <Link
                 aria-label={
@@ -29,6 +29,8 @@ function VariantB({ logo, copyright, socialMedia, menu }: FooterProps) {
                 }
                 className="inline-block text-3xl font-bold leading-none"
                 href={logoLink(logo)}
+                target={logo?.linkTarget}
+                rel={logo?.linkTarget === "_blank" ? "noopener noreferrer" : ""}
               >
                 <Image
                   className="h-14"
@@ -47,7 +49,7 @@ function VariantB({ logo, copyright, socialMedia, menu }: FooterProps) {
                 align="center"
                 justify="between"
                 as="ul"
-                className="mx-20 mt-8 lg:space-x-5"
+                className=" mt-8 lg:space-x-5"
               >
                 {menu?.map((links, index, { length }) => (
                   <React.Fragment key={links?._key || index}>
@@ -85,7 +87,7 @@ function VariantB({ logo, copyright, socialMedia, menu }: FooterProps) {
             </div>
           )}
         </Flex>
-        <Flex wrap align="center" justify="between" className="mx-20 mt-8">
+        <Flex wrap align="center" justify="between" className="mt-8">
           {copyright && (
             <Text muted className="order-last text-sm ">
               {copyright}

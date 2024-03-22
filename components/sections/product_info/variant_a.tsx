@@ -305,6 +305,7 @@ function VariantA({
                   <PortableText
                     value={product?.description}
                     components={blockStyle}
+                    onMissingComponent={false} // Disabling warnings / handling unknown types
                   />
                 )}
               </div>
@@ -484,6 +485,7 @@ function VariantA({
                   <PortableText
                     value={productDetails?.[activeTab]?.blockContent}
                     components={blockStyle}
+                    onMissingComponent={false} // Disabling warnings / handling unknown types
                   />
                 )}
               </div>
@@ -492,6 +494,7 @@ function VariantA({
                 <PortableText
                   value={productDetails?.[activeTab]?.blockContent}
                   components={blockStyle}
+                  onMissingComponent={false} // Disabling warnings / handling unknown types
                 />
               )
             )}

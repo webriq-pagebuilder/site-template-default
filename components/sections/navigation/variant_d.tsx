@@ -65,11 +65,13 @@ function VariantD({
                 }`}
                 className="text-3xl font-bold leading-none"
                 href={logoLink(logo)}
+                target={logo?.linkTarget}
+                rel={logo?.linkTarget === "_blank" ? "noopener noreferrer" : ""}
               >
                 <Image
                   src={urlFor(logo?.image)}
-                  width={48}
-                  height={48}
+                  width={100}
+                  height={100}
                   quality={100}
                   alt={logo?.alt ?? "navigation-logo"}
                 />
@@ -116,7 +118,7 @@ function VariantD({
           </div>
         </Flex>
       </nav>
-      <div className={`${menu ? null : "hidden"} navbar-menu relative z-50`}>
+      <div className={`${menu ? null : "hidden"} mobile-nav relative z-50`}>
         <div
           className="fixed inset-0 bg-gray-800 opacity-25 navbar-backdrop"
           onClick={showMenu}

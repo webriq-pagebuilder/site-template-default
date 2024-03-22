@@ -21,6 +21,8 @@ function VariantA({ logo, form, formLinks, signInLink }: SignUpFormProps) {
                 }`}
                 className="flex justify-center mx-auto text-3xl font-bold leading-none"
                 href={logoLink(logo)}
+                target={logo?.linkTarget}
+                rel={logo?.linkTarget === "_blank" ? "noopener noreferrer" : ""}
               >
                 <Image
                   src={urlFor(logo?.image)}
@@ -52,6 +54,8 @@ function VariantA({ logo, form, formLinks, signInLink }: SignUpFormProps) {
                           textSize="sm"
                           variant="primary"
                           noLabel
+                          placeholder={formFields?.placeholder}
+                          required={formFields?.isRequired}
                           className="w-full py-4 text-xs bg-white"
                           name={formFields?.name}
                           ariaLabel={formFields?.label}
@@ -77,15 +81,14 @@ function VariantA({ logo, form, formLinks, signInLink }: SignUpFormProps) {
                           className="py-4"
                           textSize="sm"
                           noLabel
-                          ariaLabel={
-                            formFields?.placeholder ?? formFields?.name
-                          }
+                          ariaLabel={ formFields?.placeholder ?? formFields?.name }
                           variant="primary"
                           type={showPassword ? "text" : "password"}
                           placeholder={formFields?.placeholder}
                           name={formFields?.name}
                           required={formFields?.isRequired}
                         />
+                        
                         {/* SVG icon on the right of the password input field */}
                         <Button
                           variant="unstyled"
@@ -139,6 +142,8 @@ function VariantA({ logo, form, formLinks, signInLink }: SignUpFormProps) {
                         textSize="sm"
                         noLabel
                         variant="primary"
+                        placeholder={formFields?.placeholder}
+                        required={formFields?.isRequired}
                         name={formFields?.name}
                         items={formFields?.items}
                         type={formFields?.type}

@@ -32,11 +32,12 @@ function VariantA({
             apiVersion,
           },
           stripeParams: {
-            id: `webriq-studio-pricing-${plans[i]._key}-${i + 1}-${plans[
-              i
-            ].planType.replace(/ /g, "-")}-recurring-monthlyPrice-${
-              plans[i].monthlyPrice
-            }-yearlyPrice-${plans[i].yearlyPrice}`,
+            id: `pricing-${plans[i]._key}-${i + 1}-${plans[i].planType.replace(
+              / /g,
+              "-"
+            )}-recurring-monthlyPrice-${plans[i].monthlyPrice}-yearlyPrice-${
+              plans[i].yearlyPrice
+            }`,
           },
         };
 

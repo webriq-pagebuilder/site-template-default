@@ -37,6 +37,8 @@ function VariantD({
                 }
                 className="inline-block mb-10 text-3xl font-bold leading-none"
                 href={logoLink(logo)}
+                target={logo?.linkTarget}
+                rel={logo?.linkTarget === "_blank" ? "noopener noreferrer" : ""}
               >
                 <Image
                   className="h-14"

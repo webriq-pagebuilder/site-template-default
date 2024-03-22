@@ -110,7 +110,7 @@ function BlogItem({ post, className }: { post: BlogPost; className?: string }) {
           </Heading>
         )}
         {post?.authors && (
-          <div className="flex mb-10">
+          <div className="flex mb-10 flex-wrap">
             <span className="italic text-primary">By&nbsp;</span>
             {post?.authors?.map((author, index, { length }) => (
               <>

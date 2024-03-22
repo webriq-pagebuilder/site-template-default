@@ -108,7 +108,11 @@ function VariantE({ banner, logo, links }: NavigationProps) {
                   fill="white"
                 />
               </svg>
-              <PortableText value={banner} components={blockStyle} />
+              <PortableText
+                value={banner}
+                components={blockStyle}
+                onMissingComponent={false} // Disabling warnings / handling unknown types
+              />
             </Flex>
           </div>
         )}
@@ -122,6 +126,8 @@ function VariantE({ banner, logo, links }: NavigationProps) {
                 className="text-3xl font-bold leading-none"
                 href={logoLink(logo)}
                 prefetch={false}
+                target={logo?.linkTarget}
+                rel={logo?.linkTarget === "_blank" ? "noopener noreferrer" : ""}
               >
                 <Image
                   src={urlFor(logo?.image)}
@@ -156,7 +162,7 @@ function VariantE({ banner, logo, links }: NavigationProps) {
             </ul>
           </Flex>
           {/* larger screens search, cart and account icons/buttons */}
-          <div className="items-center justify-end hidden mt-10 mr-12 xl:flex">
+          <div className="items-center justify-end hidden mt-6 mr-12 xl:flex">
             {/* Search button */}
             <Button
               as="button"
@@ -297,6 +303,10 @@ function VariantE({ banner, logo, links }: NavigationProps) {
                   className="text-3xl font-bold leading-none"
                   href={logoLink(logo)}
                   prefetch={false}
+                  target={logo?.linkTarget}
+                  rel={
+                    logo?.linkTarget === "_blank" ? "noopener noreferrer" : ""
+                  }
                 >
                   <Image
                     src={urlFor(logo?.image)}
@@ -381,8 +391,11 @@ function VariantE({ banner, logo, links }: NavigationProps) {
                   <Fragment key={index}>
                     <li className="mb-8">
                       <Button
+                        as="link"
                         variant="link"
-                        ariaLabel={link?.label}
+                        ariaLabel={
+                          link?.label ?? `navigation link ${index + 1}`
+                        }
                         link={link}
                         className="font-bold text-black no-underline font-heading hover:text-gray-600"
                       >

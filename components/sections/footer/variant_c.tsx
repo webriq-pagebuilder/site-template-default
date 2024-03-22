@@ -53,6 +53,8 @@ function VariantC({ logo, menu, copyright, socialMedia }: FooterProps) {
                       : `Go to ${logoLink(logo)}`
                   }
                   href={logoLink(logo)}
+                  target={logo?.linkTarget}
+                  rel={logo?.linkTarget === "_blank" ? "noopener noreferrer" : ""}
                 >
                   <Image
                     src={urlFor(logo?.image)}

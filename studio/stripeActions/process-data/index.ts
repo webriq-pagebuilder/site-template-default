@@ -85,9 +85,9 @@ export const processData = async (payload) => {
           apiVersion: stripeAcc.apiVersion,
         };
 
-        const productId = `webriq-studio-pricing-${plans[i]._key}-${
-          i + 1
-        }-${plans[i].planType.replace(/ /g, "-")}-recurring-monthlyPrice-${
+        const productId = `pricing-${plans[i]._key}-${i + 1}-${plans[
+          i
+        ].planType.replace(/ /g, "-")}-recurring-monthlyPrice-${
           plans[i].monthlyPrice
         }-yearlyPrice-${plans[i].yearlyPrice}`;
 
@@ -299,11 +299,9 @@ export const processData = async (payload) => {
           apiVersion: stripeAcc.apiVersion,
         };
 
-        const productId = `webriq-studio-pricing-${plans[i]._key}-${
-          i + 1
-        }-${plans[i].planType.replace(/ /g, "-")}-oneTime-Payment-${
-          plans[i].price
-        }`;
+        const productId = `pricing-${plans[i]._key}-${i + 1}-${plans[
+          i
+        ].planType.replace(/ /g, "-")}-oneTime-Payment-${plans[i].price}`;
 
         try {
           const productPayload = {
@@ -442,7 +440,7 @@ export const processData = async (payload) => {
         apiVersion: stripeAcc.apiVersion,
       };
 
-      const productId = `webriq-studio-pricing-formPayment-${data.form.id}-recurring-monthlyPrice-${data.monthlyBilling}-yearlyPrice-${data.annualBilling}`;
+      const productId = `pricing-formPayment-${data.form.id}-recurring-monthlyPrice-${data.monthlyBilling}-yearlyPrice-${data.annualBilling}`;
 
       const createProductPayload = {
         credentials,

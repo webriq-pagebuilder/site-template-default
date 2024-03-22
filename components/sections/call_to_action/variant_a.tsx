@@ -21,6 +21,8 @@ function VariantA({ logo, title, text, button }: CTAProps) {
             }
             className="inline-block mb-6 text-3xl font-bold leading-none"
             href={logoLink(logo)}
+            target={logo?.linkTarget}
+            rel={logo?.linkTarget === "_blank" ? "noopener noreferrer" : ""}
           >
             <Image
               className="h-14"

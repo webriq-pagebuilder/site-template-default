@@ -66,6 +66,8 @@ function VariantC({
                   }`}
                   className="text-3xl font-bold leading-none"
                   href={logoLink(logo)}
+                  target={logo?.linkTarget}
+                  rel={logo?.linkTarget === "_blank" ? "noopener noreferrer" : ""}
                 >
                   <Image
                     src={urlFor(logo?.image)}
@@ -120,7 +122,7 @@ function VariantC({
           </Flex>
         </Container>
       </nav>
-      <div className={`${menu ? null : "hidden"} navbar-menu relative z-50`}>
+      <div className={`${menu ? null : "hidden"} mobile-nav relative z-50`}>
         <div
           className="fixed inset-0 bg-gray-800 opacity-25 navbar-backdrop"
           onClick={showMenu}

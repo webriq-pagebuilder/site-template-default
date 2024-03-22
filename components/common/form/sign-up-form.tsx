@@ -41,6 +41,8 @@ export function SignUpForm({ form, signInLink, className }: SignUpFormProps) {
               <FormField
                 noLabel
                 name={formFields?.name}
+                placeholder={formFields?.placeholder}
+                required={formFields?.isRequired}
                 variant={"secondary"}
                 {...formFields}
               />
