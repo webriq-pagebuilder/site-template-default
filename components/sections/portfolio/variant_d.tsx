@@ -51,12 +51,12 @@ function VariantD({ caption, title, portfoliosWithCategory }: PortfolioProps) {
               ?.slice(count, count + 2)
               ?.map((content) => (
                 <ProjectItem size={"sm"} content={content} key={content._key} />
-              ))}
+                ))}
             {portfoliosPerCategory?.[0]?.content
               ?.slice(count + 2, count + 3)
               ?.map((content) => (
                 <ProjectItem size={"lg"} content={content} key={content._key} />
-              ))}
+                ))}
           </Flex>
           <div className="w-full lg:w-1/2">
             {portfoliosPerCategory?.[0]?.content
@@ -94,6 +94,10 @@ function VariantD({ caption, title, portfoliosWithCategory }: PortfolioProps) {
 }
 
 function ProjectItem({ size, content }) {
+  const maxSubtitle = content?.subtitle.length > 26 ? content?.subtitle.slice(0, 26) + '...' : content?.subtitle;
+  const maxTitle = content?.title.length > 38 ? content?.title.slice(0, 38) + '...' : content?.title;
+  const maxDescription = content?.description.length > 90 ? content?.description.slice(0, 90) + '...' : content?.description;
+  
   return (
     <div
       className={`w-full px-4 mb-8 ${size === "lg" ? "w-full" : "lg:w-1/2"}`}
@@ -113,7 +117,7 @@ function ProjectItem({ size, content }) {
           <div className="absolute inset-0 z-10 justify-center p-6 duration-300 bg-gray-900 rounded-lg opacity-0 hover:opacity-80">
             <div className="max-w-md my-auto text-xs">
               <Text className="text-sm text-primary" weight="bold">
-                {content?.subtitle}
+                {maxSubtitle}
               </Text>
               <Heading
                 weight="bold"
@@ -123,18 +127,18 @@ function ProjectItem({ size, content }) {
                     : "text-sm md:text-sm lg:text-sm"
                 }`}
               >
-                {content?.title}
+                {maxTitle}
               </Heading>
               <div className="max-w-xs my-5">
                 <Text fontSize="xs" muted className="mb-6 ">
-                  {content?.description}
+                  {maxDescription}
                 </Text>
                 {content?.primaryButton?.label && (
                   <Button
                     as="link"
                     ariaLabel={content?.primaryButton?.label}
                     link={content?.primaryButton}
-                  >
+                    >
                     {content?.primaryButton?.label}
                   </Button>
                 )}
