@@ -14,11 +14,7 @@ function VariantB({
   denyCookieBtn,
 }: CookiesProps) {
   const cookie = getCookie();
-  const [showCookie, setShowCookie] = React.useState(false);
-
-  React.useEffect(() => {
-    setShowCookie(!cookie);
-  }, []);
+  const [showCookie, setShowCookie] = React.useState(!!cookie);
 
   return (
     <div className="fixed inset-x-0 top-0 z-50 px-4 mt-4">
@@ -34,7 +30,6 @@ function VariantB({
                   <PortableText
                     value={block}
                     components={cookiesBlockStyling}
-                    onMissingComponent={false} // Disabling warnings / handling unknown types
                   />
                 )}
               </div>

@@ -40,11 +40,7 @@ function VariantA({
   denyCookieBtn,
 }: CookiesProps) {
   const cookie = getCookie();
-  const [showCookie, setShowCookie] = React.useState<boolean>(false);
-
-  React.useEffect(() => {
-    setShowCookie(!cookie);
-  }, []);
+  const [showCookie, setShowCookie] = React.useState<boolean>(!!cookie);
 
   return (
     <div className="fixed bottom-0 z-50">
@@ -60,7 +56,6 @@ function VariantA({
                   <PortableText
                     value={block}
                     components={cookiesBlockStyling}
-                    onMissingComponent={false} // Disabling warnings / handling unknown types
                   />
                 )}
               </div>
@@ -71,7 +66,7 @@ function VariantA({
                   as="button"
                   ariaLabel={allowCookieBtn}
                   type="button"
-                  className="m-2"
+                  className="m-2 "
                   onClick={() => {
                     setCookie("allow");
                     setShowCookie(!showCookie);
@@ -95,8 +90,6 @@ function VariantA({
                   {denyCookieBtn}
                 </Button>
               )}
-
-              {/* Test button for debugging */}
             </div>
           </Flex>
         </Container>

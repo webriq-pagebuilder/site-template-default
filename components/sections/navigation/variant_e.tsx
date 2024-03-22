@@ -162,7 +162,7 @@ function VariantE({ banner, logo, links }: NavigationProps) {
             </ul>
           </Flex>
           {/* larger screens search, cart and account icons/buttons */}
-          <div className="items-center justify-end hidden mt-6 mr-12 xl:flex">
+          <div className="items-center justify-end hidden mt-6 mr-12 lg:flex">
             {/* Search button */}
             <Button
               as="button"
@@ -227,7 +227,7 @@ function VariantE({ banner, logo, links }: NavigationProps) {
               </form>
             )}
             {/* Cart */}
-            <div className="mx-10 cart-icon">
+            <div className="mx-10 cart-icon cart-link">
               <div data-icon="BAG" className="ec-cart-widget" />
               <a
                 className="cart-link"
@@ -266,7 +266,7 @@ function VariantE({ banner, logo, links }: NavigationProps) {
             variant="unstyled"
             as="button"
             ariaLabel="Nav Sidebar"
-            className="self-center mr-12 navbar-burger xl:hidden"
+            className="self-center mr-12 navbar-burger lg:hidden"
             onClick={showMenu}
           >
             <svg
