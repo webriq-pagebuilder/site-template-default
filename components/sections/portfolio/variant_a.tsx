@@ -49,7 +49,7 @@ function VariantA({ caption, title, portfoliosWithCategory }: PortfolioProps) {
               ?.slice(0, portfolioLength)
               ?.map((content, index) => (
                 <div
-                  className="w-full px-4 mb-8 sm:w-1/2 lg:w-1/4 "
+                  className="w-full flex space-x-5 px-4 mb-8 sm:w-1/2 lg:w-1/4 "
                   key={index}
                 >
                   <div className="relative mx-auto h-[256px] w-[332px] overflow-hidden rounded-lg">
