@@ -24,6 +24,7 @@ function VariantA({
   socialLinks,
   form,
   block,
+  title,
 }: ContactProps) {
   const [value, setValue] = React.useState(null); // setting selected value for input field radio type
   const [checked, setChecked] = React.useState([]); // setting selected value for input field checkbox type
@@ -86,14 +87,16 @@ function VariantA({
       <Container>
         <Flex className="flex-col lg:flex-row" gap={8} justify="between">
           <Flex direction="col" className="px-10 w-full basis-1/2" gap={8}>
-            {contactDescription && (
-              <div>
-                <Heading>Contact</Heading>
+            <div>
+              {(form?.name || title) && (
+                <Heading>{form?.name || title}</Heading>
+              )}
+              {contactDescription && (
                 <Text muted className="mt-5 leading-loose text-gray-700">
                   {contactDescription}
                 </Text>
-              </div>
-            )}
+              )}
+            </div>
             {officeInformation && (
               <Flex
                 gap={8}
