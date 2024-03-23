@@ -8,6 +8,7 @@ import { urlFor } from "lib/sanity";
 import Link from "next/link";
 import { BlogPost } from "types";
 import { BlogProps } from "./index";
+import { useMediaQuery } from "hooks/useMediaQuery";
 
 function VariantB({ subtitle, title, posts, primaryButton }: BlogProps) {
   let blogsPerPage = 5,
@@ -28,12 +29,14 @@ function VariantB({ subtitle, title, posts, primaryButton }: BlogProps) {
           <div className="w-full lg:w-[45%]">
             {posts
               ?.slice(count, count + 1)
-              ?.map((post, key) => <BlogItem post={post} key={key} />)}
+              ?.map((post, key) => (
+                <BlogItem size="lg" post={post} key={key} />
+              ))}
           </div>
           <Flex wrap className="w-full lg:w-[45%]" gap={4}>
             {posts?.slice(count + 1, blogsPerPage)?.map((post, key) => (
               <div className="w-full lg:basis-[45%]" key={key}>
-                <BlogItem post={post} />
+                <BlogItem post={post} size="sm" />
               </div>
             ))}
           </Flex>
@@ -55,23 +58,45 @@ function VariantB({ subtitle, title, posts, primaryButton }: BlogProps) {
   );
 }
 
-function BlogItem({ post }: { post: BlogPost }) {
+function BlogItem({ post, size }: { post: BlogPost; size?: string }) {
+  const breakpoints = useMediaQuery("1024");
+
   return (
     <div className="overflow-hidden rounded shadow">
       {post?.mainImage && (
-        <Image
-          className="object-cover w-full h-full overflow-hidden rounded-t"
-          src={urlFor(post?.mainImage)}
-          sizes="100vw"
-          style={{
-            width: "100%",
-            height: "auto",
-            objectFit: "cover",
-          }}
-          width={271}
-          height={248}
-          alt={`blog-variantB-image-`}
-        />
+        <>
+          {breakpoints ? (
+            <Image
+              className="object-cover w-full overflow-hidden rounded-t"
+              src={urlFor(post?.mainImage)}
+              sizes="100vw"
+              style={{
+                width: "100%",
+                height: "auto",
+                objectFit: "cover",
+              }}
+              width={271}
+              height={248}
+              alt={`blog-variantB-image-`}
+            />
+          ) : (
+            <div className={`${size === "lg" ? "h-[44.5rem]" : "h-[12.5rem]"}`}>
+              <Image
+                className="object-cover w-full overflow-hidden rounded-t"
+                src={urlFor(post?.mainImage)}
+                sizes="100vw"
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "cover",
+                }}
+                width={271}
+                height={248}
+                alt={`blog-variantB-image-`}
+              />
+            </div>
+          )}
+        </>
       )}
       <div className="p-6 bg-white ">
         {post?.publishedAt && (
@@ -80,13 +105,17 @@ function BlogItem({ post }: { post: BlogPost }) {
           </Text>
         )}
         {post?.title && (
-          <Heading type="h3" className="my-2">
-            {post?.title}
+          <Heading type="h4" className="my-2">
+            {post?.title?.length > 25
+            ? post?.title?.substring(0, 25) + "..."
+            : post?.title}
           </Heading>
         )}
         {post?.excerpt && (
           <Text muted className="mb-6 text-justify">
-            {post?.excerpt}
+            {post?.excerpt?.length > 41
+            ? post?.excerpt?.substring(0, 41) + "..."
+            : post?.excerpt}
           </Text>
         )}
         {post?.slug?.current && (

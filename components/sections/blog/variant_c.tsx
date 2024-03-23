@@ -8,6 +8,7 @@ import { Container, Flex } from "components/layout/index";
 import { Badge, Button, Heading, Text } from "components/ui";
 import { BlogPost } from "types";
 import { BlogProps } from ".";
+import { useMediaQuery } from "hooks/useMediaQuery";
 
 function VariantC({ subtitle, title, posts, primaryButton }: BlogProps) {
   let blogsPerPage = 3;
@@ -71,6 +72,9 @@ function VariantC({ subtitle, title, posts, primaryButton }: BlogProps) {
 }
 
 function BlogItem({ post, className }: { post: BlogPost; className?: string }) {
+  const breakpoints = useMediaQuery("1100")
+  const maxExcerptLength = breakpoints ? 70 : 200;
+
   return (
     <Flex
       wrap
@@ -100,13 +104,15 @@ function BlogItem({ post, className }: { post: BlogPost; className?: string }) {
         </Flex>
 
         {post?.publishedAt && (
-          <Text muted>
+          <Text muted className="m-1">
             {format(new Date(post?.publishedAt), " dd MMM, yyyy")}
           </Text>
         )}
         {post?.title && (
           <Heading className="my-4" type="h3">
-            {post?.title}
+            {post?.title?.length > 40
+            ? post?.title?.substring(0, 40) + "..."
+            : post?.title}
           </Heading>
         )}
         {post?.authors && (
@@ -122,7 +128,9 @@ function BlogItem({ post, className }: { post: BlogPost; className?: string }) {
         )}
         {post?.excerpt && (
           <Text muted className="mb-6 leading-loose text-justify">
-            {post?.excerpt}
+            {post?.excerpt?.length > maxExcerptLength
+            ? post?.excerpt?.substring(0, maxExcerptLength) + "..."
+            : post?.excerpt}
           </Text>
         )}
         {post?.slug?.current && (

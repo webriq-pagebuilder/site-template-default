@@ -138,6 +138,7 @@ function VariantD({
     const [checked, setChecked] = React.useState([]); // setting selected value for input field checkbox type
     const [processing, setIsProcessing] = React.useState(false);
     const [paymentStatus, setPaymentStatus] = React.useState("idle");
+    const [cardValidate, setCardValidate] = React.useState<any | undefined>({ brand: "unknown", complete: false, error: ""});
 
     const handleCheckboxChange = (e) => {
       const { checked, value } = e.target;
@@ -188,33 +189,36 @@ function VariantD({
         }
       );
 
+      const payload = await stripe?.confirmCardPayment(
+        billing.billType === "Monthly"
+          ? monthlyBilling_ClientSecret
+          : yearlyBilling_ClientSecret,
+        {
+          payment_method: {
+            card: elements.getElement(CardElement),
+          },
+        }
+      );
+
+      if (payload?.error) {
+        setIsProcessing(false);
+        setPaymentStatus("failed");
+        setCardValidate({...cardValidate, error: "error" });
+        return;
+      }
+
+      setPaymentStatus("success");
       const response = await fetch("/api/submitForm", {
         method: "POST",
         body: JSON.stringify({ data, id: formId }),
       });
 
       if (response.ok) {
-        setIsProcessing(false);
         setPaymentStatus("success");
-
-        const payload = await stripe?.confirmCardPayment(
-          billing.billType === "Monthly"
-            ? monthlyBilling_ClientSecret
-            : yearlyBilling_ClientSecret,
-          {
-            payment_method: {
-              card: elements.getElement(CardElement),
-            },
-          }
-        );
-
-        if (payload?.error) {
-          setIsProcessing(false);
-          setPaymentStatus("failed");
-        }
-      } else {
         setIsProcessing(false);
+      } else {
         setPaymentStatus("failed");
+        setIsProcessing(false);
       }
     };
 
@@ -226,7 +230,10 @@ function VariantD({
             <WebriQForm
               stripepkey={stripePKey}
               method="POST"
-              data-form-id={formId}
+              data-form-id={
+                cardValidate?.error === undefined && cardValidate?.brand !== "unknown" && cardValidate?.complete
+                 ? formId 
+                 : undefined}
               name={formName}
               className="form-pricing space-y-2"
               data-thankyou-url={thankYouPageLink(formThankYouPage)}
@@ -238,10 +245,13 @@ function VariantD({
                   <React.Fragment key={index}>
                     {field?.pricingType === "inputCard" ? (
                       <div className="mb-4">
-                        <CardElement className="w-full p-4 text-xs font-semibold leading-none rounded outline-none bg-gray-50" />
+                        <CardElement
+                          onChange={(e) => setCardValidate(e)}
+                          className="w-full p-4 text-xs font-semibold leading-none rounded outline-none bg-gray-50"
+                        />
                         {paymentStatus === "success" ? (
                           <div className="text-xs font-semibold leading-none py-4 text-left mt-3 text-green-600">
-                            Payment Success! Redirecting...
+                            Payment Success!
                           </div>
                         ) : paymentStatus === "failed" ? (
                           <div className="text-xs font-semibold leading-none py-4 text-left mt-3 text-red-600">
