@@ -196,7 +196,7 @@ function VariantB({
                 style={{ height: "618px" }}
               >
                 {images &&
-                  images.map((item, index) => (
+                  images?.map((item, index) => (
                     <SwiperSlide
                       className="h-full hover:border hover:border-gray-400"
                       key={index}
@@ -229,7 +229,7 @@ function VariantB({
                 className="w-full"
               >
                 {images &&
-                  images.map((item, index) => (
+                  images?.map((item, index) => (
                     <SwiperSlide key={index}>
                       <div className="w-3/4 h-full mx-auto xl:mx-0 xl:w-full">
                         <Image
@@ -539,28 +539,29 @@ function VariantB({
                               productDetails?.[activeTab]?.media ===
                                 "imageArray" ? (
                                 <Fragment>
-                                  {productDetails?.[activeTab]?.images?.map(
-                                    (item, index) => (
-                                      <div
-                                        className="w-1/4 h-full mt-5"
-                                        key={index}
-                                      >
-                                        {item?.image && (
-                                          <Image
-                                            className="object-cover"
-                                            sizes="100vw"
-                                            width={128}
-                                            height={128}
-                                            src={urlFor(item?.image)}
-                                            alt={
-                                              item?.alt ??
-                                              `product-image-${index}`
-                                            }
-                                          />
-                                        )}
-                                      </div>
-                                    )
-                                  )}
+                                  {productDetails?.[activeTab]?.images &&
+                                    productDetails?.[activeTab]?.images?.map(
+                                      (item, index) => (
+                                        <div
+                                          className="w-1/4 h-full mt-5"
+                                          key={index}
+                                        >
+                                          {item?.image && (
+                                            <Image
+                                              className="object-cover"
+                                              sizes="100vw"
+                                              width={128}
+                                              height={128}
+                                              src={urlFor(item?.image)}
+                                              alt={
+                                                item?.alt ??
+                                                `product-image-${index}`
+                                              }
+                                            />
+                                          )}
+                                        </div>
+                                      )
+                                    )}
                                 </Fragment>
                               ) : (
                                 <div className="mt-5 aspect-video">
