@@ -8,6 +8,7 @@ import { InlineEditorProps } from "./InlineEditor";
 
 import "split-pane-react/esm/themes/default.css";
 import styles from "styles/InlineEditing.module.css";
+import { Button } from "./ui/Button";
 
 export default function InlineEditorContainer({
   document,
@@ -39,10 +40,10 @@ export default function InlineEditorContainer({
       }`}
     >
       {!breakpoint && !sectionsWithoutEditor?.includes(document?.type) && (
-        <div className="absolute top-0 left-0 w-full h-full text-right p-4 pointer-events-none">
+        <div className="absolute top-0 left-0 w-full h-full p-4 text-right pointer-events-none">
           <button
             id={document?.type}
-            className={`pointer-events-auto z-40 items-center border border-webriq-darkblue bg-white px-2 py-2.5 text-center text-sm font-medium text-webriq-darkblue shadow-lg hover:border-webriq-blue hover:bg-webriq-blue hover:text-white ${
+            className={`pointer-events-auto z-40 items-center border border-primary bg-white px-2 py-2.5 text-center text-sm font-medium text-primary shadow-lg hover:border-secondary hover:bg-secondary hover:text-white ${
               !splitPane && `styles.hide`
             }`}
             style={{
@@ -91,7 +92,7 @@ export default function InlineEditorContainer({
               sizes={sizes}
               onChange={setSizes}
               resizerSize={5}
-              className="border-y border-webriq-darkblue"
+              className="border-y border-primary"
               sashRender={() => (
                 <SashContent style={{ backgroundColor: "#d5e3ff" }} />
               )}
@@ -128,7 +129,7 @@ export default function InlineEditorContainer({
           </div>
         ) : (
           <>
-            <div className="z-30 mt-2 w-full bg-webriq-darkblue px-3 py-2.5 text-center text-sm text-white shadow md:flex md:flex-wrap">
+            <div className="z-30 mt-2 w-full bg-primary px-3 py-2.5 text-center text-sm text-white shadow md:flex md:flex-wrap">
               To continue using the inline editor, adjust screen width to
               DESKTOP view (screen width 1024px above).
               <button

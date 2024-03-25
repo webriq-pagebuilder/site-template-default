@@ -1,7 +1,7 @@
 import { memo, useMemo, useEffect } from "react";
 import { TypedObject } from "sanity";
 import dynamic from "next/dynamic";
-import { useEcwid } from "context/EcwidContext";
+import { EcwidContextProvider, useEcwid } from "context/EcwidContext";
 
 import { SectionsProps, Images, ProductDetail, SocialLink } from "types";
 import { EProduct } from "context/_ecwid-types";
@@ -42,7 +42,6 @@ function ProductInfo({ data, product }: ProductIndexProps) {
   const ecwid_products = ecwid?.products || null;
   const price = ecwid?.price || 0;
   const getPriceDisplay = ecwid?.getPriceDisplay;
-
   const variantSku = ecwid.selected;
 
   const variant = data?.variant;
@@ -54,13 +53,15 @@ function ProductInfo({ data, product }: ProductIndexProps) {
     }
   }, [ecwid, product?.ecwidProductId]);
 
-  const ecwidProduct = useMemo(() => {
-    let data: EProduct | null = null;
-    if (product?.ecwidProductId && ecwid_products) {
-      data = ecwid_products;
-    }
-    return data;
-  }, [ecwid_products, product]);
+  // const ecwidProduct = useMemo(() => {
+  //   let data: EProduct | null = null;
+  //   if (product?.ecwidProductId && ecwid_products) {
+  //     data = ecwid_products;
+  //   }
+  //   return data;
+  // }, [ecwid_products, product]);
+  const ecwidProduct =
+    product?.ecwidProductId && ecwid_products ? ecwid_products : null;
 
   const props = {
     subtitle: data?.variants?.subtitle,

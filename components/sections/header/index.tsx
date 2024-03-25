@@ -48,7 +48,6 @@ function Header({ template, data }: SectionsProps) {
     formLinks: data?.variants?.formLinks,
     form: data?.variants?.form,
   };
-
   return Variant ? <Variant {...props} /> : null;
 }
 

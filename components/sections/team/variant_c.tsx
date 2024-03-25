@@ -2,55 +2,53 @@ import React from "react";
 import Image from "next/image";
 import { urlFor } from "lib/sanity";
 import { TeamsProps } from ".";
+import { Card, Text, Heading } from "components/ui";
+import { Container, Flex } from "components/layout/index";
 
 function VariantC({ caption, title, team }: TeamsProps) {
   return (
-    <section>
-      <div className="radius-for-skewed bg-gray-50 py-20">
-        <div className="container mx-auto px-4">
-          <div className="mx-auto mb-12 max-w-xl text-center">
-            {caption && (
-              <span className="font-bold text-webriq-darkblue">{caption}</span>
-            )}
-            {title && (
-              <h1 className="font-heading text-4xl font-bold lg:text-5xl">
-                {title}
-              </h1>
-            )}
-          </div>
-          <div className="flex flex-wrap">
-            {team &&
-              team.map((member) => (
-                <div
-                  className="mb-6 w-full px-3 md:w-1/2 lg:w-1/3"
-                  key={member?.name}
-                >
-                  <div className="w-full overflow-hidden rounded bg-white pb-8 text-center shadow">
-                    {member.mainImage?.image && (
-                      <div>
-                        <Image
-                          className="mb-8 h-[345px] w-full object-cover"
-                          sizes="100vw"
-                          src={urlFor(member?.mainImage?.image)}
-                          width={345}
-                          height={256}
-                          alt={
-                            member?.mainImage?.alt ??
-                            `team-member-${member?.name}-profile-image`
-                          }
-                        />
-                      </div>
-                    )}
-                    <p className="font-heading mb-2 text-2xl font-bold">
-                      {member?.name}
-                    </p>
-                    <p className="text-gray-500">{member?.jobTitle}</p>
-                  </div>
-                </div>
-              ))}
-          </div>
-        </div>
-      </div>
+    <section className="py-20 bg-gray-50">
+      <Container>
+        <Container maxWidth={576} className="mb-12 text-center ">
+          {caption && (
+            <Text weight="bold" className="text-primary">
+              {caption}
+            </Text>
+          )}
+          {title && <Heading>{title}</Heading>}
+        </Container>
+        <Flex wrap>
+          {team &&
+            team.map((member) => (
+              <div
+                className="w-full px-3 mb-6 md:w-1/2 lg:w-1/3"
+                key={member?.name}
+              >
+                <Card className="w-full p-0 pb-8 overflow-hidden text-center">
+                  {member.mainImage?.image && (
+                    <div>
+                      <Image
+                        className="mb-8 h-[345px] w-full object-cover"
+                        sizes="100vw"
+                        src={urlFor(member?.mainImage?.image)}
+                        width={345}
+                        height={256}
+                        alt={
+                          member?.mainImage?.alt ??
+                          `team-member-${member?.name}-profile-image`
+                        }
+                      />
+                    </div>
+                  )}
+                  <Text className="mb-2 text-2xl " weight="bold">
+                    {member?.name}
+                  </Text>
+                  <Text muted>{member?.jobTitle}</Text>
+                </Card>
+              </div>
+            ))}
+        </Flex>
+      </Container>
     </section>
   );
 }

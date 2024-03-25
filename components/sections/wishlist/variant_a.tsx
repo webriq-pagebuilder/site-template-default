@@ -3,6 +3,8 @@ import { urlFor } from "lib/sanity";
 import Image from "next/image";
 import { useEcwid } from "context/EcwidContext";
 import Ribbon from "components/ecwid/Ribbon";
+import { Container, Flex } from "components/layout/index";
+import { Text } from "components/ui/Text";
 
 function VariantA() {
   const ecwid = useEcwid();
@@ -10,9 +12,9 @@ function VariantA() {
 
   return (
     <section className="py-20">
-      <div className="container mx-auto px-5">
+      <Container>
         <div className="py-8">
-          <div className="flex flex-col gap-x-4 sm:flex-row">
+          <Flex className="flex-col gap-x-4 sm:flex-row">
             {favorites ? (
               favorites?.map((items, index) => {
                 let item = null;
@@ -21,7 +23,7 @@ function VariantA() {
                 }
 
                 return (
-                  <div className="mb-5 w-full sm:w-1/2 md:w-1/3" key={index}>
+                  <div className="w-full mb-5 sm:w-1/2 md:w-1/3" key={index}>
                     <a
                       href={`/products/${items?.slug?.current}`}
                       className="flex flex-col gap-4"
@@ -30,7 +32,7 @@ function VariantA() {
                         <div className="absolute z-10">
                           <Ribbon data={items} />
                         </div>
-                        <div className="w-full object-cover">
+                        <div className="object-cover w-full">
                           {items?.productInfo?.images ? (
                             <Image
                               sizes="100vw"
@@ -56,14 +58,14 @@ function VariantA() {
                         </div>
                       </div>
 
-                      <p className="text-2xl font-bold xl:text-3xl">
+                      <Text weight="bold" className="text-2xl xl:text-3xl">
                         {items?.name}
-                      </p>
-                      <p className="font-heading text-xl font-bold text-white">
-                        <span className="mr-2 text-webriq-darkblue">
+                      </Text>
+                      <Text weight="bold" fontSize="xl" className="text-white ">
+                        <span className="mr-2 text-primary">
                           {items?.price}
                         </span>
-                      </p>
+                      </Text>
                     </a>
                   </div>
                 );
@@ -82,18 +84,22 @@ function VariantA() {
                   alt="no products on wishlist"
                 />
                 <div className="text-center">
-                  <span className="mb-6 text-2xl font-bold text-webriq-darkblue">
+                  <Text
+                    fontSize="2xl"
+                    weight="bold"
+                    className="mb-6 text-primary"
+                  >
                     Wishlist is empty
-                  </span>
-                  <p className="my-8 text-gray-700">
+                  </Text>
+                  <Text className="my-8 text-gray-700">
                     {`Add your favorite products to wishlist to display them here.`}
-                  </p>
+                  </Text>
                 </div>
               </div>
             )}
-          </div>
+          </Flex>
         </div>
-      </div>
+      </Container>
     </section>
   );
 }

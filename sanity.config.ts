@@ -1,8 +1,8 @@
 import { defineConfig } from "sanity";
 import {
   NEXT_PUBLIC_SANITY_PROJECT_NAME,
-  NEXT_PUBLIC_SANITY_DATASET,
-  NEXT_PUBLIC_SANITY_PROJECT_ID,
+  SANITY_PROJECT_DATASET,
+  SANITY_PROJECT_ID,
   NEXT_PUBLIC_SANITY_PROJECT_OPENAI_KEY,
 } from "studio/config";
 
@@ -33,8 +33,8 @@ import { webriQInspectorInlineEdit } from "@webriq-pagebuilder/sanity-plugin-ins
 export default defineConfig({
   basePath: "/studio",
   title: NEXT_PUBLIC_SANITY_PROJECT_NAME,
-  projectId: NEXT_PUBLIC_SANITY_PROJECT_ID,
-  dataset: NEXT_PUBLIC_SANITY_DATASET,
+  projectId: SANITY_PROJECT_ID,
+  dataset: SANITY_PROJECT_DATASET,
   plugins: [
     deskStructure,
     visionTool(),

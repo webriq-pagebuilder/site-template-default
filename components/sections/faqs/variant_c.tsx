@@ -2,52 +2,68 @@ import React from "react";
 
 import { FAQProps } from ".";
 
+import { Container, Flex } from "components/layout/index";
+import { Heading, Text, Card } from "components/ui";
+
 function VariantC({ subtitle, title, faqs }: FAQProps) {
   return (
-    <section>
-      <div className="radius-for-skewed bg-gray-50 py-20">
-        <div className="container mx-auto px-4">
-          <div className="mx-auto mb-16 max-w-xl text-center">
-            <span className="font-bold text-webriq-darkblue">{subtitle}</span>
-            <h1 className="text-5xl font-bold">{title}</h1>
-          </div>
-          {faqs && (
-            <div className="-mx-4 -mb-8 flex flex-wrap">
-              {faqs?.map((faq, index) => (
-                <div className="mb-8 w-full px-4 lg:w-1/2" key={index}>
-                  {faq.question && (
-                    <div className="h-full rounded bg-white p-8 shadow">
-                      <div className="mb-6 flex items-start">
-                        <span className="mr-4 inline-block rounded-full bg-webriq-darkblue p-3">
-                          <svg
-                            className="h-6 w-6 text-white"
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"
-                            />
-                          </svg>
-                        </span>
-                        <p className="text-xl font-bold">{faq?.question}</p>
-                      </div>
-                      <p className="leading-loose text-gray-500">
-                        {faq?.answer}
-                      </p>
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
+    <section className="py-20 bg-gray-50">
+      <Container>
+        <Container maxWidth={576} className="mb-16 text-center">
+          {subtitle && (
+            <Text weight="bold" className="text-primary">
+              {subtitle}
+            </Text>
           )}
-        </div>
-      </div>
+          {title && <Heading>{title}</Heading>}
+        </Container>
+
+        {faqs && (
+          <Flex wrap>{faqs?.map((faq, index) => <FAQItem faq={faq} />)}</Flex>
+        )}
+      </Container>
     </section>
+  );
+}
+
+function FAQItem({ faq }) {
+  return (
+    <div className="w-full px-4 mb-8 lg:w-1/2">
+      {faq.question && (
+        <Card className="h-full p-8 ">
+          <Flex align="start" className="mb-6">
+            <span className="inline-block p-3 mr-4 rounded-full bg-primary">
+              <QuoteIcon />
+            </span>
+            <Text weight="bold" className="text-xl">
+              {faq?.question}
+            </Text>
+          </Flex>
+          <Text className="leading-loose " muted>
+            {faq?.answer}
+          </Text>
+        </Card>
+      )}
+    </div>
+  );
+}
+
+function QuoteIcon() {
+  return (
+    <svg
+      className="w-6 h-6 text-white"
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={2}
+        d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"
+      />
+    </svg>
   );
 }
 export default React.memo(VariantC);

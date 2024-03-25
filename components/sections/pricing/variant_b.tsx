@@ -2,6 +2,10 @@ import React from "react";
 import axios from "axios";
 import { initiateCheckout } from "lib/checkout";
 import { PricingProps } from ".";
+import { Text, Card, Button } from "components/ui";
+import { Container, Flex } from "components/layout/index";
+
+import { Heading } from "components/ui/Heading";
 
 function VariantB({
   caption,
@@ -29,9 +33,10 @@ function VariantB({
             apiVersion,
           },
           stripeParams: {
-            id: `webriq-studio-pricing-${plans[i]._key}-${i + 1}-${plans[
-              i
-            ].planType.replace(/ /g, "-")}-oneTime-Payment-${plans[i].price}`,
+            id: `pricing-${plans[i]._key}-${i + 1}-${plans[i].planType.replace(
+              / /g,
+              "-"
+            )}-oneTime-Payment-${plans[i].price}`,
           },
         };
 
@@ -73,131 +78,134 @@ function VariantB({
       }
     }
 
-    getPriceId(usePlan);
+    if (apiVersion && hashKey && stripeSKey) {
+      getPriceId(usePlan);
+    }
   }, [NEXT_PUBLIC_APP_URL, apiVersion, hashKey, stripeSKey, usePlan]);
 
   return (
-    <section>
-      <div className="radius-for-skewed bg-gray-50 py-20">
-        <div className="container mx-auto px-4">
-          <div className="mb-16 flex w-full flex-wrap items-center">
-            <div className="w-full lg:w-1/2">
-              {caption && (
-                <span className="lg:text=base text-sm font-bold text-webriq-darkblue xl:text-base 2xl:text-base">
-                  {caption}
-                </span>
-              )}
-              {title && (
-                <h1 className="font-heading mb-2 text-2xl font-bold lg:text-5xl xl:text-5xl 2xl:text-5xl">
-                  {title}
-                </h1>
-              )}
-            </div>
-            <div className="w-full lg:w-1/2">
-              {!description ? null : (
-                <p className="max-w-xs text-sm leading-loose text-gray-500 lg:mx-auto lg:text-base xl:text-base 2xl:text-base">
-                  {description}
-                </p>
-              )}
-            </div>
+    <section className="py-20 bg-gray-50">
+      <Container>
+        <Flex wrap aligncenter className="w-full mb-16">
+          <div className="w-full lg:w-1/2">
+            {caption && (
+              <Text fontSize="sm" className="text-sm lg:text-base text-primary">
+                {caption}
+              </Text>
+            )}
+            {title && <Heading className="mb-2">{title}</Heading>}
           </div>
-          {pKeyError && (
-            <div>
-              <p
-                style={{
-                  fontSize: 9,
-                  color: "red",
-                  textAlign: "center",
-                  padding: 20,
-                }}
+          <div className="w-full lg:w-1/2">
+            {!description ? null : (
+              <Text
+                muted
+                className="max-w-xs text-sm leading-loose lg:mx-auto lg:text-base"
               >
-                {`Stripe Checkout won't work because of an Invalid`}
-                <strong> Stripe Public Key</strong>, please fix it in your
-                studio under webriq-payments to get rid of this error message.
-              </p>
-            </div>
-          )}
+                {description}
+              </Text>
+            )}
+          </div>
+        </Flex>
+        {pKeyError && (
+          <div>
+            <p
+              style={{
+                fontSize: 9,
+                color: "red",
+                textAlign: "center",
+                padding: 20,
+              }}
+            >
+              {`Stripe Checkout won't work because of an Invalid`}
+              <strong> Stripe Public Key</strong>, please fix it in your studio
+              under webriq-payments to get rid of this error message.
+            </p>
+          </div>
+        )}
 
-          {usePlan &&
-            usePlan.map((plan) => {
-              return (
-                <div
-                  className="mb-8 flex w-full flex-wrap items-center rounded bg-white p-8 shadow"
-                  key={plan._key}
-                >
-                  <div className="w-full self-start px-3 lg:w-1/5">
-                    <h3 className="font-heading mb-4 text-xl font-bold lg:text-2xl xl:text-2xl 2xl:text-2xl">
-                      {plan.planType}
-                    </h3>
-                  </div>
-                  <div className="w-full px-3 lg:w-2/5">
-                    <ul className="mb-4 text-gray-500">
-                      {plan.planIncludes?.map((include) => (
-                        <li className="mb-4 flex" key={include}>
-                          <svg
-                            className="mr-2 h-5 w-5 text-webriq-darkblue"
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 20 20"
-                            fill="currentColor"
-                          >
-                            <path
-                              fillRule="evenodd"
-                              d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                              clipRule="evenodd"
-                            />
-                          </svg>
-                          <span className="text-sm lg:text-base xl:text-base 2xl:text-base">
-                            {include}
-                          </span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                  <div className="w-full px-3 lg:w-1/5 lg:text-center">
-                    <span className="text-4xl font-bold">
-                      {isNaN(parseInt(plan.price))
-                        ? plan.price
-                        : `$${comma.format(+plan.price)}`}
-                    </span>
-                  </div>
-                  <div className="w-full px-3 lg:w-1/5">
-                    {plan.checkoutButtonName && (
-                      <button
-                        aria-label={plan.checkoutButtonName}
-                        className={`mt-4 inline-block rounded-l-xl rounded-t-xl bg-webriq-darkblue px-6 py-2 font-bold leading-loose text-white transition duration-200 hover:bg-webriq-blue lg:mt-0  ${
-                          !plan ||
-                          (!plan?.variant_b_checkoutButton &&
-                            "cursor-not-allowed bg-gray-100 disabled:opacity-50")
-                        }`}
-                        disabled={!plan || !plan?.variant_b_checkoutButton}
-                        onClick={() => {
-                          initiateCheckout(
-                            {
-                              lineItems: [
-                                {
-                                  price: plan.variant_b_checkoutButton,
-                                  quantity: 1,
-                                },
-                              ],
-                            },
-                            stripePKey,
-                            window.location.origin + "/success",
-                            window.location.href,
-                            false
-                            // setPKError
-                          );
-                        }}
-                      >
-                        {!usePlan ? "Processing..." : plan.checkoutButtonName}
-                      </button>
-                    )}
-                  </div>
+        {usePlan &&
+          usePlan.map((plan) => {
+            return (
+              <Card
+                className="flex flex-wrap items-center w-full p-8 mb-8"
+                key={plan._key}
+              >
+                <div className="self-start w-full px-3 lg:w-1/5">
+                  <Heading type="h3" className="mb-4 text-xl lg:text-2xl">
+                    {plan.planType}
+                  </Heading>
                 </div>
-              );
-            })}
-        </div>
-      </div>
+                <div className="w-full px-3 lg:w-2/5">
+                  <ul className="mb-4 text-gray-500">
+                    {plan.planIncludes?.map((include) => (
+                      <li className="flex mb-4" key={include}>
+                        <ListIcon />
+                        <span className="text-sm lg:text-base">{include}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div className="w-full px-3 lg:w-1/5 lg:text-center">
+                  <span className="text-4xl font-bold">
+                    {isNaN(parseInt(plan.price))
+                      ? plan.price
+                      : `$${comma.format(+plan.price)}`}
+                  </span>
+                </div>
+                <div className="w-full px-3 lg:w-1/5">
+                  {plan.checkoutButtonName && (
+                    <Button
+                      as="button"
+                      ariaLabel={plan.checkoutButtonName}
+                      className={`mt-4 lg:mt-0  ${
+                        !plan ||
+                        (!plan?.variant_b_checkoutButton &&
+                          "cursor-not-allowed  disabled:opacity-50")
+                      }`}
+                      disabled={!plan || !plan?.variant_b_checkoutButton}
+                      onClick={() => {
+                        initiateCheckout(
+                          {
+                            lineItems: [
+                              {
+                                price: plan.variant_b_checkoutButton,
+                                quantity: 1,
+                              },
+                            ],
+                          },
+                          stripePKey,
+                          window.location.origin + "/success",
+                          window.location.href,
+                          false
+                          // setPKError
+                        );
+                      }}
+                    >
+                      {!usePlan ? "Processing..." : plan.checkoutButtonName}
+                    </Button>
+                  )}
+                </div>
+              </Card>
+            );
+          })}
+      </Container>
     </section>
+  );
+}
+function ListIcon() {
+  return (
+    <svg
+      className="w-5 h-5 mr-2 text-primary"
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 20 20"
+      fill="currentColor"
+    >
+      <path
+        fillRule="evenodd"
+        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+        clipRule="evenodd"
+      />
+    </svg>
   );
 }
 export default React.memo(VariantB);

@@ -1,5 +1,6 @@
 import { seoImageUrl } from "lib/sanity";
 import { DefaultSeoData, SanityImage, SanitySlug } from "types";
+import { BlogJsonLd, PagesJsonLd, ProductJsonLd } from "utils/seo/jsonLd";
 
 type SEOData = {
   pageTitle: string; // page title
@@ -12,6 +13,23 @@ type SEOData = {
   seoImage?: SanityImage;
 };
 
+const url = process.env.NEXT_PUBLIC_SITE_URL;
+
+const contacts = [
+  {
+    "@type": "ContactPoint",
+    telephone: "+1 503 436 6644",
+    email: "info.webriq.com",
+    contactType: "customer service",
+  },
+  {
+    "@type": "ContactPoint",
+    telephone: "+1 516 858 2325",
+    email: "info.webriq.com",
+    contactType: "customer service",
+  },
+];
+
 function SEO({
   data,
   defaultSeo,
@@ -19,8 +37,6 @@ function SEO({
   data: SEOData | undefined;
   defaultSeo: DefaultSeoData;
 }) {
-  const url = process.env.NEXT_PUBLIC_SITE_URL;
-
   const {
     defaultSeoTitle,
     defaultSeoSynonyms,
@@ -127,3 +143,45 @@ function getSEOValue(seoData: SEOData, dataType: string) {
 }
 
 export default SEO;
+
+export function addSEOJsonLd({ seo, type, defaults, slug, pageData }) {
+  if (type === "post") {
+    // blog posts
+    return BlogJsonLd({
+      title: seo?.seoTitle ?? pageData?.title,
+      description:
+        seo?.seoDescription ??
+        blogPostBody(pageData?.excerpt ?? pageData?.body) ??
+        defaults?.description,
+      url: `${url}/${slug?.current}`,
+      images: seoImageUrl(
+        seo?.seoImage ?? pageData?.mainImage ?? defaults?.image
+      ),
+      authorName: pageData?.authors,
+      publisherName: "WebriQ",
+      publisherLogo: seoImageUrl(seo?.seoImage ?? defaults?.image),
+      dateModified: pageData?._updatedAt,
+      datePublished: pageData?.publishedAt ?? pageData?._updatedAt,
+    });
+  } else if (type === "mainProduct") {
+    // product pages
+    return ProductJsonLd({
+      productName: seo?.seoTitle ?? pageData?.name,
+      images: seo?.seoImage ?? pageData?.productInfo?.images,
+      url: `${url}/products/${slug}`,
+      brand: "WebriQ",
+      description: seo?.seoDescription ?? defaults?.description,
+      price: pageData?.price,
+      priceCurrency: "USD",
+    });
+  } else {
+    // default schema type for all pages
+    return PagesJsonLd({
+      name: seo?.seoTitle ?? pageData?.title,
+      description: seo?.seoDescription ?? defaults?.description,
+      url: `${url}/${slug}`,
+      logo: `${url}/favicon.ico`,
+      contactPoint: contacts,
+    });
+  }
+}

@@ -5,6 +5,8 @@ import { useEcwid } from "context/EcwidContext";
 import Ribbon from "components/ecwid/Ribbon";
 
 import { FeaturedProductsProps } from ".";
+import { Container, Flex } from "components/layout/index";
+import { Heading, Text } from "components/ui";
 
 function VariantA({ title, featured }: FeaturedProductsProps) {
   const ecwid = useEcwid();
@@ -18,14 +20,10 @@ function VariantA({ title, featured }: FeaturedProductsProps) {
 
   return (
     <section className="relative py-20">
-      <div className="container relative mx-auto px-4">
-        {title && (
-          <h1 className="mb-8 text-4xl font-bold md:mb-16 md:text-5xl">
-            {title}
-          </h1>
-        )}
+      <Container className="relative ">
+        {title && <Heading className="mb-8 md:mb-16 ">{title}</Heading>}
         {featured && (
-          <div className="-mx-3 flex flex-wrap">
+          <Flex wrap>
             {featured?.map((product, index) => {
               let items = [];
               ecwid?.productCollection &&
@@ -39,7 +37,7 @@ function VariantA({ title, featured }: FeaturedProductsProps) {
                 items?.length > 0 &&
                 items?.map((featuredCollections) => (
                   <div
-                    className="mb-10 w-full px-3 transition-all duration-700 md:w-1/2 md:hover:scale-110 lg:mb-6 lg:w-1/3"
+                    className="w-full px-3 mb-10 transition-all duration-700 md:w-1/2 md:hover:scale-110 lg:mb-6 lg:w-1/3"
                     key={index}
                   >
                     <a
@@ -78,22 +76,28 @@ function VariantA({ title, featured }: FeaturedProductsProps) {
                         </div>
                       </div>
 
-                      <p className="text-xl font-bold hover:text-opacity-80 sm:text-2xl xl:text-3xl">
+                      <Text
+                        weight="bold"
+                        className="text-xl hover:text-opacity-80 sm:text-2xl xl:text-3xl"
+                      >
                         {product?.name}
-                      </p>
+                      </Text>
                     </a>
-                    <p className="font-heading text-lg font-bold text-white sm:text-xl">
-                      <span className="mr-2 text-webriq-darkblue">
+                    <Text
+                      weight="bold"
+                      className="text-lg text-white sm:text-xl"
+                    >
+                      <span className="mr-2 text-primary">
                         {featuredCollections?.defaultDisplayedPriceFormatted}
                       </span>
-                    </p>
+                    </Text>
                   </div>
                 ))
               );
             })}
-          </div>
+          </Flex>
         )}
-      </div>
+      </Container>
     </section>
   );
 }

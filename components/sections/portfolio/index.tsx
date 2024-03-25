@@ -4,9 +4,10 @@ import dynamic from "next/dynamic";
 import {
   SectionsProps,
   PortfoliosWithCategories,
-  Portfolio,
+  Portfolio as TPortfolio,
   LabeledRoute,
 } from "types";
+import { SANITY_PROJECT_DATASET } from "studio/config";
 
 const Variants = {
   variant_a: dynamic(() => import("./variant_a")),
@@ -20,7 +21,7 @@ export interface PortfolioProps {
   caption?: string;
   title?: string;
   portfoliosWithCategory?: PortfoliosWithCategories[];
-  portfolios?: Portfolio[];
+  portfolios?: TPortfolio[];
   primaryButton?: LabeledRoute;
 }
 

@@ -9,7 +9,8 @@ export interface SectionsProps {
 }
 //*EDIT THIS SECTION WHEN CREATING/UPDATING SCHEMAS ON STUDIO */
 export interface Variants {
-  multipleMenus: any;
+  template?: Template;
+  multipleMenus?: any;
   arrayOfTitleAndText?: ArrayOfTitleAndText[] | null;
   logo?: Logo | null;
   primaryButton?: LabeledRoute | null;
@@ -21,6 +22,7 @@ export interface Variants {
   portfolios?: Portfolio[] | null;
   portfoliosWithCategories?: PortfoliosWithCategories[] | null;
   signInLink?: LabeledRoute | null;
+  signinLink?: LabeledRoute | null;
   tags?: string[] | null;
   blogPosts?: BlogPost[] | null;
   form?: Form | null;
@@ -64,6 +66,9 @@ export interface Variants {
   selectAccount?: string;
   hashtags?: string[];
   numberOfPosts?: number;
+  text?: string;
+  button?: LabeledRoute;
+  features?: string[];
 }
 
 export interface Template {
@@ -81,11 +86,11 @@ export interface Stripe {
 }
 
 export interface SanityBody {
-  _createdAt: string;
-  _id: string;
-  _rev: string;
-  _type: string;
-  _updatedAt: string;
+  _createdAt?: string;
+  _id?: string;
+  _rev?: string;
+  _type?: string;
+  _updatedAt?: string;
 }
 
 export interface ConditionalLink {
@@ -105,7 +110,7 @@ export interface SanityImage {
 
 export interface MainImage {
   image: SanityImage;
-  alt: string;
+  alt?: string;
 }
 
 //Generic type for routes with label e.g. primaryButtons, secondaryButton, menu, etc
@@ -114,6 +119,7 @@ export interface LabeledRoute extends ConditionalLink {
   linkTarget?: string;
   linkType?: string;
   _type?: string;
+  linkInternal?: any;
 }
 
 export interface LabeledRouteWithKey extends LabeledRoute {
@@ -129,6 +135,7 @@ export interface ArrayOfTitleAndText {
 
 export interface Logo extends ConditionalLink {
   alt?: string;
+  linkTarget?: string;
   image?: SanityImage;
 }
 
@@ -166,16 +173,7 @@ export interface FormFields {
   name?: string;
   placeholder?: string;
   pricingType?: string;
-  type?:
-    | "inputText"
-    | "inputEmail"
-    | "inputPassword"
-    | "inputNumber"
-    | "textarea"
-    | "inputFile"
-    | "inputRadio"
-    | "inputCheckbox"
-    | "inputSelect";
+  type?: FormTypes;
   _key?: string;
   _type?: string;
   isRequired?: boolean;
@@ -183,7 +181,18 @@ export interface FormFields {
   items?: string[];
 }
 
+export type FormTypes =
+  | "inputText"
+  | "inputEmail"
+  | "inputPassword"
+  | "inputNumber"
+  | "textarea"
+  | "inputFile"
+  | "inputRadio"
+  | "inputCheckbox"
+  | "inputSelect";
 export interface Seo {
+  _type?: string;
   seoTitle?: string;
   seoDescription?: string;
   seoImage?: SanityImage;
@@ -256,7 +265,7 @@ export interface Collection extends SanityBody {
 }
 
 export interface CollectionProduct extends SanityBody {
-  compareToPrice: number | null;
+  compareToPrice?: number | null;
   description?: string | null;
   ecwidProductId?: number | null;
   name?: string | null;
@@ -431,8 +440,8 @@ export interface BlogsData extends SanityBody {
   categories?: Categories[] | null;
   excerpt?: string | null;
   mainImage?: SanityImage | null;
-  footer?: Sections[] | null;
-  navigation?: Sections[] | null;
+  footer?: Sections | null;
+  navigation?: Sections | null;
   publishedAt?: string | null;
   slug?: SanitySlug | null;
   title?: string | null;
