@@ -163,7 +163,7 @@ function PostItem({ post }) {
             {post?.title}
           </Link>
         )}
-        <div className="flex items-center mb-2 text-sm">
+        <div className="flex flex-wrap items-center mb-2 text-sm">
           {post?.authors &&
             post?.authors?.map((author, index, { length }) => (
               <div className="flex" key={index}>

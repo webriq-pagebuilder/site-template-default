@@ -23,11 +23,10 @@ function VariantD({
       <Container>
         <Flex
           align="center"
-          justify="between"
           gap={4}
-          className="flex-col lg:flex-row"
+          className="lg:flex lg:justify-between gap-4 flex-col lg:flex-row"
         >
-          <div className="basis-1/2">
+          <div className="mb-10 lg:mb-0 text-center lg:text-left basis-1/2">
             {logo?.image && (
               <Link
                 aria-label={
@@ -37,6 +36,8 @@ function VariantD({
                 }
                 className="inline-block mb-10 text-3xl font-bold leading-none"
                 href={logoLink(logo)}
+                target={logo?.linkTarget}
+                rel={logo?.linkTarget === "_blank" ? "noopener noreferrer" : ""}
               >
                 <Image
                   className="h-14"
@@ -54,12 +55,12 @@ function VariantD({
               </Text>
             )}
             {button?.label && (
-              <Button link={button} ariaLabel={button?.label}>
+              <Button as="link" link={button} ariaLabel={button?.label}>
                 {button?.label}
               </Button>
             )}
           </div>
-          <div className="max-w-sm ">
+          <div className="mx-auto lg:mx-0 max-w-sm">
             {form?.fields && <SignUpForm form={form} signInLink={signInLink} />}
             {formLinks && (
               <div className="flex flex-wrap items-center justify-center text-sm text-gray-500">
@@ -68,6 +69,12 @@ function VariantD({
                     <Link
                       href={extractLink(link)}
                       className="font-bold text-primary hover:text-primary-foreground"
+                      target={link?.linkTarget}
+                      rel={
+                        link?.linkTarget === "_blank"
+                          ? "noopener noreferrer"
+                          : ""
+                      }
                     >
                       {link?.label}
                     </Link>

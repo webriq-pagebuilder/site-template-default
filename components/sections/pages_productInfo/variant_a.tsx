@@ -12,10 +12,12 @@ import { PagesProductInfoProps } from ".";
 import { EcwidTypes } from "context/_ecwid-types";
 import { Container, Flex } from "components/layout/index";
 import { Heading, Text } from "components/ui";
+import { useMediaQuery } from "hooks/useMediaQuery";
 
 function VariantA({ products }: PagesProductInfoProps) {
   const ecwid: EcwidTypes = useEcwid();
   const ecwidProduct = ecwid?.products;
+  const breakpoint = useMediaQuery("1191");
 
   useEffect(() => {
     if (products?.ecwidProductId) {
@@ -110,12 +112,18 @@ function VariantA({ products }: PagesProductInfoProps) {
                     <PortableText
                       value={products?.description}
                       components={defaultBlockStyle}
+                      onMissingComponent={false} // Disabling warnings / handling unknown types
                     />
                   )}
                 </div>
 
                 <ProductDetail product={ecwidProduct}>
-                  <Flex direction="row" align="start" gap={4} className="my-8">
+                  <Flex
+                    direction="row"
+                    align="start"
+                    gap={4}
+                    className="flex-wrap my-8"
+                  >
                     <div className="w-full lg:mb-4 xl:mb-0">
                       <AddToBag
                         inStock={!ecwidProduct?.inStock}
@@ -127,11 +135,12 @@ function VariantA({ products }: PagesProductInfoProps) {
 
                     {/* Add to wishlist button */}
                     <AddToWishlist
-                      classNames="ml-auto sm:ml-0 flex-shrink-0 inline-flex items-center justify-center w-full h-16 rounded-md border hover:border-primary"
+                      classNames="w-full items-center justify-center rounded-md border hover:border-primary"
                       product={ecwidProduct}
+                      containerClass="w-full"
                     >
                       <svg
-                        className="w-6 h-6 text-black"
+                        className="w-6 h-6"
                         width={27}
                         height={27}
                         viewBox="0 0 27 27"
@@ -150,7 +159,7 @@ function VariantA({ products }: PagesProductInfoProps) {
                   </Flex>
                 </ProductDetail>
                 <Flex wrap align="center">
-                  <span className="my-auto mr-8 font-bold uppercase font-heading">
+                  <span className="my-8 mr-8 font-bold uppercase font-heading">
                     SHARE IT
                   </span>
                   {products?.productInfo?.socialLinks?.map(

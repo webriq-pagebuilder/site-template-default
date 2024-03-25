@@ -16,7 +16,7 @@ function VariantD({
   text,
 }: FooterProps) {
   return (
-    <section className="py-10 overflow-hidden bg-gray-50">
+    <section className="py-20 overflow-hidden bg-gray-50">
       <Container>
         <Flex wrap className="space-y-4 lg:space-y-0">
           {(logo?.image || text) && (
@@ -30,6 +30,8 @@ function VariantD({
                       : `Go to ${logoLink(logo)}`
                   }
                   href={logoLink(logo)}
+                  target={logo?.linkTarget}
+                  rel={logo?.linkTarget === "_blank" ? "noopener noreferrer" : ""}
                 >
                   <Image
                     className="h-14"
@@ -63,7 +65,7 @@ function VariantD({
                       {menu?.links?.map((link) => (
                         <li key={link?._key}>
                           <Button
-                            variant="link"
+                            as="link"
                             link={link}
                             className="text-gray-500 no-underline hover:text-gray-700"
                             ariaLabel={link?.label}

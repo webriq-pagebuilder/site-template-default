@@ -31,7 +31,7 @@ function VariantC({ logo, menu, copyright, socialMedia }: FooterProps) {
                   {menu?.map((links, index) => (
                     <li className="w-full text-center" key={index}>
                       <Button
-                        variant="link"
+                        as="link"
                         link={links}
                         className="text-sm text-center text-black no-underline hover:text-gray-500 whitespace-nowrap"
                         ariaLabel={links?.label}
@@ -53,6 +53,8 @@ function VariantC({ logo, menu, copyright, socialMedia }: FooterProps) {
                       : `Go to ${logoLink(logo)}`
                   }
                   href={logoLink(logo)}
+                  target={logo?.linkTarget}
+                  rel={logo?.linkTarget === "_blank" ? "noopener noreferrer" : ""}
                 >
                   <Image
                     src={urlFor(logo?.image)}

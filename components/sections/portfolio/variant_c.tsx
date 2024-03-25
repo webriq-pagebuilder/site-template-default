@@ -33,7 +33,7 @@ function VariantC({
           </div>
           <div className="hidden mt-5 md:mt-0 lg:block ">
             {primaryButton?.label && (
-              <Button ariaLabel={primaryButton?.label} link={primaryButton}>
+              <Button as="link" ariaLabel={primaryButton?.label} link={primaryButton}>
                 {primaryButton?.label}
               </Button>
             )}
@@ -50,7 +50,7 @@ function VariantC({
         )}
         <div className="block mt-5 text-center md:mt-0 lg:hidden">
           {primaryButton?.label && (
-            <Button ariaLabel={primaryButton?.label} link={primaryButton}>
+            <Button as="link" ariaLabel={primaryButton?.label} link={primaryButton}>
               {primaryButton?.label}
             </Button>
           )}
@@ -63,10 +63,12 @@ function VariantC({
 export default React.memo(VariantC);
 
 function ProjectItem({ content }) {
+  const maxTitle = content?.title.length >= 30 ? content?.title.slice(0, 30) + '...' : content?.title;
+
   return (
     <div className="relative w-full px-4 mb-8 md:w-1/2 lg:w-1/3">
       {content?.mainImage?.image && (
-        <div className="h-full overflow-hidden bg-white rounded">
+        <div className="h-full overflow-hidden bg-white rounded" style={{ maxHeight: '600px' }}>
           <Image
             className="h-[320px] w-[480px] object-cover"
             src={urlFor(content?.mainImage?.image)}
@@ -77,15 +79,16 @@ function ProjectItem({ content }) {
           />
           <div className="p-6">
             <Text muted>{content?.dateAdded}</Text>
-            <Text weight="bold" fontSize="2xl" className="mb-4 ">
-              {content?.title}
+            <Text weight="bold" fontSize="2xl" className="mb-4">
+              {maxTitle}
             </Text>
             {content?.primaryButton?.label && (
               <Button
+                as="link"
                 variant="link"
                 ariaLabel={content?.primaryButton?.label}
                 link={content?.primaryButton}
-                className="font-bold no-underline"
+                className="font-bold no-underline text-primary transition-200 hover:text-primary-foreground"
               >
                 {content?.primaryButton?.label}
               </Button>
