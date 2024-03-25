@@ -63,6 +63,9 @@ export interface Variants {
   monthlyBilling?: string;
   productDetails?: ProductDetail[];
   btnLabel?: string;
+  selectAccount?: string;
+  hashtags?: string[];
+  numberOfPosts?: number;
   text?: string;
   button?: LabeledRoute;
   features?: string[];

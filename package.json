@@ -32,6 +32,7 @@
     "@stripe/stripe-js": "^1.52.1",
     "@webriq-pagebuilder/sanity-plugin-desk-studio-version": "^4.0.5",
     "@webriq-pagebuilder/sanity-plugin-input-component-gpt3": "^4.0.5",
+    "@webriq-pagebuilder/sanity-plugin-input-component-social-accounts": "^3.7.1-rc.8",
     "@webriq-pagebuilder/sanity-plugin-input-component-variants": "^4.0.5",
     "@webriq-pagebuilder/sanity-plugin-inspector-inline-edit": "^4.0.5",
     "@webriq-pagebuilder/sanity-plugin-schema-blog": "^4.0.5",

@@ -32,6 +32,9 @@ export const Components = {
     () => import("components/sections/pages_productInfo")
   ),
   allProducts: dynamic(() => import("components/sections/all_products")),
+  socialMediaFeed: dynamic(
+    () => import("components/sections/social_media_feed")
+  ),
 };
 
 /**
