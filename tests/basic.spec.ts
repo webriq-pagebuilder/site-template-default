@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 
-function autologin_studio({ token, projectId }) {
+export function autologin_studio({ token, projectId }) {
   console.log("🚀 ~ autologin_studio ~ { token, projectId }:", {
     token,
     projectId,
@@ -17,7 +17,7 @@ function autologin_studio({ token, projectId }) {
 test.beforeEach(async ({ page }) => {
   await page.goto("http://localhost:3000");
   // Pass the environment variable value as an argument to page.evaluate()
-  const token = process.env.STUDIO_AUTOLOGIN_TOKEN_FOR_TESTING;
+  const token = process.env.NEXT_PUBLIC_STUDIO_AUTOLOGIN_TOKEN_FOR_TESTING;
   const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
 
   await page.evaluate(autologin_studio, { token, projectId });
