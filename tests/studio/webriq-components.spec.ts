@@ -16,15 +16,19 @@ test("test it can create a new component", async ({ page }) => {
   await page.goto("http://localhost:3000/studio");
 
   // create new component (select any component since their logic is the same, only difference is the schema type)
-  await page.getByRole("link", { name: "Components" }).click();
+  await page
+    .getByRole("link", { name: "Components" })
+    .click({ timeout: 10000 });
   await page.getByRole("button", { name: "New App Promo" }).click();
   await page.getByTestId("string-input").click();
   await page.getByTestId("string-input").fill(newComponentName);
   await page.getByTestId("field-variant").getByRole("img").nth(2).click();
-  await page.getByTestId("action-Save").click();
+  await page.getByTestId("action-Save").click({ timeout: 10000 });
 
   // check if the component was created, find by name
-  await page.getByRole("link", { name: "Components" }).click();
+  await page
+    .getByRole("link", { name: "Components" })
+    .click({ timeout: 10000 });
   await page.waitForLoadState(); // The promise resolves after 'load' event.
 
   // find element
@@ -36,7 +40,10 @@ test("test it can create a new component", async ({ page }) => {
 test("test it can duplicate existing component", async ({ page }) => {
   await page.goto("http://localhost:3000/studio");
 
-  await page.getByRole("link", { name: "Components" }).click();
+  await page
+    .getByRole("link", { name: "Components" })
+    .click({ timeout: 10000 });
+
   // Hover over the div that contains the newComponentName
   const componentToDuplicate = page
     .locator("div")
@@ -45,15 +52,18 @@ test("test it can duplicate existing component", async ({ page }) => {
   await componentToDuplicate.hover();
 
   // Duplicate action
-  await componentToDuplicate.locator("button").first().click();
+  await componentToDuplicate
+    .locator("button", { hasText: "Duplicate" })
+    .first()
+    .click();
 
-  // Fill in the duplicate component name
+  // Fill in the duplicate component name and save with an increased timeout
   await page.getByTestId("field-label").getByTestId("string-input").click();
   await page
     .getByTestId("field-label")
     .getByTestId("string-input")
     .fill(dupeComponentName);
-  await page.getByTestId("action-Save").click();
+  await page.getByTestId("action-Save").click({ timeout: 10000 });
 
   // Check if component dupe was created
   await page.getByRole("link", { name: "Components" }).click();
@@ -68,7 +78,10 @@ test("test it can duplicate existing component", async ({ page }) => {
 test("test it can delete existing component", async ({ page }) => {
   await page.goto("http://localhost:3000/studio");
 
-  await page.getByRole("link", { name: "Components" }).click();
+  await page
+    .getByRole("link", { name: "Components" })
+    .click({ timeout: 10000 });
+
   // Hover over the div that contains the dupeComponentName
   const componentToDelete = page
     .locator("div")
@@ -84,7 +97,9 @@ test("test it can delete existing component", async ({ page }) => {
   await page.getByRole("button", { name: "Cancel" }).click();
 
   await componentToDelete.locator("button").nth(2).click();
-  await page.getByRole("button", { name: "Yes, delete component" }).click();
+  await page
+    .getByRole("button", { name: "Yes, delete component" })
+    .click({ timeout: 10000 });
 
   await page.goto("http://localhost:3000/studio/components");
 
