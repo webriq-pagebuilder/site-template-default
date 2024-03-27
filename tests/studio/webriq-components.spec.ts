@@ -16,12 +16,12 @@ test.beforeEach(async ({ page }) => {
   await page.evaluate(autologin_studio, { token, projectId });
 });
 
-test.describe("WebriQ Components features", () => {
+test.describe("Features", () => {
   // Applies to all tests in this group.
   test.describe.configure({ timeout: 120000 });
 
   // CREATE
-  test("test it can create a new component", async ({ page }) => {
+  test("Create New Component", async ({ page }) => {
     await page.goto(`${NEXT_PUBLIC_SANITY_STUDIO_URL}`);
 
     // create new component (select any component since their logic is the same, only difference is the schema type)
@@ -40,7 +40,7 @@ test.describe("WebriQ Components features", () => {
   });
 
   // TODO: REFERENCE TO PAGE
-  test("test component can be referenced to page", async ({ page }) => {
+  test("Add page component as reference", async ({ page }) => {
     test.skip(); // remove this once this test is finalized
 
     await page.goto(`${NEXT_PUBLIC_SANITY_STUDIO_URL}`);
@@ -76,8 +76,7 @@ test.describe("WebriQ Components features", () => {
 
   // TODO: Add test to verify when deleting component with reference shows cannot delete dialog
 
-  // TODO: WIP - DUPLICATE
-  test("test it can duplicate component", async ({ page }) => {
+  test("Duplicate a component", async ({ page }) => {
     await page.goto(`${NEXT_PUBLIC_SANITY_STUDIO_URL}`);
 
     await page.getByRole("link", { name: "Components" }).click({ force: true });
@@ -118,7 +117,7 @@ test.describe("WebriQ Components features", () => {
   });
 
   // TODO: WIP - DELETE
-  test("test it can delete component", async ({ page }) => {
+  test("Delete a component", async ({ page }) => {
     await page.goto(`${NEXT_PUBLIC_SANITY_STUDIO_URL}`);
 
     await page.getByRole("link", { name: "Components" }).click({ force: true });
@@ -127,7 +126,7 @@ test.describe("WebriQ Components features", () => {
       page.locator("div").filter({ hasText: dupeComponentName }).nth(1)
     ).toHaveCount(1);
 
-    const cardName = dupeComponentName?.toLowerCase()?.replace(/\s/g, "");
+    const cardName = newComponentName?.toLowerCase()?.replace(/\s/g, "");
 
     // Hover on the target element to trigger the appearance of the button
     await page.locator(`div.${cardName}`).first().hover();

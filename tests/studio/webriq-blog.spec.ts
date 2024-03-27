@@ -20,12 +20,12 @@ test.beforeEach(async ({ page }) => {
 });
 
 // TODO: WIP
-test.describe("WebriQ Blogs features", () => {
+test.describe("Features", () => {
   // Applies to all tests in this group.
   test.describe.configure({ timeout: 120000 });
 
   // CREATE AUTHOR
-  test("test it can create a new author", async ({ page }) => {
+  test("Create New Author", async ({ page }) => {
     await page.goto(`${NEXT_PUBLIC_SANITY_STUDIO_URL}`);
 
     await page.getByRole("link", { name: "Blog" }).click();
@@ -46,11 +46,11 @@ test.describe("WebriQ Blogs features", () => {
     await page.getByRole("button", { name: "Authors", exact: true }).click();
     await expect(
       page.locator("div").filter({ hasText: newAuthor }).nth(1)
-    ).toHaveCount(1);
+    ).toHaveCount(1, { timeout: 5000 });
   });
 
   // CREATE CATEGORY
-  test("test it can create a new category", async ({ page }) => {
+  test("Create New Category", async ({ page }) => {
     await page.goto(`${NEXT_PUBLIC_SANITY_STUDIO_URL}`);
 
     await page.getByRole("link", { name: "Blog" }).click();
@@ -70,11 +70,11 @@ test.describe("WebriQ Blogs features", () => {
     await page.getByRole("button", { name: "Categories", exact: true }).click();
     await expect(
       page.locator("div").filter({ hasText: newCategory }).nth(1)
-    ).toHaveCount(1);
+    ).toHaveCount(1, { timeout: 5000 });
   });
 
   // CREATE POST AND LINK NEW AUTHOR AND CATEGORY
-  test("test it can create a new post", async ({ page }) => {
+  test("Create New Post", async ({ page }) => {
     await page.goto(`${NEXT_PUBLIC_SANITY_STUDIO_URL}`);
 
     await page.getByRole("link", { name: "Blog" }).click();
@@ -136,6 +136,6 @@ test.describe("WebriQ Blogs features", () => {
     await page.getByRole("button", { name: "Posts", exact: true }).click();
     await expect(
       page.locator("div").filter({ hasText: newBlogPost }).nth(1)
-    ).toHaveCount(1);
+    ).toHaveCount(1, { timeout: 5000 });
   });
 });
