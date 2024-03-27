@@ -47,3 +47,7 @@ public/sitemap.xml
 chromatic.log
 build-storybook.log
 storybook-static/
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
