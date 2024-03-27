@@ -23,6 +23,9 @@ export const NEXT_PUBLIC_NETLIFY_SITE_URL =
 // Defaults to `localhost:3000` but can be override as per your local settings
 export const NEXT_PUBLIC_SITE_URL = process.env.NEXT_PUBLIC_SITE_URL;
 
+export const NEXT_PUBLIC_SANITY_STUDIO_URL =
+  process.env.NEXT_PUBLIC_SANITY_STUDIO_URL;
+
 // Preview secret key both shared by site and studio. Randomly generated in production
 export const NEXT_PUBLIC_PREVIEW_SECRET =
   process.env.NEXT_PUBLIC_PREVIEW_SECRET || "secret";
