@@ -10,7 +10,8 @@ test.beforeEach(async ({ page }) => {
   await page.evaluate(autologin_studio, { token, projectId });
 });
 
-test("Test to Publish a Page", async ({ page }) => {
+//PUBLISH PAGES
+test("Test to Publish a Page and Open Live URL", async ({ page }) => {
   await page.goto("http://localhost:3000/studio");
 
   // Find the element you want to click
@@ -68,9 +69,115 @@ test("Test to Publish a Page", async ({ page }) => {
 
   await page.getByTestId('action-[object Object]').click({ force: true });
   await expect(page.getByRole("link", { name: newPageTitle })).toBeVisible();
-
 });
 
+//OPEN LIVE URL
+test("Open Live URL", async ({page}) => {
+  await page.goto("http://localhost:3000/studio")
+
+  // Find the element you want to click
+  const element = page.locator('a:has-text("Pages")');
+
+  // Scroll the page to the element
+  await element.scrollIntoViewIfNeeded();
+
+  // Wait for the element to be fully visible
+  await page.waitForSelector('a:has-text("Pages")', { state: "visible" });
+
+  // Click on the element
+  await element.click({ force: true });
+  
+  await page.getByRole('link', { name: 'new-page-1711531512455' }).click({ force: true });
+
+  await page.waitForTimeout(5000)
+
+  const pagePromise = page.waitForEvent('popup');
+  await page.getByText('http://localhost:3000/new-').click();
+  const openUrlPage = await pagePromise;
+
+  // Wait for the element to become visible or hidden with a longer timeout
+  const sectionCount = await page.locator('div').filter({ hasText: /^No items$/ }).count();
+  console.log('sectionCount',sectionCount)
+  if (sectionCount > 0) {
+    // If the section is found, expect the Empty Page element to be visible
+    await expect(openUrlPage.getByText('Empty Page')).toBeVisible({ timeout: 10000 });
+  } else {
+    // If the section is not found, expect the Empty Page element to be hidden
+    await expect(openUrlPage.getByText('Empty Page')).toBeHidden({ timeout: 10000 });
+  }
+
+})
+
+//Launch Inline Editing
+test("Open Inline Editing", async ({page}) => {
+  await page.goto("http://localhost:3000/studio")
+
+  // Find the element you want to click
+  const element = page.locator('a:has-text("Pages")');
+
+  // Scroll the page to the element
+  await element.scrollIntoViewIfNeeded();
+
+  // Wait for the element to be fully visible
+  await page.waitForSelector('a:has-text("Pages")', { state: "visible" });
+
+  // Click on the element
+  await element.click({ force: true });
+  
+  await page.getByRole('link', { name: 'New Page - 1711530202278' }).click({ force: true });
+
+  await page.waitForTimeout(5000)
+  
+  const launchInlineEditing = page.waitForEvent('popup');
+  await page.waitForTimeout(10000)
+  await page.getByLabel('Launch Inline Editing').click();
+  const inlineEditPage = await launchInlineEditing;
+  await inlineEditPage.locator('#navigation').click(); //Edit button
+  await expect(inlineEditPage.locator('.react-split > div:nth-child(2)')).toBeVisible()
+  //Do some editing here and add logic, inputs should display real-time changes from studio
+  //store the list and input in a let variable.
+
+  await inlineEditPage.locator('#navigation').click(); //Close Button
+  await expect(inlineEditPage.locator('.react-split > div:nth-child(2)')).toBeHidden();
+})
+
+test("Pages Duplicate Action", async ({ page }) => {
+  const duplicatePageName = `Dupe Page ` + new Date().getTime()
+  await page.goto("http://localhost:3000/studio")
+
+  // Find the element you want to click
+  const element = page.locator('a:has-text("Pages")');
+
+  // Scroll the page to the element
+  await element.scrollIntoViewIfNeeded();
+
+  // Wait for the element to be fully visible
+  await page.waitForSelector('a:has-text("Pages")', { state: "visible" });
+
+  // Click on the element
+  await element.click({ force: true });
+  
+  await page.getByRole('link', { name: 'New Page - 1711529747261' }).click({ force: true });
+
+  await page.waitForTimeout(5000)
+
+  await page.getByTestId('action-menu-button').click({ force: true });
+  await page.getByTestId('action-Duplicate').click({ force: true });
+  await page.getByPlaceholder('Copy of New Page -').press('CapsLock');
+  await page.getByPlaceholder('Copy of New Page -').fill('Duple ');
+  await page.getByPlaceholder('Copy of New Page -').press('CapsLock');
+  await page.getByPlaceholder('Copy of New Page -').fill(duplicatePageName);
+  await page.getByRole('button', { name: 'Duplicate' }).click();
+
+  await expect(page.locator('[id="__next"]').getByRole('alert').locator('div').nth(1)).toBeVisible()
+  await expect(page.getByRole('link', { name: duplicatePageName })).toBeVisible()
+  await page.getByRole('link', { name: duplicatePageName }).click({ force: true });
+  await page.waitForTimeout(5000)
+  await page.getByTestId('action-[object Object]').click({ force: true });
+  await expect(page.locator('[id="__next"]').getByRole('alert').locator('div').filter({ hasText: 'The document was published' }).nth(1)).toBeVisible();
+})
+
+//SEE CURRENT VERSION
 test("See Current Version", async ({ page }) => {
   await page.goto("http://localhost:3000/studio");
 
