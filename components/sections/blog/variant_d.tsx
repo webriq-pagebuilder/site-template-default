@@ -24,7 +24,10 @@ interface BlogPostProps extends SanityBody {
 
 function VariantD({ subtitle, title, posts }: BlogProps) {
   let blogsPerPage = 6;
-  const [activeTab, setActiveTab] = React.useState("All"); //set the first index category as initial value
+  const [activeTab, setActiveTab] = React.useState("All");
+  const [currentPage, setCurrentPage] = React.useState(1);
+  const [searchQuery, setSearchQuery] = React.useState("");
+
   const transformedPosts: BlogPostProps[] = posts
     ?.map((post) => {
       return post?.categories?.map((category) => {
@@ -52,9 +55,30 @@ function VariantD({ subtitle, title, posts }: BlogProps) {
   }, []);
 
   // filtered posts per category
-  const postsPerCategory = transformedPosts?.filter(
-    (items) => items?.category === activeTab
-  );
+  const filteredPosts =
+    activeTab === "All"
+      ? posts?.filter(
+          (post) =>
+            post?.title?.toLowerCase().includes(searchQuery.toLowerCase())
+        )
+      : transformedPosts.filter(
+          (item) =>
+            item?.category === activeTab &&
+            item?.title?.toLowerCase().includes(searchQuery.toLowerCase())
+        );
+
+  //Pagination
+  const indexOfLastPost = currentPage * blogsPerPage;
+  const indexOfFirstPost = indexOfLastPost - blogsPerPage;
+  const currentPosts = filteredPosts?.slice(indexOfFirstPost, indexOfLastPost);
+
+  //Change page
+  const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
+
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
+    setCurrentPage(1);
+  };
 
   return (
     <section className="py-20 bg-gray-50">
@@ -66,6 +90,36 @@ function VariantD({ subtitle, title, posts }: BlogProps) {
             </Text>
           )}
           {title && <Heading>{title}</Heading>}
+        </div>
+
+        <div className="flex justify-center lg:justify-start mb-5 w-full lg:w-1/4">
+          <input
+            aria-label="Search, find any question you want to ask..."
+            className="w-full p-4 text-xs bg-white rounded-l font-heading focus:border-gray-500 focus:outline-none"
+            placeholder="Search posts..."
+            onChange={handleSearchChange}
+          />
+          <Button
+            as="button"
+            variant="unstyled"
+            ariaLabel="Search button"
+            className="pr-4 bg-white rounded-r-lg text-primary"
+          >
+            <svg
+              className="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d={"M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"}
+              />
+            </svg>
+          </Button>
         </div>
 
         <Flex wrap>
@@ -106,15 +160,25 @@ function VariantD({ subtitle, title, posts }: BlogProps) {
           {posts && (
             <div className="w-full px-3 lg:w-3/4">
               {activeTab === "All"
-                ? posts
-                    ?.slice(0, blogsPerPage)
-                    ?.map((post, index) => <PostItem post={post} key={index} />)
-                : postsPerCategory?.map((post, index) => (
+                ? currentPosts?.map((post, index) => (
                     <PostItem post={post} key={index} />
-                  ))}
+                  ))
+                : currentPosts
+                    ?.slice(0, blogsPerPage)
+                    ?.map((post, index) => (
+                      <PostItem post={post} key={index} />
+                    ))}
             </div>
           )}
         </Flex>
+        {blogsPerPage && (
+          <Pagination
+            blogsPerPage={blogsPerPage}
+            totalBlogs={filteredPosts?.length}
+            paginate={paginate}
+            currentPage={currentPage}
+          />
+        )}
       </Container>
     </section>
   );
@@ -126,7 +190,9 @@ function CategoryItem({ activeTab, setActiveTab, category }) {
       as="button"
       variant="unstyled"
       ariaLabel="Show all blog posts"
-      className={`mb-4 block px-3 py-2 hover:bg-secondary-foreground focus:outline-none w-full text-left rounded ${
+      className={`mb-4 block ${
+        !category ? "hidden" : "block"
+      } px-3 py-2 hover:bg-secondary-foreground focus:outline-none w-full text-left rounded ${
         activeTab === category
           ? "font-bold text-primary focus:outline-none bg-secondary-foreground"
           : null
@@ -140,27 +206,29 @@ function CategoryItem({ activeTab, setActiveTab, category }) {
 
 function PostItem({ post }) {
   return (
-    <Flex wrap className="mb-8 lg:mb-6">
-      <div className="w-full h-full px-3 mb-4 lg:mb-0 lg:w-1/4">
-        {post?.mainImage && (
-          <Image
-            className="object-cover w-full h-full overflow-hidden rounded"
-            src={urlFor(post?.mainImage)}
-            sizes="100vw"
-            width={188}
-            height={129}
-            alt={`blog-variantD-image-`}
-          />
-        )}
+    <Flex wrap className="mb-8 lg:mb-6 bg-white shadow rounded-lg">
+      <div className="w-full h-fullmb-4 lg:mb-0 lg:w-1/4">
+        <Image
+          className="object-cover w-full h-full overflow-hidden rounded"
+          src={
+            post?.mainImage ? urlFor(post?.mainImage) : "/webriq-logo-lg.png"
+          }
+          sizes="100vw"
+          width={188}
+          height={129}
+          alt={`blog-variantD-image-`}
+        />
       </div>
-      <div className="w-full px-3 lg:w-3/4">
+      <div className="w-full px-3 py-2 lg:w-3/4">
         {post?.title && (
           <Link
             aria-label={post?.title}
             className="mb-1 text-2xl font-bold hover:text-secondary font-heading"
             href={`/${post?.slug?.current ?? "page-not-added"}`}
           >
-            {post?.title}
+            {post?.title.length > 25
+              ? post?.title?.substring(0, 25) + "..."
+              : post?.title}
           </Link>
         )}
         <div className="flex flex-wrap items-center mb-2 text-sm">
@@ -180,9 +248,58 @@ function PostItem({ post }) {
             </Text>
           )}
         </div>
-        {post?.excerpt && <Text muted>{post?.excerpt}</Text>}
+        {post?.excerpt && (
+          <Text muted>
+            {post?.excerpt.length > 60
+              ? post?.excerpt.substring(0, 60) + "..."
+              : post?.excerpt}
+          </Text>
+        )}
       </div>
     </Flex>
   );
 }
+interface PaginationProps {
+  blogsPerPage: number;
+  totalBlogs: number;
+  paginate: (pageNumber: number) => void;
+  currentPage: number;
+}
+
+const Pagination: React.FC<PaginationProps> = ({
+  blogsPerPage,
+  totalBlogs,
+  paginate,
+  currentPage,
+}) => {
+  const pageNumber = [];
+
+  for (let i = 1; i <= Math.ceil(totalBlogs / blogsPerPage); i++) {
+    pageNumber.push(i);
+  }
+
+  return (
+    <nav className="mt-4" aria-label="Pagination">
+      <ul className="flex space-x-2 justify-end mr-5">
+        {pageNumber.map((number) => (
+          <Button
+            variant="unstyled"
+            as="button"
+            ariaLabel={`Page ${number}`}
+            key={number}
+            className={`${
+              currentPage === number
+                ? "bg-secondary-foreground text-white"
+                : "bg-white hover:bg-secondary-foreground hover:text-white"
+            } text-primary font-medium py-2 px-4 border border-primary rounded focus:outline-none`}
+            onClick={() => paginate(number)}
+          >
+            {number}
+          </Button>
+        ))}
+      </ul>
+    </nav>
+  );
+};
+
 export default React.memo(VariantD);

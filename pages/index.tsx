@@ -104,6 +104,10 @@ function Document({
         <title>{seo?.seoTitle ?? title ?? "WebriQ Studio"}</title>
       </Head>
 
+      {/* if no sections, show no sections only in preview */}
+       {(!data?.pageData || !data?.pageData?.sections ||
+        data?.pageData?.sections.length === 0) && <PreviewNoContent />}
+
       {/*  Show page sections */}
       {data?.pageData && <PageSections data={publishedData} />}
     </>
@@ -163,7 +167,6 @@ function DocumentWithPreview({
       </Head>
 
       {/* if no sections, show no sections only in preview */}
-
       {(!previewData ||
         !previewData?.sections ||
         previewData?.sections?.length === 0) && <PreviewNoContent />}

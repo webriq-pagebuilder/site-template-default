@@ -61,8 +61,6 @@ function VariantB({
 }
 
 function ProjectItem({ content }) {
-  const maxTitle = content?.title.length > 38 ? content?.title.slice(0, 80) + '...' : content?.title;
-
   return (
     <div className="w-full px-4 mb-4 md:w-1/2 lg:w-1/3">
       <div className="relative mx-auto overflow-hidden rounded md:mb-5">
@@ -89,7 +87,9 @@ function ProjectItem({ content }) {
             weight="bold"
             className="mb-auto text-white md:text-xl lg:text-2xl"
           >
-            {maxTitle}
+            {content?.title?.length > 80
+            ? content?.title?.substring(0, 80) + "..."
+            : content?.title}
           </Text>
           {content?.primaryButton?.label && (
             <Button
