@@ -140,8 +140,8 @@ function CategoryItem({ activeTab, setActiveTab, category }) {
 
 function PostItem({ post }) {
   return (
-    <Flex wrap className="mb-8 lg:mb-6">
-      <div className="w-full h-full px-3 mb-4 lg:mb-0 lg:w-1/4">
+    <Flex wrap className="mb-8 lg:mb-6 bg-white shadow rounded-lg">
+      <div className="w-full h-fullmb-4 lg:mb-0 lg:w-1/4">
         {post?.mainImage && (
           <Image
             className="object-cover w-full h-full overflow-hidden rounded"
@@ -153,14 +153,16 @@ function PostItem({ post }) {
           />
         )}
       </div>
-      <div className="w-full px-3 lg:w-3/4">
+      <div className="w-full px-3 py-2 lg:w-3/4">
         {post?.title && (
           <Link
             aria-label={post?.title}
             className="mb-1 text-2xl font-bold hover:text-secondary font-heading"
             href={`/${post?.slug?.current ?? "page-not-added"}`}
           >
-            {post?.title}
+            {post?.title.length > 25 
+            ? post?.title?.substring(0, 25) + "..."
+          : post?.title}
           </Link>
         )}
         <div className="flex flex-wrap items-center mb-2 text-sm">
@@ -180,7 +182,12 @@ function PostItem({ post }) {
             </Text>
           )}
         </div>
-        {post?.excerpt && <Text muted>{post?.excerpt}</Text>}
+        {post?.excerpt && 
+        <Text muted>
+          {post?.excerpt.length > 60
+          ? post?.excerpt.substring(0, 60) + "..."
+          : post?.excerpt}
+        </Text>}
       </div>
     </Flex>
   );

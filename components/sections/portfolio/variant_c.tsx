@@ -63,8 +63,6 @@ function VariantC({
 export default React.memo(VariantC);
 
 function ProjectItem({ content }) {
-  const maxTitle = content?.title.length >= 30 ? content?.title.slice(0, 30) + '...' : content?.title;
-
   return (
     <div className="relative w-full px-4 mb-8 md:w-1/2 lg:w-1/3">
       {content?.mainImage?.image && (
@@ -80,7 +78,9 @@ function ProjectItem({ content }) {
           <div className="p-6">
             <Text muted>{content?.dateAdded}</Text>
             <Text weight="bold" fontSize="2xl" className="mb-4">
-              {maxTitle}
+              {content?.title?.length > 31
+              ? content?.title?.substring(0, 31) + "..."
+              : content?.title}
             </Text>
             {content?.primaryButton?.label && (
               <Button
