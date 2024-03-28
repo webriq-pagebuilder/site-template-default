@@ -1,29 +1,16 @@
 import { test, expect } from "@playwright/test";
-
-function autologin_studio({ token, projectId }) {
-  console.log("🚀 ~ autologin_studio ~ { token, projectId }:", {
-    token,
-    projectId,
-  });
-  window.localStorage.setItem(
-    `__studio_auth_token_${projectId}`,
-    JSON.stringify({
-      token,
-      time: "2024-03-11T07:00:27.633Z",
-    })
-  );
-}
+import { autologin_studio } from "./autologin";
 
 test.beforeEach(async ({ page }) => {
   await page.goto("http://localhost:3000");
   // Pass the environment variable value as an argument to page.evaluate()
-  const token = process.env.STUDIO_AUTOLOGIN_TOKEN_FOR_TESTING;
+  const token = process.env.NEXT_PUBLIC_STUDIO_AUTOLOGIN_TOKEN_FOR_TESTING;
   const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
 
   await page.evaluate(autologin_studio, { token, projectId });
 });
 
-test("test it can publishes a page", async ({ page }) => {
+test("Test to Publish a Page", async ({ page }) => {
   await page.goto("http://localhost:3000/studio");
 
   // Find the element you want to click
@@ -70,12 +57,21 @@ test("test it can publishes a page", async ({ page }) => {
     .getByTestId("string-input")
     .fill("Navigation New Page Variant A");
 
+  await page.getByTestId('field-variant').getByRole('img').first().click({ force: true });
   await page.getByTestId("action-Save").click({ force: true });
+  await page.waitForTimeout(10000);
+  await page.getByRole('link', { name: 'Close pane group' }).click({ force: true });
+  await expect(page.getByTestId('field-sections').getByTestId('input-validation-icon-error')).toBeHidden()
 
+  // Once the error is hidden, proceed with clicking the action
+  await page.getByTestId('action-[object Object]').click({ force: true });
+
+  await page.getByTestId('action-[object Object]').click({ force: true });
   await expect(page.getByRole("link", { name: newPageTitle })).toBeVisible();
+
 });
 
-test("see current version", async ({ page }) => {
+test("See Current Version", async ({ page }) => {
   await page.goto("http://localhost:3000/studio");
 
   // Find the element you want to click

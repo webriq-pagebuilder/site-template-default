@@ -13,10 +13,10 @@ function VariantA({ stats }: StatsProps) {
             stats.map((items, index) => (
               <div className="w-full px-4 my-8 sm:w-1/4 lg:w-1/4" key={index}>
                 <Card className="relative py-10 ">
-                  <Text className="mb-1 text-primary">{items?.label}</Text>
-                  <span className="text-3xl font-bold lg:text-4xl">
+                  <Text className="mb-1 text-primary overflow-ellipsis overflow-clip">{items?.label}</Text>
+                  <p className="text-3xl font-bold lg:text-4xl overflow-ellipsis overflow-clip">
                     {items?.value}
-                  </span>
+                  </p>
                 </Card>
               </div>
             ))}

@@ -8,6 +8,7 @@ import { Container, Flex } from "components/layout/index";
 import { Badge, Button, Heading, Text } from "components/ui";
 import { BlogPost } from "types";
 import { BlogProps } from ".";
+import { useMediaQuery } from "hooks/useMediaQuery";
 
 function VariantC({ subtitle, title, posts, primaryButton }: BlogProps) {
   let blogsPerPage = 3;
@@ -31,7 +32,11 @@ function VariantC({ subtitle, title, posts, primaryButton }: BlogProps) {
           </div>
 
           {primaryButton?.label && (
-            <Button link={primaryButton} ariaLabel={primaryButton?.label}>
+            <Button
+              as="link"
+              link={primaryButton}
+              ariaLabel={primaryButton?.label}
+            >
               {primaryButton?.label}
             </Button>
           )}
@@ -67,10 +72,13 @@ function VariantC({ subtitle, title, posts, primaryButton }: BlogProps) {
 }
 
 function BlogItem({ post, className }: { post: BlogPost; className?: string }) {
+  const breakpoints = useMediaQuery("1100")
+  const maxExcerptLength = breakpoints ? 70 : 200;
+
   return (
     <Flex
       wrap
-      className={`overflow-hidden rounded-lg shadow  w-full ${className}`}
+      className={`bg-white overflow-hidden rounded-lg shadow  w-full ${className}`}
     >
       {post?.mainImage && (
         <Image
@@ -82,7 +90,7 @@ function BlogItem({ post, className }: { post: BlogPost; className?: string }) {
           alt={`blog-variantC-image-`}
         />
       )}
-      <div className="w-full px-6 py-6 bg-white rounded-r lg:w-1/2 lg:pt-10">
+      <div className="w-full px-6 py-6 rounded-r lg:w-1/2 lg:pt-10">
         <Flex gap={2}>
           {post?.categories &&
             post?.categories?.map((category, index) => (
@@ -96,17 +104,19 @@ function BlogItem({ post, className }: { post: BlogPost; className?: string }) {
         </Flex>
 
         {post?.publishedAt && (
-          <Text muted>
+          <Text muted className="m-1">
             {format(new Date(post?.publishedAt), " dd MMM, yyyy")}
           </Text>
         )}
         {post?.title && (
           <Heading className="my-4" type="h3">
-            {post?.title}
+            {post?.title?.length > 40
+            ? post?.title?.substring(0, 40) + "..."
+            : post?.title}
           </Heading>
         )}
         {post?.authors && (
-          <div className="flex mb-10">
+          <div className="flex mb-10 flex-wrap">
             <span className="italic text-primary">By&nbsp;</span>
             {post?.authors?.map((author, index, { length }) => (
               <>
@@ -118,7 +128,9 @@ function BlogItem({ post, className }: { post: BlogPost; className?: string }) {
         )}
         {post?.excerpt && (
           <Text muted className="mb-6 leading-loose text-justify">
-            {post?.excerpt}
+            {post?.excerpt?.length > maxExcerptLength
+            ? post?.excerpt?.substring(0, maxExcerptLength) + "..."
+            : post?.excerpt}
           </Text>
         )}
         {post?.slug?.current && (

@@ -10,6 +10,8 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Thumbs, Pagination, A11y } from "swiper/modules";
 import { ProductInfoProps } from ".";
 import { MyPortableTextComponents } from "types";
+import { Container, Flex } from "components/layout/index";
+import { Text, Heading, Button } from "components/ui";
 
 // Import Swiper styles
 import "swiper/css";
@@ -17,8 +19,6 @@ import "swiper/css/navigation";
 import "swiper/css/thumbs";
 import "swiper/css/pagination";
 import "swiper/css/a11y";
-import { Container, Flex } from "components/layout/index";
-import { Text, Heading, Button } from "components/ui";
 
 function VariantA({
   subtitle,
@@ -182,33 +182,31 @@ function VariantA({
                   prevEl: "#thumbPrev",
                   nextEl: "#thumbNext",
                 }}
-                className="hidden md:-mx-2 md:flex md:flex-wrap"
+                className="hidden md:-mx-2 md:flex md:flex-wrap mt-3"
                 pagination={{
                   clickable: true,
                 }}
               >
-                {images?.map((item, index) => (
-                  <SwiperSlide className="w-1/4" key={index}>
-                    {item?.image && (
-                      <Image
-                        className="flex h-[147px] object-cover hover:border hover:border-gray-400"
-                        sizes="100vw"
-                        width={170}
-                        height={128}
-                        src={urlFor(item?.image)}
-                        alt={item?.alt ?? `product-image-${index + 1}`}
-                      />
-                    )}
-                  </SwiperSlide>
-                ))}
+                {images &&
+                  images?.map((item, index) => (
+                    <SwiperSlide className="w-1/4" key={index}>
+                      {item?.image && (
+                        <Image
+                          className="flex h-[147px] object-cover hover:border hover:border-gray-400"
+                          sizes="100vw"
+                          width={170}
+                          height={128}
+                          src={urlFor(item?.image)}
+                          alt={item?.alt ?? `product-image-${index + 1}`}
+                        />
+                      )}
+                    </SwiperSlide>
+                  ))}
               </Swiper>
               <div className="mt-5">
-                <Button
-                  variant="unstyled"
-                  as="button"
-                  ariaLabel="Previous"
+                <button
                   id="piprev"
-                  className="absolute left-0 z-40 px-2 py-5 ml-5 transition duration-200 rounded-r-sm top-60 rounded-l-md hover:bg-gray-50 hover:opacity-50"
+                  className="absolute left-0 top-60 z-40 ml-5 rounded-l-md rounded-r-sm px-2 py-5 transition duration-200 hover:bg-gray-50 hover:opacity-50"
                 >
                   <svg
                     width={36}
@@ -222,13 +220,10 @@ function VariantA({
                       fill="#0045d8"
                     />
                   </svg>
-                </Button>
-                <Button
-                  variant="unstyled"
-                  as="button"
-                  ariaLabel="Next"
+                </button>
+                <button
                   id="pinext"
-                  className="absolute right-0 z-40 px-2 py-5 mr-5 transition duration-200 rounded-l-sm top-60 rounded-r-md hover:bg-gray-50 hover:opacity-50"
+                  className="absolute right-0 top-60 z-40 mr-5 rounded-l-sm rounded-r-md px-2 py-5 transition duration-200 hover:bg-gray-50 hover:opacity-50"
                 >
                   <svg
                     width={36}
@@ -242,7 +237,7 @@ function VariantA({
                       fill="#0045d8"
                     />
                   </svg>
-                </Button>
+                </button>
               </div>
             </div>
           </div>
@@ -311,6 +306,7 @@ function VariantA({
                   <PortableText
                     value={product?.description}
                     components={blockStyle}
+                    onMissingComponent={false} // Disabling warnings / handling unknown types
                   />
                 )}
               </div>
@@ -367,7 +363,7 @@ function VariantA({
                           aria-label={
                             social?.socialMedia || social?.socialMediaPlatform
                           }
-                          className="w-8 h-8 mr-1"
+                          className="w-8 h-8 mr-1 flex items-center justify-center"
                           target="_blank"
                           rel="noopener noreferrer"
                           href={social?.socialMediaLink}
@@ -459,20 +455,23 @@ function VariantA({
                 {productDetails?.[activeTab]?.media &&
                 productDetails?.[activeTab]?.media === "imageArray" ? (
                   <Fragment>
-                    {productDetails?.[activeTab]?.images?.map((item, index) => (
-                      <div className="w-1/4 h-full" key={index}>
-                        {item?.image && (
-                          <Image
-                            className="object-cover"
-                            sizes="100vw"
-                            width={250}
-                            height={128}
-                            src={urlFor(item?.image)}
-                            alt={item?.alt ?? `product-image-${index + 1}`}
-                          />
-                        )}
-                      </div>
-                    ))}
+                    {productDetails?.[activeTab]?.images &&
+                      productDetails?.[activeTab]?.images?.map(
+                        (item, index) => (
+                          <div className="w-1/4 h-full" key={index}>
+                            {item?.image && (
+                              <Image
+                                className="object-cover"
+                                sizes="100vw"
+                                width={250}
+                                height={128}
+                                src={urlFor(item?.image)}
+                                alt={item?.alt ?? `product-image-${index + 1}`}
+                              />
+                            )}
+                          </div>
+                        )
+                      )}
                   </Fragment>
                 ) : (
                   <div className="aspect-video">
@@ -490,6 +489,7 @@ function VariantA({
                   <PortableText
                     value={productDetails?.[activeTab]?.blockContent}
                     components={blockStyle}
+                    onMissingComponent={false} // Disabling warnings / handling unknown types
                   />
                 )}
               </div>
@@ -498,6 +498,7 @@ function VariantA({
                 <PortableText
                   value={productDetails?.[activeTab]?.blockContent}
                   components={blockStyle}
+                  onMissingComponent={false} // Disabling warnings / handling unknown types
                 />
               )
             )}

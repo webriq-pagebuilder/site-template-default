@@ -24,9 +24,9 @@ export const Container = ({
     typeof maxWidth === "number"
       ? `${maxWidth?.toString()}px`
       : widthVariants[maxWidth];
-  const width = widthClass ?? "90rem";
+  const width = widthClass ?? "80rem";
 
-  const classes = "mx-auto w-full  px-4 ";
+  const classes = "mx-auto w-full px-4";
   return (
     <div
       style={{

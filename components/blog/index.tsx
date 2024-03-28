@@ -205,36 +205,38 @@ function BlogSections({ data }: BlogSectionsProps) {
         >
           <Container>
             <Container maxWidth={"2xl"} className="text-center">
-              {categories &&
-                categories?.map((tag, index) => (
-                  <span
+              <div className="flex flex-col md:flex-row items-center justify-center">
+                {categories &&
+                  categories?.map((tag, index) => (
+                    <span
                     className="mr-2 text-base uppercase text-primary-foreground lg:text-xl"
                     key={index}
-                  >
-                    {tag?.title}
+                    >
+                      {tag?.title}
+                    </span>
+                  ))}
+                {categories && publishedAt && (
+                  <span className="mx-2 text-base text-gray-500 uppercase lg:text-xl">
+                    •
                   </span>
-                ))}
-              {categories && publishedAt && (
-                <span className="mx-2 text-base text-gray-500 uppercase lg:text-xl">
-                  •
-                </span>
-              )}
-              {publishedAt && (
-                <span
+                )}
+                {publishedAt && (
+                  <span
                   className={`text-base text-white lg:text-xl ${
                     categories ?? "ml-2"
                   }`}
-                >
-                  {format(new Date(publishedAt), "MMMM dd, yyyy")}
-                </span>
-              )}
+                  >
+                    {format(new Date(publishedAt), "MMMM dd, yyyy")}
+                  </span>
+                )}
+              </div>
               <div className="mt-2">
                 {title && (
                   <Heading weight="bold" className="mb-6 text-white">
                     {title}
                   </Heading>
                 )}
-                <div className="flex justify-center">
+                <div className="flex sm:justify-center gap-5 flex-wrap">
                   {authors &&
                     authors?.map((author, index, { length }) => (
                       <Flex justify="center" className="mr-2" key={index}>
@@ -267,9 +269,9 @@ function BlogSections({ data }: BlogSectionsProps) {
                           >
                             {author?.name}
                           </Heading>
-                          {index + 1 !== length ? (
+                          {/* {index + 1 !== length ? (
                             <span>&nbsp;and&nbsp;</span>
-                          ) : null}
+                          ) : null} */}
                           <span className="text-xs italic text-secondary-foreground">
                             {authors?.length > 1 ? "Authors" : "Author"}
                           </span>
@@ -284,7 +286,11 @@ function BlogSections({ data }: BlogSectionsProps) {
         <Container>
           {body && (
             <div className="max-w-4xl mx-auto break-all">
-              <PortableText value={body} components={blockStyle} />
+              <PortableText
+                value={body}
+                components={blockStyle}
+                onMissingComponent={false} // Disabling warnings / handling unknown types
+              />
             </div>
           )}
         </Container>

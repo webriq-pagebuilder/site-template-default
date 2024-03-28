@@ -6,9 +6,11 @@ import React from "react";
 import { Container, Flex } from "components/layout/index";
 import { Button, Form, Heading, Text, Input } from "components/ui";
 import { NewsletterProps } from ".";
+import { useMediaQuery } from "hooks/useMediaQuery";
 
 function VariantA({ logo, title, description, form }: NewsletterProps) {
   const { id, fields, buttonLabel, thankYouPage } = form;
+  const breakpoint = useMediaQuery("401");
 
   return (
     <section className="py-20 bg-gray-50">
@@ -23,6 +25,8 @@ function VariantA({ logo, title, description, form }: NewsletterProps) {
               }
               className="inline-block mb-6 text-3xl font-bold leading-none"
               href={logoLink(logo)}
+              target={logo?.linkTarget}
+              rel={logo?.linkTarget === "_blank" ? "noopener noreferrer" : ""}
             >
               <Image
                 src={urlFor(logo?.image)}
@@ -32,9 +36,9 @@ function VariantA({ logo, title, description, form }: NewsletterProps) {
               />
             </Link>
           )}
-          {title && <Heading className="mb-2 ">{title}</Heading>}
+          {title && <Heading className="mb-2">{title}</Heading>}
           {description && (
-            <Text className="mb-8 leading-loose text-gray-700">
+            <Text className="my-8 leading-loose text-gray-700">
               {description}
             </Text>
           )}
@@ -56,8 +60,8 @@ function VariantA({ logo, title, description, form }: NewsletterProps) {
                     fields[0].type === "inputEmail"
                       ? "email"
                       : "inputNumber"
-                      ? "number"
-                      : "text"
+                        ? "number"
+                        : "text"
                   }
                   placeholder={fields[0]?.placeholder}
                   name={fields[0]?.name}
@@ -71,6 +75,7 @@ function VariantA({ logo, title, description, form }: NewsletterProps) {
                     as="button"
                     ariaLabel={buttonLabel ?? "Newsletter form submit button"}
                     type="submit"
+                    className={`${breakpoint ? 'mt-2' : "mt-0"}`}
                   >
                     {buttonLabel}
                   </Button>

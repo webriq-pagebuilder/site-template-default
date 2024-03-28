@@ -52,7 +52,7 @@ function VariantA({ subtitle, title, posts, primaryButton }: BlogProps) {
         )}
         <div className="mt-10 text-center">
           {primaryButton?.label && (
-            <Button link={primaryButton} ariaLabel={primaryButton?.label}>
+            <Button as="link" link={primaryButton} ariaLabel={primaryButton?.label}>
               {primaryButton?.label}
             </Button>
           )}
@@ -88,18 +88,18 @@ export function BlogItem({ post }: { post: BlogPost }) {
             ))}
           </div>
         )}
-        {post?.publishedAt && (
           <span className="mt-auto text-sm text-gray-500">
-            {format(new Date(post?.publishedAt), "dd MMM, yyyy")}
+            {post?.publishedAt
+              ? format(new Date(post?.publishedAt), "dd MMM, yyyy")
+              : ""}
           </span>
-        )}
         {post?.title && (
           <Link
             className="text-xl font-bold text-white transform hover:scale-110 hover:text-secondary motion-reduce:transform-none lg:text-2xl"
             href={`/${post?.slug?.current}` ?? "/page-not-found"}
           >
-            {post?.title?.length > 50
-              ? post?.title.substring(0, 50) + "..."
+            {post?.title?.length > 40
+              ? post?.title.substring(0, 40) + "..."
               : post?.title}
           </Link>
         )}

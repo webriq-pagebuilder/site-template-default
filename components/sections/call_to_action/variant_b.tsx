@@ -23,6 +23,8 @@ function VariantB({ logo, title, text, form }: CTAProps) {
             }
             className="inline-block p-3 mb-6 rounded"
             href={logoLink(logo)}
+            target={logo?.linkTarget}
+            rel={logo?.linkTarget === "_blank" ? "noopener noreferrer" : ""}
           >
             <Image
               src={urlFor(logo?.image)}
@@ -40,13 +42,14 @@ function VariantB({ logo, title, text, form }: CTAProps) {
             name="Calltoaction-VariantB-Form"
             thankyouPage={thankYouPageLink(form?.thankYouPage)}
           >
-            <Flex align="center" gap={2} justify="between">
+            <Flex align="center" gap={2} className="md:justify-between">
               {form?.fields
                 ?.slice(0, 2)
                 ?.map((field) => (
                   <Input
                     noLabel
                     key={field?._key}
+                    className="mb-4 md:mb-0"
                     ariaLabel={field?.placeholder ?? field?.name}
                     type={
                       field?.type === "inputEmail"

@@ -24,7 +24,7 @@ export const Form = ({
       data-form-id={id}
       name={name ?? "Form"}
       className={className}
-      data-thankyou-url={thankYouPageLink(thankyouPage)}
+      data-thankyou-url={thankyouPage}
       scriptsrc="https://pagebuilderforms.webriq.com/js/initReactForms"
     >
       {children}

@@ -33,9 +33,10 @@ function VariantB({
             apiVersion,
           },
           stripeParams: {
-            id: `webriq-studio-pricing-${plans[i]._key}-${i + 1}-${plans[
-              i
-            ].planType.replace(/ /g, "-")}-oneTime-Payment-${plans[i].price}`,
+            id: `pricing-${plans[i]._key}-${i + 1}-${plans[i].planType.replace(
+              / /g,
+              "-"
+            )}-oneTime-Payment-${plans[i].price}`,
           },
         };
 

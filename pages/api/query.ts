@@ -13,6 +13,7 @@ const variants = `
       logo {
         alt,
         image,
+        linkTarget,
         ${conditionalLink}
       }
     },
@@ -34,6 +35,17 @@ const variants = `
       routes[] {
         ...,
         ${conditionalLink}
+      }
+    },
+    multipleMenus != null => {
+      multipleMenus[] {
+        ...,
+        links != null => {
+          links[] {
+            ...,
+            ${conditionalLink}
+          }
+        }
       }
     },
     menu != null => {

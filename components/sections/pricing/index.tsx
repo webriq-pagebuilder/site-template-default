@@ -1,5 +1,6 @@
 import React from "react";
 import dynamic from "next/dynamic";
+import { CheckoutForm } from "../../CheckoutForm";
 
 import {
   SectionsProps,
@@ -43,7 +44,8 @@ const { NEXT_PUBLIC_APP_URL } = process.env;
 function Pricing({ data }: SectionsProps) {
   const variant = data?.variant;
   const Variant = Variants?.[variant];
-  let stripeAccount: Stripe;
+  let stripeAccount: Stripe | null = null;
+
   if (data.variants.selectStripeAccount) {
     stripeAccount = JSON.parse(data.variants.selectStripeAccount);
   }
@@ -64,12 +66,20 @@ function Pricing({ data }: SectionsProps) {
     stripeSKey: stripeAccount?.stripeSKey,
     hashKey: stripeAccount?.hashKey,
     apiVersion: stripeAccount?.apiVersion,
-    NEXT_PUBLIC_APP_URL: NEXT_PUBLIC_APP_URL || "https://dxpstudio.webriq.com",
+    NEXT_PUBLIC_APP_URL: NEXT_PUBLIC_APP_URL || "https://stackshift.webriq.com",
     block: data?.variants?.block,
     signInLink: data?.variants?.signInLink,
   };
 
-  return Variant ? <Variant {...props} /> : null;
+  return Variant ? (
+    variant === "variant_d" ? (
+      <CheckoutForm stripePKey={stripeAccount?.stripePKey}>
+        <Variant {...props} />
+      </CheckoutForm>
+    ) : (
+      <Variant {...props} />
+    )
+  ) : null;
 }
 
 export default React.memo(Pricing);

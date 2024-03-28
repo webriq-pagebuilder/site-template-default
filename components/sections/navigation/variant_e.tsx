@@ -50,6 +50,7 @@ function VariantE({ banner, logo, links }: NavigationProps) {
       code: ({ children }) => <code>{children}</code>,
       link: ({ children, value }) => (
         <Link
+          as="link"
           aria-label={value?.href ?? "external link"}
           className="text-primary-foreground hover:text-secondary-foreground"
           href={value?.href}
@@ -107,7 +108,11 @@ function VariantE({ banner, logo, links }: NavigationProps) {
                   fill="white"
                 />
               </svg>
-              <PortableText value={banner} components={blockStyle} />
+              <PortableText
+                value={banner}
+                components={blockStyle}
+                onMissingComponent={false} // Disabling warnings / handling unknown types
+              />
             </Flex>
           </div>
         )}
@@ -121,6 +126,8 @@ function VariantE({ banner, logo, links }: NavigationProps) {
                 className="text-3xl font-bold leading-none"
                 href={logoLink(logo)}
                 prefetch={false}
+                target={logo?.linkTarget}
+                rel={logo?.linkTarget === "_blank" ? "noopener noreferrer" : ""}
               >
                 <Image
                   src={urlFor(logo?.image)}
@@ -137,6 +144,7 @@ function VariantE({ banner, logo, links }: NavigationProps) {
                   <Fragment key={index}>
                     <li>
                       <Button
+                        as="link"
                         variant="link"
                         ariaLabel={link?.label}
                         link={link}
@@ -154,7 +162,7 @@ function VariantE({ banner, logo, links }: NavigationProps) {
             </ul>
           </Flex>
           {/* larger screens search, cart and account icons/buttons */}
-          <div className="items-center justify-end hidden mr-12 xl:flex">
+          <div className="items-center justify-end hidden mt-6 mr-12 lg:flex">
             {/* Search button */}
             <Button
               as="button"
@@ -219,7 +227,7 @@ function VariantE({ banner, logo, links }: NavigationProps) {
               </form>
             )}
             {/* Cart */}
-            <div className="mx-10 cart-icon">
+            <div className="mx-10 cart-icon cart-link">
               <div data-icon="BAG" className="ec-cart-widget" />
               <a
                 className="cart-link"
@@ -258,7 +266,7 @@ function VariantE({ banner, logo, links }: NavigationProps) {
             variant="unstyled"
             as="button"
             ariaLabel="Nav Sidebar"
-            className="self-center mr-12 navbar-burger xl:hidden"
+            className="self-center mr-12 navbar-burger lg:hidden"
             onClick={showMenu}
           >
             <svg
@@ -295,6 +303,10 @@ function VariantE({ banner, logo, links }: NavigationProps) {
                   className="text-3xl font-bold leading-none"
                   href={logoLink(logo)}
                   prefetch={false}
+                  target={logo?.linkTarget}
+                  rel={
+                    logo?.linkTarget === "_blank" ? "noopener noreferrer" : ""
+                  }
                 >
                   <Image
                     src={urlFor(logo?.image)}
@@ -379,8 +391,11 @@ function VariantE({ banner, logo, links }: NavigationProps) {
                   <Fragment key={index}>
                     <li className="mb-8">
                       <Button
+                        as="link"
                         variant="link"
-                        ariaLabel={link?.label}
+                        ariaLabel={
+                          link?.label ?? `navigation link ${index + 1}`
+                        }
                         link={link}
                         className="font-bold text-black no-underline font-heading hover:text-gray-600"
                       >

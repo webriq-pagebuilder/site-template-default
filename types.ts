@@ -132,6 +132,7 @@ export interface ArrayOfTitleAndText {
 
 export interface Logo extends ConditionalLink {
   alt?: string;
+  linkTarget?: string;
   image?: SanityImage;
 }
 

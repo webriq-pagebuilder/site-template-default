@@ -16,7 +16,7 @@ function VariantC({ title, text, features, form }: CTAProps) {
           gap={4}
           justify="between"
         >
-          <div className="w-full px-4 mb-8 lg:mb-0 lg:w-1/2">
+          <div className="w-full text-center lg:text-left px-4 mb-8 lg:mb-0 lg:w-1/2">
             {title && <Heading className="mb-4">{title}</Heading>}
             {text && <Text muted>{text}</Text>}
           </div>
@@ -25,17 +25,20 @@ function VariantC({ title, text, features, form }: CTAProps) {
               <Form
                 id={form?.id}
                 name="Calltoaction-VariantC-Form"
-                className="items-center mb-4 form-callToAction sm:flex lg:justify-end"
+                className="items-center mb-4 form-callToAction lg:flex lg:justify-end"
                 thankyouPage={thankYouPageLink(form?.thankYouPage)}
               >
-                <Flex gap={2} className="flex-col lg:flex-row">
+                <Flex
+                  gap={2}
+                  className="flex items-center justify-center lg:items-start lg:justify-start gap-2 flex-col lg:flex-row"
+                >
                   {form?.fields?.[0] && form?.fields[0]?.type && (
                     <Input
                       noLabel
                       ariaLabel={
                         form?.fields[0]?.placeholder ?? form?.fields[0]?.name
                       }
-                      className="w-auto mr-2"
+                      className="w-full sm:max-w-md mr-2"
                       type={
                         form?.fields[0]?.type === "inputEmail"
                           ? "email"
@@ -56,6 +59,7 @@ function VariantC({ title, text, features, form }: CTAProps) {
                   {form?.buttonLabel && (
                     <Button
                       as="button"
+                      className="w-full sm:w-[448px]"
                       ariaLabel={
                         form?.buttonLabel ?? "Call to action form submit button"
                       }
@@ -72,7 +76,7 @@ function VariantC({ title, text, features, form }: CTAProps) {
               <Flex
                 as="ul"
                 align="center"
-                className="text-gray-500 lg:justify-end"
+                className="text-gray-500 justify-center lg:justify-end"
                 gap={4}
               >
                 {features?.map((feature, index) => (

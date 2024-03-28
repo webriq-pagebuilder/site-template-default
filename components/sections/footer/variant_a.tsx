@@ -29,6 +29,8 @@ function VariantA({
                 }
                 className="text-3xl font-bold leading-none"
                 href={logoLink(logo)}
+                target={logo?.linkTarget}
+                rel={logo?.linkTarget === "_blank" ? "noopener noreferrer" : ""}
               >
                 <Image
                   className="h-14"
@@ -52,7 +54,7 @@ function VariantA({
             <div className="w-full mt-1 ml-auto lg:w-1/2">
               {contacts?.map((contact) => (
                 <div
-                  className="grid grid-cols-1 gap-10 md:grid-cols-3"
+                  className="grid grid-cols-1 gap-4 lg:gap-10 md:grid-cols-3"
                   key={contact?._key}
                 >
                   <div>
@@ -84,14 +86,14 @@ function VariantA({
             </div>
           )}
         </Flex>
-        <Flex justify="between" className="w-full mx-auto lg:flex">
+        <Flex justify="between" align="center" className="w-full mx-auto lg:flex">
           {copyright && (
-            <Text muted className="mb-6 text-sm ">
+            <Text muted className="text-sm">
               {copyright}
             </Text>
           )}
           {socialMedia && (
-            <Flex wrap className="space-x-2 lg:mx-24 lg:space-x-4">
+            <Flex wrap className="space-x-2 lg:mx-10 lg:space-x-4">
               {socialMedia?.map(
                 (social) =>
                   social?.socialMediaLink && (

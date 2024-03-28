@@ -21,11 +21,13 @@ function VariantA({ logo, form, formLinks, signInLink }: SignUpFormProps) {
                 }`}
                 className="flex justify-center mx-auto text-3xl font-bold leading-none"
                 href={logoLink(logo)}
+                target={logo?.linkTarget}
+                rel={logo?.linkTarget === "_blank" ? "noopener noreferrer" : ""}
               >
                 <Image
                   src={urlFor(logo?.image)}
-                  width={50}
-                  height={50}
+                  width={100}
+                  height={100}
                   quality={100}
                   alt={logo?.alt ?? "signUp-logo"}
                 />
@@ -52,6 +54,8 @@ function VariantA({ logo, form, formLinks, signInLink }: SignUpFormProps) {
                           textSize="sm"
                           variant="primary"
                           noLabel
+                          placeholder={formFields?.placeholder}
+                          required={formFields?.isRequired}
                           className="w-full py-4 text-xs bg-white"
                           name={formFields?.name}
                           ariaLabel={formFields?.label}
@@ -77,15 +81,14 @@ function VariantA({ logo, form, formLinks, signInLink }: SignUpFormProps) {
                           className="py-4"
                           textSize="sm"
                           noLabel
-                          ariaLabel={
-                            formFields?.placeholder ?? formFields?.name
-                          }
+                          ariaLabel={ formFields?.placeholder ?? formFields?.name }
                           variant="primary"
                           type={showPassword ? "text" : "password"}
                           placeholder={formFields?.placeholder}
                           name={formFields?.name}
                           required={formFields?.isRequired}
                         />
+                        
                         {/* SVG icon on the right of the password input field */}
                         <Button
                           variant="unstyled"
@@ -99,7 +102,7 @@ function VariantA({ logo, form, formLinks, signInLink }: SignUpFormProps) {
                         >
                           {showPassword ? (
                             <svg
-                              className="w-5 h-5 my-auto text-gray-500"
+                              className="w-5 h-5 my-auto ml-4 text-gray-500"
                               xmlns="http://www.w3.org/2000/svg"
                               aria-hidden="true"
                               role="img"
@@ -139,6 +142,8 @@ function VariantA({ logo, form, formLinks, signInLink }: SignUpFormProps) {
                         textSize="sm"
                         noLabel
                         variant="primary"
+                        placeholder={formFields?.placeholder}
+                        required={formFields?.isRequired}
                         name={formFields?.name}
                         items={formFields?.items}
                         type={formFields?.type}
@@ -166,12 +171,13 @@ function VariantA({ logo, form, formLinks, signInLink }: SignUpFormProps) {
                   )}
                 </div>
                 {signInLink?.label && (
-                  <div className="w-full text-center ">
+                  <div className="w-full text-center mt-3">
                     <span className="text-xs text-gray-500">
-                      Already have an account?
+                      Already have an account?{" "}
                     </span>
 
                     <Button
+                      as="link"
                       variant="link"
                       link={signInLink}
                       className="text-xs text-primary hover:underline"
@@ -185,17 +191,14 @@ function VariantA({ logo, form, formLinks, signInLink }: SignUpFormProps) {
             )}
           </div>
           {formLinks && (
-            <p className="mt-16 text-xs text-center text-gray-700">
+            <p className="mt-10 text-xs text-center text-gray-700">
               {formLinks?.map((link, index, { length }) => (
                 <span key={index}>
                   <Button
+                    as="link"
                     variant="link"
                     link={link}
-                    className={` text-gray-700 text-xs ${
-                      link?.type === "linkInternal"
-                        ? "underline hover:text-gray-500"
-                        : "text-primary hover:underline"
-                    }`}
+                    className="text-xs text-primary hover:underline"
                     ariaLabel={link?.label}
                   >
                     {link?.label}

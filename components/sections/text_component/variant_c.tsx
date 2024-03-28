@@ -23,6 +23,7 @@ function VariantC({
               <PortableText
                 value={firstColumn}
                 components={textComponentBlockStyling}
+                onMissingComponent={false} // Disabling warnings / handling unknown types
               />
             </div>
           )}
@@ -31,6 +32,7 @@ function VariantC({
               <PortableText
                 value={secondColumn}
                 components={textComponentBlockStyling}
+                onMissingComponent={false} // Disabling warnings / handling unknown types
               />
             </div>
           )}
@@ -39,6 +41,7 @@ function VariantC({
               <PortableText
                 value={thirdColumn}
                 components={textComponentBlockStyling}
+                onMissingComponent={false} // Disabling warnings / handling unknown types
               />
             </div>
           )}
