@@ -1,10 +1,15 @@
 import { test, expect } from "@playwright/test";
-import { autologin_studio } from "tests/autologin";
+import { autologin_studio } from "tests/helpers";
+import {
+  NEXT_PUBLIC_SITE_URL,
+  NEXT_PUBLIC_SANITY_STUDIO_URL,
+} from "studio/config";
 
+//TODO: STILL WORKING ON THIS, NETWORK ERORR IN ADD ACCOUNT BUT WORKS IN LOCAL
 const paymentName = `Test ` + new Date().getTime()
 
 test.beforeEach(async ({ page }) => {
-  await page.goto("http://localhost:3000");
+  await page.goto(`${NEXT_PUBLIC_SITE_URL}`);
 
   const token = process.env.NEXT_PUBLIC_STUDIO_AUTOLOGIN_TOKEN_FOR_TESTING;
   const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
@@ -13,7 +18,7 @@ test.beforeEach(async ({ page }) => {
 
 // Check if the Inputs with no value should not add an payment account - input should display required.
 test('Configure Payment Input Required', async ({ page }) => {
-  await page.goto('http://localhost:3000/studio');
+  await page.goto(`${NEXT_PUBLIC_SANITY_STUDIO_URL}`);
   await page.getByRole('link', { name: 'Payments' }).click();
   await page.getByRole('button', { name: 'Add API' }).click();
   await page.getByRole('button', { name: 'Add Account' }).click();
@@ -41,7 +46,6 @@ test('Configure Payment Input Required', async ({ page }) => {
   await page.getByRole('button', { name: 'Add Account' }).click();
   await expect(publishableKey).toBeVisible();
 
-
   await page.getByPlaceholder('Publishable Key').click();
   await page.getByPlaceholder('Publishable Key').fill('pk_test_51OOL7vHCNHVeqcFPVqsh3ETCnhGdcko5e70WwJzXpZ8lO5pfA2YPmUydMYxKFmQv4Pokn8Yho0GhagGlfE6y5YDA00UEXTWeTT');
   await page.getByPlaceholder('Secret Key').click();
@@ -53,7 +57,7 @@ test('Configure Payment Input Required', async ({ page }) => {
 
 //Needs an dynamic name and nth(number) / should fetch the newly added webriq payment
 test('Configure Create Payment', async ({ page }) => {
-  await page.goto('http://localhost:3000/studio');
+  await page.goto(`${NEXT_PUBLIC_SANITY_STUDIO_URL}`);
   await page.getByRole('link', { name: 'Payments' }).click();
   await page.getByRole('button', { name: 'Add API' }).click();
   await page.getByPlaceholder('Account Name').click();
@@ -74,12 +78,13 @@ test('Configure Create Payment', async ({ page }) => {
 
 //Needs an dynamic name and nth(number) / should fetch the newly added webriq payment
 test('Delete Payment', async ({ page }) => {
-  await page.goto('http://localhost:3000/studio');
+  await page.goto(`${NEXT_PUBLIC_SANITY_STUDIO_URL}`);
   await page.getByRole('link', { name: 'Payments' }).click();
   await page.locator('div').filter({ hasText: /^asd$/ }).first().click();
   await page.locator('div:nth-child(6) > div:nth-child(2) > button:nth-child(2)').click();
   await page.getByRole('button', { name: 'Confirm' }).click();
 
   await expect(page.locator('[id="__next"]').getByRole('alert').locator('div').nth(1).getByText('Stripe Account Successfully Deleted')).toBeVisible()
+  // TODO: Make it dynamic. Delete the newly added Payment.
   await expect(page.locator('div').filter({ hasText: /^asd$/ }).first()).toBeHidden();
 });

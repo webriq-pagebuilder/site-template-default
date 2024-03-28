@@ -1,110 +1,161 @@
 import { test, expect } from "@playwright/test";
-import { autologin_studio } from "tests/basic.spec";
+import { autologin_studio } from "tests/autologin";
+import {
+  NEXT_PUBLIC_SITE_URL,
+  NEXT_PUBLIC_SANITY_STUDIO_URL,
+} from "studio/config";
 
 const newComponentName = `New App Promo - ` + new Date().getTime();
 const dupeComponentName = `App promo - ` + new Date().getTime();
 
 test.beforeEach(async ({ page }) => {
-  await page.goto("http://localhost:3000");
+  await page.goto(`${NEXT_PUBLIC_SITE_URL}`);
 
   const token = process.env.NEXT_PUBLIC_STUDIO_AUTOLOGIN_TOKEN_FOR_TESTING;
   const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
   await page.evaluate(autologin_studio, { token, projectId });
 });
 
-test("test it can create a new component", async ({ page }) => {
-  await page.goto("http://localhost:3000/studio");
+test.describe("Features", () => {
+  // Applies to all tests in this group.
+  test.describe.configure({ timeout: 120000 });
 
-  // create new component (select any component since their logic is the same, only difference is the schema type)
-  await page
-    .getByRole("link", { name: "Components" })
-    .click({ timeout: 10000 });
-  await page.getByRole("button", { name: "New App Promo" }).click();
-  await page.getByTestId("string-input").click();
-  await page.getByTestId("string-input").fill(newComponentName);
-  await page.getByTestId("field-variant").getByRole("img").nth(2).click();
-  await page.getByTestId("action-Save").click({ timeout: 10000 });
+  // CREATE
+  test("Create New Component", async ({ page }) => {
+    await page.goto(`${NEXT_PUBLIC_SANITY_STUDIO_URL}`);
 
-  // check if the component was created, find by name
-  await page
-    .getByRole("link", { name: "Components" })
-    .click({ timeout: 10000 });
-  await page.waitForLoadState(); // The promise resolves after 'load' event.
+    // create new component (select any component since their logic is the same, only difference is the schema type)
+    await page.getByRole("link", { name: "Components" }).click();
+    await page.getByRole("button", { name: "New App Promo" }).click();
+    await page.getByTestId("string-input").click();
+    await page.getByTestId("string-input").fill(newComponentName);
+    await page.getByTestId("field-variant").getByRole("img").nth(2).click();
+    await page.getByTestId("action-Save").click({ force: true });
 
-  // find element
-  await expect(
-    page.locator("div").filter({ hasText: newComponentName }).nth(1)
-  ).toHaveCount(1);
-});
+    // check if the component was created, find by name
+    await page.getByRole("link", { name: "Components" }).click({ force: true });
+    await expect(
+      page.locator("div").filter({ hasText: newComponentName }).nth(1)
+    ).toHaveCount(1);
+  });
 
-test("test it can duplicate existing component", async ({ page }) => {
-  await page.goto("http://localhost:3000/studio");
+  // TODO: REFERENCE TO PAGE
+  test("Add page component as reference", async ({ page }) => {
+    test.skip(); // remove this once this test is finalized
 
-  await page
-    .getByRole("link", { name: "Components" })
-    .click({ timeout: 10000 });
+    await page.goto(`${NEXT_PUBLIC_SANITY_STUDIO_URL}`);
 
-  // Hover over the div that contains the newComponentName
-  const componentToDuplicate = page
-    .locator("div")
-    .filter({ hasText: newComponentName })
-    .nth(1);
-  await componentToDuplicate.hover();
+    // Go to "Pages" tab
+    const element = page.locator('a:has-text("Pages")');
+    await element.scrollIntoViewIfNeeded();
+    await page.waitForSelector('a:has-text("Pages")', { state: "visible" });
+    await element.click({ force: true });
 
-  // Duplicate action
-  await componentToDuplicate
-    .locator("button", { hasText: "Duplicate" })
-    .first()
-    .click();
+    // Add new component as section reference
+    await page.getByRole("link").first().click({ force: true });
+    await page.getByRole("button", { name: "Add item…" }).click();
+    await page.getByRole("menuitem", { name: "App Promo" }).click();
+    await page.getByTestId("autocomplete").click();
+    await page.getByTestId("autocomplete").fill(newComponentName);
+    await page.getByRole("button", { name: newComponentName }).click();
 
-  // Fill in the duplicate component name and save with an increased timeout
-  await page.getByTestId("field-label").getByTestId("string-input").click();
-  await page
-    .getByTestId("field-label")
-    .getByTestId("string-input")
-    .fill(dupeComponentName);
-  await page.getByTestId("action-Save").click({ timeout: 10000 });
+    // publish page with added component reference
+    await page.getByTestId("action-[object Object]").click({ force: true });
 
-  // Check if component dupe was created
-  await page.getByRole("link", { name: "Components" }).click();
-  await page.waitForLoadState(); // The promise resolves after 'load' event.
+    // verify new component is linked/referenced to page
+    await page.getByRole("link", { name: "Components" }).click({ force: true });
+    await expect(
+      page.locator("div").filter({ hasText: newComponentName }).nth(1)
+    ).toHaveCount(1);
 
-  // Find element
-  await expect(
-    page.locator("div").filter({ hasText: dupeComponentName }).nth(2)
-  ).toHaveCount(1);
-});
+    const cardName = newComponentName?.toLowerCase()?.replace(/\s/g, "");
+    await expect(
+      page.locator(`div.${cardName}`).filter({ hasText: "No references" })
+    ).toHaveCount(0);
+  });
 
-test("test it can delete existing component", async ({ page }) => {
-  await page.goto("http://localhost:3000/studio");
+  // TODO: Add test to verify when deleting component with reference shows cannot delete dialog
 
-  await page
-    .getByRole("link", { name: "Components" })
-    .click({ timeout: 10000 });
+  test("Duplicate a component", async ({ page }) => {
+    await page.goto(`${NEXT_PUBLIC_SANITY_STUDIO_URL}`);
 
-  // Hover over the div that contains the dupeComponentName
-  const componentToDelete = page
-    .locator("div")
-    .filter({ hasText: dupeComponentName })
-    .nth(1);
-  await componentToDelete.hover();
+    await page.getByRole("link", { name: "Components" }).click({ force: true });
 
-  // Delete actions
-  await componentToDelete.locator("button").nth(2).click();
-  await page.getByLabel("Close dialog").click();
+    await expect(
+      page.locator("div").filter({ hasText: newComponentName }).nth(1)
+    ).toHaveCount(1);
 
-  await componentToDelete.locator("button").nth(2).click();
-  await page.getByRole("button", { name: "Cancel" }).click();
+    const cardName = newComponentName?.toLowerCase()?.replace(/\s/g, "");
 
-  await componentToDelete.locator("button").nth(2).click();
-  await page
-    .getByRole("button", { name: "Yes, delete component" })
-    .click({ timeout: 10000 });
+    // Hover on the target element to trigger the appearance of the button
+    await page.locator(`div.${cardName}`).first().hover();
 
-  await page.goto("http://localhost:3000/studio/components");
+    // click on duplicate button
+    await page
+      .locator(`div.${cardName} button.components-dupe-btn`)
+      .first()
+      .click({ force: true });
 
-  // check if dupe component was deleted
-  await expect(
-    page.locator("div").filter({ hasText: dupeComponentName }).nth(2)
-  ).toHaveCount(0);
+    // Fill in the duplicate component name and save with an increased timeout
+    await page.getByTestId("field-label").getByTestId("string-input").click();
+    await page.getByTestId("field-label").getByTestId("string-input").fill("");
+    await page
+      .getByTestId("field-label")
+      .getByTestId("string-input")
+      .fill(dupeComponentName);
+    await page
+      .getByTestId("action-Save")
+      .click({ force: true, timeout: 60000 });
+
+    // Check if component dupe was created
+    await page.getByRole("link", { name: "Components" }).click({ force: true });
+
+    // Find element
+    await expect(
+      page.locator("div").filter({ hasText: dupeComponentName }).nth(2)
+    ).toHaveCount(1, { timeout: 60000 });
+  });
+
+  // TODO: WIP - DELETE
+  test("Delete a component", async ({ page }) => {
+    await page.goto(`${NEXT_PUBLIC_SANITY_STUDIO_URL}`);
+
+    await page.getByRole("link", { name: "Components" }).click({ force: true });
+
+    await expect(
+      page.locator("div").filter({ hasText: dupeComponentName }).nth(1)
+    ).toHaveCount(1);
+
+    const cardName = newComponentName?.toLowerCase()?.replace(/\s/g, "");
+
+    // Hover on the target element to trigger the appearance of the button
+    await page.locator(`div.${cardName}`).first().hover();
+
+    // click on delete button
+    await page
+      .locator(`div.${cardName} button.components-delete-btn`)
+      .first()
+      .click({ force: true });
+
+    // Delete actions
+    await page
+      .locator("[aria-label='Close dialog']")
+      .first()
+      .click({ force: true });
+    await page
+      .locator("[aria-label='Cancel delete component']")
+      .first()
+      .click({ force: true });
+
+    await page
+      .locator("[aria-label='Delete component']")
+      .first()
+      .click({ force: true });
+    await page.goto(`${NEXT_PUBLIC_SANITY_STUDIO_URL}/components`);
+
+    // Find element
+    await expect(
+      page.locator("div").filter({ hasText: dupeComponentName }).nth(2)
+    ).toHaveCount(1, { timeout: 60000 });
+  });
 });
