@@ -122,3 +122,7 @@ test.afterEach(async ({ page }) => {
     page.getByText(newCategory, { exact: true }).first()
   ).toHaveCount(1);
 });
+
+test.afterAll(async () => {
+  console.log("[DONE] Successfully run all tests for WebriQ Blogs");
+});
