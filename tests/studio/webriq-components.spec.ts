@@ -123,15 +123,13 @@ test.describe("Features", () => {
     await page.getByRole("link", { name: "Components" }).click({ force: true });
 
     await expect(
-      page.locator("div").filter({ hasText: dupeComponentName }).nth(1)
+      page.locator("div").filter({ hasText: dupeComponentName }).nth(2)
     ).toHaveCount(1);
 
-    const cardName = newComponentName?.toLowerCase()?.replace(/\s/g, "");
+    const cardName = dupeComponentName?.toLowerCase()?.replace(/\s/g, "");
 
-    // Hover on the target element to trigger the appearance of the button
+    // Hover on the target element to trigger the appearance of the button and click delete button
     await page.locator(`div.${cardName}`).first().hover();
-
-    // click on delete button
     await page
       .locator(`div.${cardName} button.components-delete-btn`)
       .first()
@@ -142,11 +140,28 @@ test.describe("Features", () => {
       .locator("[aria-label='Close dialog']")
       .first()
       .click({ force: true });
+    await expect(
+      page.locator("div").filter({ hasText: dupeComponentName }).nth(2)
+    ).toHaveCount(1);
+
+    await page.locator(`div.${cardName}`).first().hover();
+    await page
+      .locator(`div.${cardName} button.components-delete-btn`)
+      .first()
+      .click({ force: true });
     await page
       .locator("[aria-label='Cancel delete component']")
       .first()
       .click({ force: true });
+    await expect(
+      page.locator("div").filter({ hasText: dupeComponentName }).nth(2)
+    ).toHaveCount(1);
 
+    await page.locator(`div.${cardName}`).first().hover();
+    await page
+      .locator(`div.${cardName} button.components-delete-btn`)
+      .first()
+      .click({ force: true });
     await page
       .locator("[aria-label='Delete component']")
       .first()
@@ -156,6 +171,6 @@ test.describe("Features", () => {
     // Find element
     await expect(
       page.locator("div").filter({ hasText: dupeComponentName }).nth(2)
-    ).toHaveCount(1, { timeout: 60000 });
+    ).toHaveCount(0, { timeout: 60000 });
   });
 });
