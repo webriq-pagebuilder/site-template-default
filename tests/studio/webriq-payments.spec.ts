@@ -5,7 +5,7 @@ import {
   NEXT_PUBLIC_SANITY_STUDIO_URL,
 } from "studio/config";
 
-//TODO: STILL WORKING ON THIS, NETWORK ERORR IN ADD ACCOUNT BUT WORKS IN LOCAL
+//TODO: STILL WORKING ON THIS, NETWORK ERORR IN ADD ACCOUNT BUT WORKS IN MANUAL - LOCAL
 const paymentName = `Test ` + new Date().getTime()
 
 test.beforeEach(async ({ page }) => {
@@ -87,4 +87,16 @@ test('Delete Payment', async ({ page }) => {
   await expect(page.locator('[id="__next"]').getByRole('alert').locator('div').nth(1).getByText('Stripe Account Successfully Deleted')).toBeVisible()
   // TODO: Make it dynamic. Delete the newly added Payment.
   await expect(page.locator('div').filter({ hasText: /^asd$/ }).first()).toBeHidden();
+});
+
+//View Payments
+test('View Payments', async ({ page }) => {
+  await page.goto(`${NEXT_PUBLIC_SANITY_STUDIO_URL}`);
+
+  await page.getByRole('link', { name: 'Payments' }).click();
+  await page.locator('div:nth-child(3) > div:nth-child(2) > button').first().click();
+  await page.waitForTimeout(15000)
+  await expect(page.getByRole('cell', { name: 'Product Name' })).toBeVisible()
+  await expect(page.getByLabel('Active Products').locator('div')).toBeVisible()
+  await page.getByLabel('Close dialog').click();
 });

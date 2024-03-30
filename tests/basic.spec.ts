@@ -1,6 +1,8 @@
 import { test, expect } from "@playwright/test";
-import { autologin_studio, navigateToPage } from "./helpers";
+import { autologin_studio, expectDocumentPublished, navigateToPage } from "./helpers";
 import { NEXT_PUBLIC_SITE_URL } from "studio/config";
+
+const newPageTitle = "New Page - " + new Date().getTime();
 
 test.beforeEach(async ({ page }) => {
   await page.goto(`${NEXT_PUBLIC_SITE_URL}`);
@@ -12,15 +14,11 @@ test.beforeEach(async ({ page }) => {
 });
 
 //PUBLISH PAGES
-test("Test to Publish a Page", async ({ page }) => {
-  // We input a new title
-  const newPageTitle = "New Page - " + new Date().getTime();
+test("Test to Publish a Page and Open Live URL", async ({ page }) => {
   await navigateToPage(page)
 
   // Click new page button
-  const newPageButtonElement = page.locator(
-    `a[href="/studio/intent/create/template=page;type=page/"]`
-  );
+  const newPageButtonElement = page.locator(`a[href="/studio/intent/create/template=page;type=page/"]`);
   await newPageButtonElement.click({ force: true });
 
   const inputTitle = page.locator("input#title");
@@ -30,57 +28,18 @@ test("Test to Publish a Page", async ({ page }) => {
 
   await page.getByRole("button", { name: "Generate" }).click({ force: true });
   await page.getByRole("button", { name: "Add item…" }).click({ force: true });
-  await page
-    .getByRole("menuitem", { name: "Navigation" })
-    .click({ force: true });
-  await page
-    .getByTestId("reference-input")
-    .getByRole("button", { name: "Create new" })
-    .click({ force: true });
-  await page
-    .getByTestId("field-label")
-    .getByTestId("string-input")
-    .click({ force: true });
-  await page
-    .getByTestId("field-label")
-    .getByTestId("string-input")
-    .fill("Navigation New Page Variant A");
+  await page.getByRole("menuitem", { name: "Navigation" }).click({ force: true });
+  await page.getByTestId("reference-input").getByRole("button", { name: "Create new" }).click({ force: true });
+  await page.getByTestId("field-label").getByTestId("string-input").click({ force: true });
+  await page.getByTestId("field-label").getByTestId("string-input").fill("Navigation New Page Variant A");
 
-  await page
-    .getByTestId("field-variant")
-    .getByRole("img")
-    .first()
-    .click({ force: true });
-  await page.getByTestId("action-Save").click({ force: true });
-  await page.waitForTimeout(10000);
-  await page
-    .getByRole("link", { name: "Close pane group" })
-    .click({ force: true });
-  await expect(
-    page
-      .getByTestId("field-sections")
-      .getByTestId("input-validation-icon-error")
-  ).toBeHidden();
-
-  // Once the error is hidden, proceed with clicking the action
-  await page.getByTestId("action-[object Object]").click({ force: true });
-  await expect(
-    page
-      .locator('[id="__next"]')
-      .getByRole("alert")
-      .locator("div")
-      .filter({ hasText: "The document was published" })
-      .nth(1)
-  ).toBeVisible();
+  await page.getByTestId("field-variant").getByRole("img").first().click({ force: true });
+  
+  await expectDocumentPublished(page);
   await expect(page.getByRole("link", { name: newPageTitle })).toBeVisible();
-});
 
-//OPEN LIVE URL
-test("Open Live URL", async ({ page }) => {
-  let pageName = "New Page - 1711554781822";
-  await navigateToPage(page);
-
-  await page.getByRole("link", { name: pageName }).click({ force: true });
+  //Open Live URL
+  await page.getByRole("link", { name: newPageTitle }).click({ force: true });
   await page.waitForTimeout(5000);
 
   const pagePromise = page.waitForEvent("popup");
@@ -88,11 +47,7 @@ test("Open Live URL", async ({ page }) => {
   const openUrlPage = await pagePromise;
 
   // Wait for the element to become visible or hidden with a longer timeout
-  const sectionCount = await page
-    .locator("div")
-    .filter({ hasText: /^No items$/ })
-    .count();
-  console.log("sectionCount", sectionCount);
+  const sectionCount = await page.locator("div").filter({ hasText: /^No items$/ }).count();
   if (sectionCount > 0) {
     // If the section is found, expect the Empty Page element to be visible
     await expect(openUrlPage.getByText("Empty Page")).toBeVisible({
@@ -108,11 +63,17 @@ test("Open Live URL", async ({ page }) => {
 
 //Launch Inline Editing
 test("Open Inline Editing", async ({ page }) => {
-  let pageName = "New Page - 1711582949027";
+  let pageName = "New Page - 1711763124207";
   let altText = `Alt text ` + new Date().getTime();
 
   await navigateToPage(page);
+  await page.getByPlaceholder('Search list').click({ force: true })
+  await page.getByPlaceholder('Search list').fill(pageName)
+  await page.waitForSelector(`a:has-text("${pageName}")`, { state: 'visible' });
+
   await page.getByRole("link", { name: pageName }).click({ force: true });
+  await page.waitForSelector(`a:has-text("${pageName}")`, { state: 'visible' });
+  await page.getByLabel('Clear').click({ force: true })
   await page.waitForTimeout(5000);
 
   const launchInlineEditing = page.waitForEvent("popup");
@@ -155,45 +116,59 @@ test("Open Inline Editing", async ({ page }) => {
 });
 
 //Duplicate Pages Action
-test("Pages Duplicate Action", async ({ page }) => {
+test("Pages Duplicate Action and Open Live URL", async ({ page }) => {
   const duplicatePageName = `Dupe Page ` + new Date().getTime();
-  const navigatePageName = "New Page - 1711529747261"
+  const navigatePageName = "New Page - 1711763289822"
   await navigateToPage(page);
 
   await page.getByPlaceholder('Search list').click({ force: true })
   await page.getByPlaceholder('Search list').fill(navigatePageName)
-  await page.waitForTimeout(5000);
-  await page.getByRole("link", { name: "New Page - 1711529747261" }).click({ force: true });
-  await page.waitForTimeout(3000);
-  await page.getByLabel('Clear').click({ force: true })
+  await page.waitForSelector(`a:has-text("${navigatePageName}")`, { state: 'visible' });
 
+  await page.getByRole("link", { name: navigatePageName }).click({ force: true });
+  await page.waitForSelector(`a:has-text("${navigatePageName}")`, { state: 'visible' });
+  await page.getByLabel('Clear').click({ force: true })
+  await page.waitForTimeout(3000);
   await page.getByTestId("action-menu-button").click({ force: true });
   await page.getByTestId("action-Duplicate").click({ force: true });
-  await page.getByPlaceholder("Copy of New Page -").press("CapsLock");
-  await page.getByPlaceholder("Copy of New Page -").fill("Duple ");
-  await page.getByPlaceholder("Copy of New Page -").press("CapsLock");
   await page.getByPlaceholder("Copy of New Page -").fill(duplicatePageName);
   await page.getByRole("button", { name: "Duplicate" }).click();
 
-  await expect(
-    page.locator('[id="__next"]').getByRole("alert").locator("div").nth(1)
-  ).toBeVisible();
-  await expect(
-    page.getByRole("link", { name: duplicatePageName })
-  ).toBeVisible();
-  await page
-    .getByRole("link", { name: duplicatePageName })
-    .click({ force: true });
+  await expect(page.locator('[id="__next"]').getByRole("alert").locator("div").nth(1)).toBeVisible();
+  await page.waitForSelector(`a:has-text("${duplicatePageName}")`, { state: 'visible' });
+  await expect(page.getByRole("link", { name: duplicatePageName })).toBeVisible();
+  await page.getByRole("link", { name: duplicatePageName }).click({ force: true });
   await page.waitForTimeout(5000);
   await page.getByTestId("action-[object Object]").click({ force: true });
-  await expect(
-    page
+  await expect(page
       .locator('[id="__next"]')
       .getByRole("alert")
       .locator("div")
       .filter({ hasText: "The document was published" })
       .nth(1)
   ).toBeVisible();
+
+  //Open Live URL
+  await page.getByRole("link", { name: duplicatePageName }).click({ force: true });
+  await page.waitForTimeout(5000);
+
+  const pagePromise = page.waitForEvent("popup");
+  await page.getByText("http://localhost:3000/dupe-page-").click();
+  const openUrlPage = await pagePromise;
+
+  // Wait for the element to become visible or hidden with a longer timeout
+  const sectionCount = await page.locator("div").filter({ hasText: /^No items$/ }).count();
+  if (sectionCount > 0) {
+    // If the section is found, expect the Empty Page element to be visible
+    await expect(openUrlPage.getByText("Empty Page")).toBeVisible({
+      timeout: 10000,
+    });
+  } else {
+    // If the section is not found, expect the Empty Page element to be hidden
+    await expect(openUrlPage.getByText("Empty Page")).toBeHidden({
+      timeout: 10000,
+    });
+  }
 });
 
 //SEE CURRENT VERSION
