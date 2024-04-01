@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 
-function autologin_studio({ token, projectId }) {
+export function autologin_studio({ token, projectId }) {
   console.log("🚀 ~ autologin_studio ~ { token, projectId }:", {
     token,
     projectId,
