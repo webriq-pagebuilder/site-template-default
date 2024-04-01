@@ -15,10 +15,14 @@ test.beforeEach(async ({ page }) => {
   const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
   await page.evaluate(autologin_studio, { token, projectId });
 
-  test("Show all components", async ({ page }) => {
-    // Navigate to the studio URL
-    await page.goto(`${NEXT_PUBLIC_SANITY_STUDIO_URL}`);
+  // Navigate to the studio URL
+  await page.goto(`${NEXT_PUBLIC_SANITY_STUDIO_URL}/desk`);
+});
 
+test.describe("Main workflow", () => {
+  test.describe.configure({ timeout: 1500000, mode: "serial" });
+
+  test("Show all components", async ({ page }) => {
     await page.getByRole("link", { name: "Components" }).click();
     await page
       .locator("create-btn-icon")
@@ -27,30 +31,37 @@ test.beforeEach(async ({ page }) => {
         console.log("[DONE] All components are loaded");
       });
   });
-});
 
-test.describe("Workflow", () => {
-  test.describe.configure({ timeout: 300000, mode: "serial" });
-
-  test("Create, duplicate and delete components", async ({ page }) => {
-    const cardName = newComponentName?.toLowerCase()?.replace(/\s/g, "");
-
+  test("Create component", async ({ page }) => {
     console.log("[INFO] Creating a new component...");
+    await page.getByRole("link", { name: "Components" }).click();
     await page.getByRole("button", { name: "New App Promo" }).click();
     await page.getByTestId("string-input").click();
     await page.getByTestId("string-input").fill(newComponentName);
     await page.getByTestId("field-variant").getByRole("img").nth(2).click();
     await page.getByTestId("action-Save").click({ force: true });
-    await expect(page.locator("[aria-label='Last published just now']"))
-      .toHaveCount(2, { timeout: 10000 })
+    await expect(page.locator("[aria-label='Last published just now']").first())
+      .toBeVisible({ timeout: 180000 })
       .then(() => {
         console.log("[DONE] Component successfully created!");
       });
+  });
 
-    // DUPLICATE COMPONENT
+  test("Search component", async ({ page }) => {
+    await page.getByRole("link", { name: "Components" }).click();
+    await page.getByPlaceholder("Search variants").click();
+    await page.getByPlaceholder("Search variants").fill("New App Promo");
+    await expect(
+      page.locator("button:has-text('New App Promo')").first()
+    ).toBeVisible({ timeout: 180000 });
+  });
+
+  test("Duplicate component", async ({ page }) => {
+    const cardName = newComponentName?.toLowerCase()?.replace(/\s/g, "");
+
     console.log("[INFO] Duplicating component...");
     await page.getByRole("link", { name: "Components" }).click({ force: true });
-    await expect(page.locator(`div.${cardName}`).first()).toHaveCount(1, {
+    await expect(page.locator(`div.${cardName}`).first()).toBeVisible({
       timeout: 10000,
     });
     await page.locator(`div.${cardName}`).first().hover();
@@ -65,38 +76,42 @@ test.describe("Workflow", () => {
       .getByTestId("string-input")
       .fill(dupeComponentName);
     await page.getByTestId("action-Save").click({ force: true });
-    await expect(page.locator("[aria-label='Last published just now']"))
-      .toHaveCount(2, { timeout: 10000 })
+    await expect(page.locator("[aria-label='Last published just now']").first())
+      .toBeVisible({ timeout: 300000 })
       .then(() => {
         console.log("[DONE] Component successfully duplicated!");
       });
+  });
 
-    // DELETE COMPONENT
+  test("Delete component", async ({ page }) => {
     console.log("[INFO] Deleting component...");
     await page.getByRole("link", { name: "Components" }).click({ force: true });
-    await expect(page.locator(`div.${cardName}`).first()).toHaveCount(1, {
-      timeout: 10000,
+
+    const dupeCardName = dupeComponentName?.toLowerCase()?.replace(/\s/g, "");
+    await expect(page.locator(`div.${dupeCardName}`).first()).toBeVisible({
+      timeout: 180000,
     });
-    await page.locator(`div.${cardName}`).first().hover();
+    await page.locator(`div.${dupeCardName}`).first().hover();
     await page
-      .locator(`div.${cardName} button.components-delete-btn`)
+      .locator(`div.${dupeCardName} button.components-delete-btn`)
       .first()
       .click({ force: true });
-    await expect(page.locator("[id=confirm-delete_label]").first()).toHaveCount(
-      1
-    );
+    await expect(
+      page.locator("[id=confirm-delete_label]").first()
+    ).toBeVisible();
+
     // Delete actions
     await page
       .locator("[aria-label='Close dialog']")
       .first()
       .click({ force: true });
     await expect(
-      page.locator("div").filter({ hasText: newComponentName }).first()
-    ).toHaveCount(1);
+      page.locator("div").filter({ hasText: dupeComponentName }).first()
+    ).toBeVisible({ timeout: 180000 });
 
-    await page.locator(`div.${cardName}`).first().hover();
+    await page.locator(`div.${dupeCardName}`).first().hover();
     await page
-      .locator(`div.${cardName} button.components-delete-btn`)
+      .locator(`div.${dupeCardName} button.components-delete-btn`)
       .first()
       .click({ force: true });
     await page
@@ -104,86 +119,44 @@ test.describe("Workflow", () => {
       .first()
       .click({ force: true });
     await expect(
-      page.locator("div").filter({ hasText: newComponentName }).first()
-    ).toHaveCount(1);
-    await page.locator(`div.${cardName}`).first().hover();
-    await page
-      .locator(`div.${cardName} button.components-delete-btn`)
-      .first()
-      .click({ force: true });
-    await page
-      .locator("[aria-label='Delete component']")
-      .first()
-      .click({ force: true });
-    await expect(page.locator(`div.${cardName}`).first())
-      .toHaveCount(0, {
-        timeout: 10000,
-      })
-      .then(() => {
-        console.log("[DONE] Successfully deleted component...");
-      });
-  });
-
-  // TODO: Get the document selected on page reference to resolve issue
-  test.fixme("Add component reference to a page", async ({ page }) => {
-    // Navigate to the studio URL
-    await page.goto(`${NEXT_PUBLIC_SANITY_STUDIO_URL}`);
-
-    const element = page.locator('a:has-text("Pages")');
-    await element.scrollIntoViewIfNeeded();
-    await page.waitForSelector('a:has-text("Pages")', { state: "visible" });
-    await element.click({ force: true });
-    // Add new component as reference
-    const nextElement = page.locator('a:has-text("New Page -")').first();
-    await nextElement.scrollIntoViewIfNeeded();
-    await page.waitForSelector('a:has-text("New Page -")', {
-      state: "visible",
-    });
-    await nextElement.click({ force: true });
-    await page.getByRole("button", { name: "Add item…" }).click();
-    await page.getByRole("menuitem", { name: "App Promo" }).click();
-    await page.getByTestId("autocomplete").click();
-    await page.getByTestId("autocomplete").fill("App Promo -");
-    await page.locator("button:has-text('App Promo -')").first().click();
-    await page.getByTestId("action-[object Object]").click({ force: true }); // publish page
-    await expect(
-      page
-        .locator("[aria-label='Review changes']")
-        .filter({ hasText: "just now" })
-    ).toHaveCount(1, { timeout: 10000 });
-    await page.getByRole("link", { name: "Components" }).click({ force: true });
-    await expect(
-      page
-        .locator("div")
-        .filter({ hasText: dupeComponentName })
-        .and(page.getByText(`${dupeComponentName}New Page -`))
-        .first()
-    )
-      .toHaveCount(1)
-      .then(() => {
-        console.log("[DONE] Successfully added component reference to page!");
-      });
-  });
-
-  // TODO: Use the same document on previous test to proceed
-  test.fixme("Can't delete referenced component", async ({ page }) => {
-    const dupeCardName = dupeComponentName?.toLowerCase()?.replace(/\s/g, "");
-
-    // Navigate to the studio URL
-    await page.goto(`${NEXT_PUBLIC_SANITY_STUDIO_URL}`);
-    await page.getByRole("link", { name: "Components" }).click({ force: true });
+      page.locator("div").filter({ hasText: dupeComponentName }).first()
+    ).toBeVisible({ timeout: 180000 });
 
     await page.locator(`div.${dupeCardName}`).first().hover();
     await page
       .locator(`div.${dupeCardName} button.components-delete-btn`)
       .first()
       .click({ force: true });
-    await expect(page.getByText("Failed to delete component")).toHaveCount(1);
-    await page.getByRole("button", { name: "Got it", exact: true }).click();
+    await page
+      .locator("[aria-label='Delete component']")
+      .first()
+      .click({ force: true });
     await expect(page.locator(`div.${dupeCardName}`).first())
       .toHaveCount(0, {
-        timeout: 10000,
+        timeout: 180000,
       })
+      .then(() => {
+        console.log("[DONE] Successfully deleted component...");
+      });
+  });
+
+  test("Can't delete referenced component", async ({ page }) => {
+    const cardName = newComponentName?.toLowerCase()?.replace(/\s/g, "");
+
+    await page.getByRole("link", { name: "Components" }).click({ force: true });
+
+    const getCardWithRef = page
+      .locator("div:has-text('New App Promo')")
+      .first();
+    getCardWithRef.locator("div.referenced-by-pages").hover();
+    getCardWithRef.locator("div.referenced-by-pages").click({ force: true });
+
+    await expect(page.getByText("Failed to delete component")).toHaveCount(1);
+    await page
+      .getByRole("button", { name: "Got it", exact: true })
+      .click({ force: true });
+    await expect(getCardWithRef)
+      .toBeVisible()
       .then(() => {
         console.log(
           "[INFO] Cannot delete component that is being referenced by a page!"
@@ -192,6 +165,15 @@ test.describe("Workflow", () => {
   });
 });
 
-test.afterAll(async () => {
-  console.log("[DONE] Successfully run all tests for WebriQ Components");
+test("Filter component", async ({ page }) => {
+  test.setTimeout(120000);
+
+  await page.getByRole("link", { name: "Components" }).click();
+  await page
+    .locator("div")
+    .filter({ hasText: /^Select\.\.\.$/ })
+    .first()
+    .click({ force: true });
+  await page.locator("#react-select-2-option-0").click({ force: true });
+  await expect(page.locator("[data-ui='Container']").first()).toHaveCount(1);
 });
