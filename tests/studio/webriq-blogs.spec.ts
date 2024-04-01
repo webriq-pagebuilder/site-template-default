@@ -17,14 +17,14 @@ test.beforeEach(async ({ page }) => {
   const token = process.env.NEXT_PUBLIC_STUDIO_AUTOLOGIN_TOKEN_FOR_TESTING;
   const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
   await page.evaluate(autologin_studio, { token, projectId });
-
-  // Navigate to the studio URL
-  await page.goto(`${NEXT_PUBLIC_SANITY_STUDIO_URL}`);
-  await page.getByRole("link", { name: "Blog" }).click();
 });
 
 test("Create new author, category and post", async ({ page }) => {
   test.setTimeout(300000);
+
+  // Navigate to the studio URL
+  await page.goto(`${NEXT_PUBLIC_SANITY_STUDIO_URL}`);
+  await page.getByRole("link", { name: "Blog" }).click();
 
   // CREATE AUTHOR
   await page.getByRole("button", { name: "Create", exact: true }).click();
