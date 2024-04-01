@@ -57,18 +57,27 @@ test("Test to Publish a Page", async ({ page }) => {
     .getByTestId("string-input")
     .fill("Navigation New Page Variant A");
 
-  await page.getByTestId('field-variant').getByRole('img').first().click({ force: true });
+  await page
+    .getByTestId("field-variant")
+    .getByRole("img")
+    .first()
+    .click({ force: true });
   await page.getByTestId("action-Save").click({ force: true });
   await page.waitForTimeout(10000);
-  await page.getByRole('link', { name: 'Close pane group' }).click({ force: true });
-  await expect(page.getByTestId('field-sections').getByTestId('input-validation-icon-error')).toBeHidden()
+  await page
+    .getByRole("link", { name: "Close pane group" })
+    .click({ force: true });
+  await expect(
+    page
+      .getByTestId("field-sections")
+      .getByTestId("input-validation-icon-error")
+  ).toBeHidden();
 
   // Once the error is hidden, proceed with clicking the action
-  await page.getByTestId('action-[object Object]').click({ force: true });
+  await page.getByTestId("action-[object Object]").click({ force: true });
 
-  await page.getByTestId('action-[object Object]').click({ force: true });
+  await page.getByTestId("action-[object Object]").click({ force: true });
   await expect(page.getByRole("link", { name: newPageTitle })).toBeVisible();
-
 });
 
 test("See Current Version", async ({ page }) => {
