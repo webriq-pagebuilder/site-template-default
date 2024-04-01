@@ -1,7 +1,7 @@
 import { test, expect } from "@playwright/test";
 import { autologin_studio } from "tests/basic.spec";
 
-test.beforeEach(async ({ page }) => {
+test.beforeAll(async ({ page }) => {
   await page.goto("http://localhost:3000");
   // Pass the environment variable value as an argument to page.evaluate()
   const token = process.env.STUDIO_AUTOLOGIN_TOKEN_FOR_TESTING;
