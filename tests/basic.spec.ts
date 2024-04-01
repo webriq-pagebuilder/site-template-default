@@ -1,5 +1,5 @@
 import { test, expect } from "@playwright/test";
-import { autologin_studio, expectDocumentPublished, navigateToPage } from "./helpers";
+import { autologin_studio, createNewPage, expectDocumentPublished, navigateToPage } from "./helpers";
 import { NEXT_PUBLIC_SITE_URL } from "studio/config";
 
 const newPageTitle = "New Page - " + new Date().getTime();
@@ -16,20 +16,8 @@ test.beforeEach(async ({ page }) => {
 //PUBLISH PAGES
 test("Test to Publish a Page and Open Live URL", async ({ page }) => {
   await navigateToPage(page)
-
-  // Click new page button
-  const newPageButtonElement = page.locator(`a[href="/studio/intent/create/template=page;type=page/"]`);
-  await newPageButtonElement.click({ force: true });
-
-  const inputTitle = page.locator("input#title");
-  await page.waitForSelector("input#title", { state: "visible" });
-  await inputTitle.click({ force: true });
-  await inputTitle.fill(newPageTitle);
-
-  await page.getByRole("button", { name: "Generate" }).click({ force: true });
-  await page.getByRole("button", { name: "Add item…" }).click({ force: true });
-  await page.getByRole("menuitem", { name: "Navigation" }).click({ force: true });
-  await page.getByTestId("reference-input").getByRole("button", { name: "Create new" }).click({ force: true });
+  await createNewPage(page, newPageTitle, 'Navigation')
+  
   await page.getByTestId("field-label").getByTestId("string-input").click({ force: true });
   await page.getByTestId("field-label").getByTestId("string-input").fill("Navigation New Page Variant A");
 

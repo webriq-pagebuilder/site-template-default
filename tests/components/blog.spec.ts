@@ -33,10 +33,9 @@ export async function createBlogVariant(page, pageTitle, variantLabel, variantIn
     }
     
     //Subtitle
-    const contentSubtitle = page.getByTestId('field-variants.subtitle').getByTestId('string-input');
+    const contentSubtitle = page.getByTestId('field-variants.subtitle').getByTestId('string-input');``
     contentSubtitle.click();
     await contentSubtitle.press('Meta+a');
-    await contentSubtitle.press('CapsLock');
     await contentSubtitle.fill(inputContentSubtitle);
     await expect(contentSubtitle.inputValue()).resolves.toBe(inputContentSubtitle)
     
@@ -44,7 +43,6 @@ export async function createBlogVariant(page, pageTitle, variantLabel, variantIn
     const contentTitle = page.getByTestId('field-variants.title').getByTestId('string-input')
     await contentTitle.click();
     await contentTitle.press('Meta+a');
-    await contentTitle.press('CapsLock');
     await contentTitle.fill(inputContentTitle);
     await expect(contentTitle.inputValue()).resolves.toBe(inputContentTitle);
 
@@ -61,7 +59,6 @@ export async function createBlogVariant(page, pageTitle, variantLabel, variantIn
         const buttonInput = page.getByTestId('field-variants.primaryButton.label').getByTestId('string-input')
         await buttonInput.click();
         await buttonInput.press('Meta+a');
-        await buttonInput.press('CapsLock');
         await buttonInput.fill(buttonInputValue);
         await expect(buttonInput.inputValue()).resolves.toBe(buttonInputValue)
 
@@ -75,23 +72,23 @@ export async function createBlogVariant(page, pageTitle, variantLabel, variantIn
         const isExternalLinkOptionSelected = await externalLink.isVisible();
         const linkType = isExternalLinkOptionSelected ? 'external' : 'internal';
 
-        await page.getByText('External, outside this website').click()
-        await page.waitForTimeout(1000)
-        await page.getByLabel('URL').click()
-        await page.getByLabel('URL').fill(url)
-        await page.waitForTimeout(1000)
-        await page.getByText('Blank - open on a new tab (').click()
-        // if (linkType === 'external') {
-        //     await externalLink.click();
-        //     await page.getByLabel('URL').click();
-        //     await page.getByLabel('URL').fill(url);
-        //     await blankLinkTarget.click();
-        //     linkConfiguration = { url: url, target: '_blank' };
-        // } 
-        // else if (linkType === 'internal') {
-        //     await internalLink.click();
-        //     // Handle internal links logic here
-        // }
+        // await page.getByText('External, outside this website').click()
+        // await page.waitForTimeout(1000)
+        // await page.getByLabel('URL').click()
+        // await page.getByLabel('URL').fill(url)
+        // await page.waitForTimeout(1000)
+        // await page.getByText('Blank - open on a new tab (').click()
+        if (linkType === 'external') {
+            await externalLink.click();
+            await page.getByLabel('URL').click();
+            await page.getByLabel('URL').fill(url);
+            await blankLinkTarget.click();
+            linkConfiguration = { url: url, target: '_blank' };
+        } 
+        else if (linkType === 'internal') {
+            await internalLink.click();
+            // Handle internal links logic here
+        }
     }
         
     //Save Button
@@ -116,12 +113,15 @@ export async function createBlogVariant(page, pageTitle, variantLabel, variantIn
     await expect(openUrlPage.locator('section')).toBeVisible();
     
     if(variantIndex < 3) {
-        //TODO: Solve issue here, redirecting to /studio instead of its links
-        await page.getByRole('link', { name: buttonInputValue }).click()
-        const page6Promise = page.waitForEvent('popup');
+        //TODO: Solve issue here, redirecting to /studio instead of its url links
+        await openUrlPage.getByRole('link', { name: buttonInputValue }).click();
+        const page6Promise = openUrlPage.waitForEvent('popup');
         const page6 = await page6Promise;
         console.log('page6', page6);
-        // await expect(page6.url()).toBe(linkConfiguration.url);
+        await page6.waitForLoadState('networkidle');
+        console.log('Page 6 URL:', page6.url());
+        const normalizedExpectedUrl = linkConfiguration.url.replace("https://www.", "https://");
+        await expect(page6).toHaveURL(normalizedExpectedUrl);
     }
   }
 }
