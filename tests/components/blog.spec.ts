@@ -1,4 +1,5 @@
 import { test, expect } from "@playwright/test";
+import { NEXT_PUBLIC_SITE_URL } from "studio/config";
 import { autologin_studio, createNewPage, expectDocumentPublished, navigateToPage } from "tests/helpers";
 
 test.beforeEach(async ({ page }) => {
@@ -10,12 +11,12 @@ test.beforeEach(async ({ page }) => {
   await page.evaluate(autologin_studio, { token, projectId });
 });
 
-export async function createBlogVariant(page, pageTitle, variantLabel, variantIndex) {
+export async function createBlogVariant(page, pageTitle, variantLabel, variantIndex, isInternalLink) {
     const time = new Date().getTime()
     const newBlogTitle =  pageTitle + time
     const inputContentSubtitle = `Subtitle ` + time
     const inputContentTitle = `Blog Title ` + time
-    const referencedBlog = 'Mariel test blog Mariel test'
+    const referencedBlog = 'Mariel test blogs'
     const buttonInputValue = "View More"
     
     await navigateToPage(page)
@@ -64,30 +65,25 @@ export async function createBlogVariant(page, pageTitle, variantLabel, variantIn
 
         const externalLink = page.getByText('External, outside this website');
         const internalLink = page.getByText('Internal, inside this website');
-        const blankLinkTarget = page.getByText('Blank - open on a new tab (');
-        const selfLinkTarget = page.getByText('Self (default) - open in the');
-        const url = 'https://facebook.com'
+        const blankLinkTarget = { element: page.getByText('Blank - open on a new tab ('), target: 'Blank - open on a new tab (' };
+        const selfLinkTarget = { element: page.getByText('Self (default) - open in the'), target: 'Self (default) - open in the' };
+        const externalUrl = 'https://facebook.com/'
+        const internalLinkUrl = `${NEXT_PUBLIC_SITE_URL}/thank-you/`
 
-        // Determine if the link is internal or external
-        const isExternalLinkOptionSelected = await externalLink.isVisible();
-        const linkType = isExternalLinkOptionSelected ? 'external' : 'internal';
-
-        // await page.getByText('External, outside this website').click()
-        // await page.waitForTimeout(1000)
-        // await page.getByLabel('URL').click()
-        // await page.getByLabel('URL').fill(url)
-        // await page.waitForTimeout(1000)
-        // await page.getByText('Blank - open on a new tab (').click()
-        if (linkType === 'external') {
+        //Determine the proceeds if it is internal or external link
+        if (!isInternalLink) {
             await externalLink.click();
             await page.getByLabel('URL').click();
-            await page.getByLabel('URL').fill(url);
-            await blankLinkTarget.click();
-            linkConfiguration = { url: url, target: '_blank' };
-        } 
-        else if (linkType === 'internal') {
+            await page.getByLabel('URL').fill(externalUrl);
+            await blankLinkTarget.element.click();
+            externalUrl.replace("https://www.", "https://")
+            linkConfiguration = { url: externalUrl, target: blankLinkTarget.target };
+        } else  {
             await internalLink.click();
-            // Handle internal links logic here
+            await page.getByTestId('reference-input').getByLabel('Open').click();
+            await page.getByRole('button', { name: 'Thank you Published No' }).click({ force: true });
+            await selfLinkTarget.element.click();
+            linkConfiguration = { url: internalLinkUrl, target: selfLinkTarget.target }
         }
     }
         
@@ -96,48 +92,67 @@ export async function createBlogVariant(page, pageTitle, variantLabel, variantIn
     await expect(page.getByRole("link", { name: newBlogTitle })).toBeVisible();
 
     const pagePromise = page.waitForEvent('popup');
-    // TODO: DOMAIN SHOULD BE DYNAMIC EITHER http://localhost:3000/ / https://stackshift-
-    await page.getByText('http://localhost:3000/').click({ force: true });
+    await page.getByText(NEXT_PUBLIC_SITE_URL).click({ force: true });
     const openUrlPage = await pagePromise;
 
-    // TODO: EXPECT SECTIONS TO BE VIEWED HERE. ALSO TRY THE BUTTON LINKS IT SHOULD REDIRECT TO THE INTERNAL PAGES / EXTERNAL URL
     // Wait for the element to become visible or hidden with a longer timeout
-  const sectionCount = await page.locator("div").filter({ hasText: /^No items$/ }).count();
-  if (sectionCount > 0) {
-    // If the section no items is found, expect the Empty Page element to be visible
-    await expect(openUrlPage.getByText("Empty Page")).toBeVisible();
-  } else {
-    // If the section no items is not found, expect the Empty Page element to be hidden
-    await expect(openUrlPage.getByText("Empty Page")).toBeHidden();
-    await openUrlPage.waitForTimeout(10000)
-    await expect(openUrlPage.locator('section')).toBeVisible();
+    const sectionCount = await page.locator("div").filter({ hasText: /^No items$/ }).count();
+    if (sectionCount > 0) {
+        // If the section no items is found, expect the Empty Page element to be visible
+        await expect(openUrlPage.getByText("Empty Page")).toBeVisible();
+    } else {
+        // If the section no items is not found, expect the Empty Page element to be hidden
+        await expect(openUrlPage.getByText("Empty Page")).toBeHidden();
+        await expect(openUrlPage.locator('section')).toBeVisible({ timeout: 20000 });
+        await expect(openUrlPage.getByRole('heading', { name: inputContentTitle })).toBeVisible();
+        await expect(openUrlPage.getByText(inputContentSubtitle)).toBeVisible();
     
     if(variantIndex < 3) {
-        //TODO: Solve issue here, redirecting to /studio instead of its url links
-        await openUrlPage.getByRole('link', { name: buttonInputValue }).click();
-        const page6Promise = openUrlPage.waitForEvent('popup');
-        const page6 = await page6Promise;
-        console.log('page6', page6);
-        await page6.waitForLoadState('networkidle');
-        console.log('Page 6 URL:', page6.url());
-        const normalizedExpectedUrl = linkConfiguration.url.replace("https://www.", "https://");
-        await expect(page6).toHaveURL(normalizedExpectedUrl);
+        let pageToUse;
+        if (linkConfiguration?.target === 'Blank - open on a new tab (') {
+            const page6Promise = openUrlPage.waitForEvent('popup');
+            await openUrlPage.getByRole('link', { name: buttonInputValue }).click({ force: true })
+            const page6 = await page6Promise;
+            console.log('page6', page6);
+            console.log('Page 6 URL:', page6.url());
+            pageToUse = page6;
+        } else {
+            pageToUse = openUrlPage;
+            await openUrlPage.getByRole('link', { name: buttonInputValue }).click({ force: true })
+            await openUrlPage.waitForLoadState('networkidle');
+        }
+
+        if(!isInternalLink) {
+            const expectedUrl = pageToUse.url().replace("https://www.", "https://");
+            console.log(linkConfiguration?.target)
+            await expect(expectedUrl).toBe(linkConfiguration?.url);
+            console.log('Page 6 URL:', pageToUse.url());
+        } else if (isInternalLink) {
+            await expect(pageToUse.getByText('Success!')).toBeVisible({ timeout: 20000 })
+            const expectedUrl = linkConfiguration?.url.endsWith('/') ? linkConfiguration?.url : `${linkConfiguration?.url}/`;
+            const receivedUrl = pageToUse.url().endsWith('/') ? pageToUse.url() : `${pageToUse.url()}/`;
+            await expect(receivedUrl).toBe(expectedUrl);
+        }
     }
   }
 }
 
 test("Create Blog Variant A", async ({page}) => {
-    await createBlogVariant(page, "Blog Page A - ", 'New Blog Page A', 0)
+    await createBlogVariant(page, "Blog Page A - ", 'New Blog Page A', 0, true)
 })
 
 test("Create Blog Variant B", async ({page}) => {
-    await createBlogVariant(page, "Blog Page B - ", 'New Blog Page B', 1)
+    await createBlogVariant(page, "Blog Page B - ", 'New Blog Page B', 1, true)
 })
 
 test("Create Blog Variant C", async ({page}) => {
-    await createBlogVariant(page, "Blog Page C - ", 'New Blog Page C', 2)
+    await createBlogVariant(page, "Blog Page C - ", 'New Blog Page C', 2, true)
 })
 
 test("Create Blog Variant D", async ({page})=> {
-    await createBlogVariant(page, "Blog Page D - ", 'New Blog Page D', 3)
+    await createBlogVariant(page, "Blog Page D - ", 'New Blog Page D', 3, true)
 })
+
+test.afterAll(async () => {
+  console.log("[DONE] Successfully run all tests for Blog Component");
+});

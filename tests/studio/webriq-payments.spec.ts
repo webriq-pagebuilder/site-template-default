@@ -28,7 +28,7 @@ test('Configure Payment Input Required', async ({ page }) => {
   const publishableKey = page.getByText("Required").nth(1)
   const secretKey = page.getByText("Required").nth(2)
 
-  await expect(accountName || publishableKey || secretKey).toBeVisible()
+  await expect(accountName || publishableKey || secretKey).toBeVisible();
 
   await page.getByPlaceholder('Publishable Key').click();
   await page.getByPlaceholder('Publishable Key').fill('pk_test_51OOL7vHCNHVeqcFPVqsh3ETCnhGdcko5e70WwJzXpZ8lO5pfA2YPmUydMYxKFmQv4Pokn8Yho0GhagGlfE6y5YDA00UEXTWeTT');

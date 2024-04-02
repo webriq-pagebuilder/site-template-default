@@ -97,8 +97,7 @@ export async function createNavigationVariant(page, pageTitle, variantLabel, ext
     await expect(openUrlPage.locator('section')).toBeVisible();
 
     if (variantIndex === 4) {
-      const navigationPromise = openUrlPage.waitForNavigation();
-      await navigationPromise;
+      await openUrlPage.waitForLoadState("networkidle");
       await expect(openUrlPage.getByRole('navigation')).toBeVisible({ timeout: 10000 });
     } else {
       const page10Promise = openUrlPage.waitForEvent('popup');
@@ -137,5 +136,5 @@ test("Create Navigation E", async ({ page }) => {
 });
 
 test.afterAll(async () => {
-  console.log("[DONE] Successfully run all tests for Create Navigation Component");
+  console.log("[DONE] Successfully run all tests for Navigation Component");
 });
