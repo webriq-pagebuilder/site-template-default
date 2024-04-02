@@ -33,7 +33,7 @@ export async function createBlogVariant(page, pageTitle, variantLabel, variantIn
     }
     
     //Subtitle
-    const contentSubtitle = page.getByTestId('field-variants.subtitle').getByTestId('string-input');``
+    const contentSubtitle = page.getByTestId('field-variants.subtitle').getByTestId('string-input');
     contentSubtitle.click();
     await contentSubtitle.press('Meta+a');
     await contentSubtitle.fill(inputContentSubtitle);
