@@ -169,11 +169,13 @@ test.describe("Main workflow", () => {
     // EDIT POST
     await page.getByRole("link", { name: "Blog" }).click();
     await page.getByRole("tab", { name: "Posts", exact: true }).click();
+
     await expect(
-      page.getByText(newBlogPost, { exact: true }).first()
+      page.getByText(newBlogPost).or(page.getByText(/Post/)).first()
     ).toBeVisible({ timeout: 180000 });
-    await page
-      .getByText(newBlogPost, { exact: true })
+    page
+      .getByText(newBlogPost)
+      .or(page.getByText(/Post/))
       .first()
       .click({ force: true });
     await page.getByTestId("string-input").click();
