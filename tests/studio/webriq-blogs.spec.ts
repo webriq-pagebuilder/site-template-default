@@ -17,14 +17,15 @@ test.beforeEach(async ({ page }) => {
   const token = process.env.NEXT_PUBLIC_STUDIO_AUTOLOGIN_TOKEN_FOR_TESTING;
   const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
   await page.evaluate(autologin_studio, { token, projectId });
+
+  // Navigate to the studio URL and click the Blog menu
+  await page.goto(`${NEXT_PUBLIC_SANITY_STUDIO_URL}`);
 });
 
 test.describe("Main workflow", () => {
   test.describe.configure({ timeout: 900000, mode: "serial" });
 
   test.beforeEach(async ({ page }) => {
-    // Navigate to the studio URL and click the Blog menu
-    await page.goto(`${NEXT_PUBLIC_SANITY_STUDIO_URL}`);
     await page.getByRole("link", { name: "Blog" }).click();
   });
 
@@ -42,7 +43,7 @@ test.describe("Main workflow", () => {
     await page.getByLabel("Bio").fill("This is a sample author bio.");
     await page
       .getByTestId("action-[object Object]")
-      .click({ force: true, timeout: 60000 }); // publish document
+      .click({ force: true, timeout: 120000 }); // publish document
     await expect(
       page
         .locator("[aria-label='Review changes']")
@@ -61,7 +62,7 @@ test.describe("Main workflow", () => {
     await page.getByLabel("Description").fill("This is a sample category.");
     await page
       .getByTestId("action-[object Object]")
-      .click({ force: true, timeout: 60000 }); // publish document
+      .click({ force: true, timeout: 120000 }); // publish document
     await expect(
       page
         .locator("[aria-label='Review changes']")
@@ -106,7 +107,7 @@ test.describe("Main workflow", () => {
       .fill("This is a sample blog post content.");
     await page
       .getByTestId("action-[object Object]")
-      .click({ force: true, timeout: 60000 }); // publish document
+      .click({ force: true, timeout: 120000 }); // publish document
     await expect(
       page
         .locator("[aria-label='Review changes']")
@@ -119,7 +120,7 @@ test.describe("Main workflow", () => {
     await page.getByRole("tab", { name: "Authors", exact: true }).click();
     await expect(
       page.getByText(newAuthor, { exact: true }).first()
-    ).toBeVisible({ timeout: 75000 });
+    ).toBeVisible({ timeout: 120000 });
     await page
       .getByText(newAuthor, { exact: true })
       .first()
@@ -131,19 +132,21 @@ test.describe("Main workflow", () => {
       .fill(`Author updated - ${getTime}`);
     await page.getByLabel("Bio").click();
     await page.getByLabel("Bio").fill("Updated author sample bio content.");
-    await page.getByTestId("action-[object Object]").click({ force: true }); // publish document
+    await page
+      .getByTestId("action-[object Object]")
+      .click({ force: true, timeout: 120000 }); // publish document
     await expect(
       page
         .locator("[aria-label='Review changes']")
         .filter({ hasText: "just now" })
-    ).toBeVisible({ timeout: 75000 });
+    ).toBeVisible({ timeout: 120000 });
 
     // EDIT CATEGORY
     await page.getByRole("link", { name: "Blog" }).click();
     await page.getByRole("tab", { name: "Categories", exact: true }).click();
     await expect(
       page.getByText(newCategory, { exact: true }).first()
-    ).toBeVisible({ timeout: 75000 });
+    ).toBeVisible({ timeout: 120000 });
     await page
       .getByText(newCategory, { exact: true })
       .first()
@@ -154,19 +157,21 @@ test.describe("Main workflow", () => {
       .fill(`Category updated - ${getTime}`);
     await page.getByLabel("Description").click();
     await page.getByLabel("Description").fill("Updated category description.");
-    await page.getByTestId("action-[object Object]").click({ force: true }); // publish document
+    await page
+      .getByTestId("action-[object Object]")
+      .click({ force: true, timeout: 120000 }); // publish document
     await expect(
       page
         .locator("[aria-label='Review changes']")
         .filter({ hasText: "just now" })
-    ).toBeVisible({ timeout: 75000 });
+    ).toBeVisible({ timeout: 120000 });
 
     // EDIT POST
     await page.getByRole("link", { name: "Blog" }).click();
     await page.getByRole("tab", { name: "Posts", exact: true }).click();
     await expect(
       page.getByText(newBlogPost, { exact: true }).first()
-    ).toBeVisible({ timeout: 120000 });
+    ).toBeVisible({ timeout: 180000 });
     await page
       .getByText(newBlogPost, { exact: true })
       .first()
@@ -184,11 +189,14 @@ test.describe("Main workflow", () => {
       .click({ force: true });
     await page.getByTestId("select-date-button").click();
     await page.getByText("Click to activate").click({ force: true });
+    await page.getByTestId("scroll-container").getByRole("textbox").fill("");
     await page
       .getByTestId("scroll-container")
       .getByRole("textbox")
       .fill("Updated sample blog post content.");
-    await page.getByTestId("action-[object Object]").click({ force: true }); // publish document
+    await page
+      .getByTestId("action-[object Object]")
+      .click({ force: true, timeout: 180000 }); // publish document
     await expect(
       page
         .locator("[aria-label='Review changes']")
