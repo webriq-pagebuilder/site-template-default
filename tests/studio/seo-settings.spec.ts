@@ -27,7 +27,7 @@ test.beforeEach(async ({ page }) => {
   await page.evaluate(autologin_studio, { token, projectId });
 });
 
-test.skip("Add Global SEO", async ({ page }) => {
+test("Add Global SEO", async ({ page }) => {
   test.setTimeout(600000);
 
   await page.goto(
@@ -92,7 +92,7 @@ test.skip("Add Global SEO", async ({ page }) => {
 });
 
 test.describe("Redirect to Global SEO links", () => {
-  test.describe.configure({ timeout: 600000, mode: "serial" });
+  test.describe.configure({ timeout: 600000 });
 
   test.beforeEach(async ({ page }) => {
     // Navigate to the studio URL
@@ -172,6 +172,78 @@ test.describe("Redirect to Global SEO links", () => {
   });
 });
 
+test.describe("Empty SEO settings matches Global SEO", () => {
+  test.describe.configure({ timeout: 600000 });
+
+  test.beforeEach(async ({ page }) => {
+    // Navigate to the studio URL
+    await page.goto(`${NEXT_PUBLIC_SANITY_STUDIO_URL}/desk`);
+
+    const element = page.locator('a:has-text("Pages")');
+    await element.scrollIntoViewIfNeeded();
+    await page.waitForSelector('a:has-text("Pages")', { state: "visible" });
+    await element.click({ force: true });
+
+    const nextElement = page.locator('a:has-text("New Page -")').first();
+    await nextElement.scrollIntoViewIfNeeded();
+    await page.waitForSelector('a:has-text("New Page -")', {
+      state: "visible",
+    });
+    await nextElement.click({ force: true });
+
+    await page
+      .getByRole("button", { name: "SEO Settings" })
+      .click({ force: true });
+  });
+
+  test("SEO title", async ({ page }) => {
+    const pageTitle = await page.locator("input#title").inputValue();
+    const seoTitleFld = page.getByTestId("field-seo.seoTitle");
+    seoTitleFld.fill("");
+    const seoTitlePlaceholder = seoTitleFld.getAttribute("placeholder");
+    expect(seoTitlePlaceholder).toEqual(pageTitle);
+    await expect(page.getByText("Page title value will be used.")).toBeVisible({
+      timeout: 60000,
+    });
+  });
+
+  test("SEO keywords", async ({ page }) => {
+    const seoKeywordsFld = page.getByTestId("field-seo.seoKeywords");
+    seoKeywordsFld.fill("");
+    const seoKeywordsPlaceholder = seoKeywordsFld.getAttribute("placeholder");
+    expect(seoKeywordsPlaceholder).toEqual(globalSeo?.keywords);
+    await expect(
+      page.getByText(
+        "No value specified. The default SEO keywords value will be used."
+      )
+    ).toBeVisible({ timeout: 60000 });
+  });
+
+  test("SEO synonyms", async ({ page }) => {
+    const seoSynonymsFld = page.getByTestId("field-seo.seoSynonyms");
+    seoSynonymsFld.fill("");
+    const seoSynonymsPlaceholder = seoSynonymsFld.getAttribute("placeholder");
+    expect(seoSynonymsPlaceholder).toEqual(globalSeo?.synonyms);
+    await expect(
+      page.getByText(
+        "No value specified. The default SEO synonyms value will be used."
+      )
+    ).toBeVisible({ timeout: 60000 });
+  });
+
+  test("SEO description", async ({ page }) => {
+    const seoDescFld = page.getByTestId("field-seo.seoDescription");
+    seoDescFld.fill("");
+    const seoDescPlaceholder = seoDescFld.getAttribute("placeholder");
+    expect(seoDescPlaceholder).toEqual(globalSeo?.description);
+    await expect(
+      page.getByText(
+        "No value specified. The default SEO description value will be used."
+      )
+    ).toBeVisible({ timeout: 60000 });
+  });
+});
+
 test("Add Page SEO", async ({ page }) => {
   test.setTimeout(600000);
 
@@ -195,38 +267,18 @@ test("Add Page SEO", async ({ page }) => {
 
   // SEO title
   await page.getByTestId("field-seo.seoTitle").fill("");
-  await expect(page.getByText("Page title value will be used.")).toBeVisible({
-    timeout: 60000,
-  });
   await page.getByTestId("field-seo.seoTitle").fill("Stackshift | New Page");
 
   // SEO keywords
   await page.getByTestId("field-seo.seoKeywords").fill("");
-  await expect(
-    page.getByText(
-      "No value specified. The default SEO keywords value will be used."
-    )
-  ).toBeVisible({ timeout: 60000 });
   await page.getByTestId("field-seo.seoKeywords").fill("new page");
 
   // SEO synonyms
-  await page.getByTestId("field-seo.seoSynonyms").click();
   await page.getByTestId("field-seo.seoSynonyms").fill("");
-  await expect(
-    page.getByText(
-      "No value specified. The default SEO synonyms value will be used."
-    )
-  ).toBeVisible({ timeout: 60000 });
   await page.getByTestId("field-seo.seoSynonyms").fill("test page");
 
   // SEO description
-  await page.getByTestId("field-seo.seoDescription").click();
   await page.getByTestId("field-seo.seoDescription").fill("");
-  await expect(
-    page.getByText(
-      "No value specified. The default SEO description value will be used."
-    )
-  ).toBeVisible({ timeout: 60000 });
   await page
     .getByTestId("field-seo.seoDescription")
     .fill("This is the SEO description of this page.");
