@@ -51,7 +51,8 @@ export async function createBlogVariant(page, pageTitle, variantLabel, variantIn
     await page.getByRole('button', { name: 'Add item' }).click();
     await page.getByTestId('reference-input').getByLabel('Open').click();
     await page.getByRole('button', { name: referencedBlog }).click();
-
+    await expect(page.getByRole('link', { name: referencedBlog })).toBeVisible({ timeout: 75000 });
+    
     let linkConfiguration;
 
     if(variantIndex < 3 ) {
