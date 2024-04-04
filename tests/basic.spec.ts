@@ -1,26 +1,23 @@
 import { test, expect } from "@playwright/test";
+import { autologin_studio } from "./utils";
 
-export function autologin_studio({ token, projectId }) {
-  console.log("🚀 ~ autologin_studio ~ { token, projectId }:", {
-    token,
-    projectId,
-  });
-  window.localStorage.setItem(
-    `__studio_auth_token_${projectId}`,
-    JSON.stringify({
-      token,
-      time: "2024-03-11T07:00:27.633Z",
-    })
-  );
-}
+test.describe.configure({ mode: "serial" });
 
-test.beforeEach(async ({ page }) => {
-  await page.goto("http://localhost:3000");
+let page: Page;
+
+test.beforeAll("Autologin Studio", async ({ browser }) => {
+  page = await browser.newPage();
+
+  await page.goto("http://localhost:3000/studio");
   // Pass the environment variable value as an argument to page.evaluate()
   const token = process.env.STUDIO_AUTOLOGIN_TOKEN_FOR_TESTING;
   const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
 
   await page.evaluate(autologin_studio, { token, projectId });
+});
+
+test.afterAll(async () => {
+  await page.close();
 });
 
 test("test it can publishes a page", async ({ page }) => {

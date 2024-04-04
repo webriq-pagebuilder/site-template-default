@@ -17,7 +17,10 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "build-storybook-docs": "storybook build --docs",
-    "chromatic": "npx chromatic --project-token=chpt_68d919151b3e677 --only-changed"
+    "chromatic": "npx chromatic --project-token=chpt_68d919151b3e677 --only-changed",
+    "test": "npx playwright test",
+    "test:ui": "npx playwright test --ui",
+    "test:generate": "npx playwright codegen localhost:3000"
   },
   "dependencies": {
     "@portabletext/react": "^3.0.9",
@@ -106,5 +109,6 @@
     "storybook": "^8.0.0",
     "tailwindcss": "^3.3.3",
     "typescript": "5.0.4"
-  }
+  },
+  "packageManager": "yarn@4.1.1"
 }
