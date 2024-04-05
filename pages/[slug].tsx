@@ -128,7 +128,7 @@ function Document({
 
       {/* if page has no sections, show no sections only in preview */}
        {(!data?.pageData || !data?.pageData?.sections ||
-        data?.pageData?.sections.length === 0) && <PreviewNoContent />}
+        data?.pageData?.sections.length === 0) && !data?.blogData && <PreviewNoContent />}
 
       {/*  Show page sections */}
       {data?.pageData && <PageSections data={data?.pageData} />}
