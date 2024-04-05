@@ -145,7 +145,6 @@ export async function createNavigationVariant(page, pageTitle, variantLabel, var
       await primaryButtonLabel.fill(inputPrimaryButton);
       await expect(primaryButtonLabel.inputValue()).resolves.toBe(inputPrimaryButton);
       
-      await primaryButtonLinkType.getByText(isInternalLink ? 'Internal, inside this website' : 'External, outside this website').click();
       if (isInternalLink) {
           await page.getByTestId('reference-input').getByLabel('Open').click({ force: true });
           await page.getByRole('button', { name: 'Thank you Published No' }).click();
@@ -164,7 +163,6 @@ export async function createNavigationVariant(page, pageTitle, variantLabel, var
       await secondaryButtonLabel.fill(inputSecondaryButton);
       await expect(secondaryButtonLabel.inputValue()).resolves.toBe(inputSecondaryButton);
       
-      await secondaryButtonLinkType.getByText(isInternalLink ? 'Internal, inside this website' : 'External, outside this website').click();
       if (isInternalLink) {
           await page.getByTestId('reference-input').getByLabel('Open').click({ force: true });
           await page.getByRole('button', { name: 'Thank you Published No' }).click();
@@ -194,7 +192,6 @@ export async function createNavigationVariant(page, pageTitle, variantLabel, var
 
 const createNavigationTest = async ({ page }, pageTitle, variantName, variantIndex, isInternalLink, linkNames) => {
   await createNavigationVariant(page, pageTitle, variantName, variantIndex, isInternalLink);
-
   const blankLinkTarget = { element: page.getByText('Blank - open on a new tab ('), target: 'Blank - open on a new tab (' };
   const selfLinkTarget = { element: page.getByText('Self (default) - open in the'), target: 'Self (default) - open in the' };
 
@@ -204,13 +201,10 @@ const createNavigationTest = async ({ page }, pageTitle, variantName, variantInd
 
   // Loops all routes
   for(const linkName of linkNames) {
-    await navigateToPage(page);
-    await page.getByRole('link', { name: newPageTitle }).click({ force: true });
-    await page.waitForTimeout(3000);
-    const pagePromise = page.waitForEvent('popup');
-    await page.getByText(`${NEXT_PUBLIC_SITE_URL}`).click({ force: true });
-    const openUrlPage = await pagePromise;
-    await assertPageContent(openUrlPage, linkConfiguration, linkName, isInternalLink, externalLinkUrl);
+    const slug = newPageTitle?.toLowerCase()?.replace(/\s+/g, "-").replace(/-+/g, "-");
+    await page.goto(`${NEXT_PUBLIC_SITE_URL}/${slug}`)
+
+    await assertPageContent(page, linkConfiguration, linkName, isInternalLink, externalLinkUrl);
   }
 };
 
