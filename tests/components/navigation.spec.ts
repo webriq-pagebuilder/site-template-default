@@ -4,6 +4,8 @@ import { autologin_studio, createNewPage, expectDocumentPublished, navigateToPag
 
 const inputPrimaryButton = "Primary Button Test";
 const inputSecondaryButton = "Secondary Button Test"
+const externalLinkUrl = 'https://facebook.com/'
+const internalLinkUrl = `${NEXT_PUBLIC_SITE_URL}/thank-you/`
 let newPageTitle;
 
 test.beforeEach(async ({ page }) => {
@@ -15,20 +17,34 @@ test.beforeEach(async ({ page }) => {
   await page.evaluate(autologin_studio, { token, projectId });
 });
 
-async function addNavigationRoutes(page, buttonName, routeName) {
+async function addNavigationRoutes(page, buttonName, isInternalLink) {
   await page.getByRole('button', { name: buttonName }).click();
   await expect(page.getByLabel('Edit Link')).toBeVisible({ timeout: 75000 });
   //TODO: INTERNAL/EXTERNAL HERE
-  // await page.getByTestId('field-variants.routes[_key=="8u7-aXF7hMIq1b0Iv6RXT"].linkType').getByText('Internal, inside this website').click({ force: true });
-  await page.getByTestId('reference-input').getByLabel('Open').click();
-  await page.getByRole('button', { name: 'Thank you Published No' }).click();
-  //TODO: LINK TARGET HERE
+  const routesExternalLink = await page.locator('.sc-jdUcAg > div:nth-child(2) > div label[data-as="label"] span:has-text("External, outside this website")');
+  const routesInternalLink = await page.locator('.sc-jdUcAg > div:nth-child(2) > div label[data-as="label"] span:has-text("Internal, inside this website")');
+  
+  const blankLinkTarget = { element: page.locator('.sc-jdUcAg > div:nth-child(2) > div label[data-as="label"] span:has-text("Blank - open on a new tab (")'), target: 'Blank - open on a new tab (' };
+  const selfLinkTarget = { element: page.locator('.sc-jdUcAg > div:nth-child(2) > div label[data-as="label"] span:has-text("Self (default) - open in the")'), target: 'Self (default) - open in the' };
+
+  if(!isInternalLink) {
+    await routesExternalLink.click({ force: true });
+    await page.locator('.sc-jdUcAg > div:nth-child(2) > div input[inputmode="url"]').click({ force: true });
+    await page.locator('.sc-jdUcAg > div:nth-child(2) > div input[inputmode="url"]').fill(externalLinkUrl)
+    await blankLinkTarget.element.click();
+  } else {
+    await routesInternalLink.click();
+    await page.getByTestId('reference-input').getByLabel('Open').click();
+    await page.getByRole('button', { name: 'Thank you Published No' }).click();
+    await selfLinkTarget.element.click();
+  }
+
   await page.getByLabel('Close dialog').click();
-  await expect(page.getByRole('button', { name: routeName })).toBeVisible();
 }
 
-async function assertPageContent(openUrlPage, linkConfiguration, linkName, isInternalLink, externalLinkUrl) {
+async function assertPageContent(openUrlPage, linkConfiguration, linkName, isInternalLink) {
   const sectionCount = await openUrlPage.locator("div").filter({ hasText: /^No items$/ }).count();
+
   if (sectionCount > 0) {
     // If the section no items is found, expect the Empty Page element to be visible
     await expect(openUrlPage.getByText("Empty Page")).toBeVisible({ timeout: 20000 });
@@ -54,19 +70,20 @@ async function assertPageContent(openUrlPage, linkConfiguration, linkName, isInt
       pageToUse = openUrlPage;
       await openUrlPage.getByRole('link', { name: linkName }).click({ force: true })
       await openUrlPage.waitForLoadState('networkidle');
+    }
 
       if (!isInternalLink) {
         // Normalize URLs for comparison
         const normalizedExpectedUrl = externalLinkUrl.replace("https://www.", "https://");
         const normalizedReceivedUrl = pageToUse.url().replace("https://www.", "https://");
         await expect(normalizedReceivedUrl).toBe(normalizedExpectedUrl);
+        await expect(pageToUse.getByRole('img', { name: 'Facebook' })).toBeVisible({ timeout: 150000 });
       } else if (isInternalLink) {
         await expect(pageToUse.getByText('Success!')).toBeVisible({ timeout: 20000 })
         const expectedUrl = linkConfiguration?.url.endsWith('/') ? linkConfiguration?.url : `${linkConfiguration?.url}/`;
         const receivedUrl = pageToUse.url().endsWith('/') ? pageToUse.url() : `${pageToUse.url()}/`;
         await expect(receivedUrl).toBe(expectedUrl);
       }
-    }
   }
 }
 
@@ -94,9 +111,7 @@ export async function createNavigationVariant(page, pageTitle, variantLabel, var
   const internalLink = page.getByTestId('field-variants.logo.linkType').getByText('Internal, inside this website');
   const blankLinkTarget = { element: page.getByText('Blank - open on a new tab ('), target: 'Blank - open on a new tab (' };
   const selfLinkTarget = { element: page.getByText('Self (default) - open in the'), target: 'Self (default) - open in the' };
-  const externalLinkUrl = 'https://facebook.com/'
-  const internalLinkUrl = `${NEXT_PUBLIC_SITE_URL}/thank-you/`
-  
+
   let linkConfiguration;
 
   if(!isInternalLink) {
@@ -121,22 +136,20 @@ export async function createNavigationVariant(page, pageTitle, variantLabel, var
 
   //TODO: ADD LINK INTERNAL/EXTERNAL, AND TARGET SELF/BLANK.
   // Perform navigation clicks
-  await addNavigationRoutes(page, 'Start Internal Link Not Set', 'Start Route: Reference to Page');
-  await addNavigationRoutes(page, 'About Us Internal Link Not Set', 'About Us Route: Reference to');
-  await addNavigationRoutes(page, 'Services Internal Link Not Set', 'Services Route: Reference to');
-  await addNavigationRoutes(page, 'Platform Internal Link Not Set', 'Platform Route: Reference to');
-  await addNavigationRoutes(page, 'Testimonials Internal Link', 'Testimonials Route: Reference');
+  await addNavigationRoutes(page, 'Start Internal Link Not Set', isInternalLink);
+  await addNavigationRoutes(page, 'About Us Internal Link Not Set', isInternalLink);
+  await addNavigationRoutes(page, 'Services Internal Link Not Set', isInternalLink);
+  await addNavigationRoutes(page, 'Platform Internal Link Not Set', isInternalLink);
+  await addNavigationRoutes(page, 'Testimonials Internal Link', isInternalLink);
 
   if (variantIndex < 4) {
       const primaryButton = page.getByRole('button', { name: 'Primary Button' });
       const primaryButtonLabel = page.getByTestId('field-variants.primaryButton.label').getByTestId('string-input');
-      const primaryButtonLinkType = page.getByTestId('field-variants.primaryButton.linkType');
       const primaryButtonLinkExternal = page.getByTestId('field-variants.primaryButton.linkExternal').getByLabel('URL');
       const primaryButtonLinkTarget = page.getByTestId('field-variants.primaryButton.linkTarget');
 
       const secondaryButton = page.getByRole('button', { name: 'Secondary Button' });
       const secondaryButtonLabel = page.getByTestId('field-variants.secondaryButton.label').getByTestId('string-input');
-      const secondaryButtonLinkType = page.getByTestId('field-variants.secondaryButton.linkType');
       const secondaryButtonLinkExternal = page.getByTestId('field-variants.secondaryButton.linkExternal').getByLabel('URL');
       const secondaryButtonLinkTarget = page.getByTestId('field-variants.secondaryButton.linkTarget');
 
@@ -151,6 +164,7 @@ export async function createNavigationVariant(page, pageTitle, variantLabel, var
           await primaryButtonLinkTarget.getByText('Self (default) - open in the').click();
           linkConfiguration = { url: internalLinkUrl, target: selfLinkTarget.target }
       } else {
+          await page.getByTestId('field-variants.primaryButton.linkType').getByText('External, outside this website').click();
           await primaryButtonLinkExternal.click();
           await primaryButtonLinkExternal.fill(externalLinkUrl);
           await expect(primaryButtonLinkExternal.inputValue()).resolves.toBe(externalLinkUrl);
@@ -169,6 +183,7 @@ export async function createNavigationVariant(page, pageTitle, variantLabel, var
           await secondaryButtonLinkTarget.getByText('Self (default) - open in the').click();
           linkConfiguration = { url: internalLinkUrl, target: selfLinkTarget.target }
       } else {
+          await page.getByTestId('field-variants.secondaryButton.linkType').getByText('External, outside this website').click();
           await secondaryButtonLinkExternal.click();
           await secondaryButtonLinkExternal.fill(externalLinkUrl);
           await expect(secondaryButtonLinkExternal.inputValue()).resolves.toBe(externalLinkUrl);
@@ -184,38 +199,40 @@ export async function createNavigationVariant(page, pageTitle, variantLabel, var
   await page.getByText(NEXT_PUBLIC_SITE_URL).click({ force: true });
   const openUrlPage = await pagePromise;
     
-  await assertPageContent(openUrlPage, linkConfiguration, "Start", isInternalLink, externalLinkUrl);
+  // Default should just be available routes - no buttons in variant E
+  await assertPageContent(openUrlPage, linkConfiguration, "Start", isInternalLink);
 }
-
-// TODO: CREATE A WORKFLOW WITH INTERNAL AND EXTERNAL LINKS.
-// TODO: TO HAVE THIS FUNCTIONALITY, STILL NEEDS TO GET THE DOM OF EDIT ROUTE LINKS. :(
 
 const createNavigationTest = async ({ page }, pageTitle, variantName, variantIndex, isInternalLink, linkNames) => {
   await createNavigationVariant(page, pageTitle, variantName, variantIndex, isInternalLink);
-  const blankLinkTarget = { element: page.getByText('Blank - open on a new tab ('), target: 'Blank - open on a new tab (' };
-  const selfLinkTarget = { element: page.getByText('Self (default) - open in the'), target: 'Self (default) - open in the' };
+  const blankLinkTarget = { target: 'Blank - open on a new tab (' };
+  const selfLinkTarget = { target: 'Self (default) - open in the' };
+  let linkConfiguration
+  
+  if(!isInternalLink) {
+    linkConfiguration = { url: externalLinkUrl, target: blankLinkTarget.target }    
+  } else {
+    linkConfiguration = { url: internalLinkUrl, target: selfLinkTarget.target };
+  }
 
-  const externalLinkUrl = "https://facebook.com";
-  const internalLinkUrl = `${NEXT_PUBLIC_SITE_URL}/thank-you/`;
-  const linkConfiguration = { url: internalLinkUrl, target: selfLinkTarget.target };
-
+  
   // Loops all routes
   for(const linkName of linkNames) {
     const slug = newPageTitle?.toLowerCase()?.replace(/\s+/g, "-").replace(/-+/g, "-");
     await page.goto(`${NEXT_PUBLIC_SITE_URL}/${slug}`)
 
-    await assertPageContent(page, linkConfiguration, linkName, isInternalLink, externalLinkUrl);
+    await assertPageContent(page, linkConfiguration, linkName, isInternalLink);
   }
 };
 
 test("Create Navigation A", async ({ page }) => {
   const linkNames = ["Start", "About Us", "Services", "Platform", "Testimonials", inputPrimaryButton, inputSecondaryButton];
-  await createNavigationTest({ page }, "Navigation Page A", "Navigation New Page Variant A", 0, true, linkNames);
+  await createNavigationTest({ page }, "Navigation Page A", "Navigation New Page Variant A", 0, false, linkNames);
 });
 
 test("Create Navigation B", async ({ page }) => {
   const linkNames = ["Start", "About Us", "Services", "Platform", "Testimonials", inputPrimaryButton, inputSecondaryButton];
-  await createNavigationTest({ page }, "Navigation Page B", "Navigation New Page Variant B", 1, true, linkNames);
+  await createNavigationTest({ page }, "Navigation Page B", "Navigation New Page Variant B", 1, false, linkNames);
 });
 
 test("Create Navigation C", async ({ page }) => {
