@@ -45,12 +45,15 @@ export async function createNewPage(page, sectionTitle, sections) {
 }
 
 export async function expectDocumentPublished(page) {
+  await expect(page.locator('[data-testid="review-changes-button"]').filter({ hasText: "Just now" })).toBeVisible({ timeout: 150000 });
   await page.getByTestId("action-Save").click({ force: true });
   await expect(page.locator('[id="__next"]').getByRole('alert').locator('div').filter({ hasText: 'The document was published' }).nth(1)).toBeVisible({ timeout: 150000 });
   await page.getByRole("link", { name: "Close pane group" }).click({ force: true });
   await expect(page.getByTestId("field-sections").getByTestId("input-validation-icon-error")).toBeHidden({ timeout: 150000 });
 
   // Once the error is hidden, proceed with clicking the action
+  await expect(page.locator('[id="__next"]').getByRole('alert').locator('div').filter({ hasText: 'The document was published' }).nth(1)).toBeHidden({ timeout: 150000 });
   await page.getByTestId("action-[object Object]").click({ force: true });
+  await expect(page.locator('[id="__next"]').getByRole('alert').locator('div').filter({ hasText: 'The document was published' }).nth(1)).toBeVisible({ timeout: 150000 });
   await expect(page.getByRole('button', { name: 'Last published just now' })).toBeVisible({ timeout: 150000 })
 }
