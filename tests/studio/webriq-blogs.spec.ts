@@ -21,14 +21,14 @@ test.beforeAll("Auto login studio", async ({ browser }) => {
   await page.evaluate(autologin_studio, { token, projectId });
 });
 
-test.describe.skip("Main workflow", () => {
+test.describe("Verify main actions working", () => {
   test.describe.configure({ timeout: 900000, mode: "serial" });
 
   test.beforeEach(async () => {
     await page.getByRole("link", { name: "Blog" }).click();
   });
 
-  test("Create author, category and post", async () => {
+  test("Can create author, category and post", async () => {
     // CREATE AUTHOR
     await page.getByRole("button", { name: "Create", exact: true }).click();
     await page.getByRole("menuitem", { name: "Author" }).click();
@@ -114,7 +114,7 @@ test.describe.skip("Main workflow", () => {
     ).toBeVisible({ timeout: 120000 });
   });
 
-  test("Edit author, category and post", async () => {
+  test("Can edit author, category and post", async () => {
     // EDIT AUTHOR
     await page.getByRole("tab", { name: "Authors", exact: true }).click();
     await expect(
