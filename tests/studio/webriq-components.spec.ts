@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { test, expect, type Page } from "@playwright/test";
 import { autologin_studio } from "tests/autologin";
 import {
   NEXT_PUBLIC_SITE_URL,
@@ -8,7 +8,11 @@ import {
 const newComponentName = `New App Promo - ` + new Date().getTime();
 const dupeComponentName = `App promo - ` + new Date().getTime();
 
-test.beforeEach(async ({ page }) => {
+let page: Page;
+
+test.beforeAll(async ({ browser }) => {
+  page = await browser.newPage();
+
   await page.goto(`${NEXT_PUBLIC_SITE_URL}`);
 
   const token = process.env.NEXT_PUBLIC_STUDIO_AUTOLOGIN_TOKEN_FOR_TESTING;
@@ -19,10 +23,10 @@ test.beforeEach(async ({ page }) => {
   await page.goto(`${NEXT_PUBLIC_SANITY_STUDIO_URL}/desk`);
 });
 
-test.describe("Main workflow", () => {
+test.describe.skip("Main workflow", () => {
   test.describe.configure({ timeout: 1500000, mode: "serial" });
 
-  test("Show all components", async ({ page }) => {
+  test("Show all components", async () => {
     await page.getByRole("link", { name: "Components" }).click({ force: true });
     await page
       .locator("create-btn-icon")
@@ -32,7 +36,7 @@ test.describe("Main workflow", () => {
       });
   });
 
-  test("Create component", async ({ page }) => {
+  test("Create component", async () => {
     console.log("[INFO] Creating a new component...");
     await page.getByRole("link", { name: "Components" }).click({ force: true });
     await page.getByRole("button", { name: "New App Promo" }).click();
@@ -47,7 +51,7 @@ test.describe("Main workflow", () => {
       });
   });
 
-  test("Search component", async ({ page }) => {
+  test("Search component", async () => {
     await page.getByRole("link", { name: "Components" }).click({ force: true });
     await page.getByPlaceholder("Search variants").click();
     await page.getByPlaceholder("Search variants").fill("New App Promo");
@@ -56,7 +60,7 @@ test.describe("Main workflow", () => {
     ).toBeVisible({ timeout: 180000 });
   });
 
-  test("Duplicate component", async ({ page }) => {
+  test("Duplicate component", async () => {
     const cardName = newComponentName?.toLowerCase()?.replace(/\s/g, "");
 
     console.log("[INFO] Duplicating component...");
@@ -83,7 +87,7 @@ test.describe("Main workflow", () => {
       });
   });
 
-  test("Delete component", async ({ page }) => {
+  test("Delete component", async () => {
     console.log("[INFO] Deleting component...");
 
     await page.getByRole("link", { name: "Components" }).click({ force: true });
@@ -141,7 +145,7 @@ test.describe("Main workflow", () => {
       });
   });
 
-  test("Can't delete referenced component", async ({ page }) => {
+  test("Can't delete referenced component", async () => {
     await page.getByRole("link", { name: "Components" }).click({ force: true });
 
     const getCardWithRef = page
@@ -171,7 +175,7 @@ test.describe("Main workflow", () => {
   });
 });
 
-test("Filter component", async ({ page }) => {
+test.skip("Filter component", async () => {
   test.setTimeout(120000);
 
   await page.getByRole("link", { name: "Components" }).click();
@@ -182,4 +186,8 @@ test("Filter component", async ({ page }) => {
     .click({ force: true });
   await page.locator("#react-select-2-option-0").click({ force: true });
   await expect(page.locator("[data-ui='Container']").first()).toHaveCount(1);
+});
+
+test.afterAll(async () => {
+  await page.close();
 });

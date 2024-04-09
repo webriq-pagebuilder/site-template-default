@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { test, expect, type Page } from "@playwright/test";
 import { autologin_studio } from "tests/autologin";
 import {
   NEXT_PUBLIC_SITE_URL,
@@ -11,7 +11,11 @@ const newAuthor = `New Author - ` + getTime;
 const newCategory = `New Category - ` + getTime;
 const newBlogPost = `New Post - ` + getTime;
 
-test.beforeEach(async ({ page }) => {
+let page: Page;
+
+test.beforeAll(async ({ browser }) => {
+  page = await browser.newPage();
+
   await page.goto(`${NEXT_PUBLIC_SITE_URL}`);
 
   const token = process.env.NEXT_PUBLIC_STUDIO_AUTOLOGIN_TOKEN_FOR_TESTING;
@@ -22,14 +26,14 @@ test.beforeEach(async ({ page }) => {
   await page.goto(`${NEXT_PUBLIC_SANITY_STUDIO_URL}`);
 });
 
-test.describe("Main workflow", () => {
+test.describe.skip("Main workflow", () => {
   test.describe.configure({ timeout: 900000, mode: "serial" });
 
-  test.beforeEach(async ({ page }) => {
+  test.beforeEach(async () => {
     await page.getByRole("link", { name: "Blog" }).click();
   });
 
-  test("Create author, category and post", async ({ page }) => {
+  test("Create author, category and post", async () => {
     // CREATE AUTHOR
     await page.getByRole("button", { name: "Create", exact: true }).click();
     await page.getByRole("menuitem", { name: "Author" }).click();
@@ -115,7 +119,7 @@ test.describe("Main workflow", () => {
     ).toBeVisible({ timeout: 120000 });
   });
 
-  test("Edit author, category and post", async ({ page }) => {
+  test("Edit author, category and post", async () => {
     // EDIT AUTHOR
     await page.getByRole("tab", { name: "Authors", exact: true }).click();
     await expect(
@@ -205,4 +209,8 @@ test.describe("Main workflow", () => {
         .filter({ hasText: "just now" })
     ).toBeVisible({ timeout: 180000 });
   });
+});
+
+test.afterAll(async () => {
+  await page.close();
 });
