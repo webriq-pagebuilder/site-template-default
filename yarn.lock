@@ -6515,9 +6515,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@webriq-pagebuilder/sanity-plugin-desk-studio-version@npm:^4.0.3":
-  version: 4.0.3
-  resolution: "@webriq-pagebuilder/sanity-plugin-desk-studio-version@npm:4.0.3"
+"@webriq-pagebuilder/sanity-plugin-desk-studio-version@npm:^4.0.6-alpha.1":
+  version: 4.0.6-alpha.1
+  resolution: "@webriq-pagebuilder/sanity-plugin-desk-studio-version@npm:4.0.6-alpha.1"
   dependencies:
     "@sanity/incompatible-plugin": "npm:^1.0.4"
     "@sanity/ui": "npm:^1.8.1"
@@ -6526,13 +6526,13 @@ __metadata:
   peerDependencies:
     react: ^18
     sanity: ^3.13.0
-  checksum: 10c0/4800ef7aedf838c1a3d21f6bb1fb905b42ad521278acc1553aab449641736f408b0a9c7a0ff96a3a269461888c8d412086db47e28e4abc18ab10ffe78598835d
+  checksum: 10c0/306ced283e599baa861a33f53c4b0732f23b382fa8000f2e3085fc3a340a830904ed88a380ba46099799762648e182d5a6a37c378f6ec1ccb4111052d1d2cf10
   languageName: node
   linkType: hard
 
-"@webriq-pagebuilder/sanity-plugin-input-component-gpt3@npm:^4.0.3":
-  version: 4.0.3
-  resolution: "@webriq-pagebuilder/sanity-plugin-input-component-gpt3@npm:4.0.3"
+"@webriq-pagebuilder/sanity-plugin-input-component-gpt3@npm:^4.0.6-alpha.1":
+  version: 4.0.6-alpha.1
+  resolution: "@webriq-pagebuilder/sanity-plugin-input-component-gpt3@npm:4.0.6-alpha.1"
   dependencies:
     "@sanity/icons": "npm:^2.4.1"
     "@sanity/incompatible-plugin": "npm:^1.0.4"
@@ -6543,13 +6543,13 @@ __metadata:
   peerDependencies:
     react: ^18
     sanity: ^3.13.0
-  checksum: 10c0/9d33f66212f73657eaeceea23ab2df1a0b56412c311f798dc2aa40692fd4ac048509115267861053955c71fb0d5933421d1088e3afe61a56bbbe674e2909a2d2
+  checksum: 10c0/a9992fc49e3cb51638f573035524d0248e89f9f4d62c37af1b78a7630c394d0bed6a546caeca253f32723e79ce0e770ddf3edb73a4539f1297f4731d3b15ae99
   languageName: node
   linkType: hard
 
-"@webriq-pagebuilder/sanity-plugin-input-component-variants@npm:^4.0.3":
-  version: 4.0.3
-  resolution: "@webriq-pagebuilder/sanity-plugin-input-component-variants@npm:4.0.3"
+"@webriq-pagebuilder/sanity-plugin-input-component-variants@npm:^4.0.6-alpha.1":
+  version: 4.0.6-alpha.1
+  resolution: "@webriq-pagebuilder/sanity-plugin-input-component-variants@npm:4.0.6-alpha.1"
   dependencies:
     "@sanity/icons": "npm:^2.3.1"
     "@sanity/incompatible-plugin": "npm:^1.0.4"
@@ -6558,13 +6558,13 @@ __metadata:
     react: ^18
     sanity: ^3
     styled-components: ^5.2
-  checksum: 10c0/1b97d5e41aa4b62416941502b13c7e12f6c47889a7919aaf01630754f7c1834a101360a55bf3f09e6d87d845322aaa6aada1cd7482d0f3500a994878ae7ae6c8
+  checksum: 10c0/76fc2210cb0ebdf020d4815caeec1af220f78a65aab66390c17286190a589b172d37e84bf7df23229ee8cfc037e669042a45a66888af9bf986635f01e02889ca
   languageName: node
   linkType: hard
 
-"@webriq-pagebuilder/sanity-plugin-inspector-inline-edit@npm:^4.0.3":
-  version: 4.0.3
-  resolution: "@webriq-pagebuilder/sanity-plugin-inspector-inline-edit@npm:4.0.3"
+"@webriq-pagebuilder/sanity-plugin-inspector-inline-edit@npm:^4.0.6-alpha.1":
+  version: 4.0.6-alpha.1
+  resolution: "@webriq-pagebuilder/sanity-plugin-inspector-inline-edit@npm:4.0.6-alpha.1"
   dependencies:
     "@sanity/incompatible-plugin": "npm:^1.0.4"
     "@sanity/ui": "npm:^1.8.1"
@@ -6572,13 +6572,13 @@ __metadata:
   peerDependencies:
     react: ^18
     sanity: ^3.13.0
-  checksum: 10c0/902ac01cd7d70b84942064e36544387fa60e87b05c4f7f4bacf54c1128d0dc6c81a21a6f4ede6e9c25eeeb905a11c3891389c583d7553830675d62aaaa851186
+  checksum: 10c0/0909e380190ae84e293ae2f6bd8b4949ac4f8066b6a88717376c3bff15ed3c866bffc1defc1eb451144762398a2e82c1d836d82d0b434ca445c0d0219ba7d967
   languageName: node
   linkType: hard
 
-"@webriq-pagebuilder/sanity-plugin-schema-blog@npm:^4.0.3":
-  version: 4.0.3
-  resolution: "@webriq-pagebuilder/sanity-plugin-schema-blog@npm:4.0.3"
+"@webriq-pagebuilder/sanity-plugin-schema-blog@npm:^4.0.6-alpha.1":
+  version: 4.0.6-alpha.1
+  resolution: "@webriq-pagebuilder/sanity-plugin-schema-blog@npm:4.0.6-alpha.1"
   dependencies:
     "@sanity/incompatible-plugin": "npm:^1.0.4"
     nanoid: "npm:^3.1.30"
@@ -6587,21 +6587,21 @@ __metadata:
     react: ^18
     sanity: ^3
     styled-components: ^5.2
-  checksum: 10c0/3a97effe3b1fbe2138619167107bf923e4f07ee65b3c4fca815cbe5bea71ebf6c9431271de7781babbaaed4e363280a9227125058a454056ce8359d395d4377f
+  checksum: 10c0/13c51a637b8c0044aa0ab6ab89ad67c5127334f8b6d2c28b81e8cb483445e04217dad4a64fa69d1d382aedfb1f150727b5c7dd799596393c75ed29c0b5c44fc2
   languageName: node
   linkType: hard
 
-"@webriq-pagebuilder/sanity-plugin-schema-commerce@npm:^4.0.3":
-  version: 4.0.3
-  resolution: "@webriq-pagebuilder/sanity-plugin-schema-commerce@npm:4.0.3"
+"@webriq-pagebuilder/sanity-plugin-schema-commerce@npm:^4.0.6-alpha.1":
+  version: 4.0.6-alpha.1
+  resolution: "@webriq-pagebuilder/sanity-plugin-schema-commerce@npm:4.0.6-alpha.1"
   dependencies:
     "@portabletext/to-html": "npm:^2.0.0"
     "@sanity/client": "npm:^5.3.2"
     "@sanity/incompatible-plugin": "npm:^1.0.4"
     "@sanity/ui": "npm:^1.3.2"
-    "@webriq-pagebuilder/sanity-plugin-input-component-gpt3": "npm:^4.0.3"
-    "@webriq-pagebuilder/sanity-plugin-input-component-variants": "npm:^4.0.3"
-    "@webriq-pagebuilder/sanity-plugin-schema-default": "npm:^4.0.3"
+    "@webriq-pagebuilder/sanity-plugin-input-component-gpt3": "npm:^4.0.6-alpha.1"
+    "@webriq-pagebuilder/sanity-plugin-input-component-variants": "npm:^4.0.6-alpha.1"
+    "@webriq-pagebuilder/sanity-plugin-schema-default": "npm:^4.0.6-alpha.1"
     htm: "npm:^3.1.1"
     nanoid: "npm:^3.1.30"
     react-icons: "npm:^4.2.0"
@@ -6610,50 +6610,50 @@ __metadata:
     react: ^18
     sanity: ^3
     styled-components: ^5.2
-  checksum: 10c0/6ece43ebb62dbc8a6aad2acd986cf8a09ed7df2117dfdc31284943eee3ce3357a607c485308666e9455b851d60d2c4e8efedc40e5dbc1306fb465b39b4dc0f98
+  checksum: 10c0/85c773fbafa4abc62bc3c1d84e878bec53288a261d4220b17120d859404d1752a6a9bb4786920b6673dd6cb167484b9f792e1f8e90ce16d37f6e50f8044d3eef
   languageName: node
   linkType: hard
 
-"@webriq-pagebuilder/sanity-plugin-schema-default@npm:^4.0.3":
-  version: 4.0.3
-  resolution: "@webriq-pagebuilder/sanity-plugin-schema-default@npm:4.0.3"
+"@webriq-pagebuilder/sanity-plugin-schema-default@npm:^4.0.6-alpha.1":
+  version: 4.0.6-alpha.1
+  resolution: "@webriq-pagebuilder/sanity-plugin-schema-default@npm:4.0.6-alpha.1"
   dependencies:
     "@sanity/incompatible-plugin": "npm:^1.0.4"
-    "@webriq-pagebuilder/sanity-plugin-input-component-gpt3": "npm:^4.0.3"
-    "@webriq-pagebuilder/sanity-plugin-input-component-variants": "npm:^4.0.3"
-    "@webriq-pagebuilder/sanity-plugin-webriq-payments": "npm:^4.0.3"
+    "@webriq-pagebuilder/sanity-plugin-input-component-gpt3": "npm:^4.0.6-alpha.1"
+    "@webriq-pagebuilder/sanity-plugin-input-component-variants": "npm:^4.0.6-alpha.1"
+    "@webriq-pagebuilder/sanity-plugin-webriq-payments": "npm:^4.0.6-alpha.1"
     nanoid: "npm:^3.1.30"
     react-icons: "npm:^4.2.0"
   peerDependencies:
     react: ^18
     sanity: ^3
     styled-components: ^5.2
-  checksum: 10c0/8c3dd1581b64876f397fadf9e1ea0a53e4d4634ede3caaf25caa12852c6afafb7efd997acc6e4a97aa76d65596ed0b61ba7e985ecc95dba58ee5a89ec22ac8cc
+  checksum: 10c0/0d66c44b818a2801db197263d35714c8b1e35ab625c2dd5d84ca63b75ec52193072ce93fe95e50f1863484e5864548a92d9a00df07db40f9b438466c8bd91659
   languageName: node
   linkType: hard
 
-"@webriq-pagebuilder/sanity-plugin-webriq-blog@npm:^4.0.3":
-  version: 4.0.3
-  resolution: "@webriq-pagebuilder/sanity-plugin-webriq-blog@npm:4.0.3"
+"@webriq-pagebuilder/sanity-plugin-webriq-blog@npm:^4.0.6-alpha.1":
+  version: 4.0.6-alpha.1
+  resolution: "@webriq-pagebuilder/sanity-plugin-webriq-blog@npm:4.0.6-alpha.1"
   dependencies:
     "@sanity/client": "npm:^5.3.2"
     "@sanity/image-url": "npm:^1.0.1"
     "@sanity/incompatible-plugin": "npm:^1.0.4"
     "@sanity/ui": "npm:^1.3.2"
-    "@webriq-pagebuilder/sanity-plugin-schema-blog": "npm:^4.0.3"
+    "@webriq-pagebuilder/sanity-plugin-schema-blog": "npm:^4.0.6-alpha.1"
     nanoid: "npm:^3.1.30"
     react-icons: "npm:^4.2.0"
   peerDependencies:
     react: ^18
     sanity: ^3
     styled-components: ^5.2
-  checksum: 10c0/05ab093417c64e2cdb61cefe6dbc61a75e4c5c69a8d3adea3d39748dd271e6887802ffb81bd0d8a6b14b85da05473fdf8abdf691627e2a5a7a3f7e2a85706af3
+  checksum: 10c0/0044f8560e143b613ec4fb5b9b27b62a0486cb6dee9526c7d082f3b38a0d55e191326e85b23098478bf6db244f964b985b42651fc29bf2c030ff2a9a7aa4ddde
   languageName: node
   linkType: hard
 
-"@webriq-pagebuilder/sanity-plugin-webriq-components@npm:^4.0.3":
-  version: 4.0.3
-  resolution: "@webriq-pagebuilder/sanity-plugin-webriq-components@npm:4.0.3"
+"@webriq-pagebuilder/sanity-plugin-webriq-components@npm:^4.0.6-alpha.1":
+  version: 4.0.6-alpha.1
+  resolution: "@webriq-pagebuilder/sanity-plugin-webriq-components@npm:4.0.6-alpha.1"
   dependencies:
     "@sanity/incompatible-plugin": "npm:^1.0.4"
     "@sanity/ui": "npm:^1.3.2"
@@ -6664,13 +6664,13 @@ __metadata:
   peerDependencies:
     react: ^18
     sanity: ^3
-  checksum: 10c0/e6c192eee4cf89a686d2100dd49ba6151dc7e60f9a2d6a16d18c143a553e9686237f565584511ec1593f9fc2b395ce8b6d69460a8dd5b7af478cf716c9c0b62a
+  checksum: 10c0/148a2638644ec578cf482c0da4be166d36ee5981a288f923f328066793a257d56f6eeb12f97700676045a6c72958317d9c95276097fd19f8e77717ab0aa14d91
   languageName: node
   linkType: hard
 
-"@webriq-pagebuilder/sanity-plugin-webriq-forms@npm:^4.0.3":
-  version: 4.0.3
-  resolution: "@webriq-pagebuilder/sanity-plugin-webriq-forms@npm:4.0.3"
+"@webriq-pagebuilder/sanity-plugin-webriq-forms@npm:^4.0.6-alpha.1":
+  version: 4.0.6-alpha.1
+  resolution: "@webriq-pagebuilder/sanity-plugin-webriq-forms@npm:4.0.6-alpha.1"
   dependencies:
     "@sanity/icons": "npm:^2.2.2"
     "@sanity/incompatible-plugin": "npm:^1.0.4"
@@ -6680,13 +6680,13 @@ __metadata:
   peerDependencies:
     react: ^18
     sanity: ^3
-  checksum: 10c0/dea9fcfeaf6c5bd49475022952c015e03298d1e333d86045b12c3c0590aea6e809329670372f842fcc50bc874bb9e43a4ba07145ad6ffb7660f167b1a6133a98
+  checksum: 10c0/a4e6efb7771ed690f50515916e81d474d9bbc386e46db058a87f0b06bd881232c2d81951386ecec87b4a37c60b4250144d61225c52558287c8c96ae1430c302d
   languageName: node
   linkType: hard
 
-"@webriq-pagebuilder/sanity-plugin-webriq-payments@npm:^4.0.3":
-  version: 4.0.3
-  resolution: "@webriq-pagebuilder/sanity-plugin-webriq-payments@npm:4.0.3"
+"@webriq-pagebuilder/sanity-plugin-webriq-payments@npm:^4.0.6-alpha.1":
+  version: 4.0.6-alpha.1
+  resolution: "@webriq-pagebuilder/sanity-plugin-webriq-payments@npm:4.0.6-alpha.1"
   dependencies:
     "@sanity/incompatible-plugin": "npm:^1.0.4"
     "@sanity/ui": "npm:^1.3.2"
@@ -6697,7 +6697,7 @@ __metadata:
     react: ^18
     sanity: ^3
     styled-components: ^5.2
-  checksum: 10c0/7b6ffd267be62b953795e5c08626d792db062c2d6d9f167b5e952b25ae53bf76b64746e1ebf4baf2cc90d67438597d351875d759c8d7da89eb742b2f87e182eb
+  checksum: 10c0/a17346537c2e212d4f1378d1528e4a1d83a8cc73a6d2346ac7210a10d484c1dc79f2f28670d835b692c01a15b973bf6d81811404911519929e23891a0323f7e4
   languageName: node
   linkType: hard
 
@@ -6733,17 +6733,17 @@ __metadata:
     "@types/react": "npm:^18.2.65"
     "@types/react-dom": "npm:^18.2.21"
     "@types/vhtml": "npm:^2.2.4"
-    "@webriq-pagebuilder/sanity-plugin-desk-studio-version": "npm:^4.0.3"
-    "@webriq-pagebuilder/sanity-plugin-input-component-gpt3": "npm:^4.0.3"
-    "@webriq-pagebuilder/sanity-plugin-input-component-variants": "npm:^4.0.3"
-    "@webriq-pagebuilder/sanity-plugin-inspector-inline-edit": "npm:^4.0.3"
-    "@webriq-pagebuilder/sanity-plugin-schema-blog": "npm:^4.0.3"
-    "@webriq-pagebuilder/sanity-plugin-schema-commerce": "npm:^4.0.3"
-    "@webriq-pagebuilder/sanity-plugin-schema-default": "npm:^4.0.3"
-    "@webriq-pagebuilder/sanity-plugin-webriq-blog": "npm:^4.0.3"
-    "@webriq-pagebuilder/sanity-plugin-webriq-components": "npm:^4.0.3"
-    "@webriq-pagebuilder/sanity-plugin-webriq-forms": "npm:^4.0.3"
-    "@webriq-pagebuilder/sanity-plugin-webriq-payments": "npm:^4.0.3"
+    "@webriq-pagebuilder/sanity-plugin-desk-studio-version": "npm:^4.0.6-alpha.1"
+    "@webriq-pagebuilder/sanity-plugin-input-component-gpt3": "npm:^4.0.6-alpha.1"
+    "@webriq-pagebuilder/sanity-plugin-input-component-variants": "npm:^4.0.6-alpha.1"
+    "@webriq-pagebuilder/sanity-plugin-inspector-inline-edit": "npm:^4.0.6-alpha.1"
+    "@webriq-pagebuilder/sanity-plugin-schema-blog": "npm:^4.0.6-alpha.1"
+    "@webriq-pagebuilder/sanity-plugin-schema-commerce": "npm:^4.0.6-alpha.1"
+    "@webriq-pagebuilder/sanity-plugin-schema-default": "npm:^4.0.6-alpha.1"
+    "@webriq-pagebuilder/sanity-plugin-webriq-blog": "npm:^4.0.6-alpha.1"
+    "@webriq-pagebuilder/sanity-plugin-webriq-components": "npm:^4.0.6-alpha.1"
+    "@webriq-pagebuilder/sanity-plugin-webriq-forms": "npm:^4.0.6-alpha.1"
+    "@webriq-pagebuilder/sanity-plugin-webriq-payments": "npm:^4.0.6-alpha.1"
     autoprefixer: "npm:^10.4.15"
     axios: "npm:^1.3.6"
     braille: "npm:^1.1.0"
