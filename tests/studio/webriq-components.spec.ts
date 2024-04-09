@@ -31,7 +31,7 @@ test.describe.skip("Verify main document actions working", () => {
       });
   });
 
-  test("Create component", async () => {
+  test("Can create component", async () => {
     console.log("[INFO] Creating a new component...");
     await page.getByRole("link", { name: "Components" }).click({ force: true });
     await page.getByRole("button", { name: "New App Promo" }).click();
@@ -46,7 +46,7 @@ test.describe.skip("Verify main document actions working", () => {
       });
   });
 
-  test("Search component", async () => {
+  test("Can search component", async () => {
     await page.getByRole("link", { name: "Components" }).click({ force: true });
     await page.getByPlaceholder("Search variants").click();
     await page.getByPlaceholder("Search variants").fill("New App Promo");
@@ -55,7 +55,7 @@ test.describe.skip("Verify main document actions working", () => {
     ).toBeVisible({ timeout: 180000 });
   });
 
-  test("Duplicate component", async () => {
+  test("Can duplicate component", async () => {
     const cardName = newComponentName?.toLowerCase()?.replace(/\s/g, "");
 
     console.log("[INFO] Duplicating component...");
@@ -82,7 +82,7 @@ test.describe.skip("Verify main document actions working", () => {
       });
   });
 
-  test("Delete component", async () => {
+  test("Can delete component", async () => {
     console.log("[INFO] Deleting component...");
 
     await page.getByRole("link", { name: "Components" }).click({ force: true });
@@ -170,7 +170,7 @@ test.describe.skip("Verify main document actions working", () => {
   });
 });
 
-test.skip("Filter component", async () => {
+test.skip("Can filter component", async () => {
   test.setTimeout(120000);
 
   await page.getByRole("link", { name: "Components" }).click();

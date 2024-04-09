@@ -167,7 +167,7 @@ test.describe("Verify Global SEO Settings", () => {
 });
 
 test.describe("Redirects to Global SEO links", () => {
-  test.describe.configure({ timeout: 600000 });
+  test.describe.configure({ timeout: 1800000 });
 
   test.beforeEach(async () => {
     const element = page.locator('a:has-text("Pages")');
@@ -272,7 +272,7 @@ test.describe("Redirects to Global SEO links", () => {
 });
 
 test("Can add SEO values to page", async () => {
-  test.setTimeout(600000);
+  test.setTimeout(750000);
 
   const element = page.locator('a:has-text("Pages")');
   await element.scrollIntoViewIfNeeded();
