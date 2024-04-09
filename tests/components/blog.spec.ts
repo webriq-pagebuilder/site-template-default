@@ -1,17 +1,22 @@
-import { test, expect } from "@playwright/test";
-import { NEXT_PUBLIC_SITE_URL } from "studio/config";
-import { autologin_studio, createNewPage, expectDocumentPublished, navigateToPage } from "tests/helpers";
+import { test, expect, type Page } from "@playwright/test";
+import { NEXT_PUBLIC_SANITY_STUDIO_URL, NEXT_PUBLIC_SITE_URL } from "studio/config";
+import { autologin_studio, createNewPage, expectDocumentPublished, navigateToPage } from "../utils/index"
 
-test.beforeEach(async ({ page }) => {
-  await page.goto("http://localhost:3000");
-  // Pass the environment variable value as an argument to page.evaluate()
+let page: Page;
+
+test.beforeAll("Auto login studio", async ({ browser }) => {
+  page = await browser.newPage();
+
+  // navigate to the studio
+  await page.goto(`${NEXT_PUBLIC_SANITY_STUDIO_URL}`);
+
   const token = process.env.NEXT_PUBLIC_STUDIO_AUTOLOGIN_TOKEN_FOR_TESTING;
   const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
 
   await page.evaluate(autologin_studio, { token, projectId });
 });
 
-export async function createBlogVariant(page, pageTitle, variantLabel, variantIndex, isInternalLink) {
+export async function createBlogVariant(pageTitle, variantLabel, variantIndex, isInternalLink) {
     const time = new Date().getTime()
     const newBlogTitle =  pageTitle + time
     const inputContentSubtitle = `Subtitle ` + time
@@ -93,7 +98,7 @@ export async function createBlogVariant(page, pageTitle, variantLabel, variantIn
     await expect(page.getByRole("link", { name: newBlogTitle })).toBeVisible();
 
     const pagePromise = page.waitForEvent('popup');
-    await page.getByText(NEXT_PUBLIC_SITE_URL).click({ force: true });
+    await page.getByText(`${NEXT_PUBLIC_SITE_URL}`).click({ force: true });
     const openUrlPage = await pagePromise;
 
     // Wait for the element to become visible or hidden with a longer timeout
@@ -120,8 +125,8 @@ export async function createBlogVariant(page, pageTitle, variantLabel, variantIn
             const page6Promise = openUrlPage.waitForEvent('popup');
             await openUrlPage.getByRole('link', { name: buttonInputValue }).click({ force: true })
             const page6 = await page6Promise;
-            console.log('page6', page6);
-            console.log('Page 6 URL:', page6.url());
+            // console.log('page6', page6);
+            // console.log('Page 6 URL:', page6.url());
             pageToUse = page6;
         } else {
             pageToUse = openUrlPage;
@@ -131,9 +136,9 @@ export async function createBlogVariant(page, pageTitle, variantLabel, variantIn
 
         if(!isInternalLink) {
             const expectedUrl = pageToUse.url().replace("https://www.", "https://");
-            console.log(linkConfiguration?.target)
+            // console.log(linkConfiguration?.target)
             await expect(expectedUrl).toBe(linkConfiguration?.url);
-            console.log('Page 6 URL:', pageToUse.url());
+            // console.log('Page 6 URL:', pageToUse.url());
         } else if (isInternalLink) {
             await expect(pageToUse.getByText('Success!')).toBeVisible({ timeout: 20000 })
             const expectedUrl = linkConfiguration?.url.endsWith('/') ? linkConfiguration?.url : `${linkConfiguration?.url}/`;
@@ -144,22 +149,22 @@ export async function createBlogVariant(page, pageTitle, variantLabel, variantIn
   }
 }
 
-test("Create Blog Variant A", async ({page}) => {
-    await createBlogVariant(page, "Blog Page A - ", 'New Blog Section A', 0, true)
+test("Create Blog Variant A", async () => {
+    await createBlogVariant("Blog Page A - ", 'New Blog Section A', 0, true)
 })
 
-test("Create Blog Variant B", async ({page}) => {
-    await createBlogVariant(page, "Blog Page B - ", 'New Blog Section B', 1, false)
+test("Create Blog Variant B", async () => {
+    await createBlogVariant("Blog Page B - ", 'New Blog Section B', 1, false)
 })
 
-test("Create Blog Variant C", async ({page}) => {
-    await createBlogVariant(page, "Blog Page C - ", 'New Blog Section C', 2, false)
+test("Create Blog Variant C", async () => {
+    await createBlogVariant("Blog Page C - ", 'New Blog Section C', 2, false)
 })
 
-test("Create Blog Variant D", async ({page})=> {
-    await createBlogVariant(page, "Blog Page D - ", 'New Blog Section D', 3, true)
+test("Create Blog Variant D", async ()=> {
+    await createBlogVariant("Blog Page D - ", 'New Blog Section D', 3, true)
 })
 
 test.afterAll(async () => {
-  console.log("[DONE] Successfully run all tests for Blog Component");
+  await page.close();
 });

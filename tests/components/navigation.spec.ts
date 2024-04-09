@@ -1,6 +1,6 @@
-import { expect, test } from "@playwright/test";
-import { NEXT_PUBLIC_SITE_URL } from "studio/config";
-import { autologin_studio, createNewPage, expectDocumentPublished, navigateToPage } from "tests/helpers";
+import { expect, test, type Page } from "@playwright/test";
+import { NEXT_PUBLIC_SANITY_STUDIO_URL, NEXT_PUBLIC_SITE_URL } from "studio/config";
+import { autologin_studio, createNewPage, expectDocumentPublished, navigateToPage } from "../utils/index";
 
 const inputPrimaryButton = "Primary Button Test";
 const inputSecondaryButton = "Secondary Button Test"
@@ -8,16 +8,21 @@ const externalLinkUrl = 'https://facebook.com/'
 const internalLinkUrl = `${NEXT_PUBLIC_SITE_URL}/thank-you/`
 let newPageTitle;
 
-test.beforeEach(async ({ page }) => {
-  await page.goto("http://localhost:3000");
-  // Pass the environment variable value as an argument to page.evaluate()
+let page: Page;
+
+test.beforeAll("Auto login studio", async ({ browser }) => {
+  page = await browser.newPage();
+
+  // navigate to the studio
+  await page.goto(`${NEXT_PUBLIC_SANITY_STUDIO_URL}`);
+
   const token = process.env.NEXT_PUBLIC_STUDIO_AUTOLOGIN_TOKEN_FOR_TESTING;
   const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
 
   await page.evaluate(autologin_studio, { token, projectId });
 });
 
-async function addNavigationRoutes(page, buttonName, isInternalLink) {
+async function addNavigationRoutes(buttonName, isInternalLink) {
   await page.getByRole('button', { name: buttonName }).click();
   await expect(page.getByLabel('Edit Link')).toBeVisible({ timeout: 75000 });
   // NAVIGATION INTERNAL/EXTERNAL SELECTOR
@@ -42,7 +47,7 @@ async function addNavigationRoutes(page, buttonName, isInternalLink) {
   await page.getByLabel('Close dialog').click();
 }
 
-export async function createNavigationVariant(page, pageTitle, variantLabel, variantIndex, isInternalLink) {
+export async function createNavigationVariant(pageTitle, variantLabel, variantIndex, isInternalLink) {
    newPageTitle = pageTitle + " - " + new Date().getTime()
 
   await navigateToPage(page);
@@ -91,11 +96,11 @@ export async function createNavigationVariant(page, pageTitle, variantLabel, var
 
   //TODO: ADD LINK INTERNAL/EXTERNAL, AND TARGET SELF/BLANK.
   // Perform navigation clicks
-  await addNavigationRoutes(page, 'Start Internal Link Not Set', isInternalLink);
-  await addNavigationRoutes(page, 'About Us Internal Link Not Set', isInternalLink);
-  await addNavigationRoutes(page, 'Services Internal Link Not Set', isInternalLink);
-  await addNavigationRoutes(page, 'Platform Internal Link Not Set', isInternalLink);
-  await addNavigationRoutes(page, 'Testimonials Internal Link', isInternalLink);
+  await addNavigationRoutes('Start Internal Link Not Set', isInternalLink);
+  await addNavigationRoutes('About Us Internal Link Not Set', isInternalLink);
+  await addNavigationRoutes('Services Internal Link Not Set', isInternalLink);
+  await addNavigationRoutes('Platform Internal Link Not Set', isInternalLink);
+  await addNavigationRoutes('Testimonials Internal Link', isInternalLink);
 
   if (variantIndex < 4) {
       const primaryButton = page.getByRole('button', { name: 'Primary Button' });
@@ -126,6 +131,8 @@ export async function createNavigationVariant(page, pageTitle, variantLabel, var
           await primaryButtonLinkTarget.getByText('Blank - open on a new tab (').click();
           linkConfiguration = { url: externalLinkUrl, target: blankLinkTarget.target }
       }
+      //Close primary button toggle
+      await primaryButton.click();
 
       await secondaryButton.click();
       await secondaryButtonLabel.click();
@@ -145,13 +152,15 @@ export async function createNavigationVariant(page, pageTitle, variantLabel, var
           await secondaryButtonLinkTarget.getByText('Blank - open on a new tab (').click();
           linkConfiguration = { url: externalLinkUrl, target: blankLinkTarget.target }
       }
+      //Close secondary button toggle
+      await secondaryButton.click();
   }
     
   await expectDocumentPublished(page)
   await expect(page.getByRole("link", { name: newPageTitle })).toBeVisible();
 
   const pagePromise = page.waitForEvent('popup');
-  await page.getByText(NEXT_PUBLIC_SITE_URL).click({ force: true });
+  await page.getByText(`${NEXT_PUBLIC_SITE_URL}`).click({ force: true });
   const openUrlPage = await pagePromise;
     
   // Default should just be available routes - no buttons in variant E
@@ -202,8 +211,8 @@ async function assertPageContent(openUrlPage, linkConfiguration, linkName, isInt
   }
 }
 
-const createNavigationTest = async ({ page }, pageTitle, variantName, variantIndex, isInternalLink, linkNames) => {
-  await createNavigationVariant(page, pageTitle, variantName, variantIndex, isInternalLink);
+const createNavigationTest = async (pageTitle, variantName, variantIndex, isInternalLink, linkNames) => {
+  await createNavigationVariant(pageTitle, variantName, variantIndex, isInternalLink);
   const blankLinkTarget = { target: 'Blank - open on a new tab (' };
   const selfLinkTarget = { target: 'Self (default) - open in the' };
   let linkConfiguration
@@ -213,7 +222,6 @@ const createNavigationTest = async ({ page }, pageTitle, variantName, variantInd
   } else {
     linkConfiguration = { url: internalLinkUrl, target: selfLinkTarget.target };
   }
-
   
   // Loops all routes
   for(const linkName of linkNames) {
@@ -224,31 +232,31 @@ const createNavigationTest = async ({ page }, pageTitle, variantName, variantInd
   }
 };
 
-test("Create Navigation A", async ({ page }) => {
+test("Create Navigation A", async () => {
   const linkNames = ["About Us", "Services", "Platform", "Testimonials", inputPrimaryButton, inputSecondaryButton];
-  await createNavigationTest({ page }, "Navigation Page A", "Navigation New Page Variant A", 0, false, linkNames);
+  await createNavigationTest("Navigation Page A", "Navigation New Page Variant A", 0, false, linkNames);
 });
 
-test("Create Navigation B", async ({ page }) => {
+test("Create Navigation B", async () => {
   const linkNames = ["About Us", "Services", "Platform", "Testimonials", inputPrimaryButton, inputSecondaryButton];
-  await createNavigationTest({ page }, "Navigation Page B", "Navigation New Page Variant B", 1, false, linkNames);
+  await createNavigationTest("Navigation Page B", "Navigation New Page Variant B", 1, false, linkNames);
 });
 
-test("Create Navigation C", async ({ page }) => {
+test("Create Navigation C", async () => {
   const linkNames = ["About Us", "Services", "Platform", "Testimonials", inputPrimaryButton, inputSecondaryButton];
-  await createNavigationTest({ page }, "Navigation Page C", "Navigation New Page Variant C", 2, true, linkNames);
+  await createNavigationTest("Navigation Page C", "Navigation New Page Variant C", 2, true, linkNames);
 });
 
-test("Create Navigation D", async ({ page }) => {
+test("Create Navigation D", async () => {
   const linkNames = ["About Us", "Services", "Platform", "Testimonials", inputPrimaryButton, inputSecondaryButton];
-  await createNavigationTest({ page }, "Navigation Page D", "Navigation New Page Variant D", 3, true, linkNames);
+  await createNavigationTest("Navigation Page D", "Navigation New Page Variant D", 3, true, linkNames);
 });
 
-test("Create Navigation E", async ({ page }) => {
+test("Create Navigation E", async () => {
   const linkNames = ["About Us", "Services", "Platform", "Testimonials"];
-  await createNavigationTest({ page }, "Navigation Page E", "Navigation New Page Variant E", 4, true, linkNames);
+  await createNavigationTest("Navigation Page E", "Navigation New Page Variant E", 4, true, linkNames);
 });
 
 test.afterAll(async () => {
-  console.log("[DONE] Successfully run all tests for Navigation Component");
+  await page.close();
 });

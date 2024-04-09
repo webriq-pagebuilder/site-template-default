@@ -1,6 +1,6 @@
-import { test, expect } from "@playwright/test";
-import { NEXT_PUBLIC_SITE_URL } from "studio/config";
-import { autologin_studio, createNewPage, expectDocumentPublished, navigateToPage } from "tests/helpers";
+import { test, expect, type Page } from "@playwright/test";
+import { NEXT_PUBLIC_SANITY_STUDIO_URL, NEXT_PUBLIC_SITE_URL } from "studio/config";
+import { autologin_studio, createNewPage, expectDocumentPublished, navigateToPage } from "../utils/index";
 
 const contentTitleInput = 'Content Title'
 const variantDescriptionInput = 'Variant Description';
@@ -9,16 +9,22 @@ const secondaryButtonInput = "TEST SECONDARY";
 const externalLinkUrl = 'https://facebook.com/';
 const internalLinkUrl = `${NEXT_PUBLIC_SITE_URL}/thank-you/`;
 
-test.beforeEach(async ({ page }) => {
-  await page.goto("http://localhost:3000");
-  // Pass the environment variable value as an argument to page.evaluate()
+let page: Page;
+
+test.beforeAll("Auto login studio", async ({ browser }) => {
+  page = await browser.newPage();
+
+  // navigate to the studio
+  await page.goto(`${NEXT_PUBLIC_SANITY_STUDIO_URL}`);
+
   const token = process.env.NEXT_PUBLIC_STUDIO_AUTOLOGIN_TOKEN_FOR_TESTING;
   const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
 
   await page.evaluate(autologin_studio, { token, projectId });
 });
 
-export async function createHeaderVariant(page, pageTitle, variantLabel, variantIndex, isInternalLink) {
+
+export async function createHeaderVariant(pageTitle, variantLabel, variantIndex, isInternalLink) {
     const time = new Date().getTime()
     const newHeaaderTitle =  pageTitle + time;
     
@@ -168,7 +174,7 @@ export async function createHeaderVariant(page, pageTitle, variantLabel, variant
     await expect(page.getByRole("link", { name: newHeaaderTitle })).toBeVisible();
 
     const pagePromise = page.waitForEvent('popup');
-    await page.getByText(NEXT_PUBLIC_SITE_URL).click({ force: true });
+    await page.getByText(`${NEXT_PUBLIC_SITE_URL}`).click({ force: true });
     const openUrlPage = await pagePromise;
 
   const sectionCount = await openUrlPage.locator("div").filter({ hasText: /^No items$/ }).count();
@@ -277,22 +283,26 @@ async function assertPageContent(openUrlPage, linkConfiguration, linkName, isInt
   }
 }
 
-test("Create Header Variant A", async ({page}) => {
-    await createHeaderVariant(page, "Header Page A - ", "New Header Section A", 0, true)
+test("Create Header Variant A", async () => {
+    await createHeaderVariant("Header Page A - ", "New Header Section A", 0, true)
 })
 
-test("Create Header Variant B", async ({page}) => {
-    await createHeaderVariant(page, "Header Page B - ", "New Header Section B", 1, true)
+test("Create Header Variant B", async () => {
+    await createHeaderVariant("Header Page B - ", "New Header Section B", 1, true)
 })
 
-test("Create Header Variant C", async ({page}) => {
-    await createHeaderVariant(page, "Header Page C - ", "New Header Section C", 2, true)
+test("Create Header Variant C", async () => {
+    await createHeaderVariant("Header Page C - ", "New Header Section C", 2, true)
 })
 
-test("Create Header Variant D", async ({page}) => {
-    await createHeaderVariant(page, "Header Page D - ", "New Header Section D", 3, false)
+test("Create Header Variant D", async () => {
+    await createHeaderVariant("Header Page D - ", "New Header Section D", 3, false)
 })
 
-test("Create Header Variant E", async ({page}) => {
-    await createHeaderVariant(page, "Header Page E - ", "New Header Section E", 4, false)
+test("Create Header Variant E", async () => {
+    await createHeaderVariant("Header Page E - ", "New Header Section E", 4, false)
 })
+
+test.afterAll(async () => {
+  await page.close();
+});

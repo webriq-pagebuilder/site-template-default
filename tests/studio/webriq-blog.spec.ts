@@ -1,5 +1,5 @@
 import { test, expect } from "@playwright/test";
-import { autologin_studio } from "tests/helpers";
+import { autologin_studio } from "../utils/index";
 
 import {
   NEXT_PUBLIC_SITE_URL,

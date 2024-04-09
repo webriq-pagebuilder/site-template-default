@@ -1,12 +1,16 @@
-import { test, expect } from "@playwright/test";
-import { autologin_studio, createNewPage, expectDocumentPublished, navigateToPage } from "./helpers";
+import { test, expect, type Page } from "@playwright/test";
+import { autologin_studio, createNewPage, expectDocumentPublished, navigateToPage } from "./utils/index";
 import { NEXT_PUBLIC_SITE_URL } from "studio/config";
 
+let page: Page;
 const newPageTitle = "New Page - " + new Date().getTime();
 
-test.beforeEach(async ({ page }) => {
+test.beforeAll(async ({ browser }) => {
+  page= await browser.newPage();
+
+  //navigate to the studio
   await page.goto(`${NEXT_PUBLIC_SITE_URL}`);
-  // Pass the environment variable value as an argument to page.evaluate()
+
   const token = process.env.NEXT_PUBLIC_STUDIO_AUTOLOGIN_TOKEN_FOR_TESTING;
   const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
 
@@ -17,7 +21,7 @@ test.describe("Main Workflow", () => {
   test.describe.configure({ timeout: 900000, mode: "serial" });
 
   //PUBLISH PAGES
-  test("Test to Publish a Page and Open Live URL", async ({ page }) => {
+  test("Test to Publish a Page and Open Live URL", async () => {
     await navigateToPage(page)
     await createNewPage(page, newPageTitle, 'Navigation')
     
@@ -53,7 +57,7 @@ test.describe("Main Workflow", () => {
   });
 
   //Duplicate Pages Action
-  test("Pages Duplicate Action and Open Live URL", async ({ page }) => {
+  test("Pages Duplicate Action and Open Live URL", async () => {
     const duplicatePageName = `Dupe Page ` + new Date().getTime();
     await navigateToPage(page);
 
@@ -67,7 +71,8 @@ test.describe("Main Workflow", () => {
     await page.waitForTimeout(3000);
     await page.getByTestId("action-menu-button").click({ force: true });
     await page.getByTestId("action-Duplicate").click({ force: true });
-    await page.getByPlaceholder("Copy of New Page -").fill(duplicatePageName);
+    await page.getByPlaceholder("Copy of New Page -").click();
+    await page.getByPlaceholder("Copy of new Page -").fill(duplicatePageName);
     await page.getByRole("button", { name: "Duplicate" }).click();
 
     await expect(page.locator('[id="__next"]').getByRole("alert").locator("div").nth(1)).toBeVisible();
@@ -108,7 +113,7 @@ test.describe("Main Workflow", () => {
   });
 
   //Launch Inline Editing - Edit and Close button function
-  test("Open Inline Editing", async ({ page }) => {
+  test("Open Inline Editing", async () => {
     let altText = `Alt text ` + new Date().getTime();
 
     await navigateToPage(page);
@@ -147,7 +152,7 @@ test.describe("Main Workflow", () => {
 })
 
 //SEE CURRENT VERSION
-test("See Current Version", async ({ page }) => {
+test("See Current Version", async () => {
   await page.goto("http://localhost:3000/studio");
 
   // Find the element you want to click

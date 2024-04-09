@@ -1,5 +1,5 @@
-import { test, expect } from "@playwright/test";
-import { autologin_studio } from "tests/helpers";
+import { test, expect, type Page } from "@playwright/test";
+import { autologin_studio } from "../utils/index";
 import {
   NEXT_PUBLIC_SITE_URL,
   NEXT_PUBLIC_SANITY_STUDIO_URL,
@@ -8,13 +8,20 @@ import {
 //TODO: STILL WORKING ON THIS, NETWORK ERORR IN ADD ACCOUNT BUT WORKS IN MANUAL - LOCAL
 const paymentName = `Test ` + new Date().getTime()
 
-test.beforeEach(async ({ page }) => {
-  await page.goto(`${NEXT_PUBLIC_SITE_URL}`);
+let page: Page;
+
+test.beforeAll("Auto login studio", async ({ browser }) => {
+  page = await browser.newPage();
+
+  // navigate to the studio
+  await page.goto(`${NEXT_PUBLIC_SANITY_STUDIO_URL}`);
 
   const token = process.env.NEXT_PUBLIC_STUDIO_AUTOLOGIN_TOKEN_FOR_TESTING;
   const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
+
   await page.evaluate(autologin_studio, { token, projectId });
 });
+
 
 test.describe("Main Workflow", () => {
   test.describe.configure({ timeout: 900000, mode: "serial" });
