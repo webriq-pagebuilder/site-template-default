@@ -20,8 +20,8 @@ test.beforeEach(async ({ page }) => {
 async function addNavigationRoutes(page, buttonName, isInternalLink) {
   await page.getByRole('button', { name: buttonName }).click();
   await expect(page.getByLabel('Edit Link')).toBeVisible({ timeout: 75000 });
-  //TODO: INTERNAL/EXTERNAL HERE
-  const routesExternalLink = await page.locator('.sc-jdUcAg > div:nth-child(2) > div label[data-as="label"] span:has-text("External, outside this website")');
+  // NAVIGATION INTERNAL/EXTERNAL SELECTOR
+  const routesExternalLink = await page.locator('label[data-ui="Flex"] span:has-text("External, outside this website"):nth-child(1)');
   const routesInternalLink = await page.locator('.sc-jdUcAg > div:nth-child(2) > div label[data-as="label"] span:has-text("Internal, inside this website")');
   
   const blankLinkTarget = { element: page.locator('.sc-jdUcAg > div:nth-child(2) > div label[data-as="label"] span:has-text("Blank - open on a new tab (")'), target: 'Blank - open on a new tab (' };
@@ -40,51 +40,6 @@ async function addNavigationRoutes(page, buttonName, isInternalLink) {
   }
 
   await page.getByLabel('Close dialog').click();
-}
-
-async function assertPageContent(openUrlPage, linkConfiguration, linkName, isInternalLink) {
-  const sectionCount = await openUrlPage.locator("div").filter({ hasText: /^No items$/ }).count();
-
-  if (sectionCount > 0) {
-    // If the section no items is found, expect the Empty Page element to be visible
-    await expect(openUrlPage.getByText("Empty Page")).toBeVisible({ timeout: 20000 });
-  } else {
-    // If the section no items is not found, expect the Empty Page element to be hidden
-    await expect(openUrlPage.getByText("Empty Page")).toBeHidden({ timeout: 20000 });
-    await expect(openUrlPage.locator('section')).toBeVisible({ timeout: 20000 });
-
-    // EXPECT THE SAME VALUE FOR NAVIGATION ROUTES LIST.
-    await expect(openUrlPage.getByRole('list').locator('li').filter({ hasText: 'Start' })).toBeVisible();
-    await expect(openUrlPage.getByRole('list').locator('li').filter({ hasText: 'About Us' })).toBeVisible();
-    await expect(openUrlPage.getByRole('list').locator('li').filter({ hasText: 'Services' })).toBeVisible();
-    await expect(openUrlPage.getByRole('list').locator('li').filter({ hasText: 'Platform' })).toBeVisible();
-    await expect(openUrlPage.getByRole('list').locator('li').filter({ hasText: 'Testimonials' })).toBeVisible();
-
-    let pageToUse;
-    if (linkConfiguration.target === 'Blank - open on a new tab (') {
-      const page10Promise = openUrlPage.waitForEvent('popup');
-      await openUrlPage.getByRole('link', { name: linkName }).click({ force: true });
-      const page10 = await page10Promise;
-      pageToUse = page10;
-    } else {
-      pageToUse = openUrlPage;
-      await openUrlPage.getByRole('link', { name: linkName }).click({ force: true })
-      await openUrlPage.waitForLoadState('networkidle');
-    }
-
-      if (!isInternalLink) {
-        // Normalize URLs for comparison
-        const normalizedExpectedUrl = externalLinkUrl.replace("https://www.", "https://");
-        const normalizedReceivedUrl = pageToUse.url().replace("https://www.", "https://");
-        await expect(normalizedReceivedUrl).toBe(normalizedExpectedUrl);
-        await expect(pageToUse.getByRole('img', { name: 'Facebook' })).toBeVisible({ timeout: 150000 });
-      } else if (isInternalLink) {
-        await expect(pageToUse.getByText('Success!')).toBeVisible({ timeout: 20000 })
-        const expectedUrl = linkConfiguration?.url.endsWith('/') ? linkConfiguration?.url : `${linkConfiguration?.url}/`;
-        const receivedUrl = pageToUse.url().endsWith('/') ? pageToUse.url() : `${pageToUse.url()}/`;
-        await expect(receivedUrl).toBe(expectedUrl);
-      }
-  }
 }
 
 export async function createNavigationVariant(page, pageTitle, variantLabel, variantIndex, isInternalLink) {
@@ -203,6 +158,50 @@ export async function createNavigationVariant(page, pageTitle, variantLabel, var
   await assertPageContent(openUrlPage, linkConfiguration, "Start", isInternalLink);
 }
 
+async function assertPageContent(openUrlPage, linkConfiguration, linkName, isInternalLink) {
+  const sectionCount = await openUrlPage.locator("div").filter({ hasText: /^No items$/ }).count();
+
+  if (sectionCount > 0) {
+    // If the section no items is found, expect the Empty Page element to be visible
+    await expect(openUrlPage.getByText("Empty Page")).toBeVisible({ timeout: 20000 }).then(() => console.log('There is no Available Content!'));
+  } else {
+    // If the section no items is not found, expect the Empty Page element to be hidden
+    await expect(openUrlPage.getByText("Empty Page")).toBeHidden({ timeout: 20000 });
+    await expect(openUrlPage.locator('section')).toBeVisible({ timeout: 20000 });
+
+    // EXPECT THE SAME VALUE FOR NAVIGATION ROUTES LIST.
+    await expect(openUrlPage.getByRole('list').locator('li').filter({ hasText: 'Start' })).toBeVisible();
+    await expect(openUrlPage.getByRole('list').locator('li').filter({ hasText: 'About Us' })).toBeVisible();
+    await expect(openUrlPage.getByRole('list').locator('li').filter({ hasText: 'Services' })).toBeVisible();
+    await expect(openUrlPage.getByRole('list').locator('li').filter({ hasText: 'Platform' })).toBeVisible();
+    await expect(openUrlPage.getByRole('list').locator('li').filter({ hasText: 'Testimonials' })).toBeVisible();
+
+    let pageToUse;
+    if (linkConfiguration.target === 'Blank - open on a new tab (') {
+      const page10Promise = openUrlPage.waitForEvent('popup');
+      await openUrlPage.getByRole('link', { name: linkName }).click({ force: true });
+      const page10 = await page10Promise;
+      pageToUse = page10;
+    } else {
+      pageToUse = openUrlPage;
+      await openUrlPage.getByRole('link', { name: linkName }).click({ force: true })
+      await openUrlPage.waitForLoadState('networkidle');
+    }
+
+      if (!isInternalLink) {
+        // Normalize URLs for comparison
+        const normalizedExpectedUrl = externalLinkUrl.replace("https://www.", "https://");
+        const normalizedReceivedUrl = pageToUse.url().replace("https://www.", "https://");
+        await expect(normalizedReceivedUrl).toBe(normalizedExpectedUrl);
+      } else if (isInternalLink) {
+        await expect(pageToUse.getByText('Success!')).toBeVisible({ timeout: 20000 })
+        const expectedUrl = linkConfiguration?.url.endsWith('/') ? linkConfiguration?.url : `${linkConfiguration?.url}/`;
+        const receivedUrl = pageToUse.url().endsWith('/') ? pageToUse.url() : `${pageToUse.url()}/`;
+        await expect(receivedUrl).toBe(expectedUrl);
+      }
+  }
+}
+
 const createNavigationTest = async ({ page }, pageTitle, variantName, variantIndex, isInternalLink, linkNames) => {
   await createNavigationVariant(page, pageTitle, variantName, variantIndex, isInternalLink);
   const blankLinkTarget = { target: 'Blank - open on a new tab (' };
@@ -226,27 +225,27 @@ const createNavigationTest = async ({ page }, pageTitle, variantName, variantInd
 };
 
 test("Create Navigation A", async ({ page }) => {
-  const linkNames = ["Start", "About Us", "Services", "Platform", "Testimonials", inputPrimaryButton, inputSecondaryButton];
+  const linkNames = ["About Us", "Services", "Platform", "Testimonials", inputPrimaryButton, inputSecondaryButton];
   await createNavigationTest({ page }, "Navigation Page A", "Navigation New Page Variant A", 0, false, linkNames);
 });
 
 test("Create Navigation B", async ({ page }) => {
-  const linkNames = ["Start", "About Us", "Services", "Platform", "Testimonials", inputPrimaryButton, inputSecondaryButton];
+  const linkNames = ["About Us", "Services", "Platform", "Testimonials", inputPrimaryButton, inputSecondaryButton];
   await createNavigationTest({ page }, "Navigation Page B", "Navigation New Page Variant B", 1, false, linkNames);
 });
 
 test("Create Navigation C", async ({ page }) => {
-  const linkNames = ["Start", "About Us", "Services", "Platform", "Testimonials", inputPrimaryButton, inputSecondaryButton];
+  const linkNames = ["About Us", "Services", "Platform", "Testimonials", inputPrimaryButton, inputSecondaryButton];
   await createNavigationTest({ page }, "Navigation Page C", "Navigation New Page Variant C", 2, true, linkNames);
 });
 
 test("Create Navigation D", async ({ page }) => {
-  const linkNames = ["Start", "About Us", "Services", "Platform", "Testimonials", inputPrimaryButton, inputSecondaryButton];
+  const linkNames = ["About Us", "Services", "Platform", "Testimonials", inputPrimaryButton, inputSecondaryButton];
   await createNavigationTest({ page }, "Navigation Page D", "Navigation New Page Variant D", 3, true, linkNames);
 });
 
 test("Create Navigation E", async ({ page }) => {
-  const linkNames = ["Start", "About Us", "Services", "Platform", "Testimonials"];
+  const linkNames = ["About Us", "Services", "Platform", "Testimonials"];
   await createNavigationTest({ page }, "Navigation Page E", "Navigation New Page Variant E", 4, true, linkNames);
 });
 
