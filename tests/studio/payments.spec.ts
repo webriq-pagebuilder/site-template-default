@@ -1,5 +1,5 @@
 import { test, expect } from "@playwright/test";
-import { autologin_studio } from "tests/basic.spec";
+import { autologin_studio } from "tests/utils";
 
 test.beforeEach(async ({ page }) => {
   await page.goto("http://localhost:3000");
