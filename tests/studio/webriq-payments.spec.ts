@@ -64,7 +64,6 @@ test.describe("Main Workflow", () => {
     await page.getByRole('link', { name: 'Payments' }).click();
     await page.getByRole('button', { name: 'Add API' }).click();
     await page.getByPlaceholder('Account Name').click();
-    await page.getByPlaceholder('Account Name').press('CapsLock');
     await page.getByPlaceholder('Account Name').fill(paymentName);
     await page.getByPlaceholder('Publishable Key').click();
     await page.getByPlaceholder('Publishable Key').fill('pk_test_51OOL7vHCNHVeqcFPVqsh3ETCnhGdcko5e70WwJzXpZ8lO5pfA2YPmUydMYxKFmQv4Pokn8Yho0GhagGlfE6y5YDA00UEXTWeTT');
@@ -74,7 +73,6 @@ test.describe("Main Workflow", () => {
     await page.getByRole('button', { name: 'Add Account' }).click({ force: true });
     await expect(page.locator('[id="__next"]').getByRole('alert').locator('div').nth(1).getByText('Stripe Secret Key Valid:')).toBeVisible()
     const addedAccount = page.locator('div').filter({ hasText: `/^${paymentName}$/` });
-
     // Assert that the added account is visible
     await expect(addedAccount).toBeVisible();
   });
