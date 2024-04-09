@@ -31,7 +31,11 @@ function VariantC({ subtitle, title, posts, primaryButton }: BlogProps) {
           </div>
 
           {primaryButton?.label && (
-            <Button link={primaryButton} ariaLabel={primaryButton?.label}>
+            <Button
+              as="link"
+              link={primaryButton}
+              ariaLabel={primaryButton?.label}
+            >
               {primaryButton?.label}
             </Button>
           )}
@@ -70,7 +74,7 @@ function BlogItem({ post, className }: { post: BlogPost; className?: string }) {
   return (
     <Flex
       wrap
-      className={`overflow-hidden rounded-lg shadow  w-full ${className}`}
+      className={`bg-white overflow-hidden rounded-lg shadow  w-full ${className}`}
     >
       {post?.mainImage && (
         <Image
@@ -82,7 +86,7 @@ function BlogItem({ post, className }: { post: BlogPost; className?: string }) {
           alt={`blog-variantC-image-`}
         />
       )}
-      <div className="w-full px-6 py-6 bg-white rounded-r lg:w-1/2 lg:pt-10">
+      <div className="w-full px-6 py-6 rounded-r lg:w-1/2 lg:pt-10">
         <Flex gap={2}>
           {post?.categories &&
             post?.categories?.map((category, index) => (
@@ -106,7 +110,7 @@ function BlogItem({ post, className }: { post: BlogPost; className?: string }) {
           </Heading>
         )}
         {post?.authors && (
-          <div className="flex mb-10">
+          <div className="flex mb-10 flex-wrap">
             <span className="italic text-primary">By&nbsp;</span>
             {post?.authors?.map((author, index, { length }) => (
               <>

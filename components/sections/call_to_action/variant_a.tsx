@@ -21,6 +21,8 @@ function VariantA({ logo, title, text, button }: CTAProps) {
             }
             className="inline-block mb-6 text-3xl font-bold leading-none"
             href={logoLink(logo)}
+            target={logo?.linkTarget}
+            rel={logo?.linkTarget === "_blank" ? "noopener noreferrer" : ""}
           >
             <Image
               className="h-14"
@@ -31,10 +33,10 @@ function VariantA({ logo, title, text, button }: CTAProps) {
             />
           </Link>
         )}
-        {title && <Heading className="mb-4">{title}</Heading>}
+        {title && <Heading className="mb-8">{title}</Heading>}
         {text && <Text className="mb-6">{text}</Text>}
         {button?.label && (
-          <Button link={button} ariaLabel={button?.label}>
+          <Button as="link" link={button} ariaLabel={button?.label}>
             {button?.label}
           </Button>
         )}

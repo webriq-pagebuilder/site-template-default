@@ -23,8 +23,8 @@ function VariantA({ subtitle, title, faqs }: FAQProps) {
   const indexOfFirstQuestion = indexOfLastQuestion - faqsPerPage;
   const searchedFAQs = !searchTerm
     ? updatedFAQArray?.slice(indexOfFirstQuestion, indexOfLastQuestion)
-    : updatedFAQArray?.filter(
-        (items) => items?.question?.toLowerCase().includes(searchTerm)
+    : updatedFAQArray?.filter((items) =>
+        items?.question?.toLowerCase().includes(searchTerm)
       ); // get search results based on data
 
   // change page
@@ -41,7 +41,7 @@ function VariantA({ subtitle, title, faqs }: FAQProps) {
           )}
           {title && <Heading className="mb-6 ">{title}</Heading>}
           {updatedFAQArray && updatedFAQArray?.length > 1 && (
-            <form className="flex justify-center">
+            <div className="flex justify-center">
               <input
                 aria-label="Search, find any question you want to ask..."
                 className="w-2/3 p-4 text-xs bg-white rounded-l font-heading focus:border-gray-500 focus:outline-none"
@@ -69,7 +69,7 @@ function VariantA({ subtitle, title, faqs }: FAQProps) {
                   />
                 </svg>
               </Button>
-            </form>
+            </div>
           )}
         </Container>
         {!searchTerm && updatedFAQArray?.length > 6 && (

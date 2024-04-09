@@ -33,15 +33,16 @@ function VariantC({
             className="flex-col lg:flex-row"
           >
             {primaryButton?.label && (
-              <Button ariaLabel={primaryButton?.label} link={primaryButton}>
+              <Button as="link" ariaLabel={primaryButton?.label} link={primaryButton}>
                 {primaryButton?.label}
               </Button>
             )}
             {secondaryButton?.label && (
               <Button
+                as="link"
                 ariaLabel={secondaryButton?.label}
                 link={secondaryButton}
-                className="text-black bg-white hover:bg-gray-50"
+                className="text-black bg-white hover:bg-gray-50 inline-block rounded-l-xl rounded-t-xl font-bold transition duration-200 px-3 py-4"
               >
                 {secondaryButton?.label}
               </Button>

@@ -8,7 +8,7 @@ const ViewWishlist = () => {
 
   return (
     <>
-      <div className="flex flex-row gap-x-4 ">
+      <div className="flex flex-row gap-x-4 mb-5">
         <Link
           className="font-heading block w-full rounded-md border px-8 py-5 text-center font-bold uppercase transition duration-200 hover:border-primary"
           href="/wishlist"

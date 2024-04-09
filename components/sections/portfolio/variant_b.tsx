@@ -33,7 +33,7 @@ function VariantB({
           </div>
           <div className="hidden mt-5 text-right md:mt-0 lg:mt-0 lg:block xl:mt-0">
             {primaryButton?.label && (
-              <Button ariaLabel={primaryButton?.label} link={primaryButton}>
+              <Button as="link" ariaLabel={primaryButton?.label} link={primaryButton}>
                 {primaryButton?.label}
               </Button>
             )}
@@ -50,7 +50,7 @@ function VariantB({
         )}
         <div className="block mt-5 text-center md:mt-0 lg:mt-0 lg:hidden xl:mt-0">
           {primaryButton?.label && (
-            <Button ariaLabel={primaryButton?.label} link={primaryButton}>
+            <Button as="link" ariaLabel={primaryButton?.label} link={primaryButton}>
               {primaryButton?.label}
             </Button>
           )}
@@ -61,6 +61,8 @@ function VariantB({
 }
 
 function ProjectItem({ content }) {
+  const maxTitle = content?.title.length > 38 ? content?.title.slice(0, 80) + '...' : content?.title;
+
   return (
     <div className="w-full px-4 mb-4 md:w-1/2 lg:w-1/3">
       <div className="relative mx-auto overflow-hidden rounded md:mb-5">
@@ -87,14 +89,14 @@ function ProjectItem({ content }) {
             weight="bold"
             className="mb-auto text-white md:text-xl lg:text-2xl"
           >
-            {content?.title}
+            {maxTitle}
           </Text>
           {content?.primaryButton?.label && (
             <Button
-              variant="outline"
+              as="link"
+              variant="solid"
               ariaLabel={content?.primaryButton?.label}
               link={content?.primaryButton}
-              className="bg-transparent !outline-none border-2 border-gray-400 hover:border-primary text-gray-50 hover:bg-primary hover:text-white "
             >
               {content?.primaryButton?.label}
             </Button>

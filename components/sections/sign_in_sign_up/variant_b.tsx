@@ -29,11 +29,13 @@ function VariantB({ logo, form, formLinks, signInLink }: SignUpFormProps) {
                 }`}
                 className="flex justify-center text-3xl font-bold leading-none text-white"
                 href={logoLink(logo)}
+                target={logo?.linkTarget}
+                rel={logo?.linkTarget === "_blank" ? "noopener noreferrer" : ""}
               >
                 <Image
                   src={urlFor(logo?.image)}
-                  width={50}
-                  height={50}
+                  width={100}
+                  height={10}
                   quality={100}
                   alt={logo?.alt ?? "signUp-logo"}
                 />
@@ -58,6 +60,8 @@ function VariantB({ logo, form, formLinks, signInLink }: SignUpFormProps) {
                       <FormField
                         noLabel
                         variant="secondary"
+                        placeholder={formFields?.placeholder}
+                        required={formFields?.isRequired}
                         name={formFields?.name}
                         items={formFields?.items}
                         type={formFields?.type}
@@ -134,6 +138,8 @@ function VariantB({ logo, form, formLinks, signInLink }: SignUpFormProps) {
                         noLabel
                         variant="secondary"
                         name={formFields?.name}
+                        placeholder={formFields?.placeholder}
+                        required={formFields?.isRequired}
                         items={formFields?.items}
                         type={formFields?.type}
                         {...formFields}
@@ -149,7 +155,7 @@ function VariantB({ logo, form, formLinks, signInLink }: SignUpFormProps) {
                   {form?.buttonLabel && (
                     <Button
                       as="button"
-                      className="w-full py-4"
+                      className="w-full py-4 mb-3"
                       ariaLabel={
                         form?.buttonLabel ?? "Sign Up form submit button"
                       }
@@ -163,6 +169,7 @@ function VariantB({ logo, form, formLinks, signInLink }: SignUpFormProps) {
                     <span className="text-xs text-gray-900">
                       <span>Already have an account?</span>{" "}
                       <Button
+                        as="link"
                         variant="link"
                         link={signInLink}
                         className="text-xs text-primary hover:underline"
@@ -181,6 +188,7 @@ function VariantB({ logo, form, formLinks, signInLink }: SignUpFormProps) {
               {formLinks?.map((link, index, { length }) => (
                 <span key={index}>
                   <Button
+                    as="link"
                     variant="link"
                     link={link}
                     className="text-xs underline text-secondary-foreground hover:text-gray-50"

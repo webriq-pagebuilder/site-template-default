@@ -40,12 +40,20 @@ function VariantB({
             )}
 
             {(contactEmail || contactNumber) && (
-              <Card className="w-full p-12 bg-white md:p-16 lg:p-20text-center">
+              <Card className="w-full p-12 bg-white md:p-16 lg:p-20 text-center">
                 <Heading type="h2" className="mb-16 ">
                   Contacts
                 </Heading>
-                {contactEmail && <Text muted>{contactEmail}</Text>}
-                {contactNumber && <Text muted>{contactNumber}</Text>}
+                <Text className="mb-2" muted>
+                  {contactEmail && (
+                    <a href={`mailto:${contactEmail}`}>{contactEmail}</a>
+                  )}
+                </Text>
+                <Text muted>
+                  {contactNumber && (
+                    <a href={`tel:${contactNumber}`}>{contactNumber}</a>
+                  )}
+                </Text>
               </Card>
             )}
 
@@ -60,7 +68,7 @@ function VariantB({
                       aria-label={
                         social?.socialMedia || social?.socialMediaPlatform
                       }
-                      className="inline-block mr-4 rounded hover:bg-gray-100"
+                      className="inline-block mr-4"
                       target="_blank"
                       rel="noopener noreferrer"
                       href={social?.socialMediaLink}
