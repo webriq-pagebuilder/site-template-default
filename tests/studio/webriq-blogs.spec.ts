@@ -1,9 +1,6 @@
 import { test, expect, type Page } from "@playwright/test";
-import { autologin_studio } from "tests/autologin";
-import {
-  NEXT_PUBLIC_SITE_URL,
-  NEXT_PUBLIC_SANITY_STUDIO_URL,
-} from "studio/config";
+import { autologin_studio } from "tests/utils";
+import { NEXT_PUBLIC_SANITY_STUDIO_URL } from "studio/config";
 
 const getTime = new Date().getTime();
 
@@ -13,17 +10,15 @@ const newBlogPost = `New Post - ` + getTime;
 
 let page: Page;
 
-test.beforeAll(async ({ browser }) => {
+test.beforeAll("Auto login studio", async ({ browser }) => {
   page = await browser.newPage();
 
-  await page.goto(`${NEXT_PUBLIC_SITE_URL}`);
+  // navigate to the studio
+  await page.goto(`${NEXT_PUBLIC_SANITY_STUDIO_URL}`);
 
   const token = process.env.NEXT_PUBLIC_STUDIO_AUTOLOGIN_TOKEN_FOR_TESTING;
   const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
   await page.evaluate(autologin_studio, { token, projectId });
-
-  // Navigate to the studio URL and click the Blog menu
-  await page.goto(`${NEXT_PUBLIC_SANITY_STUDIO_URL}`);
 });
 
 test.describe.skip("Main workflow", () => {

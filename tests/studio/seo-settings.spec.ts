@@ -1,9 +1,6 @@
 import { test, expect, type Page } from "@playwright/test";
-import { autologin_studio } from "tests/autologin";
-import {
-  NEXT_PUBLIC_SITE_URL,
-  NEXT_PUBLIC_SANITY_STUDIO_URL,
-} from "studio/config";
+import { autologin_studio } from "tests/utils";
+import { NEXT_PUBLIC_SANITY_STUDIO_URL } from "studio/config";
 
 let globalSeo = {
   title: "",
@@ -12,33 +9,24 @@ let globalSeo = {
   description: "",
 };
 
-const defaultKeywordFld =
-  "/studio/intent/edit/id=0eb5e38b-33e2-46c9-a1eb-0bac24e14294;type=defaultSeo;field=defaultSeoKeywords";
-const defaultSynonymFld =
-  "/studio/intent/edit/id=0eb5e38b-33e2-46c9-a1eb-0bac24e14294;type=defaultSeo;field=defaultSeoSynonyms";
-const defaultDescriptionFld =
-  "/studio/intent/edit/id=0eb5e38b-33e2-46c9-a1eb-0bac24e14294;type=defaultSeo;field=defaultSeoDescription";
-
 let page: Page;
 
-test.beforeAll(async ({ browser }) => {
+test.beforeAll("Auto login studio", async ({ browser }) => {
   page = await browser.newPage();
 
-  await page.goto(`${NEXT_PUBLIC_SITE_URL}`);
+  // navigate to the studio
+  await page.goto(`${NEXT_PUBLIC_SANITY_STUDIO_URL}`);
 
   const token = process.env.NEXT_PUBLIC_STUDIO_AUTOLOGIN_TOKEN_FOR_TESTING;
   const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
 
   await page.evaluate(autologin_studio, { token, projectId });
-
-  // Navigate to the studio URL
-  await page.goto(`${NEXT_PUBLIC_SANITY_STUDIO_URL}`);
 });
 
 test.describe("Verify Global SEO Settings", () => {
   test.describe.configure({ timeout: 600000, mode: "serial" });
 
-  test("Adding Global SEO", async () => {
+  test("Can add Global SEO values", async () => {
     await page.goto(
       `${NEXT_PUBLIC_SANITY_STUDIO_URL}/desk/__edit__0eb5e38b-33e2-46c9-a1eb-0bac24e14294,type=defaultSeo`
     );
@@ -102,7 +90,7 @@ test.describe("Verify Global SEO Settings", () => {
       .click({ force: true, timeout: 180000 });
   });
 
-  test.describe("Empty SEO settings matches Global SEO", () => {
+  test.describe("Empty SEO settings matches Global SEO values", () => {
     test.describe.configure({ timeout: 300000 });
 
     test.beforeEach(async () => {
@@ -178,7 +166,7 @@ test.describe("Verify Global SEO Settings", () => {
   });
 });
 
-test.describe("Redirect to Global SEO links", () => {
+test.describe("Redirects to Global SEO links", () => {
   test.describe.configure({ timeout: 600000 });
 
   test.beforeEach(async () => {
@@ -199,7 +187,7 @@ test.describe("Redirect to Global SEO links", () => {
       .click({ force: true });
   });
 
-  test("Keywords", async () => {
+  test("SEO Keywords", async () => {
     const seoKeywordsFld = page
       .getByTestId("field-seo.seoKeywords")
       .getByRole("textbox");
@@ -227,7 +215,7 @@ test.describe("Redirect to Global SEO links", () => {
     });
   });
 
-  test("Synonyms", async () => {
+  test("SEO Synonyms", async () => {
     const seoSynonymsFld = page
       .getByTestId("field-seo.seoSynonyms")
       .getByRole("textbox");
@@ -255,7 +243,7 @@ test.describe("Redirect to Global SEO links", () => {
     });
   });
 
-  test("Description", async () => {
+  test("SEO Description", async () => {
     const seoDescFld = page
       .getByTestId("field-seo.seoDescription")
       .getByRole("textbox");
@@ -283,7 +271,7 @@ test.describe("Redirect to Global SEO links", () => {
   });
 });
 
-test("Add Page SEO", async () => {
+test("Can add SEO values to page", async () => {
   test.setTimeout(600000);
 
   const element = page.locator('a:has-text("Pages")');
