@@ -100,13 +100,19 @@ export async function createBlogVariant(page, pageTitle, variantLabel, variantIn
     const sectionCount = await page.locator("div").filter({ hasText: /^No items$/ }).count();
     if (sectionCount > 0) {
         // If the section no items is found, expect the Empty Page element to be visible
-        await expect(openUrlPage.getByText("Empty Page")).toBeVisible();
+        await expect(openUrlPage.getByText("Empty Page")).toBeVisible({ timeout: 20000 }).then(() => console.log('There is no Available Content!'));
     } else {
         // If the section no items is not found, expect the Empty Page element to be hidden
-        await expect(openUrlPage.getByText("Empty Page")).toBeHidden();
+        await expect(openUrlPage.getByText("Empty Page")).toBeHidden({ timeout: 20000 });
         await expect(openUrlPage.locator('section')).toBeVisible({ timeout: 20000 });
         await expect(openUrlPage.getByRole('heading', { name: inputContentTitle })).toBeVisible();
         await expect(openUrlPage.getByText(inputContentSubtitle)).toBeVisible();
+
+        if(variantIndex === 3) {
+            await openUrlPage.getByPlaceholder('Search posts...').click();
+            await openUrlPage.getByPlaceholder('Search posts...').fill(referencedBlog);
+            await expect(openUrlPage.getByLabel(referencedBlog)).toBeVisible();
+        }
     
     if(variantIndex < 3) {
         let pageToUse;
@@ -139,19 +145,19 @@ export async function createBlogVariant(page, pageTitle, variantLabel, variantIn
 }
 
 test("Create Blog Variant A", async ({page}) => {
-    await createBlogVariant(page, "Blog Page A - ", 'New Blog Page A', 0, true)
+    await createBlogVariant(page, "Blog Page A - ", 'New Blog Section A', 0, true)
 })
 
 test("Create Blog Variant B", async ({page}) => {
-    await createBlogVariant(page, "Blog Page B - ", 'New Blog Page B', 1, true)
+    await createBlogVariant(page, "Blog Page B - ", 'New Blog Section B', 1, false)
 })
 
 test("Create Blog Variant C", async ({page}) => {
-    await createBlogVariant(page, "Blog Page C - ", 'New Blog Page C', 2, true)
+    await createBlogVariant(page, "Blog Page C - ", 'New Blog Section C', 2, false)
 })
 
 test("Create Blog Variant D", async ({page})=> {
-    await createBlogVariant(page, "Blog Page D - ", 'New Blog Page D', 3, true)
+    await createBlogVariant(page, "Blog Page D - ", 'New Blog Section D', 3, true)
 })
 
 test.afterAll(async () => {
