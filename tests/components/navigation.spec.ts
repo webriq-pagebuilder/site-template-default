@@ -26,7 +26,7 @@ async function addNavigationRoutes(buttonName, isInternalLink) {
   await page.getByRole('button', { name: buttonName }).click();
   await expect(page.getByLabel('Edit Link')).toBeVisible({ timeout: 75000 });
   // NAVIGATION INTERNAL/EXTERNAL SELECTOR
-  const routesExternalLink = await page.locator('label[data-ui="Flex"] span:has-text("External, outside this website"):nth-child(1)');
+  const routesExternalLink = await page.locator('.sc-jdUcAg > div:nth-child(2) > div label[data-ui="Flex"] span:has-text("External, outside this website"):nth-child(1)');
   const routesInternalLink = await page.locator('.sc-jdUcAg > div:nth-child(2) > div label[data-as="label"] span:has-text("Internal, inside this website")');
   
   const blankLinkTarget = { element: page.locator('.sc-jdUcAg > div:nth-child(2) > div label[data-as="label"] span:has-text("Blank - open on a new tab (")'), target: 'Blank - open on a new tab (' };
@@ -39,7 +39,9 @@ async function addNavigationRoutes(buttonName, isInternalLink) {
     await blankLinkTarget.element.click();
   } else {
     await routesInternalLink.click();
-    await page.getByTestId('reference-input').getByLabel('Open').click();
+    // await page.getByTestId('reference-input').getByLabel('Open').click();
+    await page.getByTestId('autocomplete').click();
+    await page.getByTestId('autocomplete').fill('thank you');
     await page.getByRole('button', { name: 'Thank you Published No' }).click();
     await selfLinkTarget.element.click();
   }
@@ -67,8 +69,6 @@ export async function createNavigationVariant(pageTitle, variantLabel, variantIn
     await page.getByTestId('scroll-container').getByRole('textbox').fill('Hi, you\'re new here! Get 20% off card! testttttttttt');
   }
   
-  const externalLink = page.getByTestId('field-variants.logo.linkType').getByText('External, outside this website');
-  const internalLink = page.getByTestId('field-variants.logo.linkType').getByText('Internal, inside this website');
   const blankLinkTarget = { element: page.getByText('Blank - open on a new tab ('), target: 'Blank - open on a new tab (' };
   const selfLinkTarget = { element: page.getByText('Self (default) - open in the'), target: 'Self (default) - open in the' };
 
@@ -79,7 +79,7 @@ export async function createNavigationVariant(pageTitle, variantLabel, variantIn
     const logoAltInput = page.getByTestId('field-variants.logo.alt').getByTestId('string-input');
     await logoAltInput.click();
     await logoAltInput.fill("alt text test");
-    await externalLink.click()
+    await page.getByTestId('field-variants.logo.linkType').getByText('External, outside this website').click();
     await page.waitForTimeout(1000)
     await page.getByLabel('URL').click()
     await page.getByLabel('URL').fill(externalLinkUrl)
@@ -87,11 +87,13 @@ export async function createNavigationVariant(pageTitle, variantLabel, variantIn
     await page.getByText('Blank - open on a new tab (').click()
     linkConfiguration = { url: externalLinkUrl, target: blankLinkTarget.target}
   } else { 
-     await internalLink.click();
-     await page.getByTestId('reference-input').getByLabel('Open').click();
-     await page.getByRole('button', { name: 'Thank you Published No' }).click({ force: true });
-     await selfLinkTarget.element.click();
-     linkConfiguration = { url: internalLinkUrl, target: selfLinkTarget.target }
+    await page.getByTestId('field-variants.logo.linkType').getByText('Internal, inside this website').click();
+    //  await page.getByTestId('reference-input').getByLabel('Open').click();
+    await page.getByTestId('autocomplete').click();
+    await page.getByTestId('autocomplete').fill('thank you');
+    await page.getByRole('button', { name: 'Thank you Published No' }).click({ force: true });
+    await selfLinkTarget.element.click();
+    linkConfiguration = { url: internalLinkUrl, target: selfLinkTarget.target }
    }
 
   //TODO: ADD LINK INTERNAL/EXTERNAL, AND TARGET SELF/BLANK.
@@ -119,17 +121,19 @@ export async function createNavigationVariant(pageTitle, variantLabel, variantIn
       await expect(primaryButtonLabel.inputValue()).resolves.toBe(inputPrimaryButton);
       
       if (isInternalLink) {
-          await page.getByTestId('reference-input').getByLabel('Open').click({ force: true });
-          await page.getByRole('button', { name: 'Thank you Published No' }).click();
-          await primaryButtonLinkTarget.getByText('Self (default) - open in the').click();
-          linkConfiguration = { url: internalLinkUrl, target: selfLinkTarget.target }
+        // await page.getByTestId('reference-input').getByLabel('Open').click({ force: true });
+        await page.getByTestId('autocomplete').click();
+        await page.getByTestId('autocomplete').fill('thank you');
+        await page.getByRole('button', { name: 'Thank you Published No' }).click();
+        await primaryButtonLinkTarget.getByText('Self (default) - open in the').click();
+        linkConfiguration = { url: internalLinkUrl, target: selfLinkTarget.target }
       } else {
-          await page.getByTestId('field-variants.primaryButton.linkType').getByText('External, outside this website').click();
-          await primaryButtonLinkExternal.click();
-          await primaryButtonLinkExternal.fill(externalLinkUrl);
-          await expect(primaryButtonLinkExternal.inputValue()).resolves.toBe(externalLinkUrl);
-          await primaryButtonLinkTarget.getByText('Blank - open on a new tab (').click();
-          linkConfiguration = { url: externalLinkUrl, target: blankLinkTarget.target }
+        await page.getByTestId('field-variants.primaryButton.linkType').getByText('External, outside this website').click();
+        await primaryButtonLinkExternal.click();
+        await primaryButtonLinkExternal.fill(externalLinkUrl);
+        await expect(primaryButtonLinkExternal.inputValue()).resolves.toBe(externalLinkUrl);
+        await primaryButtonLinkTarget.getByText('Blank - open on a new tab (').click();
+        linkConfiguration = { url: externalLinkUrl, target: blankLinkTarget.target }
       }
       //Close primary button toggle
       await primaryButton.click();
@@ -140,20 +144,22 @@ export async function createNavigationVariant(pageTitle, variantLabel, variantIn
       await expect(secondaryButtonLabel.inputValue()).resolves.toBe(inputSecondaryButton);
       
       if (isInternalLink) {
-          await page.getByTestId('reference-input').getByLabel('Open').click({ force: true });
-          await page.getByRole('button', { name: 'Thank you Published No' }).click();
-          await secondaryButtonLinkTarget.getByText('Self (default) - open in the').click();
-          linkConfiguration = { url: internalLinkUrl, target: selfLinkTarget.target }
+        // await page.getByTestId('reference-input').getByLabel('Open').click({ force: true });
+        await page.getByTestId('autocomplete').click();
+        await page.getByTestId('autocomplete').fill('thank you');
+        await page.getByRole('button', { name: 'Thank you Published No' }).click();
+        await secondaryButtonLinkTarget.getByText('Self (default) - open in the').click();
+        linkConfiguration = { url: internalLinkUrl, target: selfLinkTarget.target }
       } else {
-          await page.getByTestId('field-variants.secondaryButton.linkType').getByText('External, outside this website').click();
-          await secondaryButtonLinkExternal.click();
-          await secondaryButtonLinkExternal.fill(externalLinkUrl);
-          await expect(secondaryButtonLinkExternal.inputValue()).resolves.toBe(externalLinkUrl);
-          await secondaryButtonLinkTarget.getByText('Blank - open on a new tab (').click();
-          linkConfiguration = { url: externalLinkUrl, target: blankLinkTarget.target }
+        await page.getByTestId('field-variants.secondaryButton.linkType').getByText('External, outside this website').click();
+        await secondaryButtonLinkExternal.click();
+        await secondaryButtonLinkExternal.fill(externalLinkUrl);
+        await expect(secondaryButtonLinkExternal.inputValue()).resolves.toBe(externalLinkUrl);
+        await secondaryButtonLinkTarget.getByText('Blank - open on a new tab (').click();
+        linkConfiguration = { url: externalLinkUrl, target: blankLinkTarget.target }
       }
-      //Close secondary button toggle
-      await secondaryButton.click();
+    //Close secondary button toggle
+    await secondaryButton.click();
   }
     
   await expectDocumentPublished(page)
@@ -197,17 +203,17 @@ async function assertPageContent(openUrlPage, linkConfiguration, linkName, isInt
       await openUrlPage.waitForLoadState('networkidle');
     }
 
-      if (!isInternalLink) {
-        // Normalize URLs for comparison
-        const normalizedExpectedUrl = externalLinkUrl.replace("https://www.", "https://");
-        const normalizedReceivedUrl = pageToUse.url().replace("https://www.", "https://");
-        await expect(normalizedReceivedUrl).toBe(normalizedExpectedUrl);
-      } else if (isInternalLink) {
-        await expect(pageToUse.getByText('Success!')).toBeVisible({ timeout: 20000 })
-        const expectedUrl = linkConfiguration?.url.endsWith('/') ? linkConfiguration?.url : `${linkConfiguration?.url}/`;
-        const receivedUrl = pageToUse.url().endsWith('/') ? pageToUse.url() : `${pageToUse.url()}/`;
-        await expect(receivedUrl).toBe(expectedUrl);
-      }
+    if (!isInternalLink) {
+      // Normalize URLs for comparison
+      const normalizedExpectedUrl = externalLinkUrl.replace("https://www.", "https://");
+      const normalizedReceivedUrl = pageToUse.url().replace("https://www.", "https://");
+      await expect(normalizedReceivedUrl).toBe(normalizedExpectedUrl);
+    } else if (isInternalLink) {
+      await expect(pageToUse.getByText('Success!')).toBeVisible({ timeout: 20000 })
+      const expectedUrl = linkConfiguration?.url.endsWith('/') ? linkConfiguration?.url : `${linkConfiguration?.url}/`;
+      const receivedUrl = pageToUse.url().endsWith('/') ? pageToUse.url() : `${pageToUse.url()}/`;
+      await expect(receivedUrl).toBe(expectedUrl);
+    }
   }
 }
 
@@ -244,17 +250,17 @@ test("Create Navigation B", async () => {
 
 test("Create Navigation C", async () => {
   const linkNames = ["About Us", "Services", "Platform", "Testimonials", inputPrimaryButton, inputSecondaryButton];
-  await createNavigationTest("Navigation Page C", "Navigation New Page Variant C", 2, true, linkNames);
+  await createNavigationTest("Navigation Page C", "Navigation New Page Variant C", 2, false, linkNames);
 });
 
 test("Create Navigation D", async () => {
   const linkNames = ["About Us", "Services", "Platform", "Testimonials", inputPrimaryButton, inputSecondaryButton];
-  await createNavigationTest("Navigation Page D", "Navigation New Page Variant D", 3, true, linkNames);
+  await createNavigationTest("Navigation Page D", "Navigation New Page Variant D", 3, false, linkNames);
 });
 
 test("Create Navigation E", async () => {
   const linkNames = ["About Us", "Services", "Platform", "Testimonials"];
-  await createNavigationTest("Navigation Page E", "Navigation New Page Variant E", 4, true, linkNames);
+  await createNavigationTest("Navigation Page E", "Navigation New Page Variant E", 4, false, linkNames);
 });
 
 test.afterAll(async () => {
