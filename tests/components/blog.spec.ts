@@ -86,7 +86,9 @@ export async function createBlogVariant(pageTitle, variantLabel, variantIndex, i
             linkConfiguration = { url: externalUrl, target: blankLinkTarget.target };
         } else  {
             await internalLink.click();
-            await page.getByTestId('reference-input').getByLabel('Open').click();
+            // await page.getByTestId('reference-input').getByLabel('Open').click();
+            await page.getByTestId('autocomplete').click();
+            await page.getByTestId('autocomplete').fill('thank you');
             await page.getByRole('button', { name: 'Thank you Published No' }).click({ force: true });
             await selfLinkTarget.element.click();
             linkConfiguration = { url: internalLinkUrl, target: selfLinkTarget.target }

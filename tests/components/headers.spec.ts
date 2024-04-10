@@ -74,7 +74,9 @@ export async function createHeaderVariant(pageTitle, variantLabel, variantIndex,
         linkConfiguration = { url: externalLinkUrl, target: blankLinkTarget.target };
         } else  {
         await page.getByTestId('field-variants.primaryButton.linkType').getByText('Internal, inside this website').click();
-        await page.getByTestId('reference-input').getByLabel('Open').click();
+        // await page.getByTestId('reference-input').getByLabel('Open').click();
+        await page.getByTestId('autocomplete').click();
+        await page.getByTestId('autocomplete').fill('thank you');
         await page.getByRole('button', { name: 'Thank you Published No' }).click({ force: true });
         await selfLinkTarget.element.click();
         linkConfiguration = { url: internalLinkUrl, target: selfLinkTarget.target }
@@ -96,7 +98,9 @@ export async function createHeaderVariant(pageTitle, variantLabel, variantIndex,
         linkConfiguration = { url: externalLinkUrl, target: blankLinkTarget.target };
         } else  {
         await page.getByTestId('field-variants.secondaryButton.linkType').getByText('Internal, inside this website').click();
-        await page.getByTestId('reference-input').getByLabel('Open').click();
+        // await page.getByTestId('reference-input').getByLabel('Open').click();
+        await page.getByTestId('autocomplete').click();
+        await page.getByTestId('autocomplete').fill('thank you');
         await page.getByRole('button', { name: 'Thank you Published No' }).click({ force: true });
         await selfLinkTarget.element.click();
         linkConfiguration = { url: internalLinkUrl, target: selfLinkTarget.target }
@@ -144,7 +148,9 @@ export async function createHeaderVariant(pageTitle, variantLabel, variantIndex,
     await blankLinkTarget.element.click();
     } else {
     await routesInternalLink.click();
-    await page.getByTestId('reference-input').getByLabel('Open').click();
+    // await page.getByTestId('reference-input').getByLabel('Open').click();
+    await page.getByTestId('autocomplete').click();
+    await page.getByTestId('autocomplete').fill('thank you');
     await page.getByRole('button', { name: 'Thank you Published No' }).click();
     //Commenting this atm due to bug on studio not having scroll. By default it is in self
     // await selfLinkTarget.element.click();
@@ -162,7 +168,9 @@ export async function createHeaderVariant(pageTitle, variantLabel, variantIndex,
     await blankLinkTarget.element.click();
     } else {
     await routesInternalLink.click();
-    await page.getByTestId('reference-input').getByLabel('Open').click();
+    // await page.getByTestId('reference-input').getByLabel('Open').click();
+    await page.getByTestId('autocomplete').click();
+    await page.getByTestId('autocomplete').fill('thank you');
     await page.getByRole('button', { name: 'Thank you Published No' }).click();
     //Commenting this atm due to bug on studio not having scroll. By default it is in self
     // await selfLinkTarget.element.click();
@@ -226,11 +234,11 @@ export async function createHeaderVariant(pageTitle, variantLabel, variantIndex,
     
     const slug = newHeaaderTitle?.toLowerCase()?.replace(/\s+/g, "-").replace(/-+/g, "-");
     if (variantIndex === 4) {
-    const linkNames = [secondaryButtonInput, 'Policy Privacy', 'Terms of Use'];
-    for (const linkName of linkNames) {
-      await page.goto(`${NEXT_PUBLIC_SITE_URL}/${slug}`);
-      await assertPageContent(page, linkConfiguration, linkName, isInternalLink, variantIndex);
-    }
+      const linkNames = [secondaryButtonInput, 'Policy Privacy', 'Terms of Use'];
+      for (const linkName of linkNames) {
+        await page.goto(`${NEXT_PUBLIC_SITE_URL}/${slug}`);
+        await assertPageContent(page, linkConfiguration, linkName, isInternalLink, variantIndex);
+      }
     } else {
       await page.goto(`${NEXT_PUBLIC_SITE_URL}/${slug}`);
       await assertPageContent(page, linkConfiguration, secondaryButtonInput, isInternalLink, variantIndex);
