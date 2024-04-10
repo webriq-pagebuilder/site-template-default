@@ -1,78 +1,158 @@
-import { test, expect } from "@playwright/test";
-import { autologin_studio } from "./utils";
-
-test.describe.configure({ mode: "serial" });
+import { test, expect, type Page } from "@playwright/test";
+import { autologin_studio, createNewPage, expectDocumentPublished, navigateToPage } from "./utils/index";
+import { NEXT_PUBLIC_SITE_URL } from "studio/config";
 
 let page: Page;
+const newPageTitle = "New Page - " + new Date().getTime();
 
-test.beforeAll("Autologin Studio", async ({ browser }) => {
-  page = await browser.newPage();
+test.beforeAll(async ({ browser }) => {
+  page= await browser.newPage();
 
-  await page.goto("http://localhost:3000/studio");
-  // Pass the environment variable value as an argument to page.evaluate()
-  const token = process.env.STUDIO_AUTOLOGIN_TOKEN_FOR_TESTING;
+  //navigate to the studio
+  await page.goto(`${NEXT_PUBLIC_SITE_URL}`);
+
+  const token = process.env.NEXT_PUBLIC_STUDIO_AUTOLOGIN_TOKEN_FOR_TESTING;
   const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
 
   await page.evaluate(autologin_studio, { token, projectId });
 });
 
-test.afterAll(async () => {
-  await page.close();
-});
+test.describe("Main Workflow", () => {
+  test.describe.configure({ timeout: 900000, mode: "serial" });
 
-test("test it can publishes a page", async ({ page }) => {
-  await page.goto("http://localhost:3000/studio");
+  //PUBLISH PAGES
+  test("Test to Publish a Page and Open Live URL", async () => {
+    await navigateToPage(page)
+    await createNewPage(page, newPageTitle, 'Navigation')
+    
+    await page.getByTestId("field-label").getByTestId("string-input").click({ force: true });
+    await page.getByTestId("field-label").getByTestId("string-input").fill("Navigation New Page Variant A");
 
-  // Find the element you want to click
-  const element = page.locator('a:has-text("Pages")');
+    await page.getByTestId("field-variant").getByRole("img").first().click({ force: true });
+    
+    await expectDocumentPublished(page);
+    await expect(page.getByRole("link", { name: newPageTitle })).toBeVisible();
 
-  // Scroll the page to the element
-  await element.scrollIntoViewIfNeeded();
+    //Open Live URL
+    await page.getByRole("link", { name: newPageTitle }).click({ force: true });
+    await page.waitForTimeout(5000);
 
-  // Wait for the element to be fully visible
-  await page.waitForSelector('a:has-text("Pages")', { state: "visible" });
+    const pagePromise = page.waitForEvent("popup");
+    await page.getByText("http://localhost:3000/new-").click();
+    const openUrlPage = await pagePromise;
 
-  // Click on the element
-  await element.click({ force: true });
+    // Wait for the element to become visible or hidden with a longer timeout
+    const sectionCount = await page.locator("div").filter({ hasText: /^No items$/ }).count();
+    if (sectionCount > 0) {
+      // If the section is found, expect the Empty Page element to be visible
+      await expect(openUrlPage.getByText("Empty Page")).toBeVisible({
+        timeout: 10000,
+      });
+    } else {
+      // If the section is not found, expect the Empty Page element to be hidden
+      await expect(openUrlPage.getByText("Empty Page")).toBeHidden({
+        timeout: 10000,
+      });
+    }
+  });
 
-  // Click new page button
-  const newPageButtonElement = page.locator(
-    `a[href="/studio/intent/create/template=page;type=page/"]`
-  );
-  await newPageButtonElement.click({ force: true });
+  //Duplicate Pages Action
+  test("Pages Duplicate Action and Open Live URL", async () => {
+    const duplicatePageName = `Dupe Page ` + new Date().getTime();
+    await navigateToPage(page);
 
-  // We input a new title
-  const newPageTitle = "New Page - " + new Date().getTime();
+    await page.getByPlaceholder('Search list').click({ force: true })
+    await page.getByPlaceholder('Search list').fill(newPageTitle)
+    await page.waitForSelector(`a:has-text("${newPageTitle}")`, { state: 'visible' });
 
-  const inputTitle = page.locator("input#title");
-  await page.waitForSelector("input#title", { state: "visible" });
-  await inputTitle.click({ force: true });
-  await inputTitle.fill(newPageTitle);
+    await page.getByRole("link", { name: newPageTitle }).click({ force: true });
+    await page.waitForSelector(`a:has-text("${newPageTitle}")`, { state: 'visible' });
+    await page.getByLabel('Clear').click({ force: true })
+    await page.waitForTimeout(3000);
+    await page.getByTestId("action-menu-button").click({ force: true });
+    await page.getByTestId("action-Duplicate").click({ force: true });
+    await page.getByPlaceholder("Copy of New Page -").click();
+    await page.getByPlaceholder("Copy of new Page -").fill(duplicatePageName);
+    await page.getByRole("button", { name: "Duplicate" }).click();
 
-  await page.getByRole("button", { name: "Generate" }).click({ force: true });
-  await page.getByRole("button", { name: "Add item…" }).click({ force: true });
-  await page
-    .getByRole("menuitem", { name: "Navigation" })
-    .click({ force: true });
-  await page
-    .getByTestId("reference-input")
-    .getByRole("button", { name: "Create new" })
-    .click({ force: true });
-  await page
-    .getByTestId("field-label")
-    .getByTestId("string-input")
-    .click({ force: true });
-  await page
-    .getByTestId("field-label")
-    .getByTestId("string-input")
-    .fill("Navigation New Page Variant A");
+    await expect(page.locator('[id="__next"]').getByRole("alert").locator("div").nth(1)).toBeVisible();
+    await page.waitForSelector(`a:has-text("${duplicatePageName}")`, { state: 'visible' });
+    await expect(page.getByRole("link", { name: duplicatePageName })).toBeVisible();
+    await page.getByRole("link", { name: duplicatePageName }).click({ force: true });
+    await page.waitForTimeout(5000);
+    await page.getByTestId("action-[object Object]").click({ force: true });
+    await expect(page
+        .locator('[id="__next"]')
+        .getByRole("alert")
+        .locator("div")
+        .filter({ hasText: "The document was published" })
+        .nth(1)
+    ).toBeVisible();
 
-  await page.getByTestId("action-Save").click({ force: true });
+    //Open Live URL
+    await page.getByRole("link", { name: duplicatePageName }).click({ force: true });
+    await page.waitForTimeout(5000);
 
-  await expect(page.getByRole("link", { name: newPageTitle })).toBeVisible();
-});
+    const pagePromise = page.waitForEvent("popup");
+    await page.getByText("http://localhost:3000/dupe-page-").click();
+    const openUrlPage = await pagePromise;
 
-test("see current version", async ({ page }) => {
+    // Wait for the element to become visible or hidden with a longer timeout
+    const sectionCount = await page.locator("div").filter({ hasText: /^No items$/ }).count();
+    if (sectionCount > 0) {
+      // If the section is found, expect the Empty Page element to be visible
+      await expect(openUrlPage.getByText("Empty Page")).toBeVisible({
+        timeout: 10000,
+      });
+    } else {
+      // If the section is not found, expect the Empty Page element to be hidden
+      await expect(openUrlPage.getByText("Empty Page")).toBeHidden({
+        timeout: 10000,
+      });
+    }
+  });
+
+  //Launch Inline Editing - Edit and Close button function
+  test("Open Inline Editing", async () => {
+    let altText = `Alt text ` + new Date().getTime();
+
+    await navigateToPage(page);
+    await page.getByPlaceholder('Search list').click({ force: true })
+    await page.getByPlaceholder('Search list').fill(newPageTitle)
+    await page.waitForSelector(`a:has-text("${newPageTitle}")`, { state: 'visible' });
+
+    await page.getByRole("link", { name: newPageTitle }).click({ force: true });
+    await page.waitForSelector(`a:has-text("${newPageTitle}")`, { state: 'visible' });
+    await page.getByLabel('Clear').click({ force: true })
+    await page.waitForTimeout(5000);
+
+    const launchInlineEditing = page.waitForEvent("popup");
+    await page.waitForTimeout(10000);
+
+    await page.getByLabel("Launch Inline Editing").click();
+    const inlineEditPage = await launchInlineEditing;
+    await inlineEditPage.locator("#navigation").click(); //Edit button
+    await expect(inlineEditPage.locator(".react-split > div:nth-child(2)")).toBeVisible();
+
+    const altTextInput = inlineEditPage.getByTestId("field-variants.logo.alt").getByTestId("string-input")
+    await altTextInput.click();
+    await altTextInput.fill(altText);
+
+    await inlineEditPage.getByText("External, outside this website").click();
+    await inlineEditPage.getByLabel("URL").click();
+    await inlineEditPage.getByLabel("URL").fill("https://facebook.com");
+    await inlineEditPage.getByText("Blank - open on a new tab (").click();
+    await inlineEditPage.getByTestId("action-Save").click({ force: true });
+    await inlineEditPage.waitForTimeout(2000);
+    await expect(inlineEditPage.locator('[id="__next"]').getByRole("alert").locator("div").filter({ hasText: "The document was published" }).nth(1)).toBeVisible({ timeout: 75000 });
+
+    await inlineEditPage.locator("#navigation").click({ force: true }); //Close Button
+    await expect(inlineEditPage.locator(".react-split > div:nth-child(2)")).toBeHidden();
+  });
+})
+
+//SEE CURRENT VERSION
+test("See Current Version", async () => {
   await page.goto("http://localhost:3000/studio");
 
   // Find the element you want to click
