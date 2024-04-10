@@ -205,6 +205,29 @@ export interface DefaultSeoData {
   defaultSeoImage: SanityImage | undefined;
 }
 
+export interface SeoData extends Seo {
+  title: string; // page title
+  name?: string; // for product page
+  body?: any; // for blog page
+  type: string; // page type e.g. blog
+  route: string | SanitySlug | string[]; // page slug
+}
+
+export interface SeoTags {
+  name?: string | null;
+  title?: string | null;
+  key: string;
+  content?: string | null;
+  property?: string | null;
+  rel?: string | null;
+  href?: string | null;
+}
+
+// TODO
+// export interface SeoSchema {
+
+// }
+
 export interface Sections extends SanityBody {
   label?: string;
   variant?: string;

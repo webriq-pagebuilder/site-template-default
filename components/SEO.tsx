@@ -1,17 +1,6 @@
 import { seoImageUrl } from "lib/sanity";
-import { DefaultSeoData, SanityImage, SanitySlug } from "types";
+import { DefaultSeoData, SeoData } from "types";
 import { BlogJsonLd, PagesJsonLd, ProductJsonLd } from "utils/seo/jsonLd";
-
-type SEOData = {
-  pageTitle: string; // page title
-  route: string | SanitySlug | string[]; // page slug
-  type: string; // page type e.g. blog
-  seoTitle?: string;
-  seoKeywords?: string;
-  seoSynonyms?: string;
-  seoDescription?: string;
-  seoImage?: SanityImage;
-};
 
 const url = process.env.NEXT_PUBLIC_SITE_URL;
 
@@ -30,12 +19,12 @@ const contacts = [
   },
 ];
 
-function SEO({
+export function SEO({
   data,
   defaultSeo,
 }: {
-  data: SEOData | undefined;
-  defaultSeo: DefaultSeoData;
+  data: SeoData | null;
+  defaultSeo: DefaultSeoData | null;
 }) {
   const {
     defaultSeoTitle,
@@ -48,49 +37,90 @@ function SEO({
   const finalSeo = getSEOValue(data, data?.type);
   const { title, description, image, synonyms, keywords } = finalSeo;
 
-  return (
-    <>
-      {/* Primary Meta Tags */}
-      <meta name="viewport" content="width=360 initial-scale=1" />
-      <link rel="canonical" href={`${url}/${data?.route}`} />
-      <meta
-        name="title"
-        content={title ?? data?.pageTitle ?? defaultSeoTitle}
-      />
-      <meta name="keywords" content={keywords ?? defaultSeoKeywords} />
-      <meta name="synonyms" content={synonyms ?? defaultSeoSynonyms} />
-      <meta name="description" content={description ?? defaultSeoDescription} />
-      {/* Open Graph / Facebook / LinkedIn */}
-      <meta property="og:url" content={`${url}/${data?.route}`} />
-      <meta
-        property="og:title"
-        content={title ?? data?.pageTitle ?? defaultSeoTitle}
-      />
-      <meta
-        property="og:description"
-        content={description ?? defaultSeoDescription}
-      />
-      <meta
-        property="og:image"
-        content={image ? seoImageUrl(image) : seoImageUrl(defaultSeoImage)}
-      />
-      {/* Twitter */}
-      <meta property="twitter:card" content="summary_large_image" />
-      <meta property="twitter:url" content={`${url}/${data?.route}`} />
-      <meta
-        property="twitter:title"
-        content={title ?? data?.pageTitle ?? defaultSeoTitle}
-      />
-      <meta
-        property="twitter:description"
-        content={description ?? defaultSeoDescription}
-      />
-      <meta
-        property="twitter:image"
-        content={image ? seoImageUrl(image) : seoImageUrl(defaultSeoImage)}
-      />
-    </>
-  );
+  const seoImageUrlWrapper = (img) => (img ? seoImageUrl(img) : null);
+
+  const seoValues = {
+    title: title || data?.title || defaultSeoTitle,
+    keywords: keywords || defaultSeoKeywords,
+    synonyms: synonyms || defaultSeoSynonyms,
+    description: description || defaultSeoDescription,
+    image: seoImageUrlWrapper(image || defaultSeoImage),
+  };
+
+  const routeHref = `${url}/${data?.route}`;
+
+  const seoArray = [
+    seoValues.title && { key: "page-title", title: seoValues.title },
+    seoValues.title && {
+      name: "title",
+      key: "title",
+      content: seoValues.title,
+    },
+    seoValues.title && {
+      property: "og:title",
+      key: "ogtitle",
+      content: seoValues.title,
+    },
+    seoValues.title && {
+      property: "twitter:title",
+      key: "twittertitle",
+      content: seoValues.title,
+    },
+    data?.route && { name: "canonical", key: "canonical", href: routeHref },
+    data?.route && { property: "og:url", key: "ogurl", content: routeHref },
+    data?.route && {
+      property: "twitter:url",
+      key: "twitterurl",
+      content: routeHref,
+    },
+    seoValues.keywords && {
+      name: "keywords",
+      key: "keywords",
+      content: seoValues.keywords,
+    },
+    seoValues.synonyms && {
+      name: "synonyms",
+      key: "synonyms",
+      content: seoValues.synonyms,
+    },
+    seoValues.description && {
+      name: "description",
+      key: "description",
+      content: seoValues.description,
+    },
+    seoValues.description && {
+      property: "og:description",
+      key: "ogdesc",
+      content: seoValues.description,
+    },
+    seoValues.description && {
+      property: "twitter:description",
+      key: "twitterdesc",
+      content: seoValues.description,
+    },
+    seoValues.image && {
+      property: "og:image",
+      key: "ogimage",
+      content: seoValues.image,
+    },
+    seoValues.image && {
+      property: "twitter:image",
+      key: "twitterimage",
+      content: seoValues.image,
+    },
+    {
+      property: "twitter:card",
+      key: "twittercard",
+      content: "summary_large_image",
+    },
+    {
+      rel: "icon",
+      key: "favicon",
+      href: "/favicon.ico",
+    },
+  ].filter((tags) => !!tags); // Remove falsy entries
+
+  return seoArray;
 }
 
 // this function returns the first 100 characters of the blog post body or excerpt when an SEO description for the blog post is not provided
@@ -108,7 +138,7 @@ function blogPostBody(body) {
   return description;
 }
 
-function getSEOValue(seoData: SEOData, dataType: string) {
+function getSEOValue(seoData: SeoData, dataType: string) {
   const seo = {
     title: seoData?.seoTitle,
     keywords: seoData?.seoKeywords,
@@ -141,8 +171,6 @@ function getSEOValue(seoData: SEOData, dataType: string) {
   }
   return seo;
 }
-
-export default SEO;
 
 export function addSEOJsonLd({ seo, type, defaults, slug, pageData }) {
   if (type === "post") {
