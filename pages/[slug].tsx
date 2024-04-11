@@ -15,7 +15,7 @@ import { SEO } from "components/SEO";
 import PageNotFound from "pages/404";
 import InlineEditorContextProvider from "context/InlineEditorContext";
 import { GetStaticPaths, GetStaticProps } from "next";
-import { CommonPageData, BlogsData, SeoTags } from "types";
+import { CommonPageData, BlogsData, SeoTags, SeoSchema } from "types";
 import { addSEOJsonLd } from "components/SEO";
 
 interface PageBySlugProps {
@@ -24,7 +24,7 @@ interface PageBySlugProps {
   token: string | null;
   source: string;
   seo?: SeoTags[];
-  seoSchema?: any;
+  seoSchema?: SeoSchema;
 }
 
 interface DocumentWithPreviewProps {

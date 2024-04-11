@@ -9,7 +9,7 @@ import { filterDataToSingleItem } from "components/list";
 import { SEO } from "components/SEO";
 import { PreviewBanner } from "components/PreviewBanner";
 import InlineEditorContextProvider from "context/InlineEditorContext";
-import { CommonPageData, SeoTags } from "types";
+import { CommonPageData, SeoTags, SeoSchema } from "types";
 import { addSEOJsonLd } from "components/SEO";
 
 interface HomeProps {
@@ -18,7 +18,7 @@ interface HomeProps {
   token?: string | null;
   source?: string;
   seo?: SeoTags[];
-  seoSchema?: any;
+  seoSchema?: SeoSchema;
 }
 
 interface DocumentWithPreviewProps {

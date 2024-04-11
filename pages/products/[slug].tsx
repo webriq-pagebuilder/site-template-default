@@ -14,7 +14,7 @@ import { PreviewBanner } from "components/PreviewBanner";
 import { PreviewNoContent } from "components/PreviewNoContent";
 import { ProductSections } from "components/page/store/products";
 import InlineEditorContextProvider from "context/InlineEditorContext";
-import { CollectionProduct, CommonSections, SeoTags } from "types";
+import { CollectionProduct, CommonSections, SeoTags, SeoSchema } from "types";
 import { addSEOJsonLd } from "components/SEO";
 
 interface ProductPageBySlugProps {
@@ -23,7 +23,7 @@ interface ProductPageBySlugProps {
   token: string;
   source: string;
   seo?: SeoTags[];
-  seoSchema?: any;
+  seoSchema?: SeoSchema;
 }
 
 interface Data {
@@ -156,7 +156,7 @@ export async function getStaticProps({
     data: {
       title: data?.productData?.name || "Stackshift | Product page",
       type: data?.productData?._type || "mainProduct",
-      route: `products/${params?.slug}/`,
+      route: `products/${params?.slug}`,
       ...data?.productData?.seo,
     },
     defaultSeo: globalSEO,

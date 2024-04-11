@@ -223,10 +223,14 @@ export interface SeoTags {
   href?: string | null;
 }
 
-// TODO
-// export interface SeoSchema {
-
-// }
+export interface SeoSchema {
+  key: string;
+  innerHTML?:
+    | {
+        __html: string | TrustedHTML;
+      }
+    | undefined;
+}
 
 export interface Sections extends SanityBody {
   label?: string;
