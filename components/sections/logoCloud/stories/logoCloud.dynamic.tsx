@@ -36,10 +36,16 @@ export default defineStories({
 
     const result: StoryConfigs = {};
 
-    logoCloudData?.map((item, index) => {
+    logoCloudData?.map((item) => {
       if (!item || !item.variants) return; // Skip iteration if item or item.variants is falsy
 
-      result[`${item.variant}${index + 1}`] = {
+      const trimmedLabel = item?.label.trim();
+      const label = trimmedLabel
+        .toLowerCase()
+        .replace(/[^\w\s]/g, "_")
+        .replace(/\s/g, "_"); // Replace special characters and white spaces with underscores
+
+      result[`${label}${item?.variant}`] = {
         args: {
           variant: item.variant,
           label: item.label,
