@@ -238,12 +238,12 @@ const createNavigationTest = async (pageTitle, variantName, variantIndex, isInte
   }
 };
 
-test("Create Navigation A", async () => {
+test("Create Navigation Variant A", async () => {
   const linkNames = ["About Us", "Services", "Platform", "Testimonials", inputPrimaryButton, inputSecondaryButton];
   await createNavigationTest("Navigation Page A", "Navigation New Page Variant A", 0, false, linkNames);
 });
 
-test("Create Navigation B", async () => {
+test("Create Navigation Variant B", async () => {
   const linkNames = ["About Us", "Services", "Platform", "Testimonials", inputPrimaryButton, inputSecondaryButton];
   await createNavigationTest("Navigation Page B", "Navigation New Page Variant B", 1, false, linkNames);
 });

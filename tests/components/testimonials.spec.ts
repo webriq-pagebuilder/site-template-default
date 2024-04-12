@@ -198,3 +198,7 @@ test("Create Testimonial Variant C", async () => {
 test("Create Testimonial Variant D", async () => {
   await createTestimonialVariants("Create Testimonial Variant D", "New Testimonial Section D", 3);
 });
+
+test.afterAll(async () => {
+  await page.close();
+});
