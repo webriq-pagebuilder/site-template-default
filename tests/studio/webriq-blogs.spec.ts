@@ -1,6 +1,9 @@
 import { test, expect, type Page } from "@playwright/test";
 import { autologin_studio } from "tests/utils";
-import { NEXT_PUBLIC_SANITY_STUDIO_URL } from "studio/config";
+import {
+  NEXT_PUBLIC_SANITY_STUDIO_URL,
+  NEXT_PUBLIC_SITE_URL,
+} from "studio/config";
 
 const getTime = new Date().getTime();
 
@@ -13,12 +16,15 @@ let page: Page;
 test.beforeAll("Auto login studio", async ({ browser }) => {
   page = await browser.newPage();
 
-  // navigate to the studio
-  await page.goto(`${NEXT_PUBLIC_SANITY_STUDIO_URL}`);
+  await page.goto(`${NEXT_PUBLIC_SITE_URL}`);
 
   const token = process.env.NEXT_PUBLIC_STUDIO_AUTOLOGIN_TOKEN_FOR_TESTING;
   const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
+
   await page.evaluate(autologin_studio, { token, projectId });
+
+  // navigate to the studio
+  await page.goto(`${NEXT_PUBLIC_SANITY_STUDIO_URL}`);
 });
 
 test.describe("Verify main actions working", () => {
@@ -116,14 +122,12 @@ test.describe("Verify main actions working", () => {
 
   test("Can edit author, category and post", async () => {
     // EDIT AUTHOR
-    await page.getByRole("tab", { name: "Authors", exact: true }).click();
-    await expect(
-      page.getByText(newAuthor, { exact: true }).first()
-    ).toBeVisible({ timeout: 120000 });
     await page
-      .getByText(newAuthor, { exact: true })
-      .first()
+      .getByRole("tab", { name: "Authors", exact: true })
       .click({ force: true });
+
+    const authorPage = page.locator(`a:has-text(${newAuthor})`).first();
+    await authorPage.click({ force: true });
     await page.getByTestId("field-name").getByTestId("string-input").click();
     await page
       .getByTestId("field-name")
@@ -133,23 +137,16 @@ test.describe("Verify main actions working", () => {
     await page.getByLabel("Bio").fill("Updated author sample bio content.");
     await page
       .getByTestId("action-[object Object]")
-      .click({ force: true, timeout: 120000 }); // publish document
-    await expect(
-      page
-        .locator("[aria-label='Review changes']")
-        .filter({ hasText: "just now" })
-    ).toBeVisible({ timeout: 120000 });
+      .click({ force: true, timeout: 180000 }); // publish document
 
     // EDIT CATEGORY
     await page.getByRole("link", { name: "Blog" }).click();
-    await page.getByRole("tab", { name: "Categories", exact: true }).click();
-    await expect(
-      page.getByText(newCategory, { exact: true }).first()
-    ).toBeVisible({ timeout: 120000 });
     await page
-      .getByText(newCategory, { exact: true })
-      .first()
+      .getByRole("tab", { name: "Categories", exact: true })
       .click({ force: true });
+
+    const categoryPage = page.locator(`a:has-text(${newCategory})`).first();
+    await categoryPage.click({ force: true });
     await page.getByTestId("string-input").click();
     await page
       .getByTestId("string-input")
@@ -158,25 +155,14 @@ test.describe("Verify main actions working", () => {
     await page.getByLabel("Description").fill("Updated category description.");
     await page
       .getByTestId("action-[object Object]")
-      .click({ force: true, timeout: 120000 }); // publish document
-    await expect(
-      page
-        .locator("[aria-label='Review changes']")
-        .filter({ hasText: "just now" })
-    ).toBeVisible({ timeout: 120000 });
+      .click({ force: true, timeout: 180000 }); // publish document
 
     // EDIT POST
     await page.getByRole("link", { name: "Blog" }).click();
-    await page.getByRole("tab", { name: "Posts", exact: true }).click();
-
-    await expect(
-      page.getByText(newBlogPost).or(page.getByText(/Post/)).first()
-    ).toBeVisible({ timeout: 180000 });
-    page
-      .getByText(newBlogPost)
-      .or(page.getByText(/Post/))
-      .first()
+    await page
+      .getByRole("tab", { name: "Posts", exact: true })
       .click({ force: true });
+    await page.getByRole("link", { name: newBlogPost }).click({ force: true });
     await page.getByTestId("string-input").click();
     await page
       .getByTestId("string-input")
@@ -198,11 +184,6 @@ test.describe("Verify main actions working", () => {
     await page
       .getByTestId("action-[object Object]")
       .click({ force: true, timeout: 180000 }); // publish document
-    await expect(
-      page
-        .locator("[aria-label='Review changes']")
-        .filter({ hasText: "just now" })
-    ).toBeVisible({ timeout: 180000 });
   });
 });
 

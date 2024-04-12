@@ -1,6 +1,9 @@
 import { test, expect, type Page } from "@playwright/test";
 import { autologin_studio } from "tests/utils";
-import { NEXT_PUBLIC_SANITY_STUDIO_URL } from "studio/config";
+import {
+  NEXT_PUBLIC_SANITY_STUDIO_URL,
+  NEXT_PUBLIC_SITE_URL,
+} from "studio/config";
 
 let globalSeo = {
   title: "",
@@ -14,13 +17,15 @@ let page: Page;
 test.beforeAll("Auto login studio", async ({ browser }) => {
   page = await browser.newPage();
 
-  // navigate to the studio
-  await page.goto(`${NEXT_PUBLIC_SANITY_STUDIO_URL}`);
+  await page.goto(`${NEXT_PUBLIC_SITE_URL}`);
 
   const token = process.env.NEXT_PUBLIC_STUDIO_AUTOLOGIN_TOKEN_FOR_TESTING;
   const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
 
   await page.evaluate(autologin_studio, { token, projectId });
+
+  // navigate to the studio
+  await page.goto(`${NEXT_PUBLIC_SANITY_STUDIO_URL}`);
 });
 
 test.describe("Verify Global SEO Settings", () => {
@@ -167,7 +172,7 @@ test.describe("Verify Global SEO Settings", () => {
 });
 
 test.describe("Redirects to Global SEO links", () => {
-  test.describe.configure({ timeout: 1800000 });
+  test.describe.configure({ timeout: 300000 });
 
   test.beforeEach(async () => {
     const element = page.locator('a:has-text("Pages")');
@@ -272,7 +277,7 @@ test.describe("Redirects to Global SEO links", () => {
 });
 
 test("Can add SEO values to page", async () => {
-  test.setTimeout(750000);
+  test.setTimeout(300000);
 
   const element = page.locator('a:has-text("Pages")');
   await element.scrollIntoViewIfNeeded();
@@ -285,11 +290,10 @@ test("Can add SEO values to page", async () => {
     state: "visible",
   });
   await nextElement.click({ force: true });
+
   await page
     .getByRole("button", { name: "SEO Settings" })
     .click({ force: true });
-
-  const pageTitle = await page.locator("input#title").inputValue();
 
   // SEO title
   const seoTitleFld = page

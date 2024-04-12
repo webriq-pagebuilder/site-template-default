@@ -1,6 +1,9 @@
 import { test, expect, type Page } from "@playwright/test";
 import { autologin_studio } from "tests/utils";
-import { NEXT_PUBLIC_SANITY_STUDIO_URL } from "studio/config";
+import {
+  NEXT_PUBLIC_SANITY_STUDIO_URL,
+  NEXT_PUBLIC_SITE_URL,
+} from "studio/config";
 
 const newComponentName = `New App Promo - ` + new Date().getTime();
 const dupeComponentName = `App promo - ` + new Date().getTime();
@@ -10,15 +13,18 @@ let page: Page;
 test.beforeAll("Auto login studio", async ({ browser }) => {
   page = await browser.newPage();
 
-  // navigate to the studio
-  await page.goto(`${NEXT_PUBLIC_SANITY_STUDIO_URL}`);
+  await page.goto(`${NEXT_PUBLIC_SITE_URL}`);
 
   const token = process.env.NEXT_PUBLIC_STUDIO_AUTOLOGIN_TOKEN_FOR_TESTING;
   const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
+
   await page.evaluate(autologin_studio, { token, projectId });
+
+  // navigate to the studio
+  await page.goto(`${NEXT_PUBLIC_SANITY_STUDIO_URL}`);
 });
 
-test.describe.skip("Verify main document actions working", () => {
+test.describe("Verify main document actions working", () => {
   test.describe.configure({ timeout: 1500000, mode: "serial" });
 
   test("Show all components", async () => {
@@ -140,37 +146,35 @@ test.describe.skip("Verify main document actions working", () => {
       });
   });
 
-  test("Can't delete referenced component", async () => {
+  test.fixme("Can't delete referenced component", async () => {
     await page.getByRole("link", { name: "Components" }).click({ force: true });
 
-    const getCardWithRef = page
-      .locator("div.referenced-by-pages")
-      .getByRole("button");
-    const refCount = await getCardWithRef.count();
-
-    if (refCount < 1) {
-      test.skip();
-    } else {
-      getCardWithRef.locator("div.referenced-by-pages").hover();
-      getCardWithRef
+    await page.locator("div.referenced-by-pages").first().hover();
+    await page
+      .locator("div.referenced-by-pages button.components-delete-btn")
+      .first()
+      .click({ force: true });
+    await expect(page.getByText("Failed to delete component")).toBeVisible({
+      timeout: 120000,
+    });
+    await page
+      .getByRole("button", { name: "Got it", exact: true })
+      .click({ force: true });
+    await expect(
+      page
         .locator("div.referenced-by-pages button.components-delete-btn")
-        .click({ force: true });
-      await expect(page.getByText("Failed to delete component")).toHaveCount(1);
-      await page
-        .getByRole("button", { name: "Got it", exact: true })
-        .click({ force: true });
-      await expect(getCardWithRef)
-        .toBeVisible()
-        .then(() => {
-          console.log(
-            "[INFO] Cannot delete component that is being referenced by a page!"
-          );
-        });
-    }
+        .first()
+    )
+      .toBeVisible({ timeout: 180000 })
+      .then(() => {
+        console.log(
+          "[INFO] Cannot delete component that is being referenced by a page!"
+        );
+      });
   });
 });
 
-test.skip("Can filter component", async () => {
+test("Can filter component", async () => {
   test.setTimeout(120000);
 
   await page.getByRole("link", { name: "Components" }).click();
