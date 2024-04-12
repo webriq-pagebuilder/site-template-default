@@ -248,17 +248,17 @@ test("Create Navigation B", async () => {
   await createNavigationTest("Navigation Page B", "Navigation New Page Variant B", 1, false, linkNames);
 });
 
-test("Create Navigation C", async () => {
+test("Create Navigation Variant C", async () => {
   const linkNames = ["About Us", "Services", "Platform", "Testimonials", inputPrimaryButton, inputSecondaryButton];
   await createNavigationTest("Navigation Page C", "Navigation New Page Variant C", 2, false, linkNames);
 });
 
-test("Create Navigation D", async () => {
+test("Create Navigation Variant D", async () => {
   const linkNames = ["About Us", "Services", "Platform", "Testimonials", inputPrimaryButton, inputSecondaryButton];
   await createNavigationTest("Navigation Page D", "Navigation New Page Variant D", 3, false, linkNames);
 });
 
-test("Create Navigation E", async () => {
+test("Create Navigation Variant E", async () => {
   const linkNames = ["About Us", "Services", "Platform", "Testimonials"];
   await createNavigationTest("Navigation Page E", "Navigation New Page Variant E", 4, false, linkNames);
 });

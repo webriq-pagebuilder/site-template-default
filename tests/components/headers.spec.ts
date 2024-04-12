@@ -23,7 +23,6 @@ test.beforeAll("Auto login studio", async ({ browser }) => {
   await page.evaluate(autologin_studio, { token, projectId });
 });
 
-
 export async function createHeaderVariant(pageTitle, variantLabel, variantIndex, isInternalLink) {
     const time = new Date().getTime()
     const newHeaaderTitle =  pageTitle + time;
