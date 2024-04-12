@@ -4812,20 +4812,20 @@
     "@webassemblyjs/ast" "1.12.1"
     "@xtuc/long" "4.2.2"
 
-"@webriq-pagebuilder/sanity-plugin-desk-studio-version@^4.0.5":
-  version "4.0.5"
-  resolved "https://registry.yarnpkg.com/@webriq-pagebuilder/sanity-plugin-desk-studio-version/-/sanity-plugin-desk-studio-version-4.0.5.tgz#203b64fa06ec138eac56df26284a7a719f2490d2"
-  integrity sha512-kIUw6MQG41etmY0/FsgXYkvGyApnqaa4P+DqTh+tCvwO7x3DxJtiKXbFaFttVTPXDg67DnuXdhMRhb1beQWlNA==
+"@webriq-pagebuilder/sanity-plugin-desk-studio-version@^4.0.6-rc.0":
+  version "4.0.6-rc.0"
+  resolved "https://registry.yarnpkg.com/@webriq-pagebuilder/sanity-plugin-desk-studio-version/-/sanity-plugin-desk-studio-version-4.0.6-rc.0.tgz#1ffbc03653e46993a2aed38b61bb28d1e73a298e"
+  integrity sha512-zLVGu4DhuouhthKaPT0aQCXK3Wnxg5ppHwUo4/l23+Ci61zjnBl6+I6l8pwx61qcu7IYGMAvxoAnWkbAEJm73A==
   dependencies:
     "@sanity/incompatible-plugin" "^1.0.4"
     "@sanity/ui" "^1.8.1"
     react-icons "^4.10.1"
     semver "^7.5.4"
 
-"@webriq-pagebuilder/sanity-plugin-input-component-gpt3@^4.0.5":
-  version "4.0.5"
-  resolved "https://registry.yarnpkg.com/@webriq-pagebuilder/sanity-plugin-input-component-gpt3/-/sanity-plugin-input-component-gpt3-4.0.5.tgz#b0d91d68a17d3b0dba7627de5424c3c7236e72f9"
-  integrity sha512-fl88EkkcmW6zgNcJi4IHSi8ByAed43S8OFATDGWVKAwvMLT85/mi+c92hldTSxg3HPFrk6Qf2tPXsfAK4z+IpA==
+"@webriq-pagebuilder/sanity-plugin-input-component-gpt3@^4.0.6-rc.0":
+  version "4.0.6-rc.0"
+  resolved "https://registry.yarnpkg.com/@webriq-pagebuilder/sanity-plugin-input-component-gpt3/-/sanity-plugin-input-component-gpt3-4.0.6-rc.0.tgz#f3dccfb1dd075a69b1bab5430c9f7d65c1ebfe60"
+  integrity sha512-PIhd3HPXUJRus4GjtnW61ZhKbWSpsfsDatALdOPsSjv0mCL/q/OZ7LmMCkDaz1bUsOipWdRFfANFR13u5l4olw==
   dependencies:
     "@sanity/icons" "^2.4.1"
     "@sanity/incompatible-plugin" "^1.0.4"
@@ -4834,87 +4834,87 @@
     eventsource-parser "^1.0.0"
     nanoid "^3.1.30"
 
-"@webriq-pagebuilder/sanity-plugin-input-component-social-accounts@^3.7.1-rc.8":
-  version "3.7.1-rc.8"
-  resolved "https://registry.yarnpkg.com/@webriq-pagebuilder/sanity-plugin-input-component-social-accounts/-/sanity-plugin-input-component-social-accounts-3.7.1-rc.8.tgz#a8f4a8190dcebb9d15967f9b506667ca0dd49ce0"
-  integrity sha512-f4cesGFdslJxtm/cwrIyUvLb4sryhyDnHCYam0OcRvotyPhSFYxt0uRrdr75emOR7qWu/x1F2ePj+KCg+f99nw==
+"@webriq-pagebuilder/sanity-plugin-input-component-social-accounts@^4.0.6-rc.0":
+  version "4.0.6-rc.0"
+  resolved "https://registry.yarnpkg.com/@webriq-pagebuilder/sanity-plugin-input-component-social-accounts/-/sanity-plugin-input-component-social-accounts-4.0.6-rc.0.tgz#e45d6f8ba6880d596286bf0b0b9dd58995991d2b"
+  integrity sha512-DRxUdllrrgusiN4rrUtZyH6sq6QLzp2AaRKavDl0t+/AF8RfCFWRBBFLtl9/dgDlvXd/0bkxbZ1uMz2z1ezlDQ==
   dependencies:
     "@sanity/incompatible-plugin" "^1.0.4"
     "@sanity/ui" "^1.8.2"
 
-"@webriq-pagebuilder/sanity-plugin-input-component-variants@^4.0.5":
-  version "4.0.5"
-  resolved "https://registry.yarnpkg.com/@webriq-pagebuilder/sanity-plugin-input-component-variants/-/sanity-plugin-input-component-variants-4.0.5.tgz#8a97cadd2d40db03f47e7fa76c924f01091fa137"
-  integrity sha512-X/pJ45Iw1C7/xmfapIy/X/8/6BHKNBvJG7b6T7Kd5Azsl6XpURktEpHUt6DEipXdheoRs12nAQ39hW9uDrdVZQ==
+"@webriq-pagebuilder/sanity-plugin-input-component-variants@^4.0.6-rc.0":
+  version "4.0.6-rc.0"
+  resolved "https://registry.yarnpkg.com/@webriq-pagebuilder/sanity-plugin-input-component-variants/-/sanity-plugin-input-component-variants-4.0.6-rc.0.tgz#fca59e932d2dd3ea5d78fc2d529a71e54aa7ebbc"
+  integrity sha512-InUHvSXvHGE5vkq2uab3y3UsUsXXTgAl1OQSGNJp/lEagkopHePR8MU2U27FaiqNAV+oUuG5wCFUbg2jgx8wew==
   dependencies:
     "@sanity/icons" "^2.3.1"
     "@sanity/incompatible-plugin" "^1.0.4"
     "@sanity/ui" "^1.3.2"
 
-"@webriq-pagebuilder/sanity-plugin-inspector-inline-edit@^4.0.5":
-  version "4.0.5"
-  resolved "https://registry.yarnpkg.com/@webriq-pagebuilder/sanity-plugin-inspector-inline-edit/-/sanity-plugin-inspector-inline-edit-4.0.5.tgz#8c4b4731bca69144df323f7dd6101671b6fccc3d"
-  integrity sha512-O+GwI56NFLyTOdH+iFUnC5/S2ECmzYwYFfbRU2ypBrgXWDnezJX5X2+7FqATKWzAYHvztf4P4T3kxseVbrfnuA==
+"@webriq-pagebuilder/sanity-plugin-inspector-inline-edit@^4.0.6-rc.0":
+  version "4.0.6-rc.0"
+  resolved "https://registry.yarnpkg.com/@webriq-pagebuilder/sanity-plugin-inspector-inline-edit/-/sanity-plugin-inspector-inline-edit-4.0.6-rc.0.tgz#ee817d15c9538b88e7722756be66d1fa44ed5f03"
+  integrity sha512-w7RRmBsp2KU9eCLf14C5t9lTYSn3yusFQoAMKfvA+OYhL6tO2okxGObKh8r221rccjZiju+crow6A6PNrmX0uw==
   dependencies:
     "@sanity/incompatible-plugin" "^1.0.4"
     "@sanity/ui" "^1.8.1"
     react-icons "^4.10.1"
 
-"@webriq-pagebuilder/sanity-plugin-schema-blog@^4.0.5":
-  version "4.0.5"
-  resolved "https://registry.yarnpkg.com/@webriq-pagebuilder/sanity-plugin-schema-blog/-/sanity-plugin-schema-blog-4.0.5.tgz#fc2ff19cc9108cad41891776b385ac3823aca2e4"
-  integrity sha512-d/MgFmXOp8lHLEKzKmKtZaRm5wGY83GnFaArFo3AEMUDr5M4qUQNoMmtkG1N8rKmdWC9TzIkZh0SOPmxAdcRXw==
+"@webriq-pagebuilder/sanity-plugin-schema-blog@^4.0.6-rc.0":
+  version "4.0.6-rc.0"
+  resolved "https://registry.yarnpkg.com/@webriq-pagebuilder/sanity-plugin-schema-blog/-/sanity-plugin-schema-blog-4.0.6-rc.0.tgz#9a573dfc9d25af45c8a939fe8ab4094266165879"
+  integrity sha512-00hsvxwtU7GgjOYs7YfSFDUoVKysdGr1Xms2ImaMj4hDtR0KaBQuwl8CRjXWuMvKA2E/F0ZzDWXHVoM/QdRMSQ==
   dependencies:
     "@sanity/incompatible-plugin" "^1.0.4"
     nanoid "^3.1.30"
     react-icons "^4.2.0"
 
-"@webriq-pagebuilder/sanity-plugin-schema-commerce@^4.0.5":
-  version "4.0.5"
-  resolved "https://registry.yarnpkg.com/@webriq-pagebuilder/sanity-plugin-schema-commerce/-/sanity-plugin-schema-commerce-4.0.5.tgz#934f227947cd87791a4d282591d488e0ddcf9909"
-  integrity sha512-pM+96ajuPwlHfZVRRIp8EtimMamWnxRPT6sa5bhK83r2ylyBOdFWZg3oR6Bwz9SzQo2D00vljWPbKCCtGrTOcw==
+"@webriq-pagebuilder/sanity-plugin-schema-commerce@^4.0.6-rc.0":
+  version "4.0.6-rc.0"
+  resolved "https://registry.yarnpkg.com/@webriq-pagebuilder/sanity-plugin-schema-commerce/-/sanity-plugin-schema-commerce-4.0.6-rc.0.tgz#1527c6dba07d2d26095e97f2330e41132b8f6687"
+  integrity sha512-75okBtNo5eFD0JILSdlORYQqZT91bF1AwQ/HHQIGaBHp5MHZrXuyVKlvATyYIArixU/FdhF2B+wcmUSe8r+gog==
   dependencies:
     "@portabletext/to-html" "^2.0.0"
     "@sanity/client" "^5.3.2"
     "@sanity/incompatible-plugin" "^1.0.4"
     "@sanity/ui" "^1.3.2"
-    "@webriq-pagebuilder/sanity-plugin-input-component-gpt3" "^4.0.5"
-    "@webriq-pagebuilder/sanity-plugin-input-component-variants" "^4.0.5"
-    "@webriq-pagebuilder/sanity-plugin-schema-default" "^4.0.5"
+    "@webriq-pagebuilder/sanity-plugin-input-component-gpt3" "^4.0.6-rc.0"
+    "@webriq-pagebuilder/sanity-plugin-input-component-variants" "^4.0.6-rc.0"
+    "@webriq-pagebuilder/sanity-plugin-schema-default" "^4.0.6-rc.0"
     htm "^3.1.1"
     nanoid "^3.1.30"
     react-icons "^4.2.0"
     vhtml "^2.2.0"
 
-"@webriq-pagebuilder/sanity-plugin-schema-default@^4.0.5":
-  version "4.0.5"
-  resolved "https://registry.yarnpkg.com/@webriq-pagebuilder/sanity-plugin-schema-default/-/sanity-plugin-schema-default-4.0.5.tgz#b5ef2701cf584d1ecf47b5a83c91d376654b3771"
-  integrity sha512-OccN53DyU2aM0nh5eF+fdRPW6v1TvUutvDz5uCCV3N6SUJbIQjA91MQkbD544VACn3C5FOFsU0cUWA9SUyzksg==
+"@webriq-pagebuilder/sanity-plugin-schema-default@^4.0.6-rc.0":
+  version "4.0.6-rc.0"
+  resolved "https://registry.yarnpkg.com/@webriq-pagebuilder/sanity-plugin-schema-default/-/sanity-plugin-schema-default-4.0.6-rc.0.tgz#eed45bffd0da420c099fb4afe3b4cac451eae27d"
+  integrity sha512-bR1H3jIHcvfj5HLVKqXevjadpwnjL3wTJUMwAuORumIVe3KgU/93vBlyi+C4fm9USux2UzicL6XfhDQogbaesg==
   dependencies:
     "@sanity/incompatible-plugin" "^1.0.4"
-    "@webriq-pagebuilder/sanity-plugin-input-component-gpt3" "^4.0.5"
-    "@webriq-pagebuilder/sanity-plugin-input-component-variants" "^4.0.5"
-    "@webriq-pagebuilder/sanity-plugin-webriq-payments" "^4.0.5"
+    "@webriq-pagebuilder/sanity-plugin-input-component-gpt3" "^4.0.6-rc.0"
+    "@webriq-pagebuilder/sanity-plugin-input-component-variants" "^4.0.6-rc.0"
+    "@webriq-pagebuilder/sanity-plugin-webriq-payments" "^4.0.6-rc.0"
     nanoid "^3.1.30"
     react-icons "^4.2.0"
 
-"@webriq-pagebuilder/sanity-plugin-webriq-blog@^4.0.5":
-  version "4.0.5"
-  resolved "https://registry.yarnpkg.com/@webriq-pagebuilder/sanity-plugin-webriq-blog/-/sanity-plugin-webriq-blog-4.0.5.tgz#201e98d580fe14d4ff5a6427e8b4175bbdcaa84d"
-  integrity sha512-kHsJfc00QASGkV1w22T8aCmkn1riADH8I8SlO0G+UlFsgNOirP9y4cb9S6pWpzuTu38dkgTnF7YmAGdZr57IaA==
+"@webriq-pagebuilder/sanity-plugin-webriq-blog@^4.0.6-rc.0":
+  version "4.0.6-rc.0"
+  resolved "https://registry.yarnpkg.com/@webriq-pagebuilder/sanity-plugin-webriq-blog/-/sanity-plugin-webriq-blog-4.0.6-rc.0.tgz#9148222f2f9fc98e54a5a0ab445eb1b652980c3f"
+  integrity sha512-c811ho5hKmdSCHd5YIqmQ+Sq6a7tAXgOoRD6UOUwhC4aT87KJ5rwaHGr4d1PbDE+zEFp945nDoZqCClpIXeuTw==
   dependencies:
     "@sanity/client" "^5.3.2"
     "@sanity/image-url" "^1.0.1"
     "@sanity/incompatible-plugin" "^1.0.4"
     "@sanity/ui" "^1.3.2"
-    "@webriq-pagebuilder/sanity-plugin-schema-blog" "^4.0.5"
+    "@webriq-pagebuilder/sanity-plugin-schema-blog" "^4.0.6-rc.0"
     nanoid "^3.1.30"
     react-icons "^4.2.0"
 
-"@webriq-pagebuilder/sanity-plugin-webriq-components@^4.0.5":
-  version "4.0.5"
-  resolved "https://registry.yarnpkg.com/@webriq-pagebuilder/sanity-plugin-webriq-components/-/sanity-plugin-webriq-components-4.0.5.tgz#ed3469078efde445a975ed6b453f2a3a3cb3d119"
-  integrity sha512-56ZU8Mq0rBN6WAuyqncx6sz/sEe1pw0HRZnpx58MV2zknrsms8lvZLgNqsIit117RePQ+hDcsVMj7j9hJj7PGw==
+"@webriq-pagebuilder/sanity-plugin-webriq-components@^4.0.6-rc.0":
+  version "4.0.6-rc.0"
+  resolved "https://registry.yarnpkg.com/@webriq-pagebuilder/sanity-plugin-webriq-components/-/sanity-plugin-webriq-components-4.0.6-rc.0.tgz#a2a6a2bbf1bbf16b502a3d683f00f67677661e5d"
+  integrity sha512-OuQsgC9zi88tyIDOyu4p8WBwVD4o2XQiw/mfebVIhbXbVWAMT9bJ26ZFpUQ3woN/90LMPsb22BWg0imYyCWFoQ==
   dependencies:
     "@sanity/incompatible-plugin" "^1.0.4"
     "@sanity/ui" "^1.3.2"
@@ -4923,10 +4923,10 @@
     react-icons "^4.8.0"
     react-select "^5.7.3"
 
-"@webriq-pagebuilder/sanity-plugin-webriq-forms@^4.0.5":
-  version "4.0.5"
-  resolved "https://registry.yarnpkg.com/@webriq-pagebuilder/sanity-plugin-webriq-forms/-/sanity-plugin-webriq-forms-4.0.5.tgz#1f77b0c392bf1a60f91678bfd2c440383978572b"
-  integrity sha512-0799ioaJfF4IMj8Hw6x7z450pBI5Olb0GMrgp+cKvZAql5M9qHwbPo25caGI/8r/O94YN+ZB2bcy0SLrt+E3bw==
+"@webriq-pagebuilder/sanity-plugin-webriq-forms@^4.0.6-rc.0":
+  version "4.0.6-rc.0"
+  resolved "https://registry.yarnpkg.com/@webriq-pagebuilder/sanity-plugin-webriq-forms/-/sanity-plugin-webriq-forms-4.0.6-rc.0.tgz#c43575e593f4d54b38cceb2dac22e218122a8d92"
+  integrity sha512-BVskWHYAMVL1ixLVF4tUDquq7u1zVaIhkBCS9hPkveIV1sJY+IZL06KpYsAjKBEDAAMHVSg88m+yzbC6LtzOHQ==
   dependencies:
     "@sanity/icons" "^2.2.2"
     "@sanity/incompatible-plugin" "^1.0.4"
@@ -4934,10 +4934,10 @@
     date-fns "^2.21.3"
     react-icons "^4.2.0"
 
-"@webriq-pagebuilder/sanity-plugin-webriq-payments@^4.0.5":
-  version "4.0.5"
-  resolved "https://registry.yarnpkg.com/@webriq-pagebuilder/sanity-plugin-webriq-payments/-/sanity-plugin-webriq-payments-4.0.5.tgz#29c07f331de1666b27286e1d4f2bf0f69f54e60c"
-  integrity sha512-nz2rHCYgFN+mJ5cKRDE9Zh7KYB4SiDMV5n78rmANi4YtLr0v9/iHxzpvYXfgi9cn1ErH5KfBidhYJGBEcbuzlg==
+"@webriq-pagebuilder/sanity-plugin-webriq-payments@^4.0.6-rc.0":
+  version "4.0.6-rc.0"
+  resolved "https://registry.yarnpkg.com/@webriq-pagebuilder/sanity-plugin-webriq-payments/-/sanity-plugin-webriq-payments-4.0.6-rc.0.tgz#e523e8033ea6ad55e79f7ef7d15a0b636de1ea43"
+  integrity sha512-UNgOBBC7aijC+h/gjhwlu3OF7FqKMy+YzN9IF5lgbrQljaiYmtAFGawz0/5e97/LOKHICej7MTa0L61BUObXlw==
   dependencies:
     "@sanity/incompatible-plugin" "^1.0.4"
     "@sanity/ui" "^1.3.2"

@@ -1,8 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import {
-  SOCIAL_ACCOUNTS_API_URL,
-  NEXT_PUBLIC_SANITY_PROJECT_ID,
-} from "studio/config";
+import { SOCIAL_ACCOUNTS_API_URL, SANITY_PROJECT_ID } from "studio/config";
 
 interface SocialMediaFeedContextProps {
   children: React.ReactNode;
@@ -36,7 +33,7 @@ export function SocialMediaFeedContextProvider({
         },
         body: JSON.stringify({
           platform: profileFeed?.platform,
-          studioId: NEXT_PUBLIC_SANITY_PROJECT_ID,
+          studioId: SANITY_PROJECT_ID,
           itemId: profileFeed?.itemId,
         }),
       })
