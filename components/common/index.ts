@@ -37,6 +37,7 @@ export function dynamicStoryData({
   data?.map((item) => {
     if (!item || !item.variants) return; // Skip iteration if item or item.variants is falsy
 
+    // for named exports format see this reference from storybook: https://storybook.js.org/docs/api/csf#named-story-exports
     const trimmedLabel = item?.label.trim();
     const label = trimmedLabel
       .toLowerCase()
