@@ -109,9 +109,7 @@ test.describe("Main Workflow", () => {
   });
 
   //Launch Inline Editing - Edit and Close button function
-  test("Open Inline Editing", async () => {
-    let altText = `Alt text ` + new Date().getTime();
-
+  test("Open Inline Editing and Edit Texts should display in realtime", async () => {
     await navigateToPage(page);
     await page.getByPlaceholder('Search list').click({ force: true })
     await page.getByPlaceholder('Search list').fill(newPageTitle)
@@ -130,21 +128,55 @@ test.describe("Main Workflow", () => {
     await inlineEditPage.locator("#navigation").click(); //Edit button
     await expect(inlineEditPage.locator(".react-split > div:nth-child(2)")).toBeVisible();
 
-    const altTextInput = inlineEditPage.getByTestId("field-variants.logo.alt").getByTestId("string-input")
-    await altTextInput.click();
-    await altTextInput.fill(altText);
+    const routes = [
+      {
+        name: "Start Internal Link Not Set",
+        currentRoute: "Start",
+        updatedRoute: "Start Test",
+      },
+      {
+        name: "About Us Internal Link Not Set",
+        currentRoute: "About Us",
+        updatedRoute: "About Us Test",
+      },
+      {
+        name: "Services Internal Link Not Set",
+        currentRoute: "Services",
+        updatedRoute: "Services Test",
+      },
+      {
+        name: "Platform Internal Link Not Set",
+        currentRoute: "Platform",
+        updatedRoute: "Platform Test",
+      },
+      {
+        name: "Testimonials Internal Link Not Set",
+        currentRoute: "Testimonials",
+        updatedRoute: "Testimonials Test",
+      },
+    ]
+    
+    //Edit Routes
+    for (const route of routes) {
+      await inlineEditPage.getByRole('button', { name: route.name }).click();
+      await expect(inlineEditPage.getByLabel('Edit Link')).toBeVisible();
+      await inlineEditPage.locator(`input[value="${route.currentRoute}"]`).click();
+      await inlineEditPage.locator(`input[value="${route.currentRoute}"]`).fill(route.updatedRoute);
+      await inlineEditPage.getByLabel('Close dialog').click();
+    }
 
-    await inlineEditPage.getByText("External, outside this website").click();
-    await inlineEditPage.getByLabel("URL").click();
-    await inlineEditPage.getByLabel("URL").fill("https://facebook.com");
-    await inlineEditPage.getByText("Blank - open on a new tab (").click();
-    await expect(inlineEditPage.locator('[data-testid="review-changes-button"]').filter({ hasText: "Just now" })).toBeVisible({ timeout: 150000 });
+    await expect(inlineEditPage.locator('[data-testid="review-changes-button"]').filter({ hasText: "Saved!" })).toBeVisible({ timeout: 150000 });
     await inlineEditPage.getByTestId("action-Save").click({ force: true });
     await expect(inlineEditPage.getByTestId('review-changes-button')).toBeHidden({ timeout: 150000 });
     await expect(inlineEditPage.locator('[id="__next"]').getByRole("alert").locator("div").filter({ hasText: "The document was published" }).nth(1)).toBeVisible({ timeout: 150000 });
 
     await inlineEditPage.locator("#navigation").click({ force: true }); //Close Button
     await expect(inlineEditPage.locator(".react-split > div:nth-child(2)")).toBeHidden();
+    
+    //Expect updated route names
+    for (const route of routes) {
+      await expect(inlineEditPage.getByRole('link', { name: route.updatedRoute })).toBeVisible();
+    }
   });
 
   test("Test with no Section should display Empty Page", async () => {
