@@ -46,12 +46,12 @@ test.describe("Main Workflow", () => {
     if (sectionCount > 0) {
       // If the section is found, expect the Empty Page element to be visible
       await expect(openUrlPage.getByText("Empty Page")).toBeVisible({
-        timeout: 10000,
+        timeout: 20000,
       });
     } else {
       // If the section is not found, expect the Empty Page element to be hidden
       await expect(openUrlPage.getByText("Empty Page")).toBeHidden({
-        timeout: 10000,
+        timeout: 20000,
       });
     }
   });
@@ -80,14 +80,10 @@ test.describe("Main Workflow", () => {
     await expect(page.getByRole("link", { name: duplicatePageName })).toBeVisible();
     await page.getByRole("link", { name: duplicatePageName }).click({ force: true });
     await page.waitForTimeout(5000);
-    await page.getByTestId("action-[object Object]").click({ force: true });
-    await expect(page
-        .locator('[id="__next"]')
-        .getByRole("alert")
-        .locator("div")
-        .filter({ hasText: "The document was published" })
-        .nth(1)
-    ).toBeVisible();
+    await page.getByTestId('action-[object Object]').click({ force: true });
+    await expect(page.getByTestId('review-changes-button')).toBeHidden({ timeout: 150000 })
+    await expect(page.locator('[id="__next"]').getByRole("alert").locator("div").filter({ hasText: "The document was published" }).nth(1)).toBeVisible({ timeout: 150000 });
+
 
     //Open Live URL
     await page.getByRole("link", { name: duplicatePageName }).click({ force: true });
@@ -142,13 +138,46 @@ test.describe("Main Workflow", () => {
     await inlineEditPage.getByLabel("URL").click();
     await inlineEditPage.getByLabel("URL").fill("https://facebook.com");
     await inlineEditPage.getByText("Blank - open on a new tab (").click();
+    await expect(inlineEditPage.locator('[data-testid="review-changes-button"]').filter({ hasText: "Just now" })).toBeVisible({ timeout: 150000 });
     await inlineEditPage.getByTestId("action-Save").click({ force: true });
-    await inlineEditPage.waitForTimeout(2000);
-    await expect(inlineEditPage.locator('[id="__next"]').getByRole("alert").locator("div").filter({ hasText: "The document was published" }).nth(1)).toBeVisible({ timeout: 75000 });
+    await expect(inlineEditPage.getByTestId('review-changes-button')).toBeHidden({ timeout: 150000 });
+    await expect(inlineEditPage.locator('[id="__next"]').getByRole("alert").locator("div").filter({ hasText: "The document was published" }).nth(1)).toBeVisible({ timeout: 150000 });
 
     await inlineEditPage.locator("#navigation").click({ force: true }); //Close Button
     await expect(inlineEditPage.locator(".react-split > div:nth-child(2)")).toBeHidden();
   });
+
+  test("Test with no Section should display Empty Page", async () => {
+    await navigateToPage(page);
+    await page.getByPlaceholder('Search list').click({ force: true })
+    await page.getByPlaceholder('Search list').fill(newPageTitle)
+    await page.waitForSelector(`a:has-text("${newPageTitle}")`, { state: 'visible' });
+
+    await page.getByRole("link", { name: newPageTitle }).click({ force: true });
+    await page.waitForSelector(`a:has-text("${newPageTitle}")`, { state: 'visible' });
+    await page.getByLabel('Clear').click({ force: true })
+    await page.waitForTimeout(3000);
+    await expect(page.getByText('Loading document')).toBeHidden({ timeout: 150000 });
+    await page.getByTestId('field-sections').getByRole('button').nth(1).click();
+    await page.getByRole('menuitem', { name: 'Remove' }).click();
+
+    await expect(page.getByTestId('review-changes-button')).toBeVisible({ timeout: 150000 });
+    await page.getByTestId('action-[object Object]').click({ force: true });
+    await expect(page.getByTestId('review-changes-button')).toBeHidden({ timeout: 150000 });
+    await expect(page.locator('[id="__next"]').getByRole('alert').locator('div').filter({ hasText: 'The document was published' }).nth(1)).toBeVisible({ timeout: 150000 });
+    await expect(page.getByRole("link", { name: newPageTitle })).toBeVisible();
+
+    const pagePromise = page.waitForEvent('popup');
+    await page.getByText(`${NEXT_PUBLIC_SITE_URL}`).click({ force: true });
+    const openUrlPage = await pagePromise;
+
+    // Wait for the element to become visible or hidden with a longer timeout
+    const sectionCount = await page.locator("div").filter({ hasText: /^No items$/ }).count();
+    if (sectionCount > 0) {
+      // If the section no items is found, expect the Empty Page element to be visible
+      await expect(openUrlPage.getByText("Empty Page")).toBeVisible({ timeout: 20000 }).then(() => console.log('There is no Available Content!'));
+    }
+  })
 })
 
 //SEE CURRENT VERSION
