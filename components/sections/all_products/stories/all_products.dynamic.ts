@@ -1,5 +1,6 @@
 import { allProductsDefaultValues } from "helper/defaultValues";
-import { StoryConfigs, defineStories } from "utils/stories";
+import { dynamicStoryData } from "components/common";
+import { defineStories } from "utils/stories";
 import { sanityClient } from "lib/sanity.client";
 import { componentsQuery } from "pages/api/query";
 import dedent from "ts-dedent";
@@ -9,7 +10,7 @@ export default defineStories({
     import React from "react";
     import AllProductsComponent from "../index.tsx";
     export default {
-      title: "CStudio/All Products",
+      title: "Ecommerce/All Products",
       component: AllProductsComponent,
       tags: ["autodocs"],
       render: ({ variant, label, ...args }) => {
@@ -35,26 +36,10 @@ export default defineStories({
         schema: "allProducts",
       })) || []; // Provide a default empty array
 
-    const result: StoryConfigs = {};
-
-    allProductsData?.map((item) => {
-      if (!item || !item.variants) return; // Skip iteration if item or item.variants is falsy
-
-      const trimmedLabel = item?.label.trim();
-      const label = trimmedLabel
-        .toLowerCase()
-        .replace(/[^\w\s]/g, "_")
-        .replace(/\s/g, "_"); // Replace special characters and white spaces with underscores
-
-      result[`${label}${item?.variant}`] = {
-        args: {
-          variant: item.variant,
-          label: item.label,
-          ...allProductsDefaultValues,
-        },
-      };
+    return dynamicStoryData({
+      data: allProductsData,
+      schemaFields: allProductsDefaultValues,
+      isEcommerce: true,
     });
-
-    return result;
   },
 });

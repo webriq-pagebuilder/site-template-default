@@ -8,7 +8,7 @@ const args = {
 };
 
 const meta = {
-  title: "CStudio/Featured Products/Defaults",
+  title: "Ecommerce/Featured Products/Defaults",
   component: FeaturedProducts,
   tags: ["autodocs"],
   render: ({ variant, ...args }) => {
