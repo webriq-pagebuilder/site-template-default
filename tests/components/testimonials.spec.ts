@@ -184,15 +184,15 @@ async function createTestimonialVariants(pageTitle, variantLabel, variantIndex) 
 }
 
 test("Create Testimonial Variant A", async () => {
-  await createTestimonialVariants("Create Testimonial Variant A", "New Testimonial Section A", 0);
+  await createTestimonialVariants("Testimonial Variant A", "New Testimonial Section A", 0);
 });
 
 test("Create Testimonial Variant B", async () => {
-  await createTestimonialVariants("Create Testimonial Variant B", "New Testimonial Section B", 1);
+  await createTestimonialVariants("Testimonial Variant B", "New Testimonial Section B", 1);
 });
 
 test("Create Testimonial Variant C", async () => {
-  await createTestimonialVariants("Create Testimonial Variant C", "New Testimonial Section C", 2);
+  await createTestimonialVariants("Testimonial Variant C", "New Testimonial Section C", 2);
 });
 
 test("Create Testimonial Variant D", async () => {
