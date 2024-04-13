@@ -148,11 +148,9 @@ async function createTeamVariant(pageTitle, variantLabel, variantIndex) {
         await openUrlPage.locator('p:nth-child(2)').first()
     
     for (let i = 2; i <= peopleData.length + 1; i++) {
-        console.log('peopleData.length', i);
         
         if (i < peopleData.length - 1) {
         const selector = `div:nth-child(${i}) > .border > .p-4 > .text-base`;
-        console.log('selector', selector);
         await expect(openUrlPage.locator(selector)).toBeVisible();
         }
     }
@@ -170,19 +168,19 @@ async function createTeamVariant(pageTitle, variantLabel, variantIndex) {
 }
 
 test("Create Team Variant A", async () => {
-   await createTeamVariant("Create Team Variant A", "New Team Section A", 0);
+   await createTeamVariant("Team Variant A", "New Team Section A", 0);
 })
 
 test("Create Team Variant B", async () => {
-   await createTeamVariant("Create Team Variant B", "New Team Section B", 1);
+   await createTeamVariant("Team Variant B", "New Team Section B", 1);
 })
 
 test("Create Team Variant C", async () => {
-   await createTeamVariant("Create Team Variant C", "New Team Section C", 2);
+   await createTeamVariant("Team Variant C", "New Team Section C", 2);
 })
 
 test("Create Team Variant D", async () => {
-   await createTeamVariant("Create Team Variant D", "New Team Section D", 3);
+   await createTeamVariant("Team Variant D", "New Team Section D", 3);
 })
 
 test.afterAll(async () => {
