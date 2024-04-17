@@ -4,6 +4,7 @@ import {
   NEXT_PUBLIC_SANITY_STUDIO_URL,
   NEXT_PUBLIC_SITE_URL,
 } from "studio/config";
+import { appPromoInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-default";
 
 let page: Page;
 let commonTitle: string, commonSubtitle: string, commonDesc: string;
@@ -42,13 +43,7 @@ async function updateLogoLink() {
       .nth(3)
   ).toBeVisible();
   await page.getByLabel("Internal, inside this website").check({ force: true });
-  await expect(
-    page
-      .locator("div")
-      .filter({ hasText: /^Page Reference$/ })
-      .nth(1)
-      .and(page.getByTestId("autocomplete"))
-  ).toBeVisible();
+  await expect(page.getByTestId("autocomplete")).toBeVisible();
   await page.getByTestId("autocomplete").fill("New Page");
   await page
     .locator("button:has-text('New Page')")
@@ -64,25 +59,21 @@ async function updateLogoLink() {
 }
 
 async function updateTitle() {
-  const title = page
-    .getByTestId("field-variants.title")
-    .getByTestId("string-input");
+  const title = page.locator(`input#variants\.title`);
   title.fill("");
   title.fill("New App Promo");
   commonTitle = await title.inputValue();
 }
 
 async function updateSubtitle() {
-  const subtitle = page
-    .getByTestId("field-variants.subtitle")
-    .getByTestId("string-input");
+  const subtitle = page.locator(`input#variants\.subtitle`);
   subtitle.fill("");
   subtitle.fill("Subtitle");
   commonSubtitle = await subtitle.inputValue();
 }
 
 async function updateDescription() {
-  const description = page.getByPlaceholder("Lorem ipsum dolor sit amet,");
+  const description = page.locator(`textarea#variants\.description`);
   description.fill("");
   description.fill("Updated description for new App promo.");
   commonDesc = await description.inputValue();
@@ -134,7 +125,7 @@ test.describe("Create new App Promo", () => {
       .getByRole("button", { name: "New App Promo" })
       .click({ force: true });
     await page.getByTestId("string-input").click();
-    await page.getByTestId("string-input").fill(`New Variant A - ${getTime}`);
+    await page.getByTestId("string-input").fill(`New App Promo - ${getTime}`);
     await page
       .getByTestId("field-variant")
       .getByRole("img")
@@ -146,17 +137,13 @@ test.describe("Create new App Promo", () => {
   });
 
   test("Variant B", async () => {
-    await page.getByRole("link", { name: "Components" }).click({ force: true });
-    await page
-      .getByRole("button", { name: "New App Promo" })
-      .click({ force: true });
-    await page.getByTestId("string-input").click();
-    await page.getByTestId("string-input").fill(`New Variant B - ${getTime}`);
-    await page
-      .getByTestId("field-variant")
-      .getByRole("img")
-      .nth(1)
-      .click({ force: true });
+    await page.getByRole("button", { name: "Next" }).click({ force: true });
+    await expect(page.getByText("Variant B")).toBeVisible();
+
+    console.log({
+      subtitle: commonSubtitle,
+      title: commonTitle,
+    });
 
     // the same subtitle and title fields as variant A so we just check here if they have matching values
     await expect(
@@ -170,17 +157,14 @@ test.describe("Create new App Promo", () => {
   });
 
   test("Variant C", async () => {
-    await page.getByRole("link", { name: "Components" }).click({ force: true });
-    await page
-      .getByRole("button", { name: "New App Promo" })
-      .click({ force: true });
-    await page.getByTestId("string-input").click();
-    await page.getByTestId("string-input").fill(`New Variant C - ${getTime}`);
-    await page
-      .getByTestId("field-variant")
-      .getByRole("img")
-      .nth(2)
-      .click({ force: true });
+    await page.getByRole("button", { name: "Next" }).click({ force: true });
+    await expect(page.getByText("Variant C")).toBeVisible();
+
+    console.log({
+      subtitle: commonSubtitle,
+      title: commonTitle,
+      description: commonDesc,
+    });
 
     // the same subtitle and title fields as variant A so we just check here if they have matching values
     await expect(

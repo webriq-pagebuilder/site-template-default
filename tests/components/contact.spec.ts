@@ -199,18 +199,15 @@ async function updateWebriQForms() {
 }
 
 test.describe("Create new Contact", () => {
-  test.describe.configure({ timeout: 600000 });
+  test.describe.configure({ timeout: 600000, mode: "serial" });
 
-  test.beforeEach("Click create button", async () => {
+  test("Variant A", async () => {
     await page.getByRole("link", { name: "Components" }).click({ force: true });
     await page
       .getByRole("button", { name: "New Contact" })
       .click({ force: true });
-  });
-
-  test("Variant A", async () => {
     await page.getByTestId("string-input").click();
-    await page.getByTestId("string-input").fill(`New Variant A - ${getTime}`);
+    await page.getByTestId("string-input").fill(`New Contact - ${getTime}`);
     await page
       .getByTestId("field-variant")
       .getByRole("img")
@@ -224,13 +221,8 @@ test.describe("Create new Contact", () => {
   });
 
   test("Variant B", async () => {
-    await page.getByTestId("string-input").click();
-    await page.getByTestId("string-input").fill(`New Variant B - ${getTime}`);
-    await page
-      .getByTestId("field-variant")
-      .getByRole("img")
-      .nth(1)
-      .click({ force: true });
+    await page.getByRole("button", { name: "Next" }).click({ force: true });
+    await expect(page.getByText("Variant B")).toBeVisible();
 
     // check if we have matching common field values with variant A - title, description, social links and contact details
     await expect(
