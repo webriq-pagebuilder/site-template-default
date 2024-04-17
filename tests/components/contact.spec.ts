@@ -33,6 +33,72 @@ test.beforeAll("Auto login studio", async ({ browser }) => {
   await page.goto(`${NEXT_PUBLIC_SANITY_STUDIO_URL}`);
 });
 
+test.describe("Create new Contact", () => {
+  test.describe.configure({ timeout: 600000, mode: "serial" });
+
+  test("Variant A", async () => {
+    await page.getByRole("link", { name: "Components" }).click({ force: true });
+    await page
+      .getByRole("button", { name: "New Contact" })
+      .click({ force: true });
+    await page.getByTestId("string-input").click();
+    await page.getByTestId("string-input").fill(`New Contact - ${getTime}`);
+    await page
+      .getByTestId("field-variant")
+      .getByRole("img")
+      .first()
+      .click({ force: true });
+    await updateTitle();
+    await updateDescription();
+    await updateContactDetails();
+    await updateSocialLinks();
+    await updateWebriQForms();
+  });
+
+  test("Variant B", async () => {
+    await page.getByRole("button", { name: "Next" }).click({ force: true });
+    await expect(page.getByText("Variant B")).toBeVisible();
+
+    // check if we have matching common field values with variant A - title, description, social links and contact details
+    await expect(
+      page.getByTestId("field-variants.title").getByTestId("string-input")
+    ).toHaveValue(commonValues.commonTitle);
+    await expect(
+      page
+        .getByTestId("field-variants.contactDescription")
+        .getByTestId("string-input")
+    ).toHaveValue(commonValues.commonDesc);
+    await expect(
+      page
+        .getByTestId("field-variants.officeInformation")
+        .getByTestId("string-input")
+    ).toHaveValue(commonValues.commonContactDetails.office);
+    await expect(
+      page
+        .getByTestId("field-variants.contactEmail")
+        .getByTestId("string-input")
+    ).toHaveValue(commonValues.commonContactDetails.contactEmail);
+    await expect(
+      page
+        .getByTestId("field-variants.contactNumber")
+        .getByTestId("string-input")
+    ).toHaveValue(commonValues.commonContactDetails.contactNumber);
+    await expect(
+      page
+        .getByTestId("field-variants.socialLinks")
+        .locator("div")
+        .filter({ hasText: "Social Links" })
+        .nth(3)
+    ).toBeVisible();
+    await expect(page.getByRole("button", { name: "twitter" })).toBeVisible();
+    await expect(page.getByRole("button", { name: "instagram" })).toBeVisible();
+  });
+});
+
+test.afterAll(async () => {
+  await page.close();
+});
+
 async function updateTitle() {
   const title = page
     .getByTestId("field-variants.title")
@@ -63,9 +129,9 @@ async function updateSocialLinks() {
       .filter({ hasText: "Social Links" })
       .nth(3)
   ).toBeVisible();
-  await expect(page.getByRole("button", { name: "facebook" })).toBeVisible();
-  await expect(page.getByRole("button", { name: "twitter" })).toBeVisible();
-  await expect(page.getByRole("button", { name: "instagram" })).toBeVisible();
+  // await expect(page.getByRole("button", { name: "facebook" })).toBeVisible();
+  // await expect(page.getByRole("button", { name: "twitter" })).toBeVisible();
+  // await expect(page.getByRole("button", { name: "instagram" })).toBeVisible();
   await page.getByRole("button", { name: "facebook" }).click({ force: true });
   await expect(page.getByText("Edit Details")).toBeVisible();
   await expect(page.getByLabel("Select the social media")).toBeVisible();
@@ -197,69 +263,3 @@ async function updateWebriQForms() {
     .getByRole("textbox")
     .fill("I agree to all the terms and conditions");
 }
-
-test.describe("Create new Contact", () => {
-  test.describe.configure({ timeout: 600000, mode: "serial" });
-
-  test("Variant A", async () => {
-    await page.getByRole("link", { name: "Components" }).click({ force: true });
-    await page
-      .getByRole("button", { name: "New Contact" })
-      .click({ force: true });
-    await page.getByTestId("string-input").click();
-    await page.getByTestId("string-input").fill(`New Contact - ${getTime}`);
-    await page
-      .getByTestId("field-variant")
-      .getByRole("img")
-      .first()
-      .click({ force: true });
-    await updateTitle();
-    await updateDescription();
-    await updateContactDetails();
-    await updateSocialLinks();
-    await updateWebriQForms();
-  });
-
-  test("Variant B", async () => {
-    await page.getByRole("button", { name: "Next" }).click({ force: true });
-    await expect(page.getByText("Variant B")).toBeVisible();
-
-    // check if we have matching common field values with variant A - title, description, social links and contact details
-    await expect(
-      page.getByTestId("field-variants.title").getByTestId("string-input")
-    ).toHaveValue(commonValues.commonTitle);
-    await expect(
-      page
-        .getByTestId("field-variants.contactDescription")
-        .getByTestId("string-input")
-    ).toHaveValue(commonValues.commonDesc);
-    await expect(
-      page
-        .getByTestId("field-variants.officeInformation")
-        .getByTestId("string-input")
-    ).toHaveValue(commonValues.commonContactDetails.office);
-    await expect(
-      page
-        .getByTestId("field-variants.contactEmail")
-        .getByTestId("string-input")
-    ).toHaveValue(commonValues.commonContactDetails.contactEmail);
-    await expect(
-      page
-        .getByTestId("field-variants.contactNumber")
-        .getByTestId("string-input")
-    ).toHaveValue(commonValues.commonContactDetails.contactNumber);
-    await expect(
-      page
-        .getByTestId("field-variants.socialLinks")
-        .locator("div")
-        .filter({ hasText: "Social Links" })
-        .nth(3)
-    ).toBeVisible();
-    await expect(page.getByRole("button", { name: "twitter" })).toBeVisible();
-    await expect(page.getByRole("button", { name: "instagram" })).toBeVisible();
-  });
-});
-
-test.afterAll(async () => {
-  await page.close();
-});

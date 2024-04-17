@@ -1,5 +1,5 @@
 import { test, expect, type Page } from "@playwright/test";
-import { autologin_studio } from "tests/utils";
+import { autologin_studio, updateLogoLink } from "tests/utils";
 import {
   NEXT_PUBLIC_SANITY_STUDIO_URL,
   NEXT_PUBLIC_SITE_URL,
@@ -25,97 +25,6 @@ test.beforeAll("Auto login studio", async ({ browser }) => {
   await page.goto(`${NEXT_PUBLIC_SANITY_STUDIO_URL}`);
 });
 
-async function updateLogoLink() {
-  await page
-    .getByTestId("field-variants.logo.alt")
-    .getByTestId("string-input")
-    .fill("App promo logo");
-  await page
-    .getByLabel("External, outside this website")
-    .check({ force: true });
-  await expect(page.getByLabel("URL")).toBeVisible();
-  await page.getByLabel("URL").fill("https://webriq.com");
-  await expect(
-    page
-      .getByTestId("field-variants.logo.linkTarget")
-      .locator("div")
-      .filter({ hasText: "Link Target" })
-      .nth(3)
-  ).toBeVisible();
-  await page.getByLabel("Internal, inside this website").check({ force: true });
-  await expect(page.getByTestId("autocomplete")).toBeVisible();
-  await page.getByTestId("autocomplete").fill("New Page");
-  await page
-    .locator("button:has-text('New Page')")
-    .first()
-    .click({ force: true });
-  await expect(
-    page
-      .getByTestId("field-variants.logo.linkTarget")
-      .locator("div")
-      .filter({ hasText: "Link Target" })
-      .nth(3)
-  ).toBeVisible();
-}
-
-async function updateTitle() {
-  const title = page.locator(`input#variants\.title`);
-  title.fill("");
-  title.fill("New App Promo");
-  commonTitle = await title.inputValue();
-}
-
-async function updateSubtitle() {
-  const subtitle = page.locator(`input#variants\.subtitle`);
-  subtitle.fill("");
-  subtitle.fill("Subtitle");
-  commonSubtitle = await subtitle.inputValue();
-}
-
-async function updateDescription() {
-  const description = page.locator(`textarea#variants\.description`);
-  description.fill("");
-  description.fill("Updated description for new App promo.");
-  commonDesc = await description.inputValue();
-}
-
-async function updateStatItems() {
-  const element = page.getByTestId("field-variants.statItems");
-  element
-    .getByRole("menuitem", { name: "Remove" })
-    .first()
-    .click({ force: true });
-
-  element.getByRole("button", { name: "Add item" }).click({ force: true });
-  await page
-    .getByTestId("field-variants.statItems.label")
-    .getByTestId("string-input")
-    .fill("New Stat Item");
-  await page
-    .getByTestId("field-variants.statItems.value")
-    .getByTestId("string-input")
-    .fill("04-12-2024");
-}
-
-async function updateTags(variant: string) {
-  await page
-    .getByTestId("field-variants.tags")
-    .getByRole("button")
-    .first()
-    .click({ force: true });
-  await page
-    .getByTestId("field-variants.tags")
-    .getByTestId("change-bar__field-wrapper")
-    .locator("div")
-    .nth(3)
-    .click({ force: true });
-  await page
-    .locator('[id="variants\\.tags"]')
-    .fill(`App promo ${variant} tag 1`);
-  await page.locator('[id="variants\\.tags"]').press("Enter");
-  await expect(page.getByText("app promo variant c tag 1")).toBeVisible();
-}
-
 test.describe("Create new App Promo", () => {
   test.describe.configure({ timeout: 600000, mode: "serial" });
 
@@ -131,7 +40,7 @@ test.describe("Create new App Promo", () => {
       .getByRole("img")
       .first()
       .click({ force: true });
-    await updateLogoLink();
+    await updateLogoLink({ page });
     await updateSubtitle();
     await updateTitle();
   });
@@ -184,3 +93,64 @@ test.describe("Create new App Promo", () => {
 test.afterAll(async () => {
   await page.close();
 });
+
+async function updateTitle() {
+  const title = page.locator(`input#variants\.title`);
+  await expect(title).toHaveValue(appPromoInitialValue.title);
+  title.fill("");
+  title.fill("New App Promo");
+  commonTitle = await title.inputValue();
+}
+
+async function updateSubtitle() {
+  const subtitle = page.locator(`input#variants\.subtitle`);
+  await expect(subtitle).toHaveValue(appPromoInitialValue.subtitle);
+  subtitle.fill("");
+  subtitle.fill("Subtitle");
+  commonSubtitle = await subtitle.inputValue();
+}
+
+async function updateDescription() {
+  const description = page.locator(`textarea#variants\.description`);
+  await expect(description).toHaveValue(appPromoInitialValue.description);
+  description.fill("");
+  description.fill("Updated description for new App promo.");
+  commonDesc = await description.inputValue();
+}
+
+async function updateStatItems() {
+  const element = page.getByTestId("field-variants.statItems");
+  element
+    .getByRole("menuitem", { name: "Remove" })
+    .first()
+    .click({ force: true });
+
+  element.getByRole("button", { name: "Add item" }).click({ force: true });
+  await page
+    .getByTestId("field-variants.statItems.label")
+    .getByTestId("string-input")
+    .fill("New Stat Item");
+  await page
+    .getByTestId("field-variants.statItems.value")
+    .getByTestId("string-input")
+    .fill("04-12-2024");
+}
+
+async function updateTags(variant: string) {
+  await page
+    .getByTestId("field-variants.tags")
+    .getByRole("button")
+    .first()
+    .click({ force: true });
+  await page
+    .getByTestId("field-variants.tags")
+    .getByTestId("change-bar__field-wrapper")
+    .locator("div")
+    .nth(3)
+    .click({ force: true });
+  await page
+    .locator('[id="variants\\.tags"]')
+    .fill(`App promo ${variant} tag 1`);
+  await page.locator('[id="variants\\.tags"]').press("Enter");
+  await expect(page.getByText("app promo variant c tag 1")).toBeVisible();
+}
