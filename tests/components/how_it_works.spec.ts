@@ -52,19 +52,19 @@ async function createHowItWorksVariant(pageTitle, variantLabel, variantIndex) {
   const stepsData = [
     {
         title: "Lorem ipsum",
-        body: "Fusce quam tellus, placerat eu metus ut, viverra aliquet purus. Suspendisse potenti. Nulla non nibh feugiat.",
+        body: "Fusce quam tellus",
         updatedTitle: "Updated Title 1",
         updatedBody: "Updated Body 1",
     },
     {
         title: "Lorem ipsum",
-        body: "Fusce quam tellus, placerat eu metus ut, viverra aliquet purus. Suspendisse potenti. Nulla non nibh feugiat.",
+        body: "Fusce quam tellus",
         updatedTitle: "Updated Title 2",
         updatedBody: "Updated Body 2",
     },
     {
         title: "Lorem ipsum",
-        body: "Fusce quam tellus, placerat eu metus ut, viverra aliquet purus. Suspendisse potenti. Nulla non nibh feugiat.",
+        body: "Fusce quam tellus",
         updatedTitle: "Updated Title 3",
         updatedBody: "Updated Body 3",
     }
@@ -72,8 +72,6 @@ async function createHowItWorksVariant(pageTitle, variantLabel, variantIndex) {
 
     for (let i = 0; i < stepsData.length; i++) {
         const step = stepsData[i];
-        console.log('step', step);
-        console.log('i', i);
         
         if (i === 2) {
             await page.getByRole('button', { name: step.title }).click();
