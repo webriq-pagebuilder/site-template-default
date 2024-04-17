@@ -6,6 +6,7 @@ import {
 } from "studio/config";
 
 let page: Page;
+let commonTitle: string, commonSubtitle: string, commonDesc: string;
 
 const getTime = new Date().getTime();
 
@@ -32,46 +33,63 @@ async function updateLogoLink() {
     .getByLabel("External, outside this website")
     .check({ force: true });
   await expect(page.getByLabel("URL")).toBeVisible();
+  await page.getByLabel("URL").fill("https://webriq.com");
+  await expect(
+    page
+      .getByTestId("field-variants.logo.linkTarget")
+      .locator("div")
+      .filter({ hasText: "Link Target" })
+      .nth(3)
+  ).toBeVisible();
   await page.getByLabel("Internal, inside this website").check({ force: true });
   await expect(
     page
       .locator("div")
       .filter({ hasText: /^Page Reference$/ })
       .nth(1)
+      .and(page.getByTestId("autocomplete"))
+  ).toBeVisible();
+  await page.getByTestId("autocomplete").fill("New Page");
+  await page
+    .locator("button:has-text('New Page')")
+    .first()
+    .click({ force: true });
+  await expect(
+    page
+      .getByTestId("field-variants.logo.linkTarget")
+      .locator("div")
+      .filter({ hasText: "Link Target" })
+      .nth(3)
   ).toBeVisible();
 }
 
-async function updateTitle(variant: string) {
-  await page
+async function updateTitle() {
+  const title = page
     .getByTestId("field-variants.title")
-    .getByTestId("string-input")
-    .fill("");
-  await page
-    .getByTestId("field-variants.title")
-    .getByTestId("string-input")
-    .fill(`New App Promo ${variant}`);
+    .getByTestId("string-input");
+  title.fill("");
+  title.fill("New App Promo");
+  commonTitle = await title.inputValue();
 }
 
-async function updateSubtitle(variant: string) {
-  await page
+async function updateSubtitle() {
+  const subtitle = page
     .getByTestId("field-variants.subtitle")
-    .getByTestId("string-input")
-    .fill("");
-  await page
-    .getByTestId("field-variants.subtitle")
-    .getByTestId("string-input")
-    .fill(`Subtitle for ${variant}`);
+    .getByTestId("string-input");
+  subtitle.fill("");
+  subtitle.fill("Subtitle");
+  commonSubtitle = await subtitle.inputValue();
 }
 
-async function updateDescription(variant: string) {
-  await page.getByPlaceholder("Lorem ipsum dolor sit amet,").fill("");
-  await page
-    .getByPlaceholder("Lorem ipsum dolor sit amet,")
-    .fill(`Updated description for new App promo ${variant}.`);
+async function updateDescription() {
+  const description = page.getByPlaceholder("Lorem ipsum dolor sit amet,");
+  description.fill("");
+  description.fill("Updated description for new App promo.");
+  commonDesc = await description.inputValue();
 }
 
 async function updateStatItems() {
-  const element = await page.getByTestId("field-variants.statItems");
+  const element = page.getByTestId("field-variants.statItems");
   element
     .getByRole("menuitem", { name: "Remove" })
     .first()
@@ -108,16 +126,13 @@ async function updateTags(variant: string) {
 }
 
 test.describe("Create new App Promo", () => {
-  test.describe.configure({ timeout: 600000 });
+  test.describe.configure({ timeout: 600000, mode: "serial" });
 
-  test.beforeEach("Click create button", async () => {
+  test("Variant A", async () => {
     await page.getByRole("link", { name: "Components" }).click({ force: true });
     await page
       .getByRole("button", { name: "New App Promo" })
       .click({ force: true });
-  });
-
-  test("Variant A", async () => {
     await page.getByTestId("string-input").click();
     await page.getByTestId("string-input").fill(`New Variant A - ${getTime}`);
     await page
@@ -125,13 +140,16 @@ test.describe("Create new App Promo", () => {
       .getByRole("img")
       .first()
       .click({ force: true });
-
-    updateLogoLink();
-    updateSubtitle("Variant A");
-    updateTitle("Variant A");
+    await updateLogoLink();
+    await updateSubtitle();
+    await updateTitle();
   });
 
   test("Variant B", async () => {
+    await page.getByRole("link", { name: "Components" }).click({ force: true });
+    await page
+      .getByRole("button", { name: "New App Promo" })
+      .click({ force: true });
     await page.getByTestId("string-input").click();
     await page.getByTestId("string-input").fill(`New Variant B - ${getTime}`);
     await page
@@ -139,13 +157,23 @@ test.describe("Create new App Promo", () => {
       .getByRole("img")
       .nth(1)
       .click({ force: true });
-    updateSubtitle("Variant B");
-    updateTitle("Variant B");
-    updateDescription("Variant B");
-    updateStatItems();
+
+    // the same subtitle and title fields as variant A so we just check here if they have matching values
+    await expect(
+      page.getByTestId("field-variants.subtitle").getByTestId("string-input")
+    ).toHaveValue(commonSubtitle);
+    await expect(
+      page.getByTestId("field-variants.title").getByTestId("string-input")
+    ).toHaveValue(commonTitle);
+    await updateDescription();
+    await updateStatItems();
   });
 
   test("Variant C", async () => {
+    await page.getByRole("link", { name: "Components" }).click({ force: true });
+    await page
+      .getByRole("button", { name: "New App Promo" })
+      .click({ force: true });
     await page.getByTestId("string-input").click();
     await page.getByTestId("string-input").fill(`New Variant C - ${getTime}`);
     await page
@@ -153,10 +181,19 @@ test.describe("Create new App Promo", () => {
       .getByRole("img")
       .nth(2)
       .click({ force: true });
-    updateSubtitle("Variant C");
-    updateTitle("Variant C");
-    updateDescription("Variant C");
-    updateTags("Variant C");
+
+    // the same subtitle and title fields as variant A so we just check here if they have matching values
+    await expect(
+      page.getByTestId("field-variants.subtitle").getByTestId("string-input")
+    ).toHaveValue(commonSubtitle);
+    await expect(
+      page.getByTestId("field-variants.title").getByTestId("string-input")
+    ).toHaveValue(commonTitle);
+    // the same description field as variant B so we just check here if they have matching values
+    await expect(
+      page.getByPlaceholder("Lorem ipsum dolor sit amet,")
+    ).toHaveValue(commonDesc);
+    await updateTags("Variant C");
   });
 });
 
