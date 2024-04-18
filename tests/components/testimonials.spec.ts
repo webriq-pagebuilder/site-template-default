@@ -1,8 +1,9 @@
 import { test, expect, type Page } from "@playwright/test";
 import { NEXT_PUBLIC_SANITY_STUDIO_URL, NEXT_PUBLIC_SITE_URL } from "studio/config";
-import { autologin_studio, createNewPage, expectDocumentPublished, navigateToPage } from "tests/utils";
+import { autologin_studio, createNewPage, deletePageVariant, expectDocumentPublished, navigateToPage } from "tests/utils";
 
 let page: Page;
+let newPageTitle;
 
 test.beforeAll("Auto login studio", async ({ browser }) => {
   page = await browser.newPage();
@@ -17,9 +18,9 @@ test.beforeAll("Auto login studio", async ({ browser }) => {
 });
 
 async function createTestimonialVariants(pageTitle, variantLabel, variantIndex) {
-  const newTestimonialTitle = `${pageTitle} `+ new Date().getTime();
+  newPageTitle = `${pageTitle} `+ new Date().getTime();
   await navigateToPage(page);
-  await createNewPage(page, newTestimonialTitle, "Testimonial");
+  await createNewPage(page, newPageTitle, "Testimonial");
 
   //Variant
   if (variantIndex <= 0) {
@@ -88,7 +89,7 @@ async function createTestimonialVariants(pageTitle, variantLabel, variantIndex) 
   }
   
   await expectDocumentPublished(page);
-  await expect(page.getByRole('link', { name: newTestimonialTitle })).toBeVisible();
+  await expect(page.getByRole('link', { name: newPageTitle })).toBeVisible();
   
   const pagePromise = page.waitForEvent('popup');
   await page.getByText(`${NEXT_PUBLIC_SITE_URL}`).click({ force: true });
@@ -183,21 +184,53 @@ async function createTestimonialVariants(pageTitle, variantLabel, variantIndex) 
   }
 }
 
-test("Create Testimonial Variant A", async () => {
-  await createTestimonialVariants("Testimonial Variant A", "New Testimonial Section A", 0);
-});
+test.describe("Testimonial Variant A Workflow", () => {
+  test.describe.configure({ timeout: 900000, mode: "serial" });
 
-test("Create Testimonial Variant B", async () => {
-  await createTestimonialVariants("Testimonial Variant B", "New Testimonial Section B", 1);
-});
+  test("Create Testimonial Variant A", async () => {
+    await createTestimonialVariants("Testimonial Variant A", "New Testimonial Section A", 0);
+  });
 
-test("Create Testimonial Variant C", async () => {
-  await createTestimonialVariants("Testimonial Variant C", "New Testimonial Section C", 2);
-});
+  test("Delete Testimonial Variant A", async () => {
+    await deletePageVariant(page, newPageTitle);
+  })
+})
 
-test("Create Testimonial Variant D", async () => {
-  await createTestimonialVariants("Create Testimonial Variant D", "New Testimonial Section D", 3);
-});
+test.describe("Testimonial Variant B Workflow", () => {
+  test.describe.configure({ timeout: 900000, mode: "serial" });
+
+  test("Create Testimonial Variant B", async () => {
+    await createTestimonialVariants("Testimonial Variant B", "New Testimonial Section B", 1);
+  });
+
+  test("Delete Testimonial Variant B", async () => {
+    await deletePageVariant(page, newPageTitle);
+  })
+})
+
+test.describe("Testimonial Variant C Workflow", () => {
+  test.describe.configure({ timeout: 900000, mode: "serial" });
+
+  test("Create Testimonial Variant C", async () => {
+    await createTestimonialVariants("Testimonial Variant C", "New Testimonial Section C", 2);
+  });
+
+  test("Delete Testimonial Variant C", async () => {
+    await deletePageVariant(page, newPageTitle);
+  })
+})
+
+test.describe("Testimonial Variant D Workflow", () => {
+  test.describe.configure({ timeout: 900000, mode: "serial" });
+
+  test("Create Testimonial Variant D", async () => {
+    await createTestimonialVariants("Create Testimonial Variant D", "New Testimonial Section D", 3);
+  });
+
+  test("Delete Testimonial Variant D", async () => {
+    await deletePageVariant(page, newPageTitle);
+  })
+})
 
 test.afterAll(async () => {
   await page.close();
