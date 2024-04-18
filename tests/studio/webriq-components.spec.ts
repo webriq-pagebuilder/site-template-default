@@ -5,8 +5,8 @@ import {
   NEXT_PUBLIC_SITE_URL,
 } from "studio/config";
 
-const newComponentName = `New App Promo - ` + new Date().getTime();
-const dupeComponentName = `App promo - ` + new Date().getTime();
+const newComponentName = "New WebriQ Component App promo";
+const dupeComponentName = "Duplicate WebriQ Component App promo";
 
 let page: Page;
 
@@ -75,7 +75,10 @@ test.describe("Verify main document actions working", () => {
       .first()
       .click({ force: true });
     await page.getByTestId("field-label").getByTestId("string-input").click();
-    await page.getByTestId("field-label").getByTestId("string-input").fill("");
+    await page
+      .getByTestId("field-label")
+      .getByTestId("string-input")
+      .press("Meta+a");
     await page
       .getByTestId("field-label")
       .getByTestId("string-input")
@@ -88,7 +91,65 @@ test.describe("Verify main document actions working", () => {
       });
   });
 
-  test("Can delete component", async () => {
+  test("Can delete created component", async () => {
+    console.log("[INFO] Deleting component...");
+
+    await page.getByRole("link", { name: "Components" }).click({ force: true });
+
+    const cardName = newComponentName?.toLowerCase()?.replace(/\s/g, "");
+    await expect(page.locator(`div.${cardName}`).first()).toBeVisible({
+      timeout: 180000,
+    });
+    await page.locator(`div.${cardName}`).first().hover();
+    await page
+      .locator(`div.${cardName} button.components-delete-btn`)
+      .first()
+      .click({ force: true });
+    await expect(
+      page.locator("[id=confirm-delete_label]").first()
+    ).toBeVisible();
+
+    // Delete actions
+    await page
+      .locator("[aria-label='Close dialog']")
+      .first()
+      .click({ force: true });
+    await expect(
+      page.locator("div").filter({ hasText: dupeComponentName }).first()
+    ).toBeVisible({ timeout: 180000 });
+
+    await page.locator(`div.${cardName}`).first().hover();
+    await page
+      .locator(`div.${cardName} button.components-delete-btn`)
+      .first()
+      .click({ force: true });
+    await page
+      .locator("[aria-label='Cancel delete component']")
+      .first()
+      .click({ force: true });
+    await expect(
+      page.locator("div").filter({ hasText: dupeComponentName }).first()
+    ).toBeVisible({ timeout: 180000 });
+
+    await page.locator(`div.${cardName}`).first().hover();
+    await page
+      .locator(`div.${cardName} button.components-delete-btn`)
+      .first()
+      .click({ force: true });
+    await page
+      .locator("[aria-label='Delete component']")
+      .first()
+      .click({ force: true });
+    await expect(page.locator(`div.${cardName}`).first())
+      .toHaveCount(0, {
+        timeout: 180000,
+      })
+      .then(() => {
+        console.log("[DONE] Successfully deleted component...");
+      });
+  });
+
+  test("Can delete duplicate component", async () => {
     console.log("[INFO] Deleting component...");
 
     await page.getByRole("link", { name: "Components" }).click({ force: true });
@@ -106,28 +167,7 @@ test.describe("Verify main document actions working", () => {
       page.locator("[id=confirm-delete_label]").first()
     ).toBeVisible();
 
-    // Delete actions
-    await page
-      .locator("[aria-label='Close dialog']")
-      .first()
-      .click({ force: true });
-    await expect(
-      page.locator("div").filter({ hasText: dupeComponentName }).first()
-    ).toBeVisible({ timeout: 180000 });
-
-    await page.locator(`div.${dupeCardName}`).first().hover();
-    await page
-      .locator(`div.${dupeCardName} button.components-delete-btn`)
-      .first()
-      .click({ force: true });
-    await page
-      .locator("[aria-label='Cancel delete component']")
-      .first()
-      .click({ force: true });
-    await expect(
-      page.locator("div").filter({ hasText: dupeComponentName }).first()
-    ).toBeVisible({ timeout: 180000 });
-
+    // Delete dupe
     await page.locator(`div.${dupeCardName}`).first().hover();
     await page
       .locator(`div.${dupeCardName} button.components-delete-btn`)

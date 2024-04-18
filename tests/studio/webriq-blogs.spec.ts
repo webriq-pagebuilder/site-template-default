@@ -5,11 +5,9 @@ import {
   NEXT_PUBLIC_SITE_URL,
 } from "studio/config";
 
-const getTime = new Date().getTime();
-
-const newAuthor = `New Author - ` + getTime;
-const newCategory = `New Category - ` + getTime;
-const newBlogPost = `New Post - ` + getTime;
+const newAuthor = "New Author page";
+const newCategory = "New Category page";
+const newBlogPost = "New Blog page";
 
 let page: Page;
 
@@ -90,15 +88,15 @@ test.describe("Verify main actions working", () => {
       .getByRole("button", { name: "Add item" })
       .click({ force: true });
     await page.getByTestId("autocomplete").click();
-    await page.getByTestId("autocomplete").fill("New Author");
-    await page.locator("button:has-text('New Author -')").first().click();
+    await page.getByTestId("autocomplete").fill(newAuthor);
+    await page.locator(`button:has-text(${newAuthor})`).first().click();
     await page
       .getByTestId("field-categories")
       .getByRole("button", { name: "Add item" })
       .click();
     await page.getByTestId("autocomplete").click();
-    await page.getByTestId("autocomplete").fill("New Category");
-    await page.locator("button:has-text('New Category -')").first().click();
+    await page.getByTestId("autocomplete").fill(newCategory);
+    await page.locator(`button:has-text(${newCategory})`).first().click();
     await page.getByTestId("date-input").click();
     await page.getByTestId("select-date-button").click();
     await page
@@ -132,7 +130,7 @@ test.describe("Verify main actions working", () => {
     await page
       .getByTestId("field-name")
       .getByTestId("string-input")
-      .fill(`Author updated - ${getTime}`);
+      .fill(`Updated ${newAuthor}`);
     await page.getByLabel("Bio").click();
     await page.getByLabel("Bio").fill("Updated author sample bio content.");
     await page
@@ -148,9 +146,7 @@ test.describe("Verify main actions working", () => {
     const categoryPage = page.locator(`a:has-text(${newCategory})`).first();
     await categoryPage.click({ force: true });
     await page.getByTestId("string-input").click();
-    await page
-      .getByTestId("string-input")
-      .fill(`Category updated - ${getTime}`);
+    await page.getByTestId("string-input").fill(`Updated ${newCategory}`);
     await page.getByLabel("Description").click();
     await page.getByLabel("Description").fill("Updated category description.");
     await page
@@ -164,9 +160,7 @@ test.describe("Verify main actions working", () => {
       .click({ force: true });
     await page.getByRole("link", { name: newBlogPost }).click({ force: true });
     await page.getByTestId("string-input").click();
-    await page
-      .getByTestId("string-input")
-      .fill(`Updated blog post - ${getTime}`);
+    await page.getByTestId("string-input").fill(`Updated ${newBlogPost}`);
     await page.getByLabel("Excerpt").click();
     await page.getByLabel("Excerpt").fill("Updated sample excerpt");
     await page.getByTestId("date-input").click();
@@ -176,7 +170,10 @@ test.describe("Verify main actions working", () => {
       .click({ force: true });
     await page.getByTestId("select-date-button").click();
     await page.getByText("Click to activate").click({ force: true });
-    await page.getByTestId("scroll-container").getByRole("textbox").fill("");
+    await page
+      .getByTestId("scroll-container")
+      .getByRole("textbox")
+      .press("Meta+a");
     await page
       .getByTestId("scroll-container")
       .getByRole("textbox")
@@ -184,6 +181,45 @@ test.describe("Verify main actions working", () => {
     await page
       .getByTestId("action-[object Object]")
       .click({ force: true, timeout: 180000 }); // publish document
+  });
+
+  test("Delete created author, category and post", async () => {
+    await page
+      .getByRole("tab", { name: "Posts", exact: true })
+      .click({ force: true });
+    await page.getByRole("link", { name: `Updated ${newBlogPost}` }).click();
+    await page.getByTestId("field-authors").getByRole("button").nth(1).click();
+    await page.getByRole("menuitem", { name: "Remove" }).click();
+    await page
+      .getByTestId("field-categories")
+      .getByRole("button")
+      .nth(1)
+      .click();
+    await page.getByRole("menuitem", { name: "Remove" }).click();
+    await page.getByTestId("action-[object Object]").click();
+    await page.getByTestId("action-menu-button").click();
+    await page.getByTestId("action-Delete").click();
+    await expect(page.getByText("Delete document?")).toBeVisible();
+    await page.getByTestId("confirm-delete-button").click();
+    await expect(page.getByText("The document was successfully")).toBeVisible();
+
+    await page.getByRole("link", { name: "Blog" }).click();
+    await page.getByRole("tab", { name: "Authors" }).click();
+    await page.getByRole("link", { name: `Updated ${newAuthor}` }).click();
+    await page.getByTestId("action-menu-button").click();
+    await page.getByTestId("action-Delete").click();
+    await expect(page.getByText("Delete document?")).toBeVisible();
+    await page.getByTestId("confirm-delete-button").click();
+    await expect(page.getByText("The document was successfully")).toBeVisible();
+
+    await page.getByRole("link", { name: "Blog" }).click();
+    await page.getByRole("tab", { name: "Categories" }).click();
+    await page.getByRole("link", { name: `Updated ${newCategory}` }).click();
+    await page.getByTestId("action-menu-button").click();
+    await page.getByTestId("action-Delete").click();
+    await expect(page.getByText("Delete document?")).toBeVisible();
+    await page.getByTestId("confirm-delete-button").click();
+    await expect(page.getByText("The document was successfully")).toBeVisible();
   });
 });
 

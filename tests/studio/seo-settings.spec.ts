@@ -42,7 +42,7 @@ test.describe("Verify Global SEO Settings", () => {
     await page
       .getByTestId("field-defaultSeoTitle")
       .getByTestId("string-input")
-      .fill("");
+      .press("Meta+a");
     await page
       .getByTestId("field-defaultSeoTitle")
       .getByTestId("string-input")
@@ -56,7 +56,7 @@ test.describe("Verify Global SEO Settings", () => {
     await page
       .getByTestId("field-defaultSeoKeywords")
       .getByTestId("string-input")
-      .fill("");
+      .press("Meta+a");
     await page
       .getByTestId("field-defaultSeoKeywords")
       .getByTestId("string-input")
@@ -72,7 +72,7 @@ test.describe("Verify Global SEO Settings", () => {
     await page
       .getByTestId("field-defaultSeoSynonyms")
       .getByTestId("string-input")
-      .fill("");
+      .press("Meta+a");
     await page
       .getByTestId("field-defaultSeoSynonyms")
       .getByTestId("string-input")
@@ -82,7 +82,7 @@ test.describe("Verify Global SEO Settings", () => {
       .inputValue();
 
     await page.getByLabel("Description").click();
-    await page.getByLabel("Description").fill("");
+    await page.getByLabel("Description").press("Meta+a");
     await page
       .getByLabel("Description")
       .fill("Stackshift powers microsites with audience-specific content.");
@@ -123,7 +123,7 @@ test.describe("Verify Global SEO Settings", () => {
         .getByTestId("field-seo.seoTitle")
         .getByRole("textbox");
       seoTitleFld.click({ force: true });
-      seoTitleFld.fill("");
+      seoTitleFld.press("Meta+a");
 
       await expect(seoTitleFld).toHaveAttribute("placeholder", pageTitle);
     });
@@ -133,7 +133,7 @@ test.describe("Verify Global SEO Settings", () => {
         .getByTestId("field-seo.seoKeywords")
         .getByRole("textbox");
       seoKeywordsFld.click({ force: true });
-      seoKeywordsFld.fill("");
+      seoKeywordsFld.press("Meta+a");
 
       await expect(seoKeywordsFld).toHaveAttribute(
         "placeholder",
@@ -147,7 +147,7 @@ test.describe("Verify Global SEO Settings", () => {
         .getByRole("textbox");
       await seoSynonymsFld.scrollIntoViewIfNeeded();
       seoSynonymsFld.click({ force: true });
-      seoSynonymsFld.fill("");
+      seoSynonymsFld.press("Meta+a");
 
       await expect(seoSynonymsFld).toHaveAttribute(
         "placeholder",
@@ -161,7 +161,7 @@ test.describe("Verify Global SEO Settings", () => {
         .getByRole("textbox");
       await seoDescFld.scrollIntoViewIfNeeded();
       seoDescFld.click({ force: true });
-      seoDescFld.fill("");
+      seoDescFld.press("Meta+a");
 
       await expect(seoDescFld).toHaveAttribute(
         "placeholder",
@@ -197,7 +197,7 @@ test.describe("Redirects to Global SEO links", () => {
       .getByTestId("field-seo.seoKeywords")
       .getByRole("textbox");
     seoKeywordsFld.click({ force: true });
-    seoKeywordsFld.fill("");
+    seoKeywordsFld.press("Meta+a");
 
     await expect(
       page
@@ -225,7 +225,7 @@ test.describe("Redirects to Global SEO links", () => {
       .getByTestId("field-seo.seoSynonyms")
       .getByRole("textbox");
     seoSynonymsFld.click({ force: true });
-    seoSynonymsFld.fill("");
+    seoSynonymsFld.press("Meta+a");
 
     await expect(
       page
@@ -253,7 +253,7 @@ test.describe("Redirects to Global SEO links", () => {
       .getByTestId("field-seo.seoDescription")
       .getByRole("textbox");
     seoDescFld.click({ force: true });
-    seoDescFld.fill("");
+    seoDescFld.press("Meta+a");
 
     await expect(
       page
@@ -300,7 +300,7 @@ test("Can add SEO values to page", async () => {
     .getByTestId("field-seo.seoTitle")
     .getByRole("textbox");
   seoTitleFld.click({ force: true });
-  seoTitleFld.fill("");
+  seoTitleFld.press("Meta+a");
   seoTitleFld.fill("Stackshift | New Page");
 
   // SEO keywords
@@ -308,7 +308,7 @@ test("Can add SEO values to page", async () => {
     .getByTestId("field-seo.seoKeywords")
     .getByRole("textbox");
   seoKeywordsFld.click({ force: true });
-  seoKeywordsFld.fill("");
+  seoKeywordsFld.press("Meta+a");
   seoKeywordsFld.fill("new page");
 
   // SEO synonyms
@@ -316,7 +316,7 @@ test("Can add SEO values to page", async () => {
     .getByTestId("field-seo.seoSynonyms")
     .getByRole("textbox");
   seoSynonymsFld.click({ force: true });
-  seoSynonymsFld.fill("");
+  seoSynonymsFld.press("Meta+a");
   seoSynonymsFld.fill("test page");
 
   // SEO description
@@ -324,7 +324,7 @@ test("Can add SEO values to page", async () => {
     .getByTestId("field-seo.seoDescription")
     .getByRole("textbox");
   seoDescFld.click({ force: true });
-  seoDescFld.fill("");
+  seoDescFld.press("Meta+a");
   seoDescFld.fill("This is the SEO description of this page.");
 
   // publish document
