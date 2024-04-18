@@ -2,6 +2,7 @@ import { test, expect, type Page } from "@playwright/test";
 import {
   autologin_studio,
   createNewPage,
+  deletePageVariant,
   expectDocumentPublished,
   navigateToPage,
 } from "./utils/index";
@@ -9,6 +10,7 @@ import { NEXT_PUBLIC_SITE_URL } from "studio/config";
 
 let page: Page;
 const newPageTitle = "New Page - " + new Date().getTime();
+const duplicatePageName = `Dupe Page ` + new Date().getTime();
 
 test.beforeAll(async ({ browser }) => {
   page = await browser.newPage();
@@ -76,7 +78,6 @@ test.describe("Main Workflow", () => {
 
   //Duplicate Pages Action
   test("Pages Duplicate Action and Open Live URL", async () => {
-    const duplicatePageName = `Dupe Page ` + new Date().getTime();
     await navigateToPage(page);
 
     await page.getByPlaceholder("Search list").click({ force: true });
@@ -302,6 +303,14 @@ test.describe("Main Workflow", () => {
         .then(() => console.log("There is no Available Content!"));
     }
   });
+
+  test("Delete Published Page", async () => {
+    await deletePageVariant(page, newPageTitle);
+  })
+
+  test("Delete Duplicate Page", async () => {
+    await deletePageVariant(page, duplicatePageName);
+  })
 });
 
 //SEE CURRENT VERSION
