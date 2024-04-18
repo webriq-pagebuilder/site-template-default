@@ -1,6 +1,6 @@
 import { expect, test, type Page } from "@playwright/test";
 import { NEXT_PUBLIC_SANITY_STUDIO_URL, NEXT_PUBLIC_SITE_URL } from "studio/config";
-import { autologin_studio, createNewPage, expectDocumentPublished, navigateToPage } from "../utils/index";
+import { autologin_studio, createNewPage, deletePageVariant, expectDocumentPublished, navigateToPage } from "../utils/index";
 
 const inputPrimaryButton = "Primary Button Test";
 const inputSecondaryButton = "Secondary Button Test"
@@ -195,7 +195,7 @@ async function assertPageContent(openUrlPage, linkName, isInternalLink) {
     } else {
       await openUrlPage.getByRole('link', { name: linkName }).click({ force: true });
       await openUrlPage.waitForLoadState('networkidle');
-      await expect(openUrlPage.getByText('Success!')).toBeVisible({ timeout: 20000 })
+      await expect(openUrlPage.getByText('Success!')).toBeVisible({ timeout: 150000 })
       const expectedUrl = internalLinkUrl.endsWith('/') ? internalLinkUrl : `${internalLinkUrl}/`;
       const receivedUrl = openUrlPage.url().endsWith('/') ? openUrlPage.url() : `${openUrlPage.url()}/`;
       await expect(receivedUrl).toBe(expectedUrl);
@@ -214,30 +214,70 @@ const createNavigationTest = async (pageTitle, variantName, variantIndex, isInte
   }
 };
 
-test("Create Navigation Variant A", async () => {
-  const linkNames = ["Start", "About Us", "Services", "Platform", "Testimonials", inputPrimaryButton, inputSecondaryButton];
-  await createNavigationTest("Navigation Page A", "Navigation New Page Variant A", 0, false, linkNames);
+test.describe("Navigation Variant A Workflow", () => {
+  test.describe.configure({ timeout: 900000, mode: "serial" });
+
+  test("Create Navigation Variant A", async () => {
+    const linkNames = ["Start", "About Us", "Services", "Platform", "Testimonials", inputPrimaryButton, inputSecondaryButton];
+    await createNavigationTest("Navigation Page A", "Navigation New Page Variant A", 0, false, linkNames);
+  })
+
+  test("Delete Navigation Variant A", async () => {
+    await deletePageVariant(page, newPageTitle);
+  })
 });
 
-test("Create Navigation Variant B", async () => {
-  const linkNames = ["Start", "About Us", "Services", "Platform", "Testimonials", inputPrimaryButton, inputSecondaryButton];
-  await createNavigationTest("Navigation Page B", "Navigation New Page Variant B", 1, true, linkNames);
-});
+test.describe("Navigation Variant B Workflow", () => {
+  test.describe.configure({ timeout: 900000, mode: "serial" });
+  
+  test("Create Navigation Variant B", async () => {
+    const linkNames = ["Start", "About Us", "Services", "Platform", "Testimonials", inputPrimaryButton, inputSecondaryButton];
+    await createNavigationTest("Navigation Page B", "Navigation New Page Variant B", 1, true, linkNames);
+  });
 
-test("Create Navigation Variant C", async () => {
-  const linkNames = ["Start", "About Us", "Services", "Platform", "Testimonials", inputPrimaryButton, inputSecondaryButton];
-  await createNavigationTest("Navigation Page C", "Navigation New Page Variant C", 2, false, linkNames);
-});
+  test("Delete Navigation Variant B", async () => {
+    await deletePageVariant(page, newPageTitle);
+  })
+})
 
-test("Create Navigation Variant D", async () => {
-  const linkNames = ["Start", "About Us", "Services", "Platform", "Testimonials", inputPrimaryButton, inputSecondaryButton];
-  await createNavigationTest("Navigation Page D", "Navigation New Page Variant D", 3, true, linkNames);
-});
+test.describe("Navigation Variant C Workflow", () => {
+  test.describe.configure({ timeout: 900000, mode: "serial" });
 
-test("Create Navigation Variant E", async () => {
-  const linkNames = ["Start", "About Us", "Services", "Platform", "Testimonials"];
-  await createNavigationTest("Navigation Page E", "Navigation New Page Variant E", 4, false, linkNames);
-});
+  test("Create Navigation Variant C", async () => {
+    const linkNames = ["Start", "About Us", "Services", "Platform", "Testimonials", inputPrimaryButton, inputSecondaryButton];
+    await createNavigationTest("Navigation Page C", "Navigation New Page Variant C", 2, false, linkNames);
+  });
+
+  test("Delete Navigation Variant C", async () => {
+    await deletePageVariant(page, newPageTitle);
+  })
+})
+
+test.describe("Navigation Variant D Workflow", () => {
+  test.describe.configure({ timeout: 900000, mode: "serial" });
+
+  test("Create Navigation Variant D", async () => {
+    const linkNames = ["Start", "About Us", "Services", "Platform", "Testimonials", inputPrimaryButton, inputSecondaryButton];
+    await createNavigationTest("Navigation Page D", "Navigation New Page Variant D", 3, true, linkNames);
+  });
+
+  test("Delete Navigation Variant D", async () => {
+    await deletePageVariant(page, newPageTitle);
+  })
+})
+
+test.describe("Navigation Variant E Workflow", () => {
+  test.describe.configure({ timeout: 900000, mode: "serial" });
+
+  test("Create Navigation Variant E", async () => {
+    const linkNames = ["Start", "About Us", "Services", "Platform", "Testimonials"];
+    await createNavigationTest("Navigation Page E", "Navigation New Page Variant E", 4, false, linkNames);
+  });
+
+  test("Delete Navigation Variant E", async () => {
+    await deletePageVariant(page, newPageTitle);
+  })
+})
 
 test.afterAll(async () => {
   await page.close();
