@@ -112,6 +112,7 @@ export async function deletePageVariant(page, pageTitle) {
   await page.getByLabel("Clear").click({ force: true });
   await page.waitForTimeout(3000);
 
+  await expect(page.getByText('Loading document')).toBeHidden();
   await page.getByTestId("action-menu-button").click({ force: true });
   await page.getByTestId("action-Delete").click();
   await page.getByTestId("confirm-delete-button").click();
