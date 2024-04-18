@@ -3,6 +3,8 @@ import { NEXT_PUBLIC_SANITY_STUDIO_URL, NEXT_PUBLIC_SITE_URL } from "studio/conf
 import { autologin_studio, createNewPage, expectDocumentPublished, navigateToPage } from "../utils/index"
 
 let page: Page;
+const externalLinkUrl = "https://facebook.com/"
+const internalLinkUrl = `${NEXT_PUBLIC_SITE_URL}/thank-you/`;
 
 test.beforeAll("Auto login studio", async ({ browser }) => {
   page = await browser.newPage();
@@ -58,8 +60,6 @@ export async function createBlogVariant(pageTitle, variantLabel, variantIndex, i
     await page.getByRole('button', { name: referencedBlog }).click();
     await expect(page.getByRole('link', { name: referencedBlog })).toBeVisible({ timeout: 75000 });
     
-    let linkConfiguration;
-
     if(variantIndex < 3 ) {
         //Button
         await page.getByRole('button', { name: 'Primary Button' }).click();
@@ -83,7 +83,6 @@ export async function createBlogVariant(pageTitle, variantLabel, variantIndex, i
             await page.getByLabel('URL').fill(externalUrl);
             await blankLinkTarget.element.click();
             externalUrl.replace("https://www.", "https://")
-            linkConfiguration = { url: externalUrl, target: blankLinkTarget.target };
         } else  {
             await internalLink.click();
             // await page.getByTestId('reference-input').getByLabel('Open').click();
@@ -91,7 +90,6 @@ export async function createBlogVariant(pageTitle, variantLabel, variantIndex, i
             await page.getByTestId('autocomplete').fill('thank you');
             await page.getByRole('button', { name: 'Thank you Published No' }).click({ force: true });
             await selfLinkTarget.element.click();
-            linkConfiguration = { url: internalLinkUrl, target: selfLinkTarget.target }
         }
     }
         
@@ -122,29 +120,19 @@ export async function createBlogVariant(pageTitle, variantLabel, variantIndex, i
         }
     
     if(variantIndex < 3) {
-        let pageToUse;
-        if (linkConfiguration?.target === 'Blank - open on a new tab (') {
+        if (!isInternalLink) {
             const page6Promise = openUrlPage.waitForEvent('popup');
             await openUrlPage.getByRole('link', { name: buttonInputValue }).click({ force: true })
             const page6 = await page6Promise;
-            // console.log('page6', page6);
-            // console.log('Page 6 URL:', page6.url());
-            pageToUse = page6;
+            const normalizedExpectedUrl = externalLinkUrl.replace("https://www.", "https://");
+            const normalizedReceivedUrl = page6.url().replace("https://www.", "https://");
+            await expect(normalizedReceivedUrl).toBe(normalizedExpectedUrl);
         } else {
-            pageToUse = openUrlPage;
             await openUrlPage.getByRole('link', { name: buttonInputValue }).click({ force: true })
             await openUrlPage.waitForLoadState('networkidle');
-        }
-
-        if(!isInternalLink) {
-            const expectedUrl = pageToUse.url().replace("https://www.", "https://");
-            // console.log(linkConfiguration?.target)
-            await expect(expectedUrl).toBe(linkConfiguration?.url);
-            // console.log('Page 6 URL:', pageToUse.url());
-        } else if (isInternalLink) {
-            await expect(pageToUse.getByText('Success!')).toBeVisible({ timeout: 20000 })
-            const expectedUrl = linkConfiguration?.url.endsWith('/') ? linkConfiguration?.url : `${linkConfiguration?.url}/`;
-            const receivedUrl = pageToUse.url().endsWith('/') ? pageToUse.url() : `${pageToUse.url()}/`;
+            await expect(openUrlPage.getByText('Success!')).toBeVisible({ timeout: 20000 })
+            const expectedUrl = internalLinkUrl.endsWith('/') ? internalLinkUrl : `${internalLinkUrl}/`;
+            const receivedUrl = openUrlPage.url().endsWith('/') ? openUrlPage.url() : `${openUrlPage.url()}/`;
             await expect(receivedUrl).toBe(expectedUrl);
         }
     }
