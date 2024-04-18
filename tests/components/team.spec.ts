@@ -156,6 +156,8 @@ async function createTeamVariant(pageTitle, variantLabel, variantIndex) {
     }
   }
 
+}
+
   if(variantIndex === 1) {
     for(const person of peopleData) {
         await openUrlPage.getByLabel(person.nameChange).click();
@@ -163,7 +165,6 @@ async function createTeamVariant(pageTitle, variantLabel, variantIndex) {
         await expect(openUrlPage.getByText(person.jobChange)).toBeVisible();
         await expect(openUrlPage.getByText(person.body)).toBeVisible();
     }
-  }
 }
 }
 
