@@ -60,8 +60,6 @@ export async function createHeaderVariant(pageTitle, variantLabel, variantIndex,
     await page.getByRole('button', { name: 'Primary Button' }).click();
     await page.getByTestId('field-variants.primaryButton.label').getByTestId('string-input').fill(primaryButtonInput);
 
-    let linkConfiguration;
-
    //Determine the proceeds if it is internal or external link
     if (!isInternalLink) {
         await page.getByTestId('field-variants.primaryButton.linkType').getByText('External, outside this website').click();
@@ -70,7 +68,6 @@ export async function createHeaderVariant(pageTitle, variantLabel, variantIndex,
         await page.getByTestId('field-variants.primaryButton.linkExternal').getByLabel('URL').fill(externalLinkUrl);
         await blankLinkTarget.element.click();
         externalLinkUrl.replace("https://www.", "https://")
-        linkConfiguration = { url: externalLinkUrl, target: blankLinkTarget.target };
         } else  {
         await page.getByTestId('field-variants.primaryButton.linkType').getByText('Internal, inside this website').click();
         // await page.getByTestId('reference-input').getByLabel('Open').click();
@@ -78,7 +75,6 @@ export async function createHeaderVariant(pageTitle, variantLabel, variantIndex,
         await page.getByTestId('autocomplete').fill('thank you');
         await page.getByRole('button', { name: 'Thank you Published No' }).click({ force: true });
         await selfLinkTarget.element.click();
-        linkConfiguration = { url: internalLinkUrl, target: selfLinkTarget.target }
     }
     //Close primary button toggle
     await page.getByRole('button', { name: 'Primary Button' }).click();
@@ -94,7 +90,6 @@ export async function createHeaderVariant(pageTitle, variantLabel, variantIndex,
         await page.getByTestId('field-variants.secondaryButton.linkExternal').getByLabel('URL').fill(externalLinkUrl);
         await blankLinkTarget.element.click();
         externalLinkUrl.replace("https://www.", "https://")
-        linkConfiguration = { url: externalLinkUrl, target: blankLinkTarget.target };
         } else  {
         await page.getByTestId('field-variants.secondaryButton.linkType').getByText('Internal, inside this website').click();
         // await page.getByTestId('reference-input').getByLabel('Open').click();
@@ -102,7 +97,6 @@ export async function createHeaderVariant(pageTitle, variantLabel, variantIndex,
         await page.getByTestId('autocomplete').fill('thank you');
         await page.getByRole('button', { name: 'Thank you Published No' }).click({ force: true });
         await selfLinkTarget.element.click();
-        linkConfiguration = { url: internalLinkUrl, target: selfLinkTarget.target }
     }
     //Close Secondary button toggle
     await page.getByRole('button', { name: 'Secondary Button' }).click();
@@ -147,7 +141,6 @@ export async function createHeaderVariant(pageTitle, variantLabel, variantIndex,
     await blankLinkTarget.element.click();
     } else {
     await routesInternalLink.click();
-    // await page.getByTestId('reference-input').getByLabel('Open').click();
     await page.getByTestId('autocomplete').click();
     await page.getByTestId('autocomplete').fill('thank you');
     await page.getByRole('button', { name: 'Thank you Published No' }).click();
@@ -167,11 +160,10 @@ export async function createHeaderVariant(pageTitle, variantLabel, variantIndex,
     await blankLinkTarget.element.click();
     } else {
     await routesInternalLink.click();
-    // await page.getByTestId('reference-input').getByLabel('Open').click();
     await page.getByTestId('autocomplete').click();
     await page.getByTestId('autocomplete').fill('thank you');
     await page.getByRole('button', { name: 'Thank you Published No' }).click();
-    //Commenting this atm due to bug on studio not having scroll. By default it is in self
+    // Commenting this atm due to bug on studio not having scroll. By default it is in self
     // await selfLinkTarget.element.click();
     }
     await page.getByLabel('Close dialog').click();
@@ -207,27 +199,20 @@ export async function createHeaderVariant(pageTitle, variantLabel, variantIndex,
       await expect(openUrlPage.getByText(buttonInput)).toBeVisible();
     }
 
-    let pageToUse;
-    if (linkConfiguration.target === 'Blank - open on a new tab (') {
+    if (!isInternalLink) {
       const page10Promise = openUrlPage.waitForEvent('popup');
       await openUrlPage.getByRole('link', { name: primaryButtonInput }).click({ force: true });
       const page10 = await page10Promise;
-      pageToUse = page10;
-    } else {
-      pageToUse = openUrlPage;
-      await openUrlPage.getByRole('link', { name: primaryButtonInput }).click({ force: true })
-      await openUrlPage.waitForLoadState('networkidle');
-    }
-
-    if (!isInternalLink) {
       // Normalize URLs for comparison
       const normalizedExpectedUrl = externalLinkUrl.replace("https://www.", "https://");
-      const normalizedReceivedUrl = pageToUse.url().replace("https://www.", "https://");
+      const normalizedReceivedUrl = page10.url().replace("https://www.", "https://");
       await expect(normalizedReceivedUrl).toBe(normalizedExpectedUrl);
-    } else if (isInternalLink) {
-      await expect(pageToUse.getByText('Success!')).toBeVisible({ timeout: 20000 })
-      const expectedUrl = linkConfiguration?.url.endsWith('/') ? linkConfiguration?.url : `${linkConfiguration?.url}/`;
-      const receivedUrl = pageToUse.url().endsWith('/') ? pageToUse.url() : `${pageToUse.url()}/`;
+    } else {
+      await openUrlPage.getByRole('link', { name: primaryButtonInput }).click({ force: true })
+      await openUrlPage.waitForLoadState('networkidle');
+      await expect(openUrlPage.getByText('Success!')).toBeVisible({ timeout: 20000 })
+      const expectedUrl = internalLinkUrl.endsWith('/') ? internalLinkUrl : `${internalLinkUrl}/`;
+      const receivedUrl = openUrlPage.url().endsWith('/') ? openUrlPage.url() : `${openUrlPage.url()}/`;
       await expect(receivedUrl).toBe(expectedUrl);
     }
     
@@ -236,16 +221,16 @@ export async function createHeaderVariant(pageTitle, variantLabel, variantIndex,
       const linkNames = [secondaryButtonInput, 'Policy Privacy', 'Terms of Use'];
       for (const linkName of linkNames) {
         await page.goto(`${NEXT_PUBLIC_SITE_URL}/${slug}`);
-        await assertPageContent(page, linkConfiguration, linkName, isInternalLink, variantIndex);
+        await assertPageContent(page, linkName, isInternalLink, variantIndex);
       }
     } else {
       await page.goto(`${NEXT_PUBLIC_SITE_URL}/${slug}`);
-      await assertPageContent(page, linkConfiguration, secondaryButtonInput, isInternalLink, variantIndex);
+      await assertPageContent(page, secondaryButtonInput, isInternalLink, variantIndex);
     }
   }
 }
 
-async function assertPageContent(openUrlPage, linkConfiguration, linkName, isInternalLink, variantIndex) {
+async function assertPageContent(openUrlPage, linkName, isInternalLink, variantIndex) {
   const sectionCount = await openUrlPage.locator("div").filter({ hasText: /^No items$/ }).count();
 
   if (sectionCount > 0) {
@@ -258,34 +243,27 @@ async function assertPageContent(openUrlPage, linkConfiguration, linkName, isInt
 
     await expect(openUrlPage.getByRole('heading', { name: contentTitleInput })).toBeVisible({ timeout: 150000 });
     if (variantIndex !== 2) {
-        await expect(openUrlPage.getByText(variantDescriptionInput)).toBeVisible({ timeout: 150000});
+      await expect(openUrlPage.getByText(variantDescriptionInput)).toBeVisible({ timeout: 150000});
     }
     await expect(openUrlPage.getByLabel(primaryButtonInput)).toBeVisible({ timeout: 150000 });
     await expect(openUrlPage.getByLabel(secondaryButtonInput)).toBeVisible({ timeout: 150000 });
 
 
-    let pageToUse;
-    if (linkConfiguration.target === 'Blank - open on a new tab (') {
+    if (!isInternalLink) {
       const page10Promise = openUrlPage.waitForEvent('popup');
       await openUrlPage.getByRole('link', { name: linkName }).click({ force: true });
       const page10 = await page10Promise;
-      pageToUse = page10;
+      // Normalize URLs for comparison
+      const normalizedExpectedUrl = externalLinkUrl.replace("https://www.", "https://");
+      const normalizedReceivedUrl = page10.url().replace("https://www.", "https://");
+      await expect(normalizedReceivedUrl).toBe(normalizedExpectedUrl);
     } else {
-      pageToUse = openUrlPage;
       await openUrlPage.getByRole('link', { name: linkName }).click({ force: true })
       await openUrlPage.waitForLoadState('networkidle');
-    }
-
-    if (!isInternalLink) {
-        // Normalize URLs for comparison
-        const normalizedExpectedUrl = externalLinkUrl.replace("https://www.", "https://");
-        const normalizedReceivedUrl = pageToUse.url().replace("https://www.", "https://");
-        await expect(normalizedReceivedUrl).toBe(normalizedExpectedUrl);
-    } else if (isInternalLink) {
-        await expect(pageToUse.getByText('Success!')).toBeVisible({ timeout: 20000 })
-        const expectedUrl = linkConfiguration?.url.endsWith('/') ? linkConfiguration?.url : `${linkConfiguration?.url}/`;
-        const receivedUrl = pageToUse.url().endsWith('/') ? pageToUse.url() : `${pageToUse.url()}/`;
-        await expect(receivedUrl).toBe(expectedUrl);
+      await expect(openUrlPage.getByText('Success!')).toBeVisible({ timeout: 20000 })
+      const expectedUrl = internalLinkUrl.endsWith('/') ? internalLinkUrl : `${internalLinkUrl}/`;
+      const receivedUrl = openUrlPage.url().endsWith('/') ? openUrlPage.url() : `${openUrlPage.url()}/`;
+      await expect(receivedUrl).toBe(expectedUrl);
     }
   }
 }
