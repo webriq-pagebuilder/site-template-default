@@ -266,29 +266,38 @@ async function createSignInSignUpTest(pageTitle, variantLabel, variantIndex, isI
   }
 }
 
-test.describe("Variant A Workflow", () => {
-  test.describe.configure({ timeout: 900000, mode: "serial" });
+let linkNames = [signInBtnInput, "Privacy Policy", "Use of Terms"];
 
-  test("Create Sign In Sign Up Variant A", async () => {
-    const linkNames = [signInBtnInput, "Privacy Policy", "Use of Terms"]
-    await createSignInSignUpTest("Sign In Sign Up A", "New Sign In Sign Up Section A", 0, false, linkNames);
-  });
+const signInSignupVariant = [
+  {
+    variantName: "Variant A",
+    pageTitle: "Sign In Sign Up Variant A",
+    variantLabel: "Sign In Sign Up New Page A",
+    variantIndex: 0,
+    isInternalLink: false,
+    linkNames: linkNames
+  },
+  {
+    variantName: "Variant B",
+    pageTitle: "Sign In Sign Up Variant B",
+    variantLabel: "Sign In Sign Up New Page B",
+    variantIndex: 1,
+    isInternalLink: true,
+    linkNames: linkNames
+  },
+];
 
-  test("Delete Sign In Sign Up Variant A", async () => {
-    await deletePageVariant(page, newPageTitle);
-  })
-})
-
-test.describe("Variant B Workflow", () => {
-  test.describe.configure({ timeout: 900000, mode: "serial" });
-
-  test("Create Sign In Sign Up Variant B", async () => {
-    const linkNames = [signInBtnInput, "Privacy Policy", "Use of Terms"]
-    await createSignInSignUpTest("Sign In Sign Up B", "New Sign In Sign Up Section B", 1, true, linkNames);
-  });
-
-  test("Delete Sign In Sign Up Variant B", async () => {
-    await deletePageVariant(page, newPageTitle);
+signInSignupVariant.forEach((variant) => {
+  test.describe(`${variant.variantName} Workflow`, () => {
+    test.describe.configure({ timeout: 900000, mode: "serial" });
+  
+    test(`Create ${variant.pageTitle}`, async () => {
+      await createSignInSignUpTest(variant.pageTitle, variant.variantLabel, variant.variantIndex, variant.isInternalLink, variant.linkNames);
+    });
+  
+    test(`Delete ${variant.pageTitle}`, async () => {
+      await deletePageVariant(page, newPageTitle);
+    })
   })
 })
 
