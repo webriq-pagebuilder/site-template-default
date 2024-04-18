@@ -97,6 +97,37 @@ export async function expectDocumentPublished(page) {
   ).toBeVisible({ timeout: 150000 });
 }
 
+export async function deletePageVariant(page, pageTitle) {
+  await navigateToPage(page);
+  await page.getByPlaceholder("Search list").click({ force: true });
+  await page.getByPlaceholder("Search list").fill(pageTitle);
+  await page.waitForSelector(`a:has-text("${pageTitle}")`, {
+    state: "visible",
+  });
+
+  await page.getByRole("link", { name: pageTitle }).click({ force: true });
+  await page.waitForSelector(`a:has-text("${pageTitle}")`, {
+    state: "visible",
+  });
+  await page.getByLabel("Clear").click({ force: true });
+  await page.waitForTimeout(3000);
+
+  await page.getByTestId("action-menu-button").click({ force: true });
+  await page.getByTestId("action-Delete").click();
+  await page.getByTestId("confirm-delete-button").click();
+  await expect(
+    page
+      .locator('[id="__next"]')
+      .getByRole("alert")
+      .locator("div")
+      .filter({ hasText: "The document was successfully" })
+      .nth(1)
+  ).toBeVisible();
+  await expect(page.getByRole("link", { name: pageTitle })).toBeHidden({
+    timeout: 150000,
+  });
+}
+
 export async function updateLogoLink({ page }) {
   await page
     .getByTestId("field-variants.logo.alt")
