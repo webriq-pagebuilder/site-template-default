@@ -2,6 +2,7 @@ import { test, expect, type Page } from "@playwright/test";
 import {
   autologin_studio,
   navigateToPage,
+  clickVariantImage,
   createNewPage,
   generateFormId,
   expectDocumentPublished,
@@ -12,13 +13,7 @@ import {
   NEXT_PUBLIC_SITE_URL,
 } from "studio/config";
 import { contactInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-default";
-
-interface createContactVariantProps {
-  pageTitle: string;
-  label: string;
-  index: number;
-  variant: string;
-}
+import { createVariantProps } from "types/tests/components";
 
 let page: Page, newPageTitle: string;
 
@@ -79,7 +74,7 @@ async function createContactVariants({
   label,
   index,
   variant,
-}: createContactVariantProps) {
+}: createVariantProps) {
   const time = new Date().getTime();
   newPageTitle = pageTitle + time;
   const newContactTitle = "Contact title";
@@ -91,6 +86,11 @@ async function createContactVariants({
     number: "+12 34567",
     email: "sample@webriq.com",
   };
+  const socialLink = {
+    facebook: "https://www.facebook.com/webriq",
+    twitter: "https://twitter.com/WebriQGoesMad",
+    instagram: "https://www.instagram.com/webriqgoesmad/",
+  };
 
   await navigateToPage(page);
   await createNewPage(page, newPageTitle, "Contact");
@@ -101,20 +101,7 @@ async function createContactVariants({
   await variantLabel.click();
   await variantLabel.fill(label);
 
-  // select variant
-  if (index <= 0) {
-    await page
-      .getByTestId("field-variant")
-      .getByRole("img")
-      .first()
-      .click({ force: true });
-  } else {
-    await page
-      .getByTestId("field-variant")
-      .getByRole("img")
-      .nth(index)
-      .click({ force: true });
-  }
+  await clickVariantImage(page, index);
 
   // title - all variants
   const title = page
@@ -144,27 +131,44 @@ async function createContactVariants({
       .filter({ hasText: "Social Links" })
       .nth(3)
   ).toBeVisible();
-  // await expect(page.getByRole("button", { name: "facebook" })).toBeVisible();
-  // await expect(page.getByRole("button", { name: "twitter" })).toBeVisible();
-  // await expect(page.getByRole("button", { name: "instagram" })).toBeVisible();
-  await page.getByRole("button", { name: "facebook" }).click({ force: true });
-  await expect(page.getByText("Edit Details")).toBeVisible();
-  await expect(page.getByLabel("Select the social media")).toBeVisible();
-  await expect(page.getByLabel("Select the social media")).toHaveValue("0");
-  await expect(page.getByLabel("Social Media Link")).toBeVisible();
-  await expect(page.getByLabel("Social Media Link")).toHaveValue(
-    "https://www.facebook.com/"
+  await page.getByRole("button", { name: "facebook" }).click();
+  await page.getByLabel("Social Media Link").click();
+  await page.getByLabel("Social Media Link").press("Meta+a");
+  await page.getByLabel("Social Media Link").fill(socialLink?.facebook);
+  await page.getByLabel("Close dialog").click();
+  await page.getByRole("button", { name: "twitter" }).click();
+  await page.getByLabel("Social Media Link").click();
+  await page.getByLabel("Social Media Link").press("Meta+a");
+  await page.getByLabel("Social Media Link").fill(socialLink?.twitter);
+  await page.getByLabel("Close dialog").click();
+  await page.getByRole("button", { name: "instagram" }).click();
+  await page.getByLabel("Social Media Link").click();
+  await page.getByLabel("Social Media Link").press("Meta+a");
+  await page.getByLabel("Social Media Link").fill(socialLink?.instagram);
+
+  // contact details
+  const officeInfo = page
+    .getByTestId("field-variants.officeInformation")
+    .getByTestId("string-input");
+  officeInfo.fill("");
+  officeInfo.fill(contactDetailInputs.office);
+  await expect(officeInfo.inputValue()).resolves.toBe(
+    contactDetailInputs.office
   );
-  await page.getByLabel("Select the social media").selectOption("1");
-  await page
-    .getByLabel("Social Media Link")
-    .fill("https://twitter.com/WebriQGoesMad");
-  await page.getByLabel("Close dialog").click({ force: true });
-  const element = page.getByTestId("field-variants.socialLinks");
-  element.getByRole("button").first().click({ force: true });
-  await page.getByRole("menuitem", { name: "Remove" }).click();
-  await expect(page.getByRole("button", { name: "twitter" })).toBeVisible();
-  await expect(page.getByRole("button", { name: "instagram" })).toBeVisible();
+
+  const email = page
+    .getByTestId("field-variants.contactEmail")
+    .getByTestId("string-input");
+  email.fill("");
+  email.fill(contactDetailInputs.email);
+  await expect(email.inputValue()).resolves.toBe(contactDetailInputs.email);
+
+  const number = page
+    .getByTestId("field-variants.contactNumber")
+    .getByTestId("string-input");
+  number.fill("");
+  number.fill(contactDetailInputs.number);
+  await expect(number.inputValue()).resolves.toBe(contactDetailInputs.number);
 
   // webriq forms
   if (variant === "variant_a") {
@@ -182,7 +186,6 @@ async function createContactVariants({
       page.getByRole("button", { name: "Message..." })
     ).toBeVisible();
     await expect(page.getByRole("button", { name: "Add file" })).toBeVisible();
-    // TODO: Add test to add/edit fields
 
     // contact form button label
     await expect(
@@ -254,56 +257,50 @@ async function createContactVariants({
       .fill("I agree to all the terms and conditions");
   }
 
-  // can update contact details
-  if (variant === "variant_b") {
-    const officeInfo = page
-      .getByTestId("field-variants.officeInformation")
-      .getByTestId("string-input");
-    officeInfo.fill("");
-    officeInfo.fill(contactDetailInputs.office);
-    await expect(officeInfo.inputValue()).resolves.toBe(
-      contactDetailInputs.office
-    );
-
-    const email = page
-      .getByTestId("field-variants.contactEmail")
-      .getByTestId("string-input");
-    email.fill("");
-    email.fill(contactDetailInputs.email);
-    await expect(email.inputValue()).resolves.toBe(contactDetailInputs.email);
-
-    const number = page
-      .getByTestId("field-variants.contactNumber")
-      .getByTestId("string-input");
-    number.fill("");
-    number.fill(contactDetailInputs.number);
-    await expect(number.inputValue()).resolves.toBe(contactDetailInputs.number);
-  }
-
-  await expectDocumentPublished(page);
+  await page.getByTestId("action-Save").click({ timeout: 20000 });
+  await page.getByRole("link", { name: "Close pane group" }).click();
+  await expectDocumentPublished(page, newPageTitle);
   await expect(page.getByRole("link", { name: newPageTitle })).toBeVisible();
 
   const pagePromise = page.waitForEvent("popup");
   await page.getByText(`${NEXT_PUBLIC_SITE_URL}`).click({ force: true });
   const openUrlPage = await pagePromise;
 
-  const sectionCount = await openUrlPage
-    .locator("div")
-    .filter({ hasText: /^No items$/ })
-    .count();
+  // check title, description, social links and contact details
+  await expect(
+    openUrlPage.getByRole("heading", { name: newContactTitle, exact: true })
+  ).toBeVisible();
+  await expect(openUrlPage.getByText(newContactDesc)).toBeVisible();
+  await expect(
+    openUrlPage.locator(`a[href=${socialLink?.facebook}]`)
+  ).toBeVisible();
+  await expect(
+    openUrlPage.locator(`a[href=${socialLink?.twitter}]`)
+  ).toBeVisible();
+  await expect(
+    openUrlPage.locator(`a[href=${socialLink?.instagram}]`)
+  ).toBeVisible();
+  await expect(openUrlPage.getByText(contactDetailInputs.office)).toBeVisible();
+  await expect(
+    openUrlPage.getByRole("link", { name: contactDetailInputs.email })
+  ).toBeVisible();
+  await expect(
+    openUrlPage.getByRole("link", { name: contactDetailInputs.number })
+  ).toBeVisible();
 
-  if (sectionCount > 0) {
-    // If the section no items is found, expect the Empty Page element to be visible
-    await expect(openUrlPage.getByText("Empty Page"))
-      .toBeVisible({ timeout: 20000 })
-      .then(() => console.log("There is no Available Content!"));
-  } else {
-    // If the section no items is not found, expect the Empty Page element to be hidden
-    await expect(openUrlPage.getByText("Empty Page")).toBeHidden({
-      timeout: 20000,
-    });
-    await expect(openUrlPage.locator("section")).toBeVisible({
-      timeout: 20000,
-    });
+  if (variant === "variant_a") {
+    // check for the forms added
+    await expect(openUrlPage.getByPlaceholder("Subject")).toBeVisible();
+    await expect(
+      openUrlPage.getByPlaceholder("Name", { exact: true })
+    ).toBeVisible();
+    await expect(
+      openUrlPage.getByPlaceholder("name@example.com")
+    ).toBeVisible();
+    await expect(openUrlPage.getByPlaceholder("Message...")).toBeVisible();
+    await expect(openUrlPage.getByLabel("Add file")).toBeVisible();
+    await expect(openUrlPage.getByLabel("Agree to terms")).not.toBeChecked();
+    await expect(openUrlPage.getByText("I agree to terms and")).toBeVisible();
+    await expect(openUrlPage.getByLabel(formButtonLabel)).toBeVisible();
   }
 }

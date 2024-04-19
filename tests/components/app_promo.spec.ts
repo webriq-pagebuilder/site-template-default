@@ -1,6 +1,7 @@
 import { test, expect, type Page } from "@playwright/test";
 import {
   autologin_studio,
+  clickVariantImage,
   createNewPage,
   navigateToPage,
   updateLogoLink,
@@ -12,6 +13,7 @@ import {
   NEXT_PUBLIC_SITE_URL,
 } from "studio/config";
 import { appPromoInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-default";
+import { createVariantProps } from "types/tests/components";
 
 let page: Page, newPageTitle: string;
 
@@ -78,17 +80,13 @@ async function createAppPromoVariants({
   label,
   index,
   variant,
-}: {
-  pageTitle: string;
-  label: string;
-  index: number;
-  variant: string;
-}) {
+}: createVariantProps) {
   const time = new Date().getTime();
   newPageTitle = pageTitle + time;
   const newAppPromoSubtitle = "App promo subtitle";
   const newAppPromoTitle = "App promo title";
   const newAppPromoDesc = "Updated description for new App promo.";
+  const logoAltText = "App promo logo";
 
   const statItemsField = {
     label: "New Stat Item",
@@ -105,19 +103,7 @@ async function createAppPromoVariants({
   await variantLabel.fill(label);
 
   // select variant
-  if (index <= 0) {
-    await page
-      .getByTestId("field-variant")
-      .getByRole("img")
-      .first()
-      .click({ force: true });
-  } else {
-    await page
-      .getByTestId("field-variant")
-      .getByRole("img")
-      .nth(index)
-      .click({ force: true });
-  }
+  await clickVariantImage(page, index);
 
   // subtitle - all variants
   const subtitle = page
@@ -143,7 +129,7 @@ async function createAppPromoVariants({
 
   if (variant === "variant_a") {
     // logo link
-    await updateLogoLink({ page });
+    await updateLogoLink(page, logoAltText);
   } else {
     // description - variant b and c only
     const description = page.getByPlaceholder("Lorem ipsum dolor sit amet,");
@@ -168,6 +154,13 @@ async function createAppPromoVariants({
         .getByTestId("field-variants.statItems.value")
         .getByTestId("string-input")
         .fill(statItemsField.value);
+      await page.getByLabel("Close dialog").click();
+      await expect(page.locator('[id="variants\\.statItems"]')).toContainText(
+        `Label: ${statItemsField.label}`
+      );
+      await expect(page.locator('[id="variants\\.statItems"]')).toContainText(
+        `Value: ${statItemsField.value}`
+      );
     }
 
     if (variant === "variant_c") {
@@ -183,38 +176,53 @@ async function createAppPromoVariants({
         .locator("div")
         .nth(3)
         .click({ force: true });
-      await page
-        .locator('[id="variants\\.tags"]')
-        .fill(`App promo ${variant} tag 1`);
+      await page.locator('[id="variants\\.tags"]').click();
+      await page.locator('[id="variants\\.tags"]').fill("new app promo tag");
       await page.locator('[id="variants\\.tags"]').press("Enter");
-      await expect(page.getByText(`App promo ${variant} tag 1`)).toBeVisible();
+      await expect(page.getByText("new app promo tag")).toBeVisible();
     }
   }
 
-  await expectDocumentPublished(page);
-  await expect(page.getByRole("link", { name: newPageTitle })).toBeVisible();
+  await page.getByTestId("action-Save").click({ timeout: 20000 });
+  await page.getByRole("link", { name: "Close pane group" }).click();
+  await expectDocumentPublished(page, newPageTitle);
 
   const pagePromise = page.waitForEvent("popup");
   await page.getByText(`${NEXT_PUBLIC_SITE_URL}`).click({ force: true });
   const openUrlPage = await pagePromise;
 
-  const sectionCount = await openUrlPage
-    .locator("div")
-    .filter({ hasText: /^No items$/ })
-    .count();
+  // test if subtitle and title is visible in preview
+  await expect(openUrlPage.getByText(newAppPromoSubtitle)).toBeVisible();
+  await expect(openUrlPage.getByText(newAppPromoTitle)).toBeVisible();
 
-  if (sectionCount > 0) {
-    // If the section no items is found, expect the Empty Page element to be visible
-    await expect(openUrlPage.getByText("Empty Page"))
-      .toBeVisible({ timeout: 20000 })
-      .then(() => console.log("There is no Available Content!"));
+  if (variant === "variant_a") {
+    // test if logo link is correct
+    await expect(
+      openUrlPage.getByLabel("Go to https://webriq.com")
+    ).toBeVisible();
+    await expect(
+      openUrlPage
+        .locator("a[target='_blank']")
+        .and(openUrlPage.locator("a[rel='noopener noreferrer']"))
+    ).toBeVisible();
+    await expect(openUrlPage.getByAltText(logoAltText)).toBeVisible();
   } else {
-    // If the section no items is not found, expect the Empty Page element to be hidden
-    await expect(openUrlPage.getByText("Empty Page")).toBeHidden({
-      timeout: 20000,
-    });
-    await expect(openUrlPage.locator("section")).toBeVisible({
-      timeout: 20000,
-    });
+    // check if description is visible in preview
+    await expect(openUrlPage.getByText(newAppPromoDesc)).toBeVisible();
+
+    if (variant === "variant_b") {
+      // stat items
+      await expect(openUrlPage.getByText(statItemsField.label)).toBeVisible();
+      await expect(openUrlPage.locator('[id="__next"]')).toContainText(
+        statItemsField.value
+      );
+    }
+
+    if (variant === "variant_c") {
+      // tags
+      await expect(
+        openUrlPage.locator("li").filter({ hasText: "new app promo tag" })
+      ).toBeVisible();
+    }
   }
 }

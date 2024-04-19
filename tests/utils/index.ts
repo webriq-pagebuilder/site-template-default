@@ -139,37 +139,19 @@ export async function deletePageVariant(page, pageTitle) {
   });
 }
 
-export async function updateLogoLink({ page }) {
+export async function updateLogoLink(page, altText) {
   await page
     .getByTestId("field-variants.logo.alt")
     .getByTestId("string-input")
-    .fill("App promo logo");
+    .fill(altText);
+  await expect(page.getByLabel("Internal, inside this website")).toBeChecked();
   await page
     .getByLabel("External, outside this website")
     .check({ force: true });
   await expect(page.getByLabel("URL")).toBeVisible();
   await page.getByLabel("URL").fill("https://webriq.com");
-  await expect(
-    page
-      .getByTestId("field-variants.logo.linkTarget")
-      .locator("div")
-      .filter({ hasText: "Link Target" })
-      .nth(3)
-  ).toBeVisible();
-  await page.getByLabel("Internal, inside this website").check({ force: true });
-  await expect(page.getByTestId("autocomplete")).toBeVisible();
-  await page.getByTestId("autocomplete").fill("New Page");
-  await page
-    .locator("button:has-text('New Page')")
-    .first()
-    .click({ force: true });
-  await expect(
-    page
-      .getByTestId("field-variants.logo.linkTarget")
-      .locator("div")
-      .filter({ hasText: "Link Target" })
-      .nth(3)
-  ).toBeVisible();
+  await expect(page.getByLabel("Self (default) - open in the")).toBeChecked();
+  await page.getByLabel("Blank - open on a new tab (").check();
 }
 
 export async function generateFormId({ page }) {
