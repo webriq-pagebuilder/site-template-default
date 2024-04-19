@@ -16,6 +16,15 @@ export function autologin_studio({ token, projectId }) {
   );
 }
 
+export async function clickVariantImage(page, variantIndex) {
+  const imageSelector =
+    variantIndex <= 0
+      ? page.getByTestId("field-variant").getByRole("img").first()
+      : page.getByTestId("field-variant").getByRole("img").nth(variantIndex);
+
+  await imageSelector.click({ force: true });
+}
+
 export async function navigateToPage(page) {
   await page.goto(`${NEXT_PUBLIC_SANITY_STUDIO_URL}`);
 
@@ -50,7 +59,7 @@ export async function createNewPage(page, sectionTitle, sections) {
     .click({ force: true });
 }
 
-export async function expectDocumentPublished(page) {
+export async function expectDocumentPublished(page, newPageTitle) {
   await expect(
     page
       .locator('[data-testid="review-changes-button"]')
@@ -95,6 +104,7 @@ export async function expectDocumentPublished(page) {
   await expect(
     page.getByRole("button", { name: "Last published just now" })
   ).toBeVisible({ timeout: 150000 });
+  await expect(page.getByRole("link", { name: newPageTitle })).toBeVisible();
 }
 
 export async function deletePageVariant(page, pageTitle) {
@@ -112,7 +122,7 @@ export async function deletePageVariant(page, pageTitle) {
   await page.getByLabel("Clear").click({ force: true });
   await page.waitForTimeout(3000);
 
-  await expect(page.getByText('Loading document')).toBeHidden();
+  await expect(page.getByText("Loading document")).toBeHidden();
   await page.getByTestId("action-menu-button").click({ force: true });
   await page.getByTestId("action-Delete").click();
   await page.getByTestId("confirm-delete-button").click();
