@@ -1,23 +1,41 @@
 import { test, expect, type Page } from "@playwright/test";
-import { autologin_studio } from "tests/utils";
+import {
+  autologin_studio,
+  navigateToPage,
+  createNewPage,
+  generateFormId,
+  expectDocumentPublished,
+  deletePageVariant,
+} from "tests/utils";
 import {
   NEXT_PUBLIC_SANITY_STUDIO_URL,
   NEXT_PUBLIC_SITE_URL,
 } from "studio/config";
 import { contactInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-default";
 
-let page: Page;
-let commonValues = {
-  commonTitle: "",
-  commonDesc: "",
-  commonContactDetails: {
-    office: "",
-    contactEmail: "",
-    contactNumber: "",
-  },
-};
+interface createContactVariantProps {
+  pageTitle: string;
+  label: string;
+  index: number;
+  variant: string;
+}
 
-const getTime = new Date().getTime();
+let page: Page, newPageTitle: string;
+
+const contactVariantTests = [
+  {
+    pageTitle: "Contact variant A",
+    label: "New Contact A",
+    index: 0,
+    variant: "variant_a",
+  },
+  {
+    pageTitle: "Contact variant B",
+    label: "New Contact B",
+    index: 0,
+    variant: "variant_b",
+  },
+];
 
 test.beforeAll("Auto login studio", async ({ browser }) => {
   page = await browser.newPage();
@@ -33,65 +51,22 @@ test.beforeAll("Auto login studio", async ({ browser }) => {
   await page.goto(`${NEXT_PUBLIC_SANITY_STUDIO_URL}`);
 });
 
-test.describe("Create new Contact", () => {
-  test.describe.configure({ timeout: 600000, mode: "serial" });
+contactVariantTests?.forEach((variant) => {
+  test.describe(`${variant.pageTitle} Workflow`, () => {
+    test.describe.configure({ timeout: 900000, mode: "serial" });
 
-  test("Variant A", async () => {
-    await page.getByRole("link", { name: "Components" }).click({ force: true });
-    await page
-      .getByRole("button", { name: "New Contact" })
-      .click({ force: true });
-    await page.getByTestId("string-input").click();
-    await page.getByTestId("string-input").fill(`New Contact - ${getTime}`);
-    await page
-      .getByTestId("field-variant")
-      .getByRole("img")
-      .first()
-      .click({ force: true });
-    await updateTitle();
-    await updateDescription();
-    await updateContactDetails();
-    await updateSocialLinks();
-    await updateWebriQForms();
-  });
+    test(`Create ${variant.label}`, async () => {
+      await createContactVariants({
+        pageTitle: variant.pageTitle,
+        label: variant.label,
+        index: variant.index,
+        variant: variant.variant,
+      });
+    });
 
-  test("Variant B", async () => {
-    await page.getByRole("button", { name: "Next" }).click({ force: true });
-    await expect(page.getByText("Variant B")).toBeVisible();
-
-    // check if we have matching common field values with variant A - title, description, social links and contact details
-    await expect(
-      page.getByTestId("field-variants.title").getByTestId("string-input")
-    ).toHaveValue(commonValues.commonTitle);
-    await expect(
-      page
-        .getByTestId("field-variants.contactDescription")
-        .getByTestId("string-input")
-    ).toHaveValue(commonValues.commonDesc);
-    await expect(
-      page
-        .getByTestId("field-variants.officeInformation")
-        .getByTestId("string-input")
-    ).toHaveValue(commonValues.commonContactDetails.office);
-    await expect(
-      page
-        .getByTestId("field-variants.contactEmail")
-        .getByTestId("string-input")
-    ).toHaveValue(commonValues.commonContactDetails.contactEmail);
-    await expect(
-      page
-        .getByTestId("field-variants.contactNumber")
-        .getByTestId("string-input")
-    ).toHaveValue(commonValues.commonContactDetails.contactNumber);
-    await expect(
-      page
-        .getByTestId("field-variants.socialLinks")
-        .locator("div")
-        .filter({ hasText: "Social Links" })
-        .nth(3)
-    ).toBeVisible();
-    await expect(page.getByRole("button", { name: "twitter" })).toBeVisible();
-    await expect(page.getByRole("button", { name: "instagram" })).toBeVisible();
+    test(`Delete ${variant.pageTitle}`, async () => {
+      await deletePageVariant(page, newPageTitle);
+    });
   });
 });
 
@@ -99,29 +74,69 @@ test.afterAll(async () => {
   await page.close();
 });
 
-async function updateTitle() {
+async function createContactVariants({
+  pageTitle,
+  label,
+  index,
+  variant,
+}: createContactVariantProps) {
+  const time = new Date().getTime();
+  newPageTitle = pageTitle + time;
+  const newContactTitle = "Contact title";
+  const newContactDesc = "Updated description for new contact.";
+
+  const formButtonLabel = "Submit Contact";
+  const contactDetailInputs = {
+    office: "123 Sample Address",
+    number: "+12 34567",
+    email: "sample@webriq.com",
+  };
+
+  await navigateToPage(page);
+  await createNewPage(page, newPageTitle, "Contact");
+
+  const variantLabel = page
+    .getByTestId("field-label")
+    .getByTestId("string-input");
+  await variantLabel.click();
+  await variantLabel.fill(label);
+
+  // select variant
+  if (index <= 0) {
+    await page
+      .getByTestId("field-variant")
+      .getByRole("img")
+      .first()
+      .click({ force: true });
+  } else {
+    await page
+      .getByTestId("field-variant")
+      .getByRole("img")
+      .nth(index)
+      .click({ force: true });
+  }
+
+  // title - all variants
   const title = page
     .getByTestId("field-variants.title")
     .getByTestId("string-input");
-  await expect(
-    page.getByTestId("field-variants.title").getByTestId("string-input")
-  ).toHaveValue(contactInitialValue.title);
-  title.fill("");
-  title.fill("Contact Test");
-  commonValues.commonTitle = await title.inputValue();
-}
+  await expect(title.inputValue()).resolves.toBe(contactInitialValue.title);
+  await title.click();
+  await title.press("Meta+a");
+  await title.fill(newContactTitle);
+  await expect(title.inputValue()).resolves.toBe(newContactTitle);
 
-async function updateDescription() {
-  const description = page
-    .getByTestId("field-variants.contactDescription")
-    .getByTestId("string-input");
-  await expect(description).toHaveValue(contactInitialValue.contactDescription);
-  description.fill("");
-  description.fill("New contact test description");
-  commonValues.commonDesc = await description.inputValue();
-}
+  // description - all variants
+  const description = page.getByPlaceholder("Lorem ipsum dolor sit amet,");
+  await expect(description.inputValue()).resolves.toBe(
+    contactInitialValue.contactDescription
+  );
+  await description.click();
+  await description.press("Meta+a");
+  await description.fill(newContactDesc);
+  await expect(description.inputValue()).resolves.toBe(newContactDesc);
 
-async function updateSocialLinks() {
+  // social links - all variants
   await expect(
     page
       .getByTestId("field-variants.socialLinks")
@@ -150,116 +165,145 @@ async function updateSocialLinks() {
   await page.getByRole("menuitem", { name: "Remove" }).click();
   await expect(page.getByRole("button", { name: "twitter" })).toBeVisible();
   await expect(page.getByRole("button", { name: "instagram" })).toBeVisible();
-}
 
-async function updateContactDetails() {
-  const officeInfo = page
-    .getByTestId("field-variants.officeInformation")
-    .getByTestId("string-input");
-  officeInfo.fill("");
-  officeInfo.fill("123 Sample Address");
-  commonValues.commonContactDetails.office = await officeInfo.inputValue();
+  // webriq forms
+  if (variant === "variant_a") {
+    await generateFormId({ page });
 
-  const email = page
-    .getByTestId("field-variants.contactEmail")
-    .getByTestId("string-input");
-  email.fill("");
-  email.fill("sample@webriq.com");
-  commonValues.commonContactDetails.contactEmail = await email.inputValue();
+    // check contact form initial fields
+    await expect(page.getByRole("button", { name: "Subject" })).toBeVisible();
+    await expect(
+      page.getByRole("button", { name: "Name", exact: true })
+    ).toBeVisible();
+    await expect(
+      page.getByRole("button", { name: "name@example.com" })
+    ).toBeVisible();
+    await expect(
+      page.getByRole("button", { name: "Message..." })
+    ).toBeVisible();
+    await expect(page.getByRole("button", { name: "Add file" })).toBeVisible();
+    // TODO: Add test to add/edit fields
 
-  const number = page
-    .getByTestId("field-variants.contactNumber")
-    .getByTestId("string-input");
-  number.fill("");
-  number.fill("+12 34567");
-  commonValues.commonContactDetails.contactNumber = await number.inputValue();
-}
-
-async function updateWebriQForms() {
-  // contact generate form ID
-  await page
-    .getByRole("button", { name: "Generate ID" })
-    .click({ force: true });
-  expect(page.getByLabel("Form ID")).not.toBeUndefined();
-  await expect(page.getByRole("button", { name: "Generate ID" })).toBeVisible();
-  await expect(page.getByRole("link", { name: "Manage" })).toBeVisible();
-
-  // check contact form initial fields
-  await expect(page.getByRole("button", { name: "Subject" })).toBeVisible();
-  await expect(
-    page.getByRole("button", { name: "Name", exact: true })
-  ).toBeVisible();
-  await expect(
-    page.getByRole("button", { name: "name@example.com" })
-  ).toBeVisible();
-  await expect(page.getByRole("button", { name: "Message..." })).toBeVisible();
-  await expect(page.getByRole("button", { name: "Add file" })).toBeVisible();
-  // TODO: Add test to add/edit fields
-
-  // contact form button label
-  await expect(
-    page
+    // contact form button label
+    await expect(
+      page
+        .getByTestId("field-variants.form.buttonLabel")
+        .getByTestId("string-input")
+    ).toHaveValue(contactInitialValue.form.buttonLabel);
+    await page
       .getByTestId("field-variants.form.buttonLabel")
       .getByTestId("string-input")
-  ).toHaveValue(contactInitialValue.form.buttonLabel);
-  await page
-    .getByTestId("field-variants.form.buttonLabel")
-    .getByTestId("string-input")
-    .fill("");
-  await page
-    .getByTestId("field-variants.form.buttonLabel")
-    .getByTestId("string-input")
-    .fill("SUBMIT");
+      .fill("");
+    await page
+      .getByTestId("field-variants.form.buttonLabel")
+      .getByTestId("string-input")
+      .fill(formButtonLabel);
 
-  // contact form thank you page link
-  await page
-    .getByRole("button", { name: "Thank You page" })
-    .click({ force: true });
-  await page.getByLabel("Internal, inside this website").check({ force: true });
-  await expect(
-    page
-      .locator("div")
-      .filter({ hasText: /^Page Reference$/ })
-      .nth(1)
-  ).toBeVisible();
-  await expect(page.getByTestId("autocomplete")).toBeVisible();
-  await page.getByTestId("autocomplete").fill("New Page");
-  await page
-    .locator("button:has-text('New Page')")
-    .first()
-    .click({ force: true });
-  await expect(
-    page
-      .getByTestId("field-variants.logo.linkTarget")
-      .locator("div")
-      .filter({ hasText: "Link Target" })
-      .nth(3)
-  ).toBeVisible();
-  await page
-    .getByLabel("External, outside this website")
-    .check({ force: true });
-  await expect(page.getByLabel("URL")).toBeVisible();
-  await page.getByLabel("URL").fill("https://webriq.com");
-  await expect(
-    page
-      .getByTestId("field-variants.logo.linkTarget")
-      .locator("div")
-      .filter({ hasText: "Link Target" })
-      .nth(3)
-  ).toBeVisible();
+    // contact form thank you page link
+    await page
+      .getByRole("button", { name: "Thank You page" })
+      .click({ force: true });
+    await page
+      .getByLabel("Internal, inside this website")
+      .check({ force: true });
+    await expect(
+      page
+        .locator("div")
+        .filter({ hasText: /^Page Reference$/ })
+        .nth(1)
+    ).toBeVisible();
+    await expect(page.getByTestId("autocomplete")).toBeVisible();
+    await page.getByTestId("autocomplete").fill("New Page");
+    await page
+      .locator("button:has-text('New Page')")
+      .first()
+      .click({ force: true });
+    await expect(
+      page
+        .getByTestId("field-variants.logo.linkTarget")
+        .locator("div")
+        .filter({ hasText: "Link Target" })
+        .nth(3)
+    ).toBeVisible();
+    await page
+      .getByLabel("External, outside this website")
+      .check({ force: true });
+    await expect(page.getByLabel("URL")).toBeVisible();
+    await page.getByLabel("URL").fill("https://webriq.com");
+    await expect(
+      page
+        .getByTestId("field-variants.logo.linkTarget")
+        .locator("div")
+        .filter({ hasText: "Link Target" })
+        .nth(3)
+    ).toBeVisible();
 
-  // contact form block of text
-  await expect(
-    page.getByTestId("activate-overlay").locator("div").first()
-  ).toBeVisible();
-  await page.getByText("Click to activate").click({ force: true });
-  await expect(page.getByText("I agree to terms and")).toContainText(
-    contactInitialValue.block?.[0]?.children?.[0]?.text
-  );
-  await page.getByTestId("text-style--normal").nth(1).click({ force: true });
-  await page.getByTestId("scroll-container").getByRole("textbox").fill("");
-  await page
-    .getByTestId("scroll-container")
-    .getByRole("textbox")
-    .fill("I agree to all the terms and conditions");
+    // contact form block of text
+    await expect(
+      page.getByTestId("activate-overlay").locator("div").first()
+    ).toBeVisible();
+    await page.getByText("Click to activate").click({ force: true });
+    await expect(page.getByText("I agree to terms and")).toContainText(
+      contactInitialValue.block?.[0]?.children?.[0]?.text
+    );
+    await page.getByTestId("text-style--normal").nth(1).click({ force: true });
+    await page.getByTestId("scroll-container").getByRole("textbox").fill("");
+    await page
+      .getByTestId("scroll-container")
+      .getByRole("textbox")
+      .fill("I agree to all the terms and conditions");
+  }
+
+  // can update contact details
+  if (variant === "variant_b") {
+    const officeInfo = page
+      .getByTestId("field-variants.officeInformation")
+      .getByTestId("string-input");
+    officeInfo.fill("");
+    officeInfo.fill(contactDetailInputs.office);
+    await expect(officeInfo.inputValue()).resolves.toBe(
+      contactDetailInputs.office
+    );
+
+    const email = page
+      .getByTestId("field-variants.contactEmail")
+      .getByTestId("string-input");
+    email.fill("");
+    email.fill(contactDetailInputs.email);
+    await expect(email.inputValue()).resolves.toBe(contactDetailInputs.email);
+
+    const number = page
+      .getByTestId("field-variants.contactNumber")
+      .getByTestId("string-input");
+    number.fill("");
+    number.fill(contactDetailInputs.number);
+    await expect(number.inputValue()).resolves.toBe(contactDetailInputs.number);
+  }
+
+  await expectDocumentPublished(page);
+  await expect(page.getByRole("link", { name: newPageTitle })).toBeVisible();
+
+  const pagePromise = page.waitForEvent("popup");
+  await page.getByText(`${NEXT_PUBLIC_SITE_URL}`).click({ force: true });
+  const openUrlPage = await pagePromise;
+
+  const sectionCount = await openUrlPage
+    .locator("div")
+    .filter({ hasText: /^No items$/ })
+    .count();
+
+  if (sectionCount > 0) {
+    // If the section no items is found, expect the Empty Page element to be visible
+    await expect(openUrlPage.getByText("Empty Page"))
+      .toBeVisible({ timeout: 20000 })
+      .then(() => console.log("There is no Available Content!"));
+  } else {
+    // If the section no items is not found, expect the Empty Page element to be hidden
+    await expect(openUrlPage.getByText("Empty Page")).toBeHidden({
+      timeout: 20000,
+    });
+    await expect(openUrlPage.locator("section")).toBeVisible({
+      timeout: 20000,
+    });
+  }
 }

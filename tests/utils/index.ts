@@ -171,3 +171,12 @@ export async function updateLogoLink({ page }) {
       .nth(3)
   ).toBeVisible();
 }
+
+export async function generateFormId({ page }) {
+  await page
+    .getByRole("button", { name: "Generate ID" })
+    .click({ force: true });
+  expect(page.getByLabel("Form ID")).not.toBeUndefined();
+  await expect(page.getByRole("button", { name: "Generate ID" })).toBeVisible();
+  await expect(page.getByRole("link", { name: "Manage" })).toBeVisible();
+}
