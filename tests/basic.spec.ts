@@ -47,8 +47,7 @@ test.describe("Main Workflow", () => {
       .first()
       .click({ force: true });
 
-    await expectDocumentPublished(page);
-    await expect(page.getByRole("link", { name: newPageTitle })).toBeVisible();
+    await expectDocumentPublished(page, newPageTitle);
 
     //Open Live URL
     await page.getByRole("link", { name: newPageTitle }).click({ force: true });
@@ -173,6 +172,9 @@ test.describe("Main Workflow", () => {
 
     await page.getByLabel("Launch Inline Editing").click();
     const inlineEditPage = await launchInlineEditing;
+    await expect(inlineEditPage.getByText("Loading...")).toBeHidden({
+      timeout: 150000,
+    });
     await inlineEditPage.locator("#navigation").click(); //Edit button
     await expect(
       inlineEditPage.locator(".react-split > div:nth-child(2)")
@@ -306,11 +308,11 @@ test.describe("Main Workflow", () => {
 
   test("Delete Published Page", async () => {
     await deletePageVariant(page, newPageTitle);
-  })
+  });
 
   test("Delete Duplicate Page", async () => {
     await deletePageVariant(page, duplicatePageName);
-  })
+  });
 });
 
 //SEE CURRENT VERSION

@@ -5,6 +5,7 @@ import {
 } from "studio/config";
 import {
   autologin_studio,
+  clickVariantImage,
   createNewPage,
   deletePageVariant,
   expectDocumentPublished,
@@ -53,21 +54,7 @@ export async function createHeaderVariant(
 
   await navigateToPage(page);
   await createNewPage(page, newPageTitle, "Header");
-
-  //Variant
-  if (variantIndex <= 0) {
-    await page
-      .getByTestId("field-variant")
-      .getByRole("img")
-      .first()
-      .click({ force: true });
-  } else {
-    await page
-      .getByTestId("field-variant")
-      .getByRole("img")
-      .nth(variantIndex)
-      .click({ force: true });
-  }
+  await clickVariantImage(page, variantIndex);
 
   //Variant Title
   const variantTitle = page.locator("input#label");
@@ -272,8 +259,7 @@ export async function createHeaderVariant(
     await page.getByLabel("Close dialog").click();
   }
 
-  await expectDocumentPublished(page);
-  await expect(page.getByRole("link", { name: newPageTitle })).toBeVisible();
+  await expectDocumentPublished(page, newPageTitle);
 
   const pagePromise = page.waitForEvent("popup");
   await page.getByText(`${NEXT_PUBLIC_SITE_URL}`).click({ force: true });
