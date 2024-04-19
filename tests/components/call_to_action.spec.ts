@@ -6,6 +6,7 @@ import {
   updateLogoLink,
   generateFormId,
   expectDocumentPublished,
+  deletePageVariant,
 } from "tests/utils";
 import {
   NEXT_PUBLIC_SANITY_STUDIO_URL,
@@ -13,8 +14,8 @@ import {
 } from "studio/config";
 import { callToActionInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-default";
 
-let page: Page;
-const getTime = new Date().getTime();
+let page: Page, newPageTitle: string;
+
 const ctaVariantTests = [
   {
     pageTitle: "Call to action variant A",
@@ -74,6 +75,10 @@ ctaVariantTests?.forEach((variant) => {
         variant: variant.variant,
       });
     });
+
+    test(`Delete ${variant.pageTitle}`, async () => {
+      await deletePageVariant(page, newPageTitle);
+    });
   });
 });
 
@@ -95,7 +100,7 @@ async function createCTAVariant({
   isInternalLink?: boolean | null;
 }) {
   const time = new Date().getTime();
-  const newCTA = pageTitle + time;
+  newPageTitle = pageTitle + time;
   const newCTATitle = "Call to action title";
   const newCTADescription = "Updated description for new call to action.";
 
@@ -111,7 +116,7 @@ async function createCTAVariant({
   };
 
   await navigateToPage(page);
-  await createNewPage(page, newCTA, "Call to action");
+  await createNewPage(page, newPageTitle, "Call to action");
 
   const variantLabel = page
     .getByTestId("field-label")
@@ -320,7 +325,7 @@ async function createCTAVariant({
   }
 
   await expectDocumentPublished(page);
-  await expect(page.getByRole("link", { name: newCTA })).toBeVisible();
+  await expect(page.getByRole("link", { name: newPageTitle })).toBeVisible();
 
   const pagePromise = page.waitForEvent("popup");
   await page.getByText(`${NEXT_PUBLIC_SITE_URL}`).click({ force: true });

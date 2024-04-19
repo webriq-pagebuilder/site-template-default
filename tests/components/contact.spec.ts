@@ -5,6 +5,7 @@ import {
   createNewPage,
   generateFormId,
   expectDocumentPublished,
+  deletePageVariant,
 } from "tests/utils";
 import {
   NEXT_PUBLIC_SANITY_STUDIO_URL,
@@ -19,8 +20,7 @@ interface createContactVariantProps {
   variant: string;
 }
 
-let page: Page;
-const getTime = new Date().getTime();
+let page: Page, newPageTitle: string;
 
 const contactVariantTests = [
   {
@@ -63,6 +63,10 @@ contactVariantTests?.forEach((variant) => {
         variant: variant.variant,
       });
     });
+
+    test(`Delete ${variant.pageTitle}`, async () => {
+      await deletePageVariant(page, newPageTitle);
+    });
   });
 });
 
@@ -77,7 +81,7 @@ async function createContactVariants({
   variant,
 }: createContactVariantProps) {
   const time = new Date().getTime();
-  const newContact = pageTitle + time;
+  newPageTitle = pageTitle + time;
   const newContactTitle = "Contact title";
   const newContactDesc = "Updated description for new contact.";
 
@@ -89,7 +93,7 @@ async function createContactVariants({
   };
 
   await navigateToPage(page);
-  await createNewPage(page, newContact, "Contact");
+  await createNewPage(page, newPageTitle, "Contact");
 
   const variantLabel = page
     .getByTestId("field-label")
@@ -277,7 +281,7 @@ async function createContactVariants({
   }
 
   await expectDocumentPublished(page);
-  await expect(page.getByRole("link", { name: newContact })).toBeVisible();
+  await expect(page.getByRole("link", { name: newPageTitle })).toBeVisible();
 
   const pagePromise = page.waitForEvent("popup");
   await page.getByText(`${NEXT_PUBLIC_SITE_URL}`).click({ force: true });

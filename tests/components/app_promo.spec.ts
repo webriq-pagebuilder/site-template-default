@@ -5,6 +5,7 @@ import {
   navigateToPage,
   updateLogoLink,
   expectDocumentPublished,
+  deletePageVariant,
 } from "tests/utils";
 import {
   NEXT_PUBLIC_SANITY_STUDIO_URL,
@@ -12,7 +13,7 @@ import {
 } from "studio/config";
 import { appPromoInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-default";
 
-let page: Page;
+let page: Page, newPageTitle: string;
 
 const appPromoVariantTests = [
   {
@@ -61,6 +62,10 @@ appPromoVariantTests?.forEach((variant) => {
         variant: variant.variant,
       });
     });
+
+    test(`Delete ${variant.pageTitle}`, async () => {
+      await deletePageVariant(page, newPageTitle);
+    });
   });
 });
 
@@ -80,7 +85,7 @@ async function createAppPromoVariants({
   variant: string;
 }) {
   const time = new Date().getTime();
-  const newAppPromo = pageTitle + time;
+  newPageTitle = pageTitle + time;
   const newAppPromoSubtitle = "App promo subtitle";
   const newAppPromoTitle = "App promo title";
   const newAppPromoDesc = "Updated description for new App promo.";
@@ -91,7 +96,7 @@ async function createAppPromoVariants({
   };
 
   await navigateToPage(page);
-  await createNewPage(page, newAppPromo, "App Promo");
+  await createNewPage(page, newPageTitle, "App Promo");
 
   const variantLabel = page
     .getByTestId("field-label")
@@ -187,7 +192,7 @@ async function createAppPromoVariants({
   }
 
   await expectDocumentPublished(page);
-  await expect(page.getByRole("link", { name: newAppPromo })).toBeVisible();
+  await expect(page.getByRole("link", { name: newPageTitle })).toBeVisible();
 
   const pagePromise = page.waitForEvent("popup");
   await page.getByText(`${NEXT_PUBLIC_SITE_URL}`).click({ force: true });
