@@ -112,7 +112,7 @@ export async function deletePageVariant(page, pageTitle) {
   await page.getByLabel("Clear").click({ force: true });
   await page.waitForTimeout(3000);
 
-  await expect(page.getByText('Loading document')).toBeHidden();
+  await expect(page.getByText("Loading document")).toBeHidden();
   await page.getByTestId("action-menu-button").click({ force: true });
   await page.getByTestId("action-Delete").click();
   await page.getByTestId("confirm-delete-button").click();
@@ -160,4 +160,13 @@ export async function updateLogoLink({ page }) {
       .filter({ hasText: "Link Target" })
       .nth(3)
   ).toBeVisible();
+}
+
+export async function generateFormId({ page }) {
+  await page
+    .getByRole("button", { name: "Generate ID" })
+    .click({ force: true });
+  expect(page.getByLabel("Form ID")).not.toBeUndefined();
+  await expect(page.getByRole("button", { name: "Generate ID" })).toBeVisible();
+  await expect(page.getByRole("link", { name: "Manage" })).toBeVisible();
 }

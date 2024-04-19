@@ -4,6 +4,7 @@ import {
   createNewPage,
   navigateToPage,
   updateLogoLink,
+  expectDocumentPublished,
 } from "tests/utils";
 import {
   NEXT_PUBLIC_SANITY_STUDIO_URL,
@@ -12,6 +13,27 @@ import {
 import { appPromoInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-default";
 
 let page: Page;
+
+const appPromoVariantTests = [
+  {
+    pageTitle: "App promo variant A",
+    label: "New App promo A",
+    index: 0,
+    variant: "variant_a",
+  },
+  {
+    pageTitle: "App promo variant B",
+    label: "New App promo B",
+    index: 1,
+    variant: "variant_b",
+  },
+  {
+    pageTitle: "App promo variant C",
+    label: "New App promo C",
+    index: 2,
+    variant: "variant_c",
+  },
+];
 
 test.beforeAll("Auto login studio", async ({ browser }) => {
   page = await browser.newPage();
@@ -27,34 +49,18 @@ test.beforeAll("Auto login studio", async ({ browser }) => {
   await page.goto(`${NEXT_PUBLIC_SANITY_STUDIO_URL}`);
 });
 
-test.describe("Create new App Promo", () => {
-  test.describe.configure({ timeout: 600000, mode: "serial" });
+appPromoVariantTests?.forEach((variant) => {
+  test.describe(`${variant.pageTitle} Workflow`, () => {
+    test.describe.configure({ timeout: 900000, mode: "serial" });
 
-  test("Variant A", async () => {
-    await createAppPromoVariants(
-      "App promo variant A -",
-      "New App promo A",
-      0,
-      "variant_a"
-    );
-  });
-
-  test("Variant B", async () => {
-    await createAppPromoVariants(
-      "App promo variant B -",
-      "New App promo B",
-      0,
-      "variant_b"
-    );
-  });
-
-  test("Variant C", async () => {
-    await createAppPromoVariants(
-      "App promo variant C -",
-      "New App promo C",
-      0,
-      "variant_c"
-    );
+    test(`Create ${variant.label}`, async () => {
+      await createAppPromoVariants({
+        pageTitle: variant.pageTitle,
+        label: variant.label,
+        index: variant.index,
+        variant: variant.variant,
+      });
+    });
   });
 });
 
@@ -62,12 +68,17 @@ test.afterAll(async () => {
   await page.close();
 });
 
-async function createAppPromoVariants(
-  pageTitle: string,
-  label: string,
-  index: number,
-  variant: string
-) {
+async function createAppPromoVariants({
+  pageTitle,
+  label,
+  index,
+  variant,
+}: {
+  pageTitle: string;
+  label: string;
+  index: number;
+  variant: string;
+}) {
   const time = new Date().getTime();
   const newAppPromo = pageTitle + time;
   const newAppPromoSubtitle = "App promo subtitle";
@@ -173,5 +184,32 @@ async function createAppPromoVariants(
       await page.locator('[id="variants\\.tags"]').press("Enter");
       await expect(page.getByText(`App promo ${variant} tag 1`)).toBeVisible();
     }
+  }
+
+  await expectDocumentPublished(page);
+  await expect(page.getByRole("link", { name: newAppPromo })).toBeVisible();
+
+  const pagePromise = page.waitForEvent("popup");
+  await page.getByText(`${NEXT_PUBLIC_SITE_URL}`).click({ force: true });
+  const openUrlPage = await pagePromise;
+
+  const sectionCount = await openUrlPage
+    .locator("div")
+    .filter({ hasText: /^No items$/ })
+    .count();
+
+  if (sectionCount > 0) {
+    // If the section no items is found, expect the Empty Page element to be visible
+    await expect(openUrlPage.getByText("Empty Page"))
+      .toBeVisible({ timeout: 20000 })
+      .then(() => console.log("There is no Available Content!"));
+  } else {
+    // If the section no items is not found, expect the Empty Page element to be hidden
+    await expect(openUrlPage.getByText("Empty Page")).toBeHidden({
+      timeout: 20000,
+    });
+    await expect(openUrlPage.locator("section")).toBeVisible({
+      timeout: 20000,
+    });
   }
 }
