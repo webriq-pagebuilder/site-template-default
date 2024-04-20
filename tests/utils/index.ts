@@ -25,6 +25,39 @@ export async function clickVariantImage(page, variantIndex) {
   await imageSelector.click({ force: true });
 }
 
+export async function variantLabelInput(page, variantLabel) {
+  await page
+    .getByTestId("field-label")
+    .getByTestId("string-input")
+    .click({ force: true });
+  await page
+    .getByTestId("field-label")
+    .getByTestId("string-input")
+    .fill(variantLabel);
+}
+
+export async function titleFieldInput(page, title) {
+  await page
+    .getByTestId("field-variants.title")
+    .getByTestId("string-input")
+    .click();
+  await page
+    .getByTestId("field-variants.title")
+    .getByTestId("string-input")
+    .fill(title);
+}
+
+export async function subtitleFieldInput(page, subtitle) {
+  await page
+    .getByTestId("field-variants.subtitle")
+    .getByTestId("string-input")
+    .click();
+  await page
+    .getByTestId("field-variants.subtitle")
+    .getByTestId("string-input")
+    .fill(subtitle);
+}
+
 export async function navigateToPage(page) {
   await page.goto(`${NEXT_PUBLIC_SANITY_STUDIO_URL}`);
 
@@ -107,7 +140,7 @@ export async function expectDocumentPublished(page, newPageTitle) {
   await expect(page.getByRole("link", { name: newPageTitle })).toBeVisible();
 }
 
-export async function deletePageVariant(page, pageTitle) {
+export async function deletePageVariant(page, pageTitle, variantLabel) {
   await navigateToPage(page);
   await page.getByPlaceholder("Search list").click({ force: true });
   await page.getByPlaceholder("Search list").fill(pageTitle);
@@ -123,6 +156,56 @@ export async function deletePageVariant(page, pageTitle) {
   await page.waitForTimeout(3000);
 
   await expect(page.getByText("Loading document")).toBeHidden();
+  await expect(page.getByRole("link", { name: variantLabel })).toBeVisible();
+  await page.getByRole("link", { name: variantLabel }).click();
+  await page.getByRole("button", { name: pageTitle }).click();
+  await page.getByTestId("field-sections").getByRole("button").nth(1).click();
+
+  //Remove section
+  await page.getByRole("menuitem", { name: "Remove" }).click();
+  await expect(
+    page
+      .locator("div")
+      .filter({ hasText: /^No items$/ })
+      .nth(3)
+  ).toBeVisible();
+
+  //Publish with no referenced section to delete the component variant
+  await expect(
+    page.getByTestId("review-changes-button").filter({ hasText: "Just now" })
+  ).toBeVisible();
+  await page.getByTestId("action-[object Object]").click({ force: true });
+  await expect(page.getByTestId("review-changes-button")).toBeHidden();
+  await expect(
+    page
+      .locator('[id="__next"]')
+      .getByRole("alert")
+      .locator("div")
+      .filter({ hasText: "The document was published" })
+      .nth(1)
+  ).toBeVisible({ timeout: 150000 });
+  await expect(
+    page.getByRole("button", { name: "Last published just now" })
+  ).toBeVisible({ timeout: 150000 });
+
+  //Delete Component Variant
+  await page.getByRole("button", { name: variantLabel }).click();
+  await expect(page.getByTestId("reference-changed-banner")).toBeVisible();
+  await page.getByRole("button", { name: "Open document actions" }).click();
+  await page.getByTestId("action-Delete").click();
+  await expect(page.getByText("Looking for referring")).toBeHidden();
+  await expect(page.getByLabel("Delete document?")).toBeVisible();
+  await page.getByTestId("confirm-delete-button").click();
+  await expect(
+    page
+      .locator('[id="__next"]')
+      .getByRole("alert")
+      .locator("div")
+      .filter({ hasText: "The document was successfully" })
+      .nth(1)
+  ).toBeVisible();
+
+  //Delete Page
   await page.getByTestId("action-menu-button").click({ force: true });
   await page.getByTestId("action-Delete").click();
   await page.getByTestId("confirm-delete-button").click();
@@ -137,6 +220,27 @@ export async function deletePageVariant(page, pageTitle) {
   await expect(page.getByRole("link", { name: pageTitle })).toBeHidden({
     timeout: 150000,
   });
+}
+
+export async function verifyInternalUrl(page, expectedUrlBase) {
+  const expectedUrl = expectedUrlBase.endsWith("/")
+    ? expectedUrlBase
+    : `${expectedUrlBase}/`;
+  const receivedUrl = page.url().endsWith("/") ? page.url() : `${page.url()}/`;
+  await expect(receivedUrl).toBe(expectedUrl);
+}
+
+export async function verifyExternalUrl(page, externalLinkUrl) {
+  const normalizationPattern = "https://www.";
+  const normalizedExpectedUrl = externalLinkUrl.replace(
+    normalizationPattern,
+    "https://"
+  );
+  const normalizedReceivedUrl = page
+    .url()
+    .replace(normalizationPattern, "https://");
+
+  await expect(normalizedReceivedUrl).toBe(normalizedExpectedUrl);
 }
 
 export async function updateLogoLink(page, altText) {
