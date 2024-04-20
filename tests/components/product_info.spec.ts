@@ -10,17 +10,17 @@ import {
   deletePageVariant,
   expectDocumentPublished,
   navigateToPage,
+  variantLabelInput,
+  verifyExternalUrl,
+  verifyInternalUrl,
 } from "tests/utils";
 
 let page: Page;
 let newPageTitle;
-const nameInput = "Test Name Input";
-const subtitleInput = "Subtitle Input";
-const priceInput = 1000;
-const facebookUrl = "https://facebook.com/";
+const wishlistUrl = `${NEXT_PUBLIC_SITE_URL}/wishlist`;
 const socialLinks = [
   { name: "facebook", socialLinkUrl: "https://facebook.com/" },
-  { name: "instagram", socialLinkUrl: "https://instagram.com/" },
+  { name: "other", socialLinkUrl: "https://instagram.com/" },
   { name: "twitter", socialLinkUrl: "https://twitter.com/" },
 ];
 
@@ -42,76 +42,7 @@ async function createProductInfo(pageTitle, variantLabel, variantIndex) {
   await navigateToPage(page);
   await createNewPage(page, newPageTitle, "Product Info");
   await clickVariantImage(page, variantIndex);
-
-  //Title
-  await page.getByTestId("field-label").getByTestId("string-input").click();
-  await page
-    .getByTestId("field-label")
-    .getByTestId("string-input")
-    .fill(variantLabel);
-
-  //   await page
-  //     .getByRole("link", { name: "SAMPLE. Black Dress SAMPLE." })
-  //     .click({ force: true });
-
-  //   //Name
-  //   await page.getByTestId("field-name").getByLabel("Name").click();
-  //   await page.getByTestId("field-name").getByLabel("Name").fill(nameInput);
-  //   await page.getByRole("button", { name: "Generate" }).click();
-
-  //   //Price
-  //   await page.getByLabel("Price").click();
-  //   await page.getByLabel("Price").fill(priceInput);
-
-  //   //Product Info Tab
-  //   await page.getByRole("tab", { name: "Product Info" }).click();
-
-  //   //Subtitle
-  //   await page
-  //     .getByTestId("field-productInfo.subtitle")
-  //     .getByTestId("string-input")
-  //     .click();
-  //   await page
-  //     .getByTestId("field-productInfo.subtitle")
-  //     .getByTestId("string-input")
-  //     .fill(subtitleInput);
-
-  //   //Edit Social Links URL
-  //   for (const social of socialLinks) {
-  //     await page.getByRole("button", { name: social.name }).click();
-  //     await expect(page.getByLabel("Edit Details")).toBeVisible();
-  //     await page.getByLabel("Social Media Link").click();
-  //     await page.getByLabel("Social Media Link").fill(social.socialLinkUrl);
-  //   }
-
-  //   //Add Social Links
-  //   await page
-  //     .getByTestId("field-productInfo.socialLinks")
-  //     .getByRole("button", { name: "Add item" })
-  //     .click();
-  //   await expect(page.getByLabel("Edit Details")).toBeVisible();
-  //   await page.getByLabel("Select the social media").selectOption("3");
-  //   await page.getByLabel("Social Media Link").click();
-  //   await page.getByLabel("Social Media Link").fill(facebookUrl);
-
-  //   //Button Label
-  //   const btnInput = "Button Test";
-  //   await page
-  //     .getByTestId("field-productInfo.btnLabel")
-  //     .getByTestId("string-input")
-  //     .click();
-  //   await page
-  //     .getByTestId("field-productInfo.btnLabel")
-  //     .getByTestId("string-input")
-  //     .fill(btnInput);
-
-  //   await page.getByRole("button", { name: "Publish", exact: true }).click();
-  //   await expect(
-  //     page.getByRole("button", { name: "Publishing..." })
-  //   ).toBeHidden();
-  //   await expect(page.getByText("Successfully updated product")).toBeVisible();
-  //   await expect(page.getByText("Successfully updated product")).toBeHidden();
-  //   await page.getByRole("link", { name: "Close pane group" }).click();
+  await variantLabelInput(page, variantLabel);
 
   await expectDocumentPublished(page, newPageTitle);
 
@@ -158,21 +89,56 @@ async function assertPageContent(openUrlPage) {
   ).toBeVisible();
 
   //Click View Wishlist
-  await openUrlPage.getByRole("link", { name: "View Wishlist" }).click();
-  await openUrlPage.locator(`p:has-text("SAMPLE. Black Dress")`);
-  await openUrlPage.locator(`span:has-text("$110.00")`);
+  await openUrlPage
+    .getByRole("link", { name: "View Wishlist" })
+    .click({ force: true });
+
+  await openUrlPage.waitForTimeout(15000);
+  await verifyInternalUrl(openUrlPage, wishlistUrl);
+
+  //Expect Wishlist
+  await expect(
+    openUrlPage.locator(`p:has-text("SAMPLE. Black Dress")`)
+  ).toBeVisible();
+  await expect(openUrlPage.locator(`span:has-text("$110.00")`)).toBeVisible();
 
   const slug = newPageTitle
     ?.toLowerCase()
     ?.replace(/\s+/g, "-")
     .replace(/-+/g, "-");
 
-  //   await openUrlPage.goto(`${NEXT_PUBLIC_SITE_URL}/${slug}`);
+  //Go back to slug page to remove wishlist
+  await openUrlPage.goto(`${NEXT_PUBLIC_SITE_URL}/${slug}`);
 
-  //   await openUrlPage.locator("button p:has-text('Remove from wishlist')");
-  //   await openUrlPage.goto(`${NEXT_PUBLIC_SITE_URL}/wishlist`);
-  //   await openUrlPage.waitForLoadState("networkidle");
-  //   await expect(openUrlPage.getByText("Wishlist is empty")).toBeVisible();
+  //Click remove from wishlist
+  await openUrlPage
+    .locator("button p:has-text('Remove from wishlist')")
+    .click();
+  await expect(
+    openUrlPage.locator("button p:has-text('Remove from wishlist')")
+  ).toBeHidden();
+
+  await openUrlPage.goto(wishlistUrl);
+  await verifyInternalUrl(openUrlPage, wishlistUrl);
+
+  //Expect wishlist empty
+  await expect(
+    openUrlPage.getByRole("img", { name: "no products on wishlist" })
+  ).toBeVisible();
+  await expect(openUrlPage.getByText("Wishlist is empty")).toBeVisible();
+
+  //Loop links
+  for (const links of socialLinks) {
+    //Go back to slug page to loop links
+    await openUrlPage.goto(`${NEXT_PUBLIC_SITE_URL}/${slug}`);
+    await expect(openUrlPage.getByLabel(links.name)).toBeVisible();
+    const page10Promise = openUrlPage.waitForEvent("popup");
+    await openUrlPage
+      .getByRole("link", { name: links.name })
+      .click({ force: true });
+    const page10 = await page10Promise;
+    await verifyExternalUrl(page10, links.socialLinkUrl);
+  }
 }
 
 const productInfo = [
@@ -203,7 +169,7 @@ productInfo.forEach((variant) => {
     });
 
     test(`Delete ${variant.pageTitle}`, async () => {
-      await deletePageVariant(page, newPageTitle);
+      await deletePageVariant(page, newPageTitle, variant.variantLabel);
     });
   });
 });
