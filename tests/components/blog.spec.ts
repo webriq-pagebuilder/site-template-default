@@ -10,6 +10,11 @@ import {
   deletePageVariant,
   expectDocumentPublished,
   navigateToPage,
+  subtitleFieldInput,
+  titleFieldInput,
+  variantLabelInput,
+  verifyExternalUrl,
+  verifyInternalUrl,
 } from "../utils/index";
 
 let page: Page;
@@ -45,32 +50,9 @@ export async function createBlogVariant(
   await navigateToPage(page);
   await createNewPage(page, newPageTitle, "Blog");
   await clickVariantImage(page, variantIndex);
-
-  const variantTitle = page
-    .getByTestId("field-label")
-    .getByTestId("string-input");
-  await variantTitle.click({ force: true });
-  await variantTitle.fill(variantLabel);
-
-  //Subtitle
-  const contentSubtitle = page
-    .getByTestId("field-variants.subtitle")
-    .getByTestId("string-input");
-  contentSubtitle.click();
-  await contentSubtitle.press("Meta+a");
-  await contentSubtitle.fill(inputContentSubtitle);
-  await expect(contentSubtitle.inputValue()).resolves.toBe(
-    inputContentSubtitle
-  );
-
-  //Title
-  const contentTitle = page
-    .getByTestId("field-variants.title")
-    .getByTestId("string-input");
-  await contentTitle.click();
-  await contentTitle.press("Meta+a");
-  await contentTitle.fill(inputContentTitle);
-  await expect(contentTitle.inputValue()).resolves.toBe(inputContentTitle);
+  await variantLabelInput(page, variantLabel);
+  await subtitleFieldInput(page, inputContentSubtitle);
+  await titleFieldInput(page, inputContentTitle);
 
   //Blog Posts
   await page.getByRole("button", { name: "Add item" }).click();
@@ -168,14 +150,7 @@ export async function createBlogVariant(
           .getByRole("link", { name: buttonInputValue })
           .click({ force: true });
         const page6 = await page6Promise;
-        const normalizedExpectedUrl = externalLinkUrl.replace(
-          "https://www.",
-          "https://"
-        );
-        const normalizedReceivedUrl = page6
-          .url()
-          .replace("https://www.", "https://");
-        await expect(normalizedReceivedUrl).toBe(normalizedExpectedUrl);
+        await verifyExternalUrl(page6, externalLinkUrl);
       } else {
         await openUrlPage
           .getByRole("link", { name: buttonInputValue })
@@ -184,13 +159,7 @@ export async function createBlogVariant(
         await expect(openUrlPage.getByText("Success!")).toBeVisible({
           timeout: 20000,
         });
-        const expectedUrl = internalLinkUrl.endsWith("/")
-          ? internalLinkUrl
-          : `${internalLinkUrl}/`;
-        const receivedUrl = openUrlPage.url().endsWith("/")
-          ? openUrlPage.url()
-          : `${openUrlPage.url()}/`;
-        await expect(receivedUrl).toBe(expectedUrl);
+        await verifyInternalUrl(openUrlPage, internalLinkUrl);
       }
     }
   }
@@ -241,7 +210,7 @@ blogVariant.forEach((variant) => {
     });
 
     test(`Delete ${variant.pageTitle}`, async () => {
-      await deletePageVariant(page, newPageTitle);
+      await deletePageVariant(page, newPageTitle, variant.variantLabel);
     });
   });
 });

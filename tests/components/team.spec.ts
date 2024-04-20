@@ -10,6 +10,9 @@ import {
   deletePageVariant,
   expectDocumentPublished,
   navigateToPage,
+  subtitleFieldInput,
+  titleFieldInput,
+  variantLabelInput,
 } from "tests/utils";
 
 let page: Page;
@@ -32,36 +35,17 @@ async function createTeamVariant(pageTitle, variantLabel, variantIndex) {
   await navigateToPage(page);
   await createNewPage(page, newPageTitle, "Team");
   await clickVariantImage(page, variantIndex);
+  await variantLabelInput(page, variantLabel);
 
-  //Section Name
-  await page.getByTestId("field-label").getByTestId("string-input").click();
-  await page
-    .getByTestId("field-label")
-    .getByTestId("string-input")
-    .fill(variantLabel);
   const subtitle = "Subtitle Test";
   const title = "Title test";
 
   if (variantIndex !== 1) {
     //Subtitle
-    await page
-      .getByTestId("field-variants.subtitle")
-      .getByTestId("string-input")
-      .click();
-    await page
-      .getByTestId("field-variants.subtitle")
-      .getByTestId("string-input")
-      .fill(subtitle);
+    await subtitleFieldInput(page, subtitle);
 
     //Title
-    await page
-      .getByTestId("field-variants.title")
-      .getByTestId("string-input")
-      .click();
-    await page
-      .getByTestId("field-variants.title")
-      .getByTestId("string-input")
-      .fill(title);
+    await titleFieldInput(page, title);
   }
 
   //Teams
@@ -245,7 +229,7 @@ teamVariants.forEach((variant) => {
     });
 
     test(`Delete ${variant.pageTitle}`, async () => {
-      await deletePageVariant(page, newPageTitle);
+      await deletePageVariant(page, newPageTitle, variant.variantLabel);
     });
   });
 });

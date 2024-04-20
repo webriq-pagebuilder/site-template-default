@@ -10,6 +10,11 @@ import {
   deletePageVariant,
   expectDocumentPublished,
   navigateToPage,
+  subtitleFieldInput,
+  titleFieldInput,
+  variantLabelInput,
+  verifyExternalUrl,
+  verifyInternalUrl,
 } from "../utils/index";
 
 let page: Page;
@@ -57,40 +62,15 @@ export async function createPortfolioVarant(
 ) {
   const time = new Date().getTime();
   newPageTitle = pageTitle + time;
+  const subtitleInput = "Subtitle Test Input";
+  const titleInput = "Title Test Input";
 
   await navigateToPage(page);
   await createNewPage(page, newPageTitle, "Portfolio");
-
-  const variantTitle = page
-    .getByTestId("field-label")
-    .getByTestId("string-input");
-  await variantTitle.click({ force: true });
-  await variantTitle.fill(variantLabel);
-
-  //Variant
   await clickVariantImage(page, variantIndex);
-
-  //Subtitle
-  const subtitleInput = "Subtitle Test Input";
-  await page
-    .getByTestId("field-variants.subtitle")
-    .getByTestId("string-input")
-    .click();
-  await page
-    .getByTestId("field-variants.subtitle")
-    .getByTestId("string-input")
-    .fill(subtitleInput);
-
-  //Title
-  const titleInput = "Title Test Input";
-  await page
-    .getByTestId("field-variants.title")
-    .getByTestId("string-input")
-    .click();
-  await page
-    .getByTestId("field-variants.title")
-    .getByTestId("string-input")
-    .fill(titleInput);
+  await variantLabelInput(page, variantLabel);
+  await subtitleFieldInput(page, subtitleInput);
+  await titleFieldInput(page, titleInput);
 
   if (variantIndex === 0 || variantIndex === 3) {
     for (const category of categories) {
@@ -276,13 +256,7 @@ async function assertPageContent(
     await expect(openUrlPage.getByText("Success!")).toBeVisible({
       timeout: 150000,
     });
-    const expectedUrl = internalLinkUrl.endsWith("/")
-      ? internalLinkUrl
-      : `${internalLinkUrl}/`;
-    const receivedUrl = openUrlPage.url().endsWith("/")
-      ? openUrlPage.url()
-      : `${openUrlPage.url()}/`;
-    await expect(receivedUrl).toBe(expectedUrl);
+    await verifyInternalUrl(openUrlPage, internalLinkUrl);
   } else if (!isInternalLink) {
     const page10Promise = openUrlPage.waitForEvent("popup");
     if (variantIndex === 0) {
@@ -291,14 +265,7 @@ async function assertPageContent(
       await openUrlPage.getByRole("link", { name: btnInput }).click();
     }
     const page10 = await page10Promise;
-    const normalizedExpectedUrl = externalLinkUrl.replace(
-      "https://www.",
-      "https://"
-    );
-    const normalizedReceivedUrl = page10
-      .url()
-      .replace("https://www.", "https://");
-    await expect(normalizedReceivedUrl).toBe(normalizedExpectedUrl);
+    await verifyExternalUrl(page10, externalLinkUrl);
   }
 }
 
@@ -373,7 +340,7 @@ portfolioVariant.forEach((variant) => {
     });
 
     test(`Delete ${variant.pageTitle}`, async () => {
-      await deletePageVariant(page, newPageTitle);
+      await deletePageVariant(page, newPageTitle, variant.variantLabel);
     });
   });
 });

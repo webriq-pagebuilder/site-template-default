@@ -10,6 +10,9 @@ import {
   deletePageVariant,
   expectDocumentPublished,
   navigateToPage,
+  variantLabelInput,
+  verifyExternalUrl,
+  verifyInternalUrl,
 } from "../utils/index";
 
 const footerBodyInput = "Footer body test";
@@ -94,26 +97,7 @@ export async function createFooterVariant(
   await navigateToPage(page);
   await createNewPage(page, newPageTitle, "Footer");
   await clickVariantImage(page, variantIndex);
-
-  await page
-    .getByTestId("field-label")
-    .getByTestId("string-input")
-    .click({ force: true });
-  await page
-    .getByTestId("field-label")
-    .getByTestId("string-input")
-    .fill(variantLabel);
-
-  const blankLinkTarget = {
-    element: page.getByText("Blank - open on a new tab ("),
-    target: "Blank - open on a new tab (",
-  };
-  const selfLinkTarget = {
-    element: page.getByText("Self (default) - open in the"),
-    target: "Self (default) - open in the",
-  };
-
-  let linkConfiguration;
+  await variantLabelInput(page, variantLabel);
 
   if (!isInternalLink) {
     //Logo Alt
@@ -131,10 +115,6 @@ export async function createFooterVariant(
     await page.getByLabel("URL").fill(externalLinkUrl);
     await page.waitForTimeout(1000);
     await page.getByText("Blank - open on a new tab (").click();
-    linkConfiguration = {
-      url: externalLinkUrl,
-      target: blankLinkTarget.target,
-    };
   } else {
     await page
       .getByTestId("field-variants.logo.linkType")
@@ -145,8 +125,7 @@ export async function createFooterVariant(
     await page
       .getByRole("button", { name: "Thank you Published No" })
       .click({ force: true });
-    await selfLinkTarget.element.click();
-    linkConfiguration = { url: internalLinkUrl, target: selfLinkTarget.target };
+    await page.getByText("Self (default) - open in the").click();
   }
 
   //Body
@@ -390,40 +369,14 @@ async function assertPageContent(
           await expect(openUrlPage.getByText("Success!")).toBeVisible({
             timeout: 20000,
           });
-          const expectedUrl = internalLinkUrl.endsWith("/")
-            ? internalLinkUrl
-            : `${internalLinkUrl}/`;
-          const receivedUrl = openUrlPage.url().endsWith("/")
-            ? openUrlPage.url()
-            : `${openUrlPage.url()}/`;
-          await expect(receivedUrl).toBe(expectedUrl);
+          await verifyInternalUrl(openUrlPage, internalLinkUrl);
         } else {
           const page10 = await openUrlPage.waitForEvent("popup");
-          const normalizedExpectedUrl = externalLinkUrl.replace(
-            "https://www.",
-            "https://"
-          );
-          const normalizedReceivedUrl = page10
-            .url()
-            .replace("https://www.", "https://");
-          await expect(normalizedReceivedUrl).toBe(normalizedExpectedUrl);
-          await expect(
-            page10.getByRole("img", { name: "Facebook" })
-          ).toBeVisible();
+          await verifyExternalUrl(page10, externalLinkUrl);
         }
       } else {
         const page10 = await openUrlPage.waitForEvent("popup");
-        const normalizedExpectedUrl = externalLinkUrl.replace(
-          "https://www.",
-          "https://"
-        );
-        const normalizedReceivedUrl = page10
-          .url()
-          .replace("https://www.", "https://");
-        await expect(normalizedReceivedUrl).toBe(normalizedExpectedUrl);
-        await expect(
-          page10.getByRole("img", { name: "Facebook" })
-        ).toBeVisible();
+        await verifyExternalUrl(page10, externalLinkUrl);
       }
     } else {
       if (!isInternalLink) {
@@ -432,17 +385,7 @@ async function assertPageContent(
           .getByRole("link", { name: linkName })
           .click({ force: true });
         const page10 = await page10Promise;
-        const normalizedExpectedUrl = externalLinkUrl.replace(
-          "https://www.",
-          "https://"
-        );
-        const normalizedReceivedUrl = page10
-          .url()
-          .replace("https://www.", "https://");
-        await expect(normalizedReceivedUrl).toBe(normalizedExpectedUrl);
-        await expect(
-          page10.getByRole("img", { name: "Facebook" })
-        ).toBeVisible();
+        await verifyExternalUrl(page10, externalLinkUrl);
       } else {
         await openUrlPage
           .getByRole("link", { name: linkName })
@@ -451,13 +394,7 @@ async function assertPageContent(
         await expect(openUrlPage.getByText("Success!")).toBeVisible({
           timeout: 20000,
         });
-        const expectedUrl = internalLinkUrl.endsWith("/")
-          ? internalLinkUrl
-          : `${internalLinkUrl}/`;
-        const receivedUrl = openUrlPage.url().endsWith("/")
-          ? openUrlPage.url()
-          : `${openUrlPage.url()}/`;
-        await expect(receivedUrl).toBe(expectedUrl);
+        await verifyInternalUrl(openUrlPage, internalLinkUrl);
       }
     }
   }
@@ -551,7 +488,7 @@ footerVariants.forEach((variant) => {
     });
 
     test(`Delete ${variant.pageTitle}`, async () => {
-      await deletePageVariant(page, newPageTitle);
+      await deletePageVariant(page, newPageTitle, variant.variantLabel);
     });
   });
 });

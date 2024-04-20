@@ -10,6 +10,9 @@ import {
   deletePageVariant,
   expectDocumentPublished,
   navigateToPage,
+  variantLabelInput,
+  verifyExternalUrl,
+  verifyInternalUrl,
 } from "../utils/index";
 
 const inputPrimaryButton = "Primary Button Test";
@@ -88,15 +91,7 @@ export async function createNavigationVariant(
   await navigateToPage(page);
   await createNewPage(page, newPageTitle, "Navigation");
   await clickVariantImage(page, variantIndex);
-
-  await page
-    .getByTestId("field-label")
-    .getByTestId("string-input")
-    .click({ force: true });
-  await page
-    .getByTestId("field-label")
-    .getByTestId("string-input")
-    .fill(variantLabel);
+  await variantLabelInput(page, variantLabel);
 
   if (variantIndex === 4) {
     await page
@@ -318,15 +313,7 @@ async function assertPageContent(openUrlPage, linkName, isInternalLink) {
         .getByRole("link", { name: linkName })
         .click({ force: true });
       const page10 = await page10Promise;
-      // Normalize URLs for comparison
-      const normalizedExpectedUrl = externalLinkUrl.replace(
-        "https://www.",
-        "https://"
-      );
-      const normalizedReceivedUrl = page10
-        .url()
-        .replace("https://www.", "https://");
-      await expect(normalizedReceivedUrl).toBe(normalizedExpectedUrl);
+      await verifyExternalUrl(page10, externalLinkUrl);
     } else {
       await openUrlPage
         .getByRole("link", { name: linkName })
@@ -335,13 +322,7 @@ async function assertPageContent(openUrlPage, linkName, isInternalLink) {
       await expect(openUrlPage.getByText("Success!")).toBeVisible({
         timeout: 150000,
       });
-      const expectedUrl = internalLinkUrl.endsWith("/")
-        ? internalLinkUrl
-        : `${internalLinkUrl}/`;
-      const receivedUrl = openUrlPage.url().endsWith("/")
-        ? openUrlPage.url()
-        : `${openUrlPage.url()}/`;
-      await expect(receivedUrl).toBe(expectedUrl);
+      await verifyInternalUrl(openUrlPage, internalLinkUrl);
     }
   }
 }
@@ -441,7 +422,7 @@ navigationVariants.forEach((variant) => {
     });
 
     test(`Delete ${variant.pageTitle}`, async () => {
-      await deletePageVariant(page, newPageTitle);
+      await deletePageVariant(page, newPageTitle, variant.variantLabel);
     });
   });
 });

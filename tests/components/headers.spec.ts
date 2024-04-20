@@ -9,7 +9,12 @@ import {
   createNewPage,
   deletePageVariant,
   expectDocumentPublished,
+  generateFormId,
   navigateToPage,
+  titleFieldInput,
+  variantLabelInput,
+  verifyExternalUrl,
+  verifyInternalUrl,
 } from "../utils/index";
 
 const contentTitleInput = "Content Title";
@@ -55,18 +60,10 @@ export async function createHeaderVariant(
   await navigateToPage(page);
   await createNewPage(page, newPageTitle, "Header");
   await clickVariantImage(page, variantIndex);
-
-  //Variant Title
-  const variantTitle = page.locator("input#label");
-  await variantTitle.click({ force: true });
-  await variantTitle.fill(variantLabel);
+  await variantLabelInput(page, variantLabel);
 
   //Content Title
-  const contentTitle = page
-    .getByTestId("field-variants.title")
-    .getByTestId("string-input");
-  await contentTitle.click({ force: true });
-  await contentTitle.fill(contentTitleInput);
+  await titleFieldInput(page, contentTitleInput);
 
   //Content Description
   if (variantIndex !== 2) {
@@ -161,6 +158,7 @@ export async function createHeaderVariant(
 
   if (variantIndex === 4) {
     // TODO: GENERATE FORM ID HERE
+    await generateFormId({ page });
 
     //Form Subtitle
     const formSubtitle = page
@@ -311,15 +309,7 @@ export async function createHeaderVariant(
         .getByRole("link", { name: primaryButtonInput })
         .click({ force: true });
       const page10 = await page10Promise;
-      // Normalize URLs for comparison
-      const normalizedExpectedUrl = externalLinkUrl.replace(
-        "https://www.",
-        "https://"
-      );
-      const normalizedReceivedUrl = page10
-        .url()
-        .replace("https://www.", "https://");
-      await expect(normalizedReceivedUrl).toBe(normalizedExpectedUrl);
+      await verifyExternalUrl(page10, externalLinkUrl);
     } else {
       await openUrlPage
         .getByRole("link", { name: primaryButtonInput })
@@ -328,13 +318,7 @@ export async function createHeaderVariant(
       await expect(openUrlPage.getByText("Success!")).toBeVisible({
         timeout: 20000,
       });
-      const expectedUrl = internalLinkUrl.endsWith("/")
-        ? internalLinkUrl
-        : `${internalLinkUrl}/`;
-      const receivedUrl = openUrlPage.url().endsWith("/")
-        ? openUrlPage.url()
-        : `${openUrlPage.url()}/`;
-      await expect(receivedUrl).toBe(expectedUrl);
+      await verifyInternalUrl(openUrlPage, internalLinkUrl);
     }
 
     const slug = newPageTitle

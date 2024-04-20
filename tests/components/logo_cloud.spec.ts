@@ -10,6 +10,10 @@ import {
   deletePageVariant,
   expectDocumentPublished,
   navigateToPage,
+  titleFieldInput,
+  variantLabelInput,
+  verifyExternalUrl,
+  verifyInternalUrl,
 } from "tests/utils";
 
 let page: Page;
@@ -38,24 +42,11 @@ async function createLogoCloudVariant(
   await navigateToPage(page);
   await createNewPage(page, newPageTitle, "Logo Cloud");
   await clickVariantImage(page, variantIndex);
-
-  //Section Name
-  await page.getByTestId("field-label").getByTestId("string-input").click();
-  await page
-    .getByTestId("field-label")
-    .getByTestId("string-input")
-    .fill(variantLabel);
+  await variantLabelInput(page, variantLabel);
 
   const titleInput = "Title Input Test";
   if (variantIndex !== 3) {
-    await page
-      .getByTestId("field-variants.title")
-      .getByTestId("string-input")
-      .click();
-    await page
-      .getByTestId("field-variants.title")
-      .getByTestId("string-input")
-      .fill(titleInput);
+    await titleFieldInput(page, titleInput);
   }
 
   const bodyInput = "Body Input Test";
@@ -179,48 +170,21 @@ async function createLogoCloudVariant(
     ).toBeTruthy();
   }
 
-  let linkConfiguration;
   if (variantIndex === 2) {
     await openUrlPage.getByLabel(primaryBtnInput).click();
-
     if (!isInternalLink) {
-      linkConfiguration = {
-        url: externalLinkUrl,
-        target: "Blank - open on a new tab (",
-      };
-    } else {
-      linkConfiguration = {
-        url: internalLinkUrl,
-        target: "Self (default) - open in the",
-      };
-    }
-
-    if (linkConfiguration.target === "Blank - open on a new tab (") {
       const page10Promise = openUrlPage.waitForEvent("popup");
       await openUrlPage
         .getByRole("link", { name: primaryBtnInput })
         .click({ force: true });
       const page10 = await page10Promise;
-      const normalizedExpectedUrl = externalLinkUrl.replace(
-        "https://www.",
-        "https://"
-      );
-      const normalizedReceivedUrl = page10
-        .url()
-        .replace("https://www.", "https://");
-      await expect(normalizedReceivedUrl).toBe(normalizedExpectedUrl);
+      await verifyExternalUrl(page10, externalLinkUrl);
     } else {
       await openUrlPage.waitForLoadState("networkidle");
       await expect(openUrlPage.getByText("Success!")).toBeVisible({
         timeout: 20000,
       });
-      const expectedUrl = linkConfiguration?.url.endsWith("/")
-        ? linkConfiguration?.url
-        : `${linkConfiguration?.url}/`;
-      const receivedUrl = openUrlPage.url().endsWith("/")
-        ? openUrlPage.url()
-        : `${openUrlPage.url()}/`;
-      await expect(receivedUrl).toBe(expectedUrl);
+      await verifyInternalUrl(openUrlPage, internalLinkUrl);
     }
   }
 
@@ -301,7 +265,7 @@ logoCloudVariant.forEach((variant) => {
     });
 
     test(`Delete ${variant.pageTitle}`, async () => {
-      await deletePageVariant(page, newPageTitle);
+      await deletePageVariant(page, newPageTitle, variant.variantLabel);
     });
   });
 });

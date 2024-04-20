@@ -10,6 +10,7 @@ import {
   deletePageVariant,
   expectDocumentPublished,
   navigateToPage,
+  variantLabelInput,
 } from "tests/utils";
 
 let page: Page;
@@ -37,13 +38,7 @@ async function createTestimonialVariants(
   await navigateToPage(page);
   await createNewPage(page, newPageTitle, "Testimonial");
   await clickVariantImage(page, variantIndex);
-
-  //Title
-  await page.getByTestId("field-label").getByTestId("string-input").click();
-  await page
-    .getByTestId("field-label")
-    .getByTestId("string-input")
-    .fill(variantLabel);
+  await variantLabelInput(page, variantLabel);
 
   const peopleData = [
     {
@@ -291,7 +286,7 @@ testimonialVariants.forEach((variant) => {
     });
 
     test(`Delete ${variant.pageTitle}`, async () => {
-      await deletePageVariant(page, newPageTitle);
+      await deletePageVariant(page, newPageTitle, variant.variantLabel);
     });
   });
 });

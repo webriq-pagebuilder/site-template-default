@@ -11,6 +11,10 @@ import {
   expectDocumentPublished,
   generateFormId,
   navigateToPage,
+  subtitleFieldInput,
+  variantLabelInput,
+  verifyExternalUrl,
+  verifyInternalUrl,
 } from "tests/utils";
 
 let page: Page;
@@ -81,13 +85,7 @@ async function createSignInSignUpVariant(
   await navigateToPage(page);
   await createNewPage(page, newPageTitle, "Sign In Sign Up");
   await clickVariantImage(page, variantIndex);
-
-  //Variant Title
-  await page.getByTestId("field-label").getByTestId("string-input").click();
-  await page
-    .getByTestId("field-label")
-    .getByTestId("string-input")
-    .fill(variantLabel);
+  await variantLabelInput(page, variantLabel);
 
   if (isInternalLink) {
     await page
@@ -120,14 +118,7 @@ async function createSignInSignUpVariant(
   await generateFormId({ page });
 
   //Subtitle
-  await page
-    .getByTestId("field-variants.form.subtitle")
-    .getByTestId("string-input")
-    .click();
-  await page
-    .getByTestId("field-variants.form.subtitle")
-    .getByTestId("string-input")
-    .fill(subtitleInput);
+  await subtitleFieldInput(page, subtitleInput);
 
   //Form Name
   await page
@@ -232,17 +223,6 @@ async function createSignInSignUpVariant(
       .getByText("Blank - open on a new tab (")
       .click();
   }
-
-  const formLinks = [
-    {
-      name: "Police privacy",
-      updatedName: "Privacy Policy",
-    },
-    {
-      name: "Terms of Use",
-      updatedName: "Use of Terms",
-    },
-  ];
 
   const routesExternalLink = await page.locator(
     '.sc-jdUcAg > div:nth-child(2) > div label[data-ui="Flex"] span:has-text("External, outside this website"):nth-child(1)'
@@ -359,27 +339,14 @@ async function assertPageContent(
     await expect(openUrlPage.getByText("Success!")).toBeVisible({
       timeout: 20000,
     });
-    const expectedUrl = internalLinkUrl.endsWith("/")
-      ? internalLinkUrl
-      : `${internalLinkUrl}/`;
-    const receivedUrl = openUrlPage.url().endsWith("/")
-      ? openUrlPage.url()
-      : `${openUrlPage.url()}/`;
-    await expect(receivedUrl).toBe(expectedUrl);
+    await verifyInternalUrl(openUrlPage, internalLinkUrl);
   } else if (!isInternalLink) {
     const page10Promise = openUrlPage.waitForEvent("popup");
     await openUrlPage
       .getByRole("link", { name: linkName })
       .click({ force: true });
     const page10 = await page10Promise;
-    const normalizedExpectedUrl = externalLinkUrl.replace(
-      "https://www.",
-      "https://"
-    );
-    const normalizedReceivedUrl = page10
-      .url()
-      .replace("https://www.", "https://");
-    await expect(normalizedReceivedUrl).toBe(normalizedExpectedUrl);
+    await verifyExternalUrl(page10, externalLinkUrl);
   }
 }
 
@@ -452,7 +419,7 @@ signInSignupVariant.forEach((variant) => {
     });
 
     test(`Delete ${variant.pageTitle}`, async () => {
-      await deletePageVariant(page, newPageTitle);
+      await deletePageVariant(page, newPageTitle, variant.variantLabel);
     });
   });
 });

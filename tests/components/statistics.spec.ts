@@ -10,6 +10,7 @@ import {
   deletePageVariant,
   expectDocumentPublished,
   navigateToPage,
+  variantLabelInput,
 } from "tests/utils";
 
 let page: Page;
@@ -33,13 +34,7 @@ async function createLogoCloudVariant(pageTitle, variantLabel, variantIndex) {
   await navigateToPage(page);
   await createNewPage(page, newPageTitle, "Statistics");
   await clickVariantImage(page, variantIndex);
-
-  //Section Name
-  await page.getByTestId("field-label").getByTestId("string-input").click();
-  await page
-    .getByTestId("field-label")
-    .getByTestId("string-input")
-    .fill(variantLabel);
+  await variantLabelInput(page, variantLabel);
 
   const statisticsData = [
     {
@@ -131,7 +126,7 @@ statisticsVariants.forEach((variant) => {
     });
 
     test(`Delete ${variant.pageTitle}`, async () => {
-      await deletePageVariant(page, newPageTitle);
+      await deletePageVariant(page, newPageTitle, variant.variantLabel);
     });
   });
 });

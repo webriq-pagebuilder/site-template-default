@@ -11,6 +11,8 @@ import {
   deletePageVariant,
   expectDocumentPublished,
   navigateToPage,
+  titleFieldInput,
+  variantLabelInput,
 } from "tests/utils";
 
 let page: Page;
@@ -34,28 +36,13 @@ async function createTextComponentVariant(
   variantIndex
 ) {
   newPageTitle = `${pageTitle} ` + new Date().getTime();
+  const titleInput = "Greate Quality Title";
 
   await navigateToPage(page);
   await createNewPage(page, newPageTitle, "Text Component");
   await clickVariantImage(page, variantIndex);
-
-  //Section Name
-  await page.getByTestId("field-label").getByTestId("string-input").click();
-  await page
-    .getByTestId("field-label")
-    .getByTestId("string-input")
-    .fill(variantLabel);
-
-  //Title
-  const titleInput = "Greate Quality Title";
-  await page
-    .getByTestId("field-variants.title")
-    .getByTestId("string-input")
-    .click();
-  await page
-    .getByTestId("field-variants.title")
-    .getByTestId("string-input")
-    .fill(titleInput);
+  await variantLabelInput(page, variantLabel);
+  await titleFieldInput(page, titleInput);
 
   //First Content
   const firstContentInput = "First Content Test";
@@ -162,7 +149,7 @@ textVariant.forEach((variant) => {
     });
 
     test(`Delete ${variant.pageTitle}`, async () => {
-      await deletePageVariant(page, newPageTitle);
+      await deletePageVariant(page, newPageTitle, variant.variantLabel);
     });
   });
 });

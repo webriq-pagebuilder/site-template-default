@@ -10,6 +10,9 @@ import {
   deletePageVariant,
   expectDocumentPublished,
   navigateToPage,
+  subtitleFieldInput,
+  titleFieldInput,
+  variantLabelInput,
 } from "tests/utils";
 
 let page: Page;
@@ -29,41 +32,15 @@ test.beforeAll("Auto login studio", async ({ browser }) => {
 
 async function createFaqsVariant(pageTitle, variantLabel, variantIndex) {
   newPageTitle = `${pageTitle} ` + new Date().getTime();
+  const subtitleInput = "Subtitle Input Test";
+  const titleInput = "Title Input Test";
 
   await navigateToPage(page);
   await createNewPage(page, newPageTitle, "Faqs");
   await clickVariantImage(page, variantIndex);
-
-  await page
-    .getByTestId("field-label")
-    .getByTestId("string-input")
-    .click({ force: true });
-  await page
-    .getByTestId("field-label")
-    .getByTestId("string-input")
-    .fill(variantLabel);
-
-  //Subtitle
-  const subtitleInput = "Subtitle Input Test";
-  await page
-    .getByTestId("field-variants.subtitle")
-    .getByTestId("string-input")
-    .click();
-  await page
-    .getByTestId("field-variants.subtitle")
-    .getByTestId("string-input")
-    .fill(subtitleInput);
-
-  //Title
-  const titleInput = "Title Input Test";
-  await page
-    .getByTestId("field-variants.title")
-    .getByTestId("string-input")
-    .click();
-  await page
-    .getByTestId("field-variants.title")
-    .getByTestId("string-input")
-    .fill(titleInput);
+  await variantLabelInput(page, variantLabel);
+  await subtitleFieldInput(page, subtitleInput);
+  await titleFieldInput(page, titleInput);
 
   const faqsData = [
     {
@@ -263,7 +240,7 @@ faqsVariants.forEach((variant) => {
     });
 
     test(`Delete ${variant.pageTitle}`, async () => {
-      await deletePageVariant(page, newPageTitle);
+      await deletePageVariant(page, newPageTitle, variant.variantLabel);
     });
   });
 });
