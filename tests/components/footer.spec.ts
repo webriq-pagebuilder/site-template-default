@@ -420,8 +420,6 @@ async function assertPageContent(
         const normalizedReceivedUrl = page10
           .url()
           .replace("https://www.", "https://");
-        console.log("normalizedExpectedUrl", normalizedExpectedUrl);
-        console.log("normalizedReceivedUrl", normalizedReceivedUrl);
         await expect(normalizedReceivedUrl).toBe(normalizedExpectedUrl);
         await expect(
           page10.getByRole("img", { name: "Facebook" })
