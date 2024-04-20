@@ -118,7 +118,14 @@ async function createSignInSignUpVariant(
   await generateFormId({ page });
 
   //Subtitle
-  await subtitleFieldInput(page, subtitleInput);
+  await page
+    .getByTestId("field-variants.form.subtitle")
+    .getByTestId("string-input")
+    .click();
+  await page
+    .getByTestId("field-variants.form.subtitle")
+    .getByTestId("string-input")
+    .fill(subtitleInput);
 
   //Form Name
   await page

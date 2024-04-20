@@ -425,35 +425,35 @@ const headersVariant = [
   {
     variantName: "Variant A",
     pageTitle: "Header Variant A",
-    variantLabel: "Header New Page A",
+    variantLabel: "Header New Page Variant A",
     variantIndex: 0,
     isInternalLink: true,
   },
   {
     variantName: "Variant B",
     pageTitle: "Header Page B",
-    variantLabel: "Header New Page B",
+    variantLabel: "Header New Page Variant B",
     variantIndex: 1,
     isInternalLink: true,
   },
   {
     variantName: "Variant C",
     pageTitle: "Header Page C",
-    variantLabel: "Header New Page C",
+    variantLabel: "Header New Page Variant C",
     variantIndex: 2,
     isInternalLink: false,
   },
   {
     variantName: "Variant D",
     pageTitle: "Header Page D",
-    variantLabel: "Header New Page D",
+    variantLabel: "Header New Page Variant D",
     variantIndex: 3,
     isInternalLink: false,
   },
   {
     variantName: "Variant E",
     pageTitle: "Header Page E",
-    variantLabel: "Header New Page E",
+    variantLabel: "Header New Page Variant E",
     variantIndex: 4,
     isInternalLink: false,
   },
@@ -473,7 +473,7 @@ headersVariant.forEach((variant) => {
     });
 
     test(`Delete ${variant.pageTitle}`, async () => {
-      await deletePageVariant(page, newPageTitle);
+      await deletePageVariant(page, newPageTitle, variant.variantLabel);
     });
   });
 });
