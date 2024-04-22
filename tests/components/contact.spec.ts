@@ -220,13 +220,7 @@ async function createContactVariants({
       .check({ force: true });
     await expect(page.getByLabel("URL")).toBeVisible();
     await page.getByLabel("URL").fill("https://webriq.com");
-    await expect(
-      page
-        .getByTestId("field-variants.logo.linkTarget")
-        .locator("div")
-        .filter({ hasText: "Link Target" })
-        .nth(3)
-    ).toBeVisible();
+    await expect(page.getByText("Link Target")).toBeVisible();
 
     // contact form block of text
     await expect(
