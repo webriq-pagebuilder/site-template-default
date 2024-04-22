@@ -144,11 +144,12 @@ export async function createNavigationVariant(
   }
 
   // Perform navigation clicks
-  await addNavigationRoutes("Start Internal Link Not Set", isInternalLink);
-  await addNavigationRoutes("About Us Internal Link Not Set", isInternalLink);
-  await addNavigationRoutes("Services Internal Link Not Set", isInternalLink);
-  await addNavigationRoutes("Platform Internal Link Not Set", isInternalLink);
-  await addNavigationRoutes("Testimonials Internal Link", isInternalLink);
+  for (const navigation of navigationBase) {
+    await addNavigationRoutes(
+      `${navigation} Internal Link Not Set`,
+      isInternalLink
+    );
+  }
 
   if (variantIndex < 4) {
     const primaryButton = page.getByRole("button", { name: "Primary Button" });
@@ -259,71 +260,40 @@ export async function createNavigationVariant(
 }
 
 async function assertPageContent(openUrlPage, linkName, isInternalLink) {
-  const sectionCount = await openUrlPage
-    .locator("div")
-    .filter({ hasText: /^No items$/ })
-    .count();
+  // If the section no items is not found, expect the Empty Page element to be hidden
+  await expect(openUrlPage.getByText("Empty Page")).toBeHidden({
+    timeout: 20000,
+  });
+  await expect(openUrlPage.locator("section")).toBeVisible({
+    timeout: 20000,
+  });
 
-  if (sectionCount > 0) {
-    // If the section no items is found, expect the Empty Page element to be visible
-    await expect(openUrlPage.getByText("Empty Page"))
-      .toBeVisible({ timeout: 20000 })
-      .then(() => console.log("There is no Available Content!"));
+  // EXPECT THE SAME VALUE FOR NAVIGATION ROUTES LIST.
+  for (const navigation of navigationBase) {
+    await expect(
+      openUrlPage
+        .getByRole("list")
+        .locator("li")
+        .filter({ hasText: navigation })
+    ).toBeVisible();
+  }
+
+  if (!isInternalLink) {
+    const page10Promise = openUrlPage.waitForEvent("popup");
+    await openUrlPage
+      .getByRole("link", { name: linkName })
+      .click({ force: true });
+    const page10 = await page10Promise;
+    await verifyExternalUrl(page10, externalLinkUrl);
   } else {
-    // If the section no items is not found, expect the Empty Page element to be hidden
-    await expect(openUrlPage.getByText("Empty Page")).toBeHidden({
-      timeout: 20000,
+    await openUrlPage
+      .getByRole("link", { name: linkName })
+      .click({ force: true });
+    await openUrlPage.waitForLoadState("networkidle");
+    await expect(openUrlPage.getByText("Success!")).toBeVisible({
+      timeout: 150000,
     });
-    await expect(openUrlPage.locator("section")).toBeVisible({
-      timeout: 20000,
-    });
-
-    // EXPECT THE SAME VALUE FOR NAVIGATION ROUTES LIST.
-    await expect(
-      openUrlPage.getByRole("list").locator("li").filter({ hasText: "Start" })
-    ).toBeVisible();
-    await expect(
-      openUrlPage
-        .getByRole("list")
-        .locator("li")
-        .filter({ hasText: "About Us" })
-    ).toBeVisible();
-    await expect(
-      openUrlPage
-        .getByRole("list")
-        .locator("li")
-        .filter({ hasText: "Services" })
-    ).toBeVisible();
-    await expect(
-      openUrlPage
-        .getByRole("list")
-        .locator("li")
-        .filter({ hasText: "Platform" })
-    ).toBeVisible();
-    await expect(
-      openUrlPage
-        .getByRole("list")
-        .locator("li")
-        .filter({ hasText: "Testimonials" })
-    ).toBeVisible();
-
-    if (!isInternalLink) {
-      const page10Promise = openUrlPage.waitForEvent("popup");
-      await openUrlPage
-        .getByRole("link", { name: linkName })
-        .click({ force: true });
-      const page10 = await page10Promise;
-      await verifyExternalUrl(page10, externalLinkUrl);
-    } else {
-      await openUrlPage
-        .getByRole("link", { name: linkName })
-        .click({ force: true });
-      await openUrlPage.waitForLoadState("networkidle");
-      await expect(openUrlPage.getByText("Success!")).toBeVisible({
-        timeout: 150000,
-      });
-      await verifyInternalUrl(openUrlPage, internalLinkUrl);
-    }
+    await verifyInternalUrl(openUrlPage, internalLinkUrl);
   }
 }
 

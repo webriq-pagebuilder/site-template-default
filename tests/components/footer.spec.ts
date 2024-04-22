@@ -152,115 +152,64 @@ export async function createFooterVariant(
     .getByTestId("string-input")
     .fill(copyrightText);
 
-  const socialMediaLink = page.getByLabel("Social Media Link");
-
   //Social Links
-  //Facebook
-  await page.getByRole("button", { name: "facebook" }).click();
-  await expect(page.getByLabel("Edit Details")).toBeVisible();
-  await page.getByLabel("Select the social media").selectOption("0");
-  await socialMediaLink.click();
-  await socialMediaLink.fill(externalLinkUrl);
-  await page.getByLabel("Close dialog").click();
+  const socialLinks = ["facebook", "twitter", "instagram"];
+  for (let i = 0; i < socialLinks.length; i++) {
+    const socialMedia = socialLinks[i];
 
-  //Twitter
-  await page.getByRole("button", { name: "twitter" }).click();
-  await expect(page.getByLabel("Edit Details")).toBeVisible();
-  await page.getByLabel("Select the social media").selectOption("1");
-  await socialMediaLink.click();
-  await socialMediaLink.fill(externalLinkUrl);
-  await page.getByLabel("Close dialog").click();
-
-  //Instagram
-  await page.getByRole("button", { name: "instagram" }).click();
-  await expect(page.getByLabel("Edit Details")).toBeVisible();
-  await page.getByLabel("Select the social media").selectOption("2");
-  await socialMediaLink.click();
-  await socialMediaLink.fill(externalLinkUrl);
-  await page.getByLabel("Close dialog").click();
+    await page.getByRole("button", { name: socialMedia }).click();
+    await expect(page.getByLabel("Edit Details")).toBeVisible();
+    await page.getByLabel("Select the social media").selectOption(i.toString());
+    await page.getByLabel("Social Media Link").click();
+    await page.getByLabel("Social Media Link").fill(externalLinkUrl);
+    await page.getByLabel("Close dialog").click();
+  }
 
   // Perform navigation clicks
   if (variantIndex !== 0 && variantIndex !== 3) {
-    await addNavigationRoutes(
-      "Start Internal Link Not Set",
-      isInternalLink,
-      variantIndex
-    );
-    await addNavigationRoutes(
-      "About Us Internal Link Not Set",
-      isInternalLink,
-      variantIndex
-    );
-    await addNavigationRoutes(
-      "Services Internal Link Not Set",
-      isInternalLink,
-      variantIndex
-    );
-    await addNavigationRoutes(
-      "Platform Internal Link Not Set",
-      isInternalLink,
-      variantIndex
-    );
-    await addNavigationRoutes(
-      "Testimonials Internal Link",
-      isInternalLink,
-      variantIndex
-    );
+    for (const navigation of navigationBase.slice(3)) {
+      await addNavigationRoutes(
+        `${navigation} Internal Link Not Set`,
+        isInternalLink,
+        variantIndex
+      );
+    }
   }
 
+  //Quick Links
   if (variantIndex === 3) {
-    //Quick Links
-    await page.getByRole("button", { name: "Quick Links" }).click();
-    await expect(page.getByLabel("Edit", { exact: true })).toBeVisible();
-    await addNavigationRoutes(
-      "Start Internal Link Not Set",
-      isInternalLink,
-      variantIndex
-    );
-    await page.getByRole("button", { name: "Quick Links" }).click();
-    await addNavigationRoutes(
-      "About Us Internal Link Not Set",
-      isInternalLink,
-      variantIndex
-    );
-    await page.getByRole("button", { name: "Quick Links" }).click();
-    await addNavigationRoutes(
-      "Services Internal Link Not Set",
-      isInternalLink,
-      variantIndex
-    );
+    for (const navigation of navigationBase.slice(3, 6)) {
+      await page.getByRole("button", { name: "Quick Links" }).click();
+      await expect(page.getByLabel("Edit", { exact: true })).toBeVisible();
+      await addNavigationRoutes(
+        `${navigation} Internal Link Not Set`,
+        isInternalLink,
+        variantIndex
+      );
+    }
 
     //Helpful Links
-    await page.getByRole("button", { name: "Helpful Links" }).click();
-    await expect(page.getByLabel("Edit", { exact: true })).toBeVisible();
-    await addNavigationRoutes(
-      "Platform Internal Link Not Set",
-      isInternalLink,
-      variantIndex
-    );
-    await page.getByRole("button", { name: "Helpful Links" }).click();
-    await addNavigationRoutes(
-      "Testimonials Internal Link",
-      isInternalLink,
-      variantIndex
-    );
+    for (const navigation of navigationBase.slice(6, 8)) {
+      await page.getByRole("button", { name: "Helpful Links" }).click();
+      await expect(page.getByLabel("Edit", { exact: true })).toBeVisible();
+      await addNavigationRoutes(
+        `${navigation} Internal Link Not Set`,
+        isInternalLink,
+        variantIndex
+      );
+    }
 
     //Explore Links
-    await page.getByRole("button", { name: "Explore" }).click();
-    await expect(page.getByLabel("Edit", { exact: true })).toBeVisible();
-    await addNavigationRoutes(
-      "Terms and Conditions Internal",
-      isInternalLink,
-      variantIndex
-    );
-    await page.getByRole("button", { name: "Explore" }).click();
-    await addNavigationRoutes("Privacy Policy", isInternalLink, variantIndex);
-    await page.getByRole("button", { name: "Explore" }).click();
-    await addNavigationRoutes(
-      "Cookies Internal Link Not Set",
-      isInternalLink,
-      variantIndex
-    );
+    const exploreLinks = ["Terms and Conditions", "Privacy Policy", "Cookies"];
+    for (const navigation of exploreLinks) {
+      await page.getByRole("button", { name: "Explore" }).click();
+      await expect(page.getByLabel("Edit", { exact: true })).toBeVisible();
+      await addNavigationRoutes(
+        `${navigation} Internal Link Not Set`,
+        isInternalLink,
+        variantIndex
+      );
+    }
   }
 
   await expectDocumentPublished(page, newPageTitle);
@@ -319,33 +268,14 @@ async function assertPageContent(
     }
     // EXPECT THE SAME VALUE FOR NAVIGATION ROUTES LIST.
     if (variantIndex !== 0) {
-      await expect(
-        openUrlPage.getByRole("list").locator("li").filter({ hasText: "Start" })
-      ).toBeVisible();
-      await expect(
-        openUrlPage
-          .getByRole("list")
-          .locator("li")
-          .filter({ hasText: "About Us" })
-      ).toBeVisible();
-      await expect(
-        openUrlPage
-          .getByRole("list")
-          .locator("li")
-          .filter({ hasText: "Services" })
-      ).toBeVisible();
-      await expect(
-        openUrlPage
-          .getByRole("list")
-          .locator("li")
-          .filter({ hasText: "Platform" })
-      ).toBeVisible();
-      await expect(
-        openUrlPage
-          .getByRole("list")
-          .locator("li")
-          .filter({ hasText: "Testimonials" })
-      ).toBeVisible();
+      for (const navigation of navigationBase.slice(3)) {
+        await expect(
+          openUrlPage
+            .getByRole("list")
+            .locator("li")
+            .filter({ hasText: navigation })
+        ).toBeVisible();
+      }
     }
 
     await expect(openUrlPage.getByText(copyrightText)).toBeVisible();
@@ -422,7 +352,6 @@ const createFooterTest = async (
     await page.goto(`${NEXT_PUBLIC_SITE_URL}/${slug}`);
     await assertPageContent(page, linkName, isInternalLink, variantIndex);
   }
-  await page.goto(`${NEXT_PUBLIC_SITE_URL}/${slug}`);
 };
 
 const navigationBase = [
