@@ -1,5 +1,8 @@
 import { expect } from "@playwright/test";
-import { NEXT_PUBLIC_SANITY_STUDIO_URL } from "studio/config";
+import {
+  NEXT_PUBLIC_SANITY_STUDIO_URL,
+  NEXT_PUBLIC_SITE_URL,
+} from "studio/config";
 
 export function autologin_studio({ token, projectId }) {
   console.log("🚀 ~ autologin_studio ~ { token, projectId }:", {
@@ -265,4 +268,28 @@ export async function generateFormId({ page }) {
   expect(page.getByLabel("Form ID")).not.toBeUndefined();
   await expect(page.getByRole("button", { name: "Generate ID" })).toBeVisible();
   await expect(page.getByRole("link", { name: "Manage" })).toBeVisible();
+  await page.getByRole("link", { name: "Manage" }).click();
+
+  const pagePromise = page.waitForEvent("popup");
+  await page.getByRole("link", { name: "Manage" }).click();
+
+  const activePage = await pagePromise;
+  await activePage.locator('input[name="name"]').click();
+  await activePage.locator('input[name="name"]').press("Meta+a");
+  await activePage.locator('input[name="name"]').fill("Test WebriQ Form");
+  await activePage
+    .locator('input[name="notifications\\[email\\]\\[to\\]"]')
+    .click();
+  await activePage
+    .locator('input[name="notifications\\[email\\]\\[to\\]"]')
+    .fill(
+      "mariel.filosopo@webriq.services,roseller.enriquez@webriq.services,dorelljames@webriq.com"
+    );
+  await activePage.locator('input[name="testUrls"]').click();
+  await activePage.locator('input[name="testUrls"]').fill(NEXT_PUBLIC_SITE_URL);
+  await activePage.getByRole("button", { name: "Update" }).click();
+  await expect(
+    activePage.getByText("Successfully updated form!")
+  ).toBeVisible();
+  await activePage.close();
 }

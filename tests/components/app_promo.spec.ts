@@ -66,7 +66,7 @@ appPromoVariantTests?.forEach((variant) => {
     });
 
     test(`Delete ${variant.pageTitle}`, async () => {
-      await deletePageVariant(page, newPageTitle);
+      await deletePageVariant(page, newPageTitle, variant.label);
     });
   });
 });
@@ -206,6 +206,22 @@ async function createAppPromoVariants({
         .and(openUrlPage.locator("a[rel='noopener noreferrer']"))
     ).toBeVisible();
     await expect(openUrlPage.getByAltText(logoAltText)).toBeVisible();
+
+    await expect(
+      openUrlPage
+        .getByRole("img", { name: "appPromo-variantA-image-1" })
+        .first()
+    ).toBeVisible();
+    await expect(
+      openUrlPage
+        .getByRole("img", { name: "appPromo-variantA-image-2" })
+        .first()
+    ).toBeVisible();
+    await expect(
+      openUrlPage
+        .getByRole("img", { name: "appPromo-variantA-image-3" })
+        .first()
+    ).toBeVisible();
   } else {
     // check if description is visible in preview
     await expect(openUrlPage.getByText(newAppPromoDesc)).toBeVisible();
@@ -222,6 +238,17 @@ async function createAppPromoVariants({
       // tags
       await expect(
         openUrlPage.locator("li").filter({ hasText: "new app promo tag" })
+      ).toBeVisible();
+
+      await expect(openUrlPage.locator(".object-cover").first()).toBeVisible();
+      await expect(
+        openUrlPage.locator("div:nth-child(2) > img").first()
+      ).toBeVisible();
+      await expect(
+        openUrlPage.locator("div:nth-child(3) > .object-cover").first()
+      ).toBeVisible();
+      await expect(
+        openUrlPage.locator("img:nth-child(2)").first()
       ).toBeVisible();
     }
   }

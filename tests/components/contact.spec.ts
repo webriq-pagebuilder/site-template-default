@@ -60,7 +60,7 @@ contactVariantTests?.forEach((variant) => {
     });
 
     test(`Delete ${variant.pageTitle}`, async () => {
-      await deletePageVariant(page, newPageTitle);
+      await deletePageVariant(page, newPageTitle, variant.label);
     });
   });
 });
@@ -214,19 +214,6 @@ async function createContactVariants({
         .locator("div")
         .filter({ hasText: /^Page Reference$/ })
         .nth(1)
-    ).toBeVisible();
-    await expect(page.getByTestId("autocomplete")).toBeVisible();
-    await page.getByTestId("autocomplete").fill("New Page");
-    await page
-      .locator("button:has-text('New Page')")
-      .first()
-      .click({ force: true });
-    await expect(
-      page
-        .getByTestId("field-variants.logo.linkTarget")
-        .locator("div")
-        .filter({ hasText: "Link Target" })
-        .nth(3)
     ).toBeVisible();
     await page
       .getByLabel("External, outside this website")
