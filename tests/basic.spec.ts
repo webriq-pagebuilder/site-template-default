@@ -11,6 +11,7 @@ import { NEXT_PUBLIC_SITE_URL } from "studio/config";
 let page: Page;
 const newPageTitle = "New Page - " + new Date().getTime();
 const duplicatePageName = `Dupe Page ` + new Date().getTime();
+const variantLabel = "Navigation New Page Variant A";
 
 test.beforeAll(async ({ browser }) => {
   page = await browser.newPage();
@@ -94,7 +95,7 @@ test.describe("Main Workflow", () => {
     await page.getByTestId("action-menu-button").click({ force: true });
     await page.getByTestId("action-Duplicate").click({ force: true });
     await page.getByPlaceholder("Copy of New Page -").click();
-    await page.getByPlaceholder("Copy of new Page -").fill(duplicatePageName);
+    await page.getByPlaceholder("Copy of New Page -").fill(duplicatePageName);
     await page.getByRole("button", { name: "Duplicate" }).click();
 
     await expect(
@@ -272,9 +273,9 @@ test.describe("Main Workflow", () => {
     await page.getByTestId("field-sections").getByRole("button").nth(1).click();
     await page.getByRole("menuitem", { name: "Remove" }).click();
 
-    await expect(page.getByTestId("review-changes-button")).toBeVisible({
-      timeout: 150000,
-    });
+    await expect(
+      page.getByTestId("review-changes-button").filter({ hasText: "Just now" })
+    ).toBeVisible({ timeout: 150000 });
     await page.getByTestId("action-[object Object]").click({ force: true });
     await expect(page.getByTestId("review-changes-button")).toBeHidden({
       timeout: 150000,
@@ -307,11 +308,41 @@ test.describe("Main Workflow", () => {
   });
 
   test("Delete Published Page", async () => {
-    await deletePageVariant(page, newPageTitle);
+    await navigateToPage(page);
+    await page.getByPlaceholder("Search list").click({ force: true });
+    await page.getByPlaceholder("Search list").fill(newPageTitle);
+    await page.waitForSelector(`a:has-text("${newPageTitle}")`, {
+      state: "visible",
+    });
+
+    await page.getByRole("link", { name: newPageTitle }).click({ force: true });
+    await page.waitForSelector(`a:has-text("${newPageTitle}")`, {
+      state: "visible",
+    });
+    await page.getByLabel("Clear").click({ force: true });
+    await page.waitForTimeout(3000);
+
+    await expect(page.getByText("Loading document")).toBeHidden({
+      timeout: 150000,
+    });
+    await page.getByTestId("action-menu-button").click({ force: true });
+    await page.getByTestId("action-Delete").click();
+    await page.getByTestId("confirm-delete-button").click();
+    await expect(
+      page
+        .locator('[id="__next"]')
+        .getByRole("alert")
+        .locator("div")
+        .filter({ hasText: "The document was successfully" })
+        .nth(1)
+    ).toBeVisible();
+    await expect(page.getByRole("link", { name: newPageTitle })).toBeHidden({
+      timeout: 150000,
+    });
   });
 
   test("Delete Duplicate Page", async () => {
-    await deletePageVariant(page, duplicatePageName);
+    await deletePageVariant(page, duplicatePageName, variantLabel);
   });
 });
 
