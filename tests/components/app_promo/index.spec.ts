@@ -10,13 +10,16 @@ import {
   NEXT_PUBLIC_SANITY_STUDIO_URL,
   NEXT_PUBLIC_SITE_URL,
 } from "studio/config";
+import VariantA from "./variant_a.spec";
+import VariantB from "./variant_b.spec";
+import VariantC from "./variant_c.spec";
 
 let page: Page, newPageTitle: string;
 
-const Variants = {
-  variant_a: () => import("./variant_a.spec"),
-  variant_b: () => import("./variant_b.spec"),
-  variant_c: () => import("./variant_c.spec"),
+const variantModules = {
+  variant_a: VariantA,
+  variant_b: VariantB,
+  variant_c: VariantC,
 };
 
 const appPromoVariantTests = [
@@ -75,11 +78,17 @@ appPromoVariantTests?.forEach((variant, index) => {
 
     test(`Create ${variant.label}`, async () => {
       await clickVariantImage(page, index); // select variant
-      await Variants[variant?.variant]({
-        variantTitle: variant?.title,
-        page,
-        commonFieldValues,
-      });
+
+      const variantTest = variantModules[variant.variant];
+      if (variantTest) {
+        await variantTest({
+          variantTitle: variant.title,
+          page,
+          commonFieldValues,
+        });
+      } else {
+        console.error(`No test module found for variant: ${variant.variant}`);
+      }
     });
 
     test(`Delete ${variant.label}`, async () => {
