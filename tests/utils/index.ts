@@ -293,3 +293,20 @@ export async function generateFormId({ page }) {
   ).toBeVisible();
   await activePage.close();
 }
+
+export async function checkFormSubmission({
+  pageUrl,
+  formFields,
+  buttonLabel,
+  thankYouPageUrl,
+  page,
+}) {
+  await pageUrl.getByPlaceholder(formFields.placeholder).click();
+  await pageUrl.getByPlaceholder(formFields.placeholder).fill(formFields.value);
+  await pageUrl.getByLabel(buttonLabel).click();
+  await expect(pageUrl.getByText("Sending form data...")).toBeVisible();
+  await expect(pageUrl.getByText("✔ Successfully sent form data")).toBeVisible(
+    { timeout: 60000 }
+  );
+  await page.goto(thankYouPageUrl);
+}
