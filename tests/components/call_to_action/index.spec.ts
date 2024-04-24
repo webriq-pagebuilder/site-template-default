@@ -112,7 +112,7 @@ test.beforeAll("Auto login studio", async ({ browser }) => {
 });
 
 ctaVariantTests?.forEach((variant, index) => {
-  test.describe(`${variant.title} Workflow`, async () => {
+  test.describe(`${variant.title}`, async () => {
     test.describe.configure({ timeout: 60000 });
 
     test(`Create ${variant.label}`, async () => {

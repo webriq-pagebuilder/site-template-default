@@ -34,42 +34,42 @@ const variantModules = {
 
 const featuresVariantTests = [
   {
-    title: "Features variant A",
+    title: "Variant A",
     label: "New Features A",
     variant: "variant_a",
   },
   {
-    title: "Features variant B",
+    title: "Variant B",
     label: "New Features B",
     variant: "variant_b",
   },
   {
-    title: "Features variant C",
+    title: "Variant C",
     label: "New Features C",
     variant: "variant_c",
   },
   {
-    title: "Features variant D",
+    title: "Variant D",
     label: "New Features D",
     variant: "variant_d",
   },
   {
-    title: "Features variant E",
+    title: "Variant E",
     label: "New Features E",
     variant: "variant_e",
   },
   {
-    title: "Features variant F",
+    title: "Variant F",
     label: "New Features F",
     variant: "variant_f",
   },
   {
-    title: "Features variant G",
+    title: "Variant G",
     label: "New Features G",
     variant: "variant_g",
   },
   {
-    title: "Features variant H",
+    title: "Variant H",
     label: "New Features H",
     variant: "variant_h",
   },
@@ -110,7 +110,7 @@ test.beforeAll("Auto login studio", async ({ browser }) => {
 });
 
 featuresVariantTests?.forEach((variant, index) => {
-  test.describe(`${variant.title} Workflow`, () => {
+  test.describe(`${variant.title}`, () => {
     test.describe.configure({ timeout: 60000 });
 
     test(`Create ${variant.label}`, async () => {
