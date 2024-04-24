@@ -24,7 +24,6 @@ export async function clickVariantImage(page, variantIndex) {
     variantIndex <= 0
       ? page.getByTestId("field-variant").getByRole("img").first()
       : page.getByTestId("field-variant").getByRole("img").nth(variantIndex);
-
   await imageSelector.click({ force: true });
 }
 
@@ -178,7 +177,9 @@ export async function deletePageVariant(page, pageTitle, variantLabel) {
     page.getByTestId("review-changes-button").filter({ hasText: "Just now" })
   ).toBeVisible();
   await page.getByTestId("action-[object Object]").click({ force: true });
-  await expect(page.getByTestId("review-changes-button")).toBeHidden();
+  await expect(
+    page.getByTestId("review-changes-button").filter({ hasText: "Just now" })
+  ).toBeHidden();
   await expect(
     page
       .locator('[id="__next"]')
