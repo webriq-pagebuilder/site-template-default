@@ -3,11 +3,12 @@ import { updateLogoLink, expectDocumentPublished } from "tests/utils";
 import { NEXT_PUBLIC_SITE_URL } from "studio/config";
 import { appPromoInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-default";
 
-async function VariantA({ variantTitle, page, commonFieldValues }) {
+async function VariantA({ newPageTitle, page, commonFieldValues }) {
   const logoAltText = "App promo logo";
 
   await updateLogoLink(page, logoAltText);
 
+  // studio
   const subtitle = page
     .getByTestId("field-variants.subtitle")
     .getByTestId("string-input");
@@ -30,22 +31,21 @@ async function VariantA({ variantTitle, page, commonFieldValues }) {
   await title.fill(commonFieldValues?.title);
   await expect(title.inputValue()).resolves.toBe(commonFieldValues?.title);
 
-  // Save changes
-  await page.getByTestId("action-Save").click({ timeout: 20000 });
-  await page.getByRole("link", { name: "Close pane group" }).click();
-  await expectDocumentPublished(page, variantTitle);
-
+  // check site preview
+  await expectDocumentPublished(page, newPageTitle);
   const pagePromise = page.waitForEvent("popup");
   await page.getByText(`${NEXT_PUBLIC_SITE_URL}`).click({ force: true });
   const openUrlPage = await pagePromise;
 
-  // test field values are correct from site preview
+  // subtitle
   await expect(
     openUrlPage.getByText(commonFieldValues?.subtitle)
   ).toBeVisible();
+
+  // title
   await expect(openUrlPage.getByText(commonFieldValues?.title)).toBeVisible();
 
-  // test if logo link is correct
+  // logo link
   await expect(
     openUrlPage.getByLabel("Go to https://webriq.com")
   ).toBeVisible();
@@ -56,6 +56,7 @@ async function VariantA({ variantTitle, page, commonFieldValues }) {
   ).toBeVisible();
   await expect(openUrlPage.getByAltText(logoAltText)).toBeVisible();
 
+  // array of images - show 3
   await expect(
     openUrlPage.getByRole("img", { name: "appPromo-variantA-image-1" }).first()
   ).toBeVisible();

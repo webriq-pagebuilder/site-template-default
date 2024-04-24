@@ -1,5 +1,4 @@
 import { test, expect, type Page } from "@playwright/test";
-import { textComponentInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-default";
 import {
   NEXT_PUBLIC_SANITY_STUDIO_URL,
   NEXT_PUBLIC_SITE_URL,

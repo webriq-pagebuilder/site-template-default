@@ -3,8 +3,8 @@ import { expectDocumentPublished } from "tests/utils";
 import { NEXT_PUBLIC_SITE_URL } from "studio/config";
 import { appPromoInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-default";
 
-async function VariantC({ variantTitle, page, commonFieldValues }) {
-  // subtitle test
+async function VariantC({ newPageTitle, page, commonFieldValues }) {
+  // studio
   const subtitle = page
     .getByTestId("field-variants.subtitle")
     .getByTestId("string-input");
@@ -18,7 +18,6 @@ async function VariantC({ variantTitle, page, commonFieldValues }) {
     commonFieldValues?.subtitle
   );
 
-  // title test
   const title = page
     .getByTestId("field-variants.title")
     .getByTestId("string-input");
@@ -28,7 +27,6 @@ async function VariantC({ variantTitle, page, commonFieldValues }) {
   await title.fill(commonFieldValues?.title);
   await expect(title.inputValue()).resolves.toBe(commonFieldValues?.title);
 
-  // description test
   const description = page.getByPlaceholder("Lorem ipsum dolor sit amet,");
   await expect(description.inputValue()).resolves.toBe(
     appPromoInitialValue.description
@@ -40,7 +38,6 @@ async function VariantC({ variantTitle, page, commonFieldValues }) {
     commonFieldValues?.description
   );
 
-  // stat items test
   await page
     .getByTestId("field-variants.tags")
     .getByRole("button")
@@ -57,26 +54,26 @@ async function VariantC({ variantTitle, page, commonFieldValues }) {
   await page.locator('[id="variants\\.tags"]').press("Enter");
   await expect(page.getByText("new app promo tag")).toBeVisible();
 
-  // Save changes
-  await page.getByTestId("action-Save").click({ timeout: 20000 });
-  await page.getByRole("link", { name: "Close pane group" }).click();
-  await expectDocumentPublished(page, variantTitle);
-
+  // check site preview
+  await expectDocumentPublished(page, newPageTitle);
   const pagePromise = page.waitForEvent("popup");
   await page.getByText(`${NEXT_PUBLIC_SITE_URL}`).click({ force: true });
   const openUrlPage = await pagePromise;
 
-  // test field values are correct from site preview
+  // subtitle
   await expect(
     openUrlPage.getByText(commonFieldValues?.subtitle)
   ).toBeVisible();
 
+  // title
   await expect(openUrlPage.getByText(commonFieldValues?.title)).toBeVisible();
 
+  // description
   await expect(
     openUrlPage.getByText(commonFieldValues?.description)
   ).toBeVisible();
 
+  // tags
   await expect(
     openUrlPage.locator("li").filter({ hasText: "new app promo tag" })
   ).toBeVisible();
@@ -89,6 +86,7 @@ async function VariantC({ variantTitle, page, commonFieldValues }) {
   ).toBeVisible();
   await expect(openUrlPage.locator("img:nth-child(2)").first()).toBeVisible();
 
+  // array of images - show 4
   await expect(
     openUrlPage.getByRole("img", { name: "appPromo-variantC-image-1" }).first()
   ).toBeVisible();
@@ -99,7 +97,7 @@ async function VariantC({ variantTitle, page, commonFieldValues }) {
     openUrlPage.getByRole("img", { name: "appPromo-variantC-image-3" }).first()
   ).toBeVisible();
   await expect(
-    openUrlPage.getByRole("img", { name: "appPromo-variantD-image-3" }).first()
+    openUrlPage.getByRole("img", { name: "appPromo-variantD-image-4" }).first()
   ).toBeVisible();
 }
 

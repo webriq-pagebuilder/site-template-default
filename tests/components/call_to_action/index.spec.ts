@@ -12,42 +12,77 @@ import {
 } from "studio/config";
 import VariantA from "./variant_a.spec";
 import VariantB from "./variant_b.spec";
+import VariantC from "./variant_c.spec";
+import VariantD from "./variant_d.spec";
+import VariantE from "./variant_e.spec";
 
 let page: Page, newPageTitle: string;
 
 const variantModules = {
   variant_a: VariantA,
   variant_b: VariantB,
+  variant_c: VariantC,
+  variant_d: VariantD,
+  variant_e: VariantE,
 };
 
-const contactVariantTests = [
+const ctaVariantTests = [
   {
     title: "Variant A",
-    label: "New Contact A",
+    label: "New Call to action A",
     variant: "variant_a",
   },
   {
     title: "Variant B",
-    label: "New Contact B",
+    label: "New Call to action B",
     variant: "variant_b",
+  },
+  {
+    title: "Variant C",
+    label: "New Call to action C",
+    variant: "variant_c",
+  },
+  {
+    title: "Variant D",
+    label: "New Call to action D",
+    variant: "variant_d",
+  },
+  {
+    title: "Variant E",
+    label: "New Call to action E",
+    variant: "variant_e",
   },
 ];
 
 const commonFieldValues = {
-  title: "Contact title",
-  description: "Updated description for new contact.",
-  socialLinks: {
-    facebook: "https://www.facebook.com/webriq",
-    twitter: "https://twitter.com/WebriQGoesMad",
-    instagram: "https://www.instagram.com/webriqgoesmad/",
-  },
-  contactDetails: {
-    office: "123 Sample Address",
-    number: "+12 34567",
-    email: "sample@webriq.com",
-  },
-  formButtonLabel: "Submit Contact",
-  thankYouPageUrl: "https://webriq.com/thank-you",
+  title: "Call to action title",
+  description: "Updated description for new call to action.",
+  ctaLogoAltText: "Call to action logo",
+  primaryButtonLabel: "CTA Primary",
+  externalLinkUrl: "https://webriq.com",
+  formFields: [
+    {
+      name: "firstName",
+      placeholder: "First name",
+      value: "WebriQ",
+    },
+    {
+      name: "lastName",
+      placeholder: "Last name",
+      value: "Test",
+    },
+    {
+      name: "email",
+      placeholder: "Enter your email address",
+      value: "sample@webriq.com",
+    },
+    {
+      name: "password",
+      placeholder: "Enter your password",
+      value: "12345",
+    },
+  ],
+  formButtonLabel: "Submit CTA",
 };
 
 const time = new Date().getTime();
@@ -67,19 +102,19 @@ test.beforeAll("Auto login studio", async ({ browser }) => {
   await page.goto(`${NEXT_PUBLIC_SANITY_STUDIO_URL}`);
 });
 
-contactVariantTests?.forEach((variant, index) => {
-  test.describe(`${variant.title}`, () => {
+ctaVariantTests?.forEach((variant, index) => {
+  test.describe(`${variant.title}`, async () => {
     test.describe.configure({ timeout: 300000, mode: "serial" });
 
     test(`Create ${variant.label}`, async () => {
       await navigateToPage(page);
-      await createNewPage(page, newPageTitle, "Contact");
+      await createNewPage(page, newPageTitle, "Call to action");
 
       const variantLabel = page
         .getByTestId("field-label")
         .getByTestId("string-input");
       await variantLabel.click();
-      await variantLabel.fill("New Contact Test");
+      await variantLabel.fill("New Call to action Test");
 
       await clickVariantImage(page, index); // select variant
 

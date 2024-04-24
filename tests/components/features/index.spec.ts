@@ -1,9 +1,9 @@
 import { test, type Page } from "@playwright/test";
 import {
   autologin_studio,
-  navigateToPage,
-  clickVariantImage,
   createNewPage,
+  clickVariantImage,
+  navigateToPage,
   deletePageVariant,
 } from "tests/utils";
 import {
@@ -12,42 +12,75 @@ import {
 } from "studio/config";
 import VariantA from "./variant_a.spec";
 import VariantB from "./variant_b.spec";
+import VariantC from "./variant_c.spec";
+import VariantD from "./variant_d.spec";
+import VariantE from "./variant_e.spec";
+import VariantF from "./variant_f.spec";
+import VariantG from "./variant_g.spec";
+import VariantH from "./variant_h.spec";
 
 let page: Page, newPageTitle: string;
 
 const variantModules = {
   variant_a: VariantA,
   variant_b: VariantB,
+  variant_c: VariantC,
+  variant_d: VariantD,
+  variant_e: VariantE,
+  variant_f: VariantF,
+  variant_g: VariantG,
+  variant_h: VariantH,
 };
 
-const contactVariantTests = [
+const featuresVariantTests = [
   {
     title: "Variant A",
-    label: "New Contact A",
+    label: "New Features A",
     variant: "variant_a",
   },
   {
     title: "Variant B",
-    label: "New Contact B",
+    label: "New Features B",
     variant: "variant_b",
+  },
+  {
+    title: "Variant C",
+    label: "New Features C",
+    variant: "variant_c",
+  },
+  {
+    title: "Variant D",
+    label: "New Features D",
+    variant: "variant_d",
+  },
+  {
+    title: "Variant E",
+    label: "New Features E",
+    variant: "variant_e",
+  },
+  {
+    title: "Variant F",
+    label: "New Features F",
+    variant: "variant_f",
+  },
+  {
+    title: "Variant G",
+    label: "New Features G",
+    variant: "variant_g",
+  },
+  {
+    title: "Variant H",
+    label: "New Features H",
+    variant: "variant_h",
   },
 ];
 
 const commonFieldValues = {
-  title: "Contact title",
-  description: "Updated description for new contact.",
-  socialLinks: {
-    facebook: "https://www.facebook.com/webriq",
-    twitter: "https://twitter.com/WebriQGoesMad",
-    instagram: "https://www.instagram.com/webriqgoesmad/",
-  },
-  contactDetails: {
-    office: "123 Sample Address",
-    number: "+12 34567",
-    email: "sample@webriq.com",
-  },
-  formButtonLabel: "Submit Contact",
-  thankYouPageUrl: "https://webriq.com/thank-you",
+  subtitle: "Subtitle Features",
+  title: "New Features title",
+  description: "Updated description for new features.",
+  tag: "new feature tag",
+  primaryButtonLabel: "Features Primary",
 };
 
 const time = new Date().getTime();
@@ -67,19 +100,19 @@ test.beforeAll("Auto login studio", async ({ browser }) => {
   await page.goto(`${NEXT_PUBLIC_SANITY_STUDIO_URL}`);
 });
 
-contactVariantTests?.forEach((variant, index) => {
+featuresVariantTests?.forEach((variant, index) => {
   test.describe(`${variant.title}`, () => {
     test.describe.configure({ timeout: 300000, mode: "serial" });
 
     test(`Create ${variant.label}`, async () => {
       await navigateToPage(page);
-      await createNewPage(page, newPageTitle, "Contact");
+      await createNewPage(page, newPageTitle, "Features");
 
       const variantLabel = page
         .getByTestId("field-label")
         .getByTestId("string-input");
       await variantLabel.click();
-      await variantLabel.fill("New Contact Test");
+      await variantLabel.fill("New Features Test");
 
       await clickVariantImage(page, index); // select variant
 
@@ -92,7 +125,7 @@ contactVariantTests?.forEach((variant, index) => {
     });
 
     test(`Delete ${variant.label}`, async () => {
-      await deletePageVariant(page, newPageTitle, variant.label);
+      await deletePageVariant(page, newPageTitle, variant?.label);
     });
   });
 });
