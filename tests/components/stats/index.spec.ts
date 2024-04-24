@@ -7,10 +7,7 @@ import {
   deletePageVariant,
   variantLabelInput,
 } from "tests/utils";
-import {
-  NEXT_PUBLIC_SANITY_STUDIO_URL,
-  NEXT_PUBLIC_SITE_URL,
-} from "studio/config";
+import { NEXT_PUBLIC_SITE_URL } from "studio/config";
 import VariantA from "./variant_a.spec";
 import VariantB from "./variant_b.spec";
 import VariantC from "./variant_c.spec";
