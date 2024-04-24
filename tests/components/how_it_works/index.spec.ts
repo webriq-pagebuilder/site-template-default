@@ -98,8 +98,8 @@ test.beforeAll("Auto login studio", async ({ browser }) => {
 });
 
 howItWorksVariantTest.forEach((variants, index) => {
-  const { title, label, variant } = variants;
-  test.describe(`${title}`, () => {
+  const { name, title, label, variant } = variants;
+  test.describe(`${name}`, () => {
     test.describe.configure({ timeout: 600_000, mode: "serial" });
 
     test(`Create ${label}`, async () => {
