@@ -34,7 +34,7 @@ const newsletterVariantTests = [
 ];
 
 const time = new Date().getTime();
-newPageTitle = "New Page" + time;
+newPageTitle = "New Page " + time;
 
 const commonFieldValues = {
   title: "Newsletter title",
@@ -75,14 +75,13 @@ newsletterVariantTests.forEach((variant, index) => {
       await clickVariantImage(page, index); // select variant
 
       const variantTest = variantModules[variant.variant];
+
       if (variantTest) {
         await variantTest({
-          variantTitle: variant.title,
+          newPageTitle: variant.title,
           page,
           commonFieldValues,
         });
-      } else {
-        console.error(`No test module found for variant: ${variant.variant}`);
       }
     });
 

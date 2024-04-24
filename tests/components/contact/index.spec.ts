@@ -51,7 +51,7 @@ const commonFieldValues = {
 };
 
 const time = new Date().getTime();
-newPageTitle = "New Page" + time;
+newPageTitle = "New Page " + time;
 
 test.beforeAll("Auto login studio", async ({ browser }) => {
   page = await browser.newPage();
@@ -67,31 +67,30 @@ test.beforeAll("Auto login studio", async ({ browser }) => {
   await page.goto(`${NEXT_PUBLIC_SANITY_STUDIO_URL}`);
 
   await navigateToPage(page);
-  await createNewPage(page, newPageTitle, "App Promo");
+  await createNewPage(page, newPageTitle, "Contact");
 
   const variantLabel = page
     .getByTestId("field-label")
     .getByTestId("string-input");
   await variantLabel.click();
-  await variantLabel.fill("New App Promo Test");
+  await variantLabel.fill("New Contact Test");
 });
 
 contactVariantTests?.forEach((variant, index) => {
   test.describe(`${variant.title}`, () => {
-    test.describe.configure({ timeout: 60000, mode: "serial" });
+    test.describe.configure({ timeout: 60000 });
 
     test(`Create ${variant.label}`, async () => {
       await clickVariantImage(page, index); // select variant
 
       const variantTest = variantModules[variant.variant];
+
       if (variantTest) {
         await variantTest({
-          variantTitle: variant.title,
+          newPageTitle: variant.title,
           page,
           commonFieldValues,
         });
-      } else {
-        console.error(`No test module found for variant: ${variant.variant}`);
       }
     });
 

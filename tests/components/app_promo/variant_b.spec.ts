@@ -3,7 +3,7 @@ import { expectDocumentPublished } from "tests/utils";
 import { NEXT_PUBLIC_SITE_URL } from "studio/config";
 import { appPromoInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-default";
 
-async function VariantB({ variantTitle, page, commonFieldValues }) {
+async function VariantB({ newPageTitle, page, commonFieldValues }) {
   const time = new Date().getTime();
 
   const statItemsField = {
@@ -11,7 +11,7 @@ async function VariantB({ variantTitle, page, commonFieldValues }) {
     value: time.toString(),
   };
 
-  // subtitle test
+  // studio
   const subtitle = page
     .getByTestId("field-variants.subtitle")
     .getByTestId("string-input");
@@ -25,7 +25,6 @@ async function VariantB({ variantTitle, page, commonFieldValues }) {
     commonFieldValues?.subtitle
   );
 
-  // title test
   const title = page
     .getByTestId("field-variants.title")
     .getByTestId("string-input");
@@ -35,7 +34,6 @@ async function VariantB({ variantTitle, page, commonFieldValues }) {
   await title.fill(commonFieldValues?.title);
   await expect(title.inputValue()).resolves.toBe(commonFieldValues?.title);
 
-  // description test
   const description = page.getByPlaceholder("Lorem ipsum dolor sit amet,");
   await expect(description.inputValue()).resolves.toBe(
     appPromoInitialValue.description
@@ -47,7 +45,6 @@ async function VariantB({ variantTitle, page, commonFieldValues }) {
     commonFieldValues?.description
   );
 
-  // stat items test
   await page.getByRole("button", { name: "Add item" }).click({ force: true });
   await page
     .getByTestId("field-variants.statItems.label")
@@ -68,20 +65,27 @@ async function VariantB({ variantTitle, page, commonFieldValues }) {
   // Save changes
   await page.getByTestId("action-Save").click({ timeout: 20000 });
   await page.getByRole("link", { name: "Close pane group" }).click();
-  await expectDocumentPublished(page, variantTitle);
+  await expectDocumentPublished(page, newPageTitle);
 
+  // check site preview
   const pagePromise = page.waitForEvent("popup");
   await page.getByText(`${NEXT_PUBLIC_SITE_URL}`).click({ force: true });
   const openUrlPage = await pagePromise;
 
-  // test field values are correct from site preview
+  // subtitle
   await expect(
     openUrlPage.getByText(commonFieldValues?.subtitle)
   ).toBeVisible();
+
+  // title
   await expect(openUrlPage.getByText(commonFieldValues?.title)).toBeVisible();
+
+  // description
   await expect(
     openUrlPage.getByText(commonFieldValues?.description)
   ).toBeVisible();
+
+  // stat items
   await expect(openUrlPage.getByText(statItemsField.label)).toBeVisible();
   await expect(openUrlPage.locator('[id="__next"]')).toContainText(
     statItemsField.value

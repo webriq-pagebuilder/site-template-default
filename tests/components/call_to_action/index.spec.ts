@@ -1,9 +1,9 @@
 import { test, type Page } from "@playwright/test";
 import {
   autologin_studio,
+  navigateToPage,
   clickVariantImage,
   createNewPage,
-  navigateToPage,
   deletePageVariant,
 } from "tests/utils";
 import {
@@ -13,6 +13,8 @@ import {
 import VariantA from "./variant_a.spec";
 import VariantB from "./variant_b.spec";
 import VariantC from "./variant_c.spec";
+import VariantD from "./variant_d.spec";
+import VariantE from "./variant_e.spec";
 
 let page: Page, newPageTitle: string;
 
@@ -20,34 +22,71 @@ const variantModules = {
   variant_a: VariantA,
   variant_b: VariantB,
   variant_c: VariantC,
+  variant_d: VariantD,
+  variant_e: VariantE,
 };
 
-const appPromoVariantTests = [
+const ctaVariantTests = [
   {
     title: "Variant A",
-    label: "New App promo A",
+    label: "New Call to action A",
     variant: "variant_a",
   },
   {
     title: "Variant B",
-    label: "New App promo B",
+    label: "New Call to action B",
     variant: "variant_b",
   },
   {
     title: "Variant C",
-    label: "New App promo C",
+    label: "New Call to action C",
     variant: "variant_c",
+  },
+  {
+    title: "Variant D",
+    label: "New Call to action D",
+    variant: "variant_d",
+  },
+  {
+    title: "Variant E",
+    label: "New Call to action E",
+    variant: "variant_e",
   },
 ];
 
-const time = new Date().getTime();
-newPageTitle = "New Page" + time;
-
 const commonFieldValues = {
-  subtitle: "App promo subtitle", // all variants
-  title: "App promo title", // all variants
-  description: "Updated description for new App promo.", // variant b and c
+  title: "Call to action title",
+  description: "Updated description for new call to action.",
+  ctaLogoAltText: "Call to action logo",
+  primaryButtonLabel: "CTA Primary",
+  externalLinkUrl: "https://webriq.com",
+  formFields: [
+    {
+      name: "firstName",
+      placeholder: "First name",
+      value: "WebriQ",
+    },
+    {
+      name: "lastName",
+      placeholder: "Last name",
+      value: "Test",
+    },
+    {
+      name: "email",
+      placeholder: "Enter your email address",
+      value: "sample@webriq.com",
+    },
+    {
+      name: "password",
+      placeholder: "Enter your password",
+      value: "12345",
+    },
+  ],
+  formButtonLabel: "Submit CTA",
 };
+
+const time = new Date().getTime();
+newPageTitle = "New Page " + time;
 
 test.beforeAll("Auto login studio", async ({ browser }) => {
   page = await browser.newPage();
@@ -63,17 +102,17 @@ test.beforeAll("Auto login studio", async ({ browser }) => {
   await page.goto(`${NEXT_PUBLIC_SANITY_STUDIO_URL}`);
 
   await navigateToPage(page);
-  await createNewPage(page, newPageTitle, "App Promo");
+  await createNewPage(page, newPageTitle, "Call to Action");
 
   const variantLabel = page
     .getByTestId("field-label")
     .getByTestId("string-input");
   await variantLabel.click();
-  await variantLabel.fill("New App Promo Test");
+  await variantLabel.fill("New Call to Action Test");
 });
 
-appPromoVariantTests?.forEach((variant, index) => {
-  test.describe(`${variant.title}`, async () => {
+ctaVariantTests?.forEach((variant, index) => {
+  test.describe(`${variant.title} Workflow`, async () => {
     test.describe.configure({ timeout: 60000 });
 
     test(`Create ${variant.label}`, async () => {
@@ -90,8 +129,12 @@ appPromoVariantTests?.forEach((variant, index) => {
       }
     });
 
-    test(`Delete ${variant.label}`, async () => {
+    test(`Delete ${variant.title}`, async () => {
       await deletePageVariant(page, newPageTitle, variant.label);
     });
   });
+});
+
+test.afterAll(async () => {
+  await page.close();
 });

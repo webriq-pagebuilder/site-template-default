@@ -8,11 +8,10 @@ import {
 import { NEXT_PUBLIC_SITE_URL } from "studio/config";
 import { newsletterInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-default";
 
-async function VariantA({ variantTitle, page, commonFieldValues }) {
-  // logo link
+async function VariantA({ newPageTitle, page, commonFieldValues }) {
+  // studio
   await updateLogoLink(page, commonFieldValues?.logoAltText);
 
-  // title
   const title = page
     .getByTestId("field-variants.title")
     .getByTestId("string-input");
@@ -22,7 +21,6 @@ async function VariantA({ variantTitle, page, commonFieldValues }) {
   await title.fill(commonFieldValues?.title);
   await expect(title.inputValue()).resolves.toBe(commonFieldValues?.title);
 
-  // description
   const description = page.getByPlaceholder("Lorem ipsum dolor sit amet,");
   await expect(description.inputValue()).resolves.toBe(
     newsletterInitialValue.description
@@ -34,17 +32,14 @@ async function VariantA({ variantTitle, page, commonFieldValues }) {
     commonFieldValues?.description
   );
 
-  // webriq forms
+  // forms
   await expect(
     page.getByTestId("field-variants.form.subtitle").getByTestId("string-input")
   ).toBeEmpty();
   await expect(
     page.getByTestId("field-variants.form.name").getByTestId("string-input")
   ).toBeEmpty();
-
   await generateFormId({ page });
-
-  // form button
   await expect(
     page.getByRole("button", { name: newsletterInitialValue.form?.[0]?.name })
   ).toBeVisible();
@@ -60,8 +55,6 @@ async function VariantA({ variantTitle, page, commonFieldValues }) {
     .getByTestId("field-variants.form.buttonLabel")
     .getByTestId("string-input")
     .fill(commonFieldValues?.formButtonLabel);
-
-  // thank you page
   await page.getByRole("button", { name: "Thank You page" }).click();
   await expect(
     page
@@ -90,25 +83,42 @@ async function VariantA({ variantTitle, page, commonFieldValues }) {
 
   await page.getByTestId("action-Save").click({ timeout: 20000 });
   await page.getByRole("link", { name: "Close pane group" }).click();
-  await expectDocumentPublished(page, variantTitle);
-  await expect(page.getByRole("link", { name: variantTitle })).toBeVisible();
+  await expectDocumentPublished(page, newPageTitle);
+  await expect(page.getByRole("link", { name: newPageTitle })).toBeVisible();
 
+  // check site preview
   const pagePromise = page.waitForEvent("popup");
   await page.getByText(`${NEXT_PUBLIC_SITE_URL}`).click({ force: true });
   const openUrlPage = await pagePromise;
-
   page
     .locator("section")
     .filter({ hasText: commonFieldValues?.title })
     .nth(1);
 
-  // check logo, title, description, and form fields
+  // logo
+  await expect(
+    openUrlPage.getByLabel("Go to https://webriq.com")
+  ).toBeVisible();
+  await expect(
+    openUrlPage
+      .locator("a[target='_blank']")
+      .and(openUrlPage.locator("a[rel='noopener noreferrer']"))
+  ).toBeVisible();
+  await expect(
+    openUrlPage.getByAltText(commonFieldValues?.logoAltText)
+  ).toBeVisible();
+
+  // title
   await expect(
     openUrlPage.getByRole("heading", { name: commonFieldValues?.title }).nth(1)
   ).toBeVisible();
+
+  // description
   await expect(
     openUrlPage.getByText(commonFieldValues?.description)
   ).toBeVisible();
+
+  // form submission
   await expect(
     openUrlPage.getByPlaceholder(newsletterInitialValue.form.fields?.[0]?.name)
   ).toBeVisible();
@@ -119,7 +129,7 @@ async function VariantA({ variantTitle, page, commonFieldValues }) {
   await checkFormSubmission({
     pageUrl: openUrlPage,
     formFields: newsletterInitialValue?.form?.fields?.[0],
-    buttonLabel: commonFieldValues?.formButtonLabel,
+    submitBtnLabel: commonFieldValues?.formButtonLabel,
     thankYouPageUrl: commonFieldValues?.thankYouPageUrl,
     page,
   });

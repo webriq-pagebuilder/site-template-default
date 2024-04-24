@@ -7,8 +7,8 @@ import {
 import { NEXT_PUBLIC_SITE_URL } from "studio/config";
 import { contactInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-default";
 
-async function VariantA({ variantTitle, page, commonFieldValues }) {
-  // title
+async function VariantA({ newPageTitle, page, commonFieldValues }) {
+  // studio
   const title = page
     .getByTestId("field-variants.title")
     .getByTestId("string-input");
@@ -18,7 +18,6 @@ async function VariantA({ variantTitle, page, commonFieldValues }) {
   await title.fill(commonFieldValues?.title);
   await expect(title.inputValue()).resolves.toBe(commonFieldValues?.title);
 
-  // description
   const description = page.getByPlaceholder("Lorem ipsum dolor sit amet,");
   await expect(description.inputValue()).resolves.toBe(
     contactInitialValue.contactDescription
@@ -30,7 +29,6 @@ async function VariantA({ variantTitle, page, commonFieldValues }) {
     commonFieldValues?.description
   );
 
-  // social links
   await expect(
     page
       .getByTestId("field-variants.socialLinks")
@@ -59,7 +57,6 @@ async function VariantA({ variantTitle, page, commonFieldValues }) {
     .getByLabel("Social Media Link")
     .fill(commonFieldValues?.socialLinks?.instagram);
 
-  // contact details
   const officeInfo = page
     .getByTestId("field-variants.officeInformation")
     .getByTestId("string-input");
@@ -87,10 +84,8 @@ async function VariantA({ variantTitle, page, commonFieldValues }) {
     commonFieldValues?.contactDetails.number
   );
 
-  // webriq forms
+  // forms
   await generateFormId({ page });
-
-  // check contact form initial fields
   await expect(page.getByRole("button", { name: "Subject" })).toBeVisible();
   await expect(
     page.getByRole("button", { name: "Name", exact: true })
@@ -100,8 +95,6 @@ async function VariantA({ variantTitle, page, commonFieldValues }) {
   ).toBeVisible();
   await expect(page.getByRole("button", { name: "Message..." })).toBeVisible();
   await expect(page.getByRole("button", { name: "Add file" })).toBeVisible();
-
-  // contact form button label
   await expect(
     page
       .getByTestId("field-variants.form.buttonLabel")
@@ -115,8 +108,6 @@ async function VariantA({ variantTitle, page, commonFieldValues }) {
     .getByTestId("field-variants.form.buttonLabel")
     .getByTestId("string-input")
     .fill(commonFieldValues?.formButtonLabel);
-
-  // contact form thank you page link
   await page
     .getByRole("button", { name: "Thank You page" })
     .click({ force: true });
@@ -133,8 +124,6 @@ async function VariantA({ variantTitle, page, commonFieldValues }) {
   await expect(page.getByLabel("URL")).toBeVisible();
   await page.getByLabel("URL").fill(commonFieldValues?.thankYouPageUrl);
   await expect(page.getByText("Link Target")).toBeVisible();
-
-  // contact form block of text
   await expect(
     page.getByTestId("activate-overlay").locator("div").first()
   ).toBeVisible();
@@ -151,23 +140,28 @@ async function VariantA({ variantTitle, page, commonFieldValues }) {
 
   await page.getByTestId("action-Save").click({ timeout: 20000 });
   await page.getByRole("link", { name: "Close pane group" }).click();
-  await expectDocumentPublished(page, variantTitle);
-  await expect(page.getByRole("link", { name: variantTitle })).toBeVisible();
+  await expectDocumentPublished(page, newPageTitle);
+  await expect(page.getByRole("link", { name: newPageTitle })).toBeVisible();
 
+  // check site preview
   const pagePromise = page.waitForEvent("popup");
   await page.getByText(`${NEXT_PUBLIC_SITE_URL}`).click({ force: true });
   const openUrlPage = await pagePromise;
 
-  // check title, description, social links, contact details and form submission
+  // title
   await expect(
     openUrlPage.getByRole("heading", {
       name: commonFieldValues?.title,
       exact: true,
     })
   ).toBeVisible();
+
+  // description
   await expect(
     openUrlPage.getByText(commonFieldValues?.description)
   ).toBeVisible();
+
+  // social links
   await expect(
     openUrlPage.locator(`a[href=${commonFieldValues?.socialLinks?.facebook}]`)
   ).toBeVisible();
@@ -177,6 +171,8 @@ async function VariantA({ variantTitle, page, commonFieldValues }) {
   await expect(
     openUrlPage.locator(`a[href=${commonFieldValues?.socialLinks?.instagram}]`)
   ).toBeVisible();
+
+  // contact info
   await expect(
     openUrlPage.getByText(commonFieldValues?.contactDetails?.office)
   ).toBeVisible();
@@ -191,7 +187,7 @@ async function VariantA({ variantTitle, page, commonFieldValues }) {
     })
   ).toBeVisible();
 
-  // check for the forms added
+  // forms
   await expect(openUrlPage.getByPlaceholder("Subject")).toBeVisible();
   await expect(
     openUrlPage.getByPlaceholder("Name", { exact: true })
@@ -206,11 +202,11 @@ async function VariantA({ variantTitle, page, commonFieldValues }) {
   ).toBeVisible();
 
   await checkFormSubmission({
+    page,
+    thankYouPageUrl: commonFieldValues?.thankYouPageUrl,
     pageUrl: openUrlPage,
     formFields: contactInitialValue?.form?.fields?.[0],
-    buttonLabel: commonFieldValues?.formButtonLabel,
-    thankYouPageUrl: commonFieldValues?.thankYouPageUrl,
-    page,
+    submitBtnLabel: commonFieldValues?.formButtonLabel,
   });
 }
 

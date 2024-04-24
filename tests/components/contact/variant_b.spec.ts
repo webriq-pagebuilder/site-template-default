@@ -3,8 +3,8 @@ import { expectDocumentPublished } from "tests/utils";
 import { NEXT_PUBLIC_SITE_URL } from "studio/config";
 import { contactInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-default";
 
-async function VariantB({ variantTitle, page, commonFieldValues }) {
-  // title
+async function VariantB({ newPageTitle, page, commonFieldValues }) {
+  // studio
   const title = page
     .getByTestId("field-variants.title")
     .getByTestId("string-input");
@@ -14,7 +14,6 @@ async function VariantB({ variantTitle, page, commonFieldValues }) {
   await title.fill(commonFieldValues?.title);
   await expect(title.inputValue()).resolves.toBe(commonFieldValues?.title);
 
-  // description
   const description = page.getByPlaceholder("Lorem ipsum dolor sit amet,");
   await expect(description.inputValue()).resolves.toBe(
     contactInitialValue.contactDescription
@@ -26,7 +25,6 @@ async function VariantB({ variantTitle, page, commonFieldValues }) {
     commonFieldValues?.description
   );
 
-  // social links
   await expect(
     page
       .getByTestId("field-variants.socialLinks")
@@ -55,7 +53,6 @@ async function VariantB({ variantTitle, page, commonFieldValues }) {
     .getByLabel("Social Media Link")
     .fill(commonFieldValues?.socialLinks?.instagram);
 
-  // contact details
   const officeInfo = page
     .getByTestId("field-variants.officeInformation")
     .getByTestId("string-input");
@@ -85,23 +82,28 @@ async function VariantB({ variantTitle, page, commonFieldValues }) {
 
   await page.getByTestId("action-Save").click({ timeout: 20000 });
   await page.getByRole("link", { name: "Close pane group" }).click();
-  await expectDocumentPublished(page, variantTitle);
-  await expect(page.getByRole("link", { name: variantTitle })).toBeVisible();
+  await expectDocumentPublished(page, newPageTitle);
+  await expect(page.getByRole("link", { name: newPageTitle })).toBeVisible();
 
+  // check site preview
   const pagePromise = page.waitForEvent("popup");
   await page.getByText(`${NEXT_PUBLIC_SITE_URL}`).click({ force: true });
   const openUrlPage = await pagePromise;
 
-  // check title, description, social links, contact details and form submission
+  // title
   await expect(
     openUrlPage.getByRole("heading", {
       name: commonFieldValues?.title,
       exact: true,
     })
   ).toBeVisible();
+
+  // description
   await expect(
     openUrlPage.getByText(commonFieldValues?.description)
   ).toBeVisible();
+
+  // social links
   await expect(
     openUrlPage.locator(`a[href=${commonFieldValues?.socialLinks?.facebook}]`)
   ).toBeVisible();
@@ -111,6 +113,8 @@ async function VariantB({ variantTitle, page, commonFieldValues }) {
   await expect(
     openUrlPage.locator(`a[href=${commonFieldValues?.socialLinks?.instagram}]`)
   ).toBeVisible();
+
+  // contact info
   await expect(
     openUrlPage.getByText(commonFieldValues?.contactDetails?.office)
   ).toBeVisible();

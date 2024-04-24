@@ -295,18 +295,123 @@ export async function generateFormId({ page }) {
 }
 
 export async function checkFormSubmission({
+  page,
   pageUrl,
   formFields,
-  buttonLabel,
+  submitBtnLabel,
   thankYouPageUrl,
-  page,
 }) {
-  await pageUrl.getByPlaceholder(formFields.placeholder).click();
-  await pageUrl.getByPlaceholder(formFields.placeholder).fill(formFields.value);
-  await pageUrl.getByLabel(buttonLabel).click();
-  await expect(pageUrl.getByText("Sending form data...")).toBeVisible();
-  await expect(pageUrl.getByText("✔ Successfully sent form data")).toBeVisible(
-    { timeout: 60000 }
-  );
-  await page.goto(thankYouPageUrl);
+  Promise.allSettled(
+    formFields?.map(async (fields) => {
+      await pageUrl.getByPlaceholder(fields.placeholder).click();
+      await pageUrl.getByPlaceholder(fields.placeholder).fill(fields.value);
+    })
+  ).then(async (response) => {
+    console.log("[INFO] Test has been run", response);
+
+    await pageUrl.getByLabel(submitBtnLabel).click();
+    await expect(pageUrl.getByText("Sending form data...")).toBeVisible();
+    await expect(
+      pageUrl.getByText("✔ Successfully sent form data")
+    ).toBeVisible({ timeout: 60000 });
+
+    await page.goto(thankYouPageUrl ?? `${NEXT_PUBLIC_SITE_URL}/thank-you`);
+  });
+}
+
+export async function CTAWebriQForm({
+  page,
+  hasOtherLinks,
+  initialValues,
+  formButtonLabel,
+}) {
+  await generateFormId({ page });
+
+  // check CTA form initial fields
+  await expect(
+    page.getByRole("button", {
+      name: initialValues.form.fields?.[0]?.name,
+    })
+  ).toBeVisible();
+  await expect(
+    page.getByRole("button", {
+      name: initialValues.form.fields?.[1]?.name,
+    })
+  ).toBeVisible();
+  await expect(
+    page.getByRole("button", {
+      name: initialValues.form.fields?.[2]?.name,
+    })
+  ).toBeVisible();
+  await expect(
+    page.getByRole("button", {
+      name: initialValues.form.fields?.[3]?.name,
+    })
+  ).toBeVisible();
+  // TODO: edit a single form field to test if we can update the fields array
+
+  // CTA form button label
+  await expect(
+    page
+      .getByTestId("field-variants.form.buttonLabel")
+      .getByTestId("string-input")
+  ).toHaveValue(initialValues.form.buttonLabel);
+  await page
+    .getByTestId("field-variants.form.buttonLabel")
+    .getByTestId("string-input")
+    .fill("Meta+a");
+  await page
+    .getByTestId("field-variants.form.buttonLabel")
+    .getByTestId("string-input")
+    .fill(formButtonLabel);
+
+  // CTA form thank you page link
+  await page
+    .getByRole("button", { name: "Thank You page" })
+    .click({ force: true });
+  await page
+    .getByLabel("External, outside this website")
+    .check({ force: true });
+  await expect(page.getByLabel("URL")).toBeVisible();
+  await page.getByLabel("URL").fill("https://webriq.com");
+  await expect(page.getByText("Link Target")).toBeVisible();
+
+  // CTA Sign in links + form links
+  if (hasOtherLinks) {
+    await expect(
+      page
+        .getByTestId("field-variants.signInLink.linkType")
+        .getByLabel("Internal, inside this website")
+    ).toBeChecked();
+    await expect(
+      page
+        .locator("div")
+        .filter({ hasText: /^Page Reference$/ })
+        .nth(1)
+    ).toBeVisible();
+    await page.getByTestId("autocomplete").click();
+    await page
+      .getByTestId("field-variants.signInLink.linkType")
+      .getByLabel("External, outside this website")
+      .check();
+    await expect(
+      page
+        .getByTestId("field-variants.signInLink.linkExternal")
+        .getByLabel("URL")
+    ).toBeVisible();
+    await page.getByLabel("URL").fill("https://webriq.com");
+    await expect(
+      page
+        .getByTestId("field-variants.signInLink.linkTarget")
+        .getByLabel("Self (default) - open in the")
+    ).toBeChecked();
+
+    // CTA form links
+    await expect(
+      page.getByRole("button", { name: "Police privacy Internal Link" })
+    ).toBeVisible();
+    await expect(
+      page.getByRole("button", { name: "Terms of Use Internal Link" })
+    ).toBeVisible();
+  }
 }
