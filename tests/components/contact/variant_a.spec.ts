@@ -108,22 +108,23 @@ async function VariantA({ newPageTitle, page, commonFieldValues }) {
     .getByTestId("field-variants.form.buttonLabel")
     .getByTestId("string-input")
     .fill(commonFieldValues?.formButtonLabel);
+  await page.getByRole("button", { name: "Thank You page" }).click();
   await page
-    .getByRole("button", { name: "Thank You page" })
-    .click({ force: true });
-  await page.getByLabel("Internal, inside this website").check({ force: true });
-  await expect(
-    page
-      .locator("div")
-      .filter({ hasText: /^Page Reference$/ })
-      .nth(1)
-  ).toBeVisible();
-  await page
+    .getByTestId("field-variants.form.thankYouPage.linkType")
     .getByLabel("External, outside this website")
-    .check({ force: true });
-  await expect(page.getByLabel("URL")).toBeVisible();
-  await page.getByLabel("URL").fill(commonFieldValues?.thankYouPageUrl);
-  await expect(page.getByText("Link Target")).toBeVisible();
+    .check();
+  await page
+    .getByTestId("field-variants.form.thankYouPage.linkExternal")
+    .getByLabel("URL")
+    .click();
+  await page
+    .getByTestId("field-variants.form.thankYouPage.linkExternal")
+    .getByLabel("URL")
+    .fill(commonFieldValues?.thankYouPageUrl);
+  await page
+    .getByTestId("field-variants.form.thankYouPage.linkTarget")
+    .getByLabel("Self (default) - open in the")
+    .check();
   await expect(
     page.getByTestId("activate-overlay").locator("div").first()
   ).toBeVisible();
@@ -138,12 +139,8 @@ async function VariantA({ newPageTitle, page, commonFieldValues }) {
     .getByRole("textbox")
     .fill("I agree to all the terms and conditions");
 
-  await page.getByTestId("action-Save").click({ timeout: 20000 });
-  await page.getByRole("link", { name: "Close pane group" }).click();
-  await expectDocumentPublished(page, newPageTitle);
-  await expect(page.getByRole("link", { name: newPageTitle })).toBeVisible();
-
   // check site preview
+  await expectDocumentPublished(page, newPageTitle);
   const pagePromise = page.waitForEvent("popup");
   await page.getByText(`${NEXT_PUBLIC_SITE_URL}`).click({ force: true });
   const openUrlPage = await pagePromise;

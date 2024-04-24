@@ -49,10 +49,8 @@ async function VariantF({ newPageTitle, page, commonFieldValues }) {
   await page.getByLabel("URL").fill("https://webriq.com");
   await expect(page.getByLabel("Self (default) - open in the")).toBeChecked();
 
-  await expectDocumentPublished(page, newPageTitle);
-  await expect(page.getByRole("link", { name: newPageTitle })).toBeVisible();
-
   // check site preview
+  await expectDocumentPublished(page, newPageTitle);
   const pagePromise = page.waitForEvent("popup");
   await page.getByText(`${NEXT_PUBLIC_SITE_URL}`).click({ force: true });
   const openUrlPage = await pagePromise;

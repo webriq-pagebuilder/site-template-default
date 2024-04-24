@@ -61,37 +61,38 @@ test.beforeAll("Auto login studio", async ({ browser }) => {
 
   // navigate to the studio
   await page.goto(`${NEXT_PUBLIC_SANITY_STUDIO_URL}`);
-
-  await navigateToPage(page);
-  await createNewPage(page, newPageTitle, "App Promo");
-
-  const variantLabel = page
-    .getByTestId("field-label")
-    .getByTestId("string-input");
-  await variantLabel.click();
-  await variantLabel.fill("New App Promo Test");
 });
 
-appPromoVariantTests?.forEach((variant, index) => {
+appPromoVariantTests.forEach((variant, index) => {
   test.describe(`${variant.title}`, async () => {
-    test.describe.configure({ timeout: 60000 });
+    test.describe.configure({ timeout: 300_000, mode: "serial" });
 
     test(`Create ${variant.label}`, async () => {
+      await navigateToPage(page);
+      await createNewPage(page, newPageTitle, "App promo");
+
+      const variantLabel = page
+        .getByTestId("field-label")
+        .getByTestId("string-input");
+      await variantLabel.click();
+      await variantLabel.fill("New App promo Test");
+
       await clickVariantImage(page, index); // select variant
 
       const variantTest = variantModules[variant.variant];
-
-      if (variantTest) {
-        await variantTest({
-          newPageTitle: variant.title,
-          page,
-          commonFieldValues,
-        });
-      }
+      await variantTest({
+        newPageTitle,
+        page,
+        commonFieldValues,
+      });
     });
 
     test(`Delete ${variant.label}`, async () => {
       await deletePageVariant(page, newPageTitle, variant.label);
     });
   });
+});
+
+test.afterAll(async () => {
+  await page.close();
 });

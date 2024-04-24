@@ -262,6 +262,7 @@ export async function updateLogoLink(page, altText) {
 }
 
 export async function generateFormId({ page }) {
+  const currentPageUrl = await page.evaluate(() => document.location.href);
   await page
     .getByRole("button", { name: "Generate ID" })
     .click({ force: true });
@@ -291,7 +292,7 @@ export async function generateFormId({ page }) {
   await expect(
     activePage.getByText("Successfully updated form!")
   ).toBeVisible();
-  await activePage.close();
+  await activePage.goto(currentPageUrl);
 }
 
 export async function checkFormSubmission({

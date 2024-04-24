@@ -32,10 +32,7 @@ async function VariantA({ newPageTitle, page, commonFieldValues }) {
   await expect(title.inputValue()).resolves.toBe(commonFieldValues?.title);
 
   // check site preview
-  await page.getByTestId("action-Save").click({ timeout: 20000 });
-  await page.getByRole("link", { name: "Close pane group" }).click();
   await expectDocumentPublished(page, newPageTitle);
-
   const pagePromise = page.waitForEvent("popup");
   await page.getByText(`${NEXT_PUBLIC_SITE_URL}`).click({ force: true });
   const openUrlPage = await pagePromise;

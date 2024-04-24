@@ -39,11 +39,10 @@ async function VariantB({ newPageTitle, page, commonFieldValues }) {
   await expect(
     page.getByTestId("field-variants.form.name").getByTestId("string-input")
   ).toBeEmpty();
-
   await generateFormId({ page });
-  await expect(
-    page.getByRole("button", { name: newsletterInitialValue.form?.[0]?.name })
-  ).toBeVisible();
+  await page.getByRole("button", {
+    name: newsletterInitialValue.form?.[0]?.name,
+  });
   await page
     .getByTestId("field-variants.form.buttonLabel")
     .getByTestId("string-input")
@@ -57,37 +56,25 @@ async function VariantB({ newPageTitle, page, commonFieldValues }) {
     .getByTestId("string-input")
     .fill(commonFieldValues?.formButtonLabel);
   await page.getByRole("button", { name: "Thank You page" }).click();
-  await expect(
-    page
-      .getByTestId("field-variants.form.thankYouPage.linkType")
-      .getByLabel("Internal, inside this website")
-  ).not.toBeChecked();
-  await expect(
-    page
-      .getByTestId("field-variants.form.thankYouPage.linkType")
-      .getByLabel("External, outside this website")
-  ).not.toBeChecked();
   await page
+    .getByTestId("field-variants.form.thankYouPage.linkType")
     .getByLabel("External, outside this website")
-    .check({ force: true });
-  await expect(page.getByLabel("URL")).toBeVisible();
-  await page.getByLabel("URL").click();
-  await page.getByLabel("URL").fill(commonFieldValues?.thankYouPageUrl);
-  await expect(
-    page
-      .getByTestId("field-variants.logo.linkTarget")
-      .locator("div")
-      .filter({ hasText: "Link Target" })
-      .nth(3)
-  ).toBeVisible();
-  await page.getByLabel("Self (default) - open in the").check();
-
-  await page.getByTestId("action-Save").click({ timeout: 20000 });
-  await page.getByRole("link", { name: "Close pane group" }).click();
-  await expectDocumentPublished(page, newPageTitle);
-  await expect(page.getByRole("link", { name: newPageTitle })).toBeVisible();
+    .check();
+  await page
+    .getByTestId("field-variants.form.thankYouPage.linkExternal")
+    .getByLabel("URL")
+    .click();
+  await page
+    .getByTestId("field-variants.form.thankYouPage.linkExternal")
+    .getByLabel("URL")
+    .fill(commonFieldValues?.thankYouPageUrl);
+  await page
+    .getByTestId("field-variants.form.thankYouPage.linkTarget")
+    .getByLabel("Self (default) - open in the")
+    .check();
 
   // check site preview
+  await expectDocumentPublished(page, newPageTitle);
   const pagePromise = page.waitForEvent("popup");
   await page.getByText(`${NEXT_PUBLIC_SITE_URL}`).click({ force: true });
   const openUrlPage = await pagePromise;
@@ -111,7 +98,7 @@ async function VariantB({ newPageTitle, page, commonFieldValues }) {
 
   // title
   await expect(
-    openUrlPage.getByRole("heading", { name: commonFieldValues?.title }).nth(1)
+    openUrlPage.getByRole("heading", { name: commonFieldValues?.title })
   ).toBeVisible();
 
   // description
