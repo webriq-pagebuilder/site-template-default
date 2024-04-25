@@ -1,10 +1,9 @@
 import { test } from "@playwright/test";
 import {
-  autologin_studio,
-  navigateToPage,
   clickVariantImage,
   createNewPage,
   deletePageVariant,
+  navigateToPage,
   variantLabelInput,
 } from "tests/utils";
 import { NEXT_PUBLIC_SITE_URL } from "studio/config";
@@ -84,6 +83,7 @@ headersVariantTest.forEach((variants, index) => {
       const time = new Date().getTime();
       newPageTitle = `${title} ` + time;
 
+      await navigateToPage(page);
       await createNewPage(page, newPageTitle, "Header");
       await variantLabelInput(page, label);
       await clickVariantImage(page, index); // select variant

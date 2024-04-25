@@ -1,18 +1,16 @@
-import { test, type Page } from "@playwright/test";
+import { test } from "@playwright/test";
 import {
-  autologin_studio,
-  navigateToPage,
   clickVariantImage,
   createNewPage,
   deletePageVariant,
+  navigateToPage,
   variantLabelInput,
 } from "tests/utils";
-import { NEXT_PUBLIC_SITE_URL } from "studio/config";
 import VariantA from "./variant_a.spec";
 import VariantB from "./variant_b.spec";
 import VariantC from "./variant_c.spec";
 
-let page: Page, newPageTitle: string;
+let newPageTitle: string;
 
 const variantModules = {
   variant_a: VariantA,
@@ -73,29 +71,17 @@ const commonFieldValues = {
   ],
 };
 
-test.beforeAll("Auto login studio", async ({ browser }) => {
-  page = await browser.newPage();
-
-  await page.goto(`${NEXT_PUBLIC_SITE_URL}`);
-
-  const token = process.env.NEXT_PUBLIC_STUDIO_AUTOLOGIN_TOKEN_FOR_TESTING;
-  const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
-
-  await page.evaluate(autologin_studio, { token, projectId });
-
-  // navigate to the studio
-  await navigateToPage(page);
-});
-
 faqsVariantTest.forEach((variants, index) => {
   const { name, title, label, variant } = variants;
 
   test.describe(`${name}`, () => {
     test.describe.configure({ timeout: 1000000, mode: "serial" });
 
-    test(`Create ${label}`, async () => {
+    test(`Create ${label}`, async ({ page }) => {
       const time = new Date().getTime();
       newPageTitle = `${title} ` + time;
+
+      await navigateToPage(page);
       await createNewPage(page, newPageTitle, "Faqs");
       await variantLabelInput(page, label);
       await clickVariantImage(page, index); // select variant
@@ -112,12 +98,12 @@ faqsVariantTest.forEach((variants, index) => {
       }
     });
 
-    test(`Delete ${title}`, async () => {
+    test(`Delete ${title}`, async ({ page }) => {
       await deletePageVariant(page, newPageTitle, label);
     });
   });
 });
 
-test.afterAll(async () => {
+test.afterAll(async ({ page }) => {
   await page.close();
 });
