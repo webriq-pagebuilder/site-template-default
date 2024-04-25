@@ -1,33 +1,12 @@
-import { test, expect, type Page } from "@playwright/test";
-import { autologin_studio } from "tests/utils";
-import {
-  NEXT_PUBLIC_SANITY_STUDIO_URL,
-  NEXT_PUBLIC_SITE_URL,
-} from "studio/config";
+import { test, expect } from "@playwright/test";
 
 const newComponentName = "New WebriQ Component App promo";
 const dupeComponentName = "Duplicate WebriQ Component App promo";
 
-let page: Page;
-
-test.beforeAll("Auto login studio", async ({ browser }) => {
-  page = await browser.newPage();
-
-  await page.goto(`${NEXT_PUBLIC_SITE_URL}`);
-
-  const token = process.env.NEXT_PUBLIC_STUDIO_AUTOLOGIN_TOKEN_FOR_TESTING;
-  const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
-
-  await page.evaluate(autologin_studio, { token, projectId });
-
-  // navigate to the studio
-  await page.goto(`${NEXT_PUBLIC_SANITY_STUDIO_URL}`);
-});
-
 test.describe("Verify main document actions working", () => {
   test.describe.configure({ timeout: 1500000, mode: "serial" });
 
-  test("Show all components", async () => {
+  test("Show all components", async ({ page }) => {
     await page.getByRole("link", { name: "Components" }).click({ force: true });
     await page
       .locator("create-btn-icon")
@@ -37,7 +16,7 @@ test.describe("Verify main document actions working", () => {
       });
   });
 
-  test("Can create component", async () => {
+  test("Can create component", async ({ page }) => {
     console.log("[INFO] Creating a new component...");
     await page.getByRole("link", { name: "Components" }).click({ force: true });
     await page.getByRole("button", { name: "New App Promo" }).click();
@@ -52,7 +31,7 @@ test.describe("Verify main document actions working", () => {
       });
   });
 
-  test("Can search component", async () => {
+  test("Can search component", async ({ page }) => {
     await page.getByRole("link", { name: "Components" }).click({ force: true });
     await page.getByPlaceholder("Search variants").click();
     await page.getByPlaceholder("Search variants").fill("New App Promo");
@@ -61,7 +40,7 @@ test.describe("Verify main document actions working", () => {
     ).toBeVisible({ timeout: 180000 });
   });
 
-  test("Can duplicate component", async () => {
+  test("Can duplicate component", async ({ page }) => {
     const cardName = newComponentName?.toLowerCase()?.replace(/\s/g, "");
 
     console.log("[INFO] Duplicating component...");
@@ -91,7 +70,7 @@ test.describe("Verify main document actions working", () => {
       });
   });
 
-  test("Can delete created component", async () => {
+  test("Can delete created component", async ({ page }) => {
     console.log("[INFO] Deleting component...");
 
     await page.getByRole("link", { name: "Components" }).click({ force: true });
@@ -149,7 +128,7 @@ test.describe("Verify main document actions working", () => {
       });
   });
 
-  test("Can delete duplicate component", async () => {
+  test("Can delete duplicate component", async ({ page }) => {
     console.log("[INFO] Deleting component...");
 
     await page.getByRole("link", { name: "Components" }).click({ force: true });
@@ -186,7 +165,7 @@ test.describe("Verify main document actions working", () => {
       });
   });
 
-  test.fixme("Can't delete referenced component", async () => {
+  test.fixme("Can't delete referenced component", async ({ page }) => {
     await page.getByRole("link", { name: "Components" }).click({ force: true });
 
     await page.locator("div.referenced-by-pages").first().hover();
@@ -214,7 +193,7 @@ test.describe("Verify main document actions working", () => {
   });
 });
 
-test("Can filter component", async () => {
+test("Can filter component", async ({ page }) => {
   test.setTimeout(120000);
 
   await page.getByRole("link", { name: "Components" }).click();
@@ -227,6 +206,6 @@ test("Can filter component", async () => {
   await expect(page.locator("[data-ui='Container']").first()).toHaveCount(1);
 });
 
-test.afterAll(async () => {
+test.afterAll(async ({ page }) => {
   await page.close();
 });

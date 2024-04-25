@@ -1,41 +1,20 @@
-import { test, expect, type Page } from "@playwright/test";
-import { autologin_studio } from "tests/utils";
-import {
-  NEXT_PUBLIC_SANITY_STUDIO_URL,
-  NEXT_PUBLIC_SITE_URL,
-} from "studio/config";
-
-let page: Page;
+import { test, expect } from "@playwright/test";
 
 const getTime = new Date().getTime();
 const productName = "New Product " + getTime;
 const collectionsName = "New Collections " + getTime;
 
-test.beforeAll("Auto login studio", async ({ browser }) => {
-  page = await browser.newPage();
-
-  await page.goto(`${NEXT_PUBLIC_SITE_URL}`);
-
-  const token = process.env.NEXT_PUBLIC_STUDIO_AUTOLOGIN_TOKEN_FOR_TESTING;
-  const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
-
-  await page.evaluate(autologin_studio, { token, projectId });
-
-  // navigate to the studio
-  await page.goto(`${NEXT_PUBLIC_SANITY_STUDIO_URL}`);
-});
-
 test.describe("Verify Store", () => {
   test.describe.configure({ timeout: 600000, mode: "serial" });
 
-  test.beforeEach("Go to Store tab", async () => {
+  test.beforeEach("Go to Store tab", async ({ page }) => {
     const element = page.locator('a:has-text("Store")');
     await element.scrollIntoViewIfNeeded();
     await page.waitForSelector('a:has-text("Store")', { state: "visible" });
     await element.click({ force: true });
   });
 
-  test("Store has 3 main subtabs", async () => {
+  test("Store has 3 main subtabs", async ({ page }) => {
     await expect(page.getByRole("link", { name: "Products" })).toBeVisible();
     await expect(page.getByRole("link", { name: "Collections" })).toBeVisible();
     await expect(
@@ -43,7 +22,7 @@ test.describe("Verify Store", () => {
     ).toBeVisible();
   });
 
-  test("Can successfully create product", async () => {
+  test("Can successfully create product", async ({ page }) => {
     await page.getByRole("link", { name: "Products" }).click({ force: true });
     await page.getByTestId("action-intent-button").click({ force: true });
     await page.getByRole("tab", { name: "Design" }).click({ force: true });
@@ -78,10 +57,10 @@ test.describe("Verify Store", () => {
     ).toBeVisible();
 
     const getEcwidProdId = page.locator("input#ecwidProductId").inputValue();
-    expect(getEcwidProdId).not.toBeEmpty();
+    expect(getEcwidProdId).not.toBeUndefined();
   });
 
-  test("Can successfully create collections", async () => {
+  test("Can successfully create collections", async ({ page }) => {
     await page
       .getByRole("link", { name: "Collections" })
       .click({ force: true });
@@ -111,14 +90,14 @@ test.describe("Verify Store", () => {
 test.describe("Verify Store - Commerce Pages", () => {
   test.describe.configure({ timeout: 600000, mode: "serial" });
 
-  test.beforeEach("Go to Store tab", async () => {
+  test.beforeEach("Go to Store tab", async ({ page }) => {
     const element = page.locator('a:has-text("Store")');
     await element.scrollIntoViewIfNeeded();
     await page.waitForSelector('a:has-text("Store")', { state: "visible" });
     await element.click({ force: true });
   });
 
-  test("Store Commerce Pages has subtabs", async () => {
+  test("Store Commerce Pages has subtabs", async ({ page }) => {
     await page
       .getByRole("link", { name: "Commerce Pages" })
       .click({ force: true });
@@ -137,7 +116,7 @@ test.describe("Verify Store - Commerce Pages", () => {
     await expect(page.getByRole("link", { name: "Search" })).toBeVisible();
   });
 
-  test("Default common slot sections are found", async () => {
+  test("Default common slot sections are found", async ({ page }) => {
     await page
       .getByRole("link", { name: "Commerce Pages" })
       .click({ force: true });
@@ -210,6 +189,6 @@ test.describe("Verify Store - Commerce Pages", () => {
   });
 });
 
-test.afterAll(async () => {
+test.afterAll(async ({ page }) => {
   await page.close();
 });

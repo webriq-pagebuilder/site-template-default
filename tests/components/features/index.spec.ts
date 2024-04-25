@@ -1,15 +1,10 @@
-import { test, type Page } from "@playwright/test";
+import { test } from "@playwright/test";
 import {
-  autologin_studio,
   createNewPage,
   clickVariantImage,
   navigateToPage,
   deletePageVariant,
 } from "tests/utils";
-import {
-  NEXT_PUBLIC_SANITY_STUDIO_URL,
-  NEXT_PUBLIC_SITE_URL,
-} from "studio/config";
 import VariantA from "./variant_a.spec";
 import VariantB from "./variant_b.spec";
 import VariantC from "./variant_c.spec";
@@ -19,7 +14,7 @@ import VariantF from "./variant_f.spec";
 import VariantG from "./variant_g.spec";
 import VariantH from "./variant_h.spec";
 
-let page: Page, newPageTitle: string;
+let newPageTitle: string;
 
 const variantModules = {
   variant_a: VariantA,
@@ -86,25 +81,11 @@ const commonFieldValues = {
 const time = new Date().getTime();
 newPageTitle = "New Page " + time;
 
-test.beforeAll("Auto login studio", async ({ browser }) => {
-  page = await browser.newPage();
-
-  await page.goto(`${NEXT_PUBLIC_SITE_URL}`);
-
-  const token = process.env.NEXT_PUBLIC_STUDIO_AUTOLOGIN_TOKEN_FOR_TESTING;
-  const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
-
-  await page.evaluate(autologin_studio, { token, projectId });
-
-  // navigate to the studio
-  await page.goto(`${NEXT_PUBLIC_SANITY_STUDIO_URL}`);
-});
-
 featuresVariantTests?.forEach((variant, index) => {
   test.describe(`${variant.title}`, () => {
     test.describe.configure({ timeout: 300000, mode: "serial" });
 
-    test(`Create ${variant.label}`, async () => {
+    test(`Create ${variant.label}`, async ({ page }) => {
       await navigateToPage(page);
       await createNewPage(page, newPageTitle, "Features");
 
@@ -124,12 +105,12 @@ featuresVariantTests?.forEach((variant, index) => {
       });
     });
 
-    test(`Delete ${variant.label}`, async () => {
+    test(`Delete ${variant.label}`, async ({ page }) => {
       await deletePageVariant(page, newPageTitle, variant?.label);
     });
   });
 });
 
-test.afterAll(async () => {
+test.afterAll(async ({ page }) => {
   await page.close();
 });

@@ -1,38 +1,17 @@
-import { test, expect, type Page } from "@playwright/test";
-import { autologin_studio } from "tests/utils";
-import {
-  NEXT_PUBLIC_SANITY_STUDIO_URL,
-  NEXT_PUBLIC_SITE_URL,
-} from "studio/config";
+import { test, expect } from "@playwright/test";
 
 const newAuthor = "New Author page";
 const newCategory = "New Category page";
 const newBlogPost = "New Blog page";
 
-let page: Page;
-
-test.beforeAll("Auto login studio", async ({ browser }) => {
-  page = await browser.newPage();
-
-  await page.goto(`${NEXT_PUBLIC_SITE_URL}`);
-
-  const token = process.env.NEXT_PUBLIC_STUDIO_AUTOLOGIN_TOKEN_FOR_TESTING;
-  const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
-
-  await page.evaluate(autologin_studio, { token, projectId });
-
-  // navigate to the studio
-  await page.goto(`${NEXT_PUBLIC_SANITY_STUDIO_URL}`);
-});
-
 test.describe("Verify main actions working", () => {
   test.describe.configure({ timeout: 900000, mode: "serial" });
 
-  test.beforeEach(async () => {
+  test.beforeEach(async ({ page }) => {
     await page.getByRole("link", { name: "Blog" }).click();
   });
 
-  test("Can create author, category and post", async () => {
+  test("Can create author, category and post", async ({ page }) => {
     // CREATE AUTHOR
     await page.getByRole("button", { name: "Create", exact: true }).click();
     await page.getByRole("menuitem", { name: "Author" }).click();
@@ -118,7 +97,7 @@ test.describe("Verify main actions working", () => {
     ).toBeVisible({ timeout: 120000 });
   });
 
-  test("Can edit author, category and post", async () => {
+  test("Can edit author, category and post", async ({ page }) => {
     // EDIT AUTHOR
     await page
       .getByRole("tab", { name: "Authors", exact: true })
@@ -183,7 +162,7 @@ test.describe("Verify main actions working", () => {
       .click({ force: true, timeout: 180000 }); // publish document
   });
 
-  test("Delete created author, category and post", async () => {
+  test("Delete created author, category and post", async ({ page }) => {
     await page
       .getByRole("tab", { name: "Posts", exact: true })
       .click({ force: true });
@@ -223,6 +202,6 @@ test.describe("Verify main actions working", () => {
   });
 });
 
-test.afterAll(async () => {
+test.afterAll(async ({ page }) => {
   await page.close();
 });
