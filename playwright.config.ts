@@ -1,4 +1,5 @@
 import { defineConfig, devices } from "@playwright/test";
+import { authFile } from "playwright/global-setup";
 
 /**
  * Read environment variables from file.
@@ -10,10 +11,10 @@ require("dotenv").config({ path: ".env.test" });
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig({
-  timeout: 1000000,
+  timeout: 1_000_000,
   testDir: "./tests",
   expect: {
-    timeout: 150000,
+    timeout: 150_000,
   },
   /* Run tests in files in parallel */
   fullyParallel: true,
@@ -28,11 +29,15 @@ export default defineConfig({
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
-    // baseURL: 'http://127.0.0.1:3000',
+    baseURL: "http://localhost:3000",
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: "on-first-retry",
+
+    storageState: authFile,
   },
+
+  globalSetup: require.resolve("./playwright/global-setup.ts"),
 
   /* Configure projects for major browsers */
   projects: [
@@ -73,9 +78,9 @@ export default defineConfig({
   ],
 
   /* Run your local dev server before starting the tests */
-  // webServer: {
-  //   command: 'npm run start',
-  //   url: 'http://127.0.0.1:3000',
-  //   reuseExistingServer: !process.env.CI,
-  // },
+  webServer: {
+    command: "npx yarn dev",
+    url: "http://localhost:3000",
+    reuseExistingServer: !process.env.CI,
+  },
 });
