@@ -10,51 +10,39 @@ test("verify WebriQ Forms has been configured with proper credentials", async ({
   await page.getByRole("link", { name: "Forms" }).click();
   await page.getByRole("button", { name: "Configure" }).click();
 
-  expect(
+  await expect(page.getByText("API Email")).toBeVisible();
+  await expect(page.getByText("API Email")).toBeVisible();
+
+  await expect(
     page
       .locator("div")
       .filter({ hasText: /^API Email$/ })
       .getByRole("textbox")
-  ).not.toHaveValue("", { timeout: 10_000 });
-  expect(
+  ).not.toHaveValue("");
+  await expect(
     page
       .locator("div")
       .filter({ hasText: /^API Key$/ })
       .getByRole("textbox")
-  ).not.toHaveValue("", { timeout: 10_000 });
+  ).not.toHaveValue("");
 });
 
-test("it can create a new form", async () => {
-  // go to pages
-  // create new page
-  // add a new section with form component
-  // click Generate ID
-  // click Manage - form should appear
-});
+// @todo:
+test("it lists the number of forms based on API response of WebriQ Forms", async ({
+  page,
+}) => {
+  await page.route(
+    "https://pagebuilderforms.webriq.com/forms",
+    async (route) => {
+      const response = await route.continue();
+      console.log("🚀 ~ response:", response);
+      // const responseBody = await response.json();
+      // console.log("🚀 ~ response:", responseBody); // Log or assert the response
+    }
+  );
+  await page.goto("http://localhost:3000/studio");
 
-test("created form works", async () => {
-  // go to pages
-  // go to newly created page
-  // launch preview
-  // navigate to form
-  // fill out
-  // submit
-  // page redirects to thank you page
-});
+  await page.getByRole("link", { name: "Forms" }).click();
 
-test("new form submission is recorded", async () => {
-  // go to Forms component
-  // click View Submissions button
+  await expect(page.getByText("WebriQ Forms")).toBeVisible();
 });
-
-test("form submissions can be deleted all", async () => {
-  // go to Forms component
-  // click View Submissions button
-});
-
-test("form can be updated", async () => {
-  // go to Forms component
-  // click View Submissions button
-});
-
-test("emails are received to added 'to' in the email settings", async () => {});
