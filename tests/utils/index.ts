@@ -236,15 +236,28 @@ export async function verifyInternalUrl(page, expectedUrlBase) {
 
 export async function verifyExternalUrl(page, externalLinkUrl) {
   const normalizationPattern = "https://www.";
-  const normalizedExpectedUrl = externalLinkUrl.replace(
+
+  const normalizedExpectedUrl = externalLinkUrl.endsWith("/")
+    ? externalLinkUrl
+    : `${externalLinkUrl}/`;
+
+  const normalizedReceivedUrl = page.url().endsWith("/")
+    ? page.url()
+    : `${page.url()}/`;
+
+  // Remove normalization pattern if present
+  const adjustedNormalizedExpectedUrl = normalizedExpectedUrl.replace(
     normalizationPattern,
     "https://"
   );
-  const normalizedReceivedUrl = page
-    .url()
-    .replace(normalizationPattern, "https://");
+  const adjustedNormalizedReceivedUrl = normalizedReceivedUrl.replace(
+    normalizationPattern,
+    "https://"
+  );
 
-  await expect(normalizedReceivedUrl).toBe(normalizedExpectedUrl);
+  await expect(adjustedNormalizedReceivedUrl).toBe(
+    adjustedNormalizedExpectedUrl
+  );
 }
 
 export async function updateLogoLink(page, altText) {
