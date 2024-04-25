@@ -1,0 +1,14 @@
+{
+  "cookies": [],
+  "origins": [
+    {
+      "origin": "http://localhost:3000",
+      "localStorage": [
+        {
+          "name": "__studio_auth_token_9itgab5x",
+          "value": "{\"token\":\"skCfKlAojziTf0WRmamxqxHiilSM0MVQjv1kOgSb8yjKJWGmgLHfV2lRQv41vp14naKGssrmS8vrS31aiSuc7FHZ0YviZhVD6T4aB2tuo33wQeqEcXnxWIWkzjPvxNO4dgUlXjd4RcgGtcrluPacHECFRevPOAgaWXyAWH390z8lMElcOf4C\",\"time\":\"2024-03-11T07:00:27.633Z\"}"
+        }
+      ]
+    }
+  ]
+}

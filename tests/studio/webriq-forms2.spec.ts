@@ -5,22 +5,23 @@ test.describe.configure({ mode: "serial" });
 
 let page: Page;
 
-// test.beforeAll("Autologin Studio", async ({ browser }) => {
-//   page = await browser.newPage();
+test.beforeAll("Autologin Studio", async ({ browser }) => {
+  page = await browser.newPage();
 
-//   await page.goto("http://localhost:3000/studio");
-//   // Pass the environment variable value as an argument to page.evaluate()
-//   const token = process.env.STUDIO_AUTOLOGIN_TOKEN_FOR_TESTING;
-//   const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
+  await page.goto("http://localhost:3000");
+  // Pass the environment variable value as an argument to page.evaluate()
+  const token = process.env.STUDIO_AUTOLOGIN_TOKEN_FOR_TESTING;
+  const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
+  console.log("🚀 ~ test.beforeAll ~ token:", { token, projectId });
 
-//   await page.evaluate(autologin_studio, { token, projectId });
-// });
+  await page.evaluate(autologin_studio, { token, projectId });
+});
 
-// test.afterAll(async () => {
-//   await page.close();
-// });
+test.afterAll(async () => {
+  await page.close();
+});
 
-test("verify WebriQ Forms has been configured with proper credentials", async ({
+test("verify WebriQ Forms 2 has been configured with proper credentials", async ({
   page,
 }) => {
   await page.goto("http://localhost:3000/studio");
