@@ -260,7 +260,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   }
 
   const paths = await sanityClient.fetch(
-    groq`*[_type in ["page", "post"] && defined(slug.current)][].slug.current`
+    groq`*[_type in ["page", "post"] && !(_id in path("drafts.**")) && defined(slug.current)][].slug.current`
   );
 
   return {
