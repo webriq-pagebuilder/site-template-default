@@ -45,7 +45,9 @@ export default async function VariantB({
   await page.getByText(`${NEXT_PUBLIC_SITE_URL}`).click({ force: true });
   const openUrlPage = await pagePromise;
 
-  await expect(openUrlPage.locator("section")).toBeVisible({ timeout: 150000 });
+  await expect(openUrlPage.locator("section")).toBeVisible({
+    timeout: 150_000,
+  });
   await expect(
     openUrlPage.getByRole("heading", { name: commonFieldValues.title })
   ).toBeVisible();

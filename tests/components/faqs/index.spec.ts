@@ -75,7 +75,7 @@ faqsVariantTest.forEach((variants, index) => {
   const { name, title, label, variant } = variants;
 
   test.describe(`${name}`, () => {
-    test.describe.configure({ timeout: 1000000, mode: "serial" });
+    test.describe.configure({ timeout: 600_000, mode: "serial" });
 
     test(`Create ${label}`, async ({ page }) => {
       const time = new Date().getTime();

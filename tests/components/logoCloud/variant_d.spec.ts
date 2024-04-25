@@ -1,5 +1,5 @@
 import { expect } from "@playwright/test";
-import { expectDocumentPublished, titleFieldInput } from "tests/utils";
+import { expectDocumentPublished } from "tests/utils";
 import { NEXT_PUBLIC_SITE_URL } from "studio/config";
 
 export default async function VariantD({ variantTitle, page }) {
@@ -10,9 +10,9 @@ export default async function VariantD({ variantTitle, page }) {
   const openUrlPage = await pagePromise;
 
   await expect(openUrlPage.getByText("Empty Page")).toBeHidden({
-    timeout: 20000,
+    timeout: 20_000,
   });
-  await expect(openUrlPage.locator("section")).toBeVisible({ timeout: 20000 });
+  await expect(openUrlPage.locator("section")).toBeVisible({ timeout: 20_000 });
 
   await expect(
     openUrlPage.locator(".object-scale-down").first().hover()

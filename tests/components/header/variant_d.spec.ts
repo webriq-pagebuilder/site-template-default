@@ -136,21 +136,21 @@ async function assertPageContent(
 
   await expect(
     openUrlPage.getByRole("heading", { name: commonFieldValues.title })
-  ).toBeVisible({ timeout: 150000 });
+  ).toBeVisible({ timeout: 150_000 });
   await expect(
     openUrlPage.getByText(commonFieldValues.description)
   ).toBeVisible({
-    timeout: 150000,
+    timeout: 150_000,
   });
   await expect(
     openUrlPage.getByLabel(commonFieldValues.primaryButton)
   ).toBeVisible({
-    timeout: 150000,
+    timeout: 150_000,
   });
   await expect(
     openUrlPage.getByLabel(commonFieldValues.secondaryButton)
   ).toBeVisible({
-    timeout: 150000,
+    timeout: 150_000,
   });
 
   if (!isInternalLink) {
@@ -166,7 +166,7 @@ async function assertPageContent(
       .click({ force: true });
     await openUrlPage.waitForLoadState("networkidle");
     await expect(openUrlPage.getByText("Success!")).toBeVisible({
-      timeout: 20000,
+      timeout: 20_000,
     });
     await verifyInternalUrl(openUrlPage, commonFieldValues.internalLinkUrl);
   }

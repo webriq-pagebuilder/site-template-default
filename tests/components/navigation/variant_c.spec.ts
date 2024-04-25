@@ -170,11 +170,9 @@ async function assertPageContent(
 ) {
   // If the section no items is not found, expect the Empty Page element to be hidden
   await expect(openUrlPage.getByText("Empty Page")).toBeHidden({
-    timeout: 20000,
+    timeout: 20_000,
   });
-  await expect(openUrlPage.locator("section")).toBeVisible({
-    timeout: 20000,
-  });
+  await expect(openUrlPage.locator("section")).toBeVisible({ timeout: 20_000 });
 
   // EXPECT THE SAME VALUE FOR NAVIGATION ROUTES LIST.
   for (const navigation of commonFieldValues.navigationBase) {
@@ -199,7 +197,7 @@ async function assertPageContent(
       .click({ force: true });
     await openUrlPage.waitForLoadState("networkidle");
     await expect(openUrlPage.getByText("Success!")).toBeVisible({
-      timeout: 150000,
+      timeout: 150_000,
     });
     await verifyInternalUrl(openUrlPage, commonFieldValues.internalLinkUrl);
   }
@@ -214,7 +212,7 @@ async function addNavigationRoutes({
   await page.getByRole("button", { name: buttonName }).click();
   await expect(
     page.getByLabel("Edit Link").getByTestId("autocomplete")
-  ).toBeVisible({ timeout: 75000 });
+  ).toBeVisible({ timeout: 75_000 });
 
   // NAVIGATION INTERNAL/EXTERNAL SELECTOR
   const routesExternalLink = await page.locator(

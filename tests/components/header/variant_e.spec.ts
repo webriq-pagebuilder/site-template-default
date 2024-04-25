@@ -246,7 +246,7 @@ async function assertPageContent(
       .click({ force: true });
     await openUrlPage.waitForLoadState("networkidle");
     await expect(openUrlPage.getByText("Success!")).toBeVisible({
-      timeout: 20000,
+      timeout: 20_000,
     });
     await verifyInternalUrl(openUrlPage, commonFieldValues.internalLinkUrl);
   }

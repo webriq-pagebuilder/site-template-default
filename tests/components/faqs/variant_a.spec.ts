@@ -33,9 +33,9 @@ export default async function VariantA({
   const openUrlPage = await pagePromise;
 
   await expect(openUrlPage.getByText("Empty Page")).toBeHidden({
-    timeout: 20000,
+    timeout: 20_000,
   });
-  await expect(openUrlPage.locator("section")).toBeVisible({ timeout: 20000 });
+  await expect(openUrlPage.locator("section")).toBeVisible({ timeout: 20_000 });
   await expect(openUrlPage.getByText(commonFieldValues.subtitle)).toBeVisible();
   await expect(
     openUrlPage.getByRole("heading", { name: commonFieldValues.title })

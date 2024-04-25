@@ -54,9 +54,9 @@ async function assertPageContent({
   isInternalLink,
 }) {
   await expect(openUrlPage.getByText("Empty Page")).toBeHidden({
-    timeout: 150000,
+    timeout: 20_000,
   });
-  await expect(openUrlPage.locator("section")).toBeVisible({ timeout: 150000 });
+  await expect(openUrlPage.locator("section")).toBeVisible({ timeout: 20_000 });
 
   await expect(openUrlPage.locator(".p-6").first()).toBeVisible();
 
@@ -79,7 +79,7 @@ async function assertPageContent({
   if (isInternalLink) {
     await openUrlPage.waitForLoadState("networkidle");
     await expect(openUrlPage.getByText("Success!")).toBeVisible({
-      timeout: 150000,
+      timeout: 150_000,
     });
     await verifyInternalUrl(openUrlPage, commonFieldValues.internalLinkUrl);
   } else if (!isInternalLink) {
