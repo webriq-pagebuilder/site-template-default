@@ -1,10 +1,6 @@
 import { test, expect } from "@playwright/test";
 
-test.describe.configure({ mode: "serial" });
-
-test("verify WebriQ Forms has been configured with proper credentials", async ({
-  page,
-}) => {
+test("verify it is initially setup properly", async ({ page }) => {
   await page.goto("http://localhost:3000/studio");
 
   await page.getByRole("link", { name: "Forms" }).click();
@@ -27,7 +23,7 @@ test("verify WebriQ Forms has been configured with proper credentials", async ({
   ).not.toHaveValue("");
 });
 
-// @todo:
+// @todo: fix properly intercepting response from request
 test("it lists the number of forms based on API response of WebriQ Forms", async ({
   page,
 }) => {
