@@ -1,92 +1,18 @@
-import { test, expect, type Page } from "@playwright/test";
+import { expect } from "@playwright/test";
+import { NEXT_PUBLIC_SITE_URL } from "studio/config";
 import {
-  NEXT_PUBLIC_SANITY_STUDIO_URL,
-  NEXT_PUBLIC_SITE_URL,
-} from "studio/config";
-import {
-  autologin_studio,
-  clickVariantImage,
-  createNewPage,
-  deletePageVariant,
   expectDocumentPublished,
-  generateFormId,
-  navigateToPage,
-  subtitleFieldInput,
-  variantLabelInput,
   verifyExternalUrl,
   verifyInternalUrl,
 } from "tests/utils";
 
-let page: Page;
-
-const internalLinkUrl = `${NEXT_PUBLIC_SITE_URL}/thank-you/`;
-const externalLinkUrl = "https://facebook.com/";
-const subtitleInput = "Subtitle Input Test";
-const formNameInput = "Form Name Input";
-const signInBtnInput = "Sign In Button";
-const formFields = [
-  {
-    name: "First Name",
-    updatedName: "Name First",
-    placeholder: "First Name",
-    input: "First name",
-  },
-  {
-    name: "Last Name",
-    updatedName: "Name Last",
-    placeholder: "Last Name",
-    input: "Last name",
-  },
-  {
-    name: "Email",
-    updatedName: "Updated Email",
-    placeholder: "Enter your email address",
-    input: "test@gmail.com",
-  },
-  {
-    name: "Password",
-    updatedName: "Updated Password",
-    placeholder: "Enter your password",
-    input: "Test Password",
-  },
-];
-const formLinks = [
-  {
-    name: "Police privacy",
-    updatedName: "Privacy Policy",
-  },
-  {
-    name: "Terms of Use",
-    updatedName: "Use of Terms",
-  },
-];
-let newPageTitle;
-
-test.beforeAll("Auto login studio", async ({ browser }) => {
-  page = await browser.newPage();
-
-  // navigate to the studio
-  await page.goto(`${NEXT_PUBLIC_SANITY_STUDIO_URL}`);
-
-  const token = process.env.NEXT_PUBLIC_STUDIO_AUTOLOGIN_TOKEN_FOR_TESTING;
-  const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
-
-  await page.evaluate(autologin_studio, { token, projectId });
-});
-
-async function createSignInSignUpVariant(
-  pageTitle,
-  variantLabel,
-  variantIndex,
-  isInternalLink
-) {
-  newPageTitle = `${pageTitle} ` + new Date().getTime();
-
-  await navigateToPage(page);
-  await createNewPage(page, newPageTitle, "Sign In Sign Up");
-  await clickVariantImage(page, variantIndex);
-  await variantLabelInput(page, variantLabel);
-
+export default async function VariantA({
+  variantTitle,
+  page,
+  commonFieldValues,
+  linkNames,
+  isInternalLink,
+}) {
   if (isInternalLink) {
     await page
       .getByTestId("field-variants.logo.linkType")
@@ -111,11 +37,18 @@ async function createSignInSignUpVariant(
     await page
       .getByTestId("field-variants.logo.linkExternal")
       .getByLabel("URL")
-      .fill(externalLinkUrl);
+      .fill(commonFieldValues.externalLinkUrl);
     await page.getByText("Blank - open on a new tab (").click();
   }
 
-  await generateFormId({ page });
+  // Generate Form Id
+  //   await generateFormId({ page });
+  await page
+    .getByRole("button", { name: "Generate ID" })
+    .click({ force: true });
+  expect(page.getByLabel("Form ID")).not.toBeUndefined();
+  await expect(page.getByRole("button", { name: "Generate ID" })).toBeVisible();
+  await expect(page.getByRole("link", { name: "Manage" })).toBeVisible();
 
   //Subtitle
   await page
@@ -125,7 +58,7 @@ async function createSignInSignUpVariant(
   await page
     .getByTestId("field-variants.form.subtitle")
     .getByTestId("string-input")
-    .fill(subtitleInput);
+    .fill(commonFieldValues.subtitle);
 
   //Form Name
   await page
@@ -135,11 +68,11 @@ async function createSignInSignUpVariant(
   await page
     .getByTestId("field-variants.form.name")
     .getByTestId("string-input")
-    .fill(formNameInput);
+    .fill(commonFieldValues.formName);
 
   //Fields
 
-  for (const forms of formFields) {
+  for (const forms of commonFieldValues.formFields) {
     await page.getByRole("button", { name: forms.name }).click();
     await expect(page.getByLabel("Edit WebriQ Form Field")).toBeVisible();
 
@@ -186,8 +119,7 @@ async function createSignInSignUpVariant(
     await page
       .getByTestId("field-variants.form.thankYouPage.linkExternal")
       .getByLabel("URL")
-      .fill(externalLinkUrl);
-    // await page.getByTestId('field-variants.form.thankYouPage.linkTarget').getByText('Blank - open on a new tab (').click();
+      .fill(commonFieldValues.externalLinkUrl);
   }
 
   //SignIn Button Link
@@ -198,7 +130,7 @@ async function createSignInSignUpVariant(
   await page
     .getByTestId("field-variants.signinLink.label")
     .getByTestId("string-input")
-    .fill(signInBtnInput);
+    .fill(commonFieldValues.signInButton);
 
   if (isInternalLink) {
     await page
@@ -224,7 +156,7 @@ async function createSignInSignUpVariant(
     await page
       .getByTestId("field-variants.signinLink.linkExternal")
       .getByLabel("URL")
-      .fill(externalLinkUrl);
+      .fill(commonFieldValues.externalLinkUrl);
     await page
       .getByTestId("field-variants.signinLink.linkTarget")
       .getByText("Blank - open on a new tab (")
@@ -238,15 +170,12 @@ async function createSignInSignUpVariant(
     '.sc-jdUcAg > div:nth-child(2) > div label[data-as="label"] span:has-text("Internal, inside this website")'
   );
 
-  const blankLinkTarget = {
-    element: page.locator(
-      '.sc-jdUcAg > div:nth-child(2) > div label[data-as="label"] span:has-text("Blank - open on a new tab (")'
-    ),
-    target: "Blank - open on a new tab (",
-  };
+  const blankLinkTarget = page.locator(
+    '.sc-jdUcAg > div:nth-child(2) > div label[data-as="label"] span:has-text("Blank - open on a new tab (")'
+  );
 
   //Form Links
-  for (const links of formLinks) {
+  for (const links of commonFieldValues.formLinks) {
     await page.getByRole("button", { name: links.name }).click();
     await expect(page.getByLabel("Edit Link")).toBeVisible();
 
@@ -267,170 +196,93 @@ async function createSignInSignUpVariant(
         .click();
       await page
         .locator('.sc-jdUcAg > div:nth-child(2) > div input[inputmode="url"]')
-        .fill(externalLinkUrl);
-      await blankLinkTarget.element.click();
+        .fill(commonFieldValues.externalLinkUrl);
+      await blankLinkTarget.click();
     }
     await page.getByLabel("Close dialog").click();
   }
 
-  await expectDocumentPublished(page, newPageTitle);
+  await expectDocumentPublished(page, variantTitle);
 
   const pagePromise = page.waitForEvent("popup");
   await page.getByText(`${NEXT_PUBLIC_SITE_URL}`).click({ force: true });
   const openUrlPage = await pagePromise;
 
   //Fill up form
-  for (const input of formFields) {
+  for (const input of commonFieldValues.formFields) {
     await openUrlPage.getByLabel(submitBtnInput).click();
     await expect(openUrlPage.getByPlaceholder(input.updatedName)).toBeFocused();
     await openUrlPage.getByPlaceholder(input.updatedName).click();
     await openUrlPage.getByPlaceholder(input.updatedName).fill(input.input);
+    await openUrlPage.getByLabel(submitBtnInput).click();
+    await expect(
+      openUrlPage.getByPlaceholder(input.updatedName)
+    ).not.toBeFocused();
   }
-  // await openUrlPage.getByLabel(submitBtnInput).click({ force: true });
-  // await expect(openUrlPage.getByText('Sending form data.')).toBeVisible();
-  // await expect(openUrlPage.getByText('✔ Successfully sent form data')).toBeVisible();
-  // await openUrlPage.waitForLoadState('networkidle');
-  // await expect(openUrlPage.getByText('Success!')).toBeVisible({ timeout: 20000 })
-  // const expectedUrl = internalLinkUrl.endsWith('/') ? internalLinkUrl : `${internalLinkUrl}/`;
-  // const receivedUrl = openUrlPage.url().endsWith('/') ? openUrlPage.url() : `${openUrlPage.url()}/`;
-  // await expect(receivedUrl).toBe(expectedUrl);
 
-  let logoImg;
-  isInternalLink
-    ? (logoImg = "Go to /thank-you")
-    : (logoImg = "Go to https://facebook.com/");
+  let logoImg = isInternalLink
+    ? "Go to /thank-you"
+    : `Go to ${commonFieldValues.externalLinkUrl}`;
+
   await assertPageContent(
     openUrlPage,
-    subtitleInput,
-    formNameInput,
-    formFields,
-    formLinks,
+    commonFieldValues,
     logoImg,
     isInternalLink
   );
+
+  const slug = variantTitle
+    ?.toLowerCase()
+    ?.replace(/\s+/g, "-")
+    .replace(/-+/g, "-");
+  for (const linkName of linkNames) {
+    await page.goto(`${NEXT_PUBLIC_SITE_URL}/${slug}`);
+
+    await assertPageContent(page, commonFieldValues, linkName, isInternalLink);
+  }
 }
 
 async function assertPageContent(
   openUrlPage,
-  subtitleInput,
-  formNameInput,
-  formFields,
-  formLinks,
+  commonFieldValues,
   linkName,
   isInternalLink
 ) {
   await expect(openUrlPage.getByText("Empty Page")).toBeHidden({
-    timeout: 20000,
+    timeout: 20_000,
   });
-  await expect(openUrlPage.locator("section")).toBeVisible({ timeout: 20000 });
+  await expect(openUrlPage.locator("section")).toBeVisible({
+    timeout: 20_000,
+  });
 
   await expect(openUrlPage.getByLabel(linkName)).toBeVisible();
-  await expect(openUrlPage.getByText(subtitleInput)).toBeVisible();
+  await expect(openUrlPage.getByText(commonFieldValues.subtitle)).toBeVisible();
   await expect(
-    openUrlPage.getByRole("heading", { name: formNameInput })
+    openUrlPage.getByRole("heading", { name: commonFieldValues.formName })
   ).toBeVisible();
-  await expect(openUrlPage.getByLabel(signInBtnInput)).toBeVisible();
+  await expect(
+    openUrlPage.getByLabel(commonFieldValues.signInButton)
+  ).toBeVisible();
 
-  for (const input of formFields) {
+  for (const input of commonFieldValues.formFields) {
     await expect(openUrlPage.getByPlaceholder(input.updatedName)).toBeVisible();
-    for (const links of formLinks) {
+    for (const links of commonFieldValues.formLinks) {
       await expect(openUrlPage.getByLabel(links.updatedName)).toBeVisible();
     }
   }
 
+  await openUrlPage
+    .getByRole("link", { name: linkName })
+    .click({ force: true });
   if (isInternalLink) {
-    await openUrlPage
-      .getByRole("link", { name: linkName })
-      .click({ force: true });
     await openUrlPage.waitForLoadState("networkidle");
     await expect(openUrlPage.getByText("Success!")).toBeVisible({
-      timeout: 20000,
+      timeout: 20_000,
     });
-    await verifyInternalUrl(openUrlPage, internalLinkUrl);
+    await verifyInternalUrl(openUrlPage, commonFieldValues.internalLinkUrl);
   } else if (!isInternalLink) {
-    const page10Promise = openUrlPage.waitForEvent("popup");
-    await openUrlPage
-      .getByRole("link", { name: linkName })
-      .click({ force: true });
-    const page10 = await page10Promise;
-    await verifyExternalUrl(page10, externalLinkUrl);
+    const externalPagePromise = openUrlPage.waitForEvent("popup");
+    const externalPage = await externalPagePromise;
+    await verifyExternalUrl(externalPage, commonFieldValues.externalLinkUrl);
   }
 }
-
-async function createSignInSignUpTest(
-  pageTitle,
-  variantLabel,
-  variantIndex,
-  isInternalLink,
-  linkNames
-) {
-  await createSignInSignUpVariant(
-    pageTitle,
-    variantLabel,
-    variantIndex,
-    isInternalLink
-  );
-
-  for (const linkName of linkNames) {
-    const slug = newPageTitle
-      ?.toLowerCase()
-      ?.replace(/\s+/g, "-")
-      .replace(/-+/g, "-");
-    await page.goto(`${NEXT_PUBLIC_SITE_URL}/${slug}`);
-
-    await assertPageContent(
-      page,
-      subtitleInput,
-      formNameInput,
-      formFields,
-      formLinks,
-      linkName,
-      isInternalLink
-    );
-  }
-}
-
-let linkNames = [signInBtnInput, "Privacy Policy", "Use of Terms"];
-
-const signInSignupVariant = [
-  {
-    variantName: "Variant A",
-    pageTitle: "Sign In Sign Up Variant A",
-    variantLabel: "Sign In Sign Up New Page A",
-    variantIndex: 0,
-    isInternalLink: false,
-    linkNames: linkNames,
-  },
-  {
-    variantName: "Variant B",
-    pageTitle: "Sign In Sign Up Variant B",
-    variantLabel: "Sign In Sign Up New Page B",
-    variantIndex: 1,
-    isInternalLink: true,
-    linkNames: linkNames,
-  },
-];
-
-signInSignupVariant.forEach((variant) => {
-  test.describe(`${variant.variantName} Workflow`, () => {
-    test.describe.configure({ timeout: 900000, mode: "serial" });
-
-    test(`Create ${variant.pageTitle}`, async () => {
-      await createSignInSignUpTest(
-        variant.pageTitle,
-        variant.variantLabel,
-        variant.variantIndex,
-        variant.isInternalLink,
-        variant.linkNames
-      );
-    });
-
-    test(`Delete ${variant.pageTitle}`, async () => {
-      await deletePageVariant(page, newPageTitle, variant.variantLabel);
-    });
-  });
-});
-
-test.afterAll(async () => {
-  await page.close();
-});
