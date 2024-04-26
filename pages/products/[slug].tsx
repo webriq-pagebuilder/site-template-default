@@ -269,7 +269,7 @@ export async function getStaticPaths() {
   }
 
   const products = await sanityClient.fetch(
-    groq`*[_type == "mainProduct" && defined(slug.current)][].slug.current`
+    groq`*[_type == "mainProduct" && !(_id in path("drafts.**")) && defined(slug.current)][].slug.current`
   );
 
   return {

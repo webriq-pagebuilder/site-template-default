@@ -259,7 +259,7 @@ export async function getStaticPaths() {
   }
 
   const collections = await sanityClient.fetch(
-    groq`*[_type == "mainCollection" && defined(slug.current)][].slug.current`
+    groq`*[_type == "mainCollection" && !(_id in path("drafts.**")) && defined(slug.current)][].slug.current`
   );
 
   return {

@@ -41,7 +41,18 @@ export default async function generateSitemap(
 
     const smStream = new SitemapStream({
       hostname: "https://" + req.headers.host,
+      xmlns: {
+        // trim the xml namespace
+        news: true,
+        xhtml: true,
+        image: true,
+        video: true,
+        custom: [
+          "xmlns:mobile='http://www.google.com/schemas/sitemap-mobile/1.0'",
+        ],
+      },
     });
+
     for (const page of pages) {
       if (page.slug && page.publishedAt) {
         smStream.write({
@@ -52,8 +63,11 @@ export default async function generateSitemap(
         });
       }
     }
+
     smStream.end();
+
     const sitemap = await streamToPromise(smStream).then((sm) => sm.toString());
+
     res.write(sitemap);
     res.end();
   } catch (error) {
