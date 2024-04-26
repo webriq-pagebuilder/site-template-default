@@ -3,6 +3,16 @@ import {
   NEXT_PUBLIC_SANITY_STUDIO_URL,
   NEXT_PUBLIC_SITE_URL,
 } from "studio/config";
+import { nanoid } from "nanoid";
+
+export const newPageTitle = (text = "New Page") => {
+  let title: string;
+
+  const uniqueKey = nanoid(4);
+  title = text + uniqueKey;
+
+  return title;
+};
 
 export function autologin_studio({ token, projectId }) {
   console.log("🚀 ~ autologin_studio ~ { token, projectId }:", {

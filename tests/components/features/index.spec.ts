@@ -1,20 +1,19 @@
 import { test } from "@playwright/test";
 import {
+  newPageTitle,
   createNewPage,
   clickVariantImage,
   navigateToPage,
   deletePageVariant,
 } from "tests/utils";
-import VariantA from "./variant_a.spec";
-import VariantB from "./variant_b.spec";
-import VariantC from "./variant_c.spec";
-import VariantD from "./variant_d.spec";
-import VariantE from "./variant_e.spec";
-import VariantF from "./variant_f.spec";
-import VariantG from "./variant_g.spec";
-import VariantH from "./variant_h.spec";
-
-let newPageTitle: string;
+import VariantA from "./variant_a";
+import VariantB from "./variant_b";
+import VariantC from "./variant_c";
+import VariantD from "./variant_d";
+import VariantE from "./variant_e";
+import VariantF from "./variant_f";
+import VariantG from "./variant_g";
+import VariantH from "./variant_h";
 
 const variantModules = {
   variant_a: VariantA,
@@ -78,35 +77,30 @@ const commonFieldValues = {
   primaryButtonLabel: "Features Primary",
 };
 
-const time = new Date().getTime();
-newPageTitle = "New Page " + time;
-
 featuresVariantTests?.forEach((variant, index) => {
-  test.describe(`${variant.title}`, () => {
-    test.describe.configure({ timeout: 300000, mode: "serial" });
+  test.beforeEach(async ({ page }) => {
+    await navigateToPage(page);
+    await createNewPage(page, newPageTitle, "Features");
 
-    test(`Create ${variant.label}`, async ({ page }) => {
-      await navigateToPage(page);
-      await createNewPage(page, newPageTitle, "Features");
+    const variantLabel = page
+      .getByTestId("field-label")
+      .getByTestId("string-input");
+    await variantLabel.click();
+    await variantLabel.fill("New Features Test");
 
-      const variantLabel = page
-        .getByTestId("field-label")
-        .getByTestId("string-input");
-      await variantLabel.click();
-      await variantLabel.fill("New Features Test");
+    await clickVariantImage(page, index); // select variant
+  });
 
-      await clickVariantImage(page, index); // select variant
+  test.afterEach(`Delete ${variant.label}`, async ({ page }) => {
+    await deletePageVariant(page, newPageTitle, variant?.label);
+  });
 
-      const variantTest = variantModules[variant.variant];
-      await variantTest({
-        newPageTitle,
-        page,
-        commonFieldValues,
-      });
-    });
-
-    test(`Delete ${variant.label}`, async ({ page }) => {
-      await deletePageVariant(page, newPageTitle, variant?.label);
+  test(`Create ${variant.label}`, async ({ page }) => {
+    const variantTest = variantModules[variant.variant];
+    await variantTest({
+      newPageTitle,
+      page,
+      commonFieldValues,
     });
   });
 });

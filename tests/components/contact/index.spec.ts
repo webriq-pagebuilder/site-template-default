@@ -1,14 +1,13 @@
 import { test } from "@playwright/test";
 import {
+  newPageTitle,
   navigateToPage,
   clickVariantImage,
   createNewPage,
   deletePageVariant,
 } from "tests/utils";
-import VariantA from "./variant_a.spec";
-import VariantB from "./variant_b.spec";
-
-let newPageTitle: string;
+import VariantA from "./variant_a";
+import VariantB from "./variant_b";
 
 const variantModules = {
   variant_a: VariantA,
@@ -45,35 +44,30 @@ const commonFieldValues = {
   thankYouPageUrl: "https://webriq.com/thank-you",
 };
 
-const time = new Date().getTime();
-newPageTitle = "New Page " + time;
-
 contactVariantTests?.forEach((variant, index) => {
-  test.describe(`${variant.title}`, () => {
-    test.describe.configure({ timeout: 300000, mode: "serial" });
+  test.beforeEach(async ({ page }) => {
+    await navigateToPage(page);
+    await createNewPage(page, newPageTitle, "Contact");
 
-    test(`Create ${variant.label}`, async ({ page }) => {
-      await navigateToPage(page);
-      await createNewPage(page, newPageTitle, "Contact");
+    const variantLabel = page
+      .getByTestId("field-label")
+      .getByTestId("string-input");
+    await variantLabel.click();
+    await variantLabel.fill("New Contact Test");
 
-      const variantLabel = page
-        .getByTestId("field-label")
-        .getByTestId("string-input");
-      await variantLabel.click();
-      await variantLabel.fill("New Contact Test");
+    await clickVariantImage(page, index); // select variant
+  });
 
-      await clickVariantImage(page, index); // select variant
+  test.afterEach(`Delete ${variant.label}`, async ({ page }) => {
+    await deletePageVariant(page, newPageTitle, variant.label);
+  });
 
-      const variantTest = variantModules[variant.variant];
-      await variantTest({
-        newPageTitle,
-        page,
-        commonFieldValues,
-      });
-    });
-
-    test(`Delete ${variant.label}`, async ({ page }) => {
-      await deletePageVariant(page, newPageTitle, variant.label);
+  test(`Create ${variant.label}`, async ({ page }) => {
+    const variantTest = variantModules[variant.variant];
+    await variantTest({
+      newPageTitle,
+      page,
+      commonFieldValues,
     });
   });
 });
