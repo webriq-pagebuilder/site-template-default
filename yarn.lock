@@ -3471,10 +3471,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@netlify/plugin-nextjs@npm:^5.0.0-rc.4":
-  version: 5.0.0-rc.4
-  resolution: "@netlify/plugin-nextjs@npm:5.0.0-rc.4"
-  checksum: 10c0/2360af0df31c8051f41c0db71e29f9cb9706b72cfb513fa6b994ece38ae8ef5b64710113ccd3852c64f231f507a7ae758eb9338ec33dda8074a856de69765c76
+"@netlify/plugin-nextjs@npm:^5.1.2":
+  version: 5.1.2
+  resolution: "@netlify/plugin-nextjs@npm:5.1.2"
+  checksum: 10c0/ba44bf15ae7d43ae04174d105c0e513f97d7acf43b5413ca57cacb089f2ce024ec5f062036d8af66436fb09f2a212b220ed9afa79a291442e8e49ebba88754f2
   languageName: node
   linkType: hard
 
@@ -6713,7 +6713,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@webriq-pagebuilder/site-template-default@workspace:."
   dependencies:
-    "@netlify/plugin-nextjs": "npm:^5.0.0-rc.4"
+    "@netlify/plugin-nextjs": "npm:^5.1.2"
     "@playwright/test": "npm:^1.42.1"
     "@portabletext/react": "npm:^3.0.9"
     "@sanity/code-input": "npm:^4.1.1"

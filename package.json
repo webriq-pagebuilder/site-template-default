@@ -79,7 +79,7 @@
     "ts-dedent": "^2.2.0"
   },
   "devDependencies": {
-    "@netlify/plugin-nextjs": "^5.0.0-rc.4",
+    "@netlify/plugin-nextjs": "^5.1.2",
     "@playwright/test": "^1.42.1",
     "@storybook/addon-docs": "^8.0.0",
     "@storybook/addon-essentials": "^8.0.0",
