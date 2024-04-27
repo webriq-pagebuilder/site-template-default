@@ -2,8 +2,8 @@ import { expect } from "@playwright/test";
 import { expectDocumentPublished } from "tests/utils";
 import { NEXT_PUBLIC_SITE_URL } from "studio/config";
 
-export default async function VariantD({ variantTitle, page }) {
-  await expectDocumentPublished(page, variantTitle);
+export default async function VariantD({ pageTitle, page }) {
+  await expectDocumentPublished(page, pageTitle);
 
   const pagePromise = page.waitForEvent("popup");
   await page.getByText(`${NEXT_PUBLIC_SITE_URL}`).click({ force: true });

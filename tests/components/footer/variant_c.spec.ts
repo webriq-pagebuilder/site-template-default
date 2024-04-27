@@ -9,14 +9,14 @@ import {
 let logoImg: string;
 
 export default async function VariantC({
-  variantTitle,
+  pageTitle,
   page,
   commonFieldValues,
   linkNames,
   isInternalLink,
 }) {
   await createFooterVariant({
-    variantTitle,
+    pageTitle,
     page,
     commonFieldValues,
     linkNames,
@@ -24,7 +24,7 @@ export default async function VariantC({
   });
 
   // Loops all routes
-  const slug = variantTitle
+  const slug = pageTitle
     ?.toLowerCase()
     ?.replace(/\s+/g, "-")
     .replace(/-+/g, "-");
@@ -35,7 +35,7 @@ export default async function VariantC({
 }
 
 async function createFooterVariant({
-  variantTitle,
+  pageTitle,
   page,
   commonFieldValues,
   linkNames,
@@ -102,7 +102,7 @@ async function createFooterVariant({
     await addNavigationRoutes(navName, page, commonFieldValues, isInternalLink);
   }
 
-  await expectDocumentPublished(page, variantTitle);
+  await expectDocumentPublished(page, pageTitle);
 
   const pagePromise = page.waitForEvent("popup");
   await page.getByText(`${NEXT_PUBLIC_SITE_URL}`).click({ force: true });

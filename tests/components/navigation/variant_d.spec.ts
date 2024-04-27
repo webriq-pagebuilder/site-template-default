@@ -7,7 +7,7 @@ import {
 } from "tests/utils";
 
 export default async function VariantD({
-  variantTitle,
+  pageTitle,
   page,
   commonFieldValues,
   linkNames,
@@ -133,7 +133,7 @@ export default async function VariantD({
   //Close secondary button toggle
   await page.getByRole("button", { name: "Secondary Button" }).click();
 
-  await expectDocumentPublished(page, variantTitle);
+  await expectDocumentPublished(page, pageTitle);
 
   const pagePromise = page.waitForEvent("popup");
   await page.getByText(`${NEXT_PUBLIC_SITE_URL}`).click({ force: true });
@@ -152,7 +152,7 @@ export default async function VariantD({
   );
 
   // Loops all routes
-  const slug = variantTitle
+  const slug = pageTitle
     ?.toLowerCase()
     ?.replace(/\s+/g, "-")
     .replace(/-+/g, "-");

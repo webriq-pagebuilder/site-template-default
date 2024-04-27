@@ -33,11 +33,7 @@ const faqsWithCategories = [
   },
 ];
 
-export default async function VariantB({
-  variantTitle,
-  page,
-  commonFieldValues,
-}) {
+export default async function VariantB({ pageTitle, page, commonFieldValues }) {
   await subtitleFieldInput(page, commonFieldValues.subtitle);
   await titleFieldInput(page, commonFieldValues.title);
 
@@ -71,7 +67,7 @@ export default async function VariantB({
     }
   }
 
-  await expectDocumentPublished(page, variantTitle);
+  await expectDocumentPublished(page, pageTitle);
 
   const pagePromise = page.waitForEvent("popup");
   await page.getByText(`${NEXT_PUBLIC_SITE_URL}`).click({ force: true });

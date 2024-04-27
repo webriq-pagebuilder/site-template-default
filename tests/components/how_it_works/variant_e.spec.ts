@@ -6,11 +6,7 @@ import {
   titleFieldInput,
 } from "tests/utils";
 
-export default async function VariantE({
-  variantTitle,
-  page,
-  commonFieldValues,
-}) {
+export default async function VariantE({ pageTitle, page, commonFieldValues }) {
   await subtitleFieldInput(page, commonFieldValues.subtitle);
   await titleFieldInput(page, commonFieldValues.title);
 
@@ -31,7 +27,7 @@ export default async function VariantE({
     await page.getByLabel("Close dialog").click();
   }
 
-  await expectDocumentPublished(page, variantTitle);
+  await expectDocumentPublished(page, pageTitle);
 
   const pagePromise = page.waitForEvent("popup");
   await page.getByText(`${NEXT_PUBLIC_SITE_URL}`).click({ force: true });

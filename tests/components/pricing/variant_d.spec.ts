@@ -9,7 +9,7 @@ import {
 } from "tests/utils";
 
 export default async function VariantD({
-  variantTitle,
+  pageTitle,
   page,
   commonFieldValues,
   isInternalLink,
@@ -146,7 +146,7 @@ export default async function VariantD({
     .getByLabel("Choose Stripe Account")
     .selectOption("Mariel Stripe Test 2");
 
-  await expectDocumentPublished(page, variantTitle);
+  await expectDocumentPublished(page, pageTitle);
 
   const pagePromise = page.waitForEvent("popup");
   await page.getByText(`${NEXT_PUBLIC_SITE_URL}`).click({ force: true });

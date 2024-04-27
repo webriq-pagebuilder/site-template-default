@@ -9,7 +9,7 @@ import {
 } from "tests/utils";
 
 export default async function VariantE({
-  variantTitle,
+  pageTitle,
   page,
   commonFieldValues,
   isInternalLink,
@@ -181,7 +181,7 @@ export default async function VariantE({
     await page.getByLabel("Close dialog").click();
   }
 
-  await expectDocumentPublished(page, variantTitle);
+  await expectDocumentPublished(page, pageTitle);
 
   const buttonLabels = [
     commonFieldValues.primaryButton,
@@ -190,7 +190,7 @@ export default async function VariantE({
     formLinks[1].updateName,
   ];
 
-  const slug = variantTitle
+  const slug = pageTitle
     ?.toLowerCase()
     ?.replace(/\s+/g, "-")
     .replace(/-+/g, "-");

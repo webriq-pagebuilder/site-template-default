@@ -9,7 +9,7 @@ import {
 } from "../../utils/index";
 
 export default async function VariantA({
-  variantTitle,
+  pageTitle,
   page,
   commonFieldValues,
   isInternalLink,
@@ -55,7 +55,7 @@ export default async function VariantA({
     await page.getByText("Self (default) - open in the").click();
   }
 
-  await expectDocumentPublished(page, variantTitle);
+  await expectDocumentPublished(page, pageTitle);
 
   const pagePromise = page.waitForEvent("popup");
   await page.getByText(`${NEXT_PUBLIC_SITE_URL}`).click({ force: true });

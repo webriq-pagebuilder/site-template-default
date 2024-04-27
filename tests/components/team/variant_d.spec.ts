@@ -6,11 +6,7 @@ import {
 } from "tests/utils";
 import { NEXT_PUBLIC_SITE_URL } from "studio/config";
 
-export default async function VariantD({
-  variantTitle,
-  page,
-  commonFieldValues,
-}) {
+export default async function VariantD({ pageTitle, page, commonFieldValues }) {
   //Subtitle
   await subtitleFieldInput(page, commonFieldValues.subtitle);
 
@@ -32,7 +28,7 @@ export default async function VariantD({
     await page.getByLabel("Close dialog").click();
   }
 
-  await expectDocumentPublished(page, variantTitle);
+  await expectDocumentPublished(page, pageTitle);
 
   const pagePromise = page.waitForEvent("popup");
   await page.getByText(`${NEXT_PUBLIC_SITE_URL}`).click({ force: true });

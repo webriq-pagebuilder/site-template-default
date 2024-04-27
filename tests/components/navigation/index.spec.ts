@@ -1,19 +1,11 @@
 import { test } from "@playwright/test";
-import {
-  navigateToPage,
-  clickVariantImage,
-  createNewPage,
-  deletePageVariant,
-  variantLabelInput,
-} from "tests/utils";
+import { deletePageVariant, newPageTitle, beforeEachTest } from "tests/utils";
 import { NEXT_PUBLIC_SITE_URL } from "studio/config";
 import VariantA from "./variant_a.spec";
 import VariantB from "./variant_b.spec";
 import VariantC from "./variant_c.spec";
 import VariantD from "./variant_d.spec";
 import VariantE from "./variant_e.spec";
-
-let newPageTitle: string;
 
 const variantModules = {
   variant_a: VariantA,
@@ -90,33 +82,24 @@ navigationVariantTest.forEach((variants, index) => {
   const { name, title, label, variant, linkNames, isInternalLink } = variants;
 
   test.describe(`${name}`, () => {
-    test.describe.configure({ timeout: 600_000, mode: "serial" });
+    test.describe.configure({ timeout: 1_200_000, mode: "parallel" });
+    const pageTitle = newPageTitle(title);
 
     test(`Create ${label}`, async ({ page }) => {
-      const time = new Date().getTime();
-      newPageTitle = `${title} ` + time;
-
-      await navigateToPage(page);
-      await createNewPage(page, newPageTitle, "Navigation");
-      await variantLabelInput(page, label);
-      await clickVariantImage(page, index); // select variant
+      await beforeEachTest(page, pageTitle, "Navigation", label, index);
       const variantTest = variantModules[variant];
 
-      if (variantTest) {
-        await variantTest({
-          variantTitle: newPageTitle,
-          page,
-          commonFieldValues,
-          linkNames,
-          isInternalLink,
-        });
-      } else {
-        console.error(`No test module found for variant: ${index}`);
-      }
+      await variantTest({
+        pageTitle,
+        page,
+        commonFieldValues,
+        linkNames,
+        isInternalLink,
+      });
     });
 
-    test(`Delete ${title}`, async ({ page }) => {
-      await deletePageVariant(page, newPageTitle, label);
+    test.afterEach(async ({ page }) => {
+      await deletePageVariant(page, pageTitle, label);
     });
   });
 });

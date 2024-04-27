@@ -126,7 +126,7 @@ pricingVariantTest.forEach((variants, index) => {
       const variantTest = variantModules[variant];
 
       await variantTest({
-        variantTitle: pageTitle,
+        pageTitle,
         page,
         commonFieldValues,
         isInternalLink,

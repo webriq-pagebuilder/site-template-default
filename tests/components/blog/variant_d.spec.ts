@@ -4,16 +4,9 @@ import {
   expectDocumentPublished,
   subtitleFieldInput,
   titleFieldInput,
-  verifyExternalUrl,
-  verifyInternalUrl,
 } from "../../utils/index";
 
-export default async function VariantA({
-  variantTitle,
-  page,
-  commonFieldValues,
-  isInternalLink,
-}) {
+export default async function VariantA({ pageTitle, page, commonFieldValues }) {
   await subtitleFieldInput(page, commonFieldValues.subtitle);
   await titleFieldInput(page, commonFieldValues.title);
 
@@ -29,7 +22,7 @@ export default async function VariantA({
     timeout: 75000,
   });
 
-  await expectDocumentPublished(page, variantTitle);
+  await expectDocumentPublished(page, pageTitle);
 
   const pagePromise = page.waitForEvent("popup");
   await page.getByText(`${NEXT_PUBLIC_SITE_URL}`).click({ force: true });

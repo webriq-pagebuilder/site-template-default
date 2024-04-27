@@ -9,7 +9,7 @@ import {
 } from "tests/utils";
 
 export default async function VariantD({
-  variantTitle,
+  pageTitle,
   page,
   commonFieldValues,
   isInternalLink,
@@ -47,7 +47,7 @@ export default async function VariantD({
     await page.getByLabel("Close dialog").click();
   }
 
-  await expectDocumentPublished(page, variantTitle);
+  await expectDocumentPublished(page, pageTitle);
 
   const pagePromise = page.waitForEvent("popup");
   await page.getByText(`${NEXT_PUBLIC_SITE_URL}`).click({ force: true });

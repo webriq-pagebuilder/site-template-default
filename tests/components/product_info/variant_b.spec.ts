@@ -6,21 +6,17 @@ import {
   verifyInternalUrl,
 } from "tests/utils";
 
-export default async function VariantB({
-  variantTitle,
-  page,
-  commonFieldValues,
-}) {
-  await expectDocumentPublished(page, variantTitle);
+export default async function VariantB({ pageTitle, page, commonFieldValues }) {
+  await expectDocumentPublished(page, pageTitle);
 
   const pagePromise = page.waitForEvent("popup");
   await page.getByText(`${NEXT_PUBLIC_SITE_URL}`).click({ force: true });
   const openUrlPage = await pagePromise;
 
-  await assertPageContent(openUrlPage, variantTitle, commonFieldValues);
+  await assertPageContent(openUrlPage, pageTitle, commonFieldValues);
 }
 
-async function assertPageContent(openUrlPage, variantTitle, commonFieldValues) {
+async function assertPageContent(openUrlPage, pageTitle, commonFieldValues) {
   await expect(openUrlPage.getByText("Empty Page")).toBeHidden({
     timeout: 20_000,
   });
@@ -67,7 +63,7 @@ async function assertPageContent(openUrlPage, variantTitle, commonFieldValues) {
   ).toBeVisible();
   await expect(openUrlPage.locator(`span:has-text("$110.00")`)).toBeVisible();
 
-  const slug = variantTitle
+  const slug = pageTitle
     ?.toLowerCase()
     ?.replace(/\s+/g, "-")
     .replace(/-+/g, "-");

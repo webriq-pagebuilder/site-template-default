@@ -7,7 +7,7 @@ import {
 } from "tests/utils";
 
 export default async function VariantE({
-  variantTitle,
+  pageTitle,
   page,
   commonFieldValues,
   linkNames,
@@ -62,7 +62,7 @@ export default async function VariantE({
     );
   }
 
-  await expectDocumentPublished(page, variantTitle);
+  await expectDocumentPublished(page, pageTitle);
 
   const pagePromise = page.waitForEvent("popup");
   await page.getByText(`${NEXT_PUBLIC_SITE_URL}`).click({ force: true });
@@ -80,7 +80,7 @@ export default async function VariantE({
     isInternalLink
   );
 
-  const slug = variantTitle
+  const slug = pageTitle
     ?.toLowerCase()
     ?.replace(/\s+/g, "-")
     .replace(/-+/g, "-");

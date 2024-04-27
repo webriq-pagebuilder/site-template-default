@@ -2,7 +2,7 @@ import { expect } from "@playwright/test";
 import { expectDocumentPublished } from "tests/utils";
 import { NEXT_PUBLIC_SITE_URL } from "studio/config";
 
-async function VariantC({ variantTitle, page, commonFieldValues }) {
+async function VariantC({ pageTitle, page, commonFieldValues }) {
   for (const data of commonFieldValues) {
     await page.getByRole("button", { name: `Label: ${data.label}` }).click();
     await expect(page.getByLabel("Edit", { exact: true })).toBeVisible();
@@ -15,7 +15,7 @@ async function VariantC({ variantTitle, page, commonFieldValues }) {
     await page.getByLabel("Close dialog").click();
   }
 
-  await expectDocumentPublished(page, variantTitle);
+  await expectDocumentPublished(page, pageTitle);
 
   const pagePromise = page.waitForEvent("popup");
   await page.getByText(`${NEXT_PUBLIC_SITE_URL}`).click({ force: true });

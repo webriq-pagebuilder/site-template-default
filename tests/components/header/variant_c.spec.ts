@@ -8,7 +8,7 @@ import {
 } from "tests/utils";
 
 export default async function VariantC({
-  variantTitle,
+  pageTitle,
   page,
   commonFieldValues,
   isInternalLink,
@@ -93,14 +93,14 @@ export default async function VariantC({
   //Close Secondary button toggle
   await page.getByRole("button", { name: "Secondary Button" }).click();
 
-  await expectDocumentPublished(page, variantTitle);
+  await expectDocumentPublished(page, pageTitle);
 
   const buttonLabels = [
     commonFieldValues.primaryButton,
     commonFieldValues.secondaryButton,
   ];
 
-  const slug = variantTitle
+  const slug = pageTitle
     ?.toLowerCase()
     ?.replace(/\s+/g, "-")
     .replace(/-+/g, "-");

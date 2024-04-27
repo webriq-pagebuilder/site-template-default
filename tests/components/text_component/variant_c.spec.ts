@@ -2,11 +2,7 @@ import { expect } from "@playwright/test";
 import { NEXT_PUBLIC_SITE_URL } from "studio/config";
 import { expectDocumentPublished, titleFieldInput } from "tests/utils";
 
-export default async function VariantC({
-  variantTitle,
-  page,
-  commonFieldValues,
-}) {
+export default async function VariantC({ pageTitle, page, commonFieldValues }) {
   await titleFieldInput(page, commonFieldValues.title);
 
   //First Content
@@ -54,7 +50,7 @@ export default async function VariantC({
     .getByRole("textbox")
     .fill(commonFieldValues.thirdContent);
 
-  await expectDocumentPublished(page, variantTitle);
+  await expectDocumentPublished(page, pageTitle);
 
   const pagePromise = page.waitForEvent("popup");
   await page.getByText(`${NEXT_PUBLIC_SITE_URL}`).click({ force: true });

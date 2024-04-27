@@ -6,14 +6,10 @@ import {
   verifyInternalUrl,
 } from "tests/utils";
 
-export default async function VariantA({
-  variantTitle,
-  page,
-  commonFieldValues,
-}) {
-  await createFeaturedProductsVariant(variantTitle, page);
+export default async function VariantA({ pageTitle, page, commonFieldValues }) {
+  await createFeaturedProductsVariant(pageTitle, page);
 
-  const slug = variantTitle
+  const slug = pageTitle
     ?.toLowerCase()
     ?.replace(/\s+/g, "-")
     .replace(/-+/g, "-");
@@ -23,8 +19,8 @@ export default async function VariantA({
   }
 }
 
-async function createFeaturedProductsVariant(variantTitle, page) {
-  await expectDocumentPublished(page, variantTitle);
+async function createFeaturedProductsVariant(pageTitle, page) {
+  await expectDocumentPublished(page, pageTitle);
 }
 
 async function assertPageContent(openUrlPage, product, commonFieldValues) {

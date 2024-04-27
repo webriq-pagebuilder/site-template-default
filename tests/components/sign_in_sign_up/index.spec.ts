@@ -84,11 +84,11 @@ signInSignupVariantTest.forEach((variants, index) => {
     const pageTitle = newPageTitle(title);
 
     test(`Create ${label}`, async ({ page }) => {
-      await beforeEachTest(page, title, "Sign In Sign Up", label, index);
+      await beforeEachTest(page, pageTitle, "Sign In Sign Up", label, index);
       const variantTest = variantModules[variant];
 
       await variantTest({
-        variantTitle: pageTitle,
+        pageTitle,
         page,
         commonFieldValues,
         linkNames,

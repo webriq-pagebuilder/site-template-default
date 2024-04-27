@@ -8,7 +8,7 @@ import {
 import { NEXT_PUBLIC_SITE_URL } from "studio/config";
 
 export default async function VariantC({
-  variantTitle,
+  pageTitle,
   page,
   commonFieldValues,
   isInternalLink,
@@ -39,7 +39,7 @@ export default async function VariantC({
     await page.getByText("Blank - open on a new tab (").click();
   }
 
-  await expectDocumentPublished(page, variantTitle);
+  await expectDocumentPublished(page, pageTitle);
 
   const pagePromise = page.waitForEvent("popup");
   await page.getByText(`${NEXT_PUBLIC_SITE_URL}`).click({ force: true });
