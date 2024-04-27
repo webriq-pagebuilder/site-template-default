@@ -1,16 +1,8 @@
 import { test } from "@playwright/test";
-import {
-  beforeEachTest,
-  clickVariantImage,
-  createNewPage,
-  deletePageVariant,
-  navigateToPage,
-  newPageTitle,
-  variantLabelInput,
-} from "tests/utils";
+import { beforeEachTest, deletePageVariant, newPageTitle } from "tests/utils";
 import { NEXT_PUBLIC_SITE_URL } from "studio/config";
-import VariantA from "./variant_a.spec";
-import VariantB from "./variant_b.spec";
+import VariantA from "./variant_a";
+import VariantB from "./variant_b";
 
 const variantModules = {
   variant_a: VariantA,

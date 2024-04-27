@@ -1,8 +1,8 @@
 import { test } from "@playwright/test";
 import { beforeEachTest, deletePageVariant, newPageTitle } from "tests/utils";
-import VariantA from "./variant_a.spec.ts";
-import VariantB from "./variant_b.spec.ts";
-import VariantC from "./variant_c.spec.ts";
+import VariantA from "./variant_a";
+import VariantB from "./variant_b";
+import VariantC from "./variant_c";
 
 const variantModules = {
   variant_a: VariantA,
