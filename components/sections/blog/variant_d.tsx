@@ -28,6 +28,10 @@ function VariantD({ subtitle, title, posts }: BlogProps) {
   const [currentPage, setCurrentPage] = React.useState(1);
   const [searchQuery, setSearchQuery] = React.useState("");
 
+  React.useEffect(() => {
+    setCurrentPage(1);
+  }, [activeTab]);
+
   const transformedPosts: BlogPostProps[] = posts
     ?.map((post) => {
       return post?.categories?.map((category) => {
@@ -77,6 +81,7 @@ function VariantD({ subtitle, title, posts }: BlogProps) {
 
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
+    setActiveTab("All");
     setCurrentPage(1);
   };
 
@@ -91,7 +96,6 @@ function VariantD({ subtitle, title, posts }: BlogProps) {
           )}
           {title && <Heading>{title}</Heading>}
         </div>
-
         <div className="flex justify-center lg:justify-start mb-5 w-full lg:w-1/4">
           <input
             aria-label="Search, find any question you want to ask..."
@@ -121,7 +125,6 @@ function VariantD({ subtitle, title, posts }: BlogProps) {
             </svg>
           </Button>
         </div>
-
         <Flex wrap>
           <Card className="w-full px-3 mb-8 bg-white lg:mb-0 lg:w-1/4">
             {categories && (
