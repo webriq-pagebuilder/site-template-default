@@ -17,7 +17,7 @@ export default async function VariantA({
   await subtitleFieldInput(page, commonFieldValues.subtitle);
   await titleFieldInput(page, commonFieldValues.title);
 
-  //Blog Posts
+  //Add Blog Posts
   await page.getByRole("button", { name: "Add item" }).click();
   await page.getByTestId("reference-input").getByLabel("Open").click();
   await page
@@ -61,18 +61,6 @@ export default async function VariantA({
   await page.getByText(`${NEXT_PUBLIC_SITE_URL}`).click({ force: true });
   const openUrlPage = await pagePromise;
 
-  await expect(openUrlPage.getByText("Empty Page")).toBeHidden({
-    timeout: 20_000,
-  });
-  await expect(openUrlPage.locator("section")).toBeVisible({
-    timeout: 20_000,
-  });
-
-  await expect(
-    openUrlPage.getByRole("heading", { name: commonFieldValues.title })
-  ).toBeVisible();
-  await expect(openUrlPage.getByText(commonFieldValues.subtitle)).toBeVisible();
-
   await openUrlPage
     .getByRole("link", { name: commonFieldValues.button })
     .click({ force: true });
@@ -87,4 +75,49 @@ export default async function VariantA({
     });
     await verifyInternalUrl(openUrlPage, commonFieldValues.internalLinkUrl);
   }
+
+  const slug = pageTitle
+    ?.toLowerCase()
+    ?.replace(/\s+/g, "-")
+    .replace(/-+/g, "-");
+  for (const blog of commonFieldValues.blogPosts) {
+    await openUrlPage.goto(`${NEXT_PUBLIC_SITE_URL}/${slug}`);
+    await assertPageContent(openUrlPage, blog, commonFieldValues);
+  }
+}
+
+async function assertPageContent(openUrlPage, blog, commonFieldValues) {
+  await expect(openUrlPage.getByText("Empty Page")).toBeHidden({
+    timeout: 20_000,
+  });
+  await expect(openUrlPage.locator("section")).toBeVisible({
+    timeout: 20_000,
+  });
+
+  await expect(
+    openUrlPage.getByRole("heading", { name: commonFieldValues.title })
+  ).toBeVisible({ timeout: 150_000 });
+  await expect(openUrlPage.getByText(commonFieldValues.subtitle)).toBeVisible({
+    timeout: 150_000,
+  });
+  await expect(openUrlPage.getByRole("link", { name: blog.title })).toBeVisible(
+    { timeout: 150_000 }
+  );
+
+  await expect(openUrlPage.locator(`a:has-text("${blog.title}")`)).toBeVisible({
+    timeout: 150_000,
+  });
+
+  await openUrlPage
+    .getByRole("link", { name: blog.title })
+    .click({ force: true });
+  await openUrlPage.waitForLoadState("networkidle");
+  await openUrlPage.waitForTimeout(2000);
+  await verifyInternalUrl(openUrlPage, `${NEXT_PUBLIC_SITE_URL}/${blog.slug}`);
+  await expect(
+    openUrlPage.getByRole("heading", { name: blog.title })
+  ).toBeVisible({ timeout: 150_000 });
+  await expect(
+    openUrlPage.locator(`span:has-text("${blog.publishedAt}")`)
+  ).toBeVisible({ timeout: 150_000 });
 }

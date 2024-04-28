@@ -51,13 +51,46 @@ const commonFieldValues = {
   button: "View More",
   internalLinkUrl: `${NEXT_PUBLIC_SITE_URL}/thank-you`,
   externalLinkUrl: "https://webriq.com",
+  blogPosts: [
+    {
+      title: "Lorem ipsum dolor",
+      publishedAt: "November 22, 2021",
+      slug: "lorem-ipsum-dolor-sit-amet",
+    },
+    {
+      title: "Vestibulum vehicle leo",
+      publishedAt: "November 22, 2021",
+      slug: "vestibulum-vehicle-leo-eget-libero-eleifend",
+    },
+    {
+      title: "Aenean convalli sapone",
+      publishedAt: "November 22, 2021",
+      slug: "aenean-convalli-sapone-a-degnissimo-placerat",
+    },
+    {
+      title: "Morbi scelerisque nulla",
+      publishedAt: "November 22, 2021",
+      slug: "morbi-scelerisque-nulla-et-lectus-1",
+    },
+    {
+      title: "Felis bibendum",
+      publishedAt: "November 22, 2021",
+      slug: "this-should-validated-17",
+    },
+    {
+      title: "Ph12",
+      publishedAt: "November 22, 2021",
+      slug: "dorell-post",
+    },
+  ],
+  categories: ["TRAVEL", "Culture", "Engineering"],
 };
 
 blogVariantTest.forEach((variants, index) => {
   const { name, title, label, variant, isInternalLink } = variants;
 
   test.describe(`${name}`, () => {
-    test.describe.configure({ timeout: 600_000, mode: "parallel" });
+    test.describe.configure({ timeout: 1_000_000, mode: "parallel" });
     const pageTitle = newPageTitle(title);
 
     test(`Create ${label}`, async ({ page }) => {
