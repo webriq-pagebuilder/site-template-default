@@ -1,11 +1,5 @@
 import { test } from "@playwright/test";
-import {
-  newPageTitle,
-  navigateToPage,
-  clickVariantImage,
-  createNewPage,
-  deletePageVariant,
-} from "tests/utils";
+import { newPageTitle, beforeEachTest, deletePageVariant } from "tests/utils";
 import VariantA from "./variant_a";
 import VariantB from "./variant_b";
 import VariantC from "./variant_c";
@@ -22,27 +16,32 @@ const variantModules = {
 
 const ctaVariantTests = [
   {
-    title: "Variant A",
+    name: "Variant A",
+    title: "Call to action Variant A",
     label: "New Call to action A",
     variant: "variant_a",
   },
   {
-    title: "Variant B",
+    name: "Variant B",
+    title: "Call to action Variant B",
     label: "New Call to action B",
     variant: "variant_b",
   },
   {
-    title: "Variant C",
+    name: "Variant C",
+    title: "Call to action Variant C",
     label: "New Call to action C",
     variant: "variant_c",
   },
   {
-    title: "Variant D",
+    name: "Variant D",
+    title: "Call to action Variant D",
     label: "New Call to action D",
     variant: "variant_d",
   },
   {
-    title: "Variant E",
+    name: "Variant E",
+    title: "Call to action Variant E",
     label: "New Call to action E",
     variant: "variant_e",
   },
@@ -80,29 +79,28 @@ const commonFieldValues = {
 };
 
 ctaVariantTests?.forEach((variant, index) => {
-  test.beforeEach(async ({ page }) => {
-    await navigateToPage(page);
-    await createNewPage(page, newPageTitle, "Call to action");
+  test.describe(`${variant.name}`, () => {
+    test.describe.configure({ timeout: 1_000_000 });
 
-    const variantLabel = page
-      .getByTestId("field-label")
-      .getByTestId("string-input");
-    await variantLabel.click();
-    await variantLabel.fill("New Call to action Test");
+    test(`Create ${variant.label}`, async ({ page }) => {
+      await beforeEachTest(
+        page,
+        variant?.title,
+        variant?.variant,
+        variant?.label,
+        index
+      );
 
-    await clickVariantImage(page, index); // select variant
-  });
+      const variantTest = variantModules[variant.variant];
+      await variantTest({
+        newPageTitle,
+        page,
+        commonFieldValues,
+      });
+    });
 
-  test.afterEach(async ({ page }) => {
-    await deletePageVariant(page, newPageTitle, variant.label);
-  });
-
-  test(`Create ${variant.label}`, async ({ page }) => {
-    const variantTest = variantModules[variant.variant];
-    await variantTest({
-      newPageTitle,
-      page,
-      commonFieldValues,
+    test.afterEach(async ({ page }) => {
+      await deletePageVariant(page, newPageTitle, variant.label);
     });
   });
 });

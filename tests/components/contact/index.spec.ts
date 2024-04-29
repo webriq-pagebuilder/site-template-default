@@ -1,11 +1,5 @@
 import { test } from "@playwright/test";
-import {
-  newPageTitle,
-  navigateToPage,
-  clickVariantImage,
-  createNewPage,
-  deletePageVariant,
-} from "tests/utils";
+import { newPageTitle, beforeEachTest, deletePageVariant } from "tests/utils";
 import VariantA from "./variant_a";
 import VariantB from "./variant_b";
 
@@ -16,12 +10,14 @@ const variantModules = {
 
 const contactVariantTests = [
   {
-    title: "Variant A",
+    name: "Variant A",
+    title: "Contact Variant A",
     label: "New Contact A",
     variant: "variant_a",
   },
   {
-    title: "Variant B",
+    name: "Variant A",
+    title: "Contact Variant B",
     label: "New Contact B",
     variant: "variant_b",
   },
@@ -45,29 +41,28 @@ const commonFieldValues = {
 };
 
 contactVariantTests?.forEach((variant, index) => {
-  test.beforeEach(async ({ page }) => {
-    await navigateToPage(page);
-    await createNewPage(page, newPageTitle, "Contact");
+  test.describe(`${variant.name}`, () => {
+    test.describe.configure({ timeout: 1_000_000 });
 
-    const variantLabel = page
-      .getByTestId("field-label")
-      .getByTestId("string-input");
-    await variantLabel.click();
-    await variantLabel.fill("New Contact Test");
+    test(`Create ${variant.label}`, async ({ page }) => {
+      await beforeEachTest(
+        page,
+        variant?.title,
+        variant?.variant,
+        variant?.label,
+        index
+      );
 
-    await clickVariantImage(page, index); // select variant
-  });
+      const variantTest = variantModules[variant.variant];
+      await variantTest({
+        newPageTitle,
+        page,
+        commonFieldValues,
+      });
+    });
 
-  test.afterEach(`Delete ${variant.label}`, async ({ page }) => {
-    await deletePageVariant(page, newPageTitle, variant.label);
-  });
-
-  test(`Create ${variant.label}`, async ({ page }) => {
-    const variantTest = variantModules[variant.variant];
-    await variantTest({
-      newPageTitle,
-      page,
-      commonFieldValues,
+    test.afterEach(async ({ page }) => {
+      await deletePageVariant(page, newPageTitle, variant.label);
     });
   });
 });

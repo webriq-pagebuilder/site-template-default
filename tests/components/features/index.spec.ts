@@ -1,11 +1,5 @@
 import { test } from "@playwright/test";
-import {
-  newPageTitle,
-  createNewPage,
-  clickVariantImage,
-  navigateToPage,
-  deletePageVariant,
-} from "tests/utils";
+import { newPageTitle, beforeEachTest, deletePageVariant } from "tests/utils";
 import VariantA from "./variant_a";
 import VariantB from "./variant_b";
 import VariantC from "./variant_c";
@@ -28,42 +22,50 @@ const variantModules = {
 
 const featuresVariantTests = [
   {
-    title: "Variant A",
+    name: "Variant A",
+    title: "Features Variant A",
     label: "New Features A",
     variant: "variant_a",
   },
   {
-    title: "Variant B",
+    name: "Variant B",
+    title: "Features Variant B",
     label: "New Features B",
     variant: "variant_b",
   },
   {
-    title: "Variant C",
+    name: "Variant C",
+    title: "Features Variant C",
     label: "New Features C",
     variant: "variant_c",
   },
   {
-    title: "Variant D",
+    name: "Variant D",
+    title: "Features Variant D",
     label: "New Features D",
     variant: "variant_d",
   },
   {
-    title: "Variant E",
+    name: "Variant E",
+    title: "Features Variant E",
     label: "New Features E",
     variant: "variant_e",
   },
   {
-    title: "Variant F",
+    name: "Variant F",
+    title: "Features Variant F",
     label: "New Features F",
     variant: "variant_f",
   },
   {
-    title: "Variant G",
+    name: "Variant G",
+    title: "Features Variant G",
     label: "New Features G",
     variant: "variant_g",
   },
   {
-    title: "Variant H",
+    name: "Variant H",
+    title: "Features Variant H",
     label: "New Features H",
     variant: "variant_h",
   },
@@ -78,29 +80,28 @@ const commonFieldValues = {
 };
 
 featuresVariantTests?.forEach((variant, index) => {
-  test.beforeEach(async ({ page }) => {
-    await navigateToPage(page);
-    await createNewPage(page, newPageTitle, "Features");
+  test.describe(`${variant?.name}`, () => {
+    test.describe.configure({ timeout: 1_000_000 });
 
-    const variantLabel = page
-      .getByTestId("field-label")
-      .getByTestId("string-input");
-    await variantLabel.click();
-    await variantLabel.fill("New Features Test");
+    test(`Create ${variant.label}`, async ({ page }) => {
+      await beforeEachTest(
+        page,
+        variant?.title,
+        variant?.variant,
+        variant?.label,
+        index
+      );
 
-    await clickVariantImage(page, index); // select variant
-  });
+      const variantTest = variantModules[variant.variant];
+      await variantTest({
+        newPageTitle,
+        page,
+        commonFieldValues,
+      });
+    });
 
-  test.afterEach(`Delete ${variant.label}`, async ({ page }) => {
-    await deletePageVariant(page, newPageTitle, variant?.label);
-  });
-
-  test(`Create ${variant.label}`, async ({ page }) => {
-    const variantTest = variantModules[variant.variant];
-    await variantTest({
-      newPageTitle,
-      page,
-      commonFieldValues,
+    test.afterEach(`Delete ${variant.label}`, async ({ page }) => {
+      await deletePageVariant(page, newPageTitle, variant?.label);
     });
   });
 });
