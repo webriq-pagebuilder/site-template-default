@@ -78,7 +78,7 @@ testimonialVariantTest.forEach((variants, index) => {
     const pageTitle = newPageTitle(title);
 
     test(`Create ${label}`, async ({ page }) => {
-      await beforeEachTest(page, pageTitle, "Testimonials", label, index);
+      await beforeEachTest(page, pageTitle, "Testimonial", label, index);
       const variantTest = variantModules[variant];
 
       await variantTest({
