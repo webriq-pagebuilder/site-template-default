@@ -99,7 +99,3 @@ footerVariantTest.forEach((variants, index) => {
     });
   });
 });
-
-test.afterAll(async ({ page }) => {
-  await page.close();
-});

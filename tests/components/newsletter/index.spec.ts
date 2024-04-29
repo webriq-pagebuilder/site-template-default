@@ -58,7 +58,3 @@ newsletterVariantTests.forEach((variant, index) => {
     });
   });
 });
-
-test.afterAll(async ({ page }) => {
-  await page.close();
-});
