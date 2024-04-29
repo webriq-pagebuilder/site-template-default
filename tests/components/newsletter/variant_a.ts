@@ -1,77 +1,28 @@
 import { expect } from "@playwright/test";
-import {
-  updateLogoLink,
-  generateFormId,
-  expectDocumentPublished,
-  checkFormSubmission,
-} from "tests/utils";
+import { updateLogoLink, expectDocumentPublished } from "tests/utils";
 import { NEXT_PUBLIC_SITE_URL } from "studio/config";
 import { newsletterInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-default";
+import { titleField, descriptionField } from "tests/utils";
+import { form } from "./index.spec";
 
 async function VariantA({ pageTitle, page, commonFieldValues }) {
   // studio
   await updateLogoLink(page, commonFieldValues?.logoAltText);
 
-  const title = page
-    .getByTestId("field-variants.title")
-    .getByTestId("string-input");
-  await expect(title.inputValue()).resolves.toBe(newsletterInitialValue.title);
-  await title.click();
-  await title.press("Meta+a");
-  await title.fill(commonFieldValues?.title);
-  await expect(title.inputValue()).resolves.toBe(commonFieldValues?.title);
+  await titleField.checkAndAddValue({
+    page,
+    initialValue: newsletterInitialValue,
+    commonFieldValues,
+  });
 
-  const description = page.getByPlaceholder("Lorem ipsum dolor sit amet,");
-  await expect(description.inputValue()).resolves.toBe(
-    newsletterInitialValue.description
-  );
-  await description.click();
-  await description.press("Meta+a");
-  await description.fill(commonFieldValues?.description);
-  await expect(description.inputValue()).resolves.toBe(
-    commonFieldValues?.description
-  );
+  await descriptionField.checkAndAddValue({
+    page,
+    initialValue: newsletterInitialValue,
+    commonFieldValues,
+  });
 
   // forms
-  await expect(
-    page.getByTestId("field-variants.form.subtitle").getByTestId("string-input")
-  ).toBeEmpty();
-  await expect(
-    page.getByTestId("field-variants.form.name").getByTestId("string-input")
-  ).toBeEmpty();
-  await generateFormId({ page });
-  await page.getByRole("button", {
-    name: newsletterInitialValue.form?.[0]?.name,
-  });
-  await page
-    .getByTestId("field-variants.form.buttonLabel")
-    .getByTestId("string-input")
-    .click();
-  await page
-    .getByTestId("field-variants.form.buttonLabel")
-    .getByTestId("string-input")
-    .press("Meta+a");
-  await page
-    .getByTestId("field-variants.form.buttonLabel")
-    .getByTestId("string-input")
-    .fill(commonFieldValues?.formButtonLabel);
-  await page.getByRole("button", { name: "Thank You page" }).click();
-  await page
-    .getByTestId("field-variants.form.thankYouPage.linkType")
-    .getByLabel("External, outside this website")
-    .check();
-  await page
-    .getByTestId("field-variants.form.thankYouPage.linkExternal")
-    .getByLabel("URL")
-    .click();
-  await page
-    .getByTestId("field-variants.form.thankYouPage.linkExternal")
-    .getByLabel("URL")
-    .fill(commonFieldValues?.thankYouPageUrl);
-  await page
-    .getByTestId("field-variants.form.thankYouPage.linkTarget")
-    .getByLabel("Self (default) - open in the")
-    .check();
+  await form.addFormFields({ page });
 
   // check site preview
   await expectDocumentPublished(page, pageTitle);
@@ -94,29 +45,16 @@ async function VariantA({ pageTitle, page, commonFieldValues }) {
   ).toBeVisible();
 
   // title
-  await expect(
-    openUrlPage.getByRole("heading", { name: commonFieldValues?.title })
-  ).toBeVisible();
+  await titleField.sitePreview({ pageUrl: openUrlPage, commonFieldValues });
 
   // description
-  await expect(
-    openUrlPage.getByText(commonFieldValues?.description)
-  ).toBeVisible();
+  await descriptionField.sitePreview({
+    pageUrl: openUrlPage,
+    commonFieldValues,
+  });
 
   // form submission
-  await expect(
-    openUrlPage.getByPlaceholder(newsletterInitialValue.form.fields?.[0]?.name)
-  ).toBeVisible();
-  await expect(
-    openUrlPage.getByLabel(commonFieldValues?.formButtonLabel)
-  ).toBeVisible();
-  await checkFormSubmission({
-    pageUrl: openUrlPage,
-    formFields: commonFieldValues?.formFields,
-    submitBtnLabel: commonFieldValues?.formButtonLabel,
-    thankYouPageUrl: commonFieldValues?.thankYouPageUrl,
-    page,
-  });
+  await form.sitePreview({ page, pageUrl: openUrlPage });
 }
 
 export default VariantA;

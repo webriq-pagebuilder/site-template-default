@@ -1,5 +1,11 @@
-import { test } from "@playwright/test";
-import { newPageTitle, beforeEachTest, deletePageVariant } from "tests/utils";
+import { test, expect } from "@playwright/test";
+import {
+  newPageTitle,
+  beforeEachTest,
+  deletePageVariant,
+  generateFormId,
+  checkFormSubmission,
+} from "tests/utils";
 import { newsletterInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-default";
 
 import VariantA from "./variant_a";
@@ -68,3 +74,64 @@ newsletterVariantTests.forEach((variant, index) => {
     });
   });
 });
+
+export const form = {
+  async addFormFields({ page }) {
+    await expect(
+      page
+        .getByTestId("field-variants.form.subtitle")
+        .getByTestId("string-input")
+    ).toBeEmpty();
+    await expect(
+      page.getByTestId("field-variants.form.name").getByTestId("string-input")
+    ).toBeEmpty();
+    await generateFormId({ page });
+    await page.getByRole("button", {
+      name: newsletterInitialValue.form?.[0]?.name,
+    });
+    await page
+      .getByTestId("field-variants.form.buttonLabel")
+      .getByTestId("string-input")
+      .click();
+    await page
+      .getByTestId("field-variants.form.buttonLabel")
+      .getByTestId("string-input")
+      .press("Meta+a");
+    await page
+      .getByTestId("field-variants.form.buttonLabel")
+      .getByTestId("string-input")
+      .fill(commonFieldValues?.formButtonLabel);
+    await page.getByRole("button", { name: "Thank You page" }).click();
+    await page
+      .getByTestId("field-variants.form.thankYouPage.linkType")
+      .getByLabel("External, outside this website")
+      .check();
+    await page
+      .getByTestId("field-variants.form.thankYouPage.linkExternal")
+      .getByLabel("URL")
+      .click();
+    await page
+      .getByTestId("field-variants.form.thankYouPage.linkExternal")
+      .getByLabel("URL")
+      .fill(commonFieldValues?.thankYouPageUrl);
+    await page
+      .getByTestId("field-variants.form.thankYouPage.linkTarget")
+      .getByLabel("Self (default) - open in the")
+      .check();
+  },
+  async sitePreview({ page, pageUrl }) {
+    await expect(
+      pageUrl.getByPlaceholder(newsletterInitialValue.form.fields?.[0]?.name)
+    ).toBeVisible();
+    await expect(
+      pageUrl.getByLabel(commonFieldValues?.formButtonLabel)
+    ).toBeVisible();
+    await checkFormSubmission({
+      pageUrl: pageUrl,
+      formFields: commonFieldValues?.formFields,
+      submitBtnLabel: commonFieldValues?.formButtonLabel,
+      thankYouPageUrl: commonFieldValues?.thankYouPageUrl,
+      page,
+    });
+  },
+};

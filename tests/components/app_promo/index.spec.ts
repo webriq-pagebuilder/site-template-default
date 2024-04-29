@@ -35,6 +35,7 @@ const commonFieldValues = {
   subtitle: "App promo subtitle", // all variants
   title: "App promo title", // all variants
   description: "Updated description for new App promo.", // variant b and c
+  logoAltText: "App promo logo",
 };
 
 appPromoVariantTests.forEach((variant, index) => {

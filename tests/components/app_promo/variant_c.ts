@@ -2,41 +2,26 @@ import { expect } from "@playwright/test";
 import { expectDocumentPublished } from "tests/utils";
 import { NEXT_PUBLIC_SITE_URL } from "studio/config";
 import { appPromoInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-default";
+import { titleField, subtitleField, descriptionField } from "tests/utils";
 
 async function VariantC({ newPageTitle, page, commonFieldValues }) {
   // studio
-  const subtitle = page
-    .getByTestId("field-variants.subtitle")
-    .getByTestId("string-input");
-  await expect(subtitle.inputValue()).resolves.toBe(
-    appPromoInitialValue.subtitle
-  );
-  await subtitle.click();
-  await subtitle.press("Meta+a");
-  await subtitle.fill(commonFieldValues?.subtitle);
-  await expect(subtitle.inputValue()).resolves.toBe(
-    commonFieldValues?.subtitle
-  );
-
-  const title = page
-    .getByTestId("field-variants.title")
-    .getByTestId("string-input");
-  await expect(title.inputValue()).resolves.toBe(appPromoInitialValue.title);
-  await title.click();
-  await title.press("Meta+a");
-  await title.fill(commonFieldValues?.title);
-  await expect(title.inputValue()).resolves.toBe(commonFieldValues?.title);
-
-  const description = page.getByPlaceholder("Lorem ipsum dolor sit amet,");
-  await expect(description.inputValue()).resolves.toBe(
-    appPromoInitialValue.description
-  );
-  await description.click();
-  await description.press("Meta+a");
-  await description.fill(commonFieldValues?.description);
-  await expect(description.inputValue()).resolves.toBe(
-    commonFieldValues?.description
-  );
+  await subtitleField.checkAndAddValue({
+    page,
+    initialValue: appPromoInitialValue,
+    commonFieldValues,
+  });
+  await titleField.checkAndAddValue({
+    page,
+    initialValue: appPromoInitialValue,
+    commonFieldValues,
+  });
+  await descriptionField.checkAndAddValue({
+    page,
+    initialValue: appPromoInitialValue?.description,
+    placeholder: appPromoInitialValue?.description,
+    commonFieldValues,
+  });
 
   await page
     .getByTestId("field-variants.tags")
@@ -61,17 +46,16 @@ async function VariantC({ newPageTitle, page, commonFieldValues }) {
   const openUrlPage = await pagePromise;
 
   // subtitle
-  await expect(
-    openUrlPage.getByText(commonFieldValues?.subtitle)
-  ).toBeVisible();
+  await subtitleField.sitePreview({ pageUrl: openUrlPage, commonFieldValues });
 
   // title
-  await expect(openUrlPage.getByText(commonFieldValues?.title)).toBeVisible();
+  await titleField.sitePreview({ pageUrl: openUrlPage, commonFieldValues });
 
   // description
-  await expect(
-    openUrlPage.getByText(commonFieldValues?.description)
-  ).toBeVisible();
+  await descriptionField.sitePreview({
+    pageUrl: openUrlPage,
+    commonFieldValues,
+  });
 
   // tags
   await expect(

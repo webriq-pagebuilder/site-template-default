@@ -2,34 +2,23 @@ import { expect } from "@playwright/test";
 import { updateLogoLink, expectDocumentPublished } from "tests/utils";
 import { NEXT_PUBLIC_SITE_URL } from "studio/config";
 import { appPromoInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-default";
+import { titleField, subtitleField } from "tests/utils";
 
 async function VariantA({ newPageTitle, page, commonFieldValues }) {
-  const logoAltText = "App promo logo";
-
-  await updateLogoLink(page, logoAltText);
-
   // studio
-  const subtitle = page
-    .getByTestId("field-variants.subtitle")
-    .getByTestId("string-input");
-  await expect(subtitle.inputValue()).resolves.toBe(
-    appPromoInitialValue.subtitle
-  );
-  await subtitle.click();
-  await subtitle.press("Meta+a");
-  await subtitle.fill(commonFieldValues?.subtitle);
-  await expect(subtitle.inputValue()).resolves.toBe(
-    commonFieldValues?.subtitle
-  );
+  await updateLogoLink(page, commonFieldValues?.logoAltText);
 
-  const title = page
-    .getByTestId("field-variants.title")
-    .getByTestId("string-input");
-  await expect(title.inputValue()).resolves.toBe(appPromoInitialValue.title);
-  await title.click();
-  await title.press("Meta+a");
-  await title.fill(commonFieldValues?.title);
-  await expect(title.inputValue()).resolves.toBe(commonFieldValues?.title);
+  await subtitleField.checkAndAddValue({
+    page,
+    initialValue: appPromoInitialValue,
+    commonFieldValues,
+  });
+
+  await titleField.checkAndAddValue({
+    page,
+    initialValue: appPromoInitialValue,
+    commonFieldValues,
+  });
 
   // check site preview
   await expectDocumentPublished(page, newPageTitle);
@@ -38,12 +27,10 @@ async function VariantA({ newPageTitle, page, commonFieldValues }) {
   const openUrlPage = await pagePromise;
 
   // subtitle
-  await expect(
-    openUrlPage.getByText(commonFieldValues?.subtitle)
-  ).toBeVisible();
+  await subtitleField.sitePreview({ pageUrl: openUrlPage, commonFieldValues });
 
   // title
-  await expect(openUrlPage.getByText(commonFieldValues?.title)).toBeVisible();
+  await titleField.sitePreview({ pageUrl: openUrlPage, commonFieldValues });
 
   // logo link
   await expect(
@@ -54,7 +41,9 @@ async function VariantA({ newPageTitle, page, commonFieldValues }) {
       .locator("a[target='_blank']")
       .and(openUrlPage.locator("a[rel='noopener noreferrer']"))
   ).toBeVisible();
-  await expect(openUrlPage.getByAltText(logoAltText)).toBeVisible();
+  await expect(
+    openUrlPage.getByAltText(commonFieldValues?.logoAltText)
+  ).toBeVisible();
 
   // array of images - show 3
   await expect(
