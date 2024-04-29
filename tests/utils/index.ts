@@ -14,11 +14,17 @@ export const newPageTitle = (text = "New Page") => {
   return title;
 };
 
-export async function beforeEachTest(page, title, variant, label, index) {
+export async function beforeEachTest(
+  page,
+  pageTitle,
+  componentName,
+  componentLabel,
+  variantIndex
+) {
   await navigateToPage(page);
-  await createNewPage(page, title, variant);
-  await variantLabelInput(page, label);
-  await clickVariantImage(page, index);
+  await createNewPage(page, pageTitle, componentName);
+  await variantLabelInput(page, componentLabel);
+  await clickVariantImage(page, variantIndex);
 }
 
 export function autologin_studio({ token, projectId }) {
