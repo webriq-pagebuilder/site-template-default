@@ -16,13 +16,13 @@ export const newPageTitle = (text = "New Page") => {
 
 export async function beforeEachTest(
   page,
-  pageTitle,
+  title,
   componentName,
   componentLabel,
   variantIndex
 ) {
   await navigateToPage(page);
-  await createNewPage(page, pageTitle, componentName);
+  await createNewPage(page, title, componentName);
   await variantLabelInput(page, componentLabel);
   await clickVariantImage(page, variantIndex);
 }
