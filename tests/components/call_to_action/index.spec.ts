@@ -17,31 +17,31 @@ const variantModules = {
 const ctaVariantTests = [
   {
     name: "Variant A",
-    title: "Call to action Variant A",
+    title: "Call to action Page A",
     label: "New Call to action A",
     variant: "variant_a",
   },
   {
     name: "Variant B",
-    title: "Call to action Variant B",
+    title: "Call to action Page B",
     label: "New Call to action B",
     variant: "variant_b",
   },
   {
     name: "Variant C",
-    title: "Call to action Variant C",
+    title: "Call to action Page C",
     label: "New Call to action C",
     variant: "variant_c",
   },
   {
     name: "Variant D",
-    title: "Call to action Variant D",
+    title: "Call to action Page D",
     label: "New Call to action D",
     variant: "variant_d",
   },
   {
     name: "Variant E",
-    title: "Call to action Variant E",
+    title: "Call to action Page E",
     label: "New Call to action E",
     variant: "variant_e",
   },
@@ -82,18 +82,20 @@ ctaVariantTests?.forEach((variant, index) => {
   test.describe(`${variant.name}`, () => {
     test.describe.configure({ timeout: 1_000_000 });
 
+    const pageTitle = newPageTitle(variant?.title);
+
     test(`Create ${variant.label}`, async ({ page }) => {
       await beforeEachTest(
         page,
-        variant?.title,
-        variant?.variant,
+        pageTitle,
+        "Call to action",
         variant?.label,
         index
       );
 
       const variantTest = variantModules[variant.variant];
       await variantTest({
-        newPageTitle,
+        pageTitle,
         page,
         commonFieldValues,
       });
@@ -103,8 +105,4 @@ ctaVariantTests?.forEach((variant, index) => {
       await deletePageVariant(page, newPageTitle, variant.label);
     });
   });
-});
-
-test.afterAll(async ({ page }) => {
-  await page.close();
 });

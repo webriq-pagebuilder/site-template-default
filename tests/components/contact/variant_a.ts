@@ -202,7 +202,7 @@ async function VariantA({ newPageTitle, page, commonFieldValues }) {
     page,
     thankYouPageUrl: commonFieldValues?.thankYouPageUrl,
     pageUrl: openUrlPage,
-    formFields: contactInitialValue?.form?.fields?.[0],
+    formFields: commonFieldValues?.formFields,
     submitBtnLabel: commonFieldValues?.formButtonLabel,
   });
 }

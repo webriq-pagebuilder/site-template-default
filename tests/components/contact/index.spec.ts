@@ -1,5 +1,7 @@
 import { test } from "@playwright/test";
 import { newPageTitle, beforeEachTest, deletePageVariant } from "tests/utils";
+import { contactInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-default";
+
 import VariantA from "./variant_a";
 import VariantB from "./variant_b";
 
@@ -11,13 +13,13 @@ const variantModules = {
 const contactVariantTests = [
   {
     name: "Variant A",
-    title: "Contact Variant A",
+    title: "Contact Page A",
     label: "New Contact A",
     variant: "variant_a",
   },
   {
     name: "Variant A",
-    title: "Contact Variant B",
+    title: "Contact Page B",
     label: "New Contact B",
     variant: "variant_b",
   },
@@ -38,24 +40,42 @@ const commonFieldValues = {
   },
   formButtonLabel: "Submit Contact",
   thankYouPageUrl: "https://webriq.com/thank-you",
+  formFields: [
+    {
+      name: "subject",
+      placeholder: contactInitialValue?.form?.fields?.[0]?.placeholder,
+      value: "Test Form submission",
+    },
+    {
+      name: "name",
+      placeholder: contactInitialValue?.form?.fields?.[1]?.placeholder,
+      value: "WebriQ Form",
+    },
+    {
+      name: "email",
+      placeholder: contactInitialValue?.form?.fields?.[2]?.placeholder,
+      value: "sample@webriq.com",
+    },
+    {
+      name: "message",
+      placeholder: contactInitialValue?.form?.fields?.[3]?.placeholder,
+      value: "This is a sample submission to test WebriQ Forms.",
+    },
+  ],
 };
 
 contactVariantTests?.forEach((variant, index) => {
   test.describe(`${variant.name}`, () => {
     test.describe.configure({ timeout: 1_000_000 });
 
+    const pageTitle = newPageTitle(variant?.title);
+
     test(`Create ${variant.label}`, async ({ page }) => {
-      await beforeEachTest(
-        page,
-        variant?.title,
-        variant?.variant,
-        variant?.label,
-        index
-      );
+      await beforeEachTest(page, pageTitle, "Contact", variant?.label, index);
 
       const variantTest = variantModules[variant.variant];
       await variantTest({
-        newPageTitle,
+        pageTitle,
         page,
         commonFieldValues,
       });
@@ -65,8 +85,4 @@ contactVariantTests?.forEach((variant, index) => {
       await deletePageVariant(page, newPageTitle, variant.label);
     });
   });
-});
-
-test.afterAll(async ({ page }) => {
-  await page.close();
 });

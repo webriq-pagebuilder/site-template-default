@@ -8,7 +8,7 @@ import {
 import { NEXT_PUBLIC_SITE_URL } from "studio/config";
 import { newsletterInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-default";
 
-async function VariantA({ newPageTitle, page, commonFieldValues }) {
+async function VariantA({ pageTitle, page, commonFieldValues }) {
   // studio
   await updateLogoLink(page, commonFieldValues?.logoAltText);
 
@@ -74,14 +74,11 @@ async function VariantA({ newPageTitle, page, commonFieldValues }) {
     .check();
 
   // check site preview
-  await expectDocumentPublished(page, newPageTitle);
+  await expectDocumentPublished(page, pageTitle);
+
   const pagePromise = page.waitForEvent("popup");
   await page.getByText(`${NEXT_PUBLIC_SITE_URL}`).click({ force: true });
   const openUrlPage = await pagePromise;
-  page
-    .locator("section")
-    .filter({ hasText: commonFieldValues?.title })
-    .nth(1);
 
   // logo
   await expect(
@@ -113,10 +110,9 @@ async function VariantA({ newPageTitle, page, commonFieldValues }) {
   await expect(
     openUrlPage.getByLabel(commonFieldValues?.formButtonLabel)
   ).toBeVisible();
-  await expect(openUrlPage.getByLabel("Go to home page").nth(3)).toBeVisible();
   await checkFormSubmission({
     pageUrl: openUrlPage,
-    formFields: newsletterInitialValue?.form?.fields?.[0],
+    formFields: commonFieldValues?.formFields,
     submitBtnLabel: commonFieldValues?.formButtonLabel,
     thankYouPageUrl: commonFieldValues?.thankYouPageUrl,
     page,

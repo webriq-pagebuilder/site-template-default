@@ -23,49 +23,49 @@ const variantModules = {
 const featuresVariantTests = [
   {
     name: "Variant A",
-    title: "Features Variant A",
+    title: "Features Page A",
     label: "New Features A",
     variant: "variant_a",
   },
   {
     name: "Variant B",
-    title: "Features Variant B",
+    title: "Features Page B",
     label: "New Features B",
     variant: "variant_b",
   },
   {
     name: "Variant C",
-    title: "Features Variant C",
+    title: "Features Page C",
     label: "New Features C",
     variant: "variant_c",
   },
   {
     name: "Variant D",
-    title: "Features Variant D",
+    title: "Features Page D",
     label: "New Features D",
     variant: "variant_d",
   },
   {
     name: "Variant E",
-    title: "Features Variant E",
+    title: "Features Page E",
     label: "New Features E",
     variant: "variant_e",
   },
   {
     name: "Variant F",
-    title: "Features Variant F",
+    title: "Features Page F",
     label: "New Features F",
     variant: "variant_f",
   },
   {
     name: "Variant G",
-    title: "Features Variant G",
+    title: "Features Page G",
     label: "New Features G",
     variant: "variant_g",
   },
   {
     name: "Variant H",
-    title: "Features Variant H",
+    title: "Features Page H",
     label: "New Features H",
     variant: "variant_h",
   },
@@ -83,18 +83,14 @@ featuresVariantTests?.forEach((variant, index) => {
   test.describe(`${variant?.name}`, () => {
     test.describe.configure({ timeout: 1_000_000 });
 
+    const pageTitle = newPageTitle(variant?.title);
+
     test(`Create ${variant.label}`, async ({ page }) => {
-      await beforeEachTest(
-        page,
-        variant?.title,
-        variant?.variant,
-        variant?.label,
-        index
-      );
+      await beforeEachTest(page, pageTitle, "Features", variant?.label, index);
 
       const variantTest = variantModules[variant.variant];
       await variantTest({
-        newPageTitle,
+        pageTitle,
         page,
         commonFieldValues,
       });
@@ -104,8 +100,4 @@ featuresVariantTests?.forEach((variant, index) => {
       await deletePageVariant(page, newPageTitle, variant?.label);
     });
   });
-});
-
-test.afterAll(async ({ page }) => {
-  await page.close();
 });

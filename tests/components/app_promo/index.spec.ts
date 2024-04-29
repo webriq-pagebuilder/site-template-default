@@ -13,19 +13,19 @@ const variantModules = {
 const appPromoVariantTests = [
   {
     name: "Variant A",
-    title: "App promo Variant A",
+    title: "App promo Page A",
     label: "New App promo A",
     variant: "variant_a",
   },
   {
     name: "Variant B",
-    title: "App promo Variant B",
+    title: "App promo Page B",
     label: "New App promo B",
     variant: "variant_b",
   },
   {
     name: "Variant C",
-    title: "App promo Variant C",
+    title: "App promo Page C",
     label: "New App promo C",
     variant: "variant_c",
   },
@@ -41,18 +41,14 @@ appPromoVariantTests.forEach((variant, index) => {
   test.describe(`${variant.name}`, () => {
     test.describe.configure({ timeout: 1_000_000 });
 
+    const pageTitle = newPageTitle(variant?.title);
+
     test(`Create ${variant.label}`, async ({ page }) => {
-      await beforeEachTest(
-        page,
-        variant?.title,
-        variant?.variant,
-        variant?.label,
-        index
-      );
+      await beforeEachTest(page, pageTitle, "App promo", variant?.label, index);
 
       const variantTest = variantModules[variant.variant];
       await variantTest({
-        newPageTitle,
+        pageTitle,
         page,
         commonFieldValues,
       });
@@ -62,8 +58,4 @@ appPromoVariantTests.forEach((variant, index) => {
       await deletePageVariant(page, newPageTitle, variant.label);
     });
   });
-});
-
-test.afterAll(async ({ page }) => {
-  await page.close();
 });
