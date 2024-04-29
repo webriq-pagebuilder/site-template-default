@@ -1,11 +1,11 @@
 import { test, expect } from "@playwright/test";
+import { newPageTitle } from "tests/utils";
 
-const getTime = new Date().getTime();
-const productName = "New Product " + getTime;
-const collectionsName = "New Collections " + getTime;
+const productName = newPageTitle("New product ");
+const collectionsName = newPageTitle("New collections ");
 
 test.describe("Verify Store", () => {
-  test.describe.configure({ timeout: 600000, mode: "serial" });
+  test.describe.configure({ timeout: 600_000, mode: "serial" });
 
   test.beforeEach("Go to Store tab", async ({ page }) => {
     const element = page.locator('a:has-text("Store")');
@@ -45,7 +45,7 @@ test.describe("Verify Store", () => {
     // publish document
     await page
       .getByTestId("action-[object Object]")
-      .click({ force: true, timeout: 120000 });
+      .click({ force: true, timeout: 120_000 });
     await expect(page.getByText("Successfully updated product")).toBeVisible();
     await expect(
       page
@@ -82,13 +82,13 @@ test.describe("Verify Store", () => {
     // publish document
     await page
       .getByTestId("action-[object Object]")
-      .click({ force: true, timeout: 120000 });
+      .click({ force: true, timeout: 120_000 });
     await expect(page.getByText("The document was published")).toBeVisible();
   });
 });
 
 test.describe("Verify Store - Commerce Pages", () => {
-  test.describe.configure({ timeout: 600000, mode: "serial" });
+  test.describe.configure({ timeout: 600_000, mode: "serial" });
 
   test.beforeEach("Go to Store tab", async ({ page }) => {
     const element = page.locator('a:has-text("Store")');

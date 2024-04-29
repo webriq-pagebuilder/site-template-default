@@ -9,7 +9,7 @@ let globalSeo = {
 };
 
 test.describe("Verify Global SEO Settings", () => {
-  test.describe.configure({ timeout: 600000, mode: "serial" });
+  test.describe.configure({ timeout: 600_000, mode: "serial" });
 
   test("Can add Global SEO values", async ({ page }) => {
     await page.goto(
@@ -72,11 +72,11 @@ test.describe("Verify Global SEO Settings", () => {
 
     await page
       .getByTestId("action-Save")
-      .click({ force: true, timeout: 180000 });
+      .click({ force: true, timeout: 180_000 });
   });
 
   test.describe("Empty SEO settings matches Global SEO values", () => {
-    test.describe.configure({ timeout: 300000 });
+    test.describe.configure({ timeout: 300_000 });
 
     test.beforeEach(async ({ page }) => {
       const element = page.locator('a:has-text("Pages")');
@@ -152,7 +152,7 @@ test.describe("Verify Global SEO Settings", () => {
 });
 
 test.describe("Redirects to Global SEO links", () => {
-  test.describe.configure({ timeout: 300000 });
+  test.describe.configure({ timeout: 300_000 });
 
   test.beforeEach(async ({ page }) => {
     const element = page.locator('a:has-text("Pages")');
@@ -196,7 +196,7 @@ test.describe("Redirects to Global SEO links", () => {
     await expect(
       page.getByTestId("field-defaultSeoKeywords").getByTestId("string-input")
     ).toBeVisible({
-      timeout: 120000,
+      timeout: 120_000,
     });
   });
 
@@ -224,7 +224,7 @@ test.describe("Redirects to Global SEO links", () => {
     await expect(
       page.getByTestId("field-defaultSeoSynonyms").getByTestId("string-input")
     ).toBeVisible({
-      timeout: 120000,
+      timeout: 120_000,
     });
   });
 
@@ -252,12 +252,12 @@ test.describe("Redirects to Global SEO links", () => {
       page
         .getByLabel("Description")
         .and(page.locator("textarea#defaultSeoDescription"))
-    ).toBeVisible({ timeout: 120000 });
+    ).toBeVisible({ timeout: 120_000 });
   });
 });
 
 test("Can add SEO values to page", async ({ page }) => {
-  test.setTimeout(300000);
+  test.setTimeout(300_000);
 
   const element = page.locator('a:has-text("Pages")');
   await element.scrollIntoViewIfNeeded();
@@ -310,12 +310,12 @@ test("Can add SEO values to page", async ({ page }) => {
   // publish document
   await page
     .getByTestId("action-[object Object]")
-    .click({ force: true, timeout: 120000 });
+    .click({ force: true, timeout: 120_000 });
   await expect(
     page
       .locator("[aria-label='Review changes']")
       .filter({ hasText: "just now" })
-  ).toBeVisible({ timeout: 120000 });
+  ).toBeVisible({ timeout: 120_000 });
 });
 
 test.afterAll(async ({ page }) => {

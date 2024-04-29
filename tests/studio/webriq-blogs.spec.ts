@@ -5,7 +5,7 @@ const newCategory = "New Category page";
 const newBlogPost = "New Blog page";
 
 test.describe("Verify main actions working", () => {
-  test.describe.configure({ timeout: 900000, mode: "serial" });
+  test.describe.configure({ timeout: 900_000, mode: "serial" });
 
   test.beforeEach(async ({ page }) => {
     await page.getByRole("link", { name: "Blog" }).click();
@@ -25,12 +25,12 @@ test.describe("Verify main actions working", () => {
     await page.getByLabel("Bio").fill("This is a sample author bio.");
     await page
       .getByTestId("action-[object Object]")
-      .click({ force: true, timeout: 120000 }); // publish document
+      .click({ force: true, timeout: 120_000 }); // publish document
     await expect(
       page
         .locator("[aria-label='Review changes']")
         .filter({ hasText: "just now" })
-    ).toBeVisible({ timeout: 120000 });
+    ).toBeVisible({ timeout: 120_000 });
 
     // CREATE CATEGORY
     await page.getByRole("link", { name: "Blog" }).click();
@@ -44,12 +44,12 @@ test.describe("Verify main actions working", () => {
     await page.getByLabel("Description").fill("This is a sample category.");
     await page
       .getByTestId("action-[object Object]")
-      .click({ force: true, timeout: 120000 }); // publish document
+      .click({ force: true, timeout: 120_000 }); // publish document
     await expect(
       page
         .locator("[aria-label='Review changes']")
         .filter({ hasText: "just now" })
-    ).toBeVisible({ timeout: 120000 });
+    ).toBeVisible({ timeout: 120_000 });
 
     // CREATE POST
     await page.getByRole("link", { name: "Blog" }).click();
@@ -89,12 +89,12 @@ test.describe("Verify main actions working", () => {
       .fill("This is a sample blog post content.");
     await page
       .getByTestId("action-[object Object]")
-      .click({ force: true, timeout: 120000 }); // publish document
+      .click({ force: true, timeout: 120_000 }); // publish document
     await expect(
       page
         .locator("[aria-label='Review changes']")
         .filter({ hasText: "just now" })
-    ).toBeVisible({ timeout: 120000 });
+    ).toBeVisible({ timeout: 120_000 });
   });
 
   test("Can edit author, category and post", async ({ page }) => {
@@ -114,7 +114,7 @@ test.describe("Verify main actions working", () => {
     await page.getByLabel("Bio").fill("Updated author sample bio content.");
     await page
       .getByTestId("action-[object Object]")
-      .click({ force: true, timeout: 180000 }); // publish document
+      .click({ force: true, timeout: 180_000 }); // publish document
 
     // EDIT CATEGORY
     await page.getByRole("link", { name: "Blog" }).click();
@@ -130,7 +130,7 @@ test.describe("Verify main actions working", () => {
     await page.getByLabel("Description").fill("Updated category description.");
     await page
       .getByTestId("action-[object Object]")
-      .click({ force: true, timeout: 180000 }); // publish document
+      .click({ force: true, timeout: 180_000 }); // publish document
 
     // EDIT POST
     await page.getByRole("link", { name: "Blog" }).click();
@@ -159,7 +159,7 @@ test.describe("Verify main actions working", () => {
       .fill("Updated sample blog post content.");
     await page
       .getByTestId("action-[object Object]")
-      .click({ force: true, timeout: 180000 }); // publish document
+      .click({ force: true, timeout: 180_000 }); // publish document
   });
 
   test("Delete created author, category and post", async ({ page }) => {
