@@ -5,8 +5,8 @@ import {
   expectDocumentPublished,
   subtitleField,
   titleField,
-  verifyExternalUrl,
-  verifyInternalUrl,
+  assertExternalUrl,
+  assertInternalUrl,
 } from "../../utils/index";
 
 export default async function VariantA({
@@ -79,13 +79,13 @@ export default async function VariantA({
   if (!isInternalLink) {
     const externalPagePromise = openUrlPage.waitForEvent("popup");
     const externalPage = await externalPagePromise;
-    await verifyExternalUrl(externalPage, commonFieldValues.externalLinkUrl);
+    await assertExternalUrl(externalPage, commonFieldValues.externalLinkUrl);
   } else {
     await openUrlPage.waitForLoadState("networkidle");
     await expect(openUrlPage.getByText("Success!")).toBeVisible({
       timeout: 20000,
     });
-    await verifyInternalUrl(openUrlPage, commonFieldValues.internalLinkUrl);
+    await assertInternalUrl(openUrlPage, commonFieldValues.internalLinkUrl);
   }
 
   const slug = pageTitle
@@ -122,7 +122,7 @@ async function assertPageContent(openUrlPage, blog, commonFieldValues) {
     .click({ force: true });
   await openUrlPage.waitForLoadState("networkidle");
   await openUrlPage.waitForTimeout(2000);
-  await verifyInternalUrl(openUrlPage, `${NEXT_PUBLIC_SITE_URL}/${blog.slug}`);
+  await assertInternalUrl(openUrlPage, `${NEXT_PUBLIC_SITE_URL}/${blog.slug}`);
   await expect(
     openUrlPage.getByRole("heading", { name: blog.title })
   ).toBeVisible({ timeout: 150_000 });

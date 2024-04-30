@@ -2,8 +2,8 @@ import { expect } from "@playwright/test";
 import {
   expectDocumentPublished,
   titleField,
-  verifyExternalUrl,
-  verifyInternalUrl,
+  assertExternalUrl,
+  assertInternalUrl,
 } from "tests/utils";
 import { NEXT_PUBLIC_SITE_URL } from "studio/config";
 import { logoCloudInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-default";
@@ -84,12 +84,12 @@ export default async function VariantC({
       .getByRole("link", { name: commonFieldValues.primaryBtn })
       .click({ force: true });
     const page10 = await page10Promise;
-    await verifyExternalUrl(page10, commonFieldValues.externalLinkUrl);
+    await assertExternalUrl(page10, commonFieldValues.externalLinkUrl);
   } else {
     await openUrlPage.waitForLoadState("networkidle");
     await expect(openUrlPage.getByText("Success!")).toBeVisible({
       timeout: 20_000,
     });
-    await verifyInternalUrl(openUrlPage, commonFieldValues.internalLinkUrl);
+    await assertInternalUrl(openUrlPage, commonFieldValues.internalLinkUrl);
   }
 }

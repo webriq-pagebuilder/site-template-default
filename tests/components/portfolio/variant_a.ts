@@ -5,8 +5,8 @@ import {
   expectDocumentPublished,
   subtitleField,
   titleField,
-  verifyExternalUrl,
-  verifyInternalUrl,
+  assertExternalUrl,
+  assertInternalUrl,
 } from "tests/utils";
 
 export default async function VariantA({
@@ -105,10 +105,10 @@ async function assertPageContent(
     await expect(openUrlPage.getByText("Success!")).toBeVisible({
       timeout: 150_000,
     });
-    await verifyInternalUrl(openUrlPage, commonFieldValues.internalLinkUrl);
+    await assertInternalUrl(openUrlPage, commonFieldValues.internalLinkUrl);
   } else if (!isInternalLink) {
     const page10Promise = openUrlPage.waitForEvent("popup");
     const page10 = await page10Promise;
-    await verifyExternalUrl(page10, commonFieldValues.externalLinkUrl);
+    await assertExternalUrl(page10, commonFieldValues.externalLinkUrl);
   }
 }

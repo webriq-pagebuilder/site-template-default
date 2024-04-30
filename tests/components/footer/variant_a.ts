@@ -2,8 +2,8 @@ import { expect } from "@playwright/test";
 import { NEXT_PUBLIC_SITE_URL } from "studio/config";
 import {
   expectDocumentPublished,
-  verifyExternalUrl,
-  verifyInternalUrl,
+  assertExternalUrl,
+  assertInternalUrl,
 } from "../../utils/index";
 
 let logoImg: string;
@@ -175,14 +175,14 @@ async function assertPageContent(
         await expect(openUrlPage.getByText("Success!")).toBeVisible({
           timeout: 20000,
         });
-        await verifyInternalUrl(openUrlPage, commonFieldValues.internalLinkUrl);
+        await assertInternalUrl(openUrlPage, commonFieldValues.internalLinkUrl);
       } else {
         const page10 = await openUrlPage.waitForEvent("popup");
-        await verifyExternalUrl(page10, commonFieldValues.externalLinkUrl);
+        await assertExternalUrl(page10, commonFieldValues.externalLinkUrl);
       }
     } else {
       const page10 = await openUrlPage.waitForEvent("popup");
-      await verifyExternalUrl(page10, commonFieldValues.externalLinkUrl);
+      await assertExternalUrl(page10, commonFieldValues.externalLinkUrl);
     }
   } else {
     if (!isInternalLink) {
@@ -191,7 +191,7 @@ async function assertPageContent(
         .getByRole("link", { name: linkName })
         .click({ force: true });
       const page10 = await page10Promise;
-      await verifyExternalUrl(page10, commonFieldValues.externalLinkUrl);
+      await assertExternalUrl(page10, commonFieldValues.externalLinkUrl);
     } else {
       await openUrlPage
         .getByRole("link", { name: linkName })
@@ -200,7 +200,7 @@ async function assertPageContent(
       await expect(openUrlPage.getByText("Success!")).toBeVisible({
         timeout: 20000,
       });
-      await verifyInternalUrl(openUrlPage, commonFieldValues.internalLinkUrl);
+      await assertInternalUrl(openUrlPage, commonFieldValues.internalLinkUrl);
     }
   }
 }

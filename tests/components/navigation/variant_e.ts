@@ -2,8 +2,8 @@ import { expect } from "@playwright/test";
 import { NEXT_PUBLIC_SITE_URL } from "studio/config";
 import {
   expectDocumentPublished,
-  verifyExternalUrl,
-  verifyInternalUrl,
+  assertExternalUrl,
+  assertInternalUrl,
 } from "tests/utils";
 
 export default async function VariantE({
@@ -119,7 +119,7 @@ async function assertPageContent(
       .getByRole("link", { name: linkName })
       .click({ force: true });
     const page10 = await page10Promise;
-    await verifyExternalUrl(page10, commonFieldValues.externalLinkUrl);
+    await assertExternalUrl(page10, commonFieldValues.externalLinkUrl);
   } else {
     await openUrlPage
       .getByRole("link", { name: linkName })
@@ -128,7 +128,7 @@ async function assertPageContent(
     await expect(openUrlPage.getByText("Success!")).toBeVisible({
       timeout: 150_000,
     });
-    await verifyInternalUrl(openUrlPage, commonFieldValues.internalLinkUrl);
+    await assertInternalUrl(openUrlPage, commonFieldValues.internalLinkUrl);
   }
 }
 

@@ -401,7 +401,7 @@ export async function deletePageVariant(page, pageTitle, variantLabel) {
   });
 }
 
-export async function verifyInternalUrl(page, expectedUrlBase) {
+export async function assertInternalUrl(page, expectedUrlBase) {
   const expectedUrl = expectedUrlBase.endsWith("/")
     ? expectedUrlBase
     : `${expectedUrlBase}/`;
@@ -409,12 +409,12 @@ export async function verifyInternalUrl(page, expectedUrlBase) {
   await expect(receivedUrl).toBe(expectedUrl);
 }
 
-export async function verifyExternalUrl(page, externalLinkUrl) {
+export async function assertExternalUrl(page, expectedUrlBase) {
   const normalizationPattern = "https://www.";
 
-  const normalizedExpectedUrl = externalLinkUrl.endsWith("/")
-    ? externalLinkUrl
-    : `${externalLinkUrl}/`;
+  const normalizedExpectedUrl = expectedUrlBase.endsWith("/")
+    ? expectedUrlBase
+    : `${expectedUrlBase}/`;
 
   const normalizedReceivedUrl = page.url().endsWith("/")
     ? page.url()

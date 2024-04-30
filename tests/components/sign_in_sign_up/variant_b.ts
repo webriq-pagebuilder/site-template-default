@@ -2,8 +2,8 @@ import { expect } from "@playwright/test";
 import { NEXT_PUBLIC_SITE_URL } from "studio/config";
 import {
   expectDocumentPublished,
-  verifyExternalUrl,
-  verifyInternalUrl,
+  assertExternalUrl,
+  assertInternalUrl,
 } from "tests/utils";
 
 export default async function VariantB({
@@ -279,10 +279,10 @@ async function assertPageContent(
     await expect(openUrlPage.getByText("Success!")).toBeVisible({
       timeout: 20_000,
     });
-    await verifyInternalUrl(openUrlPage, commonFieldValues.internalLinkUrl);
+    await assertInternalUrl(openUrlPage, commonFieldValues.internalLinkUrl);
   } else if (!isInternalLink) {
     const externalPagePromise = openUrlPage.waitForEvent("popup");
     const externalPage = await externalPagePromise;
-    await verifyExternalUrl(externalPage, commonFieldValues.externalLinkUrl);
+    await assertExternalUrl(externalPage, commonFieldValues.externalLinkUrl);
   }
 }

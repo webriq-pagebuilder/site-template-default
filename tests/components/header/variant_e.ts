@@ -3,8 +3,8 @@ import { headerInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-def
 import { NEXT_PUBLIC_SITE_URL } from "studio/config";
 import {
   expectDocumentPublished,
-  verifyExternalUrl,
-  verifyInternalUrl,
+  assertExternalUrl,
+  assertInternalUrl,
   generateFormId,
   titleField,
   descriptionField,
@@ -255,7 +255,7 @@ async function assertPageContent(
       .getByRole("link", { name: linkName })
       .click({ force: true });
     const page10 = await page10Promise;
-    await verifyExternalUrl(page10, commonFieldValues.externalLinkUrl);
+    await assertExternalUrl(page10, commonFieldValues.externalLinkUrl);
   } else {
     await openUrlPage
       .getByRole("link", { name: linkName })
@@ -264,6 +264,6 @@ async function assertPageContent(
     await expect(openUrlPage.getByText("Success!")).toBeVisible({
       timeout: 20_000,
     });
-    await verifyInternalUrl(openUrlPage, commonFieldValues.internalLinkUrl);
+    await assertInternalUrl(openUrlPage, commonFieldValues.internalLinkUrl);
   }
 }
