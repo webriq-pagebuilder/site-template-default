@@ -79,6 +79,24 @@ export const subtitleField = {
   },
 };
 
+export const headingField = {
+  async checkAndAddValue({ page, initialValue, commonFieldValues }) {
+    const heading = page
+      .getByTestId("field-variants.heading")
+      .getByTestId("string-input");
+    await expect(heading.inputValue()).resolves.toBe(initialValue.heading);
+    await heading.click();
+    await heading.press("Meta+a");
+    await heading.fill(commonFieldValues?.heading);
+    await expect(heading.inputValue()).resolves.toBe(
+      commonFieldValues?.heading
+    );
+  },
+  async sitePreview({ pageUrl, commonFieldValues }) {
+    await expect(pageUrl.getByText(commonFieldValues.heading)).toBeVisible();
+  },
+};
+
 export const titleField = {
   async checkAndAddValue({ page, initialValue, commonFieldValues }) {
     const title = page
@@ -332,6 +350,7 @@ export async function deletePageVariant(page, pageTitle, variantLabel) {
   await expect(
     page.getByTestId("review-changes-button").filter({ hasText: "Just now" })
   ).toBeVisible();
+  await page.waitForTimeout(2_000);
   await page.getByTestId("action-[object Object]").click({ force: true });
   await expect(
     page.getByTestId("review-changes-button").filter({ hasText: "Just now" })
@@ -343,10 +362,10 @@ export async function deletePageVariant(page, pageTitle, variantLabel) {
       .locator("div")
       .filter({ hasText: "The document was published" })
       .nth(1)
-  ).toBeVisible({ timeout: 150000 });
+  ).toBeVisible({ timeout: 150_000 });
   await expect(
     page.getByRole("button", { name: "Last published just now" })
-  ).toBeVisible({ timeout: 150000 });
+  ).toBeVisible({ timeout: 150_000 });
 
   //Delete Component Variant
   await page.getByRole("button", { name: variantLabel }).click();
