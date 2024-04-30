@@ -61,28 +61,6 @@ export async function variantLabelInput(page, variantLabel) {
     .fill(variantLabel);
 }
 
-export async function titleFieldInput(page, title) {
-  await page
-    .getByTestId("field-variants.title")
-    .getByTestId("string-input")
-    .click();
-  await page
-    .getByTestId("field-variants.title")
-    .getByTestId("string-input")
-    .fill(title);
-}
-
-export async function subtitleFieldInput(page, subtitle) {
-  await page
-    .getByTestId("field-variants.subtitle")
-    .getByTestId("string-input")
-    .click();
-  await page
-    .getByTestId("field-variants.subtitle")
-    .getByTestId("string-input")
-    .fill(subtitle);
-}
-
 export const subtitleField = {
   async checkAndAddValue({ page, initialValue, commonFieldValues }) {
     const subtitle = page
@@ -130,7 +108,9 @@ export const descriptionField = {
     commonFieldValues,
   }) {
     const description = page.getByPlaceholder(placeholder);
-    await expect(description.inputValue()).resolves.toBe(initialValue);
+    await expect(description.inputValue()).resolves.toBe(
+      initialValue.description
+    );
     await description.click();
     await description.press("Meta+a");
     await description.fill(commonFieldValues?.description);
