@@ -1,17 +1,26 @@
 import { expect } from "@playwright/test";
 import {
   expectDocumentPublished,
-  subtitleFieldInput,
-  titleFieldInput,
+  subtitleField,
+  titleField,
 } from "tests/utils";
 import { NEXT_PUBLIC_SITE_URL } from "studio/config";
+import { teamInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-default";
 
 export default async function VariantC({ pageTitle, page, commonFieldValues }) {
   //Subtitle
-  await subtitleFieldInput(page, commonFieldValues.subtitle);
+  await subtitleField.checkAndAddValue({
+    page,
+    initialValue: teamInitialValue,
+    commonFieldValues,
+  });
 
   //Title
-  await titleFieldInput(page, commonFieldValues.title);
+  await titleField.checkAndAddValue({
+    page,
+    initialValue: teamInitialValue,
+    commonFieldValues,
+  });
 
   for (const person of commonFieldValues.peopleData) {
     await page.getByRole("button", { name: person.name }).click();
@@ -36,10 +45,11 @@ export default async function VariantC({ pageTitle, page, commonFieldValues }) {
   await page.getByText(`${NEXT_PUBLIC_SITE_URL}`).click({ force: true });
   const openUrlPage = await pagePromise;
 
-  await expect(openUrlPage.getByText(commonFieldValues.subtitle)).toBeVisible();
-  await expect(
-    openUrlPage.getByRole("heading", { name: commonFieldValues.title })
-  ).toBeVisible();
+  //Title
+  await titleField.sitePreview({ pageUrl: openUrlPage, commonFieldValues });
+
+  //Subtitle
+  await subtitleField.sitePreview({ pageUrl: openUrlPage, commonFieldValues });
 
   for (const person of commonFieldValues.peopleData) {
     await expect(openUrlPage.getByText(person.nameChange)).toBeVisible();

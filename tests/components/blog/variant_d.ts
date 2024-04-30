@@ -2,13 +2,25 @@ import { expect } from "@playwright/test";
 import { NEXT_PUBLIC_SITE_URL } from "studio/config";
 import {
   expectDocumentPublished,
-  subtitleFieldInput,
-  titleFieldInput,
+  subtitleField,
+  titleField,
 } from "../../utils/index";
+import { blogInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-default";
 
 export default async function VariantA({ pageTitle, page, commonFieldValues }) {
-  await subtitleFieldInput(page, commonFieldValues.subtitle);
-  await titleFieldInput(page, commonFieldValues.title);
+  //Subtitle
+  await subtitleField.checkAndAddValue({
+    page,
+    initialValue: blogInitialValue,
+    commonFieldValues,
+  });
+
+  //Title
+  await titleField.checkAndAddValue({
+    page,
+    initialValue: blogInitialValue,
+    commonFieldValues,
+  });
 
   //Blog Posts
   await page.getByRole("button", { name: "Add item" }).click();
@@ -35,10 +47,11 @@ export default async function VariantA({ pageTitle, page, commonFieldValues }) {
     timeout: 20_000,
   });
 
-  await expect(
-    openUrlPage.getByRole("heading", { name: commonFieldValues.title })
-  ).toBeVisible();
-  await expect(openUrlPage.getByText(commonFieldValues.subtitle)).toBeVisible();
+  //Title
+  await titleField.sitePreview({ pageUrl: openUrlPage, commonFieldValues });
+
+  //Subtitle
+  await subtitleField.sitePreview({ pageUrl: openUrlPage, commonFieldValues });
 
   await expect(openUrlPage.getByText("All", { exact: true })).toBeVisible();
   for (const category of commonFieldValues.categories) {

@@ -1,9 +1,10 @@
 import { expect } from "@playwright/test";
+import { faqsInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-default";
 import { NEXT_PUBLIC_SITE_URL } from "studio/config";
 import {
   expectDocumentPublished,
-  subtitleFieldInput,
-  titleFieldInput,
+  subtitleField,
+  titleField,
 } from "tests/utils";
 
 const faqsWithCategories = [
@@ -34,9 +35,19 @@ const faqsWithCategories = [
 ];
 
 export default async function VariantB({ pageTitle, page, commonFieldValues }) {
-  await subtitleFieldInput(page, commonFieldValues.subtitle);
-  await titleFieldInput(page, commonFieldValues.title);
+  //Subtitle
+  await subtitleField.checkAndAddValue({
+    page,
+    initialValue: faqsInitialValue,
+    commonFieldValues,
+  });
 
+  //Title
+  await titleField.checkAndAddValue({
+    page,
+    initialValue: faqsInitialValue,
+    commonFieldValues,
+  });
   for (const faqs of faqsWithCategories) {
     await page.getByRole("button", { name: faqs.name }).click();
     await expect(page.getByLabel("Edit", { exact: true })).toBeVisible();
@@ -77,10 +88,12 @@ export default async function VariantB({ pageTitle, page, commonFieldValues }) {
     timeout: 20_000,
   });
   await expect(openUrlPage.locator("section")).toBeVisible({ timeout: 20_000 });
-  await expect(openUrlPage.getByText(commonFieldValues.subtitle)).toBeVisible();
-  await expect(
-    openUrlPage.getByRole("heading", { name: commonFieldValues.title })
-  ).toBeVisible();
+
+  //Title
+  await titleField.sitePreview({ pageUrl: openUrlPage, commonFieldValues });
+
+  //Subtitle
+  await subtitleField.sitePreview({ pageUrl: openUrlPage, commonFieldValues });
 
   for (const faqs of faqsWithCategories) {
     await expect(openUrlPage.getByLabel(faqs.name)).toBeVisible();

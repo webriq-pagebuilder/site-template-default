@@ -1,11 +1,12 @@
 import { expect } from "@playwright/test";
 import {
   expectDocumentPublished,
-  titleFieldInput,
+  titleField,
   verifyExternalUrl,
   verifyInternalUrl,
 } from "tests/utils";
 import { NEXT_PUBLIC_SITE_URL } from "studio/config";
+import { logoCloudInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-default";
 
 export default async function VariantC({
   pageTitle,
@@ -14,7 +15,11 @@ export default async function VariantC({
   isInternalLink,
 }) {
   //Title
-  await titleFieldInput(page, commonFieldValues.title);
+  await titleField.checkAndAddValue({
+    page,
+    initialValue: logoCloudInitialValue,
+    commonFieldValues,
+  });
 
   await page.getByRole("button", { name: "Primary Button" }).click();
   await page
@@ -50,9 +55,8 @@ export default async function VariantC({
   });
   await expect(openUrlPage.locator("section")).toBeVisible({ timeout: 20_000 });
 
-  await expect(
-    openUrlPage.getByRole("heading", { name: commonFieldValues.title })
-  ).toBeVisible();
+  //Title
+  await titleField.sitePreview({ pageUrl: openUrlPage, commonFieldValues });
 
   await expect(
     openUrlPage.locator(".mx-auto > .relative > div").first().hover()

@@ -1,14 +1,26 @@
 import { expect } from "@playwright/test";
 import {
   expectDocumentPublished,
-  subtitleFieldInput,
-  titleFieldInput,
+  subtitleField,
+  titleField,
 } from "tests/utils";
 import { NEXT_PUBLIC_SITE_URL } from "studio/config";
+import { howItWorksInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-default";
 
 export default async function VariantA({ pageTitle, page, commonFieldValues }) {
-  await subtitleFieldInput(page, commonFieldValues.subtitle);
-  await titleFieldInput(page, commonFieldValues.title);
+  //Subtitle
+  await subtitleField.checkAndAddValue({
+    page,
+    initialValue: howItWorksInitialValue,
+    commonFieldValues,
+  });
+
+  //Title
+  await titleField.checkAndAddValue({
+    page,
+    initialValue: howItWorksInitialValue,
+    commonFieldValues,
+  });
 
   //Body
   await page.getByLabel("Body").click();
@@ -42,10 +54,12 @@ export default async function VariantA({ pageTitle, page, commonFieldValues }) {
   });
   await expect(openUrlPage.locator("section")).toBeVisible({ timeout: 20_000 });
 
-  await expect(
-    openUrlPage.getByRole("heading", { name: commonFieldValues.title })
-  ).toBeVisible();
-  await expect(openUrlPage.getByText(commonFieldValues.subtitle)).toBeVisible();
+  //Title
+  await titleField.sitePreview({ pageUrl: openUrlPage, commonFieldValues });
+
+  //Subtitle
+  await subtitleField.sitePreview({ pageUrl: openUrlPage, commonFieldValues });
+
   await expect(openUrlPage.getByText(commonFieldValues.body)).toBeVisible();
   await expect(openUrlPage.locator(".aspect-video")).toBeVisible();
 

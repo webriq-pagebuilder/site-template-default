@@ -1,11 +1,13 @@
 import { expect } from "@playwright/test";
+import { headerInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-default";
 import { NEXT_PUBLIC_SITE_URL } from "studio/config";
 import {
-  titleFieldInput,
   expectDocumentPublished,
   verifyExternalUrl,
   verifyInternalUrl,
   generateFormId,
+  titleField,
+  descriptionField,
 } from "tests/utils";
 
 export default async function VariantE({
@@ -15,13 +17,19 @@ export default async function VariantE({
   isInternalLink,
 }) {
   //Content Title
-  await titleFieldInput(page, commonFieldValues.title);
+  await titleField.checkAndAddValue({
+    page,
+    initialValue: headerInitialValue,
+    commonFieldValues,
+  });
 
   //Content Description
-  await page.getByPlaceholder("Lorem ipsum dolor sit amet,").click();
-  await page
-    .getByPlaceholder("Lorem ipsum dolor sit amet,")
-    .fill(commonFieldValues.description);
+  await descriptionField.checkAndAddValue({
+    page,
+    initialValue: headerInitialValue,
+    placeholder: headerInitialValue.description,
+    commonFieldValues,
+  });
 
   //Primary Button
   await page.getByRole("button", { name: "Primary Button" }).click();
@@ -123,8 +131,6 @@ export default async function VariantE({
   await formName.click();
   await formName.fill(commonFieldValues.formName);
 
-  // TODO: FORM FIELDS EDIT HERE
-
   const buttonLabel = page
     .getByTestId("field-variants.form.buttonLabel")
     .getByTestId("string-input");
@@ -214,18 +220,28 @@ async function assertPageContent(
     timeout: 150_000,
   });
 
-  await expect(
-    openUrlPage.getByRole("heading", { name: commonFieldValues.title })
-  ).toBeVisible();
-  await expect(
-    openUrlPage.getByText(commonFieldValues.description)
-  ).toBeVisible();
+  //Title
+  await titleField.sitePreview({ pageUrl: openUrlPage, commonFieldValues });
+
+  //Description
+  await descriptionField.sitePreview({
+    pageUrl: openUrlPage,
+    commonFieldValues,
+  });
+
+  //Primary Button
   await expect(
     openUrlPage.getByLabel(commonFieldValues.primaryButton)
-  ).toBeVisible();
+  ).toBeVisible({
+    timeout: 150_000,
+  });
+
+  //Secondary Button
   await expect(
     openUrlPage.getByLabel(commonFieldValues.secondaryButton)
-  ).toBeVisible();
+  ).toBeVisible({
+    timeout: 150_000,
+  });
 
   await expect(openUrlPage.getByText(commonFieldValues.subtitle)).toBeVisible();
   await expect(openUrlPage.getByText(commonFieldValues.formName)).toBeVisible();

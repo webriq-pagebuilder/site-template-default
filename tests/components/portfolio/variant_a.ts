@@ -1,9 +1,10 @@
 import { expect } from "@playwright/test";
+import { portfolioInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-default";
 import { NEXT_PUBLIC_SITE_URL } from "studio/config";
 import {
   expectDocumentPublished,
-  subtitleFieldInput,
-  titleFieldInput,
+  subtitleField,
+  titleField,
   verifyExternalUrl,
   verifyInternalUrl,
 } from "tests/utils";
@@ -14,8 +15,19 @@ export default async function VariantA({
   commonFieldValues,
   isInternalLink,
 }) {
-  await subtitleFieldInput(page, commonFieldValues.subtitle);
-  await titleFieldInput(page, commonFieldValues.title);
+  //Subtitle
+  await subtitleField.checkAndAddValue({
+    page,
+    initialValue: portfolioInitialValue,
+    commonFieldValues,
+  });
+
+  //Title
+  await titleField.checkAndAddValue({
+    page,
+    initialValue: portfolioInitialValue,
+    commonFieldValues,
+  });
 
   for (const category of commonFieldValues.categories) {
     await page.getByRole("button", { name: category.name }).click();
@@ -65,6 +77,12 @@ async function assertPageContent(
     timeout: 20_000,
   });
   await expect(openUrlPage.locator("section")).toBeVisible({ timeout: 20_000 });
+
+  //Title
+  await titleField.sitePreview({ pageUrl: openUrlPage, commonFieldValues });
+
+  //Subtitle
+  await subtitleField.sitePreview({ pageUrl: openUrlPage, commonFieldValues });
 
   // Loop for the expected checkboxes
   for (const category of commonFieldValues.categories) {

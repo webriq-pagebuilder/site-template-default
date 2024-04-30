@@ -1,9 +1,11 @@
 import { expect } from "@playwright/test";
+import { pricingInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-default";
 import { NEXT_PUBLIC_SITE_URL } from "studio/config";
 import {
+  descriptionField,
   expectDocumentPublished,
-  subtitleFieldInput,
-  titleFieldInput,
+  subtitleField,
+  titleField,
   verifyExternalUrl,
   verifyInternalUrl,
 } from "tests/utils";
@@ -14,14 +16,27 @@ export default async function VariantD({
   commonFieldValues,
   isInternalLink,
 }) {
-  await subtitleFieldInput(page, commonFieldValues.subtitle);
-  await titleFieldInput(page, commonFieldValues.title);
+  //Subtitle
+  await subtitleField.checkAndAddValue({
+    page,
+    initialValue: pricingInitialValue,
+    commonFieldValues,
+  });
+
+  //Title
+  await titleField.checkAndAddValue({
+    page,
+    initialValue: pricingInitialValue,
+    commonFieldValues,
+  });
 
   //Description
-  await page.getByPlaceholder("Lorem ipsum dolor sit amet,").click();
-  await page
-    .getByPlaceholder("Lorem ipsum dolor sit amet,")
-    .fill(commonFieldValues.description);
+  await descriptionField.checkAndAddValue({
+    page,
+    initialValue: pricingInitialValue,
+    placeholder: pricingInitialValue.description,
+    commonFieldValues,
+  });
 
   //Monthly Billing
   await page
@@ -157,13 +172,16 @@ export default async function VariantD({
   });
   await expect(openUrlPage.locator("section")).toBeVisible({ timeout: 20_000 });
 
-  await expect(openUrlPage.getByText(commonFieldValues.subtitle)).toBeVisible();
-  await expect(
-    openUrlPage.getByRole("heading", { name: commonFieldValues.title })
-  ).toBeVisible();
-  await expect(
-    openUrlPage.getByText(commonFieldValues.description)
-  ).toBeVisible();
+  //Title
+  await titleField.sitePreview({ pageUrl: openUrlPage, commonFieldValues });
+
+  //Subtitle
+  await subtitleField.sitePreview({ pageUrl: openUrlPage, commonFieldValues });
+
+  await descriptionField.sitePreview({
+    pageUrl: openUrlPage,
+    commonFieldValues,
+  });
 
   await expect(openUrlPage.getByText("Monthly Billing")).toBeVisible();
   await expect(openUrlPage.getByText("Annual Billing")).toBeVisible();

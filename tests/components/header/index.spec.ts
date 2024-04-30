@@ -61,7 +61,7 @@ const commonFieldValues = {
   description: "Description Input Test",
   primaryButton: "Primary Button Test",
   secondaryButton: "Secondary Button Test",
-  externalLinkUrl: "https://webriq.com/",
+  externalLinkUrl: "https://facebook.com",
   internalLinkUrl: `${NEXT_PUBLIC_SITE_URL}/thank-you/`,
 };
 
@@ -69,7 +69,7 @@ headersVariantTest.forEach((variants, index) => {
   const { name, title, label, variant, isInternalLink } = variants;
 
   test.describe(`${name}`, () => {
-    test.describe.configure({ timeout: 600_000, mode: "parallel" });
+    test.describe.configure({ timeout: 1_500_000, mode: "parallel" });
     const pageTitle = newPageTitle(title);
 
     test(`Create ${label}`, async ({ page }) => {

@@ -1,10 +1,11 @@
 import { expect } from "@playwright/test";
+import { headerInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-default";
 import { NEXT_PUBLIC_SITE_URL } from "studio/config";
 import {
-  titleFieldInput,
   expectDocumentPublished,
   verifyExternalUrl,
   verifyInternalUrl,
+  titleField,
 } from "tests/utils";
 
 export default async function VariantC({
@@ -14,7 +15,11 @@ export default async function VariantC({
   isInternalLink,
 }) {
   //Content Title
-  await titleFieldInput(page, commonFieldValues.title);
+  await titleField.checkAndAddValue({
+    page,
+    initialValue: headerInitialValue,
+    commonFieldValues,
+  });
 
   //Primary Button
   await page.getByRole("button", { name: "Primary Button" }).click();
@@ -124,15 +129,17 @@ async function assertPageContent(
     timeout: 150_000,
   });
 
-  await expect(
-    openUrlPage.getByRole("heading", { name: commonFieldValues.title })
-  ).toBeVisible({ timeout: 150_000 });
+  //Title
+  await titleField.sitePreview({ pageUrl: openUrlPage, commonFieldValues });
 
+  //Primary Button
   await expect(
     openUrlPage.getByLabel(commonFieldValues.primaryButton)
   ).toBeVisible({
     timeout: 150_000,
   });
+
+  //Secondary Button
   await expect(
     openUrlPage.getByLabel(commonFieldValues.secondaryButton)
   ).toBeVisible({

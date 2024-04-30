@@ -1,9 +1,15 @@
 import { expect } from "@playwright/test";
+import { textComponentInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-default";
 import { NEXT_PUBLIC_SITE_URL } from "studio/config";
-import { expectDocumentPublished, titleFieldInput } from "tests/utils";
+import { expectDocumentPublished, titleField } from "tests/utils";
 
 export default async function VariantC({ pageTitle, page, commonFieldValues }) {
-  await titleFieldInput(page, commonFieldValues.title);
+  //Title
+  await titleField.checkAndAddValue({
+    page,
+    initialValue: textComponentInitialValue,
+    commonFieldValues,
+  });
 
   //First Content
   await expect(
@@ -59,9 +65,10 @@ export default async function VariantC({ pageTitle, page, commonFieldValues }) {
   await expect(openUrlPage.locator("section")).toBeVisible({
     timeout: 150_000,
   });
-  await expect(
-    openUrlPage.getByRole("heading", { name: commonFieldValues.title })
-  ).toBeVisible();
+
+  //Title
+  await titleField.sitePreview({ pageUrl: openUrlPage, commonFieldValues });
+
   await expect(
     openUrlPage.getByText(commonFieldValues.firstContent)
   ).toBeVisible();

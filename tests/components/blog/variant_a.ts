@@ -1,9 +1,10 @@
 import { expect } from "@playwright/test";
 import { NEXT_PUBLIC_SITE_URL } from "studio/config";
+import { blogInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-default";
 import {
   expectDocumentPublished,
-  subtitleFieldInput,
-  titleFieldInput,
+  subtitleField,
+  titleField,
   verifyExternalUrl,
   verifyInternalUrl,
 } from "../../utils/index";
@@ -14,8 +15,19 @@ export default async function VariantA({
   commonFieldValues,
   isInternalLink,
 }) {
-  await subtitleFieldInput(page, commonFieldValues.subtitle);
-  await titleFieldInput(page, commonFieldValues.title);
+  //Subtitle
+  await subtitleField.checkAndAddValue({
+    page,
+    initialValue: blogInitialValue,
+    commonFieldValues,
+  });
+
+  //Title
+  await titleField.checkAndAddValue({
+    page,
+    initialValue: blogInitialValue,
+    commonFieldValues,
+  });
 
   //Add Blog Posts
   await page.getByRole("button", { name: "Add item" }).click();
@@ -94,19 +106,16 @@ async function assertPageContent(openUrlPage, blog, commonFieldValues) {
     timeout: 20_000,
   });
 
-  await expect(
-    openUrlPage.getByRole("heading", { name: commonFieldValues.title })
-  ).toBeVisible({ timeout: 150_000 });
-  await expect(openUrlPage.getByText(commonFieldValues.subtitle)).toBeVisible({
-    timeout: 150_000,
-  });
+  //Title
+  await titleField.sitePreview({ pageUrl: openUrlPage, commonFieldValues });
+
+  //Subtitle
+  await subtitleField.sitePreview({ pageUrl: openUrlPage, commonFieldValues });
+
+  //Blog title
   await expect(openUrlPage.getByRole("link", { name: blog.title })).toBeVisible(
     { timeout: 150_000 }
   );
-
-  await expect(openUrlPage.locator(`a:has-text("${blog.title}")`)).toBeVisible({
-    timeout: 150_000,
-  });
 
   await openUrlPage
     .getByRole("link", { name: blog.title })
