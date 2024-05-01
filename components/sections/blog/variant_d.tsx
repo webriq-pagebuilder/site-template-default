@@ -160,6 +160,11 @@ function VariantD({ subtitle, title, posts }: BlogProps) {
               </>
             )}
           </Card>
+          {filteredPosts?.length === 0 && (
+            <div className="w-full px-3 lg:w-3/4 font-medium text-lg">
+              No post available.
+            </div>
+          )}
           {posts && (
             <div className="w-full px-3 lg:w-3/4">
               {activeTab === "All"
