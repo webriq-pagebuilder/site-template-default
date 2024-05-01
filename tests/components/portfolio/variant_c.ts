@@ -76,19 +76,28 @@ async function assertPageContent({
   //Subtitle
   await subtitleField.sitePreview({ pageUrl: openUrlPage, commonFieldValues });
 
-  await expect(openUrlPage.locator(".p-6").first()).toBeVisible();
+  //Categories
+  for (let i = 1; i <= 6; i++) {
+    let imageLocator;
+    if (i <= 1) {
+      imageLocator = openUrlPage.locator(".p-6").first();
+    } else {
+      imageLocator = openUrlPage.locator(
+        `div:nth-child(${i}) > .h-full > .p-6`
+      );
+    }
 
-  for (let i = 2; i <= 6; i++) {
+    await expect(imageLocator.locator('p:has-text("2021-01-24")')).toBeVisible({
+      timeout: 20_000,
+    });
     await expect(
-      openUrlPage
-        .locator(
-          `div:nth-child(${i}) > .h-full > .p-6 > .text-base:has-text("2021-01-24")`
-        )
-        .first()
-    ).toBeVisible();
+      imageLocator.locator('p:has-text("Lorem ipsum dolor sit amet")')
+    ).toBeVisible({ timeout: 20_000 });
     await expect(
-      openUrlPage.locator(`div:nth-child(${i}) > .h-full > .p-6`)
-    ).toBeVisible();
+      imageLocator.locator('a[aria-label="View Project"]')
+    ).toBeVisible({ timeout: 20_000 });
+
+    await expect(imageLocator.first()).toBeVisible({ timeout: 150_000 });
   }
 
   await openUrlPage

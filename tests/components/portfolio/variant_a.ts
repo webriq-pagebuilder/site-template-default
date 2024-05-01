@@ -29,6 +29,7 @@ export default async function VariantA({
     commonFieldValues,
   });
 
+  //Categories
   for (const category of commonFieldValues.categories) {
     await page.getByRole("button", { name: category.name }).click();
     await expect(page.getByLabel("Edit", { exact: true })).toBeVisible();
@@ -84,18 +85,26 @@ async function assertPageContent(
   //Subtitle
   await subtitleField.sitePreview({ pageUrl: openUrlPage, commonFieldValues });
 
-  // Loop for the expected checkboxes
+  //Categories
   for (const category of commonFieldValues.categories) {
     await openUrlPage.getByLabel(category.updatedName).click();
-    await expect(
-      openUrlPage.locator(".w-full > .relative > .absolute").first()
-    ).toBeVisible();
 
-    // Loop for the expected checkboxes
-    for (let i = 2; i <= 8; i++) {
-      await expect(
-        openUrlPage.locator(`div:nth-child(${i}) > .relative > .absolute`)
-      ).toBeVisible();
+    for (let i = 1; i <= 8; i++) {
+      let imageLocator;
+
+      if (i <= 1) {
+        imageLocator = openUrlPage
+          .locator(".w-full > .relative > .absolute")
+          .first();
+      } else {
+        imageLocator = openUrlPage.locator(
+          `div:nth-child(${i}) > .relative > .absolute`
+        );
+      }
+
+      await expect(imageLocator).toBeVisible({ timeout: 150_000 });
+      await imageLocator.hover();
+      await expect(imageLocator).toHaveText("View Project");
     }
   }
 

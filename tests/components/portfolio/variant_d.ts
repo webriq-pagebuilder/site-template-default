@@ -29,6 +29,7 @@ export default async function VariantD({
     commonFieldValues,
   });
 
+  //Categories
   for (const category of commonFieldValues.categories) {
     await page.getByRole("button", { name: category.name }).click();
     await expect(page.getByLabel("Edit", { exact: true })).toBeVisible();
@@ -84,31 +85,33 @@ async function assertPageContent({
   //Subtitle
   await subtitleField.sitePreview({ pageUrl: openUrlPage, commonFieldValues });
 
-  // Loop for the expected checkboxes
+  //Categories
   for (const category of commonFieldValues.categories) {
     await expect(openUrlPage.getByLabel(category.updatedName)).toBeVisible();
     await openUrlPage.getByLabel(category.updatedName).click();
-    await expect(
+
+    await checkImageDetails(openUrlPage.locator(".absolute").first());
+    await checkImageDetails(
       openUrlPage.locator("div:nth-child(2) > .relative > .absolute").first()
-    ).toBeVisible();
-    await expect(
+    );
+    await checkImageDetails(
       openUrlPage.locator("div:nth-child(3) > .relative > .absolute")
-    ).toBeVisible();
-    await expect(
+    );
+    await checkImageDetails(
       openUrlPage
         .locator("div:nth-child(2) > div > .relative > .absolute")
         .first()
-    ).toBeVisible();
-    await expect(
+    );
+    await checkImageDetails(
       openUrlPage
         .locator(".w-full > .flex > div > .relative > .absolute")
         .first()
-    ).toBeVisible();
-    await expect(
+    );
+    await checkImageDetails(
       openUrlPage.locator(
         "div:nth-child(2) > div:nth-child(2) > .relative > .absolute"
       )
-    ).toBeVisible();
+    );
   }
 
   await openUrlPage.locator(".text-center > .inline-block").click();
@@ -123,4 +126,25 @@ async function assertPageContent({
     const page10 = await page10Promise;
     await assertExternalUrl(page10, commonFieldValues.externalLinkUrl);
   }
+}
+
+async function checkImageDetails(imageLocator) {
+  const imageTitle = "Lorem ipsum dolor sit amet consectutar";
+  const imageSubtitle = "Dolor sit amet consectutar";
+  const imageDescription =
+    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque efficitur nisl sodal...";
+
+  await expect(imageLocator).toBeVisible({ timeout: 20_000 });
+  await expect(
+    imageLocator.locator(`p:has-text("${imageSubtitle}")`)
+  ).toBeVisible({ timeout: 20_000 });
+  await expect(
+    imageLocator.locator(`h1:has-text("${imageTitle}")`)
+  ).toBeVisible({ timeout: 20_000 });
+  await expect(
+    imageLocator.locator(`p:has-text("${imageDescription}")`)
+  ).toBeVisible({ timeout: 20_000 });
+  await expect(
+    imageLocator.locator('a[aria-label="View Project"]')
+  ).toBeVisible({ timeout: 20_000 });
 }

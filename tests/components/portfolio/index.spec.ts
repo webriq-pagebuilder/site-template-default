@@ -74,7 +74,7 @@ portfolioVariantTest.forEach((variants, index) => {
   const { name, title, label, variant, isInternalLink } = variants;
 
   test.describe(`${name}`, () => {
-    test.describe.configure({ timeout: 600_000, mode: "parallel" });
+    test.describe.configure({ timeout: 1_200_000, mode: "parallel" });
     const pageTitle = newPageTitle(title);
 
     test(`Create ${label}`, async ({ page }) => {
