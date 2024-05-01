@@ -47,7 +47,7 @@ const blogVariantTest = [
 const commonFieldValues = {
   title: "Blog Title Test",
   subtitle: "Subtitle Test",
-  referencedBlog: "Mariel test blogs",
+  referencedBlog: "Ph12",
   button: "View More",
   internalLinkUrl: `${NEXT_PUBLIC_SITE_URL}/thank-you`,
   externalLinkUrl: "https://webriq.com",

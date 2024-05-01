@@ -73,7 +73,7 @@ export default async function VariantA({ pageTitle, page, commonFieldValues }) {
     .getByPlaceholder("Search posts...")
     .fill(commonFieldValues.referencedBlog);
   await expect(
-    openUrlPage.getByLabel(commonFieldValues.referencedBlog)
+    openUrlPage.getByLabel(commonFieldValues.referencedBlog).nth(1)
   ).toBeVisible();
 
   //Clear Search
@@ -113,5 +113,6 @@ export default async function VariantA({ pageTitle, page, commonFieldValues }) {
   await openUrlPage.getByText("Engineering").click();
   await expect(openUrlPage.getByLabel("Page")).toBeVisible();
   await openUrlPage.getByLabel("Page").click();
-  await expect(openUrlPage.getByLabel("Ph12")).toBeVisible();
+  await expect(openUrlPage.getByLabel("Ph12").first()).toBeVisible();
+  await expect(openUrlPage.getByLabel("Ph12").nth(1)).toBeVisible();
 }

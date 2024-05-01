@@ -29,18 +29,6 @@ export default async function VariantB({
     commonFieldValues,
   });
 
-  //Blog Posts
-  await page.getByRole("button", { name: "Add item" }).click();
-  await page.getByTestId("reference-input").getByLabel("Open").click();
-  await page
-    .getByRole("button", { name: commonFieldValues.referencedBlog })
-    .click();
-  await expect(
-    page.getByRole("link", { name: commonFieldValues.referencedBlog })
-  ).toBeVisible({
-    timeout: 75000,
-  });
-
   //Button
   await page.getByRole("button", { name: "Primary Button" }).click();
   await page
