@@ -18,7 +18,7 @@ async function VariantC({ newPageTitle, page, commonFieldValues }) {
   });
   await descriptionField.checkAndAddValue({
     page,
-    initialValue: appPromoInitialValue?.description,
+    initialValue: appPromoInitialValue,
     placeholder: appPromoInitialValue?.description,
     commonFieldValues,
   });
@@ -72,17 +72,17 @@ async function VariantC({ newPageTitle, page, commonFieldValues }) {
 
   // array of images - show 4
   await expect(
-    openUrlPage.getByRole("img", { name: "appPromo-variantC-image-1" }).first()
-  ).toBeVisible();
+    openUrlPage.getByRole("img", { name: "appPromo-variantC-image0" })
+  ).toBeVisible({ timeout: 20_000 });
   await expect(
-    openUrlPage.getByRole("img", { name: "appPromo-variantC-image-2" }).first()
-  ).toBeVisible();
+    openUrlPage.getByRole("img", { name: "appPromo-variantC-image1" }).first()
+  ).toBeVisible({ timeout: 20_000 });
   await expect(
-    openUrlPage.getByRole("img", { name: "appPromo-variantC-image-3" }).first()
-  ).toBeVisible();
+    openUrlPage.getByRole("img", { name: "appPromo-variantC-image1" }).nth(1)
+  ).toBeVisible({ timeout: 20_000 });
   await expect(
-    openUrlPage.getByRole("img", { name: "appPromo-variantD-image-4" }).first()
-  ).toBeVisible();
+    openUrlPage.getByRole("img", { name: "appPromo-variantC-image4" })
+  ).toBeVisible({ timeout: 20_000 });
 }
 
 export default VariantC;

@@ -26,19 +26,31 @@ async function VariantB({ newPageTitle, page, commonFieldValues }) {
   });
   await descriptionField.checkAndAddValue({
     page,
-    initialValue: appPromoInitialValue?.description,
+    initialValue: appPromoInitialValue,
     placeholder: appPromoInitialValue?.description,
     commonFieldValues,
   });
 
-  await page.getByRole("button", { name: "Add item" }).click({ force: true });
   await page
-    .getByTestId("field-variants.statItems.label")
-    .getByTestId("string-input")
+    .getByRole("button", { name: "Add item" })
+    .first()
+    .click({ force: true });
+  await expect(page.getByLabel("Edit", { exact: true })).toBeVisible({
+    timeout: 20_000,
+  });
+
+  // label
+  await page.locator('input[data-as="input"][value=""]').nth(2).click();
+  await page
+    .locator('input[data-as="input"][value=""]')
+    .nth(2)
     .fill(statItemsField.label);
+
+  // value
+  await page.locator('input[data-as="input"][value=""]').nth(2).click();
   await page
-    .getByTestId("field-variants.statItems.value")
-    .getByTestId("string-input")
+    .locator('input[data-as="input"][value=""]')
+    .nth(2)
     .fill(statItemsField.value);
   await page.getByLabel("Close dialog").click();
   await expect(page.locator('[id="variants\\.statItems"]')).toContainText(

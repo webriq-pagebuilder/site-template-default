@@ -13,41 +13,42 @@ const variantModules = {
 const appPromoVariantTests = [
   {
     name: "Variant A",
-    title: "App promo Page A",
-    label: "New App promo A",
+    title: "App Promo Page A",
+    label: "New App Promo A",
     variant: "variant_a",
   },
   {
     name: "Variant B",
-    title: "App promo Page B",
-    label: "New App promo B",
+    title: "App Promo Page B",
+    label: "New App Promo B",
     variant: "variant_b",
   },
   {
     name: "Variant C",
-    title: "App promo Page C",
-    label: "New App promo C",
+    title: "App Promo Page C",
+    label: "New App Promo C",
     variant: "variant_c",
   },
 ];
 
 const commonFieldValues = {
-  subtitle: "App promo subtitle", // all variants
-  title: "App promo title", // all variants
-  description: "Updated description for new App promo.", // variant b and c
-  logoAltText: "App promo logo",
+  subtitle: "App Promo subtitle", // all variants
+  title: "App Promo title", // all variants
+  description: "Updated description for new App Promo.", // variant b and c
+  logoAltText: "App Promo logo",
 };
 
-appPromoVariantTests.forEach((variant, index) => {
-  test.describe(`${variant.name}`, () => {
+appPromoVariantTests.forEach((variants, index) => {
+  const { name, title, label, variant } = variants;
+
+  test.describe(`${name}`, () => {
     test.describe.configure({ timeout: 1_000_000 });
+    const pageTitle = newPageTitle(title);
 
-    const pageTitle = newPageTitle(variant?.title);
+    test(`Create ${label}`, async ({ page }) => {
+      await beforeEachTest(page, pageTitle, "App promo", label, index);
 
-    test(`Create ${variant.label}`, async ({ page }) => {
-      await beforeEachTest(page, pageTitle, "App promo", variant?.label, index);
-
-      const variantTest = variantModules[variant.variant];
+      const variantTest = variantModules[variant];
       await variantTest({
         pageTitle,
         page,
@@ -56,7 +57,7 @@ appPromoVariantTests.forEach((variant, index) => {
     });
 
     test.afterEach(async ({ page }) => {
-      await deletePageVariant(page, newPageTitle, variant.label);
+      await deletePageVariant(page, pageTitle, label);
     });
   });
 });
