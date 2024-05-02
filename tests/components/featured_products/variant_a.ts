@@ -41,8 +41,6 @@ async function assertPageContent(openUrlPage, product, commonFieldValues) {
     openUrlPage.getByRole("heading", { name: product.name })
   ).toBeVisible();
 
-  console.log("test");
-
   const formattedPrice = product.price.replace(".00", ""); // Remove '.00'
   await expect(
     openUrlPage.locator(`p:has-text("${formattedPrice}")`)
