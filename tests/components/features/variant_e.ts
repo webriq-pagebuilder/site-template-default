@@ -1,18 +1,25 @@
 import { expect } from "@playwright/test";
-import { expectDocumentPublished } from "tests/utils";
+import { descriptionField, expectDocumentPublished } from "tests/utils";
 import { NEXT_PUBLIC_SITE_URL } from "studio/config";
 import { featuresInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-default";
 
 async function VariantE({ newPageTitle, page, commonFieldValues }) {
   // studio
-  await expect(
-    page.getByPlaceholder("Lorem ipsum dolor sit amet,")
-  ).toBeVisible();
-  await page.getByPlaceholder("Lorem ipsum dolor sit amet,").click();
-  await page.getByPlaceholder("Lorem ipsum dolor sit amet,").press("Meta+a");
-  await page
-    .getByPlaceholder("Lorem ipsum dolor sit amet,")
-    .fill(commonFieldValues?.description);
+  await descriptionField.checkAndAddValue({
+    page,
+    initialValue: featuresInitialValue,
+    placeholder: featuresInitialValue.description,
+    commonFieldValues,
+  });
+  // await expect(
+  //   page.getByPlaceholder("Lorem ipsum dolor sit amet,")
+  // ).toBeVisible();
+  // await page.getByPlaceholder("Lorem ipsum dolor sit amet,").click();
+  // await page.getByPlaceholder("Lorem ipsum dolor sit amet,").press("Meta+a");
+  // await page
+  //   .getByPlaceholder("Lorem ipsum dolor sit amet,")
+  //   .fill(commonFieldValues?.description);
+
   await expect(
     page.getByRole("button", { name: "Build & Launch without" })
   ).toBeVisible();

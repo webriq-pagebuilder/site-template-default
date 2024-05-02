@@ -79,16 +79,16 @@ const commonFieldValues = {
   primaryButtonLabel: "Features Primary",
 };
 
-featuresVariantTests?.forEach((variant, index) => {
-  test.describe(`${variant?.name}`, () => {
+featuresVariantTests?.forEach((variants, index) => {
+  const { name, title, label, variant } = variants;
+  test.describe(`${name}`, () => {
     test.describe.configure({ timeout: 1_000_000 });
+    const pageTitle = newPageTitle(title);
 
-    const pageTitle = newPageTitle(variant?.title);
+    test(`Create ${label}`, async ({ page }) => {
+      await beforeEachTest(page, pageTitle, "Features", label, index);
 
-    test(`Create ${variant.label}`, async ({ page }) => {
-      await beforeEachTest(page, pageTitle, "Features", variant?.label, index);
-
-      const variantTest = variantModules[variant.variant];
+      const variantTest = variantModules[variant];
       await variantTest({
         pageTitle,
         page,
@@ -96,8 +96,8 @@ featuresVariantTests?.forEach((variant, index) => {
       });
     });
 
-    test.afterEach(`Delete ${variant.label}`, async ({ page }) => {
-      await deletePageVariant(page, newPageTitle, variant?.label);
+    test.afterEach(`Delete ${label}`, async ({ page }) => {
+      await deletePageVariant(page, pageTitle, label);
     });
   });
 });

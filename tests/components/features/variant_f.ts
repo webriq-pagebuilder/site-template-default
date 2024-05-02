@@ -1,40 +1,31 @@
 import { expect } from "@playwright/test";
-import { expectDocumentPublished } from "tests/utils";
+import {
+  descriptionField,
+  expectDocumentPublished,
+  subtitleField,
+  titleField,
+} from "tests/utils";
 import { NEXT_PUBLIC_SITE_URL } from "studio/config";
 import { featuresInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-default";
 
 async function VariantF({ newPageTitle, page, commonFieldValues }) {
   // studio
-  const subtitle = page
-    .getByTestId("field-variants.subtitle")
-    .getByTestId("string-input");
-  await expect(subtitle.inputValue()).resolves.toBe(
-    featuresInitialValue.subtitle
-  );
-  await subtitle.click();
-  await subtitle.press("Meta+a");
-  await subtitle.fill(commonFieldValues?.title);
-  await expect(subtitle.inputValue()).resolves.toBe(
-    commonFieldValues?.subtitle
-  );
-
-  const title = page
-    .getByTestId("field-variants.title")
-    .getByTestId("string-input");
-  await expect(title.inputValue()).resolves.toBe(featuresInitialValue.title);
-  await title.click();
-  await title.press("Meta+a");
-  await title.fill(commonFieldValues?.title);
-  await expect(title.inputValue()).resolves.toBe(commonFieldValues?.title);
-
-  await expect(
-    page.getByPlaceholder("Lorem ipsum dolor sit amet,")
-  ).toBeVisible();
-  await page.getByPlaceholder("Lorem ipsum dolor sit amet,").click();
-  await page.getByPlaceholder("Lorem ipsum dolor sit amet,").press("Meta+a");
-  await page
-    .getByPlaceholder("Lorem ipsum dolor sit amet,")
-    .fill(commonFieldValues?.description);
+  await subtitleField.checkAndAddValue({
+    page,
+    initialValue: featuresInitialValue,
+    commonFieldValues,
+  });
+  await titleField.checkAndAddValue({
+    page,
+    initialValue: featuresInitialValue,
+    commonFieldValues,
+  });
+  await descriptionField.checkAndAddValue({
+    page,
+    initialValue: featuresInitialValue,
+    placeholder: featuresInitialValue.description,
+    commonFieldValues,
+  });
 
   await page.getByRole("button", { name: "Primary Button" }).click();
   await expect(
