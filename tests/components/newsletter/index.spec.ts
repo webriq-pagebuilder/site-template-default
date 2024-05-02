@@ -46,22 +46,17 @@ const commonFieldValues = {
   ],
 };
 
-newsletterVariantTests.forEach((variant, index) => {
-  test.describe(`${variant?.name}`, () => {
-    test.describe.configure({ timeout: 1_000_000 });
+newsletterVariantTests.forEach((variants, index) => {
+  const { name, title, label, variant } = variants;
 
-    const pageTitle = newPageTitle(variant?.title);
+  test.describe(`${name}`, () => {
+    test.describe.configure({ timeout: 1_000_000, mode: "parallel" });
+    const pageTitle = newPageTitle(title);
 
-    test(`Create ${variant.label}`, async ({ page }) => {
-      await beforeEachTest(
-        page,
-        pageTitle,
-        "Newsletter",
-        variant?.label,
-        index
-      );
+    test(`Create ${label}`, async ({ page }) => {
+      await beforeEachTest(page, pageTitle, "Newsletter", label, index);
 
-      const variantTest = variantModules[variant.variant];
+      const variantTest = variantModules[variant];
       await variantTest({
         pageTitle,
         page,
@@ -69,8 +64,8 @@ newsletterVariantTests.forEach((variant, index) => {
       });
     });
 
-    test.afterEach(`Delete ${variant.label}`, async ({ page }) => {
-      await deletePageVariant(page, newPageTitle, variant.label);
+    test.afterEach(`Delete ${label}`, async ({ page }) => {
+      await deletePageVariant(page, pageTitle, label);
     });
   });
 });

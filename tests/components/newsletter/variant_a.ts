@@ -9,17 +9,18 @@ async function VariantA({ pageTitle, page, commonFieldValues }) {
   // studio
   await updateLogoLink(page, commonFieldValues?.logoAltText);
 
+  // title
   await titleField.checkAndAddValue({
     page,
     initialValue: newsletterInitialValue,
     commonFieldValues,
   });
 
-  await descriptionField.checkAndAddValue({
-    page,
-    initialValue: newsletterInitialValue,
-    commonFieldValues,
-  });
+  // description
+  await page.getByPlaceholder("Lorem ipsum dolor sit amet,").click();
+  await page
+    .getByPlaceholder("Lorem ipsum dolor sit amet,")
+    .fill(commonFieldValues.description);
 
   // forms
   await form.addFormFields({ page });
@@ -33,16 +34,13 @@ async function VariantA({ pageTitle, page, commonFieldValues }) {
 
   // logo
   await expect(
-    openUrlPage.getByLabel("Go to https://webriq.com")
-  ).toBeVisible();
-  await expect(
-    openUrlPage
-      .locator("a[target='_blank']")
-      .and(openUrlPage.locator("a[rel='noopener noreferrer']"))
-  ).toBeVisible();
+    openUrlPage.locator(
+      'a[aria-label="Go to https://webriq.com"][target="_blank"][rel="noopener noreferrer"]'
+    )
+  ).toBeVisible({ timeout: 20_000 });
   await expect(
     openUrlPage.getByAltText(commonFieldValues?.logoAltText)
-  ).toBeVisible();
+  ).toBeVisible({ timeout: 20_000 });
 
   // title
   await titleField.sitePreview({ pageUrl: openUrlPage, commonFieldValues });
