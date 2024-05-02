@@ -440,14 +440,20 @@ export async function updateLogoLink(page, altText) {
     .getByTestId("field-variants.logo.alt")
     .getByTestId("string-input")
     .fill(altText);
-  await expect(page.getByLabel("Internal, inside this website")).toBeChecked();
+  await expect(
+    page.getByLabel("Internal, inside this website").first()
+  ).toBeChecked();
+
   await page
     .getByLabel("External, outside this website")
-    .check({ force: true });
+    .first()
+    .click({ force: true });
   await expect(page.getByLabel("URL")).toBeVisible();
   await page.getByLabel("URL").fill("https://webriq.com");
-  await expect(page.getByLabel("Self (default) - open in the")).toBeChecked();
-  await page.getByLabel("Blank - open on a new tab (").check();
+  await expect(
+    page.getByLabel("Self (default) - open in the").first()
+  ).toBeChecked();
+  await page.getByLabel("Blank - open on a new tab (").click();
 }
 
 export async function generateFormId({ page }) {
