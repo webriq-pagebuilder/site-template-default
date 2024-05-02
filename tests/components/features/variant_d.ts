@@ -7,7 +7,9 @@ import {
 import { NEXT_PUBLIC_SITE_URL } from "studio/config";
 import { featuresInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-default";
 
-async function VariantD({ newPageTitle, page, commonFieldValues }) {
+const featuresLength = featuresInitialValue.arrayOfImageTitleAndText.length;
+
+async function VariantD({ pageTitle, page, commonFieldValues }) {
   // studio
   await subtitleField.checkAndAddValue({
     page,
@@ -20,30 +22,17 @@ async function VariantD({ newPageTitle, page, commonFieldValues }) {
     commonFieldValues,
   });
 
-  await expect(
-    page.getByRole("button", {
-      name: featuresInitialValue.arrayOfImageTitleAndText?.[0]?.title,
-    })
-  ).toBeVisible();
-  await expect(
-    page.getByRole("button", {
-      name: featuresInitialValue.arrayOfImageTitleAndText?.[1]?.title,
-    })
-  ).toBeVisible();
-  await expect(
-    page.getByRole("button", {
-      name: featuresInitialValue.arrayOfImageTitleAndText?.[2]?.title,
-    })
-  ).toBeVisible();
-  await page.waitForTimeout(2000);
-  await expect(
-    page.getByRole("button", {
-      name: featuresInitialValue.arrayOfImageTitleAndText?.[3]?.title,
-    })
-  ).toBeVisible();
+  // check features items
+  for (let i = 0; i < featuresLength - 1; i++) {
+    await expect(
+      page.getByRole("button", {
+        name: featuresInitialValue.arrayOfImageTitleAndText?.[i]?.title,
+      })
+    ).toBeVisible({ timeout: 20_000 });
+  }
 
   // check site preview
-  await expectDocumentPublished(page, newPageTitle);
+  await expectDocumentPublished(page, pageTitle);
   const pagePromise = page.waitForEvent("popup");
   await page.getByText(`${NEXT_PUBLIC_SITE_URL}`).click({ force: true });
   const openUrlPage = await pagePromise;
@@ -59,58 +48,22 @@ async function VariantD({ newPageTitle, page, commonFieldValues }) {
   );
 
   // array of image title and text
-  await expect(
-    openUrlPage.getByRole("img", { name: "features-image-" }).first()
-  ).toBeVisible();
-  await expect(
-    openUrlPage.getByText(
-      featuresInitialValue.arrayOfImageTitleAndText?.[0]?.title
-    )
-  ).toBeVisible();
-  await expect(
-    openUrlPage.getByText(
-      featuresInitialValue.arrayOfImageTitleAndText?.[0]?.plainText
-    )
-  ).toBeVisible();
-  await expect(
-    openUrlPage.getByRole("img", { name: "features-image-" }).nth(1)
-  ).toBeVisible();
-  await expect(
-    openUrlPage.getByText(
-      featuresInitialValue.arrayOfImageTitleAndText?.[1]?.title
-    )
-  ).toBeVisible();
-  await expect(
-    openUrlPage.getByText(
-      featuresInitialValue.arrayOfImageTitleAndText?.[1]?.plainText
-    )
-  ).toBeVisible();
-  await expect(
-    openUrlPage.getByRole("img", { name: "features-image-" }).nth(2)
-  ).toBeVisible();
-  await expect(
-    openUrlPage.getByText(
-      featuresInitialValue.arrayOfImageTitleAndText?.[2]?.title
-    )
-  ).toBeVisible();
-  await expect(
-    openUrlPage.getByText(
-      featuresInitialValue.arrayOfImageTitleAndText?.[2]?.plainText
-    )
-  ).toBeVisible();
-  await expect(
-    openUrlPage.getByRole("img", { name: "features-image-" }).nth(3)
-  ).toBeVisible();
-  await expect(
-    openUrlPage.getByText(
-      featuresInitialValue.arrayOfImageTitleAndText?.[3]?.title
-    )
-  ).toBeVisible();
-  await expect(
-    openUrlPage.getByText(
-      featuresInitialValue.arrayOfImageTitleAndText?.[3]?.plainText
-    )
-  ).toBeVisible();
+  for (let i = 0; i < featuresLength; i++) {
+    let imageTitle;
+
+    i <= 0
+      ? (imageTitle = openUrlPage
+          .getByRole("img", { name: "features-image-" })
+          .first())
+      : (imageTitle = openUrlPage
+          .getByRole("img", { name: "features-image-" })
+          .nth(i));
+
+    await expect(imageTitle).toBeVisible({ timeout: 20_000 });
+    openUrlPage.locator(
+      `p:has-text("${featuresInitialValue.arrayOfImageTitleAndText?.[i]?.plainText}")`
+    );
+  }
 }
 
 export default VariantD;

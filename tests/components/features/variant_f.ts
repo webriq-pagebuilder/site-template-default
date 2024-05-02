@@ -8,7 +8,7 @@ import {
 import { NEXT_PUBLIC_SITE_URL } from "studio/config";
 import { featuresInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-default";
 
-async function VariantF({ newPageTitle, page, commonFieldValues }) {
+async function VariantF({ pageTitle, page, commonFieldValues }) {
   // studio
   await subtitleField.checkAndAddValue({
     page,
@@ -41,7 +41,7 @@ async function VariantF({ newPageTitle, page, commonFieldValues }) {
   await expect(page.getByLabel("Self (default) - open in the")).toBeChecked();
 
   // check site preview
-  await expectDocumentPublished(page, newPageTitle);
+  await expectDocumentPublished(page, pageTitle);
   const pagePromise = page.waitForEvent("popup");
   await page.getByText(`${NEXT_PUBLIC_SITE_URL}`).click({ force: true });
   const openUrlPage = await pagePromise;
