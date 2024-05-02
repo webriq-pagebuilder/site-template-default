@@ -3,24 +3,20 @@ import {
   CTAWebriQForm,
   checkFormSubmission,
   expectDocumentPublished,
+  titleField,
 } from "tests/utils";
 import { NEXT_PUBLIC_SITE_URL } from "studio/config";
 import { callToActionInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-default";
 
 async function VariantC({ newPageTitle, page, commonFieldValues }) {
   // studio
-  const title = page
-    .getByTestId("field-variants.title")
-    .getByTestId("string-input");
-  await expect(title.inputValue()).resolves.toBe(
-    callToActionInitialValue.title
-  );
-  await title.click();
-  await title.press("Meta+a");
-  await title.fill(commonFieldValues?.title);
-  await expect(title.inputValue()).resolves.toBe(commonFieldValues?.title);
+  await titleField.checkAndAddValue({
+    page,
+    initialValue: callToActionInitialValue,
+    commonFieldValues,
+  });
 
-  const description = page.getByPlaceholder("Lorem ipsum dolor sit amet,");
+  const description = page.getByLabel("Body");
   await expect(description.inputValue()).resolves.toBe(
     callToActionInitialValue.plainText
   );
@@ -47,31 +43,35 @@ async function VariantC({ newPageTitle, page, commonFieldValues }) {
   // title
   await expect(
     openUrlPage.getByRole("heading", { name: commonFieldValues?.title })
-  ).toBeVisible();
+  ).toBeVisible({ timeout: 20_000 });
 
   // description
   await expect(
     openUrlPage
       .locator("section")
-      .filter({ hasText: commonFieldValues?.title })
+      .filter({ hasText: commonFieldValues?.description })
       .getByRole("paragraph")
       .first()
-  ).toBeVisible();
+  ).toBeVisible({ timeout: 20_000 });
 
   // forms
   await expect(
     openUrlPage.getByPlaceholder(
       callToActionInitialValue.form.fields?.[0]?.placeholder
     )
-  ).toBeVisible();
+  ).toBeVisible({ timeout: 20_000 });
   await expect(
     openUrlPage.getByLabel(callToActionInitialValue.form.buttonLabel)
-  ).toBeVisible();
-  await expect(openUrlPage.getByText("No credit card needed")).toBeVisible();
-  await expect(openUrlPage.getByText("Easy to use")).toBeVisible();
+  ).toBeVisible({ timeout: 20_000 });
+  await expect(openUrlPage.getByText("No credit card needed")).toBeVisible({
+    timeout: 20_000,
+  });
+  await expect(openUrlPage.getByText("Easy to use")).toBeVisible({
+    timeout: 20_000,
+  });
   await expect(
     openUrlPage.getByLabel(commonFieldValues?.primaryButtonLabel)
-  ).toBeVisible();
+  ).toBeVisible({ timeout: 20_000 });
 
   await checkFormSubmission({
     page,

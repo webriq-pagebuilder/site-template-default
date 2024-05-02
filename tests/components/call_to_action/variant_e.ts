@@ -7,7 +7,7 @@ import {
 import { NEXT_PUBLIC_SITE_URL } from "studio/config";
 import { callToActionInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-default";
 
-async function VariantA({ newPageTitle, page, commonFieldValues }) {
+async function VariantE({ newPageTitle, page, commonFieldValues }) {
   // studio
   await CTAWebriQForm({
     page,
@@ -32,4 +32,4 @@ async function VariantA({ newPageTitle, page, commonFieldValues }) {
   });
 }
 
-export default VariantA;
+export default VariantE;

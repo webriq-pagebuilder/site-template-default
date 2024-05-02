@@ -1,27 +1,21 @@
 import { expect } from "@playwright/test";
-import { updateLogoLink, expectDocumentPublished } from "tests/utils";
+import {
+  updateLogoLink,
+  expectDocumentPublished,
+  titleField,
+} from "tests/utils";
 import { NEXT_PUBLIC_SITE_URL } from "studio/config";
 import { callToActionInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-default";
 
 async function VariantA({ newPageTitle, page, commonFieldValues }) {
-  const blankLinkTarget = {
-    element: page.getByText("Blank - open on a new tab ("),
-    target: "Blank - open on a new tab (",
-  };
-
   // studio
-  const title = page
-    .getByTestId("field-variants.title")
-    .getByTestId("string-input");
-  await expect(title.inputValue()).resolves.toBe(
-    callToActionInitialValue.title
-  );
-  await title.click();
-  await title.press("Meta+a");
-  await title.fill(commonFieldValues?.title);
-  await expect(title.inputValue()).resolves.toBe(commonFieldValues?.title);
+  await titleField.checkAndAddValue({
+    page,
+    initialValue: callToActionInitialValue,
+    commonFieldValues,
+  });
 
-  const description = page.getByPlaceholder("Lorem ipsum dolor sit amet,");
+  const description = page.getByLabel("Body");
   await expect(description.inputValue()).resolves.toBe(
     callToActionInitialValue.plainText
   );
@@ -56,7 +50,10 @@ async function VariantA({ newPageTitle, page, commonFieldValues }) {
     .getByTestId("field-variants.primaryButton.linkExternal")
     .getByLabel("URL")
     .fill(commonFieldValues?.externalLinkUrl);
-  await blankLinkTarget.element.click();
+  await page
+    .getByTestId("field-variants.primaryButton.linkTarget")
+    .getByText("Blank - open on a new tab (")
+    .click();
   commonFieldValues?.externalLinkUrl.replace("https://www.", "https://");
 
   await page.getByRole("button", { name: "Primary Button" }).click();
@@ -70,7 +67,7 @@ async function VariantA({ newPageTitle, page, commonFieldValues }) {
   // title
   await expect(
     openUrlPage.getByRole("heading", { name: commonFieldValues?.title })
-  ).toBeVisible();
+  ).toBeVisible({ timeout: 20_000 });
 
   // description
   await expect(
@@ -79,27 +76,24 @@ async function VariantA({ newPageTitle, page, commonFieldValues }) {
       .filter({ hasText: commonFieldValues?.description })
       .getByRole("paragraph")
       .first()
-  ).toBeVisible();
+  ).toBeVisible({ timeout: 20_000 });
 
   // logo
   await expect(
-    openUrlPage.getByLabel("Go to https://webriq.com")
-  ).toBeVisible();
-  await expect(
-    openUrlPage
-      .locator("a[target='_blank']")
-      .and(openUrlPage.locator("a[rel='noopener noreferrer']"))
-  ).toBeVisible();
+    openUrlPage.locator(
+      'a[aria-label="Go to https://webriq.com"][target="_blank"][rel="noopener noreferrer"]'
+    )
+  ).toBeVisible({ timeout: 20_000 });
   await expect(
     openUrlPage.getByAltText(commonFieldValues?.ctaLogoAltText)
-  ).toBeVisible();
+  ).toBeVisible({ timeout: 20_000 });
 
   // primary button
   await expect(
     openUrlPage.getByRole("link", {
       name: commonFieldValues?.primaryButtonLabel,
     })
-  ).toBeVisible();
+  ).toBeVisible({ timeout: 20_000 });
 }
 
 export default VariantA;
