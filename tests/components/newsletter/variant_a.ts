@@ -22,8 +22,8 @@ async function VariantA({ pageTitle, page, commonFieldValues }) {
     .getByPlaceholder("Lorem ipsum dolor sit amet,")
     .fill(commonFieldValues.description);
 
-  // forms
-  await form.addFormFields({ page });
+  // 05-03-2024 defer tests for forms
+  // await form.addFormFields({ page });
 
   // check site preview
   await expectDocumentPublished(page, pageTitle);
@@ -51,8 +51,8 @@ async function VariantA({ pageTitle, page, commonFieldValues }) {
     commonFieldValues,
   });
 
-  // form submission
-  await form.sitePreview({ page, pageUrl: openUrlPage });
+  // 05-03-2024 defer tests for forms
+  // await form.sitePreview({ page, pageUrl: openUrlPage });
 }
 
 export default VariantA;

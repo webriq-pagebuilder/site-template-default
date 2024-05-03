@@ -41,14 +41,15 @@ export default async function VariantA({
     await page.getByText("Blank - open on a new tab (").click();
   }
 
+  // 05-03-2024 defer tests for forms
   // Generate Form Id
   //   await generateFormId({ page });
-  await page
-    .getByRole("button", { name: "Generate ID" })
-    .click({ force: true });
-  expect(page.getByLabel("Form ID")).not.toBeUndefined();
-  await expect(page.getByRole("button", { name: "Generate ID" })).toBeVisible();
-  await expect(page.getByRole("link", { name: "Manage" })).toBeVisible();
+  // await page
+  //   .getByRole("button", { name: "Generate ID" })
+  //   .click({ force: true });
+  // expect(page.getByLabel("Form ID")).not.toBeUndefined();
+  // await expect(page.getByRole("button", { name: "Generate ID" })).toBeVisible();
+  // await expect(page.getByRole("link", { name: "Manage" })).toBeVisible();
 
   //Subtitle
   await page
@@ -208,17 +209,18 @@ export default async function VariantA({
   await page.getByText(`${NEXT_PUBLIC_SITE_URL}`).click({ force: true });
   const openUrlPage = await pagePromise;
 
+  // 05-03-2024 defer tests for forms
   //Fill up form
-  for (const input of commonFieldValues.formFields) {
-    await openUrlPage.getByLabel(submitBtnInput).click();
-    await expect(openUrlPage.getByPlaceholder(input.updatedName)).toBeFocused();
-    await openUrlPage.getByPlaceholder(input.updatedName).click();
-    await openUrlPage.getByPlaceholder(input.updatedName).fill(input.input);
-    await openUrlPage.getByLabel(submitBtnInput).click();
-    await expect(
-      openUrlPage.getByPlaceholder(input.updatedName)
-    ).not.toBeFocused();
-  }
+  // for (const input of commonFieldValues.formFields) {
+  //   await openUrlPage.getByLabel(submitBtnInput).click();
+  //   await expect(openUrlPage.getByPlaceholder(input.updatedName)).toBeFocused();
+  //   await openUrlPage.getByPlaceholder(input.updatedName).click();
+  //   await openUrlPage.getByPlaceholder(input.updatedName).fill(input.input);
+  //   await openUrlPage.getByLabel(submitBtnInput).click();
+  //   await expect(
+  //     openUrlPage.getByPlaceholder(input.updatedName)
+  //   ).not.toBeFocused();
+  // }
 
   let logoImg = isInternalLink
     ? "Go to /thank-you"

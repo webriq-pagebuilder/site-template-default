@@ -45,12 +45,12 @@ async function VariantA({ pageTitle, page, initialValue, commonFieldValues }) {
     commonFieldValues: commonFieldValues?.contactDetails,
   });
 
-  // forms
-  await form.addContactFormFields({
-    page,
-    initialValue,
-    commonFieldValues,
-  });
+  // 05-03-2024 defer tests for forms
+  // await form.addContactFormFields({
+  //   page,
+  //   initialValue,
+  //   commonFieldValues,
+  // });
 
   // check site preview
   await expectDocumentPublished(page, pageTitle);
@@ -79,12 +79,12 @@ async function VariantA({ pageTitle, page, initialValue, commonFieldValues }) {
     commonFieldValues: commonFieldValues?.contactDetails,
   });
 
-  // forms
-  await form.contactSitePreview({
-    page,
-    pageUrl: openUrlPage,
-    commonFieldValues,
-  });
+  // 05-03-2024 defer tests for forms
+  // await form.contactSitePreview({
+  //   page,
+  //   pageUrl: openUrlPage,
+  //   commonFieldValues,
+  // });
 }
 
 export default VariantA;

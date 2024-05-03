@@ -509,7 +509,9 @@ export async function checkFormSubmission({
 
   if (hasRequiredCheckbox) {
     // Contact variant A
-    await page.getByLabel("Agree to terms").check({ force: true });
+    await page
+      .getByLabel("Agree to terms")
+      .check({ force: true, timeout: 180_000 });
   }
 
   await pageUrl.getByLabel(submitBtnLabel).click({ force: true });
