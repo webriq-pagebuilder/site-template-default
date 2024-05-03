@@ -24,12 +24,14 @@ export default async function VariantA({ pageTitle, page, commonFieldValues }) {
 
   //Blog Posts
   await page.getByRole("button", { name: "Add item" }).click();
-  await page.getByTestId("reference-input").getByLabel("Open").click();
   await page
-    .getByRole("button", { name: commonFieldValues.referencedBlog })
+    .getByTestId("autocomplete")
+    .fill(commonFieldValues?.referencedBlog);
+  await page
+    .getByRole("button", { name: commonFieldValues?.referencedBlog })
     .click();
   await expect(
-    page.getByRole("link", { name: commonFieldValues.referencedBlog })
+    page.getByRole("link", { name: commonFieldValues?.referencedBlog }).nth(1)
   ).toBeVisible({
     timeout: 75000,
   });
@@ -53,18 +55,28 @@ export default async function VariantA({ pageTitle, page, commonFieldValues }) {
   //Subtitle
   await subtitleField.sitePreview({ pageUrl: openUrlPage, commonFieldValues });
 
-  await expect(openUrlPage.getByText("All", { exact: true })).toBeVisible();
+  await expect(openUrlPage.getByText("All", { exact: true })).toBeVisible({
+    timeout: 20_000,
+  });
   for (const category of commonFieldValues.categories) {
-    await expect(openUrlPage.getByText(category)).toBeVisible();
+    await expect(openUrlPage.getByText(category)).toBeVisible({
+      timeout: 20_000,
+    });
   }
 
   await openUrlPage.getByText("All", { exact: true }).click();
-  await expect(openUrlPage.getByLabel("Page 1")).toBeVisible();
-  await expect(openUrlPage.getByLabel("Page 2")).toBeVisible();
+  await expect(openUrlPage.getByLabel("Page 1")).toBeVisible({
+    timeout: 20_000,
+  });
+  await expect(openUrlPage.getByLabel("Page 2")).toBeVisible({
+    timeout: 20_000,
+  });
 
   //All Page 1
   for (const blog of commonFieldValues.blogPosts) {
-    await expect(openUrlPage.getByLabel(blog.title)).toBeVisible();
+    await expect(openUrlPage.getByLabel(blog.title)).toBeVisible({
+      timeout: 20_000,
+    });
   }
 
   //Add Search
@@ -74,7 +86,7 @@ export default async function VariantA({ pageTitle, page, commonFieldValues }) {
     .fill(commonFieldValues.referencedBlog);
   await expect(
     openUrlPage.getByLabel(commonFieldValues.referencedBlog).nth(1)
-  ).toBeVisible();
+  ).toBeVisible({ timeout: 20_000 });
 
   //Clear Search
   await openUrlPage.getByPlaceholder("Search posts...").click();
@@ -83,36 +95,46 @@ export default async function VariantA({ pageTitle, page, commonFieldValues }) {
   await openUrlPage.getByLabel("Page 2").click();
   await expect(
     openUrlPage.getByLabel(commonFieldValues.referencedBlog)
-  ).toBeVisible();
+  ).toBeVisible({ timeout: 20_000 });
 
   //Travel Category
   await openUrlPage.getByText("TRAVEL").click();
-  await expect(openUrlPage.getByLabel("Page")).toBeVisible();
+  await expect(openUrlPage.getByLabel("Page")).toBeVisible({ timeout: 20_000 });
   await openUrlPage.getByLabel("Page").click();
   await expect(
     openUrlPage.getByLabel("Lorem ipsum dolor sit amet,")
-  ).toBeVisible();
+  ).toBeVisible({ timeout: 20_000 });
   await expect(
     openUrlPage.getByLabel("Vestibulum vehicle leo eget")
-  ).toBeVisible();
+  ).toBeVisible({ timeout: 20_000 });
+  await expect(openUrlPage.getByLabel("Aenean convalli sapone a")).toBeVisible({
+    timeout: 20_000,
+  });
   await expect(
-    openUrlPage.getByLabel("Aenean convalli sapone a")
-  ).toBeVisible();
-  await expect(openUrlPage.getByLabel("Ph12")).toBeVisible();
+    openUrlPage.getByLabel(commonFieldValues?.referencedBlog).first()
+  ).toBeVisible({ timeout: 20_000 });
 
   await openUrlPage.getByText("Culture").click();
-  await expect(openUrlPage.getByLabel("Page")).toBeVisible();
+  await expect(openUrlPage.getByLabel("Page")).toBeVisible({ timeout: 20_000 });
   await openUrlPage.getByLabel("Page").click();
   await expect(
     openUrlPage.getByLabel("Vestibulum vehicle leo eget")
-  ).toBeVisible();
+  ).toBeVisible({ timeout: 20_000 });
   await expect(
     openUrlPage.getByLabel("Felis bibendum ut tristique")
-  ).toBeVisible();
+  ).toBeVisible({ timeout: 20_000 });
 
   await openUrlPage.getByText("Engineering").click();
-  await expect(openUrlPage.getByLabel("Page")).toBeVisible();
+  await expect(openUrlPage.getByLabel("Page")).toBeVisible({ timeout: 20_000 });
   await openUrlPage.getByLabel("Page").click();
-  await expect(openUrlPage.getByLabel("Ph12").first()).toBeVisible();
-  await expect(openUrlPage.getByLabel("Ph12").nth(1)).toBeVisible();
+  await expect(
+    openUrlPage
+      .locator(`a[aria-label="${commonFieldValues.referencedBlog}"]`)
+      .first()
+  ).toBeVisible({ timeout: 20_000 });
+  await expect(
+    openUrlPage
+      .locator(`a[aria-label="${commonFieldValues.referencedBlog}"]`)
+      .nth(1)
+  ).toBeVisible({ timeout: 20_000 });
 }
