@@ -1,6 +1,5 @@
 import { expectDocumentPublished } from "tests/utils";
 import { NEXT_PUBLIC_SITE_URL } from "studio/config";
-import { contactInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-default";
 import {
   titleField,
   descriptionField,
@@ -8,40 +7,46 @@ import {
   contactDetails,
 } from "tests/utils";
 
-async function VariantB({ newPageTitle, page, commonFieldValues }) {
+async function VariantB({
+  newPageTitle,
+  page,
+  initialValue,
+  commonFieldValues,
+}) {
   // studio
   await titleField.checkAndAddValue({
     page,
-    initialValue: contactInitialValue,
+    initialValue,
     commonFieldValues,
   });
 
   await descriptionField.checkAndAddValue({
     page,
-    initialValue: contactInitialValue?.contactDescription,
-    placeholder: contactInitialValue?.contactDescription,
+    initialValue,
+    placeholder: initialValue.description,
     commonFieldValues,
   });
 
   await socialLinks.checkAndAddValues({
     page,
-    initialValue: contactInitialValue,
-    commonFieldValues,
+    initialValue,
+    commonFieldValues: commonFieldValues?.socialLinks,
   });
+
   await contactDetails.officeInput({
     page,
-    initialValue: contactInitialValue,
-    commonFieldValues,
+    initialValue,
+    commonFieldValues: commonFieldValues?.contactDetails,
   });
   await contactDetails.emailInput({
     page,
-    initialValue: contactInitialValue,
-    commonFieldValues,
+    initialValue,
+    commonFieldValues: commonFieldValues?.contactDetails,
   });
   await contactDetails.numberInfo({
     page,
-    initialValue: contactInitialValue,
-    commonFieldValues,
+    initialValue,
+    commonFieldValues: commonFieldValues?.contactDetails,
   });
 
   // check site preview

@@ -1,54 +1,59 @@
 import { expectDocumentPublished } from "tests/utils";
 import { NEXT_PUBLIC_SITE_URL } from "studio/config";
-import { contactInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-default";
 import {
   titleField,
   descriptionField,
   contactDetails,
   socialLinks,
 } from "tests/utils";
-import { form } from "./index.spec";
+import { form } from "tests/utils";
 
-async function VariantA({ newPageTitle, page, commonFieldValues }) {
+async function VariantA({ pageTitle, page, initialValue, commonFieldValues }) {
   // studio
   await titleField.checkAndAddValue({
     page,
-    initialValue: contactInitialValue,
+    initialValue,
     commonFieldValues,
   });
 
   await descriptionField.checkAndAddValue({
     page,
-    initialValue: contactInitialValue?.contactDescription,
-    placeholder: contactInitialValue?.contactDescription,
+    initialValue,
+    placeholder: initialValue.description,
     commonFieldValues,
+  });
+
+  await socialLinks.checkAndAddValues({
+    page,
+    initialValue,
+    commonFieldValues: commonFieldValues?.socialLinks,
   });
 
   await contactDetails.officeInput({
     page,
-    initialValue: contactInitialValue,
-    commonFieldValues,
+    initialValue,
+    commonFieldValues: commonFieldValues?.contactDetails,
   });
   await contactDetails.emailInput({
     page,
-    initialValue: contactInitialValue,
-    commonFieldValues,
+    initialValue,
+    commonFieldValues: commonFieldValues?.contactDetails,
   });
   await contactDetails.numberInfo({
     page,
-    initialValue: contactInitialValue,
-    commonFieldValues,
+    initialValue,
+    commonFieldValues: commonFieldValues?.contactDetails,
   });
 
   // forms
   await form.addFormFields({
     page,
-    initialValue: contactInitialValue,
+    initialValue,
     commonFieldValues,
   });
 
   // check site preview
-  await expectDocumentPublished(page, newPageTitle);
+  await expectDocumentPublished(page, pageTitle);
   const pagePromise = page.waitForEvent("popup");
   await page.getByText(`${NEXT_PUBLIC_SITE_URL}`).click({ force: true });
   const openUrlPage = await pagePromise;

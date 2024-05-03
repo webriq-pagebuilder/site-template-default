@@ -8,6 +8,7 @@ import { Text, Heading, Card, SocialIcon } from "components/ui";
 import { Flex, Container } from "components/layout/index";
 
 function VariantB({
+  title,
   contactDescription,
   officeInformation,
   contactNumber,
@@ -19,7 +20,7 @@ function VariantB({
       <Container>
         {contactDescription && (
           <div className="mb-16 text-center">
-            <Heading>Contact</Heading>
+            <Heading>{title}</Heading>
             <Text muted>{contactDescription}</Text>
           </div>
         )}

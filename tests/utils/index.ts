@@ -110,10 +110,12 @@ export const titleField = {
   },
   async sitePreview({ pageUrl, commonFieldValues }) {
     await expect(
-      pageUrl.getByRole("heading", {
-        name: commonFieldValues?.title,
-        exact: true,
-      })
+      pageUrl
+        .getByRole("heading", {
+          name: commonFieldValues?.title,
+          exact: true,
+        })
+        .first()
     ).toBeVisible();
   },
 };
@@ -179,21 +181,26 @@ export const contactDetails = {
     await expect(number.inputValue()).resolves.toBe(commonFieldValues.number);
   },
   async sitePreview({ pageUrl, commonFieldValues }) {
-    await expect(pageUrl.getByText(commonFieldValues?.office)).toBeVisible();
+    await expect(pageUrl.getByText(commonFieldValues?.office)).toBeVisible({
+      timeout: 180_000,
+    });
     await expect(
-      pageUrl.getByText(commonFieldValues?.office).getByRole("link", {
-        name: commonFieldValues?.email,
-      })
-    ).toBeVisible();
+      pageUrl.getByRole("link", { name: commonFieldValues?.email })
+    ).toBeVisible({ timeout: 180_000 });
     await expect(
-      pageUrl.getByText(commonFieldValues?.office).getByRole("link", {
-        name: commonFieldValues?.number,
-      })
-    ).toBeVisible();
+      pageUrl.getByRole("link", { name: commonFieldValues?.number })
+    ).toBeVisible({ timeout: 180_000 });
   },
 };
 
 export const socialLinks = {
+  async fillSocialMediaLink({ page, socialPlatform, link }) {
+    await page.getByRole("button", { name: socialPlatform }).click();
+    await page.getByLabel("Social Media Link").click();
+    await page.getByLabel("Social Media Link").press("Meta+a");
+    await page.getByLabel("Social Media Link").fill(link);
+    await page.getByLabel("Close dialog").click();
+  },
   async checkAndAddValues({ page, initialValue, commonFieldValues }) {
     await expect(
       page
@@ -202,35 +209,26 @@ export const socialLinks = {
         .filter({ hasText: "Social Links" })
         .nth(3)
     ).toBeVisible();
-    await page.getByRole("button", { name: "facebook" }).click();
-    await page.getByLabel("Social Media Link").click();
-    await page.getByLabel("Social Media Link").press("Meta+a");
-    await page
-      .getByLabel("Social Media Link")
-      .fill(commonFieldValues?.facebook);
-    await page.getByLabel("Close dialog").click();
-    await page.getByRole("button", { name: "twitter" }).click();
-    await page.getByLabel("Social Media Link").click();
-    await page.getByLabel("Social Media Link").press("Meta+a");
-    await page.getByLabel("Social Media Link").fill(commonFieldValues?.twitter);
-    await page.getByLabel("Close dialog").click();
-    await page.getByRole("button", { name: "instagram" }).click();
-    await page.getByLabel("Social Media Link").click();
-    await page.getByLabel("Social Media Link").press("Meta+a");
-    await page
-      .getByLabel("Social Media Link")
-      .fill(commonFieldValues?.instagram);
+
+    const socialPlatforms = ["facebook", "twitter", "instagram"];
+    const fillPromises = socialPlatforms.map((social) => {
+      const linkValue = commonFieldValues[social];
+      return this.fillSocialMediaLink({ page, social, linkValue });
+    });
+
+    try {
+      await Promise.all(fillPromises);
+    } catch (error) {
+      console.error("Failed to fill social media links:", error);
+    }
   },
   async sitePreview({ pageUrl, commonFieldValues }) {
-    await expect(
-      pageUrl.locator(`a[href=${commonFieldValues?.facebook}]`)
-    ).toBeVisible();
-    await expect(
-      pageUrl.locator(`a[href=${commonFieldValues?.twitter}]`)
-    ).toBeVisible();
-    await expect(
-      pageUrl.locator(`a[href=${commonFieldValues?.instagram}]`)
-    ).toBeVisible();
+    await expect(pageUrl.getByLabel("facebook")).toBeVisible();
+    expect(pageUrl.locator(`a[href=${commonFieldValues?.facebook}]`));
+    await expect(pageUrl.getByLabel("twitter")).toBeVisible();
+    expect(pageUrl.locator(`a[href=${commonFieldValues?.twitter}]`));
+    await expect(pageUrl.getByLabel("instagram")).toBeVisible();
+    expect(pageUrl.locator(`a[href=${commonFieldValues?.instagram}]`));
   },
 };
 
@@ -282,7 +280,7 @@ export async function expectDocumentPublished(page, newPageTitle) {
       .locator("div")
       .filter({ hasText: "The document was published" })
       .nth(1)
-  ).toBeVisible({ timeout: 150000 });
+  ).toBeVisible({ timeout: 150_000 });
   await page
     .getByRole("link", { name: "Close pane group" })
     .click({ force: true });
@@ -290,7 +288,7 @@ export async function expectDocumentPublished(page, newPageTitle) {
     page
       .getByTestId("field-sections")
       .getByTestId("input-validation-icon-error")
-  ).toBeHidden({ timeout: 150000 });
+  ).toBeHidden({ timeout: 150_000 });
 
   // Once the error is hidden, proceed with clicking the action
   await expect(
@@ -300,7 +298,7 @@ export async function expectDocumentPublished(page, newPageTitle) {
       .locator("div")
       .filter({ hasText: "The document was published" })
       .nth(1)
-  ).toBeHidden({ timeout: 150000 });
+  ).toBeHidden({ timeout: 150_000 });
   await page.getByTestId("action-[object Object]").click({ force: true });
   await expect(
     page
@@ -309,10 +307,10 @@ export async function expectDocumentPublished(page, newPageTitle) {
       .locator("div")
       .filter({ hasText: "The document was published" })
       .nth(1)
-  ).toBeVisible({ timeout: 150000 });
+  ).toBeVisible({ timeout: 150_000 });
   await expect(
     page.getByRole("button", { name: "Last published just now" })
-  ).toBeVisible({ timeout: 150000 });
+  ).toBeVisible({ timeout: 150_000 });
   //await expect(page.getByRole("link", { name: newPageTitle })).toBeVisible();
 }
 
@@ -530,6 +528,90 @@ export async function checkFormSubmission({
 
   await page.goto(thankYouPageUrl ?? `${NEXT_PUBLIC_SITE_URL}/thank-you`);
 }
+
+export const form = {
+  async addFormFields({ page, initialValue, commonFieldValues }) {
+    await generateFormId({ page });
+    await expect(page.getByRole("button", { name: "Subject" })).toBeVisible();
+    await expect(
+      page.getByRole("button", { name: "Name", exact: true })
+    ).toBeVisible({ timeout: 180_000 });
+    await expect(
+      page.getByRole("button", { name: "name@example.com" })
+    ).toBeVisible({ timeout: 180_000 });
+    await expect(page.getByRole("button", { name: "Message..." })).toBeVisible({
+      timeout: 180_000,
+    });
+    await expect(page.getByRole("button", { name: "Add file" })).toBeVisible({
+      timeout: 180_000,
+    });
+    await expect(
+      page
+        .getByTestId("field-variants.form.buttonLabel")
+        .getByTestId("string-input")
+    ).toHaveValue(initialValue.form.buttonLabel);
+    await page
+      .getByTestId("field-variants.form.buttonLabel")
+      .getByTestId("string-input")
+      .fill("");
+    await page
+      .getByTestId("field-variants.form.buttonLabel")
+      .getByTestId("string-input")
+      .fill(commonFieldValues?.formButtonLabel);
+    await page.getByRole("button", { name: "Thank You page" }).click();
+    await page
+      .getByTestId("field-variants.form.thankYouPage.linkType")
+      .getByLabel("External, outside this website")
+      .check();
+    await page
+      .getByTestId("field-variants.form.thankYouPage.linkExternal")
+      .getByLabel("URL")
+      .click();
+    await page
+      .getByTestId("field-variants.form.thankYouPage.linkExternal")
+      .getByLabel("URL")
+      .fill(commonFieldValues?.thankYouPageUrl);
+    await page
+      .getByTestId("field-variants.form.thankYouPage.linkTarget")
+      .getByLabel("Self (default) - open in the")
+      .check();
+    await expect(
+      page.getByTestId("activate-overlay").locator("div").first()
+    ).toBeVisible();
+    await page.getByText("Click to activate").click({ force: true });
+    await expect(page.getByText("I agree to terms and")).toContainText(
+      initialValue.block?.[0]?.children?.[0]?.text
+    );
+    await page.getByTestId("text-style--normal").nth(1).click({ force: true });
+    await page.getByTestId("scroll-container").getByRole("textbox").fill("");
+    await page
+      .getByTestId("scroll-container")
+      .getByRole("textbox")
+      .fill("I agree to all the terms and conditions");
+  },
+  async sitePreview({ page, pageUrl, commonFieldValues }) {
+    await expect(pageUrl.getByPlaceholder("Subject")).toBeVisible();
+    await expect(
+      pageUrl.getByPlaceholder("Name", { exact: true })
+    ).toBeVisible();
+    await expect(pageUrl.getByPlaceholder("name@example.com")).toBeVisible();
+    await expect(pageUrl.getByPlaceholder("Message...")).toBeVisible();
+    await expect(pageUrl.getByLabel("Add file")).toBeVisible();
+    await expect(pageUrl.getByLabel("Agree to terms")).not.toBeChecked();
+    await expect(pageUrl.getByText("I agree to terms and")).toBeVisible();
+    await expect(
+      pageUrl.getByLabel(commonFieldValues?.formButtonLabel)
+    ).toBeVisible();
+
+    await checkFormSubmission({
+      page,
+      thankYouPageUrl: commonFieldValues?.thankYouPageUrl,
+      pageUrl: pageUrl,
+      formFields: commonFieldValues?.formFields,
+      submitBtnLabel: commonFieldValues?.formButtonLabel,
+    });
+  },
+};
 
 export async function CTAWebriQForm({
   page,

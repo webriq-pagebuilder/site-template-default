@@ -1,11 +1,5 @@
-import { test, expect } from "@playwright/test";
-import {
-  newPageTitle,
-  beforeEachTest,
-  deletePageVariant,
-  checkFormSubmission,
-  generateFormId,
-} from "tests/utils";
+import { test } from "@playwright/test";
+import { newPageTitle, beforeEachTest, deletePageVariant } from "tests/utils";
 import { contactInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-default";
 
 import VariantA from "./variant_a";
@@ -30,6 +24,15 @@ const contactVariantTests = [
     variant: "variant_b",
   },
 ];
+
+const initialValue = {
+  title: contactInitialValue?.title,
+  description: contactInitialValue?.contactDescription,
+  officeInformation: contactInitialValue?.officeInformation,
+  contactEmail: contactInitialValue?.contactEmail,
+  contactNumber: contactInitialValue?.contactNumber,
+  socialLinks: contactInitialValue?.socialLinks,
+};
 
 const commonFieldValues = {
   title: "Contact title",
@@ -83,94 +86,13 @@ contactVariantTests?.forEach((variant, index) => {
       await variantTest({
         pageTitle,
         page,
+        initialValue,
         commonFieldValues,
       });
     });
 
-    test.afterEach(async ({ page }) => {
-      await deletePageVariant(page, newPageTitle, variant.label);
+    test.afterEach(`Delete ${variant.label}`, async ({ page }) => {
+      await deletePageVariant(page, pageTitle, variant.label);
     });
   });
 });
-
-export const form = {
-  async addFormFields({ page, initialValue, commonFieldValues }) {
-    await generateFormId({ page });
-    await expect(page.getByRole("button", { name: "Subject" })).toBeVisible();
-    await expect(
-      page.getByRole("button", { name: "Name", exact: true })
-    ).toBeVisible();
-    await expect(
-      page.getByRole("button", { name: "name@example.com" })
-    ).toBeVisible();
-    await expect(
-      page.getByRole("button", { name: "Message..." })
-    ).toBeVisible();
-    await expect(page.getByRole("button", { name: "Add file" })).toBeVisible();
-    await expect(
-      page
-        .getByTestId("field-variants.form.buttonLabel")
-        .getByTestId("string-input")
-    ).toHaveValue(initialValue.form.buttonLabel);
-    await page
-      .getByTestId("field-variants.form.buttonLabel")
-      .getByTestId("string-input")
-      .fill("");
-    await page
-      .getByTestId("field-variants.form.buttonLabel")
-      .getByTestId("string-input")
-      .fill(commonFieldValues?.formButtonLabel);
-    await page.getByRole("button", { name: "Thank You page" }).click();
-    await page
-      .getByTestId("field-variants.form.thankYouPage.linkType")
-      .getByLabel("External, outside this website")
-      .check();
-    await page
-      .getByTestId("field-variants.form.thankYouPage.linkExternal")
-      .getByLabel("URL")
-      .click();
-    await page
-      .getByTestId("field-variants.form.thankYouPage.linkExternal")
-      .getByLabel("URL")
-      .fill(commonFieldValues?.thankYouPageUrl);
-    await page
-      .getByTestId("field-variants.form.thankYouPage.linkTarget")
-      .getByLabel("Self (default) - open in the")
-      .check();
-    await expect(
-      page.getByTestId("activate-overlay").locator("div").first()
-    ).toBeVisible();
-    await page.getByText("Click to activate").click({ force: true });
-    await expect(page.getByText("I agree to terms and")).toContainText(
-      initialValue.block?.[0]?.children?.[0]?.text
-    );
-    await page.getByTestId("text-style--normal").nth(1).click({ force: true });
-    await page.getByTestId("scroll-container").getByRole("textbox").fill("");
-    await page
-      .getByTestId("scroll-container")
-      .getByRole("textbox")
-      .fill("I agree to all the terms and conditions");
-  },
-  async sitePreview({ page, pageUrl, commonFieldValues }) {
-    await expect(pageUrl.getByPlaceholder("Subject")).toBeVisible();
-    await expect(
-      pageUrl.getByPlaceholder("Name", { exact: true })
-    ).toBeVisible();
-    await expect(pageUrl.getByPlaceholder("name@example.com")).toBeVisible();
-    await expect(pageUrl.getByPlaceholder("Message...")).toBeVisible();
-    await expect(pageUrl.getByLabel("Add file")).toBeVisible();
-    await expect(pageUrl.getByLabel("Agree to terms")).not.toBeChecked();
-    await expect(pageUrl.getByText("I agree to terms and")).toBeVisible();
-    await expect(
-      pageUrl.getByLabel(commonFieldValues?.formButtonLabel)
-    ).toBeVisible();
-
-    await checkFormSubmission({
-      page,
-      thankYouPageUrl: commonFieldValues?.thankYouPageUrl,
-      pageUrl: pageUrl,
-      formFields: commonFieldValues?.formFields,
-      submitBtnLabel: commonFieldValues?.formButtonLabel,
-    });
-  },
-};
