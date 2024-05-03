@@ -63,7 +63,7 @@ async function VariantF({ pageTitle, page, commonFieldValues }) {
 
   // primary button
   await expect(openUrlPage.locator('[id="__next"]')).toContainText(
-    featuresInitialValue?.primaryButton.label
+    commonFieldValues?.primaryButtonLabel
   );
 }
 
