@@ -35,6 +35,8 @@ export default defineConfig({
     trace: "on-first-retry",
 
     storageState: authFile,
+
+    actionTimeout: 20_000,
   },
 
   globalSetup: require.resolve("./playwright/global-setup.ts"),
