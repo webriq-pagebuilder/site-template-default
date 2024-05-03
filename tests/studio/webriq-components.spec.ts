@@ -1,24 +1,32 @@
 import { test, expect } from "@playwright/test";
+import { NEXT_PUBLIC_SANITY_STUDIO_URL } from "studio/config";
+import { newPageTitle } from "tests/utils";
 
-const newComponentName = "New WebriQ Component App promo";
-const dupeComponentName = "Duplicate WebriQ Component App promo";
+test("Show all components", async ({ page }) => {
+  test.setTimeout(120_000);
 
-test.describe("Verify main document actions working", () => {
+  await page.goto(`${NEXT_PUBLIC_SANITY_STUDIO_URL}`);
+  await page.getByRole("link", { name: "Components" }).click({ force: true });
+  await page
+    .locator("create-btn-icon")
+    .isVisible()
+    .then(() => {
+      console.log("[DONE] All components are loaded");
+    });
+});
+
+test.describe("Main document actions", () => {
   test.describe.configure({ timeout: 1_500_000, mode: "serial" });
 
-  test("Show all components", async ({ page }) => {
+  const newComponentName = newPageTitle("New App promo ");
+  const dupeComponentName = newPageTitle("Duplicate App promo ");
+
+  test.beforeEach(async ({ page }) => {
+    await page.goto(`${NEXT_PUBLIC_SANITY_STUDIO_URL}`);
     await page.getByRole("link", { name: "Components" }).click({ force: true });
-    await page
-      .locator("create-btn-icon")
-      .isVisible()
-      .then(() => {
-        console.log("[DONE] All components are loaded");
-      });
   });
 
   test("Can create component", async ({ page }) => {
-    console.log("[INFO] Creating a new component...");
-    await page.getByRole("link", { name: "Components" }).click({ force: true });
     await page.getByRole("button", { name: "New App Promo" }).click();
     await page.getByTestId("string-input").click();
     await page.getByTestId("string-input").fill(newComponentName);
@@ -32,7 +40,6 @@ test.describe("Verify main document actions working", () => {
   });
 
   test("Can search component", async ({ page }) => {
-    await page.getByRole("link", { name: "Components" }).click({ force: true });
     await page.getByPlaceholder("Search variants").click();
     await page.getByPlaceholder("Search variants").fill("New App Promo");
     await expect(
@@ -43,8 +50,6 @@ test.describe("Verify main document actions working", () => {
   test("Can duplicate component", async ({ page }) => {
     const cardName = newComponentName?.toLowerCase()?.replace(/\s/g, "");
 
-    console.log("[INFO] Duplicating component...");
-    await page.getByRole("link", { name: "Components" }).click({ force: true });
     await expect(page.locator(`div.${cardName}`).first()).toBeVisible({
       timeout: 180_000,
     });
@@ -72,8 +77,6 @@ test.describe("Verify main document actions working", () => {
 
   test("Can delete created component", async ({ page }) => {
     console.log("[INFO] Deleting component...");
-
-    await page.getByRole("link", { name: "Components" }).click({ force: true });
 
     const cardName = newComponentName?.toLowerCase()?.replace(/\s/g, "");
     await expect(page.locator(`div.${cardName}`).first()).toBeVisible({
@@ -131,8 +134,6 @@ test.describe("Verify main document actions working", () => {
   test("Can delete duplicate component", async ({ page }) => {
     console.log("[INFO] Deleting component...");
 
-    await page.getByRole("link", { name: "Components" }).click({ force: true });
-
     const dupeCardName = dupeComponentName?.toLowerCase()?.replace(/\s/g, "");
     await expect(page.locator(`div.${dupeCardName}`).first()).toBeVisible({
       timeout: 180_000,
@@ -164,39 +165,13 @@ test.describe("Verify main document actions working", () => {
         console.log("[DONE] Successfully deleted component...");
       });
   });
-
-  test.fixme("Can't delete referenced component", async ({ page }) => {
-    await page.getByRole("link", { name: "Components" }).click({ force: true });
-
-    await page.locator("div.referenced-by-pages").first().hover();
-    await page
-      .locator("div.referenced-by-pages button.components-delete-btn")
-      .first()
-      .click({ force: true });
-    await expect(page.getByText("Failed to delete component")).toBeVisible({
-      timeout: 120_000,
-    });
-    await page
-      .getByRole("button", { name: "Got it", exact: true })
-      .click({ force: true });
-    await expect(
-      page
-        .locator("div.referenced-by-pages button.components-delete-btn")
-        .first()
-    )
-      .toBeVisible({ timeout: 180_000 })
-      .then(() => {
-        console.log(
-          "[INFO] Cannot delete component that is being referenced by a page!"
-        );
-      });
-  });
 });
 
 test("Can filter component", async ({ page }) => {
   test.setTimeout(120_000);
 
-  await page.getByRole("link", { name: "Components" }).click();
+  await page.goto(`${NEXT_PUBLIC_SANITY_STUDIO_URL}`);
+  await page.getByRole("link", { name: "Components" }).click({ force: true });
   await page
     .locator("div")
     .filter({ hasText: /^Select\.\.\.$/ })
