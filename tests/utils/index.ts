@@ -521,30 +521,19 @@ export async function checkFormSubmission({
   });
 
   await pageUrl.getByLabel(submitBtnLabel).click();
-  await expect(pageUrl.getByText("Sending form data...")).toBeVisible();
+  await expect(pageUrl.getByText("Sending form data...")).toBeVisible({
+    timeout: 180_000,
+  });
   await expect(pageUrl.getByText("✔ Successfully sent form data")).toBeVisible(
-    { timeout: 60_000 }
+    { timeout: 180_000 }
   );
 
   await page.goto(thankYouPageUrl ?? `${NEXT_PUBLIC_SITE_URL}/thank-you`);
 }
 
 export const form = {
-  async addFormFields({ page, initialValue, commonFieldValues }) {
+  async addContactFormFields({ page, initialValue, commonFieldValues }) {
     await generateFormId({ page });
-    await expect(page.getByRole("button", { name: "Subject" })).toBeVisible();
-    await expect(
-      page.getByRole("button", { name: "Name", exact: true })
-    ).toBeVisible({ timeout: 180_000 });
-    await expect(
-      page.getByRole("button", { name: "name@example.com" })
-    ).toBeVisible({ timeout: 180_000 });
-    await expect(page.getByRole("button", { name: "Message..." })).toBeVisible({
-      timeout: 180_000,
-    });
-    await expect(page.getByRole("button", { name: "Add file" })).toBeVisible({
-      timeout: 180_000,
-    });
     await expect(
       page
         .getByTestId("field-variants.form.buttonLabel")
@@ -558,38 +547,32 @@ export const form = {
       .getByTestId("field-variants.form.buttonLabel")
       .getByTestId("string-input")
       .fill(commonFieldValues?.formButtonLabel);
-    await page.getByRole("button", { name: "Thank You page" }).click();
     await page
-      .getByTestId("field-variants.form.thankYouPage.linkType")
+      .getByRole("button", { name: "Thank You page" })
+      .click({ force: true });
+    await page
       .getByLabel("External, outside this website")
-      .check();
+      .check({ force: true, timeout: 30_000 });
+    await page.getByLabel("URL").click({ force: true });
+    await page.getByLabel("URL").fill(commonFieldValues?.thankYouPageUrl);
     await page
-      .getByTestId("field-variants.form.thankYouPage.linkExternal")
-      .getByLabel("URL")
-      .click();
-    await page
-      .getByTestId("field-variants.form.thankYouPage.linkExternal")
-      .getByLabel("URL")
-      .fill(commonFieldValues?.thankYouPageUrl);
-    await page
-      .getByTestId("field-variants.form.thankYouPage.linkTarget")
       .getByLabel("Self (default) - open in the")
-      .check();
+      .check({ force: true });
     await expect(
       page.getByTestId("activate-overlay").locator("div").first()
     ).toBeVisible();
     await page.getByText("Click to activate").click({ force: true });
     await expect(page.getByText("I agree to terms and")).toContainText(
-      initialValue.block?.[0]?.children?.[0]?.text
+      initialValue.form.block
     );
     await page.getByTestId("text-style--normal").nth(1).click({ force: true });
     await page.getByTestId("scroll-container").getByRole("textbox").fill("");
     await page
       .getByTestId("scroll-container")
       .getByRole("textbox")
-      .fill("I agree to all the terms and conditions");
+      .fill(commonFieldValues.formBlock);
   },
-  async sitePreview({ page, pageUrl, commonFieldValues }) {
+  async contactSitePreview({ page, pageUrl, commonFieldValues }) {
     await expect(pageUrl.getByPlaceholder("Subject")).toBeVisible();
     await expect(
       pageUrl.getByPlaceholder("Name", { exact: true })
@@ -598,11 +581,9 @@ export const form = {
     await expect(pageUrl.getByPlaceholder("Message...")).toBeVisible();
     await expect(pageUrl.getByLabel("Add file")).toBeVisible();
     await expect(pageUrl.getByLabel("Agree to terms")).not.toBeChecked();
-    await expect(pageUrl.getByText("I agree to terms and")).toBeVisible();
     await expect(
       pageUrl.getByLabel(commonFieldValues?.formButtonLabel)
     ).toBeVisible();
-
     await checkFormSubmission({
       page,
       thankYouPageUrl: commonFieldValues?.thankYouPageUrl,

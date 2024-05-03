@@ -32,6 +32,10 @@ const initialValue = {
   contactEmail: contactInitialValue?.contactEmail,
   contactNumber: contactInitialValue?.contactNumber,
   socialLinks: contactInitialValue?.socialLinks,
+  form: {
+    buttonLabel: contactInitialValue?.form?.buttonLabel,
+    block: contactInitialValue?.block?.[0]?.children?.[0]?.text,
+  },
 };
 
 const commonFieldValues = {
@@ -71,6 +75,7 @@ const commonFieldValues = {
       value: "This is a sample submission to test WebriQ Forms.",
     },
   ],
+  formBlock: "I agree to all the terms and conditions",
 };
 
 contactVariantTests?.forEach((variant, index) => {

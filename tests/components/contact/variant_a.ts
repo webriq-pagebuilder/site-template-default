@@ -46,7 +46,7 @@ async function VariantA({ pageTitle, page, initialValue, commonFieldValues }) {
   });
 
   // forms
-  await form.addFormFields({
+  await form.addContactFormFields({
     page,
     initialValue,
     commonFieldValues,
@@ -80,7 +80,11 @@ async function VariantA({ pageTitle, page, initialValue, commonFieldValues }) {
   });
 
   // forms
-  await form.sitePreview({ page, pageUrl: openUrlPage, commonFieldValues });
+  await form.contactSitePreview({
+    page,
+    pageUrl: openUrlPage,
+    commonFieldValues,
+  });
 }
 
 export default VariantA;
