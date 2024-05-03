@@ -127,8 +127,11 @@ function Document({
       </Head>
 
       {/* if page has no sections, show no sections only in preview */}
-       {(!data?.pageData || !data?.pageData?.sections ||
-        data?.pageData?.sections.length === 0) && <PreviewNoContent />}
+      {_type === "page" &&
+        "sections" in publishedData &&
+        (!publishedData ||
+          !publishedData?.sections ||
+          publishedData?.sections?.length === 0) && <PreviewNoContent />}
 
       {/*  Show page sections */}
       {data?.pageData && <PageSections data={data?.pageData} />}

@@ -42,7 +42,7 @@ appPromoVariantTests.forEach((variants, index) => {
   const { name, title, label, variant } = variants;
 
   test.describe(`${name}`, () => {
-    test.describe.configure({ timeout: 1_000_000 });
+    test.describe.configure({ timeout: 1_000_000, mode: "parallel" });
     const pageTitle = newPageTitle(title);
 
     test(`Create ${label}`, async ({ page }) => {

@@ -86,7 +86,7 @@ const commonFieldValues = {
 
 contactVariantTests?.forEach((variant, index) => {
   test.describe(`${variant.name}`, () => {
-    test.describe.configure({ timeout: 1_000_000 });
+    test.describe.configure({ timeout: 1_000_000, mode: "parallel" });
 
     const pageTitle = newPageTitle(variant?.title);
 
