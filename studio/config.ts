@@ -23,6 +23,11 @@ export const NEXT_PUBLIC_NETLIFY_SITE_URL =
 // Defaults to `localhost:3000` but can be override as per your local settings
 export const NEXT_PUBLIC_SITE_URL = process.env.NEXT_PUBLIC_SITE_URL;
 
+export const NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY =
+  process.env.NEXT_PUBLIC_PUBLISHABLE_KEY;
+export const NEXT_PUBLIC_STRIPE_SECRET_KEY =
+  process.env.NEXT_PUBLIC_STRIPE_SECRET_KEY;
+
 export const NEXT_PUBLIC_SANITY_STUDIO_URL =
   process.env.NEXT_PUBLIC_SANITY_STUDIO_URL;
 
