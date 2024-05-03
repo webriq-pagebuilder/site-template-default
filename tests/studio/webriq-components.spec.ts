@@ -205,7 +205,3 @@ test("Can filter component", async ({ page }) => {
   await page.locator("#react-select-2-option-0").click({ force: true });
   await expect(page.locator("[data-ui='Container']").first()).toHaveCount(1);
 });
-
-test.afterAll(async ({ page }) => {
-  await page.close();
-});

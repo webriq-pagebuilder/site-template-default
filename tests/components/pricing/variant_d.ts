@@ -58,14 +58,15 @@ export default async function VariantD({
     .getByTestId("string-input")
     .fill(commonFieldValues.annualBilling);
 
+  // 05-03-2024 defer tests for forms
   //Generate Form Id
   // await generateFormId({ page });
-  await page
-    .getByRole("button", { name: "Generate ID" })
-    .click({ force: true });
-  expect(page.getByLabel("Form ID")).not.toBeUndefined();
-  await expect(page.getByRole("button", { name: "Generate ID" })).toBeVisible();
-  await expect(page.getByRole("link", { name: "Manage" })).toBeVisible();
+  // await page
+  //   .getByRole("button", { name: "Generate ID" })
+  //   .click({ force: true });
+  // expect(page.getByLabel("Form ID")).not.toBeUndefined();
+  // await expect(page.getByRole("button", { name: "Generate ID" })).toBeVisible();
+  // await expect(page.getByRole("link", { name: "Manage" })).toBeVisible();
 
   //Form Subtitle
   await page

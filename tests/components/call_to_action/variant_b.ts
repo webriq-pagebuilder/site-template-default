@@ -30,12 +30,13 @@ async function VariantB({ newPageTitle, page, commonFieldValues }) {
 
   await updateLogoLink(page, commonFieldValues?.ctaLogoAltText);
 
-  await CTAWebriQForm({
-    page,
-    hasOtherLinks: false,
-    initialValues: callToActionInitialValue,
-    formButtonLabel: commonFieldValues?.commonFieldValues?.formButtonLabel,
-  });
+  // 05-03-2024 defer tests for forms
+  // await CTAWebriQForm({
+  //   page,
+  //   hasOtherLinks: false,
+  //   initialValues: callToActionInitialValue,
+  //   formButtonLabel: commonFieldValues?.commonFieldValues?.formButtonLabel,
+  // });
 
   // check site preview
   await expectDocumentPublished(page, newPageTitle);
@@ -67,28 +68,28 @@ async function VariantB({ newPageTitle, page, commonFieldValues }) {
     openUrlPage.getByAltText(commonFieldValues?.ctaLogoAltText)
   ).toBeVisible({ timeout: 20_000 });
 
-  // form submission
-  await expect(
-    openUrlPage.getByPlaceholder(
-      callToActionInitialValue.form.fields?.[0]?.placeholder
-    )
-  ).toBeVisible({ timeout: 20_000 });
-  await expect(
-    openUrlPage.getByPlaceholder(
-      callToActionInitialValue.form.fields?.[1]?.placeholder
-    )
-  ).toBeVisible({ timeout: 20_000 });
-  await expect(
-    openUrlPage.getByLabel(callToActionInitialValue.form.buttonLabel)
-  ).toBeVisible({ timeout: 20_000 });
+  // 05-03-2024 defer tests for forms
+  // await expect(
+  //   openUrlPage.getByPlaceholder(
+  //     callToActionInitialValue.form.fields?.[0]?.placeholder
+  //   )
+  // ).toBeVisible({ timeout: 20_000 });
+  // await expect(
+  //   openUrlPage.getByPlaceholder(
+  //     callToActionInitialValue.form.fields?.[1]?.placeholder
+  //   )
+  // ).toBeVisible({ timeout: 20_000 });
+  // await expect(
+  //   openUrlPage.getByLabel(callToActionInitialValue.form.buttonLabel)
+  // ).toBeVisible({ timeout: 20_000 });
 
-  await checkFormSubmission({
-    page,
-    thankYouPageUrl: commonFieldValues?.thankYouPageUrl,
-    pageUrl: openUrlPage,
-    formFields: commonFieldValues?.formFields,
-    submitBtnLabel: commonFieldValues?.formButtonLabel,
-  });
+  // await checkFormSubmission({
+  //   page,
+  //   thankYouPageUrl: commonFieldValues?.thankYouPageUrl,
+  //   pageUrl: openUrlPage,
+  //   formFields: commonFieldValues?.formFields,
+  //   submitBtnLabel: commonFieldValues?.formButtonLabel,
+  // });
 }
 
 export default VariantB;

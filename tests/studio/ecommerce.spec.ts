@@ -188,7 +188,3 @@ test.describe("Verify Store - Commerce Pages", () => {
     ).toBeVisible();
   });
 });
-
-test.afterAll(async ({ page }) => {
-  await page.close();
-});

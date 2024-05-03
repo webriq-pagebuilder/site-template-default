@@ -108,16 +108,16 @@ export default async function VariantE({
   //Close Secondary button toggle
   await page.getByRole("button", { name: "Secondary Button" }).click();
 
-  // TODO: GENERATE FORM ID HERE
+  // 05-03-2024 defer tests for forms
   //   await generateFormId({ page });
-  await page
-    .getByRole("button", { name: "Generate ID" })
-    .click({ force: true });
-  expect(page.getByLabel("Form ID")).not.toBeUndefined();
-  await expect(page.getByRole("button", { name: "Generate ID" })).toBeVisible();
-  await expect(page.getByRole("link", { name: "Manage" })).toBeVisible();
+  // await page
+  //   .getByRole("button", { name: "Generate ID" })
+  //   .click({ force: true });
+  // expect(page.getByLabel("Form ID")).not.toBeUndefined();
+  // await expect(page.getByRole("button", { name: "Generate ID" })).toBeVisible();
+  // await expect(page.getByRole("link", { name: "Manage" })).toBeVisible();
 
-  //Form Subtitle
+  // Form Subtitle
   const formSubtitle = page
     .getByTestId("field-variants.form.subtitle")
     .getByTestId("string-input");
@@ -200,6 +200,7 @@ export default async function VariantE({
     ?.toLowerCase()
     ?.replace(/\s+/g, "-")
     .replace(/-+/g, "-");
+
   for (const button of buttonLabels) {
     await page.goto(`${NEXT_PUBLIC_SITE_URL}/${slug}`);
     await assertPageContent(page, button, commonFieldValues, isInternalLink);

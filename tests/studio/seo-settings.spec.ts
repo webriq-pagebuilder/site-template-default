@@ -317,7 +317,3 @@ test("Can add SEO values to page", async ({ page }) => {
       .filter({ hasText: "just now" })
   ).toBeVisible({ timeout: 120_000 });
 });
-
-test.afterAll(async ({ page }) => {
-  await page.close();
-});
