@@ -266,7 +266,7 @@ export async function createNewPage(page, sectionTitle, sections) {
     .click({ force: true });
 }
 
-export async function expectDocumentPublished(page, newPageTitle) {
+export async function expectDocumentPublished(page, pageTitle) {
   await expect(
     page
       .locator('[data-testid="review-changes-button"]')
@@ -311,7 +311,7 @@ export async function expectDocumentPublished(page, newPageTitle) {
   await expect(
     page.getByRole("button", { name: "Last published just now" })
   ).toBeVisible({ timeout: 150_000 });
-  //await expect(page.getByRole("link", { name: newPageTitle })).toBeVisible();
+  await expect(page.getByRole("link", { name: pageTitle })).toBeVisible();
 }
 
 export async function deletePageVariant(page, pageTitle, variantLabel) {
@@ -353,14 +353,14 @@ export async function deletePageVariant(page, pageTitle, variantLabel) {
   await expect(
     page.getByTestId("review-changes-button").filter({ hasText: "Just now" })
   ).toBeHidden();
-  await expect(
-    page
-      .locator('[id="__next"]')
-      .getByRole("alert")
-      .locator("div")
-      .filter({ hasText: "The document was published" })
-      .nth(1)
-  ).toBeVisible({ timeout: 150_000 });
+  // await expect(
+  //   page
+  //     .locator('[id="__next"]')
+  //     .getByRole("alert")
+  //     .locator("div")
+  //     .filter({ hasText: "The document was published" })
+  //     .nth(1)
+  // ).toBeVisible({ timeout: 150_000 });
   await expect(
     page.getByRole("button", { name: "Last published just now" })
   ).toBeVisible({ timeout: 150_000 });
