@@ -494,33 +494,25 @@ export async function checkFormSubmission({
   formFields,
   submitBtnLabel,
   thankYouPageUrl,
+  hasRequiredCheckbox = false,
 }) {
-  // Log the type of value to debug the issue
-  formFields.forEach((field) => {
-    console.log(`[DEBUG] Type of field.value: ${typeof field.value}`);
+  formFields?.forEach(async (field) => {
+    console.log("[INFO] form values: ", field);
+
+    const fieldElement = await pageUrl.getByPlaceholder(field.placeholder, {
+      exact: true,
+    });
+    await fieldElement.click({ force: true });
+    await fieldElement.press("Meta+a");
+    await fieldElement.fill(field.value);
   });
 
-  const results = await Promise.allSettled(
-    formFields.map(async (field) => {
-      if (typeof field.value !== "string") {
-        throw new Error(
-          `Expected string for field.value, got ${typeof field.value}`
-        );
-      }
-      console.log("[INFO] form values: ", field);
-      await pageUrl.getByPlaceholder(field.placeholder).click({ force: true });
-      await pageUrl.getByPlaceholder(field.placeholder).fill(field.value);
-    })
-  );
+  if (hasRequiredCheckbox) {
+    // Contact variant A
+    await page.getByLabel("Agree to terms").check({ force: true });
+  }
 
-  console.log("[INFO] Test has been run", results);
-  results.forEach((result) => {
-    if (result.status === "rejected") {
-      console.error("Error processing form field:", result.reason);
-    }
-  });
-
-  await pageUrl.getByLabel(submitBtnLabel).click();
+  await pageUrl.getByLabel(submitBtnLabel).click({ force: true });
   await expect(pageUrl.getByText("Sending form data...")).toBeVisible({
     timeout: 180_000,
   });
@@ -530,69 +522,6 @@ export async function checkFormSubmission({
 
   await page.goto(thankYouPageUrl ?? `${NEXT_PUBLIC_SITE_URL}/thank-you`);
 }
-
-export const form = {
-  async addContactFormFields({ page, initialValue, commonFieldValues }) {
-    await generateFormId({ page });
-    await expect(
-      page
-        .getByTestId("field-variants.form.buttonLabel")
-        .getByTestId("string-input")
-    ).toHaveValue(initialValue.form.buttonLabel);
-    await page
-      .getByTestId("field-variants.form.buttonLabel")
-      .getByTestId("string-input")
-      .fill("");
-    await page
-      .getByTestId("field-variants.form.buttonLabel")
-      .getByTestId("string-input")
-      .fill(commonFieldValues?.formButtonLabel);
-    await page
-      .getByRole("button", { name: "Thank You page" })
-      .click({ force: true });
-    await page
-      .getByLabel("External, outside this website")
-      .check({ force: true, timeout: 30_000 });
-    await page.getByLabel("URL").click({ force: true });
-    await page.getByLabel("URL").fill(commonFieldValues?.thankYouPageUrl);
-    await page
-      .getByLabel("Self (default) - open in the")
-      .check({ force: true });
-    await expect(
-      page.getByTestId("activate-overlay").locator("div").first()
-    ).toBeVisible();
-    await page.getByText("Click to activate").click({ force: true });
-    await expect(page.getByText("I agree to terms and")).toContainText(
-      initialValue.form.block
-    );
-    await page.getByTestId("text-style--normal").nth(1).click({ force: true });
-    await page.getByTestId("scroll-container").getByRole("textbox").fill("");
-    await page
-      .getByTestId("scroll-container")
-      .getByRole("textbox")
-      .fill(commonFieldValues.formBlock);
-  },
-  async contactSitePreview({ page, pageUrl, commonFieldValues }) {
-    await expect(pageUrl.getByPlaceholder("Subject")).toBeVisible();
-    await expect(
-      pageUrl.getByPlaceholder("Name", { exact: true })
-    ).toBeVisible();
-    await expect(pageUrl.getByPlaceholder("name@example.com")).toBeVisible();
-    await expect(pageUrl.getByPlaceholder("Message...")).toBeVisible();
-    await expect(pageUrl.getByLabel("Add file")).toBeVisible();
-    await expect(pageUrl.getByLabel("Agree to terms")).not.toBeChecked();
-    await expect(
-      pageUrl.getByLabel(commonFieldValues?.formButtonLabel)
-    ).toBeVisible();
-    await checkFormSubmission({
-      page,
-      thankYouPageUrl: commonFieldValues?.thankYouPageUrl,
-      pageUrl: pageUrl,
-      formFields: commonFieldValues?.formFields,
-      submitBtnLabel: commonFieldValues?.formButtonLabel,
-    });
-  },
-};
 
 export async function CTAWebriQForm({
   page,

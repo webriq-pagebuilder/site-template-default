@@ -6,7 +6,7 @@ import {
   contactDetails,
   socialLinks,
 } from "tests/utils";
-import { form } from "tests/utils";
+import { form } from "./index.spec";
 
 async function VariantA({ pageTitle, page, initialValue, commonFieldValues }) {
   // studio

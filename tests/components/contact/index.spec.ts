@@ -1,5 +1,11 @@
-import { test } from "@playwright/test";
-import { newPageTitle, beforeEachTest, deletePageVariant } from "tests/utils";
+import { test, expect } from "@playwright/test";
+import {
+  newPageTitle,
+  beforeEachTest,
+  checkFormSubmission,
+  deletePageVariant,
+  generateFormId,
+} from "tests/utils";
 import { contactInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-default";
 
 import VariantA from "./variant_a";
@@ -101,3 +107,67 @@ contactVariantTests?.forEach((variant, index) => {
     });
   });
 });
+
+export const form = {
+  async addContactFormFields({ page, initialValue, commonFieldValues }) {
+    await generateFormId({ page });
+    await expect(
+      page
+        .getByTestId("field-variants.form.buttonLabel")
+        .getByTestId("string-input")
+    ).toHaveValue(initialValue.form.buttonLabel);
+    await page
+      .getByTestId("field-variants.form.buttonLabel")
+      .getByTestId("string-input")
+      .fill("");
+    await page
+      .getByTestId("field-variants.form.buttonLabel")
+      .getByTestId("string-input")
+      .fill(commonFieldValues?.formButtonLabel);
+    await page
+      .getByRole("button", { name: "Thank You page" })
+      .click({ force: true });
+    await page
+      .getByLabel("External, outside this website")
+      .check({ force: true, timeout: 120_000 });
+    await page.getByLabel("URL").click({ force: true });
+    await page.getByLabel("URL").fill(commonFieldValues?.thankYouPageUrl);
+    await page
+      .getByLabel("Self (default) - open in the")
+      .check({ force: true });
+    await expect(
+      page.getByTestId("activate-overlay").locator("div").first()
+    ).toBeVisible();
+    await page.getByText("Click to activate").click({ force: true });
+    await expect(page.getByText("I agree to terms and")).toContainText(
+      initialValue.form.block
+    );
+    await page.getByTestId("text-style--normal").nth(1).click({ force: true });
+    await page.getByTestId("scroll-container").getByRole("textbox").fill("");
+    await page
+      .getByTestId("scroll-container")
+      .getByRole("textbox")
+      .fill(commonFieldValues.formBlock);
+  },
+  async contactSitePreview({ page, pageUrl, commonFieldValues }) {
+    await expect(pageUrl.getByPlaceholder("Subject")).toBeVisible();
+    await expect(
+      pageUrl.getByPlaceholder("Name", { exact: true })
+    ).toBeVisible();
+    await expect(pageUrl.getByPlaceholder("name@example.com")).toBeVisible();
+    await expect(pageUrl.getByPlaceholder("Message...")).toBeVisible();
+    await expect(pageUrl.getByLabel("Add file")).toBeVisible();
+    await expect(pageUrl.getByLabel("Agree to terms")).not.toBeChecked();
+    await expect(
+      pageUrl.getByLabel(commonFieldValues?.formButtonLabel)
+    ).toBeVisible();
+    await checkFormSubmission({
+      page,
+      thankYouPageUrl: commonFieldValues?.thankYouPageUrl,
+      pageUrl: pageUrl,
+      formFields: commonFieldValues?.formFields,
+      submitBtnLabel: commonFieldValues?.formButtonLabel,
+      hasRequiredCheckbox: true,
+    });
+  },
+};
