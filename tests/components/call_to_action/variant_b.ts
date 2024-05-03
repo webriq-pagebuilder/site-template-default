@@ -30,12 +30,12 @@ async function VariantB({ newPageTitle, page, commonFieldValues }) {
 
   await updateLogoLink(page, commonFieldValues?.ctaLogoAltText);
 
-  // await CTAWebriQForm({
-  //   page,
-  //   hasOtherLinks: false,
-  //   initialValues: callToActionInitialValue,
-  //   formButtonLabel: commonFieldValues?.commonFieldValues?.formButtonLabel,
-  // });
+  await CTAWebriQForm({
+    page,
+    hasOtherLinks: false,
+    initialValues: callToActionInitialValue,
+    formButtonLabel: commonFieldValues?.commonFieldValues?.formButtonLabel,
+  });
 
   // check site preview
   await expectDocumentPublished(page, newPageTitle);
@@ -82,13 +82,13 @@ async function VariantB({ newPageTitle, page, commonFieldValues }) {
     openUrlPage.getByLabel(callToActionInitialValue.form.buttonLabel)
   ).toBeVisible({ timeout: 20_000 });
 
-  // await checkFormSubmission({
-  //   page,
-  //   thankYouPageUrl: commonFieldValues?.thankYouPageUrl,
-  //   pageUrl: openUrlPage,
-  //   formFields: commonFieldValues?.formFields,
-  //   submitBtnLabel: commonFieldValues?.formButtonLabel,
-  // });
+  await checkFormSubmission({
+    page,
+    thankYouPageUrl: commonFieldValues?.thankYouPageUrl,
+    pageUrl: openUrlPage,
+    formFields: commonFieldValues?.formFields,
+    submitBtnLabel: commonFieldValues?.formButtonLabel,
+  });
 }
 
 export default VariantB;

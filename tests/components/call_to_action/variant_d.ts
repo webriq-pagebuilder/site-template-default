@@ -58,12 +58,12 @@ async function VariantD({ newPageTitle, page, commonFieldValues }) {
     .click();
   commonFieldValues?.externalLinkUrl.replace("https://www.", "https://");
 
-  // await CTAWebriQForm({
-  //   page,
-  //   hasOtherLinks: false,
-  //   initialValues: callToActionInitialValue,
-  //   formButtonLabel: commonFieldValues?.commonFieldValues?.formButtonLabel,
-  // });
+  await CTAWebriQForm({
+    page,
+    hasOtherLinks: false,
+    initialValues: callToActionInitialValue,
+    formButtonLabel: commonFieldValues?.commonFieldValues?.formButtonLabel,
+  });
 
   // check site preview
   await expectDocumentPublished(page, newPageTitle);
@@ -96,13 +96,13 @@ async function VariantD({ newPageTitle, page, commonFieldValues }) {
   ).toBeVisible({ timeout: 20_000 });
 
   // forms
-  // await checkFormSubmission({
-  //   page,
-  //   thankYouPageUrl: commonFieldValues?.thankYouPageUrl,
-  //   pageUrl: openUrlPage,
-  //   formFields: commonFieldValues?.formFields,
-  //   submitBtnLabel: commonFieldValues?.formButtonLabel,
-  // });
+  await checkFormSubmission({
+    page,
+    thankYouPageUrl: commonFieldValues?.thankYouPageUrl,
+    pageUrl: openUrlPage,
+    formFields: commonFieldValues?.formFields,
+    submitBtnLabel: commonFieldValues?.formButtonLabel,
+  });
 }
 
 export default VariantD;
