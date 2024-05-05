@@ -1,37 +1,24 @@
-import { test, expect, type Page } from "@playwright/test";
+import { test, expect } from "@playwright/test";
 import {
-  autologin_studio,
   createNewPage,
   deletePageVariant,
   expectDocumentPublished,
   navigateToPage,
+  newPageTitle,
 } from "./utils/index";
 import { NEXT_PUBLIC_SITE_URL } from "studio/config";
 
-let page: Page;
-const newPageTitle = "New Page - " + new Date().getTime();
+const pageTitle = newPageTitle("New Page");
 const duplicatePageName = `Dupe Page ` + new Date().getTime();
 const variantLabel = "Navigation New Page Variant A";
-
-test.beforeAll(async ({ browser }) => {
-  page = await browser.newPage();
-
-  //navigate to the studio
-  await page.goto(`${NEXT_PUBLIC_SITE_URL}`);
-
-  const token = process.env.NEXT_PUBLIC_STUDIO_AUTOLOGIN_TOKEN_FOR_TESTING;
-  const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
-
-  await page.evaluate(autologin_studio, { token, projectId });
-});
 
 test.describe("Main Workflow", () => {
   test.describe.configure({ timeout: 900000, mode: "serial" });
 
   //PUBLISH PAGES
-  test("Test to Publish a Page and Open Live URL", async () => {
+  test("Test to Publish a Page and Open Live URL", async ({ page }) => {
     await navigateToPage(page);
-    await createNewPage(page, newPageTitle, "Navigation");
+    await createNewPage(page, pageTitle, "Navigation");
 
     await page
       .getByTestId("field-label")
@@ -48,10 +35,10 @@ test.describe("Main Workflow", () => {
       .first()
       .click({ force: true });
 
-    await expectDocumentPublished(page, newPageTitle);
+    await expectDocumentPublished(page, pageTitle);
 
     //Open Live URL
-    await page.getByRole("link", { name: newPageTitle }).click({ force: true });
+    await page.getByRole("link", { name: pageTitle }).click({ force: true });
     await page.waitForTimeout(5000);
 
     const pagePromise = page.waitForEvent("popup");
@@ -76,27 +63,42 @@ test.describe("Main Workflow", () => {
     }
   });
 
+  test.afterEach(async ({ page }, testInfo) => {
+    if (testInfo.status !== "passed") {
+      await deletePageVariant(page, pageTitle, variantLabel);
+    }
+  });
+
   //Duplicate Pages Action
-  test("Pages Duplicate Action and Open Live URL", async () => {
+  test("Pages Duplicate Action and Open Live URL", async ({ page }) => {
     await navigateToPage(page);
 
     await page.getByPlaceholder("Search list").click({ force: true });
-    await page.getByPlaceholder("Search list").fill(newPageTitle);
-    await page.waitForSelector(`a:has-text("${newPageTitle}")`, {
+    await page.getByPlaceholder("Search list").fill(pageTitle);
+    await page.waitForSelector(`a:has-text("${pageTitle}")`, {
       state: "visible",
     });
 
-    await page.getByRole("link", { name: newPageTitle }).click({ force: true });
-    await page.waitForSelector(`a:has-text("${newPageTitle}")`, {
+    await page.getByRole("link", { name: pageTitle }).click({ force: true });
+    await page.waitForSelector(`a:has-text("${pageTitle}")`, {
       state: "visible",
     });
     await page.getByLabel("Clear").click({ force: true });
     await page.waitForTimeout(3000);
+    await expect(page.getByText("Loading document")).toBeHidden();
+    await expect(page.getByRole("link", { name: variantLabel })).toBeVisible();
+
     await page.getByTestId("action-menu-button").click({ force: true });
+    await expect(page.getByTestId("action-Duplicate")).toBeVisible();
     await page.getByTestId("action-Duplicate").click({ force: true });
-    await page.getByPlaceholder("Copy of New Page -").click();
-    await page.getByPlaceholder("Copy of New Page -").fill(duplicatePageName);
-    await page.getByRole("button", { name: "Duplicate" }).click();
+    await expect(page.getByText("Duplicate page content")).toBeVisible();
+    await page.locator(`input[placeholder="Copy of ${pageTitle}"]`).click();
+    await page
+      .locator(`input[placeholder="Copy of ${pageTitle}"]`)
+      .fill(duplicatePageName);
+    const button = page.getByRole("button", { name: "Duplicate" });
+    await expect(button).toHaveAttribute("data-disabled", "false");
+    await button.click();
 
     await expect(
       page.locator('[id="__next"]').getByRole("alert").locator("div").nth(1)
@@ -134,35 +136,25 @@ test.describe("Main Workflow", () => {
     await page.getByText("http://localhost:3000/dupe-page-").click();
     const openUrlPage = await pagePromise;
 
-    // Wait for the element to become visible or hidden with a longer timeout
-    const sectionCount = await page
-      .locator("div")
-      .filter({ hasText: /^No items$/ })
-      .count();
-    if (sectionCount > 0) {
-      // If the section is found, expect the Empty Page element to be visible
-      await expect(openUrlPage.getByText("Empty Page")).toBeVisible({
-        timeout: 10000,
-      });
-    } else {
-      // If the section is not found, expect the Empty Page element to be hidden
-      await expect(openUrlPage.getByText("Empty Page")).toBeHidden({
-        timeout: 10000,
-      });
-    }
+    // If the section is not found, expect the Empty Page element to be hidden
+    await expect(openUrlPage.getByText("Empty Page")).toBeHidden({
+      timeout: 20_000,
+    });
   });
 
   //Launch Inline Editing - Edit and Close button function
-  test("Open Inline Editing and Edit Texts should display in realtime", async () => {
+  test("Open Inline Editing and Edit Texts should display in realtime", async ({
+    page,
+  }) => {
     await navigateToPage(page);
     await page.getByPlaceholder("Search list").click({ force: true });
-    await page.getByPlaceholder("Search list").fill(newPageTitle);
-    await page.waitForSelector(`a:has-text("${newPageTitle}")`, {
+    await page.getByPlaceholder("Search list").fill(pageTitle);
+    await page.waitForSelector(`a:has-text("${pageTitle}")`, {
       state: "visible",
     });
 
-    await page.getByRole("link", { name: newPageTitle }).click({ force: true });
-    await page.waitForSelector(`a:has-text("${newPageTitle}")`, {
+    await page.getByRole("link", { name: pageTitle }).click({ force: true });
+    await page.waitForSelector(`a:has-text("${pageTitle}")`, {
       state: "visible",
     });
     await page.getByLabel("Clear").click({ force: true });
@@ -253,16 +245,16 @@ test.describe("Main Workflow", () => {
     }
   });
 
-  test("Test with no Section should display Empty Page", async () => {
+  test("Test with no Section should display Empty Page", async ({ page }) => {
     await navigateToPage(page);
     await page.getByPlaceholder("Search list").click({ force: true });
-    await page.getByPlaceholder("Search list").fill(newPageTitle);
-    await page.waitForSelector(`a:has-text("${newPageTitle}")`, {
+    await page.getByPlaceholder("Search list").fill(pageTitle);
+    await page.waitForSelector(`a:has-text("${pageTitle}")`, {
       state: "visible",
     });
 
-    await page.getByRole("link", { name: newPageTitle }).click({ force: true });
-    await page.waitForSelector(`a:has-text("${newPageTitle}")`, {
+    await page.getByRole("link", { name: pageTitle }).click({ force: true });
+    await page.waitForSelector(`a:has-text("${pageTitle}")`, {
       state: "visible",
     });
     await page.getByLabel("Clear").click({ force: true });
@@ -288,7 +280,7 @@ test.describe("Main Workflow", () => {
         .filter({ hasText: "The document was published" })
         .nth(1)
     ).toBeVisible({ timeout: 150000 });
-    await expect(page.getByRole("link", { name: newPageTitle })).toBeVisible();
+    await expect(page.getByRole("link", { name: pageTitle })).toBeVisible();
 
     const pagePromise = page.waitForEvent("popup");
     await page.getByText(`${NEXT_PUBLIC_SITE_URL}`).click({ force: true });
@@ -307,16 +299,17 @@ test.describe("Main Workflow", () => {
     }
   });
 
-  test("Delete Published Page", async () => {
+  test("Delete Duplicate Page", async ({ page }) => {
+    // await deletePageVariant(page, duplicatePageName, variantLabel);
     await navigateToPage(page);
     await page.getByPlaceholder("Search list").click({ force: true });
-    await page.getByPlaceholder("Search list").fill(newPageTitle);
-    await page.waitForSelector(`a:has-text("${newPageTitle}")`, {
+    await page.getByPlaceholder("Search list").fill(pageTitle);
+    await page.waitForSelector(`a:has-text("${pageTitle}")`, {
       state: "visible",
     });
 
-    await page.getByRole("link", { name: newPageTitle }).click({ force: true });
-    await page.waitForSelector(`a:has-text("${newPageTitle}")`, {
+    await page.getByRole("link", { name: pageTitle }).click({ force: true });
+    await page.waitForSelector(`a:has-text("${pageTitle}")`, {
       state: "visible",
     });
     await page.getByLabel("Clear").click({ force: true });
@@ -336,18 +329,18 @@ test.describe("Main Workflow", () => {
         .filter({ hasText: "The document was successfully" })
         .nth(1)
     ).toBeVisible();
-    await expect(page.getByRole("link", { name: newPageTitle })).toBeHidden({
+    await expect(page.getByRole("link", { name: pageTitle })).toBeHidden({
       timeout: 150000,
     });
   });
 
-  test("Delete Duplicate Page", async () => {
-    await deletePageVariant(page, duplicatePageName, variantLabel);
+  test("Delete Published Page", async ({ page }) => {
+    await deletePageVariant(page, pageTitle, variantLabel);
   });
 });
 
 //SEE CURRENT VERSION
-test("See Current Version", async () => {
+test("See Current Version", async ({ page }) => {
   await page.goto("http://localhost:3000/studio");
 
   // Find the element you want to click
