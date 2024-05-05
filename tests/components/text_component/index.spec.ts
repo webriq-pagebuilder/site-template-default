@@ -38,13 +38,13 @@ const commonFieldValues = {
   thirdContent: "Third Content Test",
 };
 
+test.describe.configure({ timeout: 600_000, mode: "serial" });
+
 textVariantTest.forEach((variants, index) => {
   const { name, title, label, variant } = variants;
+  const pageTitle = newPageTitle(title);
 
   test.describe(`${name}`, () => {
-    test.describe.configure({ timeout: 600_000, mode: "parallel" });
-    const pageTitle = newPageTitle(title);
-
     test(`Create ${label}`, async ({ page }) => {
       await beforeEachTest(page, pageTitle, "Text Component", label, index);
       const variantTest = variantModules[variant];

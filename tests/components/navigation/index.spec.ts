@@ -78,13 +78,13 @@ const navigationVariantTest = [
   },
 ];
 
+test.describe.configure({ timeout: 1_200_000, mode: "serial" });
+
 navigationVariantTest.forEach((variants, index) => {
   const { name, title, label, variant, linkNames, isInternalLink } = variants;
+  const pageTitle = newPageTitle(title);
 
   test.describe(`${name}`, () => {
-    test.describe.configure({ timeout: 1_200_000, mode: "parallel" });
-    const pageTitle = newPageTitle(title);
-
     test(`Create ${label}`, async ({ page }) => {
       await beforeEachTest(page, pageTitle, "Navigation", label, index);
       const variantTest = variantModules[variant];

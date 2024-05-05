@@ -86,13 +86,13 @@ const commonFieldValues = {
   categories: ["TRAVEL", "Culture", "Engineering"],
 };
 
+test.describe.configure({ timeout: 1_000_000, mode: "serial" });
+
 blogVariantTest.forEach((variants, index) => {
   const { name, title, label, variant, isInternalLink } = variants;
+  const pageTitle = newPageTitle(title);
 
   test.describe(`${name}`, () => {
-    test.describe.configure({ timeout: 1_000_000, mode: "parallel" });
-    const pageTitle = newPageTitle(title);
-
     test(`Create ${label}`, async ({ page }) => {
       await beforeEachTest(page, pageTitle, "Blog", label, index);
       const variantTest = variantModules[variant];

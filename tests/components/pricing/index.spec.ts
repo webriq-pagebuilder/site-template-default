@@ -114,13 +114,13 @@ const commonFieldValues = {
   externalLinkUrl: "https://facebook.com",
 };
 
+test.describe.configure({ timeout: 1_000_000, mode: "serial" });
+
 pricingVariantTest.forEach((variants, index) => {
   const { name, title, label, variant, isInternalLink } = variants;
+  const pageTitle = newPageTitle(title);
 
   test.describe(`${name}`, () => {
-    test.describe.configure({ timeout: 1_000_000, mode: "parallel" });
-    const pageTitle = newPageTitle(title);
-
     test(`Create ${label}`, async ({ page }) => {
       await beforeEachTest(page, pageTitle, "Pricing", label, index);
       const variantTest = variantModules[variant];

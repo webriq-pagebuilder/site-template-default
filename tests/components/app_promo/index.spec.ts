@@ -38,13 +38,12 @@ const commonFieldValues = {
   logoAltText: "App Promo logo",
 };
 
+test.describe.configure({ timeout: 1_000_000, mode: "serial" });
 appPromoVariantTests.forEach((variants, index) => {
   const { name, title, label, variant } = variants;
+  const pageTitle = newPageTitle(title);
 
   test.describe(`${name}`, () => {
-    test.describe.configure({ timeout: 1_000_000, mode: "parallel" });
-    const pageTitle = newPageTitle(title);
-
     test(`Create ${label}`, async ({ page }) => {
       await beforeEachTest(page, pageTitle, "App promo", label, index);
 

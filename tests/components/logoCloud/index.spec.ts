@@ -52,13 +52,13 @@ const commonFieldValues = {
   internalLinkUrl: `${NEXT_PUBLIC_SITE_URL}/thank-you/`,
 };
 
+test.describe.configure({ timeout: 600_000, mode: "serial" });
+
 logoCloudVariantTest.forEach((variants, index) => {
   const { name, title, label, variant, isInternalLink } = variants;
+  const pageTitle = newPageTitle(title);
 
   test.describe(`${name}`, () => {
-    test.describe.configure({ timeout: 600_000, mode: "parallel" });
-    const pageTitle = newPageTitle(title);
-
     test(`Create ${label}`, async ({ page }) => {
       await beforeEachTest(page, pageTitle, "Logo Cloud", label, index);
       const variantTest = variantModules[variant];

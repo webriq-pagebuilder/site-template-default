@@ -84,10 +84,10 @@ const commonFieldValues = {
   formBlock: "I agree to all the terms and conditions",
 };
 
+test.describe.configure({ timeout: 1_000_000, mode: "serial" });
+
 contactVariantTests?.forEach((variant, index) => {
   test.describe(`${variant.name}`, () => {
-    test.describe.configure({ timeout: 1_000_000, mode: "parallel" });
-
     const pageTitle = newPageTitle(variant?.title);
 
     test(`Create ${variant.label}`, async ({ page }) => {

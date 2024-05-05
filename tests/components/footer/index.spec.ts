@@ -74,13 +74,13 @@ const footerVariantTest = [
   },
 ];
 
+test.describe.configure({ timeout: 1_500_000, mode: "serial" });
+
 footerVariantTest.forEach((variants, index) => {
   const { name, title, label, variant, linkNames, isInternalLink } = variants;
+  const pageTitle = newPageTitle(title);
 
   test.describe(`${name}`, () => {
-    test.describe.configure({ timeout: 1_500_000, mode: "parallel" });
-    const pageTitle = newPageTitle(title);
-
     test(`Create ${label}`, async ({ page }) => {
       await beforeEachTest(page, pageTitle, "Footer", label, index);
       const variantTest = variantModules[variant];

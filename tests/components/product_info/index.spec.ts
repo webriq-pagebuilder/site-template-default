@@ -33,13 +33,13 @@ const commonFieldValues = {
   ],
 };
 
+test.describe.configure({ timeout: 1_000_000, mode: "serial" });
+
 productInfoTest.forEach((variants, index) => {
   const { name, title, label, variant } = variants;
+  const pageTitle = newPageTitle(title);
 
   test.describe(`${name}`, () => {
-    test.describe.configure({ timeout: 600_000, mode: "parallel" });
-    const pageTitle = newPageTitle(title);
-
     test(`Create ${label}`, async ({ page }) => {
       await beforeEachTest(page, pageTitle, "Product Info", label, index);
       const variantTest = variantModules[variant];

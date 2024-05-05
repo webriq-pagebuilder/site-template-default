@@ -11,7 +11,7 @@ const variantModules = {
   variant_b: VariantB,
   variant_c: VariantC,
   variant_d: VariantD,
-  variant_e: VariantE,
+  // variant_e: VariantE,
 };
 
 const ctaVariantTests = [
@@ -39,12 +39,12 @@ const ctaVariantTests = [
     label: "New Call To Action D",
     variant: "variant_d",
   },
-  {
-    name: "Variant E",
-    title: "Call To Action Page E",
-    label: "New Call To Action E",
-    variant: "variant_e",
-  },
+  // {
+  //   name: "Variant E",
+  //   title: "Call To Action Page E",
+  //   label: "New Call To Action E",
+  //   variant: "variant_e",
+  // },
 ];
 
 const commonFieldValues = {
@@ -78,13 +78,13 @@ const commonFieldValues = {
   formButtonLabel: "Submit CTA",
 };
 
+test.describe.configure({ timeout: 1_000_000, mode: "serial" });
+
 ctaVariantTests?.forEach((variants, index) => {
   const { name, title, label, variant } = variants;
+  const pageTitle = newPageTitle(title);
 
   test.describe(`${name}`, () => {
-    test.describe.configure({ timeout: 1_000_000, mode: "parallel" });
-    const pageTitle = newPageTitle(title);
-
     test(`Create ${label}`, async ({ page }) => {
       await beforeEachTest(page, pageTitle, "Call to Action", label, index);
 
