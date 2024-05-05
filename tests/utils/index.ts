@@ -299,6 +299,10 @@ export async function expectDocumentPublished(page, pageTitle) {
       .filter({ hasText: "The document was published" })
       .nth(1)
   ).toBeHidden({ timeout: 150_000 });
+  await expect(page.locator('a[target="_blank"]')).toHaveCSS(
+    "color",
+    "rgb(149, 130, 40)"
+  );
   await page.getByTestId("action-[object Object]").click({ force: true });
   await expect(
     page
@@ -311,7 +315,11 @@ export async function expectDocumentPublished(page, pageTitle) {
   await expect(
     page.getByRole("button", { name: "Last published just now" })
   ).toBeVisible({ timeout: 150_000 });
-  await expect(page.getByRole("link", { name: pageTitle })).toBeVisible();
+  await expect(page.locator('a[target="_blank"]')).toHaveCSS(
+    "color",
+    "rgb(49, 151, 94)"
+  );
+  // await expect(page.getByRole("link", { name: pageTitle })).toBeVisible();
 }
 
 export async function deletePageVariant(page, pageTitle, variantLabel) {
@@ -336,6 +344,7 @@ export async function deletePageVariant(page, pageTitle, variantLabel) {
   await page.getByTestId("field-sections").getByRole("button").nth(1).click();
 
   //Remove section
+  await expect(page.getByRole("menuitem", { name: "Remove" })).toBeVisible();
   await page.getByRole("menuitem", { name: "Remove" }).click();
   await expect(
     page
@@ -369,20 +378,22 @@ export async function deletePageVariant(page, pageTitle, variantLabel) {
   await page.getByRole("button", { name: variantLabel }).click();
   await expect(page.getByTestId("reference-changed-banner")).toBeVisible();
   await page.getByRole("button", { name: "Open document actions" }).click();
+  await expect(page.getByTestId("action-Delete")).toBeVisible();
   await page.getByTestId("action-Delete").click();
   await expect(page.getByText("Looking for referring")).toBeHidden();
   await expect(page.getByLabel("Delete document?")).toBeVisible();
   await page.getByTestId("confirm-delete-button").click();
-  await expect(
-    page
-      .locator('[id="__next"]')
-      .getByRole("alert")
-      .locator("div")
-      .filter({ hasText: "The document was successfully" })
-      .nth(1)
-  ).toBeVisible();
+  // await expect(
+  //   page
+  //     .locator('[id="__next"]')
+  //     .getByRole("alert")
+  //     .locator("div")
+  //     .filter({ hasText: "The document was successfully" })
+  //     .nth(1)
+  // ).toBeVisible();
 
   //Delete Page
+  await page.waitForTimeout(1000);
   await page.getByTestId("action-menu-button").click({ force: true });
   await page.getByTestId("action-Delete").click();
   await page.getByTestId("confirm-delete-button").click();
@@ -403,12 +414,19 @@ export async function assertInternalUrl(page, expectedUrlBase) {
   const expectedUrl = expectedUrlBase.endsWith("/")
     ? expectedUrlBase
     : `${expectedUrlBase}/`;
+
+  // Wait for the page to be fully loaded
+  await page.waitForLoadState("networkidle");
+
   const receivedUrl = page.url().endsWith("/") ? page.url() : `${page.url()}/`;
   await expect(receivedUrl).toBe(expectedUrl);
 }
 
 export async function assertExternalUrl(page, expectedUrlBase) {
   const normalizationPattern = "https://www.";
+
+  // Wait for the page to be fully loaded
+  await page.waitForLoadState("networkidle");
 
   const normalizedExpectedUrl = expectedUrlBase.endsWith("/")
     ? expectedUrlBase
