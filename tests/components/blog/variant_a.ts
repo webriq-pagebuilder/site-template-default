@@ -109,7 +109,6 @@ async function assertPageContent(openUrlPage, blog, commonFieldValues) {
     .getByRole("link", { name: blog.title })
     .click({ force: true });
   await openUrlPage.waitForLoadState("networkidle");
-  await openUrlPage.waitForTimeout(5_000);
   await assertInternalUrl(openUrlPage, `${NEXT_PUBLIC_SITE_URL}/${blog.slug}`);
   await expect(
     openUrlPage.getByRole("heading", { name: blog.title })
