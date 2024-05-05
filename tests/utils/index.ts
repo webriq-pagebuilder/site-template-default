@@ -393,8 +393,8 @@ export async function deletePageVariant(page, pageTitle, variantLabel) {
   // ).toBeVisible();
 
   //Delete Page
-  await page.waitForTimeout(1000);
-  await page.getByTestId("action-menu-button").click({ force: true });
+  await expect(page.getByTestId("document-panel-scroller").nth(1)).toBeHidden();
+  await page.locator('button[data-testid="action-menu-button"]').click();
   await page.getByTestId("action-Delete").click();
   await page.getByTestId("confirm-delete-button").click();
   await expect(
@@ -411,22 +411,22 @@ export async function deletePageVariant(page, pageTitle, variantLabel) {
 }
 
 export async function assertInternalUrl(page, expectedUrlBase) {
+  // Wait for the page to be fully loaded
+  await page.waitForLoadState("load");
+
   const expectedUrl = expectedUrlBase.endsWith("/")
     ? expectedUrlBase
     : `${expectedUrlBase}/`;
-
-  // Wait for the page to be fully loaded
-  await page.waitForLoadState("networkidle");
 
   const receivedUrl = page.url().endsWith("/") ? page.url() : `${page.url()}/`;
   await expect(receivedUrl).toBe(expectedUrl);
 }
 
 export async function assertExternalUrl(page, expectedUrlBase) {
-  const normalizationPattern = "https://www.";
-
   // Wait for the page to be fully loaded
-  await page.waitForLoadState("networkidle");
+  await page.waitForLoadState("load");
+
+  const normalizationPattern = "https://www.";
 
   const normalizedExpectedUrl = expectedUrlBase.endsWith("/")
     ? expectedUrlBase
