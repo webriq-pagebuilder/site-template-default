@@ -30,6 +30,7 @@ async function assertPageContent(openUrlPage, product, commonFieldValues) {
   await expect(
     openUrlPage.getByRole("heading", { name: "All Products" })
   ).toBeVisible();
+  await openUrlPage.waitForSelector(`p:has-text("${product.name}")`);
   await expect(
     openUrlPage.getByRole("link", { name: product.name })
   ).toBeVisible();
