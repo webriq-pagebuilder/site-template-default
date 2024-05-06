@@ -1,13 +1,14 @@
-import { chromium } from "@playwright/test";
+import { chromium, FullConfig } from "@playwright/test";
 
 export const authFile = "playwright/.auth/autologin_user.json";
 
-async function globalSetup() {
+async function globalSetup(config: FullConfig) {
+  const { baseURL } = config.projects[0].use;
+
   const browser = await chromium.launch();
   const page = await browser.newPage();
 
-  await page.goto("http://localhost:3000");
-  await page.goto("http://localhost:3000/studio");
+  await page.goto(baseURL!);
 
   // Set localStorage needed to autologin
   await page.evaluate(autologin_studio, {

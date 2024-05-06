@@ -236,7 +236,7 @@ export const socialLinks = {
 };
 
 export async function navigateToPage(page) {
-  await page.goto(`${NEXT_PUBLIC_SANITY_STUDIO_URL}`);
+  await page.goto(`./studio`);
 
   // Find the element you want to click
   const element = page.locator('a:has-text("Pages")');
