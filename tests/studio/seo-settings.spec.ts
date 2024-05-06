@@ -9,9 +9,9 @@ let globalSeo = {
   description: "",
 };
 
-const newPage = newPageTitle("Test SEO page ");
+const newSeoPage = newPageTitle("Test SEO page ");
 
-test.describe("Verify Global SEO Settings", () => {
+test.describe("Verify SEO Settings", () => {
   test.describe.configure({ timeout: 600_000, mode: "serial" });
 
   test("Can add Global SEO values", async ({ page }) => {
@@ -80,30 +80,10 @@ test.describe("Verify Global SEO Settings", () => {
 
   test("Create test page for SEO", async ({ page }) => {
     await navigateToPage(page);
-
-    // Click new page button
-    const newPageButtonElement = page.locator(
-      `a[href="/studio/intent/create/template=page;type=page/"]`
-    );
-    await newPageButtonElement.click({ force: true });
-
-    const inputTitle = page.locator("input#title");
-    await page.waitForSelector("input#title", { state: "visible" });
-    await inputTitle.click({ force: true });
-    await inputTitle.fill(newPage);
-    await page.getByRole("button", { name: "Generate" }).click({ force: true });
-    await page.getByTestId("action-[object Object]").click({ force: true });
-    // await expect(
-    //   page
-    //     .locator('[id="__next"]')
-    //     .getByRole("alert")
-    //     .locator("div")
-    //     .filter({ hasText: "The document was published" })
-    //     .nth(1)
-    // ).toBeVisible({ timeout: 150_000 });
-    // await expect(
-    //   page.getByRole("button", { name: "Last published just now" })
-    // ).toBeVisible({ timeout: 150_000 });
+    await createNewPage(page, newSeoPage, null);
+    await page
+      .getByTestId("action-[object Object]")
+      .click({ force: true, timeout: 30_000 });
     await page
       .getByRole("button", { name: "SEO Settings" })
       .click({ force: true });
@@ -113,7 +93,7 @@ test.describe("Verify Global SEO Settings", () => {
     test.setTimeout(300_000);
 
     await navigateToPage(page);
-    await page.getByRole("link", { name: newPage }).click({ force: true });
+    await page.getByRole("link", { name: newSeoPage }).click({ force: true });
     await page
       .getByRole("button", { name: "SEO Settings" })
       .click({ force: true });
@@ -168,7 +148,7 @@ test.describe("Verify Global SEO Settings", () => {
 
     test.beforeEach(async ({ page }) => {
       await navigateToPage(page);
-      await page.getByRole("link", { name: newPage }).click({ force: true });
+      await page.getByRole("link", { name: newSeoPage }).click({ force: true });
       await page
         .getByRole("button", { name: "SEO Settings" })
         .click({ force: true });
@@ -260,7 +240,7 @@ test.describe("Verify Global SEO Settings", () => {
     test.setTimeout(300_000);
 
     await navigateToPage(page);
-    await page.getByRole("link", { name: newPage }).click({ force: true });
+    await page.getByRole("link", { name: newSeoPage }).click({ force: true });
     await page
       .getByRole("button", { name: "SEO Settings" })
       .click({ force: true });
@@ -306,5 +286,39 @@ test.describe("Verify Global SEO Settings", () => {
         .locator("[aria-label='Review changes']")
         .filter({ hasText: "just now" })
     ).toBeVisible({ timeout: 120_000 });
+  });
+
+  test("Delete test SEO page", async ({ page }) => {
+    await navigateToPage(page);
+    await page.getByPlaceholder("Search list").click({ force: true });
+    await page.getByPlaceholder("Search list").fill(newSeoPage);
+    await page.waitForSelector(`a:has-text("${newSeoPage}")`, {
+      state: "visible",
+    });
+    await page.getByRole("link", { name: newSeoPage }).click({ force: true });
+    await page.waitForSelector(`a:has-text("${newSeoPage}")`, {
+      state: "visible",
+    });
+    await page.getByLabel("Clear").click({ force: true });
+    await expect(page.getByText("Loading document")).toBeHidden();
+
+    // delete test page
+    await expect(
+      page.getByTestId("document-panel-scroller").nth(1)
+    ).toBeHidden();
+    await page.locator('button[data-testid="action-menu-button"]').click();
+    await page.getByTestId("action-Delete").click();
+    await page.getByTestId("confirm-delete-button").click();
+    await expect(
+      page
+        .locator('[id="__next"]')
+        .getByRole("alert")
+        .locator("div")
+        .filter({ hasText: "The document was successfully" })
+        .nth(1)
+    ).toBeVisible();
+    await expect(page.getByRole("link", { name: newSeoPage })).toBeHidden({
+      timeout: 150000,
+    });
   });
 });

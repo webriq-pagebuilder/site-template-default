@@ -263,11 +263,14 @@ export async function createNewPage(page, sectionTitle, sections) {
 
   await page.getByRole("button", { name: "Generate" }).click({ force: true });
   await page.getByRole("button", { name: "Add item…" }).click({ force: true });
-  await page.getByRole("menuitem", { name: sections }).click({ force: true });
-  await page
-    .getByTestId("reference-input")
-    .getByRole("button", { name: "Create new" })
-    .click({ force: true });
+
+  if (sections) {
+    await page.getByRole("menuitem", { name: sections }).click({ force: true });
+    await page
+      .getByTestId("reference-input")
+      .getByRole("button", { name: "Create new" })
+      .click({ force: true });
+  }
 }
 
 export async function expectDocumentPublished(page, pageTitle) {
