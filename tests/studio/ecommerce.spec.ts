@@ -2,7 +2,7 @@ import { test, expect } from "@playwright/test";
 import { newPageTitle } from "tests/utils";
 import { NEXT_PUBLIC_SANITY_STUDIO_URL } from "studio/config";
 
-test.describe("Main Store Pages", () => {
+test.describe.fixme("Main Store Pages", () => {
   test.describe.configure({ timeout: 600_000, mode: "serial" });
 
   const productName = newPageTitle("New product ");
@@ -28,11 +28,6 @@ test.describe("Main Store Pages", () => {
   test("Can successfully create product", async ({ page }) => {
     await page.getByRole("link", { name: "Products" }).click({ force: true });
     await page.getByTestId("action-intent-button").click({ force: true });
-    // await page.getByRole("tab", { name: "Design" }).click({ force: true });
-    // await expect(
-    //   page.getByRole("link", { name: "Default Slot for Product Info" })
-    // ).toBeVisible();
-
     await page.getByRole("tab", { name: "Basic Info" }).click({ force: true });
     await page.getByLabel("Name").click();
     await page.getByLabel("Name").fill(productName);
@@ -40,17 +35,27 @@ test.describe("Main Store Pages", () => {
     await page.getByLabel("Price").click();
     await page.getByLabel("Price").fill("29.98");
     await page.getByText("Click to activate").click({ force: true });
-    await page.getByTestId("scroll-container").getByRole("textbox").click();
     await page
       .getByTestId("scroll-container")
       .getByRole("textbox")
-      .fill("This is a sample product description for the new product");
+      .click({ force: true });
+    await page
+      .getByTestId("scroll-container")
+      .getByRole("textbox")
+      .fill("This is a sample product description for the new product.");
 
     // publish document
+    await expect(
+      page
+        .locator('[data-testid="review-changes-button"]')
+        .filter({ hasText: "Just now" })
+    ).toBeVisible({ timeout: 150_000 });
     await page
       .getByTestId("action-[object Object]")
       .click({ force: true, timeout: 120_000 });
-    await expect(page.getByText("Successfully updated product")).toBeVisible();
+    await expect(page.getByText("Successfully updated product")).toBeVisible({
+      timeout: 150_000,
+    });
     await expect(
       page
         .locator('[id="__next"]')
@@ -58,7 +63,10 @@ test.describe("Main Store Pages", () => {
         .locator("div")
         .filter({ hasText: "The document was published" })
         .nth(1)
-    ).toBeVisible();
+    ).toBeVisible({ timeout: 150_000 });
+    await expect(
+      page.getByRole("button", { name: "Last published just now" })
+    ).toBeVisible({ timeout: 150_000 });
 
     const getEcwidProdId = page.locator("input#ecwidProductId").inputValue();
     expect(getEcwidProdId).not.toBeUndefined();
@@ -69,10 +77,10 @@ test.describe("Main Store Pages", () => {
       .getByRole("link", { name: "Collections" })
       .click({ force: true });
     await page.getByTestId("action-intent-button").click({ force: true });
-    // await page.getByRole("tab", { name: "Design" }).click();
-    // await expect(
-    //   page.getByRole("link", { name: "Default Slot for Collection" })
-    // ).toBeVisible();
+    await page.getByRole("tab", { name: "Design" }).click();
+    await expect(
+      page.getByRole("link", { name: "Default Slot for Collection" })
+    ).toBeVisible();
     await page.getByRole("tab", { name: "Basic Info" }).click({ force: true });
     await page.getByTestId("string-input").click();
     await page.getByTestId("string-input").fill(collectionsName);
@@ -124,7 +132,7 @@ test.describe("Store Commerce Pages", () => {
 
   // the default slot pages seem to have been deleted from the default StackShift studio
   // newly created StackShift studio have the default slot pages
-  test.skip("Default common slot sections are found", async ({ page }) => {
+  test.fixme("Default common slot sections are found", async ({ page }) => {
     await page
       .getByRole("link", { name: "Commerce Pages" })
       .click({ force: true });

@@ -196,7 +196,7 @@ test.describe("Verify main actions working", () => {
       .click({ force: true });
     await page.getByRole("link", { name: inputValues.post.title }).click();
 
-    // delete blog post by removing the author and category reference first
+    // delete blog post by removing the author and category references first
     await page
       .getByTestId("field-authors")
       .getByRole("button")
@@ -215,24 +215,36 @@ test.describe("Verify main actions working", () => {
         .filter({ hasText: "Just now" })
     ).toBeVisible({ timeout: 150_000 });
     await page.getByTestId("action-[object Object]").click({ force: true });
-    await page.getByTestId("action-menu-button").click({ force: true });
-    await page.getByTestId("action-Delete").click({ force: true });
-    await page.getByTestId("confirm-delete-button").click({ force: true });
     await expect(
       page
-        .locator('[data-testid="review-changes-button"]')
-        .filter({ hasText: "Just now" })
+        .locator('[id="__next"]')
+        .getByRole("alert")
+        .locator("div")
+        .filter({ hasText: "The document was published" })
+        .nth(1)
     ).toBeVisible({ timeout: 150_000 });
-    await page.getByTestId("action-[object Object]").click({ force: true });
+    await expect(
+      page.getByRole("button", { name: "Last published just now" })
+    ).toBeVisible({ timeout: 150_000 });
+
+    // delete blog post
     await page.getByTestId("action-menu-button").click({ force: true });
     await page.getByTestId("action-Delete").click({ force: true });
     await expect(page.getByText("Delete document?")).toBeVisible({
-      timeout: 120_000,
-    });
-    await page.getByTestId("confirm-delete-button").click({ force: true });
-    await expect(page.getByText("The document was successfully")).toBeVisible({
       timeout: 150_000,
     });
+    await expect(
+      page.getByTestId("loading-container").getByRole("img")
+    ).toBeVisible({ timeout: 150_000 });
+    await page.getByTestId("confirm-delete-button").click({ force: true });
+    await expect(
+      page
+        .locator('[id="__next"]')
+        .getByRole("alert")
+        .locator("div")
+        .filter({ hasText: "The document was successfully" })
+        .nth(1)
+    ).toBeVisible({ timeout: 150_000 });
 
     // delete author
     await page.getByRole("link", { name: "Blog" }).click({ force: true });
@@ -240,15 +252,27 @@ test.describe("Verify main actions working", () => {
     await page
       .getByRole("link", { name: inputValues.author.name })
       .click({ force: true });
+    await expect(page.getByText("Loading document")).toBeHidden();
+    await expect(
+      page.getByTestId("field-name").getByTestId("string-input")
+    ).toHaveValue(inputValues.author.name);
     await page.getByTestId("action-menu-button").click({ force: true });
     await page.getByTestId("action-Delete").click({ force: true });
     await expect(page.getByText("Delete document?")).toBeVisible({
-      timeout: 120_000,
-    });
-    await page.getByTestId("confirm-delete-button").click({ force: true });
-    await expect(page.getByText("The document was successfully")).toBeVisible({
       timeout: 150_000,
     });
+    await expect(
+      page.getByTestId("loading-container").getByRole("img")
+    ).toBeVisible({ timeout: 150_000 });
+    await page.getByTestId("confirm-delete-button").click({ force: true });
+    await expect(
+      page
+        .locator('[id="__next"]')
+        .getByRole("alert")
+        .locator("div")
+        .filter({ hasText: "The document was successfully" })
+        .nth(1)
+    ).toBeVisible({ timeout: 150_000 });
 
     // delete category
     await page.getByRole("link", { name: "Blog" }).click({ force: true });
@@ -256,14 +280,26 @@ test.describe("Verify main actions working", () => {
     await page
       .getByRole("link", { name: inputValues.category.title })
       .click({ force: true });
+    await expect(page.getByText("Loading document")).toBeHidden();
+    await expect(page.getByTestId("string-input")).toHaveValue(
+      inputValues.category.title
+    );
     await page.getByTestId("action-menu-button").click({ force: true });
     await page.getByTestId("action-Delete").click({ force: true });
     await expect(page.getByText("Delete document?")).toBeVisible({
-      timeout: 120_000,
-    });
-    await page.getByTestId("confirm-delete-button").click({ force: true });
-    await expect(page.getByText("The document was successfully")).toBeVisible({
       timeout: 150_000,
     });
+    await expect(
+      page.getByTestId("loading-container").getByRole("img")
+    ).toBeVisible({ timeout: 150_000 });
+    await page.getByTestId("confirm-delete-button").click({ force: true });
+    await expect(
+      page
+        .locator('[id="__next"]')
+        .getByRole("alert")
+        .locator("div")
+        .filter({ hasText: "The document was successfully" })
+        .nth(1)
+    ).toBeVisible({ timeout: 150_000 });
   });
 });
