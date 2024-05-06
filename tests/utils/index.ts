@@ -3,13 +3,16 @@ import {
   NEXT_PUBLIC_SANITY_STUDIO_URL,
   NEXT_PUBLIC_SITE_URL,
 } from "studio/config";
-import { nanoid } from "nanoid";
+import { customAlphabet } from "nanoid";
 
 export const newPageTitle = (text = "New Page") => {
   let title: string;
 
-  const uniqueKey = nanoid(4);
-  title = text + uniqueKey;
+  const nanoidAlphabet =
+    "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  const nanoid = customAlphabet(nanoidAlphabet, 4);
+
+  title = text + nanoid();
 
   return title;
 };
