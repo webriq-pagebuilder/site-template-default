@@ -38,7 +38,7 @@ const commonFieldValues = {
   logoAltText: "App Promo logo",
 };
 
-test.describe.configure({ timeout: 1_000_000, mode: "serial" });
+test.describe.configure({ timeout: 1_000_000, mode: "parallel" });
 appPromoVariantTests.forEach((variants, index) => {
   const { name, title, label, variant } = variants;
   const pageTitle = newPageTitle(title);

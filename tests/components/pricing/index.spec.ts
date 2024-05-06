@@ -114,7 +114,7 @@ const commonFieldValues = {
   externalLinkUrl: "https://facebook.com",
 };
 
-test.describe.configure({ timeout: 1_000_000, mode: "serial" });
+test.describe.configure({ timeout: 1_000_000, mode: "parallel" });
 
 pricingVariantTest.forEach((variants, index) => {
   const { name, title, label, variant, isInternalLink } = variants;

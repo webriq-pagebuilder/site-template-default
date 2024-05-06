@@ -65,7 +65,7 @@ const commonFieldValues = {
   internalLinkUrl: `${NEXT_PUBLIC_SITE_URL}/thank-you/`,
 };
 
-test.describe.configure({ timeout: 1_500_000, mode: "serial" });
+test.describe.configure({ timeout: 1_500_000, mode: "parallel" });
 
 headersVariantTest.forEach((variants, index) => {
   const { name, title, label, variant, isInternalLink } = variants;

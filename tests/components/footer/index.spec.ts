@@ -74,7 +74,7 @@ const footerVariantTest = [
   },
 ];
 
-test.describe.configure({ timeout: 1_500_000, mode: "serial" });
+test.describe.configure({ timeout: 1_500_000, mode: "parallel" });
 
 footerVariantTest.forEach((variants, index) => {
   const { name, title, label, variant, linkNames, isInternalLink } = variants;

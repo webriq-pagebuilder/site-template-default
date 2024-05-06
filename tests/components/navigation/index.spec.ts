@@ -78,7 +78,7 @@ const navigationVariantTest = [
   },
 ];
 
-test.describe.configure({ timeout: 1_200_000, mode: "serial" });
+test.describe.configure({ timeout: 1_200_000, mode: "parallel" });
 
 navigationVariantTest.forEach((variants, index) => {
   const { name, title, label, variant, linkNames, isInternalLink } = variants;

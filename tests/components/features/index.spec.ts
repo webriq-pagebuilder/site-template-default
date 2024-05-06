@@ -79,7 +79,7 @@ const commonFieldValues = {
   primaryButtonLabel: "Features Primary",
 };
 
-test.describe.configure({ timeout: 1_200_000, mode: "serial" });
+test.describe.configure({ timeout: 1_200_000, mode: "parallel" });
 
 featuresVariantTests?.forEach((variants, index) => {
   const { name, title, label, variant } = variants;

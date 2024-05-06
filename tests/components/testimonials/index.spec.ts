@@ -70,7 +70,7 @@ const commonFieldValues = [
   },
 ];
 
-test.describe.configure({ timeout: 1_000_000, mode: "serial" });
+test.describe.configure({ timeout: 1_000_000, mode: "parallel" });
 
 testimonialVariantTest.forEach((variants, index) => {
   const { name, title, label, variant } = variants;

@@ -70,7 +70,7 @@ const commonFieldValues = {
   ],
 };
 
-test.describe.configure({ timeout: 1_200_000, mode: "serial" });
+test.describe.configure({ timeout: 1_200_000, mode: "parallel" });
 
 portfolioVariantTest.forEach((variants, index) => {
   const { name, title, label, variant, isInternalLink } = variants;

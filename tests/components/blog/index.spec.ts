@@ -86,7 +86,7 @@ const commonFieldValues = {
   categories: ["TRAVEL", "Culture", "Engineering"],
 };
 
-test.describe.configure({ timeout: 1_000_000, mode: "serial" });
+test.describe.configure({ timeout: 1_000_000, mode: "parallel" });
 
 blogVariantTest.forEach((variants, index) => {
   const { name, title, label, variant, isInternalLink } = variants;

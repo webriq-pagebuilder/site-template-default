@@ -38,7 +38,7 @@ const commonFieldValues = {
   thirdContent: "Third Content Test",
 };
 
-test.describe.configure({ timeout: 600_000, mode: "serial" });
+test.describe.configure({ timeout: 600_000, mode: "parallel" });
 
 textVariantTest.forEach((variants, index) => {
   const { name, title, label, variant } = variants;

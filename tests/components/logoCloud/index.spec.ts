@@ -52,7 +52,7 @@ const commonFieldValues = {
   internalLinkUrl: `${NEXT_PUBLIC_SITE_URL}/thank-you/`,
 };
 
-test.describe.configure({ timeout: 600_000, mode: "serial" });
+test.describe.configure({ timeout: 600_000, mode: "parallel" });
 
 logoCloudVariantTest.forEach((variants, index) => {
   const { name, title, label, variant, isInternalLink } = variants;

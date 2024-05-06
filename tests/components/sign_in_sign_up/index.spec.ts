@@ -76,7 +76,7 @@ const signInSignupVariantTest = [
   },
 ];
 
-test.describe.configure({ timeout: 1_000_000, mode: "serial" });
+test.describe.configure({ timeout: 1_000_000, mode: "parallel" });
 
 signInSignupVariantTest.forEach((variants, index) => {
   const { name, title, label, variant, isInternalLink, linkNames } = variants;

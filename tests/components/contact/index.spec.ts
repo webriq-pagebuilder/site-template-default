@@ -84,7 +84,7 @@ const commonFieldValues = {
   formBlock: "I agree to all the terms and conditions",
 };
 
-test.describe.configure({ timeout: 1_000_000, mode: "serial" });
+test.describe.configure({ timeout: 1_000_000, mode: "parallel" });
 
 contactVariantTests?.forEach((variant, index) => {
   test.describe(`${variant.name}`, () => {

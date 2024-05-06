@@ -54,7 +54,7 @@ const commonFieldValues = {
   cookiePolicy: "Cookie Policy Input Test",
 };
 
-test.describe.configure({ timeout: 600_000, mode: "serial" });
+test.describe.configure({ timeout: 600_000, mode: "parallel" });
 
 faqsVariantTest.forEach((variants, index) => {
   const { name, title, label, variant } = variants;
