@@ -303,13 +303,15 @@ test.describe("Main Workflow", () => {
     // await deletePageVariant(page, duplicatePageName, variantLabel);
     await navigateToPage(page);
     await page.getByPlaceholder("Search list").click({ force: true });
-    await page.getByPlaceholder("Search list").fill(pageTitle);
-    await page.waitForSelector(`a:has-text("${pageTitle}")`, {
+    await page.getByPlaceholder("Search list").fill(duplicatePageName);
+    await page.waitForSelector(`a:has-text("${duplicatePageName}")`, {
       state: "visible",
     });
 
-    await page.getByRole("link", { name: pageTitle }).click({ force: true });
-    await page.waitForSelector(`a:has-text("${pageTitle}")`, {
+    await page
+      .getByRole("link", { name: duplicatePageName })
+      .click({ force: true });
+    await page.waitForSelector(`a:has-text("${duplicatePageName}")`, {
       state: "visible",
     });
     await page.getByLabel("Clear").click({ force: true });
@@ -329,7 +331,9 @@ test.describe("Main Workflow", () => {
         .filter({ hasText: "The document was successfully" })
         .nth(1)
     ).toBeVisible();
-    await expect(page.getByRole("link", { name: pageTitle })).toBeHidden({
+    await expect(
+      page.getByRole("link", { name: duplicatePageName })
+    ).toBeHidden({
       timeout: 150000,
     });
   });
