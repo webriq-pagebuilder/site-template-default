@@ -14,16 +14,10 @@ const defaultSchemas = [...baseSchemaArray, ...blogSchemaArray];
 const allSchemas = mergeReplaceAndAdd(defaultSchemas, commerceSchemaArray); // with C-Studio schema
 
 // uncomment the block of code below if we have custom components
-/**
- *
- * import customSchema from "./custom";
- * const updatedSchemaArray = Object.values(customSchema);
- *
- * const updatedSchemas = mergeReplaceAndAdd(allSchemas, updatedSchemaArray);
- *
- * export const schemaTypes = [pages, ...updatedSchemas];
- *
- */
+import customSchema from "./custom";
+const updatedSchemaArray = Object.values(customSchema);
+const updatedSchemas = mergeReplaceAndAdd(allSchemas, updatedSchemaArray);
+export const schemaTypes = [pages, ...updatedSchemas];
 
 // NOTE: COMMENT THIS LINE IF WE HAVE CUSTOM COMPONENTS
-export const schemaTypes = [pages, ...allSchemas];
+// export const schemaTypes = [pages, ...allSchemas];
