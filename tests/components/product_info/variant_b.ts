@@ -54,9 +54,7 @@ async function assertPageContent(openUrlPage, pageTitle, commonFieldValues) {
     .getByRole("link", { name: "View Wishlist" })
     .click({ force: true });
 
-  await openUrlPage.waitForTimeout(15000);
-  await assertInternalUrl(openUrlPage, commonFieldValues.wishlistUrl);
-
+  await openUrlPage.waitForLoadState("networkidle");
   //Expect Wishlist
   await expect(
     openUrlPage.locator(`p:has-text("SAMPLE. Black Dress")`)
@@ -68,6 +66,7 @@ async function assertPageContent(openUrlPage, pageTitle, commonFieldValues) {
     ?.replace(/\s+/g, "-")
     .replace(/-+/g, "-");
 
+  await assertInternalUrl(openUrlPage, commonFieldValues.wishlistUrl);
   //Go back to slug page to remove wishlist
   await openUrlPage.goto(`${NEXT_PUBLIC_SITE_URL}/${slug}`);
 
@@ -80,13 +79,13 @@ async function assertPageContent(openUrlPage, pageTitle, commonFieldValues) {
   ).toBeHidden();
 
   await openUrlPage.goto(commonFieldValues.wishlistUrl);
-  await assertInternalUrl(openUrlPage, commonFieldValues.wishlistUrl);
 
   //Expect wishlist empty
   await expect(
     openUrlPage.getByRole("img", { name: "no products on wishlist" })
   ).toBeVisible();
   await expect(openUrlPage.getByText("Wishlist is empty")).toBeVisible();
+  await assertInternalUrl(openUrlPage, commonFieldValues.wishlistUrl);
 
   //Loop links
   for (const links of commonFieldValues.socialLinks) {

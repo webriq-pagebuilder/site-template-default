@@ -50,8 +50,7 @@ export default async function VariantA({ pageTitle, page, commonFieldValues }) {
     .getByRole("link", { name: "View Wishlist" })
     .click({ force: true });
 
-  await openUrlPage.waitForTimeout(15000);
-  await assertInternalUrl(openUrlPage, commonFieldValues.wishlistUrl);
+  await openUrlPage.waitForLoadState("networkidle");
 
   //Expect Wishlist
   await expect(
@@ -64,6 +63,7 @@ export default async function VariantA({ pageTitle, page, commonFieldValues }) {
     ?.replace(/\s+/g, "-")
     .replace(/-+/g, "-");
 
+  await assertInternalUrl(openUrlPage, commonFieldValues.wishlistUrl);
   //Go back to slug page to remove wishlist
   await openUrlPage.goto(`${NEXT_PUBLIC_SITE_URL}/${slug}`);
 
@@ -76,7 +76,6 @@ export default async function VariantA({ pageTitle, page, commonFieldValues }) {
   ).toBeHidden();
 
   await openUrlPage.goto(commonFieldValues.wishlistUrl);
-  await assertInternalUrl(openUrlPage, commonFieldValues.wishlistUrl);
 
   //Expect wishlist empty
   await expect(
@@ -84,6 +83,7 @@ export default async function VariantA({ pageTitle, page, commonFieldValues }) {
   ).toBeVisible();
   await expect(openUrlPage.getByText("Wishlist is empty")).toBeVisible();
 
+  await assertInternalUrl(openUrlPage, commonFieldValues.wishlistUrl);
   //Loop links
   for (const links of commonFieldValues.socialLinks) {
     //Go back to slug page to loop links
