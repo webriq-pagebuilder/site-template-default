@@ -8,9 +8,9 @@ import { customAlphabet } from "nanoid";
 export const newPageTitle = (text = "New Page") => {
   let title: string;
 
-  const nanoidAlphabet =
+  const uniqueKey =
     "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-  const nanoid = customAlphabet(nanoidAlphabet, 4);
+  const nanoid = customAlphabet(uniqueKey, 4);
 
   title = text + nanoid();
 
