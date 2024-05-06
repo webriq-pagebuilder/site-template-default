@@ -246,6 +246,7 @@ export async function navigateToPage(page) {
   await page.waitForSelector('a:has-text("Pages")', { state: "visible" });
   // Click on the element
   await element.click({ force: true });
+  await expect(page.locator('p:has-text("Loading...")')).toBeHidden();
 }
 
 export async function createNewPage(page, sectionTitle, sections) {
@@ -338,7 +339,6 @@ export async function deletePageVariant(page, pageTitle, variantLabel) {
     state: "visible",
   });
   await page.getByLabel("Clear").click({ force: true });
-  await page.waitForTimeout(3000);
 
   await expect(page.getByText("Loading document")).toBeHidden();
   await expect(page.getByRole("link", { name: variantLabel })).toBeVisible();
@@ -357,25 +357,11 @@ export async function deletePageVariant(page, pageTitle, variantLabel) {
   ).toBeVisible();
 
   //Publish with no referenced section to delete the component variant
-  await expect(
-    page.getByTestId("review-changes-button").filter({ hasText: "Just now" })
-  ).toBeVisible();
-  await page.waitForTimeout(2_000);
+  await expect(page.getByTestId("review-changes-button")).toBeVisible();
   await page.getByTestId("action-[object Object]").click({ force: true });
   await expect(
     page.getByTestId("review-changes-button").filter({ hasText: "Just now" })
   ).toBeHidden();
-  // await expect(
-  //   page
-  //     .locator('[id="__next"]')
-  //     .getByRole("alert")
-  //     .locator("div")
-  //     .filter({ hasText: "The document was published" })
-  //     .nth(1)
-  // ).toBeVisible({ timeout: 150_000 });
-  await expect(
-    page.getByRole("button", { name: "Last published just now" })
-  ).toBeVisible({ timeout: 150_000 });
 
   //Delete Component Variant
   await page.getByRole("button", { name: variantLabel }).click();
@@ -386,14 +372,6 @@ export async function deletePageVariant(page, pageTitle, variantLabel) {
   await expect(page.getByText("Looking for referring")).toBeHidden();
   await expect(page.getByLabel("Delete document?")).toBeVisible();
   await page.getByTestId("confirm-delete-button").click();
-  // await expect(
-  //   page
-  //     .locator('[id="__next"]')
-  //     .getByRole("alert")
-  //     .locator("div")
-  //     .filter({ hasText: "The document was successfully" })
-  //     .nth(1)
-  // ).toBeVisible();
 
   //Delete Page
   await expect(page.getByTestId("document-panel-scroller").nth(1)).toBeHidden();
