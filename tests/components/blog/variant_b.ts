@@ -127,11 +127,12 @@ async function assertPageContent(openUrlPage, blog, commonFieldValues, button) {
 
   await button.click({ force: true });
   await openUrlPage.waitForLoadState("networkidle");
-  await assertInternalUrl(openUrlPage, `${NEXT_PUBLIC_SITE_URL}/${blog.slug}`);
   await expect(
     openUrlPage.getByRole("heading", { name: blog.title })
   ).toBeVisible({ timeout: 150_000 });
   await expect(
     openUrlPage.locator(`span:has-text("${blog.publishedAt}")`)
   ).toBeVisible({ timeout: 150_000 });
+
+  await assertInternalUrl(openUrlPage, `${NEXT_PUBLIC_SITE_URL}/${blog.slug}`);
 }
