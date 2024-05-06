@@ -27,7 +27,7 @@ test.describe("Main Workflow", () => {
     await page
       .getByTestId("field-label")
       .getByTestId("string-input")
-      .fill("Navigation New Page Variant A");
+      .fill(variantLabel);
 
     await page
       .getByTestId("field-variant")
@@ -299,47 +299,12 @@ test.describe("Main Workflow", () => {
     }
   });
 
-  test("Delete Duplicate Page", async ({ page }) => {
-    // await deletePageVariant(page, duplicatePageName, variantLabel);
-    await navigateToPage(page);
-    await page.getByPlaceholder("Search list").click({ force: true });
-    await page.getByPlaceholder("Search list").fill(duplicatePageName);
-    await page.waitForSelector(`a:has-text("${duplicatePageName}")`, {
-      state: "visible",
-    });
-
-    await page
-      .getByRole("link", { name: duplicatePageName })
-      .click({ force: true });
-    await page.waitForSelector(`a:has-text("${duplicatePageName}")`, {
-      state: "visible",
-    });
-    await page.getByLabel("Clear").click({ force: true });
-    await page.waitForTimeout(3000);
-
-    await expect(page.getByText("Loading document")).toBeHidden({
-      timeout: 150000,
-    });
-    await page.getByTestId("action-menu-button").click({ force: true });
-    await page.getByTestId("action-Delete").click();
-    await page.getByTestId("confirm-delete-button").click();
-    await expect(
-      page
-        .locator('[id="__next"]')
-        .getByRole("alert")
-        .locator("div")
-        .filter({ hasText: "The document was successfully" })
-        .nth(1)
-    ).toBeVisible();
-    await expect(
-      page.getByRole("link", { name: duplicatePageName })
-    ).toBeHidden({
-      timeout: 150000,
-    });
+  test("Delete Published Page", async ({ page }) => {
+    await deletePublishedPage(page);
   });
 
-  test("Delete Published Page", async ({ page }) => {
-    await deletePageVariant(page, pageTitle, variantLabel);
+  test("Delete Duplicate Page", async ({ page }) => {
+    await deletePageVariant(page, duplicatePageName, variantLabel);
   });
 });
 
@@ -363,3 +328,43 @@ test("See Current Version", async ({ page }) => {
     page.getByRole("button", { name: "Help Guide & Version" })
   ).toBeVisible();
 });
+
+async function deletePublishedPage(page) {
+  await navigateToPage(page);
+  await page.getByPlaceholder("Search list").click({ force: true });
+  await page.getByPlaceholder("Search list").fill(pageTitle);
+  await page.waitForSelector(`a:has-text("${pageTitle}")`, {
+    state: "visible",
+  });
+
+  await page.getByRole("link", { name: pageTitle }).click({ force: true });
+  await page.waitForSelector(`a:has-text("${pageTitle}")`, {
+    state: "visible",
+  });
+  await page.getByLabel("Clear").click({ force: true });
+  await page.waitForTimeout(3000);
+
+  await expect(page.getByText("Loading document")).toBeHidden();
+  await expect(
+    page
+      .locator("div")
+      .filter({ hasText: /^No items$/ })
+      .nth(3)
+  ).toBeVisible();
+
+  //Delete Page
+  await page.locator('button[data-testid="action-menu-button"]').click();
+  await page.getByTestId("action-Delete").click();
+  await page.getByTestId("confirm-delete-button").click();
+  await expect(
+    page
+      .locator('[id="__next"]')
+      .getByRole("alert")
+      .locator("div")
+      .filter({ hasText: "The document was successfully" })
+      .nth(1)
+  ).toBeVisible();
+  await expect(page.getByRole("link", { name: pageTitle })).toBeHidden({
+    timeout: 150000,
+  });
+}
