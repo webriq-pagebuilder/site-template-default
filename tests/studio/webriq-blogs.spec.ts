@@ -1,35 +1,31 @@
 import { test, expect } from "@playwright/test";
-import { newPageTitle, expectDocumentPublished } from "tests/utils";
+import { newPageTitle } from "tests/utils";
 import {
   NEXT_PUBLIC_SITE_URL,
   NEXT_PUBLIC_SANITY_STUDIO_URL,
 } from "studio/config";
+import { format } from "date-fns";
+
+const inputValues = {
+  author: {
+    name: newPageTitle("New Author "),
+    bio: "This is a sample author bio.",
+  },
+  category: {
+    title: newPageTitle("New Category "),
+    description: "This is a sample category.",
+  },
+  post: {
+    title: newPageTitle("New Blog "),
+    excerpt: "Sample excerpt",
+    body: "This is a sample blog post content.",
+  },
+};
 
 test.describe("Verify main actions working", () => {
   test.describe.configure({ timeout: 900_000, mode: "serial" });
 
-  const currentDate = new Date();
-  const publishedAt = currentDate.toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-  });
-
-  const inputValues = {
-    author: {
-      name: newPageTitle("New Author "),
-      bio: "This is a sample author bio.",
-    },
-    category: {
-      title: newPageTitle("New Category "),
-      description: "This is a sample category.",
-    },
-    post: {
-      title: newPageTitle("New Blog "),
-      excerpt: "Sample excerpt",
-      body: "This is a sample blog post content.",
-    },
-  };
+  const publishedAt = format(new Date(), "MMMM dd, yyyy");
 
   test.beforeEach(async ({ page }) => {
     await page.goto(`${NEXT_PUBLIC_SANITY_STUDIO_URL}`);
@@ -49,10 +45,23 @@ test.describe("Verify main actions working", () => {
     await page.getByLabel("Bio").fill(inputValues.author.bio);
 
     // publish document
+    await expect(
+      page
+        .locator('[data-testid="review-changes-button"]')
+        .filter({ hasText: "Just now" })
+    ).toBeVisible({ timeout: 150_000 });
     await page.getByTestId("action-[object Object]").click({ force: true });
     await expect(
-      page.locator("[aria-label='Last published just now']").first()
-    ).toBeVisible({ timeout: 300_000 });
+      page
+        .locator('[id="__next"]')
+        .getByRole("alert")
+        .locator("div")
+        .filter({ hasText: "The document was published" })
+        .nth(1)
+    ).toBeVisible({ timeout: 150_000 });
+    await expect(
+      page.getByRole("button", { name: "Last published just now" })
+    ).toBeVisible({ timeout: 150_000 });
   });
 
   test("Create category page", async ({ page }) => {
@@ -66,10 +75,23 @@ test.describe("Verify main actions working", () => {
     await page.getByLabel("Description").fill(inputValues.category.description);
 
     // publish document
+    await expect(
+      page
+        .locator('[data-testid="review-changes-button"]')
+        .filter({ hasText: "Just now" })
+    ).toBeVisible({ timeout: 150_000 });
     await page.getByTestId("action-[object Object]").click({ force: true });
     await expect(
-      page.locator("[aria-label='Last published just now']").first()
-    ).toBeVisible({ timeout: 300_000 });
+      page
+        .locator('[id="__next"]')
+        .getByRole("alert")
+        .locator("div")
+        .filter({ hasText: "The document was published" })
+        .nth(1)
+    ).toBeVisible({ timeout: 150_000 });
+    await expect(
+      page.getByRole("button", { name: "Last published just now" })
+    ).toBeVisible({ timeout: 150_000 });
   });
 
   test("Create blog page", async ({ page }) => {
@@ -109,98 +131,139 @@ test.describe("Verify main actions working", () => {
       .getByRole("button", { name: inputValues.category.title })
       .click({ force: true });
 
-    await page.getByTestId("date-input").click();
-    await page.getByTestId("select-date-button").click();
+    await page.getByTestId("select-date-button").click({ force: true });
     await page
       .getByRole("button", { name: "Set to current time" })
       .click({ force: true });
-    await page.getByTestId("select-date-button").click();
+    await page.getByTestId("select-date-button").click({ force: true });
+
     await page.getByText("Click to activate").click({ force: true });
     await page
       .getByTestId("scroll-container")
       .getByRole("textbox")
       .fill(inputValues.post.body);
 
-    // check site preview now all created pages are linked
-    // const pagePromise = page.waitForEvent("popup");
-    // await page.getByText(`${NEXT_PUBLIC_SITE_URL}`).click({ force: true });
-    // const openUrlPage = await pagePromise;
+    await expect(page.getByLabel("Validation")).toBeHidden({
+      timeout: 150_000,
+    });
+    await expect(
+      page
+        .locator('[data-testid="review-changes-button"]')
+        .filter({ hasText: "Just now" })
+    ).toBeVisible({ timeout: 150_000 });
+    await page.getByTestId("action-[object Object]").click({ force: true });
+    await expect(
+      page
+        .locator('[id="__next"]')
+        .getByRole("alert")
+        .locator("div")
+        .filter({ hasText: "The document was published" })
+        .nth(1)
+    ).toBeVisible({ timeout: 150_000 });
+    await expect(
+      page.getByRole("button", { name: "Last published just now" })
+    ).toBeVisible({ timeout: 150_000 });
 
-    // await expect(page.locator('[id="__next"]')).toContainText(
-    //   inputValues.category.title
-    // );
-    // await expect(page.locator('[id="__next"]')).toContainText(publishedAt);
-    // await expect(openUrlPage.locator("h3")).toContainText(
-    //   inputValues.author.name
-    // );
-    // await expect(
-    //   openUrlPage.getByText("Author", { exact: true })
-    // ).toBeVisible();
-    // await expect(
-    //   openUrlPage
-    //     .locator("section")
-    //     .filter({ hasText: `${inputValues.category.title}•` })
-    //     .getByRole("img")
-    // ).toBeVisible();
-    // await expect(page.locator('[id="__next"]')).toContainText(
-    //   inputValues.post.body
-    // );
+    // check site preview now all created pages are linked
+    const blogPage = page.waitForEvent("popup");
+    await page.getByText(`${NEXT_PUBLIC_SITE_URL}/new-`).click({ force: true });
+    const blogPagePreview = await blogPage;
+
+    await expect(blogPagePreview.locator("h1")).toContainText(
+      inputValues.post.title
+    );
+    await expect(
+      blogPagePreview.getByText(inputValues.category.title.toUpperCase())
+    ).toBeVisible();
+    console.log("publishedAt: ", publishedAt);
+    await expect(blogPagePreview.locator('[id="__next"]')).toContainText(
+      publishedAt
+    );
+    await expect(blogPagePreview.locator("h3")).toContainText(
+      inputValues.author.name
+    );
+    await expect(
+      blogPagePreview.getByText("Author", { exact: true })
+    ).toBeVisible();
+    await expect(blogPagePreview.locator('[id="__next"]')).toContainText(
+      inputValues.post.body
+    );
   });
 
-  test.fixme("Delete created author, category and post", async ({ page }) => {
+  test("Delete author, category and post pages", async ({ page }) => {
     await page
       .getByRole("tab", { name: "Posts", exact: true })
       .click({ force: true });
     await page.getByRole("link", { name: inputValues.post.title }).click();
 
-    const authorRef = await page
+    // delete blog post by removing the author and category reference first
+    await page
+      .getByTestId("field-authors")
+      .getByRole("button")
+      .nth(1)
+      .click({ force: true });
+    await page.getByRole("menuitem", { name: "Remove" }).click({ force: true });
+    await page
+      .getByTestId("field-categories")
+      .getByRole("button")
+      .nth(1)
+      .click({ force: true });
+    await page.getByRole("menuitem", { name: "Remove" }).click({ force: true });
+    await expect(
+      page
+        .locator('[data-testid="review-changes-button"]')
+        .filter({ hasText: "Just now" })
+    ).toBeVisible({ timeout: 150_000 });
+    await page.getByTestId("action-[object Object]").click({ force: true });
+    await page.getByTestId("action-menu-button").click({ force: true });
+    await page.getByTestId("action-Delete").click({ force: true });
+    await page.getByTestId("confirm-delete-button").click({ force: true });
+    await expect(
+      page
+        .locator('[data-testid="review-changes-button"]')
+        .filter({ hasText: "Just now" })
+    ).toBeVisible({ timeout: 150_000 });
+    await page.getByTestId("action-[object Object]").click({ force: true });
+    await page.getByTestId("action-menu-button").click({ force: true });
+    await page.getByTestId("action-Delete").click({ force: true });
+    await expect(page.getByText("Delete document?")).toBeVisible({
+      timeout: 120_000,
+    });
+    await page.getByTestId("confirm-delete-button").click({ force: true });
+    await expect(page.getByText("The document was successfully")).toBeVisible({
+      timeout: 150_000,
+    });
+
+    // delete author
+    await page.getByRole("link", { name: "Blog" }).click({ force: true });
+    await page.getByRole("tab", { name: "Authors" }).click({ force: true });
+    await page
       .getByRole("link", { name: inputValues.author.name })
-      .count();
-    const categoryRef = await page
+      .click({ force: true });
+    await page.getByTestId("action-menu-button").click({ force: true });
+    await page.getByTestId("action-Delete").click({ force: true });
+    await expect(page.getByText("Delete document?")).toBeVisible({
+      timeout: 120_000,
+    });
+    await page.getByTestId("confirm-delete-button").click({ force: true });
+    await expect(page.getByText("The document was successfully")).toBeVisible({
+      timeout: 150_000,
+    });
+
+    // delete category
+    await page.getByRole("link", { name: "Blog" }).click({ force: true });
+    await page.getByRole("tab", { name: "Categories" }).click({ force: true });
+    await page
       .getByRole("link", { name: inputValues.category.title })
-      .count();
-
-    if (authorRef > 0) {
-      await page
-        .getByTestId("field-authors")
-        .getByRole("button")
-        .nth(1)
-        .click();
-      await page.getByRole("menuitem", { name: "Remove" }).click();
-    }
-
-    if (categoryRef > 0) {
-      await page
-        .getByTestId("field-categories")
-        .getByRole("button")
-        .nth(1)
-        .click();
-      await page.getByRole("menuitem", { name: "Remove" }).click();
-    }
-
-    await page.getByTestId("action-[object Object]").click();
-    await page.getByTestId("action-menu-button").click();
-    await page.getByTestId("action-Delete").click();
-    await expect(page.getByText("Delete document?")).toBeVisible();
-    await page.getByTestId("confirm-delete-button").click();
-    await expect(page.getByText("The document was successfully")).toBeVisible();
-
-    await page.getByRole("link", { name: "Blog" }).click();
-    await page.getByRole("tab", { name: "Authors" }).click();
-    await page.getByRole("link", { name: inputValues.author.name }).click();
-    await page.getByTestId("action-menu-button").click();
-    await page.getByTestId("action-Delete").click();
-    await expect(page.getByText("Delete document?")).toBeVisible();
-    await page.getByTestId("confirm-delete-button").click();
-    await expect(page.getByText("The document was successfully")).toBeVisible();
-
-    await page.getByRole("link", { name: "Blog" }).click();
-    await page.getByRole("tab", { name: "Categories" }).click();
-    await page.getByRole("link", { name: inputValues.category.title }).click();
-    await page.getByTestId("action-menu-button").click();
-    await page.getByTestId("action-Delete").click();
-    await expect(page.getByText("Delete document?")).toBeVisible();
-    await page.getByTestId("confirm-delete-button").click();
-    await expect(page.getByText("The document was successfully")).toBeVisible();
+      .click({ force: true });
+    await page.getByTestId("action-menu-button").click({ force: true });
+    await page.getByTestId("action-Delete").click({ force: true });
+    await expect(page.getByText("Delete document?")).toBeVisible({
+      timeout: 120_000,
+    });
+    await page.getByTestId("confirm-delete-button").click({ force: true });
+    await expect(page.getByText("The document was successfully")).toBeVisible({
+      timeout: 150_000,
+    });
   });
 });
