@@ -360,7 +360,9 @@ export async function deletePageVariant(page, pageTitle, variantLabel) {
   ).toBeVisible();
 
   //Publish with no referenced section to delete the component variant
-  await expect(page.getByTestId("review-changes-button")).toBeVisible();
+  await expect(
+    page.getByTestId("review-changes-button").filter({ hasText: "Just now" })
+  ).toBeVisible();
   await page.getByTestId("action-[object Object]").click({ force: true });
   await expect(
     page.getByTestId("review-changes-button").filter({ hasText: "Just now" })
@@ -381,14 +383,10 @@ export async function deletePageVariant(page, pageTitle, variantLabel) {
   await page.locator('button[data-testid="action-menu-button"]').click();
   await page.getByTestId("action-Delete").click();
   await page.getByTestId("confirm-delete-button").click();
+
   await expect(
-    page
-      .locator('[id="__next"]')
-      .getByRole("alert")
-      .locator("div")
-      .filter({ hasText: "The document was successfully" })
-      .nth(1)
-  ).toBeVisible();
+    page.getByTestId("document-panel-scroller").first()
+  ).toBeHidden();
   await expect(page.getByRole("link", { name: pageTitle })).toBeHidden({
     timeout: 150000,
   });
