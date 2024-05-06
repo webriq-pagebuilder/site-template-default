@@ -163,8 +163,14 @@ test.describe("Verify main actions working", () => {
     await expect(
       page.getByRole("button", { name: "Last published just now" })
     ).toBeVisible({ timeout: 150_000 });
+  });
 
-    // check site preview now all created pages are linked
+  test("Check site preview", async ({ page }) => {
+    await page
+      .getByRole("tab", { name: "Posts", exact: true })
+      .click({ force: true });
+    await page.getByRole("link", { name: inputValues.post.title }).click();
+
     const blogPage = page.waitForEvent("popup");
     await page.getByText(`${NEXT_PUBLIC_SITE_URL}/new-`).click({ force: true });
     const blogPagePreview = await blogPage;
