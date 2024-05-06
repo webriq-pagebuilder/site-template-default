@@ -39,7 +39,6 @@ async function assertPageContent(openUrlPage, product, commonFieldValues) {
   await expect(openUrlPage.getByText(product.price)).toBeVisible();
   await openUrlPage.getByRole("link", { name: product.name }).click();
   await openUrlPage.waitForLoadState("networkidle");
-  await assertInternalUrl(openUrlPage, product.link);
   await expect(
     openUrlPage.getByRole("heading", { name: product.name })
   ).toBeVisible();
@@ -49,6 +48,7 @@ async function assertPageContent(openUrlPage, product, commonFieldValues) {
     openUrlPage.locator(`p:has-text("${formattedPrice}")`)
   ).toBeVisible();
 
+  await assertInternalUrl(openUrlPage, product.link);
   for (const links of commonFieldValues.socialLinks) {
     const page6Promise = openUrlPage.waitForEvent("popup");
     await openUrlPage

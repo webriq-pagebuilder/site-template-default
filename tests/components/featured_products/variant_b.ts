@@ -30,7 +30,7 @@ async function assertPageContent(openUrlPage, product, commonFieldValues) {
   await expect(
     openUrlPage.getByRole("heading", { name: "All Products" })
   ).toBeVisible();
-  await openUrlPage.waitForSelector(`p:has-text("${product.name}")`, {
+  await openUrlPage.waitForSelector(`a:has-text("${product.name}")`, {
     state: "visible",
   });
   await expect(
@@ -39,11 +39,11 @@ async function assertPageContent(openUrlPage, product, commonFieldValues) {
   await expect(openUrlPage.getByText(product.price)).toBeVisible();
   await openUrlPage.getByRole("link", { name: product.name }).click();
   await openUrlPage.waitForLoadState("networkidle");
-  await assertInternalUrl(openUrlPage, product.link);
   await expect(
     openUrlPage.getByRole("heading", { name: product.name })
   ).toBeVisible();
 
+  await assertInternalUrl(openUrlPage, product.link);
   const formattedPrice = product.price.replace(".00", ""); // Remove '.00'
   await expect(
     openUrlPage.locator(`p:has-text("${formattedPrice}")`)
