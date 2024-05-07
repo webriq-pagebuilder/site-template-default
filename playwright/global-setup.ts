@@ -7,22 +7,31 @@ async function globalSetup(config: FullConfig) {
   console.log("🚀 [INFO] baseURL:", baseURL);
 
   const browser = await chromium.launch();
+  const context = await browser.newContext();
   const page = await browser.newPage();
 
-  await page.goto(baseURL!);
+  try {
+    await page.goto(baseURL!);
 
-  const autologinCredentials = {
-    token: process.env.STUDIO_AUTOLOGIN_TOKEN_FOR_TESTING,
-    projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
-  };
-  console.log("🚀 [INFO] credentials:", autologinCredentials);
+    const autologinCredentials = {
+      token: process.env.STUDIO_AUTOLOGIN_TOKEN_FOR_TESTING,
+      projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
+    };
+    console.log("🚀 [INFO] credentials:", autologinCredentials);
 
-  // Set localStorage needed to autologin
-  await page.evaluate(autologin_studio, autologinCredentials);
+    // Set localStorage needed to autologin
+    await page.evaluate(autologin_studio, autologinCredentials);
 
-  // Save the authentication state to a file
-  await page.context().storageState({ path: authFile });
-  await browser.close();
+    // Save the authentication state to a file
+    await page.context().storageState({ path: authFile });
+    await browser.close();
+  } catch (error) {
+    await context.tracing.stop({
+      path: "./test-results/failed-setup-trace.zip",
+    });
+    await browser.close();
+    throw error;
+  }
 }
 
 function autologin_studio({ token, projectId }) {
