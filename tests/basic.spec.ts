@@ -42,7 +42,7 @@ test.describe("Main Workflow", () => {
     await page.waitForTimeout(5000);
 
     const pagePromise = page.waitForEvent("popup");
-    await page.getByText("http://localhost:3000/new-").click();
+    await page.getByText(`${NEXT_PUBLIC_SITE_URL}`).click();
     const openUrlPage = await pagePromise;
 
     // Wait for the element to become visible or hidden with a longer timeout
@@ -96,6 +96,9 @@ test.describe("Main Workflow", () => {
     await page
       .locator(`input[placeholder="Copy of ${pageTitle}"]`)
       .fill(duplicatePageName);
+
+    //duplicate variant
+    await page.getByLabel(`New Copy for ${variantLabel}`).click();
     const button = page.getByRole("button", { name: "Duplicate" });
     await expect(button).toHaveAttribute("data-disabled", "false");
     await button.click();
@@ -112,8 +115,11 @@ test.describe("Main Workflow", () => {
     await page
       .getByRole("link", { name: duplicatePageName })
       .click({ force: true });
-    await page.waitForTimeout(5000);
-    await page.getByTestId("action-[object Object]").click({ force: true });
+
+    const publishButton = page.locator('button:has-text("Publish")');
+    await expect(publishButton).toHaveAttribute("data-disabled", "false");
+    await publishButton.click();
+
     await expect(page.getByTestId("review-changes-button")).toBeHidden({
       timeout: 150000,
     });
@@ -258,20 +264,39 @@ test.describe("Main Workflow", () => {
       state: "visible",
     });
     await page.getByLabel("Clear").click({ force: true });
-    await page.waitForTimeout(3000);
+
     await expect(page.getByText("Loading document")).toBeHidden({
       timeout: 150000,
     });
+    await expect(page.getByText("Loading document")).toBeHidden();
+    await expect(page.getByRole("link", { name: variantLabel })).toBeVisible();
+    await page.getByRole("link", { name: variantLabel }).click();
+    await page.getByRole("button", { name: pageTitle }).click();
     await page.getByTestId("field-sections").getByRole("button").nth(1).click();
-    await page.getByRole("menuitem", { name: "Remove" }).click();
 
+    //Remove section
+    await expect(page.getByRole("menuitem", { name: "Remove" })).toBeVisible();
+    await page.getByRole("menuitem", { name: "Remove" }).click();
+    await expect(
+      page
+        .locator("div")
+        .filter({ hasText: /^No items$/ })
+        .nth(3)
+    ).toBeVisible();
+
+    //Publish with no referenced section to delete the component variant
     await expect(
       page.getByTestId("review-changes-button").filter({ hasText: "Just now" })
-    ).toBeVisible({ timeout: 150000 });
-    await page.getByTestId("action-[object Object]").click({ force: true });
-    await expect(page.getByTestId("review-changes-button")).toBeHidden({
-      timeout: 150000,
-    });
+    ).toBeVisible();
+    await expect(page.locator('a[target="_blank"]')).toHaveCSS(
+      "color",
+      "rgb(149, 130, 40)"
+    );
+
+    const publishButton = page.locator('button:has-text("Publish")');
+    await expect(publishButton).toHaveAttribute("data-disabled", "false");
+    await publishButton.click();
+
     await expect(
       page
         .locator('[id="__next"]')
@@ -279,8 +304,27 @@ test.describe("Main Workflow", () => {
         .locator("div")
         .filter({ hasText: "The document was published" })
         .nth(1)
-    ).toBeVisible({ timeout: 150000 });
-    await expect(page.getByRole("link", { name: pageTitle })).toBeVisible();
+    ).toBeVisible({ timeout: 150_000 });
+    await expect(
+      page.getByRole("button", { name: "Last published just now" })
+    ).toBeVisible({ timeout: 150_000 });
+    await expect(page.locator('a[target="_blank"]')).toHaveCSS(
+      "color",
+      "rgb(49, 151, 94)"
+    );
+
+    //Delete Component Variant
+    await page.getByRole("button", { name: variantLabel }).click();
+    await expect(page.getByTestId("reference-changed-banner")).toBeVisible();
+    await page.getByRole("button", { name: "Open document actions" }).click();
+    await expect(page.getByTestId("action-Delete")).toBeVisible();
+    await page.getByTestId("action-Delete").click();
+    await expect(page.getByText("Looking for referring")).toBeHidden();
+    await expect(page.getByLabel("Delete document?")).toBeVisible();
+    await page.getByTestId("confirm-delete-button").click();
+    await expect(
+      page.getByTestId("document-panel-scroller").nth(1)
+    ).toBeHidden();
 
     const pagePromise = page.waitForEvent("popup");
     await page.getByText(`${NEXT_PUBLIC_SITE_URL}`).click({ force: true });
@@ -304,7 +348,7 @@ test.describe("Main Workflow", () => {
   });
 
   test("Delete Duplicate Page", async ({ page }) => {
-    await deletePageVariant(page, duplicatePageName, variantLabel);
+    await deletePageVariant(page, duplicatePageName, `Copy of ${variantLabel}`);
   });
 });
 
