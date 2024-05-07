@@ -1,9 +1,5 @@
 import { test, expect } from "@playwright/test";
 import { newPageTitle, expectDocumentPublished } from "tests/utils";
-import {
-  NEXT_PUBLIC_SITE_URL,
-  NEXT_PUBLIC_SANITY_STUDIO_URL,
-} from "studio/config";
 
 test.describe("Verify main actions working", () => {
   test.describe.configure({ timeout: 900_000, mode: "serial" });

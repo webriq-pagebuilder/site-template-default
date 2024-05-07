@@ -8,18 +8,31 @@ jobs:
     if: github.event.deployment_status.state == 'success'
     steps:
       - uses: actions/checkout@v4
+
+      - name: Use Node.js cache
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.npm
+            **/node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
       - uses: actions/setup-node@v4
         with:
           node-version: 18
-      - name: Install dependencies
-        run: yarn install --frozen-lockfile
+          cache: "yarn"
+
+      - run: yarn install --frozen-lockfile
+
       - name: Install Playwright
         run: npx playwright install --with-deps
       - name: Run Playwright tests
         run: npx playwright test
         env:
           PLAYWRIGHT_TEST_BASE_URL: ${{ github.event.deployment_status.target_url }}
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v4
         if: failure()
         with:
           name: playwright-test-results
