@@ -30,6 +30,7 @@ async function assertPageContent(openUrlPage, product, commonFieldValues) {
   await expect(
     openUrlPage.getByRole("heading", { name: "All Products" })
   ).toBeVisible();
+  await openUrlPage.waitForSelector('img[alt*="product-image-0"]');
   await openUrlPage.waitForSelector(`a:has-text("${product.name}")`, {
     state: "visible",
   });
