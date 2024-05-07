@@ -310,7 +310,9 @@ export async function expectDocumentPublished(page, pageTitle) {
     "color",
     "rgb(149, 130, 40)"
   );
-  await page.getByTestId("action-[object Object]").click({ force: true });
+  const publishButton = page.locator('button:has-text("Publish")');
+  await expect(publishButton).toHaveAttribute("data-disabled", "false");
+  await publishButton.click();
   await expect(
     page
       .locator('[id="__next"]')
@@ -363,10 +365,30 @@ export async function deletePageVariant(page, pageTitle, variantLabel) {
   await expect(
     page.getByTestId("review-changes-button").filter({ hasText: "Just now" })
   ).toBeVisible();
-  await page.getByTestId("action-[object Object]").click({ force: true });
+  await expect(page.locator('a[target="_blank"]')).toHaveCSS(
+    "color",
+    "rgb(149, 130, 40)"
+  );
+
+  const publishButton = page.locator('button:has-text("Publish")');
+  await expect(publishButton).toHaveAttribute("data-disabled", "false");
+  await publishButton.click();
+
   await expect(
-    page.getByTestId("review-changes-button").filter({ hasText: "Just now" })
-  ).toBeHidden();
+    page
+      .locator('[id="__next"]')
+      .getByRole("alert")
+      .locator("div")
+      .filter({ hasText: "The document was published" })
+      .nth(1)
+  ).toBeVisible({ timeout: 150_000 });
+  await expect(
+    page.getByRole("button", { name: "Last published just now" })
+  ).toBeVisible({ timeout: 150_000 });
+  await expect(page.locator('a[target="_blank"]')).toHaveCSS(
+    "color",
+    "rgb(49, 151, 94)"
+  );
 
   //Delete Component Variant
   await page.getByRole("button", { name: variantLabel }).click();
