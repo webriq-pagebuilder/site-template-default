@@ -56,7 +56,7 @@ export default async function VariantA({ pageTitle, page, commonFieldValues }) {
   await expect(
     openUrlPage.locator(`p:has-text("SAMPLE. Black Dress")`)
   ).toBeVisible();
-  await expect(openUrlPage.locator(`span:has-text("$110.00")`)).toBeVisible();
+  await expect(openUrlPage.locator(`p:has-text("$110.00")`)).toBeVisible();
 
   const slug = pageTitle
     ?.toLowerCase()
