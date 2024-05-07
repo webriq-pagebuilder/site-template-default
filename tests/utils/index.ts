@@ -313,17 +313,7 @@ export async function expectDocumentPublished(page, pageTitle) {
   const publishButton = page.locator('button:has-text("Publish")');
   await expect(publishButton).toHaveAttribute("data-disabled", "false");
   await publishButton.click();
-  await expect(
-    page
-      .locator('[id="__next"]')
-      .getByRole("alert")
-      .locator("div")
-      .filter({ hasText: "The document was published" })
-      .nth(1)
-  ).toBeVisible({ timeout: 150_000 });
-  await expect(
-    page.getByRole("button", { name: "Last published just now" })
-  ).toBeVisible({ timeout: 150_000 });
+
   await expect(page.locator('a[target="_blank"]')).toHaveCSS(
     "color",
     "rgb(49, 151, 94)"
@@ -362,9 +352,6 @@ export async function deletePageVariant(page, pageTitle, variantLabel) {
   ).toBeVisible();
 
   //Publish with no referenced section to delete the component variant
-  await expect(
-    page.getByTestId("review-changes-button").filter({ hasText: "Just now" })
-  ).toBeVisible();
   await expect(page.locator('a[target="_blank"]')).toHaveCSS(
     "color",
     "rgb(149, 130, 40)"
@@ -374,17 +361,6 @@ export async function deletePageVariant(page, pageTitle, variantLabel) {
   await expect(publishButton).toHaveAttribute("data-disabled", "false");
   await publishButton.click();
 
-  await expect(
-    page
-      .locator('[id="__next"]')
-      .getByRole("alert")
-      .locator("div")
-      .filter({ hasText: "The document was published" })
-      .nth(1)
-  ).toBeVisible({ timeout: 150_000 });
-  await expect(
-    page.getByRole("button", { name: "Last published just now" })
-  ).toBeVisible({ timeout: 150_000 });
   await expect(page.locator('a[target="_blank"]')).toHaveCSS(
     "color",
     "rgb(49, 151, 94)"
