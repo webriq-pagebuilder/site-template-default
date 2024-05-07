@@ -107,12 +107,8 @@ export default async function VariantB({
 }
 
 async function assertPageContent(openUrlPage, blog, commonFieldValues, button) {
-  await expect(openUrlPage.getByText("Empty Page")).toBeHidden({
-    timeout: 20_000,
-  });
-  await expect(openUrlPage.locator("section")).toBeVisible({
-    timeout: 20_000,
-  });
+  await expect(openUrlPage.getByText("Empty Page")).toBeHidden();
+  await expect(openUrlPage.locator("section")).toBeVisible();
 
   //Title
   await titleField.sitePreview({ pageUrl: openUrlPage, commonFieldValues });

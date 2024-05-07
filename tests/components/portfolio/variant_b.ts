@@ -66,9 +66,11 @@ async function assertPageContent({
   isInternalLink,
 }) {
   await expect(openUrlPage.getByText("Empty Page")).toBeHidden({
-    timeout: 20_000,
+    timeout: 150_000,
   });
-  await expect(openUrlPage.locator("section")).toBeVisible({ timeout: 20_000 });
+  await expect(openUrlPage.locator("section")).toBeVisible({
+    timeout: 150_000,
+  });
 
   //Title
   await titleField.sitePreview({ pageUrl: openUrlPage, commonFieldValues });

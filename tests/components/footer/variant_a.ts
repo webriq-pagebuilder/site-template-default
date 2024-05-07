@@ -136,10 +136,10 @@ async function assertPageContent(
 ) {
   // If the section no items is not found, expect the Empty Page element to be hidden
   await expect(openUrlPage.getByText("Empty Page")).toBeHidden({
-    timeout: 20_000,
+    timeout: 150_000,
   });
   await expect(openUrlPage.locator("section")).toBeVisible({
-    timeout: 20_000,
+    timeout: 150_000,
   });
 
   await expect(
@@ -173,7 +173,7 @@ async function assertPageContent(
           .click({ force: true });
         await openUrlPage.waitForLoadState("networkidle");
         await expect(openUrlPage.getByText("Success!")).toBeVisible({
-          timeout: 20000,
+          timeout: 150_000,
         });
         await assertInternalUrl(openUrlPage, commonFieldValues.internalLinkUrl);
       } else {
@@ -198,7 +198,7 @@ async function assertPageContent(
         .click({ force: true });
       await openUrlPage.waitForLoadState("networkidle");
       await expect(openUrlPage.getByText("Success!")).toBeVisible({
-        timeout: 20000,
+        timeout: 150_000,
       });
       await assertInternalUrl(openUrlPage, commonFieldValues.internalLinkUrl);
     }

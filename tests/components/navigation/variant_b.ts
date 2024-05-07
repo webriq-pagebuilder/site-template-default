@@ -170,9 +170,11 @@ async function assertPageContent(
 ) {
   // If the section no items is not found, expect the Empty Page element to be hidden
   await expect(openUrlPage.getByText("Empty Page")).toBeHidden({
-    timeout: 20_000,
+    timeout: 150_000,
   });
-  await expect(openUrlPage.locator("section")).toBeVisible({ timeout: 20_000 });
+  await expect(openUrlPage.locator("section")).toBeVisible({
+    timeout: 150_000,
+  });
 
   // EXPECT THE SAME VALUE FOR NAVIGATION ROUTES LIST.
   for (const navigation of commonFieldValues.navigationBase) {

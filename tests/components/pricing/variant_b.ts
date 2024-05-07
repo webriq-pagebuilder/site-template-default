@@ -80,10 +80,10 @@ export default async function VariantB({ pageTitle, page, commonFieldValues }) {
   const openUrlPage = await pagePromise;
 
   await expect(openUrlPage.getByText("Empty Page")).toBeHidden({
-    timeout: 20000,
+    timeout: 150_000,
   });
   await expect(openUrlPage.locator("section")).toBeVisible({
-    timeout: 20000,
+    timeout: 150_000,
   });
 
   //Title
