@@ -4,17 +4,21 @@ export const authFile = "playwright/.auth/autologin_user.json";
 
 async function globalSetup(config: FullConfig) {
   const { baseURL } = config.projects[0].use;
+  console.log("🚀 [INFO] baseURL:", baseURL);
 
   const browser = await chromium.launch();
   const page = await browser.newPage();
 
   await page.goto(baseURL!);
 
-  // Set localStorage needed to autologin
-  await page.evaluate(autologin_studio, {
+  const autologinCredentials = {
     token: process.env.STUDIO_AUTOLOGIN_TOKEN_FOR_TESTING,
     projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
-  });
+  };
+  console.log("🚀 [INFO] credentials:", autologinCredentials);
+
+  // Set localStorage needed to autologin
+  await page.evaluate(autologin_studio, autologinCredentials);
 
   // Save the authentication state to a file
   await page.context().storageState({ path: authFile });
