@@ -51,6 +51,12 @@ jobs:
           name: playwright-report
           path: playwright-report/
 
+      - name: Deploy to Netlify
+        run: npx netlify-cli deploy --dir=playwright-report --prod --yes
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+
       - uses: actions/upload-artifact@v4
         if: failure()
         with:
