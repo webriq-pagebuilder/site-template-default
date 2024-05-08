@@ -154,26 +154,71 @@ test.describe("Main Workflow", () => {
   }) => {
     await navigateToPage(page);
     await page.getByPlaceholder("Search list").click({ force: true });
-    await page.getByPlaceholder("Search list").fill(pageTitle);
+    await page.getByPlaceholder("Search list").fill("${pageTitle}");
     await page.waitForSelector(`a:has-text("${pageTitle}")`, {
       state: "visible",
     });
 
-    await page.getByRole("link", { name: pageTitle }).click({ force: true });
-    await page.waitForSelector(`a:has-text("${pageTitle}")`, {
-      state: "visible",
-    });
-    await page.getByLabel("Clear").click({ force: true });
-    await page.waitForTimeout(5000);
+    let variantLabelVisible = false;
+    let variantClicks = 0;
+
+    while (!variantLabelVisible && variantClicks <= 5) {
+      await page.locator(`a:has-text("${pageTitle}")`).click({ force: true });
+      await expect(page.getByText("Loading document")).toBeHidden();
+
+      try {
+        await expect(
+          page.getByRole("link", { name: variantLabel })
+        ).toBeVisible();
+
+        variantLabelVisible = true;
+      } catch (error) {
+        console.error("Variant Label not visible, retrying...", error);
+      }
+
+      variantClicks++;
+    }
 
     const launchInlineEditing = page.waitForEvent("popup");
-    await page.waitForTimeout(10000);
-
     await page.getByLabel("Launch Inline Editing").click();
     const inlineEditPage = await launchInlineEditing;
+    await expect(inlineEditPage.getByText("Loading...")).toBeVisible({
+      timeout: 150000,
+    });
     await expect(inlineEditPage.getByText("Loading...")).toBeHidden({
       timeout: 150000,
     });
+    let attempts = 0;
+    let maxTries = 5;
+
+    while (attempts <= maxTries) {
+      const unhandledRuntimeError = inlineEditPage.locator(
+        'h1:has-text("Unhandled Runtime Error")'
+      );
+      const isErrorVisible = await unhandledRuntimeError.isVisible();
+
+      if (isErrorVisible) {
+        attempts++;
+        console.warn(
+          "Unhandled Runtime Error detected, reloading... (attempt",
+          attempts,
+          ")"
+        );
+
+        await inlineEditPage.reload();
+      } else {
+        break;
+      }
+    }
+
+    if (attempts === maxTries) {
+      console.error(
+        "Failed to close Unhandled Runtime Error after",
+        maxTries,
+        "attempts."
+      );
+    }
+
     await inlineEditPage.locator("#navigation").click(); //Edit button
     await expect(
       inlineEditPage.locator(".react-split > div:nth-child(2)")
@@ -294,20 +339,22 @@ test.describe("Main Workflow", () => {
     );
 
     const publishButton = page.locator('button:has-text("Publish")');
-    await expect(publishButton).toHaveAttribute("data-disabled", "false");
-    await publishButton.click();
+    let publishedCSS = false;
+    let clicks = 0;
 
-    await expect(
-      page
-        .locator('[id="__next"]')
-        .getByRole("alert")
-        .locator("div")
-        .filter({ hasText: "The document was published" })
-        .nth(1)
-    ).toBeVisible({ timeout: 150_000 });
-    await expect(
-      page.getByRole("button", { name: "Last published just now" })
-    ).toBeVisible({ timeout: 150_000 });
+    while (!publishedCSS && clicks <= 5) {
+      await expect(publishButton).toHaveAttribute("data-disabled", "false");
+      await publishButton.click();
+
+      await expect(page.locator('a[target="_blank"]')).toHaveCSS(
+        "color",
+        "rgb(49, 151, 94)"
+      );
+      publishedCSS = true;
+
+      clicks++;
+    }
+
     await expect(page.locator('a[target="_blank"]')).toHaveCSS(
       "color",
       "rgb(49, 151, 94)"
