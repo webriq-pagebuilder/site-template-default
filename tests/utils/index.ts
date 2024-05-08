@@ -279,15 +279,12 @@ export async function expectDocumentPublished(page, pageTitle) {
       .locator('[data-testid="review-changes-button"]')
       .filter({ hasText: "Just now" })
   ).toBeVisible({ timeout: 150000 });
-  await page.getByTestId("action-Save").click({ force: true });
-  await expect(
-    page
-      .locator('[id="__next"]')
-      .getByRole("alert")
-      .locator("div")
-      .filter({ hasText: "The document was published" })
-      .nth(1)
-  ).toBeVisible({ timeout: 150_000 });
+
+  const saveButton = page.locator('button:has-text("Save")');
+  await expect(saveButton).toHaveAttribute("data-disabled", "false");
+  await saveButton.click();
+  await expect(saveButton).toHaveAttribute("data-disabled", "true");
+
   await page
     .getByRole("link", { name: "Close pane group" })
     .click({ force: true });
