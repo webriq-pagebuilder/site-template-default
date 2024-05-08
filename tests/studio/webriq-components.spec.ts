@@ -18,10 +18,10 @@ test.describe("Main document actions", () => {
   test.beforeEach(async ({ page }) => {
     await page.goto(`./studio`);
     await page.getByRole("link", { name: "Components" }).click({ force: true });
-    await page.waitForLoadState();
   });
 
   test("Can create component", async ({ page }) => {
+    await page.waitForLoadState("domcontentloaded");
     await expect(
       page.getByRole("button", { name: "New App Promo" })
     ).toBeVisible();

@@ -122,6 +122,7 @@ test.describe("Verify SEO Settings", () => {
     const seoKeywordsFld = page
       .getByTestId("field-seo.seoKeywords")
       .getByRole("textbox");
+    await expect(seoKeywordsFld).toBeVisible();
     seoKeywordsFld.click({ force: true });
     await expect(seoKeywordsFld).toHaveAttribute(
       "placeholder",
@@ -132,7 +133,7 @@ test.describe("Verify SEO Settings", () => {
     const seoSynonymsFld = page
       .getByTestId("field-seo.seoSynonyms")
       .getByRole("textbox");
-    await seoSynonymsFld.scrollIntoViewIfNeeded();
+    await expect(seoSynonymsFld).toBeVisible();
     seoSynonymsFld.click({ force: true });
     await expect(seoSynonymsFld).toHaveAttribute(
       "placeholder",
@@ -143,7 +144,7 @@ test.describe("Verify SEO Settings", () => {
     const seoDescFld = page
       .getByTestId("field-seo.seoDescription")
       .getByRole("textbox");
-    await seoDescFld.scrollIntoViewIfNeeded();
+    await expect(seoDescFld).toBeVisible();
     seoDescFld.click({ force: true });
     await expect(seoDescFld).toHaveAttribute(
       "placeholder",
@@ -221,7 +222,6 @@ test.describe("Verify SEO Settings", () => {
 
       await expect(seoDescFld).toBeVisible();
       seoDescFld.click({ force: true });
-      seoDescFld.press("Meta+a");
       await expect(
         page
           .getByTestId("field-seo.seoDescription")
@@ -257,7 +257,6 @@ test.describe("Verify SEO Settings", () => {
       .getByRole("textbox");
     await expect(seoTitleFld).toBeVisible();
     seoTitleFld.click({ force: true });
-    seoTitleFld.press("Meta+a");
     seoTitleFld.fill("Stackshift | New Page");
 
     // SEO keywords
@@ -266,7 +265,6 @@ test.describe("Verify SEO Settings", () => {
       .getByRole("textbox");
     await expect(seoKeywordsFld).toBeVisible();
     seoKeywordsFld.click({ force: true });
-    seoKeywordsFld.press("Meta+a");
     seoKeywordsFld.fill("new page");
 
     // SEO synonyms
@@ -275,7 +273,6 @@ test.describe("Verify SEO Settings", () => {
       .getByRole("textbox");
     await expect(seoSynonymsFld).toBeVisible();
     seoSynonymsFld.click({ force: true });
-    seoSynonymsFld.press("Meta+a");
     seoSynonymsFld.fill("test page");
 
     // SEO description
@@ -283,8 +280,6 @@ test.describe("Verify SEO Settings", () => {
       .getByTestId("field-seo.seoDescription")
       .getByRole("textbox");
     await expect(seoDescFld).toBeVisible();
-    seoDescFld.click({ force: true });
-    seoDescFld.press("Meta+a");
     seoDescFld.fill("This is the SEO description of this page.");
   });
 

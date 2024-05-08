@@ -124,7 +124,7 @@ test.describe("Verify main actions working", () => {
         ?.toLowerCase()
         ?.replace(/\s/g, "-")}`
     );
-    await page.waitForLoadState();
+    await page.waitForLoadState("domcontentloaded");
     await expect(page.locator("h1")).toContainText(inputValues.post.title);
     await expect(
       page.getByText(inputValues.category.title.toUpperCase())
