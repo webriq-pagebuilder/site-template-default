@@ -46,6 +46,7 @@ export default async function VariantA({ pageTitle, page, commonFieldValues }) {
     .click({ force: true });
 
   await openUrlPage.waitForLoadState("networkidle");
+  await openUrlPage.waitForLoadState("load");
 
   //Expect Wishlist
   await expect(

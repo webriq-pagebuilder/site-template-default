@@ -50,6 +50,8 @@ async function assertPageContent(openUrlPage, pageTitle, commonFieldValues) {
     .click({ force: true });
 
   await openUrlPage.waitForLoadState("networkidle");
+  await openUrlPage.waitForLoadState("load");
+
   //Expect Wishlist
   await expect(
     openUrlPage.locator(`p:has-text("SAMPLE. Black Dress")`)
