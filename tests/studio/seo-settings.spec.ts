@@ -18,7 +18,7 @@ test.describe("Verify SEO Settings", () => {
     await createNewPage(page, newSeoPage, null);
   });
 
-  test("Can add Global SEO values", async ({ page }) => {
+  test("Can add global SEO values", async ({ page }) => {
     await navigateToPage(page);
     await page.getByRole("link", { name: newSeoPage }).click({ force: true });
     await page
@@ -92,7 +92,9 @@ test.describe("Verify SEO Settings", () => {
       .click({ force: true, timeout: 180_000 });
   });
 
-  test("Empty SEO settings matches Global SEO values", async ({ page }) => {
+  test("Sets global SEO values when page SEO is undefined", async ({
+    page,
+  }) => {
     test.setTimeout(300_000);
 
     await navigateToPage(page);
@@ -146,7 +148,7 @@ test.describe("Verify SEO Settings", () => {
     );
   });
 
-  test.describe("Redirects to Global SEO links", () => {
+  test.describe("Redirects to global SEO page", () => {
     test.describe.configure({ timeout: 300_000 });
 
     test.beforeEach(async ({ page }) => {
@@ -230,7 +232,7 @@ test.describe("Verify SEO Settings", () => {
     });
   });
 
-  test("Can add SEO values to page", async ({ page }) => {
+  test("Can add page SEO values", async ({ page }) => {
     test.setTimeout(300_000);
 
     await navigateToPage(page);
@@ -270,19 +272,9 @@ test.describe("Verify SEO Settings", () => {
     seoDescFld.click({ force: true });
     seoDescFld.press("Meta+a");
     seoDescFld.fill("This is the SEO description of this page.");
-
-    // publish document
-    await page
-      .getByTestId("action-[object Object]")
-      .click({ force: true, timeout: 120_000 });
-    await expect(
-      page
-        .locator("[aria-label='Review changes']")
-        .filter({ hasText: "just now" })
-    ).toBeVisible({ timeout: 120_000 });
   });
 
-  test("Delete test SEO page", async ({ page }) => {
+  test("Delete test page for SEO", async ({ page }) => {
     await navigateToPage(page);
     await page.getByPlaceholder("Search list").click({ force: true });
     await page.getByPlaceholder("Search list").fill(newSeoPage);

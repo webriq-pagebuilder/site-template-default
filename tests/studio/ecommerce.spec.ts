@@ -1,38 +1,68 @@
 import { test, expect } from "@playwright/test";
-import { newPageTitle } from "tests/utils";
+import { NEXT_PUBLIC_SITE_URL } from "studio/config";
+import {
+  deleteDocument,
+  navigateToStore,
+  newPageTitle,
+  publishDocument,
+} from "tests/utils";
 
-test.describe.fixme("Main Store Pages", () => {
+test("Store has 3 main subtabs", async ({ page }) => {
+  await navigateToStore(page);
+
+  await expect(page.getByRole("link", { name: "Products" })).toBeVisible();
+  await expect(page.getByRole("link", { name: "Collections" })).toBeVisible();
+  await expect(
+    page.getByRole("link", { name: "Commerce Pages" })
+  ).toBeVisible();
+});
+
+test("Store Commerce Pages has subtabs", async ({ page }) => {
+  await navigateToStore(page);
+
+  await page
+    .getByRole("link", { name: "Commerce Pages" })
+    .click({ force: true });
+  await expect(
+    page
+      .getByLabel("List of Commerce Pages")
+      .getByRole("link", { name: "Products" })
+  ).toBeVisible();
+  await expect(
+    page
+      .getByLabel("List of Commerce Pages")
+      .getByRole("link", { name: "Collections" })
+  ).toBeVisible();
+  await expect(page.getByRole("link", { name: "Cart" })).toBeVisible();
+  await expect(page.getByRole("link", { name: "Wishlist" })).toBeVisible();
+  await expect(page.getByRole("link", { name: "Search" })).toBeVisible();
+});
+
+test.describe("Main Store Pages", () => {
   test.describe.configure({ timeout: 600_000, mode: "serial" });
 
-  const productName = newPageTitle("New product ");
-  const collectionsName = newPageTitle("New collections ");
+  const collections = {
+    name: newPageTitle("New collections "),
+  };
+
+  const product = {
+    name: newPageTitle("New product "),
+    price: "29.98",
+    description: "This is a sample product description for the new product.",
+  };
 
   test.beforeEach("Go to Store tab", async ({ page }) => {
-    await page.goto(`./studio`);
-
-    const element = page.locator('a:has-text("Store")');
-    await element.scrollIntoViewIfNeeded();
-    await page.waitForSelector('a:has-text("Store")', { state: "visible" });
-    await element.click({ force: true });
+    await navigateToStore(page);
   });
 
-  test("Store has 3 main subtabs", async ({ page }) => {
-    await expect(page.getByRole("link", { name: "Products" })).toBeVisible();
-    await expect(page.getByRole("link", { name: "Collections" })).toBeVisible();
-    await expect(
-      page.getByRole("link", { name: "Commerce Pages" })
-    ).toBeVisible();
-  });
-
-  test("Can successfully create product", async ({ page }) => {
+  test("Create product page", async ({ page }) => {
     await page.getByRole("link", { name: "Products" }).click({ force: true });
     await page.getByTestId("action-intent-button").click({ force: true });
-    await page.getByRole("tab", { name: "Basic Info" }).click({ force: true });
     await page.getByLabel("Name").click();
-    await page.getByLabel("Name").fill(productName);
+    await page.getByLabel("Name").fill(product?.name);
     await page.getByRole("button", { name: "Generate" }).click({ force: true });
     await page.getByLabel("Price").click();
-    await page.getByLabel("Price").fill("29.98");
+    await page.getByLabel("Price").fill(product?.price);
     await page.getByText("Click to activate").click({ force: true });
     await page
       .getByTestId("scroll-container")
@@ -41,165 +71,150 @@ test.describe.fixme("Main Store Pages", () => {
     await page
       .getByTestId("scroll-container")
       .getByRole("textbox")
-      .fill("This is a sample product description for the new product.");
+      .fill(product?.description);
 
     // publish document
-    await expect(
-      page
-        .locator('[data-testid="review-changes-button"]')
-        .filter({ hasText: "Just now" })
-    ).toBeVisible({ timeout: 150_000 });
-    await page
-      .getByTestId("action-[object Object]")
-      .click({ force: true, timeout: 120_000 });
-    await expect(page.getByText("Successfully updated product")).toBeVisible({
-      timeout: 150_000,
-    });
-    await expect(
-      page
-        .locator('[id="__next"]')
-        .getByRole("alert")
-        .locator("div")
-        .filter({ hasText: "The document was published" })
-        .nth(1)
-    ).toBeVisible({ timeout: 150_000 });
-    await expect(
-      page.getByRole("button", { name: "Last published just now" })
-    ).toBeVisible({ timeout: 150_000 });
+    await publishDocument(page);
 
     const getEcwidProdId = page.locator("input#ecwidProductId").inputValue();
     expect(getEcwidProdId).not.toBeUndefined();
+
+    // check site preview
+    const productPagePromise = page.waitForEvent("popup");
+    await page.getByText(`${NEXT_PUBLIC_SITE_URL}`).click({ force: true });
+    const productPage = await productPagePromise;
+
+    await expect(productPage.locator("h1")).toContainText(product?.name);
+    await expect(productPage.locator('[id="__next"]')).toContainText(
+      product?.price
+    );
+    await expect(productPage.locator('[id="__next"]')).toContainText(
+      product?.description
+    );
+    await expect(productPage.getByText("Qty")).toBeVisible();
+    await expect(productPage.getByText("-+")).toBeVisible();
+    await expect(productPage.getByLabel("Add to Bag button")).toBeVisible();
+    await expect(productPage.getByLabel("Add to Wishlist")).toBeVisible();
   });
 
-  test("Can successfully create collections", async ({ page }) => {
+  test("Create collections page", async ({ page }) => {
     await page
       .getByRole("link", { name: "Collections" })
       .click({ force: true });
     await page.getByTestId("action-intent-button").click({ force: true });
-    await page.getByRole("tab", { name: "Design" }).click();
-    await expect(
-      page.getByRole("link", { name: "Default Slot for Collection" })
-    ).toBeVisible();
-    await page.getByRole("tab", { name: "Basic Info" }).click({ force: true });
     await page.getByTestId("string-input").click();
-    await page.getByTestId("string-input").fill(collectionsName);
+    await page.getByTestId("string-input").fill(collections?.name);
     await page.getByRole("button", { name: "Generate" }).click({ force: true });
     await page.getByRole("button", { name: "Add item" }).click();
-    await page.getByTestId("autocomplete").fill(productName);
+    await page.getByTestId("autocomplete").fill(product?.name);
     await page
-      .getByRole("button", { name: productName })
+      .getByRole("button", { name: product?.name })
       .click({ force: true });
 
     // publish document
+    await publishDocument(page);
+
+    // check site preview
+    const collectionsPagePromise = page.waitForEvent("popup");
+    await page.getByText(`${NEXT_PUBLIC_SITE_URL}`).click({ force: true });
+    const collectionsPage = await collectionsPagePromise;
+
+    await expect(collectionsPage.locator('[id="__next"]')).toContainText(
+      product?.name
+    );
+    await expect(collectionsPage.locator('[id="__next"]')).toContainText(
+      product?.price
+    );
+  });
+
+  test("Delete category page", async ({ page }) => {
     await page
-      .getByTestId("action-[object Object]")
-      .click({ force: true, timeout: 120_000 });
-    await expect(page.getByText("The document was published")).toBeVisible();
+      .getByRole("link", { name: "Collections" })
+      .click({ force: true });
+    await page
+      .getByRole("link", { name: collections?.name })
+      .click({ force: true });
+
+    // remove product reference
+    await page
+      .getByTestId("field-products")
+      .getByRole("button")
+      .nth(1)
+      .click({ force: true });
+    await page.getByRole("menuitem", { name: "Remove" }).click({ force: true });
+
+    // publish changes
+    await publishDocument(page);
+
+    // proceed delete
+    await deleteDocument(page);
+  });
+
+  test("Delete product page", async ({ page }) => {
+    await page.getByRole("link", { name: "Products" }).click({ force: true });
+    await page
+      .getByRole("link", { name: product?.name })
+      .click({ force: true });
+    await expect(page.getByText("Loading document")).toBeHidden();
+    await expect(page.getByLabel("Name")).toHaveValue(product?.name);
+    // proceed delete
+    await deleteDocument(page);
   });
 });
 
 test.describe("Store Commerce Pages", () => {
-  test.describe.configure({ timeout: 600_000, mode: "serial" });
+  test.describe.configure({ timeout: 600_000 });
 
-  test.beforeEach("Go to Store tab", async ({ page }) => {
-    await page.goto(`./studio`);
-
-    const element = page.locator('a:has-text("Store")');
-    await element.scrollIntoViewIfNeeded();
-    await page.waitForSelector('a:has-text("Store")', { state: "visible" });
-    await element.click({ force: true });
-  });
-
-  test("Store Commerce Pages has subtabs", async ({ page }) => {
+  test.beforeEach("Go to Store Commerce Pages", async ({ page }) => {
+    await navigateToStore(page);
     await page
       .getByRole("link", { name: "Commerce Pages" })
       .click({ force: true });
-    await expect(
-      page
-        .getByLabel("List of Commerce Pages")
-        .getByRole("link", { name: "Products" })
-    ).toBeVisible();
-    await expect(
-      page
-        .getByLabel("List of Commerce Pages")
-        .getByRole("link", { name: "Collections" })
-    ).toBeVisible();
-    await expect(page.getByRole("link", { name: "Cart" })).toBeVisible();
-    await expect(page.getByRole("link", { name: "Wishlist" })).toBeVisible();
-    await expect(page.getByRole("link", { name: "Search" })).toBeVisible();
   });
 
-  // the default slot pages seem to have been deleted from the default StackShift studio
-  // newly created StackShift studio have the default slot pages
-  test.fixme("Default common slot sections are found", async ({ page }) => {
-    await page
-      .getByRole("link", { name: "Commerce Pages" })
-      .click({ force: true });
-
-    // Store > Commerce Pages > Products
-    await page
-      .getByLabel("List of Commerce Pages")
-      .getByRole("link", { name: "Products" })
-      .click({ force: true });
-    await expect(
-      page.getByRole("link", { name: "Default C-Studio Navigation" })
-    ).toBeVisible();
-    await expect(
-      page.getByRole("link", { name: "Default Common Slot for" })
-    ).toBeVisible();
-    await expect(
-      page.getByRole("link", { name: "Default C-Studio Footer" })
-    ).toBeVisible();
-
-    // Store > Commerce Pages > Collections
-    await page
-      .getByLabel("List of Commerce Pages")
-      .getByRole("link", { name: "Collections" })
-      .click({ force: true });
-    await expect(
-      page.getByRole("link", { name: "Default C-Studio Navigation" })
-    ).toBeVisible();
-    await expect(
-      page.getByRole("link", { name: "Default Common Slot for" })
-    ).toBeVisible();
-    await expect(
-      page.getByRole("link", { name: "Default C-Studio Footer" })
-    ).toBeVisible();
-
-    // Store > Commerce Pages > Cart
+  // check cart page preview
+  test("Check Cart page preview", async ({ page }) => {
     await page.getByRole("link", { name: "Cart" }).click({ force: true });
-    await expect(
-      page.getByRole("link", { name: "Default C-Studio Navigation" })
-    ).toBeVisible();
-    await expect(
-      page.getByRole("link", { name: "Default Slot for Cart" })
-    ).toBeVisible();
-    await expect(
-      page.getByRole("link", { name: "Default C-Studio Footer" })
-    ).toBeVisible();
 
-    // Store > Commerce Pages > Wishlist
-    await page.getByRole("link", { name: "Wishlist" }).click({ force: true });
-    await expect(
-      page.getByRole("link", { name: "Default C-Studio Navigation" })
-    ).toBeVisible();
-    await expect(
-      page.getByRole("link", { name: "Default Slot for Wishlist" })
-    ).toBeVisible();
-    await expect(
-      page.getByRole("link", { name: "Default C-Studio Footer" })
-    ).toBeVisible();
+    const cartPagePromise = page.waitForEvent("popup");
+    await page.getByText(`${NEXT_PUBLIC_SITE_URL}/cart`).click({ force: true });
 
-    // Store > Commerce Pages > Search
-    await page.getByRole("link", { name: "Search" }).click({ force: true });
+    const cartPage = await cartPagePromise;
+    await cartPage.goto(`${NEXT_PUBLIC_SITE_URL}/cart?store-page=cart`);
+
+    await expect(cartPage.locator(".ecwid-productBrowser")).toBeVisible({
+      timeout: 150_000,
+    });
+    await expect(cartPage.getByRole("heading")).toContainText("Shopping cart");
     await expect(
-      page.getByRole("link", { name: "Default C-Studio Navigation" })
+      cartPage.getByText("Your shopping cart is empty")
     ).toBeVisible();
     await expect(
-      page.getByRole("link", { name: "Default All Products All" })
+      cartPage.getByRole("button", { name: "Browse Store" })
     ).toBeVisible();
+    await expect(cartPage.getByRole("link", { name: "Cart" })).toBeVisible();
+  });
+
+  // check wishlist page preview
+  test("Check Wishlist page preview", async ({ page }) => {
+    await page
+      .getByRole("link", { name: "Wishlist", exact: true })
+      .click({ force: true });
+
+    const wishlistPagePromise = page.waitForEvent("popup");
+    await page
+      .getByText(`${NEXT_PUBLIC_SITE_URL}/wishlist`)
+      .click({ force: true });
+
+    const wishlistPage = await wishlistPagePromise;
     await expect(
-      page.getByRole("link", { name: "Default C-Studio Footer" })
-    ).toBeVisible();
+      wishlistPage
+        .locator("div")
+        .filter({
+          hasText:
+            /^Wishlist is emptyAdd your favorite products to wishlist to display them here\.$/,
+        })
+        .nth(2)
+    ).toBeVisible({ timeout: 120_000 });
   });
 });

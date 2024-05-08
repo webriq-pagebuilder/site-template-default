@@ -246,6 +246,15 @@ export async function navigateToPage(page) {
   await expect(page.locator('p:has-text("Loading...")')).toBeHidden();
 }
 
+export async function navigateToStore(page) {
+  await page.goto(`./studio`);
+
+  const element = page.locator('a:has-text("Store")');
+  await element.scrollIntoViewIfNeeded();
+  await page.waitForSelector('a:has-text("Store")', { state: "visible" });
+  await element.click({ force: true });
+}
+
 export async function createNewPage(page, sectionTitle, sections) {
   // Click new page button
   const newPageButtonElement = page.locator(
@@ -268,6 +277,46 @@ export async function createNewPage(page, sectionTitle, sections) {
       .getByRole("button", { name: "Create new" })
       .click({ force: true });
   }
+}
+
+export async function publishDocument(page) {
+  await expect(
+    page
+      .locator('[data-testid="review-changes-button"]')
+      .filter({ hasText: "Just now" })
+  ).toBeVisible({ timeout: 150_000 });
+  await page.getByTestId("action-[object Object]").click({ force: true });
+  await expect(
+    page
+      .locator('[id="__next"]')
+      .getByRole("alert")
+      .locator("div")
+      .filter({ hasText: "The document was published" })
+      .nth(1)
+  ).toBeVisible({ timeout: 150_000 });
+  await expect(
+    page.getByRole("button", { name: "Last published just now" })
+  ).toBeVisible({ timeout: 150_000 });
+}
+
+export async function deleteDocument(page) {
+  await page.getByTestId("action-menu-button").click({ force: true });
+  await page.getByTestId("action-Delete").click({ force: true });
+  await expect(page.getByText("Delete document?")).toBeVisible({
+    timeout: 150_000,
+  });
+  await expect(
+    page.getByTestId("loading-container").getByRole("img")
+  ).toBeVisible({ timeout: 150_000 });
+  await page.getByTestId("confirm-delete-button").click({ force: true });
+  await expect(
+    page
+      .locator('[id="__next"]')
+      .getByRole("alert")
+      .locator("div")
+      .filter({ hasText: "The document was successfully" })
+      .nth(1)
+  ).toBeVisible({ timeout: 150_000 });
 }
 
 export async function expectDocumentPublished(page, pageTitle) {

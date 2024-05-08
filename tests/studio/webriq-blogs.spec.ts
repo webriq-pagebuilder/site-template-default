@@ -1,5 +1,5 @@
 import { test, expect } from "@playwright/test";
-import { newPageTitle } from "tests/utils";
+import { newPageTitle, publishDocument, deleteDocument } from "tests/utils";
 import { NEXT_PUBLIC_SITE_URL } from "studio/config";
 import { format } from "date-fns";
 
@@ -40,25 +40,7 @@ test.describe("Verify main actions working", () => {
     await page.getByRole("button", { name: "Generate" }).click();
     await page.getByLabel("Bio").click();
     await page.getByLabel("Bio").fill(inputValues.author.bio);
-
-    // publish document
-    await expect(
-      page
-        .locator('[data-testid="review-changes-button"]')
-        .filter({ hasText: "Just now" })
-    ).toBeVisible({ timeout: 150_000 });
-    await page.getByTestId("action-[object Object]").click({ force: true });
-    await expect(
-      page
-        .locator('[id="__next"]')
-        .getByRole("alert")
-        .locator("div")
-        .filter({ hasText: "The document was published" })
-        .nth(1)
-    ).toBeVisible({ timeout: 150_000 });
-    await expect(
-      page.getByRole("button", { name: "Last published just now" })
-    ).toBeVisible({ timeout: 150_000 });
+    await publishDocument(page);
   });
 
   test("Create category page", async ({ page }) => {
@@ -70,25 +52,7 @@ test.describe("Verify main actions working", () => {
     await page.getByTestId("string-input").fill(inputValues.category.title);
     await page.getByLabel("Description").click();
     await page.getByLabel("Description").fill(inputValues.category.description);
-
-    // publish document
-    await expect(
-      page
-        .locator('[data-testid="review-changes-button"]')
-        .filter({ hasText: "Just now" })
-    ).toBeVisible({ timeout: 150_000 });
-    await page.getByTestId("action-[object Object]").click({ force: true });
-    await expect(
-      page
-        .locator('[id="__next"]')
-        .getByRole("alert")
-        .locator("div")
-        .filter({ hasText: "The document was published" })
-        .nth(1)
-    ).toBeVisible({ timeout: 150_000 });
-    await expect(
-      page.getByRole("button", { name: "Last published just now" })
-    ).toBeVisible({ timeout: 150_000 });
+    await publishDocument(page);
   });
 
   test("Create blog page", async ({ page }) => {
@@ -143,23 +107,7 @@ test.describe("Verify main actions working", () => {
     await expect(page.getByLabel("Validation")).toBeHidden({
       timeout: 150_000,
     });
-    await expect(
-      page
-        .locator('[data-testid="review-changes-button"]')
-        .filter({ hasText: "Just now" })
-    ).toBeVisible({ timeout: 150_000 });
-    await page.getByTestId("action-[object Object]").click({ force: true });
-    await expect(
-      page
-        .locator('[id="__next"]')
-        .getByRole("alert")
-        .locator("div")
-        .filter({ hasText: "The document was published" })
-        .nth(1)
-    ).toBeVisible({ timeout: 150_000 });
-    await expect(
-      page.getByRole("button", { name: "Last published just now" })
-    ).toBeVisible({ timeout: 150_000 });
+    await publishDocument(page);
   });
 
   test("Check site preview", async ({ page }) => {
@@ -212,42 +160,8 @@ test.describe("Verify main actions working", () => {
       .nth(1)
       .click({ force: true });
     await page.getByRole("menuitem", { name: "Remove" }).click({ force: true });
-    await expect(
-      page
-        .locator('[data-testid="review-changes-button"]')
-        .filter({ hasText: "Just now" })
-    ).toBeVisible({ timeout: 150_000 });
-    await page.getByTestId("action-[object Object]").click({ force: true });
-    await expect(
-      page
-        .locator('[id="__next"]')
-        .getByRole("alert")
-        .locator("div")
-        .filter({ hasText: "The document was published" })
-        .nth(1)
-    ).toBeVisible({ timeout: 150_000 });
-    await expect(
-      page.getByRole("button", { name: "Last published just now" })
-    ).toBeVisible({ timeout: 150_000 });
-
-    // delete blog post
-    await page.getByTestId("action-menu-button").click({ force: true });
-    await page.getByTestId("action-Delete").click({ force: true });
-    await expect(page.getByText("Delete document?")).toBeVisible({
-      timeout: 150_000,
-    });
-    await expect(
-      page.getByTestId("loading-container").getByRole("img")
-    ).toBeVisible({ timeout: 150_000 });
-    await page.getByTestId("confirm-delete-button").click({ force: true });
-    await expect(
-      page
-        .locator('[id="__next"]')
-        .getByRole("alert")
-        .locator("div")
-        .filter({ hasText: "The document was successfully" })
-        .nth(1)
-    ).toBeVisible({ timeout: 150_000 });
+    await publishDocument(page);
+    await deleteDocument(page);
 
     // delete author
     await page.getByRole("link", { name: "Blog" }).click({ force: true });
@@ -259,23 +173,7 @@ test.describe("Verify main actions working", () => {
     await expect(
       page.getByTestId("field-name").getByTestId("string-input")
     ).toHaveValue(inputValues.author.name);
-    await page.getByTestId("action-menu-button").click({ force: true });
-    await page.getByTestId("action-Delete").click({ force: true });
-    await expect(page.getByText("Delete document?")).toBeVisible({
-      timeout: 150_000,
-    });
-    await expect(
-      page.getByTestId("loading-container").getByRole("img")
-    ).toBeVisible({ timeout: 150_000 });
-    await page.getByTestId("confirm-delete-button").click({ force: true });
-    await expect(
-      page
-        .locator('[id="__next"]')
-        .getByRole("alert")
-        .locator("div")
-        .filter({ hasText: "The document was successfully" })
-        .nth(1)
-    ).toBeVisible({ timeout: 150_000 });
+    await deleteDocument(page);
 
     // delete category
     await page.getByRole("link", { name: "Blog" }).click({ force: true });
@@ -287,22 +185,6 @@ test.describe("Verify main actions working", () => {
     await expect(page.getByTestId("string-input")).toHaveValue(
       inputValues.category.title
     );
-    await page.getByTestId("action-menu-button").click({ force: true });
-    await page.getByTestId("action-Delete").click({ force: true });
-    await expect(page.getByText("Delete document?")).toBeVisible({
-      timeout: 150_000,
-    });
-    await expect(
-      page.getByTestId("loading-container").getByRole("img")
-    ).toBeVisible({ timeout: 150_000 });
-    await page.getByTestId("confirm-delete-button").click({ force: true });
-    await expect(
-      page
-        .locator('[id="__next"]')
-        .getByRole("alert")
-        .locator("div")
-        .filter({ hasText: "The document was successfully" })
-        .nth(1)
-    ).toBeVisible({ timeout: 150_000 });
+    await deleteDocument(page);
   });
 });
