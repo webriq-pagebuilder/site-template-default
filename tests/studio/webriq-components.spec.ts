@@ -21,6 +21,9 @@ test.describe("Main document actions", () => {
   });
 
   test("Can create component", async ({ page }) => {
+    await expect(
+      page.getByRole("button", { name: "New App Promo" })
+    ).toBeVisible();
     await page.getByRole("button", { name: "New App Promo" }).click();
     await page.getByTestId("string-input").click();
     await page.getByTestId("string-input").fill(newComponentName);
@@ -32,6 +35,7 @@ test.describe("Main document actions", () => {
   });
 
   test("Can search component", async ({ page }) => {
+    await expect(page.getByPlaceholder("Search variants")).toBeVisible();
     await page.getByPlaceholder("Search variants").click();
     await page.getByPlaceholder("Search variants").fill("New App Promo");
     await expect(
@@ -136,6 +140,7 @@ test("Can filter component", async ({ page }) => {
 
   await page.goto(`./studio`);
   await page.getByRole("link", { name: "Components" }).click({ force: true });
+  await expect(page.getByText("Select...")).toBeVisible();
   await page
     .locator("div")
     .filter({ hasText: /^Select\.\.\.$/ })

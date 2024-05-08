@@ -57,12 +57,20 @@ test.describe("Main Store Pages", () => {
 
   test("Create product page", async ({ page }) => {
     await page.getByRole("link", { name: "Products" }).click({ force: true });
+
+    await expect(page.getByTestId("action-intent-button")).toBeVisible();
     await page.getByTestId("action-intent-button").click({ force: true });
-    await page.getByLabel("Name").click();
+
+    await expect(page.getByLabel("Name")).toBeVisible();
     await page.getByLabel("Name").fill(product?.name);
+
+    await expect(page.getByRole("button", { name: "Generate" })).toBeVisible();
     await page.getByRole("button", { name: "Generate" }).click({ force: true });
-    await page.getByLabel("Price").click();
+
+    await expect(page.getByLabel("Price")).toBeVisible();
     await page.getByLabel("Price").fill(product?.price);
+
+    await expect(page.getByText("Click to activate")).toBeVisible();
     await page.getByText("Click to activate").click({ force: true });
     await page
       .getByTestId("scroll-container")
@@ -80,7 +88,9 @@ test.describe("Main Store Pages", () => {
     expect(getEcwidProdId).not.toBeUndefined();
 
     // check site preview
+    await expect(page.getByTestId("review-changes-button")).toBeHidden();
     const productPagePromise = page.waitForEvent("popup");
+
     await page.getByText(`${NEXT_PUBLIC_SITE_URL}`).click({ force: true });
     const productPage = await productPagePromise;
 
@@ -101,12 +111,21 @@ test.describe("Main Store Pages", () => {
     await page
       .getByRole("link", { name: "Collections" })
       .click({ force: true });
+
+    await expect(page.getByTestId("action-intent-button")).toBeVisible();
     await page.getByTestId("action-intent-button").click({ force: true });
-    await page.getByTestId("string-input").click();
+
+    await expect(page.getByTestId("string-input")).toBeVisible();
     await page.getByTestId("string-input").fill(collections?.name);
+
+    await expect(page.getByRole("button", { name: "Generate" })).toBeVisible();
     await page.getByRole("button", { name: "Generate" }).click({ force: true });
-    await page.getByRole("button", { name: "Add item" }).click();
+    await page.getByRole("button", { name: "Add item" }).click({ force: true });
+
     await page.getByTestId("autocomplete").fill(product?.name);
+    await expect(
+      page.getByRole("button", { name: product?.name })
+    ).toBeVisible();
     await page
       .getByRole("button", { name: product?.name })
       .click({ force: true });
@@ -115,7 +134,9 @@ test.describe("Main Store Pages", () => {
     await publishDocument(page);
 
     // check site preview
+    await expect(page.getByTestId("review-changes-button")).toBeHidden();
     const collectionsPagePromise = page.waitForEvent("popup");
+
     await page.getByText(`${NEXT_PUBLIC_SITE_URL}`).click({ force: true });
     const collectionsPage = await collectionsPagePromise;
 
@@ -131,6 +152,10 @@ test.describe("Main Store Pages", () => {
     await page
       .getByRole("link", { name: "Collections" })
       .click({ force: true });
+
+    await expect(
+      page.getByRole("link", { name: collections?.name })
+    ).toBeVisible();
     await page
       .getByRole("link", { name: collections?.name })
       .click({ force: true });
@@ -152,11 +177,15 @@ test.describe("Main Store Pages", () => {
 
   test("Delete product page", async ({ page }) => {
     await page.getByRole("link", { name: "Products" }).click({ force: true });
+
+    await expect(page.getByRole("link", { name: product?.name })).toBeVisible();
     await page
       .getByRole("link", { name: product?.name })
       .click({ force: true });
+
     await expect(page.getByText("Loading document")).toBeHidden();
     await expect(page.getByLabel("Name")).toHaveValue(product?.name);
+
     // proceed delete
     await deleteDocument(page);
   });
@@ -175,6 +204,15 @@ test.describe("Store Commerce Pages", () => {
   // check cart page preview
   test("Check Cart page preview", async ({ page }) => {
     await page.getByRole("link", { name: "Cart" }).click({ force: true });
+
+    await expect(page.getByText("Loading document")).toBeHidden();
+    await expect(
+      page
+        .getByTestId("field-cartSectionVariant")
+        .locator("div")
+        .filter({ hasText: "Cart Section Variant" })
+        .first()
+    ).toBeVisible();
 
     const cartPagePromise = page.waitForEvent("popup");
     await page.getByText(`${NEXT_PUBLIC_SITE_URL}/cart`).click({ force: true });
@@ -200,6 +238,15 @@ test.describe("Store Commerce Pages", () => {
     await page
       .getByRole("link", { name: "Wishlist", exact: true })
       .click({ force: true });
+
+    await expect(page.getByText("Loading document")).toBeHidden();
+    await expect(
+      page
+        .getByTestId("field-wishlistSectionVariant")
+        .locator("div")
+        .filter({ hasText: "Wishlist Section Variant" })
+        .first()
+    ).toBeVisible();
 
     const wishlistPagePromise = page.waitForEvent("popup");
     await page

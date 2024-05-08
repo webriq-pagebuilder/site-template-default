@@ -116,6 +116,9 @@ test.describe("Verify main actions working", () => {
       .click({ force: true });
     await page.getByRole("link", { name: inputValues.post.title }).click();
 
+    await expect(page.getByText("Loading document")).toBeHidden();
+    await expect(page.getByTestId("string-input")).toBeVisible();
+
     const blogPage = page.waitForEvent("popup");
     await page.getByText(`${NEXT_PUBLIC_SITE_URL}/new-`).click({ force: true });
     const blogPagePreview = await blogPage;
