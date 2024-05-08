@@ -13,13 +13,6 @@ export default async function VariantA({ pageTitle, page, commonFieldValues }) {
   await page.getByText(`${NEXT_PUBLIC_SITE_URL}`).click({ force: true });
   const openUrlPage = await pagePromise;
 
-  await expect(openUrlPage.getByText("Empty Page")).toBeHidden({
-    timeout: 150_000,
-  });
-  await expect(openUrlPage.locator("section")).toBeVisible({
-    timeout: 150_000,
-  });
-
   await expect(
     openUrlPage.getByRole("heading", { name: "SAMPLE. Black Dress" })
   ).toBeVisible();

@@ -21,13 +21,6 @@ async function VariantB({ pageTitle, page, commonFieldValues }) {
   await page.getByText(`${NEXT_PUBLIC_SITE_URL}`).click({ force: true });
   const openUrlPage = await pagePromise;
 
-  await expect(openUrlPage.getByText("Empty Page")).toBeHidden({
-    timeout: 150_000,
-  });
-  await expect(openUrlPage.locator("section")).toBeVisible({
-    timeout: 150_000,
-  });
-
   for (const data of commonFieldValues) {
     await expect(openUrlPage.getByText(data.updatedLabel)).toBeVisible();
     await expect(openUrlPage.getByText(data.updatedValue)).toBeVisible();

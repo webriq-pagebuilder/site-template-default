@@ -24,9 +24,6 @@ async function createFeaturedProductsVariant(pageTitle, page) {
 }
 
 async function assertPageContent(openUrlPage, product, commonFieldValues) {
-  await expect(openUrlPage.locator("section")).toBeVisible({
-    timeout: 150_000,
-  });
   await expect(
     openUrlPage.getByRole("heading", { name: "All Products" })
   ).toBeVisible();

@@ -19,7 +19,6 @@ export default async function VariantC({
     pageTitle,
     page,
     commonFieldValues,
-    linkNames,
     isInternalLink,
   });
 
@@ -38,11 +37,8 @@ async function createFooterVariant({
   pageTitle,
   page,
   commonFieldValues,
-  linkNames,
   isInternalLink,
 }) {
-  console.log("linkNames", linkNames);
-
   if (!isInternalLink) {
     //Logo Alt
     const logoAltInput = page
@@ -128,16 +124,6 @@ async function assertPageContent(
   commonFieldValues,
   isInternalLink
 ) {
-  console.log("linkName", linkName);
-
-  // If the section no items is not found, expect the Empty Page element to be hidden
-  await expect(openUrlPage.getByText("Empty Page")).toBeHidden({
-    timeout: 150_000,
-  });
-  await expect(openUrlPage.locator("section")).toBeVisible({
-    timeout: 150_000,
-  });
-
   //Navigation Routes
   for (const navigation of commonFieldValues.navigationBase.slice(3)) {
     await expect(

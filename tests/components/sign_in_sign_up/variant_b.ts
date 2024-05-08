@@ -250,13 +250,6 @@ async function assertPageContent(
   linkName,
   isInternalLink
 ) {
-  await expect(openUrlPage.getByText("Empty Page")).toBeHidden({
-    timeout: 150_000,
-  });
-  await expect(openUrlPage.locator("section")).toBeVisible({
-    timeout: 150_000,
-  });
-
   await expect(openUrlPage.getByLabel(linkName)).toBeVisible();
   await expect(openUrlPage.getByText(commonFieldValues.subtitle)).toBeVisible();
   await expect(

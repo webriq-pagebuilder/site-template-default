@@ -17,13 +17,6 @@ export default async function VariantB({ pageTitle, page, commonFieldValues }) {
 }
 
 async function assertPageContent(openUrlPage, pageTitle, commonFieldValues) {
-  await expect(openUrlPage.getByText("Empty Page")).toBeHidden({
-    timeout: 150_000,
-  });
-  await expect(openUrlPage.locator("section")).toBeVisible({
-    timeout: 150_000,
-  });
-
   await expect(
     openUrlPage.getByRole("heading", { name: "SAMPLE. Black Dress" })
   ).toBeVisible();

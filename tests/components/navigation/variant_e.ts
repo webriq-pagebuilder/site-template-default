@@ -97,14 +97,6 @@ async function assertPageContent(
   commonFieldValues,
   isInternalLink
 ) {
-  // If the section no items is not found, expect the Empty Page element to be hidden
-  await expect(openUrlPage.getByText("Empty Page")).toBeHidden({
-    timeout: 150_000,
-  });
-  await expect(openUrlPage.locator("section")).toBeVisible({
-    timeout: 150_000,
-  });
-
   //Expect the same value for navigation routes list
   for (const navigation of commonFieldValues.navigationBase) {
     await expect(

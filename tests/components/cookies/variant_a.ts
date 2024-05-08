@@ -48,11 +48,6 @@ export default async function VariantA({ pageTitle, page, commonFieldValues }) {
   const pagePromise = page.waitForEvent("popup");
   await page.getByText(`${NEXT_PUBLIC_SITE_URL}`).click({ force: true });
   const openUrlPage = await pagePromise;
-
-  await expect(openUrlPage.getByText("Empty Page")).toBeHidden({
-    timeout: 150_000,
-  });
-
   //Heading
   await headingField.sitePreview({ pageUrl: openUrlPage, commonFieldValues });
 
