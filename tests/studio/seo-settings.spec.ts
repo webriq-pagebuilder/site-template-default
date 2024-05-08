@@ -1,5 +1,4 @@
 import { test, expect } from "@playwright/test";
-import { NEXT_PUBLIC_SANITY_STUDIO_URL } from "studio/config";
 import { createNewPage, navigateToPage, newPageTitle } from "tests/utils";
 
 let globalSeo = {
@@ -16,7 +15,7 @@ test.describe("Verify SEO Settings", () => {
 
   test("Can add Global SEO values", async ({ page }) => {
     await page.goto(
-      `${NEXT_PUBLIC_SANITY_STUDIO_URL}/desk/__edit__0eb5e38b-33e2-46c9-a1eb-0bac24e14294,type=defaultSeo`
+      `./studio/desk/__edit__0eb5e38b-33e2-46c9-a1eb-0bac24e14294,type=defaultSeo`
     );
     await page
       .getByTestId("field-defaultSeoTitle")
@@ -173,7 +172,7 @@ test.describe("Verify SEO Settings", () => {
         .getByRole("link", { name: "default SEO keywords" })
         .click({ force: true });
       await page.goto(
-        `${NEXT_PUBLIC_SANITY_STUDIO_URL}/desk/__edit__0eb5e38b-33e2-46c9-a1eb-0bac24e14294,type=defaultSeo,field=defaultSeoKeywords`
+        `./studio/desk/__edit__0eb5e38b-33e2-46c9-a1eb-0bac24e14294,type=defaultSeo,field=defaultSeoKeywords`
       );
       await expect(
         page.getByTestId("field-defaultSeoKeywords").getByTestId("string-input")
@@ -200,7 +199,7 @@ test.describe("Verify SEO Settings", () => {
         .getByRole("link", { name: "default SEO synonyms" })
         .click({ force: true });
       await page.goto(
-        `${NEXT_PUBLIC_SANITY_STUDIO_URL}/desk/__edit__0eb5e38b-33e2-46c9-a1eb-0bac24e14294,type=defaultSeo,field=defaultSeoSynonyms`
+        `./studio/desk/__edit__0eb5e38b-33e2-46c9-a1eb-0bac24e14294,type=defaultSeo,field=defaultSeoSynonyms`
       );
       await expect(
         page.getByTestId("field-defaultSeoSynonyms").getByTestId("string-input")
@@ -226,7 +225,7 @@ test.describe("Verify SEO Settings", () => {
         .getByRole("link", { name: "default SEO description" })
         .click({ force: true });
       await page.goto(
-        `${NEXT_PUBLIC_SANITY_STUDIO_URL}/desk/__edit__0eb5e38b-33e2-46c9-a1eb-0bac24e14294,type=defaultSeo,field=defaultSeoDescription`
+        `./studio/desk/__edit__0eb5e38b-33e2-46c9-a1eb-0bac24e14294,type=defaultSeo,field=defaultSeoDescription`
       );
       await expect(
         page

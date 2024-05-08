@@ -1,8 +1,5 @@
 import { expect } from "@playwright/test";
-import {
-  NEXT_PUBLIC_SANITY_STUDIO_URL,
-  NEXT_PUBLIC_SITE_URL,
-} from "studio/config";
+import { NEXT_PUBLIC_SITE_URL } from "studio/config";
 import { customAlphabet } from "nanoid";
 
 export const newPageTitle = (text = "New Page") => {
@@ -236,7 +233,7 @@ export const socialLinks = {
 };
 
 export async function navigateToPage(page) {
-  await page.goto(`${NEXT_PUBLIC_SANITY_STUDIO_URL}`);
+  await page.goto(`./studio`);
 
   // Find the element you want to click
   const element = page.locator('a:has-text("Pages")');

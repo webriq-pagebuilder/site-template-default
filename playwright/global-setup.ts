@@ -1,23 +1,37 @@
-import { chromium } from "@playwright/test";
+import { chromium, FullConfig } from "@playwright/test";
 
 export const authFile = "playwright/.auth/autologin_user.json";
 
-async function globalSetup() {
+async function globalSetup(config: FullConfig) {
+  const { baseURL } = config.projects[0].use;
+  console.log("🚀 [INFO] baseURL:", baseURL);
+
   const browser = await chromium.launch();
+  const context = await browser.newContext();
   const page = await browser.newPage();
 
-  await page.goto("http://localhost:3000");
-  await page.goto("http://localhost:3000/studio");
+  try {
+    await page.goto(baseURL!);
 
-  // Set localStorage needed to autologin
-  await page.evaluate(autologin_studio, {
-    token: process.env.STUDIO_AUTOLOGIN_TOKEN_FOR_TESTING,
-    projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
-  });
+    const autologinCredentials = {
+      token: process.env.STUDIO_AUTOLOGIN_TOKEN_FOR_TESTING,
+      projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
+    };
+    console.log("🚀 [INFO] credentials:", autologinCredentials);
 
-  // Save the authentication state to a file
-  await page.context().storageState({ path: authFile });
-  await browser.close();
+    // Set localStorage needed to autologin
+    await page.evaluate(autologin_studio, autologinCredentials);
+
+    // Save the authentication state to a file
+    await page.context().storageState({ path: authFile });
+    await browser.close();
+  } catch (error) {
+    await context.tracing.stop({
+      path: "./test-results/failed-setup-trace.zip",
+    });
+    await browser.close();
+    throw error;
+  }
 }
 
 function autologin_studio({ token, projectId }) {

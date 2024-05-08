@@ -1,11 +1,10 @@
 import { test, expect } from "@playwright/test";
-import { NEXT_PUBLIC_SANITY_STUDIO_URL } from "studio/config";
 import { newPageTitle } from "tests/utils";
 
 test("Show all components", async ({ page }) => {
   test.setTimeout(120_000);
 
-  await page.goto(`${NEXT_PUBLIC_SANITY_STUDIO_URL}`);
+  await page.goto(`./studio`);
   await page.getByRole("link", { name: "Components" }).click({ force: true });
   await page.locator("create-btn-icon").isVisible();
 });
@@ -17,7 +16,7 @@ test.describe("Main document actions", () => {
   const dupeComponentName = newPageTitle("Duplicate App promo ");
 
   test.beforeEach(async ({ page }) => {
-    await page.goto(`${NEXT_PUBLIC_SANITY_STUDIO_URL}`);
+    await page.goto(`./studio`);
     await page.getByRole("link", { name: "Components" }).click({ force: true });
   });
 
@@ -135,7 +134,7 @@ test.describe("Main document actions", () => {
 test("Can filter component", async ({ page }) => {
   test.setTimeout(120_000);
 
-  await page.goto(`${NEXT_PUBLIC_SANITY_STUDIO_URL}`);
+  await page.goto(`./studio`);
   await page.getByRole("link", { name: "Components" }).click({ force: true });
   await page
     .locator("div")

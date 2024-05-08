@@ -1,6 +1,5 @@
 import { test, expect } from "@playwright/test";
 import { newPageTitle } from "tests/utils";
-import { NEXT_PUBLIC_SANITY_STUDIO_URL } from "studio/config";
 
 test.describe.fixme("Main Store Pages", () => {
   test.describe.configure({ timeout: 600_000, mode: "serial" });
@@ -9,7 +8,7 @@ test.describe.fixme("Main Store Pages", () => {
   const collectionsName = newPageTitle("New collections ");
 
   test.beforeEach("Go to Store tab", async ({ page }) => {
-    await page.goto(`${NEXT_PUBLIC_SANITY_STUDIO_URL}`);
+    await page.goto(`./studio`);
 
     const element = page.locator('a:has-text("Store")');
     await element.scrollIntoViewIfNeeded();
@@ -103,7 +102,7 @@ test.describe("Store Commerce Pages", () => {
   test.describe.configure({ timeout: 600_000, mode: "serial" });
 
   test.beforeEach("Go to Store tab", async ({ page }) => {
-    await page.goto(`${NEXT_PUBLIC_SANITY_STUDIO_URL}`);
+    await page.goto(`./studio`);
 
     const element = page.locator('a:has-text("Store")');
     await element.scrollIntoViewIfNeeded();

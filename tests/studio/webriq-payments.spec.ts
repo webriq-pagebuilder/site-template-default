@@ -1,6 +1,5 @@
 import { test, expect } from "@playwright/test";
 import {
-  NEXT_PUBLIC_SANITY_STUDIO_URL,
   NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY,
   NEXT_PUBLIC_STRIPE_SECRET_KEY,
 } from "studio/config";
@@ -142,6 +141,6 @@ test.describe("Main Workflow", () => {
 });
 
 const navigateToPayments = async ({ page }) => {
-  await page.goto(`${NEXT_PUBLIC_SANITY_STUDIO_URL}`);
+  await page.goto(`./studio`);
   await page.getByRole("link", { name: "Payments" }).click();
 };

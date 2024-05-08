@@ -1,9 +1,6 @@
 import { test, expect } from "@playwright/test";
 import { newPageTitle } from "tests/utils";
-import {
-  NEXT_PUBLIC_SITE_URL,
-  NEXT_PUBLIC_SANITY_STUDIO_URL,
-} from "studio/config";
+import { NEXT_PUBLIC_SITE_URL } from "studio/config";
 import { format } from "date-fns";
 
 const inputValues = {
@@ -28,7 +25,7 @@ test.describe("Verify main actions working", () => {
   const publishedAt = format(new Date(), "MMMM dd, yyyy");
 
   test.beforeEach(async ({ page }) => {
-    await page.goto(`${NEXT_PUBLIC_SANITY_STUDIO_URL}`);
+    await page.goto(`./studio`);
     await page.getByRole("link", { name: "Blog" }).click();
   });
 
