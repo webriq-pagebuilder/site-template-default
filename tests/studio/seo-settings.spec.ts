@@ -116,7 +116,6 @@ test.describe("Verify SEO Settings", () => {
       .getByTestId("field-seo.seoTitle")
       .getByRole("textbox");
     seoTitleFld.click({ force: true });
-    seoTitleFld.press("Meta+a");
     await expect(seoTitleFld).toHaveAttribute("placeholder", pageTitle);
 
     // SEO keywords
@@ -124,7 +123,6 @@ test.describe("Verify SEO Settings", () => {
       .getByTestId("field-seo.seoKeywords")
       .getByRole("textbox");
     seoKeywordsFld.click({ force: true });
-    seoKeywordsFld.press("Meta+a");
     await expect(seoKeywordsFld).toHaveAttribute(
       "placeholder",
       globalSeo?.keywords
@@ -136,7 +134,6 @@ test.describe("Verify SEO Settings", () => {
       .getByRole("textbox");
     await seoSynonymsFld.scrollIntoViewIfNeeded();
     seoSynonymsFld.click({ force: true });
-    seoSynonymsFld.press("Meta+a");
     await expect(seoSynonymsFld).toHaveAttribute(
       "placeholder",
       globalSeo?.synonyms
@@ -148,7 +145,6 @@ test.describe("Verify SEO Settings", () => {
       .getByRole("textbox");
     await seoDescFld.scrollIntoViewIfNeeded();
     seoDescFld.click({ force: true });
-    seoDescFld.press("Meta+a");
     await expect(seoDescFld).toHaveAttribute(
       "placeholder",
       globalSeo?.description

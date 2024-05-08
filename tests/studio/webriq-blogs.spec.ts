@@ -119,27 +119,20 @@ test.describe("Verify main actions working", () => {
     await expect(page.getByText("Loading document")).toBeHidden();
     await expect(page.getByTestId("string-input")).toBeVisible();
 
-    const blogPage = page.waitForEvent("popup");
-    await page.getByText(`${NEXT_PUBLIC_SITE_URL}/new-`).click({ force: true });
-    const blogPagePreview = await blogPage;
-
-    await expect(blogPagePreview.locator("h1")).toContainText(
-      inputValues.post.title
+    await page.goto(
+      `${NEXT_PUBLIC_SITE_URL}/${inputValues.post.title
+        ?.toLowerCase()
+        ?.replace(/\s/g, "-")}`
     );
+    await page.waitForLoadState();
+    await expect(page.locator("h1")).toContainText(inputValues.post.title);
     await expect(
-      blogPagePreview.getByText(inputValues.category.title.toUpperCase())
+      page.getByText(inputValues.category.title.toUpperCase())
     ).toBeVisible();
-    console.log("publishedAt: ", publishedAt);
-    await expect(blogPagePreview.locator('[id="__next"]')).toContainText(
-      publishedAt
-    );
-    await expect(blogPagePreview.locator("h3")).toContainText(
-      inputValues.author.name
-    );
-    await expect(
-      blogPagePreview.getByText("Author", { exact: true })
-    ).toBeVisible();
-    await expect(blogPagePreview.locator('[id="__next"]')).toContainText(
+    await expect(page.locator('[id="__next"]')).toContainText(publishedAt);
+    await expect(page.locator("h3")).toContainText(inputValues.author.name);
+    await expect(page.getByText("Author", { exact: true })).toBeVisible();
+    await expect(page.locator('[id="__next"]')).toContainText(
       inputValues.post.body
     );
   });

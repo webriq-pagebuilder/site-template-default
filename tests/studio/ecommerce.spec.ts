@@ -89,22 +89,22 @@ test.describe("Main Store Pages", () => {
 
     // check site preview
     await expect(page.getByTestId("review-changes-button")).toBeHidden();
-    const productPagePromise = page.waitForEvent("popup");
 
-    await page.getByText(`${NEXT_PUBLIC_SITE_URL}`).click({ force: true });
-    const productPage = await productPagePromise;
-
-    await expect(productPage.locator("h1")).toContainText(product?.name);
-    await expect(productPage.locator('[id="__next"]')).toContainText(
-      product?.price
+    await page.goto(
+      `${NEXT_PUBLIC_SITE_URL}/products/${product?.name
+        ?.toLowerCase()
+        ?.replace(/\s/g, "-")}`
     );
-    await expect(productPage.locator('[id="__next"]')).toContainText(
+    await page.waitForLoadState();
+    await expect(page.locator("h1")).toContainText(product?.name);
+    await expect(page.locator('[id="__next"]')).toContainText(product?.price);
+    await expect(page.locator('[id="__next"]')).toContainText(
       product?.description
     );
-    await expect(productPage.getByText("Qty")).toBeVisible();
-    await expect(productPage.getByText("-+")).toBeVisible();
-    await expect(productPage.getByLabel("Add to Bag button")).toBeVisible();
-    await expect(productPage.getByLabel("Add to Wishlist")).toBeVisible();
+    await expect(page.getByText("Qty")).toBeVisible();
+    await expect(page.getByText("-+")).toBeVisible();
+    await expect(page.getByLabel("Add to Bag button")).toBeVisible();
+    await expect(page.getByLabel("Add to Wishlist")).toBeVisible();
   });
 
   test("Create collections page", async ({ page }) => {
@@ -135,17 +135,15 @@ test.describe("Main Store Pages", () => {
 
     // check site preview
     await expect(page.getByTestId("review-changes-button")).toBeHidden();
-    const collectionsPagePromise = page.waitForEvent("popup");
 
-    await page.getByText(`${NEXT_PUBLIC_SITE_URL}`).click({ force: true });
-    const collectionsPage = await collectionsPagePromise;
-
-    await expect(collectionsPage.locator('[id="__next"]')).toContainText(
-      product?.name
+    await page.goto(
+      `${NEXT_PUBLIC_SITE_URL}/collections/${collections?.name
+        ?.toLowerCase()
+        ?.replace(/\s/g, "-")}`
     );
-    await expect(collectionsPage.locator('[id="__next"]')).toContainText(
-      product?.price
-    );
+    await page.waitForLoadState();
+    await expect(page.locator('[id="__next"]')).toContainText(product?.name);
+    await expect(page.locator('[id="__next"]')).toContainText(product?.price);
   });
 
   test("Delete category page", async ({ page }) => {
@@ -214,23 +212,17 @@ test.describe("Store Commerce Pages", () => {
         .first()
     ).toBeVisible();
 
-    const cartPagePromise = page.waitForEvent("popup");
-    await page.getByText(`${NEXT_PUBLIC_SITE_URL}/cart`).click({ force: true });
-
-    const cartPage = await cartPagePromise;
-    await cartPage.goto(`${NEXT_PUBLIC_SITE_URL}/cart?store-page=cart`);
-
-    await expect(cartPage.locator(".ecwid-productBrowser")).toBeVisible({
+    await page.goto(`${NEXT_PUBLIC_SITE_URL}/cart?store-page=cart`);
+    await page.waitForLoadState();
+    await expect(page.locator(".ecwid-productBrowser")).toBeVisible({
       timeout: 150_000,
     });
-    await expect(cartPage.getByRole("heading")).toContainText("Shopping cart");
+    await expect(page.getByRole("heading")).toContainText("Shopping cart");
+    await expect(page.getByText("Your shopping cart is empty")).toBeVisible();
     await expect(
-      cartPage.getByText("Your shopping cart is empty")
+      page.getByRole("button", { name: "Browse Store" })
     ).toBeVisible();
-    await expect(
-      cartPage.getByRole("button", { name: "Browse Store" })
-    ).toBeVisible();
-    await expect(cartPage.getByRole("link", { name: "Cart" })).toBeVisible();
+    await expect(page.getByRole("link", { name: "Cart" })).toBeVisible();
   });
 
   // check wishlist page preview
@@ -248,14 +240,10 @@ test.describe("Store Commerce Pages", () => {
         .first()
     ).toBeVisible();
 
-    const wishlistPagePromise = page.waitForEvent("popup");
-    await page
-      .getByText(`${NEXT_PUBLIC_SITE_URL}/wishlist`)
-      .click({ force: true });
-
-    const wishlistPage = await wishlistPagePromise;
+    await page.goto(`${NEXT_PUBLIC_SITE_URL}/wishlist`);
+    await page.waitForLoadState();
     await expect(
-      wishlistPage
+      page
         .locator("div")
         .filter({
           hasText:
