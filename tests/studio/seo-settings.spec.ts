@@ -13,10 +13,25 @@ const newSeoPage = newPageTitle("Test SEO page ");
 test.describe("Verify SEO Settings", () => {
   test.describe.configure({ timeout: 600_000, mode: "serial" });
 
+  test("Create test page for SEO", async ({ page }) => {
+    await navigateToPage(page);
+    await createNewPage(page, newSeoPage, null);
+  });
+
   test("Can add Global SEO values", async ({ page }) => {
-    await page.goto(
-      `./studio/desk/__edit__0eb5e38b-33e2-46c9-a1eb-0bac24e14294,type=defaultSeo`
-    );
+    await navigateToPage(page);
+    await page.getByRole("link", { name: newSeoPage }).click({ force: true });
+    await page
+      .getByRole("button", { name: "SEO Settings" })
+      .click({ force: true });
+
+    // click the SEO link from the first field
+    await page
+      .getByRole("link", { name: "default SEO keywords" })
+      .click({ force: true });
+    await expect(page.getByText("SEO Title")).toBeVisible({ timeout: 120_000 });
+
+    // input global SEO
     await page
       .getByTestId("field-defaultSeoTitle")
       .getByTestId("string-input")
@@ -75,17 +90,6 @@ test.describe("Verify SEO Settings", () => {
     await page
       .getByTestId("action-Save")
       .click({ force: true, timeout: 180_000 });
-  });
-
-  test("Create test page for SEO", async ({ page }) => {
-    await navigateToPage(page);
-    await createNewPage(page, newSeoPage, null);
-    await page
-      .getByTestId("action-[object Object]")
-      .click({ force: true, timeout: 30_000 });
-    await page
-      .getByRole("button", { name: "SEO Settings" })
-      .click({ force: true });
   });
 
   test("Empty SEO settings matches Global SEO values", async ({ page }) => {
@@ -171,9 +175,6 @@ test.describe("Verify SEO Settings", () => {
       await page
         .getByRole("link", { name: "default SEO keywords" })
         .click({ force: true });
-      await page.goto(
-        `./studio/desk/__edit__0eb5e38b-33e2-46c9-a1eb-0bac24e14294,type=defaultSeo,field=defaultSeoKeywords`
-      );
       await expect(
         page.getByTestId("field-defaultSeoKeywords").getByTestId("string-input")
       ).toBeVisible({
@@ -198,9 +199,6 @@ test.describe("Verify SEO Settings", () => {
       await page
         .getByRole("link", { name: "default SEO synonyms" })
         .click({ force: true });
-      await page.goto(
-        `./studio/desk/__edit__0eb5e38b-33e2-46c9-a1eb-0bac24e14294,type=defaultSeo,field=defaultSeoSynonyms`
-      );
       await expect(
         page.getByTestId("field-defaultSeoSynonyms").getByTestId("string-input")
       ).toBeVisible({
@@ -224,9 +222,6 @@ test.describe("Verify SEO Settings", () => {
       await page
         .getByRole("link", { name: "default SEO description" })
         .click({ force: true });
-      await page.goto(
-        `./studio/desk/__edit__0eb5e38b-33e2-46c9-a1eb-0bac24e14294,type=defaultSeo,field=defaultSeoDescription`
-      );
       await expect(
         page
           .getByLabel("Description")
