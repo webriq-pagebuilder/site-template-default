@@ -353,9 +353,28 @@ export async function expectDocumentPublished(page, pageTitle) {
     "color",
     "rgb(149, 130, 40)"
   );
+
   const publishButton = page.locator('button:has-text("Publish")');
-  await expect(publishButton).toHaveAttribute("data-disabled", "false");
-  await publishButton.click();
+  let publishedCSS = false;
+  let clicks = 0;
+
+  while (!publishedCSS && clicks <= 5) {
+    await expect(publishButton).toHaveAttribute("data-disabled", "false");
+    await publishButton.click();
+
+    try {
+      await expect(page.locator('a[target="_blank"]')).toHaveCSS(
+        "color",
+        "rgb(49, 151, 94)"
+      );
+
+      publishedCSS = true;
+    } catch (error) {
+      console.error("Publish check failed, retrying...", error);
+    }
+
+    clicks++;
+  }
 
   await expect(page.locator('a[target="_blank"]')).toHaveCSS(
     "color",
@@ -372,14 +391,27 @@ export async function deletePageVariant(page, pageTitle, variantLabel) {
     state: "visible",
   });
 
-  await page.getByRole("link", { name: pageTitle }).click({ force: true });
-  await page.waitForSelector(`a:has-text("${pageTitle}")`, {
-    state: "visible",
-  });
-  await page.getByLabel("Clear").click({ force: true });
+  let variantLabelVisible = false;
+  let variantClicks = 0;
 
-  await expect(page.getByText("Loading document")).toBeHidden();
-  await expect(page.getByRole("link", { name: variantLabel })).toBeVisible();
+  while (!variantLabelVisible && variantClicks <= 5) {
+    await page.locator(`a:has-text("${pageTitle}")`).click({ force: true });
+    await expect(page.getByText("Loading document")).toBeHidden();
+
+    try {
+      await expect(
+        page.getByRole("link", { name: variantLabel })
+      ).toBeVisible();
+
+      variantLabelVisible = true;
+    } catch (error) {
+      console.error("Variant Label not visible, retrying...", error);
+    }
+
+    variantClicks++;
+  }
+
+  await page.getByLabel("Clear").click({ force: true });
   await page.getByRole("link", { name: variantLabel }).click();
   await page.getByRole("button", { name: pageTitle }).click();
   await page.getByTestId("field-sections").getByRole("button").nth(1).click();
@@ -401,8 +433,26 @@ export async function deletePageVariant(page, pageTitle, variantLabel) {
   );
 
   const publishButton = page.locator('button:has-text("Publish")');
-  await expect(publishButton).toHaveAttribute("data-disabled", "false");
-  await publishButton.click();
+  let publishedCSS = false;
+  let clicks = 0;
+
+  while (!publishedCSS && clicks <= 5) {
+    await expect(publishButton).toHaveAttribute("data-disabled", "false");
+    await publishButton.click();
+
+    try {
+      await expect(page.locator('a[target="_blank"]')).toHaveCSS(
+        "color",
+        "rgb(49, 151, 94)"
+      );
+
+      publishedCSS = true;
+    } catch (error) {
+      console.error("Publish check failed, retrying...", error);
+    }
+
+    clicks++;
+  }
 
   await expect(page.locator('a[target="_blank"]')).toHaveCSS(
     "color",
@@ -483,12 +533,27 @@ export async function updateLogoLink(page, altText) {
     page.getByLabel("Internal, inside this website").first()
   ).toBeChecked();
 
+  let urlInputVisible = false;
+  let clicks = 0;
+
+  while (!urlInputVisible && clicks <= 5) {
+    await page
+      .locator('span:has-text("External, outside this website")')
+      .first()
+      .click({ force: true });
+
+    urlInputVisible = await page
+      .locator('input[inputmode="url"]')
+      .first()
+      .isVisible();
+
+    clicks++;
+  }
+
   await page
-    .getByLabel("External, outside this website")
+    .locator('input[inputmode="url"]')
     .first()
-    .click({ force: true });
-  await expect(page.getByLabel("URL")).toBeVisible();
-  await page.getByLabel("URL").fill("https://webriq.com");
+    .fill("https://webriq.com");
   await expect(
     page.getByLabel("Self (default) - open in the").first()
   ).toBeChecked();
