@@ -9,31 +9,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Use Node.js cache
-        uses: actions/cache@v3
-        with:
-          path: |
-            ~/.npm
-            **/node_modules
-          key: ${{ runner.os }}-node-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
-
       - uses: actions/setup-node@v4
         with:
           node-version: 18
           cache: "yarn"
 
       - run: yarn install --frozen-lockfile
-
-      - name: Cache Playwright browsers
-        uses: actions/cache@v3
-        with:
-          path: |
-            ~/.cache/ms-playwright
-          key: ${{ runner.os }}-playwright-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-playwright-
 
       - name: Install Playwright
         run: npx playwright install --with-deps
@@ -51,13 +32,14 @@ jobs:
           name: playwright-report
           path: playwright-report/
 
-      - name: Deploy to Netlify
-        run: npx netlify-cli deploy --dir=playwright-report --prod --yes
-        env:
-          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+      # - name: Deploy to Netlify
+      #   run: npx netlify-cli deploy --dir=playwright-report --prod --yes
+      #   env:
+      #     NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+      #     NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
 
-      - uses: actions/upload-artifact@v4
+      - name: Upload Playwright Trace
+        uses: actions/upload-artifact@v4
         if: failure()
         with:
           name: playwright-test-results
