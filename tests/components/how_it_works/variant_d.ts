@@ -1,6 +1,5 @@
 import { expect } from "@playwright/test";
 import { howItWorksInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-default";
-import { NEXT_PUBLIC_SITE_URL } from "studio/config";
 import {
   expectDocumentPublished,
   subtitleField,

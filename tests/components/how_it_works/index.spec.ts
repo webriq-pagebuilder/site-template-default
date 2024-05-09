@@ -89,6 +89,7 @@ howItWorksVariantTest.forEach((variants, index) => {
         pageTitle,
         page,
         commonFieldValues,
+        baseURL,
       });
     });
 

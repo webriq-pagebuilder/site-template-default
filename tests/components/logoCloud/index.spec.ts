@@ -69,6 +69,7 @@ logoCloudVariantTest.forEach((variants, index) => {
         page,
         commonFieldValues,
         isInternalLink,
+        baseURL,
       });
     });
 

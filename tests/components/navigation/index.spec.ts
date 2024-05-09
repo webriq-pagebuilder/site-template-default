@@ -96,6 +96,7 @@ navigationVariantTest.forEach((variants, index) => {
         commonFieldValues,
         linkNames,
         isInternalLink,
+        baseURL,
       });
     });
 
