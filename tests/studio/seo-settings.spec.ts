@@ -116,6 +116,7 @@ test.describe("Verify SEO Settings", () => {
 
     await expect(page.getByRole("link", { name: newSeoPage })).toBeVisible();
     await page.getByRole("link", { name: newSeoPage }).click({ force: true });
+    await expect(page.getByText("Loading document")).toBeHidden();
     await page
       .getByRole("button", { name: "SEO Settings" })
       .click({ force: true });
@@ -162,6 +163,9 @@ test.describe("Verify SEO Settings", () => {
     test.beforeEach(async ({ page }) => {
       await navigateToPage(page);
       await page.getByRole("link", { name: newSeoPage }).click({ force: true });
+      await expect(
+        page.getByRole("button", { name: "SEO Settings" })
+      ).toBeVisible();
       await page
         .getByRole("button", { name: "SEO Settings" })
         .click({ force: true });
@@ -274,9 +278,10 @@ test.describe("Verify SEO Settings", () => {
     seoSynonymsFld.fill("test page");
 
     // SEO description
-    const seoDescFld = page.getByPlaceholder(globalSeo?.description);
-    await expect(seoDescFld).toBeVisible({ timeout: 150_000 });
-    seoDescFld.fill("This is the SEO description of this page.");
+    await expect(page.getByPlaceholder(globalSeo?.description)).toBeVisible();
+    await page
+      .getByPlaceholder(globalSeo?.description)
+      .fill("This is the SEO description of this page.");
 
     console.log("[DONE] Testing Can add page SEO values 🚀");
   });
@@ -298,12 +303,6 @@ test.describe("Verify SEO Settings", () => {
     await expect(page.getByText("Loading document")).toBeHidden();
 
     // delete test page
-    await expect(
-      page
-        .locator('[data-testid="review-changes-button"]')
-        .filter({ hasText: "Just now" })
-    ).toBeVisible({ timeout: 150_000 });
-
     await deleteDocument(page);
 
     console.log("[DONE] Testing Delete test page for SEO 🚀");

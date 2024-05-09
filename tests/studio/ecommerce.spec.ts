@@ -1,5 +1,4 @@
 import { test, expect } from "@playwright/test";
-import { NEXT_PUBLIC_SITE_URL } from "studio/config";
 import {
   deleteDocument,
   navigateToStore,
@@ -64,7 +63,7 @@ test.describe("Main Store Pages", () => {
     await navigateToStore(page);
   });
 
-  test("Create product page", async ({ page }) => {
+  test("Create product page", async ({ page, baseURL }) => {
     await page.getByRole("link", { name: "Products" }).click({ force: true });
     await page.waitForLoadState();
 
@@ -99,9 +98,7 @@ test.describe("Main Store Pages", () => {
     await expect(page.getByTestId("review-changes-button")).toBeHidden();
 
     await page.goto(
-      `${NEXT_PUBLIC_SITE_URL}/products/${product?.name
-        ?.toLowerCase()
-        ?.replace(/\s/g, "-")}`
+      `${baseURL}/products/${product?.name?.toLowerCase()?.replace(/\s/g, "-")}`
     );
     await page.waitForLoadState("domcontentloaded");
     await expect(
@@ -118,7 +115,7 @@ test.describe("Main Store Pages", () => {
     console.log("[DONE] Testing Create product page 🚀");
   });
 
-  test("Create collections page", async ({ page }) => {
+  test("Create collections page", async ({ page, baseURL }) => {
     await page
       .getByRole("link", { name: "Collections" })
       .click({ force: true });
@@ -147,7 +144,7 @@ test.describe("Main Store Pages", () => {
     await expect(page.getByTestId("review-changes-button")).toBeHidden();
 
     await page.goto(
-      `${NEXT_PUBLIC_SITE_URL}/collections/${collections?.name
+      `${baseURL}/collections/${collections?.name
         ?.toLowerCase()
         ?.replace(/\s/g, "-")}`
     );
@@ -218,7 +215,7 @@ test.describe("Store Commerce Pages", () => {
   });
 
   // check cart page preview
-  test("Check Cart page preview", async ({ page }) => {
+  test("Check Cart page preview", async ({ page, baseURL }) => {
     await page.getByRole("link", { name: "Cart" }).click({ force: true });
 
     await expect(page.getByText("Loading document")).toBeHidden();
@@ -240,8 +237,8 @@ test.describe("Store Commerce Pages", () => {
     }
     await expect(publishButton).toHaveAttribute("data-disabled", "true");
 
-    await page.goto(`${NEXT_PUBLIC_SITE_URL}/cart`);
-    await page.goto(`${NEXT_PUBLIC_SITE_URL}/cart?store-page=cart`);
+    await page.goto(`${baseURL}/cart`);
+    await page.goto(`${baseURL}/cart?store-page=cart`);
     await page.waitForLoadState("domcontentloaded");
     await expect(page.locator(".ecwid-productBrowser")).toBeVisible({
       timeout: 150_000,
@@ -264,7 +261,7 @@ test.describe("Store Commerce Pages", () => {
   });
 
   // check wishlist page preview
-  test("Check Wishlist page preview", async ({ page }) => {
+  test("Check Wishlist page preview", async ({ page, baseURL }) => {
     await page
       .getByRole("link", { name: "Wishlist", exact: true })
       .click({ force: true });
@@ -278,7 +275,7 @@ test.describe("Store Commerce Pages", () => {
         .first()
     ).toBeVisible();
 
-    await page.goto(`${NEXT_PUBLIC_SITE_URL}/wishlist`);
+    await page.goto(`${baseURL}/wishlist`);
     await page.waitForLoadState("domcontentloaded");
     await expect(page.locator('p:has-text("Wishlist is empty")')).toBeVisible();
     await expect(

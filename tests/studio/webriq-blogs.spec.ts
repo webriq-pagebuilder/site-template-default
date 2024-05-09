@@ -1,6 +1,5 @@
 import { test, expect } from "@playwright/test";
 import { newPageTitle, publishDocument, deleteDocument } from "tests/utils";
-import { NEXT_PUBLIC_SITE_URL } from "studio/config";
 import { format } from "date-fns";
 
 const inputValues = {
@@ -118,7 +117,7 @@ test.describe("Verify main actions working", () => {
     console.log("[DONE] Testing Create blog page 🚀");
   });
 
-  test("Check site preview", async ({ page }) => {
+  test("Check site preview", async ({ page, baseURL }) => {
     await page
       .getByRole("tab", { name: "Posts", exact: true })
       .click({ force: true });
@@ -128,9 +127,7 @@ test.describe("Verify main actions working", () => {
     await expect(page.getByTestId("string-input")).toBeVisible();
 
     await page.goto(
-      `${NEXT_PUBLIC_SITE_URL}/${inputValues.post.title
-        ?.toLowerCase()
-        ?.replace(/\s/g, "-")}`
+      `${baseURL}/${inputValues.post.title?.toLowerCase()?.replace(/\s/g, "-")}`
     );
     await page.waitForLoadState("domcontentloaded");
     await expect(page.getByText(inputValues?.category?.title)).toBeVisible({

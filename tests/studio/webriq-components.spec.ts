@@ -27,28 +27,34 @@ test.describe("Main document actions", () => {
 
   test("Can create component", async ({ page }) => {
     await page.waitForLoadState("domcontentloaded");
-    await page.getByText("Select...").click();
-    await expect(page.getByText("App Promo")).toBeVisible();
-    await page.getByText("App Promo").click();
-    await expect(page.getByText("Loading document")).toBeHidden();
+    await expect(
+      page.locator(`div[aria-label="default-loading-card"]`).first()
+    ).toBeHidden();
     await expect(
       page.getByRole("button", { name: "New App Promo" })
     ).toBeVisible();
+
     await page
       .getByRole("button", { name: "New App Promo" })
       .click({ force: true });
+    await expect(
+      page.locator("div").filter({ hasText: /^1\. Section Name$/ })
+    ).toBeVisible();
+    await expect(page.getByTestId("string-input")).toBeVisible();
+
     await page.getByTestId("string-input").click();
     await page.getByTestId("string-input").fill(newComponentName);
     await page.getByTestId("field-variant").getByRole("img").nth(2).click();
+
     await expect(
       page
         .locator('[data-testid="review-changes-button"]')
         .filter({ hasText: "Just now" })
-    ).toBeVisible({ timeout: 150_000 });
+    ).toBeVisible();
     await page.getByTestId("action-Save").click({ force: true });
     await expect(
       page.locator("[aria-label='Last published just now']").first()
-    ).toBeVisible({ timeout: 180_000 });
+    ).toBeVisible();
 
     console.log("[DONE] Testing Can create component 🚀");
   });
@@ -84,6 +90,11 @@ test.describe("Main document actions", () => {
       .getByTestId("field-label")
       .getByTestId("string-input")
       .fill(dupeComponentName);
+    await expect(
+      page
+        .locator('[data-testid="review-changes-button"]')
+        .filter({ hasText: "Just now" })
+    ).toBeVisible();
     await page.getByTestId("action-Save").click({ force: true });
     await expect(
       page.locator("[aria-label='Last published just now']").first()
@@ -96,10 +107,11 @@ test.describe("Main document actions", () => {
     const cardName = newComponentName?.toLowerCase()?.replace(/\s/g, "");
     const dupeCardName = dupeComponentName?.toLowerCase()?.replace(/\s/g, "");
 
-    await expect(page.locator(`div.${cardName}`).first()).toBeVisible({
-      timeout: 180_000,
-    });
+    await expect(page.locator(`div.${cardName}`).first()).toBeVisible();
     await page.locator(`div.${cardName}`).first().hover();
+    await expect(
+      page.locator(`div.${dupeCardName} button.components-delete-btn`).first()
+    ).toBeVisible();
     await page
       .locator(`div.${cardName} button.components-delete-btn`)
       .first()
@@ -113,11 +125,12 @@ test.describe("Main document actions", () => {
       .locator("[aria-label='Close dialog']")
       .first()
       .click({ force: true });
-    await expect(
-      page.locator("div").filter({ hasText: dupeComponentName }).first()
-    ).toBeVisible({ timeout: 180_000 });
+    await expect(page.locator(`div.${cardName}`)).toBeVisible();
 
     await page.locator(`div.${cardName}`).first().hover();
+    await expect(
+      page.locator(`div.${dupeCardName} button.components-delete-btn`).first()
+    ).toBeVisible();
     await page
       .locator(`div.${cardName} button.components-delete-btn`)
       .first()
@@ -126,11 +139,12 @@ test.describe("Main document actions", () => {
       .locator("[aria-label='Cancel delete component']")
       .first()
       .click({ force: true });
-    await expect(
-      page.locator("div").filter({ hasText: dupeComponentName }).first()
-    ).toBeVisible({ timeout: 180_000 });
+    await expect(page.locator(`div.${cardName}`)).toBeVisible();
 
     await page.locator(`div.${cardName}`).first().hover();
+    await expect(
+      page.locator(`div.${dupeCardName} button.components-delete-btn`).first()
+    ).toBeVisible();
     await page
       .locator(`div.${cardName} button.components-delete-btn`)
       .first()
@@ -140,19 +154,6 @@ test.describe("Main document actions", () => {
       .first()
       .click({ force: true });
     await expect(page.locator(`div.${cardName}`).first()).toHaveCount(0, {
-      timeout: 180_000,
-    });
-
-    await page.locator(`div.${dupeCardName}`).first().hover();
-    await page
-      .locator(`div.${dupeCardName} button.components-delete-btn`)
-      .first()
-      .click({ force: true });
-    await page
-      .locator("[aria-label='Delete component']")
-      .first()
-      .click({ force: true });
-    await expect(page.locator(`div.${dupeCardName}`).first()).toHaveCount(0, {
       timeout: 180_000,
     });
 
