@@ -50,6 +50,11 @@ async function assertPageContent(openUrlPage, product, commonFieldValues) {
   await assertInternalUrl(openUrlPage, product.link);
   for (const links of commonFieldValues.socialLinks) {
     const page6Promise = openUrlPage.waitForEvent("popup");
+    await expect(
+      openUrlPage
+        .locator(`a[href*="${links.socialLinkUrl.split("//")[1]}"]`)
+        .first()
+    ).toBeVisible();
     await openUrlPage
       .locator(`a[href*="${links.socialLinkUrl.split("//")[1]}"]`)
       .first()

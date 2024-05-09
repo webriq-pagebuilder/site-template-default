@@ -1,6 +1,5 @@
 import { expect } from "@playwright/test";
 import { expectDocumentPublished } from "tests/utils";
-import { NEXT_PUBLIC_SITE_URL } from "studio/config";
 
 async function VariantB({ pageTitle, page, commonFieldValues, baseURL }) {
   for (const data of commonFieldValues) {
@@ -16,6 +15,7 @@ async function VariantB({ pageTitle, page, commonFieldValues, baseURL }) {
   }
 
   await expectDocumentPublished(page, pageTitle);
+  await expect(page.getByText(`${baseURL}`)).toBeVisible();
 
   const pagePromise = page.waitForEvent("popup");
   await page.getByText(baseURL).click({ force: true });

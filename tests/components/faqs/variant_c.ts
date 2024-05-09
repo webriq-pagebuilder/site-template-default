@@ -40,6 +40,7 @@ export default async function VariantC({
   }
 
   await expectDocumentPublished(page, pageTitle);
+  await expect(page.getByText(`${baseURL}`)).toBeVisible();
 
   const pagePromise = page.waitForEvent("popup");
   await page.getByText(baseURL).click({ force: true });

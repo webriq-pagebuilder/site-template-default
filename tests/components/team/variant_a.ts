@@ -4,7 +4,6 @@ import {
   subtitleField,
   titleField,
 } from "tests/utils";
-import { NEXT_PUBLIC_SITE_URL } from "studio/config";
 import { teamInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-default";
 
 export default async function VariantA({
@@ -45,6 +44,7 @@ export default async function VariantA({
   }
 
   await expectDocumentPublished(page, pageTitle);
+  await expect(page.getByText(`${baseURL}`)).toBeVisible();
 
   const pagePromise = page.waitForEvent("popup");
   await page.getByText(baseURL).click({ force: true });

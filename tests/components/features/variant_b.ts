@@ -5,7 +5,6 @@ import {
   subtitleField,
   titleField,
 } from "tests/utils";
-import { NEXT_PUBLIC_SITE_URL } from "studio/config";
 import { featuresInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-default";
 
 const featuresLength = featuresInitialValue.arrayOfImageTitleAndText.length;
@@ -49,6 +48,8 @@ async function VariantB({ pageTitle, page, commonFieldValues, baseURL }) {
 
   // check site preview
   await expectDocumentPublished(page, pageTitle);
+  await expect(page.getByText(`${baseURL}`)).toBeVisible();
+
   const pagePromise = page.waitForEvent("popup");
   await page.getByText(baseURL).click({ force: true });
   const openUrlPage = await pagePromise;

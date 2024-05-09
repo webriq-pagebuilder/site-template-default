@@ -1,22 +1,32 @@
 import { expect } from "@playwright/test";
-import { NEXT_PUBLIC_SITE_URL } from "studio/config";
 import {
   expectDocumentPublished,
   assertExternalUrl,
   assertInternalUrl,
 } from "tests/utils";
 
-export default async function VariantB({ pageTitle, page, commonFieldValues }) {
+export default async function VariantB({
+  pageTitle,
+  page,
+  commonFieldValues,
+  baseURL,
+}) {
   await expectDocumentPublished(page, pageTitle);
+  await expect(page.getByText(`${baseURL}`)).toBeVisible();
 
   const pagePromise = page.waitForEvent("popup");
-  await page.getByText(`${NEXT_PUBLIC_SITE_URL}`).click({ force: true });
+  await page.getByText(`${baseURL}`).click({ force: true });
   const openUrlPage = await pagePromise;
 
-  await assertPageContent(openUrlPage, pageTitle, commonFieldValues);
+  await assertPageContent(openUrlPage, pageTitle, commonFieldValues, baseURL);
 }
 
-async function assertPageContent(openUrlPage, pageTitle, commonFieldValues) {
+async function assertPageContent(
+  openUrlPage,
+  pageTitle,
+  commonFieldValues,
+  baseURL
+) {
   await expect(
     openUrlPage.getByRole("heading", { name: "SAMPLE. Black Dress" })
   ).toBeVisible();
@@ -65,7 +75,7 @@ async function assertPageContent(openUrlPage, pageTitle, commonFieldValues) {
 
   await assertInternalUrl(openUrlPage, commonFieldValues.wishlistUrl);
   //Go back to slug page to remove wishlist
-  await openUrlPage.goto(`${NEXT_PUBLIC_SITE_URL}/${slug}`);
+  await openUrlPage.goto(`${baseURL}/${slug}`);
 
   //Click remove from wishlist
   await openUrlPage
@@ -87,7 +97,7 @@ async function assertPageContent(openUrlPage, pageTitle, commonFieldValues) {
   //Loop links
   for (const links of commonFieldValues.socialLinks) {
     //Go back to slug page to loop links
-    await openUrlPage.goto(`${NEXT_PUBLIC_SITE_URL}/${slug}`);
+    await openUrlPage.goto(`${baseURL}/${slug}`);
     await expect(openUrlPage.getByLabel(links.name)).toBeVisible();
     const page10Promise = openUrlPage.waitForEvent("popup");
     await openUrlPage

@@ -40,7 +40,7 @@ productInfoTest.forEach((variants, index) => {
   const pageTitle = newPageTitle(title);
 
   test.describe(`${name}`, () => {
-    test(`Create ${label}`, async ({ page }) => {
+    test(`Create ${label}`, async ({ page, baseURL }) => {
       console.log(`[INFO] - Testing Product Info ${variant} 🚀`);
       await beforeEachTest(page, pageTitle, "Product Info", label, index);
       const variantTest = variantModules[variant];
@@ -49,6 +49,7 @@ productInfoTest.forEach((variants, index) => {
         pageTitle,
         page,
         commonFieldValues,
+        baseURL,
       });
     });
 

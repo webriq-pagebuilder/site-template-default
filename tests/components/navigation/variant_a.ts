@@ -1,5 +1,5 @@
 import { expect } from "@playwright/test";
-import { NEXT_PUBLIC_SITE_URL } from "studio/config";
+
 import {
   expectDocumentPublished,
   assertExternalUrl,
@@ -135,6 +135,7 @@ export default async function createNavigationVariant({
   await page.getByRole("button", { name: "Secondary Button" }).click();
 
   await expectDocumentPublished(page, pageTitle);
+  await expect(page.getByText(`${baseURL}`)).toBeVisible();
 
   const pagePromise = page.waitForEvent("popup");
   await page.getByText(baseURL).click({ force: true });
@@ -158,7 +159,7 @@ export default async function createNavigationVariant({
     ?.replace(/\s+/g, "-")
     .replace(/-+/g, "-");
   for (const linkName of linkNames) {
-    await page.goto(`${NEXT_PUBLIC_SITE_URL}/${slug}`);
+    await page.goto(`${baseURL}/${slug}`);
     await assertPageContent(page, linkName, commonFieldValues, isInternalLink);
   }
 }

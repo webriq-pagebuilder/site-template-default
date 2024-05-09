@@ -1,6 +1,5 @@
 import { expect } from "@playwright/test";
 import { pricingInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-default";
-import { NEXT_PUBLIC_SITE_URL } from "studio/config";
 import {
   descriptionField,
   expectDocumentPublished,
@@ -79,6 +78,7 @@ export default async function VariantB({
   }
 
   await expectDocumentPublished(page, pageTitle);
+  await expect(page.getByText(`${baseURL}`)).toBeVisible();
 
   const pagePromise = page.waitForEvent("popup");
   await page.getByText(baseURL).click({ force: true });

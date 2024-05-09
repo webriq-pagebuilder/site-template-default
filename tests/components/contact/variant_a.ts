@@ -7,6 +7,7 @@ import {
   socialLinks,
 } from "tests/utils";
 import { form } from "./index.spec";
+import { expect } from "@playwright/test";
 
 async function VariantA({
   pageTitle,
@@ -60,6 +61,8 @@ async function VariantA({
 
   // check site preview
   await expectDocumentPublished(page, pageTitle);
+  await expect(page.getByText(`${baseURL}`)).toBeVisible();
+
   const pagePromise = page.waitForEvent("popup");
   await page.getByText(baseURL).click({ force: true });
   const openUrlPage = await pagePromise;

@@ -59,6 +59,8 @@ async function VariantA({ pageTitle, page, commonFieldValues, baseURL }) {
 
   // check site preview
   await expectDocumentPublished(page, pageTitle);
+  await expect(page.getByText(`${baseURL}`)).toBeVisible();
+
   const pagePromise = page.waitForEvent("popup");
   await page.getByText(baseURL).click({ force: true });
   const openUrlPage = await pagePromise;
