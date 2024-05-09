@@ -389,7 +389,9 @@ function VariantB({
                   >
                     {ecwidProduct
                       ? getPriceDisplay()
-                      : ecwidProduct?.defaultDisplayedPriceFormatted}
+                      : ecwidProduct?.defaultDisplayedPriceFormatted
+                      ? ecwidProduct?.defaultDisplayedPriceFormatted
+                      : product?.price}
                   </p>
                 )}
 

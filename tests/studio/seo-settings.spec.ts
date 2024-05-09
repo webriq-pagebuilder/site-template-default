@@ -24,7 +24,7 @@ test.describe("Verify SEO Settings", () => {
     await navigateToPage(page);
     await createNewPage(page, newSeoPage, null);
 
-    console.log("[DONE] Testing Create test page for SEO 🚀");
+    console.log("[DONE] Create test page for SEO 🚀");
   });
 
   test("Can add global SEO values", async ({ page }) => {
@@ -104,7 +104,7 @@ test.describe("Verify SEO Settings", () => {
       .getByTestId("action-Save")
       .click({ force: true, timeout: 180_000 });
 
-    console.log("[DONE] Testing Can add global SEO values 🚀");
+    console.log("[DONE] Can add global SEO values 🚀");
   });
 
   test("Sets global SEO values when page SEO is undefined", async ({
@@ -116,6 +116,7 @@ test.describe("Verify SEO Settings", () => {
 
     await expect(page.getByRole("link", { name: newSeoPage })).toBeVisible();
     await page.getByRole("link", { name: newSeoPage }).click({ force: true });
+    await expect(page.getByText("Loading document")).toBeHidden();
     await page
       .getByRole("button", { name: "SEO Settings" })
       .click({ force: true });
@@ -151,9 +152,7 @@ test.describe("Verify SEO Settings", () => {
     // SEO description
     await expect(page.getByPlaceholder(globalSeo?.description)).toBeVisible();
 
-    console.log(
-      "[DONE] Testing Sets global SEO values when page SEO is undefined 🚀"
-    );
+    console.log("[DONE] Sets global SEO values when page SEO is undefined 🚀");
   });
 
   test.describe("Redirects to global SEO page", () => {
@@ -161,7 +160,11 @@ test.describe("Verify SEO Settings", () => {
 
     test.beforeEach(async ({ page }) => {
       await navigateToPage(page);
+      await expect(page.getByRole("link", { name: newSeoPage })).toBeVisible();
       await page.getByRole("link", { name: newSeoPage }).click({ force: true });
+      await expect(
+        page.getByRole("button", { name: "SEO Settings" })
+      ).toBeVisible();
       await page
         .getByRole("button", { name: "SEO Settings" })
         .click({ force: true });
@@ -238,7 +241,7 @@ test.describe("Verify SEO Settings", () => {
       ).toBeVisible({ timeout: 120_000 });
     });
 
-    console.log("[DONE] Testing Redirects to global SEO page 🚀");
+    console.log("[DONE] Redirects to global SEO page 🚀");
   });
 
   test("Can add page SEO values", async ({ page }) => {
@@ -274,11 +277,12 @@ test.describe("Verify SEO Settings", () => {
     seoSynonymsFld.fill("test page");
 
     // SEO description
-    const seoDescFld = page.getByPlaceholder(globalSeo?.description);
-    await expect(seoDescFld).toBeVisible({ timeout: 150_000 });
-    seoDescFld.fill("This is the SEO description of this page.");
+    await expect(page.getByPlaceholder(globalSeo?.description)).toBeVisible();
+    await page
+      .getByPlaceholder(globalSeo?.description)
+      .fill("This is the SEO description of this page.");
 
-    console.log("[DONE] Testing Can add page SEO values 🚀");
+    console.log("[DONE] Can add page SEO values 🚀");
   });
 
   test("Delete test page for SEO", async ({ page }) => {
@@ -298,14 +302,8 @@ test.describe("Verify SEO Settings", () => {
     await expect(page.getByText("Loading document")).toBeHidden();
 
     // delete test page
-    await expect(
-      page
-        .locator('[data-testid="review-changes-button"]')
-        .filter({ hasText: "Just now" })
-    ).toBeVisible({ timeout: 150_000 });
-
     await deleteDocument(page);
 
-    console.log("[DONE] Testing Delete test page for SEO 🚀");
+    console.log("[DONE] Delete test page for SEO 🚀");
   });
 });

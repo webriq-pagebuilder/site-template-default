@@ -56,7 +56,7 @@ test.describe("Main Workflow", () => {
     await page.getByRole("button", { name: "Add Account" }).click();
     await expect(secretKeyRequired).toBeVisible({ timeout: 20_000 });
 
-    console.log("[DONE] Testing Payment Input Required 🚀");
+    console.log("[DONE] Payment Input Required 🚀");
   });
 
   // TODO: Network Error

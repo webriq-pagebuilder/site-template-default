@@ -32,6 +32,9 @@ export default async function VariantA({
   await page
     .getByTestId("autocomplete")
     .fill(commonFieldValues?.referencedBlog);
+  await expect(
+    page.getByRole("button", { name: commonFieldValues?.referencedBlog })
+  ).toBeVisible();
   await page
     .getByRole("button", { name: commonFieldValues?.referencedBlog })
     .click();

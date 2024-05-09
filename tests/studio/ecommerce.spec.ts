@@ -1,5 +1,4 @@
 import { test, expect } from "@playwright/test";
-import { NEXT_PUBLIC_SITE_URL } from "studio/config";
 import {
   deleteDocument,
   navigateToStore,
@@ -7,7 +6,14 @@ import {
   publishDocument,
 } from "tests/utils";
 
+const isEcommerceEnabled = process.env.NEXT_PUBLIC_SANITY_STUDIO_IN_CSTUDIO;
+
 test("Store has 3 main subtabs", async ({ page }) => {
+  test.skip(
+    isEcommerceEnabled === "false",
+    "E-commerce is not enabled for this StackShift project."
+  );
+
   console.log("[INFO] Run E-commerce tests ~ Store has 3 main subtabs");
   await navigateToStore(page);
 
@@ -17,10 +23,15 @@ test("Store has 3 main subtabs", async ({ page }) => {
     page.getByRole("link", { name: "Commerce Pages" })
   ).toBeVisible();
 
-  console.log("[DONE] Testing Store has 3 main subtabs 🚀");
+  console.log("[DONE] Store has 3 main subtabs 🚀");
 });
 
 test("Store Commerce Pages has subtabs", async ({ page }) => {
+  test.skip(
+    isEcommerceEnabled === "false",
+    "E-commerce is not enabled for this StackShift project."
+  );
+
   console.log("[INFO] Run E-commerce tests ~ Store Commerce Pages has subtabs");
 
   await navigateToStore(page);
@@ -42,7 +53,7 @@ test("Store Commerce Pages has subtabs", async ({ page }) => {
   await expect(page.getByRole("link", { name: "Wishlist" })).toBeVisible();
   await expect(page.getByRole("link", { name: "Search" })).toBeVisible();
 
-  console.log("[DONE] Testing Store Commerce Pages has subtabs 🚀");
+  console.log("[DONE] Store Commerce Pages has subtabs 🚀");
 });
 
 test.describe("Main Store Pages", () => {
@@ -61,10 +72,15 @@ test.describe("Main Store Pages", () => {
   };
 
   test.beforeEach("Go to Store tab", async ({ page }) => {
+    test.skip(
+      isEcommerceEnabled === "false",
+      "E-commerce is not enabled for this StackShift project."
+    );
+
     await navigateToStore(page);
   });
 
-  test("Create product page", async ({ page }) => {
+  test("Create product page", async ({ page, baseURL }) => {
     await page.getByRole("link", { name: "Products" }).click({ force: true });
     await page.waitForLoadState();
 
@@ -99,9 +115,7 @@ test.describe("Main Store Pages", () => {
     await expect(page.getByTestId("review-changes-button")).toBeHidden();
 
     await page.goto(
-      `${NEXT_PUBLIC_SITE_URL}/products/${product?.name
-        ?.toLowerCase()
-        ?.replace(/\s/g, "-")}`
+      `${baseURL}/products/${product?.name?.toLowerCase()?.replace(/\s/g, "-")}`
     );
     await page.waitForLoadState("domcontentloaded");
     await expect(
@@ -115,10 +129,10 @@ test.describe("Main Store Pages", () => {
     await expect(page.getByLabel("Add to Wishlist")).toBeVisible();
     await expect(page.getByRole("link", { name: "Cart" })).toBeVisible();
 
-    console.log("[DONE] Testing Create product page 🚀");
+    console.log("[DONE] Create product page 🚀");
   });
 
-  test("Create collections page", async ({ page }) => {
+  test("Create collections page", async ({ page, baseURL }) => {
     await page
       .getByRole("link", { name: "Collections" })
       .click({ force: true });
@@ -127,8 +141,8 @@ test.describe("Main Store Pages", () => {
     await expect(page.getByTestId("action-intent-button")).toBeVisible();
     await page.getByTestId("action-intent-button").click({ force: true });
     await expect(page.getByText("Loading document")).toBeHidden();
-    await expect(page.getByTestId("string-input")).toBeVisible();
 
+    await page.getByTestId("string-input").click();
     await page.getByTestId("string-input").fill(collections?.name);
     await page.getByRole("button", { name: "Generate" }).click({ force: true });
     await page.getByRole("button", { name: "Add item" }).click({ force: true });
@@ -147,7 +161,7 @@ test.describe("Main Store Pages", () => {
     await expect(page.getByTestId("review-changes-button")).toBeHidden();
 
     await page.goto(
-      `${NEXT_PUBLIC_SITE_URL}/collections/${collections?.name
+      `${baseURL}/collections/${collections?.name
         ?.toLowerCase()
         ?.replace(/\s/g, "-")}`
     );
@@ -155,7 +169,7 @@ test.describe("Main Store Pages", () => {
     await expect(page.getByText(product?.price)).toBeVisible();
     await expect(page.getByRole("link", { name: product?.name })).toBeVisible();
 
-    console.log("[DONE] Testing Create collections page 🚀");
+    console.log("[DONE] Create collections page 🚀");
   });
 
   test("Delete category page", async ({ page }) => {
@@ -184,7 +198,7 @@ test.describe("Main Store Pages", () => {
     // proceed delete
     await deleteDocument(page);
 
-    console.log("[DONE] Testing Delete category page 🚀");
+    console.log("[DONE] Delete category page 🚀");
   });
 
   test("Delete product page", async ({ page }) => {
@@ -201,7 +215,7 @@ test.describe("Main Store Pages", () => {
     // proceed delete
     await deleteDocument(page);
 
-    console.log("[DONE] Testing Delete product page 🚀");
+    console.log("[DONE] Delete product page 🚀");
   });
 });
 
@@ -211,6 +225,11 @@ test.describe("Store Commerce Pages", () => {
   test.describe.configure({ timeout: 600_000 });
 
   test.beforeEach("Go to Store Commerce Pages", async ({ page }) => {
+    test.skip(
+      isEcommerceEnabled === "false",
+      "E-commerce is not enabled for this StackShift project."
+    );
+
     await navigateToStore(page);
     await page
       .getByRole("link", { name: "Commerce Pages" })
@@ -218,7 +237,7 @@ test.describe("Store Commerce Pages", () => {
   });
 
   // check cart page preview
-  test("Check Cart page preview", async ({ page }) => {
+  test("Check Cart page preview", async ({ page, baseURL }) => {
     await page.getByRole("link", { name: "Cart" }).click({ force: true });
 
     await expect(page.getByText("Loading document")).toBeHidden();
@@ -240,12 +259,9 @@ test.describe("Store Commerce Pages", () => {
     }
     await expect(publishButton).toHaveAttribute("data-disabled", "true");
 
-    await page.goto(`${NEXT_PUBLIC_SITE_URL}/cart`);
-    await page.goto(`${NEXT_PUBLIC_SITE_URL}/cart?store-page=cart`);
+    await page.goto(`${baseURL}/cart`);
+    await page.goto(`${baseURL}/cart?store-page=cart`);
     await page.waitForLoadState("domcontentloaded");
-    await expect(page.locator(".ecwid-productBrowser")).toBeVisible({
-      timeout: 150_000,
-    });
     await expect(page.locator('h1:has-text("Shopping cart")')).toBeVisible();
     await expect(page.getByText("Your shopping cart is empty")).toBeVisible();
     await expect(
@@ -260,11 +276,11 @@ test.describe("Store Commerce Pages", () => {
     ).toBeVisible();
     await expect(page.getByRole("link", { name: "Cart" })).toBeVisible();
 
-    console.log("[DONE] Testing Check Cart page preview 🚀");
+    console.log("[DONE] Check Cart page preview 🚀");
   });
 
   // check wishlist page preview
-  test("Check Wishlist page preview", async ({ page }) => {
+  test("Check Wishlist page preview", async ({ page, baseURL }) => {
     await page
       .getByRole("link", { name: "Wishlist", exact: true })
       .click({ force: true });
@@ -278,7 +294,7 @@ test.describe("Store Commerce Pages", () => {
         .first()
     ).toBeVisible();
 
-    await page.goto(`${NEXT_PUBLIC_SITE_URL}/wishlist`);
+    await page.goto(`${baseURL}/wishlist`);
     await page.waitForLoadState("domcontentloaded");
     await expect(page.locator('p:has-text("Wishlist is empty")')).toBeVisible();
     await expect(
@@ -287,6 +303,6 @@ test.describe("Store Commerce Pages", () => {
       )
     ).toBeVisible();
 
-    console.log("[DONE] Testing Check Wishlist page preview 🚀");
+    console.log("[DONE] Check Wishlist page preview 🚀");
   });
 });

@@ -1,6 +1,5 @@
 import { test, expect } from "@playwright/test";
 import { newPageTitle, publishDocument, deleteDocument } from "tests/utils";
-import { NEXT_PUBLIC_SITE_URL } from "studio/config";
 import { format } from "date-fns";
 
 const inputValues = {
@@ -44,7 +43,7 @@ test.describe("Verify main actions working", () => {
     await page.getByLabel("Bio").fill(inputValues.author.bio);
     await publishDocument(page);
 
-    console.log("[DONE] Testing Create author page 🚀");
+    console.log("[DONE] Create author page 🚀");
   });
 
   test("Create category page", async ({ page }) => {
@@ -58,7 +57,7 @@ test.describe("Verify main actions working", () => {
     await page.getByLabel("Description").fill(inputValues.category.description);
     await publishDocument(page);
 
-    console.log("[DONE] Testing Create category page 🚀");
+    console.log("[DONE] Create category page 🚀");
   });
 
   test("Create blog page", async ({ page }) => {
@@ -115,10 +114,10 @@ test.describe("Verify main actions working", () => {
     });
     await publishDocument(page);
 
-    console.log("[DONE] Testing Create blog page 🚀");
+    console.log("[DONE] Create blog page 🚀");
   });
 
-  test("Check site preview", async ({ page }) => {
+  test("Check blog page preview", async ({ page, baseURL }) => {
     await page
       .getByRole("tab", { name: "Posts", exact: true })
       .click({ force: true });
@@ -128,9 +127,7 @@ test.describe("Verify main actions working", () => {
     await expect(page.getByTestId("string-input")).toBeVisible();
 
     await page.goto(
-      `${NEXT_PUBLIC_SITE_URL}/${inputValues.post.title
-        ?.toLowerCase()
-        ?.replace(/\s/g, "-")}`
+      `${baseURL}/${inputValues.post.title?.toLowerCase()?.replace(/\s/g, "-")}`
     );
     await page.waitForLoadState("domcontentloaded");
     await expect(page.getByText(inputValues?.category?.title)).toBeVisible({
@@ -146,7 +143,7 @@ test.describe("Verify main actions working", () => {
     await expect(page.getByText("Author", { exact: true })).toBeVisible();
     await expect(page.getByText(inputValues?.post?.body)).toBeVisible();
 
-    console.log("[DONE] Testing Check site preview 🚀");
+    console.log("[DONE] Check site preview 🚀");
   });
 
   test("Delete author, category and post pages", async ({ page }) => {
@@ -195,6 +192,6 @@ test.describe("Verify main actions working", () => {
     );
     await deleteDocument(page);
 
-    console.log("[DONE] Testing Delete author, category and post pages 🚀");
+    console.log("[DONE] Delete author, category and post pages 🚀");
   });
 });
