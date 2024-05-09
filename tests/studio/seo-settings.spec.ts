@@ -1,5 +1,10 @@
 import { test, expect } from "@playwright/test";
-import { createNewPage, navigateToPage, newPageTitle } from "tests/utils";
+import {
+  createNewPage,
+  deleteDocument,
+  navigateToPage,
+  newPageTitle,
+} from "tests/utils";
 
 let globalSeo = {
   title: "",
@@ -115,7 +120,6 @@ test.describe("Verify SEO Settings", () => {
     const seoTitleFld = page
       .getByTestId("field-seo.seoTitle")
       .getByRole("textbox");
-    seoTitleFld.click({ force: true });
     await expect(seoTitleFld).toHaveAttribute("placeholder", pageTitle);
 
     // SEO keywords
@@ -123,7 +127,6 @@ test.describe("Verify SEO Settings", () => {
       .getByTestId("field-seo.seoKeywords")
       .getByRole("textbox");
     await expect(seoKeywordsFld).toBeVisible();
-    seoKeywordsFld.click({ force: true });
     await expect(seoKeywordsFld).toHaveAttribute(
       "placeholder",
       globalSeo?.keywords
@@ -134,22 +137,13 @@ test.describe("Verify SEO Settings", () => {
       .getByTestId("field-seo.seoSynonyms")
       .getByRole("textbox");
     await expect(seoSynonymsFld).toBeVisible();
-    seoSynonymsFld.click({ force: true });
     await expect(seoSynonymsFld).toHaveAttribute(
       "placeholder",
       globalSeo?.synonyms
     );
 
     // SEO description
-    const seoDescFld = page
-      .getByTestId("field-seo.seoDescription")
-      .getByRole("textbox");
-    await expect(seoDescFld).toBeVisible();
-    seoDescFld.click({ force: true });
-    await expect(seoDescFld).toHaveAttribute(
-      "placeholder",
-      globalSeo?.description
-    );
+    await expect(page.getByPlaceholder(globalSeo?.description)).toBeVisible();
   });
 
   test.describe("Redirects to global SEO page", () => {
@@ -216,12 +210,7 @@ test.describe("Verify SEO Settings", () => {
     });
 
     test("SEO description", async ({ page }) => {
-      const seoDescFld = page
-        .getByTestId("field-seo.seoDescription")
-        .getByRole("textbox");
-
-      await expect(seoDescFld).toBeVisible();
-      seoDescFld.click({ force: true });
+      await expect(page.getByPlaceholder(globalSeo?.description)).toBeVisible();
       await expect(
         page
           .getByTestId("field-seo.seoDescription")
@@ -256,7 +245,6 @@ test.describe("Verify SEO Settings", () => {
       .getByTestId("field-seo.seoTitle")
       .getByRole("textbox");
     await expect(seoTitleFld).toBeVisible();
-    seoTitleFld.click({ force: true });
     seoTitleFld.fill("Stackshift | New Page");
 
     // SEO keywords
@@ -264,7 +252,6 @@ test.describe("Verify SEO Settings", () => {
       .getByTestId("field-seo.seoKeywords")
       .getByRole("textbox");
     await expect(seoKeywordsFld).toBeVisible();
-    seoKeywordsFld.click({ force: true });
     seoKeywordsFld.fill("new page");
 
     // SEO synonyms
@@ -272,13 +259,10 @@ test.describe("Verify SEO Settings", () => {
       .getByTestId("field-seo.seoSynonyms")
       .getByRole("textbox");
     await expect(seoSynonymsFld).toBeVisible();
-    seoSynonymsFld.click({ force: true });
     seoSynonymsFld.fill("test page");
 
     // SEO description
-    const seoDescFld = page
-      .getByTestId("field-seo.seoDescription")
-      .getByRole("textbox");
+    const seoDescFld = page.getByPlaceholder(globalSeo?.description);
     await expect(seoDescFld).toBeVisible();
     seoDescFld.fill("This is the SEO description of this page.");
   });
@@ -300,24 +284,6 @@ test.describe("Verify SEO Settings", () => {
     await expect(page.getByText("Loading document")).toBeHidden();
 
     // delete test page
-    await expect(
-      page.getByTestId("document-panel-scroller").nth(1)
-    ).toBeHidden();
-    await page.locator('button[data-testid="action-menu-button"]').click();
-    await expect(page.getByTestId("action-Delete")).toBeVisible();
-    await page.getByTestId("action-Delete").click();
-    await expect(page.getByTestId("confirm-delete-button")).toBeVisible();
-    await page.getByTestId("confirm-delete-button").click();
-    await expect(
-      page
-        .locator('[id="__next"]')
-        .getByRole("alert")
-        .locator("div")
-        .filter({ hasText: "The document was successfully" })
-        .nth(1)
-    ).toBeVisible();
-    await expect(page.getByRole("link", { name: newSeoPage })).toBeHidden({
-      timeout: 150000,
-    });
+    await deleteDocument(page);
   });
 });

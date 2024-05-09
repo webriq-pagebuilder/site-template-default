@@ -23,12 +23,15 @@ test.describe("Main document actions", () => {
   test("Can create component", async ({ page }) => {
     await page.waitForLoadState("domcontentloaded");
     await page.getByText("Select...").click();
-    await expect(page.getByText("App Promo")).toBeVisible();
-    await page.getByText("App Promo").click();
-    await expect(page.getByText("Loading document")).toBeHidden();
-
     await expect(
-      page.getByRole("button", { name: "New App Promo" })
+      page
+        .getByTestId("studio-layout")
+        .locator("div")
+        .filter({ hasText: /^Loading content…Document title$/ })
+        .nth(3)
+    ).toBeHidden();
+    await expect(
+      page.locator("div").filter({ hasText: /^New App Promo$/ })
     ).toBeVisible();
     await page
       .getByRole("button", { name: "New App Promo" })

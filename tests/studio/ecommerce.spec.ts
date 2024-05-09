@@ -55,23 +55,22 @@ test.describe("Main Store Pages", () => {
     await navigateToStore(page);
   });
 
-  test.fixme("Create product page", async ({ page }) => {
+  test("Create product page", async ({ page }) => {
     await page.getByRole("link", { name: "Products" }).click({ force: true });
     await page.waitForLoadState();
 
     await expect(page.getByTestId("action-intent-button")).toBeVisible();
     await page.getByTestId("action-intent-button").click({ force: true });
-    await page.waitForLoadState();
-
+    await expect(page.getByText("Loading document")).toBeHidden();
     await expect(page.getByLabel("Name")).toBeVisible();
-    await expect(page.getByRole("button", { name: "Generate" })).toBeVisible();
-    await expect(page.getByLabel("Price")).toBeVisible();
-    await expect(page.getByText("Click to activate")).toBeVisible();
 
     await page.getByLabel("Name").fill(product?.name);
     await page.getByRole("button", { name: "Generate" }).click({ force: true });
     await page.getByLabel("Price").fill(product?.price);
     await page.getByText("Click to activate").click({ force: true });
+    await expect(
+      page.getByTestId("scroll-container").getByRole("textbox")
+    ).toBeVisible();
     await page
       .getByTestId("scroll-container")
       .getByRole("textbox")
@@ -96,18 +95,22 @@ test.describe("Main Store Pages", () => {
         ?.replace(/\s/g, "-")}`
     );
     await page.waitForLoadState("domcontentloaded");
-    await expect(page.locator("h1")).toContainText(product?.name);
-    await expect(page.locator('[id="__next"]')).toContainText(product?.price);
-    await expect(page.locator('[id="__next"]')).toContainText(
-      product?.description
-    );
+    await expect(
+      page.getByRole("heading", { name: "Something went wrong!" })
+    ).toBeHidden();
+    await expect(
+      page.getByRole("heading", { name: product?.name })
+    ).toBeVisible();
+    await expect(page.getByText(product?.price)).toBeVisible();
+    await expect(page.getByText(product?.description)).toBeVisible();
     await expect(page.getByText("Qty")).toBeVisible();
     await expect(page.getByText("-+")).toBeVisible();
     await expect(page.getByLabel("Add to Bag button")).toBeVisible();
     await expect(page.getByLabel("Add to Wishlist")).toBeVisible();
+    await expect(page.getByRole("link", { name: "Cart" })).toBeVisible();
   });
 
-  test.fixme("Create collections page", async ({ page }) => {
+  test("Create collections page", async ({ page }) => {
     await page
       .getByRole("link", { name: "Collections" })
       .click({ force: true });
@@ -115,10 +118,8 @@ test.describe("Main Store Pages", () => {
 
     await expect(page.getByTestId("action-intent-button")).toBeVisible();
     await page.getByTestId("action-intent-button").click({ force: true });
-    await page.waitForLoadState();
-
+    await expect(page.getByText("Loading document")).toBeHidden();
     await expect(page.getByTestId("string-input")).toBeVisible();
-    await expect(page.getByRole("button", { name: "Generate" })).toBeVisible();
 
     await page.getByTestId("string-input").fill(collections?.name);
     await page.getByRole("button", { name: "Generate" }).click({ force: true });
@@ -143,11 +144,14 @@ test.describe("Main Store Pages", () => {
         ?.replace(/\s/g, "-")}`
     );
     await page.waitForLoadState("domcontentloaded");
-    await expect(page.locator('[id="__next"]')).toContainText(product?.name);
-    await expect(page.locator('[id="__next"]')).toContainText(product?.price);
+    await expect(
+      page.getByRole("heading", { name: "Something went wrong!" })
+    ).toBeHidden();
+    await expect(page.getByText(product?.price)).toBeVisible();
+    await expect(page.getByRole("link", { name: product?.name })).toBeVisible();
   });
 
-  test.fixme("Delete category page", async ({ page }) => {
+  test("Delete category page", async ({ page }) => {
     await page
       .getByRole("link", { name: "Collections" })
       .click({ force: true });
@@ -174,7 +178,7 @@ test.describe("Main Store Pages", () => {
     await deleteDocument(page);
   });
 
-  test.fixme("Delete product page", async ({ page }) => {
+  test("Delete product page", async ({ page }) => {
     await page.getByRole("link", { name: "Products" }).click({ force: true });
 
     await expect(page.getByRole("link", { name: product?.name })).toBeVisible();
@@ -223,8 +227,12 @@ test.describe("Store Commerce Pages", () => {
     }
     await expect(publishButton).toHaveAttribute("data-disabled", "true");
 
+    await page.goto(`${NEXT_PUBLIC_SITE_URL}/cart`);
     await page.goto(`${NEXT_PUBLIC_SITE_URL}/cart?store-page=cart`);
     await page.waitForLoadState("domcontentloaded");
+    await expect(
+      page.getByRole("heading", { name: "Something went wrong!" })
+    ).toBeHidden();
     await expect(page.locator(".ecwid-productBrowser")).toBeVisible({
       timeout: 150_000,
     });
@@ -232,6 +240,13 @@ test.describe("Store Commerce Pages", () => {
     await expect(page.getByText("Your shopping cart is empty")).toBeVisible();
     await expect(
       page.getByRole("button", { name: "Browse Store" })
+    ).toBeVisible();
+    await expect(page.getByRole("link", { name: "My Account" })).toBeVisible();
+    await expect(
+      page.getByRole("link", { name: "Track Orders" })
+    ).toBeVisible();
+    await expect(
+      page.getByRole("link", { name: "Shopping Bag" })
     ).toBeVisible();
     await expect(page.getByRole("link", { name: "Cart" })).toBeVisible();
   });

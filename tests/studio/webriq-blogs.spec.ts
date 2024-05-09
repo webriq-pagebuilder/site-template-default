@@ -126,17 +126,18 @@ test.describe("Verify main actions working", () => {
     );
     await page.waitForLoadState("domcontentloaded");
     await expect(
+      page.getByRole("heading", { name: "Something went wrong!" })
+    ).toBeHidden();
+    await expect(page.getByText(inputValues?.category?.title)).toBeVisible();
+    await expect(page.getByText(publishedAt)).toBeVisible();
+    await expect(
       page.locator(`h1:has-text("${inputValues.post.title}")`)
     ).toBeVisible();
     await expect(
-      page.getByText(inputValues.category.title.toUpperCase())
+      page.getByRole("heading", { name: inputValues?.author?.name })
     ).toBeVisible();
-    await expect(page.locator('[id="__next"]')).toContainText(publishedAt);
-    await expect(page.locator("h3")).toContainText(inputValues.author.name);
     await expect(page.getByText("Author", { exact: true })).toBeVisible();
-    await expect(page.locator('[id="__next"]')).toContainText(
-      inputValues.post.body
-    );
+    await expect(page.getByText(inputValues?.post?.body)).toBeVisible();
   });
 
   test("Delete author, category and post pages", async ({ page }) => {
