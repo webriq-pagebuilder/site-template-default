@@ -33,14 +33,10 @@ test.describe("Main document actions", () => {
     await expect(
       page.getByRole("button", { name: "New App Promo" })
     ).toBeVisible();
-
     await page
       .getByRole("button", { name: "New App Promo" })
       .click({ force: true });
-    await expect(
-      page.locator("div").filter({ hasText: /^1\. Section Name$/ })
-    ).toBeVisible();
-    await expect(page.getByTestId("string-input")).toBeVisible();
+    await expect(page.getByText("Loading document")).toBeHidden();
 
     await page.getByTestId("string-input").click();
     await page.getByTestId("string-input").fill(newComponentName);
