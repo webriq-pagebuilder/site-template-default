@@ -305,7 +305,10 @@ test.describe("Main Workflow", () => {
     console.log(`[DONE] - Testing Inline Edit Text 🚀`);
   });
 
-  test("Test with no Section should display Empty Page", async ({ page }) => {
+  test("Test with no Section should display Empty Page", async ({
+    page,
+    baseURL,
+  }) => {
     console.log(
       `[INFO] - Testing Page with no Section should display empty page 🚀`
     );
@@ -386,7 +389,7 @@ test.describe("Main Workflow", () => {
     ).toBeHidden();
 
     const pagePromise = page.waitForEvent("popup");
-    await page.getByText(`${NEXT_PUBLIC_SITE_URL}`).click({ force: true });
+    await page.getByText(baseURL!).click({ force: true });
     const openUrlPage = await pagePromise;
 
     // Wait for the element to become visible or hidden with a longer timeout
