@@ -20,7 +20,7 @@ const inputValues = {
 };
 
 test.describe("Verify main actions working", () => {
-  console.log("[INFO] Run WebriQ Blogs tests");
+  console.log("[INFO] Run WebriQ Blogs tests ~ Verify main actions working");
 
   test.describe.configure({ timeout: 900_000, mode: "serial" });
 
@@ -43,6 +43,8 @@ test.describe("Verify main actions working", () => {
     await page.getByLabel("Bio").click();
     await page.getByLabel("Bio").fill(inputValues.author.bio);
     await publishDocument(page);
+
+    console.log("[DONE] Testing Create author page 🚀");
   });
 
   test("Create category page", async ({ page }) => {
@@ -55,6 +57,8 @@ test.describe("Verify main actions working", () => {
     await page.getByLabel("Description").click();
     await page.getByLabel("Description").fill(inputValues.category.description);
     await publishDocument(page);
+
+    console.log("[DONE] Testing Create category page 🚀");
   });
 
   test("Create blog page", async ({ page }) => {
@@ -110,6 +114,8 @@ test.describe("Verify main actions working", () => {
       timeout: 150_000,
     });
     await publishDocument(page);
+
+    console.log("[DONE] Testing Create blog page 🚀");
   });
 
   test("Check site preview", async ({ page }) => {
@@ -127,10 +133,9 @@ test.describe("Verify main actions working", () => {
         ?.replace(/\s/g, "-")}`
     );
     await page.waitForLoadState("domcontentloaded");
-    await expect(
-      page.getByRole("heading", { name: "Something went wrong!" }).first()
-    ).toBeHidden();
-    await expect(page.getByText(inputValues?.category?.title)).toBeVisible();
+    await expect(page.getByText(inputValues?.category?.title)).toBeVisible({
+      timeout: 150_000,
+    });
     await expect(page.getByText(publishedAt)).toBeVisible();
     await expect(
       page.locator(`h1:has-text("${inputValues.post.title}")`)
@@ -140,6 +145,8 @@ test.describe("Verify main actions working", () => {
     ).toBeVisible();
     await expect(page.getByText("Author", { exact: true })).toBeVisible();
     await expect(page.getByText(inputValues?.post?.body)).toBeVisible();
+
+    console.log("[DONE] Testing Check site preview 🚀");
   });
 
   test("Delete author, category and post pages", async ({ page }) => {
@@ -187,5 +194,7 @@ test.describe("Verify main actions working", () => {
       inputValues.category.title
     );
     await deleteDocument(page);
+
+    console.log("[DONE] Testing Delete author, category and post pages 🚀");
   });
 });

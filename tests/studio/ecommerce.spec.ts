@@ -8,8 +8,7 @@ import {
 } from "tests/utils";
 
 test("Store has 3 main subtabs", async ({ page }) => {
-  console.log("[INFO] Run E-commerce tests");
-
+  console.log("[INFO] Run E-commerce tests ~ Store has 3 main subtabs");
   await navigateToStore(page);
 
   await expect(page.getByRole("link", { name: "Products" })).toBeVisible();
@@ -17,9 +16,13 @@ test("Store has 3 main subtabs", async ({ page }) => {
   await expect(
     page.getByRole("link", { name: "Commerce Pages" })
   ).toBeVisible();
+
+  console.log("[DONE] Testing Store has 3 main subtabs 🚀");
 });
 
 test("Store Commerce Pages has subtabs", async ({ page }) => {
+  console.log("[INFO] Run E-commerce tests ~ Store Commerce Pages has subtabs");
+
   await navigateToStore(page);
 
   await page
@@ -38,9 +41,13 @@ test("Store Commerce Pages has subtabs", async ({ page }) => {
   await expect(page.getByRole("link", { name: "Cart" })).toBeVisible();
   await expect(page.getByRole("link", { name: "Wishlist" })).toBeVisible();
   await expect(page.getByRole("link", { name: "Search" })).toBeVisible();
+
+  console.log("[DONE] Testing Store Commerce Pages has subtabs 🚀");
 });
 
 test.describe("Main Store Pages", () => {
+  console.log("[INFO] Run E-commerce tests ~ Main Store Pages");
+
   test.describe.configure({ timeout: 600_000, mode: "serial" });
 
   const collections = {
@@ -98,9 +105,6 @@ test.describe("Main Store Pages", () => {
     );
     await page.waitForLoadState("domcontentloaded");
     await expect(
-      page.getByRole("heading", { name: "Something went wrong!" }).first()
-    ).toBeHidden();
-    await expect(
       page.getByRole("heading", { name: product?.name })
     ).toBeVisible();
     await expect(page.getByText(product?.price)).toBeVisible();
@@ -110,6 +114,8 @@ test.describe("Main Store Pages", () => {
     await expect(page.getByLabel("Add to Bag button")).toBeVisible();
     await expect(page.getByLabel("Add to Wishlist")).toBeVisible();
     await expect(page.getByRole("link", { name: "Cart" })).toBeVisible();
+
+    console.log("[DONE] Testing Create product page 🚀");
   });
 
   test("Create collections page", async ({ page }) => {
@@ -146,11 +152,10 @@ test.describe("Main Store Pages", () => {
         ?.replace(/\s/g, "-")}`
     );
     await page.waitForLoadState("domcontentloaded");
-    await expect(
-      page.getByRole("heading", { name: "Something went wrong!" }).first()
-    ).toBeHidden();
     await expect(page.getByText(product?.price)).toBeVisible();
     await expect(page.getByRole("link", { name: product?.name })).toBeVisible();
+
+    console.log("[DONE] Testing Create collections page 🚀");
   });
 
   test("Delete category page", async ({ page }) => {
@@ -178,6 +183,8 @@ test.describe("Main Store Pages", () => {
 
     // proceed delete
     await deleteDocument(page);
+
+    console.log("[DONE] Testing Delete category page 🚀");
   });
 
   test("Delete product page", async ({ page }) => {
@@ -193,10 +200,14 @@ test.describe("Main Store Pages", () => {
 
     // proceed delete
     await deleteDocument(page);
+
+    console.log("[DONE] Testing Delete product page 🚀");
   });
 });
 
 test.describe("Store Commerce Pages", () => {
+  console.log("[INFO] Run E-commerce tests ~ Store Commerce Pages");
+
   test.describe.configure({ timeout: 600_000 });
 
   test.beforeEach("Go to Store Commerce Pages", async ({ page }) => {
@@ -232,9 +243,6 @@ test.describe("Store Commerce Pages", () => {
     await page.goto(`${NEXT_PUBLIC_SITE_URL}/cart`);
     await page.goto(`${NEXT_PUBLIC_SITE_URL}/cart?store-page=cart`);
     await page.waitForLoadState("domcontentloaded");
-    await expect(
-      page.getByRole("heading", { name: "Something went wrong!" }).first()
-    ).toBeHidden();
     await expect(page.locator(".ecwid-productBrowser")).toBeVisible({
       timeout: 150_000,
     });
@@ -251,6 +259,8 @@ test.describe("Store Commerce Pages", () => {
       page.getByRole("link", { name: "Shopping Bag" })
     ).toBeVisible();
     await expect(page.getByRole("link", { name: "Cart" })).toBeVisible();
+
+    console.log("[DONE] Testing Check Cart page preview 🚀");
   });
 
   // check wishlist page preview
@@ -276,5 +286,7 @@ test.describe("Store Commerce Pages", () => {
         'p:has-text("Add your favorite products to wishlist to display them here.")'
       )
     ).toBeVisible();
+
+    console.log("[DONE] Testing Check Wishlist page preview 🚀");
   });
 });

@@ -307,6 +307,7 @@ export async function publishDocument(page) {
 
 export async function deleteDocument(page) {
   await page.getByTestId("action-menu-button").click({ force: true });
+  await expect(page.getByTestId("action-Delete")).toBeVisible();
   await page.getByTestId("action-Delete").click({ force: true });
   await expect(page.getByText("Delete document?")).toBeVisible({
     timeout: 150_000,

@@ -9,7 +9,7 @@ const publishableKey = NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY;
 const secretKey = NEXT_PUBLIC_STRIPE_SECRET_KEY;
 
 test.describe("Main Workflow", () => {
-  console.log("[INFO] Run WebriQ Payments tests");
+  console.log("[INFO] Run WebriQ Payments tests ~ Main Workflow");
 
   test.describe.configure({ timeout: 600_000, mode: "serial" });
 
@@ -55,6 +55,8 @@ test.describe("Main Workflow", () => {
     await page.getByPlaceholder("Secret Key").fill("");
     await page.getByRole("button", { name: "Add Account" }).click();
     await expect(secretKeyRequired).toBeVisible({ timeout: 20_000 });
+
+    console.log("[DONE] Testing Payment Input Required 🚀");
   });
 
   // TODO: Network Error

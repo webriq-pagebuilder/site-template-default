@@ -2,16 +2,19 @@ import { test, expect } from "@playwright/test";
 import { newPageTitle } from "tests/utils";
 
 test("Show all components", async ({ page }) => {
-  console.log("[INFO] Run WebriQ Components tests");
+  console.log("[INFO] Run WebriQ Components tests ~ Show all components");
 
   test.setTimeout(120_000);
 
   await page.goto(`./studio`);
   await page.getByRole("link", { name: "Components" }).click({ force: true });
   await page.locator("create-btn-icon").isVisible();
+
+  console.log("[DONE] Testing Show all components 🚀");
 });
 
 test.describe("Main document actions", () => {
+  console.log("[INFO] Run WebriQ Components tests ~ Main document actions");
   test.describe.configure({ timeout: 1_500_000, mode: "serial" });
 
   const newComponentName = newPageTitle("New App promo ");
@@ -25,19 +28,29 @@ test.describe("Main document actions", () => {
   test("Can create component", async ({ page }) => {
     await page.waitForLoadState("domcontentloaded");
     await page.getByText("Select...").click();
+    await expect(page.getByText("App Promo")).toBeVisible();
+    await page.getByText("App Promo").click();
+    await expect(page.getByText("Loading document")).toBeHidden();
     await expect(
-      page.locator("div").filter({ hasText: /^New App Promo$/ })
-    ).toBeVisible({ timeout: 150_000 });
+      page.getByRole("button", { name: "New App Promo" })
+    ).toBeVisible();
     await page
       .getByRole("button", { name: "New App Promo" })
       .click({ force: true });
     await page.getByTestId("string-input").click();
     await page.getByTestId("string-input").fill(newComponentName);
     await page.getByTestId("field-variant").getByRole("img").nth(2).click();
+    await expect(
+      page
+        .locator('[data-testid="review-changes-button"]')
+        .filter({ hasText: "Just now" })
+    ).toBeVisible({ timeout: 150_000 });
     await page.getByTestId("action-Save").click({ force: true });
     await expect(
       page.locator("[aria-label='Last published just now']").first()
     ).toBeVisible({ timeout: 180_000 });
+
+    console.log("[DONE] Testing Can create component 🚀");
   });
 
   test("Can search component", async ({ page }) => {
@@ -47,6 +60,8 @@ test.describe("Main document actions", () => {
     await expect(
       page.locator("button:has-text('New App Promo')").first()
     ).toBeVisible({ timeout: 180_000 });
+
+    console.log("[DONE] Testing Can search component 🚀");
   });
 
   test("Can duplicate component", async ({ page }) => {
@@ -73,6 +88,8 @@ test.describe("Main document actions", () => {
     await expect(
       page.locator("[aria-label='Last published just now']").first()
     ).toBeVisible({ timeout: 300_000 });
+
+    console.log("[DONE] Testing Can duplicate component 🚀");
   });
 
   test("Can delete component", async ({ page }) => {
@@ -138,10 +155,13 @@ test.describe("Main document actions", () => {
     await expect(page.locator(`div.${dupeCardName}`).first()).toHaveCount(0, {
       timeout: 180_000,
     });
+
+    console.log("[DONE] Testing Can delete component 🚀");
   });
 });
 
 test("Can filter component", async ({ page }) => {
+  console.log("[INFO] Run WebriQ Components tests ~ Can filter component");
   test.setTimeout(120_000);
 
   await page.goto(`./studio`);
@@ -155,4 +175,6 @@ test("Can filter component", async ({ page }) => {
   await expect(page.locator("#react-select-2-option-0")).toBeVisible();
   await page.locator("#react-select-2-option-0").click({ force: true });
   await expect(page.locator("[data-ui='Container']").first()).toHaveCount(1);
+
+  console.log("[DONE] Testing Can filter component 🚀");
 });

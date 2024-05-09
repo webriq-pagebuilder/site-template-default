@@ -16,13 +16,15 @@ let globalSeo = {
 const newSeoPage = newPageTitle("Test SEO page ");
 
 test.describe("Verify SEO Settings", () => {
-  console.log("[INFO] Run SEO Settings tests");
+  console.log("[INFO] Run SEO Settings tests ~ Verify SEO Settings");
 
   test.describe.configure({ timeout: 600_000, mode: "serial" });
 
   test("Create test page for SEO", async ({ page }) => {
     await navigateToPage(page);
     await createNewPage(page, newSeoPage, null);
+
+    console.log("[DONE] Testing Create test page for SEO 🚀");
   });
 
   test("Can add global SEO values", async ({ page }) => {
@@ -101,6 +103,8 @@ test.describe("Verify SEO Settings", () => {
     await page
       .getByTestId("action-Save")
       .click({ force: true, timeout: 180_000 });
+
+    console.log("[DONE] Testing Can add global SEO values 🚀");
   });
 
   test("Sets global SEO values when page SEO is undefined", async ({
@@ -146,6 +150,10 @@ test.describe("Verify SEO Settings", () => {
 
     // SEO description
     await expect(page.getByPlaceholder(globalSeo?.description)).toBeVisible();
+
+    console.log(
+      "[DONE] Testing Sets global SEO values when page SEO is undefined 🚀"
+    );
   });
 
   test.describe("Redirects to global SEO page", () => {
@@ -229,6 +237,8 @@ test.describe("Verify SEO Settings", () => {
           .and(page.locator("textarea#defaultSeoDescription"))
       ).toBeVisible({ timeout: 120_000 });
     });
+
+    console.log("[DONE] Testing Redirects to global SEO page 🚀");
   });
 
   test("Can add page SEO values", async ({ page }) => {
@@ -267,6 +277,8 @@ test.describe("Verify SEO Settings", () => {
     const seoDescFld = page.getByPlaceholder(globalSeo?.description);
     await expect(seoDescFld).toBeVisible({ timeout: 150_000 });
     seoDescFld.fill("This is the SEO description of this page.");
+
+    console.log("[DONE] Testing Can add page SEO values 🚀");
   });
 
   test("Delete test page for SEO", async ({ page }) => {
@@ -286,6 +298,14 @@ test.describe("Verify SEO Settings", () => {
     await expect(page.getByText("Loading document")).toBeHidden();
 
     // delete test page
+    await expect(
+      page
+        .locator('[data-testid="review-changes-button"]')
+        .filter({ hasText: "Just now" })
+    ).toBeVisible({ timeout: 150_000 });
+
     await deleteDocument(page);
+
+    console.log("[DONE] Testing Delete test page for SEO 🚀");
   });
 });
