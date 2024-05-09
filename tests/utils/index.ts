@@ -66,6 +66,7 @@ export const subtitleField = {
     const subtitle = page
       .getByTestId("field-variants.subtitle")
       .getByTestId("string-input");
+    await expect(subtitle).toBeVisible();
     await expect(subtitle.inputValue()).resolves.toBe(initialValue.subtitle);
     await subtitle.click();
     await subtitle.press("Meta+a");
@@ -84,6 +85,7 @@ export const headingField = {
     const heading = page
       .getByTestId("field-variants.heading")
       .getByTestId("string-input");
+    await expect(heading).toBeVisible();
     await expect(heading.inputValue()).resolves.toBe(initialValue.heading);
     await heading.click();
     await heading.press("Meta+a");
@@ -102,6 +104,7 @@ export const titleField = {
     const title = page
       .getByTestId("field-variants.title")
       .getByTestId("string-input");
+    await expect(title).toBeVisible();
     await expect(title.inputValue()).resolves.toBe(initialValue.title);
     await title.click();
     await title.press("Meta+a");
@@ -128,6 +131,7 @@ export const descriptionField = {
     commonFieldValues,
   }) {
     const description = page.getByPlaceholder(placeholder);
+    await expect(description).toBeVisible();
     await expect(description.inputValue()).resolves.toBe(
       initialValue.description
     );
@@ -150,6 +154,7 @@ export const contactDetails = {
     const officeInfo = page
       .getByTestId("field-variants.officeInformation")
       .getByTestId("string-input");
+    await expect(officeInfo).toBeVisible();
     await expect(officeInfo.inputValue()).resolves.toBe(
       initialValue.officeInformation
     );
@@ -164,6 +169,7 @@ export const contactDetails = {
     const email = page
       .getByTestId("field-variants.contactEmail")
       .getByTestId("string-input");
+    await expect(email).toBeVisible();
     await expect(email.inputValue()).resolves.toBe(initialValue.contactEmail);
     await email.click();
     await email.press("Meta+a");
@@ -174,6 +180,7 @@ export const contactDetails = {
     const number = page
       .getByTestId("field-variants.contactNumber")
       .getByTestId("string-input");
+    await expect(number).toBeVisible();
     await expect(number.inputValue()).resolves.toBe(initialValue.contactNumber);
     await number.click();
     await number.press("Meta+a");
@@ -277,7 +284,13 @@ export async function createNewPage(page, sectionTitle, sections) {
   await page.getByRole("button", { name: "Add item…" }).click({ force: true });
 
   if (sections) {
+    await expect(page.getByRole("menuitem", { name: sections })).toBeVisible();
     await page.getByRole("menuitem", { name: sections }).click({ force: true });
+    await expect(
+      page
+        .getByTestId("reference-input")
+        .getByRole("button", { name: "Create new" })
+    ).toBeVisible();
     await page
       .getByTestId("reference-input")
       .getByRole("button", { name: "Create new" })
@@ -356,7 +369,7 @@ export async function expectDocumentPublished(page, pageTitle) {
 
       isSaved = true;
     } catch (error) {
-      console.error("Publish check failed, retrying...", error);
+      console.error("Publish check failed, retrying... ", saveBtnClicks);
     }
 
     saveBtnClicks++;
@@ -393,6 +406,8 @@ export async function expectDocumentPublished(page, pageTitle) {
   let isPublished = false;
   let clicks = 0;
 
+  await expect(publishButton).toBeVisible();
+
   while (!isPublished && clicks <= 5) {
     await expect(publishButton).toHaveAttribute("data-disabled", "false");
     await publishButton.click();
@@ -407,7 +422,7 @@ export async function expectDocumentPublished(page, pageTitle) {
 
       isPublished = true;
     } catch (error) {
-      console.error("Publish check failed, retrying...", error);
+      console.error("Publish check failed, retrying... ", clicks);
     }
 
     clicks++;
@@ -432,7 +447,9 @@ export async function deletePageVariant(page, pageTitle, variantLabel) {
   let variantClicks = 0;
 
   while (!variantLabelVisible && variantClicks <= 5) {
+    await expect(page.locator(`a:has-text("${pageTitle}")`)).toBeVisible();
     await page.locator(`a:has-text("${pageTitle}")`).click({ force: true });
+
     await expect(page.getByText("Loading document")).toBeHidden();
 
     try {
@@ -442,7 +459,7 @@ export async function deletePageVariant(page, pageTitle, variantLabel) {
 
       variantLabelVisible = true;
     } catch (error) {
-      console.error("Variant Label not visible, retrying...", error);
+      console.error("Variant Label not visible, retrying...", variantClicks);
     }
 
     variantClicks++;
@@ -488,7 +505,7 @@ export async function deletePageVariant(page, pageTitle, variantLabel) {
 
       isPublished = true;
     } catch (error) {
-      console.error("Publish check failed, retrying...", error);
+      console.error("Publish check failed, retrying...", clicks);
     }
 
     clicks++;
@@ -613,9 +630,7 @@ export async function generateFormId({ page, baseURL }) {
   await expect(page.getByRole("link", { name: "Manage" })).toBeVisible();
   await page.getByRole("link", { name: "Manage" }).click();
 
-  const pagePromise = page.waitForEvent("popup");
-  await page.getByRole("link", { name: "Manage" }).click();
-
+  const pagePromise = page.waitForEvent("page");
   const activePage = await pagePromise;
   await activePage.locator('input[name="name"]').click();
   await activePage.locator('input[name="name"]').press("Meta+a");
