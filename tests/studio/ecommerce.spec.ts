@@ -57,11 +57,19 @@ test.describe("Main Store Pages", () => {
 
   test.fixme("Create product page", async ({ page }) => {
     await page.getByRole("link", { name: "Products" }).click({ force: true });
+    await page.waitForLoadState();
+
+    await expect(page.getByTestId("action-intent-button")).toBeVisible();
     await page.getByTestId("action-intent-button").click({ force: true });
-    await page.getByLabel("Name").click();
+    await page.waitForLoadState();
+
+    await expect(page.getByLabel("Name")).toBeVisible();
+    await expect(page.getByRole("button", { name: "Generate" })).toBeVisible();
+    await expect(page.getByLabel("Price")).toBeVisible();
+    await expect(page.getByText("Click to activate")).toBeVisible();
+
     await page.getByLabel("Name").fill(product?.name);
     await page.getByRole("button", { name: "Generate" }).click({ force: true });
-    await page.getByLabel("Price").click();
     await page.getByLabel("Price").fill(product?.price);
     await page.getByText("Click to activate").click({ force: true });
     await page
@@ -80,35 +88,45 @@ test.describe("Main Store Pages", () => {
     expect(getEcwidProdId).not.toBeUndefined();
 
     // check site preview
-    const productPagePromise = page.waitForEvent("popup");
-    await page.getByText(`${NEXT_PUBLIC_SITE_URL}`).click({ force: true });
-    const productPage = await productPagePromise;
+    await expect(page.getByTestId("review-changes-button")).toBeHidden();
 
-    await expect(
-      productPage.locator(`h1:has-text("${product?.name}")`)
-    ).toContainText(product?.name);
-    await expect(productPage.locator('[id="__next"]')).toContainText(
-      product?.price
+    await page.goto(
+      `${NEXT_PUBLIC_SITE_URL}/products/${product?.name
+        ?.toLowerCase()
+        ?.replace(/\s/g, "-")}`
     );
-    await expect(productPage.locator('[id="__next"]')).toContainText(
+    await page.waitForLoadState("domcontentloaded");
+    await expect(page.locator("h1")).toContainText(product?.name);
+    await expect(page.locator('[id="__next"]')).toContainText(product?.price);
+    await expect(page.locator('[id="__next"]')).toContainText(
       product?.description
     );
-    await expect(productPage.getByText("Qty")).toBeVisible();
-    await expect(productPage.getByText("-+")).toBeVisible();
-    await expect(productPage.getByLabel("Add to Bag button")).toBeVisible();
-    await expect(productPage.getByLabel("Add to Wishlist")).toBeVisible();
+    await expect(page.getByText("Qty")).toBeVisible();
+    await expect(page.getByText("-+")).toBeVisible();
+    await expect(page.getByLabel("Add to Bag button")).toBeVisible();
+    await expect(page.getByLabel("Add to Wishlist")).toBeVisible();
   });
 
   test.fixme("Create collections page", async ({ page }) => {
     await page
       .getByRole("link", { name: "Collections" })
       .click({ force: true });
+    await page.waitForLoadState();
+
+    await expect(page.getByTestId("action-intent-button")).toBeVisible();
     await page.getByTestId("action-intent-button").click({ force: true });
-    await page.getByTestId("string-input").click();
+    await page.waitForLoadState();
+
+    await expect(page.getByTestId("string-input")).toBeVisible();
+    await expect(page.getByRole("button", { name: "Generate" })).toBeVisible();
+
     await page.getByTestId("string-input").fill(collections?.name);
     await page.getByRole("button", { name: "Generate" }).click({ force: true });
-    await page.getByRole("button", { name: "Add item" }).click();
+    await page.getByRole("button", { name: "Add item" }).click({ force: true });
     await page.getByTestId("autocomplete").fill(product?.name);
+    await expect(
+      page.getByRole("button", { name: product?.name })
+    ).toBeVisible();
     await page
       .getByRole("button", { name: product?.name })
       .click({ force: true });
@@ -117,22 +135,26 @@ test.describe("Main Store Pages", () => {
     await publishDocument(page);
 
     // check site preview
-    const collectionsPagePromise = page.waitForEvent("popup");
-    await page.getByText(`${NEXT_PUBLIC_SITE_URL}`).click({ force: true });
-    const collectionsPage = await collectionsPagePromise;
+    await expect(page.getByTestId("review-changes-button")).toBeHidden();
 
-    await expect(collectionsPage.locator('[id="__next"]')).toContainText(
-      product?.name
+    await page.goto(
+      `${NEXT_PUBLIC_SITE_URL}/collections/${collections?.name
+        ?.toLowerCase()
+        ?.replace(/\s/g, "-")}`
     );
-    await expect(collectionsPage.locator('[id="__next"]')).toContainText(
-      product?.price
-    );
+    await page.waitForLoadState("domcontentloaded");
+    await expect(page.locator('[id="__next"]')).toContainText(product?.name);
+    await expect(page.locator('[id="__next"]')).toContainText(product?.price);
   });
 
   test.fixme("Delete category page", async ({ page }) => {
     await page
       .getByRole("link", { name: "Collections" })
       .click({ force: true });
+
+    await expect(
+      page.getByRole("link", { name: collections?.name })
+    ).toBeVisible();
     await page
       .getByRole("link", { name: collections?.name })
       .click({ force: true });
@@ -154,11 +176,15 @@ test.describe("Main Store Pages", () => {
 
   test.fixme("Delete product page", async ({ page }) => {
     await page.getByRole("link", { name: "Products" }).click({ force: true });
+
+    await expect(page.getByRole("link", { name: product?.name })).toBeVisible();
     await page
       .getByRole("link", { name: product?.name })
       .click({ force: true });
+
     await expect(page.getByText("Loading document")).toBeHidden();
     await expect(page.getByLabel("Name")).toHaveValue(product?.name);
+
     // proceed delete
     await deleteDocument(page);
   });
@@ -177,35 +203,27 @@ test.describe("Store Commerce Pages", () => {
   // check cart page preview
   test("Check Cart page preview", async ({ page }) => {
     await page.getByRole("link", { name: "Cart" }).click({ force: true });
-    const publishButton = page.locator('button:has-text("Publish")');
-    const isEnabledPublishBtn =
-      (await publishButton.getAttribute("data-disabled")) === "false";
 
-    if (isEnabledPublishBtn) {
-      await expect(publishButton).toHaveAttribute("data-disabled", "false");
-      await publishButton.click();
-    }
-    await expect(publishButton).toHaveAttribute("data-disabled", "true");
+    await expect(page.getByText("Loading document")).toBeHidden();
+    await expect(
+      page
+        .getByTestId("field-cartSectionVariant")
+        .locator("div")
+        .filter({ hasText: "Cart Section Variant" })
+        .first()
+    ).toBeVisible();
 
-    const cartPagePromise = page.waitForEvent("popup");
-    await page.getByText(`${NEXT_PUBLIC_SITE_URL}/cart`).click({ force: true });
-
-    const cartPage = await cartPagePromise;
-    await cartPage.goto(`${NEXT_PUBLIC_SITE_URL}/cart?store-page=cart`);
-
-    await expect(cartPage.locator(".ecwid-productBrowser")).toBeVisible({
+    await page.goto(`${NEXT_PUBLIC_SITE_URL}/cart?store-page=cart`);
+    await page.waitForLoadState("domcontentloaded");
+    await expect(page.locator(".ecwid-productBrowser")).toBeVisible({
       timeout: 150_000,
     });
+    await expect(page.getByRole("heading")).toContainText("Shopping cart");
+    await expect(page.getByText("Your shopping cart is empty")).toBeVisible();
     await expect(
-      cartPage.locator('h1:has-text("Shopping cart")')
+      page.getByRole("button", { name: "Browse Store" })
     ).toBeVisible();
-    await expect(
-      cartPage.getByText("Your shopping cart is empty")
-    ).toBeVisible();
-    await expect(
-      cartPage.getByRole("button", { name: "Browse Store" })
-    ).toBeVisible();
-    await expect(cartPage.getByRole("link", { name: "Cart" })).toBeVisible();
+    await expect(page.getByRole("link", { name: "Cart" })).toBeVisible();
   });
 
   // check wishlist page preview
@@ -214,14 +232,19 @@ test.describe("Store Commerce Pages", () => {
       .getByRole("link", { name: "Wishlist", exact: true })
       .click({ force: true });
 
-    const wishlistPagePromise = page.waitForEvent("popup");
-    await page
-      .getByText(`${NEXT_PUBLIC_SITE_URL}/wishlist`)
-      .click({ force: true });
-
-    const wishlistPage = await wishlistPagePromise;
+    await expect(page.getByText("Loading document")).toBeHidden();
     await expect(
-      wishlistPage
+      page
+        .getByTestId("field-wishlistSectionVariant")
+        .locator("div")
+        .filter({ hasText: "Wishlist Section Variant" })
+        .first()
+    ).toBeVisible();
+
+    await page.goto(`${NEXT_PUBLIC_SITE_URL}/wishlist`);
+    await page.waitForLoadState("domcontentloaded");
+    await expect(
+      page
         .locator("div")
         .filter({
           hasText:

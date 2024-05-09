@@ -1,7 +1,7 @@
 import { test, expect } from "@playwright/test";
 
 test("verify it is initially setup properly", async ({ page }) => {
-  await page.goto("http://localhost:3000/studio");
+  await page.goto(`./studio`);
 
   await page.getByRole("link", { name: "Forms" }).click();
   await page.getByRole("button", { name: "Configure" }).click();
@@ -36,7 +36,7 @@ test("it lists the number of forms based on API response of WebriQ Forms", async
       // console.log("🚀 ~ response:", responseBody); // Log or assert the response
     }
   );
-  await page.goto("http://localhost:3000/studio");
+  await page.goto(`./studio`);
 
   await page.getByRole("link", { name: "Forms" }).click();
 

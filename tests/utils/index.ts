@@ -197,7 +197,6 @@ export const socialLinks = {
   async fillSocialMediaLink({ page, socialPlatform, link }) {
     await page.getByRole("button", { name: socialPlatform }).click();
     await page.getByLabel("Social Media Link").click();
-    await page.getByLabel("Social Media Link").press("Meta+a");
     await page.getByLabel("Social Media Link").fill(link);
     await page.getByLabel("Close dialog").click();
   },
@@ -209,18 +208,25 @@ export const socialLinks = {
         .filter({ hasText: "Social Links" })
         .nth(3)
     ).toBeVisible();
-
-    const socialPlatforms = ["facebook", "twitter", "instagram"];
-    const fillPromises = socialPlatforms.map((social) => {
-      const linkValue = commonFieldValues[social];
-      return this.fillSocialMediaLink({ page, social, linkValue });
-    });
-
-    try {
-      await Promise.all(fillPromises);
-    } catch (error) {
-      console.error("Failed to fill social media links:", error);
-    }
+    await page.getByRole("button", { name: "facebook" }).click();
+    await page.getByLabel("Social Media Link").click();
+    await page.getByLabel("Social Media Link").press("Meta+a");
+    await page
+      .getByLabel("Social Media Link")
+      .fill(commonFieldValues?.facebook);
+    await page.getByLabel("Close dialog").click();
+    await page.getByRole("button", { name: "twitter" }).click();
+    await page.getByLabel("Social Media Link").click();
+    await page.getByLabel("Social Media Link").press("Meta+a");
+    await page.getByLabel("Social Media Link").fill(commonFieldValues?.twitter);
+    await page.getByLabel("Close dialog").click();
+    await page.getByRole("button", { name: "instagram" }).click();
+    await page.getByLabel("Social Media Link").click();
+    await page.getByLabel("Social Media Link").press("Meta+a");
+    await page
+      .getByLabel("Social Media Link")
+      .fill(commonFieldValues?.instagram);
+    await page.getByLabel("Close dialog").click();
   },
   async sitePreview({ pageUrl, commonFieldValues }) {
     await expect(pageUrl.getByLabel("facebook")).toBeVisible();
@@ -324,7 +330,7 @@ export async function expectDocumentPublished(page, pageTitle) {
     page
       .locator('[data-testid="review-changes-button"]')
       .filter({ hasText: "Just now" })
-  ).toBeVisible({ timeout: 150000 });
+  ).toBeVisible({ timeout: 150_000 });
 
   const saveButton = page.locator('button:has-text("Save")');
   await expect(saveButton).toHaveAttribute("data-disabled", "false");
@@ -349,6 +355,7 @@ export async function expectDocumentPublished(page, pageTitle) {
       .filter({ hasText: "The document was published" })
       .nth(1)
   ).toBeHidden({ timeout: 150_000 });
+
   await expect(page.locator('a[target="_blank"]')).toHaveCSS(
     "color",
     "rgb(149, 130, 40)"

@@ -20,6 +20,10 @@ test.describe("Verify SEO Settings", () => {
 
   test("Can add global SEO values", async ({ page }) => {
     await navigateToPage(page);
+
+    await expect(
+      await page.getByRole("link", { name: newSeoPage })
+    ).toBeVisible();
     await page.getByRole("link", { name: newSeoPage }).click({ force: true });
     await page
       .getByRole("button", { name: "SEO Settings" })
@@ -98,26 +102,28 @@ test.describe("Verify SEO Settings", () => {
     test.setTimeout(300_000);
 
     await navigateToPage(page);
+
+    await expect(page.getByRole("link", { name: newSeoPage })).toBeVisible();
     await page.getByRole("link", { name: newSeoPage }).click({ force: true });
     await page
       .getByRole("button", { name: "SEO Settings" })
       .click({ force: true });
 
     // SEO title
+    await expect(page.locator("input#title")).toBeVisible();
     const pageTitle = await page.locator("input#title").inputValue();
     const seoTitleFld = page
       .getByTestId("field-seo.seoTitle")
       .getByRole("textbox");
     seoTitleFld.click({ force: true });
-    seoTitleFld.press("Meta+a");
     await expect(seoTitleFld).toHaveAttribute("placeholder", pageTitle);
 
     // SEO keywords
     const seoKeywordsFld = page
       .getByTestId("field-seo.seoKeywords")
       .getByRole("textbox");
+    await expect(seoKeywordsFld).toBeVisible();
     seoKeywordsFld.click({ force: true });
-    seoKeywordsFld.press("Meta+a");
     await expect(seoKeywordsFld).toHaveAttribute(
       "placeholder",
       globalSeo?.keywords
@@ -127,9 +133,8 @@ test.describe("Verify SEO Settings", () => {
     const seoSynonymsFld = page
       .getByTestId("field-seo.seoSynonyms")
       .getByRole("textbox");
-    await seoSynonymsFld.scrollIntoViewIfNeeded();
+    await expect(seoSynonymsFld).toBeVisible();
     seoSynonymsFld.click({ force: true });
-    seoSynonymsFld.press("Meta+a");
     await expect(seoSynonymsFld).toHaveAttribute(
       "placeholder",
       globalSeo?.synonyms
@@ -139,9 +144,8 @@ test.describe("Verify SEO Settings", () => {
     const seoDescFld = page
       .getByTestId("field-seo.seoDescription")
       .getByRole("textbox");
-    await seoDescFld.scrollIntoViewIfNeeded();
+    await expect(seoDescFld).toBeVisible();
     seoDescFld.click({ force: true });
-    seoDescFld.press("Meta+a");
     await expect(seoDescFld).toHaveAttribute(
       "placeholder",
       globalSeo?.description
@@ -160,10 +164,11 @@ test.describe("Verify SEO Settings", () => {
     });
 
     test("SEO keywords", async ({ page }) => {
-      // SEO keywords
       const seoKeywordsFld = page
         .getByTestId("field-seo.seoKeywords")
         .getByRole("textbox");
+
+      await expect(seoKeywordsFld).toBeVisible();
       seoKeywordsFld.click({ force: true });
       seoKeywordsFld.press("Meta+a");
       await expect(
@@ -188,6 +193,8 @@ test.describe("Verify SEO Settings", () => {
       const seoSynonymsFld = page
         .getByTestId("field-seo.seoSynonyms")
         .getByRole("textbox");
+
+      await expect(seoSynonymsFld).toBeVisible();
       seoSynonymsFld.click({ force: true });
       seoSynonymsFld.press("Meta+a");
       await expect(
@@ -212,8 +219,9 @@ test.describe("Verify SEO Settings", () => {
       const seoDescFld = page
         .getByTestId("field-seo.seoDescription")
         .getByRole("textbox");
+
+      await expect(seoDescFld).toBeVisible();
       seoDescFld.click({ force: true });
-      seoDescFld.press("Meta+a");
       await expect(
         page
           .getByTestId("field-seo.seoDescription")
@@ -236,6 +244,8 @@ test.describe("Verify SEO Settings", () => {
     test.setTimeout(300_000);
 
     await navigateToPage(page);
+
+    await expect(page.getByRole("link", { name: newSeoPage })).toBeVisible();
     await page.getByRole("link", { name: newSeoPage }).click({ force: true });
     await page
       .getByRole("button", { name: "SEO Settings" })
@@ -245,37 +255,38 @@ test.describe("Verify SEO Settings", () => {
     const seoTitleFld = page
       .getByTestId("field-seo.seoTitle")
       .getByRole("textbox");
+    await expect(seoTitleFld).toBeVisible();
     seoTitleFld.click({ force: true });
-    seoTitleFld.press("Meta+a");
     seoTitleFld.fill("Stackshift | New Page");
 
     // SEO keywords
     const seoKeywordsFld = page
       .getByTestId("field-seo.seoKeywords")
       .getByRole("textbox");
+    await expect(seoKeywordsFld).toBeVisible();
     seoKeywordsFld.click({ force: true });
-    seoKeywordsFld.press("Meta+a");
     seoKeywordsFld.fill("new page");
 
     // SEO synonyms
     const seoSynonymsFld = page
       .getByTestId("field-seo.seoSynonyms")
       .getByRole("textbox");
+    await expect(seoSynonymsFld).toBeVisible();
     seoSynonymsFld.click({ force: true });
-    seoSynonymsFld.press("Meta+a");
     seoSynonymsFld.fill("test page");
 
     // SEO description
     const seoDescFld = page
       .getByTestId("field-seo.seoDescription")
       .getByRole("textbox");
-    seoDescFld.click({ force: true });
-    seoDescFld.press("Meta+a");
+    await expect(seoDescFld).toBeVisible();
     seoDescFld.fill("This is the SEO description of this page.");
   });
 
   test("Delete test page for SEO", async ({ page }) => {
     await navigateToPage(page);
+
+    await expect(page.getByPlaceholder("Search list")).toBeVisible();
     await page.getByPlaceholder("Search list").click({ force: true });
     await page.getByPlaceholder("Search list").fill(newSeoPage);
     await page.waitForSelector(`a:has-text("${newSeoPage}")`, {
@@ -293,7 +304,9 @@ test.describe("Verify SEO Settings", () => {
       page.getByTestId("document-panel-scroller").nth(1)
     ).toBeHidden();
     await page.locator('button[data-testid="action-menu-button"]').click();
+    await expect(page.getByTestId("action-Delete")).toBeVisible();
     await page.getByTestId("action-Delete").click();
+    await expect(page.getByTestId("confirm-delete-button")).toBeVisible();
     await page.getByTestId("confirm-delete-button").click();
     await expect(
       page
