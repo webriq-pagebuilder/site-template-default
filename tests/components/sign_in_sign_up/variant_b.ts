@@ -12,6 +12,7 @@ export default async function VariantB({
   commonFieldValues,
   linkNames,
   isInternalLink,
+  baseURL,
 }) {
   if (isInternalLink) {
     await page
@@ -206,7 +207,7 @@ export default async function VariantB({
   await expectDocumentPublished(page, pageTitle);
 
   const pagePromise = page.waitForEvent("popup");
-  await page.getByText(`${NEXT_PUBLIC_SITE_URL}`).click({ force: true });
+  await page.getByText(baseURL).click({ force: true });
   const openUrlPage = await pagePromise;
 
   // 05-03-2024 defer tests for forms

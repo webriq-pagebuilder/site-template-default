@@ -69,7 +69,7 @@ faqsVariantTest.forEach((variants, index) => {
   const pageTitle = newPageTitle(title);
 
   test.describe(`${name}`, () => {
-    test(`Create ${label}`, async ({ page }) => {
+    test(`Create ${label}`, async ({ page, baseURL }) => {
       console.log(`[INFO] - Testing Faqs ${variant} 🚀`);
       await beforeEachTest(page, pageTitle, "Faqs", label, index);
       const variantTest = variantModules[variant];
@@ -78,6 +78,7 @@ faqsVariantTest.forEach((variants, index) => {
         pageTitle,
         page,
         commonFieldValues,
+        baseURL,
       });
     });
 

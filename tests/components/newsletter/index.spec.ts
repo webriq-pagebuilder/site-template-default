@@ -53,7 +53,7 @@ newsletterVariantTests.forEach((variants, index) => {
   const pageTitle = newPageTitle(title);
 
   test.describe(`${name}`, () => {
-    test(`Create ${label}`, async ({ page }) => {
+    test(`Create ${label}`, async ({ page, baseURL }) => {
       console.log(`[INFO] - Testing Newsletter ${variant} 🚀`);
       await beforeEachTest(page, pageTitle, "Newsletter", label, index);
 
@@ -62,6 +62,7 @@ newsletterVariantTests.forEach((variants, index) => {
         pageTitle,
         page,
         commonFieldValues,
+        baseURL,
       });
     });
 
@@ -82,7 +83,7 @@ export const form = {
     await expect(
       page.getByTestId("field-variants.form.name").getByTestId("string-input")
     ).toBeEmpty();
-    await generateFormId({ page });
+    await generateFormId(page);
     await page.getByRole("button", {
       name: newsletterInitialValue.form?.[0]?.name,
     });

@@ -2,7 +2,12 @@ import { expect } from "@playwright/test";
 import { NEXT_PUBLIC_SITE_URL } from "studio/config";
 import { expectDocumentPublished } from "tests/utils";
 
-export default async function VariantD({ pageTitle, page, commonFieldValues }) {
+export default async function VariantD({
+  pageTitle,
+  page,
+  commonFieldValues,
+  baseURL,
+}) {
   const rating = "3";
   for (const person of commonFieldValues) {
     await page.getByRole("button", { name: person.name }).click();
@@ -33,7 +38,7 @@ export default async function VariantD({ pageTitle, page, commonFieldValues }) {
   await expectDocumentPublished(page, pageTitle);
 
   const pagePromise = page.waitForEvent("popup");
-  await page.getByText(`${NEXT_PUBLIC_SITE_URL}`).click({ force: true });
+  await page.getByText(baseURL).click({ force: true });
   const openUrlPage = await pagePromise;
 
   for (let i = 0; i < commonFieldValues.length; i++) {

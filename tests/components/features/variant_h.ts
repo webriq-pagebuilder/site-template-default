@@ -9,7 +9,7 @@ import { featuresInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-d
 
 const featuresLength = featuresInitialValue.arrayOfImageTitleAndText.length;
 
-async function VariantH({ newPageTitle, page, commonFieldValues }) {
+async function VariantH({ newPageTitle, page, commonFieldValues, baseURL }) {
   // studio
   await subtitleField.checkAndAddValue({
     page,
@@ -34,7 +34,7 @@ async function VariantH({ newPageTitle, page, commonFieldValues }) {
   // check site preview
   await expectDocumentPublished(page, newPageTitle);
   const pagePromise = page.waitForEvent("popup");
-  await page.getByText(`${NEXT_PUBLIC_SITE_URL}`).click({ force: true });
+  await page.getByText(baseURL).click({ force: true });
   const openUrlPage = await pagePromise;
 
   // subtitle

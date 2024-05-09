@@ -4,10 +4,9 @@ import {
   CTAWebriQForm,
   expectDocumentPublished,
 } from "tests/utils";
-import { NEXT_PUBLIC_SITE_URL } from "studio/config";
 import { callToActionInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-default";
 
-async function VariantE({ newPageTitle, page, commonFieldValues }) {
+async function VariantE({ pageTitle, page, commonFieldValues, baseURL }) {
   // studio
   // 05-03-2024 defer tests for forms
   // await CTAWebriQForm({
@@ -18,9 +17,9 @@ async function VariantE({ newPageTitle, page, commonFieldValues }) {
   // });
 
   // check site preview
-  await expectDocumentPublished(page, newPageTitle);
+  await expectDocumentPublished(page, pageTitle);
   const pagePromise = page.waitForEvent("popup");
-  await page.getByText(`${NEXT_PUBLIC_SITE_URL}`).click({ force: true });
+  await page.getByText(baseURL).click({ force: true });
   const openUrlPage = await pagePromise;
 
   // forms

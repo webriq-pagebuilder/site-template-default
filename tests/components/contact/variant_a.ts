@@ -8,7 +8,13 @@ import {
 } from "tests/utils";
 import { form } from "./index.spec";
 
-async function VariantA({ pageTitle, page, initialValue, commonFieldValues }) {
+async function VariantA({
+  pageTitle,
+  page,
+  initialValue,
+  commonFieldValues,
+  baseURL,
+}) {
   // studio
   await titleField.checkAndAddValue({
     page,
@@ -55,7 +61,7 @@ async function VariantA({ pageTitle, page, initialValue, commonFieldValues }) {
   // check site preview
   await expectDocumentPublished(page, pageTitle);
   const pagePromise = page.waitForEvent("popup");
-  await page.getByText(`${NEXT_PUBLIC_SITE_URL}`).click({ force: true });
+  await page.getByText(baseURL).click({ force: true });
   const openUrlPage = await pagePromise;
 
   // title

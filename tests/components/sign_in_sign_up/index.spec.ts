@@ -83,7 +83,7 @@ signInSignupVariantTest.forEach((variants, index) => {
   const pageTitle = newPageTitle(title);
 
   test.describe(`${name}`, () => {
-    test(`Create ${label}`, async ({ page }) => {
+    test(`Create ${label}`, async ({ page, baseURL }) => {
       console.log(`[INFO] - Testing Sign in Sign up ${variant} 🚀`);
       await beforeEachTest(page, pageTitle, "Sign In Sign Up", label, index);
       const variantTest = variantModules[variant];
@@ -94,6 +94,7 @@ signInSignupVariantTest.forEach((variants, index) => {
         commonFieldValues,
         linkNames,
         isInternalLink,
+        baseURL,
       });
     });
 

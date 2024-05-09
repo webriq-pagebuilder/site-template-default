@@ -93,7 +93,7 @@ blogVariantTest.forEach((variants, index) => {
   const pageTitle = newPageTitle(title);
 
   test.describe(`${name}`, () => {
-    test(`Create ${label}`, async ({ page }) => {
+    test(`Create ${label}`, async ({ page, baseURL }) => {
       console.log(`[INFO] - Testing Blog ${variant} 🚀`);
       await beforeEachTest(page, pageTitle, "Blog", label, index);
       const variantTest = variantModules[variant];
@@ -103,6 +103,7 @@ blogVariantTest.forEach((variants, index) => {
         page,
         commonFieldValues,
         isInternalLink,
+        baseURL,
       });
     });
 

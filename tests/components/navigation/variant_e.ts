@@ -12,6 +12,7 @@ export default async function VariantE({
   commonFieldValues,
   linkNames,
   isInternalLink,
+  baseURL,
 }) {
   await page
     .getByTestId("scroll-container")
@@ -65,7 +66,7 @@ export default async function VariantE({
   await expectDocumentPublished(page, pageTitle);
 
   const pagePromise = page.waitForEvent("popup");
-  await page.getByText(`${NEXT_PUBLIC_SITE_URL}`).click({ force: true });
+  await page.getByText(baseURL).click({ force: true });
   const openUrlPage = await pagePromise;
 
   // Default should just be available routes - no buttons in variant E

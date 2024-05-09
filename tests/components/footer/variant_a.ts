@@ -14,12 +14,14 @@ export default async function VariantA({
   commonFieldValues,
   linkNames,
   isInternalLink,
+  baseURL,
 }) {
   await createFooterVariant({
     pageTitle,
     page,
     commonFieldValues,
     isInternalLink,
+    baseURL,
   });
 
   // Loops all routes
@@ -38,6 +40,7 @@ async function createFooterVariant({
   page,
   commonFieldValues,
   isInternalLink,
+  baseURL,
 }) {
   if (!isInternalLink) {
     //Logo Alt
@@ -111,7 +114,7 @@ async function createFooterVariant({
   await expectDocumentPublished(page, pageTitle);
 
   const pagePromise = page.waitForEvent("popup");
-  await page.getByText(`${NEXT_PUBLIC_SITE_URL}`).click({ force: true });
+  await page.getByText(baseURL).click({ force: true });
   const openUrlPage = await pagePromise;
 
   //LogoImg

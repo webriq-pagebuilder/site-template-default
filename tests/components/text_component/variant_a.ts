@@ -3,7 +3,12 @@ import { textComponentInitialValue } from "@webriq-pagebuilder/sanity-plugin-sch
 import { NEXT_PUBLIC_SITE_URL } from "studio/config";
 import { expectDocumentPublished, titleField } from "tests/utils";
 
-export default async function VariantA({ pageTitle, page, commonFieldValues }) {
+export default async function VariantA({
+  pageTitle,
+  page,
+  commonFieldValues,
+  baseURL,
+}) {
   //Title
   await titleField.checkAndAddValue({
     page,
@@ -29,7 +34,7 @@ export default async function VariantA({ pageTitle, page, commonFieldValues }) {
   await expectDocumentPublished(page, pageTitle);
 
   const pagePromise = page.waitForEvent("popup");
-  await page.getByText(`${NEXT_PUBLIC_SITE_URL}`).click({ force: true });
+  await page.getByText(baseURL).click({ force: true });
   const openUrlPage = await pagePromise;
 
   //Title

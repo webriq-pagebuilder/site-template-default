@@ -5,7 +5,7 @@ import { newsletterInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema
 import { titleField, descriptionField } from "tests/utils";
 import { form } from "./index.spec";
 
-async function VariantB({ pageTitle, page, commonFieldValues }) {
+async function VariantB({ pageTitle, page, commonFieldValues, baseURL }) {
   // studio
   await updateLogoLink(page, commonFieldValues?.logoAltText);
 
@@ -29,7 +29,7 @@ async function VariantB({ pageTitle, page, commonFieldValues }) {
   await expectDocumentPublished(page, pageTitle);
 
   const pagePromise = page.waitForEvent("popup");
-  await page.getByText(`${NEXT_PUBLIC_SITE_URL}`).click({ force: true });
+  await page.getByText(baseURL).click({ force: true });
   const openUrlPage = await pagePromise;
 
   // logo

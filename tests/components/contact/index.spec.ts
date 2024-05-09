@@ -90,7 +90,7 @@ contactVariantTests?.forEach((variant, index) => {
   test.describe(`${variant.name}`, () => {
     const pageTitle = newPageTitle(variant?.title);
 
-    test(`Create ${variant.label}`, async ({ page }) => {
+    test(`Create ${variant.label}`, async ({ page, baseURL }) => {
       console.log(`[INFO] - Testing Contact ${variant} 🚀`);
       await beforeEachTest(page, pageTitle, "Contact", variant?.label, index);
 
@@ -100,6 +100,7 @@ contactVariantTests?.forEach((variant, index) => {
         page,
         initialValue,
         commonFieldValues,
+        baseURL,
       });
     });
 
@@ -112,7 +113,7 @@ contactVariantTests?.forEach((variant, index) => {
 
 export const form = {
   async addContactFormFields({ page, initialValue, commonFieldValues }) {
-    await generateFormId({ page });
+    await generateFormId(page);
     await expect(
       page
         .getByTestId("field-variants.form.buttonLabel")

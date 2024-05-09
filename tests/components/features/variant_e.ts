@@ -3,7 +3,7 @@ import { descriptionField, expectDocumentPublished } from "tests/utils";
 import { NEXT_PUBLIC_SITE_URL } from "studio/config";
 import { featuresInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-default";
 
-async function VariantE({ pageTitle, page, commonFieldValues }) {
+async function VariantE({ pageTitle, page, commonFieldValues, baseURL }) {
   // studio
   await expect(
     page.getByRole("button", { name: "Build & Launch without" })
@@ -15,7 +15,7 @@ async function VariantE({ pageTitle, page, commonFieldValues }) {
   // check site preview
   await expectDocumentPublished(page, pageTitle);
   const pagePromise = page.waitForEvent("popup");
-  await page.getByText(`${NEXT_PUBLIC_SITE_URL}`).click({ force: true });
+  await page.getByText(baseURL).click({ force: true });
   const openUrlPage = await pagePromise;
 
   await expect(

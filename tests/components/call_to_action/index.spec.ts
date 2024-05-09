@@ -85,7 +85,7 @@ ctaVariantTests?.forEach((variants, index) => {
   const pageTitle = newPageTitle(title);
 
   test.describe(`${name}`, () => {
-    test(`Create ${label}`, async ({ page }) => {
+    test(`Create ${label}`, async ({ page, baseURL }) => {
       console.log(`[INFO] - Testing Call to Action ${variant} 🚀`);
       await beforeEachTest(page, pageTitle, "Call to Action", label, index);
 
@@ -94,6 +94,7 @@ ctaVariantTests?.forEach((variants, index) => {
         pageTitle,
         page,
         commonFieldValues,
+        baseURL,
       });
     });
 

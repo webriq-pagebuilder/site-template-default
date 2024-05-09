@@ -15,6 +15,7 @@ export default async function VariantD({
   page,
   commonFieldValues,
   isInternalLink,
+  baseURL,
 }) {
   //Subtitle
   await subtitleField.checkAndAddValue({
@@ -165,7 +166,7 @@ export default async function VariantD({
   await expectDocumentPublished(page, pageTitle);
 
   const pagePromise = page.waitForEvent("popup");
-  await page.getByText(`${NEXT_PUBLIC_SITE_URL}`).click({ force: true });
+  await page.getByText(baseURL).click({ force: true });
   const openUrlPage = await pagePromise;
 
   //Title

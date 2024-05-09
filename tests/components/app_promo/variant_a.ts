@@ -1,10 +1,9 @@
 import { expect } from "@playwright/test";
 import { updateLogoLink, expectDocumentPublished } from "tests/utils";
-import { NEXT_PUBLIC_SITE_URL } from "studio/config";
 import { appPromoInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-default";
 import { titleField, subtitleField } from "tests/utils";
 
-async function VariantA({ newPageTitle, page, baseUrl, commonFieldValues }) {
+async function VariantA({ newPageTitle, page, commonFieldValues, baseURL }) {
   // studio
   await updateLogoLink(page, commonFieldValues?.logoAltText);
 
@@ -23,7 +22,7 @@ async function VariantA({ newPageTitle, page, baseUrl, commonFieldValues }) {
   // check site preview
   await expectDocumentPublished(page, newPageTitle);
   const pagePromise = page.waitForEvent("popup");
-  await page.getByText(baseUrl).click({ force: true });
+  await page.getByText(baseURL).click({ force: true });
   const openUrlPage = await pagePromise;
 
   // subtitle

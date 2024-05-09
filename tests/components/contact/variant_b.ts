@@ -12,6 +12,7 @@ async function VariantB({
   page,
   initialValue,
   commonFieldValues,
+  baseURL,
 }) {
   // studio
   await titleField.checkAndAddValue({
@@ -52,7 +53,7 @@ async function VariantB({
   // check site preview
   await expectDocumentPublished(page, newPageTitle);
   const pagePromise = page.waitForEvent("popup");
-  await page.getByText(`${NEXT_PUBLIC_SITE_URL}`).click({ force: true });
+  await page.getByText(baseURL).click({ force: true });
   const openUrlPage = await pagePromise;
 
   // title

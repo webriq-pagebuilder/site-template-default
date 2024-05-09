@@ -562,7 +562,7 @@ export async function updateLogoLink(page, altText) {
   await page.getByLabel("Blank - open on a new tab (").click();
 }
 
-export async function generateFormId({ page }) {
+export async function generateFormId({ page, baseURL }) {
   const currentPageUrl = await page.evaluate(() => document.location.href);
   await page
     .getByRole("button", { name: "Generate ID" })
@@ -588,7 +588,7 @@ export async function generateFormId({ page }) {
       "mariel.filosopo@webriq.services,roseller.enriquez@webriq.services,dorelljames@webriq.com"
     );
   await activePage.locator('input[name="testUrls"]').click();
-  await activePage.locator('input[name="testUrls"]').fill(NEXT_PUBLIC_SITE_URL);
+  await activePage.locator('input[name="testUrls"]').fill(baseURL);
   await activePage.getByRole("button", { name: "Update" }).click();
   await expect(
     activePage.getByText("Successfully updated form!")
@@ -639,7 +639,7 @@ export async function CTAWebriQForm({
   initialValues,
   formButtonLabel,
 }) {
-  await generateFormId({ page });
+  await generateFormId(page);
 
   // check CTA form initial fields
   await expect(

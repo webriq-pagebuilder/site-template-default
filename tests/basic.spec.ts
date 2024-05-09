@@ -6,9 +6,8 @@ import {
   navigateToPage,
   newPageTitle,
 } from "./utils/index";
-import { NEXT_PUBLIC_SITE_URL } from "studio/config";
 
-const pageTitle = newPageTitle("New Page");
+const pageTitle = newPageTitle("New Page ");
 const duplicatePageName = `Dupe Page ` + new Date().getTime();
 const variantLabel = "Navigation New Page Variant A";
 
@@ -16,7 +15,10 @@ test.describe("Main Workflow", () => {
   test.describe.configure({ timeout: 900000, mode: "serial" });
 
   //PUBLISH PAGES
-  test("Test to Publish a Page and Open Live URL", async ({ page }) => {
+  test("Test to Publish a Page and Open Live URL", async ({
+    page,
+    baseURL,
+  }) => {
     console.log(`[INFO] - Testing Publish Page 🚀`);
     await navigateToPage(page);
     await createNewPage(page, pageTitle, "Navigation");
@@ -43,7 +45,7 @@ test.describe("Main Workflow", () => {
     await page.waitForTimeout(5000);
 
     const pagePromise = page.waitForEvent("popup");
-    await page.getByText(`${NEXT_PUBLIC_SITE_URL}`).click();
+    await page.getByText(baseURL!).click();
     const openUrlPage = await pagePromise;
 
     // Wait for the element to become visible or hidden with a longer timeout
@@ -73,7 +75,10 @@ test.describe("Main Workflow", () => {
   });
 
   //Duplicate Pages Action
-  test("Pages Duplicate Action and Open Live URL", async ({ page }) => {
+  test("Pages Duplicate Action and Open Live URL", async ({
+    page,
+    baseURL,
+  }) => {
     console.log(`[INFO] - Testing Duplicate Page 🚀`);
     await navigateToPage(page);
 
@@ -143,7 +148,7 @@ test.describe("Main Workflow", () => {
     await page.waitForTimeout(5000);
 
     const pagePromise = page.waitForEvent("popup");
-    await page.getByText("./dupe-page-").click();
+    await page.getByText(`${baseURL}/dupe-page-`).click();
     const openUrlPage = await pagePromise;
 
     // If the section is not found, expect the Empty Page element to be hidden
@@ -189,12 +194,9 @@ test.describe("Main Workflow", () => {
     const launchInlineEditing = page.waitForEvent("popup");
     await page.getByLabel("Launch Inline Editing").click();
     const inlineEditPage = await launchInlineEditing;
-    await expect(inlineEditPage.getByText("Loading...")).toBeVisible({
-      timeout: 150000,
-    });
-    await expect(inlineEditPage.getByText("Loading...")).toBeHidden({
-      timeout: 150000,
-    });
+    await expect(inlineEditPage.getByText("Loading...")).toBeVisible();
+    await expect(inlineEditPage.getByText("Loading...")).toBeHidden();
+
     let attempts = 0;
     let maxTries = 5;
 
@@ -325,9 +327,6 @@ test.describe("Main Workflow", () => {
     });
     await page.getByLabel("Clear").click({ force: true });
 
-    await expect(page.getByText("Loading document")).toBeHidden({
-      timeout: 150000,
-    });
     await expect(page.getByText("Loading document")).toBeHidden();
     await expect(page.getByRole("link", { name: variantLabel })).toBeVisible();
     await page.getByRole("link", { name: variantLabel }).click();

@@ -5,7 +5,7 @@ import { appPromoInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-d
 import { titleField, subtitleField, descriptionField } from "tests/utils";
 import { nanoid } from "nanoid";
 
-async function VariantB({ newPageTitle, page, commonFieldValues }) {
+async function VariantB({ newPageTitle, page, commonFieldValues, baseURL }) {
   const uniqueKey = nanoid(4);
 
   const statItemsField = {
@@ -63,7 +63,7 @@ async function VariantB({ newPageTitle, page, commonFieldValues }) {
   // check site preview
   await expectDocumentPublished(page, newPageTitle);
   const pagePromise = page.waitForEvent("popup");
-  await page.getByText(`${NEXT_PUBLIC_SITE_URL}`).click({ force: true });
+  await page.getByText(baseURL).click({ force: true });
   const openUrlPage = await pagePromise;
 
   // subtitle

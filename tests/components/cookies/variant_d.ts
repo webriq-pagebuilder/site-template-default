@@ -3,7 +3,12 @@ import { cookiesInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-de
 import { NEXT_PUBLIC_SITE_URL } from "studio/config";
 import { expectDocumentPublished, headingField } from "tests/utils";
 
-export default async function VariantD({ pageTitle, page, commonFieldValues }) {
+export default async function VariantD({
+  pageTitle,
+  page,
+  commonFieldValues,
+  baseURL,
+}) {
   //Heading
   await headingField.checkAndAddValue({
     page,
@@ -46,7 +51,7 @@ export default async function VariantD({ pageTitle, page, commonFieldValues }) {
   await expectDocumentPublished(page, pageTitle);
 
   const pagePromise = page.waitForEvent("popup");
-  await page.getByText(`${NEXT_PUBLIC_SITE_URL}`).click({ force: true });
+  await page.getByText(baseURL).click({ force: true });
   const openUrlPage = await pagePromise;
 
   //Heading

@@ -12,6 +12,7 @@ export default async function createNavigationVariant({
   commonFieldValues,
   linkNames,
   isInternalLink,
+  baseURL,
 }) {
   if (!isInternalLink) {
     //Logo Alt
@@ -136,7 +137,7 @@ export default async function createNavigationVariant({
   await expectDocumentPublished(page, pageTitle);
 
   const pagePromise = page.waitForEvent("popup");
-  await page.getByText(`${NEXT_PUBLIC_SITE_URL}`).click({ force: true });
+  await page.getByText(baseURL).click({ force: true });
   const openUrlPage = await pagePromise;
 
   // Default should just be available routes - no buttons in variant E
