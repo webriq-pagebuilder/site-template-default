@@ -630,7 +630,7 @@ export async function generateFormId({ page, baseURL }) {
   await expect(page.getByRole("link", { name: "Manage" })).toBeVisible();
   await page.getByRole("link", { name: "Manage" }).click();
 
-  const pagePromise = page.waitForEvent("page");
+  const pagePromise = page.waitForEvent("popup");
   const activePage = await pagePromise;
   await activePage.locator('input[name="name"]').click();
   await activePage.locator('input[name="name"]').press("Meta+a");
