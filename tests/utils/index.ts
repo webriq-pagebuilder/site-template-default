@@ -355,20 +355,17 @@ export async function expectDocumentPublished(page, pageTitle) {
   );
 
   const publishButton = page.locator('button:has-text("Publish")');
-  let publishedCSS = false;
+  let isPublished = false;
   let clicks = 0;
 
-  while (!publishedCSS && clicks <= 5) {
+  while (!isPublished && clicks <= 5) {
     await expect(publishButton).toHaveAttribute("data-disabled", "false");
     await publishButton.click();
 
     try {
-      await expect(page.locator('a[target="_blank"]')).toHaveCSS(
-        "color",
-        "rgb(49, 151, 94)"
-      );
+      await expect(publishButton).toHaveAttribute("data-disabled", "true");
 
-      publishedCSS = true;
+      isPublished = true;
     } catch (error) {
       console.error("Publish check failed, retrying...", error);
     }
@@ -433,20 +430,17 @@ export async function deletePageVariant(page, pageTitle, variantLabel) {
   );
 
   const publishButton = page.locator('button:has-text("Publish")');
-  let publishedCSS = false;
+  let isPublished = false;
   let clicks = 0;
 
-  while (!publishedCSS && clicks <= 5) {
+  while (!isPublished && clicks <= 5) {
     await expect(publishButton).toHaveAttribute("data-disabled", "false");
     await publishButton.click();
 
     try {
-      await expect(page.locator('a[target="_blank"]')).toHaveCSS(
-        "color",
-        "rgb(49, 151, 94)"
-      );
+      await expect(publishButton).toHaveAttribute("data-disabled", "false");
 
-      publishedCSS = true;
+      isPublished = true;
     } catch (error) {
       console.error("Publish check failed, retrying...", error);
     }

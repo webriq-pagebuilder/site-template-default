@@ -154,7 +154,7 @@ test.describe("Main Workflow", () => {
   }) => {
     await navigateToPage(page);
     await page.getByPlaceholder("Search list").click({ force: true });
-    await page.getByPlaceholder("Search list").fill("${pageTitle}");
+    await page.getByPlaceholder("Search list").fill(pageTitle);
     await page.waitForSelector(`a:has-text("${pageTitle}")`, {
       state: "visible",
     });
@@ -163,7 +163,7 @@ test.describe("Main Workflow", () => {
     let variantClicks = 0;
 
     while (!variantLabelVisible && variantClicks <= 5) {
-      await page.locator(`a:has-text("${pageTitle}")`).click({ force: true });
+      await page.getByRole("link", { name: pageTitle }).click({ force: true });
       await expect(page.getByText("Loading document")).toBeHidden();
 
       try {
