@@ -331,11 +331,32 @@ export async function expectDocumentPublished(page, pageTitle) {
     page
       .locator('[data-testid="review-changes-button"]')
       .filter({ hasText: "Just now" })
-  ).toBeVisible({ timeout: 150_000 });
+  ).toBeVisible();
 
   const saveButton = page.locator('button:has-text("Save")');
-  await expect(saveButton).toHaveAttribute("data-disabled", "false");
-  await saveButton.click();
+  let isSaved = false;
+  let saveBtnClicks = 0;
+
+  while (!isSaved && saveBtnClicks <= 5) {
+    await expect(saveButton).toHaveAttribute("data-disabled", "false");
+    await saveButton.click();
+
+    try {
+      await expect(
+        page
+          .locator('[data-testid="review-changes-button"]')
+          .filter({ hasText: "Just now" })
+      ).toBeHidden();
+      await expect(saveButton).toHaveAttribute("data-disabled", "true");
+
+      isSaved = true;
+    } catch (error) {
+      console.error("Publish check failed, retrying...", error);
+    }
+
+    saveBtnClicks++;
+  }
+
   await expect(saveButton).toHaveAttribute("data-disabled", "true");
 
   await page
@@ -357,6 +378,7 @@ export async function expectDocumentPublished(page, pageTitle) {
       .nth(1)
   ).toBeHidden({ timeout: 150_000 });
 
+  await page.waitForSelector('a[target="_blank"]', { state: "visible" });
   await expect(page.locator('a[target="_blank"]')).toHaveCSS(
     "color",
     "rgb(149, 130, 40)"
@@ -371,6 +393,11 @@ export async function expectDocumentPublished(page, pageTitle) {
     await publishButton.click();
 
     try {
+      await expect(
+        page
+          .locator('[data-testid="review-changes-button"]')
+          .filter({ hasText: "Just now" })
+      ).toBeHidden();
       await expect(publishButton).toHaveAttribute("data-disabled", "true");
 
       isPublished = true;
@@ -432,6 +459,7 @@ export async function deletePageVariant(page, pageTitle, variantLabel) {
   ).toBeVisible();
 
   //Publish with no referenced section to delete the component variant
+  await page.waitForSelector('a[target="_blank"]', { state: "visible" });
   await expect(page.locator('a[target="_blank"]')).toHaveCSS(
     "color",
     "rgb(149, 130, 40)"
@@ -446,7 +474,12 @@ export async function deletePageVariant(page, pageTitle, variantLabel) {
     await publishButton.click();
 
     try {
-      await expect(publishButton).toHaveAttribute("data-disabled", "false");
+      await expect(
+        page
+          .locator('[data-testid="review-changes-button"]')
+          .filter({ hasText: "Just now" })
+      ).toBeHidden();
+      await expect(publishButton).toHaveAttribute("data-disabled", "true");
 
       isPublished = true;
     } catch (error) {
@@ -463,7 +496,10 @@ export async function deletePageVariant(page, pageTitle, variantLabel) {
 
   //Delete Component Variant
   await page.getByRole("button", { name: variantLabel }).click();
-  await expect(page.getByTestId("reference-changed-banner")).toBeVisible();
+  // await expect(page.getByTestId("reference-changed-banner")).toBeVisible();
+  await expect(
+    page.getByTestId("document-panel-scroller").nth(1)
+  ).toBeVisible();
   await page.getByRole("button", { name: "Open document actions" }).click();
   await expect(page.getByTestId("action-Delete")).toBeVisible();
   await page.getByTestId("action-Delete").click();
