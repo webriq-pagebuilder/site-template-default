@@ -45,6 +45,7 @@ appPromoVariantTests.forEach((variants, index) => {
 
   test.describe(`${name}`, () => {
     test(`Create ${label}`, async ({ page }) => {
+      console.log(`[INFO] - Testing App Promo ${variant} 🚀`);
       await beforeEachTest(page, pageTitle, "App promo", label, index);
 
       const variantTest = variantModules[variant];
@@ -57,6 +58,7 @@ appPromoVariantTests.forEach((variants, index) => {
 
     test.afterEach(async ({ page }) => {
       await deletePageVariant(page, pageTitle, label);
+      console.log(`[DONE] App Promo ${variant} 🚀`);
     });
   });
 });

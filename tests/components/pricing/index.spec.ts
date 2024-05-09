@@ -122,6 +122,7 @@ pricingVariantTest.forEach((variants, index) => {
 
   test.describe(`${name}`, () => {
     test(`Create ${label}`, async ({ page }) => {
+      console.log(`[INFO] - Testing Pricing ${variant} 🚀`);
       await beforeEachTest(page, pageTitle, "Pricing", label, index);
       const variantTest = variantModules[variant];
 
@@ -135,6 +136,7 @@ pricingVariantTest.forEach((variants, index) => {
 
     test.afterEach(async ({ page }) => {
       await deletePageVariant(page, pageTitle, label);
+      console.log(`[DONE] Pricing ${variant} 🚀`);
     });
   });
 });

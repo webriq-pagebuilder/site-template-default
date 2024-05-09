@@ -87,6 +87,7 @@ featuresVariantTests?.forEach((variants, index) => {
 
   test.describe(`${name}`, () => {
     test(`Create ${label}`, async ({ page }) => {
+      console.log(`[INFO] - Testing Features ${variant} 🚀`);
       await beforeEachTest(page, pageTitle, "Features", label, index);
 
       const variantTest = variantModules[variant];
@@ -99,6 +100,7 @@ featuresVariantTests?.forEach((variants, index) => {
 
     test.afterEach(`Delete ${label}`, async ({ page }) => {
       await deletePageVariant(page, pageTitle, label);
+      console.log(`[DONE] Features ${variant} 🚀`);
     });
   });
 });

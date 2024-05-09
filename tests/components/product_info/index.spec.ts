@@ -41,6 +41,7 @@ productInfoTest.forEach((variants, index) => {
 
   test.describe(`${name}`, () => {
     test(`Create ${label}`, async ({ page }) => {
+      console.log(`[INFO] - Testing Product Info ${variant} 🚀`);
       await beforeEachTest(page, pageTitle, "Product Info", label, index);
       const variantTest = variantModules[variant];
 
@@ -53,6 +54,7 @@ productInfoTest.forEach((variants, index) => {
 
     test.afterEach(async ({ page }) => {
       await deletePageVariant(page, pageTitle, label);
+      console.log(`[DONE] Product Info ${variant} 🚀`);
     });
   });
 });

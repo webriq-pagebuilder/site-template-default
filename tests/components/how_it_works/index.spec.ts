@@ -81,6 +81,7 @@ howItWorksVariantTest.forEach((variants, index) => {
 
   test.describe(`${name}`, () => {
     test(`Create ${label}`, async ({ page }) => {
+      console.log(`[INFO] - Testing How It Works ${variant} 🚀`);
       await beforeEachTest(page, pageTitle, "How It Works", label, index);
       const variantTest = variantModules[variant];
 
@@ -93,6 +94,7 @@ howItWorksVariantTest.forEach((variants, index) => {
 
     test.afterEach(async ({ page }) => {
       await deletePageVariant(page, pageTitle, label);
+      console.log(`[DONE] How It Works ${variant} 🚀`);
     });
   });
 });

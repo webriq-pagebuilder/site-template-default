@@ -86,6 +86,7 @@ ctaVariantTests?.forEach((variants, index) => {
 
   test.describe(`${name}`, () => {
     test(`Create ${label}`, async ({ page }) => {
+      console.log(`[INFO] - Testing Call to Action ${variant} 🚀`);
       await beforeEachTest(page, pageTitle, "Call to Action", label, index);
 
       const variantTest = variantModules[variant];
@@ -98,6 +99,7 @@ ctaVariantTests?.forEach((variants, index) => {
 
     test.afterEach(async ({ page }) => {
       await deletePageVariant(page, pageTitle, label);
+      console.log(`[DONE] Call to Action ${variant} 🚀`);
     });
   });
 });

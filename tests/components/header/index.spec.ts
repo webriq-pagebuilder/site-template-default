@@ -73,6 +73,7 @@ headersVariantTest.forEach((variants, index) => {
 
   test.describe(`${name}`, () => {
     test(`Create ${label}`, async ({ page }) => {
+      console.log(`[INFO] - Testing Header ${variant} 🚀`);
       await beforeEachTest(page, pageTitle, "Header", label, index);
       const variantTest = variantModules[variant];
 
@@ -90,6 +91,7 @@ headersVariantTest.forEach((variants, index) => {
 
     test.afterEach(async ({ page }) => {
       await deletePageVariant(page, pageTitle, label);
+      console.log(`[DONE] Header ${variant} 🚀`);
     });
   });
 });

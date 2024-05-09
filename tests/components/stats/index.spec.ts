@@ -66,6 +66,7 @@ statisticsVariantTest.forEach((variants, index) => {
 
   test.describe(`${name}`, () => {
     test(`Create ${label}`, async ({ page }) => {
+      console.log(`[INFO] - Testing Statistics ${variant} 🚀`);
       await beforeEachTest(page, pageTitle, "Statistics", label, index);
       const variantTest = variantModules[variant];
 
@@ -78,6 +79,7 @@ statisticsVariantTest.forEach((variants, index) => {
 
     test.afterEach(async ({ page }) => {
       await deletePageVariant(page, pageTitle, label);
+      console.log(`[DONE] Statistics ${variant} 🚀`);
     });
   });
 });

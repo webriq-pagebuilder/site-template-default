@@ -96,6 +96,7 @@ teamVariantTest.forEach((variants, index) => {
 
   test.describe(`${name}`, () => {
     test(`Create ${label}`, async ({ page }) => {
+      console.log(`[INFO] - Testing Team ${variant} 🚀`);
       await beforeEachTest(page, pageTitle, "Team", label, index);
       const variantTest = variantModules[variant];
 
@@ -108,6 +109,7 @@ teamVariantTest.forEach((variants, index) => {
 
     test.afterEach(async ({ page }) => {
       await deletePageVariant(page, pageTitle, label);
+      console.log(`[DONE] Team ${variant} 🚀`);
     });
   });
 });

@@ -67,6 +67,7 @@ featuredProductsTest.forEach((variants, index) => {
 
   test.describe(`${name}`, () => {
     test(`Create ${label}`, async ({ page }) => {
+      console.log(`[INFO] - Testing Featured Products ${variant} 🚀`);
       await beforeEachTest(page, pageTitle, "Featured Products", label, index);
       const variantTest = variantModules[variant];
 
@@ -79,6 +80,7 @@ featuredProductsTest.forEach((variants, index) => {
 
     test.afterEach(async ({ page }) => {
       await deletePageVariant(page, pageTitle, label);
+      console.log(`[DONE] Featured Products ${variant} 🚀`);
     });
   });
 });

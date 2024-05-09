@@ -78,6 +78,7 @@ portfolioVariantTest.forEach((variants, index) => {
 
   test.describe(`${name}`, () => {
     test(`Create ${label}`, async ({ page }) => {
+      console.log(`[INFO] - Testing Portfolio ${variant} 🚀`);
       await beforeEachTest(page, pageTitle, "Portfolio", label, index);
       const variantTest = variantModules[variant];
 
@@ -91,6 +92,7 @@ portfolioVariantTest.forEach((variants, index) => {
 
     test.afterEach(async ({ page }) => {
       await deletePageVariant(page, pageTitle, label);
+      console.log(`[DONE] Portfolio ${variant} 🚀`);
     });
   });
 });

@@ -84,6 +84,7 @@ signInSignupVariantTest.forEach((variants, index) => {
 
   test.describe(`${name}`, () => {
     test(`Create ${label}`, async ({ page }) => {
+      console.log(`[INFO] - Testing Sign in Sign up ${variant} 🚀`);
       await beforeEachTest(page, pageTitle, "Sign In Sign Up", label, index);
       const variantTest = variantModules[variant];
 
@@ -98,6 +99,7 @@ signInSignupVariantTest.forEach((variants, index) => {
 
     test.afterEach(async ({ page }) => {
       await deletePageVariant(page, pageTitle, label);
+      console.log(`[DONE] Sign in Sign up ${variant} 🚀`);
     });
   });
 });

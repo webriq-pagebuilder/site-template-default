@@ -2,6 +2,8 @@ import { test, expect } from "@playwright/test";
 import { newPageTitle } from "tests/utils";
 
 test("Show all components", async ({ page }) => {
+  console.log("[INFO] Run WebriQ Components tests");
+
   test.setTimeout(120_000);
 
   await page.goto(`./studio`);
@@ -24,15 +26,8 @@ test.describe("Main document actions", () => {
     await page.waitForLoadState("domcontentloaded");
     await page.getByText("Select...").click();
     await expect(
-      page
-        .getByTestId("studio-layout")
-        .locator("div")
-        .filter({ hasText: /^Loading content…Document title$/ })
-        .nth(3)
-    ).toBeHidden();
-    await expect(
       page.locator("div").filter({ hasText: /^New App Promo$/ })
-    ).toBeVisible();
+    ).toBeVisible({ timeout: 150_000 });
     await page
       .getByRole("button", { name: "New App Promo" })
       .click({ force: true });

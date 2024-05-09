@@ -17,6 +17,7 @@ test.describe("Main Workflow", () => {
 
   //PUBLISH PAGES
   test("Test to Publish a Page and Open Live URL", async ({ page }) => {
+    console.log(`[INFO] - Testing Publish Page 🚀`);
     await navigateToPage(page);
     await createNewPage(page, pageTitle, "Navigation");
 
@@ -61,6 +62,8 @@ test.describe("Main Workflow", () => {
         timeout: 20000,
       });
     }
+
+    console.log(`[DONE] - Testing Publish Page 🚀`);
   });
 
   test.afterEach(async ({ page }, testInfo) => {
@@ -71,6 +74,7 @@ test.describe("Main Workflow", () => {
 
   //Duplicate Pages Action
   test("Pages Duplicate Action and Open Live URL", async ({ page }) => {
+    console.log(`[INFO] - Testing Duplicate Page 🚀`);
     await navigateToPage(page);
 
     await page.getByPlaceholder("Search list").click({ force: true });
@@ -146,12 +150,15 @@ test.describe("Main Workflow", () => {
     await expect(openUrlPage.getByText("Empty Page")).toBeHidden({
       timeout: 20_000,
     });
+
+    console.log(`[DONE] Testing Duplicate Page 🚀`);
   });
 
   //Launch Inline Editing - Edit and Close button function
   test("Open Inline Editing and Edit Texts should display in realtime", async ({
     page,
   }) => {
+    console.log(`[INFO] - Testing Inline Edit Text 🚀`);
     await navigateToPage(page);
     await page.getByPlaceholder("Search list").click({ force: true });
     await page.getByPlaceholder("Search list").fill(pageTitle);
@@ -294,9 +301,14 @@ test.describe("Main Workflow", () => {
         inlineEditPage.getByRole("link", { name: route.updatedRoute })
       ).toBeVisible();
     }
+
+    console.log(`[DONE] - Testing Inline Edit Text 🚀`);
   });
 
   test("Test with no Section should display Empty Page", async ({ page }) => {
+    console.log(
+      `[INFO] - Testing Page with no Section should display empty page 🚀`
+    );
     await navigateToPage(page);
     await page.getByPlaceholder("Search list").click({ force: true });
     await page.getByPlaceholder("Search list").fill(pageTitle);
@@ -388,19 +400,26 @@ test.describe("Main Workflow", () => {
         .toBeVisible({ timeout: 20000 })
         .then(() => console.log("There is no Available Content!"));
     }
+
+    console.log(`[DONE] Page with no Section should display empty page 🚀`);
   });
 
   test("Delete Published Page", async ({ page }) => {
+    console.log(`[INFO] - Testing Delete Published Page 🚀`);
     await deletePublishedPage(page);
+    console.log(`[DONE] Delete Published Page 🚀`);
   });
 
   test("Delete Duplicate Page", async ({ page }) => {
+    console.log(`[INFO] - Testing Delete Duplicate Page 🚀`);
     await deletePageVariant(page, duplicatePageName, `Copy of ${variantLabel}`);
+    console.log(`[DONE] Delete Duplicate Page  🚀`);
   });
 });
 
 //SEE CURRENT VERSION
 test("See Current Version", async ({ page }) => {
+  console.log(`[INFO] - Testing See Current Version 🚀`);
   await page.goto("http://localhost:3000/studio");
 
   // Find the element you want to click
@@ -418,6 +437,8 @@ test("See Current Version", async ({ page }) => {
   await expect(
     page.getByRole("button", { name: "Help Guide & Version" })
   ).toBeVisible();
+
+  console.log(`[DONE] See Current Version 🚀`);
 });
 
 async function deletePublishedPage(page) {

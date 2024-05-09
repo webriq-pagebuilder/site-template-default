@@ -78,6 +78,7 @@ testimonialVariantTest.forEach((variants, index) => {
 
   test.describe(`${name}`, () => {
     test(`Create ${label}`, async ({ page }) => {
+      console.log(`[INFO] - Testing Testimonials ${variant} 🚀`);
       await beforeEachTest(page, pageTitle, "Testimonial", label, index);
       const variantTest = variantModules[variant];
 
@@ -90,6 +91,7 @@ testimonialVariantTest.forEach((variants, index) => {
 
     test.afterEach(async ({ page }) => {
       await deletePageVariant(page, pageTitle, label);
+      console.log(`[DONE] Testimonials ${variant} 🚀`);
     });
   });
 });

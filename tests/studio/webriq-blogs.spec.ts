@@ -20,6 +20,8 @@ const inputValues = {
 };
 
 test.describe("Verify main actions working", () => {
+  console.log("[INFO] Run WebriQ Blogs tests");
+
   test.describe.configure({ timeout: 900_000, mode: "serial" });
 
   const publishedAt = format(new Date(), "MMMM dd, yyyy");
@@ -126,7 +128,7 @@ test.describe("Verify main actions working", () => {
     );
     await page.waitForLoadState("domcontentloaded");
     await expect(
-      page.getByRole("heading", { name: "Something went wrong!" })
+      page.getByRole("heading", { name: "Something went wrong!" }).first()
     ).toBeHidden();
     await expect(page.getByText(inputValues?.category?.title)).toBeVisible();
     await expect(page.getByText(publishedAt)).toBeVisible();

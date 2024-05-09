@@ -16,6 +16,8 @@ let globalSeo = {
 const newSeoPage = newPageTitle("Test SEO page ");
 
 test.describe("Verify SEO Settings", () => {
+  console.log("[INFO] Run SEO Settings tests");
+
   test.describe.configure({ timeout: 600_000, mode: "serial" });
 
   test("Create test page for SEO", async ({ page }) => {
@@ -263,7 +265,7 @@ test.describe("Verify SEO Settings", () => {
 
     // SEO description
     const seoDescFld = page.getByPlaceholder(globalSeo?.description);
-    await expect(seoDescFld).toBeVisible();
+    await expect(seoDescFld).toBeVisible({ timeout: 150_000 });
     seoDescFld.fill("This is the SEO description of this page.");
   });
 

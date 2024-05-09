@@ -9,6 +9,8 @@ const publishableKey = NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY;
 const secretKey = NEXT_PUBLIC_STRIPE_SECRET_KEY;
 
 test.describe("Main Workflow", () => {
+  console.log("[INFO] Run WebriQ Payments tests");
+
   test.describe.configure({ timeout: 600_000, mode: "serial" });
 
   // Check if the Inputs with no value should display required.

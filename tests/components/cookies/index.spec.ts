@@ -62,6 +62,7 @@ faqsVariantTest.forEach((variants, index) => {
 
   test.describe(`${name}`, () => {
     test(`Create ${label}`, async ({ page }) => {
+      console.log(`[INFO] - Testing Cookies ${variant} 🚀`);
       await beforeEachTest(page, pageTitle, "Cookies", label, index);
       const variantTest = variantModules[variant];
 
@@ -74,6 +75,7 @@ faqsVariantTest.forEach((variants, index) => {
 
     test.afterEach(async ({ page }) => {
       await deletePageVariant(page, pageTitle, label);
+      console.log(`[DONE] Cookies ${variant} 🚀`);
     });
   });
 });

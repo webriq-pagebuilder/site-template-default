@@ -54,6 +54,7 @@ newsletterVariantTests.forEach((variants, index) => {
 
   test.describe(`${name}`, () => {
     test(`Create ${label}`, async ({ page }) => {
+      console.log(`[INFO] - Testing Newsletter ${variant} 🚀`);
       await beforeEachTest(page, pageTitle, "Newsletter", label, index);
 
       const variantTest = variantModules[variant];
@@ -66,6 +67,7 @@ newsletterVariantTests.forEach((variants, index) => {
 
     test.afterEach(`Delete ${label}`, async ({ page }) => {
       await deletePageVariant(page, pageTitle, label);
+      console.log(`[DONE] Newsletter ${variant} 🚀`);
     });
   });
 });

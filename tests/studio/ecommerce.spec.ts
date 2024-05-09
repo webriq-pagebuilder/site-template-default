@@ -8,6 +8,8 @@ import {
 } from "tests/utils";
 
 test("Store has 3 main subtabs", async ({ page }) => {
+  console.log("[INFO] Run E-commerce tests");
+
   await navigateToStore(page);
 
   await expect(page.getByRole("link", { name: "Products" })).toBeVisible();
@@ -96,7 +98,7 @@ test.describe("Main Store Pages", () => {
     );
     await page.waitForLoadState("domcontentloaded");
     await expect(
-      page.getByRole("heading", { name: "Something went wrong!" })
+      page.getByRole("heading", { name: "Something went wrong!" }).first()
     ).toBeHidden();
     await expect(
       page.getByRole("heading", { name: product?.name })
@@ -145,7 +147,7 @@ test.describe("Main Store Pages", () => {
     );
     await page.waitForLoadState("domcontentloaded");
     await expect(
-      page.getByRole("heading", { name: "Something went wrong!" })
+      page.getByRole("heading", { name: "Something went wrong!" }).first()
     ).toBeHidden();
     await expect(page.getByText(product?.price)).toBeVisible();
     await expect(page.getByRole("link", { name: product?.name })).toBeVisible();
@@ -231,7 +233,7 @@ test.describe("Store Commerce Pages", () => {
     await page.goto(`${NEXT_PUBLIC_SITE_URL}/cart?store-page=cart`);
     await page.waitForLoadState("domcontentloaded");
     await expect(
-      page.getByRole("heading", { name: "Something went wrong!" })
+      page.getByRole("heading", { name: "Something went wrong!" }).first()
     ).toBeHidden();
     await expect(page.locator(".ecwid-productBrowser")).toBeVisible({
       timeout: 150_000,
