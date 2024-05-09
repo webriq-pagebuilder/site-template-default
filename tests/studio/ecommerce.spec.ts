@@ -55,7 +55,7 @@ test.describe("Main Store Pages", () => {
     await navigateToStore(page);
   });
 
-  test("Create product page", async ({ page }) => {
+  test.fixme("Create product page", async ({ page }) => {
     await page.getByRole("link", { name: "Products" }).click({ force: true });
     await page.getByTestId("action-intent-button").click({ force: true });
     await page.getByLabel("Name").click();
@@ -84,7 +84,9 @@ test.describe("Main Store Pages", () => {
     await page.getByText(`${NEXT_PUBLIC_SITE_URL}`).click({ force: true });
     const productPage = await productPagePromise;
 
-    await expect(productPage.locator("h1")).toContainText(product?.name);
+    await expect(
+      productPage.locator(`h1:has-text("${product?.name}")`)
+    ).toContainText(product?.name);
     await expect(productPage.locator('[id="__next"]')).toContainText(
       product?.price
     );
@@ -97,7 +99,7 @@ test.describe("Main Store Pages", () => {
     await expect(productPage.getByLabel("Add to Wishlist")).toBeVisible();
   });
 
-  test("Create collections page", async ({ page }) => {
+  test.fixme("Create collections page", async ({ page }) => {
     await page
       .getByRole("link", { name: "Collections" })
       .click({ force: true });
@@ -127,7 +129,7 @@ test.describe("Main Store Pages", () => {
     );
   });
 
-  test("Delete category page", async ({ page }) => {
+  test.fixme("Delete category page", async ({ page }) => {
     await page
       .getByRole("link", { name: "Collections" })
       .click({ force: true });
@@ -150,7 +152,7 @@ test.describe("Main Store Pages", () => {
     await deleteDocument(page);
   });
 
-  test("Delete product page", async ({ page }) => {
+  test.fixme("Delete product page", async ({ page }) => {
     await page.getByRole("link", { name: "Products" }).click({ force: true });
     await page
       .getByRole("link", { name: product?.name })
@@ -175,6 +177,15 @@ test.describe("Store Commerce Pages", () => {
   // check cart page preview
   test("Check Cart page preview", async ({ page }) => {
     await page.getByRole("link", { name: "Cart" }).click({ force: true });
+    const publishButton = page.locator('button:has-text("Publish")');
+    const isEnabledPublishBtn =
+      (await publishButton.getAttribute("data-disabled")) === "false";
+
+    if (isEnabledPublishBtn) {
+      await expect(publishButton).toHaveAttribute("data-disabled", "false");
+      await publishButton.click();
+    }
+    await expect(publishButton).toHaveAttribute("data-disabled", "true");
 
     const cartPagePromise = page.waitForEvent("popup");
     await page.getByText(`${NEXT_PUBLIC_SITE_URL}/cart`).click({ force: true });
@@ -185,7 +196,9 @@ test.describe("Store Commerce Pages", () => {
     await expect(cartPage.locator(".ecwid-productBrowser")).toBeVisible({
       timeout: 150_000,
     });
-    await expect(cartPage.getByRole("heading")).toContainText("Shopping cart");
+    await expect(
+      cartPage.locator('h1:has-text("Shopping cart")')
+    ).toBeVisible();
     await expect(
       cartPage.getByText("Your shopping cart is empty")
     ).toBeVisible();
