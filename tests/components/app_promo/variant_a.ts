@@ -4,7 +4,7 @@ import { NEXT_PUBLIC_SITE_URL } from "studio/config";
 import { appPromoInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-default";
 import { titleField, subtitleField } from "tests/utils";
 
-async function VariantA({ newPageTitle, page, commonFieldValues }) {
+async function VariantA({ newPageTitle, page, baseUrl, commonFieldValues }) {
   // studio
   await updateLogoLink(page, commonFieldValues?.logoAltText);
 
@@ -23,7 +23,7 @@ async function VariantA({ newPageTitle, page, commonFieldValues }) {
   // check site preview
   await expectDocumentPublished(page, newPageTitle);
   const pagePromise = page.waitForEvent("popup");
-  await page.getByText(`${NEXT_PUBLIC_SITE_URL}`).click({ force: true });
+  await page.getByText(baseUrl).click({ force: true });
   const openUrlPage = await pagePromise;
 
   // subtitle

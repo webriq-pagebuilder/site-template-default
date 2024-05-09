@@ -44,7 +44,7 @@ appPromoVariantTests.forEach((variants, index) => {
   const pageTitle = newPageTitle(title);
 
   test.describe(`${name}`, () => {
-    test(`Create ${label}`, async ({ page }) => {
+    test(`Create ${label}`, async ({ page, baseURL }) => {
       console.log(`[INFO] - Testing App Promo ${variant} 🚀`);
       await beforeEachTest(page, pageTitle, "App promo", label, index);
 
@@ -53,6 +53,7 @@ appPromoVariantTests.forEach((variants, index) => {
         pageTitle,
         page,
         commonFieldValues,
+        baseURL,
       });
     });
 

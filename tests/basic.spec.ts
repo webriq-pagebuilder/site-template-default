@@ -143,7 +143,7 @@ test.describe("Main Workflow", () => {
     await page.waitForTimeout(5000);
 
     const pagePromise = page.waitForEvent("popup");
-    await page.getByText("http://localhost:3000/dupe-page-").click();
+    await page.getByText("./dupe-page-").click();
     const openUrlPage = await pagePromise;
 
     // If the section is not found, expect the Empty Page element to be hidden
@@ -420,7 +420,7 @@ test.describe("Main Workflow", () => {
 //SEE CURRENT VERSION
 test("See Current Version", async ({ page }) => {
   console.log(`[INFO] - Testing See Current Version 🚀`);
-  await page.goto("http://localhost:3000/studio");
+  await page.goto("./studio");
 
   // Find the element you want to click
   const element = page.locator('a:has-text("Guide")');
