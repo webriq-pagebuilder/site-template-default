@@ -213,12 +213,22 @@ test.describe("Store Commerce Pages", () => {
         .first()
     ).toBeVisible();
 
+    const publishButton = page.locator('button:has-text("Publish")');
+    const isEnabledPublishBtn =
+      (await publishButton.getAttribute("data-disabled")) === "false";
+
+    if (isEnabledPublishBtn) {
+      await expect(publishButton).toHaveAttribute("data-disabled", "false");
+      await publishButton.click();
+    }
+    await expect(publishButton).toHaveAttribute("data-disabled", "true");
+
     await page.goto(`${NEXT_PUBLIC_SITE_URL}/cart?store-page=cart`);
     await page.waitForLoadState("domcontentloaded");
     await expect(page.locator(".ecwid-productBrowser")).toBeVisible({
       timeout: 150_000,
     });
-    await expect(page.getByRole("heading")).toContainText("Shopping cart");
+    await expect(page.locator('h1:has-text("Shopping cart")')).toBeVisible();
     await expect(page.getByText("Your shopping cart is empty")).toBeVisible();
     await expect(
       page.getByRole("button", { name: "Browse Store" })
@@ -243,14 +253,11 @@ test.describe("Store Commerce Pages", () => {
 
     await page.goto(`${NEXT_PUBLIC_SITE_URL}/wishlist`);
     await page.waitForLoadState("domcontentloaded");
+    await expect(page.locator('p:has-text("Wishlist is empty")')).toBeVisible();
     await expect(
-      page
-        .locator("div")
-        .filter({
-          hasText:
-            /^Wishlist is emptyAdd your favorite products to wishlist to display them here\.$/,
-        })
-        .nth(2)
-    ).toBeVisible({ timeout: 120_000 });
+      page.locator(
+        'p:has-text("Add your favorite products to wishlist to display them here.")'
+      )
+    ).toBeVisible();
   });
 });
