@@ -6,7 +6,14 @@ import {
   publishDocument,
 } from "tests/utils";
 
+const isEcommerceEnabled = process.env.NEXT_PUBLIC_SANITY_STUDIO_IN_CSTUDIO;
+
 test("Store has 3 main subtabs", async ({ page }) => {
+  test.skip(
+    isEcommerceEnabled === "false",
+    "E-commerce is not enabled for this StackShift project."
+  );
+
   console.log("[INFO] Run E-commerce tests ~ Store has 3 main subtabs");
   await navigateToStore(page);
 
@@ -20,6 +27,11 @@ test("Store has 3 main subtabs", async ({ page }) => {
 });
 
 test("Store Commerce Pages has subtabs", async ({ page }) => {
+  test.skip(
+    isEcommerceEnabled === "false",
+    "E-commerce is not enabled for this StackShift project."
+  );
+
   console.log("[INFO] Run E-commerce tests ~ Store Commerce Pages has subtabs");
 
   await navigateToStore(page);
@@ -60,6 +72,11 @@ test.describe("Main Store Pages", () => {
   };
 
   test.beforeEach("Go to Store tab", async ({ page }) => {
+    test.skip(
+      isEcommerceEnabled === "false",
+      "E-commerce is not enabled for this StackShift project."
+    );
+
     await navigateToStore(page);
   });
 
@@ -124,8 +141,8 @@ test.describe("Main Store Pages", () => {
     await expect(page.getByTestId("action-intent-button")).toBeVisible();
     await page.getByTestId("action-intent-button").click({ force: true });
     await expect(page.getByText("Loading document")).toBeHidden();
-    await expect(page.getByTestId("string-input")).toBeVisible();
 
+    await page.getByTestId("string-input").click();
     await page.getByTestId("string-input").fill(collections?.name);
     await page.getByRole("button", { name: "Generate" }).click({ force: true });
     await page.getByRole("button", { name: "Add item" }).click({ force: true });
@@ -208,6 +225,11 @@ test.describe("Store Commerce Pages", () => {
   test.describe.configure({ timeout: 600_000 });
 
   test.beforeEach("Go to Store Commerce Pages", async ({ page }) => {
+    test.skip(
+      isEcommerceEnabled === "false",
+      "E-commerce is not enabled for this StackShift project."
+    );
+
     await navigateToStore(page);
     await page
       .getByRole("link", { name: "Commerce Pages" })
