@@ -160,6 +160,7 @@ test.describe("Verify SEO Settings", () => {
 
     test.beforeEach(async ({ page }) => {
       await navigateToPage(page);
+      await expect(page.getByRole("link", { name: newSeoPage })).toBeVisible();
       await page.getByRole("link", { name: newSeoPage }).click({ force: true });
       await expect(
         page.getByRole("button", { name: "SEO Settings" })

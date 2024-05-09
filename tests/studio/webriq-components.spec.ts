@@ -28,7 +28,7 @@ test.describe("Main document actions", () => {
   test("Can create component", async ({ page }) => {
     await page.waitForLoadState("domcontentloaded");
     await expect(
-      page.locator(`div[aria-label="default-loading-card"]`).first()
+      page.locator(`div[aria-label="default-loading-card"]`).nth(0)
     ).toBeHidden();
     await expect(
       page.getByRole("button", { name: "New App Promo" })
@@ -62,9 +62,9 @@ test.describe("Main document actions", () => {
   test("Can search component", async ({ page }) => {
     await expect(page.getByPlaceholder("Search variants")).toBeVisible();
     await page.getByPlaceholder("Search variants").click();
-    await page.getByPlaceholder("Search variants").fill("New App Promo");
+    await page.getByPlaceholder("Search variants").fill(newComponentName);
     await expect(
-      page.locator("button:has-text('New App Promo')").first()
+      page.locator(`button:has-text('${newComponentName}')`).first()
     ).toBeVisible({ timeout: 180_000 });
 
     console.log("[DONE] Can search component 🚀");

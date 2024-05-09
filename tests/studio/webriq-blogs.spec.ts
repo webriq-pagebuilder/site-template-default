@@ -117,7 +117,7 @@ test.describe("Verify main actions working", () => {
     console.log("[DONE] Create blog page 🚀");
   });
 
-  test("Check site preview", async ({ page, baseURL }) => {
+  test("Check blog page preview", async ({ page, baseURL }) => {
     await page
       .getByRole("tab", { name: "Posts", exact: true })
       .click({ force: true });

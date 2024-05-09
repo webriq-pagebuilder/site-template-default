@@ -275,7 +275,9 @@ function VariantA({
                     {/* Product price from Ecwid */}
                     {ecwidProduct
                       ? getPriceDisplay()
-                      : ecwidProduct?.defaultDisplayedPriceFormatted}
+                      : ecwidProduct?.defaultDisplayedPriceFormatted
+                      ? ecwidProduct?.defaultDisplayedPriceFormatted
+                      : product?.price}
                   </Text>
                 )}
                 {/* "CompareTo" price */}

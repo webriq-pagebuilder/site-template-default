@@ -290,7 +290,7 @@ export async function publishDocument(page) {
     page
       .locator('[data-testid="review-changes-button"]')
       .filter({ hasText: "Just now" })
-  ).toBeVisible({ timeout: 150_000 });
+  ).toBeVisible();
   await expect(page.locator('button:has-text("Publish")')).toBeVisible();
   await page.getByTestId("action-[object Object]").click({ force: true });
   await expect(
@@ -300,10 +300,10 @@ export async function publishDocument(page) {
       .locator("div")
       .filter({ hasText: "The document was published" })
       .nth(1)
-  ).toBeVisible({ timeout: 150_000 });
+  ).toBeVisible();
   await expect(
     page.getByRole("button", { name: "Last published just now" })
-  ).toBeVisible({ timeout: 150_000 });
+  ).toBeVisible();
 }
 
 export async function deleteDocument(page) {
@@ -313,12 +313,10 @@ export async function deleteDocument(page) {
   ).toBeVisible();
   await page.locator('button[data-testid="action-menu-button"]').click();
   await page.getByTestId("action-Delete").click();
-  await expect(page.getByText("Delete document?")).toBeVisible({
-    timeout: 150_000,
-  });
+  await expect(page.getByText("Delete document?")).toBeVisible();
   await expect(
     page.getByTestId("loading-container").getByRole("img")
-  ).toBeVisible({ timeout: 150_000 });
+  ).toBeVisible();
   await page.getByTestId("confirm-delete-button").click();
   await expect(
     page.getByTestId("document-panel-scroller").first()
@@ -330,7 +328,7 @@ export async function deleteDocument(page) {
       .locator("div")
       .filter({ hasText: "The document was successfully" })
       .nth(1)
-  ).toBeVisible({ timeout: 150_000 });
+  ).toBeVisible();
 }
 
 export async function expectDocumentPublished(page, pageTitle) {

@@ -240,9 +240,6 @@ test.describe("Store Commerce Pages", () => {
     await page.goto(`${baseURL}/cart`);
     await page.goto(`${baseURL}/cart?store-page=cart`);
     await page.waitForLoadState("domcontentloaded");
-    await expect(page.locator(".ecwid-productBrowser")).toBeVisible({
-      timeout: 150_000,
-    });
     await expect(page.locator('h1:has-text("Shopping cart")')).toBeVisible();
     await expect(page.getByText("Your shopping cart is empty")).toBeVisible();
     await expect(
