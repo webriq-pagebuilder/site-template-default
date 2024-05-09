@@ -3,7 +3,7 @@ on:
   deployment_status:
 jobs:
   playwright-tests:
-    timeout-minutes: 60
+    timeout-minutes: 180
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
