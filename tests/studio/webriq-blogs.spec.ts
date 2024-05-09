@@ -43,7 +43,7 @@ test.describe("Verify main actions working", () => {
     await page.getByLabel("Bio").fill(inputValues.author.bio);
     await publishDocument(page);
 
-    console.log("[DONE] Testing Create author page 🚀");
+    console.log("[DONE] Create author page 🚀");
   });
 
   test("Create category page", async ({ page }) => {
@@ -57,7 +57,7 @@ test.describe("Verify main actions working", () => {
     await page.getByLabel("Description").fill(inputValues.category.description);
     await publishDocument(page);
 
-    console.log("[DONE] Testing Create category page 🚀");
+    console.log("[DONE] Create category page 🚀");
   });
 
   test("Create blog page", async ({ page }) => {
@@ -114,7 +114,7 @@ test.describe("Verify main actions working", () => {
     });
     await publishDocument(page);
 
-    console.log("[DONE] Testing Create blog page 🚀");
+    console.log("[DONE] Create blog page 🚀");
   });
 
   test("Check site preview", async ({ page, baseURL }) => {
@@ -143,7 +143,7 @@ test.describe("Verify main actions working", () => {
     await expect(page.getByText("Author", { exact: true })).toBeVisible();
     await expect(page.getByText(inputValues?.post?.body)).toBeVisible();
 
-    console.log("[DONE] Testing Check site preview 🚀");
+    console.log("[DONE] Check site preview 🚀");
   });
 
   test("Delete author, category and post pages", async ({ page }) => {
@@ -192,6 +192,6 @@ test.describe("Verify main actions working", () => {
     );
     await deleteDocument(page);
 
-    console.log("[DONE] Testing Delete author, category and post pages 🚀");
+    console.log("[DONE] Delete author, category and post pages 🚀");
   });
 });

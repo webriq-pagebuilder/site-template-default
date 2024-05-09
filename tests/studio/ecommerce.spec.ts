@@ -16,7 +16,7 @@ test("Store has 3 main subtabs", async ({ page }) => {
     page.getByRole("link", { name: "Commerce Pages" })
   ).toBeVisible();
 
-  console.log("[DONE] Testing Store has 3 main subtabs 🚀");
+  console.log("[DONE] Store has 3 main subtabs 🚀");
 });
 
 test("Store Commerce Pages has subtabs", async ({ page }) => {
@@ -41,7 +41,7 @@ test("Store Commerce Pages has subtabs", async ({ page }) => {
   await expect(page.getByRole("link", { name: "Wishlist" })).toBeVisible();
   await expect(page.getByRole("link", { name: "Search" })).toBeVisible();
 
-  console.log("[DONE] Testing Store Commerce Pages has subtabs 🚀");
+  console.log("[DONE] Store Commerce Pages has subtabs 🚀");
 });
 
 test.describe("Main Store Pages", () => {
@@ -112,7 +112,7 @@ test.describe("Main Store Pages", () => {
     await expect(page.getByLabel("Add to Wishlist")).toBeVisible();
     await expect(page.getByRole("link", { name: "Cart" })).toBeVisible();
 
-    console.log("[DONE] Testing Create product page 🚀");
+    console.log("[DONE] Create product page 🚀");
   });
 
   test("Create collections page", async ({ page, baseURL }) => {
@@ -152,7 +152,7 @@ test.describe("Main Store Pages", () => {
     await expect(page.getByText(product?.price)).toBeVisible();
     await expect(page.getByRole("link", { name: product?.name })).toBeVisible();
 
-    console.log("[DONE] Testing Create collections page 🚀");
+    console.log("[DONE] Create collections page 🚀");
   });
 
   test("Delete category page", async ({ page }) => {
@@ -181,7 +181,7 @@ test.describe("Main Store Pages", () => {
     // proceed delete
     await deleteDocument(page);
 
-    console.log("[DONE] Testing Delete category page 🚀");
+    console.log("[DONE] Delete category page 🚀");
   });
 
   test("Delete product page", async ({ page }) => {
@@ -198,7 +198,7 @@ test.describe("Main Store Pages", () => {
     // proceed delete
     await deleteDocument(page);
 
-    console.log("[DONE] Testing Delete product page 🚀");
+    console.log("[DONE] Delete product page 🚀");
   });
 });
 
@@ -257,7 +257,7 @@ test.describe("Store Commerce Pages", () => {
     ).toBeVisible();
     await expect(page.getByRole("link", { name: "Cart" })).toBeVisible();
 
-    console.log("[DONE] Testing Check Cart page preview 🚀");
+    console.log("[DONE] Check Cart page preview 🚀");
   });
 
   // check wishlist page preview
@@ -284,6 +284,6 @@ test.describe("Store Commerce Pages", () => {
       )
     ).toBeVisible();
 
-    console.log("[DONE] Testing Check Wishlist page preview 🚀");
+    console.log("[DONE] Check Wishlist page preview 🚀");
   });
 });

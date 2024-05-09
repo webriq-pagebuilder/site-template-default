@@ -24,7 +24,7 @@ test.describe("Verify SEO Settings", () => {
     await navigateToPage(page);
     await createNewPage(page, newSeoPage, null);
 
-    console.log("[DONE] Testing Create test page for SEO 🚀");
+    console.log("[DONE] Create test page for SEO 🚀");
   });
 
   test("Can add global SEO values", async ({ page }) => {
@@ -104,7 +104,7 @@ test.describe("Verify SEO Settings", () => {
       .getByTestId("action-Save")
       .click({ force: true, timeout: 180_000 });
 
-    console.log("[DONE] Testing Can add global SEO values 🚀");
+    console.log("[DONE] Can add global SEO values 🚀");
   });
 
   test("Sets global SEO values when page SEO is undefined", async ({
@@ -152,9 +152,7 @@ test.describe("Verify SEO Settings", () => {
     // SEO description
     await expect(page.getByPlaceholder(globalSeo?.description)).toBeVisible();
 
-    console.log(
-      "[DONE] Testing Sets global SEO values when page SEO is undefined 🚀"
-    );
+    console.log("[DONE] Sets global SEO values when page SEO is undefined 🚀");
   });
 
   test.describe("Redirects to global SEO page", () => {
@@ -242,7 +240,7 @@ test.describe("Verify SEO Settings", () => {
       ).toBeVisible({ timeout: 120_000 });
     });
 
-    console.log("[DONE] Testing Redirects to global SEO page 🚀");
+    console.log("[DONE] Redirects to global SEO page 🚀");
   });
 
   test("Can add page SEO values", async ({ page }) => {
@@ -283,7 +281,7 @@ test.describe("Verify SEO Settings", () => {
       .getByPlaceholder(globalSeo?.description)
       .fill("This is the SEO description of this page.");
 
-    console.log("[DONE] Testing Can add page SEO values 🚀");
+    console.log("[DONE] Can add page SEO values 🚀");
   });
 
   test("Delete test page for SEO", async ({ page }) => {
@@ -305,6 +303,6 @@ test.describe("Verify SEO Settings", () => {
     // delete test page
     await deleteDocument(page);
 
-    console.log("[DONE] Testing Delete test page for SEO 🚀");
+    console.log("[DONE] Delete test page for SEO 🚀");
   });
 });

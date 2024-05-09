@@ -10,7 +10,7 @@ test("Show all components", async ({ page }) => {
   await page.getByRole("link", { name: "Components" }).click({ force: true });
   await page.locator("create-btn-icon").isVisible();
 
-  console.log("[DONE] Testing Show all components 🚀");
+  console.log("[DONE] Show all components 🚀");
 });
 
 test.describe("Main document actions", () => {
@@ -56,7 +56,7 @@ test.describe("Main document actions", () => {
       page.locator("[aria-label='Last published just now']").first()
     ).toBeVisible();
 
-    console.log("[DONE] Testing Can create component 🚀");
+    console.log("[DONE] Can create component 🚀");
   });
 
   test("Can search component", async ({ page }) => {
@@ -67,7 +67,7 @@ test.describe("Main document actions", () => {
       page.locator("button:has-text('New App Promo')").first()
     ).toBeVisible({ timeout: 180_000 });
 
-    console.log("[DONE] Testing Can search component 🚀");
+    console.log("[DONE] Can search component 🚀");
   });
 
   test("Can duplicate component", async ({ page }) => {
@@ -100,7 +100,7 @@ test.describe("Main document actions", () => {
       page.locator("[aria-label='Last published just now']").first()
     ).toBeVisible({ timeout: 300_000 });
 
-    console.log("[DONE] Testing Can duplicate component 🚀");
+    console.log("[DONE] Can duplicate component 🚀");
   });
 
   test("Can delete component", async ({ page }) => {
@@ -157,7 +157,7 @@ test.describe("Main document actions", () => {
       timeout: 180_000,
     });
 
-    console.log("[DONE] Testing Can delete component 🚀");
+    console.log("[DONE] Can delete component 🚀");
   });
 });
 
@@ -177,5 +177,5 @@ test("Can filter component", async ({ page }) => {
   await page.locator("#react-select-2-option-0").click({ force: true });
   await expect(page.locator("[data-ui='Container']").first()).toHaveCount(1);
 
-  console.log("[DONE] Testing Can filter component 🚀");
+  console.log("[DONE] Can filter component 🚀");
 });
