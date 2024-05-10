@@ -6,7 +6,8 @@ import {
   publishDocument,
 } from "tests/utils";
 
-const isEcommerceEnabled = process.env.NEXT_PUBLIC_SANITY_STUDIO_IN_CSTUDIO;
+const isEcommerceEnabled =
+  process.env.NEXT_PUBLIC_SANITY_STUDIO_IN_CSTUDIO || "false";
 
 test("Store has 3 main subtabs", async ({ page }) => {
   test.skip(
