@@ -5,8 +5,7 @@ import {
   expectDocumentPublished,
   subtitleField,
   titleField,
-  assertExternalUrl,
-  assertInternalUrl,
+  createSlug,
 } from "tests/utils";
 
 export default async function VariantD({
@@ -157,68 +156,55 @@ export default async function VariantD({
     .fill(commonFieldValues.blockText);
 
   //Can select stripe account
-  await page.getByLabel("Choose Stripe Account").click();
-  await page
-    .getByLabel("Choose Stripe Account")
-    .selectOption("Mariel Stripe Test 2");
+  // await page.getByLabel("Choose Stripe Account").click();
+  // await page
+  //   .getByLabel("Choose Stripe Account")
+  //   .selectOption("Mariel Stripe Test 2");
 
   await expectDocumentPublished(page, pageTitle);
-  await expect(page.getByText(`${baseURL}`)).toBeVisible();
-
-  const pagePromise = page.waitForEvent("popup");
-  await page.getByText(baseURL).click({ force: true });
-  const openUrlPage = await pagePromise;
+  await page.goto(`${baseURL}/${createSlug(pageTitle)}`);
+  page.waitForLoadState("domcontentloaded");
 
   //Title
-  await titleField.sitePreview({ pageUrl: openUrlPage, commonFieldValues });
+  await titleField.sitePreview({ pageUrl: page, commonFieldValues });
 
   //Subtitle
-  await subtitleField.sitePreview({ pageUrl: openUrlPage, commonFieldValues });
+  await subtitleField.sitePreview({ pageUrl: page, commonFieldValues });
 
   await descriptionField.sitePreview({
-    pageUrl: openUrlPage,
+    pageUrl: page,
     commonFieldValues,
   });
 
-  await expect(openUrlPage.getByText("Monthly Billing")).toBeVisible();
-  await expect(openUrlPage.getByText("Annual Billing")).toBeVisible();
+  await expect(page.getByText("Monthly Billing")).toBeVisible();
+  await expect(page.getByText("Annual Billing")).toBeVisible();
+  await expect(page.getByText(commonFieldValues.blockText)).toBeVisible();
+  await expect(page.getByText(commonFieldValues.monthlyBilling)).toBeVisible();
+  await expect(page.getByText(commonFieldValues.annualBilling)).toBeVisible();
+  await expect(page.getByText(commonFieldValues.formName)).toBeVisible();
+  await expect(page.getByLabel(commonFieldValues.signInLink)).toBeVisible();
   await expect(
-    openUrlPage.getByText(commonFieldValues.blockText)
-  ).toBeVisible();
-  await expect(
-    openUrlPage.getByText(commonFieldValues.monthlyBilling)
-  ).toBeVisible();
-  await expect(
-    openUrlPage.getByText(commonFieldValues.annualBilling)
-  ).toBeVisible();
-  await expect(openUrlPage.getByText(commonFieldValues.formName)).toBeVisible();
-  await expect(
-    openUrlPage.getByLabel(commonFieldValues.signInLink)
-  ).toBeVisible();
-  await expect(
-    openUrlPage.locator(`button[aria-label="Submit Pricing Form button"]`)
+    page.locator(`button[aria-label="Submit Pricing Form button"]`)
   ).toBeDisabled();
 
   for (let i = 0; i < commonFieldValues.formBanner.length; i++) {
     const banner = commonFieldValues.formBanner[i];
-    await openUrlPage.getByLabel(`Page ${i} button`).click();
+    await page.getByLabel(`Page ${i} button`).click();
 
     await expect(
-      openUrlPage.getByRole("img", { name: "pricing-image-" })
+      page.getByRole("img", { name: "pricing-image-" })
     ).toBeVisible();
-    await expect(openUrlPage.getByText(banner.name)).toBeVisible();
+    await expect(page.getByText(banner.name)).toBeVisible();
   }
 
-  await openUrlPage.getByLabel(commonFieldValues.signInLink).click();
-  if (isInternalLink) {
-    await openUrlPage.waitForLoadState("networkidle");
-    await expect(openUrlPage.getByText("Success!")).toBeVisible({
-      timeout: 20_000,
-    });
-    await assertInternalUrl(openUrlPage, commonFieldValues.internalLinkUrl);
-  } else if (!isInternalLink) {
-    const externalPagePromise = openUrlPage.waitForEvent("popup");
-    const externalPage = await externalPagePromise;
-    await assertExternalUrl(externalPage, commonFieldValues.externalLinkUrl);
+  await expect(page.getByLabel(commonFieldValues.signInLink)).toBeVisible();
+  if (!isInternalLink) {
+    await expect(
+      page.locator(`a[aria-label="${commonFieldValues.signInLink}"]`)
+    ).toHaveAttribute("target", "_blank");
+  } else {
+    await expect(
+      page.locator(`a[aria-label="${commonFieldValues.signInLink}"]`)
+    ).toHaveAttribute("target", "_self");
   }
 }

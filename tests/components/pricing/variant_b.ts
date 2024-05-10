@@ -1,6 +1,7 @@
 import { expect } from "@playwright/test";
 import { pricingInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-default";
 import {
+  createSlug,
   descriptionField,
   expectDocumentPublished,
   subtitleField,
@@ -36,10 +37,10 @@ export default async function VariantB({
   });
 
   //Can select stripe account
-  await page.getByLabel("Choose Stripe Account").click();
-  await page
-    .getByLabel("Choose Stripe Account")
-    .selectOption("Mariel Stripe Test 2");
+  // await page.getByLabel("Choose Stripe Account").click();
+  // await page
+  //   .getByLabel("Choose Stripe Account")
+  //   .selectOption("Mariel Stripe Test 2");
 
   //Payment Plans
   for (const payment of commonFieldValues.paymentPlans) {
@@ -78,46 +79,35 @@ export default async function VariantB({
   }
 
   await expectDocumentPublished(page, pageTitle);
-  await expect(page.getByText(`${baseURL}`)).toBeVisible();
-
-  const pagePromise = page.waitForEvent("popup");
-  await page.getByText(baseURL).click({ force: true });
-  const openUrlPage = await pagePromise;
+  await page.goto(`${baseURL}/${createSlug(pageTitle)}`);
+  page.waitForLoadState("domcontentloaded");
 
   //Title
-  await titleField.sitePreview({ pageUrl: openUrlPage, commonFieldValues });
+  await titleField.sitePreview({ pageUrl: page, commonFieldValues });
 
   //Subtitle
-  await subtitleField.sitePreview({ pageUrl: openUrlPage, commonFieldValues });
+  await subtitleField.sitePreview({ pageUrl: page, commonFieldValues });
 
   //Description
   await descriptionField.sitePreview({
-    pageUrl: openUrlPage,
+    pageUrl: page,
     commonFieldValues,
   });
 
   for (const payment of commonFieldValues.paymentPlans) {
     await expect(
-      openUrlPage.getByRole("heading", { name: payment.updatedPlan })
+      page.getByRole("heading", { name: payment.updatedPlan })
     ).toBeVisible();
 
-    await expect(openUrlPage.getByText(payment.updatedMonthly)).toBeVisible();
+    await expect(page.getByText(payment.updatedMonthly)).toBeVisible();
 
     //Plan Type
     for (const plan of payment.planType) {
-      await expect(
-        openUrlPage.getByText(plan.updatedName).first()
-      ).toBeVisible();
-      await expect(
-        openUrlPage.getByText(plan.updatedName).nth(1)
-      ).toBeVisible();
-      await expect(
-        openUrlPage.getByText(plan.updatedName).nth(2)
-      ).toBeVisible();
+      await expect(page.getByText(plan.updatedName).first()).toBeVisible();
+      await expect(page.getByText(plan.updatedName).nth(1)).toBeVisible();
+      await expect(page.getByText(plan.updatedName).nth(2)).toBeVisible();
     }
 
-    await expect(
-      openUrlPage.getByLabel(payment.updatedCheckoutBtn)
-    ).toBeVisible();
+    await expect(page.getByLabel(payment.updatedCheckoutBtn)).toBeVisible();
   }
 }

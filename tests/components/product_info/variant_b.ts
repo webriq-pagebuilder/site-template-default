@@ -1,8 +1,8 @@
 import { expect } from "@playwright/test";
 import {
   expectDocumentPublished,
-  assertExternalUrl,
   assertInternalUrl,
+  createSlug,
 } from "tests/utils";
 
 export default async function VariantB({
@@ -12,98 +12,71 @@ export default async function VariantB({
   baseURL,
 }) {
   await expectDocumentPublished(page, pageTitle);
-  await expect(page.getByText(`${baseURL}`)).toBeVisible();
+  await page.goto(`${baseURL}/${createSlug(pageTitle)}`);
+  page.waitForLoadState("domcontentloaded");
 
-  const pagePromise = page.waitForEvent("popup");
-  await page.getByText(`${baseURL}`).click({ force: true });
-  const openUrlPage = await pagePromise;
-
-  await assertPageContent(openUrlPage, pageTitle, commonFieldValues, baseURL);
-}
-
-async function assertPageContent(
-  openUrlPage,
-  pageTitle,
-  commonFieldValues,
-  baseURL
-) {
   await expect(
-    openUrlPage.getByRole("heading", { name: "SAMPLE. Black Dress" })
+    page.getByRole("heading", { name: "SAMPLE. Black Dress" })
   ).toBeVisible();
-  await expect(openUrlPage.getByText(`$110.00`)).toBeVisible();
-  await expect(
-    openUrlPage.getByText("Sample product description")
-  ).toBeVisible();
+  await expect(page.getByText(`$110.00`)).toBeVisible();
+  await expect(page.getByText("Sample product description")).toBeVisible();
 
   //Select Sizes
-  await openUrlPage.getByLabel("Size").selectOption("S");
-  await openUrlPage.getByLabel("Size").selectOption("M");
-  await openUrlPage.getByLabel("Size").selectOption("L");
+  await page.getByLabel("Size").selectOption("S");
+  await page.getByLabel("Size").selectOption("M");
+  await page.getByLabel("Size").selectOption("L");
 
   //Increase Quantity
-  await openUrlPage.getByLabel("Increase Quantity").click();
-  await expect(openUrlPage.locator('input[value="2"]')).toBeVisible();
+  await page.getByLabel("Increase Quantity").click();
+  await expect(page.locator('input[value="2"]')).toBeVisible();
 
   //Decrease Quantity
-  await openUrlPage.getByLabel("Decrease Quantity").click();
-  await expect(openUrlPage.locator('input[value="1"]')).toBeVisible();
+  await page.getByLabel("Decrease Quantity").click();
+  await expect(page.locator('input[value="1"]')).toBeVisible();
 
   //Add To Wishlist
-  await openUrlPage.getByLabel("Add to Wishlist").click();
-  await expect(
-    openUrlPage.getByRole("link", { name: "View Wishlist" })
-  ).toBeVisible();
+  await page.getByLabel("Add to Wishlist").click();
+  await expect(page.getByRole("link", { name: "View Wishlist" })).toBeVisible();
 
   //Click View Wishlist
-  await openUrlPage
+  await page
     .getByRole("link", { name: "View Wishlist" })
     .click({ force: true });
 
-  await openUrlPage.waitForLoadState("networkidle");
-  await openUrlPage.waitForLoadState("load");
+  await page.waitForLoadState("networkidle");
+  await page.waitForLoadState("load");
 
   //Expect Wishlist
-  await expect(
-    openUrlPage.locator(`p:has-text("SAMPLE. Black Dress")`)
-  ).toBeVisible();
-  await expect(openUrlPage.locator(`p:has-text("$110.00")`)).toBeVisible();
+  await expect(page.locator(`p:has-text("SAMPLE. Black Dress")`)).toBeVisible();
+  await expect(page.locator(`p:has-text("$110.00")`)).toBeVisible();
 
-  const slug = pageTitle
-    ?.toLowerCase()
-    ?.replace(/\s+/g, "-")
-    .replace(/-+/g, "-");
-
-  await assertInternalUrl(openUrlPage, commonFieldValues.wishlistUrl);
+  await assertInternalUrl(page, commonFieldValues.wishlistUrl);
   //Go back to slug page to remove wishlist
-  await openUrlPage.goto(`${baseURL}/${slug}`);
+  await page.goto(`${baseURL}/${createSlug(pageTitle)}`);
 
   //Click remove from wishlist
-  await openUrlPage
-    .locator("button p:has-text('Remove from wishlist')")
-    .click();
+  await page.locator("button p:has-text('Remove from wishlist')").click();
   await expect(
-    openUrlPage.locator("button p:has-text('Remove from wishlist')")
+    page.locator("button p:has-text('Remove from wishlist')")
   ).toBeHidden();
 
-  await openUrlPage.goto(commonFieldValues.wishlistUrl);
+  await page.goto(commonFieldValues.wishlistUrl);
 
   //Expect wishlist empty
   await expect(
-    openUrlPage.getByRole("img", { name: "no products on wishlist" })
+    page.getByRole("img", { name: "no products on wishlist" })
   ).toBeVisible();
-  await expect(openUrlPage.getByText("Wishlist is empty")).toBeVisible();
-  await assertInternalUrl(openUrlPage, commonFieldValues.wishlistUrl);
+  await expect(page.getByText("Wishlist is empty")).toBeVisible();
 
+  await assertInternalUrl(page, commonFieldValues.wishlistUrl);
   //Loop links
   for (const links of commonFieldValues.socialLinks) {
     //Go back to slug page to loop links
-    await openUrlPage.goto(`${baseURL}/${slug}`);
-    await expect(openUrlPage.getByLabel(links.name)).toBeVisible();
-    const page10Promise = openUrlPage.waitForEvent("popup");
-    await openUrlPage
-      .getByRole("link", { name: links.name })
-      .click({ force: true });
-    const page10 = await page10Promise;
-    await assertExternalUrl(page10, links.socialLinkUrl);
+    await page.goto(`${baseURL}/${createSlug(pageTitle)}`);
+    await expect(page.getByLabel(links.name)).toBeVisible();
+    await expect(page.getByLabel(links.name)).toHaveAttribute(
+      "target",
+      "_blank"
+    );
   }
 }

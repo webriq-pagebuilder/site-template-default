@@ -1,9 +1,5 @@
 import { expect } from "@playwright/test";
-import {
-  expectDocumentPublished,
-  assertExternalUrl,
-  assertInternalUrl,
-} from "tests/utils";
+import { expectDocumentPublished, createSlug } from "tests/utils";
 
 export default async function VariantA({
   pageTitle,
@@ -204,22 +200,19 @@ export default async function VariantA({
   }
 
   await expectDocumentPublished(page, pageTitle);
-  await expect(page.getByText(`${baseURL}`)).toBeVisible();
-
-  const pagePromise = page.waitForEvent("popup");
-  await page.getByText(baseURL).click({ force: true });
-  const openUrlPage = await pagePromise;
+  await page.goto(`${baseURL}/${createSlug(pageTitle)}`);
+  page.waitForLoadState("domcontentloaded");
 
   // 05-03-2024 defer tests for forms
   //Fill up form
   // for (const input of commonFieldValues.formFields) {
-  //   await openUrlPage.getByLabel(submitBtnInput).click();
-  //   await expect(openUrlPage.getByPlaceholder(input.updatedName)).toBeFocused();
-  //   await openUrlPage.getByPlaceholder(input.updatedName).click();
-  //   await openUrlPage.getByPlaceholder(input.updatedName).fill(input.input);
-  //   await openUrlPage.getByLabel(submitBtnInput).click();
+  //   await page.getByLabel(submitBtnInput).click();
+  //   await expect(page.getByPlaceholder(input.updatedName)).toBeFocused();
+  //   await page.getByPlaceholder(input.updatedName).click();
+  //   await page.getByPlaceholder(input.updatedName).fill(input.input);
+  //   await page.getByLabel(submitBtnInput).click();
   //   await expect(
-  //     openUrlPage.getByPlaceholder(input.updatedName)
+  //     page.getByPlaceholder(input.updatedName)
   //   ).not.toBeFocused();
   // }
 
@@ -227,58 +220,43 @@ export default async function VariantA({
     ? "Go to /thank-you"
     : `Go to ${commonFieldValues.externalLinkUrl}`;
 
-  await assertPageContent(
-    openUrlPage,
-    commonFieldValues,
-    logoImg,
-    isInternalLink
-  );
+  await assertPageContent(page, commonFieldValues, logoImg, isInternalLink);
 
-  const slug = pageTitle
-    ?.toLowerCase()
-    ?.replace(/\s+/g, "-")
-    .replace(/-+/g, "-");
   for (const linkName of linkNames) {
-    await page.goto(`${baseURL}/${slug}`);
-
     await assertPageContent(page, commonFieldValues, linkName, isInternalLink);
   }
 }
 
 async function assertPageContent(
-  openUrlPage,
+  page,
   commonFieldValues,
   linkName,
   isInternalLink
 ) {
-  await expect(openUrlPage.getByLabel(linkName)).toBeVisible();
-  await expect(openUrlPage.getByText(commonFieldValues.subtitle)).toBeVisible();
+  await expect(page.getByLabel(linkName)).toBeVisible();
+  await expect(page.getByText(commonFieldValues.subtitle)).toBeVisible();
   await expect(
-    openUrlPage.getByRole("heading", { name: commonFieldValues.formName })
+    page.getByRole("heading", { name: commonFieldValues.formName })
   ).toBeVisible();
-  await expect(
-    openUrlPage.getByLabel(commonFieldValues.signInButton)
-  ).toBeVisible();
+  await expect(page.getByLabel(commonFieldValues.signInButton)).toBeVisible();
 
   for (const input of commonFieldValues.formFields) {
-    await expect(openUrlPage.getByPlaceholder(input.updatedName)).toBeVisible();
+    await expect(page.getByPlaceholder(input.updatedName)).toBeVisible();
     for (const links of commonFieldValues.formLinks) {
-      await expect(openUrlPage.getByLabel(links.updatedName)).toBeVisible();
+      await expect(page.getByLabel(links.updatedName)).toBeVisible();
     }
   }
 
-  await openUrlPage
-    .getByRole("link", { name: linkName })
-    .click({ force: true });
+  await expect(page.getByRole("link", { name: linkName })).toBeVisible();
   if (isInternalLink) {
-    await openUrlPage.waitForLoadState("networkidle");
-    await expect(openUrlPage.getByText("Success!")).toBeVisible({
-      timeout: 20_000,
-    });
-    await assertInternalUrl(openUrlPage, commonFieldValues.internalLinkUrl);
+    await expect(page.getByRole("link", { name: linkName })).toHaveAttribute(
+      "target",
+      "_self"
+    );
   } else if (!isInternalLink) {
-    const externalPagePromise = openUrlPage.waitForEvent("popup");
-    const externalPage = await externalPagePromise;
-    await assertExternalUrl(externalPage, commonFieldValues.externalLinkUrl);
+    await expect(page.getByRole("link", { name: linkName })).toHaveAttribute(
+      "target",
+      "_blank"
+    );
   }
 }

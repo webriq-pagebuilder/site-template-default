@@ -364,6 +364,7 @@ export async function expectDocumentPublished(page, pageTitle) {
   let isSaved = false;
   let saveBtnClicks = 0;
 
+  await expect(saveButton).toBeVisible();
   while (!isSaved && saveBtnClicks <= 5) {
     await expect(saveButton).toHaveAttribute("data-disabled", "false");
     await saveButton.click();
