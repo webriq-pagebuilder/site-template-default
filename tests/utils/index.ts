@@ -14,6 +14,13 @@ export const newPageTitle = (text = "New Page") => {
   return title;
 };
 
+export const createSlug = (pageTitle: string) => {
+  let slug: string;
+
+  slug = pageTitle?.toLowerCase()?.replace(/\s+/g, "-").replace(/-+/g, "-");
+  return slug;
+};
+
 export async function beforeEachTest(
   page,
   title,
