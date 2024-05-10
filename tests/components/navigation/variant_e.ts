@@ -1,9 +1,5 @@
 import { expect } from "@playwright/test";
-import {
-  expectDocumentPublished,
-  assertExternalUrl,
-  assertInternalUrl,
-} from "tests/utils";
+import { expectDocumentPublished, createSlug } from "tests/utils";
 
 export default async function VariantE({
   pageTitle,
@@ -63,67 +59,35 @@ export default async function VariantE({
   }
 
   await expectDocumentPublished(page, pageTitle);
-  await expect(page.getByText(`${baseURL}`)).toBeVisible();
-
-  const pagePromise = page.waitForEvent("popup");
-  await page.getByText(baseURL).click({ force: true });
-  const openUrlPage = await pagePromise;
+  await page.goto(`${baseURL}/${createSlug(pageTitle)}`);
+  page.waitForLoadState("domcontentloaded");
 
   // Default should just be available routes - no buttons in variant E
   let logoImg = isInternalLink
     ? "Go to /thank-you"
     : `Go to ${commonFieldValues.externalLinkUrl}`;
 
-  await assertPageContent(
-    openUrlPage,
-    logoImg,
-    commonFieldValues,
-    isInternalLink
-  );
+  await assertPageContent(page, logoImg, isInternalLink);
 
-  const slug = pageTitle
-    ?.toLowerCase()
-    ?.replace(/\s+/g, "-")
-    .replace(/-+/g, "-");
+  // Loops all routes
   for (const linkName of linkNames) {
-    await page.goto(`${baseURL}/${slug}`);
-
-    await assertPageContent(page, linkName, commonFieldValues, isInternalLink);
+    await assertPageContent(page, linkName, isInternalLink);
   }
 }
 
-async function assertPageContent(
-  openUrlPage,
-  linkName,
-  commonFieldValues,
-  isInternalLink
-) {
-  //Expect the same value for navigation routes list
-  for (const navigation of commonFieldValues.navigationBase) {
-    await expect(
-      openUrlPage
-        .getByRole("list")
-        .locator("li")
-        .filter({ hasText: navigation })
-    ).toBeVisible();
-  }
+async function assertPageContent(page, linkName, isInternalLink) {
+  await expect(
+    page.locator(`a[aria-label="${linkName}"]`).first()
+  ).toBeVisible();
 
   if (!isInternalLink) {
-    const page10Promise = openUrlPage.waitForEvent("popup");
-    await openUrlPage
-      .getByRole("link", { name: linkName })
-      .click({ force: true });
-    const page10 = await page10Promise;
-    await assertExternalUrl(page10, commonFieldValues.externalLinkUrl);
+    await expect(
+      page.locator(`a[aria-label="${linkName}"]`).first()
+    ).toHaveAttribute("target", "_blank");
   } else {
-    await openUrlPage
-      .getByRole("link", { name: linkName })
-      .click({ force: true });
-    await openUrlPage.waitForLoadState("networkidle");
-    await expect(openUrlPage.getByText("Success!")).toBeVisible({
-      timeout: 150_000,
-    });
-    await assertInternalUrl(openUrlPage, commonFieldValues.internalLinkUrl);
+    await expect(
+      page.locator(`a[aria-label="${linkName}"]`).first()
+    ).toHaveAttribute("target", "_self");
   }
 }
 

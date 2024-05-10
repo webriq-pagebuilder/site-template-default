@@ -18,7 +18,7 @@ const variantModules = {
 const commonFieldValues = {
   primaryButton: "Primary Button Test",
   secondaryButton: "Secondary Button Test",
-  externalLinkUrl: "https://facebook.com",
+  externalLinkUrl: "https://webriq.com",
   internalLinkUrl: `${NEXT_PUBLIC_SITE_URL}/thank-you/`,
   navigationBase: ["Start", "About Us", "Services", "Platform", "Testimonials"],
 };
