@@ -4,10 +4,7 @@ import { newPageTitle } from "tests/utils";
 test("Show all components", async ({ page }) => {
   console.log("[INFO] Run WebriQ Components tests ~ Show all components");
 
-  test.setTimeout(120_000);
-
-  await page.goto(`./studio`);
-  await page.getByRole("link", { name: "Components" }).click({ force: true });
+  await page.goto(`./studio/components`);
   await page.locator("create-btn-icon").isVisible();
 
   console.log("[DONE] Show all components 🚀");
@@ -15,21 +12,22 @@ test("Show all components", async ({ page }) => {
 
 test.describe("Main document actions", () => {
   console.log("[INFO] Run WebriQ Components tests ~ Main document actions");
-  test.describe.configure({ timeout: 1_500_000, mode: "serial" });
+  test.describe.configure({ mode: "serial" });
 
   const newComponentName = newPageTitle("New App promo ");
   const dupeComponentName = newPageTitle("Duplicate App promo ");
 
   test.beforeEach(async ({ page }) => {
-    await page.goto(`./studio`);
-    await page.getByRole("link", { name: "Components" }).click({ force: true });
+    await page.goto(`./studio/components`);
   });
 
   test("Can create component", async ({ page }) => {
     await page.waitForLoadState("domcontentloaded");
-    await expect(
-      page.locator(`div[aria-label="default-loading-card"]`).first()
-    ).toHaveCount(0);
+    await expect(page.getByText("Select...")).toBeVisible();
+    await page.getByText("Select...").click();
+    await expect(page.getByText("App Promo")).toBeVisible();
+    await page.getByText("App Promo").click();
+    await expect(page.getByText("APP PROMO", { exact: true })).toBeVisible();
     await expect(
       page.getByRole("button", { name: "New App Promo" })
     ).toBeVisible();
@@ -155,19 +153,16 @@ test.describe("Main document actions", () => {
 
 test("Can filter component", async ({ page }) => {
   console.log("[INFO] Run WebriQ Components tests ~ Can filter component");
-  test.setTimeout(120_000);
 
-  await page.goto(`./studio`);
-  await page.getByRole("link", { name: "Components" }).click({ force: true });
+  await page.goto(`./studio/components`);
   await expect(page.getByText("Select...")).toBeVisible();
-  await page
-    .locator("div")
-    .filter({ hasText: /^Select\.\.\.$/ })
-    .first()
-    .click({ force: true });
-  await expect(page.locator("#react-select-2-option-0")).toBeVisible();
-  await page.locator("#react-select-2-option-0").click({ force: true });
-  await expect(page.locator("[data-ui='Container']").first()).toHaveCount(1);
+  await page.getByText("Select...").click();
+  await expect(page.getByText("Call to Action")).toBeVisible();
+  await page.getByText("Call to Action").click();
+  await expect(page.getByText("CALL TO ACTION", { exact: true })).toBeVisible();
+  await expect(
+    page.getByRole("button", { name: "New Call to Action" })
+  ).toBeVisible();
 
   console.log("[DONE] Can filter component 🚀");
 });

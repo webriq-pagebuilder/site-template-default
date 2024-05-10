@@ -1,5 +1,10 @@
 import { test, expect } from "@playwright/test";
-import { newPageTitle, publishDocument, deleteDocument } from "tests/utils";
+import {
+  newPageTitle,
+  publishDocument,
+  deleteDocument,
+  createSlug,
+} from "tests/utils";
 import { format } from "date-fns";
 
 const inputValues = {
@@ -26,8 +31,7 @@ test.describe("Verify main actions working", () => {
   const publishedAt = format(new Date(), "MMMM dd, yyyy");
 
   test.beforeEach(async ({ page }) => {
-    await page.goto(`./studio`);
-    await page.getByRole("link", { name: "Blog" }).click();
+    await page.goto(`./studio/blog`);
   });
 
   test("Create author page", async ({ page }) => {
@@ -115,18 +119,8 @@ test.describe("Verify main actions working", () => {
     console.log("[DONE] Create blog page 🚀");
   });
 
-  test("Check blog page preview", async ({ page, baseURL }) => {
-    await page
-      .getByRole("tab", { name: "Posts", exact: true })
-      .click({ force: true });
-    await page.getByRole("link", { name: inputValues.post.title }).click();
-
-    await expect(page.getByText("Loading document")).toBeHidden();
-    await expect(page.getByTestId("string-input")).toBeVisible();
-
-    await page.goto(
-      `${baseURL}/${inputValues.post.title?.toLowerCase()?.replace(/\s/g, "-")}`
-    );
+  test("Check blog page preview", async ({ page }) => {
+    await page.goto(`./${createSlug(inputValues.post.title)}`);
     await page.waitForLoadState("domcontentloaded");
     await expect(page.getByText(inputValues?.category?.title)).toBeVisible();
     await expect(page.getByText(publishedAt)).toBeVisible();
@@ -143,9 +137,10 @@ test.describe("Verify main actions working", () => {
   });
 
   test("Delete author, category and post pages", async ({ page }) => {
-    await page
-      .getByRole("tab", { name: "Posts", exact: true })
-      .click({ force: true });
+    await expect(page.getByText("Fetching blog posts...")).toBeHidden();
+    await expect(
+      page.getByRole("link", { name: inputValues.post.title })
+    ).toBeVisible();
     await page.getByRole("link", { name: inputValues.post.title }).click();
 
     // delete blog post by removing the author and category references first

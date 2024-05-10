@@ -81,7 +81,7 @@ test.describe("Main Store Pages", () => {
     await navigateToStore(page);
   });
 
-  test("Create product page", async ({ page, baseURL }) => {
+  test("Create product page", async ({ page }) => {
     await page.getByRole("link", { name: "Products" }).click({ force: true });
     await expect(page.getByText("Loading")).toBeHidden();
 
@@ -116,7 +116,7 @@ test.describe("Main Store Pages", () => {
     await expect(page.getByTestId("review-changes-button")).toBeHidden();
 
     await page.goto(
-      `${baseURL}/products/${product?.name?.toLowerCase()?.replace(/\s/g, "-")}`
+      `./products/${product?.name?.toLowerCase()?.replace(/\s/g, "-")}`
     );
     await page.waitForLoadState("domcontentloaded");
     await expect(
@@ -133,11 +133,11 @@ test.describe("Main Store Pages", () => {
     console.log("[DONE] Create product page 🚀");
   });
 
-  test("Create collections page", async ({ page, baseURL }) => {
+  test("Create collections page", async ({ page }) => {
     await page
       .getByRole("link", { name: "Collections" })
       .click({ force: true });
-    await page.waitForLoadState();
+    await expect(page.getByText("Loading")).toBeHidden();
 
     await expect(page.getByTestId("action-intent-button")).toBeVisible();
     await page.getByTestId("action-intent-button").click({ force: true });
@@ -162,9 +162,7 @@ test.describe("Main Store Pages", () => {
     await expect(page.getByTestId("review-changes-button")).toBeHidden();
 
     await page.goto(
-      `${baseURL}/collections/${collections?.name
-        ?.toLowerCase()
-        ?.replace(/\s/g, "-")}`
+      `./collections/${collections?.name?.toLowerCase()?.replace(/\s/g, "-")}`
     );
     await page.waitForLoadState("domcontentloaded");
     await expect(page.getByText(product?.price)).toBeVisible();
@@ -238,7 +236,7 @@ test.describe("Store Commerce Pages", () => {
   });
 
   // check cart page preview
-  test("Check Cart page preview", async ({ page, baseURL }) => {
+  test("Check Cart page preview", async ({ page }) => {
     await page.getByRole("link", { name: "Cart" }).click({ force: true });
 
     await expect(page.getByText("Loading document")).toBeHidden();
@@ -260,8 +258,8 @@ test.describe("Store Commerce Pages", () => {
     }
     await expect(publishButton).toHaveAttribute("data-disabled", "true");
 
-    await page.goto(`${baseURL}/cart`);
-    await page.goto(`${baseURL}/cart?store-page=cart`);
+    await page.goto(`./cart`);
+    await page.goto(`./cart?store-page=cart`);
     await page.waitForLoadState("domcontentloaded");
     await expect(page.getByText("Your shopping cart is empty")).toBeVisible();
     await expect(
@@ -280,7 +278,7 @@ test.describe("Store Commerce Pages", () => {
   });
 
   // check wishlist page preview
-  test("Check Wishlist page preview", async ({ page, baseURL }) => {
+  test("Check Wishlist page preview", async ({ page }) => {
     await page
       .getByRole("link", { name: "Wishlist", exact: true })
       .click({ force: true });
@@ -294,7 +292,7 @@ test.describe("Store Commerce Pages", () => {
         .first()
     ).toBeVisible();
 
-    await page.goto(`${baseURL}/wishlist`);
+    await page.goto(`./wishlist`);
     await page.waitForLoadState("domcontentloaded");
     await expect(page.locator('p:has-text("Wishlist is empty")')).toBeVisible();
     await expect(
