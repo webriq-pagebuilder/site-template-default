@@ -1,23 +1,22 @@
 import React, { useEffect } from "react";
-import Head from "next/head";
 import { PreviewSuspense } from "next-sanity/preview";
 import { getClient } from "lib/sanity.client";
 import { usePreview } from "lib/sanity.preview";
 import { searchPageQuery, globalSEOQuery } from "pages/api/query";
 import { SearchPageSections } from "components/page/store/search";
 import { PreviewNoContent } from "components/PreviewNoContent";
-import { filterDataToSingleItem, SEO } from "components/list";
+import { filterDataToSingleItem } from "components/list";
+import { SEO } from "components/SEO";
 import { PreviewBanner } from "components/PreviewBanner";
 import InlineEditorContextProvider from "context/InlineEditorContext";
-
-import { CommonPageData, DefaultSeoData } from "types";
+import { CommonPageData, SeoTags } from "types";
 
 interface SeachPageProps {
   data: Data;
   preview: boolean;
   token?: string;
   source?: string;
-  defaultSeo: DefaultSeoData;
+  seo?: SeoTags[];
 }
 
 interface Data {
@@ -32,16 +31,9 @@ export interface SearchData extends CommonPageData {
 interface DocumentWithPreviewProps {
   data: Data;
   token?: string | null;
-  defaultSeo: DefaultSeoData;
 }
 
-function SearchPage({
-  data,
-  preview,
-  token,
-  source,
-  defaultSeo,
-}: SeachPageProps) {
+function SearchPage({ data, preview, token, source }: SeachPageProps) {
   useEffect(() => {
     if (typeof Ecwid !== "undefined") {
       window.Ecwid.init();
@@ -54,14 +46,14 @@ function SearchPage({
         <PreviewBanner />
         <PreviewSuspense fallback="Loading...">
           <InlineEditorContextProvider showInlineEditor={showInlineEditor}>
-            <DocumentWithPreview {...{ data, token, defaultSeo }} />
+            <DocumentWithPreview {...{ data, token }} />
           </InlineEditorContextProvider>
         </PreviewSuspense>
       </>
     );
   }
 
-  return <Document {...{ data, defaultSeo }} />;
+  return <Document {...{ data }} />;
 }
 
 /**
@@ -70,13 +62,7 @@ function SearchPage({
  *
  * @returns Document with published data
  */
-function Document({
-  data,
-  defaultSeo,
-}: {
-  data: Data;
-  defaultSeo: DefaultSeoData;
-}) {
+function Document({ data }: { data: Data }) {
   const publishedData = data?.searchData;
 
   // General safeguard against empty data
@@ -84,22 +70,7 @@ function Document({
     return null;
   }
 
-  const { seo, _type } = publishedData;
-
-  return (
-    <>
-      <Head>
-        <SEO
-          data={{ pageTitle: "Search", type: _type, route: "search", ...seo }}
-          defaultSeo={defaultSeo}
-        />
-        <title>{seo?.seoTitle ?? "Search"}</title>
-      </Head>
-
-      {/*  Show page sections */}
-      {data?.searchData && <SearchPageSections data={publishedData} />}
-    </>
-  );
+  return data?.searchData && <SearchPageSections data={publishedData} />;
 }
 
 /**
@@ -109,11 +80,7 @@ function Document({
  *
  * @returns Document with preview data
  */
-function DocumentWithPreview({
-  data,
-  token = null,
-  defaultSeo,
-}: DocumentWithPreviewProps) {
+function DocumentWithPreview({ data, token = null }: DocumentWithPreviewProps) {
   const previewDataEventSource = usePreview(token, searchPageQuery);
   const previewData = previewDataEventSource?.[0] || previewDataEventSource;
 
@@ -122,18 +89,8 @@ function DocumentWithPreview({
     return null;
   }
 
-  const { seo, _type } = previewData;
-
   return (
     <>
-      <Head>
-        <SEO
-          data={{ pageTitle: "Search", type: _type, route: "search", ...seo }}
-          defaultSeo={defaultSeo}
-        />
-        <title>{seo?.seoTitle ?? "Search"}</title>
-      </Head>
-
       {/* if no sections, show no sections only in preview */}
 
       {(!previewData ||
@@ -163,12 +120,24 @@ export async function getStaticProps({
   // pass page data and preview to helper function
   const searchData: SearchData = filterDataToSingleItem(searchPage, preview);
 
+  const data = { searchData };
+
+  const seo = SEO({
+    data: {
+      title: "Search",
+      type: data?.searchData?._type,
+      route: "search",
+      ...data?.searchData,
+    },
+    defaultSeo: globalSEO,
+  });
+
   if (!searchData) {
     return {
       props: {
         preview,
         data: { searchData: null },
-        defaultSeo: globalSEO,
+        seo,
       },
     };
   }
@@ -178,8 +147,8 @@ export async function getStaticProps({
       preview,
       token: (preview && previewData.token) || "",
       source: (preview && previewData.source) || "",
-      data: { searchData },
-      defaultSeo: globalSEO,
+      data,
+      seo,
     },
   };
 }
