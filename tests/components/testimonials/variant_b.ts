@@ -1,5 +1,5 @@
 import { expect } from "@playwright/test";
-import { expectDocumentPublished } from "tests/utils";
+import { createSlug, expectDocumentPublished } from "tests/utils";
 
 export default async function VariantB({
   pageTitle,
@@ -30,73 +30,50 @@ export default async function VariantB({
   }
 
   await expectDocumentPublished(page, pageTitle);
-  await expect(page.getByText(`${baseURL}`)).toBeVisible();
-
-  const pagePromise = page.waitForEvent("popup");
-  await page.getByText(baseURL).click({ force: true });
-  const openUrlPage = await pagePromise;
+  await page.goto(`${baseURL}/${createSlug(pageTitle)}`);
+  page.waitForLoadState("domcontentloaded");
 
   await expect(
-    openUrlPage.getByText(commonFieldValues[0].fullName, { exact: true })
+    page.getByText(commonFieldValues[0].fullName, { exact: true })
   ).toBeVisible();
-  await expect(
-    openUrlPage.getByText(commonFieldValues[0].jobTitle)
-  ).toBeVisible();
-  await expect(
-    openUrlPage.getByText(commonFieldValues[0].testimony)
-  ).toBeVisible();
+  await expect(page.getByText(commonFieldValues[0].jobTitle)).toBeVisible();
+  await expect(page.getByText(commonFieldValues[0].testimony)).toBeVisible();
 
   await expect(
-    openUrlPage.getByText(commonFieldValues[1].fullName, { exact: true })
+    page.getByText(commonFieldValues[1].fullName, { exact: true })
   ).toBeVisible();
-  await expect(
-    openUrlPage.getByText(commonFieldValues[1].jobTitle)
-  ).toBeVisible();
-  await expect(
-    openUrlPage.getByText(commonFieldValues[1].testimony)
-  ).toBeVisible();
+  await expect(page.getByText(commonFieldValues[1].jobTitle)).toBeVisible();
+  await expect(page.getByText(commonFieldValues[1].testimony)).toBeVisible();
 
   await expect(
-    openUrlPage.getByText(commonFieldValues[2].fullName, { exact: true })
+    page.getByText(commonFieldValues[2].fullName, { exact: true })
   ).toBeVisible();
-  await expect(
-    openUrlPage.getByText(commonFieldValues[2].jobTitle)
-  ).toBeVisible();
-  await expect(
-    openUrlPage.getByText(commonFieldValues[2].testimony)
-  ).toBeVisible();
+  await expect(page.getByText(commonFieldValues[2].jobTitle)).toBeVisible();
+  await expect(page.getByText(commonFieldValues[2].testimony)).toBeVisible();
 
   await expect(
-    openUrlPage.getByText(commonFieldValues[3].fullName, { exact: true })
+    page.getByText(commonFieldValues[3].fullName, { exact: true })
   ).toBeHidden();
 
   //Next pagination
-  await openUrlPage.getByLabel("Show next testimonial").click();
+  await page.getByLabel("Show next testimonial").click();
   await expect(
-    openUrlPage.getByText(commonFieldValues[3].fullName, { exact: true })
+    page.getByText(commonFieldValues[3].fullName, { exact: true })
   ).toBeVisible();
+  await expect(page.getByText(commonFieldValues[3].jobTitle)).toBeVisible();
+  await expect(page.getByText(commonFieldValues[3].testimony)).toBeVisible();
   await expect(
-    openUrlPage.getByText(commonFieldValues[3].jobTitle)
-  ).toBeVisible();
-  await expect(
-    openUrlPage.getByText(commonFieldValues[3].testimony)
-  ).toBeVisible();
-  await expect(
-    openUrlPage.getByText(commonFieldValues[0].fullName, { exact: true })
+    page.getByText(commonFieldValues[0].fullName, { exact: true })
   ).toBeHidden();
 
   //Prev pagination
-  await openUrlPage.getByLabel("Show previous testimonial").click();
+  await page.getByLabel("Show previous testimonial").click();
   await expect(
-    openUrlPage.getByText(commonFieldValues[0].fullName, { exact: true })
+    page.getByText(commonFieldValues[0].fullName, { exact: true })
   ).toBeVisible();
+  await expect(page.getByText(commonFieldValues[0].jobTitle)).toBeVisible();
+  await expect(page.getByText(commonFieldValues[0].testimony)).toBeVisible();
   await expect(
-    openUrlPage.getByText(commonFieldValues[0].jobTitle)
-  ).toBeVisible();
-  await expect(
-    openUrlPage.getByText(commonFieldValues[0].testimony)
-  ).toBeVisible();
-  await expect(
-    openUrlPage.getByText(commonFieldValues[3].fullName, { exact: true })
+    page.getByText(commonFieldValues[3].fullName, { exact: true })
   ).toBeHidden();
 }

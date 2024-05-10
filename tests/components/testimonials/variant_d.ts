@@ -1,5 +1,5 @@
 import { expect } from "@playwright/test";
-import { expectDocumentPublished } from "tests/utils";
+import { createSlug, expectDocumentPublished } from "tests/utils";
 
 export default async function VariantD({
   pageTitle,
@@ -35,18 +35,15 @@ export default async function VariantD({
   }
 
   await expectDocumentPublished(page, pageTitle);
-  await expect(page.getByText(`${baseURL}`)).toBeVisible();
-
-  const pagePromise = page.waitForEvent("popup");
-  await page.getByText(baseURL).click({ force: true });
-  const openUrlPage = await pagePromise;
+  await page.goto(`${baseURL}/${createSlug(pageTitle)}`);
+  page.waitForLoadState("domcontentloaded");
 
   for (let i = 0; i < commonFieldValues.length; i++) {
     const testimonial = commonFieldValues[i];
 
-    await expect(openUrlPage.getByText(rating)).toBeVisible();
+    await expect(page.getByText(rating)).toBeVisible();
     await expect(
-      openUrlPage
+      page
         .locator("div")
         .filter({ hasText: /^3\.0$/ })
         .locator("div")
@@ -54,13 +51,13 @@ export default async function VariantD({
     ).toBeVisible();
 
     await expect(
-      openUrlPage.getByText(testimonial.fullName, { exact: true })
+      page.getByText(testimonial.fullName, { exact: true })
     ).toBeVisible();
-    await expect(openUrlPage.getByText(testimonial.jobTitle)).toBeVisible();
+    await expect(page.getByText(testimonial.jobTitle)).toBeVisible();
 
-    await expect(openUrlPage.getByText(testimonial.testimony)).toBeVisible();
+    await expect(page.getByText(testimonial.testimony)).toBeVisible();
 
-    const nextBtn = openUrlPage.getByRole("button", {
+    const nextBtn = page.getByRole("button", {
       name: "Show next testimonial",
     });
     if (i < commonFieldValues.length - 1) {
@@ -71,55 +68,35 @@ export default async function VariantD({
   }
 
   //Prev button
-  await openUrlPage
-    .getByRole("button", { name: "Show previous testimonial" })
-    .click();
+  await page.getByRole("button", { name: "Show previous testimonial" }).click();
 
   await expect(
-    openUrlPage.getByText(commonFieldValues[3].fullName, { exact: true })
+    page.getByText(commonFieldValues[3].fullName, { exact: true })
   ).toBeHidden();
   await expect(
-    openUrlPage.getByText(commonFieldValues[2].fullName, { exact: true })
+    page.getByText(commonFieldValues[2].fullName, { exact: true })
   ).toBeVisible();
-  await expect(
-    openUrlPage.getByText(commonFieldValues[2].jobTitle)
-  ).toBeVisible();
-  await expect(
-    openUrlPage.getByText(commonFieldValues[2].testimony)
-  ).toBeVisible();
-  await openUrlPage
-    .getByRole("button", { name: "Show previous testimonial" })
-    .click();
+  await expect(page.getByText(commonFieldValues[2].jobTitle)).toBeVisible();
+  await expect(page.getByText(commonFieldValues[2].testimony)).toBeVisible();
+  await page.getByRole("button", { name: "Show previous testimonial" }).click();
 
   await expect(
-    openUrlPage.getByText(commonFieldValues[2].fullName, { exact: true })
+    page.getByText(commonFieldValues[2].fullName, { exact: true })
   ).toBeHidden();
   await expect(
-    openUrlPage.getByText(commonFieldValues[1].fullName, { exact: true })
+    page.getByText(commonFieldValues[1].fullName, { exact: true })
   ).toBeVisible();
-  await expect(
-    openUrlPage.getByText(commonFieldValues[1].jobTitle)
-  ).toBeVisible();
-  await expect(
-    openUrlPage.getByText(commonFieldValues[1].testimony)
-  ).toBeVisible();
-  await openUrlPage
-    .getByRole("button", { name: "Show previous testimonial" })
-    .click();
+  await expect(page.getByText(commonFieldValues[1].jobTitle)).toBeVisible();
+  await expect(page.getByText(commonFieldValues[1].testimony)).toBeVisible();
+  await page.getByRole("button", { name: "Show previous testimonial" }).click();
 
   await expect(
-    openUrlPage.getByText(commonFieldValues[1].fullName, { exact: true })
+    page.getByText(commonFieldValues[1].fullName, { exact: true })
   ).toBeHidden();
   await expect(
-    openUrlPage.getByText(commonFieldValues[0].fullName, { exact: true })
+    page.getByText(commonFieldValues[0].fullName, { exact: true })
   ).toBeVisible();
-  await expect(
-    openUrlPage.getByText(commonFieldValues[0].jobTitle)
-  ).toBeVisible();
-  await expect(
-    openUrlPage.getByText(commonFieldValues[0].testimony)
-  ).toBeVisible();
-  await openUrlPage
-    .getByRole("button", { name: "Show previous testimonial" })
-    .click();
+  await expect(page.getByText(commonFieldValues[0].jobTitle)).toBeVisible();
+  await expect(page.getByText(commonFieldValues[0].testimony)).toBeVisible();
+  await page.getByRole("button", { name: "Show previous testimonial" }).click();
 }

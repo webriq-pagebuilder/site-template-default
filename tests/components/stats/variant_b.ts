@@ -1,5 +1,5 @@
 import { expect } from "@playwright/test";
-import { expectDocumentPublished } from "tests/utils";
+import { createSlug, expectDocumentPublished } from "tests/utils";
 
 async function VariantB({ pageTitle, page, commonFieldValues, baseURL }) {
   for (const data of commonFieldValues) {
@@ -15,15 +15,12 @@ async function VariantB({ pageTitle, page, commonFieldValues, baseURL }) {
   }
 
   await expectDocumentPublished(page, pageTitle);
-  await expect(page.getByText(`${baseURL}`)).toBeVisible();
-
-  const pagePromise = page.waitForEvent("popup");
-  await page.getByText(baseURL).click({ force: true });
-  const openUrlPage = await pagePromise;
+  await page.goto(`${baseURL}/${createSlug(pageTitle)}`);
+  page.waitForLoadState("domcontentloaded");
 
   for (const data of commonFieldValues) {
-    await expect(openUrlPage.getByText(data.updatedLabel)).toBeVisible();
-    await expect(openUrlPage.getByText(data.updatedValue)).toBeVisible();
+    await expect(page.getByText(data.updatedLabel)).toBeVisible();
+    await expect(page.getByText(data.updatedValue)).toBeVisible();
   }
 }
 

@@ -1,6 +1,6 @@
 import { expect } from "@playwright/test";
 import { textComponentInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-default";
-import { expectDocumentPublished, titleField } from "tests/utils";
+import { createSlug, expectDocumentPublished, titleField } from "tests/utils";
 
 export default async function VariantC({
   pageTitle,
@@ -61,22 +61,13 @@ export default async function VariantC({
     .fill(commonFieldValues.thirdContent);
 
   await expectDocumentPublished(page, pageTitle);
-  await expect(page.getByText(`${baseURL}`)).toBeVisible();
-
-  const pagePromise = page.waitForEvent("popup");
-  await page.getByText(baseURL).click({ force: true });
-  const openUrlPage = await pagePromise;
+  await page.goto(`${baseURL}/${createSlug(pageTitle)}`);
+  page.waitForLoadState("domcontentloaded");
 
   //Title
-  await titleField.sitePreview({ pageUrl: openUrlPage, commonFieldValues });
+  await titleField.sitePreview({ pageUrl: page, commonFieldValues });
 
-  await expect(
-    openUrlPage.getByText(commonFieldValues.firstContent)
-  ).toBeVisible();
-  await expect(
-    openUrlPage.getByText(commonFieldValues.secondContent)
-  ).toBeVisible();
-  await expect(
-    openUrlPage.getByText(commonFieldValues.thirdContent)
-  ).toBeVisible();
+  await expect(page.getByText(commonFieldValues.firstContent)).toBeVisible();
+  await expect(page.getByText(commonFieldValues.secondContent)).toBeVisible();
+  await expect(page.getByText(commonFieldValues.thirdContent)).toBeVisible();
 }

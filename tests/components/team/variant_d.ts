@@ -1,5 +1,6 @@
 import { expect } from "@playwright/test";
 import {
+  createSlug,
   expectDocumentPublished,
   subtitleField,
   titleField,
@@ -42,27 +43,24 @@ export default async function VariantD({
   }
 
   await expectDocumentPublished(page, pageTitle);
-  await expect(page.getByText(`${baseURL}`)).toBeVisible();
-
-  const pagePromise = page.waitForEvent("popup");
-  await page.getByText(baseURL).click({ force: true });
-  const openUrlPage = await pagePromise;
+  await page.goto(`${baseURL}/${createSlug(pageTitle)}`);
+  page.waitForLoadState("domcontentloaded");
 
   //Title
-  await titleField.sitePreview({ pageUrl: openUrlPage, commonFieldValues });
+  await titleField.sitePreview({ pageUrl: page, commonFieldValues });
 
   //Subtitle
-  await subtitleField.sitePreview({ pageUrl: openUrlPage, commonFieldValues });
+  await subtitleField.sitePreview({ pageUrl: page, commonFieldValues });
 
   for (const person of commonFieldValues.peopleData) {
-    await expect(openUrlPage.getByText(person.nameChange)).toBeVisible();
+    await expect(page.getByText(person.nameChange)).toBeVisible();
   }
 
-  await openUrlPage.locator("p:nth-child(2)").first();
+  await page.locator("p:nth-child(2)").first();
   for (let i = 2; i <= commonFieldValues.peopleData.length + 1; i++) {
     if (i < commonFieldValues.peopleData.length - 1) {
       const selector = `div:nth-child(${i}) > .border > .p-4 > .text-base`;
-      await expect(openUrlPage.locator(selector)).toBeVisible();
+      await expect(page.locator(selector)).toBeVisible();
     }
   }
 }

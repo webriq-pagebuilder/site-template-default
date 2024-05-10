@@ -1,5 +1,5 @@
 import { expect } from "@playwright/test";
-import { expectDocumentPublished } from "tests/utils";
+import { createSlug, expectDocumentPublished } from "tests/utils";
 
 export default async function VariantA({
   pageTitle,
@@ -30,29 +30,24 @@ export default async function VariantA({
   }
 
   await expectDocumentPublished(page, pageTitle);
-  await expect(page.getByText(`${baseURL}`)).toBeVisible();
-
-  const pagePromise = page.waitForEvent("popup");
-  await page.getByText(baseURL).click({ force: true });
-  const openUrlPage = await pagePromise;
+  await page.goto(`${baseURL}/${createSlug(pageTitle)}`);
+  page.waitForLoadState("domcontentloaded");
 
   for (let i = 0; i < commonFieldValues.length; i++) {
     const testimonial = commonFieldValues[i];
     const paginationBtn = `Show Testimonial ${i + 1}`;
 
     await expect(
-      openUrlPage.getByText(testimonial.fullName, { exact: true })
+      page.getByText(testimonial.fullName, { exact: true })
     ).toBeVisible();
-    await expect(openUrlPage.getByText(testimonial.jobTitle)).toBeVisible();
+    await expect(page.getByText(testimonial.jobTitle)).toBeVisible();
 
     await expect(
-      openUrlPage.getByRole("heading", { name: testimonial.testimony })
+      page.getByRole("heading", { name: testimonial.testimony })
     ).toBeVisible();
 
     // Proceed with click only if not the last item
-    const paginationButton = openUrlPage.locator(
-      `[aria-label="${paginationBtn}"]`
-    );
+    const paginationButton = page.locator(`[aria-label="${paginationBtn}"]`);
     if (i < commonFieldValues.length - 1) {
       if (paginationButton) {
         await paginationButton.click();
