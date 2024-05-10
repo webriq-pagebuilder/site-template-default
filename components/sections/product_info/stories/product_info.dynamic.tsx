@@ -1,7 +1,8 @@
 import { productInfoDefaultValues } from "helper/defaultValues";
-import { StoryConfigs, defineStories } from "utils/stories";
+import { defineStories } from "utils/stories";
 import { sanityClient } from "lib/sanity.client";
 import { componentsQuery } from "pages/api/query";
+import { dynamicStoryData } from "components/common";
 import dedent from "ts-dedent";
 
 export default defineStories({
@@ -10,7 +11,7 @@ export default defineStories({
     import ProductInfo from "../index.tsx";
     import { EcwidContextProvider } from "context/EcwidContext";
     export default {
-      title: "CStudio/Product Info",
+      title: "Ecommerce/Product Info",
       component: ProductInfo,
       tags: ["autodocs"],
       render: ({ variant, label, ...args }) => {
@@ -65,20 +66,10 @@ export default defineStories({
         schema: "productInfo",
       })) || []; // Provide a default empty array
 
-    const result: StoryConfigs = {};
-
-    productInfoData?.map((item, index) => {
-      if (!item || !item.variants) return; // Skip iteration if item or item.variants is falsy
-
-      result[`${item.variant}${index + 1}`] = {
-        args: {
-          variant: item.variant,
-          label: item.label,
-          ...productInfoDefaultValues,
-        },
-      };
+    return dynamicStoryData({
+      data: productInfoData,
+      schemaFields: productInfoDefaultValues,
+      isEcommerce: true,
     });
-
-    return result;
   },
 });
