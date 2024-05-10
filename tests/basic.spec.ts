@@ -20,7 +20,7 @@ test.describe("Main Workflow", () => {
     page,
     baseURL,
   }) => {
-    console.log(`[INFO] ~ Testing Publish Page 🚀`);
+    console.log(`[INFO] - Testing Publish Page 🚀`);
     await navigateToPage(page);
     await createNewPage(page, pageTitle, "Navigation");
 
