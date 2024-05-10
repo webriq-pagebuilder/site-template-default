@@ -273,9 +273,11 @@ export async function createNewPage(page, sectionTitle, sections) {
   const newPageButtonElement = page.locator(
     `a[href="/studio/intent/create/template=page;type=page/"]`
   );
+  await expect(newPageButtonElement).toBeVisible();
   await newPageButtonElement.click({ force: true });
 
   const inputTitle = page.locator("input#title");
+  await expect(page.locator('p:has-text("Loading...")')).toBeHidden();
   await page.waitForSelector("input#title", { state: "visible" });
   await inputTitle.click({ force: true });
   await inputTitle.fill(sectionTitle);
@@ -525,6 +527,7 @@ export async function deletePageVariant(page, pageTitle, variantLabel) {
   await page.getByRole("button", { name: "Open document actions" }).click();
   await expect(page.getByTestId("action-Delete")).toBeVisible();
   await page.getByTestId("action-Delete").click();
+  await expect(page.getByText("Looking for referring")).toBeVisible();
   await expect(page.getByText("Looking for referring")).toBeHidden();
   await expect(page.getByLabel("Delete document?")).toBeVisible();
   await page.getByTestId("confirm-delete-button").click();

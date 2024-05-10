@@ -27,7 +27,7 @@ let config: Config = {
   // To get the lowest latency, lowest cost, and latest data, use the Instant Preview mode
   apiVersion: "2022-03-13",
   token: SANITY_API_READ_TOKEN,
-  documentLimit: 5000,
+  documentLimit: 10000,
 };
 
 export { config };

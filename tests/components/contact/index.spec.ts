@@ -91,7 +91,7 @@ contactVariantTests?.forEach((variant, index) => {
     const pageTitle = newPageTitle(variant?.title);
 
     test(`Create ${variant.label}`, async ({ page, baseURL }) => {
-      console.log(`[INFO] - Testing Contact ${variant} 🚀`);
+      console.log(`[INFO] - Testing Contact ${variant.variant} 🚀`);
       await beforeEachTest(page, pageTitle, "Contact", variant?.label, index);
 
       const variantTest = variantModules[variant.variant];
@@ -106,7 +106,7 @@ contactVariantTests?.forEach((variant, index) => {
 
     test.afterEach(`Delete ${variant.label}`, async ({ page }) => {
       await deletePageVariant(page, pageTitle, variant.label);
-      console.log(`[DONE] Contact ${variant} 🚀`);
+      console.log(`[DONE] Contact ${variant.variant} 🚀`);
     });
   });
 });
