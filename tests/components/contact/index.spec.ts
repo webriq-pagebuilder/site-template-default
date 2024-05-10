@@ -132,7 +132,7 @@ export const form = {
       .click({ force: true });
     await page
       .getByLabel("External, outside this website")
-      .check({ force: true, timeout: 120_000 });
+      .check({ force: true });
     await page.getByLabel("URL").click({ force: true });
     await page.getByLabel("URL").fill(commonFieldValues?.thankYouPageUrl);
     await page

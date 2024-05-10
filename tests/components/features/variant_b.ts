@@ -35,7 +35,7 @@ async function VariantB({ pageTitle, page, commonFieldValues, baseURL }) {
       page.getByRole("button", {
         name: featuresInitialValue.arrayOfImageTitleAndText?.[i]?.title,
       })
-    ).toBeVisible({ timeout: 20_000 });
+    ).toBeVisible();
   }
 
   await expect(page.getByText("Featured Items")).toBeVisible();
@@ -79,7 +79,7 @@ async function VariantB({ pageTitle, page, commonFieldValues, baseURL }) {
           .getByRole("img", { name: "features-image-" })
           .nth(i));
 
-    await expect(imageTitle).toBeVisible({ timeout: 20_000 });
+    await expect(imageTitle).toBeVisible();
     page.locator(
       `p:has-text("${featuresInitialValue.arrayOfImageTitleAndText?.[i]?.plainText}")`
     );

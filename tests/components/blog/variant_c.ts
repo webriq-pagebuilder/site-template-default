@@ -99,10 +99,8 @@ async function assertPageContent(page, blog, commonFieldValues, button) {
 
   await button.click({ force: true });
   await page.waitForLoadState("domcontentloaded");
-  await expect(page.getByRole("heading", { name: blog.title })).toBeVisible({
-    timeout: 150_000,
-  });
+  await expect(page.getByRole("heading", { name: blog.title })).toBeVisible();
   await expect(
     page.locator(`span:has-text("${blog.publishedAt}")`)
-  ).toBeVisible({ timeout: 150_000 });
+  ).toBeVisible();
 }

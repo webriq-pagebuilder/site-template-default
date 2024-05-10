@@ -57,18 +57,10 @@ async function VariantG({ pageTitle, page, commonFieldValues, baseURL }) {
   );
 
   // tags
-  await expect(page.getByText(featuresInitialValue.tags?.[0])).toBeVisible({
-    timeout: 20_000,
-  });
-  await expect(page.getByText(featuresInitialValue.tags?.[1])).toBeVisible({
-    timeout: 20_000,
-  });
-  await expect(page.getByText(featuresInitialValue.tags?.[2])).toBeVisible({
-    timeout: 20_000,
-  });
-  await expect(page.getByText(commonFieldValues?.tag)).toBeVisible({
-    timeout: 20_000,
-  });
+  await expect(page.getByText(featuresInitialValue.tags?.[0])).toBeVisible();
+  await expect(page.getByText(featuresInitialValue.tags?.[1])).toBeVisible();
+  await expect(page.getByText(featuresInitialValue.tags?.[2])).toBeVisible();
+  await expect(page.getByText(commonFieldValues?.tag)).toBeVisible();
 }
 
 export default VariantG;

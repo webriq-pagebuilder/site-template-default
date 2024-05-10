@@ -38,7 +38,7 @@ async function VariantB({ pageTitle, page, commonFieldValues, baseURL }) {
     page.locator(
       'a[aria-label="Go to https://webriq.com"][target="_blank"][rel="noopener noreferrer"]'
     )
-  ).toBeVisible({ timeout: 20_000 });
+  ).toBeVisible();
   await expect(page.getByAltText(commonFieldValues?.logoAltText)).toBeVisible();
 
   // title

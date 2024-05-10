@@ -39,9 +39,7 @@ async function VariantB({ pageTitle, page, commonFieldValues, baseURL }) {
     .getByRole("button", { name: "Add item" })
     .first()
     .click({ force: true });
-  await expect(page.getByLabel("Edit", { exact: true })).toBeVisible({
-    timeout: 20_000,
-  });
+  await expect(page.getByLabel("Edit", { exact: true })).toBeVisible();
 
   // label
   await page.locator('input[data-as="input"][value=""]').nth(2).click();

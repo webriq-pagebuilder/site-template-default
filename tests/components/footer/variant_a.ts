@@ -150,9 +150,7 @@ async function assertPageContent(
       if (isInternalLink) {
         await page.getByRole("link", { name: linkName }).click({ force: true });
         await page.waitForLoadState("networkidle");
-        await expect(page.getByText("Success!")).toBeVisible({
-          timeout: 150_000,
-        });
+        await expect(page.getByText("Success!")).toBeVisible();
         await assertInternalUrl(page, commonFieldValues.internalLinkUrl);
       } else {
         const page10 = await page.waitForEvent("popup");
@@ -171,9 +169,7 @@ async function assertPageContent(
     } else {
       await page.getByRole("link", { name: linkName }).click({ force: true });
       await page.waitForLoadState("networkidle");
-      await expect(page.getByText("Success!")).toBeVisible({
-        timeout: 150_000,
-      });
+      await expect(page.getByText("Success!")).toBeVisible();
       await assertInternalUrl(page, commonFieldValues.internalLinkUrl);
     }
   }

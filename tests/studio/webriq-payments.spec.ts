@@ -17,9 +17,7 @@ test.describe("Main Workflow", () => {
   test("Payment Input Required", async ({ page }) => {
     await navigateToPayments({ page });
 
-    await expect(page.getByRole("button", { name: "Add API" })).toBeVisible({
-      timeout: 20_000,
-    });
+    await expect(page.getByRole("button", { name: "Add API" })).toBeVisible();
     await page.getByRole("button", { name: "Add API" }).click();
     await page.getByRole("button", { name: "Add Account" }).click();
 
@@ -30,14 +28,14 @@ test.describe("Main Workflow", () => {
 
     await expect(
       accountNameRequired || publishableKeyRequired || secretKeyRequired
-    ).toBeVisible({ timeout: 20_000 });
+    ).toBeVisible();
 
     await page.getByPlaceholder("Publishable Key").click();
     await page.getByPlaceholder("Publishable Key").fill(`${publishableKey}`);
     await page.getByPlaceholder("Secret Key").click();
     await page.getByPlaceholder("Secret Key").fill(`${secretKey}`);
     await page.getByRole("button", { name: "Add Account" }).click();
-    await expect(accountNameRequired).toBeVisible({ timeout: 20_000 });
+    await expect(accountNameRequired).toBeVisible();
 
     await page.getByPlaceholder("Account Name").click();
     await page.getByPlaceholder("Account Name").press("CapsLock");
@@ -46,7 +44,7 @@ test.describe("Main Workflow", () => {
     await page.getByPlaceholder("Publishable Key").press("Meta+a");
     await page.getByPlaceholder("Publishable Key").fill("");
     await page.getByRole("button", { name: "Add Account" }).click();
-    await expect(publishableKeyRequired).toBeVisible({ timeout: 20_000 });
+    await expect(publishableKeyRequired).toBeVisible();
 
     await page.getByPlaceholder("Publishable Key").click();
     await page.getByPlaceholder("Publishable Key").fill(`${publishableKey}`);
@@ -54,7 +52,7 @@ test.describe("Main Workflow", () => {
     await page.getByPlaceholder("Secret Key").press("Meta+a");
     await page.getByPlaceholder("Secret Key").fill("");
     await page.getByRole("button", { name: "Add Account" }).click();
-    await expect(secretKeyRequired).toBeVisible({ timeout: 20_000 });
+    await expect(secretKeyRequired).toBeVisible();
 
     console.log("[DONE] Payment Input Required 🚀");
   });
@@ -87,7 +85,7 @@ test.describe("Main Workflow", () => {
     );
 
     // Assert that the added account is visible
-    await expect(addedAccountName).toBeVisible({ timeout: 20_000 });
+    await expect(addedAccountName).toBeVisible();
   });
 
   //View Payments
@@ -97,7 +95,7 @@ test.describe("Main Workflow", () => {
     const addedAccountName = page.locator(
       `div span:has-text("${paymentName}")`
     );
-    await expect(addedAccountName).toBeVisible({ timeout: 20_000 });
+    await expect(addedAccountName).toBeVisible();
 
     // edit button
     await page
@@ -119,16 +117,14 @@ test.describe("Main Workflow", () => {
     const addedAccountName = page.locator(
       `div span:has-text("${paymentName}")`
     );
-    await expect(addedAccountName).toBeVisible({ timeout: 20_000 });
+    await expect(addedAccountName).toBeVisible();
 
     // delete button
     await page
       .locator('button.sc-gHJCvS.hRJPpX[data-ui="Button"]:has(span > svg)')
       .last()
       .click();
-    await expect(page.getByLabel("Confirm Delete")).toBeVisible({
-      timeout: 20_000,
-    });
+    await expect(page.getByLabel("Confirm Delete")).toBeVisible();
     await page.getByRole("button", { name: "Confirm" }).click();
 
     await expect(
@@ -140,7 +136,7 @@ test.describe("Main Workflow", () => {
         .getByText("Stripe Account Successfully Deleted")
     ).toBeVisible();
 
-    await expect(addedAccountName).toBeHidden({ timeout: 20_000 });
+    await expect(addedAccountName).toBeHidden();
   });
 });
 

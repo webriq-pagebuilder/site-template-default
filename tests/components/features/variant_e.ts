@@ -18,17 +18,17 @@ async function VariantE({ pageTitle, page, commonFieldValues, baseURL }) {
 
   await expect(
     page.getByText(featuresInitialValue.featuredItems?.[0].subtitle)
-  ).toBeVisible({ timeout: 150_000 });
+  ).toBeVisible();
 
   await expect(
     page.getByRole("heading", {
       name: featuresInitialValue.featuredItems?.[0].title,
     })
-  ).toBeVisible({ timeout: 150_000 });
+  ).toBeVisible();
 
   await expect(
     page.getByText(featuresInitialValue.featuredItems?.[0].description)
-  ).toBeVisible({ timeout: 150_000 });
+  ).toBeVisible();
 
   await expect(page.getByLabel("Show Previous Feature")).toBeVisible();
   await expect(page.getByLabel("Show Next Feature")).toBeVisible();

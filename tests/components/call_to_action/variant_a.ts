@@ -66,7 +66,7 @@ async function VariantA({ pageTitle, page, commonFieldValues, baseURL }) {
   // title
   await expect(
     page.getByRole("heading", { name: commonFieldValues?.title })
-  ).toBeVisible({ timeout: 20_000 });
+  ).toBeVisible();
 
   // description
   await expect(
@@ -75,24 +75,24 @@ async function VariantA({ pageTitle, page, commonFieldValues, baseURL }) {
       .filter({ hasText: commonFieldValues?.description })
       .getByRole("paragraph")
       .first()
-  ).toBeVisible({ timeout: 20_000 });
+  ).toBeVisible();
 
   // logo
   await expect(
     page.locator(
       'a[aria-label="Go to https://webriq.com"][target="_blank"][rel="noopener noreferrer"]'
     )
-  ).toBeVisible({ timeout: 20_000 });
+  ).toBeVisible();
   await expect(
     page.getByAltText(commonFieldValues?.ctaLogoAltText)
-  ).toBeVisible({ timeout: 20_000 });
+  ).toBeVisible();
 
   // primary button
   await expect(
     page.getByRole("link", {
       name: commonFieldValues?.primaryButtonLabel,
     })
-  ).toBeVisible({ timeout: 20_000 });
+  ).toBeVisible();
 }
 
 export default VariantA;

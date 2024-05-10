@@ -195,15 +195,13 @@ export const contactDetails = {
     await expect(number.inputValue()).resolves.toBe(commonFieldValues.number);
   },
   async sitePreview({ pageUrl, commonFieldValues }) {
-    await expect(pageUrl.getByText(commonFieldValues?.office)).toBeVisible({
-      timeout: 180_000,
-    });
+    await expect(pageUrl.getByText(commonFieldValues?.office)).toBeVisible();
     await expect(
       pageUrl.getByRole("link", { name: commonFieldValues?.email })
-    ).toBeVisible({ timeout: 180_000 });
+    ).toBeVisible();
     await expect(
       pageUrl.getByRole("link", { name: commonFieldValues?.number })
-    ).toBeVisible({ timeout: 180_000 });
+    ).toBeVisible();
   },
 };
 
@@ -394,7 +392,7 @@ export async function expectDocumentPublished(page, pageTitle) {
     page
       .getByTestId("field-sections")
       .getByTestId("input-validation-icon-error")
-  ).toBeHidden({ timeout: 150_000 });
+  ).toBeHidden();
 
   // Once the error is hidden, proceed with clicking the action
   await expect(
@@ -404,7 +402,7 @@ export async function expectDocumentPublished(page, pageTitle) {
       .locator("div")
       .filter({ hasText: "The document was published" })
       .nth(1)
-  ).toBeHidden({ timeout: 150_000 });
+  ).toBeHidden();
 
   await page.waitForSelector('a[target="_blank"]', { state: "visible" });
   await expect(page.locator('a[target="_blank"]')).toHaveCSS(
@@ -549,9 +547,7 @@ export async function deletePageVariant(page, pageTitle, variantLabel) {
   await expect(
     page.getByTestId("document-panel-scroller").first()
   ).toBeHidden();
-  await expect(page.getByRole("link", { name: pageTitle })).toBeHidden({
-    timeout: 150000,
-  });
+  await expect(page.getByRole("link", { name: pageTitle })).toBeHidden();
 }
 
 export async function assertInternalUrl(page, expectedUrlBase) {
@@ -684,18 +680,14 @@ export async function checkFormSubmission({
 
   if (hasRequiredCheckbox) {
     // Contact variant A
-    await page
-      .getByLabel("Agree to terms")
-      .check({ force: true, timeout: 180_000 });
+    await page.getByLabel("Agree to terms").check({ force: true });
   }
 
   await pageUrl.getByLabel(submitBtnLabel).click({ force: true });
-  await expect(pageUrl.getByText("Sending form data...")).toBeVisible({
-    timeout: 180_000,
-  });
-  await expect(pageUrl.getByText("✔ Successfully sent form data")).toBeVisible(
-    { timeout: 180_000 }
-  );
+  await expect(pageUrl.getByText("Sending form data...")).toBeVisible({});
+  await expect(
+    pageUrl.getByText("✔ Successfully sent form data")
+  ).toBeVisible();
 
   await page.goto(thankYouPageUrl ?? `${NEXT_PUBLIC_SITE_URL}/thank-you`);
 }

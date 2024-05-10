@@ -87,13 +87,9 @@ async function assertPageContent(page, blog, commonFieldValues) {
   await subtitleField.sitePreview({ pageUrl: page, commonFieldValues });
 
   //Blog title
-  await expect(page.getByRole("link", { name: blog?.title })).toBeVisible({
-    timeout: 150_000,
-  });
+  await expect(page.getByRole("link", { name: blog?.title })).toBeVisible();
 
   await page.getByRole("link", { name: blog.title }).click({ force: true });
   await page.waitForLoadState("domcontentloaded");
-  await expect(page.getByRole("heading", { name: blog.title })).toBeVisible({
-    timeout: 150_000,
-  });
+  await expect(page.getByRole("heading", { name: blog.title })).toBeVisible();
 }

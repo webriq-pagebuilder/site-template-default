@@ -74,16 +74,16 @@ async function VariantC({ pageTitle, page, commonFieldValues, baseURL }) {
   // array of images - show 4
   await expect(
     page.getByRole("img", { name: "appPromo-variantC-image0" })
-  ).toBeVisible({ timeout: 20_000 });
+  ).toBeVisible();
   await expect(
     page.getByRole("img", { name: "appPromo-variantC-image1" }).first()
-  ).toBeVisible({ timeout: 20_000 });
+  ).toBeVisible();
   await expect(
     page.getByRole("img", { name: "appPromo-variantC-image1" }).nth(1)
-  ).toBeVisible({ timeout: 20_000 });
+  ).toBeVisible();
   await expect(
     page.getByRole("img", { name: "appPromo-variantC-image4" })
-  ).toBeVisible({ timeout: 20_000 });
+  ).toBeVisible();
 }
 
 export default VariantC;

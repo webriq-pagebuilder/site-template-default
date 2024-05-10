@@ -109,9 +109,7 @@ test.describe("Verify main actions working", () => {
       .getByRole("textbox")
       .fill(inputValues.post.body);
 
-    await expect(page.getByLabel("Validation")).toBeHidden({
-      timeout: 150_000,
-    });
+    await expect(page.getByLabel("Validation")).toBeHidden();
     await publishDocument(page);
 
     console.log("[DONE] Create blog page 🚀");
@@ -130,9 +128,7 @@ test.describe("Verify main actions working", () => {
       `${baseURL}/${inputValues.post.title?.toLowerCase()?.replace(/\s/g, "-")}`
     );
     await page.waitForLoadState("domcontentloaded");
-    await expect(page.getByText(inputValues?.category?.title)).toBeVisible({
-      timeout: 150_000,
-    });
+    await expect(page.getByText(inputValues?.category?.title)).toBeVisible();
     await expect(page.getByText(publishedAt)).toBeVisible();
     await expect(
       page.locator(`h1:has-text("${inputValues.post.title}")`)

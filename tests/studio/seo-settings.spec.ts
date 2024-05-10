@@ -100,9 +100,7 @@ test.describe("Verify SEO Settings", () => {
       .locator("textarea#defaultSeoDescription")
       .inputValue();
 
-    await page
-      .getByTestId("action-Save")
-      .click({ force: true, timeout: 180_000 });
+    await page.getByTestId("action-Save").click({ force: true });
 
     console.log("[DONE] Can add global SEO values 🚀");
   });
@@ -156,7 +154,7 @@ test.describe("Verify SEO Settings", () => {
   });
 
   test.describe("Redirects to global SEO page", () => {
-    test.describe.configure({ timeout: 300_000 });
+    test.describe.configure({ timeout: 600_000 });
 
     test.beforeEach(async ({ page }) => {
       await navigateToPage(page);
@@ -191,9 +189,7 @@ test.describe("Verify SEO Settings", () => {
         .click({ force: true });
       await expect(
         page.getByTestId("field-defaultSeoKeywords").getByTestId("string-input")
-      ).toBeVisible({
-        timeout: 120_000,
-      });
+      ).toBeVisible();
     });
 
     test("SEO synonyms", async ({ page }) => {
@@ -217,9 +213,7 @@ test.describe("Verify SEO Settings", () => {
         .click({ force: true });
       await expect(
         page.getByTestId("field-defaultSeoSynonyms").getByTestId("string-input")
-      ).toBeVisible({
-        timeout: 120_000,
-      });
+      ).toBeVisible();
     });
 
     test("SEO description", async ({ page }) => {
@@ -238,7 +232,7 @@ test.describe("Verify SEO Settings", () => {
         page
           .getByLabel("Description")
           .and(page.locator("textarea#defaultSeoDescription"))
-      ).toBeVisible({ timeout: 120_000 });
+      ).toBeVisible();
     });
 
     console.log("[DONE] Redirects to global SEO page 🚀");

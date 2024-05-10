@@ -120,9 +120,7 @@ test.describe("Main Workflow", () => {
     await expect(publishButton).toHaveAttribute("data-disabled", "false");
     await publishButton.click();
 
-    await expect(page.getByTestId("review-changes-button")).toBeHidden({
-      timeout: 150000,
-    });
+    await expect(page.getByTestId("review-changes-button")).toBeHidden();
     await expect(
       page
         .locator('[id="__next"]')
@@ -130,16 +128,14 @@ test.describe("Main Workflow", () => {
         .locator("div")
         .filter({ hasText: "The document was published" })
         .nth(1)
-    ).toBeVisible({ timeout: 150000 });
+    ).toBeVisible();
 
     //Open Live URL
     await page.goto(`${baseURL}/${createSlug(duplicatePageName)}`);
     page.waitForLoadState("domcontentloaded");
 
     // If the section is not found, expect the Empty Page element to be hidden
-    await expect(page.getByText("Empty Page")).toBeHidden({
-      timeout: 20_000,
-    });
+    await expect(page.getByText("Empty Page")).toBeHidden();
 
     console.log(`[DONE] Testing Duplicate Page 🚀`);
   });
@@ -263,11 +259,11 @@ test.describe("Main Workflow", () => {
       inlineEditPage
         .locator('[data-testid="review-changes-button"]')
         .filter({ hasText: "Saved!" })
-    ).toBeVisible({ timeout: 150000 });
+    ).toBeVisible();
     await inlineEditPage.getByTestId("action-Save").click({ force: true });
     await expect(
       inlineEditPage.getByTestId("review-changes-button")
-    ).toBeHidden({ timeout: 150000 });
+    ).toBeHidden();
     await expect(
       inlineEditPage
         .locator('[id="__next"]')
@@ -275,7 +271,7 @@ test.describe("Main Workflow", () => {
         .locator("div")
         .filter({ hasText: "The document was published" })
         .nth(1)
-    ).toBeVisible({ timeout: 150000 });
+    ).toBeVisible();
 
     await inlineEditPage.locator("#navigation").click({ force: true }); //Close Button
     await expect(
@@ -383,7 +379,7 @@ test.describe("Main Workflow", () => {
     if (sectionCount > 0) {
       // If the section no items is found, expect the Empty Page element to be visible
       await expect(page.getByText("Empty Page"))
-        .toBeVisible({ timeout: 20000 })
+        .toBeVisible()
         .then(() => console.log("There is no Available Content!"));
     }
 
@@ -462,7 +458,5 @@ async function deletePublishedPage(page) {
       .filter({ hasText: "The document was successfully" })
       .nth(1)
   ).toBeVisible();
-  await expect(page.getByRole("link", { name: pageTitle })).toBeHidden({
-    timeout: 150000,
-  });
+  await expect(page.getByRole("link", { name: pageTitle })).toBeHidden();
 }

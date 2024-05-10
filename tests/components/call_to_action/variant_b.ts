@@ -46,7 +46,7 @@ async function VariantB({ pageTitle, page, commonFieldValues, baseURL }) {
   // title
   await expect(
     page.getByRole("heading", { name: commonFieldValues?.title })
-  ).toBeVisible({ timeout: 20_000 });
+  ).toBeVisible();
 
   // description
   await expect(
@@ -55,32 +55,32 @@ async function VariantB({ pageTitle, page, commonFieldValues, baseURL }) {
       .filter({ hasText: commonFieldValues?.title })
       .getByRole("paragraph")
       .first()
-  ).toBeVisible({ timeout: 20_000 });
+  ).toBeVisible();
 
   // logo
   await expect(
     page.locator(
       'a[aria-label="Go to https://webriq.com"][target="_blank"][rel="noopener noreferrer"]'
     )
-  ).toBeVisible({ timeout: 20_000 });
+  ).toBeVisible();
   await expect(
     page.getByAltText(commonFieldValues?.ctaLogoAltText)
-  ).toBeVisible({ timeout: 20_000 });
+  ).toBeVisible();
 
   // 05-03-2024 defer tests for forms
   // await expect(
   //   page.getByPlaceholder(
   //     callToActionInitialValue.form.fields?.[0]?.placeholder
   //   )
-  // ).toBeVisible({ timeout: 20_000 });
+  // ).toBeVisible();
   // await expect(
   //   page.getByPlaceholder(
   //     callToActionInitialValue.form.fields?.[1]?.placeholder
   //   )
-  // ).toBeVisible({ timeout: 20_000 });
+  // ).toBeVisible();
   // await expect(
   //   page.getByLabel(callToActionInitialValue.form.buttonLabel)
-  // ).toBeVisible({ timeout: 20_000 });
+  // ).toBeVisible();
 
   // await checkFormSubmission({
   //   page,

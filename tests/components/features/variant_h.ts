@@ -28,7 +28,7 @@ async function VariantH({ pageTitle, page, commonFieldValues, baseURL }) {
       page.getByRole("button", {
         name: featuresInitialValue.arrayOfImageTitleAndText?.[i]?.title,
       })
-    ).toBeVisible({ timeout: 20_000 });
+    ).toBeVisible();
   }
 
   // check site preview
@@ -50,21 +50,21 @@ async function VariantH({ pageTitle, page, commonFieldValues, baseURL }) {
   for (let i = 1; i < featuresLength; i++) {
     await expect(
       page.getByRole("img", { name: `features-image-${i}` })
-    ).toBeVisible({ timeout: 20_000 });
+    ).toBeVisible();
 
     // title
     await expect(
       page.locator(
         `p:has-text("${featuresInitialValue.arrayOfImageTitleAndText?.[i]?.title}")`
       )
-    ).toBeVisible({ timeout: 20_000 });
+    ).toBeVisible();
 
     // plain text
     await expect(
       page.locator(
         `p:has-text("${featuresInitialValue.arrayOfImageTitleAndText?.[i]?.plainText}")`
       )
-    ).toBeVisible({ timeout: 20_000 });
+    ).toBeVisible();
   }
 }
 
