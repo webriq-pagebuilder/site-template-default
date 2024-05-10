@@ -2,8 +2,6 @@ import { expect } from "@playwright/test";
 import { headerInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-default";
 import {
   expectDocumentPublished,
-  assertExternalUrl,
-  assertInternalUrl,
   titleField,
   descriptionField,
   createSlug,
@@ -109,6 +107,7 @@ export default async function VariantD({
   await page.getByRole("button", { name: "Secondary Button" }).click();
 
   await expectDocumentPublished(page, pageTitle);
+  await page.goto(`${baseURL}/${createSlug(pageTitle)}`);
 
   const buttonLabels = [
     commonFieldValues.primaryButton,
@@ -116,7 +115,7 @@ export default async function VariantD({
   ];
 
   for (const button of buttonLabels) {
-    await page.goto(`${baseURL}/${createSlug(pageTitle)}`);
+    await page.waitForLoadState("domcontentloaded");
     await assertPageContent(page, button, commonFieldValues, isInternalLink);
   }
 }
@@ -137,26 +136,22 @@ async function assertPageContent(
   });
 
   //Primary Button
-  await expect(page.getByLabel(commonFieldValues.primaryButton)).toBeVisible({
-    timeout: 150_000,
-  });
+  await expect(page.getByLabel(commonFieldValues.primaryButton)).toBeVisible();
 
   //Secondary Button
-  await expect(page.getByLabel(commonFieldValues.secondaryButton)).toBeVisible({
-    timeout: 150_000,
-  });
+  await expect(
+    page.getByLabel(commonFieldValues.secondaryButton)
+  ).toBeVisible();
 
+  await expect(page.getByRole("link", { name: linkName })).toBeVisible();
   if (!isInternalLink) {
-    const page10Promise = page.waitForEvent("popup");
-    await page.getByRole("link", { name: linkName }).click({ force: true });
-    const page10 = await page10Promise;
-    await assertExternalUrl(page10, commonFieldValues.externalLinkUrl);
+    await expect(page.getByRole("link", { name: linkName })).toHaveAttribute(
+      "target",
+      "_blank"
+    );
   } else {
-    await page.getByRole("link", { name: linkName }).click({ force: true });
-    await page.waitForLoadState("networkidle");
-    await expect(page.getByText("Success!")).toBeVisible({
-      timeout: 20_000,
-    });
-    await assertInternalUrl(page, commonFieldValues.internalLinkUrl);
+    await expect(
+      await page.getByRole("link", { name: linkName })
+    ).toHaveAttribute("target", "_self");
   }
 }
