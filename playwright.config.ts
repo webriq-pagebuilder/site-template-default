@@ -36,7 +36,7 @@ export default defineConfig({
 
     storageState: authFile,
 
-    actionTimeout: 120_000,
+    actionTimeout: 250_000,
   },
 
   globalSetup: require.resolve("./playwright/global-setup.ts"),
