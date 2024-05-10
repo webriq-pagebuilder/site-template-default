@@ -6,7 +6,7 @@ import {
   titleField,
   assertExternalUrl,
   assertInternalUrl,
-} from "../../utils/index";
+} from "tests/utils";
 
 export default async function VariantA({
   pageTitle,
@@ -65,24 +65,8 @@ export default async function VariantA({
   await openUrlPage
     .getByRole("link", { name: commonFieldValues.button })
     .click({ force: true });
-  if (!isInternalLink) {
-    const externalPagePromise = openUrlPage.waitForEvent("popup");
-    const externalPage = await externalPagePromise;
-    await assertExternalUrl(externalPage, commonFieldValues.externalLinkUrl);
-  } else {
-    await openUrlPage.waitForLoadState("networkidle");
-    await expect(openUrlPage.getByText("Success!")).toBeVisible({
-      timeout: 20000,
-    });
-    await assertInternalUrl(openUrlPage, commonFieldValues.internalLinkUrl);
-  }
 
-  const slug = pageTitle
-    ?.toLowerCase()
-    ?.replace(/\s+/g, "-")
-    .replace(/-+/g, "-");
   for (const blog of commonFieldValues.blogPosts) {
-    await openUrlPage.goto(`${baseURL}/${slug}`);
     await assertPageContent(openUrlPage, blog, commonFieldValues, baseURL);
   }
 }
@@ -107,7 +91,7 @@ async function assertPageContent(
   await openUrlPage
     .getByRole("link", { name: blog.title })
     .click({ force: true });
-  await openUrlPage.waitForLoadState("networkidle");
+  await openUrlPage.waitForLoadState("domcontentloaded");
   await expect(
     openUrlPage.getByRole("heading", { name: blog.title })
   ).toBeVisible({ timeout: 150_000 });

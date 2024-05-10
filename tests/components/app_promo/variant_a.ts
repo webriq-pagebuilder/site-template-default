@@ -1,9 +1,14 @@
 import { expect } from "@playwright/test";
-import { updateLogoLink, expectDocumentPublished } from "tests/utils";
+import {
+  titleField,
+  subtitleField,
+  updateLogoLink,
+  expectDocumentPublished,
+  createSlug,
+} from "tests/utils";
 import { appPromoInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-default";
-import { titleField, subtitleField } from "tests/utils";
 
-async function VariantA({ newPageTitle, page, commonFieldValues, baseURL }) {
+async function VariantA({ pageTitle, page, commonFieldValues, baseURL }) {
   // studio
   await updateLogoLink(page, commonFieldValues?.logoAltText);
 
@@ -20,41 +25,34 @@ async function VariantA({ newPageTitle, page, commonFieldValues, baseURL }) {
   });
 
   // check site preview
-  await expectDocumentPublished(page, newPageTitle);
-  await expect(page.getByText(`${baseURL}`)).toBeVisible();
-
-  const pagePromise = page.waitForEvent("popup");
-  await page.getByText(baseURL).click({ force: true });
-  const openUrlPage = await pagePromise;
+  await expectDocumentPublished(page, pageTitle);
+  await page.goto(`${baseURL}/${createSlug(pageTitle)}`);
+  await page.waitForLoadState("domcontentloaded");
 
   // subtitle
-  await subtitleField.sitePreview({ pageUrl: openUrlPage, commonFieldValues });
+  await subtitleField.sitePreview({ pageUrl: page, commonFieldValues });
 
   // title
-  await titleField.sitePreview({ pageUrl: openUrlPage, commonFieldValues });
+  await titleField.sitePreview({ pageUrl: page, commonFieldValues });
 
   // logo link
+  await expect(page.getByLabel("Go to https://webriq.com")).toBeVisible();
   await expect(
-    openUrlPage.getByLabel("Go to https://webriq.com")
-  ).toBeVisible();
-  await expect(
-    openUrlPage
+    page
       .locator("a[target='_blank']")
-      .and(openUrlPage.locator("a[rel='noopener noreferrer']"))
+      .and(page.locator("a[rel='noopener noreferrer']"))
   ).toBeVisible();
-  await expect(
-    openUrlPage.getByAltText(commonFieldValues?.logoAltText)
-  ).toBeVisible();
+  await expect(page.getByAltText(commonFieldValues?.logoAltText)).toBeVisible();
 
   // array of images - show 3
   await expect(
-    openUrlPage.getByRole("img", { name: "appPromo-variantA-image-1" }).first()
+    page.getByRole("img", { name: "appPromo-variantA-image-1" }).first()
   ).toBeVisible();
   await expect(
-    openUrlPage.getByRole("img", { name: "appPromo-variantA-image-2" }).first()
+    page.getByRole("img", { name: "appPromo-variantA-image-2" }).first()
   ).toBeVisible();
   await expect(
-    openUrlPage.getByRole("img", { name: "appPromo-variantA-image-3" }).first()
+    page.getByRole("img", { name: "appPromo-variantA-image-3" }).first()
   ).toBeVisible();
 }
 

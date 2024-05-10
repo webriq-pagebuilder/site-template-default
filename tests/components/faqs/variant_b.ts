@@ -1,10 +1,10 @@
 import { expect } from "@playwright/test";
 import { faqsInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-default";
-import { NEXT_PUBLIC_SITE_URL } from "studio/config";
 import {
   expectDocumentPublished,
   subtitleField,
   titleField,
+  createSlug,
 } from "tests/utils";
 
 const faqsWithCategories = [
@@ -83,38 +83,36 @@ export default async function VariantB({
     }
   }
 
+  // check site preview
   await expectDocumentPublished(page, pageTitle);
-  await expect(page.getByText(`${baseURL}`)).toBeVisible();
-
-  const pagePromise = page.waitForEvent("popup");
-  await page.getByText(baseURL).click({ force: true });
-  const openUrlPage = await pagePromise;
+  await page.goto(`${baseURL}/${createSlug(pageTitle)}`);
+  await page.waitForLoadState("domcontentloaded");
 
   //Title
-  await titleField.sitePreview({ pageUrl: openUrlPage, commonFieldValues });
+  await titleField.sitePreview({ pageUrl: page, commonFieldValues });
 
   //Subtitle
-  await subtitleField.sitePreview({ pageUrl: openUrlPage, commonFieldValues });
+  await subtitleField.sitePreview({ pageUrl: page, commonFieldValues });
 
   for (const faqs of faqsWithCategories) {
-    await expect(openUrlPage.getByLabel(faqs.name)).toBeVisible();
-    await openUrlPage.getByLabel(faqs.name).click();
+    await expect(page.getByLabel(faqs.name)).toBeVisible();
+    await page.getByLabel(faqs.name).click();
 
     if (Array.isArray(faqs.question)) {
-      await expect(openUrlPage.getByLabel("Question").first()).toBeVisible();
-      await openUrlPage.getByLabel("Question").first().click();
-      await expect(openUrlPage.getByText("Answer")).toBeVisible();
-      await openUrlPage.getByLabel("Question").first().click();
+      await expect(page.getByLabel("Question").first()).toBeVisible();
+      await page.getByLabel("Question").first().click();
+      await expect(page.getByText("Answer")).toBeVisible();
+      await page.getByLabel("Question").first().click();
 
-      await expect(openUrlPage.getByLabel("Question").nth(1)).toBeVisible();
-      await openUrlPage.getByLabel("Question").nth(1).click();
-      await expect(openUrlPage.getByText("Answer")).toBeVisible();
-      await openUrlPage.getByLabel("Question").nth(1).click();
+      await expect(page.getByLabel("Question").nth(1)).toBeVisible();
+      await page.getByLabel("Question").nth(1).click();
+      await expect(page.getByText("Answer")).toBeVisible();
+      await page.getByLabel("Question").nth(1).click();
     } else {
-      await expect(openUrlPage.getByLabel("Question")).toBeVisible();
-      await openUrlPage.getByLabel("Question").click();
-      await expect(openUrlPage.getByText("Answer")).toBeVisible();
-      await openUrlPage.getByLabel("Question").click();
+      await expect(page.getByLabel("Question")).toBeVisible();
+      await page.getByLabel("Question").click();
+      await expect(page.getByText("Answer")).toBeVisible();
+      await page.getByLabel("Question").click();
     }
   }
 }

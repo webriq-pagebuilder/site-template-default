@@ -1,11 +1,11 @@
 import { expect } from "@playwright/test";
 import { headerInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-default";
-import { NEXT_PUBLIC_SITE_URL } from "studio/config";
 import {
   expectDocumentPublished,
   assertExternalUrl,
   assertInternalUrl,
   titleField,
+  createSlug,
 } from "tests/utils";
 
 export default async function VariantC({
@@ -13,6 +13,7 @@ export default async function VariantC({
   page,
   commonFieldValues,
   isInternalLink,
+  baseURL,
 }) {
   //Content Title
   await titleField.checkAndAddValue({
@@ -105,54 +106,42 @@ export default async function VariantC({
     commonFieldValues.secondaryButton,
   ];
 
-  const slug = pageTitle
-    ?.toLowerCase()
-    ?.replace(/\s+/g, "-")
-    .replace(/-+/g, "-");
   for (const button of buttonLabels) {
-    await page.goto(`${NEXT_PUBLIC_SITE_URL}/${slug}`);
+    await page.goto(`${baseURL}/${createSlug(pageTitle)}`);
     await assertPageContent(page, button, commonFieldValues, isInternalLink);
   }
 }
 
 async function assertPageContent(
-  openUrlPage,
+  page,
   linkName,
   commonFieldValues,
   isInternalLink
 ) {
   //Title
-  await titleField.sitePreview({ pageUrl: openUrlPage, commonFieldValues });
+  await titleField.sitePreview({ pageUrl: page, commonFieldValues });
 
   //Primary Button
-  await expect(
-    openUrlPage.getByLabel(commonFieldValues.primaryButton)
-  ).toBeVisible({
+  await expect(page.getByLabel(commonFieldValues.primaryButton)).toBeVisible({
     timeout: 150_000,
   });
 
   //Secondary Button
-  await expect(
-    openUrlPage.getByLabel(commonFieldValues.secondaryButton)
-  ).toBeVisible({
+  await expect(page.getByLabel(commonFieldValues.secondaryButton)).toBeVisible({
     timeout: 150_000,
   });
 
   if (!isInternalLink) {
-    const page10Promise = openUrlPage.waitForEvent("popup");
-    await openUrlPage
-      .getByRole("link", { name: linkName })
-      .click({ force: true });
+    const page10Promise = page.waitForEvent("popup");
+    await page.getByRole("link", { name: linkName }).click({ force: true });
     const page10 = await page10Promise;
     await assertExternalUrl(page10, commonFieldValues.externalLinkUrl);
   } else {
-    await openUrlPage
-      .getByRole("link", { name: linkName })
-      .click({ force: true });
-    await openUrlPage.waitForLoadState("networkidle");
-    await expect(openUrlPage.getByText("Success!")).toBeVisible({
+    await page.getByRole("link", { name: linkName }).click({ force: true });
+    await page.waitForLoadState("networkidle");
+    await expect(page.getByText("Success!")).toBeVisible({
       timeout: 20_000,
     });
-    await assertInternalUrl(openUrlPage, commonFieldValues.internalLinkUrl);
+    await assertInternalUrl(page, commonFieldValues.internalLinkUrl);
   }
 }

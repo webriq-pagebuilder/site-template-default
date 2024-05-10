@@ -1,10 +1,10 @@
 import { expect } from "@playwright/test";
 import { faqsInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-default";
-import { NEXT_PUBLIC_SITE_URL } from "studio/config";
 import {
   expectDocumentPublished,
   subtitleField,
   titleField,
+  createSlug,
 } from "tests/utils";
 
 export default async function VariantC({
@@ -39,21 +39,19 @@ export default async function VariantC({
     await page.getByLabel("Close dialog").click();
   }
 
+  // check site preview
   await expectDocumentPublished(page, pageTitle);
-  await expect(page.getByText(`${baseURL}`)).toBeVisible();
-
-  const pagePromise = page.waitForEvent("popup");
-  await page.getByText(baseURL).click({ force: true });
-  const openUrlPage = await pagePromise;
+  await page.goto(`${baseURL}/${createSlug(pageTitle)}`);
+  await page.waitForLoadState("domcontentloaded");
 
   //title
-  await titleField.sitePreview({ pageUrl: openUrlPage, commonFieldValues });
+  await titleField.sitePreview({ pageUrl: page, commonFieldValues });
 
   //subtitle
-  await subtitleField.sitePreview({ pageUrl: openUrlPage, commonFieldValues });
+  await subtitleField.sitePreview({ pageUrl: page, commonFieldValues });
 
   for (const faqs of commonFieldValues.faqsData) {
-    await expect(openUrlPage.getByText(faqs.updateQuestion)).toBeVisible();
-    await expect(openUrlPage.getByText(faqs.updateAnswer)).toBeVisible();
+    await expect(page.getByText(faqs.updateQuestion)).toBeVisible();
+    await expect(page.getByText(faqs.updateAnswer)).toBeVisible();
   }
 }

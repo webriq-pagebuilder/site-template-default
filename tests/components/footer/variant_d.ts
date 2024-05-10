@@ -3,7 +3,8 @@ import {
   expectDocumentPublished,
   assertExternalUrl,
   assertInternalUrl,
-} from "../../utils/index";
+  createSlug,
+} from "tests/utils";
 
 let logoImg: string;
 
@@ -23,13 +24,8 @@ export default async function VariantD({
     baseURL,
   });
 
-  // Loops all routes
-  const slug = pageTitle
-    ?.toLowerCase()
-    ?.replace(/\s+/g, "-")
-    .replace(/-+/g, "-");
   for (const linkName of linkNames) {
-    await page.goto(`${baseURL}/${slug}`);
+    await page.goto(`${baseURL}/${createSlug(pageTitle)}`);
     await assertPageContent(page, linkName, commonFieldValues, isInternalLink);
   }
 }
@@ -123,12 +119,10 @@ async function createFooterVariant({
     await addNavigationRoutes(navName, page, commonFieldValues, isInternalLink);
   }
 
+  // check site preview
   await expectDocumentPublished(page, pageTitle);
-  await expect(page.getByText(`${baseURL}`)).toBeVisible();
-
-  const pagePromise = page.waitForEvent("popup");
-  await page.getByText(baseURL).click({ force: true });
-  const openUrlPage = await pagePromise;
+  await page.goto(`${baseURL}/${createSlug(pageTitle)}`);
+  await page.waitForLoadState("domcontentloaded");
 
   //LogoImg
   isInternalLink
@@ -136,86 +130,71 @@ async function createFooterVariant({
     : (logoImg = `Go to ${commonFieldValues.externalLinkUrl}`);
 
   // Default should just be available routes - no buttons in variant E
-  await assertPageContent(
-    openUrlPage,
-    logoImg,
-    commonFieldValues,
-    isInternalLink
-  );
+  await assertPageContent(page, logoImg, commonFieldValues, isInternalLink);
 }
 
 async function assertPageContent(
-  openUrlPage,
+  page,
   linkName,
   commonFieldValues,
   isInternalLink
 ) {
-  await expect(
-    openUrlPage.getByText(commonFieldValues.footerBody)
-  ).toBeVisible();
+  await expect(page.getByText(commonFieldValues.footerBody)).toBeVisible();
+
+  await expect(page.getByText(commonFieldValues.copyrightText)).toBeVisible();
+
+  await expect(page.getByText("Quick Links")).toBeVisible();
+  await expect(page.getByText("Helpful Links")).toBeVisible();
+  await expect(page.getByText("Explore")).toBeVisible();
 
   await expect(
-    openUrlPage.getByText(commonFieldValues.copyrightText)
-  ).toBeVisible();
-
-  await expect(openUrlPage.getByText("Quick Links")).toBeVisible();
-  await expect(openUrlPage.getByText("Helpful Links")).toBeVisible();
-  await expect(openUrlPage.getByText("Explore")).toBeVisible();
-
-  await expect(
-    openUrlPage.getByLabel("facebook", { exact: true }).hover()
+    page.getByLabel("facebook", { exact: true }).hover()
   ).toBeTruthy();
-  await expect(openUrlPage.getByLabel("twitter").hover()).toBeTruthy();
-  await expect(openUrlPage.getByLabel("instagram").hover()).toBeTruthy();
+  await expect(page.getByLabel("twitter").hover()).toBeTruthy();
+  await expect(page.getByLabel("instagram").hover()).toBeTruthy();
 
   if (["facebook", "twitter", "instagram"].includes(linkName)) {
-    const logoLink = await openUrlPage.locator(`a[aria-label="${linkName}"]`);
+    const logoLink = await page.locator(`a[aria-label="${linkName}"]`);
     await logoLink.hover();
     await logoLink.click();
 
     if (linkName === logoImg) {
       //Logo Img
       if (isInternalLink) {
-        await openUrlPage
-          .getByRole("link", { name: linkName })
-          .click({ force: true });
-        await openUrlPage.waitForLoadState("networkidle");
-        await expect(openUrlPage.getByText("Success!")).toBeVisible({
+        await page.getByRole("link", { name: linkName }).click({ force: true });
+        await page.waitForLoadState("networkidle");
+        await expect(page.getByText("Success!")).toBeVisible({
           timeout: 150_000,
         });
-        await assertInternalUrl(openUrlPage, commonFieldValues.internalLinkUrl);
+        await assertInternalUrl(page, commonFieldValues.internalLinkUrl);
       } else {
-        const page10 = await openUrlPage.waitForEvent("popup");
+        const page10 = await page.waitForEvent("popup");
         await assertExternalUrl(page10, commonFieldValues.externalLinkUrl);
       }
     } else {
-      const page10 = await openUrlPage.waitForEvent("popup");
+      const page10 = await page.waitForEvent("popup");
       await assertExternalUrl(page10, commonFieldValues.externalLinkUrl);
     }
   } else {
     if (!isInternalLink) {
-      const page10Promise = openUrlPage.waitForEvent("popup");
-      await openUrlPage
-        .getByRole("link", { name: linkName })
-        .click({ force: true });
+      const page10Promise = page.waitForEvent("popup");
+      await page.getByRole("link", { name: linkName }).click({ force: true });
       const page10 = await page10Promise;
       await assertExternalUrl(page10, commonFieldValues.externalLinkUrl);
     } else {
-      await openUrlPage
-        .getByRole("link", { name: linkName })
-        .click({ force: true });
-      await openUrlPage.waitForLoadState("networkidle");
-      await expect(openUrlPage.getByText("Success!")).toBeVisible({
+      await page.getByRole("link", { name: linkName }).click({ force: true });
+      await page.waitForLoadState("networkidle");
+      await expect(page.getByText("Success!")).toBeVisible({
         timeout: 150_000,
       });
-      await assertInternalUrl(openUrlPage, commonFieldValues.internalLinkUrl);
+      await assertInternalUrl(page, commonFieldValues.internalLinkUrl);
     }
   }
 }
 
 async function addNavigationRoutes(
-  page,
   buttonName,
+  page,
   commonFieldValues,
   isInternalLink
 ) {

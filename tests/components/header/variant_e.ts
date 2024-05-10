@@ -1,6 +1,5 @@
 import { expect } from "@playwright/test";
 import { headerInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-default";
-import { NEXT_PUBLIC_SITE_URL } from "studio/config";
 import {
   expectDocumentPublished,
   assertExternalUrl,
@@ -8,6 +7,7 @@ import {
   generateFormId,
   titleField,
   descriptionField,
+  createSlug,
 } from "tests/utils";
 
 export default async function VariantE({
@@ -15,6 +15,7 @@ export default async function VariantE({
   page,
   commonFieldValues,
   isInternalLink,
+  baseURL,
 }) {
   //Content Title
   await titleField.checkAndAddValue({
@@ -168,10 +169,10 @@ export default async function VariantE({
     if (!isInternalLink) {
       await routesExternalLink.click({ force: true });
       await page
-        .locator('.sc-jdUcAg > div:nth-child(2) > div input[inputmode="url"]')
+        .locator('div:nth-child(2) > div input[inputmode="url"]')
         .click({ force: true });
       await page
-        .locator('.sc-jdUcAg > div:nth-child(2) > div input[inputmode="url"]')
+        .locator('div:nth-child(2) > div input[inputmode="url"]')
         .fill(commonFieldValues.externalLinkUrl);
       await blankLinkTarget.click();
     } else {
@@ -196,67 +197,52 @@ export default async function VariantE({
     formLinks[1].updateName,
   ];
 
-  const slug = pageTitle
-    ?.toLowerCase()
-    ?.replace(/\s+/g, "-")
-    .replace(/-+/g, "-");
-
   for (const button of buttonLabels) {
-    await page.goto(`${NEXT_PUBLIC_SITE_URL}/${slug}`);
+    await page.goto(`${baseURL}/${createSlug(pageTitle)}`);
     await assertPageContent(page, button, commonFieldValues, isInternalLink);
   }
 }
 
 async function assertPageContent(
-  openUrlPage,
+  page,
   linkName,
   commonFieldValues,
   isInternalLink
 ) {
   //Title
-  await titleField.sitePreview({ pageUrl: openUrlPage, commonFieldValues });
+  await titleField.sitePreview({ pageUrl: page, commonFieldValues });
 
   //Description
   await descriptionField.sitePreview({
-    pageUrl: openUrlPage,
+    pageUrl: page,
     commonFieldValues,
   });
 
   //Primary Button
-  await expect(
-    openUrlPage.getByLabel(commonFieldValues.primaryButton)
-  ).toBeVisible({
+  await expect(page.getByLabel(commonFieldValues.primaryButton)).toBeVisible({
     timeout: 150_000,
   });
 
   //Secondary Button
-  await expect(
-    openUrlPage.getByLabel(commonFieldValues.secondaryButton)
-  ).toBeVisible({
+  await expect(page.getByLabel(commonFieldValues.secondaryButton)).toBeVisible({
     timeout: 150_000,
   });
 
-  await expect(openUrlPage.getByText(commonFieldValues.subtitle)).toBeVisible();
-  await expect(openUrlPage.getByText(commonFieldValues.formName)).toBeVisible();
-  await expect(
-    openUrlPage.getByText(commonFieldValues.submitButton)
-  ).toBeVisible();
+  await expect(page.getByText(commonFieldValues.subtitle)).toBeVisible();
+  await expect(page.getByText(commonFieldValues.formName)).toBeVisible();
+  await expect(page.getByText(commonFieldValues.submitButton)).toBeVisible();
 
   if (!isInternalLink) {
-    const page10Promise = openUrlPage.waitForEvent("popup");
-    await openUrlPage
-      .getByRole("link", { name: linkName })
-      .click({ force: true });
+    const page10Promise = page.waitForEvent("popup");
+    await page.getByRole("link", { name: linkName }).click({ force: true });
     const page10 = await page10Promise;
     await assertExternalUrl(page10, commonFieldValues.externalLinkUrl);
   } else {
-    await openUrlPage
-      .getByRole("link", { name: linkName })
-      .click({ force: true });
-    await openUrlPage.waitForLoadState("networkidle");
-    await expect(openUrlPage.getByText("Success!")).toBeVisible({
+    await page.getByRole("link", { name: linkName }).click({ force: true });
+    await page.waitForLoadState("networkidle");
+    await expect(page.getByText("Success!")).toBeVisible({
       timeout: 20_000,
     });
-    await assertInternalUrl(openUrlPage, commonFieldValues.internalLinkUrl);
+    await assertInternalUrl(page, commonFieldValues.internalLinkUrl);
   }
 }

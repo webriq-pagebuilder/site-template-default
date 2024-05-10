@@ -4,10 +4,11 @@ import {
   expectDocumentPublished,
   subtitleField,
   titleField,
+  createSlug,
 } from "tests/utils";
 import { featuresInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-default";
 
-async function VariantG({ newPageTitle, page, commonFieldValues, baseURL }) {
+async function VariantG({ pageTitle, page, commonFieldValues, baseURL }) {
   // studio
   await subtitleField.checkAndAddValue({
     page,
@@ -36,39 +37,36 @@ async function VariantG({ newPageTitle, page, commonFieldValues, baseURL }) {
   await page.locator('[id="variants\\.tags"]').press("Enter");
 
   // check site preview
-  await expectDocumentPublished(page, newPageTitle);
-  await expect(page.getByText(`${baseURL}`)).toBeVisible();
-
-  const pagePromise = page.waitForEvent("popup");
-  await page.getByText(baseURL).click({ force: true });
-  const openUrlPage = await pagePromise;
+  await expectDocumentPublished(page, pageTitle);
+  await page.goto(`${baseURL}/${createSlug(pageTitle)}`);
+  await page.waitForLoadState("domcontentloaded");
 
   // subtitle
-  await expect(openUrlPage.locator('[id="__next"]')).toContainText(
+  await expect(page.locator('[id="__next"]')).toContainText(
     commonFieldValues?.subtitle
   );
 
   // title
-  await expect(openUrlPage.locator('[id="__next"]')).toContainText(
+  await expect(page.locator('[id="__next"]')).toContainText(
     commonFieldValues?.title
   );
 
   // description
-  await expect(openUrlPage.locator('[id="__next"]')).toContainText(
+  await expect(page.locator('[id="__next"]')).toContainText(
     commonFieldValues?.description
   );
 
   // tags
-  await expect(
-    openUrlPage.getByText(featuresInitialValue.tags?.[0])
-  ).toBeVisible({ timeout: 20_000 });
-  await expect(
-    openUrlPage.getByText(featuresInitialValue.tags?.[1])
-  ).toBeVisible({ timeout: 20_000 });
-  await expect(
-    openUrlPage.getByText(featuresInitialValue.tags?.[2])
-  ).toBeVisible({ timeout: 20_000 });
-  await expect(openUrlPage.getByText(commonFieldValues?.tag)).toBeVisible({
+  await expect(page.getByText(featuresInitialValue.tags?.[0])).toBeVisible({
+    timeout: 20_000,
+  });
+  await expect(page.getByText(featuresInitialValue.tags?.[1])).toBeVisible({
+    timeout: 20_000,
+  });
+  await expect(page.getByText(featuresInitialValue.tags?.[2])).toBeVisible({
+    timeout: 20_000,
+  });
+  await expect(page.getByText(commonFieldValues?.tag)).toBeVisible({
     timeout: 20_000,
   });
 }

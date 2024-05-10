@@ -3,7 +3,8 @@ import {
   expectDocumentPublished,
   subtitleField,
   titleField,
-} from "../../utils/index";
+  createSlug,
+} from "tests/utils";
 import { blogInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-default";
 
 export default async function VariantA({
@@ -48,98 +49,74 @@ export default async function VariantA({
   });
 
   await expectDocumentPublished(page, pageTitle);
-  await expect(page.getByText(`${baseURL}`)).toBeVisible();
-
-  const pagePromise = page.waitForEvent("popup");
-  await page.getByText(baseURL).click({ force: true });
-  const openUrlPage = await pagePromise;
+  await page.goto(`${baseURL}/${createSlug(pageTitle)}`);
+  await page.waitForLoadState("domcontentloaded");
 
   //Title
-  await titleField.sitePreview({ pageUrl: openUrlPage, commonFieldValues });
+  await titleField.sitePreview({ pageUrl: page, commonFieldValues });
 
   //Subtitle
-  await subtitleField.sitePreview({ pageUrl: openUrlPage, commonFieldValues });
+  await subtitleField.sitePreview({ pageUrl: page, commonFieldValues });
 
-  await expect(openUrlPage.getByText("All", { exact: true })).toBeVisible({
+  await expect(page.getByText("All", { exact: true })).toBeVisible({
     timeout: 20_000,
   });
+
   for (const category of commonFieldValues.categories) {
-    await expect(openUrlPage.getByText(category)).toBeVisible({
-      timeout: 20_000,
-    });
+    await expect(page.getByText(category)).toBeVisible();
   }
 
-  await openUrlPage.getByText("All", { exact: true }).click();
-  await expect(openUrlPage.getByLabel("Page 1")).toBeVisible({
-    timeout: 20_000,
-  });
-  await expect(openUrlPage.getByLabel("Page 2")).toBeVisible({
-    timeout: 20_000,
-  });
+  await page.getByText("All", { exact: true }).click();
+  await expect(page.getByLabel("Page 1")).toBeVisible();
+  await expect(page.getByLabel("Page 2")).toBeVisible();
 
   //All Page 1
   for (const blog of commonFieldValues.blogPosts) {
-    await expect(openUrlPage.getByLabel(blog.title)).toBeVisible({
-      timeout: 20_000,
-    });
+    await expect(page.getByLabel(blog.title)).toBeVisible();
   }
 
   //Add Search
-  await openUrlPage.getByPlaceholder("Search posts...").click();
-  await openUrlPage
+  await page.getByPlaceholder("Search posts...").click();
+  await page
     .getByPlaceholder("Search posts...")
     .fill(commonFieldValues.referencedBlog);
   await expect(
-    openUrlPage.getByLabel(commonFieldValues.referencedBlog).nth(1)
-  ).toBeVisible({ timeout: 20_000 });
+    page.getByLabel(commonFieldValues.referencedBlog).nth(1)
+  ).toBeVisible();
 
   //Clear Search
-  await openUrlPage.getByPlaceholder("Search posts...").click();
-  await openUrlPage.getByPlaceholder("Search posts...").fill("");
+  await page.getByPlaceholder("Search posts...").click();
+  await page.getByPlaceholder("Search posts...").fill("");
 
-  await openUrlPage.getByLabel("Page 2").click();
-  await expect(
-    openUrlPage.getByLabel(commonFieldValues.referencedBlog)
-  ).toBeVisible({ timeout: 20_000 });
-
-  //Travel Category
-  await openUrlPage.getByText("TRAVEL").click();
-  await expect(openUrlPage.getByLabel("Page")).toBeVisible({ timeout: 20_000 });
-  await openUrlPage.getByLabel("Page").click();
-  await expect(
-    openUrlPage.getByLabel("Lorem ipsum dolor sit amet,")
-  ).toBeVisible({ timeout: 20_000 });
-  await expect(
-    openUrlPage.getByLabel("Vestibulum vehicle leo eget")
-  ).toBeVisible({ timeout: 20_000 });
-  await expect(openUrlPage.getByLabel("Aenean convalli sapone a")).toBeVisible({
+  await page.getByLabel("Page 2").click();
+  await expect(page.getByLabel(commonFieldValues.referencedBlog)).toBeVisible({
     timeout: 20_000,
   });
-  await expect(
-    openUrlPage.getByLabel(commonFieldValues?.referencedBlog).first()
-  ).toBeVisible({ timeout: 20_000 });
 
-  await openUrlPage.getByText("Culture").click();
-  await expect(openUrlPage.getByLabel("Page")).toBeVisible({ timeout: 20_000 });
-  await openUrlPage.getByLabel("Page").click();
+  //Travel Category
+  await page.getByText("TRAVEL").click();
+  await expect(page.getByLabel("Page")).toBeVisible();
+  await page.getByLabel("Page").click();
+  await expect(page.getByLabel("Lorem ipsum dolor sit amet,")).toBeVisible();
+  await expect(page.getByLabel("Vestibulum vehicle leo eget")).toBeVisible();
+  await expect(page.getByLabel("Aenean convalli sapone a")).toBeVisible();
   await expect(
-    openUrlPage.getByLabel("Vestibulum vehicle leo eget")
-  ).toBeVisible({ timeout: 20_000 });
-  await expect(
-    openUrlPage.getByLabel("Felis bibendum ut tristique")
-  ).toBeVisible({ timeout: 20_000 });
+    page.getByLabel(commonFieldValues?.referencedBlog).first()
+  ).toBeVisible();
 
-  await openUrlPage.getByText("Engineering").click();
-  await expect(openUrlPage.getByLabel("Page")).toBeVisible({ timeout: 20_000 });
-  await openUrlPage.getByLabel("Page").click();
+  await page.getByText("Culture").click();
+  await expect(page.getByLabel("Page")).toBeVisible();
+  await page.getByLabel("Page").click();
+  await expect(page.getByLabel("Vestibulum vehicle leo eget")).toBeVisible();
+  await expect(page.getByLabel("Felis bibendum ut tristique")).toBeVisible();
+
+  await page.getByText("Engineering").click();
+  await expect(page.getByLabel("Page")).toBeVisible();
+  await page.getByLabel("Page").click();
   await expect(
-    openUrlPage
-      .locator(`a[aria-label="${commonFieldValues.referencedBlog}"]`)
-      .first()
-  ).toBeVisible({ timeout: 20_000 });
+    page.locator(`a[aria-label="${commonFieldValues.referencedBlog}"]`).first()
+  ).toBeVisible();
   await expect(
-    openUrlPage
-      .locator(`a[aria-label="${commonFieldValues.referencedBlog}"]`)
-      .nth(1)
-  ).toBeVisible({ timeout: 20_000 });
+    page.locator(`a[aria-label="${commonFieldValues.referencedBlog}"]`).nth(1)
+  ).toBeVisible();
 }

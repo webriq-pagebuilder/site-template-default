@@ -5,11 +5,11 @@ import {
   CTAWebriQForm,
   expectDocumentPublished,
   titleField,
+  createSlug,
 } from "tests/utils";
-import { NEXT_PUBLIC_SITE_URL } from "studio/config";
 import { callToActionInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-default";
 
-async function VariantD({ newPageTitle, page, commonFieldValues, baseURL }) {
+async function VariantD({ pageTitle, page, commonFieldValues, baseURL }) {
   // studio
   await titleField.checkAndAddValue({
     page,
@@ -67,21 +67,18 @@ async function VariantD({ newPageTitle, page, commonFieldValues, baseURL }) {
   // });
 
   // check site preview
-  await expectDocumentPublished(page, newPageTitle);
-  await expect(page.getByText(`${baseURL}`)).toBeVisible();
-
-  const pagePromise = page.waitForEvent("popup");
-  await page.getByText(baseURL).click({ force: true });
-  const openUrlPage = await pagePromise;
+  await expectDocumentPublished(page, pageTitle);
+  await page.goto(`${baseURL}/${createSlug(pageTitle)}`);
+  await page.waitForLoadState("domcontentloaded");
 
   // title
   await expect(
-    openUrlPage.getByRole("heading", { name: commonFieldValues?.title })
+    page.getByRole("heading", { name: commonFieldValues?.title })
   ).toBeVisible({ timeout: 20_000 });
 
   // description
   await expect(
-    openUrlPage
+    page
       .locator("section")
       .filter({ hasText: commonFieldValues?.description })
       .getByRole("paragraph")
@@ -90,19 +87,19 @@ async function VariantD({ newPageTitle, page, commonFieldValues, baseURL }) {
 
   // logo
   await expect(
-    openUrlPage.locator(
+    page.locator(
       'a[aria-label="Go to https://webriq.com"][target="_blank"][rel="noopener noreferrer"]'
     )
   ).toBeVisible({ timeout: 20_000 });
   await expect(
-    openUrlPage.getByAltText(commonFieldValues?.ctaLogoAltText)
+    page.getByAltText(commonFieldValues?.ctaLogoAltText)
   ).toBeVisible({ timeout: 20_000 });
 
   // 05-03-2024 defer tests for forms
   // await checkFormSubmission({
   //   page,
   //   thankYouPageUrl: commonFieldValues?.thankYouPageUrl,
-  //   pageUrl: openUrlPage,
+  //   pageUrl: page,
   //   formFields: commonFieldValues?.formFields,
   //   submitBtnLabel: commonFieldValues?.formButtonLabel,
   // });

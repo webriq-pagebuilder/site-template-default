@@ -4,17 +4,14 @@ import {
   expectDocumentPublished,
   assertExternalUrl,
   assertInternalUrl,
+  createSlug,
 } from "tests/utils";
 
 export default async function VariantA({ pageTitle, page, commonFieldValues }) {
   await createFeaturedProductsVariant(pageTitle, page);
 
-  const slug = pageTitle
-    ?.toLowerCase()
-    ?.replace(/\s+/g, "-")
-    .replace(/-+/g, "-");
   for (const product of commonFieldValues.products) {
-    await page.goto(`${NEXT_PUBLIC_SITE_URL}/${slug}`);
+    await page.goto(`${NEXT_PUBLIC_SITE_URL}/${createSlug(pageTitle)}`);
     await assertPageContent(page, product, commonFieldValues);
   }
 }
@@ -37,7 +34,7 @@ async function assertPageContent(openUrlPage, product, commonFieldValues) {
   ).toBeVisible();
   await expect(openUrlPage.getByText(product.price)).toBeVisible();
   await openUrlPage.getByRole("link", { name: product.name }).click();
-  await openUrlPage.waitForLoadState("networkidle");
+  await openUrlPage.waitForLoadState("domcontentloaded");
   await expect(
     openUrlPage.getByRole("heading", { name: product.name })
   ).toBeVisible();

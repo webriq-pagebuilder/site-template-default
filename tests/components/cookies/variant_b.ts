@@ -1,7 +1,6 @@
 import { expect } from "@playwright/test";
 import { cookiesInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-default";
-import { NEXT_PUBLIC_SITE_URL } from "studio/config";
-import { expectDocumentPublished, headingField } from "tests/utils";
+import { expectDocumentPublished, headingField, createSlug } from "tests/utils";
 
 export default async function VariantB({
   pageTitle,
@@ -48,36 +47,28 @@ export default async function VariantB({
     .getByTestId("string-input")
     .fill(commonFieldValues.declineButton);
 
+  // check site preview
   await expectDocumentPublished(page, pageTitle);
-  await expect(page.getByText(`${baseURL}`)).toBeVisible();
-
-  const pagePromise = page.waitForEvent("popup");
-  await page.getByText(baseURL).click({ force: true });
-  const openUrlPage = await pagePromise;
+  await page.goto(`${baseURL}/${createSlug(pageTitle)}`);
+  await page.waitForLoadState("domcontentloaded");
 
   //Heading
-  await headingField.sitePreview({ pageUrl: openUrlPage, commonFieldValues });
+  await headingField.sitePreview({ pageUrl: page, commonFieldValues });
 
   //Cookie Policy
-  await expect(
-    openUrlPage.getByText(commonFieldValues.cookiePolicy)
-  ).toBeVisible();
+  await expect(page.getByText(commonFieldValues.cookiePolicy)).toBeVisible();
 
   //Accept Button
-  await expect(
-    openUrlPage.getByLabel(commonFieldValues.acceptButton)
-  ).toBeVisible();
+  await expect(page.getByLabel(commonFieldValues.acceptButton)).toBeVisible();
 
   //Decline Button
-  await expect(
-    openUrlPage.getByLabel(commonFieldValues.declineButton)
-  ).toBeVisible();
+  await expect(page.getByLabel(commonFieldValues.declineButton)).toBeVisible();
 
   //Decline Cookie
-  await openUrlPage.getByLabel(commonFieldValues.declineButton).click();
+  await page.getByLabel(commonFieldValues.declineButton).click();
 
   //Application Cookies Storage
-  const cookies = await openUrlPage.context().cookies();
+  const cookies = await page.context().cookies();
   const cookieConsent = cookies.find(
     (cookie) => cookie.name === "dxpstudio-cookieconsent"
   );

@@ -4,6 +4,7 @@ import {
   expectDocumentPublished,
   subtitleField,
   titleField,
+  createSlug,
 } from "tests/utils";
 import { featuresInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-default";
 
@@ -48,24 +49,21 @@ async function VariantB({ pageTitle, page, commonFieldValues, baseURL }) {
 
   // check site preview
   await expectDocumentPublished(page, pageTitle);
-  await expect(page.getByText(`${baseURL}`)).toBeVisible();
-
-  const pagePromise = page.waitForEvent("popup");
-  await page.getByText(baseURL).click({ force: true });
-  const openUrlPage = await pagePromise;
+  await page.goto(`${baseURL}/${createSlug(pageTitle)}`);
+  await page.waitForLoadState("domcontentloaded");
 
   // subtitle
-  await expect(openUrlPage.locator('[id="__next"]')).toContainText(
+  await expect(page.locator('[id="__next"]')).toContainText(
     commonFieldValues?.subtitle
   );
 
   // title
-  await expect(openUrlPage.locator('[id="__next"]')).toContainText(
+  await expect(page.locator('[id="__next"]')).toContainText(
     commonFieldValues?.title
   );
 
   // description
-  await expect(openUrlPage.locator('[id="__next"]')).toContainText(
+  await expect(page.locator('[id="__next"]')).toContainText(
     commonFieldValues?.description
   );
 
@@ -74,15 +72,15 @@ async function VariantB({ pageTitle, page, commonFieldValues, baseURL }) {
     let imageTitle;
 
     i <= 0
-      ? (imageTitle = openUrlPage
+      ? (imageTitle = page
           .getByRole("img", { name: "features-image-" })
           .first())
-      : (imageTitle = openUrlPage
+      : (imageTitle = page
           .getByRole("img", { name: "features-image-" })
           .nth(i));
 
     await expect(imageTitle).toBeVisible({ timeout: 20_000 });
-    openUrlPage.locator(
+    page.locator(
       `p:has-text("${featuresInitialValue.arrayOfImageTitleAndText?.[i]?.plainText}")`
     );
   }

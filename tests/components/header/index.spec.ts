@@ -72,7 +72,7 @@ headersVariantTest.forEach((variants, index) => {
   const pageTitle = newPageTitle(title);
 
   test.describe(`${name}`, () => {
-    test(`Create ${label}`, async ({ page }) => {
+    test(`Create ${label}`, async ({ page, baseURL }) => {
       console.log(`[INFO] - Testing Header ${variant} 🚀`);
       await beforeEachTest(page, pageTitle, "Header", label, index);
       const variantTest = variantModules[variant];
@@ -83,6 +83,7 @@ headersVariantTest.forEach((variants, index) => {
           page,
           commonFieldValues,
           isInternalLink,
+          baseURL,
         });
       } else {
         console.error(`No test module found for variant: ${index}`);

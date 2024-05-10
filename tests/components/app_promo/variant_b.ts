@@ -1,11 +1,15 @@
 import { expect } from "@playwright/test";
 import { expectDocumentPublished } from "tests/utils";
-import { NEXT_PUBLIC_SITE_URL } from "studio/config";
 import { appPromoInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-default";
-import { titleField, subtitleField, descriptionField } from "tests/utils";
+import {
+  titleField,
+  subtitleField,
+  descriptionField,
+  createSlug,
+} from "tests/utils";
 import { nanoid } from "nanoid";
 
-async function VariantB({ newPageTitle, page, commonFieldValues, baseURL }) {
+async function VariantB({ pageTitle, page, commonFieldValues, baseURL }) {
   const uniqueKey = nanoid(4);
 
   const statItemsField = {
@@ -61,27 +65,25 @@ async function VariantB({ newPageTitle, page, commonFieldValues, baseURL }) {
   );
 
   // check site preview
-  await expectDocumentPublished(page, newPageTitle);
-  await expect(page.getByText(`${baseURL}`)).toBeVisible();
-  const pagePromise = page.waitForEvent("popup");
-  await page.getByText(baseURL).click({ force: true });
-  const openUrlPage = await pagePromise;
+  await expectDocumentPublished(page, pageTitle);
+  await page.goto(`${baseURL}/${createSlug(pageTitle)}`);
+  await page.waitForLoadState("domcontentloaded");
 
   // subtitle
-  await subtitleField.sitePreview({ pageUrl: openUrlPage, commonFieldValues });
+  await subtitleField.sitePreview({ pageUrl: page, commonFieldValues });
 
   // title
-  await titleField.sitePreview({ pageUrl: openUrlPage, commonFieldValues });
+  await titleField.sitePreview({ pageUrl: page, commonFieldValues });
 
   // description
   await descriptionField.sitePreview({
-    pageUrl: openUrlPage,
+    pageUrl: page,
     commonFieldValues,
   });
 
   // stat items
-  await expect(openUrlPage.getByText(statItemsField.label)).toBeVisible();
-  await expect(openUrlPage.locator('[id="__next"]')).toContainText(
+  await expect(page.getByText(statItemsField.label)).toBeVisible();
+  await expect(page.locator('[id="__next"]')).toContainText(
     statItemsField.value
   );
 }

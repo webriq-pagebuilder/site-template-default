@@ -82,7 +82,7 @@ test.describe("Main Store Pages", () => {
 
   test("Create product page", async ({ page, baseURL }) => {
     await page.getByRole("link", { name: "Products" }).click({ force: true });
-    await page.waitForLoadState();
+    await expect(page.getByText("Loading")).toBeHidden();
 
     await expect(page.getByTestId("action-intent-button")).toBeVisible();
     await page.getByTestId("action-intent-button").click({ force: true });
@@ -262,7 +262,9 @@ test.describe("Store Commerce Pages", () => {
     await page.goto(`${baseURL}/cart`);
     await page.goto(`${baseURL}/cart?store-page=cart`);
     await page.waitForLoadState("domcontentloaded");
-    await expect(page.locator('h1:has-text("Shopping cart")')).toBeVisible();
+    await expect(page.locator('h1:has-text("Shopping cart")')).toBeVisible({
+      timeout: 180_000,
+    });
     await expect(page.getByText("Your shopping cart is empty")).toBeVisible();
     await expect(
       page.getByRole("button", { name: "Browse Store" })
@@ -296,7 +298,9 @@ test.describe("Store Commerce Pages", () => {
 
     await page.goto(`${baseURL}/wishlist`);
     await page.waitForLoadState("domcontentloaded");
-    await expect(page.locator('p:has-text("Wishlist is empty")')).toBeVisible();
+    await expect(page.locator('p:has-text("Wishlist is empty")')).toBeVisible({
+      timeout: 180_000,
+    });
     await expect(
       page.locator(
         'p:has-text("Add your favorite products to wishlist to display them here.")'

@@ -4,6 +4,7 @@ import {
   expectDocumentPublished,
   subtitleField,
   titleField,
+  createSlug,
 } from "tests/utils";
 
 export default async function VariantC({
@@ -43,21 +44,19 @@ export default async function VariantC({
     await page.getByLabel("Close dialog").click();
   }
 
+  // check site preview
   await expectDocumentPublished(page, pageTitle);
-  await expect(page.getByText(`${baseURL}`)).toBeVisible();
-
-  const pagePromise = page.waitForEvent("popup");
-  await page.getByText(baseURL).click({ force: true });
-  const openUrlPage = await pagePromise;
+  await page.goto(`${baseURL}/${createSlug(pageTitle)}`);
+  await page.waitForLoadState("domcontentloaded");
 
   //Title
-  await titleField.sitePreview({ pageUrl: openUrlPage, commonFieldValues });
+  await titleField.sitePreview({ pageUrl: page, commonFieldValues });
 
   //Subtitle
-  await subtitleField.sitePreview({ pageUrl: openUrlPage, commonFieldValues });
+  await subtitleField.sitePreview({ pageUrl: page, commonFieldValues });
 
   for (const steps of commonFieldValues.stepsData) {
-    await expect(openUrlPage.getByText(steps.updatedTitle)).toBeVisible();
-    await expect(openUrlPage.getByText(steps.updatedBody)).toBeVisible();
+    await expect(page.getByText(steps.updatedTitle)).toBeVisible();
+    await expect(page.getByText(steps.updatedBody)).toBeVisible();
   }
 }

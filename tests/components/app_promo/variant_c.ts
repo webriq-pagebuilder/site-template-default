@@ -1,10 +1,14 @@
 import { expect } from "@playwright/test";
 import { expectDocumentPublished } from "tests/utils";
-import { NEXT_PUBLIC_SITE_URL } from "studio/config";
 import { appPromoInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-default";
-import { titleField, subtitleField, descriptionField } from "tests/utils";
+import {
+  titleField,
+  subtitleField,
+  descriptionField,
+  createSlug,
+} from "tests/utils";
 
-async function VariantC({ newPageTitle, page, commonFieldValues, baseURL }) {
+async function VariantC({ pageTitle, page, commonFieldValues, baseURL }) {
   // studio
   await subtitleField.checkAndAddValue({
     page,
@@ -40,49 +44,45 @@ async function VariantC({ newPageTitle, page, commonFieldValues, baseURL }) {
   await expect(page.getByText("new app promo tag")).toBeVisible();
 
   // check site preview
-  await expectDocumentPublished(page, newPageTitle);
-  await expect(page.getByText(`${baseURL}`)).toBeVisible();
-  const pagePromise = page.waitForEvent("popup");
-  await page.getByText(baseURL).click({ force: true });
-  const openUrlPage = await pagePromise;
+  await expectDocumentPublished(page, pageTitle);
+  await page.goto(`${baseURL}/${createSlug(pageTitle)}`);
+  await page.waitForLoadState("domcontentloaded");
 
   // subtitle
-  await subtitleField.sitePreview({ pageUrl: openUrlPage, commonFieldValues });
+  await subtitleField.sitePreview({ pageUrl: page, commonFieldValues });
 
   // title
-  await titleField.sitePreview({ pageUrl: openUrlPage, commonFieldValues });
+  await titleField.sitePreview({ pageUrl: page, commonFieldValues });
 
   // description
   await descriptionField.sitePreview({
-    pageUrl: openUrlPage,
+    pageUrl: page,
     commonFieldValues,
   });
 
   // tags
   await expect(
-    openUrlPage.locator("li").filter({ hasText: "new app promo tag" })
+    page.locator("li").filter({ hasText: "new app promo tag" })
   ).toBeVisible();
-  await expect(openUrlPage.locator(".object-cover").first()).toBeVisible();
+  await expect(page.locator(".object-cover").first()).toBeVisible();
+  await expect(page.locator("div:nth-child(2) > img").first()).toBeVisible();
   await expect(
-    openUrlPage.locator("div:nth-child(2) > img").first()
+    page.locator("div:nth-child(3) > .object-cover").first()
   ).toBeVisible();
-  await expect(
-    openUrlPage.locator("div:nth-child(3) > .object-cover").first()
-  ).toBeVisible();
-  await expect(openUrlPage.locator("img:nth-child(2)").first()).toBeVisible();
+  await expect(page.locator("img:nth-child(2)").first()).toBeVisible();
 
   // array of images - show 4
   await expect(
-    openUrlPage.getByRole("img", { name: "appPromo-variantC-image0" })
+    page.getByRole("img", { name: "appPromo-variantC-image0" })
   ).toBeVisible({ timeout: 20_000 });
   await expect(
-    openUrlPage.getByRole("img", { name: "appPromo-variantC-image1" }).first()
+    page.getByRole("img", { name: "appPromo-variantC-image1" }).first()
   ).toBeVisible({ timeout: 20_000 });
   await expect(
-    openUrlPage.getByRole("img", { name: "appPromo-variantC-image1" }).nth(1)
+    page.getByRole("img", { name: "appPromo-variantC-image1" }).nth(1)
   ).toBeVisible({ timeout: 20_000 });
   await expect(
-    openUrlPage.getByRole("img", { name: "appPromo-variantC-image4" })
+    page.getByRole("img", { name: "appPromo-variantC-image4" })
   ).toBeVisible({ timeout: 20_000 });
 }
 

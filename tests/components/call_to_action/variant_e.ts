@@ -3,6 +3,7 @@ import {
   checkFormSubmission,
   CTAWebriQForm,
   expectDocumentPublished,
+  createSlug,
 } from "tests/utils";
 import { callToActionInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-default";
 
@@ -18,11 +19,8 @@ async function VariantE({ pageTitle, page, commonFieldValues, baseURL }) {
 
   // check site preview
   await expectDocumentPublished(page, pageTitle);
-  await expect(page.getByText(`${baseURL}`)).toBeVisible();
-
-  const pagePromise = page.waitForEvent("popup");
-  await page.getByText(baseURL).click({ force: true });
-  const openUrlPage = await pagePromise;
+  await page.goto(`${baseURL}/${createSlug(pageTitle)}`);
+  await page.waitForLoadState("domcontentloaded");
 
   // forms
   // await checkFormSubmission({

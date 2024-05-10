@@ -1,15 +1,15 @@
 import { expectDocumentPublished } from "tests/utils";
-import { NEXT_PUBLIC_SITE_URL } from "studio/config";
 import {
   titleField,
   descriptionField,
   socialLinks,
   contactDetails,
+  createSlug,
 } from "tests/utils";
 import { expect } from "@playwright/test";
 
 async function VariantB({
-  newPageTitle,
+  pageTitle,
   page,
   initialValue,
   commonFieldValues,
@@ -52,31 +52,27 @@ async function VariantB({
   });
 
   // check site preview
-  await expectDocumentPublished(page, newPageTitle);
-  await expect(page.getByText(`${baseURL}`)).toBeVisible();
-
-  const pagePromise = page.waitForEvent("popup");
-  await page.getByText(baseURL).click({ force: true });
-  const openUrlPage = await pagePromise;
-
+  await expectDocumentPublished(page, pageTitle);
+  await page.goto(`${baseURL}/${createSlug(pageTitle)}`);
+  await page.waitForLoadState("domcontentloaded");
   // title
-  await titleField.sitePreview({ pageUrl: openUrlPage, commonFieldValues });
+  await titleField.sitePreview({ pageUrl: page, commonFieldValues });
 
   // description
   await descriptionField.sitePreview({
-    pageUrl: openUrlPage,
+    pageUrl: page,
     commonFieldValues,
   });
 
   // social links
   await socialLinks.sitePreview({
-    pageUrl: openUrlPage,
+    pageUrl: page,
     commonFieldValues: commonFieldValues?.socialLinks,
   });
 
   // contact info
   await contactDetails.sitePreview({
-    pageUrl: openUrlPage,
+    pageUrl: page,
     commonFieldValues: commonFieldValues?.contactDetails,
   });
 }

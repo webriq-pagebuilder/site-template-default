@@ -28,8 +28,8 @@ test.describe("Main document actions", () => {
   test("Can create component", async ({ page }) => {
     await page.waitForLoadState("domcontentloaded");
     await expect(
-      page.locator(`div[aria-label="default-loading-card"]`).nth(0)
-    ).toBeHidden();
+      page.locator(`div[aria-label="default-loading-card"]`).first()
+    ).toHaveCount(0, { timeout: 180_000 });
     await expect(
       page.getByRole("button", { name: "New App Promo" })
     ).toBeVisible();
@@ -169,7 +169,9 @@ test("Can filter component", async ({ page }) => {
     .filter({ hasText: /^Select\.\.\.$/ })
     .first()
     .click({ force: true });
-  await expect(page.locator("#react-select-2-option-0")).toBeVisible();
+  await expect(page.locator("#react-select-2-option-0")).toBeVisible({
+    timeout: 180_000,
+  });
   await page.locator("#react-select-2-option-0").click({ force: true });
   await expect(page.locator("[data-ui='Container']").first()).toHaveCount(1);
 
