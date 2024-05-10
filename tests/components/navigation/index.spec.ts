@@ -29,7 +29,7 @@ const navigationVariantTest = [
     title: "Navigation Variant A",
     label: "Navigation New Page A",
     variant: "variant_a",
-    isInternalLink: true,
+    isInternalLink: false,
     linkNames: commonFieldValues.navigationBase.concat(
       commonFieldValues.primaryButton,
       commonFieldValues.secondaryButton
@@ -40,7 +40,7 @@ const navigationVariantTest = [
     title: "Navigation Variant B",
     label: "Navigation New Page B",
     variant: "variant_b",
-    isInternalLink: true,
+    isInternalLink: false,
     linkNames: commonFieldValues.navigationBase.concat(
       commonFieldValues.primaryButton,
       commonFieldValues.secondaryButton

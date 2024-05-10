@@ -19,14 +19,14 @@ const portfolioVariantTest = [
     title: "Portfolio Variant A ",
     label: "Portfolio New Page A",
     variant: "variant_a",
-    isInternalLink: true,
+    isInternalLink: false,
   },
   {
     name: "Variant B",
     title: "Portfolio Variant B ",
     label: "Portfolio New Page B",
     variant: "variant_b",
-    isInternalLink: true,
+    isInternalLink: false,
   },
   {
     name: "Variant C",

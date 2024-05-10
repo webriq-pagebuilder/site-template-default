@@ -59,7 +59,7 @@ const signInSignupVariantTest = [
     title: "Sign In Sign Up Variant A",
     label: "Sign In Sign Up New Page A",
     variant: "variant_a",
-    isInternalLink: true,
+    isInternalLink: false,
     linkNames: commonFieldValues.formLinks
       .map((link) => link.updatedName)
       .concat(commonFieldValues.signInButton),

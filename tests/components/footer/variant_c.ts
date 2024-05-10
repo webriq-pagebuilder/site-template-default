@@ -1,5 +1,4 @@
 import { expect } from "@playwright/test";
-import { NEXT_PUBLIC_SITE_URL } from "studio/config";
 import {
   expectDocumentPublished,
   assertExternalUrl,
@@ -30,7 +29,7 @@ export default async function VariantC({
     ?.replace(/\s+/g, "-")
     .replace(/-+/g, "-");
   for (const linkName of linkNames) {
-    await page.goto(`${NEXT_PUBLIC_SITE_URL}/${slug}`);
+    await page.goto(`${baseURL}/${slug}`);
     await assertPageContent(page, linkName, commonFieldValues, isInternalLink);
   }
 }
@@ -199,6 +198,9 @@ async function addNavigationRoutes(
   commonFieldValues,
   isInternalLink
 ) {
+  await page.waitForSelector(`button:has-text("${navName}")`, {
+    state: "visible",
+  });
   await page.getByRole("button", { name: navName }).click();
   await expect(page.getByLabel("Edit Link")).toBeVisible({ timeout: 75_000 });
   // NAVIGATION INTERNAL/EXTERNAL SELECTOR
@@ -217,6 +219,7 @@ async function addNavigationRoutes(
   );
 
   if (!isInternalLink) {
+    await expect(routesExternalLink).toBeVisible();
     await routesExternalLink.click({ force: true });
     await page
       .locator('.sc-jdUcAg > div:nth-child(2) > div input[inputmode="url"]')
@@ -224,12 +227,15 @@ async function addNavigationRoutes(
     await page
       .locator('.sc-jdUcAg > div:nth-child(2) > div input[inputmode="url"]')
       .fill(commonFieldValues.externalLinkUrl);
+    await expect(blankLinkTarget).toBeVisible();
     await blankLinkTarget.click();
   } else {
+    await expect(routesInternalLink).toBeVisible();
     await routesInternalLink.click();
     await page.getByTestId("autocomplete").click();
     await page.getByTestId("autocomplete").fill("thank you");
     await page.getByRole("button", { name: "Thank you Published No" }).click();
+    await expect(selfLinkTarget).toBeVisible();
     await selfLinkTarget.click();
   }
   await page.getByLabel("Close dialog").click();

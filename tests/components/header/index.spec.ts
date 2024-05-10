@@ -21,14 +21,14 @@ const headersVariantTest = [
     title: "Header Variant A",
     label: "Header New Page Variant A",
     variant: "variant_a",
-    isInternalLink: true,
+    isInternalLink: false,
   },
   {
     name: "Variant B",
     title: "Header Page B",
     label: "Header New Page Variant B",
     variant: "variant_b",
-    isInternalLink: true,
+    isInternalLink: false,
   },
   {
     name: "Variant C",
