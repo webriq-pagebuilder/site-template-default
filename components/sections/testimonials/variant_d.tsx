@@ -45,7 +45,7 @@ function VariantD({ testimonials }: TestimonialProps) {
               <SwiperButton
                 type="right"
                 className="p-4 mr-6 lg:order-first lg:mr-0"
-                onClick={() => slider("prev")}
+                onClick={() => slider("next")}
                 ariaLabel="Show next testimonial"
               />
             )}
@@ -105,7 +105,7 @@ function VariantD({ testimonials }: TestimonialProps) {
             <SwiperButton
               type="right"
               className="p-4 mr-6 lg:mr-0"
-              onClick={() => slider("prev")}
+              onClick={() => slider("next")}
               ariaLabel="Show next testimonial"
             />
           )}

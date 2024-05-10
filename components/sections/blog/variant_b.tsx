@@ -98,26 +98,31 @@ function BlogItem({ post, size }: { post: BlogPost; size?: string }) {
           )}
         </>
       )}
-      <div className="p-6 bg-white ">
-        {post?.publishedAt && (
-          <Text muted className="text-sm ">
-            {format(new Date(post?.publishedAt), " dd MMM, yyyy")}
-          </Text>
-        )}
-        {post?.title && (
-          <Heading type="h4" className="my-2">
-            {post?.title?.length > 25
-            ? post?.title?.substring(0, 25) + "..."
-            : post?.title}
-          </Heading>
-        )}
-        {post?.excerpt && (
-          <Text muted className="mb-6 text-justify">
-            {post?.excerpt?.length > 41
-            ? post?.excerpt?.substring(0, 41) + "..."
-            : post?.excerpt}
-          </Text>
-        )}
+      <div
+        className="p-6 bg-white flex flex-col justify-between"
+        style={{ height: "295px" }}
+      >
+        <div>
+          {post?.publishedAt && (
+            <Text muted className="text-sm ">
+              {format(new Date(post?.publishedAt), " dd MMM, yyyy")}
+            </Text>
+          )}
+          {post?.title && (
+            <Heading type="h4" className="my-2">
+              {post?.title?.length > 25
+                ? post?.title?.substring(0, 25) + "..."
+                : post?.title}
+            </Heading>
+          )}
+          {post?.excerpt && (
+            <Text muted className="mb-6 text-justify">
+              {post?.excerpt?.length > 41
+                ? post?.excerpt?.substring(0, 41) + "..."
+                : post?.excerpt}
+            </Text>
+          )}
+        </div>
         {post?.slug?.current && (
           <Link
             aria-label="View Blog Post"
