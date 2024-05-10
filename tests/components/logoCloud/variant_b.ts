@@ -1,5 +1,5 @@
 import { expect } from "@playwright/test";
-import { expectDocumentPublished, titleField } from "tests/utils";
+import { createSlug, expectDocumentPublished, titleField } from "tests/utils";
 import { logoCloudInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-default";
 
 export default async function VariantB({
@@ -20,33 +20,19 @@ export default async function VariantB({
   await page.getByLabel("Body").fill(commonFieldValues.body);
 
   await expectDocumentPublished(page, pageTitle);
-  await expect(page.getByText(`${baseURL}`)).toBeVisible();
-
-  const pagePromise = page.waitForEvent("popup");
-  await page.getByText(baseURL).click({ force: true });
-  const openUrlPage = await pagePromise;
+  await page.goto(`${baseURL}/${createSlug(pageTitle)}`);
+  page.waitForLoadState("domcontentloaded");
 
   //Title
-  await titleField.sitePreview({ pageUrl: openUrlPage, commonFieldValues });
+  await titleField.sitePreview({ pageUrl: page, commonFieldValues });
 
-  await expect(openUrlPage.getByText(commonFieldValues.body)).toBeVisible();
+  //Body
+  await expect(page.getByText(commonFieldValues.body)).toBeVisible();
 
-  await expect(
-    openUrlPage.locator(".flex > div > div > .flex").first().hover()
-  ).toBeTruthy();
-  await expect(
-    openUrlPage.locator("div:nth-child(2) > div > .flex").hover()
-  ).toBeTruthy();
-  await expect(
-    openUrlPage.locator("div:nth-child(3) > div > .flex").hover()
-  ).toBeTruthy();
-  await expect(
-    openUrlPage.locator("div:nth-child(4) > div > .flex").hover()
-  ).toBeTruthy();
-  await expect(
-    openUrlPage.locator("div:nth-child(5) > div > .flex").hover()
-  ).toBeTruthy();
-  await expect(
-    openUrlPage.locator("div:nth-child(6) > div > .flex").hover()
-  ).toBeTruthy();
+  //Image
+  for (let i = 0; i < 6; i++) {
+    await expect(
+      page.getByRole("img", { name: `logoCloud-image${i}` })
+    ).toBeVisible();
+  }
 }

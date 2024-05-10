@@ -1,30 +1,17 @@
 import { expect } from "@playwright/test";
-import { expectDocumentPublished } from "tests/utils";
+import { createSlug, expectDocumentPublished } from "tests/utils";
 
 export default async function VariantD({ pageTitle, page, baseURL }) {
   await expectDocumentPublished(page, pageTitle);
-  await expect(page.getByText(`${baseURL}`)).toBeVisible();
-
-  const pagePromise = page.waitForEvent("popup");
-  await page.getByText(baseURL).click({ force: true });
-  const openUrlPage = await pagePromise;
+  await page.goto(`${baseURL}/${createSlug(pageTitle)}`);
+  page.waitForLoadState("domcontentloaded");
 
   await expect(
-    openUrlPage.locator(".object-scale-down").first().hover()
-  ).toBeTruthy();
-  await expect(
-    openUrlPage.locator("div:nth-child(2) > .flex > .object-scale-down").hover()
-  ).toBeTruthy();
-  await expect(
-    openUrlPage.locator("div:nth-child(3) > .flex > .object-scale-down").hover()
-  ).toBeTruthy();
-  await expect(
-    openUrlPage.locator("div:nth-child(4) > .flex > .object-scale-down").hover()
-  ).toBeTruthy();
-  await expect(
-    openUrlPage.locator("div:nth-child(5) > .flex > .object-scale-down").hover()
-  ).toBeTruthy();
-  await expect(
-    openUrlPage.locator("div:nth-child(6) > .flex > .object-scale-down").hover()
-  ).toBeTruthy();
+    page.locator('img[alt="logoCloud-image"]').first()
+  ).toBeVisible();
+  await expect(page.locator('img[alt="logoCloud-image"]').nth(1)).toBeVisible();
+  await expect(page.locator('img[alt="logoCloud-image"]').nth(2)).toBeVisible();
+  await expect(page.locator('img[alt="logoCloud-image"]').nth(3)).toBeVisible();
+  await expect(page.locator('img[alt="logoCloud-image"]').nth(4)).toBeVisible();
+  await expect(page.locator('img[alt="logoCloud-image"]').nth(5)).toBeVisible();
 }

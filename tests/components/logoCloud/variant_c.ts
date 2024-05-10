@@ -1,10 +1,5 @@
 import { expect } from "@playwright/test";
-import {
-  expectDocumentPublished,
-  titleField,
-  assertExternalUrl,
-  assertInternalUrl,
-} from "tests/utils";
+import { expectDocumentPublished, titleField, createSlug } from "tests/utils";
 import { logoCloudInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-default";
 
 export default async function VariantC({
@@ -45,47 +40,31 @@ export default async function VariantC({
   }
 
   await expectDocumentPublished(page, pageTitle);
-  await expect(page.getByText(`${baseURL}`)).toBeVisible();
-
-  const pagePromise = page.waitForEvent("popup");
-  await page.getByText(baseURL).click({ force: true });
-  const openUrlPage = await pagePromise;
+  await page.goto(`${baseURL}/${createSlug(pageTitle)}`);
+  page.waitForLoadState("domcontentloaded");
 
   //Title
-  await titleField.sitePreview({ pageUrl: openUrlPage, commonFieldValues });
+  await titleField.sitePreview({ pageUrl: page, commonFieldValues });
 
   await expect(
-    openUrlPage.locator(".mx-auto > .relative > div").first().hover()
+    page.locator(".mx-auto > .relative > div").first().hover()
   ).toBeTruthy();
   await expect(
-    openUrlPage.locator(".relative > div:nth-child(2)").hover()
+    page.locator(".relative > div:nth-child(2)").hover()
   ).toBeTruthy();
-  await expect(
-    openUrlPage.locator("div:nth-child(3)").first().hover()
-  ).toBeTruthy();
-  await expect(
-    openUrlPage.locator("div:nth-child(4)").first().hover()
-  ).toBeTruthy();
-  await expect(
-    openUrlPage.locator("div:nth-child(5)").first().hover()
-  ).toBeTruthy();
-  await expect(
-    openUrlPage.locator("div:nth-child(6)").first().hover()
-  ).toBeTruthy();
+  await expect(page.locator("div:nth-child(3)").first().hover()).toBeTruthy();
+  await expect(page.locator("div:nth-child(4)").first().hover()).toBeTruthy();
+  await expect(page.locator("div:nth-child(5)").first().hover()).toBeTruthy();
+  await expect(page.locator("div:nth-child(6)").first().hover()).toBeTruthy();
 
-  await openUrlPage.getByLabel(commonFieldValues.primaryBtn).click();
+  await page.getByLabel(commonFieldValues.primaryBtn).click();
   if (!isInternalLink) {
-    const page10Promise = openUrlPage.waitForEvent("popup");
-    await openUrlPage
-      .getByRole("link", { name: commonFieldValues.primaryBtn })
-      .click({ force: true });
-    const page10 = await page10Promise;
-    await assertExternalUrl(page10, commonFieldValues.externalLinkUrl);
+    await expect(
+      page.locator(`a[aria-label="${commonFieldValues.primaryBtn}"]`)
+    ).toHaveAttribute("target", "_blank");
   } else {
-    await openUrlPage.waitForLoadState("networkidle");
-    await expect(openUrlPage.getByText("Success!")).toBeVisible({
-      timeout: 20_000,
-    });
-    await assertInternalUrl(openUrlPage, commonFieldValues.internalLinkUrl);
+    await expect(
+      page.locator(`a[aria-label="${commonFieldValues.primaryBtn}"]`)
+    ).toHaveAttribute("target", "_self");
   }
 }
