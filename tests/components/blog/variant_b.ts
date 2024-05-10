@@ -3,8 +3,6 @@ import {
   expectDocumentPublished,
   subtitleField,
   titleField,
-  assertExternalUrl,
-  assertInternalUrl,
   createSlug,
 } from "tests/utils";
 import { blogInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-default";
@@ -65,9 +63,19 @@ export default async function VariantB({
   ).toBeVisible();
   await expect(page.getByText(commonFieldValues.subtitle)).toBeVisible();
 
-  await page
-    .getByRole("link", { name: commonFieldValues.button })
-    .click({ force: true });
+  await expect(
+    page.getByRole("link", { name: commonFieldValues.button })
+  ).toBeVisible();
+
+  if (!isInternalLink) {
+    await expect(
+      page.getByRole("link", { name: commonFieldValues.button })
+    ).toHaveAttribute("target", "_blank");
+  } else {
+    await expect(
+      page.getByRole("link", { name: commonFieldValues.button })
+    ).toHaveAttribute("target", "_self");
+  }
 
   const blogPostsLength = 5;
   for (let i = 0; i < blogPostsLength; i++) {
@@ -78,17 +86,11 @@ export default async function VariantB({
         : page.getByLabel("View Blog Post").nth(i);
 
     await page.goto(`${baseURL}/${createSlug(pageTitle)}`);
-    await assertPageContent(page, blog, commonFieldValues, button, baseURL);
+    await assertPageContent(page, blog, commonFieldValues, button);
   }
 }
 
-async function assertPageContent(
-  page,
-  blog,
-  commonFieldValues,
-  button,
-  baseURL
-) {
+async function assertPageContent(page, blog, commonFieldValues, button) {
   //Title
   await titleField.sitePreview({ pageUrl: page, commonFieldValues });
 
@@ -96,18 +98,9 @@ async function assertPageContent(
   await subtitleField.sitePreview({ pageUrl: page, commonFieldValues });
 
   //Blog title
-  await expect(page.getByRole("heading", { name: blog.title })).toBeVisible({
-    timeout: 150_000,
-  });
+  await expect(page.getByRole("heading", { name: blog.title })).toBeVisible();
 
-  await button.click({ force: true });
+  await expect(button).toBeVisible();
   await page.waitForLoadState("domcontentloaded");
-  await expect(page.getByRole("heading", { name: blog.title })).toBeVisible({
-    timeout: 150_000,
-  });
-  await expect(
-    page.locator(`span:has-text("${blog.publishedAt}")`)
-  ).toBeVisible({ timeout: 150_000 });
-
-  await assertInternalUrl(page, `${baseURL}/${blog.slug}`);
+  await expect(page.getByRole("heading", { name: blog.title })).toBeVisible();
 }

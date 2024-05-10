@@ -1,6 +1,7 @@
 import { test, expect } from "@playwright/test";
 import {
   createNewPage,
+  createSlug,
   deletePageVariant,
   expectDocumentPublished,
   navigateToPage,
@@ -39,14 +40,8 @@ test.describe("Main Workflow", () => {
       .click({ force: true });
 
     await expectDocumentPublished(page, pageTitle);
-
-    //Open Live URL
-    await page.getByRole("link", { name: pageTitle }).click({ force: true });
-    await page.waitForTimeout(5000);
-
-    const pagePromise = page.waitForEvent("popup");
-    await page.getByText(baseURL!).click();
-    const openUrlPage = await pagePromise;
+    await page.goto(`${baseURL}/${createSlug(pageTitle)}`);
+    page.waitForLoadState("domcontentloaded");
 
     // Wait for the element to become visible or hidden with a longer timeout
     const sectionCount = await page
@@ -55,14 +50,10 @@ test.describe("Main Workflow", () => {
       .count();
     if (sectionCount > 0) {
       // If the section is found, expect the Empty Page element to be visible
-      await expect(openUrlPage.getByText("Empty Page")).toBeVisible({
-        timeout: 20000,
-      });
+      await expect(page.getByText("Empty Page")).toBeVisible();
     } else {
       // If the section is not found, expect the Empty Page element to be hidden
-      await expect(openUrlPage.getByText("Empty Page")).toBeHidden({
-        timeout: 20000,
-      });
+      await expect(page.getByText("Empty Page")).toBeHidden();
     }
 
     console.log(`[DONE] - Testing Publish Page 🚀`);
@@ -142,17 +133,11 @@ test.describe("Main Workflow", () => {
     ).toBeVisible({ timeout: 150000 });
 
     //Open Live URL
-    await page
-      .getByRole("link", { name: duplicatePageName })
-      .click({ force: true });
-    await page.waitForTimeout(5000);
-
-    const pagePromise = page.waitForEvent("popup");
-    await page.getByText(`${baseURL}/dupe-page-`).click();
-    const openUrlPage = await pagePromise;
+    await page.goto(`${baseURL}/${createSlug(duplicatePageName)}`);
+    page.waitForLoadState("domcontentloaded");
 
     // If the section is not found, expect the Empty Page element to be hidden
-    await expect(openUrlPage.getByText("Empty Page")).toBeHidden({
+    await expect(page.getByText("Empty Page")).toBeHidden({
       timeout: 20_000,
     });
 
@@ -387,9 +372,8 @@ test.describe("Main Workflow", () => {
       page.getByTestId("document-panel-scroller").nth(1)
     ).toBeHidden();
 
-    const pagePromise = page.waitForEvent("popup");
-    await page.getByText(baseURL!).click({ force: true });
-    const openUrlPage = await pagePromise;
+    await page.goto(`${baseURL}/${createSlug(pageTitle)}`);
+    page.waitForLoadState("domcontentloaded");
 
     // Wait for the element to become visible or hidden with a longer timeout
     const sectionCount = await page
@@ -398,7 +382,7 @@ test.describe("Main Workflow", () => {
       .count();
     if (sectionCount > 0) {
       // If the section no items is found, expect the Empty Page element to be visible
-      await expect(openUrlPage.getByText("Empty Page"))
+      await expect(page.getByText("Empty Page"))
         .toBeVisible({ timeout: 20000 })
         .then(() => console.log("There is no Available Content!"));
     }

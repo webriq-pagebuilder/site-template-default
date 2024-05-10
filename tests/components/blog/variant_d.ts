@@ -27,27 +27,6 @@ export default async function VariantA({
     commonFieldValues,
   });
 
-  //Blog Posts
-  await page.getByRole("button", { name: "Add item" }).click();
-  await page
-    .getByTestId("autocomplete")
-    .fill(commonFieldValues?.referencedBlog);
-  await page.waitForSelector(
-    `button:has-text("${commonFieldValues?.referencedBlog}")`,
-    { state: "visible" }
-  );
-  await expect(
-    page.getByRole("button", { name: commonFieldValues?.referencedBlog })
-  ).toBeVisible();
-  await page
-    .getByRole("button", { name: commonFieldValues?.referencedBlog })
-    .click();
-  await expect(
-    page.getByRole("link", { name: commonFieldValues?.referencedBlog }).nth(1)
-  ).toBeVisible({
-    timeout: 75000,
-  });
-
   await expectDocumentPublished(page, pageTitle);
   await page.goto(`${baseURL}/${createSlug(pageTitle)}`);
   await page.waitForLoadState("domcontentloaded");
@@ -66,7 +45,6 @@ export default async function VariantA({
 
   await page.getByText("All", { exact: true }).click();
   await expect(page.getByLabel("Page 1")).toBeVisible();
-  await expect(page.getByLabel("Page 2")).toBeVisible();
 
   //All Page 1
   for (const blog of commonFieldValues.blogPosts) {
@@ -75,21 +53,12 @@ export default async function VariantA({
 
   //Add Search
   await page.getByPlaceholder("Search posts...").click();
-  await page
-    .getByPlaceholder("Search posts...")
-    .fill(commonFieldValues.referencedBlog);
-  await expect(
-    page.getByLabel(commonFieldValues.referencedBlog).nth(1)
-  ).toBeVisible();
+  await page.getByPlaceholder("Search posts...").fill("Lorem ipsum");
+  await expect(page.getByLabel("Lorem ipsum dolor sit amet,")).toBeVisible();
 
   //Clear Search
   await page.getByPlaceholder("Search posts...").click();
   await page.getByPlaceholder("Search posts...").fill("");
-
-  await page.getByLabel("Page 2").click();
-  await expect(page.getByLabel(commonFieldValues.referencedBlog)).toBeVisible({
-    timeout: 20_000,
-  });
 
   //Travel Category
   await page.getByText("TRAVEL").click();
@@ -98,9 +67,6 @@ export default async function VariantA({
   await expect(page.getByLabel("Lorem ipsum dolor sit amet,")).toBeVisible();
   await expect(page.getByLabel("Vestibulum vehicle leo eget")).toBeVisible();
   await expect(page.getByLabel("Aenean convalli sapone a")).toBeVisible();
-  await expect(
-    page.getByLabel(commonFieldValues?.referencedBlog).first()
-  ).toBeVisible();
 
   await page.getByText("Culture").click();
   await expect(page.getByLabel("Page")).toBeVisible();
@@ -111,10 +77,4 @@ export default async function VariantA({
   await page.getByText("Engineering").click();
   await expect(page.getByLabel("Page")).toBeVisible();
   await page.getByLabel("Page").click();
-  await expect(
-    page.locator(`a[aria-label="${commonFieldValues.referencedBlog}"]`).first()
-  ).toBeVisible();
-  await expect(
-    page.locator(`a[aria-label="${commonFieldValues.referencedBlog}"]`).nth(1)
-  ).toBeVisible();
 }

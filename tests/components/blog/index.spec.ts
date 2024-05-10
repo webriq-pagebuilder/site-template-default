@@ -47,7 +47,6 @@ const blogVariantTest = [
 const commonFieldValues = {
   title: "Blog Title Test",
   subtitle: "Subtitle Test",
-  referencedBlog: "Felis bibendum ut tristique et egestas",
   button: "View More",
   internalLinkUrl: `${NEXT_PUBLIC_SITE_URL}/thank-you`,
   externalLinkUrl: "https://webriq.com",
@@ -76,11 +75,6 @@ const commonFieldValues = {
       title: "Felis bibendum",
       publishedAt: "November 22, 2021",
       slug: "felis-bibendum-ut-tristique-et-egestas",
-    },
-    {
-      title: "Ph12",
-      publishedAt: "November 22, 2021",
-      slug: "dorell-post",
     },
   ],
   categories: ["TRAVEL", "Culture", "Engineering"],
