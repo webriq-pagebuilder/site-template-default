@@ -75,7 +75,7 @@ const commonFieldValues = {
     {
       title: "Felis bibendum",
       publishedAt: "November 22, 2021",
-      slug: "this-should-validated-17",
+      slug: "felis-bibendum-ut-tristique-et-egestas",
     },
     {
       title: "Ph12",

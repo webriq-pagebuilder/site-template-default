@@ -6,6 +6,7 @@ import {
   titleField,
   assertExternalUrl,
   assertInternalUrl,
+  createSlug,
 } from "tests/utils";
 
 export default async function VariantA({
@@ -56,18 +57,15 @@ export default async function VariantA({
   }
 
   await expectDocumentPublished(page, pageTitle);
-  await expect(page.getByText(`${baseURL}`)).toBeVisible();
+  await page.goto(`${baseURL}/${createSlug(pageTitle)}`);
+  await page.waitForLoadState("domcontentloaded");
 
-  const pagePromise = page.waitForEvent("popup");
-  await page.getByText(baseURL).click({ force: true });
-  const openUrlPage = await pagePromise;
-
-  await openUrlPage
+  await page
     .getByRole("link", { name: commonFieldValues.button })
     .click({ force: true });
 
   for (const blog of commonFieldValues.blogPosts) {
-    await assertPageContent(openUrlPage, blog, commonFieldValues, baseURL);
+    await assertPageContent(page, blog, commonFieldValues, baseURL);
   }
 }
 

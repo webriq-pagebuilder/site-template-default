@@ -247,5 +247,5 @@ async function addNavigationRoutes(
     await selfLinkTarget.nth(1).click();
   }
 
-  await page.getByLabel("Close dialog").click();
+  await page.getByLabel("Close dialog").first().click();
 }

@@ -58,9 +58,7 @@ export default async function VariantA({
   //Subtitle
   await subtitleField.sitePreview({ pageUrl: page, commonFieldValues });
 
-  await expect(page.getByText("All", { exact: true })).toBeVisible({
-    timeout: 20_000,
-  });
+  await expect(page.getByText("All", { exact: true })).toBeVisible();
 
   for (const category of commonFieldValues.categories) {
     await expect(page.getByText(category)).toBeVisible();
