@@ -1,15 +1,15 @@
 import React from "react";
-import Head from "next/head";
 import { PreviewSuspense } from "next-sanity/preview";
 import { getClient } from "lib/sanity.client";
 import { homeQuery, globalSEOQuery } from "./api/query";
 import { usePreview } from "lib/sanity.preview";
 import { PageSections } from "components/page";
 import { PreviewNoContent } from "components/PreviewNoContent";
-import { filterDataToSingleItem, SEO } from "components/list";
+import { filterDataToSingleItem } from "components/list";
+import { SEO } from "components/SEO";
 import { PreviewBanner } from "components/PreviewBanner";
 import InlineEditorContextProvider from "context/InlineEditorContext";
-import { CommonPageData, DefaultSeoData } from "types";
+import { CommonPageData, SeoTags, SeoSchema } from "types";
 import { addSEOJsonLd } from "components/SEO";
 
 interface HomeProps {
@@ -17,13 +17,13 @@ interface HomeProps {
   preview: boolean;
   token?: string | null;
   source?: string;
-  defaultSeo: DefaultSeoData;
+  seo?: SeoTags[];
+  seoSchema?: SeoSchema;
 }
 
 interface DocumentWithPreviewProps {
   data: Data;
   token: string | null;
-  defaultSeo: DefaultSeoData;
 }
 
 interface Data {
@@ -36,7 +36,7 @@ interface PageData extends CommonPageData {
   title: string;
 }
 
-function Home({ data, preview, token, source, defaultSeo }: HomeProps) {
+function Home({ data, preview, token, source }: HomeProps) {
   const showInlineEditor = source === "studio";
 
   if (preview) {
@@ -45,14 +45,14 @@ function Home({ data, preview, token, source, defaultSeo }: HomeProps) {
         <PreviewBanner />
         <PreviewSuspense fallback="Loading...">
           <InlineEditorContextProvider showInlineEditor={showInlineEditor}>
-            <DocumentWithPreview {...{ data, token, defaultSeo }} />
+            <DocumentWithPreview {...{ data, token }} />
           </InlineEditorContextProvider>
         </PreviewSuspense>
       </>
     );
   }
 
-  return <Document {...{ data, defaultSeo }} />;
+  return <Document {...{ data }} />;
 }
 
 /**
@@ -61,13 +61,7 @@ function Home({ data, preview, token, source, defaultSeo }: HomeProps) {
  *
  * @returns Document with published data
  */
-function Document({
-  data,
-  defaultSeo,
-}: {
-  data: Data;
-  defaultSeo: DefaultSeoData;
-}) {
+function Document({ data }: { data: Data }) {
   const publishedData = data?.pageData;
 
   // General safeguard against empty data
@@ -75,43 +69,10 @@ function Document({
     return null;
   }
 
-  const { title, _type, seo } = publishedData;
-
-  return (
-    <>
-      <Head>
-        <SEO
-          data={{
-            pageTitle: title,
-            type: _type,
-            route: publishedData?.slug,
-            ...seo,
-          }}
-          defaultSeo={defaultSeo}
-        />
-        {/* Structured data (JSON-LD encoding) */}
-        <script
-          key={`${_type}-jsonld`}
-          type="application/ld+json"
-          dangerouslySetInnerHTML={addSEOJsonLd({
-            seo: seo,
-            type: _type,
-            slug: publishedData?.slug,
-            defaults: defaultSeo,
-            pageData: publishedData,
-          })}
-        />
-        <title>{seo?.seoTitle ?? title ?? "WebriQ Studio"}</title>
-      </Head>
-
-      {/* if no sections, show no sections only in preview */}
-       {(!data?.pageData || !data?.pageData?.sections ||
-        data?.pageData?.sections.length === 0) && <PreviewNoContent />}
-
-      {/*  Show page sections */}
-      {data?.pageData && <PageSections data={publishedData} />}
-    </>
-  );
+  {
+    /*  Show page sections */
+  }
+  return data?.pageData && <PageSections data={publishedData} />;
 }
 
 /**
@@ -122,11 +83,7 @@ function Document({
  *
  * @returns Document with preview data
  */
-function DocumentWithPreview({
-  data,
-  token = null,
-  defaultSeo,
-}: DocumentWithPreviewProps) {
+function DocumentWithPreview({ data, token = null }: DocumentWithPreviewProps) {
   const previewDataEventSource = usePreview(token, homeQuery);
 
   const previewData: PageData =
@@ -137,35 +94,8 @@ function DocumentWithPreview({
     return null;
   }
 
-  const { title, _type, seo } = previewData;
-
   return (
     <>
-      <Head>
-        <SEO
-          data={{
-            pageTitle: title,
-            type: _type,
-            route: previewData?.slug,
-            ...seo,
-          }}
-          defaultSeo={defaultSeo}
-        />
-        {/* Structured data (JSON-LD encoding) */}
-        <script
-          key={`${_type}-jsonld`}
-          type="application/ld+json"
-          dangerouslySetInnerHTML={addSEOJsonLd({
-            seo: seo,
-            type: _type,
-            slug: previewData?.slug,
-            defaults: defaultSeo,
-            pageData: previewData,
-          })}
-        />
-        <title>{seo?.seoTitle ?? title ?? "WebriQ Studio"}</title>
-      </Head>
-
       {/* if no sections, show no sections only in preview */}
       {(!previewData ||
         !previewData?.sections ||
@@ -194,13 +124,39 @@ export const getStaticProps = async ({
   // pass page data and preview to helper function
   const pageData: PageData = filterDataToSingleItem(indexPage, preview);
 
+  const data = { pageData };
+
+  // SEO tags
+  const seo = SEO({
+    data: {
+      title: data?.pageData?.title || "Stackshift | Home page",
+      type: data?.pageData?._type || "page",
+      route: "",
+      ...data?.pageData?.seo,
+    },
+    defaultSeo: globalSEO,
+  });
+
+  // Structured data (JSON-LD encoding)
+  const seoSchema = {
+    key: `${data?.pageData?._type}-jsonld`,
+    innerHTML: addSEOJsonLd({
+      seo: seo,
+      type: data?.pageData?._type,
+      defaults: globalSEO,
+      slug: "",
+      pageData: data?.pageData,
+    }),
+  };
+
   // if our query failed, then return null to display custom no-preview page
   if (!pageData) {
     return {
       props: {
         preview,
         data: { pageData: null },
-        defaultSeo: globalSEO,
+        seo,
+        seoSchema,
       },
     };
   }
@@ -210,8 +166,9 @@ export const getStaticProps = async ({
       preview,
       token: (preview && previewData.token) || "",
       source: (preview && previewData.source) || "",
-      data: { pageData },
-      defaultSeo: globalSEO,
+      data,
+      seo,
+      seoSchema,
     },
   };
 };

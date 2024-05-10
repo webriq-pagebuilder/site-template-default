@@ -1,5 +1,5 @@
-import { filterArgsByVariant } from "components/common";
-import { StoryConfigs, defineStories } from "utils/stories";
+import { dynamicStoryData } from "components/common";
+import { defineStories } from "utils/stories";
 import { sanityClient } from "lib/sanity.client";
 import { componentsQuery } from "pages/api/query";
 import dedent from "ts-dedent";
@@ -34,20 +34,9 @@ export default defineStories({
         schema: "navigation",
       })) || []; // Provide a default empty array
 
-    const result: StoryConfigs = {};
-
-    navigationData?.map((item, index) => {
-      if (!item || !item.variants) return; // Skip iteration if item or item.variants is falsy
-
-      result[`${item.variant}${index + 1}`] = {
-        args: {
-          variant: item.variant,
-          label: item.label,
-          ...filterArgsByVariant(navigationSchema, item.variants, item.variant),
-        },
-      };
+    return dynamicStoryData({
+      data: navigationData,
+      schemaFields: navigationSchema,
     });
-
-    return result;
   },
 });

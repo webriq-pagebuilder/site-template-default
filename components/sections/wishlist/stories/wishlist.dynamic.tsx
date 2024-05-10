@@ -1,5 +1,5 @@
-import { filterArgsByVariant } from "components/common";
-import { StoryConfigs, defineStories } from "utils/stories";
+import { dynamicStoryData } from "components/common";
+import { defineStories } from "utils/stories";
 import { sanityClient } from "lib/sanity.client";
 import { componentsQuery } from "pages/api/query";
 import dedent from "ts-dedent";
@@ -9,7 +9,7 @@ export default defineStories({
     import React from "react";
     import Wishlist from "../index.tsx";
     export default {
-      title: "CStudio/Wishlist",
+      title: "Ecommerce/Wishlist",
       component: Wishlist,
       tags: ["autodocs"],
       render: ({ variant, label, ...args }) => {
@@ -35,19 +35,9 @@ export default defineStories({
         schema: "slotWishlist",
       })) || []; // Provide a default empty array
 
-    const result: StoryConfigs = {};
-
-    wishlistData?.map((item, index) => {
-      if (!item || !item.variants) return; // Skip iteration if item or item.variants is falsy
-
-      result[`${item.variant}${index + 1}`] = {
-        args: {
-          variant: item.variant ?? "variant_a",
-          label: item.label,
-        },
-      };
+    return dynamicStoryData({
+      data: wishlistData,
+      isEcommerce: true,
     });
-
-    return result;
   },
 });
