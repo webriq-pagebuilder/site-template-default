@@ -19,14 +19,14 @@ const blogVariantTest = [
     title: "Blog Variant A",
     label: "Blog New Page A",
     variant: "variant_a",
-    isInternalLink: true,
+    isInternalLink: false,
   },
   {
     name: "Variant B",
     title: "Blog Page B",
     label: "Blog New Page B",
     variant: "variant_b",
-    isInternalLink: true,
+    isInternalLink: false,
   },
   {
     name: "Variant C",
@@ -47,7 +47,7 @@ const blogVariantTest = [
 const commonFieldValues = {
   title: "Blog Title Test",
   subtitle: "Subtitle Test",
-  referencedBlog: "Ph12",
+  referencedBlog: "Felis bibendum ut tristique et egestas",
   button: "View More",
   internalLinkUrl: `${NEXT_PUBLIC_SITE_URL}/thank-you`,
   externalLinkUrl: "https://webriq.com",

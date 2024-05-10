@@ -1,5 +1,4 @@
 import { expect } from "@playwright/test";
-import { NEXT_PUBLIC_SITE_URL } from "studio/config";
 import {
   expectDocumentPublished,
   subtitleField,
@@ -96,12 +95,24 @@ export default async function VariantB({
         ? openUrlPage.getByLabel("View Blog Post").first()
         : openUrlPage.getByLabel("View Blog Post").nth(i);
 
-    await openUrlPage.goto(`${NEXT_PUBLIC_SITE_URL}/${slug}`);
-    await assertPageContent(openUrlPage, blog, commonFieldValues, button);
+    await openUrlPage.goto(`${baseURL}/${slug}`);
+    await assertPageContent(
+      openUrlPage,
+      blog,
+      commonFieldValues,
+      button,
+      baseURL
+    );
   }
 }
 
-async function assertPageContent(openUrlPage, blog, commonFieldValues, button) {
+async function assertPageContent(
+  openUrlPage,
+  blog,
+  commonFieldValues,
+  button,
+  baseURL
+) {
   //Title
   await titleField.sitePreview({ pageUrl: openUrlPage, commonFieldValues });
 
@@ -122,5 +133,5 @@ async function assertPageContent(openUrlPage, blog, commonFieldValues, button) {
     openUrlPage.locator(`span:has-text("${blog.publishedAt}")`)
   ).toBeVisible({ timeout: 150_000 });
 
-  await assertInternalUrl(openUrlPage, `${NEXT_PUBLIC_SITE_URL}/${blog.slug}`);
+  await assertInternalUrl(openUrlPage, `${baseURL}/${blog.slug}`);
 }

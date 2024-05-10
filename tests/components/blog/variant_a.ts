@@ -1,5 +1,4 @@
 import { expect } from "@playwright/test";
-import { NEXT_PUBLIC_SITE_URL } from "studio/config";
 import { blogInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-default";
 import {
   expectDocumentPublished,
@@ -83,12 +82,17 @@ export default async function VariantA({
     ?.replace(/\s+/g, "-")
     .replace(/-+/g, "-");
   for (const blog of commonFieldValues.blogPosts) {
-    await openUrlPage.goto(`${NEXT_PUBLIC_SITE_URL}/${slug}`);
-    await assertPageContent(openUrlPage, blog, commonFieldValues);
+    await openUrlPage.goto(`${baseURL}/${slug}`);
+    await assertPageContent(openUrlPage, blog, commonFieldValues, baseURL);
   }
 }
 
-async function assertPageContent(openUrlPage, blog, commonFieldValues) {
+async function assertPageContent(
+  openUrlPage,
+  blog,
+  commonFieldValues,
+  baseURL
+) {
   //Title
   await titleField.sitePreview({ pageUrl: openUrlPage, commonFieldValues });
 
@@ -111,5 +115,5 @@ async function assertPageContent(openUrlPage, blog, commonFieldValues) {
     openUrlPage.locator(`span:has-text("${blog.publishedAt}")`)
   ).toBeVisible({ timeout: 150_000 });
 
-  await assertInternalUrl(openUrlPage, `${NEXT_PUBLIC_SITE_URL}/${blog.slug}`);
+  await assertInternalUrl(openUrlPage, `${baseURL}/${blog.slug}`);
 }

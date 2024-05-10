@@ -1,5 +1,4 @@
 import { expect } from "@playwright/test";
-import { NEXT_PUBLIC_SITE_URL } from "studio/config";
 import {
   expectDocumentPublished,
   subtitleField,
@@ -32,6 +31,10 @@ export default async function VariantA({
   await page
     .getByTestId("autocomplete")
     .fill(commonFieldValues?.referencedBlog);
+  await page.waitForSelector(
+    `button:has-text("${commonFieldValues?.referencedBlog}")`,
+    { state: "visible" }
+  );
   await expect(
     page.getByRole("button", { name: commonFieldValues?.referencedBlog })
   ).toBeVisible();
