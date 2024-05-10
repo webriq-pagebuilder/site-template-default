@@ -1,5 +1,9 @@
 import { expect } from "@playwright/test";
-import { updateLogoLink, expectDocumentPublished } from "tests/utils";
+import {
+  updateLogoLink,
+  expectDocumentPublished,
+  createSlug,
+} from "tests/utils";
 import { newsletterInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-default";
 import { titleField, descriptionField } from "tests/utils";
 import { form } from "./index.spec";
@@ -26,33 +30,28 @@ async function VariantB({ pageTitle, page, commonFieldValues, baseURL }) {
 
   // check site preview
   await expectDocumentPublished(page, pageTitle);
-  await expect(page.getByText(`${baseURL}`)).toBeVisible();
-
-  const pagePromise = page.waitForEvent("popup");
-  await page.getByText(baseURL).click({ force: true });
-  const openUrlPage = await pagePromise;
+  await page.goto(`${baseURL}/${createSlug(pageTitle)}`);
+  page.waitForLoadState("domcontentloaded");
 
   // logo
   await expect(
-    openUrlPage.locator(
+    page.locator(
       'a[aria-label="Go to https://webriq.com"][target="_blank"][rel="noopener noreferrer"]'
     )
   ).toBeVisible({ timeout: 20_000 });
-  await expect(
-    openUrlPage.getByAltText(commonFieldValues?.logoAltText)
-  ).toBeVisible();
+  await expect(page.getByAltText(commonFieldValues?.logoAltText)).toBeVisible();
 
   // title
-  await titleField.sitePreview({ pageUrl: openUrlPage, commonFieldValues });
+  await titleField.sitePreview({ pageUrl: page, commonFieldValues });
 
   // description
   await descriptionField.sitePreview({
-    pageUrl: openUrlPage,
+    pageUrl: page,
     commonFieldValues,
   });
 
   // 05-03-2024 defer tests for forms
-  // await form.sitePreview({ page, pageUrl: openUrlPage });
+  // await form.sitePreview({ page, pageUrl: page });
 }
 
 export default VariantB;

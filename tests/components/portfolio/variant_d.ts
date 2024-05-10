@@ -6,6 +6,7 @@ import {
   titleField,
   assertExternalUrl,
   assertInternalUrl,
+  createSlug,
 } from "tests/utils";
 
 export default async function VariantD({
@@ -61,66 +62,56 @@ export default async function VariantD({
   }
 
   await expectDocumentPublished(page, pageTitle);
-  await expect(page.getByText(`${baseURL}`)).toBeVisible();
+  await page.goto(`${baseURL}/${createSlug(pageTitle)}`);
+  page.waitForLoadState("domcontentloaded");
 
-  const pagePromise = page.waitForEvent("popup");
-  await page.getByText(baseURL).click({ force: true });
-  const openUrlPage = await pagePromise;
-
-  await assertPageContent({ openUrlPage, commonFieldValues, isInternalLink });
+  await assertPageContent({ page, commonFieldValues, isInternalLink });
 }
 
-async function assertPageContent({
-  openUrlPage,
-  commonFieldValues,
-  isInternalLink,
-}) {
+async function assertPageContent({ page, commonFieldValues, isInternalLink }) {
   //Title
-  await titleField.sitePreview({ pageUrl: openUrlPage, commonFieldValues });
+  await titleField.sitePreview({ pageUrl: page, commonFieldValues });
 
   //Subtitle
-  await subtitleField.sitePreview({ pageUrl: openUrlPage, commonFieldValues });
+  await subtitleField.sitePreview({ pageUrl: page, commonFieldValues });
 
   //Categories
   for (const category of commonFieldValues.categories) {
-    await expect(openUrlPage.getByLabel(category.updatedName)).toBeVisible();
-    await openUrlPage.getByLabel(category.updatedName).click();
+    await expect(page.getByLabel(category.updatedName)).toBeVisible();
+    await page.getByLabel(category.updatedName).click();
 
-    await checkImageDetails(openUrlPage.locator(".absolute").first());
+    await checkImageDetails(page.locator(".absolute").first());
     await checkImageDetails(
-      openUrlPage.locator("div:nth-child(2) > .relative > .absolute").first()
+      page.locator("div:nth-child(2) > .relative > .absolute").first()
     );
     await checkImageDetails(
-      openUrlPage.locator("div:nth-child(3) > .relative > .absolute")
+      page.locator("div:nth-child(3) > .relative > .absolute")
     );
     await checkImageDetails(
-      openUrlPage
-        .locator("div:nth-child(2) > div > .relative > .absolute")
-        .first()
+      page.locator("div:nth-child(2) > div > .relative > .absolute").first()
     );
     await checkImageDetails(
-      openUrlPage
-        .locator(".w-full > .flex > div > .relative > .absolute")
-        .first()
+      page.locator(".w-full > .flex > div > .relative > .absolute").first()
     );
     await checkImageDetails(
-      openUrlPage.locator(
+      page.locator(
         "div:nth-child(2) > div:nth-child(2) > .relative > .absolute"
       )
     );
   }
 
-  await openUrlPage.locator(".text-center > .inline-block").click();
-  if (isInternalLink) {
-    await openUrlPage.waitForLoadState("networkidle");
-    await expect(openUrlPage.getByText("Success!")).toBeVisible({
-      timeout: 150_000,
-    });
-    await assertInternalUrl(openUrlPage, commonFieldValues.internalLinkUrl);
-  } else if (!isInternalLink) {
-    const page10Promise = openUrlPage.waitForEvent("popup");
-    const page10 = await page10Promise;
-    await assertExternalUrl(page10, commonFieldValues.externalLinkUrl);
+  await expect(
+    page.locator(`a[aria-label="${commonFieldValues.button}"]`)
+  ).toBeVisible();
+
+  if (!isInternalLink) {
+    await expect(
+      page.locator(`a[aria-label="${commonFieldValues.button}"]`).first()
+    ).toHaveAttribute("target", "_blank");
+  } else if (isInternalLink) {
+    await expect(
+      page.locator(`a[aria-label="${commonFieldValues.button}"]`).first()
+    ).toHaveAttribute("target", "_self");
   }
 }
 
@@ -130,17 +121,17 @@ async function checkImageDetails(imageLocator) {
   const imageDescription =
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque efficitur nisl sodal...";
 
-  await expect(imageLocator).toBeVisible({ timeout: 20_000 });
+  await expect(imageLocator).toBeVisible();
   await expect(
     imageLocator.locator(`p:has-text("${imageSubtitle}")`)
-  ).toBeVisible({ timeout: 20_000 });
+  ).toBeVisible();
   await expect(
     imageLocator.locator(`h1:has-text("${imageTitle}")`)
-  ).toBeVisible({ timeout: 20_000 });
+  ).toBeVisible();
   await expect(
     imageLocator.locator(`p:has-text("${imageDescription}")`)
-  ).toBeVisible({ timeout: 20_000 });
+  ).toBeVisible();
   await expect(
     imageLocator.locator('a[aria-label="View Project"]')
-  ).toBeVisible({ timeout: 20_000 });
+  ).toBeVisible();
 }

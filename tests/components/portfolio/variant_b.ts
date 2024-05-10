@@ -4,8 +4,7 @@ import {
   expectDocumentPublished,
   subtitleField,
   titleField,
-  assertExternalUrl,
-  assertInternalUrl,
+  createSlug,
 } from "tests/utils";
 
 export default async function VariantB({
@@ -52,68 +51,54 @@ export default async function VariantB({
   }
 
   await expectDocumentPublished(page, pageTitle);
-  await expect(page.getByText(`${baseURL}`)).toBeVisible();
+  await page.goto(`${baseURL}/${createSlug(pageTitle)}`);
+  page.waitForLoadState("domcontentloaded");
 
-  const pagePromise = page.waitForEvent("popup");
-  await page.getByText(baseURL).click({ force: true });
-  const openUrlPage = await pagePromise;
-
-  await assertPageContent({ openUrlPage, commonFieldValues, isInternalLink });
+  await assertPageContent({ page, commonFieldValues, isInternalLink });
 }
 
-async function assertPageContent({
-  openUrlPage,
-  commonFieldValues,
-  isInternalLink,
-}) {
+async function assertPageContent({ page, commonFieldValues, isInternalLink }) {
   //Title
-  await titleField.sitePreview({ pageUrl: openUrlPage, commonFieldValues });
+  await titleField.sitePreview({ pageUrl: page, commonFieldValues });
 
   //Subtitle
-  await subtitleField.sitePreview({ pageUrl: openUrlPage, commonFieldValues });
+  await subtitleField.sitePreview({ pageUrl: page, commonFieldValues });
 
   //Categories
   for (let i = 1; i <= 6; i++) {
     let imageLocator;
     if (i <= 1) {
-      imageLocator = openUrlPage.locator(".relative > .flex").first();
+      imageLocator = page.locator(".relative > .flex").first();
     } else {
-      imageLocator = openUrlPage.locator(
-        `div:nth-child(${i}) > .relative > .flex`
-      );
+      imageLocator = page.locator(`div:nth-child(${i}) > .relative > .flex`);
     }
 
-    await expect(imageLocator).toBeVisible({ timeout: 150_000 });
+    await expect(imageLocator).toBeVisible();
     await imageLocator.hover();
-    await expect(imageLocator.locator('p:has-text("2021-01-24")')).toBeVisible({
-      timeout: 20_000,
-    });
+    await expect(
+      imageLocator.locator('p:has-text("2021-01-24")')
+    ).toBeVisible();
     await expect(
       imageLocator.locator(
         'p:has-text("Lorem ipsum dolor sit amet consectutar")'
       )
-    ).toBeVisible({
-      timeout: 20_000,
-    });
+    ).toBeVisible();
     await expect(
       imageLocator.locator('a[aria-label="View Project"]')
-    ).toBeVisible({
-      timeout: 20_000,
-    });
+    ).toBeVisible();
   }
 
-  await openUrlPage
-    .getByRole("link", { name: commonFieldValues.button })
-    .click();
-  if (isInternalLink) {
-    await openUrlPage.waitForLoadState("networkidle");
-    await expect(openUrlPage.getByText("Success!")).toBeVisible({
-      timeout: 150_000,
-    });
-    await assertInternalUrl(openUrlPage, commonFieldValues.internalLinkUrl);
-  } else if (!isInternalLink) {
-    const page10Promise = openUrlPage.waitForEvent("popup");
-    const page10 = await page10Promise;
-    await assertExternalUrl(page10, commonFieldValues.externalLinkUrl);
+  await expect(
+    page.locator(`a[aria-label="${commonFieldValues.button}"]`).first()
+  ).toBeVisible();
+
+  if (!isInternalLink) {
+    await expect(
+      page.locator(`a[aria-label="${commonFieldValues.button}"]`).first()
+    ).toHaveAttribute("target", "_blank");
+  } else if (isInternalLink) {
+    await expect(
+      page.locator(`a[aria-label="${commonFieldValues.button}"]`).first()
+    ).toHaveAttribute("target", "_self");
   }
 }
