@@ -91,7 +91,9 @@ test.describe("Main Workflow", () => {
     await page.getByTestId("action-menu-button").click({ force: true });
     await expect(page.getByTestId("action-Duplicate")).toBeVisible();
     await page.getByTestId("action-Duplicate").click({ force: true });
-    await expect(page.getByText("Duplicate page content")).toBeVisible();
+    await page.waitForSelector('text="Duplicate page content"', {
+      state: "visible",
+    });
     await page.locator(`input[placeholder="Copy of ${pageTitle}"]`).click();
     await page
       .locator(`input[placeholder="Copy of ${pageTitle}"]`)
