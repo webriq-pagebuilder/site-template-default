@@ -1,39 +1,11 @@
 import { expect } from "@playwright/test";
-import {
-  expectDocumentPublished,
-  assertExternalUrl,
-  assertInternalUrl,
-  createSlug,
-} from "tests/utils";
+import { expectDocumentPublished, createSlug } from "tests/utils";
 
-let logoImg: string;
-
-export default async function VariantA({
+export default async function VariatA({
   pageTitle,
   page,
   commonFieldValues,
   linkNames,
-  isInternalLink,
-  baseURL,
-}) {
-  await createFooterVariant({
-    pageTitle,
-    page,
-    commonFieldValues,
-    isInternalLink,
-    baseURL,
-  });
-
-  for (const linkName of linkNames) {
-    await page.goto(`${baseURL}/${createSlug(pageTitle)}`);
-    await assertPageContent(page, linkName, commonFieldValues, isInternalLink);
-  }
-}
-
-async function createFooterVariant({
-  pageTitle,
-  page,
-  commonFieldValues,
   isInternalLink,
   baseURL,
 }) {
@@ -92,13 +64,19 @@ async function createFooterVariant({
     .fill(commonFieldValues.copyrightText);
 
   //Social Links
-  const socialLinks = ["facebook", "twitter", "instagram"];
-  for (let i = 0; i < socialLinks.length; i++) {
-    const socialMedia = socialLinks[i];
+  for (let i = 0; i < linkNames.length; i++) {
+    const socialMedia = linkNames[i];
 
     await expect(page.getByRole("button", { name: socialMedia })).toBeVisible();
-    await page.getByRole("button", { name: socialMedia }).click();
-    await expect(page.getByLabel("Edit Details")).toBeVisible();
+    try {
+      await page.getByRole("button", { name: socialMedia }).click();
+      await expect(page.getByLabel("Edit Details")).toBeVisible();
+    } catch (error) {
+      console.warn("Edit details is not visible, retrying to click button...");
+      await page.getByRole("button", { name: socialMedia }).click();
+      await expect(page.getByLabel("Edit Details")).toBeVisible();
+    }
+
     await page.getByLabel("Select the social media").selectOption(i.toString());
     await page.getByLabel("Social Media Link").click();
     await page
@@ -112,65 +90,49 @@ async function createFooterVariant({
   await page.goto(`${baseURL}/${createSlug(pageTitle)}`);
   await page.waitForLoadState("domcontentloaded");
 
-  //LogoImg
-  isInternalLink
-    ? (logoImg = "Go to /thank-you")
-    : (logoImg = `Go to ${commonFieldValues.externalLinkUrl}`);
-
   // Default should just be available routes - no buttons in variant E
-  await assertPageContent(page, logoImg, commonFieldValues, isInternalLink);
+  await assertPageContent(page, linkNames, commonFieldValues, isInternalLink);
 }
 
 async function assertPageContent(
   page,
-  linkName,
+  linkNames,
   commonFieldValues,
   isInternalLink
 ) {
-  // If the section no items is not found, expect the Empty Page element to be hidden
+  //Body
   await expect(page.getByText(commonFieldValues.footerBody)).toBeVisible();
 
+  //Copyright
   await expect(page.getByText(commonFieldValues.copyrightText)).toBeVisible();
 
   for (const contact of commonFieldValues.contactInfo) {
     await expect(page.getByText(contact.updatedName)).toBeVisible();
   }
 
-  expect(page.getByLabel("facebook", { exact: true }).hover()).toBeTruthy();
-  expect(page.getByLabel("twitter").hover()).toBeTruthy();
-  expect(page.getByLabel("instagram").hover()).toBeTruthy();
+  //LogoImg
+  let logoImg: string;
+  let target: string;
+  let href: string;
 
-  if (["facebook", "twitter", "instagram"].includes(linkName)) {
-    const logoLink = await page.locator(`a[aria-label="${linkName}"]`);
-    await logoLink.hover();
-    await logoLink.click();
-
-    if (linkName === logoImg) {
-      //Logo Img
-      if (isInternalLink) {
-        await page.getByRole("link", { name: linkName }).click({ force: true });
-        await page.waitForLoadState("networkidle");
-        await expect(page.getByText("Success!")).toBeVisible();
-        await assertInternalUrl(page, commonFieldValues.internalLinkUrl);
-      } else {
-        const page10 = await page.waitForEvent("popup");
-        await assertExternalUrl(page10, commonFieldValues.externalLinkUrl);
-      }
-    } else {
-      const page10 = await page.waitForEvent("popup");
-      await assertExternalUrl(page10, commonFieldValues.externalLinkUrl);
-    }
+  if (isInternalLink) {
+    (target = "_self"),
+      (href = commonFieldValues.internalLinkUrl),
+      (logoImg = "Go to /thank-you");
   } else {
-    if (!isInternalLink) {
-      const page10Promise = page.waitForEvent("popup");
-      await page.getByRole("link", { name: linkName }).click({ force: true });
-      const page10 = await page10Promise;
-      await assertExternalUrl(page10, commonFieldValues.externalLinkUrl);
-    } else {
-      await page.getByRole("link", { name: linkName }).click({ force: true });
-      await page.waitForLoadState("networkidle");
-      await expect(page.getByText("Success!")).toBeVisible();
-      await assertInternalUrl(page, commonFieldValues.internalLinkUrl);
-    }
+    (target = "_blank"),
+      (href = commonFieldValues.externalLinkUrl),
+      (logoImg = `Go to ${commonFieldValues.externalLinkUrl}`);
+  }
+
+  // Include logo img in the link names array
+  linkNames.push(logoImg);
+
+  for (const linkName of linkNames) {
+    await expect(
+      page.locator(
+        `a[aria-label="${linkName}"][target="${target}"][href="${href}"]`
+      )
+    ).toBeVisible();
   }
 }

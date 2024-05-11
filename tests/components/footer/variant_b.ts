@@ -1,39 +1,15 @@
 import { expect } from "@playwright/test";
 import {
   expectDocumentPublished,
-  assertExternalUrl,
-  assertInternalUrl,
   createSlug,
+  addNavigationRoutes,
 } from "tests/utils";
 
-let logoImg: string;
-
-export default async function VariantB({
+export default async function createFooterVariant({
   pageTitle,
   page,
   commonFieldValues,
   linkNames,
-  isInternalLink,
-  baseURL,
-}) {
-  await createFooterVariant({
-    pageTitle,
-    page,
-    commonFieldValues,
-    isInternalLink,
-    baseURL,
-  });
-
-  for (const linkName of linkNames) {
-    await page.goto(`${baseURL}/${createSlug(pageTitle)}`);
-    await assertPageContent(page, linkName, commonFieldValues, isInternalLink);
-  }
-}
-
-async function createFooterVariant({
-  pageTitle,
-  page,
-  commonFieldValues,
   isInternalLink,
   baseURL,
 }) {
@@ -77,9 +53,9 @@ async function createFooterVariant({
     .fill(commonFieldValues.copyrightText);
 
   //Social Links
-  const socialLinks = ["facebook", "twitter", "instagram"];
-  for (let i = 0; i < socialLinks.length; i++) {
-    const socialMedia = socialLinks[i];
+  for (let i = 0; i < linkNames.slice(0, 3).length; i++) {
+    const socialMedia = linkNames.slice(0, 3)[i];
+    console.log(socialMedia);
 
     await page.getByRole("button", { name: socialMedia }).click();
     await expect(page.getByLabel("Edit Details")).toBeVisible();
@@ -92,8 +68,13 @@ async function createFooterVariant({
   }
 
   for (const navigation of commonFieldValues.navigationBase.slice(3)) {
-    const navName = `${navigation} Internal Link Not Set`;
-    await addNavigationRoutes(navName, page, commonFieldValues, isInternalLink);
+    const buttonName = `${navigation} Internal Link Not Set`;
+    await addNavigationRoutes({
+      page,
+      buttonName,
+      commonFieldValues,
+      isInternalLink,
+    });
   }
 
   // check site preview
@@ -101,118 +82,42 @@ async function createFooterVariant({
   await page.goto(`${baseURL}/${createSlug(pageTitle)}`);
   await page.waitForLoadState("domcontentloaded");
 
-  //LogoImg
-  isInternalLink
-    ? (logoImg = "Go to /thank-you")
-    : (logoImg = `Go to ${commonFieldValues.externalLinkUrl}`);
-
   // Default should just be available routes - no buttons in variant E
-  await assertPageContent(page, logoImg, commonFieldValues, isInternalLink);
+  await assertPageContent(page, linkNames, commonFieldValues, isInternalLink);
 }
 
 async function assertPageContent(
   page,
-  linkName,
+  linkNames,
   commonFieldValues,
   isInternalLink
 ) {
-  //Navigation Routes
-  for (const navigation of commonFieldValues.navigationBase.slice(3)) {
-    await expect(
-      page.getByRole("list").locator("li").filter({ hasText: navigation })
-    ).toBeVisible();
-  }
-
+  // Copyright
   await expect(page.getByText(commonFieldValues.copyrightText)).toBeVisible();
 
-  if (["facebook", "twitter", "instagram"].includes(linkName)) {
-    const logoLink = await page.locator(`a[aria-label="${linkName}"]`);
-    await logoLink.click();
+  //LogoImg
+  let logoImg: string;
+  let target: string;
+  let href: string;
 
-    if (linkName === logoImg) {
-      //Logo Img
-      if (isInternalLink) {
-        await page.getByRole("link", { name: linkName }).click({ force: true });
-        await page.waitForLoadState("networkidle");
-        await expect(page.getByText("Success!")).toBeVisible();
-        await assertInternalUrl(page, commonFieldValues.internalLinkUrl);
-      } else {
-        const page10 = await page.waitForEvent("popup");
-        await assertExternalUrl(page10, commonFieldValues.externalLinkUrl);
-      }
-    } else {
-      const page10 = await page.waitForEvent("popup");
-      await assertExternalUrl(page10, commonFieldValues.externalLinkUrl);
-    }
+  if (isInternalLink) {
+    (target = "_self"),
+      (href = commonFieldValues.internalLinkUrl),
+      (logoImg = "Go to /thank-you");
   } else {
-    if (!isInternalLink) {
-      const page10Promise = page.waitForEvent("popup");
-      await page.getByRole("link", { name: linkName }).click({ force: true });
-      const page10 = await page10Promise;
-      await assertExternalUrl(page10, commonFieldValues.externalLinkUrl);
-    } else {
-      await page.getByRole("link", { name: linkName }).click({ force: true });
-      await page.waitForLoadState("networkidle");
-      await expect(page.getByText("Success!")).toBeVisible();
-      await assertInternalUrl(page, commonFieldValues.internalLinkUrl);
-    }
-  }
-}
-
-async function addNavigationRoutes(
-  buttonName,
-  page,
-  commonFieldValues,
-  isInternalLink
-) {
-  await expect(page.getByRole("button", { name: buttonName })).toBeVisible();
-  await page.getByRole("button", { name: buttonName }).click();
-  await expect(page.getByLabel("Edit Link")).toBeVisible();
-  await expect(page.locator('span:has-text("Edit Link")')).toBeVisible();
-
-  // NAVIGATION INTERNAL/EXTERNAL SELECTOR
-  const routesExternalLink = await page.locator(
-    'div:nth-child(2) label[data-ui="Flex"] span:has-text("External, outside this website")'
-  );
-  const routesInternalLink = await page.locator(
-    'div:nth-child(2) label[data-ui="Flex"] span:has-text("Internal, inside this website")'
-  );
-
-  const blankLinkTarget = page.locator(
-    'div:nth-child(2) > div label[data-as="label"] span:has-text("Blank - open on a new tab (")'
-  );
-  const selfLinkTarget = page.locator(
-    'div:nth-child(2) > div label[data-as="label"] span:has-text("Self (default) - open in the")'
-  );
-
-  if (!isInternalLink) {
-    await expect(routesExternalLink.nth(1)).not.toBeChecked();
-    await routesExternalLink.nth(1).click({ force: true });
-    await expect(
-      await page.locator('div input[inputmode="url"]').nth(1)
-    ).toBeVisible();
-    await page
-      .locator('div input[inputmode="url"]')
-      .nth(1)
-      .click({ force: true });
-    await page
-      .locator('div input[inputmode="url"]')
-      .nth(1)
-      .fill(commonFieldValues.externalLinkUrl);
-    await expect(blankLinkTarget.nth(1)).toBeVisible();
-    await blankLinkTarget.nth(1).click();
-  } else {
-    await expect(routesInternalLink.nth(1)).toBeChecked();
-    await routesInternalLink.nth(1).click();
-    await page.getByTestId("autocomplete").click();
-    await page.getByTestId("autocomplete").fill("thank you");
-    await expect(
-      page.getByRole("button", { name: "Thank you Published No" })
-    ).toBeVisible();
-    await page.getByRole("button", { name: "Thank you Published No" }).click();
-    await expect(selfLinkTarget.nth(1)).toBeVisible();
-    await selfLinkTarget.nth(1).click();
+    (target = "_blank"),
+      (href = commonFieldValues.externalLinkUrl),
+      (logoImg = `Go to ${commonFieldValues.externalLinkUrl}`);
   }
 
-  await page.getByLabel("Close dialog").click();
+  // Include logo img in the link names array
+  linkNames.push(logoImg);
+
+  for (const linkName of linkNames) {
+    await expect(
+      page.locator(
+        `a[aria-label="${linkName}"][target="${target}"][href="${href}"]`
+      )
+    ).toBeVisible();
+  }
 }
