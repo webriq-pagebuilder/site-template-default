@@ -74,14 +74,13 @@ export default async function VariantA({
 
   for (const blog of commonFieldValues.blogPosts) {
     await assertPageContent(page, blog, commonFieldValues);
+    await page.goto(`${baseURL}/${createSlug(pageTitle)}`);
   }
 }
 
 async function assertPageContent(page, blog, commonFieldValues) {
   //Title
-  await expect(
-    page.locator(`h1:has-text("${commonFieldValues?.title}")`)
-  ).toBeVisible();
+  await titleField.sitePreview({ pageUrl: page, commonFieldValues });
 
   //Subtitle
   await subtitleField.sitePreview({ pageUrl: page, commonFieldValues });

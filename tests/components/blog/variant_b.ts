@@ -85,8 +85,8 @@ export default async function VariantB({
         ? page.getByLabel("View Blog Post").first()
         : page.getByLabel("View Blog Post").nth(i);
 
-    await page.goto(`${baseURL}/${createSlug(pageTitle)}`);
     await assertPageContent(page, blog, commonFieldValues, button);
+    await page.goto(`${baseURL}/${createSlug(pageTitle)}`);
   }
 }
 
@@ -101,6 +101,10 @@ async function assertPageContent(page, blog, commonFieldValues, button) {
   await expect(page.getByRole("heading", { name: blog.title })).toBeVisible();
 
   await expect(button).toBeVisible();
+  await button.click({ force: true });
   await page.waitForLoadState("domcontentloaded");
-  await expect(page.getByRole("heading", { name: blog.title })).toBeVisible();
+  await expect(page.locator(`h1:has-text("${blog.title}")`)).toBeVisible();
+  await expect(
+    page.locator(`span:has-text("${blog.publishedAt}")`)
+  ).toBeVisible();
 }

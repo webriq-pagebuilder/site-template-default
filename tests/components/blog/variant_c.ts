@@ -85,8 +85,8 @@ export default async function VariantC({
         ? page.getByLabel("View Blog Post").first()
         : page.getByLabel("View Blog Post").nth(i);
 
-    await page.goto(`${baseURL}/${createSlug(pageTitle)}`);
     await assertPageContent(page, blog, commonFieldValues, button);
+    await page.goto(`${baseURL}/${createSlug(pageTitle)}`);
   }
 }
 
