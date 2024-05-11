@@ -393,9 +393,19 @@ export async function expectDocumentPublished(page, pageTitle) {
 
   await expect(saveButton).toHaveAttribute("data-disabled", "true");
 
-  await page
-    .getByRole("link", { name: "Close pane group" })
-    .click({ force: true });
+  try {
+    await page
+      .getByRole("link", { name: "Close pane group" })
+      .click({ force: true });
+    await expect(saveButton).toBeHidden();
+  } catch (error) {
+    console.warn("Save button is still visible, click close button again...");
+    await page
+      .getByRole("link", { name: "Close pane group" })
+      .click({ force: true });
+    await expect(saveButton).toBeHidden();
+  }
+
   await expect(
     page
       .getByTestId("field-sections")
@@ -412,13 +422,7 @@ export async function expectDocumentPublished(page, pageTitle) {
       .nth(1)
   ).toBeHidden();
 
-  try {
-    await page.waitForSelector('a[target="_blank"]', { state: "visible" });
-  } catch (error) {
-    console.warn("Publish button not visible, reloading...");
-    await page.reload();
-  }
-
+  await page.waitForSelector('a[target="_blank"]', { state: "visible" });
   await expect(page.locator('a[target="_blank"]')).toHaveCSS(
     "color",
     "rgb(149, 130, 40)"
@@ -454,7 +458,6 @@ export async function expectDocumentPublished(page, pageTitle) {
     "color",
     "rgb(49, 151, 94)"
   );
-  // await expect(page.getByRole("link", { name: pageTitle })).toBeVisible();
 }
 
 export async function deletePageVariant(page, pageTitle, variantLabel) {
@@ -549,7 +552,10 @@ export async function deletePageVariant(page, pageTitle, variantLabel) {
     page.getByTestId("document-panel-scroller").nth(1)
   ).toBeVisible();
   await page.getByRole("button", { name: "Open document actions" }).click();
-  await expect(page.getByTestId("action-Delete")).toBeVisible();
+  await page.waitForSelector('button[data-testid="action-Delete"]', {
+    visible: true,
+  });
+  // await expect(page.getByTestId("action-Delete")).toBeVisible();
   await page.getByTestId("action-Delete").click();
   await expect(page.getByText("Looking for referring")).toBeVisible();
   await expect(page.getByText("Looking for referring")).toBeHidden();
@@ -559,7 +565,12 @@ export async function deletePageVariant(page, pageTitle, variantLabel) {
   //Delete Page
   await expect(page.getByTestId("document-panel-scroller").nth(1)).toBeHidden();
   await page.locator('button[data-testid="action-menu-button"]').click();
+  await expect(page.getByTestId("action-Delete")).toBeVisible();
   await page.getByTestId("action-Delete").click();
+  await page.waitForSelector('[data-testid="loading-container"]', {
+    visible: true,
+  });
+  await expect(page.getByTestId("loading-container")).toBeHidden();
   await page.getByTestId("confirm-delete-button").click();
 
   await expect(
@@ -805,4 +816,95 @@ export async function CTAWebriQForm({
       page.getByRole("button", { name: "Terms of Use Internal Link" })
     ).toBeVisible();
   }
+}
+
+export async function addNavigationRoutes({
+  page,
+  buttonName,
+  commonFieldValues,
+  isInternalLink,
+}) {
+  await expect(page.getByRole("button", { name: buttonName })).toBeVisible();
+
+  try {
+    await page.getByRole("button", { name: buttonName }).click({ force: true });
+    await expect(page.getByLabel("Edit Link")).toBeVisible();
+  } catch (error) {
+    console.warn("Edit Link is not visible, clicking button again...");
+    await page.getByRole("button", { name: buttonName }).click();
+    await expect(page.getByLabel("Edit Link")).toBeVisible();
+  }
+
+  // NAVIGATION INTERNAL/EXTERNAL SELECTOR
+  const routesExternalLink = await page.locator(
+    'div:nth-child(2) label[data-ui="Flex"] span:has-text("External, outside this website")'
+  );
+  const routesInternalLink = await page.locator(
+    'div:nth-child(2) label[data-ui="Flex"] span:has-text("Internal, inside this website")'
+  );
+
+  const blankLinkTarget = page.locator(
+    'div:nth-child(2) > div label[data-as="label"] span:has-text("Blank - open on a new tab (")'
+  );
+  const selfLinkTarget = page.locator(
+    'div:nth-child(2) > div label[data-as="label"] span:has-text("Self (default) - open in the")'
+  );
+
+  if (!isInternalLink) {
+    await expect(routesExternalLink.nth(1)).toBeVisible();
+
+    try {
+      await routesExternalLink.nth(1).click({ force: true });
+      await expect(
+        page.locator('div input[inputmode="url"]').nth(1)
+      ).toBeVisible();
+    } catch (error) {
+      console.warn("URL Inout is not visible, click on text external again.");
+      await routesExternalLink.nth(1).click({ force: true });
+      await expect(
+        page.locator('div input[inputmode="url"]').nth(1)
+      ).toBeVisible();
+    }
+
+    await page
+      .locator('div input[inputmode="url"]')
+      .nth(1)
+      .click({ force: true });
+    await page
+      .locator('div input[inputmode="url"]')
+      .nth(1)
+      .fill(commonFieldValues.externalLinkUrl);
+    await expect(blankLinkTarget.nth(1)).toBeVisible();
+    await blankLinkTarget.nth(1).click();
+  } else {
+    await expect(routesInternalLink.nth(1)).toBeChecked();
+    await routesInternalLink.nth(1).click();
+    await page.getByTestId("autocomplete").click();
+    await page.getByTestId("autocomplete").fill("thank you");
+    await expect(
+      page.getByRole("button", { name: "Thank you Published No" })
+    ).toBeVisible();
+    await page.getByRole("button", { name: "Thank you Published No" }).click();
+    await expect(selfLinkTarget.nth(1)).toBeVisible();
+    await selfLinkTarget.nth(1).click();
+  }
+
+  const editLink = await page
+    .getByLabel("Edit Link")
+    .getByLabel("Close dialog");
+
+  if (await editLink.isVisible()) {
+    try {
+      await editLink.click({ force: true });
+      await expect(editLink).toBeHidden();
+      await expect(page.getByText("Edit", { exact: true })).toBeVisible();
+    } catch (error) {
+      console.warn("Edit Link is still visible clicking close dialog again...");
+      await editLink.click({ force: true });
+      await expect(editLink).toBeHidden();
+      await expect(page.getByText("Edit", { exact: true })).toBeVisible();
+    }
+  }
+
+  await page.getByLabel("Close dialog").click();
 }
