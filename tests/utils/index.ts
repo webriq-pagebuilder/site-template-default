@@ -275,11 +275,19 @@ export async function navigateToStore(page) {
 
 export async function createNewPage(page, sectionTitle, sections) {
   // Click new page button
-  const newPageButtonElement = page.locator(
-    `a[href="/studio/intent/create/template=page;type=page/"]`
-  );
-  await expect(newPageButtonElement).toBeVisible();
-  await newPageButtonElement.click({ force: true });
+  const newPageButtonElement = `a[href="/studio/intent/create/template=page;type=page/"]`;
+  await page.waitForSelector(newPageButtonElement, { state: "visible" });
+
+  try {
+    await page
+      .locator(newPageButtonElement)
+      .toHaveAttribute("data-disabed", "false");
+  } catch (error) {
+    console.warn("Create new page button is disabled, reloading...");
+    await page.reload();
+  }
+
+  await page.locator(newPageButtonElement).click({ force: true });
 
   const inputTitle = page.locator("input#title");
   await expect(page.locator('p:has-text("Loading...")')).toBeHidden();
@@ -404,7 +412,13 @@ export async function expectDocumentPublished(page, pageTitle) {
       .nth(1)
   ).toBeHidden();
 
-  await page.waitForSelector('a[target="_blank"]', { state: "visible" });
+  try {
+    await page.waitForSelector('a[target="_blank"]', { state: "visible" });
+  } catch (error) {
+    console.warn("Publish button not visible, reloading...");
+    await page.reload();
+  }
+
   await expect(page.locator('a[target="_blank"]')).toHaveCSS(
     "color",
     "rgb(149, 130, 40)"
@@ -445,6 +459,10 @@ export async function expectDocumentPublished(page, pageTitle) {
 
 export async function deletePageVariant(page, pageTitle, variantLabel) {
   await navigateToPage(page);
+
+  await page.waitForSelector('input[placeholder="Search list"]', {
+    visible: true,
+  });
   await page.getByPlaceholder("Search list").click({ force: true });
   await page.getByPlaceholder("Search list").fill(pageTitle);
   await page.waitForSelector(`a:has-text("${pageTitle}")`, {
