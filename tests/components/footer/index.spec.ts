@@ -41,7 +41,7 @@ const footerVariantTest = [
     title: "Footer Page A",
     label: "Footer New Page A",
     variant: "variant_a",
-    isInternalLink: true,
+    isInternalLink: false,
     linkNames: commonFieldValues.navigationBase.slice(0, 3),
   },
   {
@@ -49,7 +49,7 @@ const footerVariantTest = [
     title: "Footer Page B",
     label: "Footer New Page B",
     variant: "variant_b",
-    isInternalLink: true,
+    isInternalLink: false,
     linkNames: commonFieldValues.navigationBase,
   },
   {
@@ -57,7 +57,7 @@ const footerVariantTest = [
     title: "Footer Page C",
     label: "Footer New Page C",
     variant: "variant_c",
-    isInternalLink: true,
+    isInternalLink: false,
     linkNames: commonFieldValues.navigationBase,
   },
   {
@@ -65,7 +65,7 @@ const footerVariantTest = [
     title: "Footer Page D",
     label: "Footer New Page D",
     variant: "variant_d",
-    isInternalLink: true,
+    isInternalLink: false,
     linkNames: [
       ...commonFieldValues.navigationBase,
       ...commonFieldValues.exploreLinks,
