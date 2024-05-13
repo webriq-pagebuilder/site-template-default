@@ -13,9 +13,9 @@ require("dotenv").config({ path: ".env.test" });
 export default defineConfig({
   timeout: 1_000_000,
   testDir: "./tests",
-  // expect: {
-  //   timeout: 150_000,
-  // },
+  expect: {
+    timeout: 120_000,
+  },
   /* Run tests in files in parallel */
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
@@ -36,7 +36,7 @@ export default defineConfig({
 
     storageState: authFile,
 
-    // actionTimeout: 250_000,
+    actionTimeout: 120_000,
   },
 
   globalSetup: require.resolve("./playwright/global-setup.ts"),
