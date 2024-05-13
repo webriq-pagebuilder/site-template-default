@@ -111,7 +111,7 @@ const commonFieldValues = {
     },
   ],
   internalLinkUrl: `${NEXT_PUBLIC_SITE_URL}/thank-you`,
-  externalLinkUrl: "https://facebook.com",
+  externalLinkUrl: "https://webriq.com",
 };
 
 test.describe.configure({ timeout: 1_000_000, mode: "parallel" });

@@ -1,6 +1,5 @@
 import { test } from "@playwright/test";
 import { deletePageVariant, newPageTitle, beforeEachTest } from "tests/utils";
-import { NEXT_PUBLIC_SITE_URL } from "studio/config";
 import VariantA from "./variant_a";
 import VariantB from "./variant_b";
 
@@ -13,8 +12,8 @@ const commonFieldValues = {
   subtitle: "Subtitle Input Test",
   formName: "Form Name Test",
   signInButton: "Sign In Button Test",
-  internalLinkUrl: `${NEXT_PUBLIC_SITE_URL}/thank-you`,
-  externalLinkUrl: "https://facebook.com",
+  internalLinkUrl: `/thank-you`,
+  externalLinkUrl: "https://webriq.com",
   formFields: [
     {
       name: "First Name",
