@@ -1,6 +1,5 @@
 import { test } from "@playwright/test";
 import { beforeEachTest, deletePageVariant, newPageTitle } from "tests/utils";
-import { NEXT_PUBLIC_SITE_URL } from "studio/config";
 import VariantA from "./variant_a";
 import VariantB from "./variant_b";
 import VariantC from "./variant_c";
@@ -61,8 +60,8 @@ const commonFieldValues = {
   description: "Description Input Test",
   primaryButton: "Primary Button Test",
   secondaryButton: "Secondary Button Test",
-  externalLinkUrl: "https://facebook.com",
-  internalLinkUrl: `${NEXT_PUBLIC_SITE_URL}/thank-you/`,
+  externalLinkUrl: "https://webriq.com",
+  internalLinkUrl: `/thank-you`,
 };
 
 test.describe.configure({ timeout: 1_500_000, mode: "parallel" });
