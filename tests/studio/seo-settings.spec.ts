@@ -18,7 +18,7 @@ const newSeoPage = newPageTitle("Test SEO page ");
 test.describe("Verify SEO Settings", () => {
   console.log("[INFO] Run SEO Settings tests ~ Verify SEO Settings");
 
-  test.describe.configure({ timeout: 600_000, mode: "serial" });
+  test.describe.configure({ mode: "serial" });
 
   test("Create test page for SEO", async ({ page }) => {
     await navigateToPage(page);
@@ -108,10 +108,7 @@ test.describe("Verify SEO Settings", () => {
   test("Sets global SEO values when page SEO is undefined", async ({
     page,
   }) => {
-    test.setTimeout(300_000);
-
     await navigateToPage(page);
-
     await expect(page.getByRole("link", { name: newSeoPage })).toBeVisible();
     await page.getByRole("link", { name: newSeoPage }).click({ force: true });
     await expect(page.getByText("Loading document")).toBeHidden();
@@ -154,8 +151,6 @@ test.describe("Verify SEO Settings", () => {
   });
 
   test.describe("Redirects to global SEO page", () => {
-    test.describe.configure({ timeout: 600_000 });
-
     test.beforeEach(async ({ page }) => {
       await navigateToPage(page);
       await expect(page.getByRole("link", { name: newSeoPage })).toBeVisible();
@@ -239,10 +234,7 @@ test.describe("Verify SEO Settings", () => {
   });
 
   test("Can add page SEO values", async ({ page }) => {
-    test.setTimeout(300_000);
-
     await navigateToPage(page);
-
     await expect(page.getByRole("link", { name: newSeoPage })).toBeVisible();
     await page.getByRole("link", { name: newSeoPage }).click({ force: true });
     await page
