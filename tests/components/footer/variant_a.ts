@@ -1,5 +1,11 @@
 import { expect } from "@playwright/test";
-import { expectDocumentPublished, createSlug } from "tests/utils";
+import {
+  expectDocumentPublished,
+  createSlug,
+  copyrightField,
+  bodyField,
+} from "tests/utils";
+import { footerInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-default";
 
 export default async function VariatA({
   pageTitle,
@@ -38,9 +44,14 @@ export default async function VariatA({
     await page.getByText("Self (default) - open in the").click();
   }
 
+  console.log("footerInitialValue", footerInitialValue);
+
   //Body
-  await page.getByLabel("Body").click();
-  await page.getByLabel("Body").fill(commonFieldValues.footerBody);
+  await bodyField.checkAndAddValue({
+    page,
+    initialValue: footerInitialValue,
+    commonFieldValues,
+  });
 
   //Contact Details
   await page.getByRole("button", { name: "Hidden Valley Road, NY" }).click();
@@ -54,14 +65,11 @@ export default async function VariatA({
   await page.getByLabel("Close dialog").click();
 
   //Copyright
-  await page
-    .getByTestId("field-variants.copyright")
-    .getByTestId("string-input")
-    .click();
-  await page
-    .getByTestId("field-variants.copyright")
-    .getByTestId("string-input")
-    .fill(commonFieldValues.copyrightText);
+  await copyrightField.checkAndAddValue({
+    page,
+    initialValue: footerInitialValue,
+    commonFieldValues,
+  });
 
   //Social Links
   for (let i = 0; i < linkNames.length; i++) {
@@ -100,16 +108,6 @@ async function assertPageContent(
   commonFieldValues,
   isInternalLink
 ) {
-  //Body
-  await expect(page.getByText(commonFieldValues.footerBody)).toBeVisible();
-
-  //Copyright
-  await expect(page.getByText(commonFieldValues.copyrightText)).toBeVisible();
-
-  for (const contact of commonFieldValues.contactInfo) {
-    await expect(page.getByText(contact.updatedName)).toBeVisible();
-  }
-
   //LogoImg
   let logoImg: string;
   let target: string;
@@ -117,22 +115,40 @@ async function assertPageContent(
 
   if (isInternalLink) {
     (target = "_self"),
-      (href = commonFieldValues.internalLinkUrl),
+      (href = commonFieldValues?.internalLinkUrl),
       (logoImg = "Go to /thank-you");
   } else {
     (target = "_blank"),
-      (href = commonFieldValues.externalLinkUrl),
-      (logoImg = `Go to ${commonFieldValues.externalLinkUrl}`);
+      (href = commonFieldValues?.externalLinkUrl),
+      (logoImg = `Go to ${commonFieldValues?.externalLinkUrl}`);
   }
 
   // Include logo img in the link names array
   linkNames.push(logoImg);
 
+  //Body
+  await bodyField.sitePreview({ pageUrl: page, commonFieldValues });
+
+  //Copyright
+  await copyrightField.sitePreview({ pageUrl: page, commonFieldValues });
+
+  for (const contact of commonFieldValues.contactInfo) {
+    await expect(page.getByText(contact.updatedName)).toBeVisible();
+  }
+
   for (const linkName of linkNames) {
-    await expect(
-      page.locator(
-        `a[aria-label="${linkName}"][target="${target}"][href="${href}"]`
-      )
-    ).toBeVisible();
+    if (["facebook", "twitter", "instagram"].includes(linkName)) {
+      await expect(
+        page.locator(
+          `a[aria-label="${linkName}"][target="_blank"][href="${commonFieldValues?.externalLinkUrl}"]`
+        )
+      ).toBeVisible();
+    } else {
+      await expect(
+        page.locator(
+          `a[aria-label="${linkName}"][target="${target}"][href="${href}"]`
+        )
+      ).toBeVisible();
+    }
   }
 }

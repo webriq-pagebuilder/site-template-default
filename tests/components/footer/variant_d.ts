@@ -1,10 +1,11 @@
 import { expect } from "@playwright/test";
+import { footerInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-default";
 import {
   expectDocumentPublished,
-  assertExternalUrl,
-  assertInternalUrl,
   createSlug,
   addNavigationRoutes,
+  copyrightField,
+  bodyField,
 } from "tests/utils";
 
 export default async function VariantD({
@@ -45,18 +46,17 @@ export default async function VariantD({
   }
 
   //Body
-  await page.getByLabel("Body").click();
-  await page.getByLabel("Body").fill(commonFieldValues.footerBody);
+  await bodyField.checkAndAddValue({
+    page,
+    initialValue: footerInitialValue,
+    commonFieldValues,
+  });
 
-  //Copyright
-  await page
-    .getByTestId("field-variants.copyright")
-    .getByTestId("string-input")
-    .click();
-  await page
-    .getByTestId("field-variants.copyright")
-    .getByTestId("string-input")
-    .fill(commonFieldValues.copyrightText);
+  await copyrightField.checkAndAddValue({
+    page,
+    initialValue: footerInitialValue,
+    commonFieldValues,
+  });
 
   //Social Links
   for (let i = 0; i < linkNames.slice(0, 3).length; i++) {
@@ -127,16 +127,6 @@ async function assertPageContent(
   commonFieldValues,
   isInternalLink
 ) {
-  // Body
-  await expect(page.getByText(commonFieldValues.footerBody)).toBeVisible();
-
-  // Copyright
-  await expect(page.getByText(commonFieldValues.copyrightText)).toBeVisible();
-
-  await expect(page.getByText("Quick Links")).toBeVisible();
-  await expect(page.getByText("Helpful Links")).toBeVisible();
-  await expect(page.getByText("Explore")).toBeVisible();
-
   //LogoImg
   let logoImg: string;
   let target: string;
@@ -155,11 +145,29 @@ async function assertPageContent(
   // Include logo img in the link names array
   linkNames.push(logoImg);
 
+  // Body
+  await bodyField.sitePreview({ pageUrl: page, commonFieldValues });
+
+  // Copyright
+  await copyrightField.sitePreview({ pageUrl: page, commonFieldValues });
+
+  await expect(page.getByText("Quick Links")).toBeVisible();
+  await expect(page.getByText("Helpful Links")).toBeVisible();
+  await expect(page.getByText("Explore")).toBeVisible();
+
   for (const linkName of linkNames) {
-    await expect(
-      page.locator(
-        `a[aria-label="${linkName}"][target="${target}"][href="${href}"]`
-      )
-    ).toBeVisible();
+    if (["facebook", "twitter", "instagram"].includes(linkName)) {
+      await expect(
+        page.locator(
+          `a[aria-label="${linkName}"][target="_blank"][href="${commonFieldValues?.externalLinkUrl}"]`
+        )
+      ).toBeVisible();
+    } else {
+      await expect(
+        page.locator(
+          `a[aria-label="${linkName}"][target="${target}"][href="${href}"]`
+        )
+      ).toBeVisible();
+    }
   }
 }

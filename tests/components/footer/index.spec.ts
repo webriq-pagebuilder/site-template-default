@@ -1,6 +1,5 @@
 import { test } from "@playwright/test";
 import { deletePageVariant, beforeEachTest, newPageTitle } from "tests/utils";
-import { NEXT_PUBLIC_SITE_URL } from "studio/config";
 import VariantA from "./variant_a";
 import VariantB from "./variant_b";
 import VariantC from "./variant_c";
@@ -14,10 +13,10 @@ const variantModules = {
 };
 
 const commonFieldValues = {
-  footerBody: "Footer Body Input",
+  body: "Footer Body Input",
   copyrightText: "Copyright Input",
-  externalLinkUrl: "https://facebook.com",
-  internalLinkUrl: `${NEXT_PUBLIC_SITE_URL}/thank-you/`,
+  externalLinkUrl: "https://webriq.com",
+  internalLinkUrl: `/thank-you`,
   contactInfo: [
     { name: "359 Hidden Valley Road", updatedName: "Contact Address" },
     { name: "hello@webriq.com", updatedName: "webriq@test.com" },
@@ -42,7 +41,7 @@ const footerVariantTest = [
     title: "Footer Page A",
     label: "Footer New Page A",
     variant: "variant_a",
-    isInternalLink: false,
+    isInternalLink: true,
     linkNames: commonFieldValues.navigationBase.slice(0, 3),
   },
   {
@@ -50,7 +49,7 @@ const footerVariantTest = [
     title: "Footer Page B",
     label: "Footer New Page B",
     variant: "variant_b",
-    isInternalLink: false,
+    isInternalLink: true,
     linkNames: commonFieldValues.navigationBase,
   },
   {
@@ -58,7 +57,7 @@ const footerVariantTest = [
     title: "Footer Page C",
     label: "Footer New Page C",
     variant: "variant_c",
-    isInternalLink: false,
+    isInternalLink: true,
     linkNames: commonFieldValues.navigationBase,
   },
   {
@@ -66,7 +65,7 @@ const footerVariantTest = [
     title: "Footer Page D",
     label: "Footer New Page D",
     variant: "variant_d",
-    isInternalLink: false,
+    isInternalLink: true,
     linkNames: [
       ...commonFieldValues.navigationBase,
       ...commonFieldValues.exploreLinks,

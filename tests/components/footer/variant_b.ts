@@ -1,8 +1,10 @@
 import { expect } from "@playwright/test";
+import { footerInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-default";
 import {
   expectDocumentPublished,
   createSlug,
   addNavigationRoutes,
+  copyrightField,
 } from "tests/utils";
 
 export default async function createFooterVariant({
@@ -43,14 +45,11 @@ export default async function createFooterVariant({
   }
 
   //Copyright
-  await page
-    .getByTestId("field-variants.copyright")
-    .getByTestId("string-input")
-    .click();
-  await page
-    .getByTestId("field-variants.copyright")
-    .getByTestId("string-input")
-    .fill(commonFieldValues.copyrightText);
+  await copyrightField.checkAndAddValue({
+    page,
+    initialValue: footerInitialValue,
+    commonFieldValues,
+  });
 
   //Social Links
   for (let i = 0; i < linkNames.slice(0, 3).length; i++) {
@@ -92,9 +91,6 @@ async function assertPageContent(
   commonFieldValues,
   isInternalLink
 ) {
-  // Copyright
-  await expect(page.getByText(commonFieldValues.copyrightText)).toBeVisible();
-
   //LogoImg
   let logoImg: string;
   let target: string;
@@ -113,11 +109,22 @@ async function assertPageContent(
   // Include logo img in the link names array
   linkNames.push(logoImg);
 
+  // Copyright
+  await copyrightField.sitePreview({ pageUrl: page, commonFieldValues });
+
   for (const linkName of linkNames) {
-    await expect(
-      page.locator(
-        `a[aria-label="${linkName}"][target="${target}"][href="${href}"]`
-      )
-    ).toBeVisible();
+    if (["facebook", "twitter", "instagram"].includes(linkName)) {
+      await expect(
+        page.locator(
+          `a[aria-label="${linkName}"][target="_blank"][href="${commonFieldValues?.externalLinkUrl}"]`
+        )
+      ).toBeVisible();
+    } else {
+      await expect(
+        page.locator(
+          `a[aria-label="${linkName}"][target="${target}"][href="${href}"]`
+        )
+      ).toBeVisible();
+    }
   }
 }
