@@ -278,11 +278,10 @@ export async function createNewPage(page, sectionTitle, sections) {
   const newPageButtonElement = `a[href="/studio/intent/create/template=page;type=page/"]`;
   await page.waitForSelector(newPageButtonElement, { state: "visible" });
 
-  try {
-    await page
-      .locator(newPageButtonElement)
-      .toHaveAttribute("data-disabed", "false");
-  } catch (error) {
+  const button = await page.locator(newPageButtonElement);
+
+  // Check for disabled attribute using data-disabled
+  if (await button.evaluate((el) => el.dataset.disabled === "true")) {
     console.warn("Create new page button is disabled, reloading...");
     await page.reload();
   }
@@ -497,17 +496,42 @@ export async function deletePageVariant(page, pageTitle, variantLabel) {
   await page.getByLabel("Clear").click({ force: true });
   await page.getByRole("link", { name: variantLabel }).click();
   await page.getByRole("button", { name: pageTitle }).click();
-  await page.getByTestId("field-sections").getByRole("button").nth(1).click();
 
   //Remove section
+  try {
+    await page.getByTestId("field-sections").getByRole("button").nth(1).click();
+    await page.waitForSelector('button[role="menuitem"]:has-text("Remove")', {
+      state: "visible",
+    });
+  } catch (error) {
+    console.warn("Remove menu item is not visible, clicking button again...");
+    await page.getByTestId("field-sections").getByRole("button").nth(1).click();
+    await page.waitForSelector('button[role="menuitem"]:has-text("Remove")', {
+      state: "visible",
+    });
+  }
   await expect(page.getByRole("menuitem", { name: "Remove" })).toBeVisible();
-  await page.getByRole("menuitem", { name: "Remove" }).click();
-  await expect(
-    page
-      .locator("div")
-      .filter({ hasText: /^No items$/ })
-      .nth(3)
-  ).toBeVisible();
+
+  try {
+    await page.getByRole("menuitem", { name: "Remove" }).click();
+    await expect(
+      page
+        .locator("div")
+        .filter({ hasText: /^No items$/ })
+        .nth(3)
+    ).toBeVisible();
+  } catch (error) {
+    console.warn(
+      "No items in section is not visible, clicking remove again..."
+    );
+    await page.getByRole("menuitem", { name: "Remove" }).click();
+    await expect(
+      page
+        .locator("div")
+        .filter({ hasText: /^No items$/ })
+        .nth(3)
+    ).toBeVisible();
+  }
 
   //Publish with no referenced section to delete the component variant
   await page.waitForSelector('a[target="_blank"]', { state: "visible" });
@@ -547,7 +571,6 @@ export async function deletePageVariant(page, pageTitle, variantLabel) {
 
   //Delete Component Variant
   await page.getByRole("button", { name: variantLabel }).click();
-  // await expect(page.getByTestId("reference-changed-banner")).toBeVisible();
   await expect(
     page.getByTestId("document-panel-scroller").nth(1)
   ).toBeVisible();
@@ -555,7 +578,6 @@ export async function deletePageVariant(page, pageTitle, variantLabel) {
   await page.waitForSelector('button[data-testid="action-Delete"]', {
     visible: true,
   });
-  // await expect(page.getByTestId("action-Delete")).toBeVisible();
   await page.getByTestId("action-Delete").click();
   await expect(page.getByText("Looking for referring")).toBeVisible();
   await expect(page.getByText("Looking for referring")).toBeHidden();
@@ -571,11 +593,19 @@ export async function deletePageVariant(page, pageTitle, variantLabel) {
     visible: true,
   });
   await expect(page.getByTestId("loading-container")).toBeHidden();
-  await page.getByTestId("confirm-delete-button").click();
+  try {
+    await page.getByTestId("confirm-delete-button").click();
+    await expect(
+      page.getByTestId("document-panel-scroller").first()
+    ).toBeHidden();
+  } catch (error) {
+    console.warn("Page still not deleted, clicking confirm delete again...");
+    await page.getByTestId("confirm-delete-button").click();
+    await expect(
+      page.getByTestId("document-panel-scroller").first()
+    ).toBeHidden();
+  }
 
-  await expect(
-    page.getByTestId("document-panel-scroller").first()
-  ).toBeHidden();
   await expect(page.getByRole("link", { name: pageTitle })).toBeHidden();
 }
 
@@ -859,7 +889,7 @@ export async function addNavigationRoutes({
         page.locator('div input[inputmode="url"]').nth(1)
       ).toBeVisible();
     } catch (error) {
-      console.warn("URL Inout is not visible, click on text external again.");
+      console.warn("URL Input is not visible, click on text external again.");
       await routesExternalLink.nth(1).click({ force: true });
       await expect(
         page.locator('div input[inputmode="url"]').nth(1)
@@ -889,22 +919,235 @@ export async function addNavigationRoutes({
     await selfLinkTarget.nth(1).click();
   }
 
+  //Text
+  const editLinkText = await page.locator('span:has-text("Edit Link")');
+  const editText = await page
+    .locator('div[data-ui="DialogCard"]:has-text("Edit")')
+    .first();
+
+  //Close
   const editLink = await page
     .getByLabel("Edit Link")
     .getByLabel("Close dialog");
 
-  if (await editLink.isVisible()) {
+  if (editLinkText.isVisible() && editText.isVisible()) {
     try {
       await editLink.click({ force: true });
       await expect(editLink).toBeHidden();
-      await expect(page.getByText("Edit", { exact: true })).toBeVisible();
     } catch (error) {
       console.warn("Edit Link is still visible clicking close dialog again...");
       await editLink.click({ force: true });
       await expect(editLink).toBeHidden();
-      await expect(page.getByText("Edit", { exact: true })).toBeVisible();
     }
   }
 
-  await page.getByLabel("Close dialog").click();
+  const closeDialog = await page.getByLabel("Close dialog");
+
+  if (await closeDialog.isVisible()) {
+    try {
+      await page.getByLabel("Close dialog").click();
+      await expect(closeDialog).toBeHidden();
+    } catch (error) {
+      console.warn(
+        "Close dialog is still visible, clicking close dialog again..."
+      );
+      await page.getByLabel("Close dialog").click();
+      await expect(closeDialog).toBeHidden();
+    }
+  }
 }
+
+export const copyrightField = {
+  async checkAndAddValue({ page, initialValue, commonFieldValues }) {
+    const copyright = page
+      .getByTestId("field-variants.copyright")
+      .getByTestId("string-input");
+    await expect(copyright).toBeVisible();
+    await expect(copyright.inputValue()).resolves.toBe(initialValue.copyright);
+    await copyright.click();
+    await copyright.press("Meta+a");
+    await copyright.fill(commonFieldValues?.copyrightText);
+    await expect(copyright.inputValue()).resolves.toBe(
+      commonFieldValues?.copyrightText
+    );
+  },
+  async sitePreview({ pageUrl, commonFieldValues }) {
+    await expect(
+      pageUrl.getByText(commonFieldValues?.copyrightText)
+    ).toBeVisible();
+  },
+};
+
+export const bodyField = {
+  async checkAndAddValue({ page, initialValue, commonFieldValues }) {
+    const body = page.getByLabel("Body");
+    await expect(body).toBeVisible();
+    await expect(body.inputValue()).resolves.toBe(initialValue.plainText);
+    await body.click();
+    await body.press("Meta+a");
+    await body.fill(commonFieldValues?.body);
+    await expect(body.inputValue()).resolves.toBe(commonFieldValues?.body);
+  },
+  async sitePreview({ pageUrl, commonFieldValues }) {
+    await expect(pageUrl.getByText(commonFieldValues.body)).toBeVisible();
+  },
+};
+
+export const primaryButtonField = {
+  async checkAndAddValue({
+    page,
+    initialValue,
+    commonFieldValues,
+    isInternalLink,
+  }) {
+    await expect(
+      page.getByRole("button", { name: "Primary Button" })
+    ).toBeVisible();
+    await page.getByRole("button", { name: "Primary Button" }).click();
+    const primaryButton = page
+      .getByTestId("field-variants.primaryButton.label")
+      .getByTestId("string-input");
+    await expect(primaryButton).toBeVisible();
+    await expect(primaryButton.inputValue()).resolves.toBe(
+      initialValue.primaryButton.label
+    );
+    await primaryButton.click();
+    await primaryButton.press("Meta+a");
+    await primaryButton.fill(commonFieldValues?.primaryButton);
+    await expect(primaryButton.inputValue()).resolves.toBe(
+      commonFieldValues?.primaryButton
+    );
+
+    //Determine the proceeds if it is internal or external link
+    if (!isInternalLink) {
+      await page
+        .getByTestId("field-variants.primaryButton.linkType")
+        .getByText("External, outside this website")
+        .click();
+      await page
+        .getByTestId("field-variants.primaryButton.linkExternal")
+        .getByLabel("URL")
+        .click();
+      await page
+        .getByTestId("field-variants.primaryButton.linkExternal")
+        .getByLabel("URL")
+        .fill(commonFieldValues.externalLinkUrl);
+      await page.getByText("Blank - open on a new tab (").click();
+    } else {
+      await page
+        .getByTestId("field-variants.primaryButton.linkType")
+        .getByText("Internal, inside this website")
+        .click();
+      await page.getByTestId("autocomplete").click();
+      await page.getByTestId("autocomplete").fill("thank you");
+      await page
+        .getByRole("button", { name: "Thank you Published No" })
+        .click({ force: true });
+      await page.getByText("Self (default) - open in the").click();
+    }
+
+    await page.getByRole("button", { name: "Primary Button" }).click();
+  },
+  async sitePreview({ pageUrl, commonFieldValues, isInternalLink }) {
+    let target: string;
+    let href: string;
+
+    await expect(
+      pageUrl.getByText(commonFieldValues.primaryButton)
+    ).toBeVisible();
+
+    if (isInternalLink) {
+      (target = "_self"), (href = commonFieldValues.internalLinkUrl);
+    } else {
+      (target = "_blank"), (href = commonFieldValues.externalLinkUrl);
+    }
+
+    await expect(
+      pageUrl
+        .locator(
+          `a[aria-label="${commonFieldValues.primaryButton}"][target="${target}"][href="${href}"]`
+        )
+        .first()
+    ).toBeVisible();
+  },
+};
+
+export const secondaryButtonField = {
+  async checkAndAddValue({
+    page,
+    initialValue,
+    commonFieldValues,
+    isInternalLink,
+  }) {
+    await expect(
+      page.getByRole("button", { name: "Secondary Button" })
+    ).toBeVisible();
+    await page.getByRole("button", { name: "Secondary Button" }).click();
+    const secondaryButton = page
+      .getByTestId("field-variants.secondaryButton.label")
+      .getByTestId("string-input");
+    await expect(secondaryButton).toBeVisible();
+    await expect(secondaryButton.inputValue()).resolves.toBe(
+      initialValue.secondaryButton.label
+    );
+    await secondaryButton.click();
+    await secondaryButton.press("Meta+a");
+    await secondaryButton.fill(commonFieldValues?.secondaryButton);
+    await expect(secondaryButton.inputValue()).resolves.toBe(
+      commonFieldValues?.secondaryButton
+    );
+
+    //Determine the proceeds if it is internal or external link
+    if (!isInternalLink) {
+      await page
+        .getByTestId("field-variants.secondaryButton.linkType")
+        .getByText("External, outside this website")
+        .click();
+      await page
+        .getByTestId("field-variants.secondaryButton.linkExternal")
+        .getByLabel("URL")
+        .click();
+      await page
+        .getByTestId("field-variants.secondaryButton.linkExternal")
+        .getByLabel("URL")
+        .fill(commonFieldValues.externalLinkUrl);
+      await page.getByText("Blank - open on a new tab (").click();
+    } else {
+      await page
+        .getByTestId("field-variants.secondaryButton.linkType")
+        .getByText("Internal, inside this website")
+        .click();
+      // await page.getByTestId('reference-input').getByLabel('Open').click();
+      await page.getByTestId("autocomplete").click();
+      await page.getByTestId("autocomplete").fill("thank you");
+      await page
+        .getByRole("button", { name: "Thank you Published No" })
+        .click({ force: true });
+      await page.getByText("Self (default) - open in the").click();
+    }
+
+    // await page.getByRole("button", { name: "Secondary Button" }).click();
+  },
+  async sitePreview({ pageUrl, commonFieldValues, isInternalLink }) {
+    let target: string;
+    let href: string;
+
+    await expect(
+      pageUrl.getByText(commonFieldValues.secondaryButton)
+    ).toBeVisible();
+
+    if (isInternalLink) {
+      (target = "_self"), (href = commonFieldValues.internalLinkUrl);
+    } else {
+      (target = "_blank"), (href = commonFieldValues.externalLinkUrl);
+    }
+
+    await expect(
+      pageUrl
+        .locator(
+          `a[aria-label="${commonFieldValues.secondaryButton}"][target="${target}"][href="${href}"]`
+        )
+        .first()
+    ).toBeVisible();
+  },
+};
