@@ -1,6 +1,5 @@
 import { test } from "@playwright/test";
 import { beforeEachTest, deletePageVariant, newPageTitle } from "tests/utils";
-import { NEXT_PUBLIC_SITE_URL } from "studio/config";
 import VariantA from "./variant_a";
 import VariantB from "./variant_b";
 import VariantC from "./variant_c";
@@ -47,9 +46,9 @@ const logoCloudVariantTest = [
 const commonFieldValues = {
   title: "Title Input Test",
   body: "Body Input Test",
-  primaryBtn: "Primary Button Test",
+  primaryButton: "Primary Button Test",
   externalLinkUrl: "https://www.webriq.com/",
-  internalLinkUrl: `${NEXT_PUBLIC_SITE_URL}/thank-you/`,
+  internalLinkUrl: `/thank-you`,
 };
 
 test.describe.configure({ timeout: 600_000, mode: "parallel" });

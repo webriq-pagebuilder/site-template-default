@@ -4,6 +4,7 @@ import {
   subtitleField,
   titleField,
   createSlug,
+  bodyField,
 } from "tests/utils";
 import { howItWorksInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-default";
 
@@ -28,8 +29,11 @@ export default async function VariantB({
   });
 
   //Body
-  await page.getByLabel("Body").click();
-  await page.getByLabel("Body").fill(commonFieldValues.body);
+  await bodyField.checkAndAddValue({
+    page,
+    initialValue: howItWorksInitialValue,
+    commonFieldValues,
+  });
 
   for (const step of commonFieldValues.stepsData) {
     await page.getByRole("button", { name: step.title }).first().click();
@@ -59,7 +63,8 @@ export default async function VariantB({
   //Subtitle
   await subtitleField.sitePreview({ pageUrl: page, commonFieldValues });
 
-  await expect(page.getByText(commonFieldValues.body)).toBeVisible();
+  //Body
+  await bodyField.sitePreview({ pageUrl: page, commonFieldValues });
 
   for (const steps of commonFieldValues.stepsData) {
     await expect(page.getByText(steps.updatedTitle)).toBeVisible();

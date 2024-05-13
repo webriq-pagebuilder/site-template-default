@@ -1,5 +1,10 @@
 import { expect } from "@playwright/test";
-import { createSlug, expectDocumentPublished, titleField } from "tests/utils";
+import {
+  bodyField,
+  createSlug,
+  expectDocumentPublished,
+  titleField,
+} from "tests/utils";
 import { logoCloudInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-default";
 
 export default async function VariantB({
@@ -16,8 +21,11 @@ export default async function VariantB({
   });
 
   //Body
-  await page.getByLabel("Body").click();
-  await page.getByLabel("Body").fill(commonFieldValues.body);
+  await bodyField.checkAndAddValue({
+    page,
+    initialValue: logoCloudInitialValue,
+    commonFieldValues,
+  });
 
   await expectDocumentPublished(page, pageTitle);
   await page.goto(`${baseURL}/${createSlug(pageTitle)}`);
@@ -27,7 +35,7 @@ export default async function VariantB({
   await titleField.sitePreview({ pageUrl: page, commonFieldValues });
 
   //Body
-  await expect(page.getByText(commonFieldValues.body)).toBeVisible();
+  await bodyField.sitePreview({ pageUrl: page, commonFieldValues });
 
   //Image
   for (let i = 0; i < 6; i++) {
