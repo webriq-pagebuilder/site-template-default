@@ -1,5 +1,6 @@
 import { expect } from "@playwright/test";
-import { createSlug, expectDocumentPublished } from "tests/utils";
+import { teamInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-default";
+import { bodyField, createSlug, expectDocumentPublished } from "tests/utils";
 
 export default async function VariantB({
   pageTitle,
@@ -7,24 +8,45 @@ export default async function VariantB({
   commonFieldValues,
   baseURL,
 }) {
-  for (const person of commonFieldValues.peopleData) {
-    await page.getByRole("button", { name: person.name }).click();
-    await expect(page.getByLabel("Edit", { exact: true })).toBeVisible();
+  for (let i = 0; i < teamInitialValue.teams.length; i++) {
+    const person = teamInitialValue.teams[i];
+    const newName = commonFieldValues.peopleData[i]?.newName;
+    const newJob = commonFieldValues.peopleData[i]?.newJob;
+    const body = commonFieldValues.peopleData[i];
 
-    //Full Name
+    await expect(page.getByRole("button", { name: person.name })).toBeVisible();
+    try {
+      await page.getByRole("button", { name: person.name }).click();
+      await expect(page.getByLabel("Edit", { exact: true })).toBeVisible();
+    } catch (error) {
+      console.warn("Edit dialog is not visible, clicking button again...");
+      await page.getByRole("button", { name: person.name }).click();
+      await expect(page.getByLabel("Edit", { exact: true })).toBeVisible();
+    }
+
+    // Name
     await page.locator(`input[value="${person.name}"]`).click();
-    await page.locator(`input[value="${person.name}"]`).fill(person.nameChange);
+    await page.locator(`input[value="${person.name}"]`).fill(newName);
 
-    //Job Title
-    await page.locator(`input[value="${person.currentJob}"]`).click();
-    await page
-      .locator(`input[value="${person.currentJob}"]`)
-      .fill(person.jobChange);
+    // Job Title
+    await page.locator(`input[value="${person.jobTitle}"]`).click();
+    await page.locator(`input[value="${person.jobTitle}"]`).fill(newJob);
 
-    //Body
-    await page.getByLabel("Body").click();
-    await page.getByLabel("Body").fill(person.body);
-    await page.getByLabel("Close dialog").click();
+    // Body
+    await bodyField.checkAndAddValue({
+      page,
+      initialValue: person,
+      commonFieldValues: body,
+    });
+
+    try {
+      await page.getByLabel("Close dialog").click();
+      await expect(page.getByLabel("Close dialog")).toBeHidden();
+    } catch (error) {
+      console.warn("Clicking close dialog again since it is not hidden.");
+      await page.getByLabel("Close dialog").click();
+      await expect(page.getByLabel("Close dialog")).toBeHidden();
+    }
   }
 
   await expectDocumentPublished(page, pageTitle);
@@ -32,11 +54,17 @@ export default async function VariantB({
   page.waitForLoadState("domcontentloaded");
 
   for (const person of commonFieldValues.peopleData) {
-    await page.getByLabel(person.nameChange).click();
+    await page.getByLabel(person.newName).click();
+
+    // Name
     await expect(
-      page.locator("p").filter({ hasText: person.nameChange })
+      page.locator("p").filter({ hasText: person.newName })
     ).toBeVisible();
-    await expect(page.getByText(person.jobChange)).toBeVisible();
-    await expect(page.getByText(person.body)).toBeVisible();
+
+    // Job Title
+    await expect(page.getByText(person.newJob)).toBeVisible();
+
+    // Body
+    await bodyField.sitePreview({ pageUrl: page, commonFieldValues: person });
   }
 }

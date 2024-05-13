@@ -1,5 +1,6 @@
 import { expect } from "@playwright/test";
 import {
+  bodyField,
   createSlug,
   expectDocumentPublished,
   subtitleField,
@@ -27,19 +28,40 @@ export default async function VariantD({
     commonFieldValues,
   });
 
-  for (const person of commonFieldValues.peopleData) {
-    await page.getByRole("button", { name: person.name }).click();
-    await expect(page.getByLabel("Edit", { exact: true })).toBeVisible();
+  for (let i = 0; i < teamInitialValue.teams.length; i++) {
+    const person = teamInitialValue.teams[i];
+    const newName = commonFieldValues.peopleData[i]?.newName;
+    const body = commonFieldValues.peopleData[i];
 
-    //Full Name
+    await expect(page.getByRole("button", { name: person.name })).toBeVisible();
+    try {
+      await page.getByRole("button", { name: person.name }).click();
+      await expect(page.getByLabel("Edit", { exact: true })).toBeVisible();
+    } catch (error) {
+      console.warn("Edit dialog is not visible, clicking button again...");
+      await page.getByRole("button", { name: person.name }).click();
+      await expect(page.getByLabel("Edit", { exact: true })).toBeVisible();
+    }
+
+    // Name
     await page.locator(`input[value="${person.name}"]`).click();
-    await page.locator(`input[value="${person.name}"]`).fill(person.nameChange);
+    await page.locator(`input[value="${person.name}"]`).fill(newName);
 
-    //Body
-    await page.getByLabel("Body").click();
-    await page.getByLabel("Body").fill(person.body);
+    // Body
+    await bodyField.checkAndAddValue({
+      page,
+      initialValue: person,
+      commonFieldValues: body,
+    });
 
-    await page.getByLabel("Close dialog").click();
+    try {
+      await page.getByLabel("Close dialog").click();
+      await expect(page.getByLabel("Close dialog")).toBeHidden();
+    } catch (error) {
+      console.warn("Clicking close dialog again since it is not hidden.");
+      await page.getByLabel("Close dialog").click();
+      await expect(page.getByLabel("Close dialog")).toBeHidden();
+    }
   }
 
   await expectDocumentPublished(page, pageTitle);
@@ -53,14 +75,10 @@ export default async function VariantD({
   await subtitleField.sitePreview({ pageUrl: page, commonFieldValues });
 
   for (const person of commonFieldValues.peopleData) {
-    await expect(page.getByText(person.nameChange)).toBeVisible();
-  }
+    // Name
+    await expect(page.getByText(person.newName)).toBeVisible();
 
-  await page.locator("p:nth-child(2)").first();
-  for (let i = 2; i <= commonFieldValues.peopleData.length + 1; i++) {
-    if (i < commonFieldValues.peopleData.length - 1) {
-      const selector = `div:nth-child(${i}) > .border > .p-4 > .text-base`;
-      await expect(page.locator(selector)).toBeVisible();
-    }
+    // Body
+    await bodyField.sitePreview({ pageUrl: page, commonFieldValues: person });
   }
 }
