@@ -1,8 +1,11 @@
 import { expect } from "@playwright/test";
+import { navigationInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-default";
 import {
   expectDocumentPublished,
   createSlug,
   addNavigationRoutes,
+  primaryButtonField,
+  secondaryButtonField,
 } from "tests/utils";
 
 export default async function VariantD({
@@ -53,129 +56,73 @@ export default async function VariantD({
     });
   }
 
-  //Primary Button
-  await page.getByRole("button", { name: "Primary Button" }).click();
-  await expect(
-    page
-      .getByTestId("field-variants.primaryButton.label")
-      .getByTestId("string-input")
-  ).toBeVisible();
-  await page
-    .getByTestId("field-variants.primaryButton.label")
-    .getByTestId("string-input")
-    .click();
-  await page
-    .getByTestId("field-variants.primaryButton.label")
-    .getByTestId("string-input")
-    .fill(commonFieldValues.primaryButton);
+  // Primary Button
+  await primaryButtonField.checkAndAddValue({
+    page,
+    initialValue: navigationInitialValue,
+    commonFieldValues,
+    isInternalLink,
+  });
 
-  if (isInternalLink) {
-    await page.getByTestId("autocomplete").click();
-    await page.getByTestId("autocomplete").fill("thank you");
-    await page.getByRole("button", { name: "Thank you Published No" }).click();
-    await page
-      .getByTestId("field-variants.primaryButton.linkType")
-      .getByLabel("Internal, inside this website")
-      .click();
-  } else {
-    await page
-      .getByTestId("field-variants.primaryButton.linkType")
-      .getByText("External, outside this website")
-      .click();
-    await page
-      .getByTestId("field-variants.primaryButton.linkExternal")
-      .getByLabel("URL")
-      .click();
-    await page
-      .getByTestId("field-variants.primaryButton.linkExternal")
-      .getByLabel("URL")
-      .fill(commonFieldValues.externalLinkUrl);
-    await page
-      .getByTestId("field-variants.primaryButton.linkTarget")
-      .getByText("Blank - open on a new tab (")
-      .click();
-  }
-  //Close primary button toggle
-  await page.getByRole("button", { name: "Primary Button" }).click();
-
-  //Secondary Button
-  await page.getByRole("button", { name: "Secondary Button" }).click();
-  await expect(
-    page
-      .getByTestId("field-variants.secondaryButton.label")
-      .getByTestId("string-input")
-  ).toBeVisible();
-  await page
-    .getByTestId("field-variants.secondaryButton.label")
-    .getByTestId("string-input")
-    .click();
-  await page
-    .getByTestId("field-variants.secondaryButton.label")
-    .getByTestId("string-input")
-    .fill(commonFieldValues.secondaryButton);
-
-  if (isInternalLink) {
-    await page.getByTestId("autocomplete").click();
-    await page.getByTestId("autocomplete").fill("thank you");
-    await page.getByRole("button", { name: "Thank you Published No" }).click();
-    await page
-      .getByTestId("field-variants.secondaryButton.linkTarget")
-      .getByText("Self (default) - open in the")
-      .click();
-  } else {
-    await page
-      .getByTestId("field-variants.secondaryButton.linkType")
-      .getByText("External, outside this website")
-      .click();
-    await page
-      .getByTestId("field-variants.secondaryButton.linkExternal")
-      .getByLabel("URL")
-      .click();
-    await page
-      .getByTestId("field-variants.secondaryButton.linkExternal")
-      .getByLabel("URL")
-      .fill(commonFieldValues.externalLinkUrl);
-    await page
-      .getByTestId("field-variants.secondaryButton.linkTarget")
-      .getByText("Blank - open on a new tab (")
-      .click();
-  }
-  //Close secondary button toggle
-  await page.getByRole("button", { name: "Secondary Button" }).click();
+  // Secondary Button
+  await secondaryButtonField.checkAndAddValue({
+    page,
+    initialValue: navigationInitialValue,
+    commonFieldValues,
+    isInternalLink,
+  });
 
   await expectDocumentPublished(page, pageTitle);
   await page.goto(`${baseURL}/${createSlug(pageTitle)}`);
   page.waitForLoadState("domcontentloaded");
 
-  // Default should just be available routes - no buttons in variant E
-  let logoImg = isInternalLink
-    ? "Go to /thank-you"
-    : `Go to ${commonFieldValues.externalLinkUrl}`;
-
-  await assertPageContent(page, logoImg, isInternalLink);
-
-  // Loops all routes
-  for (const linkName of linkNames) {
-    await assertPageContent(page, linkName, isInternalLink);
-  }
+  await assertPageContent(page, linkNames, commonFieldValues, isInternalLink);
 }
 
-async function assertPageContent(page, linkName, isInternalLink) {
-  await page.waitForSelector(`a[aria-label="${linkName}"]`, {
-    visible: true,
+async function assertPageContent(
+  page,
+  linkNames,
+  commonFieldValues,
+  isInternalLink
+) {
+  let logoImg: string;
+  let target: string;
+  let href: string;
+
+  if (isInternalLink) {
+    (target = "_self"),
+      (href = commonFieldValues.internalLinkUrl),
+      (logoImg = "Go to /thank-you");
+  } else {
+    (target = "_blank"),
+      (href = commonFieldValues.externalLinkUrl),
+      (logoImg = `Go to ${commonFieldValues.externalLinkUrl}`);
+  }
+
+  // Include logo img in the link names array
+  linkNames.push(logoImg);
+
+  for (const linkName of linkNames) {
+    await expect(
+      page
+        .locator(
+          `a[aria-label="${linkName}"][target="${target}"][href="${href}"]`
+        )
+        .first()
+    ).toBeVisible();
+  }
+
+  // Primary Button
+  await primaryButtonField.sitePreview({
+    pageUrl: page,
+    commonFieldValues,
+    isInternalLink,
   });
 
-  await expect(
-    page.locator(`a[aria-label="${linkName}"]`).first()
-  ).toBeVisible();
-
-  if (!isInternalLink) {
-    await expect(
-      page.locator(`a[aria-label="${linkName}"]`).first()
-    ).toHaveAttribute("target", "_blank");
-  } else {
-    await expect(
-      page.locator(`a[aria-label="${linkName}"]`).first()
-    ).toHaveAttribute("target", "_self");
-  }
+  // Secondary Button
+  await secondaryButtonField.sitePreview({
+    pageUrl: page,
+    commonFieldValues,
+    isInternalLink,
+  });
 }

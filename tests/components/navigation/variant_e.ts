@@ -66,31 +66,56 @@ export default async function VariantE({
   await page.goto(`${baseURL}/${createSlug(pageTitle)}`);
   page.waitForLoadState("domcontentloaded");
 
-  // Default should just be available routes - no buttons in variant E
-  let logoImg = isInternalLink
-    ? "Go to /thank-you"
-    : `Go to ${commonFieldValues.externalLinkUrl}`;
-
-  await assertPageContent(page, logoImg, isInternalLink);
-
-  // Loops all routes
-  for (const linkName of linkNames) {
-    await assertPageContent(page, linkName, isInternalLink);
-  }
+  await assertPageContent(page, linkNames, commonFieldValues, isInternalLink);
 }
 
-async function assertPageContent(page, linkName, isInternalLink) {
+async function assertPageContent(
+  page,
+  linkNames,
+  commonFieldValues,
+  isInternalLink
+) {
+  let logoImg: string;
+  let target: string;
+  let href: string;
+
+  if (isInternalLink) {
+    (target = "_self"),
+      (href = commonFieldValues.internalLinkUrl),
+      (logoImg = "Go to /thank-you");
+  } else {
+    (target = "_blank"),
+      (href = commonFieldValues.externalLinkUrl),
+      (logoImg = `Go to ${commonFieldValues.externalLinkUrl}`);
+  }
+
+  // Include logo img in the link names array
+  linkNames.push(logoImg);
+
   await expect(
-    page.locator(`a[aria-label="${linkName}"]`).first()
+    page.locator(
+      `p:has-text("Hi, you're new here! Get 20% off card! testttttttttt")`
+    )
   ).toBeVisible();
 
-  if (!isInternalLink) {
+  // Search button
+  await expect(page.getByLabel("Search button")).toBeVisible();
+
+  // Shopping cart
+  await expect(page.getByRole("link", { name: "Cart" })).toBeVisible();
+
+  // User icon
+  await expect(
+    page.locator('a[href="/cart?store-page=account"]')
+  ).toBeVisible();
+
+  for (const linkName of linkNames) {
     await expect(
-      page.locator(`a[aria-label="${linkName}"]`).first()
-    ).toHaveAttribute("target", "_blank");
-  } else {
-    await expect(
-      page.locator(`a[aria-label="${linkName}"]`).first()
-    ).toHaveAttribute("target", "_self");
+      page
+        .locator(
+          `a[aria-label="${linkName}"][target="${target}"][href="${href}"]`
+        )
+        .first()
+    ).toBeVisible();
   }
 }

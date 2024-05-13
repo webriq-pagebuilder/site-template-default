@@ -1,6 +1,5 @@
 import { test } from "@playwright/test";
 import { deletePageVariant, newPageTitle, beforeEachTest } from "tests/utils";
-import { NEXT_PUBLIC_SITE_URL } from "studio/config";
 import VariantA from "./variant_a";
 import VariantB from "./variant_b";
 import VariantC from "./variant_c";
@@ -19,7 +18,7 @@ const commonFieldValues = {
   primaryButton: "Primary Button Test",
   secondaryButton: "Secondary Button Test",
   externalLinkUrl: "https://webriq.com",
-  internalLinkUrl: `${NEXT_PUBLIC_SITE_URL}/thank-you/`,
+  internalLinkUrl: `/thank-you`,
   navigationBase: ["Start", "About Us", "Services", "Platform", "Testimonials"],
 };
 
@@ -30,10 +29,7 @@ const navigationVariantTest = [
     label: "Navigation New Page A",
     variant: "variant_a",
     isInternalLink: false,
-    linkNames: commonFieldValues.navigationBase.concat(
-      commonFieldValues.primaryButton,
-      commonFieldValues.secondaryButton
-    ),
+    linkNames: commonFieldValues.navigationBase,
   },
   {
     name: "Variant B",
@@ -41,10 +37,7 @@ const navigationVariantTest = [
     label: "Navigation New Page B",
     variant: "variant_b",
     isInternalLink: false,
-    linkNames: commonFieldValues.navigationBase.concat(
-      commonFieldValues.primaryButton,
-      commonFieldValues.secondaryButton
-    ),
+    linkNames: commonFieldValues.navigationBase,
   },
   {
     name: "Variant C",
@@ -52,10 +45,7 @@ const navigationVariantTest = [
     label: "Navigation New Page C",
     variant: "variant_c",
     isInternalLink: false,
-    linkNames: commonFieldValues.navigationBase.concat(
-      commonFieldValues.primaryButton,
-      commonFieldValues.secondaryButton
-    ),
+    linkNames: commonFieldValues.navigationBase,
   },
   {
     name: "Variant D",
@@ -63,10 +53,7 @@ const navigationVariantTest = [
     label: "Navigation New Page D",
     variant: "variant_d",
     isInternalLink: false,
-    linkNames: commonFieldValues.navigationBase.concat(
-      commonFieldValues.primaryButton,
-      commonFieldValues.secondaryButton
-    ),
+    linkNames: commonFieldValues.navigationBase,
   },
   {
     name: "Variant E",
