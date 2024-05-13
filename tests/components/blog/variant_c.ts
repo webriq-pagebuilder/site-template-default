@@ -4,6 +4,7 @@ import {
   subtitleField,
   titleField,
   createSlug,
+  primaryButtonField,
 } from "../../utils/index";
 import { blogInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-default";
 
@@ -28,16 +29,13 @@ export default async function VariantC({
     commonFieldValues,
   });
 
-  //Button
-  await page.getByRole("button", { name: "Primary Button" }).click();
-  await page
-    .getByTestId("field-variants.primaryButton.label")
-    .getByTestId("string-input")
-    .click();
-  await page
-    .getByTestId("field-variants.primaryButton.label")
-    .getByTestId("string-input")
-    .fill(commonFieldValues.button);
+  //Primary Button
+  await primaryButtonField.checkAndAddValue({
+    page,
+    initialValue: blogInitialValue,
+    commonFieldValues,
+    isInternalLink,
+  });
 
   if (!isInternalLink) {
     await page.getByText("External, outside this website").click();
@@ -58,24 +56,18 @@ export default async function VariantC({
   await page.goto(`${baseURL}/${createSlug(pageTitle)}`);
   await page.waitForLoadState("domcontentloaded");
 
-  await expect(
-    page.getByRole("heading", { name: commonFieldValues.title })
-  ).toBeVisible();
-  await expect(page.getByText(commonFieldValues.subtitle)).toBeVisible();
+  // Title
+  await titleField.sitePreview({ pageUrl: page, commonFieldValues });
 
-  await expect(
-    page.getByRole("link", { name: commonFieldValues.button })
-  ).toBeVisible();
+  // Subtitle
+  await subtitleField.sitePreview({ pageUrl: page, commonFieldValues });
 
-  if (!isInternalLink) {
-    await expect(
-      page.getByRole("link", { name: commonFieldValues.button })
-    ).toHaveAttribute("target", "_blank");
-  } else {
-    await expect(
-      page.getByRole("link", { name: commonFieldValues.button })
-    ).toHaveAttribute("target", "_self");
-  }
+  // Primary Button
+  await primaryButtonField.sitePreview({
+    pageUrl: page,
+    commonFieldValues,
+    isInternalLink,
+  });
 
   const blogPostsLength = 3;
   for (let i = 0; i < blogPostsLength; i++) {
