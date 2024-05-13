@@ -49,16 +49,16 @@ function VariantA({ caption, title, portfoliosWithCategory }: PortfolioProps) {
               ?.slice(0, portfolioLength)
               ?.map((content, index) => (
                 <div
-                  className="w-full px-4 mb-8 sm:w-1/2 lg:w-1/4 "
+                  className="w-full flex space-x-5 px-4 mb-8 sm:w-1/2 lg:w-1/4 "
                   key={index}
                 >
-                  <div className="relative mx-auto h-[256px] w-[352px] overflow-hidden rounded-lg">
+                  <div className="relative mx-auto h-[256px] w-[332px] overflow-hidden rounded-lg">
                     {content?.mainImage?.image && (
                       <Image
-                        className="object-cover w-full h-full"
-                        src={urlFor(content?.mainImage?.image)}
-                        sizes="100vw"
-                        width={352}
+                      className="object-cover w-full h-full"
+                      src={urlFor(content?.mainImage?.image)}
+                      sizes="100vw"
+                      width={332}
                         height={256}
                         alt={
                           content?.mainImage?.alt ?? `portfolio-image${index}`
@@ -68,10 +68,11 @@ function VariantA({ caption, title, portfoliosWithCategory }: PortfolioProps) {
                     <div className="absolute inset-0 z-10 flex items-center justify-center duration-300 bg-gray-900 rounded-lg opacity-0 hover:opacity-75">
                       {content?.primaryButton?.label && (
                         <Button
+                          as="link"
                           variant="outline"
                           ariaLabel={content?.primaryButton?.label}
                           link={content?.primaryButton}
-                          className="bg-transparent border-2 border-gray-400 !outline-none hover:border-white hover:opacity-100 text-gray-50 hover:bg-white hover:text-gray-900"
+                          className="bg-transparent border-secondary-foreground outline text-white hover:bg-secondary-foreground/20 hover:border-secondary-foreground/20 inline-block rounded-l-xl rounded-t-xl font-bold transition duration-200 px-3 py-4"
                         >
                           {content?.primaryButton?.label}
                         </Button>
@@ -85,6 +86,7 @@ function VariantA({ caption, title, portfoliosWithCategory }: PortfolioProps) {
         {portfoliosPerCategory?.[0]?.primaryButton?.label && (
           <div className="text-center">
             <Button
+              as="link"
               ariaLabel={portfoliosPerCategory?.[0]?.primaryButton?.label}
               link={portfoliosPerCategory?.[0]?.primaryButton}
             >

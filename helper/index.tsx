@@ -68,7 +68,7 @@ export const extractLink = (link: LabeledRoute): string => {
 
   //external link
   if (link?.type === "linkExternal") {
-    return link?.externalLink;
+    return `${link?.externalLink}`;
   }
 
   return "/";

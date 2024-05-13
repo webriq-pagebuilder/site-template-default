@@ -5,6 +5,7 @@ import { urlFor } from "lib/sanity";
 import Image from "next/image";
 import React from "react";
 import { PortfolioProps } from ".";
+import { useMediaQuery } from "hooks/useMediaQuery";
 
 function VariantD({ caption, title, portfoliosWithCategory }: PortfolioProps) {
   let portfoliosPerPage = 6,
@@ -51,12 +52,12 @@ function VariantD({ caption, title, portfoliosWithCategory }: PortfolioProps) {
               ?.slice(count, count + 2)
               ?.map((content) => (
                 <ProjectItem size={"sm"} content={content} key={content._key} />
-              ))}
+                ))}
             {portfoliosPerCategory?.[0]?.content
               ?.slice(count + 2, count + 3)
               ?.map((content) => (
                 <ProjectItem size={"lg"} content={content} key={content._key} />
-              ))}
+                ))}
           </Flex>
           <div className="w-full lg:w-1/2">
             {portfoliosPerCategory?.[0]?.content
@@ -80,6 +81,7 @@ function VariantD({ caption, title, portfoliosWithCategory }: PortfolioProps) {
         {portfoliosPerCategory?.[0]?.primaryButton?.label && (
           <div className="text-center">
             <Button
+              as="link"
               ariaLabel={portfoliosPerCategory?.[0]?.primaryButton?.label}
               link={portfoliosPerCategory?.[0]?.primaryButton}
             >
@@ -93,6 +95,8 @@ function VariantD({ caption, title, portfoliosWithCategory }: PortfolioProps) {
 }
 
 function ProjectItem({ size, content }) {
+  const breakpoints = useMediaQuery("639")
+  const maxLength = breakpoints ? 60: 90;
   return (
     <div
       className={`w-full px-4 mb-8 ${size === "lg" ? "w-full" : "lg:w-1/2"}`}
@@ -112,27 +116,34 @@ function ProjectItem({ size, content }) {
           <div className="absolute inset-0 z-10 justify-center p-6 duration-300 bg-gray-900 rounded-lg opacity-0 hover:opacity-80">
             <div className="max-w-md my-auto text-xs">
               <Text className="text-sm text-primary" weight="bold">
-                {content?.subtitle}
+                {content?.subtitle?.length > 26
+                ? content?.subtitle?.substring(0, 26) + "..."
+                : content?.subtitle}
               </Text>
               <Heading
                 weight="bold"
                 className={`my-5 text-white ${
                   size === "lg"
-                    ? "md:text-4xl"
+                    ? "text-sm md:text-4xl"
                     : "text-sm md:text-sm lg:text-sm"
                 }`}
               >
-                {content?.title}
+                {content?.title?.length > 38
+                ? content?.title?.substring(0, 38) + "..."
+                : content?.title}
               </Heading>
               <div className="max-w-xs my-5">
                 <Text fontSize="xs" muted className="mb-6 ">
-                  {content?.description}
+                  {content?.description?.length > maxLength
+                  ? content?.description?.substring(0, maxLength) + "..."
+                  : content?.description}
                 </Text>
                 {content?.primaryButton?.label && (
                   <Button
+                    as="link"
                     ariaLabel={content?.primaryButton?.label}
                     link={content?.primaryButton}
-                  >
+                    >
                     {content?.primaryButton?.label}
                   </Button>
                 )}

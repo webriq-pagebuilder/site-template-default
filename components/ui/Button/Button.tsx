@@ -125,14 +125,18 @@ export function Button(props: ButtonProps) {
 
   if (props.as === "link") {
     const { link, ...rest } = props;
+
     return (
-      <Link
+      <a
         className={cn(variantClass, className)}
         aria-label={ariaLabel}
         href={extractLink(link)}
-        {...rest}>
+        target={link?.linkTarget}
+        rel={link?.linkTarget === "_blank" ? "noopener noreferrer" : ""}
+        {...rest}
+      >
         {children}
-      </Link>
+      </a>
     );
   }
 

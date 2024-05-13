@@ -1,10 +1,14 @@
+import type { AppProps } from "next/app";
+import Head from "next/head";
 import "../styles/globals.css";
 
 // import { useEffect } from "react";
 // import useScript from "utils/useScript";
 // import { useRouter } from "next/router";
 
-function App({ Component, pageProps }) {
+function App({ Component, pageProps }: AppProps) {
+  const { seo = [], seoSchema = {} } = pageProps;
+
   // let script_status = useScript(process.env.NEXT_PUBLIC_ECWID_SCRIPT);
   // const { preview } = pageProps;
   // const router = useRouter();
@@ -47,7 +51,29 @@ function App({ Component, pageProps }) {
   //   }
   // }, [script_status]);
 
-  return <Component {...pageProps} />;
+  return (
+    <>
+      <Head>
+        {seo?.map((tags) => {
+          if (tags?.key === "page-title") {
+            return <title key={tags?.key}>{tags?.title}</title>;
+          } else if (tags?.href) {
+            return <link {...tags} key={tags?.key} />;
+          } else if (tags) {
+            return <meta {...tags} key={tags?.key} />;
+          }
+        })}
+        {seoSchema && (
+          <script
+            key={seoSchema?.key}
+            type="application/ld+json"
+            dangerouslySetInnerHTML={seoSchema?.innerHTML}
+          />
+        )}
+      </Head>
+      <Component {...pageProps} />
+    </>
+  );
 }
 
 export default App;

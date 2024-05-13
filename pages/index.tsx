@@ -1,17 +1,15 @@
 import React from "react";
-import Head from "next/head";
 import { GetStaticProps } from "next";
 import { QueryParams, SanityDocument } from "next-sanity";
 import { useLiveQuery } from "next-sanity/preview";
 import { getClient, apiReadToken } from "lib/sanity.client";
 import { homeQuery, globalSEOQuery } from "./api/query";
-import { CommonPageData, DefaultSeoData } from "types";
 import InlineEditorContextProvider from "context/InlineEditorContext";
 import { PreviewBanner } from "components/PreviewBanner";
 import { PageSections } from "components/page";
 import { PreviewNoContent } from "components/PreviewNoContent";
-import SEO from "components/SEO";
-import { addSEOJsonLd } from "components/SEO";
+import { SEO } from "components/SEO";
+import { CommonPageData, SeoTags } from "types";
 
 interface HomeProps {
   draftMode: boolean;
@@ -19,12 +17,11 @@ interface HomeProps {
   params: QueryParams;
   source: string;
   data: Data;
-  defaultSeo: DefaultSeoData;
+  seo?: SeoTags[];
 }
 
 interface DocumentProps {
   data: Data;
-  defaultSeo: DefaultSeoData;
 }
 
 interface Data {
@@ -37,7 +34,7 @@ interface PageData extends CommonPageData {
   title: string;
 }
 
-function Home({ draftMode, source, data, defaultSeo }: HomeProps) {
+function Home({ draftMode, source, data }: HomeProps) {
   const showInlineEditor = source === "studio";
 
   if (draftMode) {
@@ -45,13 +42,13 @@ function Home({ draftMode, source, data, defaultSeo }: HomeProps) {
       <>
         <PreviewBanner />
         <InlineEditorContextProvider showInlineEditor={showInlineEditor}>
-          <DocumentWithPreview {...{ data, defaultSeo }} />
+          <DocumentWithPreview {...{ data }} />
         </InlineEditorContextProvider>
       </>
     );
   }
 
-  return <Document {...{ data, defaultSeo }} />;
+  return <Document {...{ data }} />;
 }
 
 /**
@@ -60,7 +57,7 @@ function Home({ draftMode, source, data, defaultSeo }: HomeProps) {
  *
  * @returns Document with published data
  */
-function Document({ data, defaultSeo }: DocumentProps) {
+function Document({ data }: DocumentProps) {
   const publishedData = data?.pageData;
 
   // General safeguard against empty data
@@ -68,51 +65,21 @@ function Document({ data, defaultSeo }: DocumentProps) {
     return null;
   }
 
-  const { title, _type, seo } = publishedData;
-
-  return (
-    <>
-      <Head>
-        <SEO
-          data={{
-            pageTitle: title,
-            type: _type,
-            route: publishedData?.slug,
-            ...seo,
-          }}
-          defaultSeo={defaultSeo}
-        />
-        {/* Structured data (JSON-LD encoding) */}
-        <script
-          key={`${_type}-jsonld`}
-          type="application/ld+json"
-          dangerouslySetInnerHTML={addSEOJsonLd({
-            seo: seo,
-            type: _type,
-            slug: publishedData?.slug,
-            defaults: defaultSeo,
-            pageData: publishedData,
-          })}
-        />
-        <title>{seo?.seoTitle ?? title ?? "WebriQ Studio"}</title>
-      </Head>
-
-      {/*  Show page sections */}
-      {data?.pageData && <PageSections data={publishedData} />}
-    </>
-  );
+  {
+    /*  Show page sections */
+  }
+  return data?.pageData && <PageSections data={publishedData} />;
 }
 
 /**
  *
  * @param data Data from getStaticProps based on current slug value
  * @param params object from getStaticProps
- * @param defaultSeo default values for SEO
  * @param source Source value supplied via `/api/preview` route
  *
  * @returns Document with preview data
  */
-function DocumentWithPreview({ data, defaultSeo }: DocumentProps) {
+function DocumentWithPreview({ data }: DocumentProps) {
   const [previewDataEventSource] = useLiveQuery(data, homeQuery);
 
   const previewData: PageData =
@@ -123,37 +90,9 @@ function DocumentWithPreview({ data, defaultSeo }: DocumentProps) {
     return null;
   }
 
-  const { title, _type, seo } = previewData;
-
   return (
     <>
-      <Head>
-        <SEO
-          data={{
-            pageTitle: title,
-            type: _type,
-            route: previewData?.slug,
-            ...seo,
-          }}
-          defaultSeo={defaultSeo}
-        />
-        {/* Structured data (JSON-LD encoding) */}
-        <script
-          key={`${_type}-jsonld`}
-          type="application/ld+json"
-          dangerouslySetInnerHTML={addSEOJsonLd({
-            seo: seo,
-            type: _type,
-            slug: previewData?.slug,
-            defaults: defaultSeo,
-            pageData: previewData,
-          })}
-        />
-        <title>{seo?.seoTitle ?? title ?? "WebriQ Studio"}</title>
-      </Head>
-
       {/* if no sections, show no sections only in preview */}
-
       {(!previewData ||
         !previewData?.sections ||
         previewData?.sections?.length === 0) && <PreviewNoContent />}
@@ -175,6 +114,17 @@ export const getStaticProps: GetStaticProps = async ({
     client.fetch<SanityDocument>(globalSEOQuery),
   ]);
 
+  // SEO tags
+  const seo = SEO({
+    data: {
+      title: indexPage?.title || "Stackshift | Home page",
+      type: indexPage?._type || "page",
+      route: "",
+      ...indexPage?.seo,
+    },
+    defaultSeo: globalSEO,
+  });
+
   return {
     props: {
       draftMode,
@@ -183,8 +133,7 @@ export const getStaticProps: GetStaticProps = async ({
       data: {
         pageData: indexPage || null,
       },
-
-      defaultSeo: globalSEO,
+      seo,
     },
     // If webhooks isn't setup then attempt to re-generate in 1 minute intervals
     revalidate: process.env.SANITY_REVALIDATE_SECRET ? undefined : 60,

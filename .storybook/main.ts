@@ -22,7 +22,6 @@ const config: StorybookConfig = {
     "@storybook/addon-interactions",
     "@storybook/addon-docs",
     "@storybook/addon-mdx-gfm",
-    "storybook-addon-designs",
     "./preset",
   ],
   framework: {

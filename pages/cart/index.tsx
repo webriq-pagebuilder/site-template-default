@@ -5,11 +5,12 @@ import { useLiveQuery } from "next-sanity/preview";
 import { getClient, apiReadToken } from "lib/sanity.client";
 import { cartPageQuery, globalSEOQuery } from "pages/api/query";
 import { CartSections } from "components/page/store/cart";
+import { SEO } from "components/SEO";
 import { PreviewNoContent } from "components/PreviewNoContent";
-import { SEO, PreviewProvider } from "components/list";
+import { PreviewProvider } from "components/list";
 import { PreviewBanner } from "components/PreviewBanner";
 import InlineEditorContextProvider from "context/InlineEditorContext";
-import { CommonPageData, DefaultSeoData } from "types";
+import { CommonPageData, SeoTags } from "types";
 
 interface CartPageProps {
   draftMode: boolean;
@@ -17,7 +18,7 @@ interface CartPageProps {
   params: QueryParams;
   source: string;
   data: Data;
-  defaultSeo: DefaultSeoData;
+  seo?: SeoTags[];
 }
 
 interface Data {
@@ -33,16 +34,9 @@ export interface CartData extends CommonPageData {
 
 interface DocumentProps {
   data: Data;
-  defaultSeo: DefaultSeoData;
 }
 
-function CartPage({
-  data,
-  draftMode,
-  token,
-  source,
-  defaultSeo,
-}: CartPageProps) {
+function CartPage({ data, draftMode, token, source }: CartPageProps) {
   const showInlineEditor = source === "studio";
 
   if (draftMode) {
@@ -51,14 +45,14 @@ function CartPage({
         <PreviewBanner />
         <PreviewProvider token={token}>
           <InlineEditorContextProvider showInlineEditor={showInlineEditor}>
-            <DocumentWithPreview {...{ data, source, defaultSeo }} />
+            <DocumentWithPreview {...{ data, source }} />
           </InlineEditorContextProvider>
         </PreviewProvider>
       </>
     );
   }
 
-  return <Document {...{ data, defaultSeo }} />;
+  return <Document {...{ data }} />;
 }
 
 /**
@@ -67,7 +61,7 @@ function CartPage({
  *
  * @returns Document with published data
  */
-function Document({ data, defaultSeo }: DocumentProps) {
+function Document({ data }: DocumentProps) {
   const publishedData = data?.cartData?.[0];
 
   // General safeguard against empty data
@@ -75,22 +69,7 @@ function Document({ data, defaultSeo }: DocumentProps) {
     return null;
   }
 
-  const { seo, _type } = publishedData;
-
-  return (
-    <>
-      <Head>
-        <SEO
-          data={{ pageTitle: "Cart", type: _type, route: "cart", ...seo }}
-          defaultSeo={defaultSeo}
-        />
-        <title>{seo?.seoTitle ?? "Cart"}</title>
-      </Head>
-
-      {/*  Show page sections */}
-      {data?.cartData && <CartSections data={publishedData} />}
-    </>
-  );
+  return data?.cartData && <CartSections data={publishedData} />;
 }
 
 /**
@@ -100,7 +79,7 @@ function Document({ data, defaultSeo }: DocumentProps) {
  *
  * @returns Document with preview data
  */
-function DocumentWithPreview({ data, defaultSeo }: DocumentProps) {
+function DocumentWithPreview({ data }: DocumentProps) {
   const [previewDataEventSource] = useLiveQuery(data, cartPageQuery);
   const previewData: CartData =
     previewDataEventSource?.[0] || previewDataEventSource;
@@ -110,18 +89,8 @@ function DocumentWithPreview({ data, defaultSeo }: DocumentProps) {
     return null;
   }
 
-  const { seo, _type } = previewData;
-
   return (
     <>
-      <Head>
-        <SEO
-          data={{ pageTitle: "Cart", type: _type, route: "cart", ...seo }}
-          defaultSeo={defaultSeo}
-        />
-        <title>{seo?.seoTitle ?? "Cart"}</title>
-      </Head>
-
       {/* if no sections, show no sections only in preview */}
 
       {(!previewData ||
@@ -145,12 +114,23 @@ export async function getStaticProps({
     client.fetch<SanityDocument>(globalSEOQuery),
   ]);
 
+  // SEO tags
+  const seo = SEO({
+    data: {
+      title: "Cart",
+      type: cartPage?._type || "cartPage",
+      route: "cart",
+      ...cartPage,
+    },
+    defaultSeo: globalSEO,
+  });
+
   if (!cartPage) {
     return {
       props: {
         draftMode,
         data: { cartData: null },
-        defaultSeo: globalSEO,
+        seo,
       },
     };
   }
@@ -163,7 +143,7 @@ export async function getStaticProps({
       data: {
         cartData: cartPage,
       },
-      defaultSeo: globalSEO,
+      seo,
     },
     // If webhooks isn't setup then attempt to re-generate in 1 minute intervals
     revalidate: process.env.SANITY_REVALIDATE_SECRET ? undefined : 60,

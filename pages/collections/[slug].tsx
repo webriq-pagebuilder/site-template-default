@@ -1,13 +1,13 @@
 /** This component displays content for the COLLECTIONS page */
 
 import React, { useEffect } from "react";
-import Head from "next/head";
 import { QueryParams, SanityDocument, groq } from "next-sanity";
 import { useLiveQuery } from "next-sanity/preview";
 import { getClient, apiReadToken } from "lib/sanity.client";
 import { collectionsQuery, globalSEOQuery } from "pages/api/query";
 import PageNotFound from "pages/404";
-import { SEO, PreviewProvider } from "components/list";
+import { SEO } from "components/SEO";
+import { PreviewProvider } from "components/list";
 import { PreviewBanner } from "components/PreviewBanner";
 import { PreviewNoContent } from "components/PreviewNoContent";
 import { CollectionSections } from "components/page/store/collections";
@@ -17,7 +17,7 @@ import {
   CommonPageData,
   CommonSections,
   CollectionProduct,
-  DefaultSeoData,
+  SeoTags,
 } from "types";
 
 interface CollectionPageBySlugProps {
@@ -26,7 +26,7 @@ interface CollectionPageBySlugProps {
   params: QueryParams;
   source: string;
   data: Data;
-  defaultSeo: DefaultSeoData;
+  seo?: SeoTags[];
 }
 interface Data {
   collectionData: CollectionData;
@@ -45,7 +45,6 @@ export interface CollectionData extends CommonPageData {
 interface DocumentWithPreviewProps {
   data: Data;
   slug: string | string[];
-  defaultSeo: DefaultSeoData;
 }
 
 function CollectionPageBySlug({
@@ -54,7 +53,6 @@ function CollectionPageBySlug({
   params,
   token,
   source,
-  defaultSeo,
 }: CollectionPageBySlugProps) {
   const slug = params?.slug;
   const showInlineEditor = source === "studio";
@@ -72,14 +70,14 @@ function CollectionPageBySlug({
           <PreviewBanner />
           <PreviewProvider token={token}>
             <InlineEditorContextProvider showInlineEditor={showInlineEditor}>
-              <DocumentWithPreview {...{ data, slug, source, defaultSeo }} />
+              <DocumentWithPreview {...{ data, slug, source }} />
             </InlineEditorContextProvider>
           </PreviewProvider>
         </>
       );
     }
 
-    return <Document {...{ data, defaultSeo }} />;
+    return <Document {...{ data }} />;
   }
 }
 
@@ -89,13 +87,7 @@ function CollectionPageBySlug({
  *
  * @returns Document with published data
  */
-function Document({
-  data,
-  defaultSeo,
-}: {
-  data: Data;
-  defaultSeo: DefaultSeoData;
-}) {
+function Document({ data }: { data: Data }) {
   const publishedData = data?.collectionData?.[0]; // latest published data in Sanity
 
   // General safeguard against empty data
@@ -103,36 +95,8 @@ function Document({
     return null;
   }
 
-  const {
-    commonSections, // sections from Store > Pages > Collections
-    name, // collection name
-    seo, // collection page SEO
-    _type, // page type
-  } = publishedData;
-
-  const finalSEO = commonSections?.seo ?? seo;
-
   return (
     <>
-      <Head>
-        <SEO
-          data={{
-            pageTitle: name,
-            type: _type,
-            route: publishedData?.slug,
-            ...finalSEO,
-          }}
-          defaultSeo={defaultSeo}
-        />
-        <link rel="icon" href="../favicon.ico" />
-        <title>
-          {seo?.seoTitle ??
-            commonSections?.seo?.seoTitle ??
-            name ??
-            "WebriQ Studio"}
-        </title>
-      </Head>
-
       {/* Show Product page sections */}
       {data?.collectionData?.[0] && <CollectionSections data={publishedData} />}
     </>
@@ -148,11 +112,7 @@ function Document({
  * @returns Document with preview data
  */
 
-function DocumentWithPreview({
-  data,
-  slug,
-  defaultSeo,
-}: DocumentWithPreviewProps) {
+function DocumentWithPreview({ data, slug }: DocumentWithPreviewProps) {
   const [previewDataEventSource] = useLiveQuery(data, collectionsQuery, {
     slug,
   });
@@ -163,36 +123,8 @@ function DocumentWithPreview({
     return null;
   }
 
-  const {
-    commonSections, // sections from Store > Pages > Collections
-    name, // collection name
-    seo, // collection page SEO
-    _type, // page type
-  } = previewData;
-
-  const finalSEO = commonSections?.seo ?? seo;
-
   return (
     <>
-      <Head>
-        <SEO
-          data={{
-            pageTitle: name,
-            type: _type,
-            route: previewData?.slug,
-            ...finalSEO,
-          }}
-          defaultSeo={defaultSeo}
-        />
-        <link rel="icon" href="../favicon.ico" />
-        <title>
-          {seo?.seoTitle ??
-            commonSections?.seo?.seoTitle ??
-            name ??
-            "WebriQ Studio"}
-        </title>
-      </Head>
-
       {/* if no sections, show no sections only in preview */}
       {(!previewData ||
         !previewData?.sections ||
@@ -216,6 +148,17 @@ export async function getStaticProps({
     client.fetch<SanityDocument>(globalSEOQuery),
   ]);
 
+  // SEO tags
+  const seo = SEO({
+    data: {
+      title: collections?.title || "StackShift | Collections page",
+      type: collections?._type || "mainCollection",
+      route: `collections/${params.slug}`,
+      ...collections,
+    },
+    defaultSeo: globalSEO,
+  });
+
   return {
     props: {
       draftMode,
@@ -225,7 +168,7 @@ export async function getStaticProps({
       data: {
         collectionData: collections || null,
       },
-      defaultSeo: globalSEO,
+      seo,
     },
     // If webhooks isn't setup then attempt to re-generate in 1 minute intervals
     revalidate: process.env.SANITY_REVALIDATE_SECRET ? undefined : 60,
@@ -244,7 +187,7 @@ export async function getStaticPaths() {
   }
 
   const collections = await getClient().fetch(
-    groq`*[_type == "mainCollection" && defined(slug.current)][].slug.current`
+    groq`*[_type == "mainCollection" && !(_id in path("drafts.**")) && defined(slug.current)][].slug.current`
   );
 
   return {

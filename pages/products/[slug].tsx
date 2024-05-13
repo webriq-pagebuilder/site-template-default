@@ -1,20 +1,19 @@
 /** This component displays content for the PRODUCT page */
 
 import React, { useEffect } from "react";
-import Head from "next/head";
 import { GetStaticPaths, GetStaticProps } from "next";
 import { QueryParams, SanityDocument, groq } from "next-sanity";
 import { useLiveQuery } from "next-sanity/preview";
 import { getClient, apiReadToken } from "lib/sanity.client";
 import { globalSEOQuery, productsQuery } from "pages/api/query";
 import PageNotFound from "pages/404";
-import { SEO, PreviewProvider } from "components/list";
+import { PreviewProvider } from "components/list";
+import { SEO, addSEOJsonLd } from "components/SEO";
 import { PreviewBanner } from "components/PreviewBanner";
 import { PreviewNoContent } from "components/PreviewNoContent";
 import { ProductSections } from "components/page/store/products";
 import InlineEditorContextProvider from "context/InlineEditorContext";
-import { CollectionProduct, CommonSections, DefaultSeoData } from "types";
-import { addSEOJsonLd } from "components/SEO";
+import { CollectionProduct, CommonSections, SeoTags, SeoSchema } from "types";
 
 interface ProductPageBySlugProps {
   draftMode: boolean;
@@ -22,7 +21,8 @@ interface ProductPageBySlugProps {
   params: QueryParams;
   source: string;
   data: Data;
-  defaultSeo: DefaultSeoData;
+  seo?: SeoTags[];
+  seoSchema?: SeoSchema;
 }
 
 interface Data {
@@ -36,7 +36,6 @@ export interface ProductData extends CollectionProduct {
 interface DocumentWithPreviewProps {
   data: Data;
   slug: string | string[];
-  defaultSeo: DefaultSeoData;
 }
 
 function ProductPageBySlug({
@@ -45,7 +44,6 @@ function ProductPageBySlug({
   params,
   token,
   source,
-  defaultSeo,
 }: ProductPageBySlugProps) {
   const slug = params?.slug;
   const showInlineEditor = source === "studio";
@@ -63,14 +61,14 @@ function ProductPageBySlug({
           <PreviewBanner />
           <PreviewProvider token={token}>
             <InlineEditorContextProvider showInlineEditor={showInlineEditor}>
-              <DocumentWithPreview {...{ data, slug, source, defaultSeo }} />
+              <DocumentWithPreview {...{ data, slug, source }} />
             </InlineEditorContextProvider>
           </PreviewProvider>
         </>
       );
     }
 
-    return <Document {...{ data, defaultSeo }} />;
+    return <Document {...{ data }} />;
   }
 }
 
@@ -80,13 +78,7 @@ function ProductPageBySlug({
  *
  * @returns Document with published data
  */
-function Document({
-  data,
-  defaultSeo,
-}: {
-  data: Data;
-  defaultSeo: DefaultSeoData;
-}) {
+function Document({ data }: { data: Data }) {
   const publishedData = data?.productData?.[0]; // latest published data in Sanity
 
   // General safeguard against empty data
@@ -94,48 +86,8 @@ function Document({
     return null;
   }
 
-  const {
-    commonSections, // sections from Store > Commerce Pages > Products
-    name, // product name
-    seo, // product page SEO
-    _type, // page type
-  } = publishedData;
-
-  const finalSEO = commonSections?.seo ?? seo;
-
   return (
     <>
-      <Head>
-        <SEO
-          data={{
-            pageTitle: name,
-            type: _type,
-            route: publishedData?.slug,
-            ...finalSEO,
-          }}
-          defaultSeo={defaultSeo}
-        />
-        <link rel="icon" href="../favicon.ico" />
-        {/* Structured data (JSON-LD encoding) */}
-        <script
-          key={`${_type}-jsonld`}
-          type="application/ld+json"
-          dangerouslySetInnerHTML={addSEOJsonLd({
-            seo: seo,
-            type: _type,
-            slug: publishedData?.slug,
-            defaults: defaultSeo,
-            pageData: publishedData,
-          })}
-        />
-        <title>
-          {seo?.seoTitle ??
-            commonSections?.seo?.seoTitle ??
-            name ??
-            "WebriQ Studio"}
-        </title>
-      </Head>
-
       {/* Show Product page sections */}
       {data?.productData?.[0] && <ProductSections data={publishedData} />}
     </>
@@ -151,11 +103,7 @@ function Document({
  * @returns Document with preview data
  */
 
-function DocumentWithPreview({
-  data,
-  slug,
-  defaultSeo,
-}: DocumentWithPreviewProps) {
+function DocumentWithPreview({ data, slug }: DocumentWithPreviewProps) {
   const [previewDataEventSource] = useLiveQuery(data, productsQuery, { slug });
   const previewData = previewDataEventSource?.[0] || previewDataEventSource; // Latest preview data in Sanity
 
@@ -164,43 +112,8 @@ function DocumentWithPreview({
     return null;
   }
 
-  const {
-    commonSections, // sections from Store > Commerce Pages > Products
-    name, // product name
-    seo, // product page SEO
-    _type, // page type
-  } = previewData;
-
-  const finalSEO = commonSections?.seo ?? seo;
-
   return (
     <>
-      <Head>
-        <SEO
-          data={{
-            pageTitle: name,
-            type: _type,
-            route: previewData?.slug,
-            ...finalSEO,
-          }}
-          defaultSeo={defaultSeo}
-        />
-        <link rel="icon" href="../favicon.ico" />
-        {/* Structured data (JSON-LD encoding) */}
-        <script
-          key={`${_type}-jsonld`}
-          type="application/ld+json"
-          dangerouslySetInnerHTML={addSEOJsonLd({
-            seo: seo,
-            type: _type,
-            slug: previewData?.slug,
-            defaults: defaultSeo,
-            pageData: previewData,
-          })}
-        />
-        <title>{seo?.seoTitle ?? commonSections?.seo?.seoTitle ?? name}</title>
-      </Head>
-
       {/* if no sections, show no sections only in preview */}
       {(!previewData ||
         !previewData?.sections ||
@@ -224,6 +137,29 @@ export const getStaticProps: GetStaticProps = async ({
     client.fetch<SanityDocument>(globalSEOQuery),
   ]);
 
+  // SEO tags
+  const seo = SEO({
+    data: {
+      title: product?.title || "StackShift | Product page",
+      type: product?._type || "mainProduct",
+      route: `products/${params.slug}`,
+      ...product,
+    },
+    defaultSeo: globalSEO,
+  });
+
+  // Structured data (JSON-LD encoding)
+  const seoSchema = {
+    key: `${product?._type}-jsonld`,
+    innerHTML: addSEOJsonLd({
+      seo: seo,
+      type: product?._type,
+      defaults: globalSEO,
+      slug: params?.slug,
+      pageData: product,
+    }),
+  };
+
   return {
     props: {
       draftMode,
@@ -233,7 +169,8 @@ export const getStaticProps: GetStaticProps = async ({
       data: {
         productData: product || null,
       },
-      defaultSeo: globalSEO,
+      seo,
+      seoSchema,
     },
     // If webhooks isn't setup then attempt to re-generate in 1 minute intervals
     revalidate: process.env.SANITY_REVALIDATE_SECRET ? undefined : 60,
@@ -252,7 +189,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   }
 
   const products = await getClient().fetch(
-    groq`*[_type == "mainProduct" && defined(slug.current)][].slug.current`
+    groq`*[_type == "mainProduct" && !(_id in path("drafts.**")) && defined(slug.current)][].slug.current`
   );
 
   return {

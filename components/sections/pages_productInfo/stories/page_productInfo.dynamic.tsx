@@ -1,7 +1,8 @@
 import { productInfoPageDefaultValues } from "helper/defaultValues";
-import { StoryConfigs, defineStories } from "utils/stories";
+import { defineStories } from "utils/stories";
 import { sanityClient } from "lib/sanity.client";
 import { componentsQuery } from "pages/api/query";
+import { dynamicStoryData } from "components/common";
 import dedent from "ts-dedent";
 
 export default defineStories({
@@ -35,20 +36,10 @@ export default defineStories({
         schema: "pages_productInfo",
       })) || []; // Provide a default empty array
 
-    const result: StoryConfigs = {};
-
-    pagesProductInfoData?.map((item, index) => {
-      if (!item || !item.variants) return; // Skip iteration if item or item.variants is falsy
-
-      result[`${item.variant}${index + 1}`] = {
-        args: {
-          variant: item.variant,
-          label: item.label,
-          ...productInfoPageDefaultValues,
-        },
-      };
+    return dynamicStoryData({
+      data: pagesProductInfoData,
+      schemaFields: productInfoPageDefaultValues,
+      isEcommerce: true,
     });
-
-    return result;
   },
 });

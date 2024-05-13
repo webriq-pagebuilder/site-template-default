@@ -108,6 +108,7 @@ function VariantA({ heading, firstColumn }: TextComponentProps) {
               <PortableText
                 value={firstColumn}
                 components={textComponentBlockStyling}
+                onMissingComponent={false} // Disabling warnings / handling unknown types
               />
             </div>
           )}

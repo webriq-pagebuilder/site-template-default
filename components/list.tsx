@@ -69,9 +69,6 @@ export function filterDataToSingleItem(data, preview) {
   return data[0];
 }
 
-// SEO component to add required metatags to pages (add component inside <Head></Head>)
-export const SEO = dynamic(() => import("components/SEO"));
-
 export const PreviewProvider = dynamic(
   () => import("components/PreviewProvider")
 );

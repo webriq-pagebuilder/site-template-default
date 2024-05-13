@@ -1,15 +1,15 @@
 import React, { useEffect } from "react";
-import Head from "next/head";
 import { QueryParams, SanityDocument } from "next-sanity";
 import { useLiveQuery } from "next-sanity/preview";
 import { getClient, apiReadToken } from "lib/sanity.client";
 import { wishlistPageQuery, globalSEOQuery } from "pages/api/query";
 import { WishlistSections } from "components/page/store/wishlist";
 import { PreviewNoContent } from "components/PreviewNoContent";
-import { SEO, PreviewProvider } from "components/list";
+import { PreviewProvider } from "components/list";
+import { SEO } from "components/SEO";
 import { PreviewBanner } from "components/PreviewBanner";
 import InlineEditorContextProvider from "context/InlineEditorContext";
-import { CommonPageData, DefaultSeoData } from "types";
+import { CommonPageData, SeoTags } from "types";
 
 interface WishListPageProps {
   draftMode: boolean;
@@ -17,7 +17,7 @@ interface WishListPageProps {
   params: QueryParams;
   source: string;
   data: Data;
-  defaultSeo: DefaultSeoData;
+  seo?: SeoTags[];
 }
 
 interface Data {
@@ -33,16 +33,9 @@ export interface WishlistData extends CommonPageData {
 
 interface DocumentProps {
   data: Data;
-  defaultSeo: DefaultSeoData;
 }
 
-function WishlistPage({
-  data,
-  draftMode,
-  token,
-  source,
-  defaultSeo,
-}: WishListPageProps) {
+function WishlistPage({ data, draftMode, token, source }: WishListPageProps) {
   useEffect(() => {
     if (typeof Ecwid !== "undefined") {
       window.Ecwid.init();
@@ -57,14 +50,14 @@ function WishlistPage({
         <PreviewBanner />
         <PreviewProvider token={token}>
           <InlineEditorContextProvider showInlineEditor={showInlineEditor}>
-            <DocumentWithPreview {...{ data, defaultSeo }} />
+            <DocumentWithPreview {...{ data }} />
           </InlineEditorContextProvider>
         </PreviewProvider>
       </>
     );
   }
 
-  return <Document {...{ data, defaultSeo }} />;
+  return <Document {...{ data }} />;
 }
 
 /**
@@ -73,7 +66,7 @@ function WishlistPage({
  *
  * @returns Document with published data
  */
-function Document({ data, defaultSeo }: DocumentProps) {
+function Document({ data }: DocumentProps) {
   const publishedData = data?.wishlistData?.[0];
 
   // General safeguard against empty data
@@ -81,23 +74,8 @@ function Document({ data, defaultSeo }: DocumentProps) {
     return null;
   }
 
-  const { seo, _type } = publishedData;
-
   return (
     <>
-      <Head>
-        <SEO
-          data={{
-            pageTitle: "Wishlist",
-            type: _type,
-            route: "wishlist",
-            ...seo,
-          }}
-          defaultSeo={defaultSeo}
-        />
-        <title>{seo?.seoTitle ?? "Wishlist"}</title>
-      </Head>
-
       {/*  Show page sections */}
       {data?.wishlistData?.[0] && <WishlistSections data={publishedData} />}
     </>
@@ -111,7 +89,7 @@ function Document({ data, defaultSeo }: DocumentProps) {
  *
  * @returns Document with preview data
  */
-function DocumentWithPreview({ data, defaultSeo }: DocumentProps) {
+function DocumentWithPreview({ data }: DocumentProps) {
   const [previewDataEventSource] = useLiveQuery(data, wishlistPageQuery);
   const previewData: WishlistData =
     previewDataEventSource?.[0] || previewDataEventSource;
@@ -121,25 +99,9 @@ function DocumentWithPreview({ data, defaultSeo }: DocumentProps) {
     return null;
   }
 
-  const { seo, _type } = previewData;
-
   return (
     <>
-      <Head>
-        <SEO
-          data={{
-            pageTitle: "Wishlist",
-            type: _type,
-            route: "wishlist",
-            ...seo,
-          }}
-          defaultSeo={defaultSeo}
-        />
-        <title>{seo?.seoTitle ?? "Wishlist"}</title>
-      </Head>
-
       {/* if no sections, show no sections only in preview */}
-
       {(!previewData ||
         !previewData?.sections ||
         previewData?.sections?.length === 0) && <PreviewNoContent />}
@@ -161,12 +123,23 @@ export async function getStaticProps({
     client.fetch<SanityDocument>(globalSEOQuery),
   ]);
 
+  // SEO tags
+  const seo = SEO({
+    data: {
+      title: "Wishlist",
+      type: wishlistPage?._type || "wishlistPage",
+      route: "wishlist",
+      ...wishlistPage,
+    },
+    defaultSeo: globalSEO,
+  });
+
   if (!wishlistPage) {
     return {
       props: {
         draftMode,
         data: { wishlistData: null },
-        defaultSeo: globalSEO,
+        seo,
       },
     };
   }
@@ -179,7 +152,7 @@ export async function getStaticProps({
       data: {
         wishlistData: wishlistPage,
       },
-      defaultSeo: globalSEO,
+      seo,
     },
     // If webhooks isn't setup then attempt to re-generate in 1 minute intervals
     revalidate: process.env.SANITY_REVALIDATE_SECRET ? undefined : 60,

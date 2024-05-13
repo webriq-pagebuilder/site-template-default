@@ -6,6 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import { AppPromoProps } from ".";
+import { logoLink } from "helper";
 
 function VariantA({ logo, subtitle, title, images }: AppPromoProps) {
   //for image carousel
@@ -27,9 +28,13 @@ function VariantA({ logo, subtitle, title, images }: AppPromoProps) {
       <Container className="relative text-center" maxWidth={448}>
         {logo?.image && (
           <Link
-            aria-label={"Go to home page"}
+            aria-label={`Go to ${
+              logoLink(logo) === "/" ? "home page" : logoLink(logo)
+            }`}
             className="inline-block p-5 mb-8 bg-white rounded-lg"
-            href={extractLink(logo)}
+            href={logoLink(logo)}
+            target={logo?.linkTarget}
+            rel={logo?.linkTarget === "_blank" ? "noopener noreferrer" : ""}
           >
             <Image
               src={urlFor(logo?.image)}
