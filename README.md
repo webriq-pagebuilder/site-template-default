@@ -1,34 +1,30 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+<p align="center">
+  <a href="https://www.webriq.com">
+    <img src="https://cdn.sanity.io/images/9itgab5x/production/140d0c9644c0aa1a5dbc817b18e9d3f8d18b43ea-125x124.png" alt="WebriQ logo" />
+  </a>
+  <h1 align="center">Discover StackShift</h1>
+</p>
+
+> StackShift is a composable content and commerce solution GLUED together to a single workflow and publishing tool.
 
 ## Getting Started
 
-First, run the development server:
+StackShift integrates [Next.js](https://nextjs.org/) and [Sanity studio](https://www.sanity.io/). To work on a local environment, clone and setup this repository and run on development server:
 
 ```bash
-npm run dev
-# or
 yarn dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
-
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
-
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+Open on your browser [http://localhost:3000/studio](http://localhost:3000/studio) to start adding content and [http://localhost:3000](http://localhost:3000) to preview published content for your website.
 
 ## Learn More
 
-To learn more about Next.js, take a look at the following resources:
+Here are some helpful resources to know more about the StackShift experience:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- [Why StackShift](https://www.webriq.com/stackshift)
+- [Composable Content and Commerce Out of the Box](https://www.webriq.com/composable-content-and-commerce-out-of-the-box)
+- [StackShift User Experience](https://www.canva.com/design/DAFGKQdB-2U/IBvFqNYXNz-x1eNCSrSXOQ/view?utm_content=DAFGKQdB-2U&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## Get in touch with us
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Let’s work together on your digital experience project. Check out the [WebriQ](https://www.webriq.com/contact-us) website for more details.
