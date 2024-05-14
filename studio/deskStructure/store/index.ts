@@ -1,5 +1,3 @@
-import { StructureBuilder } from "sanity/desk";
-
 import { GiShop } from "react-icons/gi";
 import { MdSettings } from "react-icons/md";
 
@@ -12,7 +10,7 @@ import { Products } from "./pages/products";
 import { Search } from "./pages/search";
 import { Wishlist } from "./pages/wishlist";
 
-export const Store = (S: StructureBuilder) => {
+export const Store = (S) => {
   return S.listItem()
     .title("Store")
     .icon(GiShop)

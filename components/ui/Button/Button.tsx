@@ -151,8 +151,7 @@ export function Button(props: ButtonProps) {
       disabled={disabled ?? loading}
       className={cn(variantClass, className)}
       aria-label={ariaLabel}
-      type={type}
-    >
+      type={type}>
       {loading ? Loader : children}
     </button>
   );

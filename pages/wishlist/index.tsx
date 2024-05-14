@@ -1,21 +1,22 @@
 import React, { useEffect } from "react";
-import { PreviewSuspense } from "next-sanity/preview";
-import { getClient } from "lib/sanity.client";
-import { usePreview } from "lib/sanity.preview";
+import { QueryParams, SanityDocument } from "next-sanity";
+import { useLiveQuery } from "next-sanity/preview";
+import { getClient, apiReadToken } from "lib/sanity.client";
 import { wishlistPageQuery, globalSEOQuery } from "pages/api/query";
 import { WishlistSections } from "components/page/store/wishlist";
 import { PreviewNoContent } from "components/PreviewNoContent";
-import { filterDataToSingleItem } from "components/list";
+import { PreviewProvider } from "components/list";
 import { SEO } from "components/SEO";
 import { PreviewBanner } from "components/PreviewBanner";
 import InlineEditorContextProvider from "context/InlineEditorContext";
 import { CommonPageData, SeoTags } from "types";
 
 interface WishListPageProps {
+  draftMode: boolean;
+  token: string;
+  params: QueryParams;
+  source: string;
   data: Data;
-  preview: boolean;
-  token?: string;
-  source?: string;
   seo?: SeoTags[];
 }
 
@@ -30,12 +31,11 @@ export interface WishlistData extends CommonPageData {
   };
 }
 
-interface DocumentWithPreviewProps {
+interface DocumentProps {
   data: Data;
-  token: string;
 }
 
-function WishlistPage({ data, preview, token, source }: WishListPageProps) {
+function WishlistPage({ data, draftMode, token, source }: WishListPageProps) {
   useEffect(() => {
     if (typeof Ecwid !== "undefined") {
       window.Ecwid.init();
@@ -43,15 +43,16 @@ function WishlistPage({ data, preview, token, source }: WishListPageProps) {
   }, []);
 
   const showInlineEditor = source === "studio";
-  if (preview) {
+
+  if (draftMode) {
     return (
       <>
         <PreviewBanner />
-        <PreviewSuspense fallback={"Loading..."}>
+        <PreviewProvider token={token}>
           <InlineEditorContextProvider showInlineEditor={showInlineEditor}>
-            <DocumentWithPreview {...{ data, token }} />
+            <DocumentWithPreview {...{ data }} />
           </InlineEditorContextProvider>
-        </PreviewSuspense>
+        </PreviewProvider>
       </>
     );
   }
@@ -65,15 +66,20 @@ function WishlistPage({ data, preview, token, source }: WishListPageProps) {
  *
  * @returns Document with published data
  */
-function Document({ data }: { data: Data }) {
-  const publishedData = data?.wishlistData;
+function Document({ data }: DocumentProps) {
+  const publishedData = data?.wishlistData?.[0];
 
   // General safeguard against empty data
   if (!publishedData) {
     return null;
   }
 
-  return data?.wishlistData && <WishlistSections data={publishedData} />;
+  return (
+    <>
+      {/*  Show page sections */}
+      {data?.wishlistData?.[0] && <WishlistSections data={publishedData} />}
+    </>
+  );
 }
 
 /**
@@ -83,8 +89,8 @@ function Document({ data }: { data: Data }) {
  *
  * @returns Document with preview data
  */
-function DocumentWithPreview({ data, token = null }: DocumentWithPreviewProps) {
-  const previewDataEventSource = usePreview(token, wishlistPageQuery);
+function DocumentWithPreview({ data }: DocumentProps) {
+  const [previewDataEventSource] = useLiveQuery(data, wishlistPageQuery);
   const previewData: WishlistData =
     previewDataEventSource?.[0] || previewDataEventSource;
 
@@ -107,38 +113,31 @@ function DocumentWithPreview({ data, token = null }: DocumentWithPreviewProps) {
 }
 
 export async function getStaticProps({
-  preview = false,
+  draftMode = false,
   previewData = {},
-}: any): Promise<{ props: WishListPageProps }> {
-  const client =
-    preview && previewData?.token
-      ? getClient(false).withConfig({ token: previewData.token })
-      : getClient(preview);
+}: any) {
+  const client = getClient(draftMode ? apiReadToken : undefined);
 
-  const [searchPage, globalSEO] = await Promise.all([
-    client.fetch(wishlistPageQuery),
-    client.fetch(globalSEOQuery),
+  const [wishlistPage, globalSEO] = await Promise.all([
+    client.fetch<SanityDocument>(wishlistPageQuery),
+    client.fetch<SanityDocument>(globalSEOQuery),
   ]);
 
-  // pass page data and preview to helper function
-  const wishlistData = filterDataToSingleItem(searchPage, preview);
-
-  const data = { wishlistData };
-
+  // SEO tags
   const seo = SEO({
     data: {
       title: "Wishlist",
-      type: data?.wishlistData?._type,
+      type: wishlistPage?._type || "wishlistPage",
       route: "wishlist",
-      ...data?.wishlistData,
+      ...wishlistPage,
     },
     defaultSeo: globalSEO,
   });
 
-  if (!wishlistData) {
+  if (!wishlistPage) {
     return {
       props: {
-        preview,
+        draftMode,
         data: { wishlistData: null },
         seo,
       },
@@ -147,12 +146,16 @@ export async function getStaticProps({
 
   return {
     props: {
-      preview,
-      token: (preview && previewData.token) || "",
-      source: (preview && previewData.source) || "",
-      data,
+      draftMode,
+      token: draftMode ? apiReadToken : "",
+      source: (draftMode && previewData.source) || "",
+      data: {
+        wishlistData: wishlistPage,
+      },
       seo,
     },
+    // If webhooks isn't setup then attempt to re-generate in 1 minute intervals
+    revalidate: process.env.SANITY_REVALIDATE_SECRET ? undefined : 60,
   };
 }
 

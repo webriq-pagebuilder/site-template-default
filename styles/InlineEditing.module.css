@@ -7,7 +7,7 @@
   display: none !important;
 }
 
-.desk-listpane div[data-testid="desk-tool-list-pane"] {
+.desk-listpane div[data-testid="structure-tool-list-pane"] {
   display: none !important;
 }
 
@@ -69,4 +69,8 @@
   top: 0;
   right: 10px;
   z-index: 40;
+}
+
+.pane-footer-published div[data-testid="pane-footer"] > div > div > div > div > div:first-child > div:first-child{
+  display: none;
 }

@@ -68,3 +68,7 @@ export function filterDataToSingleItem(data, preview) {
 
   return data[0];
 }
+
+export const PreviewProvider = dynamic(
+  () => import("components/PreviewProvider")
+);

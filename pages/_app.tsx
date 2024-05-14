@@ -1,7 +1,8 @@
 import type { AppProps } from "next/app";
 import Head from "next/head";
 import "../styles/globals.css";
-// import React, { useEffect } from "react";
+
+// import { useEffect } from "react";
 // import useScript from "utils/useScript";
 // import { useRouter } from "next/router";
 

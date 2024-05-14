@@ -1,21 +1,23 @@
 import React from "react";
-import { PreviewSuspense } from "next-sanity/preview";
-import { getClient } from "lib/sanity.client";
-import { usePreview } from "lib/sanity.preview";
+import Head from "next/head";
+import { QueryParams, SanityDocument } from "next-sanity";
+import { useLiveQuery } from "next-sanity/preview";
+import { getClient, apiReadToken } from "lib/sanity.client";
 import { cartPageQuery, globalSEOQuery } from "pages/api/query";
 import { CartSections } from "components/page/store/cart";
-import { PreviewNoContent } from "components/PreviewNoContent";
-import { filterDataToSingleItem } from "components/list";
 import { SEO } from "components/SEO";
+import { PreviewNoContent } from "components/PreviewNoContent";
+import { PreviewProvider } from "components/list";
 import { PreviewBanner } from "components/PreviewBanner";
 import InlineEditorContextProvider from "context/InlineEditorContext";
 import { CommonPageData, SeoTags } from "types";
 
 interface CartPageProps {
+  draftMode: boolean;
+  token: string;
+  params: QueryParams;
+  source: string;
   data: Data;
-  preview: boolean;
-  token?: string;
-  source?: string;
   seo?: SeoTags[];
 }
 
@@ -30,23 +32,22 @@ export interface CartData extends CommonPageData {
   id?: string;
 }
 
-interface DocumentWithPreviewProps {
+interface DocumentProps {
   data: Data;
-  token: string;
 }
 
-function CartPage({ data, preview, token, source }: CartPageProps) {
+function CartPage({ data, draftMode, token, source }: CartPageProps) {
   const showInlineEditor = source === "studio";
 
-  if (preview) {
+  if (draftMode) {
     return (
       <>
         <PreviewBanner />
-        <PreviewSuspense fallback="Loading">
+        <PreviewProvider token={token}>
           <InlineEditorContextProvider showInlineEditor={showInlineEditor}>
-            <DocumentWithPreview {...{ data, token }} />
+            <DocumentWithPreview {...{ data, source }} />
           </InlineEditorContextProvider>
-        </PreviewSuspense>
+        </PreviewProvider>
       </>
     );
   }
@@ -60,8 +61,8 @@ function CartPage({ data, preview, token, source }: CartPageProps) {
  *
  * @returns Document with published data
  */
-function Document({ data }: { data: Data }) {
-  const publishedData = data?.cartData;
+function Document({ data }: DocumentProps) {
+  const publishedData = data?.cartData?.[0];
 
   // General safeguard against empty data
   if (!publishedData) {
@@ -78,8 +79,8 @@ function Document({ data }: { data: Data }) {
  *
  * @returns Document with preview data
  */
-function DocumentWithPreview({ data, token = null }: DocumentWithPreviewProps) {
-  const previewDataEventSource = usePreview(token, cartPageQuery);
+function DocumentWithPreview({ data }: DocumentProps) {
+  const [previewDataEventSource] = useLiveQuery(data, cartPageQuery);
   const previewData: CartData =
     previewDataEventSource?.[0] || previewDataEventSource;
 
@@ -97,45 +98,37 @@ function DocumentWithPreview({ data, token = null }: DocumentWithPreviewProps) {
         previewData?.sections?.length === 0) && <PreviewNoContent />}
 
       {/*  Show page sections */}
-      {data?.cartData && <CartSections data={previewData} />}
+      {data?.cartData?.[0] && <CartSections data={previewData} />}
     </>
   );
 }
 
 export async function getStaticProps({
-  preview = false,
+  draftMode = false,
   previewData = {},
-}: any): Promise<{ props: CartPageProps }> {
-  const client =
-    preview && previewData?.token
-      ? getClient(false).withConfig({ token: previewData.token })
-      : getClient(preview);
+}: any) {
+  const client = getClient(draftMode ? apiReadToken : undefined);
 
   const [cartPage, globalSEO] = await Promise.all([
-    client.fetch(cartPageQuery),
-    client.fetch(globalSEOQuery),
+    client.fetch<SanityDocument>(cartPageQuery),
+    client.fetch<SanityDocument>(globalSEOQuery),
   ]);
-
-  // pass page data and preview to helper function
-  const cartData: CartData = filterDataToSingleItem(cartPage, preview);
-
-  const data = { cartData };
 
   // SEO tags
   const seo = SEO({
     data: {
       title: "Cart",
-      type: data?.cartData?._type || "cartPage",
+      type: cartPage?._type || "cartPage",
       route: "cart",
-      ...data?.cartData,
+      ...cartPage,
     },
     defaultSeo: globalSEO,
   });
 
-  if (!cartData) {
+  if (!cartPage) {
     return {
       props: {
-        preview,
+        draftMode,
         data: { cartData: null },
         seo,
       },
@@ -144,12 +137,16 @@ export async function getStaticProps({
 
   return {
     props: {
-      preview,
-      token: (preview && previewData.token) || "",
-      source: (preview && previewData.source) || "",
-      data,
+      draftMode,
+      token: draftMode ? apiReadToken : "",
+      source: (draftMode && previewData.source) || "",
+      data: {
+        cartData: cartPage,
+      },
       seo,
     },
+    // If webhooks isn't setup then attempt to re-generate in 1 minute intervals
+    revalidate: process.env.SANITY_REVALIDATE_SECRET ? undefined : 60,
   };
 }
 

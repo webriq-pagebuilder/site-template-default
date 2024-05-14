@@ -1,11 +1,10 @@
 import type { SanityDocument } from "sanity";
-import { StructureBuilder } from "sanity/desk";
 
 import { EditIcon, EyeOpenIcon, EarthGlobeIcon } from "@sanity/icons";
 import { MdAccessibility } from "react-icons/md";
 import { FaSearch } from "react-icons/fa";
 
-import Iframe from "sanity-plugin-iframe-pane";
+import { Iframe } from "sanity-plugin-iframe-pane";
 
 import resolveProductionUrl from "../../../resolvePreviewUrl";
 import SeoPreviews from "../../../components/previews/seo/SeoPreviews";
@@ -28,7 +27,7 @@ const previewURL =
     : remotePreviewUrl;
 const publishedURL = NEXT_PUBLIC_SITE_URL;
 
-export const Search = (S: StructureBuilder) => {
+export const Search = (S) => {
   return S.listItem()
     .title("Search")
     .schemaType("searchPage")

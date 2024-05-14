@@ -6,6 +6,7 @@ import { StudioLayout, StudioProvider } from "sanity";
 import config from "sanity.config";
 import { NEXT_PUBLIC_APP_URL } from "studio/config";
 import AutologinPrepage from "studio/components/AutologinPrepage";
+import styles from "../../styles/Studio.module.css";
 
 export default function StudioPage() {
   const maxRetries = 10;
@@ -90,11 +91,28 @@ export default function StudioPage() {
     <>
       <Head>
         <link rel="icon" href="/favicon.ico" />
+        {/* https://github.com/sanity-io/next-sanity/blob/main/packages/next-sanity/MIGRATE-v5-to-v6.md */}
+        <meta
+          name="viewport"
+          content="width=device-width,initial-scale=1,viewport-fit=cover"
+        />
       </Head>
 
       <NextStudio config={config}>
         <StudioProvider config={config}>
-          <StudioLayout />
+          <div
+            className={`${styles["studio-nav"]} ${styles["studio-nav-bg"]}
+          ${styles["studio-nav-text"]} ${styles["webriq-studio-text"]} 
+          ${styles["pane-header"]} ${styles["header-plugins"]}
+          ${styles["search-icon-bg"]} ${styles["search-icon"]} ${styles["list-pane"]}
+          ${styles["pane-content"]} ${styles["svg-content"]} ${styles["fields"]}
+          ${styles["document-panel"]} ${styles["new-document-button"]}
+          ${styles["tools-menu"]} ${styles["right-nav"]} ${styles["pane-footer-url"]} ${styles["footer-right-buttons"]}
+          ${styles["doc-action-button"]} ${styles["pane-footer"]}
+         ${styles["media-file-metadata"]} ${styles["media-tags"]} ${styles["publish-button"]} ${styles["burger-menu-background"]} ${styles["burger-menu-svg"]} h-screen`}
+          >
+            <StudioLayout />
+          </div>
         </StudioProvider>
       </NextStudio>
     </>

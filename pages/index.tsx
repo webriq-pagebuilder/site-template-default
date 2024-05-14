@@ -1,29 +1,27 @@
 import React from "react";
-import { PreviewSuspense } from "next-sanity/preview";
-import { getClient } from "lib/sanity.client";
+import { GetStaticProps } from "next";
+import { QueryParams, SanityDocument } from "next-sanity";
+import { useLiveQuery } from "next-sanity/preview";
+import { getClient, apiReadToken } from "lib/sanity.client";
 import { homeQuery, globalSEOQuery } from "./api/query";
-import { usePreview } from "lib/sanity.preview";
+import InlineEditorContextProvider from "context/InlineEditorContext";
+import { PreviewBanner } from "components/PreviewBanner";
 import { PageSections } from "components/page";
 import { PreviewNoContent } from "components/PreviewNoContent";
-import { filterDataToSingleItem } from "components/list";
 import { SEO } from "components/SEO";
-import { PreviewBanner } from "components/PreviewBanner";
-import InlineEditorContextProvider from "context/InlineEditorContext";
-import { CommonPageData, SeoTags, SeoSchema } from "types";
-import { addSEOJsonLd } from "components/SEO";
+import { CommonPageData, SeoTags } from "types";
 
 interface HomeProps {
+  draftMode: boolean;
+  token: string;
+  params: QueryParams;
+  source: string;
   data: Data;
-  preview: boolean;
-  token?: string | null;
-  source?: string;
   seo?: SeoTags[];
-  seoSchema?: SeoSchema;
 }
 
-interface DocumentWithPreviewProps {
+interface DocumentProps {
   data: Data;
-  token: string | null;
 }
 
 interface Data {
@@ -36,18 +34,16 @@ interface PageData extends CommonPageData {
   title: string;
 }
 
-function Home({ data, preview, token, source }: HomeProps) {
+function Home({ draftMode, source, data }: HomeProps) {
   const showInlineEditor = source === "studio";
 
-  if (preview) {
+  if (draftMode) {
     return (
       <>
         <PreviewBanner />
-        <PreviewSuspense fallback="Loading...">
-          <InlineEditorContextProvider showInlineEditor={showInlineEditor}>
-            <DocumentWithPreview {...{ data, token }} />
-          </InlineEditorContextProvider>
-        </PreviewSuspense>
+        <InlineEditorContextProvider showInlineEditor={showInlineEditor}>
+          <DocumentWithPreview {...{ data }} />
+        </InlineEditorContextProvider>
       </>
     );
   }
@@ -61,7 +57,7 @@ function Home({ data, preview, token, source }: HomeProps) {
  *
  * @returns Document with published data
  */
-function Document({ data }: { data: Data }) {
+function Document({ data }: DocumentProps) {
   const publishedData = data?.pageData;
 
   // General safeguard against empty data
@@ -78,13 +74,13 @@ function Document({ data }: { data: Data }) {
 /**
  *
  * @param data Data from getStaticProps based on current slug value
- * @param token Token value supplied via `/api/preview` route
+ * @param params object from getStaticProps
  * @param source Source value supplied via `/api/preview` route
  *
  * @returns Document with preview data
  */
-function DocumentWithPreview({ data, token = null }: DocumentWithPreviewProps) {
-  const previewDataEventSource = usePreview(token, homeQuery);
+function DocumentWithPreview({ data }: DocumentProps) {
+  const [previewDataEventSource] = useLiveQuery(data, homeQuery);
 
   const previewData: PageData =
     previewDataEventSource?.[0] || previewDataEventSource;
@@ -107,69 +103,40 @@ function DocumentWithPreview({ data, token = null }: DocumentWithPreviewProps) {
   );
 }
 
-export const getStaticProps = async ({
-  preview = false,
+export const getStaticProps: GetStaticProps = async ({
+  draftMode = false,
   previewData = {},
-}: any): Promise<{ props: HomeProps }> => {
-  const client =
-    preview && previewData?.token
-      ? getClient(false).withConfig({ token: previewData.token })
-      : getClient(preview);
+}: any) => {
+  const client = getClient(draftMode ? apiReadToken : undefined);
 
   const [indexPage, globalSEO] = await Promise.all([
-    client.fetch(homeQuery),
-    client.fetch(globalSEOQuery),
+    client.fetch<SanityDocument>(homeQuery),
+    client.fetch<SanityDocument>(globalSEOQuery),
   ]);
-
-  // pass page data and preview to helper function
-  const pageData: PageData = filterDataToSingleItem(indexPage, preview);
-
-  const data = { pageData };
 
   // SEO tags
   const seo = SEO({
     data: {
-      title: data?.pageData?.title || "Stackshift | Home page",
-      type: data?.pageData?._type || "page",
+      title: indexPage?.title || "Stackshift | Home page",
+      type: indexPage?._type || "page",
       route: "",
-      ...data?.pageData?.seo,
+      ...indexPage?.seo,
     },
     defaultSeo: globalSEO,
   });
 
-  // Structured data (JSON-LD encoding)
-  const seoSchema = {
-    key: `${data?.pageData?._type}-jsonld`,
-    innerHTML: addSEOJsonLd({
-      seo: seo,
-      type: data?.pageData?._type,
-      defaults: globalSEO,
-      slug: "",
-      pageData: data?.pageData,
-    }),
-  };
-
-  // if our query failed, then return null to display custom no-preview page
-  if (!pageData) {
-    return {
-      props: {
-        preview,
-        data: { pageData: null },
-        seo,
-        seoSchema,
-      },
-    };
-  }
-
   return {
     props: {
-      preview,
-      token: (preview && previewData.token) || "",
-      source: (preview && previewData.source) || "",
-      data,
+      draftMode,
+      token: draftMode ? apiReadToken : "",
+      source: (draftMode && previewData?.source) || "",
+      data: {
+        pageData: indexPage || null,
+      },
       seo,
-      seoSchema,
     },
+    // If webhooks isn't setup then attempt to re-generate in 1 minute intervals
+    revalidate: process.env.SANITY_REVALIDATE_SECRET ? undefined : 60,
   };
 };
 
