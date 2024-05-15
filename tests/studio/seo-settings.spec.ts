@@ -2,8 +2,10 @@ import { test, expect } from "@playwright/test";
 import {
   createNewPage,
   deleteDocument,
-  navigateToPage,
+  navigateToPages,
   newPageTitle,
+  publishDocument,
+  searchForName,
 } from "tests/utils";
 
 let globalSeo = {
@@ -13,7 +15,8 @@ let globalSeo = {
   description: "",
 };
 
-const newSeoPage = newPageTitle("Test SEO page ");
+const newSeoPage = newPageTitle("BOBOSEO Page ");
+console.log("🚀 ~ newSeoPage:", newSeoPage);
 
 test.describe("Verify SEO Settings", () => {
   console.log("[INFO] Run SEO Settings tests ~ Verify SEO Settings");
@@ -21,15 +24,17 @@ test.describe("Verify SEO Settings", () => {
   test.describe.configure({ mode: "serial" });
 
   test("Create test page for SEO", async ({ page }) => {
-    await navigateToPage(page);
+    await navigateToPages(page);
     await createNewPage(page, newSeoPage, null);
 
-    console.log("[DONE] Create test page for SEO 🚀");
+    await publishDocument(page);
+
+    console.log("[DONE] Create test page for SEO 🚀", newSeoPage);
   });
 
   test("Can add global SEO values", async ({ page }) => {
-    await navigateToPage(page);
-
+    await navigateToPages(page);
+    await searchForName(page, { name: newSeoPage });
     await expect(
       await page.getByRole("link", { name: newSeoPage })
     ).toBeVisible();
@@ -108,7 +113,8 @@ test.describe("Verify SEO Settings", () => {
   test("Sets global SEO values when page SEO is undefined", async ({
     page,
   }) => {
-    await navigateToPage(page);
+    await navigateToPages(page);
+    await searchForName(page, { name: newSeoPage });
     await expect(page.getByRole("link", { name: newSeoPage })).toBeVisible();
     await page.getByRole("link", { name: newSeoPage }).click({ force: true });
     await expect(page.getByText("Loading document")).toBeHidden();
@@ -152,7 +158,8 @@ test.describe("Verify SEO Settings", () => {
 
   test.describe("Redirects to global SEO page", () => {
     test.beforeEach(async ({ page }) => {
-      await navigateToPage(page);
+      await navigateToPages(page);
+      await searchForName(page, { name: newSeoPage });
       await expect(page.getByRole("link", { name: newSeoPage })).toBeVisible();
       await page.getByRole("link", { name: newSeoPage }).click({ force: true });
       await expect(
@@ -234,7 +241,8 @@ test.describe("Verify SEO Settings", () => {
   });
 
   test("Can add page SEO values", async ({ page }) => {
-    await navigateToPage(page);
+    await navigateToPages(page);
+    await searchForName(page, { name: newSeoPage });
     await expect(page.getByRole("link", { name: newSeoPage })).toBeVisible();
     await page.getByRole("link", { name: newSeoPage }).click({ force: true });
     await page
@@ -272,14 +280,9 @@ test.describe("Verify SEO Settings", () => {
   });
 
   test("Delete test page for SEO", async ({ page }) => {
-    await navigateToPage(page);
-
-    await expect(page.getByPlaceholder("Search list")).toBeVisible();
-    await page.getByPlaceholder("Search list").click({ force: true });
-    await page.getByPlaceholder("Search list").fill(newSeoPage);
-    await page.waitForSelector(`a:has-text("${newSeoPage}")`, {
-      state: "visible",
-    });
+    await navigateToPages(page);
+    await searchForName(page, { name: newSeoPage });
+    await expect(page.getByRole("link", { name: newSeoPage })).toBeVisible();
     await page.getByRole("link", { name: newSeoPage }).click({ force: true });
     await page.waitForSelector(`a:has-text("${newSeoPage}")`, {
       state: "visible",

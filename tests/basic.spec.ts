@@ -4,7 +4,7 @@ import {
   createSlug,
   deletePageVariant,
   expectDocumentPublished,
-  navigateToPage,
+  navigateToPages,
   newPageTitle,
 } from "./utils/index";
 
@@ -21,7 +21,7 @@ test.describe("Main Workflow", () => {
     baseURL,
   }) => {
     console.log(`[INFO] ~ Testing Publish Page 🚀`);
-    await navigateToPage(page);
+    await navigateToPages(page);
     await createNewPage(page, pageTitle, "Navigation");
 
     await page
@@ -71,7 +71,7 @@ test.describe("Main Workflow", () => {
     baseURL,
   }) => {
     console.log(`[INFO] - Testing Duplicate Page 🚀`);
-    await navigateToPage(page);
+    await navigateToPages(page);
 
     await page.getByPlaceholder("Search list").click({ force: true });
     await page.getByPlaceholder("Search list").fill(pageTitle);
@@ -147,7 +147,7 @@ test.describe("Main Workflow", () => {
     page,
   }) => {
     console.log(`[INFO] - Testing Inline Edit Text 🚀`);
-    await navigateToPage(page);
+    await navigateToPages(page);
     await page.getByPlaceholder("Search list").click({ force: true });
     await page.getByPlaceholder("Search list").fill(pageTitle);
     await page.waitForSelector(`a:has-text("${pageTitle}")`, {
@@ -297,7 +297,7 @@ test.describe("Main Workflow", () => {
     console.log(
       `[INFO] - Testing Page with no Section should display empty page 🚀`
     );
-    await navigateToPage(page);
+    await navigateToPages(page);
     await page.getByPlaceholder("Search list").click({ force: true });
     await page.getByPlaceholder("Search list").fill(pageTitle);
     await page.waitForSelector(`a:has-text("${pageTitle}")`, {
@@ -426,7 +426,7 @@ test("See Current Version", async ({ page }) => {
 });
 
 async function deletePublishedPage(page) {
-  await navigateToPage(page);
+  await navigateToPages(page);
   await page.getByPlaceholder("Search list").click({ force: true });
   await page.getByPlaceholder("Search list").fill(pageTitle);
   await page.waitForSelector(`a:has-text("${pageTitle}")`, {

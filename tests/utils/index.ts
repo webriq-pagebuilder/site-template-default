@@ -28,7 +28,7 @@ export async function beforeEachTest(
   componentLabel,
   variantIndex
 ) {
-  await navigateToPage(page);
+  await navigateToPages(page);
   await createNewPage(page, title, componentName);
   await variantLabelInput(page, componentLabel);
   await clickVariantImage(page, variantIndex);
@@ -250,7 +250,7 @@ export const socialLinks = {
   },
 };
 
-export async function navigateToPage(page) {
+export async function navigateToPages(page) {
   await page.goto(`./studio`);
 
   // Find the element you want to click
@@ -262,6 +262,12 @@ export async function navigateToPage(page) {
   // Click on the element
   await element.click({ force: true });
   await expect(page.locator('p:has-text("Loading...")')).toBeHidden();
+}
+
+export async function searchForName(page, { name }) {
+  await page.getByPlaceholder("Search list").click();
+
+  await page.getByPlaceholder("Search list").fill(name);
 }
 
 export async function navigateToStore(page) {
@@ -460,7 +466,7 @@ export async function expectDocumentPublished(page, pageTitle) {
 }
 
 export async function deletePageVariant(page, pageTitle, variantLabel) {
-  await navigateToPage(page);
+  await navigateToPages(page);
 
   await page.waitForSelector('input[placeholder="Search list"]', {
     visible: true,
