@@ -1,13 +1,11 @@
-import { expectDocumentPublished, launchPreview } from "tests/utils";
 import {
-  titleField,
-  descriptionField,
   contactDetails,
+  descriptionField,
+  expectDocumentPublished,
+  launchPreview,
   socialLinks,
-  createSlug,
+  titleField,
 } from "tests/utils";
-import { form } from "./index.spec";
-import { expect } from "@playwright/test";
 
 async function VariantA({
   pageTitle,

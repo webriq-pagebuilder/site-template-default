@@ -1,15 +1,13 @@
 import { expect } from "@playwright/test";
 import { headerInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-default";
 import {
-  expectDocumentPublished,
-  generateFormId,
-  titleField,
+  addNavigationRoutes,
   descriptionField,
-  createSlug,
+  expectDocumentPublished,
+  launchPreview,
   primaryButtonField,
   secondaryButtonField,
-  addNavigationRoutes,
-  launchPreview,
+  titleField,
 } from "tests/utils";
 
 export default async function VariantE({

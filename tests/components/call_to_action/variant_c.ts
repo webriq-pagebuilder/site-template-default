@@ -1,13 +1,10 @@
 import { expect } from "@playwright/test";
-import {
-  CTAWebriQForm,
-  checkFormSubmission,
-  expectDocumentPublished,
-  titleField,
-  createSlug,
-  launchPreview,
-} from "tests/utils";
 import { callToActionInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-default";
+import {
+  expectDocumentPublished,
+  launchPreview,
+  titleField,
+} from "tests/utils";
 
 async function VariantC({ pageTitle, page, commonFieldValues, baseURL }) {
   // studio

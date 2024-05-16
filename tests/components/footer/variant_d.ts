@@ -1,11 +1,10 @@
 import { expect } from "@playwright/test";
 import { footerInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-default";
 import {
-  expectDocumentPublished,
-  createSlug,
   addNavigationRoutes,
-  copyrightField,
   bodyField,
+  copyrightField,
+  expectDocumentPublished,
   launchPreview,
 } from "tests/utils";
 

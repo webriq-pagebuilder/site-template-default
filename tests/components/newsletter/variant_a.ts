@@ -1,12 +1,12 @@
 import { expect } from "@playwright/test";
-import {
-  updateLogoLink,
-  expectDocumentPublished,
-  createSlug,
-} from "tests/utils";
 import { newsletterInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-default";
-import { titleField, descriptionField } from "tests/utils";
-import { form } from "./index.spec";
+import {
+  descriptionField,
+  expectDocumentPublished,
+  launchPreview,
+  titleField,
+  updateLogoLink,
+} from "tests/utils";
 
 async function VariantA({ pageTitle, page, commonFieldValues, baseURL }) {
   // studio
@@ -30,8 +30,8 @@ async function VariantA({ pageTitle, page, commonFieldValues, baseURL }) {
 
   // check site preview
   await expectDocumentPublished(page, pageTitle);
-  await page.goto(`${baseURL}/${createSlug(pageTitle)}`);
-  page.waitForLoadState("domcontentloaded");
+
+  await launchPreview({ page, baseURL, pageTitle });
 
   // logo
   await expect(

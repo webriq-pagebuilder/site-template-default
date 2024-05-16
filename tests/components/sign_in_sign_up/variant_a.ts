@@ -1,5 +1,5 @@
 import { expect } from "@playwright/test";
-import { expectDocumentPublished, createSlug } from "tests/utils";
+import { expectDocumentPublished, launchPreview } from "tests/utils";
 
 export default async function VariantA({
   pageTitle,
@@ -200,8 +200,8 @@ export default async function VariantA({
   }
 
   await expectDocumentPublished(page, pageTitle);
-  await page.goto(`${baseURL}/${createSlug(pageTitle)}`);
-  page.waitForLoadState("domcontentloaded");
+
+  await launchPreview({ page, baseURL, pageTitle });
 
   // 05-03-2024 defer tests for forms
   //Fill up form

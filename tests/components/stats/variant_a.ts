@@ -1,5 +1,5 @@
 import { expect } from "@playwright/test";
-import { createSlug, expectDocumentPublished } from "tests/utils";
+import { expectDocumentPublished, launchPreview } from "tests/utils";
 
 export default async function VariantA({
   pageTitle,
@@ -20,8 +20,8 @@ export default async function VariantA({
   }
 
   await expectDocumentPublished(page, pageTitle);
-  await page.goto(`${baseURL}/${createSlug(pageTitle)}`);
-  page.waitForLoadState("domcontentloaded");
+
+  await launchPreview({ page, baseURL, pageTitle });
 
   for (const data of commonFieldValues) {
     await expect(page.getByText(data.updatedLabel)).toBeVisible();

@@ -1,6 +1,11 @@
 import { expect } from "@playwright/test";
 import { textComponentInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-default";
-import { createSlug, expectDocumentPublished, titleField } from "tests/utils";
+import {
+  createSlug,
+  expectDocumentPublished,
+  launchPreview,
+  titleField,
+} from "tests/utils";
 
 export default async function VariantC({
   pageTitle,
@@ -61,8 +66,8 @@ export default async function VariantC({
     .fill(commonFieldValues.thirdContent);
 
   await expectDocumentPublished(page, pageTitle);
-  await page.goto(`${baseURL}/${createSlug(pageTitle)}`);
-  page.waitForLoadState("domcontentloaded");
+
+  await launchPreview({ page, baseURL, pageTitle });
 
   //Title
   await titleField.sitePreview({ pageUrl: page, commonFieldValues });

@@ -1,12 +1,11 @@
 import { expect } from "@playwright/test";
+import { featuresInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-default";
 import {
   expectDocumentPublished,
+  launchPreview,
   subtitleField,
   titleField,
-  createSlug,
-  launchPreview,
 } from "tests/utils";
-import { featuresInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-default";
 
 const featuresLength = featuresInitialValue.arrayOfImageTitleAndText.length;
 

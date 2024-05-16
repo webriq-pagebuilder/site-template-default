@@ -5,6 +5,7 @@ import {
   subtitleField,
   titleField,
   createSlug,
+  launchPreview,
 } from "tests/utils";
 
 export default async function VariantA({
@@ -60,8 +61,8 @@ export default async function VariantA({
   }
 
   await expectDocumentPublished(page, pageTitle);
-  await page.goto(`${baseURL}/${createSlug(pageTitle)}`);
-  page.waitForLoadState("domcontentloaded");
+
+  await launchPreview({ page, baseURL, pageTitle });
 
   await assertPageContent(page, commonFieldValues, isInternalLink);
 }

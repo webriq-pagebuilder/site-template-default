@@ -2,9 +2,9 @@ import { expect } from "@playwright/test";
 import { portfolioInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-default";
 import {
   expectDocumentPublished,
+  launchPreview,
   subtitleField,
   titleField,
-  createSlug,
 } from "tests/utils";
 
 export default async function VariantB({
@@ -51,8 +51,8 @@ export default async function VariantB({
   }
 
   await expectDocumentPublished(page, pageTitle);
-  await page.goto(`${baseURL}/${createSlug(pageTitle)}`);
-  page.waitForLoadState("domcontentloaded");
+
+  await launchPreview({ page, baseURL, pageTitle });
 
   await assertPageContent({ page, commonFieldValues, isInternalLink });
 }

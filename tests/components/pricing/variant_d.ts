@@ -3,9 +3,9 @@ import { pricingInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-de
 import {
   descriptionField,
   expectDocumentPublished,
+  launchPreview,
   subtitleField,
   titleField,
-  createSlug,
 } from "tests/utils";
 
 export default async function VariantD({
@@ -162,8 +162,8 @@ export default async function VariantD({
   //   .selectOption("Mariel Stripe Test 2");
 
   await expectDocumentPublished(page, pageTitle);
-  await page.goto(`${baseURL}/${createSlug(pageTitle)}`);
-  page.waitForLoadState("domcontentloaded");
+
+  await launchPreview({ page, baseURL, pageTitle });
 
   //Title
   await titleField.sitePreview({ pageUrl: page, commonFieldValues });

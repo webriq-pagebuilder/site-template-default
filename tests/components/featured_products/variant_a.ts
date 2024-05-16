@@ -1,17 +1,21 @@
 import { expect } from "@playwright/test";
-import { NEXT_PUBLIC_SITE_URL } from "studio/config";
 import {
-  expectDocumentPublished,
   assertExternalUrl,
   assertInternalUrl,
-  createSlug,
+  expectDocumentPublished,
+  launchPreview,
 } from "tests/utils";
 
-export default async function VariantA({ pageTitle, page, commonFieldValues }) {
+export default async function VariantA({
+  pageTitle,
+  page,
+  commonFieldValues,
+  baseURL,
+}) {
   await createFeaturedProductsVariant(pageTitle, page);
 
   for (const product of commonFieldValues.products) {
-    await page.goto(`${NEXT_PUBLIC_SITE_URL}/${createSlug(pageTitle)}`);
+    await launchPreview({ page, baseURL, pageTitle });
     await assertPageContent(page, product, commonFieldValues);
   }
 }

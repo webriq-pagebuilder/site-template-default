@@ -1,6 +1,6 @@
 import { expect } from "@playwright/test";
 import { teamInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-default";
-import { bodyField, createSlug, expectDocumentPublished } from "tests/utils";
+import { bodyField, expectDocumentPublished, launchPreview } from "tests/utils";
 
 export default async function VariantB({
   pageTitle,
@@ -50,8 +50,8 @@ export default async function VariantB({
   }
 
   await expectDocumentPublished(page, pageTitle);
-  await page.goto(`${baseURL}/${createSlug(pageTitle)}`);
-  page.waitForLoadState("domcontentloaded");
+
+  await launchPreview({ page, baseURL, pageTitle });
 
   for (const person of commonFieldValues.peopleData) {
     await page.getByLabel(person.newName).click();

@@ -1,8 +1,8 @@
 import { expect } from "@playwright/test";
 import {
-  expectDocumentPublished,
-  createSlug,
   addNavigationRoutes,
+  expectDocumentPublished,
+  launchPreview,
 } from "tests/utils";
 
 export default async function VariantE({
@@ -63,8 +63,8 @@ export default async function VariantE({
   }
 
   await expectDocumentPublished(page, pageTitle);
-  await page.goto(`${baseURL}/${createSlug(pageTitle)}`);
-  page.waitForLoadState("domcontentloaded");
+
+  await launchPreview({ page, baseURL, pageTitle });
 
   await assertPageContent(page, linkNames, commonFieldValues, isInternalLink);
 }

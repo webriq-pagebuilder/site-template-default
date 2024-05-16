@@ -66,7 +66,7 @@ featuredProductsTest.forEach((variants, index) => {
   const pageTitle = newPageTitle(title);
 
   test.describe(`${name}`, () => {
-    test(`Create ${label}`, async ({ page }) => {
+    test(`Create ${label}`, async ({ page, baseURL }) => {
       console.log(`[INFO] - Testing Featured Products ${variant} 🚀`);
       await beforeEachTest(page, pageTitle, "Featured Products", label, index);
       const variantTest = variantModules[variant];
@@ -75,6 +75,7 @@ featuredProductsTest.forEach((variants, index) => {
         pageTitle,
         page,
         commonFieldValues,
+        baseURL,
       });
     });
 

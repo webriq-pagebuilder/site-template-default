@@ -1,11 +1,11 @@
 import { expect } from "@playwright/test";
-import {
-  expectDocumentPublished,
-  createSlug,
-  copyrightField,
-  bodyField,
-} from "tests/utils";
 import { footerInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-default";
+import {
+  bodyField,
+  copyrightField,
+  expectDocumentPublished,
+  launchPreview,
+} from "tests/utils";
 
 export default async function VariatA({
   pageTitle,

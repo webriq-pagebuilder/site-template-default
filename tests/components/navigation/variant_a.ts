@@ -1,9 +1,9 @@
 import { expect } from "@playwright/test";
 import { navigationInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-default";
 import {
-  expectDocumentPublished,
-  createSlug,
   addNavigationRoutes,
+  expectDocumentPublished,
+  launchPreview,
   primaryButtonField,
   secondaryButtonField,
 } from "tests/utils";
@@ -73,8 +73,8 @@ export default async function createNavigationVariant({
   });
 
   await expectDocumentPublished(page, pageTitle);
-  await page.goto(`${baseURL}/${createSlug(pageTitle)}`);
-  page.waitForLoadState("domcontentloaded");
+
+  await launchPreview({ page, baseURL, pageTitle });
 
   await assertPageContent(page, linkNames, commonFieldValues, isInternalLink);
 }

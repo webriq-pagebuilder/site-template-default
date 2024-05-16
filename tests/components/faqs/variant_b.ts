@@ -2,10 +2,9 @@ import { expect } from "@playwright/test";
 import { faqsInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-default";
 import {
   expectDocumentPublished,
+  launchPreview,
   subtitleField,
   titleField,
-  createSlug,
-  launchPreview,
 } from "tests/utils";
 
 const faqsWithCategories = [

@@ -1,10 +1,6 @@
 import { expect } from "@playwright/test";
-import {
-  createSlug,
-  expectDocumentPublished,
-  launchPreview,
-} from "tests/utils";
 import { featuresInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-default";
+import { expectDocumentPublished, launchPreview } from "tests/utils";
 
 async function VariantE({ pageTitle, page, commonFieldValues, baseURL }) {
   // studio

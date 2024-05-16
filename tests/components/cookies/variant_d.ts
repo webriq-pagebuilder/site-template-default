@@ -3,7 +3,6 @@ import { cookiesInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-de
 import {
   expectDocumentPublished,
   headingField,
-  createSlug,
   launchPreview,
 } from "tests/utils";
 

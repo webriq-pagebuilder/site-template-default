@@ -1,11 +1,10 @@
 import { headerInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-default";
 import {
   expectDocumentPublished,
-  titleField,
-  createSlug,
+  launchPreview,
   primaryButtonField,
   secondaryButtonField,
-  launchPreview,
+  titleField,
 } from "tests/utils";
 
 export default async function VariantC({

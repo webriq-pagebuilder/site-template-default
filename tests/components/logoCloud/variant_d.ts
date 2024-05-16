@@ -1,10 +1,10 @@
 import { expect } from "@playwright/test";
-import { createSlug, expectDocumentPublished } from "tests/utils";
+import { expectDocumentPublished, launchPreview } from "tests/utils";
 
 export default async function VariantD({ pageTitle, page, baseURL }) {
   await expectDocumentPublished(page, pageTitle);
-  await page.goto(`${baseURL}/${createSlug(pageTitle)}`);
-  page.waitForLoadState("domcontentloaded");
+
+  await launchPreview({ page, baseURL, pageTitle });
 
   await expect(
     page.locator('img[alt="logoCloud-image"]').first()

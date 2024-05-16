@@ -1,11 +1,11 @@
 import { expect } from "@playwright/test";
+import { logoCloudInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-default";
 import {
   expectDocumentPublished,
-  titleField,
-  createSlug,
+  launchPreview,
   primaryButtonField,
+  titleField,
 } from "tests/utils";
-import { logoCloudInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-default";
 
 export default async function VariantC({
   pageTitle,
@@ -30,8 +30,8 @@ export default async function VariantC({
   });
 
   await expectDocumentPublished(page, pageTitle);
-  await page.goto(`${baseURL}/${createSlug(pageTitle)}`);
-  page.waitForLoadState("domcontentloaded");
+
+  await launchPreview({ page, baseURL, pageTitle });
 
   //Title
   await titleField.sitePreview({ pageUrl: page, commonFieldValues });
