@@ -1,5 +1,9 @@
 import { expect } from "@playwright/test";
-import { createSlug, expectDocumentPublished } from "tests/utils";
+import {
+  createSlug,
+  expectDocumentPublished,
+  launchPreview,
+} from "tests/utils";
 import { featuresInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-default";
 
 async function VariantE({ pageTitle, page, commonFieldValues, baseURL }) {
@@ -13,8 +17,8 @@ async function VariantE({ pageTitle, page, commonFieldValues, baseURL }) {
 
   // check site preview
   await expectDocumentPublished(page, pageTitle);
-  await page.goto(`${baseURL}/${createSlug(pageTitle)}`);
-  await page.waitForLoadState("domcontentloaded");
+  // Launch preview
+  await launchPreview({ page, baseURL, pageTitle });
 
   await expect(
     page.getByText(featuresInitialValue.featuredItems?.[0].subtitle)

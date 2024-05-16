@@ -5,6 +5,7 @@ import {
   subtitleField,
   titleField,
   createSlug,
+  launchPreview,
 } from "tests/utils";
 import { featuresInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-default";
 
@@ -42,8 +43,8 @@ async function VariantF({ pageTitle, page, commonFieldValues, baseURL }) {
 
   // check site preview
   await expectDocumentPublished(page, pageTitle);
-  await page.goto(`${baseURL}/${createSlug(pageTitle)}`);
-  await page.waitForLoadState("domcontentloaded");
+  // Launch preview
+  await launchPreview({ page, baseURL, pageTitle });
 
   // subtitle
   await expect(page.locator('[id="__next"]')).toContainText(

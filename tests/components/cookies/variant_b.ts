@@ -1,6 +1,11 @@
 import { expect } from "@playwright/test";
 import { cookiesInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-default";
-import { expectDocumentPublished, headingField, createSlug } from "tests/utils";
+import {
+  expectDocumentPublished,
+  headingField,
+  createSlug,
+  launchPreview,
+} from "tests/utils";
 
 export default async function VariantB({
   pageTitle,
@@ -49,8 +54,8 @@ export default async function VariantB({
 
   // check site preview
   await expectDocumentPublished(page, pageTitle);
-  await page.goto(`${baseURL}/${createSlug(pageTitle)}`);
-  await page.waitForLoadState("domcontentloaded");
+  // Launch preview
+  await launchPreview({ page, baseURL, pageTitle });
 
   //Heading
   await headingField.sitePreview({ pageUrl: page, commonFieldValues });

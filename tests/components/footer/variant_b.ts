@@ -78,8 +78,8 @@ export default async function createFooterVariant({
 
   // check site preview
   await expectDocumentPublished(page, pageTitle);
-  await page.goto(`${baseURL}/${createSlug(pageTitle)}`);
-  await page.waitForLoadState("domcontentloaded");
+  // Launch preview
+  await launchPreview({ page, baseURL, pageTitle });
 
   // Default should just be available routes - no buttons in variant E
   await assertPageContent(page, linkNames, commonFieldValues, isInternalLink);

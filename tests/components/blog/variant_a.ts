@@ -6,6 +6,7 @@ import {
   titleField,
   createSlug,
   primaryButtonField,
+  launchPreview,
 } from "tests/utils";
 
 export default async function VariantA({
@@ -38,8 +39,8 @@ export default async function VariantA({
   });
 
   await expectDocumentPublished(page, pageTitle);
-  await page.goto(`${baseURL}/${createSlug(pageTitle)}`);
-  await page.waitForLoadState("domcontentloaded");
+  // Launch preview
+  await launchPreview({ page, baseURL, pageTitle });
 
   // Primary Button
   await primaryButtonField.sitePreview({

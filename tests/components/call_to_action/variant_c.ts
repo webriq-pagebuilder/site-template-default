@@ -5,6 +5,7 @@ import {
   expectDocumentPublished,
   titleField,
   createSlug,
+  launchPreview,
 } from "tests/utils";
 import { callToActionInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-default";
 
@@ -37,8 +38,8 @@ async function VariantC({ pageTitle, page, commonFieldValues, baseURL }) {
 
   // check site preview
   await expectDocumentPublished(page, pageTitle);
-  await page.goto(`${baseURL}/${createSlug(pageTitle)}`);
-  await page.waitForLoadState("domcontentloaded");
+  // Launch preview
+  await launchPreview({ page, baseURL, pageTitle });
 
   // title
   await expect(

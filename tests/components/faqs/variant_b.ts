@@ -5,6 +5,7 @@ import {
   subtitleField,
   titleField,
   createSlug,
+  launchPreview,
 } from "tests/utils";
 
 const faqsWithCategories = [
@@ -85,8 +86,8 @@ export default async function VariantB({
 
   // check site preview
   await expectDocumentPublished(page, pageTitle);
-  await page.goto(`${baseURL}/${createSlug(pageTitle)}`);
-  await page.waitForLoadState("domcontentloaded");
+  // Launch preview
+  await launchPreview({ page, baseURL, pageTitle });
 
   //Title
   await titleField.sitePreview({ pageUrl: page, commonFieldValues });

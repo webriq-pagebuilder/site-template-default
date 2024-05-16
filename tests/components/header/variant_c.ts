@@ -5,6 +5,7 @@ import {
   createSlug,
   primaryButtonField,
   secondaryButtonField,
+  launchPreview,
 } from "tests/utils";
 
 export default async function VariantC({
@@ -38,8 +39,8 @@ export default async function VariantC({
   });
 
   await expectDocumentPublished(page, pageTitle);
-  await page.goto(`${baseURL}/${createSlug(pageTitle)}`);
-  await page.waitForLoadState("domcontentloaded");
+  // Launch preview
+  await launchPreview({ page, baseURL, pageTitle });
 
   await assertPageContent(page, commonFieldValues, isInternalLink);
 }

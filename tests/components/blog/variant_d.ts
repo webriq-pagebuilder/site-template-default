@@ -4,6 +4,7 @@ import {
   subtitleField,
   titleField,
   createSlug,
+  launchPreview,
 } from "tests/utils";
 import { blogInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-default";
 
@@ -28,8 +29,8 @@ export default async function VariantA({
   });
 
   await expectDocumentPublished(page, pageTitle);
-  await page.goto(`${baseURL}/${createSlug(pageTitle)}`);
-  await page.waitForLoadState("domcontentloaded");
+  // Launch preview
+  await launchPreview({ page, baseURL, pageTitle });
 
   //Title
   await titleField.sitePreview({ pageUrl: page, commonFieldValues });

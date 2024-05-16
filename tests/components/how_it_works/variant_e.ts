@@ -5,6 +5,7 @@ import {
   subtitleField,
   titleField,
   createSlug,
+  launchPreview,
 } from "tests/utils";
 
 export default async function VariantE({
@@ -46,8 +47,8 @@ export default async function VariantE({
 
   // check site preview
   await expectDocumentPublished(page, pageTitle);
-  await page.goto(`${baseURL}/${createSlug(pageTitle)}`);
-  await page.waitForLoadState("domcontentloaded");
+  // Launch preview
+  await launchPreview({ page, baseURL, pageTitle });
 
   //Title
   await titleField.sitePreview({ pageUrl: page, commonFieldValues });
