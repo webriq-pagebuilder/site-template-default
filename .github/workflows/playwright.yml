@@ -29,8 +29,8 @@ jobs:
           PLAYWRIGHT_TEST_BASE_URL: ${{ github.event.deployment_status.target_url }} # dynamically generated and unique per build
           NEXT_PUBLIC_PREVIEW_SECRET: ${{ secrets.NEXT_PUBLIC_PREVIEW_SECRET }} # used for launching site preview in sites - same as per site's NEXT_PUBLIC_PREVIEW_SECRET in environment variables in Netlify/Vercel
           STUDIO_AUTOLOGIN_TOKEN_FOR_TESTING: ${{ secrets.STUDIO_AUTOLOGIN_TOKEN_FOR_TESTING }} # A unique API token generated on creation of project and added here one-time.
-          NEXT_PUBLIC_SANITY_PROJECT_ID: ${{ vars.NEXT_PUBLIC_SANITY_PROJECT_ID }} # Same as per site's Sanity project ID
-          NEXT_PUBLIC_SANITY_STUDIO_IN_CSTUDIO: ${{ vars.NEXT_PUBLIC_SANITY_STUDIO_IN_CSTUDIO }} # Determines whether site is in CStudio, updated accordingly
+          NEXT_PUBLIC_SANITY_PROJECT_ID: ${{ secrets.NEXT_PUBLIC_SANITY_PROJECT_ID }} # Same as per site's Sanity project ID
+          NEXT_PUBLIC_SANITY_STUDIO_IN_CSTUDIO: ${{ secrets.NEXT_PUBLIC_SANITY_STUDIO_IN_CSTUDIO }} # Determines whether site is in CStudio, updated accordingly
 
       - name: Upload blob report to GitHub Actions Artifacts
         if: ${{ !cancelled() }}
