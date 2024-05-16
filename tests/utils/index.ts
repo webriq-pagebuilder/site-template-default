@@ -92,10 +92,6 @@ export const subtitleField = {
     );
   },
   async sitePreview({ pageUrl, commonFieldValues }) {
-    console.log("🚀 ~ sitePreview ~ { pageUrl, commonFieldValues }:", {
-      pageUrl,
-      commonFieldValues,
-    });
     await expect(pageUrl.getByText(commonFieldValues?.subtitle)).toBeVisible();
   },
 };
