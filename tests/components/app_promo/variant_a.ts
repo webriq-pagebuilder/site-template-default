@@ -5,6 +5,7 @@ import {
   updateLogoLink,
   expectDocumentPublished,
   createSlug,
+  launchPreview,
 } from "tests/utils";
 import { appPromoInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-default";
 
@@ -24,10 +25,10 @@ async function VariantA({ pageTitle, page, commonFieldValues, baseURL }) {
     commonFieldValues,
   });
 
-  // check site preview
   await expectDocumentPublished(page, pageTitle);
-  await page.goto(`${baseURL}/${createSlug(pageTitle)}`);
-  await page.waitForLoadState("domcontentloaded");
+
+  // Launch preview
+  await launchPreview({ page, baseURL, pageTitle });
 
   // subtitle
   await subtitleField.sitePreview({ pageUrl: page, commonFieldValues });

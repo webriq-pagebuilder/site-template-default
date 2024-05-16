@@ -14,6 +14,15 @@ export const newPageTitle = (text = "New Page") => {
   return title;
 };
 
+export const launchPreview = async ({ page, baseURL, pageTitle }) => {
+  await page.goto(
+    `${baseURL}/api/preview?secret=${
+      process.env.NEXT_PUBLIC_PREVIEW_SECRET
+    }&slug=${createSlug(pageTitle)}`
+  );
+  await page.waitForLoadState("domcontentloaded");
+};
+
 export const createSlug = (pageTitle: string) => {
   let slug: string;
 
@@ -83,6 +92,10 @@ export const subtitleField = {
     );
   },
   async sitePreview({ pageUrl, commonFieldValues }) {
+    console.log("🚀 ~ sitePreview ~ { pageUrl, commonFieldValues }:", {
+      pageUrl,
+      commonFieldValues,
+    });
     await expect(pageUrl.getByText(commonFieldValues?.subtitle)).toBeVisible();
   },
 };
