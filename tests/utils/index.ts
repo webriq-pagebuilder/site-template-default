@@ -1047,7 +1047,10 @@ export const primaryButtonField = {
         .getByTestId("field-variants.primaryButton.linkExternal")
         .getByLabel("URL")
         .fill(commonFieldValues.externalLinkUrl);
-      await page.getByText("Blank - open on a new tab (").click();
+      await page
+        .getByTestId("field-variants.primaryButton.linkTarget")
+        .getByText("Blank - open on a new tab (")
+        .click();
     } else {
       await page
         .getByTestId("field-variants.primaryButton.linkType")
@@ -1067,8 +1070,9 @@ export const primaryButtonField = {
     let target: string;
     let href: string;
 
-    await expect(
-      pageUrl.getByText(commonFieldValues.primaryButton)
+    // ref: stackoverflow.com/a/71346845
+    https: await expect(
+      pageUrl.locator(`text=${commonFieldValues.primaryButton} >> visible=true`)
     ).toBeVisible();
 
     if (isInternalLink) {
@@ -1078,11 +1082,9 @@ export const primaryButtonField = {
     }
 
     await expect(
-      pageUrl
-        .locator(
-          `a[aria-label="${commonFieldValues.primaryButton}"][target="${target}"][href="${href}"]`
-        )
-        .first()
+      pageUrl.locator(
+        `a[aria-label="${commonFieldValues.primaryButton}"][target="${target}"][href="${href}"] >> visible=true`
+      )
     ).toBeVisible();
   },
 };
@@ -1112,7 +1114,7 @@ export const secondaryButtonField = {
       commonFieldValues?.secondaryButton
     );
 
-    //Determine the proceeds if it is internal or external link
+    // Determine the proceeds if it is internal or external link
     if (!isInternalLink) {
       await page
         .getByTestId("field-variants.secondaryButton.linkType")
@@ -1126,7 +1128,10 @@ export const secondaryButtonField = {
         .getByTestId("field-variants.secondaryButton.linkExternal")
         .getByLabel("URL")
         .fill(commonFieldValues.externalLinkUrl);
-      await page.getByText("Blank - open on a new tab (").click();
+      await page
+        .getByTestId("field-variants.secondaryButton.linkTarget")
+        .getByText("Blank - open on a new tab (")
+        .click();
     } else {
       await page
         .getByTestId("field-variants.secondaryButton.linkType")
@@ -1147,8 +1152,11 @@ export const secondaryButtonField = {
     let target: string;
     let href: string;
 
+    // ref: https://stackoverflow.com/a/71346845
     await expect(
-      pageUrl.getByText(commonFieldValues.secondaryButton)
+      pageUrl.locator(
+        `text=${commonFieldValues.secondaryButton} >> visible=true`
+      )
     ).toBeVisible();
 
     if (isInternalLink) {
@@ -1158,11 +1166,9 @@ export const secondaryButtonField = {
     }
 
     await expect(
-      pageUrl
-        .locator(
-          `a[aria-label="${commonFieldValues.secondaryButton}"][target="${target}"][href="${href}"]`
-        )
-        .first()
+      pageUrl.locator(
+        `a[aria-label="${commonFieldValues.secondaryButton}"][target="${target}"][href="${href}"]  >> visible=true`
+      )
     ).toBeVisible();
   },
 };
