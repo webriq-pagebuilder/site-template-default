@@ -8,13 +8,14 @@ import {
   secondaryButtonField,
 } from "tests/utils";
 
-export default async function createNavigationVariant({
+export default async function VariantA({
   pageTitle,
   page,
   commonFieldValues,
   linkNames,
   isInternalLink,
   baseURL,
+  assertVariant,
 }) {
   if (!isInternalLink) {
     //Logo Alt
@@ -76,10 +77,13 @@ export default async function createNavigationVariant({
 
   await launchPreview({ page, baseURL, pageTitle });
 
-  await assertPageContent(page, linkNames, commonFieldValues, isInternalLink);
+  if (typeof assertVariant === "function") {
+    assertVariant(page, linkNames, commonFieldValues, isInternalLink);
+  }
+  // await assertPageContent(page, linkNames, commonFieldValues, isInternalLink);
 }
 
-async function assertPageContent(
+export async function assertPageContent(
   page,
   linkNames,
   commonFieldValues,
