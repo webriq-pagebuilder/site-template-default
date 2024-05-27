@@ -10,11 +10,12 @@ import { PageSections } from "components/page";
 import BlogSections from "components/blog";
 import { PreviewBanner } from "components/PreviewBanner";
 import { PreviewNoContent } from "components/PreviewNoContent";
-import { filterDataToSingleItem, SEO } from "components/list";
+import { filterDataToSingleItem } from "components/list";
+import { SEO } from "components/SEO";
 import PageNotFound from "pages/404";
 import InlineEditorContextProvider from "context/InlineEditorContext";
 import { GetStaticPaths, GetStaticProps } from "next";
-import { CommonPageData, BlogsData, DefaultSeoData } from "types";
+import { CommonPageData, BlogsData, SeoTags, SeoSchema } from "types";
 import { addSEOJsonLd } from "components/SEO";
 
 interface PageBySlugProps {
@@ -22,7 +23,8 @@ interface PageBySlugProps {
   preview: boolean;
   token: string | null;
   source: string;
-  defaultSeo: DefaultSeoData;
+  seo?: SeoTags[];
+  seoSchema?: SeoSchema;
 }
 
 interface DocumentWithPreviewProps {
@@ -30,7 +32,6 @@ interface DocumentWithPreviewProps {
   slug: string | string[];
   token: string | null;
   source: string;
-  defaultSeo: DefaultSeoData;
 }
 
 interface Data {
@@ -44,13 +45,7 @@ export interface PageData extends CommonPageData {
   title: string;
 }
 
-export function PageBySlug({
-  data,
-  preview,
-  token,
-  source,
-  defaultSeo,
-}: PageBySlugProps) {
+export function PageBySlug({ data, preview, token, source }: PageBySlugProps) {
   const router = useRouter();
   const slug = router.query.slug;
   const showInlineEditor = source === "studio";
@@ -65,7 +60,12 @@ export function PageBySlug({
           <PreviewSuspense fallback="Loading...">
             <InlineEditorContextProvider showInlineEditor={showInlineEditor}>
               <DocumentWithPreview
-                {...{ data, token: token || null, slug, source, defaultSeo }}
+                {...{
+                  data,
+                  token: token || null,
+                  slug,
+                  source,
+                }}
               />
             </InlineEditorContextProvider>
           </PreviewSuspense>
@@ -73,7 +73,7 @@ export function PageBySlug({
       );
     }
 
-    return <Document {...{ data, defaultSeo }} />;
+    return <Document {...{ data }} />;
   }
 }
 
@@ -83,13 +83,7 @@ export function PageBySlug({
  *
  * @returns Document with published data
  */
-function Document({
-  data,
-  defaultSeo,
-}: {
-  data: Data;
-  defaultSeo: DefaultSeoData;
-}) {
+function Document({ data }: { data: Data }) {
   const publishedData = data?.pageData || data?.blogData; // latest published data in Sanity
 
   // General safeguard against empty data
@@ -97,35 +91,8 @@ function Document({
     return null;
   }
 
-  const { title, _type, seo } = publishedData;
-
   return (
     <>
-      <Head>
-        <SEO
-          data={{
-            pageTitle: title,
-            type: _type,
-            route: publishedData?.slug,
-            ...seo,
-          }}
-          defaultSeo={defaultSeo}
-        />
-        {/* Structured data (JSON-LD encoding) */}
-        <script
-          key={`${_type}-jsonld`}
-          type="application/ld+json"
-          dangerouslySetInnerHTML={addSEOJsonLd({
-            seo: seo,
-            type: _type,
-            slug: publishedData?.slug,
-            defaults: defaultSeo,
-            pageData: publishedData,
-          })}
-        />
-        <title>{seo?.seoTitle ?? title ?? "WebriQ Studio"}</title>
-      </Head>
-
       {/*  Show page sections */}
       {data?.pageData && <PageSections data={data?.pageData} />}
 
@@ -148,7 +115,6 @@ function DocumentWithPreview({
   data,
   slug,
   token = null,
-  defaultSeo,
 }: DocumentWithPreviewProps) {
   // Current drafts data in Sanity
   const previewDataEventSource = usePreview(
@@ -167,35 +133,10 @@ function DocumentWithPreview({
     return null;
   }
 
-  const { title, seo, _type } = previewData;
+  const { _type } = previewData;
 
   return (
     <>
-      <Head>
-        <SEO
-          data={{
-            pageTitle: title,
-            type: _type,
-            route: previewData?.slug,
-            ...seo,
-          }}
-          defaultSeo={defaultSeo}
-        />
-        {/* Structured data (JSON-LD encoding) */}
-        <script
-          key={`${_type}-jsonld`}
-          type="application/ld+json"
-          dangerouslySetInnerHTML={addSEOJsonLd({
-            seo: seo,
-            type: _type,
-            slug: previewData?.slug,
-            defaults: defaultSeo,
-            pageData: previewData,
-          })}
-        />
-        <title>{seo?.seoTitle ?? title ?? "WebriQ Studio"}</title>
-      </Head>
-
       {/* if page has no sections, show no sections only in preview */}
       {_type === "page" &&
         "sections" in previewData &&
@@ -232,16 +173,43 @@ export const getStaticProps: GetStaticProps = async ({
   const singlePageData: PageData = filterDataToSingleItem(page, preview);
   const singleBlogData: BlogsData = filterDataToSingleItem(blogData, preview);
 
+  const data = {
+    pageData: singlePageData || null,
+    blogData: singleBlogData || null,
+  };
+
+  // SEO tags
+  const seo = SEO({
+    data: {
+      title:
+        data?.pageData?.title || data?.blogData?.title || "Stackshift page",
+      type: data?.pageData?._type || data?.blogData?._type || "",
+      route: params?.slug,
+      ...(data?.pageData?.seo || data?.blogData?.seo),
+    },
+    defaultSeo: globalSEO,
+  });
+
+  // Structured data (JSON-LD encoding)
+  const seoSchema = {
+    key: `${data?.pageData?._type || data?.blogData?._type}-jsonld`,
+    innerHTML: addSEOJsonLd({
+      seo: seo,
+      type: data?.pageData?._type || data?.blogData?._type,
+      defaults: globalSEO,
+      slug: params?.slug,
+      pageData: data?.pageData || data?.blogData,
+    }),
+  };
+
   return {
     props: {
       preview,
       token: (preview && previewData.token) || "",
       source: (preview && previewData?.source) || "",
-      data: {
-        pageData: singlePageData || null,
-        blogData: singleBlogData || null,
-      },
-      defaultSeo: globalSEO,
+      data,
+      seo,
+      seoSchema,
     },
     // If webhooks isn't setup then attempt to re-generate in 1 minute intervals
     revalidate: process.env.SANITY_REVALIDATE_SECRET ? undefined : 60,
@@ -260,7 +228,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   }
 
   const paths = await sanityClient.fetch(
-    groq`*[_type in ["page", "post"] && defined(slug.current)][].slug.current`
+    groq`*[_type in ["page", "post"] && !(_id in path("drafts.**")) && defined(slug.current)][].slug.current`
   );
 
   return {

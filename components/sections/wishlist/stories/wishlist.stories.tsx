@@ -3,7 +3,7 @@ import { Sections } from "types";
 import Wishlist from "../index";
 
 const meta = {
-  title: "CStudio/Wishlist/Defaults",
+  title: "Ecommerce/Wishlist/Defaults",
   component: Wishlist,
   tags: ["autodocs"],
   render: ({ variant, ...args }) => {

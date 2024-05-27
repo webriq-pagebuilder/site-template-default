@@ -30,7 +30,7 @@ const initialProduct = {
   ],
 };
 const meta = {
-  title: "CStudio/Product Info/Defaults",
+  title: "Ecommerce/Product Info/Defaults",
   component: ProductInfo,
   tags: ["autodocs"],
   render: ({ variant, ...args }) => {
