@@ -10,7 +10,7 @@ function VariantB({ username, media, platform, hashtags, numberOfPosts }) {
 
   return (
     <section className="py-20">
-      {media && (
+      {media?.length !== 0 ? (
         <div className="container mx-auto lg:px-4 w-full lg:w-2/3">
           <div className="mb-4">
             <h1 className="text-2xl font-bold text-center">
@@ -85,6 +85,12 @@ function VariantB({ username, media, platform, hashtags, numberOfPosts }) {
               </Link>
             </div>
           )}
+        </div>
+      ) : (
+        <div className="container mx-auto lg:px-4 w-full lg:w-2/3">
+          <h1 className="text-2xl font-bold text-center">
+            No social media feed to display. Make sure the profile is added to this StackShift and set from the UI.
+          </h1>
         </div>
       )}
     </section>

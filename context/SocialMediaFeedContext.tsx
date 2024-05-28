@@ -50,10 +50,11 @@ export function SocialMediaFeedContextProvider({
             });
         })
         .catch((error) => {
-          console.error(error);
+          console.error("[ERROR] Something went wrong when fetching profile media. ", error);
           setProfileFeed((prevState) => ({
             ...prevState,
             status: "error",
+            media: []
           }));
         });
     }
