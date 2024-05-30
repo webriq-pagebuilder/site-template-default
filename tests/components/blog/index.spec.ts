@@ -5,6 +5,7 @@ import VariantA from "./variant_a";
 import VariantB from "./variant_b";
 import VariantC from "./variant_c";
 import VariantD from "./variant_d";
+import ms from "ms";
 
 const variantModules = {
   variant_a: VariantA,
@@ -80,7 +81,7 @@ const commonFieldValues = {
   categories: ["TRAVEL", "Culture", "Engineering"],
 };
 
-test.describe.configure({ timeout: 1_000_000, mode: "parallel" });
+test.describe.configure({ mode: "parallel" });
 
 blogVariantTest.forEach((variants, index) => {
   const { name, title, label, variant, isInternalLink } = variants;

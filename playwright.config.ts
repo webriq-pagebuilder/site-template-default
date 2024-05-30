@@ -1,4 +1,5 @@
 import { defineConfig, devices } from "@playwright/test";
+import ms from "ms";
 import { authFile } from "playwright/global-setup";
 
 /**
@@ -11,10 +12,10 @@ require("dotenv").config({ path: ".env.test" });
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig({
-  timeout: 1_000_000,
+  timeout: ms("15m"),
   testDir: "./tests",
   expect: {
-    timeout: 60_000,
+    timeout: ms("2m"),
   },
   /* Run tests in files in parallel */
   fullyParallel: true,

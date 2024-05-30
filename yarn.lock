@@ -6777,6 +6777,7 @@ __metadata:
     lodash: "npm:^4.17.21"
     magicast: "npm:^0.3.3"
     marked: "npm:^4.3.0"
+    ms: "npm:^2.1.3"
     msw: "npm:1.3.2"
     msw-storybook-addon: "npm:1.10.0"
     nanoid: "npm:^3.1.30"
@@ -14789,7 +14790,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ms@npm:2.1.3, ms@npm:^2.1.1":
+"ms@npm:2.1.3, ms@npm:^2.1.1, ms@npm:^2.1.3":
   version: 2.1.3
   resolution: "ms@npm:2.1.3"
   checksum: 10c0/d924b57e7312b3b63ad21fc5b3dc0af5e78d61a1fc7cfb5457edaf26326bf62be5307cc87ffb6862ef1c2b33b0233cdb5d4f01c4c958cc0d660948b65a287a48
