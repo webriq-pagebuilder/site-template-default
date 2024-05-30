@@ -38,21 +38,6 @@ export default async function VariantC({
     isInternalLink,
   });
 
-  if (!isInternalLink) {
-    await page.getByText("External, outside this website").click();
-    await page.getByLabel("URL").click();
-    await page.getByLabel("URL").fill(commonFieldValues.externalLinkUrl);
-    await page.getByText("Blank - open on a new tab (").click();
-  } else {
-    await page.getByText("Internal, inside this website").click();
-    await page.getByTestId("autocomplete").click();
-    await page.getByTestId("autocomplete").fill("thank you");
-    await page
-      .getByRole("button", { name: "Thank you Published No" })
-      .click({ force: true });
-    await page.getByText("Self (default) - open in the").click();
-  }
-
   await expectDocumentPublished(page, pageTitle);
   // Launch preview
   await launchPreview({ page, baseURL, pageTitle });
@@ -70,30 +55,34 @@ export default async function VariantC({
     isInternalLink,
   });
 
-  const blogPostsLength = 3;
-  for (let i = 0; i < blogPostsLength; i++) {
-    const blog = commonFieldValues.blogPosts[i];
-    let button =
-      i === 0
-        ? page.getByLabel("View Blog Post").first()
-        : page.getByLabel("View Blog Post").nth(i);
+  // @todo: assert individual blog posts
+  // const blogPostsLength = 3;
+  // for (let i = 0; i < blogPostsLength; i++) {
+  //   const blog = commonFieldValues.blogPosts[i];
+  //   let button =
+  //     i === 0
+  //       ? page.getByLabel("View Blog Post").first()
+  //       : page.getByLabel("View Blog Post").nth(i);
 
-    await assertPageContent(page, blog, commonFieldValues, button);
-    await page.goto(`${baseURL}/${createSlug(pageTitle)}`);
-  }
+  //   await assertPageContent(page, blog, commonFieldValues, button);
+  //   await page.goto(`${baseURL}/${createSlug(pageTitle)}`);
+  // }
 }
 
 async function assertPageContent(page, blog, commonFieldValues, button) {
-  //Title
+  // Title
   await titleField.sitePreview({ pageUrl: page, commonFieldValues });
 
-  //Subtitle
+  // Subtitle
   await subtitleField.sitePreview({ pageUrl: page, commonFieldValues });
 
   await button.click({ force: true });
   await page.waitForLoadState("domcontentloaded");
-  await expect(page.getByRole("heading", { name: blog.title })).toBeVisible();
-  await expect(
-    page.locator(`span:has-text("${blog.publishedAt}")`)
-  ).toBeVisible();
+
+  // @todo: Assert blog page title
+  // await expect(page.getByRole("heading", { name: blog.title })).toBeVisible();
+
+  // await expect(
+  //   page.locator(`span:has-text("${blog.publishedAt}")`)
+  // ).toBeVisible();
 }

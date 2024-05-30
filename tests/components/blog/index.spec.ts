@@ -101,9 +101,9 @@ blogVariantTest.forEach((variants, index) => {
       });
     });
 
-    test.afterEach(async ({ page }) => {
-      await deletePageVariant(page, pageTitle, label);
-      console.log(`[DONE] Blog ${variant} 🚀`);
-    });
+    // test.afterEach(async ({ page }) => {
+    //   await deletePageVariant(page, pageTitle, label);
+    //   console.log(`[DONE] Blog ${variant} 🚀`);
+    // });
   });
 });

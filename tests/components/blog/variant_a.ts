@@ -51,7 +51,7 @@ export default async function VariantA({
 
   for (const blog of commonFieldValues.blogPosts) {
     await assertPageContent(page, blog, commonFieldValues);
-    await page.goto(`${baseURL}/${createSlug(pageTitle)}`);
+    await launchPreview({ page, baseURL, pageTitle });
   }
 }
 
