@@ -1,9 +1,33 @@
 import test from "@playwright/test";
-import { StudioPage } from "tests/__pages__/StudioPage";
 
-test("it autologins and go to pages", async ({ page, baseURL }) => {
-  const studio = new Studio(page, baseURL);
+test("hello there", async ({ page }) => {
+  // Arrange
+  arrange();
 
-  studio.newPage(pageTitle);
-  studio.newSectionInPage(sectionTitle, "variant_a");
+  // Act
+  act();
+
+  // Assert
+  assert();
 });
+
+export async function arrange() {
+  await createNewPage();
+  await createNewSectionAndVariant();
+}
+
+export function cleanup() {
+  await removeComponent();
+  await deletePage();
+}
+
+export function act() {
+  await fillTitle("New Title");
+  await fillFirstContent("bla bla bla");
+  await fillSecondContent("bla bla bla");
+  await fillSecondContent("bla bla bla");
+}
+
+export function assert() {
+  await expect(studio.title.toBeVisible());
+}

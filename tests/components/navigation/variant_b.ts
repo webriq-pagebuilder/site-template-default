@@ -8,10 +8,6 @@ import {
   secondaryButtonField,
 } from "tests/utils";
 
-import VariantA from "./variant_a";
-
-export default VariantA;
-
 export async function assertPageContent(
   page,
   linkNames,

@@ -7,11 +7,11 @@ import {
 } from "tests/utils";
 
 const isEcommerceEnabled =
-  process.env.NEXT_PUBLIC_SANITY_STUDIO_IN_CSTUDIO || "false";
+  !!process.env.NEXT_PUBLIC_SANITY_STUDIO_IN_CSTUDIO || false;
 
 test("Store has 3 main subtabs", async ({ page }) => {
   test.skip(
-    isEcommerceEnabled === "false",
+    !isEcommerceEnabled,
     "E-commerce is not enabled for this StackShift project."
   );
 

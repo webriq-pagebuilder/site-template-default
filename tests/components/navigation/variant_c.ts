@@ -79,7 +79,7 @@ export default async function VariantC({
   await assertPageContent(page, linkNames, commonFieldValues, isInternalLink);
 }
 
-async function assertPageContent(
+export async function assertPageContent(
   page,
   linkNames,
   commonFieldValues,

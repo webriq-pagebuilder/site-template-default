@@ -1,21 +1,26 @@
 import { test } from "@playwright/test";
-import { deletePageVariant, newPageTitle, beforeEachTest } from "tests/utils";
-import VariantA, {
-  assertPageContent as assertPageContentForVariantA,
-} from "./variant_a";
-import VariantB, {
-  assertPageContent as assertPageContentForVariantB,
-} from "./variant_b";
-import VariantC from "./variant_c";
-import VariantD from "./variant_d";
-import VariantE from "./variant_e";
+import { navigationInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-default";
+import { beforeEachTest, deletePageVariant, newPageTitle } from "tests/utils";
+import { assertPageContent as assertPageContentForVariantA } from "./variant_a";
+import { assertPageContent as assertPageContentForVariantB } from "./variant_b";
+import { assertPageContent as assertPageContentForVariantC } from "./variant_c";
+import { assertPageContent as assertPageContentForVariantD } from "./variant_d";
+import { assertPageContent as assertPageContentForVariantE } from "./variant_e";
+
+import {
+  addNavigationRoutes,
+  expectDocumentPublished,
+  launchPreview,
+  primaryButtonField,
+  secondaryButtonField,
+} from "tests/utils";
 
 const variantModules = {
-  variant_a: VariantA,
-  variant_b: VariantB,
-  variant_c: VariantC,
-  variant_d: VariantD,
-  variant_e: VariantE,
+  variant_a: Arrange,
+  variant_b: Arrange,
+  variant_c: Arrange,
+  variant_d: Arrange,
+  variant_e: Arrange,
 };
 
 const commonFieldValues = {
@@ -45,84 +50,111 @@ const navigationVariantTest = [
     linkNames: commonFieldValues.navigationBase,
     assertVariant: assertPageContentForVariantB,
   },
-  // {
-  //   name: "Variant C",
-  //   title: "Navigation Variant C",
-  //   label: "Navigation New Page C",
-  //   variant: "variant_c",
-  //   isInternalLink: false,
-  //   linkNames: commonFieldValues.navigationBase,
-  // },
-  // {
-  //   name: "Variant D",
-  //   title: "Navigation Variant D",
-  //   label: "Navigation New Page D",
-  //   variant: "variant_d",
-  //   isInternalLink: false,
-  //   linkNames: commonFieldValues.navigationBase,
-  // },
-  // {
-  //   name: "Variant E",
-  //   title: "Navigation Variant E",
-  //   label: "Navigation New Page E",
-  //   variant: "variant_e",
-  //   isInternalLink: false,
-  //   linkNames: commonFieldValues.navigationBase,
-  // },
+  {
+    name: "Variant C",
+    title: "Navigation Variant C",
+    label: "Navigation New Page C",
+    variant: "variant_c",
+    isInternalLink: false,
+    linkNames: commonFieldValues.navigationBase,
+    assertVariant: assertPageContentForVariantC,
+  },
+  {
+    name: "Variant D",
+    title: "Navigation Variant D",
+    label: "Navigation New Page D",
+    variant: "variant_d",
+    isInternalLink: false,
+    linkNames: commonFieldValues.navigationBase,
+    assertVariant: assertPageContentForVariantD,
+  },
+  {
+    name: "Variant E",
+    title: "Navigation Variant E",
+    label: "Navigation New Page E",
+    variant: "variant_e",
+    isInternalLink: false,
+    linkNames: commonFieldValues.navigationBase,
+    assertVariant: assertPageContentForVariantE,
+  },
 ];
 
 test.describe.configure({ mode: "parallel" });
 
-let pageTitle, label, variant;
+export default async function Arrange({
+  pageTitle,
+  page,
+  commonFieldValues,
+  linkNames,
+  isInternalLink,
+  baseURL,
+  assertVariant,
+}) {
+  if (!isInternalLink) {
+    //Logo Alt
+    const logoAltInput = page
+      .getByTestId("field-variants.logo.alt")
+      .getByTestId("string-input");
+    await logoAltInput.click();
+    await logoAltInput.fill("alt text test");
+    await page
+      .getByTestId("field-variants.logo.linkType")
+      .getByText("External, outside this website")
+      .click();
+    await page.waitForTimeout(1000);
+    await page.getByLabel("URL").click();
+    await page.getByLabel("URL").fill(commonFieldValues.externalLinkUrl);
+    await page.waitForTimeout(1000);
+    await page.getByText("Blank - open on a new tab (").click();
+  } else {
+    await page
+      .getByTestId("field-variants.logo.linkType")
+      .getByText("Internal, inside this website")
+      .click();
+    await page.getByTestId("autocomplete").click();
+    await page.getByTestId("autocomplete").fill("thank you");
+    await page
+      .getByRole("button", { name: "Thank you Published No" })
+      .click({ force: true });
+    await page.getByText("Self (default) - open in the").click();
+  }
 
-// Variant A test
-// test.describe(`Navigation`, () => {
-//   test.beforeEach(({ page }) => {});
+  // Perform navigation clicks
+  for (const navigation of commonFieldValues.navigationBase) {
+    const buttonName = `${navigation} Internal Link Not Set`;
+    await addNavigationRoutes({
+      page,
+      buttonName,
+      commonFieldValues,
+      isInternalLink,
+    });
+  }
 
-//   test(`Navigation A`, async ({ page, baseURL }) => {
-//     const { name, title, label, variant, linkNames, isInternalLink } =
-//       navigationVariantTest?.[0];
-//     pageTitle = newPageTitle(title);
+  // Primary Button
+  await primaryButtonField.checkAndAddValue({
+    page,
+    initialValue: navigationInitialValue,
+    commonFieldValues,
+    isInternalLink,
+  });
 
-//     console.log(`[INFO] - Testing Navigation ${variant} 🚀`);
-//     await beforeEachTest(page, pageTitle, "Navigation", label, 0);
-//     const variantTest = variantModules[variant];
+  // Secondary Button
+  await secondaryButtonField.checkAndAddValue({
+    page,
+    initialValue: navigationInitialValue,
+    commonFieldValues,
+    isInternalLink,
+  });
 
-//     await variantTest({
-//       pageTitle,
-//       page,
-//       commonFieldValues,
-//       linkNames,
-//       isInternalLink,
-//       baseURL,
-//     });
-//   });
+  await expectDocumentPublished(page, pageTitle);
 
-//   test(`Navigation B`, async ({ page, baseURL }) => {
-//     const { name, title, label, variant, linkNames, isInternalLink } =
-//       navigationVariantTest?.[1];
-//     pageTitle = newPageTitle(title);
+  await launchPreview({ page, baseURL, pageTitle });
 
-//     console.log(`[INFO] - Testing Navigation ${variant} 🚀`);
-//     await beforeEachTest(page, pageTitle, "Navigation", label, 0);
-//     const variantTest = variantModules[variant];
-
-//     await variantTest({
-//       pageTitle,
-//       page,
-//       commonFieldValues,
-//       linkNames,
-//       isInternalLink,
-//       baseURL,
-//     });
-//   });
-
-//   test.afterEach(async ({ page }, testInfo) => {
-//     console.log("🚀 ~ test.afterEach ~ testInfo:", testInfo);
-//     await deletePageVariant(page, pageTitle, label);
-//     console.log(`[DONE] Navigation ${variant} 🚀`);
-//   });
-// });
+  if (typeof assertVariant === "function") {
+    assertVariant(page, linkNames, commonFieldValues, isInternalLink);
+  }
+  // await assertPageContent(page, linkNames, commonFieldValues, isInternalLink);
+}
 
 navigationVariantTest.forEach((variants, index) => {
   const { name, title, label, variant, linkNames, isInternalLink } = variants;
