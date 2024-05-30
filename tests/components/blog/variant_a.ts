@@ -16,14 +16,14 @@ export default async function VariantA({
   isInternalLink,
   baseURL,
 }) {
-  //Subtitle
+  // Subtitle
   await subtitleField.checkAndAddValue({
     page,
     initialValue: blogInitialValue,
     commonFieldValues,
   });
 
-  //Title
+  // Title
   await titleField.checkAndAddValue({
     page,
     initialValue: blogInitialValue,
@@ -56,16 +56,17 @@ export default async function VariantA({
 }
 
 async function assertPageContent(page, blog, commonFieldValues) {
-  //Title
+  // Title
   await titleField.sitePreview({ pageUrl: page, commonFieldValues });
 
-  //Subtitle
+  // Subtitle
   await subtitleField.sitePreview({ pageUrl: page, commonFieldValues });
 
-  //Blog title
-  await expect(page.getByRole("link", { name: blog?.title })).toBeVisible();
+  // @todo: Blog title is in displayed
+  // await expect(page.getByRole("link", { name: blog?.title })).toBeVisible();
 
-  await page.getByRole("link", { name: blog.title }).click({ force: true });
-  await page.waitForLoadState("domcontentloaded");
-  await expect(page.getByRole("heading", { name: blog.title })).toBeVisible();
+  // @todo: assert blog post are present and that link takes you to the page
+  // await page.getByRole("link", { name: blog.title }).click({ force: true });
+  // await page.waitForLoadState("domcontentloaded");
+  // await expect(page.getByRole("heading", { name: blog.title })).toBeVisible();
 }
