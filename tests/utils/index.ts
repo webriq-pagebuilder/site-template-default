@@ -15,11 +15,11 @@ export const newPageTitle = (text = "New Page") => {
 };
 
 export const launchPreview = async ({ page, baseURL, pageTitle }) => {
-  await page.goto(
-    `${baseURL}/api/preview?secret=${
-      process.env.NEXT_PUBLIC_PREVIEW_SECRET
-    }&slug=${createSlug(pageTitle)}`
-  );
+  const previewURL = `${baseURL}/api/preview?secret=${
+    process.env.NEXT_PUBLIC_PREVIEW_SECRET
+  }&slug=${createSlug(pageTitle)}`;
+  console.log("🚀 ~ launchPreview ~ previewURL:", previewURL);
+  await page.goto(previewURL);
   await page.waitForLoadState("domcontentloaded");
 };
 
