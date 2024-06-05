@@ -29,7 +29,7 @@ test("Store has 3 main subtabs", async ({ page }) => {
 
 test("Store Commerce Pages has subtabs", async ({ page }) => {
   test.skip(
-    isEcommerceEnabled === "false",
+    !isEcommerceEnabled,
     "E-commerce is not enabled for this StackShift project."
   );
 
@@ -74,7 +74,7 @@ test.describe("Main Store Pages", () => {
 
   test.beforeEach("Go to Store tab", async ({ page }) => {
     test.skip(
-      isEcommerceEnabled === "false",
+      !isEcommerceEnabled,
       "E-commerce is not enabled for this StackShift project."
     );
 
@@ -225,7 +225,7 @@ test.describe("Store Commerce Pages", () => {
 
   test.beforeEach("Go to Store Commerce Pages", async ({ page }) => {
     test.skip(
-      isEcommerceEnabled === "false",
+      !isEcommerceEnabled,
       "E-commerce is not enabled for this StackShift project."
     );
 

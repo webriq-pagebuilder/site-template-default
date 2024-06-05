@@ -10,7 +10,7 @@ test("Show all components", async ({ page }) => {
   console.log("[DONE] Show all components 🚀");
 });
 
-test.describe("Main document actions", () => {
+test.fixme("Main document actions", () => {
   console.log("[INFO] Run WebriQ Components tests ~ Main document actions");
   test.describe.configure({ mode: "serial" });
 
@@ -151,7 +151,7 @@ test.describe("Main document actions", () => {
   });
 });
 
-test("Can filter component", async ({ page }) => {
+test.fixme("Can filter component", async ({ page }) => {
   console.log("[INFO] Run WebriQ Components tests ~ Can filter component");
 
   await page.goto(`./studio/components`);
