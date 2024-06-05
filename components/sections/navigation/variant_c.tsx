@@ -27,16 +27,18 @@ function VariantC({
               {links &&
                 links?.map((link, index) => (
                   <React.Fragment key={index}>
-                    <li>
-                      <Button
-                        as="link"
-                        ariaLabel={link?.label}
-                        link={link}
-                        className="text-sm text-gray-500 no-underline hover:text-gray-900"
-                      >
-                        {link?.label}
-                      </Button>
-                    </li>
+                    {link?.label && (
+                      <li>
+                        <Button
+                          as="link"
+                          ariaLabel={link?.label}
+                          link={link}
+                          className="text-sm text-gray-500 no-underline hover:text-gray-900"
+                        >
+                          {link?.label}
+                        </Button>
+                      </li>
+                    )}
                     {links.length !== index + 1 ? (
                       <li className="text-gray-500">
                         <svg
@@ -67,7 +69,9 @@ function VariantC({
                   className="text-3xl font-bold leading-none"
                   href={logoLink(logo)}
                   target={logo?.linkTarget}
-                  rel={logo?.linkTarget === "_blank" ? "noopener noreferrer" : ""}
+                  rel={
+                    logo?.linkTarget === "_blank" ? "noopener noreferrer" : ""
+                  }
                 >
                   <Image
                     src={urlFor(logo?.image)}

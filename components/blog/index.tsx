@@ -209,8 +209,8 @@ function BlogSections({ data }: BlogSectionsProps) {
                 {categories &&
                   categories?.map((tag, index) => (
                     <span
-                    className="mr-2 text-base uppercase text-primary-foreground lg:text-xl"
-                    key={index}
+                      className="mr-2 text-base uppercase text-primary-foreground lg:text-xl"
+                      key={index}
                     >
                       {tag?.title}
                     </span>
@@ -222,9 +222,9 @@ function BlogSections({ data }: BlogSectionsProps) {
                 )}
                 {publishedAt && (
                   <span
-                  className={`text-base text-white lg:text-xl ${
-                    categories ?? "ml-2"
-                  }`}
+                    className={`text-base lg:text-xl ${categories ?? "ml-2"}${
+                      mainImage ? "text-white" : "text-black"
+                    }`}
                   >
                     {format(new Date(publishedAt), "MMMM dd, yyyy")}
                   </span>
@@ -232,7 +232,12 @@ function BlogSections({ data }: BlogSectionsProps) {
               </div>
               <div className="mt-2">
                 {title && (
-                  <Heading weight="bold" className="mb-6 text-white">
+                  <Heading
+                    weight="bold"
+                    className={`mb-6 ${
+                      mainImage ? "text-white" : "text-black"
+                    }`}
+                  >
                     {title}
                   </Heading>
                 )}
