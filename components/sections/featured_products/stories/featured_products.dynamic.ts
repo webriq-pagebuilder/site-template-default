@@ -2,6 +2,7 @@ import { StoryConfigs, defineStories } from "utils/stories";
 import { sanityClient } from "lib/sanity.client";
 import { componentsQuery } from "pages/api/query";
 import { featuredProductDefaultValues } from "helper/defaultValues";
+import { dynamicStoryData } from "components/common";
 import dedent from "ts-dedent";
 
 export default defineStories({
@@ -9,7 +10,7 @@ export default defineStories({
     import React from "react";
     import FeaturedProducts from "../index.tsx";
     export default {
-      title: "CStudio/Featured Products",
+      title: "Ecommerce/Featured Products",
       component: FeaturedProducts,
       tags: ["autodocs"],
       render: ({ variant, label, ...args }) => {
@@ -35,20 +36,10 @@ export default defineStories({
         schema: "featuredProducts",
       })) || []; // Provide a default empty array
 
-    const result: StoryConfigs = {};
-
-    featuredProductsData?.map((item, index) => {
-      if (!item || !item.variants) return; // Skip iteration if item or item.variants is falsy
-
-      result[`${item.variant}${index + 1}`] = {
-        args: {
-          variant: item.variant,
-          label: item.label,
-          ...featuredProductDefaultValues,
-        },
-      };
+    return dynamicStoryData({
+      data: featuredProductsData,
+      schemaFields: featuredProductDefaultValues,
+      isEcommerce: true,
     });
-
-    return result;
   },
 });

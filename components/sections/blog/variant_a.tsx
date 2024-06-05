@@ -98,8 +98,8 @@ export function BlogItem({ post }: { post: BlogPost }) {
             className="text-xl font-bold text-white transform hover:scale-110 hover:text-secondary motion-reduce:transform-none lg:text-2xl"
             href={`/${post?.slug?.current}` ?? "/page-not-found"}
           >
-            {post?.title?.length > 50
-              ? post?.title.substring(0, 50) + "..."
+            {post?.title?.length > 40
+              ? post?.title.substring(0, 40) + "..."
               : post?.title}
           </Link>
         )}

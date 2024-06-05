@@ -1,22 +1,22 @@
 import React from "react";
-import Head from "next/head";
 import { PreviewSuspense } from "next-sanity/preview";
 import { getClient } from "lib/sanity.client";
 import { usePreview } from "lib/sanity.preview";
 import { cartPageQuery, globalSEOQuery } from "pages/api/query";
 import { CartSections } from "components/page/store/cart";
 import { PreviewNoContent } from "components/PreviewNoContent";
-import { filterDataToSingleItem, SEO } from "components/list";
+import { filterDataToSingleItem } from "components/list";
+import { SEO } from "components/SEO";
 import { PreviewBanner } from "components/PreviewBanner";
 import InlineEditorContextProvider from "context/InlineEditorContext";
-import { CommonPageData, DefaultSeoData } from "types";
+import { CommonPageData, SeoTags } from "types";
 
 interface CartPageProps {
   data: Data;
   preview: boolean;
   token?: string;
   source?: string;
-  defaultSeo: DefaultSeoData;
+  seo?: SeoTags[];
 }
 
 interface Data {
@@ -33,10 +33,9 @@ export interface CartData extends CommonPageData {
 interface DocumentWithPreviewProps {
   data: Data;
   token: string;
-  defaultSeo: DefaultSeoData;
 }
 
-function CartPage({ data, preview, token, source, defaultSeo }: CartPageProps) {
+function CartPage({ data, preview, token, source }: CartPageProps) {
   const showInlineEditor = source === "studio";
 
   if (preview) {
@@ -45,14 +44,14 @@ function CartPage({ data, preview, token, source, defaultSeo }: CartPageProps) {
         <PreviewBanner />
         <PreviewSuspense fallback="Loading">
           <InlineEditorContextProvider showInlineEditor={showInlineEditor}>
-            <DocumentWithPreview {...{ data, token, defaultSeo }} />
+            <DocumentWithPreview {...{ data, token }} />
           </InlineEditorContextProvider>
         </PreviewSuspense>
       </>
     );
   }
 
-  return <Document {...{ data, defaultSeo }} />;
+  return <Document {...{ data }} />;
 }
 
 /**
@@ -61,13 +60,7 @@ function CartPage({ data, preview, token, source, defaultSeo }: CartPageProps) {
  *
  * @returns Document with published data
  */
-function Document({
-  data,
-  defaultSeo,
-}: {
-  data: Data;
-  defaultSeo: DefaultSeoData;
-}) {
+function Document({ data }: { data: Data }) {
   const publishedData = data?.cartData;
 
   // General safeguard against empty data
@@ -75,22 +68,7 @@ function Document({
     return null;
   }
 
-  const { seo, _type } = publishedData;
-
-  return (
-    <>
-      <Head>
-        <SEO
-          data={{ pageTitle: "Cart", type: _type, route: "cart", ...seo }}
-          defaultSeo={defaultSeo}
-        />
-        <title>{seo?.seoTitle ?? "Cart"}</title>
-      </Head>
-
-      {/*  Show page sections */}
-      {data?.cartData && <CartSections data={publishedData} />}
-    </>
-  );
+  return data?.cartData && <CartSections data={publishedData} />;
 }
 
 /**
@@ -100,11 +78,7 @@ function Document({
  *
  * @returns Document with preview data
  */
-function DocumentWithPreview({
-  data,
-  token = null,
-  defaultSeo,
-}: DocumentWithPreviewProps) {
+function DocumentWithPreview({ data, token = null }: DocumentWithPreviewProps) {
   const previewDataEventSource = usePreview(token, cartPageQuery);
   const previewData: CartData =
     previewDataEventSource?.[0] || previewDataEventSource;
@@ -114,18 +88,8 @@ function DocumentWithPreview({
     return null;
   }
 
-  const { seo, _type } = previewData;
-
   return (
     <>
-      <Head>
-        <SEO
-          data={{ pageTitle: "Cart", type: _type, route: "cart", ...seo }}
-          defaultSeo={defaultSeo}
-        />
-        <title>{seo?.seoTitle ?? "Cart"}</title>
-      </Head>
-
       {/* if no sections, show no sections only in preview */}
 
       {(!previewData ||
@@ -155,12 +119,25 @@ export async function getStaticProps({
   // pass page data and preview to helper function
   const cartData: CartData = filterDataToSingleItem(cartPage, preview);
 
+  const data = { cartData };
+
+  // SEO tags
+  const seo = SEO({
+    data: {
+      title: "Cart",
+      type: data?.cartData?._type || "cartPage",
+      route: "cart",
+      ...data?.cartData,
+    },
+    defaultSeo: globalSEO,
+  });
+
   if (!cartData) {
     return {
       props: {
         preview,
         data: { cartData: null },
-        defaultSeo: globalSEO,
+        seo,
       },
     };
   }
@@ -170,8 +147,8 @@ export async function getStaticProps({
       preview,
       token: (preview && previewData.token) || "",
       source: (preview && previewData.source) || "",
-      data: { cartData },
-      defaultSeo: globalSEO,
+      data,
+      seo,
     },
   };
 }

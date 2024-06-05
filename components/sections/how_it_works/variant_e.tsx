@@ -33,7 +33,7 @@ function StepItem({ step, index }) {
       <span className="relative z-10 flex items-center justify-center w-16 h-16 mx-auto mb-6 text-2xl text-white rounded-full bg-primary lg:mb-10">
         {index + 1}
       </span>
-      <Heading type="h3" classname="mb-4 text-2xl font-bold font-heading">
+      <Heading type="h3" className="mb-4 text-2xl font-bold font-heading">
         {step?.title}
       </Heading>
       <Text muted className="leading-loose ">
