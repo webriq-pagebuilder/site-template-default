@@ -24,7 +24,7 @@ jobs:
         run: npx playwright install --with-deps chromium
 
       - name: Run Playwright tests
-        run: npx playwright test tests/studio --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
+        run: npx playwright test tests/components --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
         env:
           PLAYWRIGHT_TEST_BASE_URL: ${{ github.event.deployment_status.target_url }} # dynamically generated and unique per build
           NEXT_PUBLIC_PREVIEW_SECRET: ${{ secrets.NEXT_PUBLIC_PREVIEW_SECRET }} # used for launching site preview in sites - same as per site's NEXT_PUBLIC_PREVIEW_SECRET in environment variables in Netlify/Vercel
