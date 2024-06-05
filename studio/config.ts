@@ -45,3 +45,7 @@ export const SITE_STORE_CORS_SECRET =
 // Open AI key
 export const NEXT_PUBLIC_SANITY_PROJECT_OPENAI_KEY =
   process.env.NEXT_PUBLIC_SANITY_PROJECT_OPENAI_KEY;
+
+export const SOCIAL_ACCOUNTS_API_URL =
+  process.env.NEXT_PUBLIC_SOCIAL_ACCOUNTS_API_URL ||
+  `${NEXT_PUBLIC_APP_URL}/api/app/integrations/social-accounts`;

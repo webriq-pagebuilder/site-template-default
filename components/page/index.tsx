@@ -2,6 +2,7 @@ import { useContext } from "react";
 import { Components } from "components/list";
 import { InlineEditorContext } from "context/InlineEditorContext";
 import InlineEditor from "components/InlineEditor";
+import { SocialMediaFeedContextProvider } from "context/SocialMediaFeedContext";
 import { PageData } from "pages/[slug]";
 
 interface PageSectionsProps {
@@ -52,14 +53,27 @@ export function PageSections({ data }: PageSectionsProps) {
               showInlineEditor={showInlineEditor}
               key={index}
             >
-              <Component
-                template={{
-                  bg: "gray",
-                  color: "webriq",
-                }}
-                {...{ [section._type]: section }}
-                data={section}
-              />
+              {section?._type === "socialMediaFeed" ? (
+                <SocialMediaFeedContextProvider>
+                  <Component
+                    template={{
+                      bg: "gray",
+                      color: "webriq",
+                    }}
+                    {...{ [section._type]: section }}
+                    data={section}
+                  />
+                </SocialMediaFeedContextProvider>
+              ) : (
+                <Component
+                  template={{
+                    bg: "gray",
+                    color: "webriq",
+                  }}
+                  {...{ [section._type]: section }}
+                  data={section}
+                />
+              )}
             </InlineEditor>
           );
         })}
