@@ -58,7 +58,7 @@ test.describe("Main Workflow", () => {
   });
 
   // TODO: Network Error
-  test.skip("Create Payment Account", async ({ page }) => {
+  test.fixme("Create Payment Account", async ({ page }) => {
     await navigateToPayments({ page });
     await page.getByRole("button", { name: "Add API" }).click();
     await page.getByPlaceholder("Account Name").click();
@@ -89,7 +89,7 @@ test.describe("Main Workflow", () => {
   });
 
   //View Payments
-  test.skip("View Payment", async ({ page }) => {
+  test.fixme("View Payment", async ({ page }) => {
     await navigateToPayments({ page });
 
     const addedAccountName = page.locator(
@@ -112,7 +112,7 @@ test.describe("Main Workflow", () => {
     await page.getByLabel("Close dialog").click();
   });
 
-  test.skip("Delete Payment", async ({ page }) => {
+  test.fixme("Delete Payment", async ({ page }) => {
     await navigateToPayments({ page });
     const addedAccountName = page.locator(
       `div span:has-text("${paymentName}")`

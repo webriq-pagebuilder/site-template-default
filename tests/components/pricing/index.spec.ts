@@ -122,7 +122,7 @@ pricingVariantTest.forEach((variants, index) => {
 
   test.describe(`${name}`, () => {
     //Select Stripe Account Required
-    test.skip(`Create ${label}`, async ({ page, baseURL }) => {
+    test.fixme(`Create ${label}`, async ({ page, baseURL }) => {
       console.log(`[INFO] - Testing Pricing ${variant} 🚀`);
       await beforeEachTest(page, pageTitle, "Pricing", label, index);
       const variantTest = variantModules[variant];
