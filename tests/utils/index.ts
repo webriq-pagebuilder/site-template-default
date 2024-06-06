@@ -129,12 +129,10 @@ export const titleField = {
   },
   async sitePreview({ pageUrl, commonFieldValues }) {
     await expect(
-      pageUrl
-        .getByRole("heading", {
-          name: commonFieldValues?.title,
-          exact: true,
-        })
-        .first()
+      pageUrl.getByRole("heading", {
+        name: commonFieldValues?.title,
+        exact: true,
+      })
     ).toBeVisible();
   },
 };
