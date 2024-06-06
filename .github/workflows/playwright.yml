@@ -8,8 +8,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        shardIndex: [1, 2]
-        shardTotal: [2]
+        shardIndex: [1, 2, 3, 4]
+        shardTotal: [4]
     if: github.event.deployment_status.state == 'success'
     steps:
       - uses: actions/checkout@v4
