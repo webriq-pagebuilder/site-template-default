@@ -3,6 +3,7 @@ import { beforeEachTest, deletePageVariant, newPageTitle } from "tests/utils";
 import { NEXT_PUBLIC_SITE_URL } from "studio/config";
 import VariantA from "./variant_a";
 import VariantB from "./variant_b";
+import { isEcommerceEnabled } from "tests/config";
 
 const variantModules = {
   variant_a: VariantA,
@@ -66,6 +67,11 @@ featuredProductsTest.forEach((variants, index) => {
   const pageTitle = newPageTitle(title);
 
   test.describe(`${name}`, () => {
+    test.skip(
+      !isEcommerceEnabled,
+      "E-commerce is not enabled for this StackShift project."
+    );
+
     test(`Create ${label}`, async ({ page, baseURL }) => {
       console.log(`[INFO] - Testing Featured Products ${variant} 🚀`);
       await beforeEachTest(page, pageTitle, "Featured Products", label, index);
