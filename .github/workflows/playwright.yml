@@ -1,21 +1,37 @@
 name: Playwright Tests
 on:
-  deployment_status:
   pull_request:
     branches:
       - master
       - main
 
 jobs:
+  test_setup:
+    name: Test setup
+    runs-on: ubuntu-latest
+    outputs:
+      preview_url: ${{ steps.get-vercel-preview-url.outputs.preview_url }}
+    steps:
+      - name: Get Vercel Preview URL
+        id: get-vercel-preview-url
+        uses: ViktorJT/Get-vercel-preview-url@1.2.2
+        with:
+          vercel_access_token: ${{ secrets.VERCEL_ACCESS_TOKEN }}
+          vercel_team_id: ${{ secrets.VERCEL_TEAM_ID }}
+          gh_token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Echo preview
+        run: echo "Preview url is ready ${{ steps.get-vercel-preview-url.outputs.preview_url }}"
+
   playwright-tests:
-    timeout-minutes: 120
+    needs: test_setup
+    timeout-minutes: 180
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
         shardIndex: [1, 2, 3, 4]
         shardTotal: [4]
-    if: github.event.deployment_status.state == 'success'
     steps:
       - uses: actions/checkout@v4
 
@@ -29,9 +45,9 @@ jobs:
         run: npx playwright install --with-deps chromium
 
       - name: Run Playwright tests
-        run: npx playwright test tests/components --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
+        run: npx playwright test tests/studio --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
         env:
-          PLAYWRIGHT_TEST_BASE_URL: ${{ github.event.deployment_status.target_url }} # dynamically generated and unique per build
+          PLAYWRIGHT_TEST_BASE_URL: ${{ needs.test_setup.outputs.preview_url }} # dynamically generated and unique per build
           NEXT_PUBLIC_PREVIEW_SECRET: ${{ secrets.NEXT_PUBLIC_PREVIEW_SECRET }} # used for launching site preview in sites - same as per site's NEXT_PUBLIC_PREVIEW_SECRET in environment variables in Netlify/Vercel
           STUDIO_AUTOLOGIN_TOKEN_FOR_TESTING: ${{ secrets.STUDIO_AUTOLOGIN_TOKEN_FOR_TESTING }} # A unique API token generated on creation of project and added here one-time.
           NEXT_PUBLIC_SANITY_PROJECT_ID: ${{ secrets.NEXT_PUBLIC_SANITY_PROJECT_ID }} # Same as per site's Sanity project ID
