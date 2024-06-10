@@ -1,5 +1,3 @@
-[![Chromatic](https://github.com/webriq-pagebuilder/site-template-default/actions/workflows/chromatic.yml/badge.svg)](https://github.com/webriq-pagebuilder/site-template-default/actions/workflows/chromatic.yml) [![Playwright Tests](https://github.com/webriq-pagebuilder/site-template-default/actions/workflows/playwright.yml/badge.svg)](https://github.com/webriq-pagebuilder/site-template-default/actions/workflows/playwright.yml)
-
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started

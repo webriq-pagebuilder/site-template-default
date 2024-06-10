@@ -10,7 +10,6 @@ interface Config {
   useCdn: boolean;
   apiVersion: string;
   token?: string;
-  documentLimit?: number;
 }
 
 let config: Config = {
@@ -27,7 +26,6 @@ let config: Config = {
   // To get the lowest latency, lowest cost, and latest data, use the Instant Preview mode
   apiVersion: "2022-03-13",
   token: SANITY_API_READ_TOKEN,
-  documentLimit: 10000,
 };
 
 export { config };

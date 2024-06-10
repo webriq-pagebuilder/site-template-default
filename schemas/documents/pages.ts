@@ -104,6 +104,12 @@ export default defineType({
           to: [{ type: "callToAction" }],
         }),
         defineArrayMember({
+          title: "Social Media Feed",
+          name: "socialMediaFeed",
+          type: "reference",
+          to: [{ type: "socialMediaFeed" }],
+        }),
+        defineArrayMember({
           title: "Featured products",
           name: "featuredProducts",
           type: "reference",
