@@ -48,11 +48,16 @@ export default defineConfig({
     codeInput(), // for "code" schema type
   ],
   tools: (prev) => {
-    // 👇 Uses environment variables set by Vite in development mode
-    if (process.env.NODE_ENV !== "production") {
-      return prev;
+    // 05-28-2024 StackShift revamp 2024: Adding forms and stripe accounts done from StackShift app
+    const hideTools = ["webriq-forms", "payments", "vision"];
+    const isProduction = process.env.NODE_ENV === "production";
+
+    if (!isProduction) {
+      hideTools.pop(); // only show "Vision" in development
+
+      return prev.filter((tool) => !hideTools?.includes(tool.name));
     }
-    return prev.filter((tool) => tool.name !== "vision");
+    return prev.filter((tool) => !hideTools?.includes(tool.name));
   },
   studio: {
     components: {
