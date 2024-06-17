@@ -49,7 +49,11 @@ export default defineConfig({
   ],
   tools: (prev) => {
     // 05-28-2024 StackShift revamp 2024: Adding forms and stripe accounts done from StackShift app
-    const hideTools = ["webriq-forms", "payments", "vision"];
+    const hideTools = [
+      //"webriq-forms", //TODO: uncomment line 53-54 once StackShift revamp 2024 is officially released
+      //"payments",
+      "vision",
+    ];
     const isProduction = process.env.NODE_ENV === "production";
 
     if (!isProduction) {
