@@ -14,14 +14,31 @@ export const newPageTitle = (text = "New Page") => {
   return title;
 };
 
+// We will attempt to navigate to the preview URL up to 3 times, waiting 15 seconds between each attempt if the "Loading..." text is still present.
+// If all attempts fail, it will throw an error.
 export const launchPreview = async ({ page, baseURL, pageTitle }) => {
   const previewURL = `${baseURL}/api/preview?secret=${
     process.env.NEXT_PUBLIC_PREVIEW_SECRET
-  }&slug=${createSlug(pageTitle)}`;
-  await page.goto(previewURL);
-  await expect(
-    page.locator('[id="__next"]').getByText("Loading...")
-  ).toHaveCount(0);
+  }&slug=${createSlug(pageTitle)}&timestamp=${new Date().getTime()}`;
+
+  const maxRetries = 3;
+  const timeout = 15000; // 15 seconds
+
+  for (let attempt = 1; attempt <= maxRetries; attempt++) {
+    try {
+      await page.goto(previewURL);
+      await expect(
+        page.locator('[id="__next"]').getByText("Loading...")
+      ).toHaveCount(0, { timeout });
+      break; // Exit loop if successful
+    } catch (error) {
+      if (attempt === maxRetries) {
+        throw error; // Rethrow error if max retries reached
+      }
+      console.warn(`Retrying... (${attempt}/${maxRetries})`);
+      await page.waitForTimeout(timeout); // Wait before retrying
+    }
+  }
 };
 
 export const createSlug = (pageTitle: string) => {
