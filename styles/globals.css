@@ -209,6 +209,13 @@ ul[aria-label="List of Content"] > li:last-child:before {
   outline: 2px solid #2275FB;
   outline-offset: 1px;
 }
+#component_filter .select-component-close-btn:hover {
+  fill: red;
+}
+
+#webriq_components_filter .select-component-close-btn:hover {
+  fill: red;
+}
 /**** end of STUDIO > COMPONENTS > component filter ****/
 
 
