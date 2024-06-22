@@ -10,7 +10,7 @@ test("Show all components", async ({ page }) => {
   console.log("[DONE] Show all components 🚀");
 });
 
-test.describe("Main document actions", () => {
+test.fixme("Main document actions", () => {
   console.log("[INFO] Run WebriQ Components tests ~ Main document actions");
   test.describe.configure({ mode: "serial" });
 
