@@ -10,7 +10,7 @@ test("Show all components", async ({ page }) => {
   console.log("[DONE] Show all components 🚀");
 });
 
-test.fixme("Main document actions", () => {
+test.describe("Main document actions", () => {
   console.log("[INFO] Run WebriQ Components tests ~ Main document actions");
   test.describe.configure({ mode: "serial" });
 
@@ -23,10 +23,10 @@ test.fixme("Main document actions", () => {
 
   test("Can create component", async ({ page }) => {
     await page.waitForLoadState("domcontentloaded");
-    await expect(page.getByText("Select...")).toBeVisible();
-    await page.getByText("Select...").click();
-    await expect(page.getByText("App Promo")).toBeVisible();
-    await page.getByText("App Promo").click();
+    await expect(page.getByPlaceholder("Select component...")).toBeVisible();
+    await page.getByPlaceholder("Select component...").click();
+    await expect(page.getByText("App Promo", { exact: true })).toBeVisible();
+    await page.getByText("App Promo", { exact: true }).click();
     await expect(page.getByText("APP PROMO", { exact: true })).toBeVisible();
     await expect(
       page.getByRole("button", { name: "New App Promo" })
@@ -58,8 +58,12 @@ test.fixme("Main document actions", () => {
     await page.getByPlaceholder("Search variants").click();
     await page.getByPlaceholder("Search variants").fill(newComponentName);
     await expect(
-      page.locator(`button:has-text('${newComponentName}')`).first()
+      page.getByRole("button", { name: new RegExp(newComponentName, "i") })
     ).toBeVisible();
+
+    // await expect(
+    //   page.locator(`button:has-text('${newComponentName}')`).first()
+    // ).toBeVisible();
 
     console.log("[DONE] Can search component 🚀");
   });
@@ -151,14 +155,14 @@ test.fixme("Main document actions", () => {
   });
 });
 
-test.fixme("Can filter component", async ({ page }) => {
+test("Can filter component", async ({ page }) => {
   console.log("[INFO] Run WebriQ Components tests ~ Can filter component");
 
   await page.goto(`./studio/components`);
-  await expect(page.getByText("Select...")).toBeVisible();
-  await page.getByText("Select...").click();
-  await expect(page.getByText("Call to Action")).toBeVisible();
-  await page.getByText("Call to Action").click();
+  await expect(page.getByPlaceholder("Select component...")).toBeVisible();
+  await page.getByPlaceholder("Select component...").click();
+  await expect(page.getByText("Call to Action", { exact: true })).toBeVisible();
+  await page.getByText("Call to Action", { exact: true }).click();
   await expect(page.getByText("CALL TO ACTION", { exact: true })).toBeVisible();
   await expect(
     page.getByRole("button", { name: "New Call to Action" })
