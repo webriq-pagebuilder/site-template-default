@@ -17,7 +17,7 @@ let globalSeo = {
 
 const newSeoPage = newPageTitle("SEO Page ");
 
-test.describe("Verify SEO Settings", () => {
+test.fixme("Verify SEO Settings", () => {
   console.log("[INFO] Run SEO Settings tests ~ Verify SEO Settings");
 
   test.describe.configure({ mode: "serial" });

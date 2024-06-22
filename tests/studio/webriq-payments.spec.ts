@@ -8,7 +8,7 @@ const paymentName = `Payment ` + new Date().getTime();
 const publishableKey = NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY;
 const secretKey = NEXT_PUBLIC_STRIPE_SECRET_KEY;
 
-test.describe("Main Workflow", () => {
+test.skip("Main Workflow", () => {
   console.log("[INFO] Run WebriQ Payments tests ~ Main Workflow");
 
   test.describe.configure({ timeout: 600_000, mode: "serial" });

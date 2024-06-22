@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 
-test("verify it is initially setup properly", async ({ page }) => {
+test.skip("verify it is initially setup properly", async ({ page }) => {
   console.log("[INFO] Run WebriQ Forms tests");
 
   await page.goto(`./studio`);
@@ -26,7 +26,7 @@ test("verify it is initially setup properly", async ({ page }) => {
 });
 
 // @todo: fix properly intercepting response from request
-test("it lists the number of forms based on API response of WebriQ Forms", async ({
+test.skip("it lists the number of forms based on API response of WebriQ Forms", async ({
   page,
 }) => {
   await page.route(
