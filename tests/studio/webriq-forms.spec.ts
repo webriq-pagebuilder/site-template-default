@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 
-test.skip("verify it is initially setup properly", async ({ page }) => {
+test("verify it is initially setup properly", async ({ page }) => {
   console.log("[INFO] Run WebriQ Forms tests");
 
   await page.goto(`./studio`);
@@ -9,7 +9,7 @@ test.skip("verify it is initially setup properly", async ({ page }) => {
   await page.getByRole("button", { name: "Configure" }).click();
 
   await expect(page.getByText("API Email")).toBeVisible();
-  await expect(page.getByText("API Email")).toBeVisible();
+  await expect(page.getByText("API Key")).toBeVisible();
 
   await expect(
     page
@@ -23,24 +23,4 @@ test.skip("verify it is initially setup properly", async ({ page }) => {
       .filter({ hasText: /^API Key$/ })
       .getByRole("textbox")
   ).not.toHaveValue("");
-});
-
-// @todo: fix properly intercepting response from request
-test.skip("it lists the number of forms based on API response of WebriQ Forms", async ({
-  page,
-}) => {
-  await page.route(
-    "https://pagebuilderforms.webriq.com/forms",
-    async (route) => {
-      const response = await route.continue();
-      console.log("🚀 ~ response:", response);
-      // const responseBody = await response.json();
-      // console.log("🚀 ~ response:", responseBody); // Log or assert the response
-    }
-  );
-  await page.goto(`./studio`);
-
-  await page.getByRole("link", { name: "Forms" }).click();
-
-  await expect(page.getByText("WebriQ Forms")).toBeVisible();
 });
