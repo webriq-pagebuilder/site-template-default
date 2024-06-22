@@ -5,6 +5,7 @@ import {
   navigateToPages,
   newPageTitle,
   publishDocument,
+  retryOperation,
   searchForName,
 } from "tests/utils";
 
@@ -17,7 +18,7 @@ let globalSeo = {
 
 const newSeoPage = newPageTitle("SEO Page ");
 
-test.fixme("Verify SEO Settings", () => {
+test.describe("Verify SEO Settings", () => {
   console.log("[INFO] Run SEO Settings tests ~ Verify SEO Settings");
 
   test.describe.configure({ mode: "serial" });
@@ -95,10 +96,11 @@ test.fixme("Verify SEO Settings", () => {
       .locator("textarea#defaultSeoDescription")
       .inputValue();
 
+    await page.waitForSelector('[data-testid="action-Save"]:not([disabled])', {
+      state: "visible",
+    });
     await page.getByTestId("action-Save").click({ force: true });
-    await expect(
-      page.getByRole("button", { name: "Last published just now" })
-    ).toBeVisible();
+    await expect(page.getByTestId("review-changes-button")).toBeVisible();
 
     console.log("[DONE] Can add global SEO values 🚀");
   });

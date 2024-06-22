@@ -1188,3 +1188,25 @@ export const secondaryButtonField = {
     ).toBeVisible();
   },
 };
+
+export async function retryOperation(
+  operation: () => Promise<void>,
+  maxRetries: number = 3,
+  timeout: number = 15000,
+  retryDelay: string = "5s"
+) {
+  for (let attempt = 1; attempt <= maxRetries; attempt++) {
+    try {
+      await operation();
+      break; // Exit loop if successful
+    } catch (error) {
+      if (attempt === maxRetries) {
+        throw error; // Rethrow error if max retries reached
+      }
+      console.warn(`Retrying... (${attempt}/${maxRetries})`);
+      await new Promise((resolve) =>
+        setTimeout(resolve, timeout + ms(retryDelay) * attempt)
+      ); // Wait before retrying
+    }
+  }
+}
