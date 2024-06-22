@@ -304,7 +304,7 @@ export async function navigateToStore(page) {
   await element.click({ force: true });
 }
 
-export async function createNewPage(page, sectionTitle, sections) {
+export async function createNewPage(page, sectionTitle, sections = null) {
   // Click new page button
   const newPageButtonElement = `a[href="/studio/intent/create/template=page;type=page/"]`;
   await page.waitForSelector(newPageButtonElement, { state: "visible" });

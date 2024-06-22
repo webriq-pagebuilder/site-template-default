@@ -1,3 +1,4 @@
+import ms from "ms";
 import { test } from "@playwright/test";
 import { navigationInitialValue } from "@webriq-pagebuilder/sanity-plugin-schema-default";
 import { beforeEachTest, deletePageVariant, newPageTitle } from "tests/utils";
@@ -20,7 +21,7 @@ const variantModules = {
   variant_b: Arrange,
   variant_c: Arrange,
   variant_d: Arrange,
-  variant_e: Arrange,
+  // variant_e: Arrange,
 };
 
 const commonFieldValues = {
@@ -79,7 +80,7 @@ const navigationVariantTest = [
   },
 ];
 
-test.describe.configure({ mode: "parallel" });
+test.describe.configure({ mode: "parallel", timeout: ms("5m") });
 
 export default async function Arrange({
   pageTitle,

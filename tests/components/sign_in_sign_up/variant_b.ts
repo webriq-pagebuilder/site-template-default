@@ -134,8 +134,14 @@ export default async function VariantB({
       .getByTestId("field-variants.signinLink.linkType")
       .getByText("Internal, inside this website")
       .click();
-    await page.getByTestId("autocomplete").click();
-    await page.getByTestId("autocomplete").fill("thank you");
+    await page
+      .getByTestId("field-variants.signinLink.linkType")
+      .getByTestId("autocomplete")
+      .click();
+    await page
+      .getByTestId("field-variants.signinLink.linkType")
+      .getByTestId("autocomplete")
+      .fill("thank you");
     await page.getByRole("button", { name: "Thank you Published No" }).click();
     await page
       .getByTestId("field-variants.signinLink.linkTarget")
@@ -181,8 +187,14 @@ export default async function VariantB({
 
     if (isInternalLink) {
       await routesInternalLink.click();
-      await page.getByTestId("autocomplete").click({ force: true });
-      await page.getByTestId("autocomplete").fill("thank you");
+      await page
+        .getByLabel("Edit Link")
+        .getByTestId("autocomplete")
+        .click({ force: true });
+      await page
+        .getByLabel("Edit Link")
+        .getByTestId("autocomplete")
+        .fill("thank you");
       await page
         .getByRole("button", { name: "Thank you Published No" })
         .click();

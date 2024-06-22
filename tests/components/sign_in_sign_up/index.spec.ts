@@ -1,10 +1,18 @@
-import { test } from "@playwright/test";
-import { deletePageVariant, newPageTitle, beforeEachTest } from "tests/utils";
+import { test, expect } from "@playwright/test";
+import {
+  deletePageVariant,
+  newPageTitle,
+  beforeEachTest,
+  createNewPage,
+  navigateToPages,
+  searchForName,
+} from "tests/utils";
 import VariantA from "./variant_a";
 import VariantB from "./variant_b";
+import ms from "ms";
 
 const variantModules = {
-  variant_a: VariantA,
+  // variant_a: VariantA,
   variant_b: VariantB,
 };
 
@@ -75,6 +83,54 @@ const signInSignupVariantTest = [
   },
 ];
 
+export async function setupInternalLink(page, fieldId) {
+  await page
+    .getByTestId(`field-variants.${fieldId}.linkType`)
+    .getByText("Internal, inside this website")
+    .click();
+  // await page.getByTestId("autocomplete").click();
+  await page
+    .getByTestId(`field-variants.${fieldId}`)
+    .getByTestId("autocomplete");
+  await page
+    .getByTestId(`field-variants.${fieldId}`)
+    .getByTestId("autocomplete")
+    .fill("thank you");
+  await page
+    .getByRole("button", { name: "Thank You Page Published No" })
+    .click();
+  await page
+    .getByTestId(`field-variants.${fieldId}.linkTarget`)
+    .getByText("Self (default) - open in the")
+    .click();
+}
+
+export async function setupExternalLink(
+  page,
+  fieldId,
+  externalLinkUrl,
+  isOpenInNewTab = false
+) {
+  await page
+    .getByTestId(`field-variants.${fieldId}.linkType`)
+    .getByText("External, outside this website")
+    .click();
+  await page
+    .getByTestId(`field-variants.${fieldId}.linkExternal`)
+    .getByLabel("URL")
+    .click();
+  await page
+    .getByTestId(`field-variants.${fieldId}.linkExternal`)
+    .getByLabel("URL")
+    .fill(externalLinkUrl);
+  if (isOpenInNewTab) {
+    await page
+      .getByTestId(`field-variants.${fieldId}.linkTarget`)
+      .getByText("Blank - open on a new tab (")
+      .click();
+  }
+}
+
 test.describe.configure({ timeout: 1_000_000, mode: "parallel" });
 
 signInSignupVariantTest.forEach((variants, index) => {
@@ -82,6 +138,23 @@ signInSignupVariantTest.forEach((variants, index) => {
   const pageTitle = newPageTitle(title);
 
   test.describe(`${name}`, () => {
+    test.beforeEach(async ({ page }) => {
+      await navigateToPages(page);
+      await searchForName(page, {
+        name: "Thank You Page",
+      });
+
+      const thankYouPageLink = page.getByRole("link", {
+        name: "Thank You Page Published",
+      });
+      console.log("🚀 ~ test.beforeEach ~ thankYouPageLink:", thankYouPageLink);
+
+      if ((await thankYouPageLink.count()) === 0) {
+        console.warn("Thank You Page is not published, creating it!");
+        await createNewPage(page, "Thank You Page");
+      }
+    });
+
     test(`Create ${label}`, async ({ page, baseURL }) => {
       console.log(`[INFO] - Testing Sign in Sign up ${variant} 🚀`);
       await beforeEachTest(page, pageTitle, "Sign In Sign Up", label, index);

@@ -15,8 +15,7 @@ let globalSeo = {
   description: "",
 };
 
-const newSeoPage = newPageTitle("BOBOSEO Page ");
-console.log("🚀 ~ newSeoPage:", newSeoPage);
+const newSeoPage = newPageTitle("SEO Page ");
 
 test.describe("Verify SEO Settings", () => {
   console.log("[INFO] Run SEO Settings tests ~ Verify SEO Settings");
@@ -71,10 +70,6 @@ test.describe("Verify SEO Settings", () => {
     await page
       .getByTestId("field-defaultSeoKeywords")
       .getByTestId("string-input")
-      .press("Meta+a");
-    await page
-      .getByTestId("field-defaultSeoKeywords")
-      .getByTestId("string-input")
       .fill("stackshift");
     globalSeo.keywords = await page
       .locator("input#defaultSeoKeywords")
@@ -87,17 +82,12 @@ test.describe("Verify SEO Settings", () => {
     await page
       .getByTestId("field-defaultSeoSynonyms")
       .getByTestId("string-input")
-      .press("Meta+a");
-    await page
-      .getByTestId("field-defaultSeoSynonyms")
-      .getByTestId("string-input")
       .fill("stackshift page,page");
     globalSeo.synonyms = await page
       .locator("input#defaultSeoSynonyms")
       .inputValue();
 
     await page.getByLabel("Description").click();
-    await page.getByLabel("Description").press("Meta+a");
     await page
       .getByLabel("Description")
       .fill("Stackshift powers microsites with audience-specific content.");
@@ -106,6 +96,9 @@ test.describe("Verify SEO Settings", () => {
       .inputValue();
 
     await page.getByTestId("action-Save").click({ force: true });
+    await expect(
+      page.getByRole("button", { name: "Last published just now" })
+    ).toBeVisible();
 
     console.log("[DONE] Can add global SEO values 🚀");
   });
@@ -131,11 +124,11 @@ test.describe("Verify SEO Settings", () => {
     await expect(seoTitleFld).toHaveAttribute("placeholder", pageTitle);
 
     // SEO keywords
-    const seoKeywordsFld = page
+    const seoKeywordsField = page
       .getByTestId("field-seo.seoKeywords")
       .getByRole("textbox");
-    await expect(seoKeywordsFld).toBeVisible();
-    await expect(seoKeywordsFld).toHaveAttribute(
+    await expect(seoKeywordsField).toBeVisible();
+    await expect(seoKeywordsField).toHaveAttribute(
       "placeholder",
       globalSeo?.keywords
     );
