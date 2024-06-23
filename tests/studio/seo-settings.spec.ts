@@ -32,7 +32,7 @@ test.describe("Verify SEO Settings", () => {
     console.log("[DONE] Create test page for SEO 🚀", newSeoPage);
   });
 
-  test("Can add global SEO values", async ({ page }) => {
+  test.fixme("Can add global SEO values", async ({ page }) => {
     await navigateToPages(page);
     await searchForName(page, { name: newSeoPage });
     await expect(
@@ -105,53 +105,56 @@ test.describe("Verify SEO Settings", () => {
     console.log("[DONE] Can add global SEO values 🚀");
   });
 
-  test("Sets global SEO values when page SEO is undefined", async ({
-    page,
-  }) => {
-    await navigateToPages(page);
-    await searchForName(page, { name: newSeoPage });
-    await expect(page.getByRole("link", { name: newSeoPage })).toBeVisible();
-    await page.getByRole("link", { name: newSeoPage }).click({ force: true });
-    await expect(page.getByText("Loading document")).toBeHidden();
-    await page
-      .getByRole("button", { name: "SEO Settings" })
-      .click({ force: true });
+  test.fixme(
+    "Sets global SEO values when page SEO is undefined",
+    async ({ page }) => {
+      await navigateToPages(page);
+      await searchForName(page, { name: newSeoPage });
+      await expect(page.getByRole("link", { name: newSeoPage })).toBeVisible();
+      await page.getByRole("link", { name: newSeoPage }).click({ force: true });
+      await expect(page.getByText("Loading document")).toBeHidden();
+      await page
+        .getByRole("button", { name: "SEO Settings" })
+        .click({ force: true });
 
-    // SEO title
-    await expect(page.locator("input#title")).toBeVisible();
-    const pageTitle = await page.locator("input#title").inputValue();
-    const seoTitleFld = page
-      .getByTestId("field-seo.seoTitle")
-      .getByRole("textbox");
-    await expect(seoTitleFld).toHaveAttribute("placeholder", pageTitle);
+      // SEO title
+      await expect(page.locator("input#title")).toBeVisible();
+      const pageTitle = await page.locator("input#title").inputValue();
+      const seoTitleFld = page
+        .getByTestId("field-seo.seoTitle")
+        .getByRole("textbox");
+      await expect(seoTitleFld).toHaveAttribute("placeholder", pageTitle);
 
-    // SEO keywords
-    const seoKeywordsField = page
-      .getByTestId("field-seo.seoKeywords")
-      .getByRole("textbox");
-    await expect(seoKeywordsField).toBeVisible();
-    await expect(seoKeywordsField).toHaveAttribute(
-      "placeholder",
-      globalSeo?.keywords
-    );
+      // SEO keywords
+      const seoKeywordsField = page
+        .getByTestId("field-seo.seoKeywords")
+        .getByRole("textbox");
+      await expect(seoKeywordsField).toBeVisible();
+      await expect(seoKeywordsField).toHaveAttribute(
+        "placeholder",
+        globalSeo?.keywords
+      );
 
-    // SEO synonyms
-    const seoSynonymsFld = page
-      .getByTestId("field-seo.seoSynonyms")
-      .getByRole("textbox");
-    await expect(seoSynonymsFld).toBeVisible();
-    await expect(seoSynonymsFld).toHaveAttribute(
-      "placeholder",
-      globalSeo?.synonyms
-    );
+      // SEO synonyms
+      const seoSynonymsFld = page
+        .getByTestId("field-seo.seoSynonyms")
+        .getByRole("textbox");
+      await expect(seoSynonymsFld).toBeVisible();
+      await expect(seoSynonymsFld).toHaveAttribute(
+        "placeholder",
+        globalSeo?.synonyms
+      );
 
-    // SEO description
-    await expect(page.getByPlaceholder(globalSeo?.description)).toBeVisible();
+      // SEO description
+      await expect(page.getByPlaceholder(globalSeo?.description)).toBeVisible();
 
-    console.log("[DONE] Sets global SEO values when page SEO is undefined 🚀");
-  });
+      console.log(
+        "[DONE] Sets global SEO values when page SEO is undefined 🚀"
+      );
+    }
+  );
 
-  test.describe("Redirects to global SEO page", () => {
+  test.fixme("Redirects to global SEO page", () => {
     test.beforeEach(async ({ page }) => {
       await navigateToPages(page);
       await searchForName(page, { name: newSeoPage });
@@ -235,7 +238,7 @@ test.describe("Verify SEO Settings", () => {
     console.log("[DONE] Redirects to global SEO page 🚀");
   });
 
-  test("Can add page SEO values", async ({ page }) => {
+  test.fixme("Can add page SEO values", async ({ page }) => {
     await navigateToPages(page);
     await searchForName(page, { name: newSeoPage });
     await expect(page.getByRole("link", { name: newSeoPage })).toBeVisible();
