@@ -47,3 +47,17 @@ public/sitemap.xml
 chromatic.log
 build-storybook.log
 storybook-static/
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+playwright/.auth/
+
+# Yarn 3
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions

@@ -1,0 +1,93 @@
+name: Playwright Tests
+on:
+  pull_request:
+    branches:
+      - master
+      - main
+
+jobs:
+  wait_for_preview_url:
+    name: Wait for Vercel Preview URL
+    runs-on: ubuntu-latest
+    outputs:
+      preview_url: ${{ steps.get-vercel-preview-url.outputs.preview_url }}
+    steps:
+      - name: Get Vercel Preview URL
+        id: get-vercel-preview-url
+        uses: ViktorJT/Get-vercel-preview-url@1.2.2
+        with:
+          vercel_access_token: ${{ secrets.VERCEL_ACCESS_TOKEN }}
+          vercel_team_id: ${{ secrets.VERCEL_TEAM_ID }}
+          gh_token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Echo Vercel Preview URL
+        run: echo "Preview url is ready ${{ steps.get-vercel-preview-url.outputs.preview_url }}"
+
+  playwright-tests:
+    needs: wait_for_preview_url
+    timeout-minutes: 180
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        shardIndex: [1, 2, 3, 4]
+        shardTotal: [4]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - run: yarn install
+
+      - name: Install Playwright
+        run: npx playwright install --with-deps chromium
+
+      - name: Run Playwright tests
+        run: npx playwright test tests/studio --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
+        env:
+          PLAYWRIGHT_TEST_BASE_URL: ${{ needs.wait_for_preview_url.outputs.preview_url }} # dynamically generated and unique per build
+          NEXT_PUBLIC_PREVIEW_SECRET: ${{ secrets.NEXT_PUBLIC_PREVIEW_SECRET }} # used for launching site preview in sites - same as per site's NEXT_PUBLIC_PREVIEW_SECRET in environment variables in Netlify/Vercel
+          STUDIO_AUTOLOGIN_TOKEN_FOR_TESTING: ${{ secrets.STUDIO_AUTOLOGIN_TOKEN_FOR_TESTING }} # A unique API token generated on creation of project and added here one-time.
+          NEXT_PUBLIC_SANITY_PROJECT_ID: ${{ secrets.NEXT_PUBLIC_SANITY_PROJECT_ID }} # Same as per site's Sanity project ID
+          NEXT_PUBLIC_SANITY_STUDIO_IN_CSTUDIO: ${{ secrets.NEXT_PUBLIC_SANITY_STUDIO_IN_CSTUDIO }} # Determines whether site is in CStudio, updated accordingly
+
+      - name: Upload blob report to GitHub Actions Artifacts
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: blob-report-${{ matrix.shardIndex }}
+          path: blob-report
+          retention-days: 1
+
+  merge-reports:
+    # Merge reports after playwright-tests, even if some shards have failed
+    if: ${{ !cancelled() }}
+    needs: [playwright-tests]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Download blob reports from GitHub Actions Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: all-blob-reports
+          pattern: blob-report-*
+          merge-multiple: true
+
+      - name: Merge into HTML Report
+        run: npx playwright merge-reports --reporter html ./all-blob-reports
+
+      - name: Upload HTML report
+        uses: actions/upload-artifact@v4
+        with:
+          name: html-report--attempt-${{ github.run_attempt }}
+          path: playwright-report
+          retention-days: 14
