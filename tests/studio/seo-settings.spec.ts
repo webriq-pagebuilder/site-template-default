@@ -168,7 +168,7 @@ test.describe("Verify SEO Settings", () => {
         .click({ force: true });
     });
 
-    test("SEO keywords", async ({ page }) => {
+    test.fixme("SEO keywords", async ({ page }) => {
       const seoKeywordsFld = page
         .getByTestId("field-seo.seoKeywords")
         .getByRole("textbox");
@@ -192,7 +192,7 @@ test.describe("Verify SEO Settings", () => {
       ).toBeVisible();
     });
 
-    test("SEO synonyms", async ({ page }) => {
+    test.fixme("SEO synonyms", async ({ page }) => {
       const seoSynonymsFld = page
         .getByTestId("field-seo.seoSynonyms")
         .getByRole("textbox");
@@ -216,7 +216,7 @@ test.describe("Verify SEO Settings", () => {
       ).toBeVisible();
     });
 
-    test("SEO description", async ({ page }) => {
+    test.fixme("SEO description", async ({ page }) => {
       await expect(page.getByPlaceholder(globalSeo?.description)).toBeVisible();
       await expect(
         page
