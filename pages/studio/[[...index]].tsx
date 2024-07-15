@@ -111,7 +111,6 @@ export default function StudioPage() {
                     if(response?.success) {
                       setIsReady(true);
                     } else {
-                      cleanUp(window);
                       window.location.href = "/studio"
                     }
                   })
