@@ -80,7 +80,7 @@ export default function StudioPage() {
   const router = useRouter();
 
   const [isReady, setIsReady] = useState(false);
-  const [retryAutologin, setRetryAutologin] = useState(0);
+  const [retryAutologinCount, setRetryAutologinCount] = useState(0);
 
   useEffect(() => {
     if(router.isReady) {
@@ -96,7 +96,7 @@ export default function StudioPage() {
                 if (!res.ok) {
                   cleanUp(window);
                   console.log("[INFO] Unable to fetch autologin token! ");
-                  setRetryAutologin(retryAutologin + 1);
+                  setRetryAutologinCount(retryAutologinCount + 1);
                 }
                 return res.json();
               })
@@ -135,7 +135,7 @@ export default function StudioPage() {
             } else {
               // if not success
               // set token
-              if (retryAutologin < maxRetries) {
+              if (retryAutologinCount < maxRetries) {
                 fetchAutologinToken();
               }
             }
@@ -143,7 +143,7 @@ export default function StudioPage() {
         } else {
           // if no existingToken
           // set token
-          if (retryAutologin < maxRetries) {
+          if (retryAutologinCount < maxRetries) {
             fetchAutologinToken();
           }
         }
@@ -151,7 +151,7 @@ export default function StudioPage() {
         setIsReady(true)
       }
     }
-  }, [router, retryAutologin]);
+  }, [router, retryAutologinCount]);
 
   if(isReady) {
     return (
@@ -171,7 +171,7 @@ export default function StudioPage() {
 
   return (
     <AutologinPrepage
-      status={retryAutologin < maxRetries ? "retry" : "failed"}
+      status={retryAutologinCount < maxRetries ? "retry" : "failed"}
     />
   );
 
