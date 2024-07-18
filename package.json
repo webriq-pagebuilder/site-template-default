@@ -74,7 +74,8 @@
     "styled-components": "^5.2",
     "swiper": "^10.2.0",
     "tailwind-merge": "^2.0.0",
-    "ts-dedent": "^2.2.0"
+    "ts-dedent": "^2.2.0",
+    "vanilla-cookieconsent": "^3.0.1"
   },
   "devDependencies": {
     "@netlify/plugin-nextjs": "^5.5.0",
