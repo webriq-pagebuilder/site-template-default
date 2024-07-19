@@ -4940,10 +4940,6 @@
     nanoid "^3.1.30"
     react-icons "^4.2.0"
 
-"@webriq-pagebuilder/sanity-plugin-schema-default@link:.yalc/@webriq-pagebuilder/sanity-plugin-schema-default":
-  version "0.0.0"
-  uid ""
-
 "@webriq-pagebuilder/sanity-plugin-webriq-blog@^5.2.0":
   version "5.2.0"
   resolved "https://registry.yarnpkg.com/@webriq-pagebuilder/sanity-plugin-webriq-blog/-/sanity-plugin-webriq-blog-5.2.0.tgz#b91cc454faa66a8d35305d8e85da41fcc14cb069"
