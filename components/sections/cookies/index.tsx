@@ -23,19 +23,21 @@ export interface CookiesProps {
     cookiePolicy?: {
       siteName: string;
       cookiePolicyPage: Reference;
-    },
-    consentModal?: {
-      position: ConsentModalPosition
     };
-  }
+    consentModal?: {
+      position: ConsentModalPosition;
+    };
+  };
 }
 
 function Cookies({ data }: SectionsProps) {
   const variant = data?.variant;
   const Variant = Variants?.[variant];
 
+  console.log("data", data);
   const props = {
     title: data?.variants?.heading,
+    description: data?.variants?.description,
     allowCookieBtn: data?.variants?.acceptButtonLabel,
     denyCookieBtn: data?.variants?.declineButtonLabel,
     block: data?.variants?.block,

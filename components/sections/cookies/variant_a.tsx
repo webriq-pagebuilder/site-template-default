@@ -24,7 +24,7 @@ function VariantA({
       },
       guiOptions: {
         consentModal: {
-          position: config?.consentModal?.position,
+          position: config?.consentModal?.position || "bottom left",
         },
       },
       language: {
@@ -33,7 +33,8 @@ function VariantA({
           en: {
             consentModal: {
               title,
-              description,
+              description:
+                "Cookies help us deliver our services. By using our services, you agree to our use of cookies.",
               acceptAllBtn: allowCookieBtn,
               acceptNecessaryBtn: denyCookieBtn || "Reject all",
               showPreferencesBtn: "Manage Individual preferences",
@@ -51,8 +52,7 @@ function VariantA({
                 },
                 {
                   title: "Strictly Necessary cookies",
-                  description:
-                    "These cookies are essential for the proper functioning of this website. <a href='/contact-us'>Read more</a>.",
+                  description: `These cookies are essential for the proper functioning of this website. <a href='/${config?.cookiePolicy?.cookiePolicyPage}>Read more</a>.`,
                   linkedCategory: "necessary",
                 },
                 {
@@ -63,8 +63,7 @@ function VariantA({
                 },
                 {
                   title: "More information",
-                  description:
-                    'For any queries in relation to WebriQ\'s policy on cookies and your choices, please <a href="/contact-us">contact us</a>',
+                  description: `For any queries in relation to ${config?.cookiePolicy?.siteName}\'s policy on cookies and your choices, please <a href="/contact-us">contact us.</a>`,
                 },
               ],
             },
