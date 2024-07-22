@@ -22,7 +22,6 @@ function Blog({ data }: SectionsProps) {
   const variant = data?.variant;
   const Variant = Variants?.[variant];
 
-  console.log("data", data);
   const props = {
     subtitle: data?.variants?.subtitle,
     title: data?.variants?.title,
