@@ -22,12 +22,12 @@ export interface CookiesProps {
     enableAnalytics: boolean;
     cookiePolicy?: {
       siteName: string;
-      cookiePolicyPage: Reference;
-    },
-    consentModal?: {
-      position: ConsentModalPosition
+      cookiePolicyPage: any;
     };
-  }
+    consentModal?: {
+      position: ConsentModalPosition;
+    };
+  };
 }
 
 function Cookies({ data }: SectionsProps) {
@@ -36,6 +36,7 @@ function Cookies({ data }: SectionsProps) {
 
   const props = {
     title: data?.variants?.heading,
+    description: data?.variants?.description,
     allowCookieBtn: data?.variants?.acceptButtonLabel,
     denyCookieBtn: data?.variants?.declineButtonLabel,
     block: data?.variants?.block,

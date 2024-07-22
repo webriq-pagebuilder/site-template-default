@@ -11,6 +11,9 @@ function VariantA({
   denyCookieBtn,
   config,
 }: CookiesProps) {
+  const siteName = config?.cookiePolicy?.siteName;
+  const link = config?.cookiePolicy?.cookiePolicyPage;
+
   useEffect(() => {
     const cookieConfigOptions: CookieConsent.CookieConsentConfig = {
       categories: {
@@ -51,8 +54,11 @@ function VariantA({
                 },
                 {
                   title: "Strictly Necessary cookies",
-                  description:
-                    "These cookies are essential for the proper functioning of this website. <a href='/contact-us'>Read more</a>.",
+                  description: `These cookies are essential for the proper functioning of this website. <a href=${extractLinkUrl(
+                    link
+                  )} target=${link?.linkTarget} rel=${
+                    link?.linkTarget === "_blank" ? "noopener noreferrer" : ""
+                  }>Read more</a>.`,
                   linkedCategory: "necessary",
                 },
                 {
@@ -63,8 +69,11 @@ function VariantA({
                 },
                 {
                   title: "More information",
-                  description:
-                    'For any queries in relation to WebriQ\'s policy on cookies and your choices, please <a href="/contact-us">contact us</a>',
+                  description: `For any queries in relation to ${siteName}\'s policy on cookies and your choices, please <a href=${extractLinkUrl(
+                    link
+                  )} target=${link?.linkTarget} rel=${
+                    link?.linkTarget === "_blank" ? "noopener noreferrer" : ""
+                  }>contact us</a>.`,
                 },
               ],
             },
@@ -80,3 +89,27 @@ function VariantA({
 }
 
 export default React.memo(VariantA);
+
+function extractLinkUrl(link: any) {
+  if (!link || !link?.linkType) {
+    return;
+  }
+
+  //home page
+  if (
+    link?.type === "linkInternal" &&
+    link?.internalLink?.toLowerCase()?.includes("home")
+  ) {
+    return "/";
+  }
+
+  if (link?.linkType === "linkExternal" && link?.linkExternal) {
+    return link?.linkExternal;
+  }
+
+  if (link?.linkType === "linkInternal" && link?.linkInternal) {
+    return `/${link?.linkInternal}`;
+  }
+
+  return "/";
+}
