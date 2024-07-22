@@ -27,7 +27,7 @@ function VariantA({
       },
       guiOptions: {
         consentModal: {
-          position: config?.consentModal?.position,
+          position: config?.consentModal?.position || "bottom left",
         },
       },
       language: {
@@ -36,7 +36,8 @@ function VariantA({
           en: {
             consentModal: {
               title,
-              description,
+              description:
+                "Cookies help us deliver our services. By using our services, you agree to our use of cookies.",
               acceptAllBtn: allowCookieBtn,
               acceptNecessaryBtn: denyCookieBtn || "Reject all",
               showPreferencesBtn: "Manage Individual preferences",

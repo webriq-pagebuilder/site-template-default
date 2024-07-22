@@ -34,6 +34,7 @@ function Cookies({ data }: SectionsProps) {
   const variant = data?.variant;
   const Variant = Variants?.[variant];
 
+  console.log("data", data);
   const props = {
     title: data?.variants?.heading,
     description: data?.variants?.description,
