@@ -17,7 +17,6 @@ export interface CookiesProps {
   description?: string;
   allowCookieBtn?: string;
   denyCookieBtn?: string;
-  block?: any;
   config: {
     enableAnalytics: boolean;
     cookiePolicy?: {
@@ -39,7 +38,6 @@ function Cookies({ data }: SectionsProps) {
     description: data?.variants?.description,
     allowCookieBtn: data?.variants?.acceptButtonLabel,
     denyCookieBtn: data?.variants?.declineButtonLabel,
-    block: data?.variants?.block,
     config: data?.variants?.config,
   };
 

@@ -3,6 +3,7 @@ import { CookiesProps } from ".";
 
 import "vanilla-cookieconsent/dist/cookieconsent.css";
 import * as CookieConsent from "vanilla-cookieconsent";
+import { extractLink } from "helper";
 
 function VariantA({
   title,
@@ -55,7 +56,7 @@ function VariantA({
                 },
                 {
                   title: "Strictly Necessary cookies",
-                  description: `These cookies are essential for the proper functioning of this website. <a href=${extractLinkUrl(
+                  description: `These cookies are essential for the proper functioning of this website. <a href=${extractLink(
                     link
                   )} target=${link?.linkTarget} rel=${
                     link?.linkTarget === "_blank" ? "noopener noreferrer" : ""
@@ -70,7 +71,7 @@ function VariantA({
                 },
                 {
                   title: "More information",
-                  description: `For any queries in relation to ${siteName}\'s policy on cookies and your choices, please <a href=${extractLinkUrl(
+                  description: `For any queries in relation to ${siteName}\'s policy on cookies and your choices, please <a href=${extractLink(
                     link
                   )} target=${link?.linkTarget} rel=${
                     link?.linkTarget === "_blank" ? "noopener noreferrer" : ""
@@ -90,27 +91,3 @@ function VariantA({
 }
 
 export default React.memo(VariantA);
-
-function extractLinkUrl(link: any) {
-  if (!link || !link?.linkType) {
-    return;
-  }
-
-  //home page
-  if (
-    link?.type === "linkInternal" &&
-    link?.internalLink?.toLowerCase()?.includes("home")
-  ) {
-    return "/";
-  }
-
-  if (link?.linkType === "linkExternal" && link?.linkExternal) {
-    return link?.linkExternal;
-  }
-
-  if (link?.linkType === "linkInternal" && link?.linkInternal) {
-    return `/${link?.linkInternal}`;
-  }
-
-  return "/";
-}
