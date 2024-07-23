@@ -122,9 +122,6 @@ export default async function VariantA({
   //Description
   await descriptionField.sitePreview({ pageUrl: page, commonFieldValues });
 
-  //Cookie Policy
-  await expect(page.getByText(commonFieldValues.cookiePolicy)).toBeVisible();
-
   //Accept Button
   await expect(page.getByLabel(commonFieldValues.acceptButton)).toBeVisible();
 

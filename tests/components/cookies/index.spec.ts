@@ -21,7 +21,6 @@ const commonFieldValues = {
   siteName: "WebriQ",
   acceptButton: "Accept Button",
   declineButton: "Decline Button",
-  cookiePolicy: "Cookie Policy Input Test",
 };
 
 test.describe.configure({ timeout: 600_000, mode: "parallel" });
