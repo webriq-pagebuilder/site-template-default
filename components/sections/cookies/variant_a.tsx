@@ -11,9 +11,11 @@ function VariantA({
   allowCookieBtn,
   denyCookieBtn,
   config,
+  contactLink,
 }: CookiesProps) {
   const siteName = config?.cookiePolicy?.siteName;
-  const link = config?.cookiePolicy?.cookiePolicyPage;
+  const cookieConfigLink = config?.cookiePolicy?.cookiePolicyPage;
+  const cookieModalPosition = config?.cookiePolicy?.consentModal?.position;
 
   useEffect(() => {
     const cookieConfigOptions: CookieConsent.CookieConsentConfig = {
@@ -28,7 +30,7 @@ function VariantA({
       },
       guiOptions: {
         consentModal: {
-          position: config?.consentModal?.position,
+          position: cookieModalPosition,
         },
       },
       language: {
@@ -57,10 +59,12 @@ function VariantA({
                 {
                   title: "Strictly Necessary cookies",
                   description: `These cookies are essential for the proper functioning of this website. <a href=${extractLink(
-                    link
-                  )} target=${link?.linkTarget} rel=${
-                    link?.linkTarget === "_blank" ? "noopener noreferrer" : ""
-                  }>Read more</a>.`,
+                    cookieConfigLink
+                  )} target=${cookieConfigLink?.linkTarget} rel=${
+                    cookieConfigLink?.linkTarget === "_blank"
+                      ? "noopener noreferrer"
+                      : ""
+                  }>${config?.cookiePolicy?.cookiePolicyPage?.label}</a>.`,
                   linkedCategory: "necessary",
                 },
                 {
@@ -72,10 +76,12 @@ function VariantA({
                 {
                   title: "More information",
                   description: `For any queries in relation to ${siteName}\'s policy on cookies and your choices, please <a href=${extractLink(
-                    link
-                  )} target=${link?.linkTarget} rel=${
-                    link?.linkTarget === "_blank" ? "noopener noreferrer" : ""
-                  }>contact us</a>.`,
+                    contactLink
+                  )} target=${contactLink?.linkTarget} rel=${
+                    contactLink?.linkTarget === "_blank"
+                      ? "noopener noreferrer"
+                      : ""
+                  }>${contactLink?.label}</a>.`,
                 },
               ],
             },

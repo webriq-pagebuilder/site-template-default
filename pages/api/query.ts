@@ -49,6 +49,13 @@ const variants = `
         }
       }
     },
+    contactLink != null => {
+      contactLink {
+        ...,
+        label,
+        ${conditionalLink}
+      }
+    },
     multipleMenus != null => {
       multipleMenus[] {
         ...,
