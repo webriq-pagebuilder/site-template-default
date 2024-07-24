@@ -28,7 +28,7 @@ function VariantA({
       },
       guiOptions: {
         consentModal: {
-          position: config?.consentModal?.position || "bottom left",
+          position: config?.consentModal?.position,
         },
       },
       language: {
