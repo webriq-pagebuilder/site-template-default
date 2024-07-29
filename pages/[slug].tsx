@@ -1,5 +1,4 @@
 import React from "react";
-import Head from "next/head";
 import { useRouter } from "next/router";
 import { groq } from "next-sanity";
 import { PreviewSuspense } from "next-sanity/preview";
@@ -50,7 +49,7 @@ export function PageBySlug({ data, preview, token, source }: PageBySlugProps) {
   const slug = router.query.slug;
   const showInlineEditor = source === "studio";
 
-  if (!data?.pageData && !data?.blogData) {
+  if (data?.pageData?.hasNeverPublished || data?.blogData?.hasNeverPublished || (!data?.pageData && !data?.blogData)) {
     return <PageNotFound />;
   } else {
     if (preview) {
