@@ -5,10 +5,10 @@ import { usePreview } from "lib/sanity.preview";
 import { cartPageQuery, globalSEOQuery } from "pages/api/query";
 import { CartSections } from "components/page/store/cart";
 import { PreviewNoContent } from "components/PreviewNoContent";
-import { filterDataToSingleItem } from "components/list";
 import { SEO } from "components/SEO";
 import { PreviewBanner } from "components/PreviewBanner";
 import InlineEditorContextProvider from "context/InlineEditorContext";
+import PageNotFound from "pages/404";
 import { CommonPageData, SeoTags } from "types";
 
 interface CartPageProps {
@@ -38,20 +38,24 @@ interface DocumentWithPreviewProps {
 function CartPage({ data, preview, token, source }: CartPageProps) {
   const showInlineEditor = source === "studio";
 
-  if (preview) {
-    return (
-      <>
-        <PreviewBanner />
-        <PreviewSuspense fallback="Loading">
-          <InlineEditorContextProvider showInlineEditor={showInlineEditor}>
-            <DocumentWithPreview {...{ data, token }} />
-          </InlineEditorContextProvider>
-        </PreviewSuspense>
-      </>
-    );
-  }
+  if (!data?.cartData) {
+    return <PageNotFound />;
+  } else {
+    if (preview) {
+      return (
+        <>
+          <PreviewBanner />
+          <PreviewSuspense fallback="Loading">
+            <InlineEditorContextProvider showInlineEditor={showInlineEditor}>
+              <DocumentWithPreview {...{ data, token }} />
+            </InlineEditorContextProvider>
+          </PreviewSuspense>
+        </>
+      );
+    }
 
-  return <Document {...{ data }} />;
+    return <Document {...{ data }} />;
+  }
 }
 
 /**
@@ -117,7 +121,7 @@ export async function getStaticProps({
   ]);
 
   // pass page data and preview to helper function
-  const cartData: CartData = filterDataToSingleItem(cartPage, preview);
+  const cartData: CartData = cartPage;
 
   const data = { cartData };
 
@@ -131,16 +135,6 @@ export async function getStaticProps({
     },
     defaultSeo: globalSEO,
   });
-
-  if (!cartData) {
-    return {
-      props: {
-        preview,
-        data: { cartData: null },
-        seo,
-      },
-    };
-  }
 
   return {
     props: {
