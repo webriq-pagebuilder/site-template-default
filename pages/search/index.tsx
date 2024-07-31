@@ -5,9 +5,9 @@ import { usePreview } from "lib/sanity.preview";
 import { searchPageQuery, globalSEOQuery } from "pages/api/query";
 import { SearchPageSections } from "components/page/store/search";
 import { PreviewNoContent } from "components/PreviewNoContent";
-import { filterDataToSingleItem } from "components/list";
 import { SEO } from "components/SEO";
 import { PreviewBanner } from "components/PreviewBanner";
+import PageNotFound from "pages/404";
 import InlineEditorContextProvider from "context/InlineEditorContext";
 import { CommonPageData, SeoTags } from "types";
 
@@ -34,26 +34,32 @@ interface DocumentWithPreviewProps {
 }
 
 function SearchPage({ data, preview, token, source }: SeachPageProps) {
+  const showInlineEditor = source === "studio";
+
   useEffect(() => {
     if (typeof Ecwid !== "undefined") {
       window.Ecwid.init();
     }
   }, []);
-  const showInlineEditor = source === "studio";
-  if (preview) {
-    return (
-      <>
-        <PreviewBanner />
-        <PreviewSuspense fallback="Loading...">
-          <InlineEditorContextProvider showInlineEditor={showInlineEditor}>
-            <DocumentWithPreview {...{ data, token }} />
-          </InlineEditorContextProvider>
-        </PreviewSuspense>
-      </>
-    );
-  }
 
-  return <Document {...{ data }} />;
+  if (!data?.searchData) {
+    return <PageNotFound />;
+  } else {
+    if (preview) {
+      return (
+        <>
+          <PreviewBanner />
+          <PreviewSuspense fallback="Loading...">
+            <InlineEditorContextProvider showInlineEditor={showInlineEditor}>
+              <DocumentWithPreview {...{ data, token }} />
+            </InlineEditorContextProvider>
+          </PreviewSuspense>
+        </>
+      );
+    }
+
+    return <Document {...{ data }} />;
+  }
 }
 
 /**
@@ -118,7 +124,7 @@ export async function getStaticProps({
   ]);
 
   // pass page data and preview to helper function
-  const searchData: SearchData = filterDataToSingleItem(searchPage, preview);
+  const searchData: SearchData = searchPage;
 
   const data = { searchData };
 

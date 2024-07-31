@@ -8,7 +8,6 @@ import { sanityClient, getClient } from "lib/sanity.client";
 import { usePreview } from "lib/sanity.preview";
 import { collectionsQuery, globalSEOQuery } from "pages/api/query";
 import PageNotFound from "pages/404";
-import { filterDataToSingleItem } from "components/list";
 import { SEO } from "components/SEO";
 import { PreviewBanner } from "components/PreviewBanner";
 import { PreviewNoContent } from "components/PreviewNoContent";
@@ -154,14 +153,8 @@ export async function getStaticProps({
     client.fetch(globalSEOQuery),
   ]);
 
-  // pass collections data and preview to helper function
-  const singleCollectionsData: CollectionData = filterDataToSingleItem(
-    collections,
-    preview
-  );
-
   const data = {
-    collectionData: singleCollectionsData || null,
+    collectionData: collections || null,
   };
 
   // SEO tags
@@ -199,8 +192,8 @@ export async function getStaticPaths() {
     };
   }
 
-  const collections = await sanityClient.fetch(
-    groq`*[_type == "mainCollection" && !(_id in path("drafts.**")) && defined(slug.current)][].slug.current`
+  const collections = await getClient().fetch(
+    groq`*[_type == "mainCollection" && defined(slug.current)][].slug.current`
   );
 
   return {
