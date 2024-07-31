@@ -11,6 +11,7 @@ import InlineEditorContextProvider from "context/InlineEditorContext";
 import PageNotFound from "pages/404";
 import { CommonPageData, SeoTags, SeoSchema } from "types";
 import { addSEOJsonLd } from "components/SEO";
+import { filterDataToSingleItem } from "components/list";
 
 interface HomeProps {
   data: Data;
@@ -34,6 +35,7 @@ interface PageData extends CommonPageData {
   collections: any;
   slug: string | string[];
   title: string;
+  hasNeverPublished: boolean;
 }
 
 function Home({ data, preview, token, source }: HomeProps) {
@@ -69,11 +71,7 @@ function Document({ data }: { data: Data }) {
   const publishedData = data?.pageData;
 
   // General safeguard against empty data
-  if (!publishedData) {
-    return null;
-  }
-
-  if (publishedData?._id?.startsWith("drafts")) {
+  if (!publishedData || publishedData?.hasNeverPublished) {
     return null;
   }
 
@@ -130,8 +128,7 @@ export const getStaticProps = async ({
   ]);
 
   // pass page data and preview to helper function
-  const pageData: PageData = indexPage;
-
+  const pageData: PageData = filterDataToSingleItem(indexPage, preview);
   const data = { pageData };
 
   // SEO tags
