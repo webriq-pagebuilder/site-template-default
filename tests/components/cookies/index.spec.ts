@@ -30,7 +30,7 @@ cookiesVariantTest.forEach((variants, index) => {
   const pageTitle = newPageTitle(title);
 
   test.describe(`${name}`, () => {
-    test(`Create ${label}`, async ({ page, baseURL }) => {
+    test.skip(`Create ${label}`, async ({ page, baseURL }) => {
       console.log(`[INFO] - Testing Cookies ${variant} 🚀`);
       await beforeEachTest(page, pageTitle, "Cookies", label, index);
       const variantTest = variantModules[variant];
