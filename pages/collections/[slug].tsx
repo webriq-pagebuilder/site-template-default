@@ -20,6 +20,7 @@ import {
   CollectionProduct,
   SeoTags,
 } from "types";
+import { filterDataToSingleItem } from "components/list";
 
 interface CollectionPageBySlugProps {
   data: Data;
@@ -153,8 +154,14 @@ export async function getStaticProps({
     client.fetch(globalSEOQuery),
   ]);
 
+  // pass collections data and preview to helper function
+  const singleCollectionsData: CollectionData = filterDataToSingleItem(
+    collections,
+    preview
+  );
+
   const data = {
-    collectionData: collections || null,
+    collectionData: singleCollectionsData || null,
   };
 
   // SEO tags
@@ -192,8 +199,8 @@ export async function getStaticPaths() {
     };
   }
 
-  const collections = await getClient().fetch(
-    groq`*[_type == "mainCollection" && defined(slug.current)][].slug.current`
+  const collections = await sanityClient.fetch(
+    groq`*[_type == "mainCollection" && !(_id in path("drafts.**")) && defined(slug.current)][].slug.current`
   );
 
   return {

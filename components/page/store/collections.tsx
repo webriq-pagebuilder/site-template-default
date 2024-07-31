@@ -25,8 +25,8 @@ export function CollectionSections({ data }: CollectionSectionsProps) {
   // if we have "slotCollectionInfo" section, then we have the placeholder for the collections values
   let slotSection = sections?.map((section) => {
     // get the index of the "slotCollectionInfo" section from Store > Commerce Pages > Collections section
-    const getIndex = commonSections?.sections?.findIndex((item) =>
-      item?._type?.includes("slotCollectionInfo")
+    const getIndex = commonSections?.sections?.findIndex(
+      (item) => item?._type?.includes("slotCollectionInfo")
     );
 
     const newObj = {
@@ -58,8 +58,8 @@ export function CollectionSections({ data }: CollectionSectionsProps) {
       sectionsToDisplay = sections?.reduce(
         (defaultsArr, newArr) => {
           // only need the featuredProducts section from Store > Collections to match
-          const getIndex = commonSections?.sections?.findIndex((item) =>
-            item?._type?.includes("slotCollectionInfo")
+          const getIndex = commonSections?.sections?.findIndex(
+            (item) => item?._type?.includes("slotCollectionInfo")
           );
 
           // if the variant from the Store > Collections page is a "defaultVariant", then replace it with the variant of Store > Commerce Pages > Collections "slotCollectionInfo"

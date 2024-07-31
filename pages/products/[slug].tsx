@@ -15,6 +15,7 @@ import { ProductSections } from "components/page/store/products";
 import InlineEditorContextProvider from "context/InlineEditorContext";
 import { CollectionProduct, CommonSections, SeoTags, SeoSchema } from "types";
 import { addSEOJsonLd } from "components/SEO";
+import { filterDataToSingleItem } from "components/list";
 
 interface ProductPageBySlugProps {
   data: Data;
@@ -140,8 +141,14 @@ export async function getStaticProps({
     client.fetch(globalSEOQuery),
   ]);
 
+  // pass products data and preview to helper function
+  const singleProductsData: ProductData = filterDataToSingleItem(
+    products,
+    preview
+  );
+
   const data = {
-    productData: products || null,
+    productData: singleProductsData || null,
   };
 
   // SEO tags

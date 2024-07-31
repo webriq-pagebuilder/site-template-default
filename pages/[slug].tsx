@@ -9,6 +9,7 @@ import { PageSections } from "components/page";
 import BlogSections from "components/blog";
 import { PreviewBanner } from "components/PreviewBanner";
 import { PreviewNoContent } from "components/PreviewNoContent";
+import { filterDataToSingleItem } from "components/list";
 import { SEO } from "components/SEO";
 import PageNotFound from "pages/404";
 import InlineEditorContextProvider from "context/InlineEditorContext";
@@ -89,6 +90,10 @@ function Document({ data }: { data: Data }) {
     return null;
   }
 
+  if (publishedData?._id?.startsWith("drafts")) {
+    return <PageNotFound />;
+  }
+
   return (
     <>
       {/*  Show page sections */}
@@ -167,9 +172,13 @@ export const getStaticProps: GetStaticProps = async ({
     client.fetch(globalSEOQuery),
   ]);
 
+  // pass page data and preview to helper function
+  const singlePageData: PageData = filterDataToSingleItem(page, preview);
+  const singleBlogData: BlogsData = filterDataToSingleItem(blogData, preview);
+
   const data = {
-    pageData: page || null,
-    blogData: blogData || null,
+    pageData: singlePageData || null,
+    blogData: singleBlogData || null,
   };
 
   // SEO tags
@@ -221,8 +230,8 @@ export const getStaticPaths: GetStaticPaths = async () => {
     };
   }
 
-  const paths = await getClient().fetch(
-    groq`*[_type in ["page", "post"] && defined(slug.current)][].slug.current`
+  const paths = await sanityClient.fetch(
+    groq`*[_type in ["page", "post"] && !(_id in path("drafts.**")) && defined(slug.current)][].slug.current`
   );
 
   return {

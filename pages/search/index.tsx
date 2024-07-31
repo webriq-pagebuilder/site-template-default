@@ -10,6 +10,7 @@ import { PreviewBanner } from "components/PreviewBanner";
 import PageNotFound from "pages/404";
 import InlineEditorContextProvider from "context/InlineEditorContext";
 import { CommonPageData, SeoTags } from "types";
+import { filterDataToSingleItem } from "components/list";
 
 interface SeachPageProps {
   data: Data;
@@ -124,7 +125,7 @@ export async function getStaticProps({
   ]);
 
   // pass page data and preview to helper function
-  const searchData: SearchData = searchPage;
+  const searchData: SearchData = filterDataToSingleItem(searchPage, preview);
 
   const data = { searchData };
 

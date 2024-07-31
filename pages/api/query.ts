@@ -190,15 +190,15 @@ const allProjections = `
 `;
 
 export const homeQuery = groq`
-  *[_type == "page" && (slug.current == "home" || slug.current == "Home")][0] ${allProjections}
+  *[_type == "page" && (slug.current == "home" || slug.current == "Home")] ${allProjections}
 `;
 
 export const slugQuery = groq`
-  *[_type == "page" && slug.current == $slug][0] ${allProjections}
+  *[_type == "page" && slug.current == $slug] ${allProjections}
 `;
 
 export const blogQuery = groq`
-  *[_type == "post" && slug.current == $slug][0]{
+  *[_type == "post" && slug.current == $slug]{
     ...,
     authors[]->{
       ...,
@@ -217,7 +217,7 @@ export const blogQuery = groq`
 `;
 
 // query main product based on current slug
-export const productsQuery = groq`*[_type == "mainProduct" && slug.current == $slug][0] {
+export const productsQuery = groq`*[_type == "mainProduct" && slug.current == $slug] {
   ...,
   "slug": slug.current,
   sections[]->{
@@ -252,7 +252,7 @@ export const productsQuery = groq`*[_type == "mainProduct" && slug.current == $s
 }`;
 
 // query product collection based on current slug
-export const collectionsQuery = groq`*[_type == "mainCollection" && slug.current == $slug][0] {
+export const collectionsQuery = groq`*[_type == "mainCollection" && slug.current == $slug] {
   ...,
   "slug": slug.current,
   products[]->,
@@ -293,7 +293,7 @@ export const collectionsQuery = groq`*[_type == "mainCollection" && slug.current
 }`;
 
 // query cart page
-export const cartPageQuery = groq`*[_type == "cartPage"][0] {
+export const cartPageQuery = groq`*[_type == "cartPage"] {
   ...,
   sections[]-> {
     ...,
@@ -306,7 +306,7 @@ export const cartPageQuery = groq`*[_type == "cartPage"][0] {
 }`;
 
 // query wishlist page
-export const wishlistPageQuery = groq`*[_type == "wishlistPage"][0] {
+export const wishlistPageQuery = groq`*[_type == "wishlistPage"] {
   ...,
   sections[]-> {
     ...,
@@ -319,10 +319,10 @@ export const wishlistPageQuery = groq`*[_type == "wishlistPage"][0] {
 }`;
 
 // query search page
-export const searchPageQuery = groq`*[_type == "searchPage"][0] ${allProjections}`;
+export const searchPageQuery = groq`*[_type == "searchPage"] ${allProjections}`;
 
 // query Global or Default SEO values
-export const globalSEOQuery = groq`*[_type == 'defaultSeo'][0]`;
+export const globalSEOQuery = groq`*[_type == 'defaultSeo']`;
 
 // query sections/components
-export const componentsQuery = groq`*[_type==$schema][0] | order(variant asc, _updatedAt desc)`;
+export const componentsQuery = groq`*[_type==$schema] | order(variant asc, _updatedAt desc)`;

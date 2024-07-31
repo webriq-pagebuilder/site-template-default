@@ -10,6 +10,7 @@ import { SEO } from "components/SEO";
 import { PreviewBanner } from "components/PreviewBanner";
 import InlineEditorContextProvider from "context/InlineEditorContext";
 import { CommonPageData, SeoTags } from "types";
+import { filterDataToSingleItem } from "components/list";
 
 interface WishListPageProps {
   data: Data;
@@ -37,7 +38,7 @@ interface DocumentWithPreviewProps {
 
 function WishlistPage({ data, preview, token, source }: WishListPageProps) {
   const showInlineEditor = source === "studio";
-  
+
   useEffect(() => {
     if (typeof Ecwid !== "undefined") {
       window.Ecwid.init();
@@ -126,7 +127,7 @@ export async function getStaticProps({
   ]);
 
   // pass page data and preview to helper function
-  const wishlistData = wishlistPage;
+  const wishlistData = filterDataToSingleItem(wishlistPage, preview);
 
   const data = { wishlistData };
 

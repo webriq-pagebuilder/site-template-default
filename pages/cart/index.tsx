@@ -10,6 +10,7 @@ import { PreviewBanner } from "components/PreviewBanner";
 import InlineEditorContextProvider from "context/InlineEditorContext";
 import PageNotFound from "pages/404";
 import { CommonPageData, SeoTags } from "types";
+import { filterDataToSingleItem } from "components/list";
 
 interface CartPageProps {
   data: Data;
@@ -121,7 +122,7 @@ export async function getStaticProps({
   ]);
 
   // pass page data and preview to helper function
-  const cartData: CartData = cartPage;
+  const cartData: CartData = filterDataToSingleItem(cartPage, preview);
 
   const data = { cartData };
 
