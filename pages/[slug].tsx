@@ -91,6 +91,10 @@ function Document({ data }: { data: Data }) {
     return null;
   }
 
+  if(publishedData?._id?.startsWith("drafts")) {
+    return <PageNotFound />
+  }
+
   return (
     <>
       {/*  Show page sections */}

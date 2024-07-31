@@ -5,6 +5,7 @@ import { homeQuery, globalSEOQuery } from "./api/query";
 import { usePreview } from "lib/sanity.preview";
 import { PageSections } from "components/page";
 import { PreviewNoContent } from "components/PreviewNoContent";
+import PageNotFound from "pages/404";
 import { filterDataToSingleItem } from "components/list";
 import { SEO } from "components/SEO";
 import { PreviewBanner } from "components/PreviewBanner";
@@ -39,20 +40,24 @@ interface PageData extends CommonPageData {
 function Home({ data, preview, token, source }: HomeProps) {
   const showInlineEditor = source === "studio";
 
-  if (preview) {
-    return (
-      <>
-        <PreviewBanner />
-        <PreviewSuspense fallback="Loading...">
-          <InlineEditorContextProvider showInlineEditor={showInlineEditor}>
-            <DocumentWithPreview {...{ data, token }} />
-          </InlineEditorContextProvider>
-        </PreviewSuspense>
-      </>
-    );
-  }
+  if (!data?.pageData) {
+    return <PageNotFound />
+  } else {
+    if (preview) {
+      return (
+        <>
+          <PreviewBanner />
+          <PreviewSuspense fallback="Loading...">
+            <InlineEditorContextProvider showInlineEditor={showInlineEditor}>
+              <DocumentWithPreview {...{ data, token }} />
+            </InlineEditorContextProvider>
+          </PreviewSuspense>
+        </>
+      );
+    }
 
-  return <Document {...{ data }} />;
+    return <Document {...{ data }} />;
+  }
 }
 
 /**
@@ -66,6 +71,10 @@ function Document({ data }: { data: Data }) {
 
   // General safeguard against empty data
   if (!publishedData) {
+    return null;
+  }
+
+  if (publishedData?._id?.startsWith("drafts")) {
     return null;
   }
 
