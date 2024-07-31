@@ -84,7 +84,6 @@ export function PageBySlug({ data, preview, token, source }: PageBySlugProps) {
  */
 function Document({ data }: { data: Data }) {
   const publishedData = data?.pageData || data?.blogData; // latest published data in Sanity
-  console.log("publishedData", publishedData);
 
   // General safeguard against empty data
   if (!publishedData) {

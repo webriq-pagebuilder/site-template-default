@@ -69,7 +69,6 @@ function Home({ data, preview, token, source }: HomeProps) {
  */
 function Document({ data }: { data: Data }) {
   const publishedData = data?.pageData;
-  console.log("publishedData", publishedData);
 
   // General safeguard against empty data
   if (!publishedData || publishedData?.hasNeverPublished) {
