@@ -32,6 +32,7 @@ interface Data {
 
 export interface ProductData extends CollectionProduct {
   commonSections: CommonSections;
+  hasNeverPublished: boolean;
 }
 
 interface DocumentWithPreviewProps {
@@ -85,6 +86,10 @@ function Document({ data }: { data: Data }) {
   // General safeguard against empty data
   if (!publishedData) {
     return null;
+  }
+
+  if (publishedData?.hasNeverPublished) {
+    return <PageNotFound />;
   }
 
   return data?.productData && <ProductSections data={publishedData} />;
