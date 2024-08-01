@@ -41,7 +41,7 @@ function Home({ data, preview, token, source }: HomeProps) {
   const showInlineEditor = source === "studio";
 
   if (!data?.pageData) {
-    return <PageNotFound />
+    return null;
   } else {
     if (preview) {
       return (
