@@ -35,6 +35,7 @@ interface PageData extends CommonPageData {
   collections: any;
   slug: string | string[];
   title: string;
+  hasNeverPublished: boolean | null;
 }
 
 function Home({ data, preview, token, source }: HomeProps) {
@@ -73,14 +74,13 @@ function Document({ data }: { data: Data }) {
   if (!publishedData) {
     return null;
   }
+  
 
-  if (publishedData?._id?.startsWith("drafts")) {
+  if (publishedData?.hasNeverPublished) {
     return null;
   }
 
-  {
-    /*  Show page sections */
-  }
+  {/*  Show page sections */}
   return data?.pageData && <PageSections data={publishedData} />;
 }
 
