@@ -32,7 +32,7 @@ interface Data {
 
 export interface ProductData extends CollectionProduct {
   commonSections: CommonSections;
-  hasNeverPublished: boolean;
+  hasNeverPublished?: boolean;
 }
 
 interface DocumentWithPreviewProps {

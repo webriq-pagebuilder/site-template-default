@@ -35,7 +35,7 @@ interface PageData extends CommonPageData {
   collections: any;
   slug: string | string[];
   title: string;
-  hasNeverPublished: boolean | null;
+  hasNeverPublished?: boolean | null;
 }
 
 function Home({ data, preview, token, source }: HomeProps) {

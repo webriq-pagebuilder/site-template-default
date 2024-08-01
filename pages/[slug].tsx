@@ -43,7 +43,7 @@ export interface PageData extends CommonPageData {
   collections: any;
   slug: string | string[];
   title: string;
-  hasNeverPublished: boolean | null;
+  hasNeverPublished?: boolean | null;
 }
 
 export function PageBySlug({ data, preview, token, source }: PageBySlugProps) {

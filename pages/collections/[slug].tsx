@@ -41,7 +41,7 @@ export interface CollectionData extends CommonPageData {
   products?: CollectionProduct[] | null;
   slug?: string | null;
   name?: string | null;
-  hasNeverPublished: boolean | null;
+  hasNeverPublished?: boolean | null;
 }
 
 interface DocumentWithPreviewProps {
