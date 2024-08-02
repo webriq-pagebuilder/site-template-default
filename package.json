@@ -29,6 +29,7 @@
     "@sanity/types": "^3.17.0",
     "@sanity/ui": "^1.8.2",
     "@sanity/vision": "^3.17.0",
+    "@stackshift/components-library": "^1.0.0-next.0",
     "@stripe/react-stripe-js": "^2.1.0",
     "@stripe/stripe-js": "^1.52.1",
     "@webriq-pagebuilder/sanity-plugin-desk-studio-version": "^5.2.0",

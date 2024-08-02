@@ -120,6 +120,7 @@ export interface LabeledRoute extends ConditionalLink {
   linkType?: string;
   _type?: string;
   linkInternal?: any;
+  ariaLabel: string;
 }
 
 export interface LabeledRouteWithKey extends LabeledRoute {
