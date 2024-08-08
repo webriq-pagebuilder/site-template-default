@@ -5,6 +5,7 @@ import { homeQuery, globalSEOQuery } from "./api/query";
 import { usePreview } from "lib/sanity.preview";
 import { PageSections } from "components/page";
 import { PreviewNoContent } from "components/PreviewNoContent";
+import PageNotFound from "pages/404";
 import { filterDataToSingleItem } from "components/list";
 import { SEO } from "components/SEO";
 import { PreviewBanner } from "components/PreviewBanner";
@@ -34,25 +35,30 @@ interface PageData extends CommonPageData {
   collections: any;
   slug: string | string[];
   title: string;
+  hasNeverPublished?: boolean | null;
 }
 
 function Home({ data, preview, token, source }: HomeProps) {
   const showInlineEditor = source === "studio";
 
-  if (preview) {
-    return (
-      <>
-        <PreviewBanner />
-        <PreviewSuspense fallback="Loading...">
-          <InlineEditorContextProvider showInlineEditor={showInlineEditor}>
-            <DocumentWithPreview {...{ data, token }} />
-          </InlineEditorContextProvider>
-        </PreviewSuspense>
-      </>
-    );
-  }
+  if (!data?.pageData) {
+    return null;
+  } else {
+    if (preview) {
+      return (
+        <>
+          <PreviewBanner />
+          <PreviewSuspense fallback="Loading...">
+            <InlineEditorContextProvider showInlineEditor={showInlineEditor}>
+              <DocumentWithPreview {...{ data, token }} />
+            </InlineEditorContextProvider>
+          </PreviewSuspense>
+        </>
+      );
+    }
 
-  return <Document {...{ data }} />;
+    return <Document {...{ data }} />;
+  }
 }
 
 /**
@@ -68,10 +74,13 @@ function Document({ data }: { data: Data }) {
   if (!publishedData) {
     return null;
   }
+  
 
-  {
-    /*  Show page sections */
+  if (publishedData?.hasNeverPublished) {
+    return null;
   }
+
+  {/*  Show page sections */}
   return data?.pageData && <PageSections data={publishedData} />;
 }
 

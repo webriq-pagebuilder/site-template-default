@@ -43,6 +43,7 @@ export interface PageData extends CommonPageData {
   collections: any;
   slug: string | string[];
   title: string;
+  hasNeverPublished?: boolean | null;
 }
 
 export function PageBySlug({ data, preview, token, source }: PageBySlugProps) {
@@ -89,6 +90,11 @@ function Document({ data }: { data: Data }) {
   // General safeguard against empty data
   if (!publishedData) {
     return null;
+  }
+  
+
+  if(publishedData?.hasNeverPublished) {
+    return <PageNotFound />
   }
 
   return (

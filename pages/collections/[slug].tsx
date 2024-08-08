@@ -41,7 +41,7 @@ export interface CollectionData extends CommonPageData {
   products?: CollectionProduct[] | null;
   slug?: string | null;
   name?: string | null;
-  hasNeverPublished: boolean;
+  hasNeverPublished?: boolean | null;
 }
 
 interface DocumentWithPreviewProps {
@@ -98,7 +98,7 @@ function Document({ data }: { data: Data }) {
     return null;
   }
 
-  if (data?.collectionData?.hasNeverPublished) {
+  if (publishedData?.hasNeverPublished) {
     return <PageNotFound />;
   }
 

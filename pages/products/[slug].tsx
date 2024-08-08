@@ -32,7 +32,7 @@ interface Data {
 
 export interface ProductData extends CollectionProduct {
   commonSections: CommonSections;
-  hasNeverPublished: boolean;
+  hasNeverPublished?: boolean;
 }
 
 interface DocumentWithPreviewProps {
@@ -88,7 +88,7 @@ function Document({ data }: { data: Data }) {
     return null;
   }
 
-  if (data?.productData?.hasNeverPublished) {
+  if (publishedData?.hasNeverPublished) {
     return <PageNotFound />;
   }
 

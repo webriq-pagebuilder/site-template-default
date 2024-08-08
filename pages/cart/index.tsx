@@ -38,20 +38,24 @@ interface DocumentWithPreviewProps {
 function CartPage({ data, preview, token, source }: CartPageProps) {
   const showInlineEditor = source === "studio";
 
-  if (preview) {
-    return (
-      <>
-        <PreviewBanner />
-        <PreviewSuspense fallback="Loading">
-          <InlineEditorContextProvider showInlineEditor={showInlineEditor}>
-            <DocumentWithPreview {...{ data, token }} />
-          </InlineEditorContextProvider>
-        </PreviewSuspense>
-      </>
-    );
-  }
+  if (!data?.cartData) {
+    return <PageNotFound />
+  } else {
+    if (preview) {
+      return (
+        <>
+          <PreviewBanner />
+          <PreviewSuspense fallback="Loading">
+            <InlineEditorContextProvider showInlineEditor={showInlineEditor}>
+              <DocumentWithPreview {...{ data, token }} />
+            </InlineEditorContextProvider>
+          </PreviewSuspense>
+        </>
+      );
+    }
 
-  return <Document {...{ data }} />;
+    return <Document {...{ data }} />;
+  }
 }
 
 /**
@@ -131,16 +135,6 @@ export async function getStaticProps({
     },
     defaultSeo: globalSEO,
   });
-
-  if (!cartData) {
-    return {
-      props: {
-        preview,
-        data: { cartData: null },
-        seo,
-      },
-    };
-  }
 
   return {
     props: {

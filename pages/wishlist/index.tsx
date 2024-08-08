@@ -5,6 +5,7 @@ import { usePreview } from "lib/sanity.preview";
 import { wishlistPageQuery, globalSEOQuery } from "pages/api/query";
 import { WishlistSections } from "components/page/store/wishlist";
 import { PreviewNoContent } from "components/PreviewNoContent";
+import PageNotFound from "pages/404";
 import { filterDataToSingleItem } from "components/list";
 import { SEO } from "components/SEO";
 import { PreviewBanner } from "components/PreviewBanner";
@@ -36,27 +37,31 @@ interface DocumentWithPreviewProps {
 }
 
 function WishlistPage({ data, preview, token, source }: WishListPageProps) {
+  const showInlineEditor = source === "studio";
   useEffect(() => {
     if (typeof Ecwid !== "undefined") {
       window.Ecwid.init();
     }
   }, []);
 
-  const showInlineEditor = source === "studio";
-  if (preview) {
-    return (
-      <>
-        <PreviewBanner />
-        <PreviewSuspense fallback={"Loading..."}>
-          <InlineEditorContextProvider showInlineEditor={showInlineEditor}>
-            <DocumentWithPreview {...{ data, token }} />
-          </InlineEditorContextProvider>
-        </PreviewSuspense>
-      </>
-    );
-  }
+  if (!data?.wishlistData) {
+    return <PageNotFound />
+  } else {
+    if (preview) {
+      return (
+        <>
+          <PreviewBanner />
+          <PreviewSuspense fallback={"Loading..."}>
+            <InlineEditorContextProvider showInlineEditor={showInlineEditor}>
+              <DocumentWithPreview {...{ data, token }} />
+            </InlineEditorContextProvider>
+          </PreviewSuspense>
+        </>
+      );
+    }
 
-  return <Document {...{ data }} />;
+    return <Document {...{ data }} />;
+  }
 }
 
 /**
@@ -115,13 +120,13 @@ export async function getStaticProps({
       ? getClient(preview).withConfig({ token: previewData.token })
       : getClient(false);
 
-  const [searchPage, globalSEO] = await Promise.all([
+  const [wishlistPage, globalSEO] = await Promise.all([
     client.fetch(wishlistPageQuery),
     client.fetch(globalSEOQuery),
   ]);
 
   // pass page data and preview to helper function
-  const wishlistData = filterDataToSingleItem(searchPage, preview);
+  const wishlistData = filterDataToSingleItem(wishlistPage, preview);
 
   const data = { wishlistData };
 
