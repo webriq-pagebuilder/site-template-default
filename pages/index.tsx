@@ -74,13 +74,14 @@ function Document({ data }: { data: Data }) {
   if (!publishedData) {
     return null;
   }
-  
 
   if (publishedData?.hasNeverPublished) {
     return null;
   }
 
-  {/*  Show page sections */}
+  {
+    /*  Show page sections */
+  }
   return data?.pageData && <PageSections data={publishedData} />;
 }
 
@@ -111,7 +112,7 @@ function DocumentWithPreview({ data, token = null }: DocumentWithPreviewProps) {
         previewData?.sections?.length === 0) && <PreviewNoContent />}
 
       {/*  Show page sections */}
-      {previewData && <PageSections data={previewData} />}
+      {data?.pageData && <PageSections data={previewData} />}
     </>
   );
 }
