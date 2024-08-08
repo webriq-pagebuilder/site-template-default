@@ -482,6 +482,7 @@ export interface BlogsData extends SanityBody {
   title?: string | null;
   seo?: Seo;
   hasUnpublishedEdits?: boolean | null;
+  hasNeverPublished?: boolean | null;
 }
 
 export type MyPortableTextComponents = PortableTextComponents & {

@@ -32,6 +32,7 @@ interface Data {
 
 export interface ProductData extends CollectionProduct {
   commonSections: CommonSections;
+  hasNeverPublished?: boolean;
 }
 
 interface DocumentWithPreviewProps {
@@ -87,6 +88,10 @@ function Document({ data }: { data: Data }) {
     return null;
   }
 
+  if (publishedData?.hasNeverPublished) {
+    return <PageNotFound />;
+  }
+
   return data?.productData && <ProductSections data={publishedData} />;
 }
 
@@ -121,7 +126,7 @@ function DocumentWithPreview({
         previewData?.sections?.length === 0) && <PreviewNoContent />}
 
       {/* Show Product page sections */}
-      {data?.productData && <ProductSections data={previewData} />}
+      {previewData && <ProductSections data={previewData} />}
     </>
   );
 }
@@ -133,8 +138,8 @@ export async function getStaticProps({
 }: any): Promise<{ props: ProductPageBySlugProps; revalidate: number }> {
   const client =
     preview && previewData?.token
-      ? getClient(false).withConfig({ token: previewData.token })
-      : getClient(preview);
+      ? getClient(preview).withConfig({ token: previewData.token })
+      : getClient(false);
 
   const [products, globalSEO] = await Promise.all([
     client.fetch(productsQuery, { slug: params.slug }),
