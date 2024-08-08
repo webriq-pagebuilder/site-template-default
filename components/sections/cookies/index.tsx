@@ -1,21 +1,33 @@
+// Cookie Consent for GDPR (using Orestbida)
+// https://cookieconsent.orestbida.com/
+
 import React from "react";
 import dynamic from "next/dynamic";
+import { Reference } from "sanity";
 
 import { SectionsProps } from "types";
+import { ConsentModalPosition } from "vanilla-cookieconsent";
 
 const Variants = {
   variant_a: dynamic(() => import("./variant_a")),
-  variant_b: dynamic(() => import("./variant_b")),
-  variant_c: dynamic(() => import("./variant_c")),
-  variant_d: dynamic(() => import("./variant_d")),
-  variant_e: dynamic(() => import("./variant_e")),
 };
 
 export interface CookiesProps {
   title?: string;
+  description?: string;
   allowCookieBtn?: string;
   denyCookieBtn?: string;
-  block?: any;
+  config: {
+    enableAnalytics: boolean;
+    cookiePolicy?: {
+      siteName: string;
+      cookiePolicyPage: any;
+      consentModal: {
+        position: ConsentModalPosition;
+      };
+    };
+  };
+  contactLink: any;
 }
 
 function Cookies({ data }: SectionsProps) {
@@ -24,9 +36,11 @@ function Cookies({ data }: SectionsProps) {
 
   const props = {
     title: data?.variants?.heading,
+    description: data?.variants?.description,
     allowCookieBtn: data?.variants?.acceptButtonLabel,
     denyCookieBtn: data?.variants?.declineButtonLabel,
-    block: data?.variants?.block,
+    config: data?.variants?.config,
+    contactLink: data?.variants?.contactLink,
   };
 
   return Variant ? <Variant {...props} /> : null;
