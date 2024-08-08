@@ -91,10 +91,9 @@ function Document({ data }: { data: Data }) {
   if (!publishedData) {
     return null;
   }
-  
 
-  if(publishedData?.hasNeverPublished) {
-    return <PageNotFound />
+  if (publishedData?.hasNeverPublished) {
+    return <PageNotFound />;
   }
 
   return (
@@ -151,10 +150,10 @@ function DocumentWithPreview({
           previewData?.sections?.length === 0) && <PreviewNoContent />}
 
       {/*  Show page sections */}
-      {previewData && <PageSections data={previewData as PageData} />}
+      {data?.pageData && <PageSections data={previewData as PageData} />}
 
       {/* Show Blog sections */}
-      {previewData && <BlogSections data={previewData as BlogsData} />}
+      {data?.blogData && <BlogSections data={previewData as BlogsData} />}
     </>
   );
 }
