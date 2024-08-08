@@ -9,13 +9,13 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: "#0045d8",
+        primary: "rgba(var(--color-primary), <alpha-value>)",
         "primary-foreground": "#296eff",
-        secondary: "#3576ff",
+        secondary: "rgba(var(--color-secondary), <alpha-value>)",
         "secondary-foreground": "#d5e3ff",
-        light: "#F9FAFB",
+        light: "rgba(var(--color-light), <alpha-value>)",
         "light-foreground": "#F3F4F6",
-        dark: "#1F2937",
+        dark: "rgba(var(--color-dark), <alpha-value>)",
         "dark-foreground": "#111827",
         border: "#9CA3AF",
       },
@@ -38,7 +38,10 @@ export default {
         "2xl": "672px",
       },
       fontFamily: {
-        sans: ['"Segoe UI"', ...defaultTheme.fontFamily.sans],
+        //sans: ['"Segoe UI"', ...defaultTheme.fontFamily.sans],
+        sans: ['"Open Sans"', ...defaultTheme.fontFamily.sans],
+        serif: ['"Lora"', ...defaultTheme.fontFamily.serif],
+        mono: ['"Roboto Mono"', ...defaultTheme.fontFamily.mono],
       },
     },
   },

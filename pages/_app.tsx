@@ -2,12 +2,16 @@ import type { AppProps } from "next/app";
 import Head from "next/head";
 import "../styles/globals.css";
 import { NEXT_PUBLIC_SANITY_STUDIO_IN_CSTUDIO } from "studio/config";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import useScript from "utils/useScript";
 import { useRouter } from "next/router";
+import { getRGBColor } from "utils/tw-colors";
+import { sanityClient } from "lib/sanity.client";
 
 function App({ Component, pageProps }: AppProps) {
   const { seo = [], seoSchema = {} } = pageProps;
+
+  const [themeConfig, setThemeConfig] = useState({ colors: {}, font: '' })
 
   if (NEXT_PUBLIC_SANITY_STUDIO_IN_CSTUDIO === "true") {
     let script_status = useScript(process.env.NEXT_PUBLIC_ECWID_SCRIPT);
@@ -52,9 +56,41 @@ function App({ Component, pageProps }: AppProps) {
     }, [script_status]);
   }
 
+  useEffect(() => {
+    async function getThemeConfig() {
+      await sanityClient
+        .fetch("*[_type=='themeSettings' && !(_id in path('drafts.**'))][0]")
+        .then(({ theme }) => {
+          if (theme) {
+            const colors = theme?.colors;
+            const rgbColors = Object.entries(colors).reduce((acc, [key, value]) => {
+              acc[key] = getRGBColor(value, key);
+              return acc;
+            }, {});
+
+            setThemeConfig({
+              colors: rgbColors,
+              font: theme?.font,
+            }); 
+          }
+        })
+    }
+    getThemeConfig();
+  }, [])
+
+  //TODO: Resolve root colors not set real time, also the light, dark and fonts are not reflected
+
   return (
     <>
       <Head>
+        <style>:root {`{
+            ${themeConfig?.colors?.primary} 
+            ${themeConfig?.colors?.secondary} 
+            ${themeConfig?.colors?.light} 
+            ${themeConfig?.colors?.dark} 
+            ${themeConfig?.font}
+          }`}
+        </style>
         {seo?.map((tags) => {
           if (tags?.key === "page-title") {
             return <title key={tags?.key}>{tags?.title}</title>;

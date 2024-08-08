@@ -29,6 +29,7 @@ import { webriqPayments } from "@webriq-pagebuilder/sanity-plugin-webriq-payment
 import { webriqGPT3 } from "@webriq-pagebuilder/sanity-plugin-input-component-gpt3";
 import { webriqComponents } from "@webriq-pagebuilder/sanity-plugin-webriq-components";
 import { webriQInspectorInlineEdit } from "@webriq-pagebuilder/sanity-plugin-inspector-inline-edit";
+import { webriqThemeSettings } from "@webriq-pagebuilder/sanity-plugin-site-settings";
 
 export default defineConfig({
   basePath: "/studio",
@@ -44,6 +45,7 @@ export default defineConfig({
     webriqBlog(),
     webriqGPT3(),
     webriQInspectorInlineEdit(),
+    webriqThemeSettings(),
     media(),
     codeInput(), // for "code" schema type
   ],
