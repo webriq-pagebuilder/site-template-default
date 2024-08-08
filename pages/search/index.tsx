@@ -109,8 +109,8 @@ export async function getStaticProps({
 }: any): Promise<{ props: SeachPageProps }> {
   const client =
     preview && previewData?.token
-      ? getClient(false).withConfig({ token: previewData.token })
-      : getClient(preview);
+      ? getClient(preview).withConfig({ token: previewData.token })
+      : getClient(false);
 
   const [searchPage, globalSEO] = await Promise.all([
     client.fetch(searchPageQuery),

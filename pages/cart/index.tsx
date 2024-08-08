@@ -108,8 +108,8 @@ export async function getStaticProps({
 }: any): Promise<{ props: CartPageProps }> {
   const client =
     preview && previewData?.token
-      ? getClient(false).withConfig({ token: previewData.token })
-      : getClient(preview);
+      ? getClient(preview).withConfig({ token: previewData.token })
+      : getClient(false);
 
   const [cartPage, globalSEO] = await Promise.all([
     client.fetch(cartPageQuery),

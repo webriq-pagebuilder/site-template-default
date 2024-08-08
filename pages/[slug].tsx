@@ -145,10 +145,10 @@ function DocumentWithPreview({
           previewData?.sections?.length === 0) && <PreviewNoContent />}
 
       {/*  Show page sections */}
-      {data?.pageData && <PageSections data={previewData as PageData} />}
+      {previewData && <PageSections data={previewData as PageData} />}
 
       {/* Show Blog sections */}
-      {data?.blogData && <BlogSections data={previewData as BlogsData} />}
+      {previewData && <BlogSections data={previewData as BlogsData} />}
     </>
   );
 }
@@ -160,8 +160,8 @@ export const getStaticProps: GetStaticProps = async ({
 }: any): Promise<{ props: PageBySlugProps; revalidate?: number }> => {
   const client =
     preview && previewData?.token
-      ? getClient(false).withConfig({ token: previewData.token })
-      : getClient(preview);
+      ? getClient(preview).withConfig({ token: previewData.token })
+      : getClient(false);
 
   const [page, blogData, globalSEO] = await Promise.all([
     client.fetch(slugQuery, { slug: params.slug }),

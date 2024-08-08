@@ -102,7 +102,7 @@ function DocumentWithPreview({ data, token = null }: DocumentWithPreviewProps) {
         previewData?.sections?.length === 0) && <PreviewNoContent />}
 
       {/*  Show page sections */}
-      {data?.pageData && <PageSections data={previewData} />}
+      {previewData && <PageSections data={previewData} />}
     </>
   );
 }
@@ -113,8 +113,8 @@ export const getStaticProps = async ({
 }: any): Promise<{ props: HomeProps }> => {
   const client =
     preview && previewData?.token
-      ? getClient(false).withConfig({ token: previewData.token })
-      : getClient(preview);
+      ? getClient(preview).withConfig({ token: previewData.token })
+      : getClient(false);
 
   const [indexPage, globalSEO] = await Promise.all([
     client.fetch(homeQuery),
