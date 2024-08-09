@@ -41,6 +41,7 @@ export interface CollectionData extends CommonPageData {
   products?: CollectionProduct[] | null;
   slug?: string | null;
   name?: string | null;
+  hasNeverPublished?: boolean | null;
 }
 
 interface DocumentWithPreviewProps {
@@ -97,6 +98,10 @@ function Document({ data }: { data: Data }) {
     return null;
   }
 
+  if (publishedData?.hasNeverPublished) {
+    return <PageNotFound />;
+  }
+
   return data?.collectionData && <CollectionSections data={publishedData} />;
 }
 
@@ -144,8 +149,8 @@ export async function getStaticProps({
 }: any): Promise<{ props: CollectionPageBySlugProps; revalidate: number }> {
   const client =
     preview && previewData?.token
-      ? getClient(false).withConfig({ token: previewData.token })
-      : getClient(preview);
+      ? getClient(preview).withConfig({ token: previewData.token })
+      : getClient(false);
 
   const [collections, globalSEO] = await Promise.all([
     client.fetch(collectionsQuery, {

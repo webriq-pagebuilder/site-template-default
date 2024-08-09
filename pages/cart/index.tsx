@@ -38,20 +38,24 @@ interface DocumentWithPreviewProps {
 function CartPage({ data, preview, token, source }: CartPageProps) {
   const showInlineEditor = source === "studio";
 
-  if (preview) {
-    return (
-      <>
-        <PreviewBanner />
-        <PreviewSuspense fallback="Loading">
-          <InlineEditorContextProvider showInlineEditor={showInlineEditor}>
-            <DocumentWithPreview {...{ data, token }} />
-          </InlineEditorContextProvider>
-        </PreviewSuspense>
-      </>
-    );
-  }
+  if (!data?.cartData) {
+    return <PageNotFound />
+  } else {
+    if (preview) {
+      return (
+        <>
+          <PreviewBanner />
+          <PreviewSuspense fallback="Loading">
+            <InlineEditorContextProvider showInlineEditor={showInlineEditor}>
+              <DocumentWithPreview {...{ data, token }} />
+            </InlineEditorContextProvider>
+          </PreviewSuspense>
+        </>
+      );
+    }
 
-  return <Document {...{ data }} />;
+    return <Document {...{ data }} />;
+  }
 }
 
 /**
@@ -108,8 +112,8 @@ export async function getStaticProps({
 }: any): Promise<{ props: CartPageProps }> {
   const client =
     preview && previewData?.token
-      ? getClient(false).withConfig({ token: previewData.token })
-      : getClient(preview);
+      ? getClient(preview).withConfig({ token: previewData.token })
+      : getClient(false);
 
   const [cartPage, globalSEO] = await Promise.all([
     client.fetch(cartPageQuery),
@@ -131,16 +135,6 @@ export async function getStaticProps({
     },
     defaultSeo: globalSEO,
   });
-
-  if (!cartData) {
-    return {
-      props: {
-        preview,
-        data: { cartData: null },
-        seo,
-      },
-    };
-  }
 
   return {
     props: {

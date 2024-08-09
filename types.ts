@@ -1,6 +1,6 @@
 import { JSXElementConstructor, ReactElement } from "react";
 import { PortableTextComponents } from "@portabletext/react";
-import { PortableTextBlock } from "sanity";
+import { PortableTextBlock, Reference } from "sanity";
 
 //Used on different sections
 export interface SectionsProps {
@@ -69,6 +69,14 @@ export interface Variants {
   text?: string;
   button?: LabeledRoute;
   features?: string[];
+  config: {
+    enableAnalytics: boolean;
+    cookiePolicy?: {
+      siteName: string;
+      cookiePolicyPage: Reference;
+    };
+    consentModalPosition?: string;
+  };
 }
 
 export interface Template {
@@ -474,6 +482,7 @@ export interface BlogsData extends SanityBody {
   title?: string | null;
   seo?: Seo;
   hasUnpublishedEdits?: boolean | null;
+  hasNeverPublished?: boolean | null;
 }
 
 export type MyPortableTextComponents = PortableTextComponents & {
