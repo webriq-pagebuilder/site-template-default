@@ -56,29 +56,49 @@ function App({ Component, pageProps }: AppProps) {
     }, [script_status]);
   }
 
+  // https://www.sanity.io/docs/js-client#listening-to-queries
   useEffect(() => {
-    async function getThemeConfig() {
-      await sanityClient
-        .fetch("*[_type=='themeSettings' && !(_id in path('drafts.**'))][0]")
-        .then(({ theme }) => {
-          if (theme) {
-            const colors = theme?.colors;
-            const rgbColors = Object.entries(colors).reduce((acc, [key, value]) => {
-              acc[key] = getRGBColor(value, key);
-              return acc;
-            }, {});
+    const query = "*[_type=='themeSettings'][0]"
+    
+    // Fetch initial theme settings
+    sanityClient.fetch(query).then((initialConfig) => {
+      if (initialConfig.theme) {
+        const theme = initialConfig.theme;
+        const colors = theme?.colors;
+        const rgbColors = Object.entries(colors).reduce((acc, [key, value]) => {
+          acc[key] = getRGBColor(value, key);
+          return acc;
+        }, {});
 
-            setThemeConfig({
-              colors: rgbColors,
-              font: theme?.font,
-            }); 
-          }
-        })
+        setThemeConfig({
+          colors: rgbColors,
+          font: theme?.font,
+        });
+      }
+    });
+
+    const subscription = sanityClient
+      .listen(query)
+      .subscribe((config) => {
+        if (config) {
+          const theme = config.result.theme;
+          const colors = theme?.colors;
+          const rgbColors = Object.entries(colors).reduce((acc, [key, value]) => {
+            acc[key] = getRGBColor(value, key);
+            return acc;
+          }, {});
+
+          setThemeConfig({
+            colors: rgbColors,
+            font: theme?.font,
+          }); 
+        }
+      })
+    
+    return () => {
+      subscription.unsubscribe();
     }
-    getThemeConfig();
   }, [])
-
-  //TODO: Resolve root colors not set real time, also the light, dark and fonts are not reflected
 
   return (
     <>

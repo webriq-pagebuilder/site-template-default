@@ -10,14 +10,14 @@ export default {
     extend: {
       colors: {
         primary: "rgba(var(--color-primary), <alpha-value>)",
-        "primary-foreground": "#296eff",
+        //"primary-foreground": "#296eff",
         secondary: "rgba(var(--color-secondary), <alpha-value>)",
-        "secondary-foreground": "#d5e3ff",
+        //"secondary-foreground": "#d5e3ff",
         light: "rgba(var(--color-light), <alpha-value>)",
-        "light-foreground": "#F3F4F6",
+        //"light-foreground": "#F3F4F6",
         dark: "rgba(var(--color-dark), <alpha-value>)",
-        "dark-foreground": "#111827",
-        border: "#9CA3AF",
+        //"dark-foreground": "#111827",
+        //border: "#9CA3AF",
       },
       borderRadius: {
         none: "0px",
