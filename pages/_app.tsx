@@ -55,9 +55,11 @@ function App({ Component, pageProps }: AppProps) {
     }, [script_status]);
   }
 
-  // get current theme settings, only update global styling with the saved settings
+  // TODO: Update to only sync style changes globally on save (theme settings)
+  // get current theme settings
   useEffect(() => {
-    const query = "*[_type=='themeSettings' && !(_id in path('drafts.**'))][0]"
+    //const query = "*[_type=='themeSettings' && !(_id in path('drafts.**'))][0]"
+    const query = "*[_type=='themeSettings'][0]"
     
     // get initial theme settings
     sanityClient.fetch(query).then((initialConfig) => {
