@@ -93,7 +93,7 @@ export default function StudioPage() {
             console.log("Start setting up login to studio...");
 
             const urlParams = router?.asPath?.split("?")?.[1];
-            fetch(`/api/studio?${urlParams}`)
+            fetch(`${NEXT_PUBLIC_APP_URL}/api/studio?${urlParams}`)
               .then((res) => {
                 if (!res.ok) {
                   cleanUp(window);

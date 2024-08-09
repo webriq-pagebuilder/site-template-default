@@ -36,7 +36,8 @@ export const NEXT_PUBLIC_PREVIEW_SECRET =
   process.env.NEXT_PUBLIC_PREVIEW_SECRET || "secret";
 
 // LIVE App URL
-export const NEXT_PUBLIC_APP_URL = process.env.NEXT_PUBLIC_APP_URL;
+export const NEXT_PUBLIC_APP_URL =
+  process.env.NEXT_PUBLIC_APP_URL || "https://stackshift.webriq.com";
 
 // Verify if Studio was created via WebriQ App Staging or Live
 export const NEXT_PUBLIC_SANITY_STUDIO_FROM_STAGING_APP =
