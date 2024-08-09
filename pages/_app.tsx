@@ -9,13 +9,12 @@ import { getRGBColor } from "utils/tw-colors";
 import { sanityClient } from "lib/sanity.client";
 
 function App({ Component, pageProps }: AppProps) {
-  const { seo = [], seoSchema = {} } = pageProps;
+  const { seo = [], seoSchema = {}, preview } = pageProps;
 
   const [themeConfig, setThemeConfig] = useState({ colors: {}, font: '' })
 
   if (NEXT_PUBLIC_SANITY_STUDIO_IN_CSTUDIO === "true") {
     let script_status = useScript(process.env.NEXT_PUBLIC_ECWID_SCRIPT);
-    const { preview } = pageProps;
     const router = useRouter();
 
     // patch: cleanup `secret=<secret>&slug=<slug>` when on preview mode as this causes ECWID to refresh indefinitely
@@ -56,11 +55,11 @@ function App({ Component, pageProps }: AppProps) {
     }, [script_status]);
   }
 
-  // https://www.sanity.io/docs/js-client#listening-to-queries
+  // get current theme settings, only update global styling with the saved settings
   useEffect(() => {
-    const query = "*[_type=='themeSettings'][0]"
+    const query = "*[_type=='themeSettings' && !(_id in path('drafts.**'))][0]"
     
-    // Fetch initial theme settings
+    // get initial theme settings
     sanityClient.fetch(query).then((initialConfig) => {
       if (initialConfig.theme) {
         const theme = initialConfig.theme;
@@ -77,13 +76,14 @@ function App({ Component, pageProps }: AppProps) {
       }
     });
 
+    // listen to real-time updates to theme settings
     const subscription = sanityClient
       .listen(query)
       .subscribe((config) => {
         if (config) {
-          const theme = config.result.theme;
+          const theme = config?.result?.theme;
           const colors = theme?.colors;
-          const rgbColors = Object.entries(colors).reduce((acc, [key, value]) => {
+          const rgbColors = colors && Object?.entries(colors)?.reduce((acc, [key, value]) => {
             acc[key] = getRGBColor(value, key);
             return acc;
           }, {});

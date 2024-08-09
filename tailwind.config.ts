@@ -17,7 +17,7 @@ export default {
         //"light-foreground": "#F3F4F6",
         dark: "rgba(var(--color-dark), <alpha-value>)",
         //"dark-foreground": "#111827",
-        //border: "#9CA3AF",
+        border: "#9CA3AF",
       },
       borderRadius: {
         none: "0px",
