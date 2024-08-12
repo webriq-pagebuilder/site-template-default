@@ -43,6 +43,7 @@ export interface PageData extends CommonPageData {
   collections: any;
   slug: string | string[];
   title: string;
+  hasNeverPublished?: boolean | null;
 }
 
 export function PageBySlug({ data, preview, token, source }: PageBySlugProps) {
@@ -89,6 +90,10 @@ function Document({ data }: { data: Data }) {
   // General safeguard against empty data
   if (!publishedData) {
     return null;
+  }
+
+  if (publishedData?.hasNeverPublished) {
+    return <PageNotFound />;
   }
 
   return (
@@ -160,8 +165,8 @@ export const getStaticProps: GetStaticProps = async ({
 }: any): Promise<{ props: PageBySlugProps; revalidate?: number }> => {
   const client =
     preview && previewData?.token
-      ? getClient(false).withConfig({ token: previewData.token })
-      : getClient(preview);
+      ? getClient(preview).withConfig({ token: previewData.token })
+      : getClient(false);
 
   const [page, blogData, globalSEO] = await Promise.all([
     client.fetch(slugQuery, { slug: params.slug }),

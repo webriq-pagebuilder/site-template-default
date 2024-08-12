@@ -38,8 +38,8 @@ function PageNotFound() {
               <Heading type="h3" fontSize="4xl" className="mb-2" weight="bold">
                 Something went wrong!
               </Heading>
-              <Text muted className="mb-8">
-                Sorry, but we are unable to open this page
+              <Text muted className="my-8">
+                Make sure that this page exists or published
               </Text>
               <div>
                 <Link
@@ -48,12 +48,6 @@ function PageNotFound() {
                 >
                   Go back to Homepage
                 </Link>
-                <a
-                  className="inline-block w-full px-6 py-2 font-bold leading-loose bg-white rounded-l-xl rounded-t-xl hover:bg-gray-50 lg:w-auto"
-                  href="#"
-                >
-                  Try Again
-                </a>
               </div>
             </div>
           </Container>
