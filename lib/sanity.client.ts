@@ -5,6 +5,7 @@
  */
 import { createClient } from "next-sanity";
 import { config } from "./config";
+import { SANITY_API_WRITE_TOKEN } from "studio/config";
 
 // Set up the client for fetching data in the getProps page functions
 export const client = createClient(config);
@@ -13,25 +14,26 @@ export const client = createClient(config);
 export const sanityClient = createClient(config);
 
 // Set up a preview client with serverless authentication for drafts
-export const getClient = (preview?: boolean) => {
-  const client = createClient({
-    ...config,
-    perspective: "published",
-    token:
-      process.env.NEXT_PUBLIC_SANITY_API_READ_TOKEN ||
-      process.env.SANITY_API_WRITE_TOKEN,
-  });
+export const previewClient = createClient({
+  ...config,
+  useCdn: false,
+  // Fallback to using the WRITE token until https://www.sanity.io/docs/vercel-integration starts shipping a READ token.
+  // As this client only exists on the server and the token is never shared with the browser, we ddon't risk escalating permissions to untrustworthy users
+  token:
+    process.env.NEXT_PUBLIC_SANITY_API_READ_TOKEN ||
+    process.env.SANITY_API_WRITE_TOKEN,
+});
 
-  if (preview) {
-    return client.withConfig({
-      useCdn: false,
-      ignoreBrowserTokenWarning: true,
-      perspective: "previewDrafts",
-    });
-  }
+export const themeClient = createClient({
+  ...config,
+  useCdn: false,
+  // Fallback to using the WRITE token until https://www.sanity.io/docs/vercel-integration starts shipping a READ token.
+  // As this client only exists on the server and the token is never shared with the browser, we ddon't risk escalating permissions to untrustworthy users
+  token: SANITY_API_WRITE_TOKEN,
+});
 
-  return client;
-};
+// Helper function for easily switching between normal client and preview client
+export const getClient = (preview) => (preview ? previewClient : sanityClient);
 
 export function overlayDrafts(docs) {
   const documents = docs || [];

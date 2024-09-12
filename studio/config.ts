@@ -9,6 +9,9 @@ export const SANITY_PROJECT_DATASET =
   process.env.STORYBOOK_SANITY_DATASET ||
   "production";
 
+export const SANITY_API_WRITE_TOKEN =
+  process.env.NEXT_PUBLIC_SANITY_API_WRITE_TOKEN;
+
 export const SANITY_API_READ_TOKEN =
   process.env.NEXT_PUBLIC_SANITY_API_READ_TOKEN ||
   process.env.STORYBOOK_SANITY_API_READ_TOKEN;
