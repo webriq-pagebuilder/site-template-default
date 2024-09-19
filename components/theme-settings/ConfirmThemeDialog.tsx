@@ -4,7 +4,7 @@ import {
   ThemeProvider as SanityUIThemeProvider,
   studioTheme,
 } from "@sanity/ui"
-import { useTheme } from "context/ThemeContext";
+import { useTheme } from "context/ThemeSettingsContext";
 import {
   RevertAllTemplate,
   SaveAsTemplate,

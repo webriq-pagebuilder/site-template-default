@@ -5,7 +5,6 @@ import { homeQuery, globalSEOQuery } from "./api/query";
 import { usePreview } from "lib/sanity.preview";
 import { PageSections } from "components/page";
 import { PreviewNoContent } from "components/PreviewNoContent";
-import PageNotFound from "pages/404";
 import { filterDataToSingleItem } from "components/list";
 import { SEO } from "components/SEO";
 import { PreviewBanner } from "components/PreviewBanner";
@@ -14,7 +13,7 @@ import { CommonPageData, SeoTags, SeoSchema } from "types";
 import { addSEOJsonLd } from "components/SEO";
 import { ThemeSettings } from "components/ThemeSettings";
 import { defaultThemeConfig } from "components/theme-settings/defaultThemeConfig";
-import { ThemeProvider } from "context/ThemeContext";
+import { ThemeSettingsProvider } from "context/ThemeSettingsContext";
 
 interface HomeProps {
   data: Data;
@@ -52,9 +51,9 @@ function Home({ data, preview, token, source, theme }: HomeProps) {
       return (
         <>
           <PreviewBanner />
-          <ThemeProvider preview={preview} themeSettings={theme}>
+          <ThemeSettingsProvider preview={preview} themeSettings={theme}>
             <ThemeSettings />
-          </ThemeProvider>
+          </ThemeSettingsProvider>
           <PreviewSuspense fallback="Loading...">
             <InlineEditorContextProvider showInlineEditor={showInlineEditor}>
               <DocumentWithPreview {...{ data, token }} />

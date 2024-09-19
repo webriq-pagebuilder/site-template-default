@@ -40,9 +40,6 @@ export const NEXT_PUBLIC_APP_URL =
   process.env.NODE_ENV === "development"
     ? "http://localhost:9000"
     : "https://feat-theme-settings--stackshiftv2.netlify.app";
-// export const NEXT_PUBLIC_APP_URL =
-//   process.env.NEXT_PUBLIC_APP_URL ||
-//   "https://feat-theme-settings--stackshiftv2.netlify.app";
 
 // Verify if Studio was created via WebriQ App Staging or Live
 export const NEXT_PUBLIC_SANITY_STUDIO_FROM_STAGING_APP =

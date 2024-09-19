@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Button, Text } from "components/ui";
-import { useTheme } from "context/ThemeContext";
+import { useTheme } from "context/ThemeSettingsContext";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { useClickOutside } from "utils/theme";
 

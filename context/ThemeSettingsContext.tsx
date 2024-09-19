@@ -14,9 +14,10 @@ import {
   SANITY_PROJECT_ID
 } from 'studio/config';
 import { nanoid } from "nanoid";
+import { defaultThemeConfig } from "components/theme-settings/defaultThemeConfig";
 import _ from 'lodash';
 
-interface ThemeContext {
+interface ThemeSettingsContext {
   themeSettings: any;
   currentThemeName: any;
   setCurrentThemeName: (theme: any) => void;
@@ -39,13 +40,13 @@ interface ThemeContext {
   handleRevertAll: () => Promise<void>;
 }
 
-const ThemeContext = createContext<ThemeContext | null>(null);
+const ThemeSettingsContext = createContext<ThemeSettingsContext | null>(null);
 
-export const ThemeProvider = ({ children, preview, themeSettings }) => {
+export const ThemeSettingsProvider = ({ children, preview = false, themeSettings }) => {
   const baseApiUrl = `${NEXT_PUBLIC_APP_URL}/api/app/theme-settings`;
   
   // theme versions
-  const [currentThemeName, setCurrentThemeName] = useState(themeSettings?.currentTheme);
+  const [currentThemeName, setCurrentThemeName] = useState(themeSettings?.currentTheme || defaultThemeConfig?.currentTheme);
   const [themes, setThemes] = useState(themeSettings?.themes); // all saved themes
   const currentThemeConfig = themeSettings?.themes?.find(({ _key, name }) => name === currentThemeName);
 
@@ -53,7 +54,7 @@ export const ThemeProvider = ({ children, preview, themeSettings }) => {
   const [savedThemeConfig, setSavedThemeConfig] = useState(currentThemeConfig);
 
   // real-time/unsaved changes for the current theme config
-  const [customizedThemeConfig, setCustomizedThemeConfig] = useState(currentThemeConfig);
+  const [customizedThemeConfig, setCustomizedThemeConfig] = useState(savedThemeConfig);
   const customizedThemeRef = useRef(customizedThemeConfig);
 
   // loading states
@@ -88,7 +89,7 @@ export const ThemeProvider = ({ children, preview, themeSettings }) => {
   useEffect(() => {
     const currentConfig = async () => {
       try {
-        let fetchedThemeConfig = currentThemeConfig;
+        let fetchedThemeConfig = savedThemeConfig;
         let savedThemeName = themeSettings?.currentName;
 
         // since in 'preview' mode, we primarily get the data for the real-time/unsaved current theme config changes, 
@@ -105,9 +106,7 @@ export const ThemeProvider = ({ children, preview, themeSettings }) => {
         }
 
         // set appearance or mode based on current theme config
-        const themeModeSet = localStorage.getItem("theme-mode");
-
-        if (!themeModeSet || !fetchedThemeConfig?.mode) {
+        if (!fetchedThemeConfig?.mode) {
           localStorage.setItem("theme-mode", "light");
         } else {
           if (fetchedThemeConfig?.mode === "dark") {
@@ -125,22 +124,20 @@ export const ThemeProvider = ({ children, preview, themeSettings }) => {
         }
       } catch (error) {
         console.error("[ERROR] Failed to fetch theme settings for current project.", error);
-        setSavedThemeConfig(themeSettings);
-        setCustomizedThemeConfig(themeSettings);
-        customizedThemeRef.current = themeSettings;
+        setSavedThemeConfig(currentThemeConfig);
+        setCustomizedThemeConfig(currentThemeConfig);
+        customizedThemeRef.current = currentThemeConfig;
       } finally {
         setIsInitialLoad(false); // Mark initial load as complete
       }
     };
 
     currentConfig();
-  }, [themeSettings, preview, currentThemeName, currentThemeConfig]);
+  }, [themeSettings, preview, currentThemeName]);
 
   // debounced function handler for real-time changes
   const debouncedGenerateThemeConfig = useCallback(debounce(async () => {
     const themeToSync = customizedThemeRef.current;
-
-    setCurrentThemeName(themeToSync?.name);
 
     try {
       await fetch(baseApiUrl, {
@@ -153,6 +150,7 @@ export const ThemeProvider = ({ children, preview, themeSettings }) => {
           sanityProjectId: SANITY_PROJECT_ID,
           dataset: SANITY_PROJECT_DATASET,
           themeConfig: themeToSync,
+          themeName: themeToSync?.name,
           draftId: `drafts.${SANITY_PROJECT_ID}-theme-settings`
         })
       })
@@ -346,7 +344,7 @@ export const ThemeProvider = ({ children, preview, themeSettings }) => {
   };
 
   return (
-    <ThemeContext.Provider
+    <ThemeSettingsContext.Provider
       value={{
         themeSettings,
         currentThemeName,
@@ -371,8 +369,8 @@ export const ThemeProvider = ({ children, preview, themeSettings }) => {
       }}
     >
       {children}
-    </ThemeContext.Provider>
+    </ThemeSettingsContext.Provider>
   );
 };
 
-export const useTheme = () => useContext(ThemeContext);
+export const useTheme = () => useContext(ThemeSettingsContext);

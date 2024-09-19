@@ -10,8 +10,8 @@ import { defaultThemeConfig } from "components/theme-settings/defaultThemeConfig
 
 import "../styles/globals.css";
 
-function App({ Component, pageProps, theme }: AppProps & { theme: any }) {
-  const { seo = [], seoSchema = {}, preview } = pageProps;
+function App({ Component, pageProps }: AppProps) {
+  const { seo = [], seoSchema = {}, preview, theme } = pageProps;
 
   const [themeConfig, setThemeConfig] = useState(theme);
 
@@ -67,9 +67,7 @@ function App({ Component, pageProps, theme }: AppProps & { theme: any }) {
     sanityClient.fetch(query).then((initialConfig) => {
       const currentTheme = initialConfig;
 
-      if (initialConfig) {
-        setThemeConfig(currentTheme);
-      }
+      setThemeConfig(currentTheme);
     });
 
     // listen to real-time updates to theme settings if in preview mode
@@ -81,7 +79,7 @@ function App({ Component, pageProps, theme }: AppProps & { theme: any }) {
             const theme = config?.result;
             setThemeConfig(theme);
           }
-        })
+        });
 
       return () => {
         subscription.unsubscribe();

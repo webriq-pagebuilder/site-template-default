@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useTheme } from "context/ThemeContext";
+import React, { useState, useEffect } from "react";
+import { useTheme } from "context/ThemeSettingsContext";
 import { Button, Heading } from "components/ui";
 import { MdFormatColorFill, MdOutlineClose } from "react-icons/md";
 import { ToastContainer } from "react-toast";
@@ -42,6 +42,7 @@ export function ThemeSettings(): React.JSX.Element {
       <div className="fixed z-50 -top-7 right-10 p-7">
         <Button
           as="button"
+          type="button"
           ariaLabel="Show theme"
           variant="unstyled"
           className="text-white hover:text-gray-50 flex gap-2 items-center p-2 font-sans text-sm"
@@ -57,6 +58,7 @@ export function ThemeSettings(): React.JSX.Element {
             <Heading fontSize="lg">Theme Settings</Heading>
             <Button
               as="button"
+              type="button"
               ariaLabel="Close theme"
               variant="unstyled"
               className="flex gap-2 items-center p-2"
