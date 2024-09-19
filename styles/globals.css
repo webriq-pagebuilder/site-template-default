@@ -234,6 +234,46 @@ ul[aria-label="List of Content"] > li:last-child:before {
   fill: red;
 }
 /**** end of STUDIO > COMPONENTS > component filter ****/
-
-
 /* End */
+
+/* theme settings color picker */
+.color-picker {
+  margin-bottom: 10px;
+}
+
+.custom-layout .react-colorful__saturation {
+  margin: 15px 0;
+  border-radius: 5px;
+  border-bottom: none;
+}
+
+.custom-layout .react-colorful__hue {
+  order: 0;
+}
+
+.custom-layout .react-colorful__pointer {
+  position: absolute;
+  z-index: 1;
+  box-sizing: border-box;
+  width: 20px;
+  height: 20px;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.custom-layout .react-colorful__hue,
+.custom-layout .react-colorful__alpha {
+  height: 10px;
+  border-radius: 5px;
+}
+
+.custom-layout .react-colorful__hue-pointer,
+.custom-layout .react-colorful__alpha-pointer {
+  width: 20px;
+  height: 20px;
+}
+
+/* END OF theme settings color picker */
