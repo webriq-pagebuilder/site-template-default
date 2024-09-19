@@ -16,14 +16,23 @@ function VariantD({
   secondaryButton,
 }: HeaderProps) {
   return (
-    <section className="relative py-20 overflow-hidden bg-gray-50">
+    <section className="bg-background relative py-20 overflow-hidden">
       <Container>
         <Flex align="center" className="flex-col lg:flex-row" gap={4}>
-          <Flex align="center" direction="col" className="w-full ">
+          <Flex align="center" direction="col" className="w-full">
             <div className="max-w-md mx-auto text-center lg:text-left">
-              {title && <Heading className="mb-3">{title}</Heading>}
+              {title && (
+                <Heading
+                  fontSize="5xl"
+                  className="mb-3 text-primary dark:text-secondary"
+                >
+                  {title}
+                </Heading>
+              )}
               {description && (
-                <Text muted className="my-6">
+                <Text
+                  className="my-6 text-dark dark:text-inherit"
+                >
                   {description}
                 </Text>
               )}
@@ -45,7 +54,7 @@ function VariantD({
                   <Button
                     as="link"
                     link={secondaryButton}
-                    className="text-black bg-white hover:bg-gray-50 inline-block rounded-l-xl rounded-t-xl font-bold transition duration-200 px-6 py-3"
+                    className="bg-secondary hover:bg-secondary/50 text-black px-6 py-3 rounded-global"
                     ariaLabel={secondaryButton?.label}
                   >
                     {secondaryButton?.label}

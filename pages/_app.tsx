@@ -4,7 +4,7 @@ import { NEXT_PUBLIC_SANITY_STUDIO_IN_CSTUDIO } from "studio/config";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import useScript from "utils/useScript";
-import { getRGBColor } from "utils/theme";
+import { setProjectTheme } from "utils/theme";
 import { sanityClient } from "lib/sanity.client";
 import { defaultThemeConfig } from "components/theme-settings/defaultThemeConfig";
 
@@ -65,9 +65,10 @@ function App({ Component, pageProps, theme }: AppProps & { theme: any }) {
 
     // get initial theme settings
     sanityClient.fetch(query).then((initialConfig) => {
-      if (initialConfig.theme) {
-        const theme = initialConfig.theme;
-        setThemeConfig(theme);
+      const currentTheme = initialConfig;
+
+      if (initialConfig) {
+        setThemeConfig(currentTheme);
       }
     });
 
@@ -77,7 +78,7 @@ function App({ Component, pageProps, theme }: AppProps & { theme: any }) {
         .listen(query)
         .subscribe((config) => {
           if (config) {
-            const theme = config?.result?.theme;
+            const theme = config?.result;
             setThemeConfig(theme);
           }
         })
@@ -91,17 +92,7 @@ function App({ Component, pageProps, theme }: AppProps & { theme: any }) {
   return (
     <>
       <Head>
-        <style>:root {`{
-          ${getRGBColor((themeConfig?.extend?.colors || defaultThemeConfig?.extend?.colors)?.primary, "primary")} 
-          ${getRGBColor((themeConfig?.extend?.colors || defaultThemeConfig?.extend?.colors)?.secondary, "secondary")} 
-          ${getRGBColor((themeConfig?.extend?.colors || defaultThemeConfig?.extend?.colors)?.light, "light")} 
-          ${getRGBColor((themeConfig?.extend?.colors || defaultThemeConfig?.extend?.colors)?.dark, "dark")}
-          --font-size: ${(themeConfig || defaultThemeConfig)?.["font-size"]};
-          --font-weight: ${(themeConfig || defaultThemeConfig)?.["font-weight"]};
-          --border-radius: ${(themeConfig || defaultThemeConfig)?.radius};
-          font-family: ${(themeConfig || defaultThemeConfig)?.font};
-        }`}
-        </style>
+        <style>:root{setProjectTheme(themeConfig || defaultThemeConfig)}</style>
         {seo?.map((tags) => {
           if (tags?.key === "page-title") {
             return <title key={tags?.key}>{tags?.title}</title>;

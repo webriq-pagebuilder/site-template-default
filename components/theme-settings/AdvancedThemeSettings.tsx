@@ -1,45 +1,50 @@
 import React, { useCallback } from "react";
-import { CustomSelectInput } from ".";
+import { SelectSettings } from ".";
 
-export function AdvancedThemeSettings({ savedTheme, customizedTheme, setCustomizedTheme }) {
+export function AdvancedThemeSettings({
+  options,
+  savedThemeConfig,
+  customizedThemeConfig,
+  setCustomizedThemeConfig
+}) {
   const handleSettingChange = useCallback((e, key) => {
     const targetValue = (e?.target as HTMLSelectElement)?.value;
 
-    setCustomizedTheme((prev) => ({
+    setCustomizedThemeConfig((prev) => ({
       ...prev,
       [key]: targetValue
     }));
-  }, [setCustomizedTheme]);
+  }, [setCustomizedThemeConfig]);
   
   return (
-    <div className="flex flex-col gap-y-5 py-4">
-      <CustomSelectInput
+    <div className="flex flex-col gap-y-5">
+      <SelectSettings
         {...{
           label: "Border Radius",
-          value: customizedTheme?.radius,
+          value: customizedThemeConfig?.["border-radius"],
           placeholder: "Select Radius",
-          savedTheme: savedTheme?.extend?.borderRadius,
-          customizedTheme,
-          handleChangeFn: (e) => handleSettingChange(e, "radius")
+          options: options?.borderRadius,
+          customizedThemeConfig,
+          handleChangeFn: (e) => handleSettingChange(e, "border-radius")
         }}
       />
-      <CustomSelectInput
+      <SelectSettings
         {...{
           label: "Font Weight",
-          value: customizedTheme?.["font-weight"],
+          value: customizedThemeConfig?.["font-weight"],
           placeholder: "Select Font Weight",
-          savedTheme: savedTheme?.extend?.fontWeight,
-          customizedTheme,
+          options: options?.fontWeight,
+          customizedThemeConfig,
           handleChangeFn: (e) => handleSettingChange(e, "font-weight")
         }}
       />
-      <CustomSelectInput
+      <SelectSettings
         {...{
           label: "Font Size",
-          value: customizedTheme?.["font-size"],
+          value: customizedThemeConfig?.["font-size"],
           placeholder: "Select Font Size",
-          savedTheme: savedTheme?.extend?.fontSize,
-          customizedTheme,
+          options: options?.fontSize,
+          customizedThemeConfig,
           handleChangeFn: (e) => handleSettingChange(e, "font-size")
         }}
       />

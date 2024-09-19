@@ -16,8 +16,8 @@ type Variant =
   | "unstyled"
   | "swiper_pagination"
   | "tab";
-type TextSize = "xs" | "sm" | "md" | "lg";
-type RadiusSize = "sm" | "md" | "lg" | "xl" | "2xl" | "none";
+type TextSize = "xs" | "sm" | "md" | "lg" | "global";
+type RadiusSize = "sm" | "md" | "lg" | "xl" | "2xl" | "none" | "base" | "global";
 
 interface BaseType {
   /** Defines the classname of the button. */
@@ -60,6 +60,7 @@ export function Button(props: ButtonProps) {
   const sizes = {
     xs: "py-1 px-3 text-xs",
     sm: "py-2 px-4 text-sm",
+    default: "py-3 px-6 text-global",
     md: "py-3 px-6 text-base",
     lg: "py-4 px-7 text-lg",
   };
@@ -68,9 +69,10 @@ export function Button(props: ButtonProps) {
     none: "rounded-none",
     sm: "rounded-sm",
     md: "rounded-md",
+    base: "rounded-base",
     lg: "rounded-lg",
-    xl: "rounded-xl",
-    "2xl": "rounded-2xl",
+    full: "rounded-full",
+    global: "rounded-global",
   };
 
   const {
@@ -83,21 +85,19 @@ export function Button(props: ButtonProps) {
     isActive,
   } = props;
 
-  const buttonRadius = borderRadiusMap[borderRadius];
-  const buttonSize = sizes[size] || sizes["md"];
+  const buttonRadius = borderRadiusMap[borderRadius ?? "global"];
+  const buttonSize = sizes[size ?? "default"];
 
   const commonStyles =
-    "inline-block rounded-l-xl rounded-t-xl font-bold transition duration-200";
-  const solid = `${commonStyles} ${buttonSize} ${buttonRadius} bg-primary hover:bg-primary-foreground text-gray-50`;
-  const custom = `inline-block bg-primary hover:bg-primary-foreground ${buttonSize} ${
-    buttonRadius || "rounded-md"
-  } text-gray-50 font-bold transition duration-200`;
-  const outline = `${commonStyles} ${buttonSize} ${buttonRadius} bg-white hover:bg-primary-foreground/20 outline outline-1 text-primary outline-primary`;
-  const ghost = `${commonStyles}  ${buttonRadius} ${buttonSize} bg-transparent hover:bg-primary-foreground/20 text-primary`;
-  const link = `transition-200 text-primary hover:text-primary-foreground underline  ${buttonRadius} ${cn(
+    "inline-block rounded-global font-global text-global transition duration-200";
+  const solid = `${commonStyles} ${buttonSize} ${buttonRadius} bg-primary hover:bg-primary/50 text-gray-50`;
+  const custom = `inline-block bg-primary hover:bg-primary/50 ${buttonSize} ${buttonRadius} text-gray-50 font-bold transition duration-200`;
+  const outline = `${commonStyles} ${buttonSize} ${buttonRadius} bg-white hover:bg-primary/50 outline outline-1 text-primary outline-primary`;
+  const ghost = `${commonStyles}  ${buttonRadius} ${buttonSize} bg-transparent hover:bg-primary/50 text-primary`;
+  const link = `transition-200 text-primary hover:text-primary/50 underline ${buttonRadius} ${cn(
     buttonSize,
     "px-0 py-0"
-  )} `;
+  )}`;
   const unstyled = ``;
   const swiper_pagination = `mr-1 ${
     isActive ? "bg-primary" : "bg-gray-200"
@@ -105,9 +105,9 @@ export function Button(props: ButtonProps) {
   const tab = `mx-auto mb-1 w-auto px-4 py-2 rounded duration-200 transition focus:outline-none font-bold ${
     isActive
       ? " bg-gray-50 text-primary shadow "
-      : "  text-gray-700  hover:bg-secondary-foreground hover:text-primary-foreground hover:shadow"
+      : " text-gray-700 hover:bg-secondary/50 hover:text-primary hover:shadow"
   }`;
-  const addToWishlist = ` ${commonStyles} ${buttonRadius} ${buttonSize} classNames="ml-auto sm:ml-0 flex-shrink-0 inline-flex items-center justify-center w-full  rounded-md border hover:border-primary`;
+  const addToWishlist = ` ${commonStyles} ${buttonRadius} ${buttonSize} ml-auto sm:ml-0 flex-shrink-0 inline-flex items-center justify-center w-full rounded-md border hover:border-primary`;
 
   const variants: StyleVariants<Variant> = {
     outline,
@@ -121,10 +121,10 @@ export function Button(props: ButtonProps) {
     tab,
   };
 
-  const variantClass = variants[variant] ?? solid;
+  const variantClass = variants[variant ?? "solid"];
 
   if (props.as === "link") {
-    const { link, ...rest } = props;
+    const { link, ariaLabel, borderRadius, ...rest } = props;
 
     return (
       <a
@@ -141,6 +141,7 @@ export function Button(props: ButtonProps) {
   }
 
   const { loadingComponent, onClick, loading, disabled, type } = props;
+
   const Loader = loadingComponent ?? (
     <FaSpinner className="animate-spin" size={30} />
   );

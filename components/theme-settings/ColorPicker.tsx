@@ -6,24 +6,20 @@ import {
 import { FaSpinner } from "react-icons/fa";
 import { HexColorInput, HexColorPicker } from "react-colorful";
 import { MdOutlineRestore } from "react-icons/md";
-import { themeClient } from "lib/sanity.client";
 import { ToastContainer, toast } from "react-toast";
-import { SANITY_PROJECT_ID } from "studio/config";
 import { useClickOutside } from "utils/theme";
 
 export function ColorPicker({
   defaultColor,
-  customizedTheme,
-  setCustomizedTheme,
+  mode,
+  customizedThemeConfig,
+  setCustomizedThemeConfig,
   colorKey,
-  savedTheme
+  savedThemeConfig,
+  handleRevertSetting
 }) {
-  const customColor = customizedTheme?.extend?.colors;
-
-  const colorName =
-    defaultColor?.label === "background" ? "light" : defaultColor?.label;
-  
-  const colorInputLabel = colorName?.charAt(0)?.toUpperCase() + colorName?.slice(1);
+  const customColor = customizedThemeConfig?.colors?.[mode];
+  const colorInputLabel = colorKey?.charAt(0)?.toUpperCase() + colorKey?.slice(1);
 
   const [loading, setLoading] = useState(false);
   const [colorPickerOpen, setColorPickerOpen] = useState<string | null>(null); // Track active color picker
@@ -34,46 +30,35 @@ export function ColorPicker({
   useClickOutside(colorPickerPopupRef, close);
 
   const handleColorChange = (colors) => {
-    setCustomizedTheme((prev) => ({
-      ...prev,
-      extend: {
-        ...prev?.extend,
-        colors: {
-          ...prev?.extend?.colors, // Preserve existing colors
+    setCustomizedThemeConfig({
+      ...customizedThemeConfig,
+      colors: {
+        ...customizedThemeConfig.colors,
+        [mode]: {
+          ...customizedThemeConfig?.colors?.[mode], // Preserve existing colors
           ...colors, // Update only the changed color
-        },
-      },
-    }));
+        }
+      }
+    });
   };
 
-  const handleRevertColor = async (colorToRevert) => {
+  const handleRevertColor = (colorToRevert) => {
     try {
       setLoading(true);
 
       const existingThemeConfig = {
-        ...savedTheme,
-        extend: {
-          ...savedTheme?.extend,
-          colors: {
+        ...savedThemeConfig,
+        mode,
+        colors: {
+          ...savedThemeConfig?.colors,
+          [mode]: {
             ...customColor,
             ...colorToRevert, // revert only the active color picker
-          },
-        },
+          }
+        }
       };
 
-      await themeClient
-        .createOrReplace({
-          name: "Theme Settings",
-          _id: `drafts.${SANITY_PROJECT_ID}-theme-settings`,
-          _type: "themeSettings",
-          theme: existingThemeConfig
-        })
-        .then(() => {
-          setCustomizedTheme(existingThemeConfig);
-
-          console.log("[INFO] Successfully reverted theme changes");
-          toast.info("Successfully reverted theme changes")
-        });
+      handleRevertSetting(existingThemeConfig)
     }  catch (error) {
       console.log("[ERROR] Failed to revert color changes ", error);
       toast.error("Failed to revert color changes! See logs.")
@@ -89,25 +74,22 @@ export function ColorPicker({
 
   return (
     <div className="flex flex-col gap-2">
-      <Text
-        fontSize="sm"
-        weight="semibold"
-      >
+      <Text fontSize="sm">
         {colorInputLabel}
       </Text>
       <div className="relative rounded bg-white border border-gray-300 text-sm">
         <div className="flex gap-x-2">
           <div
-            className="w-9 h-7 m-2 cursor-pointer rounded"
+            className="w-6 h-5 m-2 cursor-pointer rounded"
             style={{
-              backgroundColor: customColor?.[colorName],
+              backgroundColor: customColor?.[colorKey],
             }}
             onClick={() => handleColorPickerToggle(colorKey)}
           />
           <HexColorInput
-            color={customColor?.[colorName]}
+            color={customColor?.[colorKey]}
             onChange={(newColor) =>
-              handleColorChange({ [colorName]: newColor })
+              handleColorChange({ [colorKey]: newColor })
             }
             placeholder="Enter hex color"
             style={{
@@ -123,14 +105,15 @@ export function ColorPicker({
             as="button"
             ariaLabel="Restore color"
             variant="unstyled"
-            className="absolute top-0 right-0 p-3 bg-transparent text-black disabled:text-gray-300 hover:text-red-500 cursor-pointer disabled:cursor-auto"
+            className="absolute top-2 right-0 px-2 bg-transparent text-black disabled:text-gray-300 hover:text-red-500 cursor-pointer disabled:cursor-auto"
+            loading={loading}
             onClick={() =>
               handleRevertColor({
-                [colorName]: defaultColor?.value,
+                [colorKey]: defaultColor?.value,
               })
             }
             disabled={
-              customColor?.[colorName] === defaultColor?.value ||
+              customColor?.[colorKey] === defaultColor?.value ||
               !defaultColor
             }
           >
@@ -148,9 +131,9 @@ export function ColorPicker({
           >
             <div className="custom-layout color-picker">
               <HexColorPicker
-                color={customColor?.[colorName]}
+                color={customColor?.[colorKey]}
                 onChange={(newColor) =>
-                  handleColorChange({ [colorName]: newColor })
+                  handleColorChange({ [colorKey]: newColor })
                 }
               />
             </div>

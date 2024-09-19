@@ -9,9 +9,6 @@ export const SANITY_PROJECT_DATASET =
   process.env.STORYBOOK_SANITY_DATASET ||
   "production";
 
-export const SANITY_API_WRITE_TOKEN =
-  process.env.NEXT_PUBLIC_SANITY_API_WRITE_TOKEN;
-
 export const SANITY_API_READ_TOKEN =
   process.env.NEXT_PUBLIC_SANITY_API_READ_TOKEN ||
   process.env.STORYBOOK_SANITY_API_READ_TOKEN;
@@ -39,7 +36,13 @@ export const NEXT_PUBLIC_PREVIEW_SECRET =
   process.env.NEXT_PUBLIC_PREVIEW_SECRET || "secret";
 
 // LIVE App URL
-export const NEXT_PUBLIC_APP_URL = process.env.NEXT_PUBLIC_APP_URL;
+export const NEXT_PUBLIC_APP_URL =
+  process.env.NODE_ENV === "development"
+    ? "http://localhost:9000"
+    : "https://feat-theme-settings--stackshiftv2.netlify.app";
+// export const NEXT_PUBLIC_APP_URL =
+//   process.env.NEXT_PUBLIC_APP_URL ||
+//   "https://feat-theme-settings--stackshiftv2.netlify.app";
 
 // Verify if Studio was created via WebriQ App Staging or Live
 export const NEXT_PUBLIC_SANITY_STUDIO_FROM_STAGING_APP =

@@ -1,73 +1,68 @@
-import React from "react"
+import React, { useState } from "react"
 import {
   Dialog,
-  ThemeProvider,
+  ThemeProvider as SanityUIThemeProvider,
   studioTheme,
 } from "@sanity/ui"
-import { Button, Text } from "components/ui";
-
-interface DialogProps {
-  id: string;
-  heading: string;
-  content: string;
-  onClose: () => void,
-  zOffset?: number;
-  onClickSave: () => Promise<void>;
-  loading?: boolean;
-}
+import { useTheme } from "context/ThemeContext";
+import {
+  RevertAllTemplate,
+  SaveAsTemplate,
+  SetThemeTemplate
+} from "./templates";
 
 export function ConfirmThemeDialog({
   id,
+  action,
   heading,
-  content,
   onClose,
-  zOffset,
-  onClickSave,
-  loading
-}: DialogProps) {
+  zOffset = 1000,
+  loading,
+  onClickAction
+}) {
+  const { currentThemeName } = useTheme() || {};
+  const [selectedOption, setSelectedOption] = useState(currentThemeName);
+
   return (
-    <ThemeProvider theme={studioTheme}>
+    <SanityUIThemeProvider theme={studioTheme}>
       <Dialog
         id={id}
         onClose={onClose}
-        zOffset={zOffset ?? 1000}
+        zOffset={zOffset}
         header={heading}
         width={1}
       >
-        <div className="flex flex-col gap-y-10 p-10 font-sans">
-          <div className="flex flex-col gap-3">
-            <Text>
-              {content}
-            </Text>
-            <Text
-              weight="semibold"
-              className="text-primary"
-            >
-              NOTE: This action is irreversible! Confirming will also refresh the page.
-            </Text>
-          </div>
-          <div className="flex flex-wrap gap-2 justify-end">
-            <Button
-              as="button"
-              ariaLabel="Cancel save"
-              variant="unstyled"
-              className="py-3 px-6 text-secondary hover:text-secondary/50 rounded-md"
-              onClick={onClose}
-            >
-              Cancel
-            </Button>
-            <Button
-              as="button"
-              ariaLabel="Confirm save"
-              className="rounded-md"
-              loading={loading}
-              onClick={onClickSave}
-            >
-              Confirm Save
-            </Button>
-          </div>
-        </div>
+        {action === "saveAs" ? (
+          <SaveAsTemplate
+            {...{
+              selectedOption,
+              setSelectedOption,
+              onClose,
+              loading,
+              onClickAction
+            }}
+          />
+        ) : action === "setTheme" ? (
+          <SetThemeTemplate 
+            {...{
+              selectedOption,
+              onClose,
+              loading,
+              onClickAction
+            }}
+          />
+        ) : (
+          <RevertAllTemplate 
+            {...{
+              selectedOption,
+              onClose,
+              loading,
+              onClickAction
+            }}
+          />
+        )}
+        
       </Dialog>
-    </ThemeProvider>
+    </SanityUIThemeProvider>
   )
-}
+};

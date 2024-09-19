@@ -2,15 +2,15 @@ import React, { useCallback, useEffect } from "react";
 import { Button } from "components/ui";
 import { MdLightMode, MdOutlineLightMode, MdDarkMode, MdOutlineDarkMode } from "react-icons/md";
 
-export function ToggleDarkMode({ customMode, setCustomizedTheme }) {
+export function ToggleDarkMode({ customMode, setCustomizedThemeConfig }) {
   const darkMode = customMode !== "light";
 
   const handleModeChange = useCallback((isDarkMode) => {
-    setCustomizedTheme((prev) => ({
+    setCustomizedThemeConfig((prev) => ({
       ...prev,
       mode: isDarkMode ? "dark" : "light",
     }));
-  }, [setCustomizedTheme]);
+  }, [setCustomizedThemeConfig]);
 
   useEffect(() => {
     document.documentElement.classList.toggle("dark", darkMode);
@@ -22,7 +22,11 @@ export function ToggleDarkMode({ customMode, setCustomizedTheme }) {
       <Button
         as="button"
         ariaLabel="Light mode"
-        className={`flex gap-2 items-center rounded-md disabled:hover:bg-black ${!darkMode ? "bg-black text-white" : "bg-transparent text-black hover:bg-inherit/50"}`}
+        className={`px-3 py-2 flex gap-2 items-center rounded-l-md rounded-r-none ${
+          !darkMode
+            ? "bg-black text-white disabled:hover:bg-black"
+            : "bg-transparent text-black hover:bg-inherit/50 font-medium border"
+        }`}
         variant={!darkMode ? "solid" : "ghost"}
         disabled={customMode === "light"}
         onClick={() => handleModeChange(!darkMode)}
@@ -37,7 +41,11 @@ export function ToggleDarkMode({ customMode, setCustomizedTheme }) {
       <Button
         as="button"
         ariaLabel="Dark mode"
-        className={`flex gap-2 items-center rounded-md ${darkMode ? "bg-black text-white" : "bg-transparent text-black hover:bg-inherit/50"}`}
+        className={`px-3 py-2 flex gap-2 items-center rounded-l-none rounded-r-md ${
+          darkMode
+            ? "bg-black text-white disabled:hover:bg-black"
+            : "bg-transparent text-black hover:bg-inherit/50 font-medium border"
+        }`}
         variant={darkMode ? "solid" : "ghost"}
         disabled={customMode === "dark"}
         onClick={() => handleModeChange(!darkMode)}

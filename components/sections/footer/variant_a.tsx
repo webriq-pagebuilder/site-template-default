@@ -16,7 +16,7 @@ function VariantA({
   socialMedia,
 }: FooterProps) {
   return (
-    <section className="py-20 bg-gray-50">
+    <section className="py-20 bg-background">
       <Container>
         <Flex wrap className="mb-5 lg:mb-20">
           <div className="w-full mb-5 lg:w-1/5">
@@ -45,7 +45,7 @@ function VariantA({
           </div>
           <div className="w-full mb-5 lg:w-1/5">
             {Text && (
-              <Text muted className="leading-loose ">
+              <Text muted className="leading-loose">
                 {text}
               </Text>
             )}
@@ -86,7 +86,7 @@ function VariantA({
             </div>
           )}
         </Flex>
-        <Flex justify="between" align="center" className="w-full mx-auto lg:flex">
+        <Flex justify="between" align="center" className="w-full mx-auto lg:flex text-primary">
           {copyright && (
             <Text muted className="text-sm">
               {copyright}
@@ -95,11 +95,11 @@ function VariantA({
           {socialMedia && (
             <Flex wrap className="space-x-2 lg:mx-10 lg:space-x-4">
               {socialMedia?.map(
-                (social) =>
+                (social, index) =>
                   social?.socialMediaLink && (
                     <a
                       aria-label={
-                        social?.socialMedia || social?.socialMediaPlatform
+                        social?.socialMedia || social?.socialMediaPlatform || `socials-icon-${index + 1}`
                       }
                       className="inline-block p-2 mr-2 rounded bg-gray-50 hover:bg-gray-100"
                       target="_blank"

@@ -65,3 +65,42 @@ export function useClickOutside(ref, handler) {
     };
   }, [ref, handler]);
 }
+
+export function setProjectTheme(themeSettings) {
+  const currentTheme = themeSettings?.themes?.find(
+    ({ name }) => name === themeSettings?.currentTheme
+  );
+  const colors = currentTheme?.colors?.[currentTheme?.mode];
+  const styles = [];
+
+  // Process colors dynamically
+  if (colors) {
+    for (const [key, value] of Object?.entries(colors)) {
+      styles.push(getRGBColor(value, key));
+    }
+  }
+
+  // Process other properties
+  if (currentTheme) {
+    for (const [key, value] of Object?.entries(currentTheme)) {
+      const includeKeys = [
+        "border-radius",
+        "spacing",
+        "font-weight",
+        "font-size",
+      ];
+
+      if (includeKeys?.includes(key)) {
+        styles.push(`--${key}: ${value};`);
+      }
+
+      if (key === "font") {
+        styles.push(`font-family: ${value}`);
+      }
+    }
+  }
+
+  return `{
+    ${styles.join("\n")}
+  }`;
+}

@@ -2,11 +2,11 @@ import React from "react";
 import { Button, Text } from "components/ui";
 import { MdKeyboardArrowDown } from "react-icons/md";
 
-export function CustomSelectInput({ label, value, savedTheme, customizedTheme, handleChangeFn, placeholder }) {
+export function SelectSettings({ label, value, options, handleChangeFn, placeholder }) {
   return (
     <div className="flex flex-col gap-2">
       {label && (
-        <Text fontSize="sm" weight="semibold">
+        <Text fontSize="sm">
           {label}
         </Text>
       )}
@@ -15,12 +15,12 @@ export function CustomSelectInput({ label, value, savedTheme, customizedTheme, h
           <select
             aria-label={placeholder}
             value={value}
-            className="w-full appearance-none h-11 rounded border border-gray-300 text-sm focus:outline-none px-2"
+            className="w-full appearance-none h-10 rounded border border-gray-300 text-sm focus:outline-none px-2"
             onChange={handleChangeFn}
           >
             <option value="">{placeholder}</option>
-            {savedTheme &&
-              Object.entries(savedTheme)?.map(
+            {options &&
+              Object.entries(options)?.filter(([key]) => key !== "global")?.map(
                 ([key, value]) => (
                   <option
                     value={value as string | number | readonly string[]}
