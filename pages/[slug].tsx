@@ -54,6 +54,7 @@ export function PageBySlug({ data, preview, token, source, theme }: PageBySlugPr
   const router = useRouter();
   const slug = router.query.slug;
   const showInlineEditor = source === "studio";
+  const showThemeSetting = source === "theme";
 
   if (!data?.pageData && !data?.blogData) {
     return <PageNotFound />;
@@ -62,9 +63,11 @@ export function PageBySlug({ data, preview, token, source, theme }: PageBySlugPr
       return (
         <>
           <PreviewBanner />
-          <ThemeSettingsProvider preview={preview} themeSettings={theme}>
-            <ThemeSettings />
-          </ThemeSettingsProvider>
+          {showThemeSetting && (
+            <ThemeSettingsProvider preview={preview} themeSettings={theme}>
+              <ThemeSettings />
+            </ThemeSettingsProvider>
+          )}
           <PreviewSuspense fallback="Loading...">
             <InlineEditorContextProvider showInlineEditor={showInlineEditor}>
               <DocumentWithPreview

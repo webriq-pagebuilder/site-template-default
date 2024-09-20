@@ -43,6 +43,7 @@ interface PageData extends CommonPageData {
 
 function Home({ data, preview, token, source, theme }: HomeProps) {
   const showInlineEditor = source === "studio";
+  const showThemeSetting = source === "theme";
 
   if (!data?.pageData) {
     return null;
@@ -51,9 +52,11 @@ function Home({ data, preview, token, source, theme }: HomeProps) {
       return (
         <>
           <PreviewBanner />
-          <ThemeSettingsProvider preview={preview} themeSettings={theme}>
-            <ThemeSettings />
-          </ThemeSettingsProvider>
+          {showThemeSetting && (
+            <ThemeSettingsProvider preview={preview} themeSettings={theme}>
+              <ThemeSettings />
+            </ThemeSettingsProvider>
+          )}
           <PreviewSuspense fallback="Loading...">
             <InlineEditorContextProvider showInlineEditor={showInlineEditor}>
               <DocumentWithPreview {...{ data, token }} />
