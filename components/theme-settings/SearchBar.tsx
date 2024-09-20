@@ -65,7 +65,7 @@ export function SearchBar({ options, id }) {
         <input
           id={id}
           ref={inputRef}
-          disabled={!loading || isReady}
+          disabled={loading || !isReady}
           type="text"
           placeholder={currentThemeName}
           name="search theme version"
