@@ -5,6 +5,7 @@ import { ColorPicker, SelectSettings, ToggleDarkMode } from "../theme-settings";
 import _ from "lodash";
 
 export function BasicThemeSettings({
+  isLoaded,
   options,
   savedThemeConfig,
   customizedThemeConfig,
@@ -39,6 +40,7 @@ export function BasicThemeSettings({
         </Text>
         <ToggleDarkMode
           {...{
+            isLoaded,
             customMode: customizedThemeConfig?.mode,
             setCustomizedThemeConfig
           }}
@@ -54,6 +56,7 @@ export function BasicThemeSettings({
                   label: key,
                   value: value,
                 },
+                isLoaded,
                 mode: customizedThemeConfig?.mode,
                 customizedThemeConfig,
                 setCustomizedThemeConfig,
@@ -71,7 +74,8 @@ export function BasicThemeSettings({
           value: customizedThemeConfig?.font,
           placeholder: "Select Font",
           options: options?.fontFamily,
-          handleChangeFn: handleChangeFont
+          handleChangeFn: handleChangeFont,
+          isLoaded
         }}
       />
     </div>

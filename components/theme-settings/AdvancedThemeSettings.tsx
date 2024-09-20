@@ -2,8 +2,8 @@ import React, { useCallback } from "react";
 import { SelectSettings } from ".";
 
 export function AdvancedThemeSettings({
+  isLoaded,
   options,
-  savedThemeConfig,
   customizedThemeConfig,
   setCustomizedThemeConfig
 }) {
@@ -25,7 +25,8 @@ export function AdvancedThemeSettings({
           placeholder: "Select Radius",
           options: options?.borderRadius,
           customizedThemeConfig,
-          handleChangeFn: (e) => handleSettingChange(e, "border-radius")
+          handleChangeFn: (e) => handleSettingChange(e, "border-radius"),
+          isLoaded,
         }}
       />
       <SelectSettings
@@ -35,7 +36,8 @@ export function AdvancedThemeSettings({
           placeholder: "Select Font Weight",
           options: options?.fontWeight,
           customizedThemeConfig,
-          handleChangeFn: (e) => handleSettingChange(e, "font-weight")
+          handleChangeFn: (e) => handleSettingChange(e, "font-weight"),
+          isLoaded
         }}
       />
       <SelectSettings
@@ -45,7 +47,8 @@ export function AdvancedThemeSettings({
           placeholder: "Select Font Size",
           options: options?.fontSize,
           customizedThemeConfig,
-          handleChangeFn: (e) => handleSettingChange(e, "font-size")
+          handleChangeFn: (e) => handleSettingChange(e, "font-size"),
+          isLoaded
         }}
       />
     </div>

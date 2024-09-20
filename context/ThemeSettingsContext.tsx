@@ -18,6 +18,7 @@ import { defaultThemeConfig } from "components/theme-settings/defaultThemeConfig
 import _ from 'lodash';
 
 interface ThemeSettingsContext {
+  isReady: boolean;
   themeSettings: any;
   currentThemeName: any;
   setCurrentThemeName: (theme: any) => void;
@@ -44,6 +45,8 @@ const ThemeSettingsContext = createContext<ThemeSettingsContext | null>(null);
 
 export const ThemeSettingsProvider = ({ children, preview = false, themeSettings }) => {
   const baseApiUrl = `${NEXT_PUBLIC_APP_URL}/api/app/theme-settings`;
+
+  const [isReady, setIsReady] = useState(true);
   
   // theme versions
   const [currentThemeName, setCurrentThemeName] = useState(themeSettings?.currentTheme || defaultThemeConfig?.currentTheme);
@@ -124,6 +127,8 @@ export const ThemeSettingsProvider = ({ children, preview = false, themeSettings
         }
       } catch (error) {
         console.error("[ERROR] Failed to fetch theme settings for current project.", error);
+        setIsReady(false);
+
         setSavedThemeConfig(currentThemeConfig);
         setCustomizedThemeConfig(currentThemeConfig);
         customizedThemeRef.current = currentThemeConfig;
@@ -155,14 +160,18 @@ export const ThemeSettingsProvider = ({ children, preview = false, themeSettings
         })
       })
       .then((response) => {
-        if (response.status === 200) {
+        if (response.status === 200 || response.status === 204) {
           console.log("[INFO] Successfully synced theme settings!");
           toast.info("Successfully synced theme settings");
+        } else {
+          setIsReady(false);
         }
       })
     } catch (error) {
       console.error("[ERROR] Failed to sync theme settings ", error);
       toast.error("Failed to sync theme settings! See logs.");
+
+      setIsReady(false);
     }
   }, 500), []);
 
@@ -346,6 +355,7 @@ export const ThemeSettingsProvider = ({ children, preview = false, themeSettings
   return (
     <ThemeSettingsContext.Provider
       value={{
+        isReady,
         themeSettings,
         currentThemeName,
         setCurrentThemeName,

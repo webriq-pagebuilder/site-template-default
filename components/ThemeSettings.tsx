@@ -16,6 +16,7 @@ export function ThemeSettings(): React.JSX.Element {
   const [showSettings, setShowSettings] = useState(false);
   
   const {
+    isReady,
     currentThemeName,
     savedThemeConfig,
     customizedThemeConfig,
@@ -93,6 +94,7 @@ export function ThemeSettings(): React.JSX.Element {
           {activeTab === "Basic" && (
             <BasicThemeSettings
               {...{
+                isLoaded: loading || !isReady,
                 options: themeOptions,
                 savedThemeConfig,
                 customizedThemeConfig,
@@ -104,8 +106,8 @@ export function ThemeSettings(): React.JSX.Element {
           {activeTab === "Advanced" && (
             <AdvancedThemeSettings
               {...{
+                isLoaded: loading || !isReady,
                 options: themeOptions,
-                savedThemeConfig,
                 customizedThemeConfig,
                 setCustomizedThemeConfig,
                 handleRevertSetting,
@@ -118,7 +120,7 @@ export function ThemeSettings(): React.JSX.Element {
               ariaLabel="Revert all"
               variant="unstyled"
               className="text-sm py-3 px-6 text-gray-700 hover:text-gray-500 disabled:text-gray-500"
-              disabled={_.isEqual(customizedThemeConfig, savedThemeConfig)}
+              disabled={loading || !isReady || _.isEqual(customizedThemeConfig, savedThemeConfig)}
               onClick={() => onModalOpen("revertAll")}
             >
               Revert All
@@ -129,7 +131,7 @@ export function ThemeSettings(): React.JSX.Element {
                 ariaLabel="Save theme"
                 variant="solid"
                 className="text-sm rounded-lg cursor-pointer bg-black hover:bg-gray-500 text-white disabled:bg-gray-500 disabled:cursor-default"
-                disabled={_.isEqual(currentThemeName, savedThemeConfig?.currentTheme)}
+                disabled={loading || !isReady || _.isEqual(currentThemeName, savedThemeConfig?.currentTheme)}
                 onClick={() => onModalOpen("setTheme")}
               >
                 Save
@@ -140,7 +142,7 @@ export function ThemeSettings(): React.JSX.Element {
                 ariaLabel="Save As"
                 variant="solid"
                 className="text-sm rounded-lg cursor-pointer bg-black hover:bg-gray-500 text-white disabled:bg-gray-500 disabled:cursor-default"
-                disabled={_.isEqual(customizedThemeConfig, savedThemeConfig)}
+                disabled={loading || !isReady || _.isEqual(customizedThemeConfig, savedThemeConfig)}
                 onClick={() => onModalOpen("saveAs")}
               >
                 Save As

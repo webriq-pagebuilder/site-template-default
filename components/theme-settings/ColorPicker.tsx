@@ -10,6 +10,7 @@ import { ToastContainer, toast } from "react-toast";
 import { useClickOutside } from "utils/theme";
 
 export function ColorPicker({
+  isLoaded,
   defaultColor,
   mode,
   customizedThemeConfig,
@@ -82,15 +83,16 @@ export function ColorPicker({
           <div
             className="w-6 h-5 m-2 cursor-pointer rounded"
             style={{
-              backgroundColor: customColor?.[colorKey],
+              backgroundColor: isLoaded ? "gray" : customColor?.[colorKey],
             }}
-            onClick={() => handleColorPickerToggle(colorKey)}
+            onClick={() => !isLoaded && handleColorPickerToggle(colorKey)}
           />
           <HexColorInput
             color={customColor?.[colorKey]}
             onChange={(newColor) =>
               handleColorChange({ [colorKey]: newColor })
             }
+            disabled={isLoaded}
             placeholder="Enter hex color"
             style={{
               border: 0,
@@ -113,8 +115,9 @@ export function ColorPicker({
               })
             }
             disabled={
-              customColor?.[colorKey] === defaultColor?.value ||
-              !defaultColor
+              isLoaded ||
+                customColor?.[colorKey] === defaultColor?.value ||
+                !defaultColor
             }
           >
             {loading ? (

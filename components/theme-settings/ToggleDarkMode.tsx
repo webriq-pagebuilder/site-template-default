@@ -2,7 +2,7 @@ import React, { useCallback, useEffect } from "react";
 import { Button } from "components/ui";
 import { MdLightMode, MdOutlineLightMode, MdDarkMode, MdOutlineDarkMode } from "react-icons/md";
 
-export function ToggleDarkMode({ customMode, setCustomizedThemeConfig }) {
+export function ToggleDarkMode({ isLoaded, customMode, setCustomizedThemeConfig }) {
   const darkMode = customMode !== "light";
 
   const handleModeChange = useCallback((isDarkMode) => {
@@ -28,7 +28,7 @@ export function ToggleDarkMode({ customMode, setCustomizedThemeConfig }) {
             : "bg-transparent text-black hover:bg-inherit/50 font-bold border"
         }`}
         variant={!darkMode ? "solid" : "ghost"}
-        disabled={customMode === "light"}
+        disabled={isLoaded || customMode === "light"}
         onClick={() => handleModeChange(!darkMode)}
       >
         {!darkMode ? (
@@ -47,7 +47,7 @@ export function ToggleDarkMode({ customMode, setCustomizedThemeConfig }) {
             : "bg-transparent text-black hover:bg-inherit/50 font-bold border"
         }`}
         variant={darkMode ? "solid" : "ghost"}
-        disabled={customMode === "dark"}
+        disabled={isLoaded || customMode === "dark"}
         onClick={() => handleModeChange(!darkMode)}
       >
         {darkMode ? (

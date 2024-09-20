@@ -15,6 +15,8 @@ export function SearchBar({ options, id }) {
   useClickOutside(inputRef, close);
 
   const {
+    isReady,
+    loading,
     themes,
     setCustomizedThemeConfig,
     currentThemeName,
@@ -31,7 +33,7 @@ export function SearchBar({ options, id }) {
   // search function
   useEffect(() => {
     const handler = setTimeout(() => {
-      if (searchValue) {
+      if (!loading && isReady && searchValue) {
         setIsOpen(true);
 
         const searchedConfig = themes?.find(({ name }) => name?.includes(searchValue));
@@ -42,8 +44,12 @@ export function SearchBar({ options, id }) {
     return () => {
       clearTimeout(handler);
     };
-  }, [searchValue, themes]);
-
+  }, [
+    isReady,
+    loading,
+    searchValue,
+    themes
+  ]);
 
   // Update the input value when currentThemeName changes
   useEffect(() => {
@@ -59,10 +65,11 @@ export function SearchBar({ options, id }) {
         <input
           id={id}
           ref={inputRef}
+          disabled={!loading || isReady}
           type="text"
           placeholder={currentThemeName}
           name="search theme version"
-          className={`w-full h-10 text-gray-300 text-sm focus:outline-none px-2 ${isOpen ? "border-x border-t border-gray-300 rounded-t" : "border border-gray-300 rounded"}`}
+          className={`w-full h-10 text-gray-300 text-sm disabled:bg-gray-50 focus:outline-none px-2 ${isOpen ? "border-x border-t border-gray-300 rounded-t" : "border border-gray-300 rounded"}`}
           onChange={(e) => setSearchValue(e.target.value)}
           onClick={() => setIsOpen(!isOpen)}
         />
@@ -71,6 +78,7 @@ export function SearchBar({ options, id }) {
           ariaLabel="Show fonts"
           variant="unstyled"
           className="absolute top-0 right-0 p-3 bg-transparent text-black pointer-events-none"
+          disabled={loading || !isReady}
         >
           <MdKeyboardArrowDown className="w-5 h-5"/>
         </Button>

@@ -2,7 +2,7 @@ import React from "react";
 import { Button, Text } from "components/ui";
 import { MdKeyboardArrowDown } from "react-icons/md";
 
-export function SelectSettings({ label, value, options, handleChangeFn, placeholder }) {
+export function SelectSettings({ label, value, options, handleChangeFn, placeholder, isLoaded }) {
   return (
     <div className="flex flex-col gap-2">
       {label && (
@@ -16,6 +16,7 @@ export function SelectSettings({ label, value, options, handleChangeFn, placehol
             aria-label={placeholder}
             value={value}
             className="w-full appearance-none h-10 rounded border border-gray-300 text-sm focus:outline-none px-2"
+            disabled={isLoaded}
             onChange={handleChangeFn}
           >
             <option value="">{placeholder}</option>
@@ -36,6 +37,7 @@ export function SelectSettings({ label, value, options, handleChangeFn, placehol
             ariaLabel="Show fonts"
             variant="unstyled"
             className="absolute top-0 right-0 p-3 bg-transparent text-black pointer-events-none"
+            disabled={isLoaded}
           >
             <MdKeyboardArrowDown className="w-5 h-5"/>
           </Button>
