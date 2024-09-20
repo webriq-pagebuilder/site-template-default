@@ -60,7 +60,7 @@ export function Button(props: ButtonProps) {
   const sizes = {
     xs: "py-1 px-3 text-xs",
     sm: "py-2 px-4 text-sm",
-    default: "py-3 px-6 text-global",
+    default: "py-3 px-6",
     md: "py-3 px-6 text-base",
     lg: "py-4 px-7 text-lg",
   };
@@ -143,7 +143,7 @@ export function Button(props: ButtonProps) {
   const { loadingComponent, onClick, loading, disabled, type } = props;
 
   const Loader = loadingComponent ?? (
-    <FaSpinner className="animate-spin" size={30} />
+    <FaSpinner className="animate-spin" size={16} />
   );
 
   return (

@@ -24,14 +24,14 @@ function VariantD({
               {title && (
                 <Heading
                   fontSize="5xl"
-                  className="mb-3 text-primary dark:text-secondary"
+                  className="mb-3 text-primary"
                 >
                   {title}
                 </Heading>
               )}
               {description && (
                 <Text
-                  className="my-6 text-dark dark:text-inherit"
+                  className="my-6"
                 >
                   {description}
                 </Text>

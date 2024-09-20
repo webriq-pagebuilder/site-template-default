@@ -6,7 +6,7 @@ export function SelectSettings({ label, value, options, handleChangeFn, placehol
   return (
     <div className="flex flex-col gap-2">
       {label && (
-        <Text fontSize="sm">
+        <Text fontSize="sm" weight="semibold">
           {label}
         </Text>
       )}

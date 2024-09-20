@@ -34,7 +34,7 @@ export function BasicThemeSettings({
   return (
     <div className="flex flex-col gap-y-5">
       <div className="flex flex-col gap-2">
-        <Text fontSize="sm">
+        <Text fontSize="sm" weight="semibold">
           Appearance
         </Text>
         <ToggleDarkMode

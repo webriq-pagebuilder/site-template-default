@@ -74,7 +74,7 @@ export function ColorPicker({
 
   return (
     <div className="flex flex-col gap-2">
-      <Text fontSize="sm">
+      <Text fontSize="sm" weight="semibold">
         {colorInputLabel}
       </Text>
       <div className="relative rounded bg-white border border-gray-300 text-sm">

@@ -25,7 +25,7 @@ export function ToggleDarkMode({ customMode, setCustomizedThemeConfig }) {
         className={`px-3 py-2 flex gap-2 items-center rounded-l-md rounded-r-none ${
           !darkMode
             ? "bg-black text-white disabled:hover:bg-black"
-            : "bg-transparent text-black hover:bg-inherit/50 font-medium border"
+            : "bg-transparent text-black hover:bg-inherit/50 font-bold border"
         }`}
         variant={!darkMode ? "solid" : "ghost"}
         disabled={customMode === "light"}
@@ -44,7 +44,7 @@ export function ToggleDarkMode({ customMode, setCustomizedThemeConfig }) {
         className={`px-3 py-2 flex gap-2 items-center rounded-l-none rounded-r-md ${
           darkMode
             ? "bg-black text-white disabled:hover:bg-black"
-            : "bg-transparent text-black hover:bg-inherit/50 font-medium border"
+            : "bg-transparent text-black hover:bg-inherit/50 font-bold border"
         }`}
         variant={darkMode ? "solid" : "ghost"}
         disabled={customMode === "dark"}

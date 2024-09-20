@@ -33,7 +33,7 @@ export function SetThemeTemplate({ selectedOption, onClose, loading, onClickActi
             disabled={loading}
             onClick={() => onClickAction(selectedOption)}
           >
-            Confirm Save
+            {loading ? "Confirm Save" : "Saving"}
           </Button>
         </div>
       </div>

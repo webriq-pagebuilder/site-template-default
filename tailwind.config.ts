@@ -1,5 +1,4 @@
 import type { Config } from "tailwindcss";
-import defaultTheme from "tailwindcss/defaultTheme";
 
 export default {
   content: [
@@ -10,15 +9,6 @@ export default {
   theme: {
     extend: {
       colors: {
-        // primary: "#0045d8",
-        // "primary-foreground": "#296eff",
-        // secondary: "#3576ff",
-        // "secondary-foreground": "#d5e3ff",
-        // light: "#F9FAFB",
-        // "light-foreground": "#F3F4F6",
-        // dark: "#1F2937",
-        // "dark-foreground": "#111827",
-        // border: "#9CA3AF",
         primary: "rgba(var(--color-primary), <alpha-value>)",
         secondary: "rgba(var(--color-secondary), <alpha-value>)",
         background: "rgba(var(--color-background), <alpha-value>)",
@@ -55,7 +45,7 @@ export default {
         "3xl": "1.857rem", // 30px
         "4xl": "2.25rem", // 36px
         "5xl": "3rem", // 48px
-        global: "var(--font-size)",
+        global: "calc(0.10rem + var(--font-size))",
       },
       fontWeight: {
         light: "300",
@@ -63,7 +53,7 @@ export default {
         medium: "500",
         semibold: "600",
         bold: "700",
-        global: "var(--font-weight)",
+        global: "calc(100 + var(--font-weight))",
       },
     },
   },

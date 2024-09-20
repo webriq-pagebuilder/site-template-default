@@ -95,7 +95,7 @@ export function setProjectTheme(themeSettings) {
       }
 
       if (key === "font") {
-        styles.push(`font-family: ${value}`);
+        styles.push(`font-family: ${value};`);
       }
     }
   }

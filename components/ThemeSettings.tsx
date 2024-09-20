@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useTheme } from "context/ThemeSettingsContext";
 import { Button, Heading } from "components/ui";
 import { MdFormatColorFill, MdOutlineClose } from "react-icons/md";
@@ -9,11 +9,10 @@ import {
   ConfirmThemeDialog,
   SearchBar,
 } from "./theme-settings";
-import tailwindConfig from "tailwind.config";
+import themeOptions from "components/theme-settings/options";
 import _ from "lodash";
 
 export function ThemeSettings(): React.JSX.Element {
-  const themeOptions = tailwindConfig?.theme?.extend;
   const [showSettings, setShowSettings] = useState(false);
   
   const {
@@ -129,7 +128,7 @@ export function ThemeSettings(): React.JSX.Element {
                 as="button"
                 ariaLabel="Save theme"
                 variant="solid"
-                className="font-semibold text-sm rounded-lg cursor-pointer bg-black hover:bg-gray-500 text-white disabled:bg-gray-500 disabled:cursor-default"
+                className="text-sm rounded-lg cursor-pointer bg-black hover:bg-gray-500 text-white disabled:bg-gray-500 disabled:cursor-default"
                 disabled={_.isEqual(currentThemeName, savedThemeConfig?.currentTheme)}
                 onClick={() => onModalOpen("setTheme")}
               >
@@ -140,7 +139,7 @@ export function ThemeSettings(): React.JSX.Element {
                 as="button"
                 ariaLabel="Save As"
                 variant="solid"
-                className="font-semibold text-sm rounded-lg cursor-pointer bg-black hover:bg-gray-500 text-white disabled:bg-gray-500 disabled:cursor-default"
+                className="text-sm rounded-lg cursor-pointer bg-black hover:bg-gray-500 text-white disabled:bg-gray-500 disabled:cursor-default"
                 disabled={_.isEqual(customizedThemeConfig, savedThemeConfig)}
                 onClick={() => onModalOpen("saveAs")}
               >

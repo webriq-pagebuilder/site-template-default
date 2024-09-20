@@ -46,7 +46,9 @@ html#ecwid_html body#ecwid_body .ec-size .ec-store .ec-breadcrumbs {
 }
 
 /*
-   Theme settings: Default dark mode background and text color 
+   THEME SETTINGS 
+   
+   Default dark mode background and text color 
    To override this, add background and text color classes along with a 'dark:' prefix to target components
 
    Example: 
@@ -57,6 +59,7 @@ html#ecwid_html body#ecwid_body .ec-size .ec-store .ec-breadcrumbs {
 :is(.dark) {
   @apply bg-background text-white
 }
+/* END OF THEME SETTINGS */
 
 /* hide navigation sidebar when screen is less than screen size */
 @media (min-width: 1024px) {

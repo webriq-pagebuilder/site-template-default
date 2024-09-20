@@ -116,7 +116,7 @@ export function SaveAsTemplate({ selectedOption, setSelectedOption, onClose, loa
             disabled={loading || notReadyToSave}
             onClick={() => onClickAction(selectedOption, themeName)}
           >
-            Confirm Save
+            {loading ? "Confirm Save" : "Saving"}
           </Button>
         </div>
       </div>
