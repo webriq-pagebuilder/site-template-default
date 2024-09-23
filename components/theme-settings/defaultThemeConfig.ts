@@ -11,6 +11,9 @@ export const defaultThemeConfig = {
       name: "Default Theme",
       mode: "light",
       font: "Open Sans",
+      "font-size": "1rem",
+      "font-weight": "400",
+      "border-radius": "0.25rem",
       scope: "global",
       colors: {
         light: {
