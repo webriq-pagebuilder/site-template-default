@@ -26,12 +26,8 @@ export function ThemeSettings(): React.JSX.Element {
     loading,
     openModal,
     onModalOpen,
-    onModalClose,
     modalAction,
-    handleSetThemeConfig,
-    handleSaveConfigAs,
     handleRevertSetting,
-    handleRevertAll,
   } = useTheme() || {}; // Use the context
 
   // tab
@@ -40,7 +36,7 @@ export function ThemeSettings(): React.JSX.Element {
 
   return (
     <>
-      <div className="fixed z-50 -top-7 right-10 p-7 ">
+      <div className="fixed z-50 -top-7 right-10 p-7">
         <Button
           as="button"
           type="button"
@@ -158,14 +154,7 @@ export function ThemeSettings(): React.JSX.Element {
       {openModal && (
         <ConfirmThemeDialog
           {...{
-            id: "confirm-theme-modal",
             action: modalAction || null,
-            heading: modalAction === "revertAll" ? "Revert changes" : modalAction === "setTheme" ? "Set theme" : "Save theme",
-            onClose: onModalClose,
-            onClickAction:
-              modalAction === "saveAs" ? handleSaveConfigAs
-                : modalAction === "setTheme" ? handleSetThemeConfig
-                  : handleRevertAll,
             loading
           }}
         />

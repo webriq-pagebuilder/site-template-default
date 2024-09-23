@@ -1,7 +1,7 @@
 import React from "react";
 import { Button, Text } from "components/ui";
 
-export function SetThemeTemplate({ selectedOption, onClose, loading, onClickAction }) {
+export function SetThemeTemplate({ currentThemeName, onClose, loading, onClickAction }) {
   return (
     <div className="flex flex-col gap-y-5 p-10 font-sans">
       <Text
@@ -34,7 +34,7 @@ export function SetThemeTemplate({ selectedOption, onClose, loading, onClickActi
             className="text-sm p-3 rounded-lg bg-black text-white hover:bg-gray-500 disabled:bg-gray-500"
             loading={loading}
             disabled={loading}
-            onClick={() => onClickAction(selectedOption)}
+            onClick={() => onClickAction(currentThemeName)}
           >
             {loading ? "Saving" : "Confirm Save"}
           </Button>

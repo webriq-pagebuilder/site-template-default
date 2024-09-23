@@ -35,7 +35,7 @@ interface ThemeSettingsContext {
   setOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
   modalAction: "setTheme" | "saveAs" | "revertAll" | null;
   setModalAction: React.Dispatch<React.SetStateAction<"setTheme" | "saveAs" | "revertAll" | null>>;
-  handleSetThemeConfig: (currentConfig: any) => void;
+  handleSetCurrentTheme: (currentConfig: any) => void;
   handleSaveConfigAs: (action: "overwrite" | "saveNew", versionName?: string) => Promise<void>;
   handleRevertSetting: (value: any) => Promise<void>;
   handleRevertAll: () => Promise<void>;
@@ -156,7 +156,6 @@ export const ThemeSettingsProvider = ({ children, preview = false, themeSettings
           dataset: SANITY_PROJECT_DATASET,
           themeConfig: themeToSync,
           themeName: themeToSync?.name,
-          draftId: `drafts.${SANITY_PROJECT_ID}-theme-settings`
         })
       })
       .then((response) => {
@@ -193,7 +192,7 @@ export const ThemeSettingsProvider = ({ children, preview = false, themeSettings
   ]);
 
 
-  const handleSetThemeConfig = async (currentConfig: any) => {
+  const handleSetCurrentTheme = async (currentConfig: any) => {
     try {
       setLoading(true);
 
@@ -201,25 +200,23 @@ export const ThemeSettingsProvider = ({ children, preview = false, themeSettings
         toast.error("Failed to set theme config. See logs.");
         return; 
       }
-
+      
       await fetch(baseApiUrl, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          action: "save-theme",
+          action: "update-current",
           sanityProjectId: SANITY_PROJECT_ID,
           dataset: SANITY_PROJECT_DATASET,
-          themeName: currentConfig,
-          themes: themes,
           documentId: `${SANITY_PROJECT_ID}-theme-settings`,
-          draftId: `drafts.${SANITY_PROJECT_ID}-theme-settings`
+          themeName: currentConfig,
         })
       })
       .then(() => {
-        console.log("[INFO] Successfully set default theme");
-        toast.success("Successfully set default theme");
+        console.log("[INFO] Successfully set current theme");
+        toast.success("Successfully set current theme");
 
         setLoading(false);
         onModalClose();
@@ -227,6 +224,7 @@ export const ThemeSettingsProvider = ({ children, preview = false, themeSettings
       })
     } catch (error) {
       setLoading(false);
+      
       console.error("[ERROR] Failed to save theme settings ", error);
       toast.error("Failed to save theme settings! See logs.");
     }
@@ -372,7 +370,7 @@ export const ThemeSettingsProvider = ({ children, preview = false, themeSettings
         setOpenModal,
         modalAction,
         setModalAction,
-        handleSetThemeConfig,
+        handleSetCurrentTheme,
         handleSaveConfigAs,
         handleRevertSetting,
         handleRevertAll,

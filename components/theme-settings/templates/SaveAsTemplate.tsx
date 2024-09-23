@@ -1,18 +1,19 @@
 import React, { useState } from "react";
 import { Button, Text } from "components/ui";
 
-export function SaveAsTemplate({ selectedOption, setSelectedOption, onClose, loading, onClickAction }) {
+export function SaveAsTemplate({ currentThemeName, onClose, loading, onClickAction }) {
+  const [saveOption, setSaveOption] = useState("");
   const [themeName, setThemeName] = useState("");
 
   const handleSetOption = (e) => {
-    setSelectedOption(e.target.value);
+    setSaveOption(e.target.value);
   }
 
   const handleSaveThemeName = (e) => {
     setThemeName(e.target.value);
   }
 
-  const notReadyToSave = selectedOption === "saveNew" ? themeName.trim().length < 3 : selectedOption.trim().length === 0;
+  const notReadyToSave = saveOption === "saveNew" ? themeName.trim().length < 3 : saveOption.trim().length === 0;
 
   return (
     <div className="flex flex-col gap-y-5 p-10 font-sans">
@@ -27,14 +28,15 @@ export function SaveAsTemplate({ selectedOption, setSelectedOption, onClose, loa
               aria-describedby="overwrite-text"
               type="radio"
               value="overwrite"
-              checked={selectedOption === "overwrite"}
+              disabled={currentThemeName === "Default Theme"}
+              checked={saveOption === "overwrite"}
               onChange={handleSetOption}
               className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 dark:bg-gray-700 dark:border-gray-600"
             />
           </div>
           <div className="ms-2 text-sm">
             <label
-              className="text-start hover:cursor-pointer disabled:text-gray-400"
+              className="text-start disabled:text-gray-400 disabled:pointer-events-none"
               htmlFor="overwrite"
             >
               Overwrite theme
@@ -54,7 +56,7 @@ export function SaveAsTemplate({ selectedOption, setSelectedOption, onClose, loa
               aria-describedby="saveNew-text"
               type="radio"
               value="saveNew"
-              checked={selectedOption === "saveNew"}
+              checked={saveOption === "saveNew"}
               onChange={handleSetOption}
               className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 dark:bg-gray-700 dark:border-gray-600"
             />
@@ -74,7 +76,7 @@ export function SaveAsTemplate({ selectedOption, setSelectedOption, onClose, loa
             </label>
           </div>
         </div>
-        {selectedOption === "saveNew" && (
+        {saveOption === "saveNew" && (
           <div className="px-5 mb-4">
             <label
               className="inline-flex gap-2 text-gray-700 text-sm font-bold mb-2"
@@ -114,7 +116,7 @@ export function SaveAsTemplate({ selectedOption, setSelectedOption, onClose, loa
             className="text-sm p-3 rounded-lg bg-black text-white hover:bg-gray-500 disabled:bg-gray-500"
             loading={loading}
             disabled={loading || notReadyToSave}
-            onClick={() => onClickAction(selectedOption, themeName)}
+            onClick={() => onClickAction(saveOption, themeName)}
           >
             {loading ? "Saving" : "Confirm Save"}
           </Button>

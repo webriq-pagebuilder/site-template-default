@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React from "react"
 import {
   Dialog,
   ThemeProvider as SanityUIThemeProvider,
@@ -12,52 +12,51 @@ import {
 } from "./templates";
 
 export function ConfirmThemeDialog({
-  id,
   action,
-  heading,
-  onClose,
   zOffset = 1000,
   loading,
-  onClickAction
 }) {
-  const { currentThemeName } = useTheme() || {};
-  const [selectedOption, setSelectedOption] = useState(currentThemeName);
+  const {
+    currentThemeName,
+    handleSaveConfigAs,
+    handleSetCurrentTheme,
+    handleRevertAll,
+    onModalClose
+  } = useTheme() || {};
 
   return (
     <SanityUIThemeProvider theme={studioTheme}>
       <Dialog
-        id={id}
-        onClose={onClose}
+        id="theme-actions"
+        onClose={onModalClose}
         zOffset={zOffset}
-        header={heading}
+        header={action === "revertAll" ? "Revert changes" : action === "setTheme" ? "Set theme" : "Save theme"}
         width={1}
       >
         {action === "saveAs" ? (
           <SaveAsTemplate
             {...{
-              selectedOption,
-              setSelectedOption,
-              onClose,
+              currentThemeName,
+              onClose: onModalClose,
               loading,
-              onClickAction
+              onClickAction: handleSaveConfigAs
             }}
           />
         ) : action === "setTheme" ? (
           <SetThemeTemplate 
             {...{
-              selectedOption,
-              onClose,
+              currentThemeName,
+              onClose: onModalClose,
               loading,
-              onClickAction
+              onClickAction: handleSetCurrentTheme
             }}
           />
         ) : (
           <RevertAllTemplate 
             {...{
-              selectedOption,
-              onClose,
+              onClose: onModalClose,
               loading,
-              onClickAction
+              onClickAction: handleRevertAll
             }}
           />
         )}
