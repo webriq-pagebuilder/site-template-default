@@ -21,11 +21,12 @@ export function SearchBar({ options, id }) {
     setCustomizedThemeConfig,
     currentThemeName,
     setCurrentThemeName,
+    savedThemeConfig,
   } = useTheme() || {}; // Use the context
 
   const handleSettingTheme = (theme) => {
     const updatedConfig = themes?.find(({ name }) => name === theme);
-      
+
     setCurrentThemeName?.(theme);
     setCustomizedThemeConfig?.(updatedConfig)
   }
@@ -92,18 +93,22 @@ export function SearchBar({ options, id }) {
           ) : options?.length > 0 ? options?.map((option) => (
                 <div
                   onClick={() => handleSettingTheme(option?.name)}
-                  className={`block box-border px-2 py-3 ${
-                    option?.name === currentThemeName ? "text-gray-500" : "hover:bg-gray-50 cursor-pointer"
+                  className={`flex justify-between items-center box-border px-2 py-3 ${
+                    option?.name === savedThemeConfig?.currentTheme
+                      ? "pointer-events-none text-gray-500" 
+                      : "cursor-pointer pointer-events-auto hover:bg-gray-50"
                   }`}
                   key={option?._key}
                 >
                   <Text>
                     {option?.name}
                   </Text>
-                  {option?.name === currentThemeName && (
-                    <Text fontSize="xs">
-                      Current theme
-                    </Text>
+                  {option?.name === savedThemeConfig?.currentTheme && (
+                    <span 
+                      className="text-xs rounded-lg px-2 bg-black text-white"
+                    >
+                      Current
+                    </span>
                   )}
                 </div>
             )) : (

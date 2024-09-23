@@ -4,8 +4,11 @@ import { Button, Text } from "components/ui";
 export function RevertAllTemplate({ onClose, loading, onClickAction }) {
   return (
     <div className="flex flex-col gap-y-5 p-10 font-sans">
-      <Text>
-        Are you sure you want to revert ALL changes to the saved version?
+      <Text
+        fontSize="base"
+        weight="normal"
+      >
+        Are you sure you want to revert ALL changes made to this theme?
       </Text>
       <Text
         fontSize="sm"
@@ -19,7 +22,7 @@ export function RevertAllTemplate({ onClose, loading, onClickAction }) {
           as="button"
           ariaLabel="Cancel revert"
           variant="unstyled"
-          className="text-sm py-3 px-6 text-black hover:text-gray-500 disabled:text-gray-500"
+          className="text-sm p-3 text-black hover:text-gray-500 disabled:text-gray-500"
           onClick={onClose}
         >
           Cancel
@@ -27,12 +30,12 @@ export function RevertAllTemplate({ onClose, loading, onClickAction }) {
         <Button
           as="button"
           ariaLabel="Confirm save"
-          className="text-sm rounded-lg bg-black text-white hover:bg-gray-500 disabled:bg-gray-500"
+          className="text-sm p-3 rounded-lg bg-black text-white hover:bg-gray-500 disabled:bg-gray-500"
           loading={loading}
           disabled={loading}
           onClick={onClickAction}
         >
-          {loading ? "Confirm Revert" : "Reverting"}
+          {loading ? "Reverting" : "Confirm Revert"}
         </Button>
       </div>
     </div>

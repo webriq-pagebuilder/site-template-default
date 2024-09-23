@@ -3,9 +3,8 @@ import {
   Button,
   Text
 } from "components/ui";
-import { FaSpinner } from "react-icons/fa";
+import { FaSpinner, FaUndo } from "react-icons/fa";
 import { HexColorInput, HexColorPicker } from "react-colorful";
-import { MdOutlineRestore } from "react-icons/md";
 import { ToastContainer, toast } from "react-toast";
 import { useClickOutside } from "utils/theme";
 
@@ -83,7 +82,7 @@ export function ColorPicker({
           <div
             className="w-6 h-5 m-2 cursor-pointer rounded"
             style={{
-              backgroundColor: isLoaded ? "gray" : customColor?.[colorKey],
+              backgroundColor: customColor?.[colorKey],
             }}
             onClick={() => !isLoaded && handleColorPickerToggle(colorKey)}
           />
@@ -107,7 +106,7 @@ export function ColorPicker({
             as="button"
             ariaLabel="Restore color"
             variant="unstyled"
-            className="absolute top-2 right-0 px-2 bg-transparent text-black disabled:text-gray-300 hover:text-red-500 cursor-pointer disabled:cursor-auto"
+            className="absolute top-2 right-0 px-2 bg-transparent text-black disabled:text-gray-300 hover:text-red-500 cursor-pointer disabled:cursor-auto items-center"
             loading={loading}
             onClick={() =>
               handleRevertColor({
@@ -121,9 +120,9 @@ export function ColorPicker({
             }
           >
             {loading ? (
-              <FaSpinner className="animate-spin w-5 h-5" />
+              <FaSpinner className="animate-spin w-3 h-3 mt-1" />
             ): (
-              <MdOutlineRestore className="w-5 h-5" />
+              <FaUndo className="w-3 h-3 mt-1" />
             )}
           </Button>
         </div>

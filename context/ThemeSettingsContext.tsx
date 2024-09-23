@@ -259,7 +259,7 @@ export const ThemeSettingsProvider = ({ children, preview = false, themeSettings
           action: "save-theme",
           sanityProjectId: SANITY_PROJECT_ID,
           dataset: SANITY_PROJECT_DATASET,
-          themeName: currentThemeName,
+          themeName: savedThemeConfig?.currentTheme,
           themes: isOverride
             ? themes
             : [
@@ -333,7 +333,7 @@ export const ThemeSettingsProvider = ({ children, preview = false, themeSettings
           action: "revert-all",
           sanityProjectId: SANITY_PROJECT_ID,
           dataset: SANITY_PROJECT_DATASET,
-          themeName: currentThemeName,
+          themeName: savedThemeConfig?.currentTheme,
           themes: themes,
           documentId: `${SANITY_PROJECT_ID}-theme-settings`,
           draftId: `drafts.${SANITY_PROJECT_ID}-theme-settings`

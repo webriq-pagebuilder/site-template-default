@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useTheme } from "context/ThemeSettingsContext";
 import { Button, Heading } from "components/ui";
+import { FaSpinner, FaUndo } from "react-icons/fa";
 import { MdFormatColorFill, MdOutlineClose } from "react-icons/md";
 import { ToastContainer } from "react-toast";
 import {
@@ -64,7 +65,7 @@ export function ThemeSettings(): React.JSX.Element {
               className="flex gap-2 items-center p-2"
               onClick={() => setShowSettings(!showSettings)}
             >
-              <MdOutlineClose className="text-gray-500 hover:text-primary w-6 h-6" />
+              <MdOutlineClose className="text-gray-500 hover:text-black w-5 h-5" />
               <span className="sr-only">Close</span>
             </Button>
           </div>
@@ -114,40 +115,43 @@ export function ThemeSettings(): React.JSX.Element {
               }}
             />
           )}
-          <div className="flex flex-wrap gap-2 justify-end">
+          <div className="flex flex-wrap gap-2 justify-between pt-5">
             <Button
               as="button"
-              ariaLabel="Revert all"
-              variant="unstyled"
-              className="text-sm py-3 px-6 text-gray-700 hover:text-gray-500 disabled:text-gray-500"
-              disabled={loading || !isReady || _.isEqual(customizedThemeConfig, savedThemeConfig)}
-              onClick={() => onModalOpen("revertAll")}
+              ariaLabel="Set theme"
+              variant="solid"
+              className="text-sm px-3 py-2 rounded-lg cursor-pointer bg-black hover:bg-gray-500 text-white disabled:bg-gray-500 disabled:cursor-default"
+              disabled={loading || !isReady || _.isEqual(currentThemeName, savedThemeConfig?.currentTheme)}
+              onClick={() => onModalOpen("setTheme")}
             >
-              Revert All
+              Set theme
             </Button>
-            {_.isEqual(customizedThemeConfig, themes?.find(({ name }) => name === customizedThemeConfig?.name )) ? (
+            <div className="flex flex-wrap gap-2">
               <Button
                 as="button"
-                ariaLabel="Save theme"
-                variant="solid"
-                className="text-sm rounded-lg cursor-pointer bg-black hover:bg-gray-500 text-white disabled:bg-gray-500 disabled:cursor-default"
-                disabled={loading || !isReady || _.isEqual(currentThemeName, savedThemeConfig?.currentTheme)}
-                onClick={() => onModalOpen("setTheme")}
+                ariaLabel="Revert all"
+                variant="unstyled"
+                className="text-sm rounded-lg px-3 py-2 cursor-pointer disabled:cursor-default border border-black hover:bg-black hover:text-white disabled:border-gray-400 disabled:text-gray-400 disabled:bg-transparent"
+                disabled={loading || !isReady || _.isEqual(customizedThemeConfig, themes?.find(({ name }) => name === customizedThemeConfig?.name ))}
+                onClick={() => onModalOpen("revertAll")}
+              >
+                {loading ? (
+                  <FaSpinner className="animate-spin w-5 h-5" />
+                ): (
+                  <FaUndo className="w-3 h-3" />
+                )}
+              </Button>
+              <Button
+                as="button"
+                ariaLabel="Save"
+                variant="unstyled"
+                className="text-sm px-3 py-2 rounded-lg cursor-pointer disabled:cursor-default border border-black hover:bg-black hover:text-white disabled:border-gray-400 disabled:text-gray-400 disabled:bg-transparent"
+                disabled={loading || !isReady || _.isEqual(customizedThemeConfig, themes?.find(({ name }) => name === customizedThemeConfig?.name ))}
+                onClick={() => onModalOpen("saveAs")}
               >
                 Save
               </Button>
-            ): (
-              <Button
-                as="button"
-                ariaLabel="Save As"
-                variant="solid"
-                className="text-sm rounded-lg cursor-pointer bg-black hover:bg-gray-500 text-white disabled:bg-gray-500 disabled:cursor-default"
-                disabled={loading || !isReady || _.isEqual(customizedThemeConfig, savedThemeConfig)}
-                onClick={() => onModalOpen("saveAs")}
-              >
-                Save As
-              </Button>
-            )}
+            </div>
           </div>
         </div>
       )}
@@ -156,7 +160,7 @@ export function ThemeSettings(): React.JSX.Element {
           {...{
             id: "confirm-theme-modal",
             action: modalAction || null,
-            heading: modalAction === "revertAll" ? "Revert changes" : "Save theme",
+            heading: modalAction === "revertAll" ? "Revert changes" : modalAction === "setTheme" ? "Set theme" : "Save theme",
             onClose: onModalClose,
             onClickAction:
               modalAction === "saveAs" ? handleSaveConfigAs
