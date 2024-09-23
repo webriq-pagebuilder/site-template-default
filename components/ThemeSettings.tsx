@@ -40,7 +40,7 @@ export function ThemeSettings(): React.JSX.Element {
 
   return (
     <>
-      <div className="fixed z-50 -top-7 right-10 p-7">
+      <div className="fixed z-50 -top-7 right-10 p-7 ">
         <Button
           as="button"
           type="button"
