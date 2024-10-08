@@ -36,7 +36,7 @@ export function ThemeSettings(): React.JSX.Element {
 
   return (
     <>
-      <div className="fixed z-50 -top-7 right-10 p-7">
+      <div className="fixed [@media(max-width:1175px)]:hidden z-50 -top-7 right-10 p-7">
         <Button
           as="button"
           type="button"
@@ -49,8 +49,22 @@ export function ThemeSettings(): React.JSX.Element {
           <span>Theme</span>
         </Button>
       </div>
+      {/* Mobile button */}
+      <div className="fixed [@media(min-width:1175px)]:hidden bg-black w-full z-50">
+        <Button
+          as="button"
+          type="button"
+          ariaLabel="Show theme"
+          variant="unstyled"
+          className="text-white flex gap-2 p-2 font-sans text-sm float-right"
+          onClick={() => setShowSettings(!showSettings)}
+        >
+          <MdFormatColorFill />
+          <span>Theme</span>
+        </Button>
+      </div>
       {showSettings && (
-        <div className="fixed z-50 top-10 right-16 p-7 bg-slate-100 shadow-inner text-black font-sans rounded-md w-sm flex-col space-y-5">
+        <div className="fixed z-50 inset-y-0 right-0 [@media(min-width:1175px)]:top-10 [@media(min-width:1175px)]:right-16 p-7 bg-slate-100 shadow-inner text-black font-sans [@media(min-width:1175px)]:rounded-md w-fit xl:w-sm flex-col space-y-5">
           <div className="flex flex-row justify-between items-center">
             <Heading fontSize="lg">Theme Settings</Heading>
             <Button
