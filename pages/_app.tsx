@@ -7,6 +7,7 @@ import useScript from "utils/useScript";
 import { setProjectTheme } from "utils/theme";
 import { sanityClient } from "lib/sanity.client";
 import { defaultThemeConfig } from "components/theme-settings/defaultThemeConfig";
+import "vanilla-cookieconsent/dist/cookieconsent.css";
 
 import "../styles/globals.css";
 
@@ -15,21 +16,21 @@ function App({ Component, pageProps }: AppProps) {
 
   const [themeConfig, setThemeConfig] = useState(theme);
 
+  const router = useRouter();
+  // patch: cleanup `secret=<secret>&slug=<slug>` when on preview mode as this causes ECWID to refresh indefinitely
+  useEffect(() => {
+    if (
+      typeof window !== "undefined" &&
+      preview &&
+      location.search?.includes("secret=") &&
+      location.search?.includes("slug=")
+    ) {
+      router.push(`${window.location.pathname}`);
+    }
+  }, [preview, router]);
+
   if (NEXT_PUBLIC_SANITY_STUDIO_IN_CSTUDIO === "true") {
     let script_status = useScript(process.env.NEXT_PUBLIC_ECWID_SCRIPT);
-    const router = useRouter();
-
-    // patch: cleanup `secret=<secret>&slug=<slug>` when on preview mode as this causes ECWID to refresh indefinitely
-    useEffect(() => {
-      if (
-        typeof window !== "undefined" &&
-        preview &&
-        location.search?.includes("secret=") &&
-        location.search?.includes("slug=")
-      ) {
-        router.push(`${window.location.pathname}`);
-      }
-    }, [preview, router]);
 
     // for Ecwid script
     useEffect(() => {
@@ -70,21 +71,19 @@ function App({ Component, pageProps }: AppProps) {
       setThemeConfig(currentTheme);
     });
 
-    // listen to real-time updates to theme settings if in preview mode
-    if (preview) {
-      const subscription = sanityClient
-        .listen(query)
-        .subscribe((config) => {
-          if (config) {
-            const theme = config?.result;
-            setThemeConfig(theme);
-          }
-        });
+    // listen to real-time updates to theme settings
+    const subscription = sanityClient
+      .listen(query)
+      .subscribe((config) => {
+        if (config) {
+          const theme = config?.result;
+          setThemeConfig(theme);
+        }
+      });
 
-      return () => {
-        subscription.unsubscribe();
-      };
-    }
+    return () => {
+      subscription.unsubscribe();
+    };
   }, [preview]);
 
   return (

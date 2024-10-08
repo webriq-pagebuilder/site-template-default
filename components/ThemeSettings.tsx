@@ -117,7 +117,7 @@ export function ThemeSettings(): React.JSX.Element {
               ariaLabel="Set theme"
               variant="solid"
               className="text-sm px-3 py-2 rounded-lg cursor-pointer bg-black hover:bg-gray-500 text-white disabled:bg-gray-500 disabled:cursor-default"
-              disabled={loading || !isReady || _.isEqual(currentThemeName, savedThemeConfig?.currentTheme)}
+              disabled={loading || !isReady || _.isEqual(currentThemeName, savedThemeConfig?.currentTheme) || !_.isEqual(customizedThemeConfig, themes?.find(({ name }) => name === customizedThemeConfig?.name ))}
               onClick={() => onModalOpen("setTheme")}
             >
               Set theme

@@ -5,6 +5,7 @@ import { homeQuery, globalSEOQuery } from "./api/query";
 import { usePreview } from "lib/sanity.preview";
 import { PageSections } from "components/page";
 import { PreviewNoContent } from "components/PreviewNoContent";
+import PageNotFound from "pages/404";
 import { filterDataToSingleItem } from "components/list";
 import { SEO } from "components/SEO";
 import { PreviewBanner } from "components/PreviewBanner";
@@ -12,8 +13,8 @@ import InlineEditorContextProvider from "context/InlineEditorContext";
 import { CommonPageData, SeoTags, SeoSchema } from "types";
 import { addSEOJsonLd } from "components/SEO";
 import { ThemeSettings } from "components/ThemeSettings";
-import { defaultThemeConfig } from "components/theme-settings/defaultThemeConfig";
 import { ThemeSettingsProvider } from "context/ThemeSettingsContext";
+import { defaultThemeConfig } from "components/theme-settings/defaultThemeConfig";
 
 interface HomeProps {
   data: Data;
@@ -91,7 +92,11 @@ function Document({ data }: { data: Data }) {
   {
     /*  Show page sections */
   }
-  return data?.pageData && <PageSections data={publishedData} />;
+  return (
+    <PreviewSuspense fallback="Loading...">
+      {data?.pageData && <PageSections data={publishedData} />}
+    </PreviewSuspense>
+  );
 }
 
 /**
@@ -134,7 +139,7 @@ export const getStaticProps = async ({
     preview && previewData?.token
       ? getClient(preview).withConfig({ token: previewData.token })
       : getClient(false);
-  
+
   const themeQuery = preview
     ? "*[_type=='themeSettings'][0]"
     : "*[_type=='themeSettings' && !(_id in path('drafts.**'))][0]";
@@ -142,7 +147,7 @@ export const getStaticProps = async ({
   const [indexPage, globalSEO, initialConfig] = await Promise.all([
     client.fetch(homeQuery),
     client.fetch(globalSEOQuery),
-    client.fetch(themeQuery)
+    client.fetch(themeQuery),
   ]);
 
   const theme = initialConfig || defaultThemeConfig;

@@ -2,7 +2,7 @@ import React, { useCallback, useRef, useState } from "react";
 import {
   Button,
   Text
-} from "components/ui";
+} from "@stackshift/components-common";
 import { FaSpinner, FaUndo } from "react-icons/fa";
 import { HexColorInput, HexColorPicker } from "react-colorful";
 import { ToastContainer, toast } from "react-toast";

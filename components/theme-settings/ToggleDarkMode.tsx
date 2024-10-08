@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect } from "react";
-import { Button } from "components/ui";
+import { Button } from "@stackshift/components-common";
 import { MdLightMode, MdOutlineLightMode, MdDarkMode, MdOutlineDarkMode } from "react-icons/md";
 
 export function ToggleDarkMode({ isLoaded, customMode, setCustomizedThemeConfig }) {

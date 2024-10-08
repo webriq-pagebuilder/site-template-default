@@ -1,5 +1,4 @@
 import React from "react";
-import Head from "next/head";
 import { useRouter } from "next/router";
 import { groq } from "next-sanity";
 import { PreviewSuspense } from "next-sanity/preview";
@@ -50,7 +49,13 @@ export interface PageData extends CommonPageData {
   hasNeverPublished?: boolean | null;
 }
 
-export function PageBySlug({ data, preview, token, source, theme }: PageBySlugProps) {
+export function PageBySlug({
+  data,
+  preview,
+  token,
+  source,
+  theme,
+}: PageBySlugProps) {
   const router = useRouter();
   const slug = router.query.slug;
   const showInlineEditor = source === "studio";
@@ -107,13 +112,13 @@ function Document({ data }: { data: Data }) {
   }
 
   return (
-    <>
+    <PreviewSuspense fallback="Loading...">
       {/*  Show page sections */}
       {data?.pageData && <PageSections data={data?.pageData} />}
 
       {/* Show Blog sections */}
       {data?.blogData && <BlogSections data={data?.blogData} />}
-    </>
+    </PreviewSuspense>
   );
 }
 
@@ -177,7 +182,7 @@ export const getStaticProps: GetStaticProps = async ({
     preview && previewData?.token
       ? getClient(preview).withConfig({ token: previewData.token })
       : getClient(false);
-  
+
   const themeQuery = preview
     ? "*[_type=='themeSettings'][0]"
     : "*[_type=='themeSettings' && !(_id in path('drafts.**'))][0]";
@@ -186,7 +191,7 @@ export const getStaticProps: GetStaticProps = async ({
     client.fetch(slugQuery, { slug: params.slug }),
     client.fetch(blogQuery, { slug: params.slug }),
     client.fetch(globalSEOQuery),
-    client.fetch(themeQuery)
+    client.fetch(themeQuery),
   ]);
 
   const theme = initialConfig || defaultThemeConfig;
@@ -204,7 +209,7 @@ export const getStaticProps: GetStaticProps = async ({
   const seo = SEO({
     data: {
       title:
-        data?.pageData?.title || data?.blogData?.title || "Stackshift page",
+        data?.pageData?.title || data?.blogData?.title || "StackShift page",
       type: data?.pageData?._type || data?.blogData?._type || "",
       route: params?.slug,
       ...(data?.pageData?.seo || data?.blogData?.seo),

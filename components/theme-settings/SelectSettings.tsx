@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Text } from "components/ui";
+import { Button, Text } from "@stackshift/components-common";
 import { MdKeyboardArrowDown } from "react-icons/md";
 
 export function SelectSettings({ label, value, options, handleChangeFn, placeholder, isLoaded }) {
