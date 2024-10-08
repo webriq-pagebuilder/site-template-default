@@ -211,6 +211,7 @@ export const ThemeSettingsProvider = ({ children, preview = false, themeSettings
           sanityProjectId: SANITY_PROJECT_ID,
           dataset: SANITY_PROJECT_DATASET,
           documentId: `${SANITY_PROJECT_ID}-theme-settings`,
+          draftId: `drafts.${SANITY_PROJECT_ID}-theme-settings`,
           themeName: currentConfig,
         })
       })
