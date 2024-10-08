@@ -6,7 +6,8 @@ import { useClickOutside } from "utils/theme";
 
 export function SearchBar({ options, id }) {
   const [isOpen, setIsOpen] = useState(false);
-  const [searchValue, setSearchValue] = useState(""); 
+  const [searchInput, setSearchInput] = useState("");
+  const [searchResults, setSearchResults] = useState(null); 
   const [noThemeFound, setNoThemeFound] = useState(false);
 
   const inputRef = useRef();
@@ -31,26 +32,31 @@ export function SearchBar({ options, id }) {
     setCustomizedThemeConfig?.(updatedConfig)
   }
 
+  const handleSearchTheme = (e) => {
+    const value = e.target.value;
+    setSearchInput(value);
+  }
+
   // search function
   useEffect(() => {
     const handler = setTimeout(() => {
-      if (!loading && isReady && searchValue) {
+      if (!loading && isReady && searchInput) {
         setIsOpen(true);
 
-        const searchedConfig = themes?.find(({ name }) => name?.includes(searchValue));
-        setNoThemeFound(!searchedConfig);
-      }
+        const searchedConfig = themes?.filter(({ name }) => name?.toLowerCase()?.includes(searchInput?.toLowerCase()));
+
+        if (!searchedConfig || searchedConfig?.length === 0) {
+          setNoThemeFound(true);
+        }
+
+        setSearchResults(searchedConfig);
+      } 
     }, 500); // Adjust debounce time as needed
 
     return () => {
       clearTimeout(handler);
     };
-  }, [
-    isReady,
-    loading,
-    searchValue,
-    themes
-  ]);
+  }, [isReady, loading, searchInput, themes]);
 
   // Update the input value when currentThemeName changes
   useEffect(() => {
@@ -64,14 +70,14 @@ export function SearchBar({ options, id }) {
     <div className="relative">
       <div className="flex items-center">
         <input
-          id={id}
+          id="search-theme"
+          name="search theme"
           ref={inputRef}
           disabled={loading || !isReady}
           type="text"
-          placeholder={currentThemeName}
-          name="search theme version"
+          placeholder={searchInput || currentThemeName}
           className={`w-full h-10 text-gray-300 text-sm disabled:bg-gray-50 focus:outline-none px-2 ${isOpen ? "border-x border-t border-gray-300 rounded-t" : "border border-gray-300 rounded"}`}
-          onChange={(e) => setSearchValue(e.target.value)}
+          onChange={handleSearchTheme}
           onClick={() => setIsOpen(!isOpen)}
         />
         <Button
@@ -86,33 +92,49 @@ export function SearchBar({ options, id }) {
       </div>
       {isOpen && (
         <div className="bg-white border shadow-md box-border -mt-[1px] max-h-[200px] overflow-y-auto absolute top-full w-full z-50">
-          {searchValue && noThemeFound ? ( 
+          {!searchInput && options?.length !== 0 ? (
+            options?.map((option) => (
+              <div
+                onClick={() => handleSettingTheme(option?.name)}
+                className="flex justify-between items-center box-border px-2 py-3 cursor-pointer hover:bg-gray-50"
+                key={option?._key}
+              >
+                <Text>
+                  {option?.name}
+                </Text>
+                {option?.name === savedThemeConfig?.currentTheme && (
+                  <span 
+                    className="text-xs rounded-lg px-2 bg-black text-white"
+                  >
+                    Current
+                  </span>
+                )}
+              </div>
+            ))
+          ): noThemeFound || options?.length === 0 ? (
             <div className="block box-border text-gray-700 px-2 py-3">
               No theme settings found
             </div>
-          ) : options?.length > 0 ? options?.map((option) => (
-                <div
-                  onClick={() => handleSettingTheme(option?.name)}
-                  className="flex justify-between items-center box-border px-2 py-3 cursor-pointer hover:bg-gray-50"
-                  key={option?._key}
-                >
-                  <Text>
-                    {option?.name}
-                  </Text>
-                  {option?.name === savedThemeConfig?.currentTheme && (
-                    <span 
-                      className="text-xs rounded-lg px-2 bg-black text-white"
-                    >
-                      Current
-                    </span>
-                  )}
-                </div>
-            )) : (
-              <div className="block box-border text-gray-700 px-2 py-3">
-                No theme settings found
+          ) : (
+            searchResults?.map((results) => (
+              <div
+                onClick={() => handleSettingTheme(results?.name)}
+                className="flex justify-between items-center box-border px-2 py-3 cursor-pointer hover:bg-gray-50"
+                key={results?._key}
+              >
+                <Text>
+                  {results?.name}
+                </Text>
+                {results?.name === savedThemeConfig?.currentTheme && (
+                  <span
+                    className="text-xs rounded-lg px-2 bg-black text-white"
+                  >
+                    Current
+                  </span>
+                )}
               </div>
-            )
-          }
+            ))
+          )}
         </div>
       )}
     </div>
