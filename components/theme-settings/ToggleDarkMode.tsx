@@ -22,11 +22,7 @@ export function ToggleDarkMode({ isLoaded, customMode, setCustomizedThemeConfig 
       <Button
         as="button"
         ariaLabel="Light mode"
-        className={`px-3 py-2 flex gap-2 items-center rounded-l-md rounded-r-none ${
-          !darkMode
-            ? "bg-black text-white disabled:hover:bg-black"
-            : "bg-transparent text-black hover:bg-inherit/50 font-bold border"
-        }`}
+        className="text-sm !px-6 !py-2 flex gap-2 items-center rounded-l-md rounded-r-none border border-black !text-black hover:!bg-gray-300 disabled:!bg-black disabled:!text-white"
         variant={!darkMode ? "solid" : "ghost"}
         disabled={isLoaded || customMode === "light"}
         onClick={() => handleModeChange(!darkMode)}
@@ -41,11 +37,7 @@ export function ToggleDarkMode({ isLoaded, customMode, setCustomizedThemeConfig 
       <Button
         as="button"
         ariaLabel="Dark mode"
-        className={`px-3 py-2 flex gap-2 items-center rounded-l-none rounded-r-md ${
-          darkMode
-            ? "bg-black text-white disabled:hover:bg-black"
-            : "bg-transparent text-black hover:bg-inherit/50 font-bold border"
-        }`}
+        className="text-sm !px-6 !py-2 flex gap-2 items-center rounded-l-none rounded-r-md border border-black !text-black hover:!bg-gray-300 disabled:!bg-black disabled:!text-white"
         variant={darkMode ? "solid" : "ghost"}
         disabled={isLoaded || customMode === "dark"}
         onClick={() => handleModeChange(!darkMode)}

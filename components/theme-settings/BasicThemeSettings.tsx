@@ -67,7 +67,7 @@ export function BasicThemeSettings({
             />
           ))}
       </div>
-      <hr className="h-px my-[4.5px] bg-gray-300 border-0" />
+      <hr className="h-px bg-gray-300 border-0" />
       <SelectSettings
         {...{
           label: "Font Family",
