@@ -1,6 +1,6 @@
 import React from "react"
 import { toast } from "react-toast";
-import { Text } from "@stackshift/components-common";
+import { Text } from "components/ui";
 import { ColorPicker, SelectSettings, ToggleDarkMode } from "../theme-settings";
 import _ from "lodash";
 
