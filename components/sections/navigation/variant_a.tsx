@@ -23,7 +23,7 @@ function VariantA({
       <Flex
         align="center"
         justify="between"
-        className="relative px-6 py-6 bg-white"
+        className="relative px-6 py-6 bg-background"
       >
         {logo?.image && (
           <Link
@@ -76,7 +76,7 @@ function VariantA({
             as="link"
             ariaLabel={primaryButton?.label}
             link={primaryButton}
-            className="hidden lg:inline-block px-4 py-3 mb-2 text-gray-900 lg:ml-auto lg:mr-3 bg-gray-50 hover:bg-gray-100 font-semibold rounded-l-xl rounded-t-xl"
+            className="hidden lg:inline-block px-4 py-3 mb-2 text-gray-900 lg:ml-auto lg:mr-3 bg-gray-50 hover:bg-gray-100 font-semibold"
           >
             {primaryButton?.label}
           </Button>
@@ -86,7 +86,7 @@ function VariantA({
             as="link"
             ariaLabel={secondaryButton?.label}
             link={secondaryButton}
-            className="hidden lg:inline-block px-4 py-3 mb-2 leading-loose text-center text-white font-semibold bg-primary hover:bg-primary-foreground rounded-l-xl rounded-t-xl"
+            className="hidden lg:inline-block px-4 py-3 mb-2 leading-loose text-center text-white font-semibold bg-primary hover:bg-primary/50"
           >
             {secondaryButton?.label}
           </Button>
@@ -133,8 +133,8 @@ function VariantA({
                   <li className="mb-1" key={index}>
                     <Button
                       as="link"
-                      ariaLabel={link?.label}
-                      className="block w-full p-4 text-sm font-semibold text-gray-900 no-underline rounded hover:bg-secondary-foreground hover:text-primary"
+                      ariaLabel={link?.label || `Link ${index + 1}`}
+                      className="block w-full p-4 text-sm font-semibold text-gray-900 no-underline rounded hover:bg-secondary/50 hover:text-primary"
                       link={link}
                     >
                       {link?.label}
@@ -151,7 +151,7 @@ function VariantA({
                   ariaLabel={primaryButton?.label}
                   link={primaryButton}
                   as="link"
-                  className="block px-4 py-3 mb-3 text-xs font-semibold leading-loose text-center text-gray-900 bg-gray-50 hover:bg-gray-100 rounded-l-xl rounded-t-xl"
+                  className="block px-4 py-3 mb-3 text-xs font-semibold leading-loose text-center text-gray-900 bg-gray-50 hover:bg-gray-100"
                 >
                   {primaryButton?.label}
                 </Button>
@@ -161,7 +161,7 @@ function VariantA({
                   ariaLabel={secondaryButton?.label}
                   link={secondaryButton}
                   as="link"
-                  className={`block px-4 py-3 mb-2 leading-loose text-xs text-center text-white font-semibold bg-primary hover:bg-primary-foreground rounded-l-xl rounded-t-xl`}
+                  className={`block px-4 py-3 mb-2 leading-loose text-xs text-center text-white font-semibold bg-primary hover:bg-primary/50`}
                 >
                   {secondaryButton?.label}
                 </Button>
