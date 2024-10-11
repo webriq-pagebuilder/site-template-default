@@ -40,6 +40,7 @@
     "@stackshift/components-footer": "0.0.12",
     "@stackshift/components-header": "0.0.20",
     "@stackshift/components-how-it-works": "0.0.12",
+    "@stackshift/components-layout": "0.0.3",
     "@stackshift/components-logocloud": "0.0.14",
     "@stackshift/components-navigation": "0.0.18",
     "@stackshift/components-newsletter": "0.0.17",

@@ -3400,12 +3400,6 @@
     base64url "^3.0.1"
     tslib "^2.3.1"
 
-<<<<<<< HEAD
-"@sinclair/typebox@^0.27.8":
-  version "0.27.8"
-  resolved "https://registry.yarnpkg.com/@sinclair/typebox/-/typebox-0.27.8.tgz#6667fac16c436b5434a387a34dedb013198f6e6e"
-  integrity sha512-+Fj43pSMwJs4KRrH/938Uf+uAELIgVBmQzg/q1YG10djyfA3TnrU8N8XzqCh/okZdszqBQTZf96idMfE5lnwTA==
-
 "@stackshift/components-app-promo@0.0.15":
   version "0.0.15"
   resolved "https://registry.yarnpkg.com/@stackshift/components-app-promo/-/components-app-promo-0.0.15.tgz#51022246bdd93e608d2c35a0750522c73ef305fe"
@@ -3485,6 +3479,13 @@
   dependencies:
     "@sanity/incompatible-plugin" "^1.0.4"
 
+"@stackshift/components-layout@0.0.3":
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/@stackshift/components-layout/-/components-layout-0.0.3.tgz#82eb3e7179ee6d5061a8128a57310199f396308b"
+  integrity sha512-/yvwxzd8pAhIRMpluSbrAfcN/L5wPXwj9+SJweqTrVa39QhdBRkzVKOWyEROdn/HHSlV8LC+LO5hJCarMJL2sw==
+  dependencies:
+    "@sanity/incompatible-plugin" "^1.0.4"
+
 "@stackshift/components-logocloud@0.0.14":
   version "0.0.14"
   resolved "https://registry.yarnpkg.com/@stackshift/components-logocloud/-/components-logocloud-0.0.14.tgz#201a8bf929a9aec0a984c0d3000d5631c0faf9e1"
@@ -3548,8 +3549,6 @@
   dependencies:
     "@sanity/incompatible-plugin" "^1.0.4"
 
-=======
->>>>>>> 498845a583ae72153cb5cdfa35dc679710c91020
 "@storybook/addon-actions@8.0.0":
   version "8.0.0"
   resolved "https://registry.yarnpkg.com/@storybook/addon-actions/-/addon-actions-8.0.0.tgz#651921b2430bdd74ec4f96f23eb19ab0c18691df"

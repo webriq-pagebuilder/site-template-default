@@ -7,8 +7,9 @@ import useScript from "utils/useScript";
 import { setProjectTheme } from "utils/theme";
 import { sanityClient } from "lib/sanity.client";
 import { defaultThemeConfig } from "components/theme-settings/defaultThemeConfig";
-import "vanilla-cookieconsent/dist/cookieconsent.css";
 
+// global styles
+import "vanilla-cookieconsent/dist/cookieconsent.css";
 import "../styles/globals.css";
 
 function App({ Component, pageProps }: AppProps) {
@@ -17,6 +18,7 @@ function App({ Component, pageProps }: AppProps) {
   const [themeConfig, setThemeConfig] = useState(theme);
 
   const router = useRouter();
+
   // patch: cleanup `secret=<secret>&slug=<slug>` when on preview mode as this causes ECWID to refresh indefinitely
   useEffect(() => {
     if (
@@ -72,14 +74,12 @@ function App({ Component, pageProps }: AppProps) {
     });
 
     // listen to real-time updates to theme settings
-    const subscription = sanityClient
-      .listen(query)
-      .subscribe((config) => {
-        if (config) {
-          const theme = config?.result;
-          setThemeConfig(theme);
-        }
-      });
+    const subscription = sanityClient.listen(query).subscribe((config) => {
+      if (config) {
+        const theme = config?.result;
+        setThemeConfig(theme);
+      }
+    });
 
     return () => {
       subscription.unsubscribe();

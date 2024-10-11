@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
-import { Container } from "components/layout/index";
-import { Text, Heading } from "components/ui";
+import { Container } from "@stackshift/components-layout";
+import { Text, Heading } from "@stackshift/components-common";
 
 function Success() {
   return (
