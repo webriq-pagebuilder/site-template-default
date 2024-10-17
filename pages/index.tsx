@@ -12,6 +12,9 @@ import { PreviewBanner } from "components/PreviewBanner";
 import InlineEditorContextProvider from "context/InlineEditorContext";
 import { CommonPageData, SeoTags, SeoSchema } from "types";
 import { addSEOJsonLd } from "components/SEO";
+import { ThemeSettings } from "components/ThemeSettings";
+import { ThemeSettingsProvider } from "context/ThemeSettingsContext";
+import { defaultThemeConfig } from "components/theme-settings/defaultThemeConfig";
 
 interface HomeProps {
   data: Data;
@@ -20,6 +23,7 @@ interface HomeProps {
   source?: string;
   seo?: SeoTags[];
   seoSchema?: SeoSchema;
+  theme?: any;
 }
 
 interface DocumentWithPreviewProps {
@@ -38,8 +42,9 @@ interface PageData extends CommonPageData {
   hasNeverPublished?: boolean | null;
 }
 
-function Home({ data, preview, token, source }: HomeProps) {
+function Home({ data, preview, token, source, theme }: HomeProps) {
   const showInlineEditor = source === "studio";
+  const showThemeSetting = source === "theme";
 
   if (!data?.pageData) {
     return null;
@@ -48,6 +53,11 @@ function Home({ data, preview, token, source }: HomeProps) {
       return (
         <>
           <PreviewBanner />
+          {showThemeSetting && (
+            <ThemeSettingsProvider preview={preview} themeSettings={theme}>
+              <ThemeSettings />
+            </ThemeSettingsProvider>
+          )}
           <PreviewSuspense fallback="Loading...">
             <InlineEditorContextProvider showInlineEditor={showInlineEditor}>
               <DocumentWithPreview {...{ data, token }} />
@@ -82,7 +92,11 @@ function Document({ data }: { data: Data }) {
   {
     /*  Show page sections */
   }
-  return data?.pageData && <PageSections data={publishedData} />;
+  return (
+    <PreviewSuspense fallback="Loading...">
+      {data?.pageData && <PageSections data={publishedData} />}
+    </PreviewSuspense>
+  );
 }
 
 /**
@@ -126,10 +140,17 @@ export const getStaticProps = async ({
       ? getClient(preview).withConfig({ token: previewData.token })
       : getClient(false);
 
-  const [indexPage, globalSEO] = await Promise.all([
+  const themeQuery = preview
+    ? "*[_type=='themeSettings'][0]"
+    : "*[_type=='themeSettings' && !(_id in path('drafts.**'))][0]";
+
+  const [indexPage, globalSEO, initialConfig] = await Promise.all([
     client.fetch(homeQuery),
     client.fetch(globalSEOQuery),
+    client.fetch(themeQuery),
   ]);
+
+  const theme = initialConfig || defaultThemeConfig;
 
   // pass page data and preview to helper function
   const pageData: PageData = filterDataToSingleItem(indexPage, preview);
@@ -139,7 +160,7 @@ export const getStaticProps = async ({
   // SEO tags
   const seo = SEO({
     data: {
-      title: data?.pageData?.title || "Stackshift | Home page",
+      title: data?.pageData?.title || "StackShift | Home page",
       type: data?.pageData?._type || "page",
       route: "",
       ...data?.pageData?.seo,
@@ -163,6 +184,7 @@ export const getStaticProps = async ({
   if (!pageData) {
     return {
       props: {
+        theme,
         preview,
         data: { pageData: null },
         seo,
@@ -173,6 +195,7 @@ export const getStaticProps = async ({
 
   return {
     props: {
+      theme,
       preview,
       token: (preview && previewData.token) || "",
       source: (preview && previewData.source) || "",

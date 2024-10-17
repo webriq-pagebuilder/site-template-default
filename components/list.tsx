@@ -1,26 +1,64 @@
 import dynamic from "next/dynamic";
 
 export const Components = {
-  navigation: dynamic(() => import("components/sections/navigation")),
-  header: dynamic(() => import("components/sections/header")),
-  features: dynamic(() => import("components/sections/features")),
-  portfolio: dynamic(() => import("components/sections/portfolio")),
-  blog: dynamic(() => import("components/sections/blog")),
-  contact: dynamic(() => import("components/sections/contact")),
+  navigation: dynamic(() =>
+    import("@stackshift/components-navigation").then((m) => m.Navigation)
+  ),
+  header: dynamic(() =>
+    import("@stackshift/components-header").then((m) => m.Header)
+  ),
+  features: dynamic(() =>
+    import("@stackshift/components-features").then((m) => m.Features)
+  ),
+  portfolio: dynamic(() =>
+    import("@stackshift/components-portfolio").then((m) => m.Portfolio)
+  ),
+  blog: dynamic(() =>
+    import("@stackshift/components-blog").then((m) => m.Blog)
+  ),
+  contact: dynamic(() =>
+    import("@stackshift/components-contact").then((m) => m.Contact)
+  ),
   pricing: dynamic(() => import("components/sections/pricing")),
-  testimonial: dynamic(() => import("components/sections/testimonials")),
-  team: dynamic(() => import("components/sections/team")),
-  howItWorks: dynamic(() => import("components/sections/how_it_works")),
-  newsletter: dynamic(() => import("components/sections/newsletter")),
-  faqs: dynamic(() => import("components/sections/faqs")),
-  callToAction: dynamic(() => import("components/sections/call_to_action")),
-  stats: dynamic(() => import("components/sections/stats")),
-  cookies: dynamic(() => import("components/sections/cookies")),
-  appPromo: dynamic(() => import("components/sections/app_promo")),
-  logoCloud: dynamic(() => import("components/sections/logoCloud")),
-  footer: dynamic(() => import("components/sections/footer")),
-  signInSignUp: dynamic(() => import("components/sections/sign_in_sign_up")),
-  textComponent: dynamic(() => import("components/sections/text_component")),
+  testimonial: dynamic(() =>
+    import("@stackshift/components-testimonial").then((m) => m.Testimonial)
+  ),
+  team: dynamic(() =>
+    import("@stackshift/components-team").then((m) => m.Team)
+  ),
+  howItWorks: dynamic(() =>
+    import("@stackshift/components-how-it-works").then((m) => m.HowItWorks)
+  ),
+  newsletter: dynamic(() =>
+    import("@stackshift/components-newsletter").then((m) => m.Newsletter)
+  ),
+  faqs: dynamic(() =>
+    import("@stackshift/components-faqs").then((m) => m.Faqs)
+  ),
+  callToAction: dynamic(() =>
+    import("@stackshift/components-call-to-action").then((m) => m.CallToAction)
+  ),
+  stats: dynamic(() =>
+    import("@stackshift/components-statistics").then((m) => m.Statistics)
+  ),
+  cookies: dynamic(() =>
+    import("@stackshift/components-cookies").then((m) => m.Cookies)
+  ),
+  appPromo: dynamic(() =>
+    import("@stackshift/components-app-promo").then((m) => m.AppPromo)
+  ),
+  logoCloud: dynamic(() =>
+    import("@stackshift/components-logocloud").then((m) => m.LogoCloud)
+  ),
+  footer: dynamic(() =>
+    import("@stackshift/components-footer").then((m) => m.Footer)
+  ),
+  signInSignUp: dynamic(() =>
+    import("@stackshift/components-signin-signup").then((m) => m.SigninSignup)
+  ),
+  textComponent: dynamic(() =>
+    import("@stackshift/components-text-component").then((m) => m.TextComponent)
+  ),
   // C-Studio
   cartSection: dynamic(() => import("components/sections/cart_section")),
   featuredProducts: dynamic(
