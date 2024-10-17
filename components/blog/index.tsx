@@ -10,8 +10,12 @@ import Link from "next/link";
 import React from "react";
 import { BlogsData, MyPortableTextComponents } from "types";
 
-const Navigation = dynamic(() => import("components/sections/navigation"));
-const Footer = dynamic(() => import("components/sections/footer"));
+const Navigation = dynamic(() =>
+  import("@stackshift/components-navigation").then((m) => m.Navigation)
+);
+const Footer = dynamic(() =>
+  import("@stackshift/components-footer").then((m) => m.Footer)
+);
 // block styling as props to `components` of the PortableText component
 const blockStyle: MyPortableTextComponents = {
   block: {
