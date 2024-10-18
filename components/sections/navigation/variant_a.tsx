@@ -230,7 +230,7 @@ function Buttons({
           link={primaryButton}
           ariaLabel={primaryButton?.label}
           variant="outline"
-          className="hidden lg:flex px-4 py-3 mb-2 leading-loose text-center font-semibold text-gray-900 bg-secondary hover:bg-secondary/50 rounded-l-xl rounded-t-xl"
+          className="hidden lg:flex px-4 py-3 mb-2 leading-loose text-center text-gray-900 font-semibold bg-secondary hover:bg-secondary/50 rounded-l-xl rounded-t-xl"
         >
           {primaryButton?.label}
         </Button>
