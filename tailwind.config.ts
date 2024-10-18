@@ -10,9 +10,10 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: "rgba(var(--color-primary), <alpha-value>)",
-        secondary: "rgba(var(--color-secondary), <alpha-value>)",
-        background: "rgba(var(--color-background), <alpha-value>)",
+        primary: "rgba(var(--color-primary, 0, 69, 216), <alpha-value>)", // Default to #0045d8
+        secondary: "rgba(var(--color-secondary, 53, 118, 255), <alpha-value>)", // Default to #3576ff
+        background:
+          "rgba(var(--color-background, 249, 250, 251), <alpha-value>)", // Default to #F9FAFB
       },
       borderRadius: {
         none: "0px",
