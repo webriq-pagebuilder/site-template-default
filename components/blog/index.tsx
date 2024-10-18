@@ -13,7 +13,7 @@ import React from "react";
 import { BlogsData, MyPortableTextComponents } from "types";
 
 const Navigation = dynamic(() =>
-  import("@stackshift-ui/navigation").then((m) => m.Navigation)
+  import("components/sections/navigation").then((m) => m.Navigation)
 );
 const Footer = dynamic(() =>
   import("@stackshift-ui/footer").then((m) => m.Footer)

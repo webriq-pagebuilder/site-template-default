@@ -1,6 +1,6 @@
-import { Flex } from "@webriq-test/flex";
-import { Button } from "@webriq-test/button";
-import { Text } from "@webriq-test/text";
+import { Flex } from "@stackshift-ui/flex";
+import { Button } from "@stackshift-ui/button";
+import { Text } from "@stackshift-ui/text";
 import { EcwidContextProvider } from "context/EcwidContext";
 import { logoLink } from "helper";
 import { PortableText, urlFor } from "lib/sanity";

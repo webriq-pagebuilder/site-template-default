@@ -3781,22 +3781,6 @@
     "@stackshift-ui/system" "2.0.0"
     "@stackshift-ui/text" "1.0.0"
 
-"@stackshift-ui/navigation@1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@stackshift-ui/navigation/-/navigation-1.0.0.tgz#89a99a0a6953dbf1b99b6aa1186f7044d5e0c9a5"
-  integrity sha512-IdjNK8rspiLHLHWV1obDb9KZ6JA7gwidc12jGuvBw0saFcQp9F0ctsuI4S7e+JvcOk5O5qBoKfMiHreuhc8Bgg==
-  dependencies:
-    "@portabletext/react" "^3.1.0"
-    "@stackshift-ui/button" "1.0.0"
-    "@stackshift-ui/container" "1.0.0"
-    "@stackshift-ui/flex" "1.0.0"
-    "@stackshift-ui/image" "1.0.0"
-    "@stackshift-ui/link" "1.0.0"
-    "@stackshift-ui/scripts" "1.0.0"
-    "@stackshift-ui/section" "1.0.0"
-    "@stackshift-ui/system" "2.0.0"
-    "@stackshift-ui/text" "1.0.0"
-
 "@stackshift-ui/newsletter@1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@stackshift-ui/newsletter/-/newsletter-1.0.0.tgz#823edef0375917671c2e5411670d033db79d059b"
