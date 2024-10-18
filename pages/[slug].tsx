@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 import { useRouter } from "next/router";
 import { groq } from "next-sanity";
 import { PreviewSuspense } from "next-sanity/preview";
@@ -112,13 +112,13 @@ function Document({ data }: { data: Data }) {
   }
 
   return (
-    <PreviewSuspense fallback="Loading...">
+    <Suspense fallback={null}>
       {/*  Show page sections */}
       {data?.pageData && <PageSections data={data?.pageData} />}
 
       {/* Show Blog sections */}
       {data?.blogData && <BlogSections data={data?.blogData} />}
-    </PreviewSuspense>
+    </Suspense>
   );
 }
 
