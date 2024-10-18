@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 import { PreviewSuspense } from "next-sanity/preview";
 import { getClient } from "lib/sanity.client";
 import { homeQuery, globalSEOQuery } from "./api/query";
@@ -93,9 +93,9 @@ function Document({ data }: { data: Data }) {
     /*  Show page sections */
   }
   return (
-    <PreviewSuspense fallback="Loading...">
+    <Suspense fallback={null}>
       {data?.pageData && <PageSections data={publishedData} />}
-    </PreviewSuspense>
+    </Suspense>
   );
 }
 
