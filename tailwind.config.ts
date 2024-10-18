@@ -4,6 +4,7 @@ export default {
   content: [
     "./pages/**/*.{js,ts,jsx,tsx}",
     "./components/**/*.{js,ts,jsx,tsx}",
+    "./node_modules/@stackshift-ui/**/*.{js,ts,jsx,tsx}",
   ],
   darkMode: "selector",
   theme: {
