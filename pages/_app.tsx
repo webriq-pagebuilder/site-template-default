@@ -7,7 +7,7 @@ import useScript from "utils/useScript";
 import { setProjectTheme } from "utils/theme";
 import { sanityClient } from "lib/sanity.client";
 import { defaultThemeConfig } from "components/theme-settings/defaultThemeConfig";
-import { StackShiftUIProvider } from "@webriq-test/system";
+import { StackShiftUIProvider } from "@stackshift-ui/system";
 
 // global styles
 import "vanilla-cookieconsent/dist/cookieconsent.css";
