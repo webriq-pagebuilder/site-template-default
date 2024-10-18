@@ -3,7 +3,6 @@ import React from "react";
 import { mergeReplaceAndAdd } from "studio/utils";
 import pages from "./documents/pages";
 import { componentsData } from "components/componentsData";
-console.log("🚀 ~ componentsData:", componentsData);
 
 import { baseSchema } from "@webriq-pagebuilder/sanity-plugin-schema-default";
 const baseSchemaArray = Object.values(baseSchema);
