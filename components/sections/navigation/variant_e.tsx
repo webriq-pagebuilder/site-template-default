@@ -1,5 +1,6 @@
-import { Flex } from "components/layout/Flex/Flex";
-import { Button, Text } from "components/ui";
+import { Flex } from "@stackshift-ui/flex";
+import { Button } from "@stackshift-ui/button";
+import { Text } from "@stackshift-ui/text";
 import { EcwidContextProvider } from "context/EcwidContext";
 import { logoLink } from "helper";
 import { PortableText, urlFor } from "lib/sanity";
@@ -130,7 +131,7 @@ function VariantE({ banner, logo, links }: NavigationProps) {
                 rel={logo?.linkTarget === "_blank" ? "noopener noreferrer" : ""}
               >
                 <Image
-                  src={urlFor(logo?.image)}
+                  src={logo?.image}
                   width={48}
                   height={48}
                   alt={logo?.alt ?? "navigation-logo"}
@@ -309,7 +310,7 @@ function VariantE({ banner, logo, links }: NavigationProps) {
                   }
                 >
                   <Image
-                    src={urlFor(logo?.image)}
+                    src={logo?.image}
                     width={48}
                     height={48}
                     alt={logo?.alt ?? "navigation-logo"}

@@ -5,8 +5,10 @@ import { useEcwid } from "context/EcwidContext";
 import Ribbon from "components/ecwid/Ribbon";
 
 import { FeaturedProductsProps } from ".";
-import { Container, Flex } from "components/layout/index";
-import { Heading, Text } from "components/ui";
+import { Container } from "@stackshift-ui/container";
+import { Flex } from "@stackshift-ui/flex";
+import { Heading } from "@stackshift-ui/heading";
+import { Text } from "@stackshift-ui/text";
 
 function VariantA({ title, featured }: FeaturedProductsProps) {
   const ecwid = useEcwid();

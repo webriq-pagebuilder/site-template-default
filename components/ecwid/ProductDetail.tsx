@@ -7,7 +7,7 @@ import ItemInBag from "./ItemInBag";
 import { isEmpty } from "lodash";
 
 import { EcwidTypes } from "context/_ecwid-types";
-import { Button } from "components/ui/Button";
+import { Button } from "@stackshift-ui/button";
 
 interface ProductDetailProps {
   product:

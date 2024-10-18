@@ -1,3 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -40,6 +44,22 @@ html#ecwid_html body#ecwid_body .ec-minicart--m .ec-minicart__counter::after {
 html#ecwid_html body#ecwid_body .ec-size .ec-store .ec-breadcrumbs {
   display: none !important;
 }
+
+/*
+   THEME SETTINGS 
+   
+   Default dark mode background and text color 
+   To override this, add background and text color classes along with a 'dark:' prefix to target components
+
+   Example: 
+   <button className="bg-blue-500 text-white dark:bg-blue-50 text-blue-500">
+     Save
+   </button>
+*/
+:is(.dark) {
+  @apply bg-background text-white
+}
+/* END OF THEME SETTINGS */
 
 /* hide navigation sidebar when screen is less than screen size */
 @media (min-width: 1024px) {
@@ -217,6 +237,46 @@ ul[aria-label="List of Content"] > li:last-child:before {
   fill: red;
 }
 /**** end of STUDIO > COMPONENTS > component filter ****/
-
-
 /* End */
+
+/* theme settings color picker */
+.color-picker {
+  margin-bottom: 10px;
+}
+
+.custom-layout .react-colorful__saturation {
+  margin: 15px 0;
+  border-radius: 5px;
+  border-bottom: none;
+}
+
+.custom-layout .react-colorful__hue {
+  order: 0;
+}
+
+.custom-layout .react-colorful__pointer {
+  position: absolute;
+  z-index: 1;
+  box-sizing: border-box;
+  width: 20px;
+  height: 20px;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.custom-layout .react-colorful__hue,
+.custom-layout .react-colorful__alpha {
+  height: 10px;
+  border-radius: 5px;
+}
+
+.custom-layout .react-colorful__hue-pointer,
+.custom-layout .react-colorful__alpha-pointer {
+  width: 20px;
+  height: 20px;
+}
+
+/* END OF theme settings color picker */
