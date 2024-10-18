@@ -3420,7 +3420,7 @@
     base64url "^3.0.1"
     tslib "^2.3.1"
 
-"@stackshift-ui/app-promo@1.0.0":
+"@stackshift-ui/app-promo@^1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@stackshift-ui/app-promo/-/app-promo-1.0.0.tgz#1eb2eae40501bc78e4a5c0ffe6de7d0fe6b9fea6"
   integrity sha512-HFNukLyp/mXzyCp7TbIUApd1XNmkb+1FBzV16ZfK6h/NQArUBdo9/1BJkdyKW1mYMFcDKHvkzYsGuG0XtMeJ2A==
@@ -3457,7 +3457,7 @@
     "@stackshift-ui/system" "2.0.0"
     classnames "^2.5.1"
 
-"@stackshift-ui/blockstyle@1.0.0":
+"@stackshift-ui/blockstyle@^1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@stackshift-ui/blockstyle/-/blockstyle-1.0.0.tgz#35917ebe507eef29a1148db6e5658e4ddaba44f6"
   integrity sha512-p8cKgqmxHBcfBK/EW6Cek7/BT1RbE1hfyjQlEPMdjtEJdgE5Xh/k3MBdBa3I6GOo1909aiizK9y2rGVUawe+fw==
@@ -3470,7 +3470,7 @@
     "@stackshift-ui/system" "2.0.0"
     "@stackshift-ui/text" "1.0.0"
 
-"@stackshift-ui/blog@1.0.0":
+"@stackshift-ui/blog@^1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@stackshift-ui/blog/-/blog-1.0.0.tgz#34af65a785927141aefe4f91cef26399fcaf1465"
   integrity sha512-lMl4VAIkHuAYaXHyc2dnDj3/3dTua2jlfFtZUZMXKlQmu3xcUqrYhJY4wlXCc0yV7fYusoDkHWJexD4ZyBENNA==
@@ -3490,7 +3490,7 @@
     "@stackshift-ui/text" "1.0.0"
     classnames "^2.5.1"
 
-"@stackshift-ui/button@1.0.0":
+"@stackshift-ui/button@1.0.0", "@stackshift-ui/button@^1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@stackshift-ui/button/-/button-1.0.0.tgz#15959d3ea0ab19560486625b84c89c7c9ef903e4"
   integrity sha512-q5nZ+e6K4s4hpcTxzN0aDu0RRvrG91wHFOcEFqvU46ln7vy+ypFfeindCmgytqXI4XnqABn3VG7UrNv4T7vo1A==
@@ -3501,7 +3501,7 @@
     classnames "^2.5.1"
     react-icons "^5.3.0"
 
-"@stackshift-ui/call-to-action@1.0.0":
+"@stackshift-ui/call-to-action@^1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@stackshift-ui/call-to-action/-/call-to-action-1.0.0.tgz#2702e1c531648b0db68193a8a543eb63340527aa"
   integrity sha512-/bnLvA49ivLtSdxlA88CAla5qq40/IU7bk63eGAxW2KEL6B3q3LPtxxyox/N2bJ+ohvaEA8XZ/Rh4OqnV/goZA==
@@ -3547,7 +3547,7 @@
     "@stackshift-ui/system" "2.0.0"
     classnames "^2.5.1"
 
-"@stackshift-ui/contact@1.0.0":
+"@stackshift-ui/contact@^1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@stackshift-ui/contact/-/contact-1.0.0.tgz#142d0f3e1698a63340cae54d5b978c59f71d287e"
   integrity sha512-9/EMh6Jmb6askwLAy+FTwQYFgjOKifWveDmMgSMFKV09geIak9EIs+yayvKV4X16xchcvjhorBZX+GrHNWXxIg==
@@ -3569,7 +3569,7 @@
     "@stackshift-ui/text" "1.0.0"
     classnames "^2.5.1"
 
-"@stackshift-ui/container@1.0.0":
+"@stackshift-ui/container@1.0.0", "@stackshift-ui/container@^1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@stackshift-ui/container/-/container-1.0.0.tgz#00af53a37f474b22ef4dcce591c2324849f469d1"
   integrity sha512-a5XdfrzOy+T0Kh4m2d/XZUYpyhI02jbt4EaF5Z8XcsY66By+aRZvzA0TFj1C7fyhUo1hgxmA5ParrnwEvaNhaw==
@@ -3578,7 +3578,7 @@
     "@stackshift-ui/system" "2.0.0"
     classnames "^2.5.1"
 
-"@stackshift-ui/cookies@1.0.0":
+"@stackshift-ui/cookies@^1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@stackshift-ui/cookies/-/cookies-1.0.0.tgz#83daf3f8ff6d1ed25c9ce699382367096089d0e9"
   integrity sha512-aOHQ3GkDrcPiae6GoQAXw569DpOS59SXoz/jR0r4gR1Gws2180yFoYqXuTTQTXCJouKyUkG5pAQkRGnDjE85Fw==
@@ -3587,7 +3587,7 @@
     "@stackshift-ui/system" "2.0.0"
     vanilla-cookieconsent "3.0.1"
 
-"@stackshift-ui/faqs@1.0.0":
+"@stackshift-ui/faqs@^1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@stackshift-ui/faqs/-/faqs-1.0.0.tgz#681e610bcf3f73554145b6e7cd6834ecfdcd8a14"
   integrity sha512-MYjT5Lnv69CYEVERwjKl8eq6Y2ifDmlioNHjsXKPbXt2CSeX96DRMAXsy+Wp+NgIplrIYpdATcWQ0oUO5TDXtQ==
@@ -3604,7 +3604,7 @@
     "@stackshift-ui/text" "1.0.0"
     classnames "^2.5.1"
 
-"@stackshift-ui/features@1.0.0":
+"@stackshift-ui/features@^1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@stackshift-ui/features/-/features-1.0.0.tgz#10d063c336564ed62ffc00abcb7cdb231342d621"
   integrity sha512-1V9jE+IY/yzRhsbvGvGGOdO1/7t9INLSxj5vqH1cmfpUcDbHbDSxD2nvgthzxMWCZpe5f4Z5svoa4tAcyRyblg==
@@ -3621,7 +3621,7 @@
     "@stackshift-ui/text" "1.0.0"
     classnames "^2.5.1"
 
-"@stackshift-ui/flex@1.0.0":
+"@stackshift-ui/flex@1.0.0", "@stackshift-ui/flex@^1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@stackshift-ui/flex/-/flex-1.0.0.tgz#bb0f10ed6f8aa5807c7176cf49f8bb42396d16a8"
   integrity sha512-VUJ/2YQYW8wsh/HJ7k7I+/V6a+ocE08YQT9yv1ioR3EoNpJQQ5+A3+ODLQwe/IfbxoJMIXRPqpTKrSPXrLN2lw==
@@ -3630,7 +3630,7 @@
     "@stackshift-ui/system" "2.0.0"
     classnames "^2.5.1"
 
-"@stackshift-ui/footer@1.0.0":
+"@stackshift-ui/footer@^1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@stackshift-ui/footer/-/footer-1.0.0.tgz#a6c659be6fa3843dfb3d2567866ef6a60c9c9c53"
   integrity sha512-uq0liI5yZQgeIN7Lyv7n8Q7Si4gz5FDUEq5jjV2vBP7rNXA4+Ydb9PgVfawq0Tull6bFNibKYs61vrWKY0bFNQ==
@@ -3649,7 +3649,7 @@
     "@stackshift-ui/text" "1.0.0"
     classnames "^2.5.1"
 
-"@stackshift-ui/form-field@1.0.0":
+"@stackshift-ui/form-field@1.0.0", "@stackshift-ui/form-field@^1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@stackshift-ui/form-field/-/form-field-1.0.0.tgz#3bcc206d6370ee3c154f208b293b23792502237e"
   integrity sha512-wYwA+h0e/lfNXkGINGoRQoWTHK0xdrtdJavI5LHfPUOCjjlP5la7RfEp6BtpydIVYxtxXf5bZ4fJM32gEPKq2A==
@@ -3683,7 +3683,7 @@
     "@stackshift-ui/system" "2.0.0"
     classnames "^2.5.1"
 
-"@stackshift-ui/grid@1.0.0":
+"@stackshift-ui/grid@1.0.0", "@stackshift-ui/grid@^1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@stackshift-ui/grid/-/grid-1.0.0.tgz#3d45a8d0364370ed05540d70a240d4c698b0d389"
   integrity sha512-5Use1sK1e8+aXP/MBJFa5ZwE1YWm1pbhSrE4t4/r77ZTgHZLWiJqfmATFrGShguqzID+zFylRo0VSzZdiYthXQ==
@@ -3692,7 +3692,7 @@
     "@stackshift-ui/system" "2.0.0"
     classnames "^2.5.1"
 
-"@stackshift-ui/header@1.0.0":
+"@stackshift-ui/header@^1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@stackshift-ui/header/-/header-1.0.0.tgz#abc80cdd44590ebd41805840df3801bdc42803ba"
   integrity sha512-RQS1ZLQaNCVwcqcgRmU6OYqjClUjN3tOK7GpfwpMnYCpAyp8ruZt77tpwMaR+i9pPBLU8Z8yBaHaEzPdy1tcgw==
@@ -3707,7 +3707,7 @@
     "@stackshift-ui/system" "2.0.0"
     "@stackshift-ui/text" "1.0.0"
 
-"@stackshift-ui/heading@1.0.0":
+"@stackshift-ui/heading@1.0.0", "@stackshift-ui/heading@^1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@stackshift-ui/heading/-/heading-1.0.0.tgz#611e0e53e26dc8f2abd9dd23399d7a45c9d2020e"
   integrity sha512-JIKKTfafs4GpHU8gf++iU3DHzNgz2sxv6ZrQw6Cti93Y/R0j+OlAhwJHbp0gH7B8euwKYH32zYNLbuZYiWU7jg==
@@ -3716,7 +3716,7 @@
     "@stackshift-ui/system" "2.0.0"
     classnames "^2.5.1"
 
-"@stackshift-ui/how-it-works@1.0.0":
+"@stackshift-ui/how-it-works@^1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@stackshift-ui/how-it-works/-/how-it-works-1.0.0.tgz#4e47a80179b534b06bc32cfad6f6eba824fec8dc"
   integrity sha512-iZaBRrxqS6+Duz9gVuech90hw+gh1NB1RIHElr1cG1P22BpwAgjsHDEUQbwgwyzOA+SNB9OtwOCiLxHHum7Nqw==
@@ -3732,7 +3732,7 @@
     "@stackshift-ui/youtube-video" "1.0.0"
     classnames "^2.5.1"
 
-"@stackshift-ui/image@1.0.0":
+"@stackshift-ui/image@1.0.0", "@stackshift-ui/image@^1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@stackshift-ui/image/-/image-1.0.0.tgz#8de0db6e7f1eabac2692413f479d42781cd3b9c3"
   integrity sha512-bD/914GofZHsFXl9Xs9Dh+S6G2ufGr3GmT7A/POUHItQ85jUZP78JRAAEJ6T2lFUa4K1czQW6jxQLnYAkOo3Vg==
@@ -3749,7 +3749,7 @@
     "@stackshift-ui/system" "2.0.0"
     classnames "^2.5.1"
 
-"@stackshift-ui/input@1.0.0":
+"@stackshift-ui/input@1.0.0", "@stackshift-ui/input@^1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@stackshift-ui/input/-/input-1.0.0.tgz#848d9483b89c888ba2d6c1a308c507d60b7cdfb0"
   integrity sha512-EO7jhe+Tz8HODFxN1JUMqkjqXhq2mGQJf6S/tUDbullWs3b5Ika7BJoSf70Iah1KsgpvnUGMYzXgP5UsZF9w1w==
@@ -3758,7 +3758,7 @@
     "@stackshift-ui/system" "2.0.0"
     classnames "^2.5.1"
 
-"@stackshift-ui/link@1.0.0":
+"@stackshift-ui/link@1.0.0", "@stackshift-ui/link@^1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@stackshift-ui/link/-/link-1.0.0.tgz#5b6e8f50e311ff7b2aa5f1918eee0a7e5048b34f"
   integrity sha512-3senQDGtidORJWF31lw/UT/2AP0LW97fr9i+Y53C/a3Oi1p4uLaU5fC4vkp1Ys2Wss2UpEB1KBT3vMo4tF/izQ==
@@ -3766,7 +3766,7 @@
     "@stackshift-ui/scripts" "1.0.0"
     "@stackshift-ui/system" "2.0.0"
 
-"@stackshift-ui/logo-cloud@1.0.0":
+"@stackshift-ui/logo-cloud@^1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@stackshift-ui/logo-cloud/-/logo-cloud-1.0.0.tgz#67ac0abe9ef36213141f707100b5592cddbcdf1f"
   integrity sha512-UvCtm6UvxuDKw6GIRUxP93DtG4oZiEWEFtZuoPc00RsFYY0htCMqkSA0E1s6lXTpLIVmIa1fNQqYdzE6i1vffw==
@@ -3781,7 +3781,7 @@
     "@stackshift-ui/system" "2.0.0"
     "@stackshift-ui/text" "1.0.0"
 
-"@stackshift-ui/newsletter@1.0.0":
+"@stackshift-ui/newsletter@^1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@stackshift-ui/newsletter/-/newsletter-1.0.0.tgz#823edef0375917671c2e5411670d033db79d059b"
   integrity sha512-jkInJ6jH6F5OElx36xCzL8m3gQxfRyvbGJl0THE/84yLtF8EAxswTr9ExfHpNJtJvEqDFsVSEXU0Vrs+LIbsvQ==
@@ -3799,7 +3799,7 @@
     "@stackshift-ui/system" "2.0.0"
     "@stackshift-ui/text" "1.0.0"
 
-"@stackshift-ui/portfolio@1.0.0":
+"@stackshift-ui/portfolio@^1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@stackshift-ui/portfolio/-/portfolio-1.0.0.tgz#46e55c31cbcabbcbd623f81e700c1a5e6dddcf36"
   integrity sha512-24NIQqJuKNEHNwtBn2NjFZ8TcIkoGHd6Kw5wPg/Q/LxPCx5n+P/tQ3DzhfkjAYlznq2GmbYpwPte8emKpebpjw==
@@ -3838,7 +3838,7 @@
   resolved "https://registry.yarnpkg.com/@stackshift-ui/scripts/-/scripts-1.0.0.tgz#66da631a5b0fac64e5c3104bd7412e329fa91271"
   integrity sha512-tgEOHpXz7ZQfA12m2wAU+WC/S1IO0FXcdTDKew+DesAYktKeCFIjkfqukYKDvEbpMMeBSJe6ugHh28/k7eHUYw==
 
-"@stackshift-ui/section@1.0.0":
+"@stackshift-ui/section@1.0.0", "@stackshift-ui/section@^1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@stackshift-ui/section/-/section-1.0.0.tgz#27683e03c4bb54bd2b332477e980d07cfacd2e83"
   integrity sha512-ZPcfBp478imZWOUjRgsJIbv/y47gt1A8NsSzFyA+nh2go2k3gWclH+BHEtXl2EaAR4hfnyyN75UkJOmPmwPo3A==
@@ -3856,7 +3856,7 @@
     "@stackshift-ui/system" "2.0.0"
     classnames "^2.5.1"
 
-"@stackshift-ui/signin-signup@1.0.0":
+"@stackshift-ui/signin-signup@1.0.0", "@stackshift-ui/signin-signup@^1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@stackshift-ui/signin-signup/-/signin-signup-1.0.0.tgz#3069a4c0375bb307a355390c537f3be62ce4b34c"
   integrity sha512-viyVnWyj6JMs6va7jZn0tp+lNYhrB3b/f8e/sztH6vwhAVNU0g9LnKvep0RvhZrY/j0FhAzuDgsD53YBlDn+rg==
@@ -3887,7 +3887,7 @@
     classnames "^2.5.1"
     react-icons "^5.3.0"
 
-"@stackshift-ui/statistics@1.0.0":
+"@stackshift-ui/statistics@^1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@stackshift-ui/statistics/-/statistics-1.0.0.tgz#bff73ba2b939a17da3c4ca845ac433bd3a955f8e"
   integrity sha512-L2qGl6muQaXpYllnShzWOw9XU6kwRgKF4EYm0O32VoXD+R709O8aik1hcNVqFnX7T/8mJaxCPFhI9BF8r7K6kw==
@@ -3923,7 +3923,7 @@
     "@stackshift-ui/system" "2.0.0"
     classnames "^2.5.1"
 
-"@stackshift-ui/swiper-pagination@1.0.0":
+"@stackshift-ui/swiper-pagination@1.0.0", "@stackshift-ui/swiper-pagination@^1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@stackshift-ui/swiper-pagination/-/swiper-pagination-1.0.0.tgz#091c7b70f7a7d8f0f407d2541b290ab6421c6cc9"
   integrity sha512-+46aOEZfC9YmMh+tNe0urbPVGhn26AiiGz61MxDAS31cz8WzKT/+UafHtra4iftfdabBl7nZNzhEGo1gpJaqKg==
@@ -3932,7 +3932,7 @@
     "@stackshift-ui/system" "2.0.0"
     classnames "^2.5.1"
 
-"@stackshift-ui/system@1.0.0", "@stackshift-ui/system@2.0.0":
+"@stackshift-ui/system@2.0.0", "@stackshift-ui/system@^2.0.0":
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/@stackshift-ui/system/-/system-2.0.0.tgz#d3c9f2cf2787ca6f97482b9b3e3ee6bf8f825584"
   integrity sha512-s9eeDK4RfL0Mnaq8WNGv+Pc7qUilTlI/CK/w9O16ykd2u/LXhohs8llFREiLQI/PoXochYKyBub8FBAQ5/oA0Q==
@@ -3944,7 +3944,7 @@
     react-live "^4.1.7"
     react18-loaders latest
 
-"@stackshift-ui/team@1.0.0":
+"@stackshift-ui/team@^1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@stackshift-ui/team/-/team-1.0.0.tgz#9d2f87e66ece0c8109ed5184c51dd17610b4a04f"
   integrity sha512-2DUxMZanCz5h3iXQtCItlLT5rRm4U0oog8Pj8tXoWdhcuSwgvxI40EQYxNAWnInzMNMHw7RCKljBhv4K27fmaw==
@@ -3962,7 +3962,7 @@
     "@stackshift-ui/text" "1.0.0"
     classnames "^2.5.1"
 
-"@stackshift-ui/testimonial@1.0.0":
+"@stackshift-ui/testimonial@^1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@stackshift-ui/testimonial/-/testimonial-1.0.0.tgz#fdd9a825a024f9761f64dcf0534f47312d107dee"
   integrity sha512-a1ZDArhGkqGpYroAlH9GdT4ivyqlsAhnQ/9IJ+gAh/zY2kyAftfUJbJ50P6m2hyB0a0eBJ8KK3GK/OXdbka2vA==
@@ -3981,7 +3981,7 @@
     "@stackshift-ui/text" "1.0.0"
     classnames "^2.5.1"
 
-"@stackshift-ui/text-component@1.0.0":
+"@stackshift-ui/text-component@^1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@stackshift-ui/text-component/-/text-component-1.0.0.tgz#e181eaefb8955ed117602e3d31cb20ece3be6f17"
   integrity sha512-N16aHSqUon+07dIg3xb3+bw3aY1MZP0t5Qx/0f3o18SqKu1a9YLzJ7o3MTbLyiNDTkoRfZ7PC6FRH9/C4iha/Q==
@@ -3995,7 +3995,7 @@
     "@stackshift-ui/section" "1.0.0"
     "@stackshift-ui/system" "2.0.0"
 
-"@stackshift-ui/text@1.0.0":
+"@stackshift-ui/text@1.0.0", "@stackshift-ui/text@^1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@stackshift-ui/text/-/text-1.0.0.tgz#450912b6ba91d22104f306064967ef21c40948c2"
   integrity sha512-2B6+sR083mMIB0BVxf9qu+BSnrOcvosGMTgMJmI4CdZ9FkdIMtsxvO1/9NmbuojJ4i6Vlb9+OX0gOIZMqCdXPQ==
@@ -4013,7 +4013,7 @@
     "@stackshift-ui/system" "2.0.0"
     classnames "^2.5.1"
 
-"@stackshift-ui/webriq-form@1.0.0":
+"@stackshift-ui/webriq-form@1.0.0", "@stackshift-ui/webriq-form@^1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@stackshift-ui/webriq-form/-/webriq-form-1.0.0.tgz#a1ea92171878bb18f1cb297a503d5dd651b865d1"
   integrity sha512-9ZDkGEOzO6BapufWB7fV1t4mbuHyEeMffaMsUeWSzJZR6slwv5vMQXrpCcDp1MsXrDiIrzjtFxb/g6f8xC6BJg==
