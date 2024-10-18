@@ -27,8 +27,8 @@ export function ProductSections({ data }: ProductSectionsProps) {
   // if we have "slotProductInfo" section, then we have the placeholder for the productInfo values
   let slotSection = sections?.map((section) => {
     // get the index of the "slotProductInfo" section from Store > Commerce Pages > Products section
-    const getIndex = commonSections?.sections?.findIndex((item) =>
-      item?._type?.includes("slotProductInfo")
+    const getIndex = commonSections?.sections?.findIndex(
+      (item) => item?._type?.includes("slotProductInfo")
     );
 
     const newObj = {
@@ -61,8 +61,8 @@ export function ProductSections({ data }: ProductSectionsProps) {
       sectionsToDisplay = sections?.reduce(
         (defaultsArr, newArr) => {
           // get the index of the "slotProductInfo" section from Store > Commerce Pages > Products sections
-          const getIndex = commonSections?.sections?.findIndex((item) =>
-            item?._type?.includes("slotProductInfo")
+          const getIndex = commonSections?.sections?.findIndex(
+            (item) => item?._type?.includes("slotProductInfo")
           );
 
           // if the variant from the Store > Products page is a "defaultVariant", then replace it with the variant of Store > Commerce Pages > Products "slotProductInfo"
@@ -108,27 +108,35 @@ export function ProductSections({ data }: ProductSectionsProps) {
           }
 
           return (
-            <InlineEditor
-              document={currentDocument}
-              showInlineEditor={showInlineEditor}
-              key={index}
+            <ErrorBoundary
+              fallback={
+                process.env.NODE_ENV === "production" ? null : (
+                  <div>Error rendering component: {sectionType}</div>
+                )
+              }
             >
-              <EcwidContextProvider>
-                <Component
-                  template={{
-                    bg: "gray",
-                    color: "webriq",
-                  }}
-                  product={{
-                    name,
-                    ecwidProductId,
-                    price,
-                    description,
-                  }}
-                  data={section}
-                />
-              </EcwidContextProvider>
-            </InlineEditor>
+              <InlineEditor
+                document={currentDocument}
+                showInlineEditor={showInlineEditor}
+                key={index}
+              >
+                <EcwidContextProvider>
+                  <Component
+                    template={{
+                      bg: "gray",
+                      color: "webriq",
+                    }}
+                    product={{
+                      name,
+                      ecwidProductId,
+                      price,
+                      description,
+                    }}
+                    data={section}
+                  />
+                </EcwidContextProvider>
+              </InlineEditor>
+            </ErrorBoundary>
           );
         })}
     </>
