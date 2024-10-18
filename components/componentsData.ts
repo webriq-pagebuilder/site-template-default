@@ -19,7 +19,6 @@ import {
   textComponentData,
 } from "./data/schemas";
 
-// componentsData: navigation", "header", "features", "portfolio", "blog", "contact", "pricing", "testimonial", "team", "howItWorks", "newsletter", "faqs", "callToAction", "stats", "appPromo", "logoCloud", "footer", "signInSignUp", "textComponent", "cartSection", "featuredProducts", "productInfo", "wishlistSection", "pages_productInfo", "allProducts", "socialMediaFeed"
 export const componentsData = {
   // navigation: navigationData,
   header: headerData,
