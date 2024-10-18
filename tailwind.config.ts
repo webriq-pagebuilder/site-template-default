@@ -22,7 +22,7 @@ export default {
         md: "0.375rem",
         lg: "0.5rem",
         full: "9999px",
-        global: "var(--border-radius)",
+        global: "var(--border-radius, 0.25rem)",
       },
       spacing: {
         sm: "384px",
