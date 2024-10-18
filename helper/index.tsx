@@ -8,8 +8,8 @@ import {
   Logo,
   MyPortableTextComponents,
 } from "types";
-import { Heading } from "components/ui/Heading";
-import { Text } from "components/ui/Text";
+import { Heading } from "@stackshift-ui/heading";
+import { Text } from "@stackshift-ui/text";
 
 interface ConditionalLinkTypes {
   className?: string;

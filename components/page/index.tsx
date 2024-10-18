@@ -4,6 +4,7 @@ import { InlineEditorContext } from "context/InlineEditorContext";
 import InlineEditor from "components/InlineEditor";
 import { SocialMediaFeedContextProvider } from "context/SocialMediaFeedContext";
 import { PageData } from "pages/[slug]";
+import { ErrorBoundary } from "react-error-boundary";
 
 interface PageSectionsProps {
   data: PageData;
@@ -48,13 +49,30 @@ export function PageSections({ data }: PageSectionsProps) {
           }
 
           return (
-            <InlineEditor
-              document={currentDocument}
-              showInlineEditor={showInlineEditor}
-              key={index}
+            <ErrorBoundary
+              fallback={
+                process.env.NODE_ENV === "production" ? null : (
+                  <div>Error rendering component: {sectionType}</div>
+                )
+              }
             >
-              {section?._type === "socialMediaFeed" ? (
-                <SocialMediaFeedContextProvider>
+              <InlineEditor
+                document={currentDocument}
+                showInlineEditor={showInlineEditor}
+                key={index}
+              >
+                {section?._type === "socialMediaFeed" ? (
+                  <SocialMediaFeedContextProvider>
+                    <Component
+                      template={{
+                        bg: "gray",
+                        color: "webriq",
+                      }}
+                      {...{ [section._type]: section }}
+                      data={section}
+                    />
+                  </SocialMediaFeedContextProvider>
+                ) : (
                   <Component
                     template={{
                       bg: "gray",
@@ -63,18 +81,9 @@ export function PageSections({ data }: PageSectionsProps) {
                     {...{ [section._type]: section }}
                     data={section}
                   />
-                </SocialMediaFeedContextProvider>
-              ) : (
-                <Component
-                  template={{
-                    bg: "gray",
-                    color: "webriq",
-                  }}
-                  {...{ [section._type]: section }}
-                  data={section}
-                />
-              )}
-            </InlineEditor>
+                )}
+              </InlineEditor>
+            </ErrorBoundary>
           );
         })}
     </>

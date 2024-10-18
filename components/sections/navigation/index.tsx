@@ -1,7 +1,10 @@
-import React from "react";
 import dynamic from "next/dynamic";
-
-import { SectionsProps, Logo, LabeledRouteWithKey, LabeledRoute } from "types";
+import {
+  LabeledRoute,
+  LabeledRouteWithKey,
+  Logo,
+  SectionsProps,
+} from "../../../types";
 
 const Variants = {
   variant_a: dynamic(() => import("./variant_a")),
@@ -10,6 +13,14 @@ const Variants = {
   variant_d: dynamic(() => import("./variant_d")),
   variant_e: dynamic(() => import("./variant_e")),
 };
+
+export interface ResponsiveNavLinksProps {
+  menu: boolean;
+  showMenu: () => void;
+  links?: LabeledRouteWithKey[];
+  primaryButton?: LabeledRoute;
+  secondaryButton?: LabeledRoute;
+}
 
 export interface NavigationProps {
   template?: any;
@@ -20,19 +31,21 @@ export interface NavigationProps {
   banner?: any;
 }
 
-function Navigation({ template, data }: SectionsProps) {
+const displayName = "Navigation";
+
+export const Navigation: React.FC<SectionsProps> = ({ data }) => {
   const variant = data?.variant;
-  const Variant = Variants?.[variant];
+  const Variant = variant && Variants?.[variant as keyof typeof Variants];
 
   const props = {
-    template,
-    logo: data?.variants?.logo,
-    links: data?.variants?.routes,
-    primaryButton: data?.variants?.primaryButton,
-    secondaryButton: data?.variants?.secondaryButton,
-    banner: data?.variants?.banner,
+    logo: data?.variants?.logo ?? undefined,
+    links: data?.variants?.routes ?? undefined,
+    primaryButton: data?.variants?.primaryButton ?? undefined,
+    secondaryButton: data?.variants?.secondaryButton ?? undefined,
+    banner: data?.variants?.banner ?? undefined,
   };
 
   return Variant ? <Variant {...props} /> : null;
-}
-export default React.memo(Navigation);
+};
+
+Navigation.displayName = displayName;

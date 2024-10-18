@@ -1,30 +1,39 @@
+import React, { useEffect, useState } from "react";
 import type { AppProps } from "next/app";
-import Head from "next/head";
-import "../styles/globals.css";
 import { NEXT_PUBLIC_SANITY_STUDIO_IN_CSTUDIO } from "studio/config";
-import React, { useEffect } from "react";
-import useScript from "utils/useScript";
+import Head from "next/head";
 import { useRouter } from "next/router";
+import useScript from "utils/useScript";
+import { setProjectTheme } from "utils/theme";
+import { sanityClient } from "lib/sanity.client";
+import { defaultThemeConfig } from "components/theme-settings/defaultThemeConfig";
+import { StackShiftUIProvider } from "@stackshift-ui/system";
+
+// global styles
+import "vanilla-cookieconsent/dist/cookieconsent.css";
+import "../styles/globals.css";
 
 function App({ Component, pageProps }: AppProps) {
-  const { seo = [], seoSchema = {} } = pageProps;
+  const { seo = [], seoSchema = {}, preview, theme } = pageProps;
+
+  const [themeConfig, setThemeConfig] = useState(theme);
+
+  const router = useRouter();
+
+  // patch: cleanup `secret=<secret>&slug=<slug>` when on preview mode as this causes ECWID to refresh indefinitely
+  useEffect(() => {
+    if (
+      typeof window !== "undefined" &&
+      preview &&
+      location.search?.includes("secret=") &&
+      location.search?.includes("slug=")
+    ) {
+      router.push(`${window.location.pathname}`);
+    }
+  }, [preview, router]);
 
   if (NEXT_PUBLIC_SANITY_STUDIO_IN_CSTUDIO === "true") {
     let script_status = useScript(process.env.NEXT_PUBLIC_ECWID_SCRIPT);
-    const { preview } = pageProps;
-    const router = useRouter();
-
-    // patch: cleanup `secret=<secret>&slug=<slug>` when on preview mode as this causes ECWID to refresh indefinitely
-    useEffect(() => {
-      if (
-        typeof window !== "undefined" &&
-        preview &&
-        location.search?.includes("secret=") &&
-        location.search?.includes("slug=")
-      ) {
-        router.push(`${window.location.pathname}`);
-      }
-    }, [preview, router]);
 
     // for Ecwid script
     useEffect(() => {
@@ -52,9 +61,36 @@ function App({ Component, pageProps }: AppProps) {
     }, [script_status]);
   }
 
+  // get current theme settings
+  useEffect(() => {
+    const query = preview
+      ? "*[_type=='themeSettings'][0]"
+      : "*[_type=='themeSettings' && !(_id in path('drafts.**'))][0]";
+
+    // get initial theme settings
+    sanityClient.fetch(query).then((initialConfig) => {
+      const currentTheme = initialConfig;
+
+      setThemeConfig(currentTheme);
+    });
+
+    // listen to real-time updates to theme settings
+    const subscription = sanityClient.listen(query).subscribe((config) => {
+      if (config) {
+        const theme = config?.result;
+        setThemeConfig(theme);
+      }
+    });
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, [preview]);
+
   return (
     <>
       <Head>
+        <style>:root{setProjectTheme(themeConfig || defaultThemeConfig)}</style>
         {seo?.map((tags) => {
           if (tags?.key === "page-title") {
             return <title key={tags?.key}>{tags?.title}</title>;
@@ -72,7 +108,9 @@ function App({ Component, pageProps }: AppProps) {
           />
         )}
       </Head>
-      <Component {...pageProps} />
+      <StackShiftUIProvider components={{}}>
+        <Component {...pageProps} />
+      </StackShiftUIProvider>
     </>
   );
 }

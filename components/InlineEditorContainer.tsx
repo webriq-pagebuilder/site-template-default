@@ -8,7 +8,6 @@ import { InlineEditorProps } from "./InlineEditor";
 
 import "split-pane-react/esm/themes/default.css";
 import styles from "styles/InlineEditing.module.css";
-import { Button } from "./ui/Button";
 
 export default function InlineEditorContainer({
   document,

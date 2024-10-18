@@ -6,15 +6,53 @@ const conditionalLink = `
   "externalLink": linkExternal
 `;
 
+const mainImage = `"mainImage": {
+  "image": *[_type == "sanity.imageAsset" && _id == ^.mainImage.image.asset._ref][0].url
+}`;
+
+const logoImage = `"image": *[_type == "sanity.imageAsset" && _id == ^.image.asset._ref][0].url,`;
+
 const variants = `
   variants {
     ...,
     logo != null => {
       logo {
         alt,
-        image,
+        ${logoImage}
         linkTarget,
         ${conditionalLink}
+      }
+    },
+    images[] {
+      ${logoImage}
+    },
+    ${mainImage},
+    featuredItems != null => {
+      featuredItems[] {
+        ...,
+        ${mainImage},
+      }
+    },
+    arrayOfImageTitleAndText != null => {
+      arrayOfImageTitleAndText[] {
+        ...,
+        ${mainImage},
+      }
+    },
+    statItems != null => {
+      "stats": statItems[] {
+        ...,
+        ${mainImage},
+      }
+    },
+    faqsWithCategory != null => {
+      "faqsWithCategories": faqsWithCategory[] {
+        ...,
+      }
+    },
+    askedQuestions != null => {
+      "faqs": askedQuestions[] {
+        ...,
       }
     },
     primaryButton != null => {
@@ -34,25 +72,6 @@ const variants = `
     routes != null => {
       routes[] {
         ...,
-        ${conditionalLink}
-      }
-    },
-    config != null => {
-      config {
-        ...,
-        cookiePolicy {
-          ...,
-          cookiePolicyPage {
-            ...,
-            ${conditionalLink}
-          }
-        }
-      }
-    },
-    contactLink != null => {
-      contactLink {
-        ...,
-        label,
         ${conditionalLink}
       }
     },
@@ -89,9 +108,14 @@ const variants = `
         ${conditionalLink}
       }
     },
+     testimonials[] {
+      ...,
+      "mainImage": *[_type == "sanity.imageAsset" && _id == ^.mainImage.image.asset._ref][0].url
+    },
     portfolios != null => {
       portfolios[] {
         ...,
+        ${mainImage},
         content[] {
           ...,
           primaryButton {
@@ -111,6 +135,7 @@ const variants = `
         ...,
         content[] {
           ...,
+         ${mainImage},
           primaryButton {
             ...,
             label,
@@ -122,6 +147,12 @@ const variants = `
           label,
           ${conditionalLink}
         },
+      }
+    },
+    teams != null => {
+      teams[] {
+        ...,
+        ${mainImage},
       }
     },
     signInLink != null => {
@@ -137,13 +168,14 @@ const variants = `
       }
     },
     blogPosts != null => {
-      blogPosts[]->{
+      "posts": blogPosts[]->{
         ...,
         "link": slug.current,
         authors[]->{
           ...,
           "link": slug.current
         },
+        "mainImage": *[_type == "sanity.imageAsset" && _id == ^.mainImage.asset._ref][0].url,
         categories[]->
       }
     },

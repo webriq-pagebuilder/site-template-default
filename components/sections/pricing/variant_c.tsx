@@ -2,8 +2,11 @@ import React from "react";
 import axios from "axios";
 import { initiateCheckout } from "lib/checkout";
 import { PricingProps } from ".";
-import { Button, Card, Text, Heading } from "components/ui";
-import { Container, Flex } from "components/layout/index";
+import { Container } from "@stackshift-ui/container";
+import { Heading } from "@stackshift-ui/heading";
+import { Text } from "@stackshift-ui/text";
+import { Button } from "@stackshift-ui/button";
+import { Card } from "@stackshift-ui/card";
 
 function VariantC({
   caption,

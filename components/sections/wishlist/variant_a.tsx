@@ -3,8 +3,9 @@ import { urlFor } from "lib/sanity";
 import Image from "next/image";
 import { useEcwid } from "context/EcwidContext";
 import Ribbon from "components/ecwid/Ribbon";
-import { Container, Flex } from "components/layout/index";
-import { Text } from "components/ui/Text";
+import { Container } from "@stackshift-ui/container";
+import { Flex } from "@stackshift-ui/flex";
+import { Text } from "@stackshift-ui/text";
 
 function VariantA() {
   const ecwid = useEcwid();

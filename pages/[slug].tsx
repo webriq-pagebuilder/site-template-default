@@ -1,5 +1,4 @@
 import React from "react";
-import Head from "next/head";
 import { useRouter } from "next/router";
 import { groq } from "next-sanity";
 import { PreviewSuspense } from "next-sanity/preview";
@@ -17,6 +16,9 @@ import InlineEditorContextProvider from "context/InlineEditorContext";
 import { GetStaticPaths, GetStaticProps } from "next";
 import { CommonPageData, BlogsData, SeoTags, SeoSchema } from "types";
 import { addSEOJsonLd } from "components/SEO";
+import { ThemeSettings } from "components/ThemeSettings";
+import { ThemeSettingsProvider } from "context/ThemeSettingsContext";
+import { defaultThemeConfig } from "components/theme-settings/defaultThemeConfig";
 
 interface PageBySlugProps {
   data: Data;
@@ -25,6 +27,7 @@ interface PageBySlugProps {
   source: string;
   seo?: SeoTags[];
   seoSchema?: SeoSchema;
+  theme?: any;
 }
 
 interface DocumentWithPreviewProps {
@@ -46,10 +49,17 @@ export interface PageData extends CommonPageData {
   hasNeverPublished?: boolean | null;
 }
 
-export function PageBySlug({ data, preview, token, source }: PageBySlugProps) {
+export function PageBySlug({
+  data,
+  preview,
+  token,
+  source,
+  theme,
+}: PageBySlugProps) {
   const router = useRouter();
   const slug = router.query.slug;
   const showInlineEditor = source === "studio";
+  const showThemeSetting = source === "theme";
 
   if (!data?.pageData && !data?.blogData) {
     return <PageNotFound />;
@@ -58,6 +68,11 @@ export function PageBySlug({ data, preview, token, source }: PageBySlugProps) {
       return (
         <>
           <PreviewBanner />
+          {showThemeSetting && (
+            <ThemeSettingsProvider preview={preview} themeSettings={theme}>
+              <ThemeSettings />
+            </ThemeSettingsProvider>
+          )}
           <PreviewSuspense fallback="Loading...">
             <InlineEditorContextProvider showInlineEditor={showInlineEditor}>
               <DocumentWithPreview
@@ -97,13 +112,13 @@ function Document({ data }: { data: Data }) {
   }
 
   return (
-    <>
+    <PreviewSuspense fallback="Loading...">
       {/*  Show page sections */}
       {data?.pageData && <PageSections data={data?.pageData} />}
 
       {/* Show Blog sections */}
       {data?.blogData && <BlogSections data={data?.blogData} />}
-    </>
+    </PreviewSuspense>
   );
 }
 
@@ -168,11 +183,18 @@ export const getStaticProps: GetStaticProps = async ({
       ? getClient(preview).withConfig({ token: previewData.token })
       : getClient(false);
 
-  const [page, blogData, globalSEO] = await Promise.all([
+  const themeQuery = preview
+    ? "*[_type=='themeSettings'][0]"
+    : "*[_type=='themeSettings' && !(_id in path('drafts.**'))][0]";
+
+  const [page, blogData, globalSEO, initialConfig] = await Promise.all([
     client.fetch(slugQuery, { slug: params.slug }),
     client.fetch(blogQuery, { slug: params.slug }),
     client.fetch(globalSEOQuery),
+    client.fetch(themeQuery),
   ]);
+
+  const theme = initialConfig || defaultThemeConfig;
 
   // pass page data and preview to helper function
   const singlePageData: PageData = filterDataToSingleItem(page, preview);
@@ -187,7 +209,7 @@ export const getStaticProps: GetStaticProps = async ({
   const seo = SEO({
     data: {
       title:
-        data?.pageData?.title || data?.blogData?.title || "Stackshift page",
+        data?.pageData?.title || data?.blogData?.title || "StackShift page",
       type: data?.pageData?._type || data?.blogData?._type || "",
       route: params?.slug,
       ...(data?.pageData?.seo || data?.blogData?.seo),
@@ -209,6 +231,7 @@ export const getStaticProps: GetStaticProps = async ({
 
   return {
     props: {
+      theme,
       preview,
       token: (preview && previewData.token) || "",
       source: (preview && previewData?.source) || "",

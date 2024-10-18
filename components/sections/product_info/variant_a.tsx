@@ -10,8 +10,11 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Thumbs, Pagination, A11y } from "swiper/modules";
 import { ProductInfoProps } from ".";
 import { MyPortableTextComponents } from "types";
-import { Container, Flex } from "components/layout/index";
-import { Text, Heading, Button } from "components/ui";
+import { Container } from "@stackshift-ui/container";
+import { Flex } from "@stackshift-ui/flex";
+import { Text } from "@stackshift-ui/text";
+import { Heading } from "@stackshift-ui/heading";
+import { Button } from "@stackshift-ui/button";
 
 // Import Swiper styles
 import "swiper/css";
@@ -41,7 +44,7 @@ function VariantA({
     block: {
       h1: ({ children }) => {
         return (
-          <Heading fontSize="7xl" weight="bold" className="mb-8 leading-loose ">
+          <Heading weight="bold" className="mb-8 leading-loose text-7xl">
             {children}
           </Heading>
         );
@@ -51,8 +54,7 @@ function VariantA({
           <Heading
             type="h2"
             weight="bold"
-            fontSize="5xl"
-            className="mb-8 leading-loose "
+            className="mb-8 leading-loose text-5xl"
           >
             {children}
           </Heading>

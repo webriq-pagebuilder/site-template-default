@@ -1,8 +1,9 @@
 import React from "react";
 import Link from "next/link";
 import Head from "next/head";
-import { Container } from "components/layout/index";
-import { Heading, Text } from "components/ui";
+import { Container } from "@stackshift-ui/container";
+import { Heading } from "@stackshift-ui/heading";
+import { Text } from "@stackshift-ui/text";
 
 function PageNotFound() {
   return (

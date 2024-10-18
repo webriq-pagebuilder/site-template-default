@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
-import { Container } from "components/layout/index";
-import { Text } from "components/ui/Text";
+import { Container } from "@stackshift-ui/container";
+import { Text } from "@stackshift-ui/text";
 
 function NoPreview() {
   return (

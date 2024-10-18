@@ -1,6 +1,8 @@
 import InlineEditor from "components/InlineEditor";
-import { Container, Flex } from "components/layout/index";
-import { Heading, Text } from "components/ui";
+import { Container } from "@stackshift-ui/container";
+import { Flex } from "@stackshift-ui/flex";
+import { Heading } from "@stackshift-ui/heading";
+import { Text } from "@stackshift-ui/text";
 import { InlineEditorContext } from "context/InlineEditorContext";
 import { format } from "date-fns";
 import { PortableText, urlFor } from "lib/sanity";
@@ -10,14 +12,18 @@ import Link from "next/link";
 import React from "react";
 import { BlogsData, MyPortableTextComponents } from "types";
 
-const Navigation = dynamic(() => import("components/sections/navigation"));
-const Footer = dynamic(() => import("components/sections/footer"));
+const Navigation = dynamic(() =>
+  import("components/sections/navigation").then((m) => m.Navigation)
+);
+const Footer = dynamic(() =>
+  import("@stackshift-ui/footer").then((m) => m.Footer)
+);
 // block styling as props to `components` of the PortableText component
 const blockStyle: MyPortableTextComponents = {
   block: {
     h1: ({ children }) => {
       return (
-        <Heading fontSize="5xl" className="mb-6 leading-loose text-gray-900">
+        <Heading className="mb-6 leading-loose text-gray-900 text-5xl">
           {children}
         </Heading>
       );
