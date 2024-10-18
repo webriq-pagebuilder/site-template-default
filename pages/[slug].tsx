@@ -107,18 +107,14 @@ function Document({ data }: { data: Data }) {
     return null;
   }
 
-  if (publishedData?.hasNeverPublished) {
-    return <PageNotFound />;
-  }
-
   return (
-    <PreviewSuspense fallback="Loading...">
+    <>
       {/*  Show page sections */}
       {data?.pageData && <PageSections data={data?.pageData} />}
 
       {/* Show Blog sections */}
       {data?.blogData && <BlogSections data={data?.blogData} />}
-    </PreviewSuspense>
+    </>
   );
 }
 
