@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Image from "next/image";
-import WebriQForm from "@stackshift-ui/webriq-form";
+import { WebriQForm } from "@stackshift-ui/webriq-form";
 import { thankYouPageLink } from "helper";
 import { PortableText, urlFor } from "lib/sanity";
 import { MyPortableTextComponents } from "types";
