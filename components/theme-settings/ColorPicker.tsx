@@ -1,8 +1,6 @@
 import React, { useCallback, useRef, useState } from "react";
-import {
-  Button,
-  Text
-} from "components/ui";
+import { Button } from "@stackshift-ui/button";
+import { Text } from "@stackshift-ui/text";
 import { FaSpinner, FaUndo } from "react-icons/fa";
 import { HexColorInput, HexColorPicker } from "react-colorful";
 import { ToastContainer, toast } from "react-toast";
@@ -16,10 +14,11 @@ export function ColorPicker({
   setCustomizedThemeConfig,
   colorKey,
   savedThemeConfig,
-  handleRevertSetting
+  handleRevertSetting,
 }) {
   const customColor = customizedThemeConfig?.colors?.[mode];
-  const colorInputLabel = colorKey?.charAt(0)?.toUpperCase() + colorKey?.slice(1);
+  const colorInputLabel =
+    colorKey?.charAt(0)?.toUpperCase() + colorKey?.slice(1);
 
   const [loading, setLoading] = useState(false);
   const [colorPickerOpen, setColorPickerOpen] = useState<string | null>(null); // Track active color picker
@@ -37,8 +36,8 @@ export function ColorPicker({
         [mode]: {
           ...customizedThemeConfig?.colors?.[mode], // Preserve existing colors
           ...colors, // Update only the changed color
-        }
-      }
+        },
+      },
     });
   };
 
@@ -54,14 +53,14 @@ export function ColorPicker({
           [mode]: {
             ...customColor,
             ...colorToRevert, // revert only the active color picker
-          }
-        }
+          },
+        },
       };
 
-      handleRevertSetting(existingThemeConfig)
-    }  catch (error) {
+      handleRevertSetting(existingThemeConfig);
+    } catch (error) {
       console.log("[ERROR] Failed to revert color changes ", error);
-      toast.error("Failed to revert color changes! See logs.")
+      toast.error("Failed to revert color changes! See logs.");
     } finally {
       setLoading(false);
       close();
@@ -88,9 +87,7 @@ export function ColorPicker({
           />
           <HexColorInput
             color={customColor?.[colorKey]}
-            onChange={(newColor) =>
-              handleColorChange({ [colorKey]: newColor })
-            }
+            onChange={(newColor) => handleColorChange({ [colorKey]: newColor })}
             disabled={isLoaded}
             placeholder="Enter hex color"
             style={{
@@ -115,13 +112,13 @@ export function ColorPicker({
             }
             disabled={
               isLoaded ||
-                customColor?.[colorKey] === defaultColor?.value ||
-                !defaultColor
+              customColor?.[colorKey] === defaultColor?.value ||
+              !defaultColor
             }
           >
             {loading ? (
               <FaSpinner className="animate-spin w-3 h-3 mt-1" />
-            ): (
+            ) : (
               <FaUndo className="w-3 h-3 mt-1" />
             )}
           </Button>
@@ -146,5 +143,5 @@ export function ColorPicker({
         <ToastContainer delay={5000} position="bottom-right" />
       </div>
     </div>
-  )
+  );
 }

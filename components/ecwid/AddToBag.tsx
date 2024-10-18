@@ -1,4 +1,4 @@
-import { Button } from "components/ui/Button";
+import { Button } from "@stackshift-ui/button";
 import { useEcwid } from "context/EcwidContext";
 import { EcwidTypes } from "context/_ecwid-types";
 import React from "react";

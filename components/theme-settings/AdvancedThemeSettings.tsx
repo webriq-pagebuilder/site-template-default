@@ -5,17 +5,20 @@ export function AdvancedThemeSettings({
   isLoaded,
   options,
   customizedThemeConfig,
-  setCustomizedThemeConfig
+  setCustomizedThemeConfig,
 }) {
-  const handleSettingChange = useCallback((e, key) => {
-    const targetValue = (e?.target as HTMLSelectElement)?.value;
+  const handleSettingChange = useCallback(
+    (e, key) => {
+      const targetValue = (e?.target as HTMLSelectElement)?.value;
 
-    setCustomizedThemeConfig((prev) => ({
-      ...prev,
-      [key]: targetValue
-    }));
-  }, [setCustomizedThemeConfig]);
-  
+      setCustomizedThemeConfig((prev) => ({
+        ...prev,
+        [key]: targetValue,
+      }));
+    },
+    [setCustomizedThemeConfig]
+  );
+
   return (
     <div className="flex flex-col gap-y-5">
       <SelectSettings
@@ -37,7 +40,7 @@ export function AdvancedThemeSettings({
           options: options?.fontWeight,
           customizedThemeConfig,
           handleChangeFn: (e) => handleSettingChange(e, "font-weight"),
-          isLoaded
+          isLoaded,
         }}
       />
       <SelectSettings
@@ -48,9 +51,9 @@ export function AdvancedThemeSettings({
           options: options?.fontSize,
           customizedThemeConfig,
           handleChangeFn: (e) => handleSettingChange(e, "font-size"),
-          isLoaded
+          isLoaded,
         }}
       />
     </div>
-  )
+  );
 }

@@ -1,7 +1,8 @@
 import React from "react";
 import Link from "next/link";
-import { Container } from "@stackshift/components-layout";
-import { Heading, Text } from "@stackshift/components-common";
+import { Container } from "@stackshift-ui/container";
+import { Heading } from "@stackshift-ui/heading";
+import { Text } from "@stackshift-ui/text";
 
 function ThankYouForm() {
   return (

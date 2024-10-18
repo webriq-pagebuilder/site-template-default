@@ -1,20 +1,19 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Image from "next/image";
-import WebriQForm from "components/webriq-form";
+import WebriQForm from "@stackshift-ui/webriq-form";
 import { thankYouPageLink } from "helper";
 import { PortableText, urlFor } from "lib/sanity";
 import { MyPortableTextComponents } from "types";
 import { PricingProps } from ".";
-import {
-  Text,
-  Button,
-  Heading,
-  SwiperPagination,
-  Input,
-  FormField,
-} from "components/ui";
-import { Container, Flex } from "components/layout/index";
+import { Text } from "@stackshift-ui/text";
+import { Button } from "@stackshift-ui/button";
+import { Heading } from "@stackshift-ui/heading";
+import { SwiperPagination } from "@stackshift-ui/swiper-pagination";
+import { Input } from "@stackshift-ui/input";
+import { FormField } from "@stackshift-ui/form-field";
+import { Container } from "@stackshift-ui/container";
+import { Flex } from "@stackshift-ui/flex";
 
 // for Stripe
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
@@ -138,7 +137,11 @@ function VariantD({
     const [checked, setChecked] = React.useState([]); // setting selected value for input field checkbox type
     const [processing, setIsProcessing] = React.useState(false);
     const [paymentStatus, setPaymentStatus] = React.useState("idle");
-    const [cardValidate, setCardValidate] = React.useState<any | undefined>({ brand: "unknown", complete: false, error: ""});
+    const [cardValidate, setCardValidate] = React.useState<any | undefined>({
+      brand: "unknown",
+      complete: false,
+      error: "",
+    });
 
     const handleCheckboxChange = (e) => {
       const { checked, value } = e.target;
@@ -203,7 +206,7 @@ function VariantD({
       if (payload?.error) {
         setIsProcessing(false);
         setPaymentStatus("failed");
-        setCardValidate({...cardValidate, error: "error" });
+        setCardValidate({ ...cardValidate, error: "error" });
         return;
       }
 
@@ -231,9 +234,12 @@ function VariantD({
               stripepkey={stripePKey}
               method="POST"
               data-form-id={
-                cardValidate?.error === undefined && cardValidate?.brand !== "unknown" && cardValidate?.complete
-                 ? formId 
-                 : undefined}
+                cardValidate?.error === undefined &&
+                cardValidate?.brand !== "unknown" &&
+                cardValidate?.complete
+                  ? formId
+                  : undefined
+              }
               name={formName}
               className="form-pricing space-y-2"
               data-thankyou-url={thankYouPageLink(formThankYouPage)}

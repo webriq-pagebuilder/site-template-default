@@ -1,8 +1,16 @@
 import React from "react";
-import { Button, Text } from "components/ui";
+import { Button } from "@stackshift-ui/button";
+import { Text } from "@stackshift-ui/text";
 import { MdKeyboardArrowDown } from "react-icons/md";
 
-export function SelectSettings({ label, value, options, handleChangeFn, placeholder, isLoaded }) {
+export function SelectSettings({
+  label,
+  value,
+  options,
+  handleChangeFn,
+  placeholder,
+  isLoaded,
+}) {
   return (
     <div className="flex flex-col gap-2">
       {label && (
@@ -21,16 +29,16 @@ export function SelectSettings({ label, value, options, handleChangeFn, placehol
           >
             <option value="">{placeholder}</option>
             {options &&
-              Object.entries(options)?.filter(([key]) => key !== "global")?.map(
-                ([key, value]) => (
+              Object.entries(options)
+                ?.filter(([key]) => key !== "global")
+                ?.map(([key, value]) => (
                   <option
                     value={value as string | number | readonly string[]}
                     key={key}
                   >
                     {value}
                   </option>
-                )
-              )}
+                ))}
           </select>
           <Button
             as="button"
@@ -39,10 +47,10 @@ export function SelectSettings({ label, value, options, handleChangeFn, placehol
             className="absolute top-0 right-0 p-3 bg-transparent text-black pointer-events-none"
             disabled={isLoaded}
           >
-            <MdKeyboardArrowDown className="w-5 h-5"/>
+            <MdKeyboardArrowDown className="w-5 h-5" />
           </Button>
         </div>
       </div>
     </div>
-  )
+  );
 }

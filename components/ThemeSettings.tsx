@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useTheme } from "context/ThemeSettingsContext";
-import { Button, Heading } from "components/ui";
+import { Button } from "@stackshift-ui/button";
+import { Heading } from "@stackshift-ui/heading";
 import { FaSpinner, FaUndo } from "react-icons/fa";
 import { MdFormatColorFill, MdOutlineClose } from "react-icons/md";
 import { ToastContainer } from "react-toast";
@@ -15,7 +16,7 @@ import _ from "lodash";
 
 export function ThemeSettings(): React.JSX.Element {
   const [showSettings, setShowSettings] = useState(false);
-  
+
   const {
     isReady,
     currentThemeName,
@@ -80,20 +81,15 @@ export function ThemeSettings(): React.JSX.Element {
                 <span className="sr-only">Close</span>
               </Button>
             </div>
-            <SearchBar
-              options={themes}
-              id="theme"
-            />
+            <SearchBar options={themes} id="theme" />
             <div className="flex gap-5 border-b border-b-gray-300">
               {settingTabs?.map((tab, index) => (
-                <div
-                  className="mb-0"
-                  id={tab}
-                  key={index}
-                >
+                <div className="mb-0" id={tab} key={index}>
                   <button
                     className={`pt-2 pb-3 ${
-                      activeTab === tab ? "font-bold text-black" : "text-gray-500"
+                      activeTab === tab
+                        ? "font-bold text-black"
+                        : "text-gray-500"
                     }`}
                     type="button"
                     onClick={() => setActiveTab(tab)}
@@ -132,7 +128,17 @@ export function ThemeSettings(): React.JSX.Element {
                 ariaLabel="Set theme"
                 variant="solid"
                 className="text-sm px-3 py-2 rounded-lg cursor-pointer bg-black hover:bg-gray-500 text-white disabled:bg-gray-500 disabled:cursor-default"
-                disabled={loading || !isReady || _.isEqual(currentThemeName, savedThemeConfig?.currentTheme) || !_.isEqual(customizedThemeConfig, themes?.find(({ name }) => name === customizedThemeConfig?.name ))}
+                disabled={
+                  loading ||
+                  !isReady ||
+                  _.isEqual(currentThemeName, savedThemeConfig?.currentTheme) ||
+                  !_.isEqual(
+                    customizedThemeConfig,
+                    themes?.find(
+                      ({ name }) => name === customizedThemeConfig?.name
+                    )
+                  )
+                }
                 onClick={() => onModalOpen("setTheme")}
               >
                 Set theme
@@ -143,12 +149,21 @@ export function ThemeSettings(): React.JSX.Element {
                   ariaLabel="Revert all"
                   variant="unstyled"
                   className="text-sm rounded-lg px-3 py-2 cursor-pointer disabled:cursor-default border border-black hover:bg-black hover:text-white disabled:border-gray-400 disabled:text-gray-400 disabled:bg-transparent"
-                  disabled={loading || !isReady || _.isEqual(customizedThemeConfig, themes?.find(({ name }) => name === customizedThemeConfig?.name ))}
+                  disabled={
+                    loading ||
+                    !isReady ||
+                    _.isEqual(
+                      customizedThemeConfig,
+                      themes?.find(
+                        ({ name }) => name === customizedThemeConfig?.name
+                      )
+                    )
+                  }
                   onClick={() => onModalOpen("revertAll")}
                 >
                   {loading ? (
                     <FaSpinner className="animate-spin w-5 h-5" />
-                  ): (
+                  ) : (
                     <FaUndo className="w-3 h-3" />
                   )}
                 </Button>
@@ -157,7 +172,16 @@ export function ThemeSettings(): React.JSX.Element {
                   ariaLabel="Save"
                   variant="unstyled"
                   className="text-sm px-3 py-2 rounded-lg cursor-pointer disabled:cursor-default border border-black hover:bg-black hover:text-white disabled:border-gray-400 disabled:text-gray-400 disabled:bg-transparent"
-                  disabled={loading || !isReady || _.isEqual(customizedThemeConfig, themes?.find(({ name }) => name === customizedThemeConfig?.name ))}
+                  disabled={
+                    loading ||
+                    !isReady ||
+                    _.isEqual(
+                      customizedThemeConfig,
+                      themes?.find(
+                        ({ name }) => name === customizedThemeConfig?.name
+                      )
+                    )
+                  }
                   onClick={() => onModalOpen("saveAs")}
                 >
                   Save
@@ -171,7 +195,7 @@ export function ThemeSettings(): React.JSX.Element {
         <ConfirmThemeDialog
           {...{
             action: modalAction || null,
-            loading
+            loading,
           }}
         />
       )}

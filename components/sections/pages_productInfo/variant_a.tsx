@@ -10,8 +10,10 @@ import { defaultBlockStyle } from "helper";
 import { PagesProductInfoProps } from ".";
 
 import { EcwidTypes } from "context/_ecwid-types";
-import { Container, Flex } from "components/layout/index";
-import { Heading, Text } from "components/ui";
+import { Container } from "@stackshift-ui/container";
+import { Flex } from "@stackshift-ui/flex";
+import { Heading } from "@stackshift-ui/heading";
+import { Text } from "@stackshift-ui/text";
 import { useMediaQuery } from "hooks/useMediaQuery";
 
 function VariantA({ products }: PagesProductInfoProps) {

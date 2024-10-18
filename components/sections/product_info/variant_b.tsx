@@ -11,8 +11,11 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Thumbs, Pagination, A11y } from "swiper/modules";
 import { ProductInfoProps } from ".";
 import { MyPortableTextComponents } from "types";
-import { Container, Flex } from "components/layout/index";
-import { Heading, Text, Button } from "components/ui";
+import { Container } from "@stackshift-ui/container";
+import { Flex } from "@stackshift-ui/flex";
+import { Heading } from "@stackshift-ui/heading";
+import { Text } from "@stackshift-ui/text";
+import { Button } from "@stackshift-ui/button";
 
 // Import Swiper styles
 import "swiper/css";
@@ -39,7 +42,7 @@ function VariantB({
     block: {
       h1: ({ children }) => {
         return (
-          <Heading fontSize="7xl" weight="bold" className="mt-6 leading-loose">
+          <Heading weight="bold" className="mt-6 leading-loose text-7xl">
             {children}
           </Heading>
         );
@@ -47,10 +50,9 @@ function VariantB({
       h2: ({ children }) => {
         return (
           <Heading
-            fontSize="5xl"
             type="h2"
             weight="bold"
-            className="mt-6 leading-loose "
+            className="mt-6 leading-loose text-5xl"
           >
             {children}
           </Heading>

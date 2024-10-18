@@ -2,8 +2,9 @@ import { useEcwid } from "context/EcwidContext";
 import React from "react";
 import AddToWishlist from "./AddToWishlist";
 import { EcwidTypes } from "context/_ecwid-types";
-import { Flex } from "components/layout/index";
-import { Button, Text } from "components/ui";
+import { Flex } from "@stackshift-ui/flex";
+import { Button } from "@stackshift-ui/button";
+import { Text } from "@stackshift-ui/text";
 
 interface AddMoreButtonProps {
   product:
@@ -32,7 +33,7 @@ const AddMoreButton = ({ product }: AddMoreButtonProps) => {
               as="button"
               ariaLabel="Add More Button"
               type="submit"
-              borderRadius="md"
+              radius="md"
               className="block w-full px-8 py-5 uppercase text-primary"
               disabled={isAddingToBag}
             >

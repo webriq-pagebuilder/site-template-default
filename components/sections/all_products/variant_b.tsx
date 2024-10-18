@@ -5,8 +5,11 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { Collection, CollectionProduct } from "types";
 import { AllProductsProps } from ".";
-import { Flex, Container } from "components/layout/index";
-import { Heading, Text, Button } from "components/ui";
+import { Flex } from "@stackshift-ui/flex";
+import { Container } from "@stackshift-ui/container";
+import { Heading } from "@stackshift-ui/heading";
+import { Text } from "@stackshift-ui/text";
+import { Button } from "@stackshift-ui/button";
 
 function VariantB({ products }: AllProductsProps) {
   const [productQuery, setProductQuery] = useState("");

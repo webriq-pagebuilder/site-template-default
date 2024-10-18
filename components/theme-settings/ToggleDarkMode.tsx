@@ -1,16 +1,28 @@
 import React, { useCallback, useEffect } from "react";
-import { Button } from "components/ui";
-import { MdLightMode, MdOutlineLightMode, MdDarkMode, MdOutlineDarkMode } from "react-icons/md";
+import { Button } from "@stackshift-ui/button";
+import {
+  MdLightMode,
+  MdOutlineLightMode,
+  MdDarkMode,
+  MdOutlineDarkMode,
+} from "react-icons/md";
 
-export function ToggleDarkMode({ isLoaded, customMode, setCustomizedThemeConfig }) {
+export function ToggleDarkMode({
+  isLoaded,
+  customMode,
+  setCustomizedThemeConfig,
+}) {
   const darkMode = customMode !== "light";
 
-  const handleModeChange = useCallback((isDarkMode) => {
-    setCustomizedThemeConfig((prev) => ({
-      ...prev,
-      mode: isDarkMode ? "dark" : "light",
-    }));
-  }, [setCustomizedThemeConfig]);
+  const handleModeChange = useCallback(
+    (isDarkMode) => {
+      setCustomizedThemeConfig((prev) => ({
+        ...prev,
+        mode: isDarkMode ? "dark" : "light",
+      }));
+    },
+    [setCustomizedThemeConfig]
+  );
 
   useEffect(() => {
     document.documentElement.classList.toggle("dark", darkMode);
@@ -27,11 +39,7 @@ export function ToggleDarkMode({ isLoaded, customMode, setCustomizedThemeConfig 
         disabled={isLoaded || customMode === "light"}
         onClick={() => handleModeChange(!darkMode)}
       >
-        {!darkMode ? (
-          <MdLightMode />
-        ) : (
-          <MdOutlineLightMode />
-        )}
+        {!darkMode ? <MdLightMode /> : <MdOutlineLightMode />}
         <span>Light</span>
       </Button>
       <Button
@@ -42,13 +50,9 @@ export function ToggleDarkMode({ isLoaded, customMode, setCustomizedThemeConfig 
         disabled={isLoaded || customMode === "dark"}
         onClick={() => handleModeChange(!darkMode)}
       >
-        {darkMode ? (
-          <MdDarkMode />
-        ) : (
-          <MdOutlineDarkMode />
-        )}
+        {darkMode ? <MdDarkMode /> : <MdOutlineDarkMode />}
         <span>Dark</span>
       </Button>
     </div>
-  )
+  );
 }

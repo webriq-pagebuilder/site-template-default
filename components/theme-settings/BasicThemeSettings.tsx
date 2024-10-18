@@ -1,6 +1,6 @@
-import React from "react"
+import React from "react";
 import { toast } from "react-toast";
-import { Text } from "components/ui";
+import { Text } from "@stackshift-ui/text";
 import { ColorPicker, SelectSettings, ToggleDarkMode } from "../theme-settings";
 import _ from "lodash";
 
@@ -11,26 +11,26 @@ export function BasicThemeSettings({
   customizedThemeConfig,
   setCustomizedThemeConfig,
   handleRevertSetting,
-}): React.JSX.Element {    
-  const handleChangeFont = async (e) => { 
+}): React.JSX.Element {
+  const handleChangeFont = async (e) => {
     const newFont = (e?.target as HTMLSelectElement)?.value;
-    
+
     try {
       const updatedThemeFont = {
         ...customizedThemeConfig,
-        font: newFont
+        font: newFont,
       };
 
       if (newFont !== savedThemeConfig?.font) {
         setCustomizedThemeConfig(updatedThemeFont);
       } else {
-        handleRevertSetting(updatedThemeFont)
-      } 
+        handleRevertSetting(updatedThemeFont);
+      }
     } catch (error) {
       console.log("[ERROR] Failed to set theme font ", error);
-      toast.error("Failed to set theme font! See logs.")
+      toast.error("Failed to set theme font! See logs.");
     }
-  }
+  };
 
   return (
     <div className="flex flex-col gap-y-5">
@@ -42,13 +42,15 @@ export function BasicThemeSettings({
           {...{
             isLoaded,
             customMode: customizedThemeConfig?.mode,
-            setCustomizedThemeConfig
+            setCustomizedThemeConfig,
           }}
         />
       </div>
       <div className="flex flex-col gap-3">
         {savedThemeConfig?.colors &&
-          Object.entries(savedThemeConfig?.colors?.[savedThemeConfig?.mode])?.map(([key, value]) => (
+          Object.entries(
+            savedThemeConfig?.colors?.[savedThemeConfig?.mode]
+          )?.map(([key, value]) => (
             <ColorPicker
               key={value as string | number}
               {...{
@@ -75,9 +77,9 @@ export function BasicThemeSettings({
           placeholder: "Select Font",
           options: options?.fontFamily,
           handleChangeFn: handleChangeFont,
-          isLoaded
+          isLoaded,
         }}
       />
     </div>
-  )
+  );
 }

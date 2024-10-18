@@ -1,25 +1,32 @@
 import React, { useState } from "react";
-import { Button, Text } from "components/ui";
+import { Button } from "@stackshift-ui/button";
+import { Text } from "@stackshift-ui/text";
 
-export function SaveAsTemplate({ currentThemeName, onClose, loading, onClickAction }) {
+export function SaveAsTemplate({
+  currentThemeName,
+  onClose,
+  loading,
+  onClickAction,
+}) {
   const [saveOption, setSaveOption] = useState("");
   const [themeName, setThemeName] = useState("");
 
   const handleSetOption = (e) => {
     setSaveOption(e.target.value);
-  }
+  };
 
   const handleSaveThemeName = (e) => {
     setThemeName(e.target.value);
-  }
+  };
 
-  const notReadyToSave = saveOption === "saveNew" ? themeName.trim().length < 3 : saveOption.trim().length === 0;
+  const notReadyToSave =
+    saveOption === "saveNew"
+      ? themeName.trim().length < 3
+      : saveOption.trim().length === 0;
 
   return (
     <div className="flex flex-col gap-y-5 p-10 font-sans">
-      <Text>
-        How would you like to save this theme?
-      </Text>
+      <Text>How would you like to save this theme?</Text>
       <div className="flex flex-col gap-5">
         <div className="flex">
           <div className="flex items-center h-5">
@@ -40,11 +47,9 @@ export function SaveAsTemplate({ currentThemeName, onClose, loading, onClickActi
               htmlFor="overwrite"
             >
               Overwrite theme
-              <Text
-                fontSize="sm"
-                className="text-gray-400"
-              >
-                Update the current theme with your changes. This action cannot be undone.
+              <Text fontSize="sm" className="text-gray-400">
+                Update the current theme with your changes. This action cannot
+                be undone.
               </Text>
             </label>
           </div>
@@ -67,10 +72,7 @@ export function SaveAsTemplate({ currentThemeName, onClose, loading, onClickActi
               htmlFor="saveNew"
             >
               Save as new theme
-              <Text
-                fontSize="sm"
-                className="text-gray-400"
-              >
+              <Text fontSize="sm" className="text-gray-400">
                 Create a NEW theme with your changes.
               </Text>
             </label>
@@ -123,5 +125,5 @@ export function SaveAsTemplate({ currentThemeName, onClose, loading, onClickActi
         </div>
       </div>
     </div>
-  )
+  );
 }

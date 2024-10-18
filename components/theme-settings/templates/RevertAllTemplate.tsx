@@ -1,21 +1,16 @@
 import React from "react";
-import { Button, Text } from "components/ui";
+import { Button } from "@stackshift-ui/button";
+import { Text } from "@stackshift-ui/text";
 
 export function RevertAllTemplate({ onClose, loading, onClickAction }) {
   return (
     <div className="flex flex-col gap-y-5 p-10 font-sans">
-      <Text
-        fontSize="base"
-        weight="normal"
-      >
+      <Text fontSize="base" weight="normal">
         Are you sure you want to revert ALL changes made to this theme?
       </Text>
-      <Text
-        fontSize="sm"
-        weight="semibold"
-        className="text-red-500"
-      >
-        NOTE: This action is irreversible! Confirming will also refresh the page.
+      <Text fontSize="sm" weight="semibold" className="text-red-500">
+        NOTE: This action is irreversible! Confirming will also refresh the
+        page.
       </Text>
       <div className="flex flex-wrap gap-2 mt-5 justify-end">
         <Button
@@ -39,5 +34,5 @@ export function RevertAllTemplate({ onClose, loading, onClickAction }) {
         </Button>
       </div>
     </div>
-  )
+  );
 }

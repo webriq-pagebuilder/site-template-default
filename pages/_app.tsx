@@ -7,6 +7,7 @@ import useScript from "utils/useScript";
 import { setProjectTheme } from "utils/theme";
 import { sanityClient } from "lib/sanity.client";
 import { defaultThemeConfig } from "components/theme-settings/defaultThemeConfig";
+import { StackShiftUIProvider } from "@webriq-test/system";
 
 // global styles
 import "vanilla-cookieconsent/dist/cookieconsent.css";
@@ -107,7 +108,9 @@ function App({ Component, pageProps }: AppProps) {
           />
         )}
       </Head>
-      <Component {...pageProps} />
+      <StackShiftUIProvider components={{}}>
+        <Component {...pageProps} />
+      </StackShiftUIProvider>
     </>
   );
 }
