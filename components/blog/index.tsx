@@ -23,7 +23,7 @@ const blockStyle: MyPortableTextComponents = {
   block: {
     h1: ({ children }) => {
       return (
-        <Heading fontSize="5xl" className="mb-6 leading-loose text-gray-900">
+        <Heading className="mb-6 leading-loose text-gray-900 text-5xl">
           {children}
         </Heading>
       );
