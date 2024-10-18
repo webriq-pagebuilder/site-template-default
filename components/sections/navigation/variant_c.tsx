@@ -2,7 +2,7 @@ import React from "react";
 import { Button } from "@stackshift-ui/button";
 import { Text } from "@stackshift-ui/text";
 import { Link } from "@stackshift-ui/link";
-import Image from "@stackshift-ui/image";
+import { Image } from "@stackshift-ui/image";
 import { Section } from "@stackshift-ui/section";
 import { Container } from "@stackshift-ui/container";
 import { Flex } from "@stackshift-ui/flex";
