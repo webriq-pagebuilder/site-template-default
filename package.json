@@ -61,7 +61,7 @@
     "@stackshift-ui/text": "1.0.0",
     "@stackshift-ui/text-component": "1.0.0",
     "@stackshift-ui/webriq-form": "1.0.0",
-    "@webriq-test/system": "1.0.0",
+    "@stackshift-ui/system": "1.0.0",
     "@stripe/react-stripe-js": "^2.1.0",
     "@stripe/stripe-js": "^4.8.0",
     "@webriq-pagebuilder/sanity-plugin-desk-studio-version": "^5.3.0",

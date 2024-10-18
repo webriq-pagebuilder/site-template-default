@@ -3932,7 +3932,7 @@
     "@stackshift-ui/system" "2.0.0"
     classnames "^2.5.1"
 
-"@stackshift-ui/system@2.0.0":
+"@stackshift-ui/system@1.0.0", "@stackshift-ui/system@2.0.0":
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/@stackshift-ui/system/-/system-2.0.0.tgz#d3c9f2cf2787ca6f97482b9b3e3ee6bf8f825584"
   integrity sha512-s9eeDK4RfL0Mnaq8WNGv+Pc7qUilTlI/CK/w9O16ykd2u/LXhohs8llFREiLQI/PoXochYKyBub8FBAQ5/oA0Q==
@@ -5902,23 +5902,6 @@
     crypto-js "^4.1.1"
     nanoid "^3.1.30"
     react-icons "^4.2.0"
-
-"@webriq-test/scripts@1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@webriq-test/scripts/-/scripts-1.0.0.tgz#4f04c4bc531d5f694704435b4a250e945a3ce6e8"
-  integrity sha512-TjYy5xR5NuWH3YqQVehj5I9217lqIkPYXYc1KXVF3uDxUUX2fI5JMigbWjSL8aBnlcxZIMBpXBxQb5qviWuW4A==
-
-"@webriq-test/system@1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@webriq-test/system/-/system-1.0.0.tgz#8574e7636589d3b202cab804695e110b995562f5"
-  integrity sha512-w4A1zdfHXb1Nl2RzD0AYregh7jeLxw6WTGXvUWpE8ANAGdO1f/Gl/4w3y0E7bkjTaKFq3sWuihNM+f4IUxpDXA==
-  dependencies:
-    "@webriq-test/scripts" "1.0.0"
-    nextjs-darkmode "^1.0.4"
-    nextjs-themes "^4.0.3"
-    r18gs "^2.0.0"
-    react-live "^4.1.7"
-    react18-loaders latest
 
 "@xtuc/ieee754@^1.2.0":
   version "1.2.0"
