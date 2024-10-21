@@ -2,7 +2,7 @@ import dynamic from "next/dynamic";
 
 export const Components = {
   navigation: dynamic(() =>
-    import("components/sections/navigation").then((m) => m.Navigation)
+    import("@stackshift-ui/navigation").then((m) => m.Navigation)
   ),
   header: dynamic(() => import("@stackshift-ui/header").then((m) => m.Header)),
   features: dynamic(() =>
@@ -98,4 +98,66 @@ export function filterDataToSingleItem(data, preview) {
   }
 
   return data[0];
+}
+
+// filter out schema fields that are not listed on hidden array
+export const filterFieldsByVariant = (
+  component: any,
+  args: any,
+  variant: string
+) => {
+  return Object.keys(args).reduce((result, key) => {
+    if (
+      component &&
+      component?.some(
+        (schema) =>
+          schema?.name === key &&
+          (!schema?._hideInVariants ||
+            !schema?._hideInVariants?.includes(variant))
+      )
+    ) {
+      result[key] = args[key];
+    }
+
+    if (args?.template) {
+      return { ...result, template: args?.template };
+    }
+
+    return result;
+  }, {});
+};
+
+export function dynamicSchemaData({
+  data,
+  schemaFields = {},
+  isEcommerce = false,
+  isCustomArgs = false, // set to 'true' if we're using custom values and not from the queried studio data
+}) {
+  const result = {};
+
+  data?.map((item) => {
+    if (!item || !item.variants) return; // Skip iteration if item or item.variants is falsy
+
+    // for named exports format see this reference from storybook: https://storybook.js.org/docs/api/csf#named-story-exports
+    const trimmedLabel = item?.label.trim();
+    const label = trimmedLabel
+      .toLowerCase()
+      .replace(/[^\w\s]/g, "_")
+      .replace(/\s/g, "_"); // Replace special characters and white spaces with underscores
+
+    const variants =
+      isEcommerce || isCustomArgs
+        ? schemaFields
+        : filterFieldsByVariant(schemaFields, item.variants, item.variant);
+
+    result[`${label}_${item?.variant}`] = {
+      args: {
+        variant: item.variant,
+        label: item.label,
+        ...variants,
+      },
+    };
+  });
+
+  return result;
 }
