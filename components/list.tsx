@@ -2,7 +2,7 @@ import dynamic from "next/dynamic";
 
 export const Components = {
   navigation: dynamic(() =>
-    import("@stackshift-ui/navigation").then((m) => m.Navigation)
+    import("components/sections/navigation").then((m) => m.Navigation)
   ),
   header: dynamic(() => import("@stackshift-ui/header").then((m) => m.Header)),
   features: dynamic(() =>
