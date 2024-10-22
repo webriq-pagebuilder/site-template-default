@@ -15,16 +15,18 @@ export default function LocalImage({
   width,
   height,
   className,
+  ...props
 }: LocalImageProps) {
   return (
     <Image
-      className={className}
-      width={width}
-      height={height}
       src={src ?? ""}
-      alt={alt ?? "Logo Image"}
-      priority
+      alt={alt ?? "image"}
+      width={width ?? 250}
+      height={height ?? 250}
+      className={className}
       quality={100}
+      priority
+      {...props}
     />
   );
 }

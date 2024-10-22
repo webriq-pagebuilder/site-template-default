@@ -7,8 +7,7 @@ interface LocalLinkProps {
   ariaLabel?: string;
   target?: "_blank" | "self";
   rel?: string;
-  href?: string;
-  [key: string]: any;
+  href?: any;
 }
 
 export default function LocalLink({
@@ -18,7 +17,7 @@ export default function LocalLink({
   target,
   rel,
   href,
-  key,
+  ...props
 }: LocalLinkProps) {
   return (
     <Link
@@ -27,7 +26,7 @@ export default function LocalLink({
       target={target}
       rel={rel}
       href={href}
-      key={key}
+      {...props}
     >
       {children}
     </Link>
