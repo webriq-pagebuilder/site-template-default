@@ -25,8 +25,6 @@ export default function LocalImage({
       alt={alt ?? "Logo Image"}
       priority
       quality={100}
-      layout="responsive"
-      placeholder="blur"
     />
   );
 }
