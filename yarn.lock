@@ -3534,10 +3534,10 @@
     "@stackshift-ui/system" "2.0.0"
     classnames "^2.5.1"
 
-"@stackshift-ui/contact@^1.1.0":
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/@stackshift-ui/contact/-/contact-1.1.0.tgz#534a6f14123b6caad16a54e0b146eff0dc98ab71"
-  integrity sha512-fM3sxNXqeZ5OdBPMyreniyrMbcSULwBgDi0uV/UhjILDaOqWs8AjXRJJ5u66MwaQ4rBKcb9PpvM0bnZlydC8Jw==
+"@stackshift-ui/contact@^1.2.0":
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/@stackshift-ui/contact/-/contact-1.2.0.tgz#746c3da9d681c1019841ad0aaed3ec1b34f2abe3"
+  integrity sha512-w9dq4RBJENE+BdBmUyBlQKxkYLdm23wV7lZEyaN7JJP2VuWaO1q3Xle9IZArox0w4BUW7UOph7eXGcRzgFE6zA==
   dependencies:
     "@portabletext/react" "^3.1.0"
     "@stackshift-ui/button" "1.0.0"
@@ -3768,10 +3768,10 @@
     "@stackshift-ui/system" "2.0.0"
     "@stackshift-ui/text" "1.0.0"
 
-"@stackshift-ui/navigation@^2.1.0":
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/@stackshift-ui/navigation/-/navigation-2.1.0.tgz#9a2f8ae7b35f94c2824f37f1220c832bd5190dc0"
-  integrity sha512-3khcSxWNTMWzbd0ZhwggkA7klCrqFRR0lfuMtQoMPj+nHZrryHy0+HsVJuYAkHkQBHZ6jcxCLV1vXxv71z3hhw==
+"@stackshift-ui/navigation@^2.2.0":
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/@stackshift-ui/navigation/-/navigation-2.2.0.tgz#c6d6e71d9e267fb5624acc50733bf11a480979ab"
+  integrity sha512-B9lV07eYIYVF72LZ5Tq+0iRrPHF6xnBoWjU9B/YHVH0gJbmQ4Y0DgTWBpD9ng6GGlcdPKtfU570jqJTE8gI4PA==
   dependencies:
     "@portabletext/react" "^3.1.0"
     "@stackshift-ui/button" "1.0.0"
