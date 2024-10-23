@@ -92,7 +92,7 @@ export function SearchBar({ options, id }) {
         />
         <Button
           as="button"
-          ariaLabel="Show fonts"
+          ariaLabel="Show themes"
           variant="unstyled"
           className="absolute top-0 right-0 p-3 bg-transparent text-black pointer-events-none"
           disabled={loading || !isReady}
@@ -106,7 +106,7 @@ export function SearchBar({ options, id }) {
             options?.map((option) => (
               <div
                 onClick={() => handleSettingTheme(option?.name)}
-                className="flex justify-between items-center box-border px-2 py-3 cursor-pointer hover:bg-gray-50"
+                className={`flex justify-between items-center box-border px-2 py-3 cursor-pointer hover:bg-gray-50 ${option?.name === currentThemeName ? "bg-gray-100" : ""}`}
                 key={option?._key}
               >
                 <Text>{option?.name}</Text>

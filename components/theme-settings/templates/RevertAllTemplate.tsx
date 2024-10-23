@@ -26,11 +26,10 @@ export function RevertAllTemplate({ onClose, loading, onClickAction }) {
           as="button"
           ariaLabel="Confirm save"
           className="text-sm p-3 rounded-lg !bg-black !text-white hover:!bg-gray-500 disabled:!bg-gray-500"
-          loading={loading}
           disabled={loading}
           onClick={onClickAction}
         >
-          {loading ? "Reverting" : "Confirm Revert"}
+          Confirm Revert
         </Button>
       </div>
     </div>

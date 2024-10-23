@@ -126,7 +126,7 @@ export function ThemeSettings(): React.JSX.Element {
               <Button
                 as="button"
                 ariaLabel="Set theme"
-                variant="solid"
+                variant="unstyled"
                 className="text-sm px-3 py-2 rounded-lg cursor-pointer !bg-black hover:!bg-gray-500 !text-white disabled:!bg-gray-500 disabled:cursor-default"
                 disabled={
                   loading ||

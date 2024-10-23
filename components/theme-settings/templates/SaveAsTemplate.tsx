@@ -116,11 +116,10 @@ export function SaveAsTemplate({
             as="button"
             ariaLabel="Confirm save"
             className="text-sm p-3 rounded-lg !bg-black !text-white hover:!bg-gray-500 disabled:!bg-gray-500"
-            loading={loading}
             disabled={loading || notReadyToSave}
             onClick={() => onClickAction(saveOption, themeName)}
           >
-            {loading ? "Saving" : "Confirm Save"}
+            Confirm Save
           </Button>
         </div>
       </div>
