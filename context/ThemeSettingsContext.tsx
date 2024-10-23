@@ -171,12 +171,6 @@ export const ThemeSettingsProvider = ({ children, preview = false, themeSettings
       const themeToSync = customizedThemeRef.current;
       
       try {
-        console.log("🚀 ~ hasCustomTheme:", {
-          themeToSync,
-          savedThemeConfig,
-          hasCustomTheme: _.isEqual(themeToSync, savedThemeConfig),
-        });
-        
         const response = await fetch(baseApiUrl, {
           method: "POST",
           headers: {
@@ -188,7 +182,7 @@ export const ThemeSettingsProvider = ({ children, preview = false, themeSettings
             dataset: SANITY_PROJECT_DATASET,
             themeConfig: themeToSync,
             themeName: themeToSync?.name,
-            hasCustomTheme: !_.isEqual(themeToSync, savedThemeConfig),
+            hasChanges: !_.isEqual(themeToSync, savedThemeConfig),
           }),
         });
 
