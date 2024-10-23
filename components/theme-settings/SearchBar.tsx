@@ -76,6 +76,8 @@ export function SearchBar({ options, id }) {
         <input
           id="search-theme"
           name="search theme"
+          aria-autocomplete="none"
+          autoComplete="off"
           ref={inputRef}
           disabled={loading || !isReady}
           type="text"

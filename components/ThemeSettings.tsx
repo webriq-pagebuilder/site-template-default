@@ -66,9 +66,9 @@ export function ThemeSettings(): React.JSX.Element {
       </div>
       {showSettings && (
         <div className="fixed z-50 w-full h-full p-8 [@media(min-width:1175px)]:py-10 [@media(min-width:1175px)]:px-16 pointer-events-none">
-          <div className="overflow-auto overscroll-contain p-7 bg-slate-100 shadow-inner text-black font-sans rounded-bl-lg w-fit sm:w-sm flex-col space-y-5 absolute h-auto max-h-full top-0 right-0 pointer-events-auto">
+          <div className="overflow-auto overscroll-contain p-7 bg-slate-100 shadow-inner !text-black font-sans rounded-bl-lg w-fit sm:w-sm flex-col space-y-5 absolute h-auto max-h-full top-0 right-0 pointer-events-auto">
             <div className="flex flex-row justify-between items-center">
-              <Heading fontSize="lg">Theme Settings</Heading>
+              <Heading fontSize="lg" className="!text-black">Theme Settings</Heading>
               <Button
                 as="button"
                 type="button"
@@ -127,7 +127,7 @@ export function ThemeSettings(): React.JSX.Element {
                 as="button"
                 ariaLabel="Set theme"
                 variant="solid"
-                className="text-sm px-3 py-2 rounded-lg cursor-pointer bg-black hover:bg-gray-500 text-white disabled:bg-gray-500 disabled:cursor-default"
+                className="text-sm px-3 py-2 rounded-lg cursor-pointer !bg-black hover:!bg-gray-500 !text-white disabled:!bg-gray-500 disabled:cursor-default"
                 disabled={
                   loading ||
                   !isReady ||
@@ -162,7 +162,10 @@ export function ThemeSettings(): React.JSX.Element {
                   onClick={() => onModalOpen("revertAll")}
                 >
                   {loading ? (
-                    <FaSpinner className="animate-spin w-5 h-5" />
+                    <div className="inline-flex items-center">
+                      <FaSpinner className="animate-spin w-3 h-3" />
+                      <span>Reverting...</span>
+                    </div>
                   ) : (
                     <FaUndo className="w-3 h-3" />
                   )}
