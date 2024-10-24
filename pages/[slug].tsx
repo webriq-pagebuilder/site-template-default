@@ -17,7 +17,6 @@ import { GetStaticPaths, GetStaticProps } from "next";
 import { CommonPageData, BlogsData, SeoTags, SeoSchema } from "types";
 import { addSEOJsonLd } from "components/SEO";
 import { ThemeSettings } from "components/ThemeSettings";
-import { ThemeSettingsProvider } from "context/ThemeSettingsContext";
 import { defaultThemeConfig } from "components/theme-settings/defaultThemeConfig";
 
 interface PageBySlugProps {
@@ -69,9 +68,7 @@ export function PageBySlug({
         <>
           <PreviewBanner />
           {showThemeSetting && (
-            <ThemeSettingsProvider preview={preview} themeSettings={theme}>
-              <ThemeSettings />
-            </ThemeSettingsProvider>
+            <ThemeSettings preview={preview} themeSettings={theme} />
           )}
           <PreviewSuspense fallback="Loading...">
             <InlineEditorContextProvider showInlineEditor={showInlineEditor}>
@@ -194,7 +191,7 @@ export const getStaticProps: GetStaticProps = async ({
     client.fetch(themeQuery),
   ]);
 
-  const theme = initialConfig || defaultThemeConfig;
+  const theme = initialConfig;
 
   // pass page data and preview to helper function
   const singlePageData: PageData = filterDataToSingleItem(page, preview);

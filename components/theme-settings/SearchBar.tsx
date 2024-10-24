@@ -1,11 +1,20 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Button } from "@stackshift-ui/button";
 import { Text } from "@stackshift-ui/text";
-import { useTheme } from "context/ThemeSettingsContext";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { useClickOutside } from "utils/theme";
 
-export function SearchBar({ options, id }) {
+export function SearchBar({
+  options,
+  id,
+  isReady,
+  loading,
+  themes,
+  setCustomizedThemeConfig,
+  currentThemeName,
+  setCurrentThemeName,
+  savedThemeConfig,
+}) {
   const [isOpen, setIsOpen] = useState(false);
   const [searchInput, setSearchInput] = useState("");
   const [searchResults, setSearchResults] = useState(null);
@@ -15,16 +24,6 @@ export function SearchBar({ options, id }) {
 
   const close = useCallback(() => setIsOpen(false), []);
   useClickOutside(inputRef, close);
-
-  const {
-    isReady,
-    loading,
-    themes,
-    setCustomizedThemeConfig,
-    currentThemeName,
-    setCurrentThemeName,
-    savedThemeConfig,
-  } = useTheme() || {}; // Use the context
 
   const handleSettingTheme = (theme) => {
     const updatedConfig = themes?.find(({ name }) => name === theme);
@@ -76,6 +75,8 @@ export function SearchBar({ options, id }) {
         <input
           id="search-theme"
           name="search theme"
+          aria-autocomplete="none"
+          autoComplete="off"
           ref={inputRef}
           disabled={loading || !isReady}
           type="text"
@@ -90,7 +91,7 @@ export function SearchBar({ options, id }) {
         />
         <Button
           as="button"
-          ariaLabel="Show fonts"
+          ariaLabel="Show themes"
           variant="unstyled"
           className="absolute top-0 right-0 p-3 bg-transparent text-black pointer-events-none"
           disabled={loading || !isReady}
@@ -104,7 +105,7 @@ export function SearchBar({ options, id }) {
             options?.map((option) => (
               <div
                 onClick={() => handleSettingTheme(option?.name)}
-                className="flex justify-between items-center box-border px-2 py-3 cursor-pointer hover:bg-gray-50"
+                className={`flex justify-between items-center box-border px-2 py-3 cursor-pointer hover:bg-gray-50 ${option?.name === currentThemeName ? "bg-gray-100" : ""}`}
                 key={option?._key}
               >
                 <Text>{option?.name}</Text>

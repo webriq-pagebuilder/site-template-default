@@ -13,7 +13,6 @@ import InlineEditorContextProvider from "context/InlineEditorContext";
 import { CommonPageData, SeoTags, SeoSchema } from "types";
 import { addSEOJsonLd } from "components/SEO";
 import { ThemeSettings } from "components/ThemeSettings";
-import { ThemeSettingsProvider } from "context/ThemeSettingsContext";
 import { defaultThemeConfig } from "components/theme-settings/defaultThemeConfig";
 
 interface HomeProps {
@@ -54,9 +53,7 @@ function Home({ data, preview, token, source, theme }: HomeProps) {
         <>
           <PreviewBanner />
           {showThemeSetting && (
-            <ThemeSettingsProvider preview={preview} themeSettings={theme}>
-              <ThemeSettings />
-            </ThemeSettingsProvider>
+            <ThemeSettings preview={preview} themeSettings={theme} />
           )}
           <PreviewSuspense fallback="Loading...">
             <InlineEditorContextProvider showInlineEditor={showInlineEditor}>
@@ -150,7 +147,7 @@ export const getStaticProps = async ({
     client.fetch(themeQuery),
   ]);
 
-  const theme = initialConfig || defaultThemeConfig;
+  const theme = initialConfig;
 
   // pass page data and preview to helper function
   const pageData: PageData = filterDataToSingleItem(indexPage, preview);

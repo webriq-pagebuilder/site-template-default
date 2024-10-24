@@ -107,7 +107,7 @@ export function SaveAsTemplate({
             as="button"
             ariaLabel="Cancel save"
             variant="unstyled"
-            className="text-sm p-3 text-black hover:text-gray-500 disabled:text-gray-500"
+            className="text-sm p-3 !text-black hover:!text-gray-500 disabled:!text-gray-500"
             onClick={onClose}
           >
             Cancel
@@ -115,12 +115,11 @@ export function SaveAsTemplate({
           <Button
             as="button"
             ariaLabel="Confirm save"
-            className="text-sm p-3 rounded-lg bg-black text-white hover:bg-gray-500 disabled:bg-gray-500"
-            loading={loading}
+            className="text-sm p-3 rounded-lg !bg-black !text-white hover:!bg-gray-500 disabled:!bg-gray-500"
             disabled={loading || notReadyToSave}
             onClick={() => onClickAction(saveOption, themeName)}
           >
-            {loading ? "Saving" : "Confirm Save"}
+            Confirm Save
           </Button>
         </div>
       </div>
