@@ -9,7 +9,7 @@ import {
   headerData,
   howItWorksData,
   logoCloudData,
-  // navigationData,
+  navigationData,
   newsletterData,
   portfolioData,
   signInSignUpData,
@@ -20,7 +20,7 @@ import {
 } from "./data/schemas";
 
 export const componentsData = {
-  // navigation: navigationData,
+  navigation: navigationData,
   header: headerData,
   features: featuresData,
   portfolio: portfolioData,

@@ -1,3 +1,4 @@
+import React from "react";
 import dynamic from "next/dynamic";
 import {
   LabeledRoute,
@@ -5,12 +6,13 @@ import {
   Logo,
   SectionsProps,
 } from "../../../types";
+import * as NavigationVariants from "@stackshift-ui/navigation";
 
 const Variants = {
-  variant_a: dynamic(() => import("./variant_a")),
-  variant_b: dynamic(() => import("./variant_b")),
-  variant_c: dynamic(() => import("./variant_c")),
-  variant_d: dynamic(() => import("./variant_d")),
+  variant_a: NavigationVariants.Navigation_A,
+  variant_b: NavigationVariants.Navigation_B,
+  variant_c: NavigationVariants.Navigation_C,
+  variant_d: NavigationVariants.Navigation_D,
   variant_e: dynamic(() => import("./variant_e")),
 };
 

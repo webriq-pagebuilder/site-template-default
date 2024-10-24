@@ -112,13 +112,13 @@ function Document({ data }: { data: Data }) {
   }
 
   return (
-    <Suspense fallback={null}>
+    <PreviewSuspense fallback={null}>
       {/*  Show page sections */}
       {data?.pageData && <PageSections data={data?.pageData} />}
 
       {/* Show Blog sections */}
       {data?.blogData && <BlogSections data={data?.blogData} />}
-    </Suspense>
+    </PreviewSuspense>
   );
 }
 
