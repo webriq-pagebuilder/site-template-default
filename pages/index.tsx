@@ -93,9 +93,9 @@ function Document({ data }: { data: Data }) {
     /*  Show page sections */
   }
   return (
-    <Suspense fallback={null}>
+    <PreviewSuspense fallback={null}>
       {data?.pageData && <PageSections data={publishedData} />}
-    </Suspense>
+    </PreviewSuspense>
   );
 }
 

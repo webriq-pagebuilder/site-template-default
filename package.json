@@ -58,7 +58,7 @@
     "@stackshift-ui/swiper-pagination": "^1.0.0",
     "@stackshift-ui/system": "^2.0.0",
     "@stackshift-ui/team": "^1.0.0",
-    "@stackshift-ui/testimonial": "^1.0.0",
+    "@stackshift-ui/testimonial": "^1.4.0",
     "@stackshift-ui/text": "^1.0.0",
     "@stackshift-ui/text-component": "^1.0.0",
     "@stackshift-ui/webriq-form": "^1.0.0",

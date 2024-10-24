@@ -3965,10 +3965,10 @@
     "@stackshift-ui/text" "1.0.0"
     classnames "^2.5.1"
 
-"@stackshift-ui/testimonial@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@stackshift-ui/testimonial/-/testimonial-1.0.0.tgz#fdd9a825a024f9761f64dcf0534f47312d107dee"
-  integrity sha512-a1ZDArhGkqGpYroAlH9GdT4ivyqlsAhnQ/9IJ+gAh/zY2kyAftfUJbJ50P6m2hyB0a0eBJ8KK3GK/OXdbka2vA==
+"@stackshift-ui/testimonial@^1.4.0":
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/@stackshift-ui/testimonial/-/testimonial-1.4.0.tgz#4b6bcc7d2942c3df3d4592076a4af637e0306073"
+  integrity sha512-I36Ah/pypq+L8p3A9IvTylFFo35n42fTYf4wP/Oj13dPv1YRzsBrfIzPlF1Jq7kkobqGQLarZhNJfuxNVngXgQ==
   dependencies:
     "@stackshift-ui/avatar" "1.0.0"
     "@stackshift-ui/card" "1.0.0"
