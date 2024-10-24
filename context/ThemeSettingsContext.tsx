@@ -99,6 +99,7 @@ export const ThemeSettingsProvider = ({ children, preview = false, themeSettings
     };
   };
 
+  // handles get-set theme settings
   useEffect(() => {
     const currentConfig = async () => {
       try {
@@ -148,21 +149,6 @@ export const ThemeSettingsProvider = ({ children, preview = false, themeSettings
     };
 
     currentConfig();
-
-    // Set up Sanity listener for real-time updates
-    const query = `*[_type == 'themeSettings' && _id in path('drafts.**')][0]`;
-
-    const subscription = sanityClient.listen(query).subscribe((update) => {
-      if (update.result) {
-        setCurrentThemeName(update.result.themes?.[0]?.name);
-        setCustomizedThemeConfig(update.result.themes?.[0]);
-        customizedThemeRef.current = update.result.themes?.[0];
-      }
-    });
-
-    return () => {
-      subscription.unsubscribe(); // Clean up listener
-    };
   }, [themeSettings, preview, currentThemeName]);
 
   // debounced function handler for real-time changes
@@ -230,7 +216,7 @@ export const ThemeSettingsProvider = ({ children, preview = false, themeSettings
         return;
       }
 
-      const result = await fetch(baseApiUrl, {
+      await fetch(baseApiUrl, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -243,20 +229,20 @@ export const ThemeSettingsProvider = ({ children, preview = false, themeSettings
           draftId: `drafts.${SANITY_PROJECT_ID}-theme-settings`,
           themeName: currentConfig,
         }),
-      });
+      }).then((response) => {
+        setLoading(false);
+        setCurrentThemeName(currentConfig);
 
-      setLoading(false);
-
-      if (result.ok) {
-        console.log("[INFO] Successfully set current theme");
-        toast.success("Successfully set current theme");
-        onModalClose();
-        window.location.reload();
-      }
+        if (response.ok && response.status === 200) { 
+          console.log("[INFO] Successfully set current theme", response);
+          toast.success("Successfully set current theme!");
+          window.location.reload();
+        }        
+      })
     } catch (error) {
       setLoading(false);
-      console.error("[ERROR] Failed to save theme settings ", error);
-      toast.error("Failed to save theme settings! See logs.");
+      console.error("[ERROR] Failed to set theme ", error);
+      toast.error("Failed to set theme! See logs.");
     }
   };
 
@@ -283,6 +269,17 @@ export const ThemeSettingsProvider = ({ children, preview = false, themeSettings
         return; // Early return if theme name is not unique
       }
 
+      const updatedThemes = isOverride
+        ? themes
+        : [
+            ...(themes || []), // Ensure themes is an array
+            {
+              ...customizedThemeRef.current,
+              name: themeName,
+              _key: nanoid(),
+            },
+          ];
+
       await fetch(baseApiUrl, {
         method: "POST",
         headers: {
@@ -293,26 +290,18 @@ export const ThemeSettingsProvider = ({ children, preview = false, themeSettings
           sanityProjectId: SANITY_PROJECT_ID,
           dataset: SANITY_PROJECT_DATASET,
           themeName: savedThemeConfig?.currentTheme,
-          themes: isOverride
-            ? themes
-            : [
-                ...themes,
-                {
-                  ...customizedThemeRef.current,
-                  name: themeName,
-                  _key: nanoid(),
-                },
-              ],
+          themes: updatedThemes,
           documentId: `${SANITY_PROJECT_ID}-theme-settings`,
           draftId: `drafts.${SANITY_PROJECT_ID}-theme-settings`,
         }),
-      }).then(() => {
-        console.log("[INFO] Successfully saved theme settings");
-        toast.success("Successfully saved theme settings");
-
+      }).then((response) => {
         setLoading(false);
-        onModalClose();
-        window.location.reload();
+        
+        if (response.ok && response.status === 200) {
+          console.log("[INFO] Successfully saved theme settings");
+          toast.success("Successfully saved theme settings");
+          window.location.reload();
+        };
       });
     } catch (error) {
       setLoading(false);
@@ -341,7 +330,7 @@ export const ThemeSettingsProvider = ({ children, preview = false, themeSettings
         setCustomizedThemeConfig(value);
 
         console.log("[INFO] Successfully reverted setting");
-        toast.info("Successfully reverted setting");
+        toast.warn("Successfully reverted setting");
       });
     } catch (error) {
       console.error("[ERROR] Failed to revert setting ", error);
@@ -372,7 +361,7 @@ export const ThemeSettingsProvider = ({ children, preview = false, themeSettings
       }).then(() => {
         console.log("[INFO] Successfully reverted ALL settings");
         toast.info("Successfully reverted ALL settings");
-        window.location.reload();
+        
       });
     } catch (error) {
       console.error("[ERROR] Failed to revert settings ", error);
