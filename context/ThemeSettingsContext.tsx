@@ -149,6 +149,33 @@ export const ThemeSettingsProvider = ({ children, preview = false, themeSettings
     };
 
     currentConfig();
+
+    // Set up Sanity listener for real-time updates
+    const query = preview
+      ? "*[_type=='themeSettings'][0]"
+      : "*[_type=='themeSettings' && !(_id in path('drafts.**'))][0]";
+
+    const subscription = sanityClient.listen(query).subscribe((update) => {
+      const themes = update?.result?.themes;
+
+      if (update.result) {
+        if (preview) {
+          setCurrentThemeName(themes?.[0]?.name);
+          setCustomizedThemeConfig(themes?.[0]);
+          customizedThemeRef.current = themes?.[0];
+        } else {
+          const currentSavedThemeConfig = themes?.find((theme) => theme?.name === currentThemeName);
+          setSavedThemeConfig({
+            ...currentSavedThemeConfig,
+            currentTheme: update?.result?.currentTheme,
+          });
+        }
+      }
+    });
+
+    return () => {
+      subscription.unsubscribe(); // Clean up listener
+    };
   }, [themeSettings, preview, currentThemeName]);
 
   // debounced function handler for real-time changes
