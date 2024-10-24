@@ -1,11 +1,20 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Button } from "@stackshift-ui/button";
 import { Text } from "@stackshift-ui/text";
-import { useTheme } from "context/ThemeSettingsContext";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { useClickOutside } from "utils/theme";
 
-export function SearchBar({ options, id }) {
+export function SearchBar({
+  options,
+  id,
+  isReady,
+  loading,
+  themes,
+  setCustomizedThemeConfig,
+  currentThemeName,
+  setCurrentThemeName,
+  savedThemeConfig,
+}) {
   const [isOpen, setIsOpen] = useState(false);
   const [searchInput, setSearchInput] = useState("");
   const [searchResults, setSearchResults] = useState(null);
@@ -15,16 +24,6 @@ export function SearchBar({ options, id }) {
 
   const close = useCallback(() => setIsOpen(false), []);
   useClickOutside(inputRef, close);
-
-  const {
-    isReady,
-    loading,
-    themes,
-    setCustomizedThemeConfig,
-    currentThemeName,
-    setCurrentThemeName,
-    savedThemeConfig,
-  } = useTheme() || {}; // Use the context
 
   const handleSettingTheme = (theme) => {
     const updatedConfig = themes?.find(({ name }) => name === theme);
