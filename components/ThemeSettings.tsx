@@ -367,9 +367,10 @@ export function ThemeSettings({ preview = false, themeSettings }): React.JSX.Ele
           draftId: `drafts.${SANITY_PROJECT_ID}-theme-settings`,
         }),
       }).then(() => {
+        onModalClose();
+
         console.log("[INFO] Successfully reverted ALL settings");
         toast.info("Successfully reverted ALL settings");
-        
       });
     } catch (error) {
       console.error("[ERROR] Failed to revert settings ", error);
