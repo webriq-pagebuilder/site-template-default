@@ -26,54 +26,35 @@ export function ThemeSettings({ preview = false, themeSettings }): React.JSX.Ele
 
   const [isReady, setIsReady] = useState(true);
   const [showSettings, setShowSettings] = useState(false);
-
-  // tab
-  const settingTabs = ["Basic", "Advanced"];
-  const [activeTab, setActiveTab] = useState(settingTabs?.[0]);
-
-  // theme versions
+  const [activeTab, setActiveTab] = useState("Basic");
   const [currentThemeName, setCurrentThemeName] = useState(
     themeSettings?.currentTheme || defaultThemeConfig?.currentTheme
   );
-  const [themes, setThemes] = useState(themeSettings?.themes); // all saved themes
+  const [themes, setThemes] = useState(themeSettings?.themes);
   const currentThemeConfig = themeSettings?.themes?.find(
     ({ _key, name }) => name === currentThemeName
   );
-
-  // saved changes for the current theme config
   const [savedThemeConfig, setSavedThemeConfig] = useState(currentThemeConfig);
-
-  // real-time/unsaved changes for the current theme config
-  const [customizedThemeConfig, setCustomizedThemeConfig] =
-    useState(savedThemeConfig);
+  const [customizedThemeConfig, setCustomizedThemeConfig] = useState(savedThemeConfig);
   const customizedThemeRef = useRef(customizedThemeConfig);
   const prevCustomizedThemeConfigRef = useRef(customizedThemeConfig);
-
-  // loading states
   const [isInitialLoad, setIsInitialLoad] = useState(true);
   const [loading, setLoading] = useState(false);
-
-  // confirm dialog
   const [openModal, setOpenModal] = useState(false);
-  const [modalAction, setModalAction] = useState<
-    "setTheme" | "saveAs" | "revertAll" | null
-  >(null);
-  const onModalOpen = useCallback(
-    (action: "setTheme" | "saveAs" | "revertAll") => {
-      setModalAction(action);
-      setOpenModal(true); // Open the modal
-    },
-    []
-  );
+  const [modalAction, setModalAction] = useState<"setTheme" | "saveAs" | "revertAll" | null>(null);
+
+  const onModalOpen = useCallback((action: "setTheme" | "saveAs" | "revertAll") => {
+    setModalAction(action);
+    setOpenModal(true);
+  }, []);
 
   const onModalClose = useCallback(() => {
-    setOpenModal(false); // Close the modal
+    setOpenModal(false);
     setModalAction(null);
   }, []);
 
   const debounce = (func: Function, delay: number) => {
     let timeoutId: NodeJS.Timeout;
-
     return (...args: any[]) => {
       if (timeoutId) clearTimeout(timeoutId);
       timeoutId = setTimeout(() => {
@@ -136,24 +117,18 @@ export function ThemeSettings({ preview = false, themeSettings }): React.JSX.Ele
           ...fetchedCurrentThemeConfig,
           currentTheme: fetchedCurrentThemeName,
         });
-        setCustomizedThemeConfig(fetchedCurrentThemeConfig);
+        setCustomizedThemeConfig(customizedThemeConfig);
       }
     } catch (error) {
       console.error("[ERROR] Failed to refetch theme settings.", error);
     }
   }, [preview]);
 
-  // handles get-set theme settings
   useEffect(() => {
     const currentConfig = async () => {
       try {
         let fetchedThemeConfig = savedThemeConfig;
         let savedThemeName = themeSettings?.currentTheme;
-
-        await syncThemeConfig({
-          configToSync: themes,
-          currentTheme: savedThemeName
-        });
 
         // since in 'preview' mode, we primarily get the data for the real-time/unsaved current theme config,
         // so we also need to fetch separately its saved config based on the currentTheme for data comparison
@@ -161,12 +136,17 @@ export function ThemeSettings({ preview = false, themeSettings }): React.JSX.Ele
           const query = `*[_type=='themeSettings' && !(_id in path('drafts.**'))]`;
           const result = await sanityClient.fetch(query);
 
-          if (result && result.length !== 0) {
+          if (result.length !== 0) {
             fetchedThemeConfig = result[0]?.themes?.find(
               ({ name }) => name === currentThemeName
             );
             (savedThemeName = result[0]?.currentTheme),
               setThemes(result[0]?.themes);
+          } else {
+            await syncThemeConfig({
+              configToSync: themes,
+              currentTheme: savedThemeName
+            });
           }
         }
 
@@ -198,7 +178,7 @@ export function ThemeSettings({ preview = false, themeSettings }): React.JSX.Ele
     };
 
     currentConfig();
-  }, [themeSettings, preview, currentThemeName]);
+  }, [themeSettings, preview, currentThemeName, syncThemeConfig]);
 
   // debounced function handler for real-time changes
   const debouncedGenerateThemeConfig = useCallback(
@@ -211,7 +191,7 @@ export function ThemeSettings({ preview = false, themeSettings }): React.JSX.Ele
         hasChanges: !_.isEqual(themeToSync, savedThemeConfig)
       });
     }, 500),
-    []
+    [currentThemeName, savedThemeConfig, syncThemeConfig]
   );
 
   // handle real-time changes on current theme
@@ -221,18 +201,17 @@ export function ThemeSettings({ preview = false, themeSettings }): React.JSX.Ele
       customizedThemeConfig &&
       !_.isEqual(customizedThemeConfig, savedThemeConfig) &&
       !_.isEqual(currentThemeName, customizedThemeConfig.currentTheme) &&
-      !_.isEqual(customizedThemeConfig, prevCustomizedThemeConfigRef.current) // Check if the config has actually changed
+      !_.isEqual(customizedThemeConfig, prevCustomizedThemeConfigRef.current)
     ) {
       customizedThemeRef.current = customizedThemeConfig;
       debouncedGenerateThemeConfig();
     }
-    prevCustomizedThemeConfigRef.current = customizedThemeConfig; // Update the ref with the current config
+    prevCustomizedThemeConfigRef.current = customizedThemeConfig;
   }, [
     currentThemeName,
     customizedThemeConfig,
     debouncedGenerateThemeConfig,
     savedThemeConfig,
-    themeSettings,
     isInitialLoad,
   ]);
 
@@ -259,13 +238,12 @@ export function ThemeSettings({ preview = false, themeSettings }): React.JSX.Ele
         }),
       }).then((response) => {
         setLoading(false);
-        setCurrentThemeName(currentConfig);
 
         if (response.ok && response.status === 200) { 
           console.log("[INFO] Successfully set current theme");
           toast.success("Successfully set current theme!");
           onModalClose();
-          refetchThemeSettings(); // Refetch instead of reload
+          refetchThemeSettings();
         }        
       })
     } catch (error) {
@@ -287,7 +265,7 @@ export function ThemeSettings({ preview = false, themeSettings }): React.JSX.Ele
       );
       const isOverride = action === "overwrite";
 
-      if (!action) return; // Early return if no action
+      if (!action) return;
 
       if (isOverride && themeIndex !== -1) {
         themes[themeIndex] = customizedThemeRef.current;
@@ -295,13 +273,13 @@ export function ThemeSettings({ preview = false, themeSettings }): React.JSX.Ele
 
       if (themes?.find(({ name }) => name === themeName)) {
         toast.error("Theme name is already added. Please enter a unique name.");
-        return; // Early return if theme name is not unique
+        return;
       }
 
       const updatedThemes = isOverride
         ? themes
         : [
-            ...(themes || []), // Ensure themes is an array
+            ...(themes || []),
             {
               ...customizedThemeRef.current,
               name: themeName,
@@ -330,7 +308,7 @@ export function ThemeSettings({ preview = false, themeSettings }): React.JSX.Ele
           console.log("[INFO] Successfully saved theme settings");
           toast.success("Successfully saved theme settings");
           onModalClose();
-          refetchThemeSettings(); // Refetch instead of reload
+          refetchThemeSettings();
         };
       });
     } catch (error) {
@@ -461,7 +439,7 @@ export function ThemeSettings({ preview = false, themeSettings }): React.JSX.Ele
               }}
             />
             <div className="flex gap-5 border-b border-b-gray-300">
-              {settingTabs?.map((tab, index) => (
+              {["Basic", "Advanced"].map((tab, index) => (
                 <div className="mb-0" id={tab} key={index}>
                   <button
                     className={`pt-2 pb-3 ${
@@ -533,7 +511,7 @@ export function ThemeSettings({ preview = false, themeSettings }): React.JSX.Ele
                     _.isEqual(
                       customizedThemeConfig,
                       themes?.find(
-                        ({ name }) => name === customizedThemeConfig?.name
+                        ({ name }) => name === currentThemeName
                       )
                     )
                   }
@@ -552,7 +530,7 @@ export function ThemeSettings({ preview = false, themeSettings }): React.JSX.Ele
                     _.isEqual(
                       customizedThemeConfig,
                       themes?.find(
-                        ({ name }) => name === customizedThemeConfig?.name
+                        ({ name }) => name === currentThemeName
                       )
                     )
                   }
