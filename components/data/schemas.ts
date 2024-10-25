@@ -1307,10 +1307,10 @@ export const headerData = {
         ariaLabel: "Click secondary",
       },
       mainImage: {
-        image: "Settings_Monochromatic-01.svg",
+        image:
+          "https://cdn.sanity.io/images/9itgab5x/staging/169ed7b2d1aefee7f232cb11d591a87afb081800-1050x700.jpg",
         alt: "sample logo",
       },
-      imageSrc: "Settings_Monochromatic-01.svg",
     },
   },
   variant_e: {
