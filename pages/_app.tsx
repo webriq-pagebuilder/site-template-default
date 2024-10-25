@@ -8,6 +8,7 @@ import { setProjectTheme } from "utils/theme";
 import { sanityClient } from "lib/sanity.client";
 import { defaultThemeConfig } from "components/theme-settings/defaultThemeConfig";
 import { StackShiftUIProvider } from "@stackshift-ui/system";
+import { Image, Link } from "../components/ui";
 
 // global styles
 import "vanilla-cookieconsent/dist/cookieconsent.css";
@@ -108,7 +109,7 @@ function App({ Component, pageProps }: AppProps) {
           />
         )}
       </Head>
-      <StackShiftUIProvider components={{}}>
+      <StackShiftUIProvider components={{ Image, Link }}>
         <Component {...pageProps} />
       </StackShiftUIProvider>
     </>
