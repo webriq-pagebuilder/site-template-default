@@ -3591,10 +3591,10 @@
     "@stackshift-ui/text" "1.0.0"
     classnames "^2.5.1"
 
-"@stackshift-ui/features@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@stackshift-ui/features/-/features-1.0.0.tgz#10d063c336564ed62ffc00abcb7cdb231342d621"
-  integrity sha512-1V9jE+IY/yzRhsbvGvGGOdO1/7t9INLSxj5vqH1cmfpUcDbHbDSxD2nvgthzxMWCZpe5f4Z5svoa4tAcyRyblg==
+"@stackshift-ui/features@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@stackshift-ui/features/-/features-1.0.1.tgz#4e460bd4b74078b4d3210123e78881a59067e59f"
+  integrity sha512-IftLMDBXxQ0A746qLQ/fXYY4eyJ3FM8xVJF6H6Sug04/GI0rnSyB6yT6UHMr78XJ+yPxDqfrFVsLDgt1DkVZHA==
   dependencies:
     "@stackshift-ui/button" "1.0.0"
     "@stackshift-ui/card" "1.0.0"

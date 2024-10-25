@@ -37,7 +37,7 @@
     "@stackshift-ui/container": "^1.0.0",
     "@stackshift-ui/cookies": "^1.0.0",
     "@stackshift-ui/faqs": "^1.1.0",
-    "@stackshift-ui/features": "^1.0.0",
+    "@stackshift-ui/features": "^1.0.1",
     "@stackshift-ui/flex": "^1.0.0",
     "@stackshift-ui/footer": "^1.1.0",
     "@stackshift-ui/form-field": "^1.0.0",
