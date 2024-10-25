@@ -13,7 +13,6 @@ import InlineEditorContextProvider from "context/InlineEditorContext";
 import { CommonPageData, SeoTags, SeoSchema } from "types";
 import { addSEOJsonLd } from "components/SEO";
 import { ThemeSettings } from "components/ThemeSettings";
-import { ThemeSettingsProvider } from "context/ThemeSettingsContext";
 import { defaultThemeConfig } from "components/theme-settings/defaultThemeConfig";
 
 interface HomeProps {
@@ -54,9 +53,7 @@ function Home({ data, preview, token, source, theme }: HomeProps) {
         <>
           <PreviewBanner />
           {showThemeSetting && (
-            <ThemeSettingsProvider preview={preview} themeSettings={theme}>
-              <ThemeSettings />
-            </ThemeSettingsProvider>
+            <ThemeSettings preview={preview} themeSettings={theme} />
           )}
           <PreviewSuspense fallback="Loading...">
             <InlineEditorContextProvider showInlineEditor={showInlineEditor}>
@@ -93,9 +90,9 @@ function Document({ data }: { data: Data }) {
     /*  Show page sections */
   }
   return (
-    <Suspense fallback={null}>
+    <PreviewSuspense fallback={null}>
       {data?.pageData && <PageSections data={publishedData} />}
-    </Suspense>
+    </PreviewSuspense>
   );
 }
 

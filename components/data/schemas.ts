@@ -1030,6 +1030,46 @@ export const featuresData = {
       ],
     },
   },
+  variant_h: {
+    variant: "variant_h",
+    variants: {
+      caption: "Dolor sit amet consectutar",
+      title: "Build & Launch without problems",
+      description:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque efficitur nisl sodales egestas lobortis.",
+      arrayOfImageTitleAndText: [
+        {
+          title: "Lorem ipsum dolor sit amet consectutar",
+          plainText:
+            "Fusce quam tellus, placerat eu metus ut, viverra aliquet purus. Suspendisse potenti. Nulla non nibh feugiat.",
+        },
+        {
+          title: "Ut congue nec leo eget aliquam",
+          plainText:
+            "Ut tempus tellus ac nisi vestibulum tempus. Nunc tincidunt lectus libero, ac ultricies augue elementum at.",
+        },
+        {
+          title: "Proin fringilla eleifend justo pellentesque",
+          plainText:
+            "Donec ut ligula nunc. Mauris blandit vel est et facilisis. Integer sapien felis, aliquet at posuere et, porttitor quis ligula.",
+        },
+      ],
+      images: [
+        {
+          image:
+            "https://cdn.sanity.io/images/9itgab5x/staging/1d0655534230a5cb4e08d8b7bd14b271c5317d82-634x951.jpg?fm=webp&w=2048&q=75",
+        },
+        {
+          image:
+            "https://cdn.sanity.io/images/9itgab5x/staging/2d9f87020c05fba5986084e4744c829844bf21b6-1050x700.jpg?fm=webp&w=1200&q=75",
+        },
+        {
+          image:
+            "https://cdn.sanity.io/images/9itgab5x/staging/881fdf41f1db63ed80d886037220b4fecc0c39b6-701x876.jpg?fm=webp&w=2048&q=75",
+        },
+      ],
+    },
+  },
 };
 
 export const footerData = {
@@ -1267,10 +1307,10 @@ export const headerData = {
         ariaLabel: "Click secondary",
       },
       mainImage: {
-        image: "Settings_Monochromatic-01.svg",
+        image:
+          "https://cdn.sanity.io/images/9itgab5x/staging/169ed7b2d1aefee7f232cb11d591a87afb081800-1050x700.jpg",
         alt: "sample logo",
       },
-      imageSrc: "Settings_Monochromatic-01.svg",
     },
   },
   variant_e: {
