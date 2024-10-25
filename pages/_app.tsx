@@ -91,7 +91,7 @@ function App({ Component, pageProps }: AppProps) {
   return (
     <>
       <Head>
-        <style>:root{setProjectTheme(themeConfig)}</style>
+        <style>:root{setProjectTheme(themeConfig || defaultThemeConfig)}</style>
         {seo?.map((tags) => {
           if (tags?.key === "page-title") {
             return <title key={tags?.key}>{tags?.title}</title>;

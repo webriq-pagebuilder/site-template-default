@@ -191,7 +191,7 @@ export const getStaticProps: GetStaticProps = async ({
     client.fetch(themeQuery),
   ]);
 
-  const theme = initialConfig;
+  const theme = initialConfig || defaultThemeConfig;
 
   // pass page data and preview to helper function
   const singlePageData: PageData = filterDataToSingleItem(page, preview);
