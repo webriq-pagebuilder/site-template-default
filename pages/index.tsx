@@ -5,7 +5,7 @@ import { homeQuery, globalSEOQuery } from "./api/query";
 import { usePreview } from "lib/sanity.preview";
 import { PageSections } from "components/page";
 import { PreviewNoContent } from "components/PreviewNoContent";
-import PageNotFound from "pages/404";
+import { PreviewNoHomePage } from "components/PreviewNoHomePage";
 import { filterDataToSingleItem } from "components/list";
 import { SEO } from "components/SEO";
 import { PreviewBanner } from "components/PreviewBanner";
@@ -46,7 +46,7 @@ function Home({ data, preview, token, source, theme }: HomeProps) {
   const showThemeSetting = source === "theme";
 
   if (!data?.pageData) {
-    return null;
+    return <PreviewNoHomePage />;
   } else {
     if (preview) {
       return (
