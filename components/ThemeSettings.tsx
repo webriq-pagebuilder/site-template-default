@@ -31,10 +31,7 @@ export function ThemeSettings({ preview = false, themeSettings }): React.JSX.Ele
     themeSettings?.currentTheme || defaultThemeConfig?.currentTheme
   );
   const [themes, setThemes] = useState(themeSettings?.themes);
-  const currentThemeConfig = themeSettings?.themes?.find(
-    ({ _key, name }) => name === currentThemeName
-  );
-  const [savedThemeConfig, setSavedThemeConfig] = useState(currentThemeConfig);
+  const [savedThemeConfig, setSavedThemeConfig] = useState(themeSettings?.themes?.find(({ name }) => name === currentThemeName));
   const [customizedThemeConfig, setCustomizedThemeConfig] = useState(savedThemeConfig);
   const customizedThemeRef = useRef(customizedThemeConfig);
   const prevCustomizedThemeConfigRef = useRef(customizedThemeConfig);
@@ -82,10 +79,8 @@ export function ThemeSettings({ preview = false, themeSettings }): React.JSX.Ele
         });
 
         if (response.ok) {
-          console.log("[INFO] Successfully synced theme settings!");
           toast.info("Successfully synced theme settings");
         } else {
-          console.error("[ERROR] Failed to sync theme settings");
           toast.error("Failed to sync theme settings");
         }
       } catch (error) {
@@ -96,95 +91,76 @@ export function ThemeSettings({ preview = false, themeSettings }): React.JSX.Ele
     [baseApiUrl]
   );
 
-  const refetchThemeSettings = useCallback(async () => {
+  const fetchCurrentConfig = useCallback(async () => {
     try {
-      const query = preview
-        ? "*[_type=='themeSettings'][0]"
-        : "*[_type=='themeSettings' && !(_id in path('drafts.**'))][0]";
-      
-      const result = await sanityClient.fetch(query);
+      let fetchedThemeConfig = savedThemeConfig;
+      let savedThemeName = themeSettings?.currentTheme;
 
-      if (result) {
-        const fetchedThemes = result.themes;
-        const fetchedCurrentThemeName = result.currentTheme;
-        const fetchedCurrentThemeConfig = fetchedThemes.find(
-          ({ name }) => name === fetchedCurrentThemeName
-        );
+      // since in 'preview' mode, we primarily get the data for the real-time/unsaved current theme config,
+      // so we also need to fetch separately its saved config based on the currentTheme for data comparison
+      if (preview) {
+        const query = `*[_type=='themeSettings' && !(_id in path('drafts.**'))]`;
+        const result = await sanityClient.fetch(query);
 
-        setThemes(fetchedThemes);
-        setCurrentThemeName(fetchedCurrentThemeName);
-        setSavedThemeConfig({
-          ...fetchedCurrentThemeConfig,
-          currentTheme: fetchedCurrentThemeName,
-        });
-        setCustomizedThemeConfig(customizedThemeConfig);
+        if (result.length !== 0) {
+          fetchedThemeConfig = result[0]?.themes?.find(({ name }) => name === currentThemeName);
+          savedThemeName = result[0]?.currentTheme;
+          setThemes(result[0]?.themes);
+        } else {
+          await syncThemeConfig({ configToSync: themes, currentTheme: savedThemeName });
+        }
       }
+
+      if (!fetchedThemeConfig?.mode) {
+        localStorage.setItem("theme-mode", "light");
+      } else {
+        document.documentElement.classList.toggle("dark", fetchedThemeConfig?.mode === "dark");
+        localStorage.setItem("theme-mode", fetchedThemeConfig?.mode);
+      }
+
+      setSavedThemeConfig({ ...fetchedThemeConfig, currentTheme: savedThemeName });
     } catch (error) {
-      console.error("[ERROR] Failed to refetch theme settings.", error);
+      console.error("[ERROR] Failed to fetch theme settings.", error);
+      setIsReady(false);
+    } finally {
+      setIsInitialLoad(false);
     }
-  }, [preview]);
+  }, [preview, currentThemeName, syncThemeConfig]);
 
   useEffect(() => {
-    const currentConfig = async () => {
-      try {
-        let fetchedThemeConfig = savedThemeConfig;
-        let savedThemeName = themeSettings?.currentTheme;
+    fetchCurrentConfig();
 
-        // since in 'preview' mode, we primarily get the data for the real-time/unsaved current theme config,
-        // so we also need to fetch separately its saved config based on the currentTheme for data comparison
-        if (preview) {
-          const query = `*[_type=='themeSettings' && !(_id in path('drafts.**'))]`;
-          const result = await sanityClient.fetch(query);
+    const query = preview
+      ? "*[_type=='themeSettings'][0]"
+      : "*[_type=='themeSettings' && !(_id in path('drafts.**'))][0]";
 
-          if (result.length !== 0) {
-            fetchedThemeConfig = result[0]?.themes?.find(
-              ({ name }) => name === currentThemeName
-            );
-            (savedThemeName = result[0]?.currentTheme),
-              setThemes(result[0]?.themes);
-          } else {
-            await syncThemeConfig({
-              configToSync: themes,
-              currentTheme: savedThemeName
-            });
-          }
-        }
+    // get initial theme settings
+    sanityClient.fetch(query).then((initialConfig) => {
+      const config = initialConfig?.themes?.find(({ name }) => name === currentThemeName);
 
-        // set appearance or mode based on current theme config
-        if (!fetchedThemeConfig?.mode) {
-          localStorage.setItem("theme-mode", "light");
-        } else {
-          if (fetchedThemeConfig?.mode === "dark") {
-            document.documentElement.classList.toggle("dark", true);
-          }
+      setCustomizedThemeConfig(config);
+      customizedThemeRef.current = config;
+    });
 
-          localStorage.setItem("theme-mode", fetchedThemeConfig?.mode);
-        }
+    // listen to real-time updates to theme settings
+    const subscription = sanityClient.listen(query).subscribe((config) => {
+      if (config) {
+        const theme = config?.result?.themes?.find(({ name }) => name === currentThemeName);
 
-        const finalThemeConfig = {
-          ...fetchedThemeConfig,
-          currentTheme: savedThemeName,
-        };
-
-        if (fetchedThemeConfig) {
-          setSavedThemeConfig(finalThemeConfig);
-        }
-      } catch (error) {
-        console.error("[ERROR] Failed to fetch theme settings.", error);
-        setIsReady(false);
-      } finally {
-        setIsInitialLoad(false);
+        setCurrentThemeName(config?.result?.currentTheme);
+        setCustomizedThemeConfig(theme);
+        customizedThemeRef.current = theme;
       }
+    });
+
+    return () => {
+      subscription.unsubscribe();
     };
+  }, [fetchCurrentConfig]);
 
-    currentConfig();
-  }, [themeSettings, preview, currentThemeName, syncThemeConfig]);
-
-  // debounced function handler for real-time changes
   const debouncedGenerateThemeConfig = useCallback(
     debounce(async () => {
       const themeToSync = customizedThemeRef.current;
-      
       await syncThemeConfig({
         configToSync: themeToSync,
         currentTheme: currentThemeName,
@@ -194,7 +170,6 @@ export function ThemeSettings({ preview = false, themeSettings }): React.JSX.Ele
     [currentThemeName, savedThemeConfig, syncThemeConfig]
   );
 
-  // handle real-time changes on current theme
   useEffect(() => {
     if (
       !isInitialLoad &&
@@ -216,14 +191,14 @@ export function ThemeSettings({ preview = false, themeSettings }): React.JSX.Ele
   ]);
 
   const handleSetCurrentTheme = async (currentConfig: any) => {
+    if (!currentConfig) {
+      toast.error("Failed to set theme config. See logs.");
+      return;
+    }
+
     try {
       setLoading(true);
-      if (!currentConfig) {
-        toast.error("Failed to set theme config. See logs.");
-        return;
-      }
-
-      await fetch(baseApiUrl, {
+      const response = await fetch(baseApiUrl, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -236,33 +211,24 @@ export function ThemeSettings({ preview = false, themeSettings }): React.JSX.Ele
           draftId: `drafts.${SANITY_PROJECT_ID}-theme-settings`,
           themeName: currentConfig,
         }),
-      }).then((response) => {
-        setLoading(false);
+      });
 
-        if (response.ok && response.status === 200) { 
-          console.log("[INFO] Successfully set current theme");
-          toast.success("Successfully set current theme!");
-          onModalClose();
-          refetchThemeSettings();
-        }        
-      })
+      if (response.ok) {
+        toast.success("Successfully set current theme!");
+        onModalClose();
+      }
     } catch (error) {
-      setLoading(false);
       console.error("[ERROR] Failed to set theme ", error);
       toast.error("Failed to set theme! See logs.");
+    } finally {
+      setLoading(false);
     }
   };
 
-  const handleSaveConfigAs = async (
-    action: "overwrite" | "saveNew",
-    themeName?: string
-  ) => {
+  const handleSaveConfigAs = async (action: "overwrite" | "saveNew", themeName?: string) => {
     try {
       setLoading(true);
-
-      const themeIndex = themes?.findIndex(
-        ({ name }) => name === currentThemeName
-      );
+      const themeIndex = themes?.findIndex(({ name }) => name === currentThemeName);
       const isOverride = action === "overwrite";
 
       if (!action) return;
@@ -287,7 +253,7 @@ export function ThemeSettings({ preview = false, themeSettings }): React.JSX.Ele
             },
           ];
 
-      await fetch(baseApiUrl, {
+      const response = await fetch(baseApiUrl, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -301,26 +267,22 @@ export function ThemeSettings({ preview = false, themeSettings }): React.JSX.Ele
           documentId: `${SANITY_PROJECT_ID}-theme-settings`,
           draftId: `drafts.${SANITY_PROJECT_ID}-theme-settings`,
         }),
-      }).then((response) => {
-        setLoading(false);
-        
-        if (response.ok && response.status === 200) {
-          console.log("[INFO] Successfully saved theme settings");
-          toast.success("Successfully saved theme settings");
-          onModalClose();
-          refetchThemeSettings();
-        };
       });
+
+      if (response.ok) {
+        toast.success("Successfully saved theme settings");
+        onModalClose();
+      }
     } catch (error) {
-      setLoading(false);
       console.error("[ERROR] Failed to save theme settings ", error);
       toast.error("Failed to save theme settings! See logs.");
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleRevertSetting = async (value) => {
     setLoading(true);
-
     try {
       await fetch(baseApiUrl, {
         method: "POST",
@@ -334,12 +296,9 @@ export function ThemeSettings({ preview = false, themeSettings }): React.JSX.Ele
           themeConfig: value,
           draftId: `drafts.${SANITY_PROJECT_ID}-theme-settings`,
         }),
-      }).then(() => {
-        setCustomizedThemeConfig(value);
-
-        console.log("[INFO] Successfully reverted setting");
-        toast.warn("Successfully reverted setting");
       });
+      setCustomizedThemeConfig(value);
+      toast.warn("Successfully reverted setting");
     } catch (error) {
       console.error("[ERROR] Failed to revert setting ", error);
       toast.error("Failed to revert theme setting! See logs.");
@@ -350,7 +309,6 @@ export function ThemeSettings({ preview = false, themeSettings }): React.JSX.Ele
 
   const handleRevertAll = async () => {
     setLoading(true);
-
     try {
       await fetch(baseApiUrl, {
         method: "POST",
@@ -366,12 +324,9 @@ export function ThemeSettings({ preview = false, themeSettings }): React.JSX.Ele
           documentId: `${SANITY_PROJECT_ID}-theme-settings`,
           draftId: `drafts.${SANITY_PROJECT_ID}-theme-settings`,
         }),
-      }).then(() => {
-        onModalClose();
-
-        console.log("[INFO] Successfully reverted ALL settings");
-        toast.info("Successfully reverted ALL settings");
       });
+      toast.info("Successfully reverted ALL settings");
+      onModalClose();
     } catch (error) {
       console.error("[ERROR] Failed to revert settings ", error);
       toast.error("Failed to revert theme settings! See logs.");
