@@ -214,6 +214,8 @@ export function ThemeSettings({ preview = false, themeSettings }): React.JSX.Ele
       });
 
       if (response.ok) {
+        setCurrentThemeName(currentConfig);
+      
         toast.success("Successfully set current theme!");
         onModalClose();
       }
@@ -325,6 +327,8 @@ export function ThemeSettings({ preview = false, themeSettings }): React.JSX.Ele
           draftId: `drafts.${SANITY_PROJECT_ID}-theme-settings`,
         }),
       });
+      setCurrentThemeName(savedThemeConfig?.currentTheme)
+      setCustomizedThemeConfig(savedThemeConfig)
       toast.info("Successfully reverted ALL settings");
       onModalClose();
     } catch (error) {
