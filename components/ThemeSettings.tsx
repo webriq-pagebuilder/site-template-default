@@ -128,8 +128,6 @@ export function ThemeSettings({ preview = false, themeSettings }): React.JSX.Ele
   }, [preview, currentThemeName, syncThemeConfig]);
 
   useEffect(() => {
-    fetchCurrentConfig();
-
     const query = preview
       ? "*[_type=='themeSettings'][0]"
       : "*[_type=='themeSettings' && !(_id in path('drafts.**'))][0]";
@@ -138,6 +136,7 @@ export function ThemeSettings({ preview = false, themeSettings }): React.JSX.Ele
     sanityClient.fetch(query).then((initialConfig) => {
       const config = initialConfig?.themes?.find(({ name }) => name === currentThemeName);
 
+      fetchCurrentConfig();
       setCustomizedThemeConfig(config);
       customizedThemeRef.current = config;
     });
@@ -147,6 +146,7 @@ export function ThemeSettings({ preview = false, themeSettings }): React.JSX.Ele
       if (config) {
         const theme = config?.result?.themes?.find(({ name }) => name === currentThemeName);
 
+        fetchCurrentConfig();
         setCurrentThemeName(config?.result?.currentTheme);
         setCustomizedThemeConfig(theme);
         customizedThemeRef.current = theme;
