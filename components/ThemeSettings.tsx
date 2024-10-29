@@ -99,7 +99,24 @@ export function ThemeSettings({ preview = false, themeSettings }): React.JSX.Ele
       // since in 'preview' mode, we primarily get the data for the real-time/unsaved current theme config,
       // so we also need to fetch separately its saved config based on the currentTheme for data comparison
       if (preview) {
-        const query = `*[_type=='themeSettings' && !(_id in path('drafts.**'))]`;
+        const query = `*[_type=='themeSettings' && !(_id in path('drafts.**'))] {
+          ...,
+          themes[] {
+            ...,
+            colors {
+              light {
+                background,
+                primary,
+                secondary,
+              },
+              dark {
+                background,
+                primary,
+                secondary,
+              }
+            }
+          }
+        }`;
         const result = await sanityClient.fetch(query);
 
         if (result.length !== 0) {
@@ -133,7 +150,26 @@ export function ThemeSettings({ preview = false, themeSettings }): React.JSX.Ele
       : "*[_type=='themeSettings' && !(_id in path('drafts.**'))][0]";
 
     // get initial theme settings
-    sanityClient.fetch(query).then((initialConfig) => {
+    sanityClient.fetch(
+      `${query} {
+        ...,
+        themes[] {
+          ...,
+          colors {
+            light {
+              background,
+              primary,
+              secondary,
+            },
+            dark {
+              background,
+              primary,
+              secondary,
+            }
+          }
+        }
+      }`
+    ).then((initialConfig) => {
       const config = initialConfig?.themes?.find(({ name }) => name === currentThemeName);
 
       fetchCurrentConfig();
