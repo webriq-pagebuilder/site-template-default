@@ -60,3 +60,35 @@ export function dynamicStoryData({
 
   return result;
 }
+
+export function dynamicComponents({
+  data,
+  schemaFields = {},
+  schemaType,
+  isEcommerce = false,
+}) {
+  const schema = {};
+
+  // Initialize the schema for the given schemaType
+  schema[`${schemaType}`] = {};
+
+  // Iterate over each page and its sections
+  data?.forEach((page) => {
+    page.sections?.forEach((item) => {
+      // Iterate over sections
+      if (!item || !item.variants) return; // Skip if item or item.variants is falsy
+
+      const variants = isEcommerce
+        ? schemaFields
+        : filterArgsByVariant(schemaFields, item.variants, item.variant);
+
+      // Set the variant as a key in the schema object
+      schema[schemaType][item.variant] = {
+        variant: item.variant,
+        variants,
+      };
+    });
+  });
+
+  return schema;
+}
