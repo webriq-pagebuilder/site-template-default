@@ -89,15 +89,8 @@ export function ThemeSettings({ preview = false, themeSettings }): React.JSX.Ele
 
   const fetchCurrentConfig = useCallback(async () => {
     try {
-      const savedTheme = localStorage.getItem('savedTheme');
-
       let fetchedThemeConfig = savedThemeConfig;
       let savedThemeName = themeSettings?.currentTheme;
-
-      if (savedTheme) {
-        const parsedTheme = JSON.parse(savedTheme);
-        savedThemeName = parsedTheme.name;
-      } 
 
       // since in 'preview' mode, we primarily get the data for the real-time/unsaved current theme config,
       // so we also need to fetch separately its saved config based on the currentTheme for data comparison
@@ -124,13 +117,18 @@ export function ThemeSettings({ preview = false, themeSettings }): React.JSX.Ele
 
         if (result.length !== 0) {
           fetchedThemeConfig = result[0]?.themes?.find(({ name }) => name === currentThemeName);
+          savedThemeName = result[0]?.currentTheme;
           setThemes(result[0]?.themes);
         } else {
           await syncThemeConfig({ configToSync: themes, currentTheme: savedThemeName });
         }
       }
 
-      document.documentElement.classList.toggle("dark", fetchedThemeConfig?.mode === "dark");
+      if (fetchedThemeConfig?.mode) {
+        document.documentElement.classList.toggle("dark", fetchedThemeConfig?.mode === "dark");
+      }
+
+      localStorage.setItem('savedTheme', JSON.stringify({ ...fetchedThemeConfig, currentTheme: savedThemeName }));
       setSavedThemeConfig({ ...fetchedThemeConfig, currentTheme: savedThemeName });
     } catch (error) {
       console.error("[ERROR] Failed to fetch theme settings.", error);
@@ -300,8 +298,6 @@ export function ThemeSettings({ preview = false, themeSettings }): React.JSX.Ele
       });
 
       if (response.ok) {
-        localStorage.setItem('draftTheme', JSON.stringify(updatedThemes?.find(({ name }) => name === themeName)));
-
         toast.success("Successfully saved theme settings");
         onModalClose();
       }
