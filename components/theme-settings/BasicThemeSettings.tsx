@@ -2,7 +2,6 @@ import React from "react";
 import { toast } from "react-toast";
 import { Text } from "@stackshift-ui/text";
 import { ColorPicker, SelectSettings, ToggleDarkMode } from "../theme-settings";
-import { defaultThemeConfig } from "./defaultThemeConfig";
 import _ from "lodash";
 
 export function BasicThemeSettings({
@@ -33,7 +32,8 @@ export function BasicThemeSettings({
     }
   };
 
-  const themeColors = customizedThemeConfig || savedThemeConfig || defaultThemeConfig;
+  const draftThemeColors = localStorage.getItem('draftTheme');
+  const selectedThemeColors = draftThemeColors ? JSON.parse(draftThemeColors) : customizedThemeConfig;
 
   return (
     <div className="flex flex-col gap-y-5">
@@ -44,32 +44,33 @@ export function BasicThemeSettings({
         <ToggleDarkMode
           {...{
             isLoaded,
-            customMode: customizedThemeConfig?.mode,
+            customMode: selectedThemeColors?.mode,
             setCustomizedThemeConfig,
           }}
         />
       </div>
       <div className="flex flex-col gap-3">
-        {Object.entries(
-          themeColors?.colors?.[themeColors?.mode]
-        )?.map(([key, value]) => (
-          <ColorPicker
-            key={value as string | number}
-            {...{
-              defaultColor: {
-                label: key,
-                value: value,
-              },
-              isLoaded,
-              mode: themeColors?.mode,
-              customizedThemeConfig: themeColors,
-              setCustomizedThemeConfig,
-              colorKey: key,
-              savedThemeConfig,
-              handleRevertSetting,
-            }}
-          />
-        ))}
+        {selectedThemeColors?.colors &&
+          Object.entries(
+            selectedThemeColors?.colors?.[selectedThemeColors?.mode]
+          )?.map(([key, value]) => (
+            <ColorPicker
+              key={value as string | number}
+              {...{
+                defaultColor: {
+                  label: key,
+                  value: value,
+                },
+                isLoaded,
+                mode: selectedThemeColors?.mode,
+                customizedThemeConfig: selectedThemeColors,
+                setCustomizedThemeConfig,
+                colorKey: key,
+                savedThemeConfig,
+                handleRevertSetting,
+              }}
+            />
+          ))}
       </div>
       <hr className="h-px bg-gray-300 border-0" />
       <SelectSettings

@@ -18,6 +18,7 @@ import {
 } from 'studio/config';
 import { nanoid } from "nanoid";
 import { defaultThemeConfig } from "components/theme-settings/defaultThemeConfig";
+import { debounce } from "utils/theme";
 import themeOptions from "components/theme-settings/options";
 import _ from "lodash";
 
@@ -55,16 +56,6 @@ export function ThemeSettings({ preview = false, themeSettings }): React.JSX.Ele
     setModalAction(null);
   }, []);
 
-  const debounce = (func: Function, delay: number) => {
-    let timeoutId: NodeJS.Timeout;
-    return (...args: any[]) => {
-      if (timeoutId) clearTimeout(timeoutId);
-      timeoutId = setTimeout(() => {
-        func(...args);
-      }, delay);
-    };
-  };
-
   const syncThemeConfig = useCallback(
     async ({ configToSync, currentTheme, hasChanges = false }) => {
       try {
@@ -98,8 +89,15 @@ export function ThemeSettings({ preview = false, themeSettings }): React.JSX.Ele
 
   const fetchCurrentConfig = useCallback(async () => {
     try {
+      const savedTheme = localStorage.getItem('savedTheme');
+
       let fetchedThemeConfig = savedThemeConfig;
       let savedThemeName = themeSettings?.currentTheme;
+
+      if (savedTheme) {
+        const parsedTheme = JSON.parse(savedTheme);
+        savedThemeName = parsedTheme.name;
+      } 
 
       // since in 'preview' mode, we primarily get the data for the real-time/unsaved current theme config,
       // so we also need to fetch separately its saved config based on the currentTheme for data comparison
@@ -126,20 +124,13 @@ export function ThemeSettings({ preview = false, themeSettings }): React.JSX.Ele
 
         if (result.length !== 0) {
           fetchedThemeConfig = result[0]?.themes?.find(({ name }) => name === currentThemeName);
-          savedThemeName = result[0]?.currentTheme;
           setThemes(result[0]?.themes);
         } else {
           await syncThemeConfig({ configToSync: themes, currentTheme: savedThemeName });
         }
       }
 
-      if (!fetchedThemeConfig?.mode) {
-        localStorage.setItem("theme-mode", "light");
-      } else {
-        document.documentElement.classList.toggle("dark", fetchedThemeConfig?.mode === "dark");
-        localStorage.setItem("theme-mode", fetchedThemeConfig?.mode);
-      }
-
+      document.documentElement.classList.toggle("dark", fetchedThemeConfig?.mode === "dark");
       setSavedThemeConfig({ ...fetchedThemeConfig, currentTheme: savedThemeName });
     } catch (error) {
       console.error("[ERROR] Failed to fetch theme settings.", error);
@@ -216,6 +207,7 @@ export function ThemeSettings({ preview = false, themeSettings }): React.JSX.Ele
       !_.isEqual(customizedThemeConfig, savedThemeConfig) &&
       !_.isEqual(customizedThemeConfig, prevCustomizedThemeConfigRef.current)
     ) {
+      localStorage.setItem('draftTheme', JSON.stringify(customizedThemeConfig));
       customizedThemeRef.current = customizedThemeConfig;
       debouncedGenerateThemeConfig(customizedThemeConfig);
     }
@@ -236,7 +228,7 @@ export function ThemeSettings({ preview = false, themeSettings }): React.JSX.Ele
 
     try {
       setLoading(true);
-      
+
       await fetch(baseApiUrl, {
         method: "POST",
         headers: {
@@ -247,12 +239,13 @@ export function ThemeSettings({ preview = false, themeSettings }): React.JSX.Ele
           sanityProjectId: SANITY_PROJECT_ID,
           dataset: SANITY_PROJECT_DATASET,
           documentId: `${SANITY_PROJECT_ID}-theme-settings`,
+          draftId: `drafts.${SANITY_PROJECT_ID}-theme-settings`,
           themeName: currentConfig,
-          themes,
         }),
       });
+      localStorage.setItem('savedTheme', JSON.stringify(themes?.find(({ name }) => name === currentConfig)));
       fetchCurrentConfig();
-
+    
       toast.success("Successfully set current theme!");
       onModalClose();
     } catch (error) {
@@ -303,7 +296,6 @@ export function ThemeSettings({ preview = false, themeSettings }): React.JSX.Ele
           themeName: savedThemeConfig?.currentTheme,
           themes: updatedThemes,
           documentId: `${SANITY_PROJECT_ID}-theme-settings`,
-          draftId: `drafts.${SANITY_PROJECT_ID}-theme-settings`,
         }),
       });
 
@@ -363,8 +355,11 @@ export function ThemeSettings({ preview = false, themeSettings }): React.JSX.Ele
           draftId: `drafts.${SANITY_PROJECT_ID}-theme-settings`,
         }),
       });
+      localStorage.setItem('savedTheme', JSON.stringify(savedThemeConfig));
       fetchCurrentConfig();
-      
+
+      setCustomizedThemeConfig(themes?.find(({ name }) => name === currentThemeName))
+
       toast.info("Successfully reverted ALL settings");
       onModalClose();
     } catch (error) {
