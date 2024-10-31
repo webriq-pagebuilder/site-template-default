@@ -128,8 +128,8 @@ export function ThemeSettings({ preview = false, themeSettings }): React.JSX.Ele
         document.documentElement.classList.toggle("dark", fetchedThemeConfig?.mode === "dark");
       }
 
-      localStorage.setItem('savedTheme', JSON.stringify({ ...fetchedThemeConfig, currentTheme: savedThemeName }));
       setSavedThemeConfig({ ...fetchedThemeConfig, currentTheme: savedThemeName });
+      localStorage.setItem('savedTheme', JSON.stringify(savedThemeConfig));
     } catch (error) {
       console.error("[ERROR] Failed to fetch theme settings.", error);
       setIsReady(false);
@@ -300,6 +300,7 @@ export function ThemeSettings({ preview = false, themeSettings }): React.JSX.Ele
       if (response.ok) {
         toast.success("Successfully saved theme settings");
         onModalClose();
+        window.location.reload();
       }
     } catch (error) {
       console.error("[ERROR] Failed to save theme settings ", error);
