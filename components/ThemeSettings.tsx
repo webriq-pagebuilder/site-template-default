@@ -39,7 +39,7 @@ export function ThemeSettings({ preview = false, themeSettings }): React.JSX.Ele
   const [customizedThemeConfig, setCustomizedThemeConfig] = useState(savedThemeConfig);
   const customizedThemeRef = useRef(customizedThemeConfig);
   const prevCustomizedThemeConfigRef = useRef(customizedThemeConfig);
-  
+
   const [openModal, setOpenModal] = useState(false);
   const [modalAction, setModalAction] = useState<"setTheme" | "saveAs" | "revertAll" | null>(null);
 
@@ -234,7 +234,8 @@ export function ThemeSettings({ preview = false, themeSettings }): React.JSX.Ele
 
     try {
       setLoading(true);
-      const response = await fetch(baseApiUrl, {
+      
+      await fetch(baseApiUrl, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -244,17 +245,14 @@ export function ThemeSettings({ preview = false, themeSettings }): React.JSX.Ele
           sanityProjectId: SANITY_PROJECT_ID,
           dataset: SANITY_PROJECT_DATASET,
           documentId: `${SANITY_PROJECT_ID}-theme-settings`,
-          draftId: `drafts.${SANITY_PROJECT_ID}-theme-settings`,
           themeName: currentConfig,
+          themes,
         }),
       });
+      fetchCurrentConfig();
 
-      if (response.ok) {
-        fetchCurrentConfig();
-
-        toast.success("Successfully set current theme!");
-        onModalClose();
-      }
+      toast.success("Successfully set current theme!");
+      onModalClose();
     } catch (error) {
       console.error("[ERROR] Failed to set theme ", error);
       toast.error("Failed to set theme! See logs.");
