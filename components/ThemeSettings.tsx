@@ -125,6 +125,11 @@ export function ThemeSettings({ preview = false, themeSettings }): React.JSX.Ele
         if (result.length !== 0) {
           fetchedThemeConfig = result[0]?.themes?.find(({ name }) => name === currentThemeName);
           setThemes(result[0]?.themes);
+
+          if (!_.isEqual(result[0]?.currentTheme, savedThemeName)) {
+            savedThemeName = result[0]?.currentTheme;
+            localStorage.setItem('savedTheme', JSON.stringify(fetchedThemeConfig));
+          }
         } else {
           await syncThemeConfig({ configToSync: themes, currentTheme: savedThemeName });
         }
