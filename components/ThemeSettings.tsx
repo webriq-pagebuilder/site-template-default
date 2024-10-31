@@ -31,6 +31,7 @@ export function ThemeSettings({ preview = false, themeSettings }): React.JSX.Ele
 
   const [activeTab, setActiveTab] = useState("Basic");
 
+  // theme states
   const [currentThemeName, setCurrentThemeName] = useState(
     themeSettings?.currentTheme || defaultThemeConfig?.currentTheme
   );
@@ -40,6 +41,7 @@ export function ThemeSettings({ preview = false, themeSettings }): React.JSX.Ele
   const customizedThemeRef = useRef(customizedThemeConfig);
   const prevCustomizedThemeConfigRef = useRef(customizedThemeConfig);
 
+  // modal states and actions
   const [openModal, setOpenModal] = useState(false);
   const [modalAction, setModalAction] = useState<"setTheme" | "saveAs" | "revertAll" | null>(null);
 
