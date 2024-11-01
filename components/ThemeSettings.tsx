@@ -129,7 +129,6 @@ export function ThemeSettings({ preview = false, themeSettings }): React.JSX.Ele
       }
 
       setSavedThemeConfig({ ...fetchedThemeConfig, currentTheme: savedThemeName });
-      localStorage.setItem('savedTheme', JSON.stringify(themes?.find(({ name }) => name === currentThemeName)));
     } catch (error) {
       console.error("[ERROR] Failed to fetch theme settings.", error);
       setIsReady(false);
@@ -169,6 +168,9 @@ export function ThemeSettings({ preview = false, themeSettings }): React.JSX.Ele
       fetchCurrentConfig();
       setCustomizedThemeConfig(config);
       customizedThemeRef.current = config;
+
+      // Set the saved theme in localStorage on initial load
+      localStorage.setItem('savedTheme', JSON.stringify(themes?.find(({ name }) => name === savedThemeConfig?.currentTheme)));
     });
 
     // listen to real-time updates to theme settings
@@ -240,10 +242,11 @@ export function ThemeSettings({ preview = false, themeSettings }): React.JSX.Ele
           draftId: `drafts.${SANITY_PROJECT_ID}-theme-settings`,
           themeName: currentConfig,
         }),
-      }).then(() => {
-        localStorage.setItem('savedTheme', JSON.stringify(themes?.find(({ name }) => name === currentConfig)));
       })
 
+      // Set the saved theme in localStorage after successfully setting the current theme
+      localStorage.setItem('savedTheme', JSON.stringify(themes?.find(({ name }) => name === currentConfig)));
+      
       fetchCurrentConfig();
 
       toast.success("Successfully set current theme!");
