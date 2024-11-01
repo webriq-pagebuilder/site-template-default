@@ -52,7 +52,8 @@ const schemasWithComponents = await Promise.all(
           if (field.name === "variant") {
             const Component = Components?.[schema.name];
 
-            if (!Component) {
+            // Exclude the "Cookies" component from rendering as a component
+            if (!Component || schema?.name === "cookies") {
               return field;
             }
 
