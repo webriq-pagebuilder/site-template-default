@@ -3457,10 +3457,10 @@
     "@stackshift-ui/system" "6.0.2"
     classnames "^2.5.1"
 
-"@stackshift-ui/blog@^6.0.4":
-  version "6.0.4"
-  resolved "https://registry.yarnpkg.com/@stackshift-ui/blog/-/blog-6.0.4.tgz#e7cebf9e2b43ccb4f1c2a03f78c24d27b0fa374f"
-  integrity sha512-RcsPfMM94u/0MXDrhTqju6EnMeOctGZ4Pjq3KtXg/XfLRmxc6m93yRgjjvuHS0AvmgZ1fMDPkO4OWy8Z9/zSxA==
+"@stackshift-ui/blog@^6.0.5":
+  version "6.0.5"
+  resolved "https://registry.yarnpkg.com/@stackshift-ui/blog/-/blog-6.0.5.tgz#723630c9e927dafa7c241cd720f3a8393aee3772"
+  integrity sha512-KGIu6g5ETzJFrXPmAHqLtiJgcZzOPZpkXaFTGCh/xA3RfSo1ocaupniEtmdQjTJgvQwcQTnXfPK58a1XdnZ6IQ==
   dependencies:
     "@stackshift-ui/badge" "6.0.2"
     "@stackshift-ui/button" "6.0.2"
@@ -3574,10 +3574,10 @@
     "@stackshift-ui/system" "6.0.2"
     vanilla-cookieconsent "3.0.1"
 
-"@stackshift-ui/faqs@^6.0.3":
-  version "6.0.3"
-  resolved "https://registry.yarnpkg.com/@stackshift-ui/faqs/-/faqs-6.0.3.tgz#663477178bdc25d99a21f584873e32f29d6e1705"
-  integrity sha512-vPbAKZF7hylky6CZ/agBYQoVoP6/sCTx5mtTjwdMunlW29JKsNMHPuhHvhIoTVjVY8cKygWJlVS98N92P3gwJQ==
+"@stackshift-ui/faqs@^6.0.4":
+  version "6.0.4"
+  resolved "https://registry.yarnpkg.com/@stackshift-ui/faqs/-/faqs-6.0.4.tgz#a850e8936ff34c843eba1b028252a688fce71a7c"
+  integrity sha512-iU14XkS0dpfsyoXvh335Fk7qWK6VdEantA9UgvRKsPpquZxDfHBecwsGASaVxlKJqZK+C2/ajMewtn3Epg7TRg==
   dependencies:
     "@stackshift-ui/button" "6.0.2"
     "@stackshift-ui/card" "6.0.2"
@@ -3891,10 +3891,10 @@
     classnames "^2.5.1"
     react-icons "^5.3.0"
 
-"@stackshift-ui/statistics@^6.0.2":
-  version "6.0.2"
-  resolved "https://registry.yarnpkg.com/@stackshift-ui/statistics/-/statistics-6.0.2.tgz#7a44f5d81f8bc3d6d079cbd21553b8b0a9d3506f"
-  integrity sha512-HvHsu9hjsZxKsojXrB1GJ0sB5fZPev446Zu3YwA1yw+ThRX6u/6uaDZzHaFRH+SyjWDhL6pgxSXiUZpa10av9A==
+"@stackshift-ui/statistics@^6.0.3":
+  version "6.0.3"
+  resolved "https://registry.yarnpkg.com/@stackshift-ui/statistics/-/statistics-6.0.3.tgz#88e407aafec862a42f8b3cdbd4c9209485e33453"
+  integrity sha512-YYutAMzMRJCzIwbIRAPMq+CqkkmiptRimxWU4oaQlMGpKdp/2qBOVCMgU7b3uZr343vRzL8BBPynxpOVioiZ+A==
   dependencies:
     "@stackshift-ui/button" "6.0.2"
     "@stackshift-ui/card" "6.0.2"
