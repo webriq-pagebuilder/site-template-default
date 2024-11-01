@@ -3,7 +3,7 @@
 */
 import { NEXT_PUBLIC_SANITY_STUDIO_IN_CSTUDIO } from "../config";
 
-const CStudioSchema = [
+export const EcommerceSchema = [
   "allProducts",
   "featuredProducts",
   "pages_productInfo",
@@ -42,7 +42,7 @@ export const mergeReplaceAndAdd = (existingItems: any, newItems: any) => {
   // If C-Studio is disabled, then C-Studio fields should be read-only
   if (NEXT_PUBLIC_SANITY_STUDIO_IN_CSTUDIO === "false") {
     return mergedSchemas?.map((items) => {
-      if (CStudioSchema.includes(items?.name)) {
+      if (EcommerceSchema.includes(items?.name)) {
         return {
           ...items,
           __experimental_actions: [
