@@ -4,7 +4,6 @@ import {
   ThemeProvider as SanityUIThemeProvider,
   studioTheme,
 } from "@sanity/ui"
-import { useTheme } from "context/ThemeSettingsContext";
 import {
   RevertAllTemplate,
   SaveAsTemplate,
@@ -15,15 +14,12 @@ export function ConfirmThemeDialog({
   action,
   zOffset = 1000,
   loading,
+  currentThemeName,
+  handleSaveConfigAs,
+  handleSetCurrentTheme,
+  handleRevertAll,
+  onModalClose
 }) {
-  const {
-    currentThemeName,
-    handleSaveConfigAs,
-    handleSetCurrentTheme,
-    handleRevertAll,
-    onModalClose
-  } = useTheme() || {};
-
   return (
     <SanityUIThemeProvider theme={studioTheme}>
       <Dialog

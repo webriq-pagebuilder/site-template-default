@@ -8,6 +8,7 @@ import { setProjectTheme } from "utils/theme";
 import { sanityClient } from "lib/sanity.client";
 import { defaultThemeConfig } from "components/theme-settings/defaultThemeConfig";
 import { StackShiftUIProvider } from "@stackshift-ui/system";
+import { Image, Link } from "../components/ui";
 
 // global styles
 import "vanilla-cookieconsent/dist/cookieconsent.css";
@@ -68,9 +69,28 @@ function App({ Component, pageProps }: AppProps) {
       : "*[_type=='themeSettings' && !(_id in path('drafts.**'))][0]";
 
     // get initial theme settings
-    sanityClient.fetch(query).then((initialConfig) => {
+    sanityClient.fetch(
+      `${query}{
+        ...,
+        themes[] {
+          ...,
+          colors {
+            light {
+              background,
+              primary,
+              secondary,
+            },
+            dark {
+              background,
+              primary,
+              secondary,
+            }
+          }
+        }
+      }`
+    )
+    .then((initialConfig) => {
       const currentTheme = initialConfig;
-
       setThemeConfig(currentTheme);
     });
 
@@ -108,7 +128,7 @@ function App({ Component, pageProps }: AppProps) {
           />
         )}
       </Head>
-      <StackShiftUIProvider components={{}}>
+      <StackShiftUIProvider components={{ Image, Link }}>
         <Component {...pageProps} />
       </StackShiftUIProvider>
     </>
