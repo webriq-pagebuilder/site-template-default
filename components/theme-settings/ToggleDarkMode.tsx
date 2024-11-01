@@ -26,6 +26,7 @@ export function ToggleDarkMode({
 
   useEffect(() => {
     document.documentElement.classList.toggle("dark", darkMode);
+    localStorage.setItem("theme-mode", customMode);
   }, [customMode, darkMode]);
 
   return (

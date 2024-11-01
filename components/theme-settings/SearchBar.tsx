@@ -67,9 +67,6 @@ export function SearchBar({
     }
   }, [currentThemeName, id]);
 
-  const currentTheme = localStorage.getItem('savedTheme');
-  const savedThemeName = currentTheme ? JSON.parse(currentTheme)?.name : savedThemeConfig?.currentTheme;
-
   return (
     <div className="relative">
       <div className="flex items-center">
@@ -110,7 +107,7 @@ export function SearchBar({
                 key={option?._key}
               >
                 <Text>{option?.name}</Text>
-                {option?.name === savedThemeName && (
+                {option?.name === savedThemeConfig?.currentTheme && (
                   <span className="text-xs rounded-lg px-2 bg-black text-white">
                     Current
                   </span>
@@ -129,7 +126,7 @@ export function SearchBar({
                 key={results?._key}
               >
                 <Text>{results?.name}</Text>
-                {results?.name === savedThemeName && (
+                {results?.name === savedThemeConfig?.currentTheme && (
                   <span className="text-xs rounded-lg px-2 bg-black text-white">
                     Current
                   </span>

@@ -124,10 +124,13 @@ export function ThemeSettings({ preview = false, themeSettings }): React.JSX.Ele
         }
       }
 
-      if (fetchedThemeConfig?.mode) {
+      if (!fetchedThemeConfig?.mode) {
+        localStorage.setItem("theme-mode", "light");
+      } else {
         document.documentElement.classList.toggle("dark", fetchedThemeConfig?.mode === "dark");
+        localStorage.setItem("theme-mode", fetchedThemeConfig?.mode);
       }
-
+      
       setSavedThemeConfig({ ...fetchedThemeConfig, currentTheme: savedThemeName });
     } catch (error) {
       console.error("[ERROR] Failed to fetch theme settings.", error);
@@ -168,9 +171,6 @@ export function ThemeSettings({ preview = false, themeSettings }): React.JSX.Ele
       fetchCurrentConfig();
       setCustomizedThemeConfig(config);
       customizedThemeRef.current = config;
-
-      // Set the saved theme in localStorage on initial load
-      localStorage.setItem('savedTheme', JSON.stringify(themes?.find(({ name }) => name === savedThemeConfig?.currentTheme)));
     });
 
     // listen to real-time updates to theme settings
@@ -243,13 +243,11 @@ export function ThemeSettings({ preview = false, themeSettings }): React.JSX.Ele
           themeName: currentConfig,
         }),
       })
-
-      // Set the saved theme in localStorage after successfully setting the current theme
-      localStorage.setItem('savedTheme', JSON.stringify(themes?.find(({ name }) => name === currentConfig)));
-      
+ 
       fetchCurrentConfig();
 
       toast.success("Successfully set current theme!");
+      toast.info("Please wait for the changes to take effect");
       onModalClose();
     } catch (error) {
       console.error("[ERROR] Failed to set theme ", error);
@@ -359,9 +357,7 @@ export function ThemeSettings({ preview = false, themeSettings }): React.JSX.Ele
           draftId: `drafts.${SANITY_PROJECT_ID}-theme-settings`,
         }),
       });
-      localStorage.setItem('savedTheme', JSON.stringify(savedThemeConfig));
       fetchCurrentConfig();
-
       setCustomizedThemeConfig(themes?.find(({ name }) => name === currentThemeName))
 
       toast.info("Successfully reverted ALL settings");
