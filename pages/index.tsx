@@ -45,27 +45,31 @@ function Home({ data, preview, token, source, theme }: HomeProps) {
   const showInlineEditor = source === "studio";
   const showThemeSetting = source === "theme";
 
-  if (!data?.pageData) {
-    return <PreviewNoHomePage />;
-  } else {
-    if (preview) {
-      return (
-        <>
-          <PreviewBanner />
-          {showThemeSetting && (
-            <ThemeSettings preview={preview} themeSettings={theme} />
-          )}
-          <PreviewSuspense fallback="Loading...">
-            <InlineEditorContextProvider showInlineEditor={showInlineEditor}>
-              <DocumentWithPreview {...{ data, token }} />
-            </InlineEditorContextProvider>
-          </PreviewSuspense>
-        </>
-      );
+  if (!data?.pageData && !preview) {
+    return null; // Return null only if not in preview mode
+  }
+
+  if (preview) {
+    if (!data?.pageData) {
+      return <PreviewNoHomePage />; // Return PreviewNoHomePage if in preview mode and no page data
     }
 
-    return <Document {...{ data }} />;
+    return (
+      <>
+        <PreviewBanner />
+        {showThemeSetting && (
+          <ThemeSettings preview={preview} themeSettings={theme} />
+        )}
+        <PreviewSuspense fallback="Loading...">
+          <InlineEditorContextProvider showInlineEditor={showInlineEditor}>
+            <DocumentWithPreview {...{ data, token }} />
+          </InlineEditorContextProvider>
+        </PreviewSuspense>
+      </>
+    );
   }
+
+  return <Document {...{ data }} />;
 }
 
 /**
