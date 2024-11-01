@@ -5,7 +5,7 @@ import { homeQuery, globalSEOQuery } from "./api/query";
 import { usePreview } from "lib/sanity.preview";
 import { PageSections } from "components/page";
 import { PreviewNoContent } from "components/PreviewNoContent";
-import PageNotFound from "pages/404";
+import { PreviewNoHomePage } from "components/PreviewNoHomePage";
 import { filterDataToSingleItem } from "components/list";
 import { SEO } from "components/SEO";
 import { PreviewBanner } from "components/PreviewBanner";
@@ -45,27 +45,31 @@ function Home({ data, preview, token, source, theme }: HomeProps) {
   const showInlineEditor = source === "studio";
   const showThemeSetting = source === "theme";
 
-  if (!data?.pageData) {
-    return null;
-  } else {
-    if (preview) {
-      return (
-        <>
-          <PreviewBanner />
-          {showThemeSetting && (
-            <ThemeSettings preview={preview} themeSettings={theme} />
-          )}
-          <PreviewSuspense fallback="Loading...">
-            <InlineEditorContextProvider showInlineEditor={showInlineEditor}>
-              <DocumentWithPreview {...{ data, token }} />
-            </InlineEditorContextProvider>
-          </PreviewSuspense>
-        </>
-      );
+  if (!data?.pageData && !preview) {
+    return null; // Return null only if not in preview mode
+  }
+
+  if (preview) {
+    if (!data?.pageData) {
+      return <PreviewNoHomePage />; // Return PreviewNoHomePage if in preview mode and no page data
     }
 
-    return <Document {...{ data }} />;
+    return (
+      <>
+        <PreviewBanner />
+        {showThemeSetting && (
+          <ThemeSettings preview={preview} themeSettings={theme} />
+        )}
+        <PreviewSuspense fallback="Loading...">
+          <InlineEditorContextProvider showInlineEditor={showInlineEditor}>
+            <DocumentWithPreview {...{ data, token }} />
+          </InlineEditorContextProvider>
+        </PreviewSuspense>
+      </>
+    );
   }
+
+  return <Document {...{ data }} />;
 }
 
 /**

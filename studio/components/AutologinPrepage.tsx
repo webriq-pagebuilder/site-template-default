@@ -13,7 +13,7 @@ export default function AutologinPrepage({ status }) {
           quality={100}
         />
         <h1 className="font-bold text-lg sm:text-2xl mt-8 mb-5">
-          Logging in to Stackshift UI
+          Logging in to StackShift Studio
         </h1>
         <p className="animate-pulse text-md text-gray-500">Please wait...</p>
       </div>
