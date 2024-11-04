@@ -24,7 +24,8 @@ import { codeInput } from "@sanity/code-input";
 
 import { visionTool } from "@sanity/vision";
 import { webriqBlog } from "@webriq-pagebuilder/sanity-plugin-webriq-blog";
-import { webriqForms } from "@webriq-pagebuilder/sanity-plugin-webriq-forms";
+//import { webriqForms } from "@webriq-pagebuilder/sanity-plugin-webriq-forms";
+import { webriqForms } from "schemas/custom/sanity-plugin-webriq-forms/src";
 import { webriqPayments } from "@webriq-pagebuilder/sanity-plugin-webriq-payments";
 import { webriqGPT3 } from "@webriq-pagebuilder/sanity-plugin-input-component-gpt3";
 import { webriqComponents } from "@webriq-pagebuilder/sanity-plugin-webriq-components";
