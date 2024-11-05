@@ -164,7 +164,7 @@ export function ThemeSettings({ preview, themeSettings }): React.JSX.Element {
         currentTheme: themeToSync?.name,
         hasChanges: !_.isEqual(customizedThemeConfig, savedThemeConfig)
       });
-    }, 500),
+    }, 300),
     [currentThemeName, customizedThemeConfig, syncThemeConfig]
   );
 
@@ -219,6 +219,8 @@ export function ThemeSettings({ preview, themeSettings }): React.JSX.Element {
         toast.success("Successfully set current theme!");
         toast.success("Reloading page to apply changes...");
         onModalClose();
+
+        window.location.reload();
       } else {
         toast.error("Failed to update theme");
       }
