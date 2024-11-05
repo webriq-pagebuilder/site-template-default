@@ -1,4 +1,4 @@
-import React, { useEffect} from "react";
+import React from "react";
 import Head from "next/head";
 import { PreviewSuspense } from "next-sanity/preview";
 import { getClient } from "lib/sanity.client";
@@ -11,7 +11,6 @@ import { PreviewBanner } from "components/PreviewBanner";
 import { CommonPageData } from "types";
 import { ThemeSettings } from "components/ThemeSettings";
 import { defaultThemeConfig } from "components/theme-settings/defaultThemeConfig";
-import { NEXT_PUBLIC_PREVIEW_SECRET } from "studio/config";
 
 import PageNotFound from "pages/404";
 
@@ -42,15 +41,6 @@ interface DocumentWithPreviewProps {
 
 function ThemePage ({ data, preview, token, source, theme }: ThemePageProps) {
   const showThemeSetting = source === "theme";
-  const pageToken = token || NEXT_PUBLIC_PREVIEW_SECRET;
-
-  useEffect(() => {
-    if (!preview || !showThemeSetting || !data?.themePageData) {
-      const slug = "theme-page";
-      const redirectUrl = `/api/preview?secret=${pageToken}&source=theme&slug=${slug}`;
-      window.location.href = redirectUrl; // Redirect to the preview API
-    }
-  }, [preview, showThemeSetting, data, token]);
 
   if (!preview || !showThemeSetting || !data?.themePageData) {
     return <PageNotFound />; 
