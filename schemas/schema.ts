@@ -1,8 +1,10 @@
-import { Components } from "components/list";
 import React from "react";
+import { Components } from "components/list";
 import { EcommerceSchema, mergeReplaceAndAdd } from "studio/utils";
-import pages from "./documents/pages";
 import { dynamicComponentsData } from "components/data/dynamic"; // Import the dynamicComponentsData function
+
+import pages from "./documents/pages";
+import themePage from "./documents/themePage";
 
 import { baseSchema } from "@webriq-pagebuilder/sanity-plugin-schema-default";
 const baseSchemaArray = Object.values(baseSchema);
@@ -103,4 +105,4 @@ const schemasWithComponents = await Promise.all(
  */
 
 // NOTE: COMMENT THIS LINE IF WE HAVE CUSTOM COMPONENTS
-export const schemaTypes = [pages, ...schemasWithComponents];
+export const schemaTypes = [pages, themePage, ...schemasWithComponents];
