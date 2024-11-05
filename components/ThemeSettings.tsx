@@ -201,10 +201,6 @@ export function ThemeSettings({ preview, themeSettings }): React.JSX.Element {
     try {
       setLoading(true);
 
-      setCurrentThemeName(currentConfig);
-      setCustomizedThemeConfig(themes?.find(({ name }) => name === currentConfig));
-      customizedThemeRef.current = themes?.find(({ name }) => name === currentConfig);
-
       const response = await fetch(baseApiUrl, {
         method: "POST",
         headers: {
@@ -222,13 +218,21 @@ export function ThemeSettings({ preview, themeSettings }): React.JSX.Element {
       });
 
       if (response.ok) {
-        await fetchThemeSettings();
+        setCurrentThemeName(currentConfig);
+        setThemes(themes);
+
+        const config = themes?.find(({ name }) => name === currentConfig)
+        setCustomizedThemeConfig(config);
+        customizedThemeRef.current = config;
+
+        setSavedThemeConfig({
+          ...config,
+          currentTheme: currentConfig,
+        });
 
         toast.success("Successfully set current theme!");
         toast.success("Reloading page to apply changes...");
         onModalClose();
-
-        window.location.reload();
       } else {
         toast.error("Failed to update theme");
       }
