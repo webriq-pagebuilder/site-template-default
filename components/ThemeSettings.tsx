@@ -86,49 +86,47 @@ export function ThemeSettings({ preview, themeSettings }): React.JSX.Element {
   );
 
   // get current theme settings
-  useEffect(() => {
+  const fetchThemeSettings = async () => {
     const query = "*[_type=='themeSettings']";
-
-    // get initial theme settings
-    sanityClient.fetch(
-      `${query}{
+    const config = await sanityClient.fetch(`${query}{
+      ...,
+      themes[] {
         ...,
-        themes[] {
-          ...,
-          colors {
-            light {
-              background,
-              primary,
-              secondary,
-            },
-            dark {
-              background,
-              primary,
-              secondary,
-            }
+        colors {
+          light {
+            background,
+            primary,
+            secondary,
+          },
+          dark {
+            background,
+            primary,
+            secondary,
           }
         }
-      }`
-    )
-    .then(async (config) => {
-      const saved = config?.find((theme) => !theme?._id?.startsWith("drafts."));
-
-      if (config) {
-        setThemes(saved?.themes);
-        setCustomizedThemeConfig(saved?.themes?.find(({ name }) => name === currentThemeName));
-        setSavedThemeConfig({
-          ...saved?.themes?.find(({ name }) => name === saved?.currentTheme),
-          currentTheme: saved?.currentTheme,
-        });
-
-      } else {
-        // add fallback if no theme settings found
-        await syncThemeConfig({
-          configToSync: defaultThemeConfig?.themes?.find(({ name }) => name === currentThemeName),
-          currentTheme: currentThemeName
-        });
       }
+    }`);
 
+    const saved = config?.find((theme) => !theme?._id?.startsWith("drafts."));
+
+    if (config) {
+      setThemes(saved?.themes);
+      setCustomizedThemeConfig(saved?.themes?.find(({ name }) => name === currentThemeName));
+      setSavedThemeConfig({
+        ...saved?.themes?.find(({ name }) => name === saved?.currentTheme),
+        currentTheme: saved?.currentTheme,
+      });
+    } else {
+      // add fallback if no theme settings found
+      await syncThemeConfig({
+        configToSync: defaultThemeConfig?.themes?.find(({ name }) => name === currentThemeName),
+        currentTheme: currentThemeName
+      });
+    }
+  };
+
+  useEffect(() => {
+    fetchThemeSettings().then(() => {
       setIsInitialLoad(false);
       setIsReady(true);
     });
@@ -155,13 +153,15 @@ export function ThemeSettings({ preview, themeSettings }): React.JSX.Element {
     return () => {
       subscription.unsubscribe();
     };
-  }, [preview, currentThemeName, syncThemeConfig]);
+  }, [preview, currentThemeName]);
 
   const debouncedGenerateThemeConfig = useCallback(
     debounce(async (customizedThemeConfig) => {
+      const themeToSync = customizedThemeRef.current;
+
       await syncThemeConfig({
-        configToSync: customizedThemeConfig,
-        currentTheme: currentThemeName,
+        configToSync: themeToSync,
+        currentTheme: themeToSync?.name,
         hasChanges: !_.isEqual(customizedThemeConfig, savedThemeConfig)
       });
     }, 500),
@@ -216,12 +216,12 @@ export function ThemeSettings({ preview, themeSettings }): React.JSX.Element {
         }),
       });
 
-      if (response.ok) {  
+      if (response.ok) {
+        await fetchThemeSettings();
+
         toast.success("Successfully set current theme!");
         toast.success("Reloading page to apply changes...");
         onModalClose();
-
-        window.location.reload();
       } else {
         toast.error("Failed to update theme");
       }
@@ -260,8 +260,6 @@ export function ThemeSettings({ preview, themeSettings }): React.JSX.Element {
         ];
       }
 
-      setThemes(updatedThemes);
-
       const response = await fetch(baseApiUrl, {
         method: "POST",
         headers: {
@@ -278,6 +276,9 @@ export function ThemeSettings({ preview, themeSettings }): React.JSX.Element {
       });
 
       if (response.ok) {
+        setThemes(updatedThemes);
+        await fetchThemeSettings();
+
         toast.success("Successfully saved theme");
         onModalClose();
       } else {
@@ -286,8 +287,6 @@ export function ThemeSettings({ preview, themeSettings }): React.JSX.Element {
     } catch (error) {
       console.error("[ERROR] Failed to save theme ", error);
       toast.error("Failed to save theme settings! See logs.");
-
-      //fetchCurrentConfig();
     } finally {
       setLoading(false);
     }
@@ -338,7 +337,7 @@ export function ThemeSettings({ preview, themeSettings }): React.JSX.Element {
         }),
       });
       setCustomizedThemeConfig(themes?.find(({ name }) => name === currentThemeName))
-      //fetchCurrentConfig();
+      await fetchThemeSettings();
 
       toast.warn("Successfully reverted ALL settings");
       onModalClose();
