@@ -80,6 +80,11 @@ export function ThemeSettings({ preview, themeSettings }): React.JSX.Element {
       } catch (error) {
         console.error("[ERROR] Failed to sync theme settings ", error);
         toast.error("Failed to sync theme! See logs.");
+
+        // revert all config on failed request
+        setCurrentThemeName(savedThemeConfig?.currentTheme);
+        setCustomizedThemeConfig(themes?.find(({ name }) => name === savedThemeConfig?.currentTheme));
+        customizedThemeRef.current = customizedThemeConfig;
       }
     },
     [baseApiUrl]

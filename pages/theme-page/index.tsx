@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect} from "react";
 import Head from "next/head";
 import { PreviewSuspense } from "next-sanity/preview";
 import { getClient } from "lib/sanity.client";
@@ -8,10 +8,10 @@ import { PageSections } from "components/page";
 import { PreviewNoContent } from "components/PreviewNoContent";
 import { filterDataToSingleItem } from "components/list";
 import { PreviewBanner } from "components/PreviewBanner";
-import InlineEditorContextProvider from "context/InlineEditorContext";
 import { CommonPageData } from "types";
 import { ThemeSettings } from "components/ThemeSettings";
 import { defaultThemeConfig } from "components/theme-settings/defaultThemeConfig";
+import { NEXT_PUBLIC_PREVIEW_SECRET } from "studio/config";
 
 import PageNotFound from "pages/404";
 
@@ -41,29 +41,33 @@ interface DocumentWithPreviewProps {
 }
 
 function ThemePage ({ data, preview, token, source, theme }: ThemePageProps) {
-  const showInlineEditor = source === "studio";
   const showThemeSetting = source === "theme";
+  const pageToken = token || NEXT_PUBLIC_PREVIEW_SECRET;
 
-  if (!preview || !showThemeSetting) {
-    return <PageNotFound />; // should only access theme page in preview mode
+  useEffect(() => {
+    if (!preview || !showThemeSetting || !data?.themePageData) {
+      const slug = "theme-page";
+      const redirectUrl = `/api/preview?secret=${pageToken}&source=theme&slug=${slug}`;
+      window.location.href = redirectUrl; // Redirect to the preview API
+    }
+  }, [preview, showThemeSetting, data, token]);
+
+  if (!preview || !showThemeSetting || !data?.themePageData) {
+    return <PageNotFound />; 
   }
 
-  if (preview) {
-    return (
-      <>
-        <PreviewBanner />
-        {showThemeSetting && (
-          <ThemeSettings preview={preview} themeSettings={theme} />
-        )}
-        <PreviewSuspense fallback="Loading...">
-          <InlineEditorContextProvider showInlineEditor={showInlineEditor}>
-            <DocumentWithPreview {...{ data, token }} />
-          </InlineEditorContextProvider>
-        </PreviewSuspense>
-      </>
-    );
-  }
-}
+  return (
+    <>
+      <PreviewBanner />
+      {showThemeSetting && (
+        <ThemeSettings preview={preview} themeSettings={theme} />
+      )}
+      <PreviewSuspense fallback="Loading...">
+        <DocumentWithPreview {...{ data, token }} />
+      </PreviewSuspense>
+    </>
+  );
+} 
 
 /**
  *
