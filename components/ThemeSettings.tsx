@@ -196,10 +196,6 @@ export function ThemeSettings({ preview, themeSettings }): React.JSX.Element {
     try {
       setLoading(true);
 
-      setCurrentThemeName(currentConfig);
-      setCustomizedThemeConfig(themes?.find(({ name }) => name === currentConfig));
-      customizedThemeRef.current = themes?.find(({ name }) => name === currentConfig);
-    
       const response = await fetch(baseApiUrl, {
         method: "POST",
         headers: {
@@ -217,6 +213,7 @@ export function ThemeSettings({ preview, themeSettings }): React.JSX.Element {
       });
 
       if (response.ok) {
+        setCurrentThemeName(currentConfig);
         await fetchThemeSettings();
 
         toast.success("Successfully set current theme!");
