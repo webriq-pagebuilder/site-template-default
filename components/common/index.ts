@@ -66,28 +66,32 @@ export function dynamicComponents({
   schemaFields = {},
   schemaType,
   isEcommerce = false,
+  isInitial = false,
 }) {
-  const schema = {};
+  // Initialize schema object with the given schemaType as an empty object
+  const schema = { [schemaType]: {} };
 
-  // Initialize the schema for the given schemaType
-  schema[`${schemaType}`] = {};
+  // Map over the data to populate the schema
+  data?.forEach((item) => {
+    if (!item?.variants) return; // Skip if item or item.variants is falsy
+    let variantDetails;
 
-  // Iterate over each page and its sections
-  data?.forEach((page) => {
-    page.sections?.forEach((item) => {
-      // Iterate over sections
-      if (!item || !item.variants) return; // Skip if item or item.variants is falsy
-
-      const variants = isEcommerce
+    if (isInitial) {
+      // Initial variant logic for creating default variant details
+      const [initialVariant] = item.variants;
+      variantDetails = initialVariant
+        ? { variant: initialVariant.title, details: initialVariant }
+        : null;
+    } else {
+      variantDetails = isEcommerce
         ? schemaFields
         : filterArgsByVariant(schemaFields, item.variants, item.variant);
+    }
 
-      // Set the variant as a key in the schema object
-      schema[schemaType][item.variant] = {
-        variant: item.variant,
-        variants,
-      };
-    });
+    schema[schemaType][item.variant] = {
+      variant: item.variant,
+      variants: isInitial ? variantDetails?.details : variantDetails,
+    };
   });
 
   return schema;
