@@ -441,7 +441,7 @@ export function ThemeSettings({ preview, themeSettings }): React.JSX.Element {
                 {...{
                   isLoaded: loading || !isReady,
                   options: themeOptions,
-                  savedThemeConfig,
+                  savedThemeConfig: themes?.find(({ name }) => name === customizedThemeConfig?.name),
                   customizedThemeConfig,
                   setCustomizedThemeConfig,
                   handleRevertSetting,

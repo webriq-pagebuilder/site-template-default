@@ -56,7 +56,7 @@ export function BasicThemeSettings({
               {...{
                 defaultColor: {
                   label: key,
-                  value: value,
+                  value: savedThemeConfig?.colors?.[customizedThemeConfig?.mode]?.[key],
                 },
                 isLoaded,
                 mode: customizedThemeConfig?.mode,
