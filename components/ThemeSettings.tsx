@@ -231,7 +231,6 @@ export function ThemeSettings({ preview, themeSettings }): React.JSX.Element {
         });
 
         toast.success("Successfully set current theme!");
-        toast.success("Reloading page to apply changes...");
         onModalClose();
       } else {
         toast.error("Failed to update theme");

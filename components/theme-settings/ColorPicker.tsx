@@ -82,7 +82,7 @@ export function ColorPicker({
       <div className="relative rounded bg-white border border-gray-300 text-sm">
         <div className="flex gap-x-2">
           <div
-            className="w-6 h-5 m-2 cursor-pointer rounded"
+            className="w-6 h-5 m-2 cursor-pointer rounded border border-gray-300"
             style={{
               backgroundColor: customColor?.[colorKey],
             }}
