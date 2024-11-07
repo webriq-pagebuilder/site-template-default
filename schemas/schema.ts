@@ -33,6 +33,35 @@ const fetchDynamicComponentsData = async (
   return dynamicData;
 };
 
+const renameVariantKeys = (data) => {
+  if (!data?.variants) return data;
+
+  const variantMapping = {
+    statItems: "stats",
+    blogPosts: "posts",
+    askedQuestions: "faqs",
+    faqsWithCategory: "faqsWithCategories",
+  };
+
+  const updatedVariants = Object.entries(variantMapping).reduce(
+    (acc, [key, newKey]) => {
+      if (data.variants[key]) {
+        acc[newKey] = data.variants[key];
+      }
+      return acc;
+    },
+    {}
+  );
+
+  return {
+    ...data,
+    variants: {
+      ...data.variants,
+      ...updatedVariants,
+    },
+  };
+};
+
 // Update schemasWithComponents to include dynamic components data
 const schemasWithComponents = await Promise.all(
   allSchemas.map(async (schema) => {
@@ -52,8 +81,12 @@ const schemasWithComponents = await Promise.all(
           if (field.name === "variant") {
             const Component = Components?.[schema.name];
 
-            // Exclude the "Cookies" component from rendering as a component
-            if (!Component || schema?.name === "cookies") {
+            // Exclude the dynamic components from rendering
+            if (
+              !Component ||
+              schema?.name === "cookies" ||
+              process.env.NEXT_PUBLIC_RENDER_DYNAMIC_COMPONENTS === "false"
+            ) {
               return field;
             }
 
@@ -63,11 +96,11 @@ const schemasWithComponents = await Promise.all(
                 ...field.options,
                 list:
                   field.options?.list?.map((item) => {
-                    const data = dynamicData?.[schema.name]?.[item?.value]; //|| dynamicData[item?.value]; // Use dynamic data if available
+                    const data = dynamicData?.[schema.name]?.[item?.value];
 
                     if (data) {
                       const component = React.createElement(Component, {
-                        data,
+                        data: renameVariantKeys(data),
                       });
                       return {
                         ...item,

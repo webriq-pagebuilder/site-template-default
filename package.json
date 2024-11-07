@@ -20,7 +20,8 @@
     "chromatic": "npx chromatic --project-token=chpt_68d919151b3e677 --only-changed",
     "test": "npx playwright test",
     "test:ui": "npx playwright test --ui",
-    "test:generate": "npx playwright codegen localhost:3000"
+    "test:generate": "npx playwright codegen localhost:3000",
+    "generate": "plop"
   },
   "dependencies": {
     "@portabletext/react": "^3.0.9",
@@ -116,6 +117,7 @@
   "devDependencies": {
     "@netlify/plugin-nextjs": "^5.5.0",
     "@playwright/test": "1.48.0",
+    "plop": "^3.0.5",
     "@storybook/addon-designs": "^8.0.0",
     "@storybook/addon-docs": "^8.0.0",
     "@storybook/addon-essentials": "^8.0.0",

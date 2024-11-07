@@ -1,0 +1,37 @@
+import React from "react";
+import dynamic from "next/dynamic";
+import {
+  SectionsProps,
+} from "../../../types";
+import { {{pascalCase name}}Props } from '@stackshift-ui/{{kebabCase name}}'
+import * as {{pascalCase name}}Variants from "@stackshift-ui/{{kebabCase name}}";
+
+const DefaultVariants = Object.keys({{pascalCase name}}Variants).reduce(
+  (acc, key) => {
+    const variantKey = key.toLowerCase();
+    acc[variantKey] = {{pascalCase name}}Variants[key];
+
+    return acc;
+  },
+  {} as Record<string, any>
+);
+
+const Variants = {
+  ...DefaultVariants,
+  variant_e: dynamic(() => import("./variant_e")),
+};
+
+const displayName = "{{pascalCase name}}";
+
+export const {{pascalCase name}}: React.FC<SectionsProps> = ({ data }) => {
+  const variant = data?.variant;
+  const Variant = variant && Variants?.[variant as keyof typeof Variants];
+
+  const props = {
+   //Enter props here
+  };
+
+  return Variant ? <Variant {...props} /> : null;
+};
+
+{{pascalCase name}}.displayName = displayName;

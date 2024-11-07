@@ -66,11 +66,10 @@ export function dynamicComponents({
   schemaFields = {},
   schemaType,
   isEcommerce = false,
+  isInitial = false,
 }) {
-  const schema = {};
-
-  // Initialize the schema for the given schemaType
-  schema[`${schemaType}`] = {};
+  // Initialize schema object with the given schemaType as an empty object
+  const schema = { [schemaType]: {} };
 
   // Map over the data to populate the schema
   data?.forEach((item) => {
@@ -80,11 +79,12 @@ export function dynamicComponents({
       ? schemaFields
       : filterArgsByVariant(schemaFields, item.variants, item.variant);
 
-    // Set the variant as a key in the schema object
-    schema[schemaType][item.variant] = {
-      variant: item.variant,
-      variants,
-    };
+      // Set the variant as a key in the schema object
+      schema[schemaType][item.variant] = {
+        variant: item.variant,
+        variants,
+      };
+    });
   });
 
   return schema;
