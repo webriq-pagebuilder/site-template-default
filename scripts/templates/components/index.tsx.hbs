@@ -1,0 +1,28 @@
+import dynamic from "next/dynamic";
+import * as {{capitalize componentName}}Variants from "@stackshift-ui/{{kebabCase componentName}}";
+import { SectionsProps, Images, MainImage, LabeledRouteWithKey, Form, Template } from "../../../types";
+
+const DefaultVariants = Object.keys({{capitalize componentName}}Variants).reduce((acc, key) => {
+  const variantKey = key.toLowerCase();
+  acc[variantKey] = HeaderVariants[key];
+
+  return acc;
+}, {} as Record<string, any>); 
+
+const Variants = {
+  ...DefaultVariants,
+};
+
+const displayName = "{{capitalize componentName}}";
+
+export const {{capitalize componentName}}: React.FC<SectionsProps> = ({ data }) => {
+  const variant = data?.variant;
+  const Variant = variant && Variants[variant as keyof typeof Variants];
+
+  // add the props for the component here 
+  const props = {};
+
+  return Variant ? <Variant {...props} /> : null;
+};
+
+{{capitalize componentName}}.displayName = displayName;
