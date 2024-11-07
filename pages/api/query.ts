@@ -361,3 +361,6 @@ export const componentsQuery = groq`*[_type==$schema && !(_id in path("drafts.**
   ...,
   ${variants}
 }`;
+
+// query theme page
+export const themePageQuery = groq`*[_type == "themePage"] ${allProjections}`;

@@ -1,19 +1,17 @@
-import React, { Suspense } from "react";
+import React from "react";
 import { PreviewSuspense } from "next-sanity/preview";
 import { getClient } from "lib/sanity.client";
 import { homeQuery, globalSEOQuery } from "./api/query";
 import { usePreview } from "lib/sanity.preview";
 import { PageSections } from "components/page";
 import { PreviewNoContent } from "components/PreviewNoContent";
-import PageNotFound from "pages/404";
+import { PreviewNoHomePage } from "components/PreviewNoHomePage";
 import { filterDataToSingleItem } from "components/list";
 import { SEO } from "components/SEO";
 import { PreviewBanner } from "components/PreviewBanner";
 import InlineEditorContextProvider from "context/InlineEditorContext";
 import { CommonPageData, SeoTags, SeoSchema } from "types";
 import { addSEOJsonLd } from "components/SEO";
-import { ThemeSettings } from "components/ThemeSettings";
-import { defaultThemeConfig } from "components/theme-settings/defaultThemeConfig";
 
 interface HomeProps {
   data: Data;
@@ -22,7 +20,6 @@ interface HomeProps {
   source?: string;
   seo?: SeoTags[];
   seoSchema?: SeoSchema;
-  theme?: any;
 }
 
 interface DocumentWithPreviewProps {
@@ -41,31 +38,31 @@ interface PageData extends CommonPageData {
   hasNeverPublished?: boolean | null;
 }
 
-function Home({ data, preview, token, source, theme }: HomeProps) {
+function Home({ data, preview, token, source }: HomeProps) {
   const showInlineEditor = source === "studio";
-  const showThemeSetting = source === "theme";
 
-  if (!data?.pageData) {
-    return null;
-  } else {
-    if (preview) {
-      return (
-        <>
-          <PreviewBanner />
-          {showThemeSetting && (
-            <ThemeSettings preview={preview} themeSettings={theme} />
-          )}
-          <PreviewSuspense fallback="Loading...">
-            <InlineEditorContextProvider showInlineEditor={showInlineEditor}>
-              <DocumentWithPreview {...{ data, token }} />
-            </InlineEditorContextProvider>
-          </PreviewSuspense>
-        </>
-      );
+  if (!data?.pageData && !preview) {
+    return null; // Return null only if not in preview mode
+  }
+
+  if (preview) {
+    if (!data?.pageData) {
+      return <PreviewNoHomePage />; // Return PreviewNoHomePage if in preview mode and no page data
     }
 
-    return <Document {...{ data }} />;
+    return (
+      <>
+        <PreviewBanner />
+        <PreviewSuspense fallback="Loading...">
+          <InlineEditorContextProvider showInlineEditor={showInlineEditor}>
+            <DocumentWithPreview {...{ data, token }} />
+          </InlineEditorContextProvider>
+        </PreviewSuspense>
+      </>
+    );
   }
+
+  return <Document {...{ data }} />;
 }
 
 /**
@@ -137,17 +134,10 @@ export const getStaticProps = async ({
       ? getClient(preview).withConfig({ token: previewData.token })
       : getClient(false);
 
-  const themeQuery = preview
-    ? "*[_type=='themeSettings'][0]"
-    : "*[_type=='themeSettings' && !(_id in path('drafts.**'))][0]";
-
-  const [indexPage, globalSEO, initialConfig] = await Promise.all([
+  const [indexPage, globalSEO] = await Promise.all([
     client.fetch(homeQuery),
     client.fetch(globalSEOQuery),
-    client.fetch(themeQuery),
   ]);
-
-  const theme = initialConfig || defaultThemeConfig;
 
   // pass page data and preview to helper function
   const pageData: PageData = filterDataToSingleItem(indexPage, preview);
@@ -181,7 +171,6 @@ export const getStaticProps = async ({
   if (!pageData) {
     return {
       props: {
-        theme,
         preview,
         data: { pageData: null },
         seo,
@@ -192,7 +181,6 @@ export const getStaticProps = async ({
 
   return {
     props: {
-      theme,
       preview,
       token: (preview && previewData.token) || "",
       source: (preview && previewData.source) || "",

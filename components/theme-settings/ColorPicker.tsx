@@ -4,7 +4,7 @@ import { Text } from "@stackshift-ui/text";
 import { FaSpinner, FaUndo } from "react-icons/fa";
 import { HexColorInput, HexColorPicker } from "react-colorful";
 import { ToastContainer, toast } from "react-toast";
-import { useClickOutside } from "utils/theme";
+import { useClickOutside, debounce } from "utils/theme";
 
 export function ColorPicker({
   isLoaded,
@@ -21,25 +21,28 @@ export function ColorPicker({
     colorKey?.charAt(0)?.toUpperCase() + colorKey?.slice(1);
 
   const [loading, setLoading] = useState(false);
-  const [colorPickerOpen, setColorPickerOpen] = useState<string | null>(null); // Track active color picker
+  const [colorPickerOpen, setColorPickerOpen] = useState<string | null>(null);
   const colorPickerPopupRef = useRef();
 
   const isOpen = colorPickerOpen === colorKey;
   const close = useCallback(() => setColorPickerOpen(null), []);
   useClickOutside(colorPickerPopupRef, close);
 
-  const handleColorChange = (colors) => {
-    setCustomizedThemeConfig({
-      ...customizedThemeConfig,
-      colors: {
-        ...customizedThemeConfig.colors,
-        [mode]: {
-          ...customizedThemeConfig?.colors?.[mode], // Preserve existing colors
-          ...colors, // Update only the changed color
+  const debouncedHandleColorChange = useCallback(
+    debounce((colors) => {
+      setCustomizedThemeConfig({
+        ...customizedThemeConfig,
+        colors: {
+          ...customizedThemeConfig.colors,
+          [mode]: {
+            ...customizedThemeConfig?.colors?.[mode],
+            ...colors,
+          },
         },
-      },
-    });
-  };
+      });
+    }, 500),
+    [customizedThemeConfig, mode, setCustomizedThemeConfig]
+  );
 
   const handleRevertColor = (colorToRevert) => {
     try {
@@ -52,7 +55,7 @@ export function ColorPicker({
           ...savedThemeConfig?.colors,
           [mode]: {
             ...customColor,
-            ...colorToRevert, // revert only the active color picker
+            ...colorToRevert,
           },
         },
       };
@@ -79,7 +82,7 @@ export function ColorPicker({
       <div className="relative rounded bg-white border border-gray-300 text-sm">
         <div className="flex gap-x-2">
           <div
-            className="w-6 h-5 m-2 cursor-pointer rounded"
+            className="w-6 h-5 m-2 cursor-pointer rounded border border-gray-300"
             style={{
               backgroundColor: customColor?.[colorKey],
             }}
@@ -87,7 +90,7 @@ export function ColorPicker({
           />
           <HexColorInput
             color={customColor?.[colorKey]}
-            onChange={(newColor) => handleColorChange({ [colorKey]: newColor })}
+            onChange={(newColor) => debouncedHandleColorChange({ [colorKey]: newColor })}
             disabled={isLoaded}
             placeholder="Enter hex color"
             style={{
@@ -132,7 +135,7 @@ export function ColorPicker({
               <HexColorPicker
                 color={customColor?.[colorKey]}
                 onChange={(newColor) =>
-                  handleColorChange({ [colorKey]: newColor })
+                  debouncedHandleColorChange({ [colorKey]: newColor })
                 }
               />
             </div>

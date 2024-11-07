@@ -47,16 +47,16 @@ export function BasicThemeSettings({
         />
       </div>
       <div className="flex flex-col gap-3">
-        {savedThemeConfig?.colors &&
+        {customizedThemeConfig?.colors &&
           Object.entries(
-            savedThemeConfig?.colors?.[savedThemeConfig?.mode]
+            customizedThemeConfig?.colors?.[customizedThemeConfig?.mode]
           )?.map(([key, value]) => (
             <ColorPicker
               key={value as string | number}
               {...{
                 defaultColor: {
                   label: key,
-                  value: value,
+                  value: savedThemeConfig?.colors?.[customizedThemeConfig?.mode]?.[key],
                 },
                 isLoaded,
                 mode: customizedThemeConfig?.mode,
