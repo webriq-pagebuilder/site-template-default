@@ -73,25 +73,18 @@ export function dynamicComponents({
 
   // Map over the data to populate the schema
   data?.forEach((item) => {
-    if (!item || !item?.variants) return; // Skip if item or item.variants is falsy
-    let variantDetails;
+    if (!item || !item.variants) return; // Skip iteration if item or item.variants is falsy
 
-    if (isInitial) {
-      // Initial variant logic for creating default variant details
-      const [initialVariant] = item.variants;
-      variantDetails = initialVariant
-        ? { variant: initialVariant.title, details: initialVariant }
-        : null;
-    } else {
-      variantDetails = isEcommerce
-        ? schemaFields
-        : filterArgsByVariant(schemaFields, item.variants, item.variant);
-    }
+    const variants = isEcommerce
+      ? schemaFields
+      : filterArgsByVariant(schemaFields, item.variants, item.variant);
 
-    schema[schemaType][item.variant] = {
-      variant: item.variant,
-      variants: isInitial ? variantDetails?.details : variantDetails,
-    };
+      // Set the variant as a key in the schema object
+      schema[schemaType][item.variant] = {
+        variant: item.variant,
+        variants,
+      };
+    });
   });
 
   return schema;

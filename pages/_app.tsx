@@ -69,9 +69,28 @@ function App({ Component, pageProps }: AppProps) {
       : "*[_type=='themeSettings' && !(_id in path('drafts.**'))][0]";
 
     // get initial theme settings
-    sanityClient.fetch(query).then((initialConfig) => {
+    sanityClient.fetch(
+      `${query}{
+        ...,
+        themes[] {
+          ...,
+          colors {
+            light {
+              background,
+              primary,
+              secondary,
+            },
+            dark {
+              background,
+              primary,
+              secondary,
+            }
+          }
+        }
+      }`
+    )
+    .then((initialConfig) => {
       const currentTheme = initialConfig;
-
       setThemeConfig(currentTheme);
     });
 

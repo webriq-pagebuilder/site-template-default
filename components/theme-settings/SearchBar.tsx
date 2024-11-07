@@ -26,10 +26,8 @@ export function SearchBar({
   useClickOutside(inputRef, close);
 
   const handleSettingTheme = (theme) => {
-    const updatedConfig = themes?.find(({ name }) => name === theme);
-
-    setCurrentThemeName?.(theme);
-    setCustomizedThemeConfig?.(updatedConfig);
+    setCurrentThemeName(theme.name);
+    setCustomizedThemeConfig(theme);
   };
 
   const handleSearchTheme = (e) => {
@@ -104,7 +102,7 @@ export function SearchBar({
           {!searchInput && options?.length !== 0 ? (
             options?.map((option) => (
               <div
-                onClick={() => handleSettingTheme(option?.name)}
+                onClick={() => handleSettingTheme(option)}
                 className={`flex justify-between items-center box-border px-2 py-3 cursor-pointer hover:bg-gray-50 ${option?.name === currentThemeName ? "bg-gray-100" : ""}`}
                 key={option?._key}
               >

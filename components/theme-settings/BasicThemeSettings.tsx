@@ -32,6 +32,9 @@ export function BasicThemeSettings({
     }
   };
 
+  const draftThemeColors = localStorage.getItem('draftTheme');
+  const selectedThemeColors = draftThemeColors ? JSON.parse(draftThemeColors) : customizedThemeConfig;
+
   return (
     <div className="flex flex-col gap-y-5">
       <div className="flex flex-col gap-2">
@@ -41,15 +44,15 @@ export function BasicThemeSettings({
         <ToggleDarkMode
           {...{
             isLoaded,
-            customMode: customizedThemeConfig?.mode,
+            customMode: selectedThemeColors?.mode,
             setCustomizedThemeConfig,
           }}
         />
       </div>
       <div className="flex flex-col gap-3">
-        {savedThemeConfig?.colors &&
+        {selectedThemeColors?.colors &&
           Object.entries(
-            savedThemeConfig?.colors?.[savedThemeConfig?.mode]
+            selectedThemeColors?.colors?.[selectedThemeColors?.mode]
           )?.map(([key, value]) => (
             <ColorPicker
               key={value as string | number}
@@ -59,8 +62,8 @@ export function BasicThemeSettings({
                   value: value,
                 },
                 isLoaded,
-                mode: customizedThemeConfig?.mode,
-                customizedThemeConfig,
+                mode: selectedThemeColors?.mode,
+                customizedThemeConfig: selectedThemeColors,
                 setCustomizedThemeConfig,
                 colorKey: key,
                 savedThemeConfig,
