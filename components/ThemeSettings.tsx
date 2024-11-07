@@ -33,7 +33,7 @@ export function ThemeSettings({ preview, themeSettings }): React.JSX.Element {
   const [activeTab, setActiveTab] = useState("Basic");
 
   // theme states
-  const [currentThemeName, setCurrentThemeName] = useState(themeSettings?.currentTheme);
+  const [currentThemeName, setCurrentThemeName] = useState(themeSettings?.currentTheme || defaultThemeConfig?.currentTheme);
   const [themes, setThemes] = useState(themeSettings?.themes);
   const [savedThemeConfig, setSavedThemeConfig] = useState(themeSettings?.themes?.find(({ name }) => name === currentThemeName));
   const [customizedThemeConfig, setCustomizedThemeConfig] = useState(savedThemeConfig);
@@ -114,7 +114,7 @@ export function ThemeSettings({ preview, themeSettings }): React.JSX.Element {
 
     const saved = config?.find((theme) => !theme?._id?.startsWith("drafts."));
 
-    if (config) {
+    if (config && config.length > 0) {
       setThemes(saved?.themes);
       setCustomizedThemeConfig(saved?.themes?.find(({ name }) => name === currentThemeName));
       setSavedThemeConfig({
