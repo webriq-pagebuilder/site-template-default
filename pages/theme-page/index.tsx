@@ -23,7 +23,7 @@ interface ThemePageProps {
 }
 
 interface Data {
-  themePageData: ThemePageData;
+  themePageData: ThemePageData | null;
 }
 
 export interface ThemePageData extends CommonPageData {
@@ -117,6 +117,15 @@ export async function getStaticProps({
   const themePageData: ThemePageData = filterDataToSingleItem(themePage, preview);
 
   const data = { themePageData };
+
+  if (!themePageData) {
+    return {
+      props: {
+        preview,
+        data: { themePageData: null },
+      },
+    };
+  }
 
   return {
     props: {
