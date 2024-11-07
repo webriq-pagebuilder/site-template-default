@@ -29,7 +29,7 @@ export function RevertAllTemplate({ onClose, loading, onClickAction }) {
           disabled={loading}
           onClick={onClickAction}
         >
-          Confirm Revert
+          {loading ? "Restoring..." : "Confirm Revert"}
         </Button>
       </div>
     </div>

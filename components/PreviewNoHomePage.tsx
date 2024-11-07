@@ -6,7 +6,7 @@ export function PreviewNoHomePage() {
       </span>
       <h1 className="text-2xl font-bold text-gray-900 mt-2">Home Page Not Found</h1>
       <p className="text-gray-600">
-        In order to preview your site or its theme settings, start by creating a home page.
+        In order to preview your site content, start by creating a home page.
       </p>
       <p className="text-gray-600">
         Add content to your site by launching the Studio from the <a className="font-bold text-primary" href="https://stackshift.webriq.com">StackShift App</a>.
