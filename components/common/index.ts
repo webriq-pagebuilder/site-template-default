@@ -66,11 +66,10 @@ export function dynamicComponents({
   schemaFields = {},
   schemaType,
   isEcommerce = false,
+  isInitial = false,
 }) {
-  const schema = {};
-
-  // Initialize the schema for the given schemaType
-  schema[`${schemaType}`] = {};
+  // Initialize schema object with the given schemaType as an empty object
+  const schema = { [schemaType]: {} };
 
   // Map over the data to populate the schema
   data?.forEach((item) => {
