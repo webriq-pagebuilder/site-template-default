@@ -14,8 +14,7 @@ export function SetThemeTemplate({
         Are you sure you want to set this as the CURRENT theme?
       </Text>
       <Text fontSize="sm" weight="semibold" className="text-red-500">
-        NOTE: This action is irreversible! Confirming will also refresh the
-        page.
+        NOTE: This action is irreversible! 
       </Text>
       <div className="flex flex-col gap-5">
         <div className="flex flex-wrap gap-2 mt-5 justify-end">
@@ -35,7 +34,7 @@ export function SetThemeTemplate({
             disabled={loading}
             onClick={() => onClickAction(currentThemeName)}
           >
-            Confirm Save
+            {loading ? "Saving..." : "Confirm Save"}
           </Button>
         </div>
       </div>
