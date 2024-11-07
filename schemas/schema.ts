@@ -93,7 +93,8 @@ const schemasWithComponents = await Promise.all(
             if (
               !Component ||
               schema?.name === "cookies" ||
-              process.env.NEXT_PUBLIC_RENDER_DYNAMIC_COMPONENTS === "false"
+              process.env.NEXT_PUBLIC_RENDER_DYNAMIC_COMPONENTS === "false" ||
+              !process.env.NEXT_PUBLIC_RENDER_DYNAMIC_COMPONENTS
             ) {
               return field;
             }
