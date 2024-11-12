@@ -8,11 +8,20 @@ import {
 } from "../../../types";
 import * as NavigationVariants from "@stackshift-ui/navigation";
 
+const DefaultVariants = Object.keys(NavigationVariants).reduce(
+  (acc, key) => {
+    const variant = key.toLowerCase();
+    const variantKey = variant.replace("navigation", "variant")
+
+    acc[variantKey] = NavigationVariants[key];
+
+    return acc;
+  },
+  {} as Record<string, any>
+);
+
 const Variants = {
-  variant_a: NavigationVariants.Navigation_A,
-  variant_b: NavigationVariants.Navigation_B,
-  variant_c: NavigationVariants.Navigation_C,
-  variant_d: NavigationVariants.Navigation_D,
+  ...DefaultVariants,
   variant_e: dynamic(() => import("./variant_e")),
 };
 
