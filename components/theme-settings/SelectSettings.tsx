@@ -24,7 +24,7 @@ export function SelectSettings({
             aria-label={placeholder}
             value={value}
             className="w-full appearance-none h-10 rounded border border-gray-300 text-sm focus:outline-none px-2"
-            disabled={isLoaded}
+            disabled={!isLoaded}
             onChange={handleChangeFn}
           >
             <option value="">{placeholder}</option>
@@ -45,7 +45,7 @@ export function SelectSettings({
             ariaLabel="Show fonts"
             variant="unstyled"
             className="absolute top-0 right-0 p-3 bg-transparent text-black pointer-events-none"
-            disabled={isLoaded}
+            disabled={!isLoaded}
           >
             <MdKeyboardArrowDown className="w-5 h-5" />
           </Button>

@@ -438,7 +438,7 @@ export function ThemeSettings({ preview, themeSettings }): React.JSX.Element {
             {activeTab === "Basic" && (
               <BasicThemeSettings
                 {...{
-                  isLoaded: loading || !isReady,
+                  isLoaded: !loading || isReady,
                   options: themeOptions,
                   savedThemeConfig: themes?.find(({ name }) => name === customizedThemeConfig?.name),
                   customizedThemeConfig,
@@ -450,7 +450,7 @@ export function ThemeSettings({ preview, themeSettings }): React.JSX.Element {
             {activeTab === "Advanced" && (
               <AdvancedThemeSettings
                 {...{
-                  isLoaded: loading || !isReady,
+                  isLoaded: !loading || isReady,
                   options: themeOptions,
                   customizedThemeConfig,
                   setCustomizedThemeConfig,
