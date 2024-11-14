@@ -26,6 +26,7 @@ const variants = `
     },
     images[] {
       ${logoImage}
+      "alt": alt
     },
     ${mainImage},
     featuredItems != null => {
