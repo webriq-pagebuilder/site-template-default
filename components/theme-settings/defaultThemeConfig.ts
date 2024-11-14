@@ -14,14 +14,14 @@ export const defaultThemeConfig = {
       scope: "global",
       colors: {
         light: {
+          background: "#F9FAFB",
           primary: "#0045d8",
           secondary: "#3576ff",
-          background: "#F9FAFB",
         },
         dark: {
+          background: "#1F2937",
           primary: "#0045d8",
           secondary: "#3576ff",
-          background: "#1F2937",
         },
       },
     },
