@@ -110,7 +110,7 @@ const variants = `
     },
      testimonials[] {
       ...,
-      "mainImage": *[_type == "sanity.imageAsset" && _id == ^.mainImage.image.asset._ref][0].url
+      ${mainImage},
     },
     portfolios != null => {
       portfolios[] {
