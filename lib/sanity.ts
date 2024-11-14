@@ -10,7 +10,7 @@ export const imageBuilder = createImageUrlBuilder(config);
  * Read more: https://www.sanity.io/docs/image-url
  **/
 export const urlFor = (source) =>
-  source?.asset && imageBuilder.image(source).format("webp")?.url();
+  source?.asset && imageBuilder.image(source).format("auto")?.url();
 
 export const seoImageUrl = (source) =>
   source?.asset && imageBuilder.image(source).format("jpg")?.url();
