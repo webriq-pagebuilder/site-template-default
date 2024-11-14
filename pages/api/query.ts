@@ -75,6 +75,25 @@ const variants = `
         ${conditionalLink}
       }
     },
+    config != null => {
+      config {
+        ...,
+        cookiePolicy {
+          ...,
+          cookiePolicyPage {
+            ...,
+            ${conditionalLink}
+          }
+        }
+      }
+    },
+    contactLink != null => {
+      contactLink {
+        ...,
+        label,
+        ${conditionalLink}
+      }
+    },
     multipleMenus != null => {
       multipleMenus[] {
         ...,
