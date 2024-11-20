@@ -2,6 +2,7 @@ import React from "react";
 import { toast } from "react-toast";
 import { Text } from "@stackshift-ui/text";
 import { ColorPicker, SelectSettings, ToggleDarkMode } from "../theme-settings";
+import { defaultThemeConfig } from "./defaultThemeConfig";
 import _ from "lodash";
 
 export function BasicThemeSettings({
@@ -47,9 +48,9 @@ export function BasicThemeSettings({
         />
       </div>
       <div className="flex flex-col gap-3">
-        {customizedThemeConfig?.colors &&
+        {savedThemeConfig?.colors ?
           Object.entries(
-            customizedThemeConfig?.colors?.[customizedThemeConfig?.mode]
+            savedThemeConfig?.colors?.[customizedThemeConfig?.mode]
           )?.map(([key, value]) => (
             <ColorPicker
               key={value as string | number}
@@ -67,7 +68,28 @@ export function BasicThemeSettings({
                 handleRevertSetting,
               }}
             />
-          ))}
+          )) : (
+            Object.entries(
+              defaultThemeConfig?.themes?.[0]?.colors?.[customizedThemeConfig?.mode]
+            )?.map(([key, value]) => (
+              <ColorPicker
+                key={value as string | number}
+                {...{
+                  defaultColor: {
+                    label: key,
+                    value: defaultThemeConfig?.themes?.[0]?.colors?.[customizedThemeConfig?.mode]?.[key],
+                  },
+                  isLoaded,
+                  mode: customizedThemeConfig?.mode,
+                  customizedThemeConfig,
+                  setCustomizedThemeConfig,
+                  colorKey: key,
+                  savedThemeConfig,
+                  handleRevertSetting,
+                }}
+              />
+            ))
+          )}
       </div>
       <hr className="h-px bg-gray-300 border-0" />
       <SelectSettings

@@ -114,6 +114,7 @@ export default defineType({
           name: "featuredProducts",
           type: "reference",
           to: [{ type: "featuredProducts" }],
+          readOnly: NEXT_PUBLIC_SANITY_STUDIO_IN_CSTUDIO === "false",
         }),
         defineArrayMember({
           title: "Pricing",
@@ -126,12 +127,14 @@ export default defineType({
           name: "productInfo",
           type: "reference",
           to: [{ type: "pages_productInfo" }],
+          readOnly: NEXT_PUBLIC_SANITY_STUDIO_IN_CSTUDIO === "false",
         }),
         defineArrayMember({
           title: "Wishlist",
           name: "wishlist",
           type: "reference",
           to: [{ type: "slotWishlist" }],
+          readOnly: NEXT_PUBLIC_SANITY_STUDIO_IN_CSTUDIO === "false",
         }),
         defineArrayMember({
           title: "Contact",

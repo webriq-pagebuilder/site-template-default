@@ -34,9 +34,9 @@ export function ToggleDarkMode({
       <Button
         as="button"
         ariaLabel="Light mode"
-        className={`text-sm !px-6 !py-2 flex gap-2 items-center rounded-l-md rounded-r-none border border-black !text-black hover:!bg-gray-300 ${!darkMode ? "!bg-black !text-white" : ""}`}
+        className={`text-sm !px-6 !py-2 flex gap-2 items-center rounded-l-md rounded-r-none border border-black !text-black hover:bg-gray-300 ${!darkMode ? "!bg-black !text-white" : ""}`}
         variant={!darkMode ? "solid" : "ghost"}
-        disabled={isLoaded || customMode === "light"}
+        disabled={!isLoaded || customMode === "light"}
         onClick={() => handleModeChange(!darkMode)}
       >
         {!darkMode ? <MdLightMode /> : <MdOutlineLightMode />}
@@ -45,9 +45,9 @@ export function ToggleDarkMode({
       <Button
         as="button"
         ariaLabel="Dark mode"
-        className={`text-sm !px-6 !py-2 flex gap-2 items-center rounded-l-none rounded-r-md border border-black !text-black hover:!bg-gray-300 ${darkMode ? "!bg-black !text-white" : ""}`}
+        className={`text-sm !px-6 !py-2 flex gap-2 items-center rounded-l-none rounded-r-md border border-black !text-black hover:bg-gray-300 ${darkMode ? "!bg-black !text-white" : ""}`}
         variant={darkMode ? "solid" : "ghost"}
-        disabled={isLoaded || customMode === "dark"}
+        disabled={!isLoaded || customMode === "dark"}
         onClick={() => handleModeChange(!darkMode)}
       >
         {darkMode ? <MdDarkMode /> : <MdOutlineDarkMode />}
