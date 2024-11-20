@@ -16,12 +16,19 @@ const blogSchemaArray = Object.values(blogSchema);
 const commerceSchemaArray = Object.values(commerceSchema);
 
 const defaultSchemas = [...baseSchemaArray, ...blogSchemaArray];
-const allSchemas = mergeReplaceAndAdd(defaultSchemas, commerceSchemaArray);
+const baseSchemas = mergeReplaceAndAdd(defaultSchemas, commerceSchemaArray);
 
-// Uncomment the block of code below if we have custom components
+// Uncomment these code below if we have custom components
 //import customSchema from "./custom";
 //const updatedSchemaArray = Object.values(customSchema);
-//const updatedSchemas = mergeReplaceAndAdd(allSchemas, updatedSchemaArray);
+
+const allSchemas = (() => {
+  // Uncomment the line below if we have custom components
+  //return mergeReplaceAndAdd(baseSchemas, updatedSchemaArray);
+
+  // comment this code if we have custom components
+  return mergeReplaceAndAdd(baseSchemas, commerceSchemaArray);
+})();
 
 const componentsList = Object.keys(Components);
 
