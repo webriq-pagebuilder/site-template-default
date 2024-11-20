@@ -95,7 +95,7 @@ function VariantA({
   }, [NEXT_PUBLIC_APP_URL, apiVersion, hashKey, stripeSKey, usePlan]);
 
   return (
-    <section className="py-20 bg-gray-50">
+    <section className="py-20 bg-background">
       <Container>
         <Container maxWidth={672} className="mb-16 text-center">
           {caption && (
@@ -161,7 +161,7 @@ function VariantA({
           {usePlan?.map((planDetail, index) => {
             return (
               <div
-                className="w-full px-4 mb-8 md:w-1/2 lg:mb-5 lg:w-1/3"
+                className="w-full px-4 mb-8 md:w-1/2 lg:mb-5 lg:w-1/3 rounded-lg"
                 key={planDetail._key}
               >
                 <Card
@@ -236,10 +236,10 @@ function VariantA({
                   <Button
                     as="button"
                     ariaLabel={planDetail.checkoutButtonName}
-                    className={`inline-block w-full rounded-l-xl rounded-t-xl px-4 py-2 text-center ${
+                    className={`inline-block w-full px-4 py-2 text-center ${
                       index % 2 !== 0
                         ? "bg-white text-black hover:bg-white"
-                        : "bg-primary text-white  hover:bg-primary-foreground"
+                        : "bg-primary text-white  hover:bg-secondary"
                     } cursor-pointer font-bold leading-loose transition duration-200 ${
                       !planDetail ||
                       ("variant_a_monthlyPriceCheckoutButton" in planDetail &&

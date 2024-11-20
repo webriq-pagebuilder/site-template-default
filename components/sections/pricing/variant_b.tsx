@@ -86,7 +86,7 @@ function VariantB({
   }, [NEXT_PUBLIC_APP_URL, apiVersion, hashKey, stripeSKey, usePlan]);
 
   return (
-    <section className="py-20 bg-gray-50">
+    <section className="py-20 bg-background">
       <Container>
         <Flex wrap aligncenter className="w-full mb-16">
           <div className="w-full lg:w-1/2">

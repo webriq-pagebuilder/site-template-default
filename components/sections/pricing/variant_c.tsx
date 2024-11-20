@@ -95,7 +95,7 @@ function VariantC({
   }, [NEXT_PUBLIC_APP_URL, apiVersion, hashKey, plans, stripeSKey, usePlan]);
 
   return (
-    <section className="py-20 bg-gray-50">
+    <section className="py-20 bg-background">
       <Container>
         <Container maxWidth={512} className="mb-16 text-center ">
           {caption && <span className="font-bold text-primary">{caption}</span>}
