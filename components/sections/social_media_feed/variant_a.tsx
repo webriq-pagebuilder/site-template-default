@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { Button } from "@stackshift-ui/button";
 import { DefaultSocialMediaIcons } from "helper";
 
-function VariantA({ username, media, platform, hashtags, numberOfPosts }) {
+function VariantA({ username, media, platform, hashtags, numberOfPosts, fetchNextPage, nextCursor }) {
   const defaultPosts = 6;
   const postsToDisplay = numberOfPosts < 1 ? defaultPosts : numberOfPosts;
   const [selected, setSelected] = useState("");
@@ -71,13 +72,15 @@ function VariantA({ username, media, platform, hashtags, numberOfPosts }) {
           </div>
           {media?.length > numberOfPosts && (
             <div className="mt-10 text-center">
-              <Link
-                className="bg-webriq-darkblue hover:bg-webriq-blue text-white px-4 py-3 rounded-t-xl rounded-l-xl"
-                href={`https://www.instagram.com/${username ?? "username"}`}
-                target="_blank"
+              <Button
+                className="bg-primary hover:bg-secondary text-white px-4 py-3 rounded-t-xl rounded-l-xl"
+                //href={`https://www.instagram.com/${username ?? "username"}`}
+                //target="_blank"
+                onClick={fetchNextPage()}
+                disabled={!nextCursor}
               >
                 View more posts
-              </Link>
+              </Button>
             </div>
           )}
         </div>
