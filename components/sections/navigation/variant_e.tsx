@@ -79,7 +79,7 @@ function VariantE({ banner, logo, links }: NavigationProps) {
 
   return (
     <EcwidContextProvider>
-      <section className="relative">
+      <section className="relative bg-background">
         {banner && (
           <div className="py-2 bg-primary">
             <Flex align="center" justify="center">
