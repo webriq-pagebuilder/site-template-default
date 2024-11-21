@@ -25,7 +25,7 @@ function VariantB({ products }: PagesProductInfoProps) {
   }, [ecwid, products?.ecwidProductId]);
 
   return (
-    <section className="sm:p-10 md:p-20">
+    <section className="sm:p-10 md:p-20 bg-background">
       <Container>
         {products && (
           <Flex wrap>
@@ -207,7 +207,7 @@ function VariantB({ products }: PagesProductInfoProps) {
                 </div>
 
                 <ProductDetail product={ecwidProduct}>
-                  <Flex direction="row" align="center" gap={4} className="my-8">
+                  <Flex align="center" gap={4} className="my-8 flex-col lg:flex-row">
                     <div className="w-full lg:mb-4 xl:mb-0">
                       <AddToBag
                         inStock={!ecwidProduct?.inStock}

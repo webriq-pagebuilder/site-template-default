@@ -38,7 +38,7 @@ const AddToWishlist = ({
 
   return (
     <>
-      <div className={favorited ? "w-full" : containerClass}>
+      <div className={favorited ? "w-full md:w-3/4" : containerClass}>
         <Button
           as="button"
           variant="addToWishlist"
