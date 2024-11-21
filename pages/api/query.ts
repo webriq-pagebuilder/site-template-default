@@ -96,6 +96,15 @@ const variants = `
         ${conditionalLink}
       }
     },
+    socialLinks != null => {
+      socialLinks[] {
+        ...,
+        socialMediaIcon {
+          "image": image.asset->url,
+          alt
+        },
+      }
+    },
     multipleMenus != null => {
       multipleMenus[] {
         ...,
