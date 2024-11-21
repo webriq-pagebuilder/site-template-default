@@ -130,13 +130,6 @@ export default defineType({
           readOnly: NEXT_PUBLIC_SANITY_STUDIO_IN_CSTUDIO === "false",
         }),
         defineArrayMember({
-          title: "Wishlist",
-          name: "wishlist",
-          type: "reference",
-          to: [{ type: "slotWishlist" }],
-          readOnly: NEXT_PUBLIC_SANITY_STUDIO_IN_CSTUDIO === "false",
-        }),
-        defineArrayMember({
           title: "Contact",
           name: "contact",
           type: "reference",
