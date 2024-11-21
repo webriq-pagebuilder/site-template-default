@@ -86,7 +86,7 @@ function VariantB({
   }, [NEXT_PUBLIC_APP_URL, apiVersion, hashKey, stripeSKey, usePlan]);
 
   return (
-    <section className="py-20 bg-background">
+    <section className="p-5 sm:p-20 bg-background">
       <Container>
         <Flex wrap aligncenter className="w-full mb-16">
           <div className="w-full lg:w-1/2">
@@ -129,7 +129,7 @@ function VariantB({
           usePlan.map((plan) => {
             return (
               <Card
-                className="flex flex-wrap items-center w-full p-8 mb-8"
+                className="flex flex-wrap items-center w-full p-8 mb-8 bg-white rounded-md"
                 key={plan._key}
               >
                 <div className="self-start w-full px-3 lg:w-1/5">

@@ -10,14 +10,14 @@ function VariantA({ username, media, platform, hashtags, numberOfPosts, fetchNex
   const [selected, setSelected] = useState("");
 
   return (
-    <section className="py-20">
+    <section className="py-20 bg-background">
       {media?.length !== 0 ? (
         <div className="container mx-auto lg:px-4 w-full lg:w-2/3">
           <div className="grid justify-center sm:flex sm:flex-wrap sm:justify-between mb-4">
             <div className="flex sm:my-auto">
               <DefaultSocialMediaIcons {...{ platform }} />
               <Link
-                className="font-bold align-middle ml-3"
+                className="font-bold align-middle ml-3 text-primary"
                 href={`https://www.instagram.com/${username ?? "username"}`}
                 target="_blank"
               >
@@ -28,7 +28,7 @@ function VariantA({ username, media, platform, hashtags, numberOfPosts, fetchNex
               <select
                 aria-label="socialMediaHashtags"
                 name="socialMediaHashtags"
-                className="w-full rounded bg-white border border-gray-200 p-3 outline-none"
+                className="w-full rounded-md bg-white border border-gray-200 p-3 outline-none"
                 value={selected}
                 onChange={(e) => setSelected(e.target.value)}
               >
@@ -47,7 +47,7 @@ function VariantA({ username, media, platform, hashtags, numberOfPosts, fetchNex
               ?.filter((post) => post?.caption?.includes(selected))
               ?.map((post, index) => (
                 <Link href={post?.permalink} key={index} target="_blank">
-                  <div className="relative overflow-hidden">
+                  <div className="relative overflow-hidden rounded-md">
                     {post?.media_url && (
                       <Image
                         className="h-full sm:h-[350px] sm:w-full object-cover"
