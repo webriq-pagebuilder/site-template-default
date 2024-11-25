@@ -8,6 +8,7 @@ export const filterArgsByVariant = (
 ) => {
   return Object.keys(args).reduce((result, key) => {
     if (
+      Array.isArray(component) &&
       component?.some(
         (schema) =>
           schema?.name === key &&
@@ -44,16 +45,17 @@ export function dynamicStoryData({
       .replace(/[^\w\s]/g, "_")
       .replace(/\s/g, "_"); // Replace special characters and white spaces with underscores
 
-    const variants =
+    /* const variants =
       isEcommerce || isCustomArgs
         ? schemaFields
-        : filterArgsByVariant(schemaFields, item.variants, item.variant);
+        : filterArgsByVariant(schemaFields, item.variants, item.variant); */
 
     result[`${label}_${item?.variant}`] = {
       args: {
         variant: item.variant,
         label: item.label,
-        ...variants,
+        type: item?._type,
+        variants: item?.variants,
       },
     };
   });
