@@ -69,7 +69,7 @@ export function BasicThemeSettings({
               }}
             />
           )) : (
-            Object.entries(
+            Object?.entries(
               defaultThemeConfig?.themes?.[0]?.colors?.[customizedThemeConfig?.mode]
             )?.map(([key, value]) => (
               <ColorPicker
