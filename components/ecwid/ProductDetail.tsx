@@ -422,14 +422,14 @@ const ProductDetail = ({ product, children }: ProductDetailProps) => {
           return null;
         })}
 
-        <div className="flex flex-col lg:flex-row gap-x-5 mb-4 lg:items-center">
+        <div className="flex flex-col gap-5 mb-4">
           <label
             htmlFor="quantity"
-            className="font-medium text-gray-900 uppercase mb-2 lg:mb-0"
+            className="font-medium text-primary uppercase mb-2 lg:mb-0"
           >
             Quantity
           </label>
-          <div className="flex flex-row justify-between w-full lg:w-3/4 bg-white border border-gray-400 rounded-global shadow hover:border-gray-500">
+          <div className="flex flex-row justify-between w-full lg:w-fit bg-white border border-gray-400 rounded-global shadow hover:border-gray-500">
             <Button
               variant="unstyled"
               ariaLabel="Decrease Quantity"

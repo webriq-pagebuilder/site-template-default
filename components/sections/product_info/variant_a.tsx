@@ -38,6 +38,7 @@ function VariantA({
 
   // get Ecwid product details
   const defaultProduct = ecwidProduct ? ecwidProduct : product;
+  const buttonLabel = btnLabel ? btnLabel : "Add to cart";
 
   // block styling as props to `serializers` of the PortableText component
   const blockStyle: MyPortableTextComponents = {
@@ -135,7 +136,7 @@ function VariantA({
   };
 
   return (
-    <section className="sm:p-12 md:p-20">
+    <section className="sm:p-12 md:p-20 bg-background">
       <Container>
         <Flex wrap className="mb-5 ">
           <div className="w-full px-4 mb-8 mt-14 md:mb-0 lg:w-1/2">
@@ -148,9 +149,9 @@ function VariantA({
                 modules={[Thumbs, Navigation, Pagination, A11y]}
                 spaceBetween={20}
                 slidesPerView={1}
-                loop={true}
+                loop={images?.length > 1 ? true : false}
                 speed={500}
-                watchSlidesProgress={true}
+                watchSlidesProgress={images?.length > 1 ? true : false}
                 thumbs={{ swiper: thumbsSwiper }}
                 style={{ height: "618px" }}
               >
@@ -179,7 +180,7 @@ function VariantA({
                 spaceBetween={10}
                 slidesPerView={4}
                 freeMode={true}
-                watchSlidesProgress={true}
+                watchSlidesProgress={images?.length > 1 ? true : false}
                 navigation={{
                   prevEl: "#thumbPrev",
                   nextEl: "#thumbNext",
@@ -318,13 +319,13 @@ function VariantA({
               {product?.ecwidProductId && ecwidProduct && (
                 <ProductDetail product={defaultProduct}>
                   <div className="flex flex-row items-start gap-4 my-8">
-                    {btnLabel && ecwidProduct?.inStock && (
+                    {buttonLabel && ecwidProduct?.inStock && (
                       <div className="w-full lg:mb-4 xl:mb-0">
                         <AddToBag
                           inStock={!ecwidProduct?.inStock}
-                          classNames="block w-full py-5 px-8  cursor-pointer uppercase"
+                          classNames="block w-full py-5 px-8 cursor-pointer uppercase"
                         >
-                          {btnLabel}
+                          {buttonLabel}
                         </AddToBag>
                       </div>
                     )}
@@ -339,12 +340,12 @@ function VariantA({
                         width={27}
                         height={27}
                         viewBox="0 0 27 27"
-                        fill="none"
+                        fill="inherit"
                         xmlns="http://www.w3.org/2000/svg"
                       >
                         <path
                           d="M13.4993 26.2061L4.70067 16.9253C3.9281 16.1443 3.41815 15.1374 3.24307 14.0471C3.06798 12.9568 3.23664 11.8385 3.72514 10.8505V10.8505C4.09415 10.1046 4.63318 9.45803 5.29779 8.96406C5.96241 8.47008 6.73359 8.14284 7.54782 8.00931C8.36204 7.87578 9.19599 7.93978 9.98095 8.19603C10.7659 8.45228 11.4794 8.89345 12.0627 9.48319L13.4993 10.9358L14.9359 9.48319C15.5192 8.89345 16.2327 8.45228 17.0177 8.19603C17.8026 7.93978 18.6366 7.87578 19.4508 8.00931C20.265 8.14284 21.0362 8.47008 21.7008 8.96406C22.3654 9.45803 22.9045 10.1046 23.2735 10.8505V10.8505C23.762 11.8385 23.9306 12.9568 23.7556 14.0471C23.5805 15.1374 23.0705 16.1443 22.298 16.9253L13.4993 26.2061Z"
-                          stroke="black"
+                          //stroke="black"
                           strokeWidth="1.5"
                           strokeLinecap="round"
                           strokeLinejoin="round"

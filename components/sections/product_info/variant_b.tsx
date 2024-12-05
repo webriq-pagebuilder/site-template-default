@@ -36,6 +36,7 @@ function VariantB({
 }: ProductInfoProps) {
   // get Ecwid product details
   const defaultProduct = ecwidProduct ? ecwidProduct : product;
+  const buttonLabel = btnLabel ? btnLabel : "Add to cart";
 
   // block styling as props to `serializers` of the PortableText component
   const blockStyle: MyPortableTextComponents = {
@@ -140,7 +141,7 @@ function VariantB({
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
 
   return (
-    <section className="sm:p-12 md:p-20">
+    <section className="sm:p-12 md:p-20 bg-background">
       <Container>
         <div className=" xl:flex xl:flex-wrap">
           <div className="w-full px-4">
@@ -188,7 +189,7 @@ function VariantB({
                 spaceBetween={10}
                 slidesPerView={4}
                 freeMode={true}
-                watchSlidesProgress={true}
+                watchSlidesProgress={images?.length > 1 ? true : false}
                 direction="vertical"
                 navigation={{
                   prevEl: "#thumbPrevB",
@@ -225,8 +226,8 @@ function VariantB({
                 spaceBetween={20}
                 slidesPerView={1}
                 speed={500}
-                loop={true}
-                watchSlidesProgress={true}
+                loop={images?.length > 1 ? true : false}
+                watchSlidesProgress={images?.length > 1 ? true : false}
                 thumbs={{ swiper: thumbsSwiper }}
                 className="w-full"
               >
@@ -433,18 +434,18 @@ function VariantB({
               {product?.ecwidProductId && ecwidProduct && (
                 <ProductDetail product={defaultProduct}>
                   <div className="flex flex-col items-start mt-8 gap-y-4 sm:flex-row sm:gap-x-4 sm:gap-y-0">
-                    {btnLabel && ecwidProduct?.inStock && (
+                    {buttonLabel && ecwidProduct?.inStock && (
                       <div className="w-full lg:mb-4 xl:mb-0">
                         <AddToBag
                           inStock={!ecwidProduct?.inStock}
                           classNames="block w-full py-5 px-8  cursor-pointer uppercase"
                         >
-                          {btnLabel}
+                          {buttonLabel}
                         </AddToBag>
                       </div>
                     )}
                     <AddToWishlist
-                      classNames="w-full flex-shrink-0 flex flex-wrap items-center justify-center py-5 px-8 rounded-md border hover:border-primary"
+                      classNames="w-full flex-shrink-0 flex flex-wrap items-center justify-center py-5 px-8 rounded-md border hover:border-primary bg-white text-primary"
                       product={defaultProduct}
                       containerClass="w-full"
                     >
