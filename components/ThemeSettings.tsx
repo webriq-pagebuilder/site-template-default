@@ -248,37 +248,40 @@ export function ThemeSettings({ preview, themeSettings }): React.JSX.Element {
   };
 
   const handleSaveConfigAs = async (action: "overwrite" | "saveNew", themeName?: string) => {
+    if (!action || !customizedThemeConfig) return;
+    
     try {
       setLoading(true);
+      
+      // Validate theme name for new themes
+      if (action === "saveNew") {
+        if (!themeName?.trim()) {
+          toast.error("Theme name is required");
+          return;
+        }
+        if (themes?.find(({ name }) => name === themeName)) {
+          toast.error("Theme name is already added. Please enter a unique name.");
+          return;
+        }
+      }
 
-      const themeIndex = themes?.findIndex(({ name }) => name === currentThemeName);
-      const isOverride = action === "overwrite";
-
-      if (!action) return;
-
-      let updatedThemes = themes;
-
-      if (isOverride && themeIndex !== -1) {
+      // Prepare updated themes array
+      const updatedThemes = [...(themes || [])];
+      const themeIndex = updatedThemes.findIndex(({ name }) => name === currentThemeName);
+      
+      if (action === "overwrite" && themeIndex !== -1) {
         updatedThemes[themeIndex] = customizedThemeConfig;
-      } else if (themes?.find(({ name }) => name === themeName)) {
-        toast.error("Theme name is already added. Please enter a unique name.");
-        return;
       } else {
-        updatedThemes = [
-          ...(themes || []),
-          {
-            ...customizedThemeConfig,
-            name: themeName,
-            _key: nanoid(),
-          },
-        ];
+        updatedThemes.push({
+          ...customizedThemeConfig,
+          name: themeName,
+          _key: nanoid(),
+        });
       }
 
       const response = await fetch(baseApiUrl, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           action: "save-theme",
           sanityProjectId: SANITY_PROJECT_ID,
@@ -289,17 +292,17 @@ export function ThemeSettings({ preview, themeSettings }): React.JSX.Element {
         }),
       });
 
-      if (response.ok) {
-        setThemes(updatedThemes);
-        await fetchThemeSettings();
-
-        toast.success("Successfully saved theme");
-        onModalClose();
-      } else {
-        toast.error("Failed to save theme");
+      if (!response.ok) {
+        throw new Error(`Failed to save theme: ${response.statusText}`);
       }
+
+      setThemes(updatedThemes);
+      await fetchThemeSettings();
+      toast.success("Successfully saved theme");
+      onModalClose();
+
     } catch (error) {
-      console.error("[ERROR] Failed to save theme ", error);
+      console.error("[ERROR] Failed to save theme", error);
       toast.error("Failed to save theme settings! See logs.");
     } finally {
       setLoading(false);
