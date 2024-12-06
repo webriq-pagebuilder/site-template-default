@@ -24,11 +24,15 @@ const variants = `
         ${conditionalLink}
       }
     },
-    images[] {
-      ${logoImage}
-      "alt": alt
+    images != null => {
+      images[] {
+        ${logoImage}
+        "alt": alt
+      },
     },
-    ${mainImage},
+    mainImage != null => {
+      ${mainImage}
+    },
     featuredItems != null => {
       featuredItems[] {
         ...,
@@ -138,9 +142,11 @@ const variants = `
         ${conditionalLink}
       }
     },
-     testimonials[] {
-      ...,
-      ${mainImage},
+    testimonials != null => {
+      testimonials[] {
+        ...,
+        ${mainImage},
+      }
     },
     portfolios != null => {
       portfolios[] {
