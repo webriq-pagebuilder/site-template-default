@@ -21,7 +21,7 @@ function VariantB({ title, featured }: FeaturedProductsProps) {
   }, []);
 
   return (
-    <section className="py-20 overflow-x-hidden bg-gray-50">
+    <section className="p-5 sm:p-20 overflow-x-hidden bg-background">
       <Container>
         <Flex wrap justify="between" className="mb-20 md:mb-16">
           {title && <Heading>{title}</Heading>}
@@ -44,13 +44,13 @@ function VariantB({ title, featured }: FeaturedProductsProps) {
                     className="w-full px-3 mb-10 md:w-1/2 lg:mb-6 lg:w-1/3 xl:w-1/4"
                     key={index}
                   >
-                    <div className="w-full h-full transition-all duration-700 bg-white shadow-md md:hover:scale-110">
+                    <div className="w-full h-full transition-all duration-700 bg-white shadow-md rounded-md md:hover:scale-110">
                       <a href={`/products/${product?.slug?.current}`}>
                         <div className="absolute z-10">
                           <Ribbon data={featuredCollections} />
                         </div>
 
-                        <div className="overflow-hidden">
+                        <div className="overflow-hidden rounded-md">
                           {product?.productInfo?.images ? (
                             <Image
                               className="h-[320px] w-full object-cover"
@@ -86,7 +86,7 @@ function VariantB({ title, featured }: FeaturedProductsProps) {
                             {product?.name}
                           </a>
                         )}
-                        <Text weight="bold" className="text-lg ">
+                        <Text weight="bold" className="text-lg">
                           <span className="text-primary">
                             {
                               featuredCollections?.defaultDisplayedPriceFormatted

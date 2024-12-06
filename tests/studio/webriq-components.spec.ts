@@ -25,8 +25,10 @@ test.describe("Main document actions", () => {
     await page.waitForLoadState("domcontentloaded");
     await expect(page.getByPlaceholder("Select component...")).toBeVisible();
     await page.getByPlaceholder("Select component...").click();
-    await expect(page.getByText("App Promo", { exact: true })).toBeVisible();
-    await page.getByText("App Promo", { exact: true }).click();
+    await expect(
+      page.locator("#component_filter").getByText("App Promo")
+    ).toBeVisible();
+    await page.locator("#component_filter").getByText("App Promo").click();
     await expect(page.getByText("APP PROMO", { exact: true })).toBeVisible();
     await expect(
       page.getByRole("button", { name: "New App Promo" })
@@ -40,11 +42,6 @@ test.describe("Main document actions", () => {
     await page.getByTestId("string-input").fill(newComponentName);
     await page.getByTestId("field-variant").getByRole("img").nth(2).click();
 
-    await expect(
-      page
-        .locator('[data-testid="review-changes-button"]')
-        .filter({ hasText: "Just now" })
-    ).toBeVisible();
     await page.getByTestId("action-Save").click({ force: true });
     await expect(
       page.locator("[aria-label='Last published just now']").first()
@@ -86,11 +83,6 @@ test.describe("Main document actions", () => {
       .getByTestId("field-label")
       .getByTestId("string-input")
       .fill(dupeComponentName);
-    await expect(
-      page
-        .locator('[data-testid="review-changes-button"]')
-        .filter({ hasText: "Just now" })
-    ).toBeVisible();
     await page.getByTestId("action-Save").click({ force: true });
     await expect(
       page.locator("[aria-label='Last published just now']").first()

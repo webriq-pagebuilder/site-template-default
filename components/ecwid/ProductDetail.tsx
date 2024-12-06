@@ -422,14 +422,14 @@ const ProductDetail = ({ product, children }: ProductDetailProps) => {
           return null;
         })}
 
-        <div className="flex flex-col mb-4">
+        <div className="flex flex-col gap-5 mb-4">
           <label
             htmlFor="quantity"
-            className="mb-2 font-medium text-gray-900 uppercase"
+            className="font-medium text-primary uppercase mb-2 lg:mb-0"
           >
-            Qty
+            Quantity
           </label>
-          <div className="flex flex-row justify-between w-full border border-gray-400 rounded shadow hover:border-gray-500">
+          <div className="flex flex-row justify-between w-full lg:w-fit bg-white border border-gray-400 rounded-global shadow hover:border-gray-500">
             <Button
               variant="unstyled"
               ariaLabel="Decrease Quantity"
@@ -445,7 +445,7 @@ const ProductDetail = ({ product, children }: ProductDetailProps) => {
               type="text"
               name="quantity"
               id="quantity"
-              className="text-center bg-white focus:shadow-outline focus:outline-none"
+              className="text-center bg-inherit focus:shadow-outline focus:outline-none rounded-global"
               value={quantity}
               onChange={handleQuantityInput}
               required

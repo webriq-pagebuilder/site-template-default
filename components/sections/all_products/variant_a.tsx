@@ -36,9 +36,9 @@ function VariantA({ products }: AllProductsProps) {
   const displayProducts = getFinalProducts(products, productQuery, selectInput);
 
   return (
-    <section className="py-20">
+    <section className="py-20 bg-background">
       <Container>
-        <Flex wrap align="center" justify="center" className="mb-5 ">
+        <Flex wrap align="center" justify="center" className="mb-5">
           <div className="w-full mb-12 lg:w-auto lg:px-4 xl:mb-0">
             <Heading>
               {productQuery &&

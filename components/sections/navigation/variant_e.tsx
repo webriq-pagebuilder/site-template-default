@@ -79,7 +79,7 @@ function VariantE({ banner, logo, links }: NavigationProps) {
 
   return (
     <EcwidContextProvider>
-      <section className="relative">
+      <section className="relative bg-background">
         {banner && (
           <div className="py-2 bg-primary">
             <Flex align="center" justify="center">
@@ -151,8 +151,8 @@ function VariantE({ banner, logo, links }: NavigationProps) {
                         link={link}
                         className={
                           link?.type === "linkInternal"
-                            ? "xl:mr-12 lg:mr-8 font-bold font-heading hover:text-gray-600 no-underline text-black"
-                            : "mr-12 font-bold font-heading hover:text-gray-600 no-underline text-black"
+                            ? "xl:mr-12 lg:mr-8 font-bold font-heading hover:text-gray-600 no-underline text-gray-400"
+                            : "mr-12 font-bold font-heading hover:text-gray-600 no-underline text-gray-400"
                         }
                       >
                         {link?.label}
@@ -213,10 +213,11 @@ function VariantE({ banner, logo, links }: NavigationProps) {
                   type="submit"
                 >
                   <svg
+                    className="text-gray-400"
                     width={7}
                     height={12}
                     viewBox="0 0 7 12"
-                    fill="none"
+                    fill="inherit"
                     xmlns="http://www.w3.org/2000/svg"
                   >
                     <path
@@ -239,10 +240,11 @@ function VariantE({ banner, logo, links }: NavigationProps) {
             {/* Account */}
             <a href="/cart?store-page=account">
               <svg
+                className="text-gray-400"
                 width={32}
                 height={31}
                 viewBox="0 0 32 31"
-                fill="none"
+                fill="inherit"
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <path

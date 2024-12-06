@@ -12,10 +12,10 @@ const Variants = {
 function SocialMediaFeed({ data }: SectionsProps) {
   const variant = data?.variant;
   const Variant = Variants?.[variant];
-  const { profileFeed, setProfileFeed } = useSocialMediaFeed();
+  const socials = useSocialMediaFeed();
   const postsToDisplay =
     data?.variants?.numberOfPosts < 1
-      ? profileFeed?.media?.length
+      ? socials?.profileFeed?.media?.length
       : data?.variants?.numberOfPosts;
 
   useEffect(() => {
@@ -31,20 +31,24 @@ function SocialMediaFeed({ data }: SectionsProps) {
       account = JSON.parse(data?.variants?.selectAccount);
     }
 
-    setProfileFeed(account);
-  }, [data?.variants?.selectAccount, setProfileFeed]);
+    socials?.setProfileFeed(account);
+  }, [data?.variants?.selectAccount, socials?.setProfileFeed]);
 
-  const allHashtags = profileFeed?.media
+  const allHashtags = socials?.profileFeed?.media
     ?.slice(0, postsToDisplay)
     ?.flatMap((post) => post?.caption?.match(/#[^\s#]+/g) || [])
     .filter((tag, index, self) => self.indexOf(tag) === index);
 
   const props = {
-    media: profileFeed?.media,
-    username: profileFeed?.userName,
-    platform: profileFeed?.platform,
+    media: socials?.profileFeed?.media,
+    username: socials?.profileFeed?.userName,
+    platform: socials?.profileFeed?.platform,
     hashtags: data?.variants?.hashtags ?? allHashtags,
     numberOfPosts: data?.variants?.numberOfPosts,
+    fetchNextPage: socials?.fetchNextPage,
+    fetchPreviousPage: socials?.fetchPreviousPage,
+    nextCursor: socials?.nextCursor,
+    prevCursor: socials?.prevCursor,
   };
 
   return Variant ? <Variant {...props} /> : null;

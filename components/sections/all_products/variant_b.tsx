@@ -33,9 +33,9 @@ function VariantB({ products }: AllProductsProps) {
   const displayProducts = getFinalProducts(products, productQuery, activeTab);
 
   return (
-    <section className="pt-20 bg-white">
+    <section className="pt-20 bg-background">
       <Container>
-        <Flex wrap className="mb-24 ">
+        <Flex wrap className="mb-24">
           {!productQuery && (
             <div className="block w-full px-3 sm:w-1/3 lg:w-1/4">
               <div className="px-6 py-5 lg:mb-6 lg:py-10 lg:px-12 font-custom bg-gray-50">

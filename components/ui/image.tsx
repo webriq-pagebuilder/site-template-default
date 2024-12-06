@@ -17,9 +17,11 @@ export default function LocalImage({
   className,
   ...props
 }: LocalImageProps) {
+  const validSrc = src && typeof src === "string" && src !== "[object Object]" ? src : "/webriq-logo.png";
+
   return (
     <Image
-      src={src ?? ""}
+      src={validSrc}
       alt={alt ?? "image"}
       width={width ?? 250}
       height={height ?? 250}

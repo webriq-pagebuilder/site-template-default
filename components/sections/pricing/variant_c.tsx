@@ -95,9 +95,9 @@ function VariantC({
   }, [NEXT_PUBLIC_APP_URL, apiVersion, hashKey, plans, stripeSKey, usePlan]);
 
   return (
-    <section className="py-20 bg-gray-50">
+    <section className="py-20 bg-background">
       <Container>
-        <Container maxWidth={512} className="mb-16 text-center ">
+        <Container maxWidth={512} className="mb-16 text-center">
           {caption && <span className="font-bold text-primary">{caption}</span>}
           {title && <Heading className="mb-4">{title}</Heading>}
           {description && (
@@ -106,7 +106,7 @@ function VariantC({
             </Text>
           )}
           {usePlan && (
-            <div className="inline-block px-1 py-1 bg-white rounded-lg">
+            <div className="inline-block px-1 bg-white rounded-md">
               <Button
                 variant="tab"
                 as="button"
@@ -149,7 +149,7 @@ function VariantC({
             usePlan?.map((planDescription, index) => {
               return (
                 <div className="w-full px-4 mb-8 md:w-1/2 lg:w-1/3" key={index}>
-                  <Card className="max-w-md px-10 py-8 mx-auto text-center ">
+                  <Card className="max-w-md px-10 py-8 mx-auto text-center bg-white rounded-md shadow">
                     <div className="mb-12">
                       <Heading type="h3" className="mb-4 text-2xl">
                         {planDescription?.planType}
@@ -174,7 +174,7 @@ function VariantC({
                       <Button
                         as="button"
                         ariaLabel={planDescription?.checkoutButtonName}
-                        className={`mt-6 block w-full ${
+                        className={`mt-6 block w-full rounded-global ${
                           !planDescription ||
                           (!planDescription?.variant_c_monthlyPriceCheckoutButton &&
                             "cursor-not-allowed disabled:opacity-50")

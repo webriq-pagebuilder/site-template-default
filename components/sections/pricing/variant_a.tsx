@@ -95,7 +95,7 @@ function VariantA({
   }, [NEXT_PUBLIC_APP_URL, apiVersion, hashKey, stripeSKey, usePlan]);
 
   return (
-    <section className="py-20 bg-gray-50">
+    <section className="py-20 bg-background">
       <Container>
         <Container maxWidth={672} className="mb-16 text-center">
           {caption && (
@@ -111,14 +111,14 @@ function VariantA({
             </Text>
           )}
           {plans?.[0]?.monthlyPrice && (
-            <div className="inline-block px-1 py-1 bg-white rounded-lg">
+            <div className="inline-block px-1 py-1 bg-white rounded-md">
               <Button
                 as="button"
                 variant="custom"
                 ariaLabel="Monthly Plan"
                 className={`mr-1 px-4 py-2 text-sm bg-white hover:bg-white ${
                   plan === "monthly"
-                    ? "rounded-lg bg-gray-50 text-gray-900 shadow"
+                    ? "rounded-lg bg-gray-50 text-primary shadow"
                     : "text-gray-500"
                 } font-bold hover:text-gray-900 focus:outline-none`}
                 onClick={() => setPlan("monthly")}
@@ -131,7 +131,7 @@ function VariantA({
                 ariaLabel="Yearly Plan"
                 className={`px-4 py-2 text-sm bg-white hover:bg-white ${
                   plan === "yearly"
-                    ? "rounded-lg bg-gray-50 text-gray-900 shadow"
+                    ? "rounded-lg bg-gray-50 text-primary shadow"
                     : "text-gray-500"
                 } font-bold focus:outline-none`}
                 onClick={() => setPlan("yearly")}
@@ -165,7 +165,7 @@ function VariantA({
                 key={planDetail._key}
               >
                 <Card
-                  className={`p-8 ${
+                  className={`p-8 rounded-md ${
                     index % 2 !== 0 ? "bg-primary text-white" : "bg-white"
                   }`}
                 >
@@ -236,10 +236,10 @@ function VariantA({
                   <Button
                     as="button"
                     ariaLabel={planDetail.checkoutButtonName}
-                    className={`inline-block w-full rounded-l-xl rounded-t-xl px-4 py-2 text-center ${
+                    className={`inline-block w-full px-4 py-2 text-center ${
                       index % 2 !== 0
-                        ? "bg-white text-black hover:bg-white"
-                        : "bg-primary text-white  hover:bg-primary-foreground"
+                        ? "bg-white text-primary hover:bg-white"
+                        : "bg-primary text-white hover:bg-secondary"
                     } cursor-pointer font-bold leading-loose transition duration-200 ${
                       !planDetail ||
                       ("variant_a_monthlyPriceCheckoutButton" in planDetail &&

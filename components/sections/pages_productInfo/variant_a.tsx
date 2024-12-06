@@ -28,7 +28,7 @@ function VariantA({ products }: PagesProductInfoProps) {
   }, [ecwid, products?.ecwidProductId]);
 
   return (
-    <section className="sm:p-10 md:p-20">
+    <section className="sm:p-10 md:p-20 bg-background">
       <Container>
         {products && (
           <Flex wrap className="mb-24 ">
@@ -77,7 +77,8 @@ function VariantA({ products }: PagesProductInfoProps) {
                   {products?.price && (
                     <Text
                       weight="bold"
-                      className={`font-heading inline-block text-2xl text-primary ${
+                      fontSize="2xl"
+                      className={`inline-block text-primary ${
                         !products?.compareToPrice && "mb-8"
                       }`}
                     >
@@ -124,12 +125,12 @@ function VariantA({ products }: PagesProductInfoProps) {
                     direction="row"
                     align="start"
                     gap={4}
-                    className="flex-wrap my-8"
+                    className="flex-wrap my-8 items-center"
                   >
-                    <div className="w-full lg:mb-4 xl:mb-0">
+                    <div className="w-full md:w-3/4 lg:mb-4 xl:mb-0">
                       <AddToBag
                         inStock={!ecwidProduct?.inStock}
-                        classNames="block w-full py-5 px-8  cursor-pointer uppercase"
+                        classNames="block w-full py-5 px-8 cursor-pointer uppercase"
                       >
                         {products?.productInfo?.btnLabel ?? "ADD TO CART"}
                       </AddToBag>
@@ -137,9 +138,9 @@ function VariantA({ products }: PagesProductInfoProps) {
 
                     {/* Add to wishlist button */}
                     <AddToWishlist
-                      classNames="w-full items-center justify-center rounded-md border hover:border-primary"
+                      classNames="w-full items-center justify-center py-5 px-8 rounded-global border hover:border-primary"
                       product={ecwidProduct}
-                      containerClass="w-full"
+                      //containerClass="w-full"
                     >
                       <svg
                         className="w-6 h-6"

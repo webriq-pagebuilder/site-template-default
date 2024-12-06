@@ -21,7 +21,7 @@ function VariantA({ title, featured }: FeaturedProductsProps) {
   }, []);
 
   return (
-    <section className="relative py-20">
+    <section className="relative p-5 sm:p-20 bg-background">
       <Container className="relative ">
         {title && <Heading className="mb-8 md:mb-16 ">{title}</Heading>}
         {featured && (
@@ -50,7 +50,7 @@ function VariantA({ title, featured }: FeaturedProductsProps) {
                         <div className="absolute z-10">
                           <Ribbon data={featuredCollections} />
                         </div>
-                        <div className="overflow-hidden">
+                        <div className="overflow-hidden rounded-md">
                           {product?.productInfo?.images ? (
                             <Image
                               className="h-[357px] w-full object-cover"
@@ -80,7 +80,7 @@ function VariantA({ title, featured }: FeaturedProductsProps) {
 
                       <Text
                         weight="bold"
-                        className="text-xl hover:text-opacity-80 sm:text-2xl xl:text-3xl"
+                        className="text-xl hover:text-opacity-80 sm:text-2xl xl:text-3xl mt-3"
                       >
                         {product?.name}
                       </Text>
