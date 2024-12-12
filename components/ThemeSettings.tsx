@@ -33,7 +33,7 @@ export function ThemeSettings({ preview, themeSettings }): React.JSX.Element {
   const [activeTab, setActiveTab] = useState("Basic");
 
   // theme states
-  const [currentThemeName, setCurrentThemeName] = useState(themeSettings?.currentTheme || defaultThemeConfig?.currentTheme);
+  const [currentThemeName, setCurrentThemeName] = useState(themeSettings?.currentTheme);
   const [themes, setThemes] = useState(themeSettings?.themes);
   const [savedThemeConfig, setSavedThemeConfig] = useState(themeSettings?.themes?.find(({ name }) => name === currentThemeName));
   const [customizedThemeConfig, setCustomizedThemeConfig] = useState(savedThemeConfig);
@@ -125,7 +125,14 @@ export function ThemeSettings({ preview, themeSettings }): React.JSX.Element {
       // add fallback if no theme settings found
       await syncThemeConfig({
         configToSync: defaultThemeConfig?.themes?.find(({ name }) => name === currentThemeName),
-        currentTheme: currentThemeName
+        currentTheme: currentThemeName,
+      });
+
+      setThemes(defaultThemeConfig?.themes);
+      setCustomizedThemeConfig(defaultThemeConfig?.themes?.find(({ name }) => name === currentThemeName));
+      setSavedThemeConfig({
+        ...defaultThemeConfig?.themes?.find(({ name }) => name === currentThemeName),
+        currentTheme: currentThemeName,
       });
     }
   };
@@ -266,8 +273,8 @@ export function ThemeSettings({ preview, themeSettings }): React.JSX.Element {
       }
 
       // Prepare updated themes array
-      const updatedThemes = [...(themes || [])];
-      const themeIndex = updatedThemes.findIndex(({ name }) => name === currentThemeName);
+      const updatedThemes = [...(themes ?? [])];
+      const themeIndex = updatedThemes?.length > 0 ? updatedThemes.findIndex(({ name }) => name === currentThemeName) : -1;
       
       if (action === "overwrite" && themeIndex !== -1) {
         updatedThemes[themeIndex] = customizedThemeConfig;
@@ -292,14 +299,25 @@ export function ThemeSettings({ preview, themeSettings }): React.JSX.Element {
         }),
       });
 
-      if (!response.ok) {
+      if (response.ok) {       
+        setCurrentThemeName(savedThemeConfig?.currentTheme);
+        setThemes(themes);
+
+        const config = themes?.find(({ name }) => name === currentThemeName)
+        setCustomizedThemeConfig(config);
+        customizedThemeRef.current = config;
+
+        setSavedThemeConfig({
+          ...config,
+          currentTheme: currentThemeName,
+        });
+
+        await fetchThemeSettings();
+        toast.success("Successfully saved theme!");
+        onModalClose();
+      } else {
         throw new Error(`Failed to save theme: ${response.statusText}`);
       }
-
-      setThemes(updatedThemes);
-      await fetchThemeSettings();
-      toast.success("Successfully saved theme");
-      onModalClose();
 
     } catch (error) {
       console.error("[ERROR] Failed to save theme", error);
@@ -418,7 +436,6 @@ export function ThemeSettings({ preview, themeSettings }): React.JSX.Element {
                 id: "theme",
                 isReady,
                 loading,
-                themes,
                 setCustomizedThemeConfig,
                 currentThemeName,
                 setCurrentThemeName,

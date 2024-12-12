@@ -9,7 +9,6 @@ export function SearchBar({
   id,
   isReady,
   loading,
-  themes,
   setCustomizedThemeConfig,
   currentThemeName,
   setCurrentThemeName,
@@ -41,7 +40,7 @@ export function SearchBar({
       if (!loading && isReady && searchInput) {
         setIsOpen(true);
 
-        const searchedConfig = themes?.filter(
+        const searchedConfig = options?.filter(
           ({ name }) =>
             name?.toLowerCase()?.includes(searchInput?.toLowerCase())
         );
@@ -57,7 +56,7 @@ export function SearchBar({
     return () => {
       clearTimeout(handler);
     };
-  }, [isReady, loading, searchInput, themes]);
+  }, [isReady, loading, searchInput, options]);
 
   // Update the input value when currentThemeName changes
   useEffect(() => {

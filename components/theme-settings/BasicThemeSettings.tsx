@@ -48,16 +48,16 @@ export function BasicThemeSettings({
         />
       </div>
       <div className="flex flex-col gap-3">
-        {savedThemeConfig?.colors ?
-          Object.entries(
-            savedThemeConfig?.colors?.[customizedThemeConfig?.mode]
-          )?.map(([key, value]) => (
+        {(savedThemeConfig?.colors && customizedThemeConfig?.mode) ? 
+          (Object.entries(
+            savedThemeConfig?.colors?.[customizedThemeConfig.mode] ?? {}
+          ) ?? []).map(([key, value]) => (
             <ColorPicker
-              key={value as string | number}
+              key={key}
               {...{
                 defaultColor: {
                   label: key,
-                  value: savedThemeConfig?.colors?.[customizedThemeConfig?.mode]?.[key],
+                  value: savedThemeConfig?.colors?.[customizedThemeConfig.mode]?.[key],
                 },
                 isLoaded,
                 mode: customizedThemeConfig?.mode,
@@ -69,11 +69,11 @@ export function BasicThemeSettings({
               }}
             />
           )) : (
-            Object?.entries(
-              defaultThemeConfig?.themes?.[0]?.colors?.[customizedThemeConfig?.mode]
-            )?.map(([key, value]) => (
+            (Object.entries(
+              defaultThemeConfig?.themes?.[0]?.colors?.[customizedThemeConfig?.mode] ?? {}
+            ) ?? []).map(([key, value]) => (
               <ColorPicker
-                key={value as string | number}
+                key={key}
                 {...{
                   defaultColor: {
                     label: key,
