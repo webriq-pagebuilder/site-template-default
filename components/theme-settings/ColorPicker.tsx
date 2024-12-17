@@ -86,12 +86,12 @@ export function ColorPicker({
             style={{
               backgroundColor: customColor?.[colorKey],
             }}
-            onClick={() => !isLoaded && handleColorPickerToggle(colorKey)}
+            onClick={() => isLoaded && handleColorPickerToggle(colorKey)}
           />
           <HexColorInput
             color={customColor?.[colorKey]}
             onChange={(newColor) => debouncedHandleColorChange({ [colorKey]: newColor })}
-            disabled={isLoaded}
+            disabled={!isLoaded}
             placeholder="Enter hex color"
             style={{
               border: 0,
@@ -114,7 +114,7 @@ export function ColorPicker({
               })
             }
             disabled={
-              isLoaded ||
+              !isLoaded ||
               customColor?.[colorKey] === defaultColor?.value ||
               !defaultColor
             }

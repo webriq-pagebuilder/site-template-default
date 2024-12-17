@@ -253,7 +253,7 @@ function VariantD({
                       <div className="mb-4">
                         <CardElement
                           onChange={(e) => setCardValidate(e)}
-                          className="w-full p-4 text-xs font-semibold leading-none rounded outline-none bg-gray-50"
+                          className="w-full p-4 text-xs font-global leading-none rounded-global outline-none bg-gray-50"
                         />
                         {paymentStatus === "success" ? (
                           <div className="text-xs font-semibold leading-none py-4 text-left mt-3 text-green-600">
@@ -266,11 +266,11 @@ function VariantD({
                         ) : null}
                       </div>
                     ) : field?.pricingType === "inputPassword" ? (
-                      <div className="flex mb-4 rounded bg-gray-50">
+                      <div className="flex my-4 rounded-global bg-gray-100">
                         <Input
                           noLabel
                           ariaLabel={field?.placeholder ?? field?.name}
-                          className="w-full p-4 text-xs font-semibold leading-none rounded outline-none bg-gray-50"
+                          className="w-full px-4 py-2 leading-none rounded-global font-global outline-none bg-gray-100"
                           type={showPassword ? "text" : "password"}
                           placeholder={field?.placeholder}
                           name={field?.name}
@@ -283,7 +283,7 @@ function VariantD({
                           ariaLabel={
                             showPassword ? "Show password" : "Hide password"
                           }
-                          className="pr-4 focus:outline-none"
+                          className="pr-4 focus:outline-none bg-gray-100 rounded-global"
                           onClick={(e) => {
                             e.preventDefault();
                             setShowPassword(!showPassword);
@@ -339,10 +339,10 @@ function VariantD({
                 );
               })}
               <div className="mb-5 text-sm text-left text-gray-500">
-                <label className="inline-flex">
+                <label className="inline-flex mt-5">
                   <input
                     aria-label="Agree to terms"
-                    className="mr-2"
+                    className="mx-2 items-center"
                     type="checkbox"
                     name="terms"
                     value={checkedValue}
@@ -396,9 +396,9 @@ function VariantD({
   };
 
   return (
-    <section className="py-20 radius-for-skewed bg-gray-50">
+    <section className="p-5 sm:p-20 bg-background">
       <Container>
-        <Container maxWidth={672} className="mb-16 text-center ">
+        <Container maxWidth={672} className="mb-16 text-center">
           <Container maxWidth={512}>
             <Text weight="bold" className="text-primary">
               {caption}
@@ -441,9 +441,9 @@ function VariantD({
             )}
           </Flex>
         </Container>
-        <Flex wrap className="bg-white rounded shadow ">
+        <Flex wrap className="bg-white rounded shadow">
           <Form />
-          <div className="flex flex-col w-full h-full py-10 overflow-hidden bg-primary md:w-1/2 lg:rounded-r">
+          <div className="flex flex-col w-full [@media(min-width:768px)]:h-[424.8px] [@media(min-width:978px)]:h-[406.8px] py-10 overflow-hidden bg-primary md:w-1/2 lg:rounded-tr">
             {banner?.[banners]?.mainImage?.image?.asset?._ref && (
               <div className="w-full mx-auto my-auto md:max-w-xs">
                 <Image
@@ -456,7 +456,7 @@ function VariantD({
                 />
               </div>
             )}
-            <Text className="max-w-sm mx-auto mb-4 text-xl text-center text-white">
+            <Text className="max-w-sm mx-auto mb-4 sm:text-xl text-center text-white">
               {banner?.[banners]?.title}
             </Text>
             <div className="text-center">
