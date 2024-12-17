@@ -301,7 +301,7 @@ export function ThemeSettings({ preview, themeSettings }): React.JSX.Element {
 
       if (response.ok) {       
         setCurrentThemeName(savedThemeConfig?.currentTheme);
-        setThemes(themes);
+        setThemes(updatedThemes);
 
         const config = themes?.find(({ name }) => name === currentThemeName)
         setCustomizedThemeConfig(config);
@@ -312,7 +312,6 @@ export function ThemeSettings({ preview, themeSettings }): React.JSX.Element {
           currentTheme: currentThemeName,
         });
 
-        await fetchThemeSettings();
         toast.success("Successfully saved theme!");
         onModalClose();
       } else {
