@@ -4,6 +4,9 @@ on:
     branches:
       - master
       - main
+  push:
+    branches:
+      - master
 
 jobs:
   wait_for_preview_url:
