@@ -75,7 +75,7 @@ export function dynamicComponents({
 
   // Map over the data to populate the schema
   data?.forEach((item) => {
-    if (!item || !item?.variants) return; // Skip if item or item.variants is falsy
+    if (!item || !item?.variants || !item?.variant) return; // Skip if item or item.variants is falsy
     let variantDetails;
 
     if (isInitial) {

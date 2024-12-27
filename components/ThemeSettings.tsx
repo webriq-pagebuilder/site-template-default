@@ -33,7 +33,7 @@ export function ThemeSettings({ preview, themeSettings }): React.JSX.Element {
   const [activeTab, setActiveTab] = useState("Basic");
 
   // theme states
-  const [currentThemeName, setCurrentThemeName] = useState(themeSettings?.currentTheme || defaultThemeConfig?.currentTheme);
+  const [currentThemeName, setCurrentThemeName] = useState(themeSettings?.currentTheme);
   const [themes, setThemes] = useState(themeSettings?.themes);
   const [savedThemeConfig, setSavedThemeConfig] = useState(themeSettings?.themes?.find(({ name }) => name === currentThemeName));
   const [customizedThemeConfig, setCustomizedThemeConfig] = useState(savedThemeConfig);
@@ -125,7 +125,14 @@ export function ThemeSettings({ preview, themeSettings }): React.JSX.Element {
       // add fallback if no theme settings found
       await syncThemeConfig({
         configToSync: defaultThemeConfig?.themes?.find(({ name }) => name === currentThemeName),
-        currentTheme: currentThemeName
+        currentTheme: currentThemeName,
+      });
+
+      setThemes(defaultThemeConfig?.themes);
+      setCustomizedThemeConfig(defaultThemeConfig?.themes?.find(({ name }) => name === currentThemeName));
+      setSavedThemeConfig({
+        ...defaultThemeConfig?.themes?.find(({ name }) => name === currentThemeName),
+        currentTheme: currentThemeName,
       });
     }
   };
@@ -174,16 +181,20 @@ export function ThemeSettings({ preview, themeSettings }): React.JSX.Element {
   );
 
   useEffect(() => {
-    if (
-      !isInitialLoad &&
-      customizedThemeConfig &&
-      !_.isEqual(customizedThemeConfig, savedThemeConfig) &&
-      !_.isEqual(customizedThemeConfig, prevCustomizedThemeConfigRef.current)
-    ) {
-      customizedThemeRef.current = customizedThemeConfig;
-      debouncedGenerateThemeConfig(customizedThemeConfig);
+    try {
+      if (
+        !isInitialLoad &&
+        customizedThemeConfig &&
+        !_.isEqual(customizedThemeConfig, savedThemeConfig) &&
+        !_.isEqual(customizedThemeConfig, prevCustomizedThemeConfigRef.current)
+      ) {
+        customizedThemeRef.current = customizedThemeConfig;
+        debouncedGenerateThemeConfig(customizedThemeConfig);
+      }
+      prevCustomizedThemeConfigRef.current = customizedThemeConfig;
+    } catch (error) {
+      console.error("[ERROR] Failed to set theme ", error);
     }
-    prevCustomizedThemeConfigRef.current = customizedThemeConfig;
   }, [
     currentThemeName,
     customizedThemeConfig,
@@ -244,37 +255,40 @@ export function ThemeSettings({ preview, themeSettings }): React.JSX.Element {
   };
 
   const handleSaveConfigAs = async (action: "overwrite" | "saveNew", themeName?: string) => {
+    if (!action || !customizedThemeConfig) return;
+    
     try {
       setLoading(true);
+      
+      // Validate theme name for new themes
+      if (action === "saveNew") {
+        if (!themeName?.trim()) {
+          toast.error("Theme name is required");
+          return;
+        }
+        if (themes?.find(({ name }) => name === themeName)) {
+          toast.error("Theme name is already added. Please enter a unique name.");
+          return;
+        }
+      }
 
-      const themeIndex = themes?.findIndex(({ name }) => name === currentThemeName);
-      const isOverride = action === "overwrite";
-
-      if (!action) return;
-
-      let updatedThemes = themes;
-
-      if (isOverride && themeIndex !== -1 && customizedThemeConfig) {
+      // Prepare updated themes array
+      const updatedThemes = [...(themes ?? [])];
+      const themeIndex = updatedThemes?.length > 0 ? updatedThemes.findIndex(({ name }) => name === currentThemeName) : -1;
+      
+      if (action === "overwrite" && themeIndex !== -1) {
         updatedThemes[themeIndex] = customizedThemeConfig;
-      } else if (themes?.find(({ name }) => name === themeName)) {
-        toast.error("Theme name is already added. Please enter a unique name.");
-        return;
       } else {
-        updatedThemes = [
-          ...(themes || []),
-          {
-            ...customizedThemeConfig,
-            name: themeName,
-            _key: nanoid(),
-          },
-        ];
+        updatedThemes.push({
+          ...customizedThemeConfig,
+          name: themeName,
+          _key: nanoid(),
+        });
       }
 
       const response = await fetch(baseApiUrl, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           action: "save-theme",
           sanityProjectId: SANITY_PROJECT_ID,
@@ -285,17 +299,27 @@ export function ThemeSettings({ preview, themeSettings }): React.JSX.Element {
         }),
       });
 
-      if (response.ok) {
+      if (response.ok) {       
+        setCurrentThemeName(savedThemeConfig?.currentTheme);
         setThemes(updatedThemes);
-        await fetchThemeSettings();
 
-        toast.success("Successfully saved theme");
+        const config = themes?.find(({ name }) => name === currentThemeName)
+        setCustomizedThemeConfig(config);
+        customizedThemeRef.current = config;
+
+        setSavedThemeConfig({
+          ...config,
+          currentTheme: currentThemeName,
+        });
+
+        toast.success("Successfully saved theme!");
         onModalClose();
       } else {
-        toast.error("Failed to save theme");
+        throw new Error(`Failed to save theme: ${response.statusText}`);
       }
+
     } catch (error) {
-      console.error("[ERROR] Failed to save theme ", error);
+      console.error("[ERROR] Failed to save theme", error);
       toast.error("Failed to save theme settings! See logs.");
     } finally {
       setLoading(false);
@@ -411,7 +435,6 @@ export function ThemeSettings({ preview, themeSettings }): React.JSX.Element {
                 id: "theme",
                 isReady,
                 loading,
-                themes,
                 setCustomizedThemeConfig,
                 currentThemeName,
                 setCurrentThemeName,

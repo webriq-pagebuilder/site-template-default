@@ -23,11 +23,13 @@ const baseSchemas = mergeReplaceAndAdd(defaultSchemas, commerceSchemaArray);
 //const updatedSchemaArray = Object.values(customSchema);
 
 const allSchemas = (() => {
-  // Uncomment the line below if we have custom components
-  //return mergeReplaceAndAdd(baseSchemas, updatedSchemaArray);
+  // 12-04-2024: Hide socialMediaFeed component until Instagram integration has been updated
+  const mergedSchemas = mergeReplaceAndAdd(baseSchemas, commerceSchemaArray); // comment this code if we have custom components
 
-  // comment this code if we have custom components
-  return mergeReplaceAndAdd(baseSchemas, commerceSchemaArray);
+  // Uncomment the line to replace line 33 if we have custom components
+  //const mergedSchemas = mergeReplaceAndAdd(baseSchemas, updatedSchemaArray);
+
+  return mergedSchemas?.filter((schema) => schema.name !== "socialMediaFeed");
 })();
 
 const componentsList = Object.keys(Components);
@@ -35,7 +37,6 @@ const componentsList = Object.keys(Components);
 // Update schemasWithComponents to include dynamic components data
 const schemasWithComponents = await Promise.all(
   allSchemas.map(async (schema) => {
-    // replace "allSchemas" with the custom variable if defined
     if (componentsList.includes(schema.name)) {
       const fields = schema.fields?.find((field) => field.name === "variants")
         ?.fields;
