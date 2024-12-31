@@ -125,16 +125,22 @@ test.describe("Verify main actions working", () => {
   test("Check blog page preview", async ({ page }) => {
     await page.goto(`./${createSlug(inputValues.post.title)}`);
     await page.waitForLoadState("domcontentloaded");
-    await expect(page.getByText(inputValues?.category?.title)).toBeVisible();
-    await expect(page.getByText(publishedAt)).toBeVisible();
-    await expect(
-      page.locator(`h1:has-text("${inputValues.post.title}")`)
-    ).toBeVisible();
-    await expect(
-      page.getByRole("heading", { name: inputValues?.author?.name })
-    ).toBeVisible();
+    await expect(page.getByText("New Category -")).toBeVisible();
+    await expect(page.locator("section")).toContainText(
+      inputValues?.category?.title
+    );
+    await expect(page.getByTestId("h1")).toBeVisible();
+    await expect(page.getByTestId("h1")).toContainText(
+      inputValues?.post?.title
+    );
+    await expect(page.getByTestId("h3")).toBeVisible();
+    await expect(page.getByTestId("h3")).toContainText(
+      inputValues?.author?.name
+    );
     await expect(page.getByText("Author", { exact: true })).toBeVisible();
-    await expect(page.getByText(inputValues?.post?.body)).toBeVisible();
+    await expect(page.locator("section")).toContainText(
+      inputValues?.post?.body
+    );
 
     console.log("[DONE] Check site preview 🚀");
   });

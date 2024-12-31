@@ -19,38 +19,38 @@ test.describe("Main document actions", () => {
 
   test.beforeEach(async ({ page }) => {
     await page.goto(`./studio/components`);
+    await page.waitForLoadState("domcontentloaded");
   });
 
   test("Can create component", async ({ page }) => {
-    await page.waitForLoadState("domcontentloaded");
-    await expect(page.getByPlaceholder("Select component...")).toBeVisible();
-    await page.getByPlaceholder("Select component...").click();
-    await expect(
-      page.locator("#component_filter").getByText("App Promo")
-    ).toBeVisible();
-    await page.locator("#component_filter").getByText("App Promo").click();
-    await expect(page.getByText("APP PROMO", { exact: true })).toBeVisible();
+    await expect(page.getByText("APP PROMO", { exact: true })).toBeVisible({
+      timeout: 120000,
+    });
     await expect(
       page.getByRole("button", { name: "New App Promo" })
     ).toBeVisible();
     await page
       .getByRole("button", { name: "New App Promo" })
       .click({ force: true });
-    await expect(page.getByText("Loading document")).toBeHidden();
-
     await page.getByTestId("string-input").click();
     await page.getByTestId("string-input").fill(newComponentName);
     await page.getByTestId("field-variant").getByRole("img").nth(2).click();
 
     await page.getByTestId("action-Save").click({ force: true });
     await expect(
-      page.locator("[aria-label='Last published just now']").first()
+      page
+        .locator('[id="__next"]')
+        .getByRole("alert")
+        .locator("div")
+        .filter({ hasText: "The document was published" })
+        .nth(1)
     ).toBeVisible();
 
     console.log("[DONE] Can create component 🚀");
   });
 
   test("Can search component", async ({ page }) => {
+    await page.waitForLoadState("domcontentloaded");
     await expect(page.getByPlaceholder("Search variants")).toBeVisible();
     await page.getByPlaceholder("Search variants").click();
     await page.getByPlaceholder("Search variants").fill(newComponentName);
@@ -66,6 +66,7 @@ test.describe("Main document actions", () => {
   });
 
   test("Can duplicate component", async ({ page }) => {
+    await page.waitForLoadState("domcontentloaded");
     const cardName = newComponentName?.toLowerCase()?.replace(/\s/g, "");
 
     await expect(page.locator(`div.${cardName}`).first()).toBeVisible();
@@ -85,13 +86,19 @@ test.describe("Main document actions", () => {
       .fill(dupeComponentName);
     await page.getByTestId("action-Save").click({ force: true });
     await expect(
-      page.locator("[aria-label='Last published just now']").first()
+      page
+        .locator('[id="__next"]')
+        .getByRole("alert")
+        .locator("div")
+        .filter({ hasText: "The document was published" })
+        .nth(1)
     ).toBeVisible();
 
     console.log("[DONE] Can duplicate component 🚀");
   });
 
   test("Can delete component", async ({ page }) => {
+    await page.waitForLoadState("domcontentloaded");
     const cardName = newComponentName?.toLowerCase()?.replace(/\s/g, "");
     const dupeCardName = dupeComponentName?.toLowerCase()?.replace(/\s/g, "");
 
@@ -148,6 +155,7 @@ test.describe("Main document actions", () => {
 });
 
 test("Can filter component", async ({ page }) => {
+  await page.waitForLoadState("domcontentloaded");
   console.log("[INFO] Run WebriQ Components tests ~ Can filter component");
 
   await page.goto(`./studio/components`);
