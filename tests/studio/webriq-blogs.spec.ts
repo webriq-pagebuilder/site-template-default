@@ -4,6 +4,7 @@ import {
   publishDocument,
   deleteDocument,
   createSlug,
+  launchPreview,
 } from "tests/utils";
 import { format } from "date-fns";
 
@@ -122,22 +123,27 @@ test.describe("Verify main actions working", () => {
     console.log("[DONE] Create blog page 🚀");
   });
 
-  test("Check blog page preview", async ({ page }) => {
-    await page.goto(`./${createSlug(inputValues.post.title)}`);
+  test("Check blog page preview", async ({ page, baseURL }) => {
+    await page.goto(
+      `${baseURL}/api/preview?secret=${
+        process.env.NEXT_PUBLIC_PREVIEW_SECRET
+      }&slug=${createSlug(inputValues?.post?.title)}`
+    );
     await page.waitForLoadState("domcontentloaded");
-    await expect(page.locator("section")).toContainText(
-      inputValues?.category?.title
-    );
-    await expect(page.getByTestId("h1")).toContainText(
-      inputValues?.post?.title
-    );
-    await expect(page.getByTestId("h3")).toContainText(
-      inputValues?.author?.name
-    );
+    await expect(
+      page.getByText(inputValues?.category?.title, { exact: true })
+    ).toBeVisible();
+    await expect(page.getByText(publishedAt, { exact: true })).toBeVisible();
+    await expect(
+      page.getByText(inputValues?.post?.title, { exact: true })
+    ).toBeVisible();
+    await expect(
+      page.getByText(inputValues?.author?.name, { exact: true })
+    ).toBeVisible();
     await expect(page.getByText("Author", { exact: true })).toBeVisible();
-    await expect(page.locator("section")).toContainText(
-      inputValues?.post?.body
-    );
+    await expect(
+      page.getByText(inputValues?.post?.body, { exact: true })
+    ).toBeVisible();
 
     console.log("[DONE] Check site preview 🚀");
   });
