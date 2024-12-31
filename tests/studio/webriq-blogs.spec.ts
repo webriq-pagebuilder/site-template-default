@@ -69,8 +69,11 @@ test.describe("Verify main actions working", () => {
       .getByRole("button", { name: "Create", exact: true })
       .click({ force: true });
     await page.getByRole("menuitem", { name: "Post" }).click();
-    await page.getByTestId("string-input").click();
-    await page.getByTestId("string-input").fill(inputValues.post.title);
+    await page.getByTestId("field-title").getByTestId("string-input").click();
+    await page
+      .getByTestId("field-title")
+      .getByTestId("string-input")
+      .fill(inputValues.post.title);
     await page.getByRole("button", { name: "Generate" }).click();
     await page.getByLabel("Excerpt").click();
     await page.getByLabel("Excerpt").fill(inputValues.post.excerpt);
