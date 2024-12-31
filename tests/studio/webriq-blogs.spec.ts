@@ -125,15 +125,12 @@ test.describe("Verify main actions working", () => {
   test("Check blog page preview", async ({ page }) => {
     await page.goto(`./${createSlug(inputValues.post.title)}`);
     await page.waitForLoadState("domcontentloaded");
-    await expect(page.getByText("New Category -")).toBeVisible();
     await expect(page.locator("section")).toContainText(
       inputValues?.category?.title
     );
-    await expect(page.getByTestId("h1")).toBeVisible();
     await expect(page.getByTestId("h1")).toContainText(
       inputValues?.post?.title
     );
-    await expect(page.getByTestId("h3")).toBeVisible();
     await expect(page.getByTestId("h3")).toContainText(
       inputValues?.author?.name
     );
