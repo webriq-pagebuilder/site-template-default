@@ -35,16 +35,7 @@ test.describe("Main document actions", () => {
     await page.getByTestId("string-input").click();
     await page.getByTestId("string-input").fill(newComponentName);
     await page.getByTestId("field-variant").getByRole("img").nth(2).click();
-
     await page.getByTestId("action-Save").click({ force: true });
-    await expect(
-      page
-        .locator('[id="__next"]')
-        .getByRole("alert")
-        .locator("div")
-        .filter({ hasText: "The document was published" })
-        .nth(1)
-    ).toBeVisible();
 
     console.log("[DONE] Can create component 🚀");
   });

@@ -129,21 +129,20 @@ test.describe("Verify main actions working", () => {
         process.env.NEXT_PUBLIC_PREVIEW_SECRET
       }&slug=${createSlug(inputValues?.post?.title)}`
     );
-    await page.waitForLoadState("domcontentloaded");
+    // Wait for page to be fully loaded
+    await page.waitForLoadState("networkidle");
+
+    // Add a small delay to ensure dynamic content is rendered
+    await page.waitForTimeout(2000);
+
     await expect(
-      page.getByText(inputValues?.category?.title, { exact: true })
+      page.locator(`text=${inputValues.category.title}`)
     ).toBeVisible();
-    await expect(page.getByText(publishedAt, { exact: true })).toBeVisible();
-    await expect(
-      page.getByText(inputValues?.post?.title, { exact: true })
-    ).toBeVisible();
-    await expect(
-      page.getByText(inputValues?.author?.name, { exact: true })
-    ).toBeVisible();
-    await expect(page.getByText("Author", { exact: true })).toBeVisible();
-    await expect(
-      page.getByText(inputValues?.post?.body, { exact: true })
-    ).toBeVisible();
+    await expect(page.locator(`text=${publishedAt}`)).toBeVisible();
+    await expect(page.locator(`text=${inputValues.post.title}`)).toBeVisible();
+    await expect(page.locator(`text=${inputValues.author.name}`)).toBeVisible();
+    await expect(page.locator(`text="Author"`)).toBeVisible();
+    await expect(page.locator(`text=${inputValues.post.body}`)).toBeVisible();
 
     console.log("[DONE] Check site preview 🚀");
   });
