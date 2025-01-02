@@ -1,18 +1,23 @@
 import { test, expect } from "@playwright/test";
-import { publishDocument, deleteDocument, createSlug } from "tests/utils";
+import {
+  newPageTitle,
+  publishDocument,
+  deleteDocument,
+  createSlug,
+} from "tests/utils";
 import { format } from "date-fns";
 
 const testData = {
   author: {
-    name: "New Test Author",
+    name: newPageTitle("New Author "),
     bio: "This is a sample author bio.",
   },
   category: {
-    title: "New Test Category",
+    title: newPageTitle("New Category "),
     description: "This is a sample category.",
   },
   post: {
-    title: "New Test Blog",
+    title: newPageTitle("New Blog "),
     excerpt: "Sample excerpt",
     body: "This is a sample blog post content.",
   },
