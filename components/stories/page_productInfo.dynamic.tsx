@@ -1,20 +1,18 @@
-import { blogDefaultValues } from "helper/defaultValues";
-import { dynamicStoryData } from "components/common";
+import { productInfoPageDefaultValues } from "helper/defaultValues";
 import { defineStories } from "utils/stories";
 import { sanityClient } from "lib/sanity.client";
 import { componentsQuery } from "pages/api/query";
+import { dynamicStoryData } from "components/common";
 import dedent from "ts-dedent";
 
 export default defineStories({
   baseCsf: dedent`
     import React from "react";
-    import { Components } from "components/list";
-
-    const BlogComponent = Components.blog;
-
+    import PageProductInfo from "../sections/pages_productInfo/index.tsx";
+    
     export default {
-      title: "Components/Blog",
-      component: BlogComponent,
+      title: "Sections/Product Info",
+      component: PageProductInfo,
       tags: ["autodocs"],
       render: ({ variant, label, ...args }) => {
         const data = {
@@ -24,20 +22,25 @@ export default defineStories({
         };
 
         // Using React.createElement instead of JSX to avoid JSX parsing issues in template literals
-        return React.createElement(BlogComponent, { data: data });
+        return React.createElement(PageProductInfo, { data: data });
       }
     };
   `,
   stories: async () => {
-    const blogData =
+    // Check if SANITY_STUDIO_IN_CSTUDIO is false and return an empty object to not render any story
+    if (process.env.STORYBOOK_SANITY_STUDIO_IN_CSTUDIO === "false") {
+      return {};
+    }
+
+    const pagesProductInfoData =
       (await sanityClient.fetch(componentsQuery, {
-        schema: "blog",
+        schema: "pages_productInfo",
       })) || []; // Provide a default empty array
 
     return dynamicStoryData({
-      data: blogData,
-      schemaFields: blogDefaultValues,
-      isCustomArgs: true,
+      data: pagesProductInfoData,
+      schemaFields: productInfoPageDefaultValues,
+      isEcommerce: true,
     });
   },
 });

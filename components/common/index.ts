@@ -45,17 +45,16 @@ export function dynamicStoryData({
       .replace(/[^\w\s]/g, "_")
       .replace(/\s/g, "_"); // Replace special characters and white spaces with underscores
 
-    /* const variants =
+    const variants =
       isEcommerce || isCustomArgs
         ? schemaFields
-        : filterArgsByVariant(schemaFields, item.variants, item.variant); */
+        : filterArgsByVariant(schemaFields, item.variants, item.variant);
 
     result[`${label}_${item?.variant}`] = {
       args: {
         variant: item.variant,
         label: item.label,
-        type: item?._type,
-        variants: item?.variants,
+        ...variants,
       },
     };
   });
