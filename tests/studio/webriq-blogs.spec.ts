@@ -8,27 +8,14 @@ import {
 } from "tests/utils";
 import { format } from "date-fns";
 
-const inputValues = {
-  author: {
-    name: newPageTitle("New Author "),
-    bio: "This is a sample author bio.",
-  },
-  category: {
-    title: newPageTitle("New Category "),
-    description: "This is a sample category.",
-  },
-  post: {
-    title: newPageTitle("New Blog "),
-    excerpt: "Sample excerpt",
-    body: "This is a sample blog post content.",
-  },
-};
-
 test.describe("Verify main actions working", () => {
   console.log("[INFO] Run WebriQ Blogs tests ~ Verify main actions working");
 
   test.describe.configure({ timeout: 900_000, mode: "serial" });
 
+  const authorName = newPageTitle("New Author ");
+  const categoryTitle = newPageTitle("New Category ");
+  const blogTitle = newPageTitle("New Blog ");
   const publishedAt = format(new Date(), "MMMM dd, yyyy");
 
   test.beforeEach(async ({ page }) => {
@@ -42,10 +29,10 @@ test.describe("Verify main actions working", () => {
     await page
       .getByTestId("field-name")
       .getByTestId("string-input")
-      .fill(inputValues.author.name);
+      .fill(authorName);
     await page.getByRole("button", { name: "Generate" }).click();
     await page.getByLabel("Bio").click();
-    await page.getByLabel("Bio").fill(inputValues.author.bio);
+    await page.getByLabel("Bio").fill("This is a sample author bio.");
     await publishDocument(page);
 
     console.log("[DONE] Create author page 🚀");
@@ -57,9 +44,9 @@ test.describe("Verify main actions working", () => {
       .click({ force: true });
     await page.getByRole("menuitem", { name: "Category" }).click();
     await page.getByTestId("string-input").click();
-    await page.getByTestId("string-input").fill(inputValues.category.title);
+    await page.getByTestId("string-input").fill(categoryTitle);
     await page.getByLabel("Description").click();
-    await page.getByLabel("Description").fill(inputValues.category.description);
+    await page.getByLabel("Description").fill("This is a sample category.");
     await publishDocument(page);
 
     console.log("[DONE] Create category page 🚀");
@@ -74,20 +61,18 @@ test.describe("Verify main actions working", () => {
     await page
       .getByTestId("field-title")
       .getByTestId("string-input")
-      .fill(inputValues.post.title);
+      .fill(blogTitle);
     await page.getByRole("button", { name: "Generate" }).click();
     await page.getByLabel("Excerpt").click();
-    await page.getByLabel("Excerpt").fill(inputValues.post.excerpt);
+    await page.getByLabel("Excerpt").fill("Sample excerpt");
 
     await page
       .getByTestId("field-authors")
       .getByRole("button", { name: "Add item" })
       .click({ force: true });
     await page.getByTestId("autocomplete").click({ force: true });
-    await page.getByTestId("autocomplete").fill(inputValues.author.name);
-    await page
-      .getByRole("button", { name: inputValues.author.name })
-      .click({ force: true });
+    await page.getByTestId("autocomplete").fill(authorName);
+    await page.getByRole("button", { name: authorName }).click({ force: true });
 
     await page
       .getByTestId("field-categories")
@@ -100,9 +85,9 @@ test.describe("Verify main actions working", () => {
     await page
       .getByTestId("field-categories")
       .getByTestId("autocomplete")
-      .fill(inputValues.category.title);
+      .fill(categoryTitle);
     await page
-      .getByRole("button", { name: inputValues.category.title })
+      .getByRole("button", { name: categoryTitle })
       .click({ force: true });
 
     await page.getByTestId("select-date-button").click({ force: true });
@@ -115,7 +100,7 @@ test.describe("Verify main actions working", () => {
     await page
       .getByTestId("scroll-container")
       .getByRole("textbox")
-      .fill(inputValues.post.body);
+      .fill("This is a sample blog post content.");
 
     await expect(page.getByLabel("Validation")).toBeHidden();
     await publishDocument(page);
@@ -127,7 +112,7 @@ test.describe("Verify main actions working", () => {
     await page.goto(
       `${baseURL}/api/preview?secret=${
         process.env.NEXT_PUBLIC_PREVIEW_SECRET
-      }&slug=${createSlug(inputValues?.post?.title)}`
+      }&slug=${createSlug(blogTitle)}`
     );
     // Wait for page to be fully loaded
     await page.waitForLoadState("networkidle");
@@ -135,24 +120,22 @@ test.describe("Verify main actions working", () => {
     // Add a small delay to ensure dynamic content is rendered
     await page.waitForTimeout(2000);
 
+    await expect(page.getByText(categoryTitle)).toBeVisible();
+    await expect(page.getByText(publishedAt)).toBeVisible();
+    await expect(page.getByText(blogTitle)).toBeVisible();
+    await expect(page.getByText(authorName)).toBeVisible();
+    await expect(page.getByText("Author", { exact: true })).toBeVisible();
     await expect(
-      page.locator(`text=${inputValues.category.title}`)
+      page.getByText("This is a sample blog post content.")
     ).toBeVisible();
-    await expect(page.locator(`text=${publishedAt}`)).toBeVisible();
-    await expect(page.locator(`text=${inputValues.post.title}`)).toBeVisible();
-    await expect(page.locator(`text=${inputValues.author.name}`)).toBeVisible();
-    await expect(page.locator(`text="Author"`)).toBeVisible();
-    await expect(page.locator(`text=${inputValues.post.body}`)).toBeVisible();
 
     console.log("[DONE] Check site preview 🚀");
   });
 
   test("Delete author, category and post pages", async ({ page }) => {
     await expect(page.getByText("Fetching blog posts...")).toBeHidden();
-    await expect(
-      page.getByRole("link", { name: inputValues.post.title })
-    ).toBeVisible();
-    await page.getByRole("link", { name: inputValues.post.title }).click();
+    await expect(page.getByRole("link", { name: blogTitle })).toBeVisible();
+    await page.getByRole("link", { name: blogTitle }).click();
 
     // delete blog post by removing the author and category references first
     await page
@@ -173,25 +156,21 @@ test.describe("Verify main actions working", () => {
     // delete author
     await page.getByRole("link", { name: "Blog" }).click({ force: true });
     await page.getByRole("tab", { name: "Authors" }).click({ force: true });
-    await page
-      .getByRole("link", { name: inputValues.author.name })
-      .click({ force: true });
+    await page.getByRole("link", { name: authorName }).click({ force: true });
     await expect(page.getByText("Loading document")).toBeHidden();
     await expect(
       page.getByTestId("field-name").getByTestId("string-input")
-    ).toHaveValue(inputValues.author.name);
+    ).toHaveValue(authorName);
     await deleteDocument(page);
 
     // delete category
     await page.getByRole("link", { name: "Blog" }).click({ force: true });
     await page.getByRole("tab", { name: "Categories" }).click({ force: true });
     await page
-      .getByRole("link", { name: inputValues.category.title })
+      .getByRole("link", { name: categoryTitle })
       .click({ force: true });
     await expect(page.getByText("Loading document")).toBeHidden();
-    await expect(page.getByTestId("string-input")).toHaveValue(
-      inputValues.category.title
-    );
+    await expect(page.getByTestId("string-input")).toHaveValue(categoryTitle);
     await deleteDocument(page);
 
     console.log("[DONE] Delete author, category and post pages 🚀");
