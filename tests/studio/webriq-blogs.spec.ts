@@ -6,6 +6,7 @@ import {
   createSlug,
 } from "tests/utils";
 import { format } from "date-fns";
+import { nanoid } from "nanoid";
 
 test.describe("Verify main actions working", () => {
   console.log("[INFO] Run WebriQ Blogs tests ~ Verify main actions working");
@@ -22,9 +23,9 @@ test.describe("Verify main actions working", () => {
   test.beforeAll(() => {
     // Initialize all test data once before any tests run
     testData = {
-      authorName: newPageTitle("New Author "),
-      categoryTitle: newPageTitle("New Category "),
-      blogTitle: newPageTitle("New Blog "),
+      authorName: `New Author ${nanoid(4)}`,
+      categoryTitle: `New Category ${nanoid(4)}`,
+      blogTitle: `New Blog ${nanoid(4)}`,
       publishedAt: format(new Date(), "MMMM dd, yyyy"),
     };
   });
