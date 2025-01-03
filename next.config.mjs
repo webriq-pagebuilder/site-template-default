@@ -33,6 +33,10 @@ const nextConfig = {
   async rewrites() {
     return [{ source: "/sitemap.xml", destination: "/api/sitemap" }];
   },
+  compiler: {
+    // Remove console logs only in production
+    removeConsole: process.env.NODE_ENV === "production",
+  }
 };
 
 export default nextConfig;
