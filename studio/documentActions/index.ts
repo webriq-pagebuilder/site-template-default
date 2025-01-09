@@ -39,6 +39,7 @@ export const ResolveDocumentActions = (props) => {
       "searchPage",
       "productSettings",
       "collectionSettings",
+      "themePage",
     ]?.includes(context?.schemaType)
   ) {
     return [

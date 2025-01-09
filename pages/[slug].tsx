@@ -1,4 +1,4 @@
-import React, { Suspense } from "react";
+import React from "react";
 import { useRouter } from "next/router";
 import { groq } from "next-sanity";
 import { PreviewSuspense } from "next-sanity/preview";
@@ -16,8 +16,6 @@ import InlineEditorContextProvider from "context/InlineEditorContext";
 import { GetStaticPaths, GetStaticProps } from "next";
 import { CommonPageData, BlogsData, SeoTags, SeoSchema } from "types";
 import { addSEOJsonLd } from "components/SEO";
-import { ThemeSettings } from "components/ThemeSettings";
-import { defaultThemeConfig } from "components/theme-settings/defaultThemeConfig";
 
 interface PageBySlugProps {
   data: Data;
@@ -26,7 +24,6 @@ interface PageBySlugProps {
   source: string;
   seo?: SeoTags[];
   seoSchema?: SeoSchema;
-  theme?: any;
 }
 
 interface DocumentWithPreviewProps {
@@ -53,12 +50,10 @@ export function PageBySlug({
   preview,
   token,
   source,
-  theme,
 }: PageBySlugProps) {
   const router = useRouter();
   const slug = router.query.slug;
   const showInlineEditor = source === "studio";
-  const showThemeSetting = source === "theme";
 
   if (!data?.pageData && !data?.blogData) {
     return <PageNotFound />;
@@ -67,9 +62,6 @@ export function PageBySlug({
       return (
         <>
           <PreviewBanner />
-          {showThemeSetting && (
-            <ThemeSettings preview={preview} themeSettings={theme} />
-          )}
           <PreviewSuspense fallback="Loading...">
             <InlineEditorContextProvider showInlineEditor={showInlineEditor}>
               <DocumentWithPreview
@@ -179,19 +171,12 @@ export const getStaticProps: GetStaticProps = async ({
     preview && previewData?.token
       ? getClient(preview).withConfig({ token: previewData.token })
       : getClient(false);
-
-  const themeQuery = preview
-    ? "*[_type=='themeSettings'][0]"
-    : "*[_type=='themeSettings' && !(_id in path('drafts.**'))][0]";
-
-  const [page, blogData, globalSEO, initialConfig] = await Promise.all([
+  
+  const [page, blogData, globalSEO] = await Promise.all([
     client.fetch(slugQuery, { slug: params.slug }),
     client.fetch(blogQuery, { slug: params.slug }),
     client.fetch(globalSEOQuery),
-    client.fetch(themeQuery),
   ]);
-
-  const theme = initialConfig || defaultThemeConfig;
 
   // pass page data and preview to helper function
   const singlePageData: PageData = filterDataToSingleItem(page, preview);
@@ -228,7 +213,6 @@ export const getStaticProps: GetStaticProps = async ({
 
   return {
     props: {
-      theme,
       preview,
       token: (preview && previewData.token) || "",
       source: (preview && previewData?.source) || "",

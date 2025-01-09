@@ -1,12 +1,11 @@
 import { defineArrayMember, defineField, defineType } from "sanity";
-import { MdLibraryBooks } from "react-icons/md";
-import { isSlugUnique } from "studio/isSlugUnique";
+import { MdFormatColorFill } from "react-icons/md";
 import { NEXT_PUBLIC_SANITY_STUDIO_IN_CSTUDIO } from "studio/config";
 
 export default defineType({
-  title: "Page",
-  name: "page",
-  icon: MdLibraryBooks,
+  title: "Theme Page",
+  name: "themePage",
+  icon: MdFormatColorFill,
   type: "document",
   fields: [
     defineField({
@@ -14,38 +13,7 @@ export default defineType({
       name: "title",
       description: "What's this page is for?",
       type: "string",
-    }),
-    defineField({
-      title: "Slug",
-      name: "slug",
-      type: "slug",
-      description:
-        "On what URL should this be published? e.g: /heres-a-sample-url",
-      validation: (Rule) =>
-        Rule.required().custom((slug) => {
-          const regex = /[!@#$%^&*()+\=\[\]{};':"\\|,.<>\/?]+/;
-
-          if (slug?.current !== undefined) {
-            if (regex.test(slug.current)) {
-              return `Slug cannot contain these special characters [!@#$%^&*()+\=\[\]{};':"\\|,.<>\/?]`;
-            }
-
-            if (slug?.current !== slug.current.toLowerCase()) {
-              return "Slug must be in lowercase";
-            }
-
-            if (slug?.current.indexOf(" ") !== -1) {
-              return "Slug cannot contain spaces";
-            }
-          }
-
-          return true;
-        }),
-      options: {
-        source: "title",
-        maxLength: 96,
-        isUnique: isSlugUnique,
-      },
+      readOnly: true,
     }),
     defineField({
       title: "Sections",
@@ -102,33 +70,6 @@ export default defineType({
           name: "callToAction",
           type: "reference",
           to: [{ type: "callToAction" }],
-        }),
-        // 12-04-2024: Hide social media feed component until Instagram integration has been updated
-        /*defineArrayMember({
-          title: "Social Media Feed",
-          name: "socialMediaFeed",
-          type: "reference",
-          to: [{ type: "socialMediaFeed" }],
-        }),*/
-        defineArrayMember({
-          title: "Featured products",
-          name: "featuredProducts",
-          type: "reference",
-          to: [{ type: "featuredProducts" }],
-          readOnly: NEXT_PUBLIC_SANITY_STUDIO_IN_CSTUDIO === "false",
-        }),
-        defineArrayMember({
-          title: "Pricing",
-          name: "pricing",
-          type: "reference",
-          to: [{ type: "pricing" }],
-        }),
-        defineArrayMember({
-          title: "Product Info",
-          name: "productInfo",
-          type: "reference",
-          to: [{ type: "pages_productInfo" }],
-          readOnly: NEXT_PUBLIC_SANITY_STUDIO_IN_CSTUDIO === "false",
         }),
         defineArrayMember({
           title: "Contact",
@@ -236,15 +177,6 @@ export default defineType({
           },
         }),
       ],
-    }),
-    defineField({
-      title: "SEO Settings",
-      name: "seo",
-      type: "seoSettings",
-      options: {
-        collapsible: true,
-        collapsed: true,
-      },
     }),
   ],
 });

@@ -26,7 +26,6 @@ export default function LocalLink({
       target={target}
       rel={rel}
       href={href}
-      {...props}
     >
       {children}
     </Link>

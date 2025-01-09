@@ -4,6 +4,15 @@ import {
 } from "studio/config";
 import type { SanityDocumentLike } from "sanity";
 
+interface PreviewURLProps {
+  siteUrl: string;
+  previewSecret: string;
+  documentType: string;
+  slug: string;
+  inStudioWebPreview?: boolean;
+  isThemePage?: boolean;
+}
+
 export default function resolveProductionUrl(
   doc: SanityDocumentLike & { slug?: { current: string } },
   inStudioWebPreview?: boolean
@@ -15,35 +24,40 @@ export default function resolveProductionUrl(
     typeof window !== "undefined" &&
     window.location.hostname.includes("localhost")
   ) {
-    return PreviewURL(
-      NEXT_PUBLIC_SITE_URL || "http://localhost:3000",
-      NEXT_PUBLIC_PREVIEW_SECRET,
-      doc?._type,
-      currentSlug,
-      inStudioWebPreview
-    );
+    return PreviewURL({
+      siteUrl: NEXT_PUBLIC_SITE_URL || "http://localhost:3000",
+      previewSecret: NEXT_PUBLIC_PREVIEW_SECRET,
+      documentType: doc?._type,
+      slug: currentSlug,
+      inStudioWebPreview,
+      isThemePage: currentSlug === "themePage",
+    });
   }
 
   // remote / live site
-  return PreviewURL(
-    NEXT_PUBLIC_SITE_URL || "http://localhost:3000",
-    NEXT_PUBLIC_PREVIEW_SECRET,
-    doc?._type,
-    currentSlug,
-    inStudioWebPreview
-  );
+  return PreviewURL({
+    siteUrl: NEXT_PUBLIC_SITE_URL || "https://discover.webriq.com",
+    previewSecret: NEXT_PUBLIC_PREVIEW_SECRET,
+    documentType: doc?._type,
+    slug: currentSlug,
+    inStudioWebPreview,
+    isThemePage: currentSlug === "themePage",
+  });
 }
 
 // only show the "Open Preview" option for the following documents
-export function PreviewURL(
-  siteUrl: string,
-  previewSecret: string,
-  documentType: string,
-  slug: string,
-  inStudioWebPreview?: boolean
-) {
+export function PreviewURL({
+  siteUrl,
+  previewSecret,
+  documentType,
+  slug,
+  inStudioWebPreview,
+  isThemePage,
+}: PreviewURLProps) {
   const URL = !inStudioWebPreview
     ? `${BaseUrl(siteUrl, previewSecret)}&source=studio`
+    : isThemePage
+    ? `${BaseUrl(siteUrl, previewSecret)}&source=theme`
     : `${BaseUrl(siteUrl, previewSecret)}`;
 
   if (["page", "post"].includes(documentType)) {
@@ -58,6 +72,8 @@ export function PreviewURL(
     return `${URL}&slug=wishlist`;
   } else if (documentType === "searchPage") {
     return `${URL}&slug=search`;
+  } else if (documentType === "themePage") {
+    return `${URL}&slug=themePage`;
   }
 
   return undefined;

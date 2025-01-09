@@ -1,20 +1,36 @@
-import { Components } from "components/list";
 import React from "react";
+import { Components } from "components/list";
 import { EcommerceSchema, mergeReplaceAndAdd } from "studio/utils";
-import pages from "./documents/pages";
 import { dynamicComponentsData } from "components/data/dynamic"; // Import the dynamicComponentsData function
 
+import pages from "./documents/pages";
+import themePage from "./documents/themePage";
+
+// default schemas
 import { baseSchema } from "@webriq-pagebuilder/sanity-plugin-schema-default";
-const baseSchemaArray = Object.values(baseSchema);
-
 import { blogSchema } from "@webriq-pagebuilder/sanity-plugin-schema-blog";
-const blogSchemaArray = Object.values(blogSchema);
-
 import { commerceSchema } from "@webriq-pagebuilder/sanity-plugin-schema-commerce";
+
+const baseSchemaArray = Object.values(baseSchema);
+const blogSchemaArray = Object.values(blogSchema);
 const commerceSchemaArray = Object.values(commerceSchema);
 
 const defaultSchemas = [...baseSchemaArray, ...blogSchemaArray];
-const allSchemas = mergeReplaceAndAdd(defaultSchemas, commerceSchemaArray); // with C-Studio schema
+const baseSchemas = mergeReplaceAndAdd(defaultSchemas, commerceSchemaArray);
+
+// Uncomment these code below if we have custom components
+//import customSchema from "./custom";
+//const updatedSchemaArray = Object.values(customSchema);
+
+const allSchemas = (() => {
+  // 12-04-2024: Hide socialMediaFeed component until Instagram integration has been updated
+  const mergedSchemas = mergeReplaceAndAdd(baseSchemas, commerceSchemaArray); // comment this code if we have custom components
+
+  // Uncomment the line to replace line 33 if we have custom components
+  //const mergedSchemas = mergeReplaceAndAdd(baseSchemas, updatedSchemaArray);
+
+  return mergedSchemas?.filter((schema) => schema.name !== "socialMediaFeed");
+})();
 
 const componentsList = Object.keys(Components);
 
@@ -85,7 +101,8 @@ const schemasWithComponents = await Promise.all(
             if (
               !Component ||
               schema?.name === "cookies" ||
-              process.env.NEXT_PUBLIC_RENDER_DYNAMIC_COMPONENTS === "false"
+              process.env.NEXT_PUBLIC_RENDER_DYNAMIC_COMPONENTS === "false" ||
+              !process.env.NEXT_PUBLIC_RENDER_DYNAMIC_COMPONENTS
             ) {
               return field;
             }
@@ -123,17 +140,4 @@ const schemasWithComponents = await Promise.all(
   })
 );
 
-// Uncomment the block of code below if we have custom components
-/**
- *
- * import customSchema from "./custom";
- * const updatedSchemaArray = Object.values(customSchema);
- *
- * const updatedSchemas = mergeReplaceAndAdd(schemasWithComponents, updatedSchemaArray);
- *
- * export const schemaTypes = [pages, ...updatedSchemas];
- *
- */
-
-// NOTE: COMMENT THIS LINE IF WE HAVE CUSTOM COMPONENTS
-export const schemaTypes = [pages, ...schemasWithComponents];
+export const schemaTypes = [pages, themePage, ...schemasWithComponents];

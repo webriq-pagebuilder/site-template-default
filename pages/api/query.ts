@@ -7,7 +7,8 @@ const conditionalLink = `
 `;
 
 const mainImage = `"mainImage": {
-  "image": *[_type == "sanity.imageAsset" && _id == ^.mainImage.image.asset._ref][0].url
+  "image": *[_type == "sanity.imageAsset" && _id == ^.mainImage.image.asset._ref][0].url,
+  "alt": mainImage.alt
 }`;
 
 const logoImage = `"image": *[_type == "sanity.imageAsset" && _id == ^.image.asset._ref][0].url,`;
@@ -23,10 +24,15 @@ const variants = `
         ${conditionalLink}
       }
     },
-    images[] {
-      ${logoImage}
+    images != null => {
+      images[] {
+        ${logoImage}
+        "alt": alt
+      },
     },
-    ${mainImage},
+    mainImage != null => {
+      ${mainImage}
+    },
     featuredItems != null => {
       featuredItems[] {
         ...,
@@ -75,6 +81,34 @@ const variants = `
         ${conditionalLink}
       }
     },
+    config != null => {
+      config {
+        ...,
+        cookiePolicy {
+          ...,
+          cookiePolicyPage {
+            ...,
+            ${conditionalLink}
+          }
+        }
+      }
+    },
+    contactLink != null => {
+      contactLink {
+        ...,
+        label,
+        ${conditionalLink}
+      }
+    },
+    socialLinks != null => {
+      socialLinks[] {
+        ...,
+        socialMediaIcon {
+          "image": image.asset->url,
+          alt
+        },
+      }
+    },
     multipleMenus != null => {
       multipleMenus[] {
         ...,
@@ -108,9 +142,11 @@ const variants = `
         ${conditionalLink}
       }
     },
-     testimonials[] {
-      ...,
-      "mainImage": *[_type == "sanity.imageAsset" && _id == ^.mainImage.image.asset._ref][0].url
+    testimonials != null => {
+      testimonials[] {
+        ...,
+        ${mainImage},
+      }
     },
     portfolios != null => {
       portfolios[] {
@@ -361,3 +397,6 @@ export const componentsQuery = groq`*[_type==$schema && !(_id in path("drafts.**
   ...,
   ${variants}
 }`;
+
+// query theme page
+export const themePageQuery = groq`*[_type == "themePage"] ${allProjections}`;

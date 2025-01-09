@@ -82,16 +82,16 @@ export function ColorPicker({
       <div className="relative rounded bg-white border border-gray-300 text-sm">
         <div className="flex gap-x-2">
           <div
-            className="w-6 h-5 m-2 cursor-pointer rounded"
+            className="w-6 h-5 m-2 cursor-pointer rounded border border-gray-300"
             style={{
               backgroundColor: customColor?.[colorKey],
             }}
-            onClick={() => !isLoaded && handleColorPickerToggle(colorKey)}
+            onClick={() => isLoaded && handleColorPickerToggle(colorKey)}
           />
           <HexColorInput
             color={customColor?.[colorKey]}
             onChange={(newColor) => debouncedHandleColorChange({ [colorKey]: newColor })}
-            disabled={isLoaded}
+            disabled={!isLoaded}
             placeholder="Enter hex color"
             style={{
               border: 0,
@@ -114,7 +114,7 @@ export function ColorPicker({
               })
             }
             disabled={
-              isLoaded ||
+              !isLoaded ||
               customColor?.[colorKey] === defaultColor?.value ||
               !defaultColor
             }
