@@ -103,7 +103,6 @@ export default function (plop) {
     ],
     actions: (answers) => {
       const filePath = `node_modules/@stackshift-ui/${answers.variant}/src/${answers.variant}.tsx`;
-
       let templateContent = fs.readFileSync(filePath, "utf8");
 
       // Replace import { lazy } from 'react' to import dynamic from 'next/dynamic'
