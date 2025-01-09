@@ -8,8 +8,9 @@ import dedent from "ts-dedent";
 export default defineStories({
   baseCsf: dedent`
     import React from "react";
-    import ProductInfo from "../index.tsx";
+    import ProductInfo from "../sections/product_info/index.tsx";
     import { EcwidContextProvider } from "context/EcwidContext";
+    
     export default {
       title: "Ecommerce/Product Info",
       component: ProductInfo,

@@ -8,6 +8,7 @@ export const filterArgsByVariant = (
 ) => {
   return Object.keys(args).reduce((result, key) => {
     if (
+      Array.isArray(component) &&
       component?.some(
         (schema) =>
           schema?.name === key &&

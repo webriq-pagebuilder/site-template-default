@@ -5,16 +5,19 @@ import { componentsQuery } from "pages/api/query";
 import dedent from "ts-dedent";
 
 // NOTE: If this component has a custom component, comment out this line and import that instead
-// Example: import { pricingSchema } from "schemas/custom/sanity-plugin-schema-default/src/schemas/sections/pricing/schema";
-import { pricingSchema } from "@webriq-pagebuilder/sanity-plugin-schema-default";
+// Example: import { faqsSchema } from "schemas/custom/sanity-plugin-schema-default/src/schemas/sections/faqs/schema";
+import { faqsSchema } from "@webriq-pagebuilder/sanity-plugin-schema-default";
 
 export default defineStories({
   baseCsf: dedent`
     import React from "react";
-    import PricingComponent from "../index.tsx";
+    import { Components } from "components/list";
+
+    const FAQComponent = Components.faqs;
+
     export default {
-      title: "Sections/Pricing",
-      component: PricingComponent,
+      title: "Components/FAQs",
+      component: FAQComponent,
       tags: ["autodocs"],
       render: ({ variant, label, ...args }) => {
         const data = {
@@ -22,21 +25,21 @@ export default defineStories({
           variant: variant,
           variants: args,
         };
-
+        
         // Using React.createElement instead of JSX to avoid JSX parsing issues in template literals
-        return React.createElement(PricingComponent, { data: data });
+        return React.createElement(FAQComponent, { data: data });
       }
     };
   `,
   stories: async () => {
-    const pricingData =
+    const faqsData =
       (await sanityClient.fetch(componentsQuery, {
-        schema: "pricing",
+        schema: "faqs",
       })) || []; // Provide a default empty array
 
     return dynamicStoryData({
-      data: pricingData,
-      schemaFields: pricingSchema,
+      data: faqsData,
+      schemaFields: faqsSchema,
     });
   },
 });

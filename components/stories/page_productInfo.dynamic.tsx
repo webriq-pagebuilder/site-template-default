@@ -1,17 +1,18 @@
-import { StoryConfigs, defineStories } from "utils/stories";
+import { productInfoPageDefaultValues } from "helper/defaultValues";
+import { defineStories } from "utils/stories";
 import { sanityClient } from "lib/sanity.client";
 import { componentsQuery } from "pages/api/query";
-import { featuredProductDefaultValues } from "helper/defaultValues";
 import { dynamicStoryData } from "components/common";
 import dedent from "ts-dedent";
 
 export default defineStories({
   baseCsf: dedent`
     import React from "react";
-    import FeaturedProducts from "../index.tsx";
+    import PageProductInfo from "../sections/pages_productInfo/index.tsx";
+    
     export default {
-      title: "Ecommerce/Featured Products",
-      component: FeaturedProducts,
+      title: "Sections/Product Info",
+      component: PageProductInfo,
       tags: ["autodocs"],
       render: ({ variant, label, ...args }) => {
         const data = {
@@ -21,7 +22,7 @@ export default defineStories({
         };
 
         // Using React.createElement instead of JSX to avoid JSX parsing issues in template literals
-        return React.createElement(FeaturedProducts, { data: data });
+        return React.createElement(PageProductInfo, { data: data });
       }
     };
   `,
@@ -31,14 +32,14 @@ export default defineStories({
       return {};
     }
 
-    const featuredProductsData =
+    const pagesProductInfoData =
       (await sanityClient.fetch(componentsQuery, {
-        schema: "featuredProducts",
+        schema: "pages_productInfo",
       })) || []; // Provide a default empty array
 
     return dynamicStoryData({
-      data: featuredProductsData,
-      schemaFields: featuredProductDefaultValues,
+      data: pagesProductInfoData,
+      schemaFields: productInfoPageDefaultValues,
       isEcommerce: true,
     });
   },
