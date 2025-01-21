@@ -217,7 +217,7 @@ function VariantB({ products }: PagesProductInfoProps) {
                       </AddToBag>
                     </div>
                     <AddToWishlist
-                      classNames="w-full items-center justify-center rounded-md border hover:border-primary"
+                      classNames="block w-full items-center justify-center rounded-md border hover:border-primary py-5 px-8"
                       product={ecwidProduct}
                       containerClass="w-full"
                     >

@@ -208,20 +208,21 @@ function VariantD({
         setPaymentStatus("failed");
         setCardValidate({ ...cardValidate, error: "error" });
         return;
-      }
-
-      setPaymentStatus("success");
-      const response = await fetch("/api/submitForm", {
-        method: "POST",
-        body: JSON.stringify({ data, id: formId }),
-      });
-
-      if (response.ok) {
-        setPaymentStatus("success");
-        setIsProcessing(false);
       } else {
-        setPaymentStatus("failed");
-        setIsProcessing(false);
+        setPaymentStatus("success");
+        
+        const response = await fetch("/api/submitForm", {
+          method: "POST",
+          body: JSON.stringify({ data, id: formId }),
+        });
+
+        if (response.ok) {
+          setPaymentStatus("success");
+          setIsProcessing(false);
+        } else {
+          setPaymentStatus("failed");
+          setIsProcessing(false);
+        }
       }
     };
 
@@ -365,10 +366,10 @@ function VariantD({
                 ariaLabel="Submit Pricing Form button"
                 type="submit"
                 className={`w-full ${
-                  (billing.billType === "" || processing) &&
+                  (!formId || billing.billType === "" || processing || !cardValidate?.complete || cardValidate?.empty) &&
                   "cursor-not-allowed disabled:opacity-50"
                 }`}
-                disabled={billing.billType === "" || processing}
+                disabled={!formId || billing.billType === "" || processing || !cardValidate?.complete || cardValidate?.empty}
               >
                 {processing
                   ? "Processing Payment...."

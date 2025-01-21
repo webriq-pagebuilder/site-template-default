@@ -38,7 +38,7 @@ const AddToWishlist = ({
 
   return (
     <>
-      <div className={favorited ? "w-full md:w-3/4 bg-secondary text-primary rounded-global" : containerClass}>
+      <div className={favorited ? "w-full bg-secondary text-primary rounded-global" : containerClass}>
         <Button
           as="button"
           variant="addToWishlist"
@@ -50,7 +50,7 @@ const AddToWishlist = ({
           {!favorited ? (
             children
           ) : (
-            <Text weight="bold" className="uppercase">
+            <Text weight="bold" className="uppercase text-black">
               Remove from wishlist
             </Text>
           )}

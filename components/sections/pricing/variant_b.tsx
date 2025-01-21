@@ -88,7 +88,7 @@ function VariantB({
   return (
     <section className="p-5 sm:p-20 bg-background">
       <Container>
-        <Flex wrap aligncenter className="w-full mb-16">
+        <Flex wrap className="w-full mb-16 items-center">
           <div className="w-full lg:w-1/2">
             {caption && (
               <Text fontSize="sm" className="text-sm lg:text-base text-primary">
@@ -161,10 +161,15 @@ function VariantB({
                       ariaLabel={plan.checkoutButtonName}
                       className={`mt-4 lg:mt-0  ${
                         !plan ||
-                        (!plan?.variant_b_checkoutButton &&
+                        ("variant_b_checkoutButton" in plan &&
+                        !plan?.variant_b_checkoutButton &&
                           "cursor-not-allowed  disabled:opacity-50")
                       }`}
-                      disabled={!plan || !plan?.variant_b_checkoutButton}
+                      disabled={
+                      !plan ||
+                      ("variant_b_checkoutButton" in plan &&
+                        !plan?.variant_b_checkoutButton)
+                    }
                       onClick={() => {
                         initiateCheckout(
                           {
@@ -194,6 +199,7 @@ function VariantB({
     </section>
   );
 }
+
 function ListIcon() {
   return (
     <svg

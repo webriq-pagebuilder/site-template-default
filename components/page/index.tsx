@@ -17,7 +17,7 @@ export function PageSections({ data }: PageSectionsProps) {
   return (
     <>
       {sections &&
-        sections?.map((section, index) => {
+        sections?.map((section) => {
           const sectionType =
             section?._type === "slotCart" // for slotCart, apply the variant templates of the cart section
               ? "cartSection"
@@ -55,11 +55,11 @@ export function PageSections({ data }: PageSectionsProps) {
                   <div>Error rendering component: {sectionType}</div>
                 )
               }
+              key={section?._id}
             >
               <InlineEditor
                 document={currentDocument}
                 showInlineEditor={showInlineEditor}
-                key={index}
               >
                 {section?._type === "socialMediaFeed" ? (
                   <SocialMediaFeedContextProvider>
