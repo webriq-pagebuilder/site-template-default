@@ -1,34 +1,51 @@
-import { createContext, useContext, useEffect, useState } from "react";
-import { SOCIAL_ACCOUNTS_API_URL, SANITY_PROJECT_ID } from "studio/config";
+import React, { createContext, useContext, useEffect, useState } from "react";
+import { SANITY_PROJECT_ID, SOCIAL_ACCOUNTS_API_URL } from "studio/config";
+import { SocialProfileFeed, Socials } from "types";
 
 interface SocialMediaFeedContextProps {
-  children: React.ReactNode;
+  accountId: string;
+  limit?: number;
+  showRecentPosts?: boolean;
+  showPostsFrom?: number;
+  children?: React.ReactNode;
 }
 
-const SocialMediaFeedContext = createContext(null); // pass default value
+const SocialMediaFeedContext = createContext<Socials | null>(null); // pass default value
 
-export function useSocialMediaFeed() {
-  return useContext(SocialMediaFeedContext);
+export function useSocialMediaFeed(): Socials {
+  const context = useContext(SocialMediaFeedContext);
+
+  if (!context) {
+    console.error("'useSocialMediaFeed' must be used within a SocialMediaFeedContextProvider");
+  }
+
+  return context;
 }
 
 export function SocialMediaFeedContextProvider({
-  children,
+  accountId,
+  limit,
+  showRecentPosts,
+  showPostsFrom,
+  children
 }: SocialMediaFeedContextProps) {
   const initialState = {
-    itemId: "",
-    platform: "",
-    userName: "",
+    account: {
+      userId: "",
+      userName: "",
+      profileName: "",
+      profilePictureUrl: "",
+    },
     status: "loading",
     media: [],
-    after: null,
-    before: null,
+    baseUrl: "",
   };
 
-  const [profileFeed, setProfileFeed] = useState(initialState);
+  const [profileFeed, setProfileFeed] = useState<SocialProfileFeed>(initialState);
   const [nextCursor, setNextCursor] = useState(null);
   const [prevCursor, setPrevCursor] = useState(null);
 
-  async function fetchUserMedia(cursor: "next" | "previous" | null = null) {
+  async function fetchUserMedia(cursor: string | null = null) {
     try {
       const response = await fetch(`${SOCIAL_ACCOUNTS_API_URL}/media`, {
         method: "POST",
@@ -36,43 +53,49 @@ export function SocialMediaFeedContextProvider({
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          platform: profileFeed?.platform,
+          userId: accountId,
           studioId: SANITY_PROJECT_ID,
-          itemId: profileFeed?.itemId,
-          after: cursor === "next" ? nextCursor : null,
-          before: cursor === "previous" ? prevCursor : null,
+          limit,
+          after: cursor,
+          before: cursor,
+          showRecentPosts,
+          showPostsFrom,
         }),
-      })
-        
-      const data = await response.json();
-      const userMedia = data?.media;
+      });
 
-      if (userMedia) { 
+      const data = await response.json();
+
+      if (data) {
         setProfileFeed({
           ...profileFeed,
           status: "success",
-          media: userMedia,
+          media: data?.media,
+          baseUrl: data?.baseUrl,
         });
-
         setNextCursor(data?.nextCursor);
         setPrevCursor(data?.previousCursor);
       }
-        
     } catch (error) {
-      console.error("[ERROR] Something went wrong when fetching profile media. ", error);
-
+      console.error(
+        "[ERROR] Something went wrong when fetching profile media. ",
+        error
+      );
       setProfileFeed((prevState) => ({
         ...prevState,
         status: "error",
-        media: []
+        media: [],
       }));
-    };
+    }
   }
-
 
   useEffect(() => {
     fetchUserMedia();
-  }, [profileFeed?.itemId, profileFeed?.platform, profileFeed?.userName]);
+  }, [
+    accountId,
+    limit,
+    showRecentPosts,
+    showPostsFrom
+  ]);
 
   function fetchNextPage() {
     fetchUserMedia("next");

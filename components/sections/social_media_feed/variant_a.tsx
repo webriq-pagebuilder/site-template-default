@@ -1,86 +1,233 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Button } from "@stackshift-ui/button";
 import { DefaultSocialMediaIcons } from "helper";
 
-function VariantA({ username, media, platform, hashtags, numberOfPosts, fetchNextPage, nextCursor }) {
-  const defaultPosts = 6;
-  const postsToDisplay = numberOfPosts < 1 ? defaultPosts : numberOfPosts;
-  const [selected, setSelected] = useState("");
+interface InstagramPost {
+  id: string;
+  caption: string;
+  media_type: string;
+  media_url: string;
+  permalink: string;
+  timestamp: string;
+}
+
+function VariantA({
+  baseUrl,
+  username,
+  userId,
+  media,
+  platform,
+  profileName,
+  profilePictureUrl,
+  fetchNextPage,
+  nextCursor,
+  hashtags,
+  postsPerPage,
+  linkedAcct,
+  isLoading,
+}) {
+  const [posts, setPosts] = useState<InstagramPost[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  // Updated helper function to check for multiple hashtags
+  const hasTargetHashtag = (caption: string) => {
+    if (!caption) return false;
+    const lowercaseCaption = caption.toLowerCase();
+    // Post matches if it contains ANY of the target hashtags (OR condition)
+    return hashtags.some((hashtag) => {
+      const normalizedHashtag = hashtag.startsWith("#")
+        ? hashtag.toLowerCase()
+        : `#${hashtag.toLowerCase()}`;
+      return lowercaseCaption.includes(normalizedHashtag);
+    });
+  };
+
+  const fetchPosts = async (cursor: string | null = null) => {
+    try {
+      setLoading(true);
+
+      // Filter posts by hashtag
+      const filteredPosts = media.filter((post: InstagramPost) => hasTargetHashtag(post.caption));
+
+      if (cursor) {
+        // Append to existing posts for pagination
+        setPosts((prevPosts) => [...prevPosts, ...filteredPosts]);
+      } else {
+        // Initial load
+        setPosts(filteredPosts);
+      }
+    } catch (err) {
+      setError(
+        err instanceof Error ? err.message : "Failed to fetch Instagram posts"
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchPosts();
+  }, [hashtags, media, isLoading]);
+
+  // Add this helper function to convert newlines to <br> tags and preserve hashtag links
+  const formatCaption = (caption: string) => {
+    return caption.split("\n").map((line, index) => (
+      <span key={index}>
+        {line.split(" ").map((word, wordIndex) => (
+          <span key={wordIndex}>
+            {word.startsWith('#') ? (
+              <Link
+                href={`https://www.instagram.com/explore/tags/${word.slice(1)}/`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-500 hover:underline"
+              >
+                {word}
+              </Link>
+            ) : word.startsWith('@') ? (
+              <Link
+                href={`https://www.instagram.com/${word.slice(1)}/`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-500 hover:underline"
+              >
+                {word}
+              </Link>
+            ) : word.startsWith('http') ? (
+              <Link
+                href={word}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-500 hover:underline"
+              >
+                {word}
+              </Link>
+            ): (
+              word
+            )}
+            {wordIndex < line.split(" ").length - 1 ? " " : ""}
+          </span>
+        ))}
+        {index < caption.split("\n").length - 1 && <br />}
+      </span>
+    ));
+  };
+
+  // Add this helper function at the top of the component
+  const formatRelativeTime = (timestamp: string) => {
+    const date = new Date(timestamp);
+    const now = new Date();
+    const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
+
+    // Define time intervals in seconds
+    const intervals = {
+      year: 31536000,
+      month: 2592000,
+      week: 604800,
+      day: 86400,
+      hour: 3600,
+      minute: 60,
+    };
+
+    // Find the appropriate interval
+    if (diffInSeconds < intervals.minute) {
+      return "just now";
+    }
+
+    for (const [unit, secondsInUnit] of Object.entries(intervals)) {
+      const value = Math.floor(diffInSeconds / secondsInUnit);
+      if (value >= 1) {
+        return `${value} ${unit}${value === 1 ? "" : "s"} ago`;
+      }
+    }
+
+    return "just now";
+  };
 
   return (
-    <section className="py-20 bg-background">
-      {media?.length !== 0 ? (
+    <section className="py-20">
+      {posts?.length !== 0 ? (
         <div className="container mx-auto lg:px-4 w-full lg:w-2/3">
           <div className="grid justify-center sm:flex sm:flex-wrap sm:justify-between mb-4">
-            <div className="flex sm:my-auto">
-              <DefaultSocialMediaIcons {...{ platform }} />
+            <div className="flex gap-3 sm:my-auto">
               <Link
-                className="font-bold align-middle ml-3 text-primary"
-                href={`https://www.instagram.com/${username ?? "username"}`}
+                className="flex-shrink-0"
+                href={`${baseUrl}/${username}`}
                 target="_blank"
+                rel="noopener noreferrer"
               >
-                {`@${username ?? "username"}`}
+                {profilePictureUrl ? (
+                  <Image
+                    className="rounded-full"
+                    width={32}
+                    height={32}
+                    src={profilePictureUrl}
+                    alt={`${profileName} profile picture`}
+                  />
+                ): (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="32"
+                    height="32"
+                    viewBox="0 0 24 24"
+                  >
+                    <path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm0 22c-3.123 0-5.914-1.441-7.749-3.69.259-.588.783-.995 1.867-1.246 2.244-.518 4.459-.981 3.393-2.945-3.155-5.82-.899-9.119 2.489-9.119 3.322 0 5.634 3.177 2.489 9.119-1.035 1.952 1.1 2.416 3.393 2.945 1.082.25 1.61.655 1.871 1.241-1.836 2.253-4.628 3.695-7.753 3.695z" />
+                  </svg>
+                )}
               </Link>
-            </div>
-            <div className="mt-4 sm:mt-0 sm:mb-4 sm:w-1/3 ml-auto">
-              <select
-                aria-label="socialMediaHashtags"
-                name="socialMediaHashtags"
-                className="w-full rounded-md bg-white border border-gray-200 p-3 outline-none"
-                value={selected}
-                onChange={(e) => setSelected(e.target.value)}
+              <Link
+                className="font-medium text-gray-900 hover:underline ml-3 align-middle"
+                href={`${baseUrl}/${username}`}
+                target="_blank"
+                rel="noopener noreferrer"
               >
-                <option value="">Filter by hashtag</option>
-                {hashtags?.map((tag, index) => (
-                  <option key={index} value={tag}>
-                    {tag}
-                  </option>
-                ))}
-              </select>
+                {profileName ?? username}
+              </Link>
             </div>
           </div>
           <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-3 justify-center">
-            {media
-              ?.slice(0, postsToDisplay)
-              ?.filter((post) => post?.caption?.includes(selected))
-              ?.map((post, index) => (
-                <Link href={post?.permalink} key={index} target="_blank">
-                  <div className="relative overflow-hidden rounded-md">
-                    {post?.media_url && (
-                      <Image
-                        className="h-full sm:h-[350px] sm:w-full object-cover"
-                        src={post?.media_url}
-                        sizes="100vw"
-                        height={350}
-                        width={350}
-                        alt={post?.id ?? `${platform} post`} // post media ID
-                      />
-                    )}
-                    <div className="absolute inset-0 z-10 flex flex-col items-start bg-gray-900 p-6 opacity-0 duration-300 hover:opacity-75">
-                      <p className="mb-auto font-bold text-white md:text-xl">
-                        {post?.caption}
-                      </p>
-                      <span className="text-white">
-                        {`${new Date(post?.timestamp).toDateString()}`}
-                      </span>
-                    </div>
+            {posts?.map((post, index) => (
+              <Link href={post?.permalink} key={index} target="_blank">
+                <div className="relative overflow-hidden">
+                  {post.media_type === "VIDEO" ? (
+                    <video
+                      src={post.media_url}
+                      controls
+                      className="w-full"
+                    />
+                  ) : (
+                    <Image
+                      className="h-full sm:h-[350px] sm:w-full object-cover"
+                      src={post?.media_url}
+                      sizes="100vw"
+                      height={350}
+                      width={350}
+                      alt={post?.id ?? `${platform} post`} // post media ID
+                    />
+                  )}
+                  <div className="absolute inset-0 z-10 flex flex-col items-start bg-gray-900 p-6 opacity-0 duration-300 hover:opacity-75">
+                    <p className="mb-auto font-bold text-white md:text-xl">
+                      {formatCaption(post.caption)}
+                    </p>
+                    <span className="text-white">
+                      {formatRelativeTime(post.timestamp)}
+                    </span>
                   </div>
-                </Link>
-              ))}
+                </div>
+              </Link>
+            ))}
           </div>
-          {media?.length > numberOfPosts && (
+          {nextCursor && posts.length >= postsPerPage && (
             <div className="mt-10 text-center">
-              <Button
-                className="bg-primary hover:bg-secondary text-white px-4 py-3 rounded-t-xl rounded-l-xl"
-                //href={`https://www.instagram.com/${username ?? "username"}`}
-                //target="_blank"
-                onClick={fetchNextPage()}
-                disabled={!nextCursor}
+              <button
+                onClick={() => fetchNextPage()}
+                disabled={loading || !nextCursor}
+                className="bg-webriq-darkblue hover:bg-webriq-blue text-white px-4 py-3 rounded-t-xl rounded-l-xl"
               >
                 View more posts
-              </Button>
+              </button>
             </div>
           )}
         </div>
