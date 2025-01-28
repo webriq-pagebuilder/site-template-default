@@ -29,7 +29,7 @@ const allSchemas = (() => {
   // Uncomment the line to replace line 33 if we have custom components
   //const mergedSchemas = mergeReplaceAndAdd(baseSchemas, updatedSchemaArray);
 
-  return mergedSchemas?.filter((schema) => schema.name !== "socialMediaFeed");
+  return mergedSchemas;
 })();
 
 const componentsList = Object.keys(Components);

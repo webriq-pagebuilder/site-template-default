@@ -147,9 +147,29 @@ function VariantB({
     return (
       <section className="py-20">
         <div className="container m-auto px-4 w-full max-w-7xl">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {[...Array(4)].map((_, index) => (
-              <div key={index} className="animate-pulse bg-gray-200 h-80 rounded"></div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+            {[...Array(3)].map((_, index) => (
+              <div
+                className="flex flex-col bg-white border border-gray-200 overflow-hidden"
+                key={index}
+              >
+                <div className="relative w-full bg-gray-200 animate-pulse h-[370px]" />
+                <div className="mx-auto w-full p-4">
+                  <div className="flex animate-pulse space-x-4">
+                    <div className="w-10 h-10 rounded-full bg-gray-200" />
+                    <div className="flex-1 space-y-6 py-1">
+                      <div className="space-y-3">
+                        <div className="h-2 rounded bg-gray-200" />
+                        <div className="h-2 rounded bg-gray-200" />
+                        <div className="h-2 rounded bg-gray-200" />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="mt-10">
+                    <div className="h-2 rounded bg-gray-200" />
+                  </div>
+                </div>
+              </div>
             ))}
           </div>
         </div>

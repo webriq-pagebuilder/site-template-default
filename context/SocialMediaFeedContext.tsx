@@ -1,6 +1,7 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useCallback, useContext, useEffect, useState } from "react";
 import { SANITY_PROJECT_ID, SOCIAL_ACCOUNTS_API_URL } from "studio/config";
 import { SocialProfileFeed, Socials } from "types";
+import { sanityClient } from "lib/sanity.client";
 
 interface SocialMediaFeedContextProps {
   accountId: string;
@@ -45,64 +46,82 @@ export function SocialMediaFeedContextProvider({
   const [nextCursor, setNextCursor] = useState(null);
   const [prevCursor, setPrevCursor] = useState(null);
 
-  async function fetchUserMedia(cursor: string | null = null) {
-    try {
-      const response = await fetch(`${SOCIAL_ACCOUNTS_API_URL}/media`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          userId: accountId,
-          studioId: SANITY_PROJECT_ID,
-          limit,
-          after: cursor,
-          before: cursor,
-          showRecentPosts,
-          showPostsFrom,
-        }),
-      });
+  const fetchUserProfileAndMedia = useCallback(
+    async (direction?: string) => {
+      try {
+        const getProfileData = await sanityClient.fetch(
+          `*[_type == 'socialAccounts'][0].accounts`
+        );
+        const profile =
+          getProfileData?.length !== 0
+            ? getProfileData?.find((user) => user?.userId === accountId)
+            : {};
 
-      const data = await response.json();
+        const cursor =
+          direction === "next"
+            ? nextCursor
+            : direction === "previous"
+            ? prevCursor
+            : null;
 
-      if (data) {
-        setProfileFeed({
-          ...profileFeed,
+        const data = await fetch(`${SOCIAL_ACCOUNTS_API_URL}/media`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            platform: profile?.platform,
+            userId: accountId,
+            studioId: SANITY_PROJECT_ID,
+            limit,
+            after: direction === "next" ? cursor : null,
+            before: direction === "previous" ? cursor : null,
+            showRecentPosts,
+            showPostsFrom,
+          }),
+        }).then((response) => response.json());
+
+        setProfileFeed((prevState) => ({
+          ...prevState,
           status: "success",
-          media: data?.media,
-          baseUrl: data?.baseUrl,
-        });
-        setNextCursor(data?.nextCursor);
-        setPrevCursor(data?.previousCursor);
+          media: data?.media || [],
+          baseUrl: data?.baseUrl || "",
+          account: profile, // Use the fresh profile data
+        }));
+        setNextCursor(data?.nextCursor || null);
+        setPrevCursor(data?.previousCursor || null);
+      } catch (error) {
+        console.error(
+          "[ERROR] Something went wrong when fetching profile media. ",
+          error
+        );
+        setProfileFeed((prevState) => ({
+          ...prevState,
+          status: "error",
+          media: [],
+        }));
       }
-    } catch (error) {
-      console.error(
-        "[ERROR] Something went wrong when fetching profile media. ",
-        error
-      );
-      setProfileFeed((prevState) => ({
-        ...prevState,
-        status: "error",
-        media: [],
-      }));
-    }
-  }
+    },
+    [
+      accountId,
+      limit,
+      showPostsFrom,
+      showRecentPosts,
+      nextCursor,
+      prevCursor,
+    ]
+  );
 
   useEffect(() => {
-    fetchUserMedia();
-  }, [
-    accountId,
-    limit,
-    showRecentPosts,
-    showPostsFrom
-  ]);
+    fetchUserProfileAndMedia();
+  }, [fetchUserProfileAndMedia]);
 
   function fetchNextPage() {
-    fetchUserMedia("next");
+    fetchUserProfileAndMedia("next");
   }
 
   function fetchPreviousPage() {
-    fetchUserMedia("previous");
+    fetchUserProfileAndMedia("previous");
   }
 
   return (

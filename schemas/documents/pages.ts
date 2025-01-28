@@ -103,13 +103,12 @@ export default defineType({
           type: "reference",
           to: [{ type: "callToAction" }],
         }),
-        // 12-04-2024: Hide social media feed component until Instagram integration has been updated
-        /*defineArrayMember({
+        defineArrayMember({
           title: "Social Media Feed",
           name: "socialMediaFeed",
           type: "reference",
           to: [{ type: "socialMediaFeed" }],
-        }),*/
+        }),
         defineArrayMember({
           title: "Featured products",
           name: "featuredProducts",
