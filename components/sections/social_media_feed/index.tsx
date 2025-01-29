@@ -30,7 +30,6 @@ function SocialMediaFeed({ data }: SectionsProps) {
     ) {
       socials.setProfileFeed(prev => ({
         ...prev,
-        account: data?.variants?.user,
         status: socials.profileFeed?.media?.length ? "loaded" : "loading"
       }));
     }
@@ -44,11 +43,11 @@ function SocialMediaFeed({ data }: SectionsProps) {
   const props = {
     baseUrl: socials?.profileFeed?.baseUrl,
     media: socials?.profileFeed?.media,
-    username: data?.variants?.user?.userName,
-    userId: data?.variants?.user?.userId,
-    platform: data?.variants?.user?.platform,
-    profileName: data?.variants?.user?.profileName,
-    profilePictureUrl: data?.variants?.user?.profilePictureUrl,
+    username: socials?.profileFeed?.account?.userName,
+    userId: socials?.profileFeed?.account?.userId,
+    platform: socials?.profileFeed?.account?.platform,
+    profileName: socials?.profileFeed?.account?.profileName,
+    profilePictureUrl: socials?.profileFeed?.account?.profilePictureUrl,
     fetchNextPage: socials?.fetchNextPage,
     fetchPreviousPage: socials?.fetchPreviousPage,
     nextCursor: socials?.nextCursor,

@@ -146,7 +146,7 @@ function VariantA({
     return "just now";
   };
 
-  if (isLoading) {
+  if (isLoading || !posts || posts.length === 0) {
     return (
       <section className="py-20">
         <div className="container m-auto px-4 w-full max-w-7xl">
@@ -191,7 +191,7 @@ function VariantA({
               )}
             </Link>
             <Link
-              className="font-medium text-gray-900 hover:underline ml-3 align-middle"
+              className="font-medium text-gray-900 hover:text-black ml-3 items-center"
               href={`${baseUrl}/${username}`}
               target="_blank"
               rel="noopener noreferrer"
@@ -221,7 +221,7 @@ function VariantA({
                   />
                 )}
                 <div className="absolute inset-0 z-10 flex flex-col items-start bg-gray-900 p-6 opacity-0 duration-300 hover:opacity-75">
-                  <p className="mb-auto font-bold text-white md:text-xl">
+                  <p className="mb-auto font-bold text-white md:text-lg">
                     {formatCaption(post.caption)}
                   </p>
                   <span className="text-white">

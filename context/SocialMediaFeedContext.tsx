@@ -36,6 +36,7 @@ export function SocialMediaFeedContextProvider({
       userName: "",
       profileName: "",
       profilePictureUrl: "",
+      platform: "",
     },
     status: "loading",
     media: [],

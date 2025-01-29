@@ -233,7 +233,7 @@ const variants = `
       }
     },
     account !=  null => {
-      "user": *[_type == 'socialAccounts'][0].accounts[account.userId == account][0],
+      "user": *[_type == 'socialAccounts'][0].accounts[userId == account][0],
     }
   }
 `;

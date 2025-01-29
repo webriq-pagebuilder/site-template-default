@@ -143,7 +143,7 @@ function VariantB({
     return "just now";
   };
 
-  if (isLoading) {
+  if (isLoading || !posts || posts.length === 0) {
     return (
       <section className="py-20">
         <div className="container m-auto px-4 w-full max-w-7xl">
@@ -262,8 +262,6 @@ function VariantB({
             </div>
           ))}
         </div>
-
-        {loading && <div className="text-center mt-6">Loading...</div>}
 
         {nextCursor && posts.length >= postsPerPage && (
           <div className="text-center mt-8">
