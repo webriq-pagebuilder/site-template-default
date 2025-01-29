@@ -11,6 +11,7 @@ export interface SectionsProps {
 export interface Variants {
   template?: Template;
   multipleMenus?: any;
+  length?: number;
   arrayOfTitleAndText?: ArrayOfTitleAndText[] | null;
   logo?: Logo | null;
   primaryButton?: LabeledRoute | null;
@@ -45,6 +46,7 @@ export interface Variants {
   askedQuestions?: AskedQuestion[] | null;
   arrayOfImageTitleAndText?: ArrayOfImageTitleAndText[] | null;
   description?: string | null;
+  caption?: string;
   featuredItems?: FeaturedItem[] | null;
   images?: Images[] | null;
   contactDetails?: ContactDetails[] | null;
@@ -53,6 +55,7 @@ export interface Variants {
   youtubeLink?: string | null;
   banner?: any;
   statItems?: StatItems[] | null;
+  stats?: StatItems[] | null;
   teams?: Team[] | null;
   testimonials?: Testimonial[] | null;
   firstColumn?: PortableTextBlock[];
@@ -63,7 +66,13 @@ export interface Variants {
   monthlyBilling?: string;
   productDetails?: ProductDetail[];
   btnLabel?: string;
-  selectAccount?: string;
+  user?: {
+    platform: string | undefined;
+    profileName: string | undefined;
+    profilePictureUrl: string | undefined;
+    userId: string | undefined;
+    userName: string | undefined;
+  };
   hashtags?: string[];
   numberOfPosts?: number;
   text?: string;
@@ -77,6 +86,31 @@ export interface Variants {
     };
     consentModalPosition?: string;
   };
+  contactLink?: any;
+  showRecentPosts?: boolean;
+  showPostsFrom?: number;
+}
+
+export interface SocialProfileFeed {
+  account: {
+    platform: string | undefined;
+    profileName: string | undefined;
+    profilePictureUrl: string | undefined;
+    userId: string | undefined;
+    userName: string | undefined;
+  };
+  status: string | "loading" | "success" | "error" | undefined;
+  media: any[];
+  baseUrl: string | undefined;
+}
+
+export interface Socials {
+  profileFeed: SocialProfileFeed;
+  setProfileFeed: React.Dispatch<React.SetStateAction<SocialProfileFeed>>;
+  fetchNextPage: () => void;
+  fetchPreviousPage: () => void;
+  nextCursor: string | null | undefined;
+  prevCursor: string | null | undefined;
 }
 
 export interface Template {
@@ -128,6 +162,7 @@ export interface LabeledRoute extends ConditionalLink {
   linkType?: string;
   _type?: string;
   linkInternal?: any;
+  linkExternal?: string;
 }
 
 export interface LabeledRouteWithKey extends LabeledRoute {
@@ -282,6 +317,7 @@ export interface BlogPost extends SanityBody {
   excerpt?: string | null;
   link?: string | null;
   mainImage?: SanityImage | null;
+  alt?: string | null;
   publishedAt?: string;
   seo?: Seo | null;
   slug?: SanitySlug | null;
