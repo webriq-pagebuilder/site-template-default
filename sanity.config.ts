@@ -29,6 +29,7 @@ import { webriqPayments } from "@webriq-pagebuilder/sanity-plugin-webriq-payment
 import { webriqGPT3 } from "@webriq-pagebuilder/sanity-plugin-input-component-gpt3";
 import { webriqComponents } from "@webriq-pagebuilder/sanity-plugin-webriq-components";
 import { webriQInspectorInlineEdit } from "@webriq-pagebuilder/sanity-plugin-inspector-inline-edit";
+import { getSanitySchemas } from "@webriq-pagebuilder/sanity-plugin-get-sanity-schema";
 
 export default defineConfig({
   basePath: "/studio",
@@ -46,6 +47,7 @@ export default defineConfig({
     webriQInspectorInlineEdit(),
     media(),
     codeInput(), // for "code" schema type
+    getSanitySchemas(),
   ],
   tools: (prev) => {
     // 05-28-2024 StackShift revamp 2024: Adding forms and stripe accounts done from StackShift app
