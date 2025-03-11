@@ -1,17 +1,23 @@
-import { productInfoPageDefaultValues } from "helper/defaultValues";
+import { dynamicStoryData } from "components/common";
 import { defineStories } from "utils/stories";
 import { sanityClient } from "lib/sanity.client";
 import { componentsQuery } from "pages/api/query";
-import { dynamicStoryData } from "components/common";
 import dedent from "ts-dedent";
+
+// NOTE: If this component has a custom component, comment out this line and import that instead
+// Example: import { newsletterSchema } from "schemas/custom/sanity-plugin-schema-default/src/schemas/sections/newsletter/schema";
+import { newsletterSchema } from "@webriq-pagebuilder/sanity-plugin-schema-default";
 
 export default defineStories({
   baseCsf: dedent`
     import React from "react";
-    import PageProductInfo from "../index.tsx";
+    import { Components } from "components/list";
+
+    const NewsletterComponent = Components.newsletter;
+
     export default {
-      title: "Sections/Product Info",
-      component: PageProductInfo,
+      title: "Components/Newsletter",
+      component: NewsletterComponent,
       tags: ["autodocs"],
       render: ({ variant, label, ...args }) => {
         const data = {
@@ -21,25 +27,19 @@ export default defineStories({
         };
 
         // Using React.createElement instead of JSX to avoid JSX parsing issues in template literals
-        return React.createElement(PageProductInfo, { data: data });
+        return React.createElement(NewsletterComponent, { data: data });
       }
     };
   `,
   stories: async () => {
-    // Check if SANITY_STUDIO_IN_CSTUDIO is false and return an empty object to not render any story
-    if (process.env.STORYBOOK_SANITY_STUDIO_IN_CSTUDIO === "false") {
-      return {};
-    }
-
-    const pagesProductInfoData =
+    const newsletterData =
       (await sanityClient.fetch(componentsQuery, {
-        schema: "pages_productInfo",
+        schema: "newsletter",
       })) || []; // Provide a default empty array
 
     return dynamicStoryData({
-      data: pagesProductInfoData,
-      schemaFields: productInfoPageDefaultValues,
-      isEcommerce: true,
+      data: newsletterData,
+      schemaFields: newsletterSchema,
     });
   },
 });
