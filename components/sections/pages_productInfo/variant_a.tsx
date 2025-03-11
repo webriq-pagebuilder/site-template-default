@@ -121,13 +121,8 @@ function VariantA({ products }: PagesProductInfoProps) {
                 </div>
 
                 <ProductDetail product={ecwidProduct}>
-                  <Flex
-                    direction="row"
-                    align="start"
-                    gap={4}
-                    className="flex-wrap my-8 items-center"
-                  >
-                    <div className="w-full md:w-3/4 lg:mb-4 xl:mb-0">
+                  <Flex align="center" gap={4} className={`items-center y-8 ${ecwid?.favorited ? "flex-col" : "flex-col lg:flex-row"}`}>
+                    <div className="w-full lg:mb-4 xl:mb-0">
                       <AddToBag
                         inStock={!ecwidProduct?.inStock}
                         classNames="block w-full py-5 px-8 cursor-pointer uppercase"
@@ -135,17 +130,13 @@ function VariantA({ products }: PagesProductInfoProps) {
                         {products?.productInfo?.btnLabel ?? "ADD TO CART"}
                       </AddToBag>
                     </div>
-
-                    {/* Add to wishlist button */}
                     <AddToWishlist
-                      classNames="w-full items-center justify-center py-5 px-8 rounded-global border hover:border-primary"
+                      classNames="inline-block w-full items-center justify-center rounded-md border hover:border-primary py-5 px-8"
                       product={ecwidProduct}
-                      //containerClass="w-full"
+                      containerClass="w-full lg:w-1/4"
                     >
                       <svg
                         className="w-6 h-6"
-                        width={27}
-                        height={27}
                         viewBox="0 0 27 27"
                         fill="none"
                         xmlns="http://www.w3.org/2000/svg"
