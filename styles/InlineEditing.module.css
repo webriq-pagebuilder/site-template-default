@@ -3,9 +3,28 @@
   display: none !important;
 }
 
-.nav-paneheader div[data-testid="pane-header"]>div>div>div:nth-child(2) {
+/* HEADER PANE */
+.nav-paneheader div[data-testid="pane-header"] > div > div:nth-child(2) {
+  /* Version history */
   display: none !important;
 }
+
+.nav-paneheader div[data-testid="pane-header"] > div > div > div:nth-child(1) {
+  /* Go back to studio link */
+  display: none !important;
+}
+
+.nav-paneheader div[data-testid="pane-header"] > div > div > div:nth-child(2) {
+  /* Prevent button clicks that would hide the pane */
+  pointer-events: none !important;
+  cursor: default !important;
+}
+
+.nav-paneheader div[data-testid="pane-header"] > div > div:nth-child(2) {
+  display: none !important;
+}
+
+/* end of HEADER PANE */
 
 .desk-listpane div[data-testid="desk-tool-list-pane"] {
   display: none !important;
@@ -28,10 +47,17 @@
   padding-bottom: 2rem;
 }
 
+/* FOOTER pane */
 .pane-footer div[data-testid="pane-footer"] {
   position: sticky !important;
   bottom: 0;
 }
+
+.pane-footer div[data-testid="pane-footer"] > div > div > div > div > div:nth-child(2) > div > div:nth-child(2) {
+  /* Hide menu button with options such as Duplicate, Delete, Discard page to only show the SAVE button */
+  display: none !important;
+}
+/* end of FOOTER pane */
 
 .fieldgroup-tabs div[data-ui="TabList"][data-testid="field-group-tabs"] {
   display: none;
