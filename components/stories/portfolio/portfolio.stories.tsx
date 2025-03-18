@@ -9,9 +9,27 @@ import {
   portfolioInitialValue,
 } from "@webriq-pagebuilder/sanity-plugin-schema-default";
 import { filterArgsByVariant } from "components/common";
+import { urlFor } from "lib/sanity";
 
 const args = {
   ...portfolioInitialValue,
+  portfoliosWithCategories: portfolioInitialValue.portfoliosWithCategories.map((item) => ({
+    ...item,
+    content: item?.content?.map((items) => ({
+      ...items,
+      mainImage: {
+        ...items?.mainImage,
+        image: urlFor(items?.mainImage?.image)
+      }
+    }))
+  })),
+  portfolios: portfolioInitialValue.portfolios.map((item) => ({
+    ...item,
+    mainImage: {
+      ...item.mainImage,
+      image: urlFor(item?.mainImage?.image)
+    }
+  })),
 };
 
 const PortfolioComponent = Components.portfolio;

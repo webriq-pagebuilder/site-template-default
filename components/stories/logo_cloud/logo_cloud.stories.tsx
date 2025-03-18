@@ -9,9 +9,11 @@ import {
   logoCloudInitialValue,
 } from "@webriq-pagebuilder/sanity-plugin-schema-default";
 import { filterArgsByVariant } from "components/common";
+import { urlFor } from "lib/sanity";
 
 const args = {
   ...logoCloudInitialValue,
+  images: logoCloudInitialValue.images.map((item) => ({ ...item, image: urlFor(item?.image) })),
 };
 
 const LogoCloudComponent = Components.logoCloud;

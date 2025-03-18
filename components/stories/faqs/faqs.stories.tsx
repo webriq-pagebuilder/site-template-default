@@ -9,6 +9,7 @@ import {
   faqsInitialValue,
 } from "@webriq-pagebuilder/sanity-plugin-schema-default";
 import { filterArgsByVariant } from "components/common";
+import { renameVariantKeys } from "utils/schemas";
 
 const args = {
   ...faqsInitialValue,
@@ -26,7 +27,7 @@ const meta = {
       variants: args,
     };
 
-    return <FAQsComponent data={data} />;
+    return <FAQsComponent data={renameVariantKeys(data)} />;
   },
 } satisfies Meta<typeof FAQsComponent> & any;
 

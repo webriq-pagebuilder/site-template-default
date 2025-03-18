@@ -9,9 +9,14 @@ import {
   signInSignUpInitialValue,
 } from "@webriq-pagebuilder/sanity-plugin-schema-default";
 import { filterArgsByVariant } from "components/common";
+import { urlFor } from "lib/sanity";
 
 const args = {
   ...signInSignUpInitialValue,
+  logo: {
+    ...signInSignUpInitialValue.logo,
+    image: urlFor(signInSignUpInitialValue.logo.image)
+  },
 };
 
 const SigninComponent = Components.signInSignUp;

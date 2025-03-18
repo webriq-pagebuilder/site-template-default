@@ -9,9 +9,14 @@ import {
   callToActionInitialValue,
 } from "@webriq-pagebuilder/sanity-plugin-schema-default";
 import { filterArgsByVariant } from "components/common";
+import { urlFor } from "lib/sanity";
 
 const args = {
   ...callToActionInitialValue,
+  logo: {
+    ...callToActionInitialValue.logo,
+    image: urlFor(callToActionInitialValue.logo.image)
+  },
 };
 
 const CallToActionComponent = Components.callToAction;

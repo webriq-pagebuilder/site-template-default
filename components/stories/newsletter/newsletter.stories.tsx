@@ -9,9 +9,14 @@ import {
   newsletterInitialValue,
 } from "@webriq-pagebuilder/sanity-plugin-schema-default";
 import { filterArgsByVariant } from "components/common";
+import { urlFor } from "lib/sanity";
 
 const args = {
   ...newsletterInitialValue,
+  logo: {
+    ...newsletterInitialValue.logo,
+    image: urlFor(newsletterInitialValue.logo.image)
+  },
 };
 
 const NewsletterComponent = Components.newsletter;

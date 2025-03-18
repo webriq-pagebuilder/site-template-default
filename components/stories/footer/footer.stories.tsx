@@ -9,9 +9,14 @@ import {
   footerInitialValue,
 } from "@webriq-pagebuilder/sanity-plugin-schema-default";
 import { filterArgsByVariant } from "components/common";
+import { urlFor } from "lib/sanity";
 
 const args = {
   ...footerInitialValue,
+  logo: {
+    ...footerInitialValue.logo,
+    image: urlFor(footerInitialValue.logo.image)
+  },
 };
 
 const FooterComponent = Components.footer;

@@ -9,9 +9,17 @@ import {
   appPromoInitialValue,
 } from "@webriq-pagebuilder/sanity-plugin-schema-default";
 import { filterArgsByVariant } from "components/common";
+import { urlFor } from "lib/sanity";
+import { renameVariantKeys } from "utils/schemas";
 
 const args = {
   ...appPromoInitialValue,
+  logo: {
+    ...appPromoInitialValue.logo,
+    image: urlFor(appPromoInitialValue.logo.image)
+  },
+  images: appPromoInitialValue.images.map((item) => ({ ...item, image: urlFor(item?.image) })),
+  statistics: appPromoInitialValue.statItems,
 };
 
 const AppPromoComponent = Components.appPromo;
@@ -26,7 +34,7 @@ const meta = {
       variants: args,
     };
 
-    return <AppPromoComponent data={data} />;
+    return <AppPromoComponent data={renameVariantKeys(data)} />;
   },
 } satisfies Meta<typeof AppPromoComponent> & any;
 

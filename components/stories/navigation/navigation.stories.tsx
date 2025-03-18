@@ -9,9 +9,14 @@ import {
   navigationInitialValue,
 } from "@webriq-pagebuilder/sanity-plugin-schema-default";
 import { filterArgsByVariant } from "components/common";
+import { urlFor } from "lib/sanity";
 
 const args = {
   ...navigationInitialValue,
+  logo: {
+    ...navigationInitialValue.logo,
+    image: urlFor(navigationInitialValue.logo.image)
+  },
 };
 
 const NavigationComponent = Components.navigation;

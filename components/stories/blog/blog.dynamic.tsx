@@ -31,7 +31,7 @@ export default defineStories({
   stories: async () => {
     const blogData =
       (await sanityClient.fetch(componentsQuery, {
-        schema: "blogs",
+        schema: "blog",
       })) || []; // Provide a default empty array
         
     return dynamicStoryData({

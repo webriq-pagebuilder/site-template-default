@@ -9,9 +9,17 @@ import {
   teamInitialValue,
 } from "@webriq-pagebuilder/sanity-plugin-schema-default";
 import { filterArgsByVariant } from "components/common";
+import { urlFor } from "lib/sanity";
 
 const args = {
   ...teamInitialValue,
+  teams: teamInitialValue.teams.map((item) => ({
+    ...item,
+    mainImage: {
+      ...item.mainImage,
+      image: urlFor(item?.mainImage?.image)
+    }
+  })),
 };
 
 const TeamComponent = Components.team;

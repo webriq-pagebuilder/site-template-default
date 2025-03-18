@@ -3,15 +3,23 @@
 
 import type { Meta, StoryObj } from "@storybook/react";
 import { Components } from "components/list";
-import { Sections, Variants } from "types";
+import { Sections } from "types";
 import {
   testimonialSchema,
   testimonialInitialValue,
 } from "@webriq-pagebuilder/sanity-plugin-schema-default";
 import { filterArgsByVariant } from "components/common";
+import { urlFor } from "lib/sanity";
 
 const args = {
   ...testimonialInitialValue,
+  testimonials: testimonialInitialValue.testimonials.map((item) => ({
+    ...item,
+    mainImage: {
+      ...item.mainImage,
+      image: urlFor(item?.mainImage?.image)
+    }
+  })),
 };
 
 const TestimonialComponent = Components.testimonial;

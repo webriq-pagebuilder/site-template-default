@@ -9,9 +9,25 @@ import {
   featuresInitialValue,
 } from "@webriq-pagebuilder/sanity-plugin-schema-default";
 import { filterArgsByVariant } from "components/common";
+import { urlFor } from "lib/sanity";
 
 const args = {
   ...featuresInitialValue,
+  images: featuresInitialValue.images.map((item) => ({ ...item, image: urlFor(item?.image) })),
+  featuredItems: featuresInitialValue.featuredItems.map((item) => ({
+    ...item,
+    mainImage: {
+      ...item.mainImage,
+      image: urlFor(item?.mainImage?.image)
+    }
+  })),
+  arrayOfImageTitleAndText: featuresInitialValue.arrayOfImageTitleAndText.map((item) => ({
+    ...item,
+    mainImage: {
+      ...item.mainImage,
+      image: urlFor(item?.mainImage?.image)
+    }
+  })),
 };
 
 const FeaturesComponent = Components.features;
