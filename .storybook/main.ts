@@ -3,8 +3,8 @@ import type { StorybookConfig } from "@storybook/nextjs";
 const config: StorybookConfig = {
   stories: [
     "../components/Storybook.mdx", // first page to open when starting up storybook
-    //"../components/stories/**/*.stories.@(js|jsx|mjs|ts|tsx)",
-    "../components/stories/**/*.dynamic.@(js|jsx|mjs|ts|tsx)",
+    "../components/stories/**/**/*.stories.@(js|jsx|mjs|ts|tsx)",
+    "../components/stories/**/**/*.dynamic.@(js|jsx|mjs|ts|tsx)",
     "../**/*.mdx",
   ],
   managerHead: (head) => `
