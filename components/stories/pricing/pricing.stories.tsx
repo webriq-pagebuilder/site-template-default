@@ -9,17 +9,9 @@ import {
   pricingInitialValue,
 } from "@webriq-pagebuilder/sanity-plugin-schema-default";
 import { filterArgsByVariant } from "components/common";
-import { urlFor } from "lib/sanity";
 
 const args = {
   ...pricingInitialValue,
-  banner: pricingInitialValue.banner.map((item) => ({
-    ...item,
-    mainImage: {
-      ...item.mainImage,
-      image: urlFor(item?.mainImage?.image)
-    }
-  })),
 };
 
 const meta: Meta<typeof PricingComponent> & any = {

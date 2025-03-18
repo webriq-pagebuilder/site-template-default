@@ -10,19 +10,11 @@ import {
 } from "@webriq-pagebuilder/sanity-plugin-schema-default";
 import { filterArgsByVariant } from "components/common";
 import { urlFor } from "lib/sanity";
+import { portfolioDefaultValues } from "helper/defaultValues";
 
 const args = {
   ...portfolioInitialValue,
-  portfoliosWithCategories: portfolioInitialValue.portfoliosWithCategories.map((item) => ({
-    ...item,
-    content: item?.content?.map((items) => ({
-      ...items,
-      mainImage: {
-        ...items?.mainImage,
-        image: urlFor(items?.mainImage?.image)
-      }
-    }))
-  })),
+  portfoliosWithCategories: portfolioDefaultValues.portfoliosWithCategories,
   portfolios: portfolioInitialValue.portfolios.map((item) => ({
     ...item,
     mainImage: {

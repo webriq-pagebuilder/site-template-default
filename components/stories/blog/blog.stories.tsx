@@ -7,6 +7,7 @@ import { Sections } from "types";
 import { blogSchema } from "@webriq-pagebuilder/sanity-plugin-schema-default";
 import { filterArgsByVariant } from "components/common";
 import { blogDefaultValues } from "helper/defaultValues";
+import { renameVariantKeys } from "utils/schemas";
 
 const args = {
   ...blogDefaultValues,
@@ -24,7 +25,7 @@ const meta = {
       variants: args,
     };
 
-    return <BlogComponent data={data} />;
+    return <BlogComponent data={renameVariantKeys(data)} />;
   },
 } satisfies Meta<typeof BlogComponent> & any;
 
