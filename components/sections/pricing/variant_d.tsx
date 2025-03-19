@@ -254,7 +254,7 @@ function VariantD({
                       <div className="mb-4">
                         <CardElement
                           onChange={(e) => setCardValidate(e)}
-                          className="w-full p-4 text-xs font-global leading-none rounded-global outline-none bg-gray-50"
+                          className="w-full p-4 text-xs leading-none rounded-global outline-none bg-gray-50"
                         />
                         {paymentStatus === "success" ? (
                           <div className="text-xs font-semibold leading-none py-4 text-left mt-3 text-green-600">
@@ -270,12 +270,14 @@ function VariantD({
                       <div className="flex my-4 rounded-global bg-gray-100">
                         <Input
                           noLabel
+                          autoComplete="new-password"
                           ariaLabel={field?.placeholder ?? field?.name}
-                          className="w-full px-4 py-2 leading-none rounded-global font-global outline-none bg-gray-100"
+                          className="w-full px-4 py-2 leading-none rounded-global text-xs outline-none bg-gray-100"
                           type={showPassword ? "text" : "password"}
                           placeholder={field?.placeholder}
                           name={field?.name}
                           required={field?.isRequired}
+                          readOnly={!billing.billType}
                         />
                         {/* SVG icon on the right of the password input field */}
                         <Button
@@ -289,6 +291,7 @@ function VariantD({
                             e.preventDefault();
                             setShowPassword(!showPassword);
                           }}
+                          disabled={!billing.billType}
                         >
                           {showPassword ? (
                             <svg
@@ -331,6 +334,7 @@ function VariantD({
                         type={field?.pricingType || field?.type}
                         name={field?.name}
                         required={field?.isRequired}
+                        readOnly={!billing.billType}
                         noLabel
                         variant="secondary"
                         {...field}
