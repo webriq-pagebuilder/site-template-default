@@ -1,7 +1,7 @@
 import React from "react";
 import { Components } from "components/list";
+import { fetchDynamicComponentsData, renameVariantKeys } from "utils/schemas";
 import { EcommerceSchema, mergeReplaceAndAdd } from "studio/utils";
-import { dynamicComponentsData } from "components/data/dynamic"; // Import the dynamicComponentsData function
 
 import pages from "./documents/pages";
 import themePage from "./documents/themePage";
@@ -29,54 +29,10 @@ const allSchemas = (() => {
   // Uncomment the line to replace line 33 if we have custom components
   //const mergedSchemas = mergeReplaceAndAdd(baseSchemas, updatedSchemaArray);
 
-  return mergedSchemas?.filter((schema) => schema.name !== "socialMediaFeed");
+  return mergedSchemas;
 })();
 
 const componentsList = Object.keys(Components);
-
-// New async function to fetch dynamic components data
-const fetchDynamicComponentsData = async (
-  schemaType: string,
-  fields = {},
-  isEcommerce?: boolean
-) => {
-  const dynamicData = await dynamicComponentsData({
-    type: schemaType,
-    fields,
-    isEcommerce,
-  }); // Call the dynamicComponentsData function
-
-  return dynamicData;
-};
-
-const renameVariantKeys = (data) => {
-  if (!data?.variants) return data;
-
-  const variantMapping = {
-    statItems: "stats",
-    blogPosts: "posts",
-    askedQuestions: "faqs",
-    faqsWithCategory: "faqsWithCategories",
-  };
-
-  const updatedVariants = Object.entries(variantMapping).reduce(
-    (acc, [key, newKey]) => {
-      if (data.variants[key]) {
-        acc[newKey] = data.variants[key];
-      }
-      return acc;
-    },
-    {}
-  );
-
-  return {
-    ...data,
-    variants: {
-      ...data.variants,
-      ...updatedVariants,
-    },
-  };
-};
 
 // Update schemasWithComponents to include dynamic components data
 const schemasWithComponents = await Promise.all(

@@ -13,6 +13,8 @@ const mainImage = `"mainImage": {
 
 const logoImage = `"image": *[_type == "sanity.imageAsset" && _id == ^.image.asset._ref][0].url,`;
 
+const socialMediaIcon = `"image": *[_type == "sanity.imageAsset" && _id == ^.image.asset._ref][0].url,`;
+
 const variants = `
   variants {
     ...,
@@ -30,8 +32,11 @@ const variants = `
         "alt": alt
       },
     },
+    alt != null => {
+      alt,
+    },
     mainImage != null => {
-      ${mainImage}
+      ${mainImage},
     },
     featuredItems != null => {
       featuredItems[] {
@@ -81,7 +86,7 @@ const variants = `
         ${conditionalLink}
       }
     },
-    config != null => {
+     config != null => {
       config {
         ...,
         cookiePolicy {
@@ -98,15 +103,6 @@ const variants = `
         ...,
         label,
         ${conditionalLink}
-      }
-    },
-    socialLinks != null => {
-      socialLinks[] {
-        ...,
-        socialMediaIcon {
-          "image": image.asset->url,
-          alt
-        },
       }
     },
     multipleMenus != null => {
@@ -145,8 +141,8 @@ const variants = `
     testimonials != null => {
       testimonials[] {
         ...,
-        ${mainImage},
-      }
+        ${mainImage}
+      },
     },
     portfolios != null => {
       portfolios[] {
@@ -236,6 +232,16 @@ const variants = `
       allProducts[]-> {
         ...,
         products[]->
+      }
+    },
+    account !=  null => {
+      "user": *[_type == 'socialAccounts'][0].accounts[userId == account][0],
+    },
+    socialLinks[] {
+      ...,
+      socialMediaIcon {
+        ...,
+        ${socialMediaIcon}
       }
     }
   }

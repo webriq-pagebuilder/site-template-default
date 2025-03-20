@@ -45,6 +45,11 @@ html#ecwid_html body#ecwid_body .ec-size .ec-store .ec-breadcrumbs {
   display: none !important;
 }
 
+/* Recaptch badge */
+.grecaptcha-badge {
+  visibility: hidden;
+}
+
 /*
    THEME SETTINGS 
    
