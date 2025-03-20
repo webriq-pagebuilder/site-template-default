@@ -3,7 +3,7 @@ on:
   pull_request:
     branches:
       - master
-      - main
+      - develop
 
 jobs:
   wait_for_preview_url:

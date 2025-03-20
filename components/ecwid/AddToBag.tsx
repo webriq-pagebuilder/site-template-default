@@ -14,18 +14,16 @@ const AddToBag = ({ children, classNames, inStock = false }: AddToBagProps) => {
   const isAddingToBag = ecwid?.isAddingToBag;
 
   return (
-    <>
-      <Button
-        variant="custom"
-        as="button"
-        ariaLabel="Add to Bag button"
-        className={classNames}
-        type="submit"
-        disabled={inStock || isAddingToBag}
-      >
-        {isAddingToBag ? "Adding..." : children}
-      </Button>
-    </>
+    <Button
+      variant="custom"
+      as="button"
+      ariaLabel="Add to Bag button"
+      className={classNames}
+      type="submit"
+      disabled={inStock || isAddingToBag}
+    >
+      {isAddingToBag ? "Adding..." : children}
+    </Button>
   );
 };
 
