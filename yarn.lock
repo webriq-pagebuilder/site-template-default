@@ -3290,618 +3290,618 @@
     base64url "^3.0.1"
     tslib "^2.3.1"
 
-"@stackshift-ui/app-promo@^6.0.9":
-  version "6.0.9"
-  resolved "https://registry.yarnpkg.com/@stackshift-ui/app-promo/-/app-promo-6.0.9.tgz#2643196cda5892305be25273b0c3ad84eed4541e"
-  integrity sha512-u3QJvJkNlcyD0X2TIPyCWNl2RZ7vr+UDPFvYO9HVf5dmIzKZtJGlCvJiairSqd/QAJyxpj3HYImDy1MP+S4fSg==
-  dependencies:
-    "@stackshift-ui/container" "6.0.8"
-    "@stackshift-ui/flex" "6.0.8"
-    "@stackshift-ui/heading" "6.0.8"
-    "@stackshift-ui/image" "6.0.8"
-    "@stackshift-ui/link" "6.0.8"
-    "@stackshift-ui/scripts" "6.0.7"
-    "@stackshift-ui/section" "6.0.8"
-    "@stackshift-ui/swiper-button" "6.0.8"
-    "@stackshift-ui/system" "6.0.8"
-    "@stackshift-ui/text" "6.0.8"
-
-"@stackshift-ui/avatar@6.0.10":
-  version "6.0.10"
-  resolved "https://registry.yarnpkg.com/@stackshift-ui/avatar/-/avatar-6.0.10.tgz#081f5a19d9bfa1e58a96a4efebadd3bbe9842f27"
-  integrity sha512-KH453OqiX1fxwi+FvItOteVT8zNrCD+xYCZmGUTKHqpUbnoRKyPFNCAjHjozQeCTp3JBubvPD+DuKHL8KrszHg==
-  dependencies:
-    "@stackshift-ui/flex" "6.0.8"
-    "@stackshift-ui/image" "6.0.8"
-    "@stackshift-ui/scripts" "6.0.7"
-    "@stackshift-ui/system" "6.0.8"
-    classnames "^2.5.1"
-
-"@stackshift-ui/badge@6.0.8":
-  version "6.0.8"
-  resolved "https://registry.yarnpkg.com/@stackshift-ui/badge/-/badge-6.0.8.tgz#1c42b66cb11e5122fa654427d3a85b9d463f728d"
-  integrity sha512-iZYIaRfGtCe1uqlI3gTf1lIjrL0NVXsDnSN7n2z6Mw5VEiXBizd+F807GH7wH7ZdTqkl6ddBpPxrOUlWleUN8Q==
-  dependencies:
-    "@stackshift-ui/flex" "6.0.8"
-    "@stackshift-ui/scripts" "6.0.7"
-    "@stackshift-ui/system" "6.0.8"
-    classnames "^2.5.1"
-
-"@stackshift-ui/blog@^6.0.12":
+"@stackshift-ui/app-promo@^6.0.12":
   version "6.0.12"
-  resolved "https://registry.yarnpkg.com/@stackshift-ui/blog/-/blog-6.0.12.tgz#dedacc3ace87d14c94217adbd16fcdf8a23fbe63"
-  integrity sha512-yUXOX3OIpXu+ccvcMRYxcuwXGrIYmqJNajW0ldB7t4bYKBrKvdfi8GLY1JxKqxZ/bG38/wqMrZOn5lfh9yMirg==
+  resolved "https://registry.yarnpkg.com/@stackshift-ui/app-promo/-/app-promo-6.0.12.tgz#4648c51cc2e3e4ecf19e5e983b0a12a406120145"
+  integrity sha512-bFOqucAPFgfILm/XpYfRIVS0KvSN94uWTpdHLSnvBsW5X/p8nwpfyV8/+Wyw+J3LeDrjisqQYAByk3GSFPkLpA==
   dependencies:
-    "@stackshift-ui/badge" "6.0.8"
-    "@stackshift-ui/button" "6.0.8"
-    "@stackshift-ui/card" "6.0.8"
-    "@stackshift-ui/container" "6.0.8"
-    "@stackshift-ui/flex" "6.0.8"
-    "@stackshift-ui/heading" "6.0.8"
-    "@stackshift-ui/image" "6.0.8"
-    "@stackshift-ui/input" "6.0.9"
-    "@stackshift-ui/link" "6.0.8"
-    "@stackshift-ui/scripts" "6.0.7"
-    "@stackshift-ui/section" "6.0.8"
-    "@stackshift-ui/system" "6.0.8"
-    "@stackshift-ui/text" "6.0.8"
+    "@stackshift-ui/container" "6.0.11"
+    "@stackshift-ui/flex" "6.0.11"
+    "@stackshift-ui/heading" "6.0.11"
+    "@stackshift-ui/image" "6.0.11"
+    "@stackshift-ui/link" "6.0.11"
+    "@stackshift-ui/scripts" "6.0.10"
+    "@stackshift-ui/section" "6.0.11"
+    "@stackshift-ui/swiper-button" "6.0.11"
+    "@stackshift-ui/system" "6.0.11"
+    "@stackshift-ui/text" "6.0.11"
+
+"@stackshift-ui/avatar@6.0.13":
+  version "6.0.13"
+  resolved "https://registry.yarnpkg.com/@stackshift-ui/avatar/-/avatar-6.0.13.tgz#fbedb5adc933817fedeba274d6a024cced35d2db"
+  integrity sha512-xAH/Y6mb6ua2IlCw/Zg0RajcPlWmZT/K6YgWb/Ttc/z61QtoI5I2hzpxI9aGAAWqJ5B3TZmuedtG9BuKvdN2wg==
+  dependencies:
+    "@stackshift-ui/flex" "6.0.11"
+    "@stackshift-ui/image" "6.0.11"
+    "@stackshift-ui/scripts" "6.0.10"
+    "@stackshift-ui/system" "6.0.11"
     classnames "^2.5.1"
 
-"@stackshift-ui/button@6.0.8", "@stackshift-ui/button@^6.0.8":
-  version "6.0.8"
-  resolved "https://registry.yarnpkg.com/@stackshift-ui/button/-/button-6.0.8.tgz#be76721459b2223bb7fbe098b827575fab8a8d84"
-  integrity sha512-/tXN7PcDCvMr6Gj0hpb7S5C8UWaantAljIoCEIsK4rX8yNlS8xgDHG0OBfcIq52EO10tMc9gf86o38qwuF3oVA==
+"@stackshift-ui/badge@6.0.11":
+  version "6.0.11"
+  resolved "https://registry.yarnpkg.com/@stackshift-ui/badge/-/badge-6.0.11.tgz#f519751ba40a8fe7438d43a68238d02e7fb6625d"
+  integrity sha512-U4RsPbYhKbCmFQBQMFHIjTA9bGMkb2+DRka2nekMOWqQH2fYGj2IAEPf3W+dpQrytZ3fIxuTHlJtSS1jv+1/QQ==
   dependencies:
-    "@stackshift-ui/link" "6.0.8"
-    "@stackshift-ui/scripts" "6.0.7"
-    "@stackshift-ui/system" "6.0.8"
+    "@stackshift-ui/flex" "6.0.11"
+    "@stackshift-ui/scripts" "6.0.10"
+    "@stackshift-ui/system" "6.0.11"
+    classnames "^2.5.1"
+
+"@stackshift-ui/blog@^6.0.15":
+  version "6.0.15"
+  resolved "https://registry.yarnpkg.com/@stackshift-ui/blog/-/blog-6.0.15.tgz#b14a390b83906b5d2187c6fe5416257045fc5247"
+  integrity sha512-xN3z7BKJi7JD8HYKmMMXxTKY2Wxnolo4bwxyXkcQ01Rq+ePKXZiN/tkz1C6vdpnyK6I5h4PH7pGl2wMzFT2KQQ==
+  dependencies:
+    "@stackshift-ui/badge" "6.0.11"
+    "@stackshift-ui/button" "6.0.11"
+    "@stackshift-ui/card" "6.0.11"
+    "@stackshift-ui/container" "6.0.11"
+    "@stackshift-ui/flex" "6.0.11"
+    "@stackshift-ui/heading" "6.0.11"
+    "@stackshift-ui/image" "6.0.11"
+    "@stackshift-ui/input" "6.0.12"
+    "@stackshift-ui/link" "6.0.11"
+    "@stackshift-ui/scripts" "6.0.10"
+    "@stackshift-ui/section" "6.0.11"
+    "@stackshift-ui/system" "6.0.11"
+    "@stackshift-ui/text" "6.0.11"
+    classnames "^2.5.1"
+
+"@stackshift-ui/button@6.0.11", "@stackshift-ui/button@^6.0.11":
+  version "6.0.11"
+  resolved "https://registry.yarnpkg.com/@stackshift-ui/button/-/button-6.0.11.tgz#08396fd0c2b8a3ae24eca8b4af57ba02937f823d"
+  integrity sha512-cs79v1/CTnKlZuweQhK9RgaNG+7shsHGwNSuArZcUicjK7XnAikY2q8VwHtKpMsPOvJKW6/OesCmiAO8NOA1zA==
+  dependencies:
+    "@stackshift-ui/link" "6.0.11"
+    "@stackshift-ui/scripts" "6.0.10"
+    "@stackshift-ui/system" "6.0.11"
     classnames "^2.5.1"
     react-icons "^5.3.0"
 
-"@stackshift-ui/call-to-action@^6.0.11":
+"@stackshift-ui/call-to-action@^6.0.14":
+  version "6.0.14"
+  resolved "https://registry.yarnpkg.com/@stackshift-ui/call-to-action/-/call-to-action-6.0.14.tgz#0ba20684869ac0907273bcc67f5c120df57c3471"
+  integrity sha512-ZvN1nXEkbAd3byZbUbpzsXvDLPC0+YHJl3TWwesIdQmt/Hu2TGxD7rEE5gWgeX+t8fI2Kv/SirafYD9hZf23PQ==
+  dependencies:
+    "@stackshift-ui/button" "6.0.11"
+    "@stackshift-ui/container" "6.0.11"
+    "@stackshift-ui/flex" "6.0.11"
+    "@stackshift-ui/form" "6.0.11"
+    "@stackshift-ui/heading" "6.0.11"
+    "@stackshift-ui/image" "6.0.11"
+    "@stackshift-ui/input" "6.0.12"
+    "@stackshift-ui/link" "6.0.11"
+    "@stackshift-ui/scripts" "6.0.10"
+    "@stackshift-ui/section" "6.0.11"
+    "@stackshift-ui/signin-signup" "6.0.14"
+    "@stackshift-ui/system" "6.0.11"
+    "@stackshift-ui/text" "6.0.11"
+
+"@stackshift-ui/card@6.0.11":
   version "6.0.11"
-  resolved "https://registry.yarnpkg.com/@stackshift-ui/call-to-action/-/call-to-action-6.0.11.tgz#8e9404937258693cccbda31c8237ab0703164ede"
-  integrity sha512-fBp/ZiAQ3kKSV59qgxs25vvd/URkbVi5aAsWFEz8LBe0cREK6YVPEYfwLh6dvPqldKRSOuosA4cEbzC5oqIdQw==
+  resolved "https://registry.yarnpkg.com/@stackshift-ui/card/-/card-6.0.11.tgz#8954280a12eba664da19153ac9c55b237a066d67"
+  integrity sha512-RuxzGeQZNGotz8gFqreWyk21cyJxr+eSJ3Sq7D6KNm2SZnW7hPi+tTOYD4Qs4pkyek7RIQRu/823reAw8xM0lg==
   dependencies:
-    "@stackshift-ui/button" "6.0.8"
-    "@stackshift-ui/container" "6.0.8"
-    "@stackshift-ui/flex" "6.0.8"
-    "@stackshift-ui/form" "6.0.8"
-    "@stackshift-ui/heading" "6.0.8"
-    "@stackshift-ui/image" "6.0.8"
-    "@stackshift-ui/input" "6.0.9"
-    "@stackshift-ui/link" "6.0.8"
-    "@stackshift-ui/scripts" "6.0.7"
-    "@stackshift-ui/section" "6.0.8"
-    "@stackshift-ui/signin-signup" "6.0.11"
-    "@stackshift-ui/system" "6.0.8"
-    "@stackshift-ui/text" "6.0.8"
-
-"@stackshift-ui/card@6.0.8":
-  version "6.0.8"
-  resolved "https://registry.yarnpkg.com/@stackshift-ui/card/-/card-6.0.8.tgz#608167e7bdbea46697083ae1da9b85a66e991e34"
-  integrity sha512-hkzac3hNlvr3i2xP/U1RnCAHMRwbBMl0f2QIkxFNrL2AomtV+zfnh3HVfNOZzkEzDPJTiKwxkNHQQUyG15qRLQ==
-  dependencies:
-    "@stackshift-ui/scripts" "6.0.7"
-    "@stackshift-ui/system" "6.0.8"
+    "@stackshift-ui/scripts" "6.0.10"
+    "@stackshift-ui/system" "6.0.11"
     classnames "^2.5.1"
 
-"@stackshift-ui/checkbox-group@6.0.8":
-  version "6.0.8"
-  resolved "https://registry.yarnpkg.com/@stackshift-ui/checkbox-group/-/checkbox-group-6.0.8.tgz#b6435029583ffe212603e1b13bf914d899159e22"
-  integrity sha512-Hgij0AO1Rhs+AlQgAcahwSMVtOhunEZqFr2k9qSMjzsDRsXeXhsMvq1VqcpHQmLZCXeo9Rht/0NNM+mKpDEFSQ==
+"@stackshift-ui/checkbox-group@6.0.11":
+  version "6.0.11"
+  resolved "https://registry.yarnpkg.com/@stackshift-ui/checkbox-group/-/checkbox-group-6.0.11.tgz#70653cedf147400a3303f4cb46dfbfd85eba8d84"
+  integrity sha512-fFqKycpNDBlHFxYqb3563jISr2bdghvNS3lJVCc1GoyLhuMDRPvqED6XaY2O9UffNCTPZDLDAB2rqvlxDr7eWQ==
   dependencies:
-    "@stackshift-ui/scripts" "6.0.7"
-    "@stackshift-ui/system" "6.0.8"
+    "@stackshift-ui/scripts" "6.0.10"
+    "@stackshift-ui/system" "6.0.11"
     classnames "^2.5.1"
 
-"@stackshift-ui/checkbox@6.0.8":
-  version "6.0.8"
-  resolved "https://registry.yarnpkg.com/@stackshift-ui/checkbox/-/checkbox-6.0.8.tgz#e7f3d8ceb0d83bbbd0d8812e119047d4aff09ea4"
-  integrity sha512-8PLeSryL7KwfxawOzICV41BIJ7zRfbZg8GI6LOrl7FRuedtDj2iSaOUbDhGYEuAHSQ+I+271US19XcnBm5O2vg==
+"@stackshift-ui/checkbox@6.0.11":
+  version "6.0.11"
+  resolved "https://registry.yarnpkg.com/@stackshift-ui/checkbox/-/checkbox-6.0.11.tgz#88dda07835ba103c51f7b245668c85eeaaaeae6b"
+  integrity sha512-RLHmigKYOKCQawCnHp894T5XiojMySUmeSnWlNl0kI5E6Efv3KwtzmKQyv73BrDmRzHg9xKXsaB6iA1zRrsgEA==
   dependencies:
-    "@stackshift-ui/scripts" "6.0.7"
-    "@stackshift-ui/system" "6.0.8"
+    "@stackshift-ui/scripts" "6.0.10"
+    "@stackshift-ui/system" "6.0.11"
     classnames "^2.5.1"
 
-"@stackshift-ui/contact@^6.0.10":
-  version "6.0.10"
-  resolved "https://registry.yarnpkg.com/@stackshift-ui/contact/-/contact-6.0.10.tgz#e47003580c0790cab3dcaf6e7b1d9e629eb69354"
-  integrity sha512-MEbrPhWR9zIZvxByW2ZIaF39jMWQItJu7rJEIs/gySnkYRytYpj1TSQfriqvG4Q9ER5DZHlqIU08MTw/NAG5bA==
+"@stackshift-ui/contact@^6.0.13":
+  version "6.0.13"
+  resolved "https://registry.yarnpkg.com/@stackshift-ui/contact/-/contact-6.0.13.tgz#0fd5733e4d7386679b7088ebf62da533bb3fbfa7"
+  integrity sha512-CD80bZnm1O4b4l33JUrpkFg1aT2hU11Cz3JmVcwfoVyC0ECjzq0xp777nsQv7hg/GzZqefYV//25QyNmDsdJZg==
   dependencies:
     "@portabletext/react" "^3.1.0"
-    "@stackshift-ui/button" "6.0.8"
-    "@stackshift-ui/card" "6.0.8"
-    "@stackshift-ui/container" "6.0.8"
-    "@stackshift-ui/flex" "6.0.8"
-    "@stackshift-ui/form" "6.0.8"
-    "@stackshift-ui/form-field" "6.0.10"
-    "@stackshift-ui/heading" "6.0.8"
-    "@stackshift-ui/image" "6.0.8"
-    "@stackshift-ui/link" "6.0.8"
-    "@stackshift-ui/scripts" "6.0.7"
-    "@stackshift-ui/section" "6.0.8"
-    "@stackshift-ui/social-icons" "6.0.8"
-    "@stackshift-ui/system" "6.0.8"
-    "@stackshift-ui/text" "6.0.8"
+    "@stackshift-ui/button" "6.0.11"
+    "@stackshift-ui/card" "6.0.11"
+    "@stackshift-ui/container" "6.0.11"
+    "@stackshift-ui/flex" "6.0.11"
+    "@stackshift-ui/form" "6.0.11"
+    "@stackshift-ui/form-field" "6.0.13"
+    "@stackshift-ui/heading" "6.0.11"
+    "@stackshift-ui/image" "6.0.11"
+    "@stackshift-ui/link" "6.0.11"
+    "@stackshift-ui/scripts" "6.0.10"
+    "@stackshift-ui/section" "6.0.11"
+    "@stackshift-ui/social-icons" "6.0.11"
+    "@stackshift-ui/system" "6.0.11"
+    "@stackshift-ui/text" "6.0.11"
     classnames "^2.5.1"
 
-"@stackshift-ui/container@6.0.8", "@stackshift-ui/container@^6.0.8":
-  version "6.0.8"
-  resolved "https://registry.yarnpkg.com/@stackshift-ui/container/-/container-6.0.8.tgz#f9b028e0cf80d81c932165eeb7941aaebf1ebbc9"
-  integrity sha512-bB+7abo9BJSqmZCSDN2oumZI6LCr2+UfSF4rqHpVBMmgw4H6xDk+/u2Vnm+RzR8J6hJjxVSybm45fUQixQ+9xg==
+"@stackshift-ui/container@6.0.11", "@stackshift-ui/container@^6.0.11":
+  version "6.0.11"
+  resolved "https://registry.yarnpkg.com/@stackshift-ui/container/-/container-6.0.11.tgz#3ab10776a10c3fdf02799b05f1ad6d281e82ac72"
+  integrity sha512-W5NcI0/++rA7iGzFw3MB2DAtyRlOOog/aoIkM4Pout/slmCBp1cK/2dDOr1ZtScSxs2NZapTesyF4CBtoOen3A==
   dependencies:
-    "@stackshift-ui/scripts" "6.0.7"
-    "@stackshift-ui/system" "6.0.8"
+    "@stackshift-ui/scripts" "6.0.10"
+    "@stackshift-ui/system" "6.0.11"
     classnames "^2.5.1"
 
-"@stackshift-ui/cookies@^6.0.9":
-  version "6.0.9"
-  resolved "https://registry.yarnpkg.com/@stackshift-ui/cookies/-/cookies-6.0.9.tgz#be83708c10f56ad82c5340074f24df9dc9ed8371"
-  integrity sha512-D6RQw9jHT6yITSVvu084nnU37eTt3zTbTV3xxAdb4nG75skZApmbzFUPfPITCO9utZzR7TSXp/Yvm6AZ+PS5Ug==
+"@stackshift-ui/cookies@^6.0.12":
+  version "6.0.12"
+  resolved "https://registry.yarnpkg.com/@stackshift-ui/cookies/-/cookies-6.0.12.tgz#5c1730298b3f53d5d9421eef429176ad87f1003f"
+  integrity sha512-ymLFkcHtI/FuueegyLhUwwjcKvy6tf+HNQi0vfVH2SJpow8rjy/G/m2LSlm+n6hLNuXEple1chzqz9+QO0v74A==
   dependencies:
-    "@stackshift-ui/scripts" "6.0.7"
-    "@stackshift-ui/system" "6.0.8"
+    "@stackshift-ui/scripts" "6.0.10"
+    "@stackshift-ui/system" "6.0.11"
     vanilla-cookieconsent "3.0.1"
 
-"@stackshift-ui/faqs@^6.0.11":
+"@stackshift-ui/faqs@^6.0.14":
+  version "6.0.14"
+  resolved "https://registry.yarnpkg.com/@stackshift-ui/faqs/-/faqs-6.0.14.tgz#d9d3dd69a1346270f2d8069a4597c8b5f522a469"
+  integrity sha512-jPeH8loGufgTFmLfNxrLkceXKnTcPDgHNxS/Fg/B1HUtbwLJ2oys1xW/cgLLA+7DV5dfRVz6gLLcc0yy2bzDng==
+  dependencies:
+    "@stackshift-ui/button" "6.0.11"
+    "@stackshift-ui/card" "6.0.11"
+    "@stackshift-ui/container" "6.0.11"
+    "@stackshift-ui/flex" "6.0.11"
+    "@stackshift-ui/heading" "6.0.11"
+    "@stackshift-ui/input" "6.0.12"
+    "@stackshift-ui/scripts" "6.0.10"
+    "@stackshift-ui/section" "6.0.11"
+    "@stackshift-ui/system" "6.0.11"
+    "@stackshift-ui/text" "6.0.11"
+    classnames "^2.5.1"
+
+"@stackshift-ui/features@^6.0.13":
+  version "6.0.13"
+  resolved "https://registry.yarnpkg.com/@stackshift-ui/features/-/features-6.0.13.tgz#453f78473e3503ec91b860fd72142cbcdbbb51be"
+  integrity sha512-6eDmlXjncMNe5kiyYSzJJz90uwC5w3UwmNXx3yRcQqdFA8Y8tQeXig88u16csqJftEzeejY8YxraozX1sbuxGA==
+  dependencies:
+    "@stackshift-ui/button" "6.0.11"
+    "@stackshift-ui/card" "6.0.11"
+    "@stackshift-ui/container" "6.0.11"
+    "@stackshift-ui/flex" "6.0.11"
+    "@stackshift-ui/heading" "6.0.11"
+    "@stackshift-ui/image" "6.0.11"
+    "@stackshift-ui/scripts" "6.0.10"
+    "@stackshift-ui/section" "6.0.11"
+    "@stackshift-ui/system" "6.0.11"
+    "@stackshift-ui/text" "6.0.11"
+    classnames "^2.5.1"
+
+"@stackshift-ui/flex@6.0.11", "@stackshift-ui/flex@^6.0.11":
   version "6.0.11"
-  resolved "https://registry.yarnpkg.com/@stackshift-ui/faqs/-/faqs-6.0.11.tgz#be8f69498599c308bf232cf86f75d1c8bb6cbb8d"
-  integrity sha512-zDNDDC92msKLDmm/WQQFA/I9nBnmGvnAgywZzGHe4+iifbdfqv5L9iAtPNkeZFEILwGOtuCHeZtaYMHU7QQmfg==
+  resolved "https://registry.yarnpkg.com/@stackshift-ui/flex/-/flex-6.0.11.tgz#7df03aa0aabec6c7b3940fea1550f89b0a7bc540"
+  integrity sha512-IR+Q4fnOEGQJNBb9TJG6n0xo6DZcMjDzCWpjX/FekfXeWTYVePWTy+jihMRjxUwLU9GPTaNX91LUjYL9AAo6LA==
   dependencies:
-    "@stackshift-ui/button" "6.0.8"
-    "@stackshift-ui/card" "6.0.8"
-    "@stackshift-ui/container" "6.0.8"
-    "@stackshift-ui/flex" "6.0.8"
-    "@stackshift-ui/heading" "6.0.8"
-    "@stackshift-ui/input" "6.0.9"
-    "@stackshift-ui/scripts" "6.0.7"
-    "@stackshift-ui/section" "6.0.8"
-    "@stackshift-ui/system" "6.0.8"
-    "@stackshift-ui/text" "6.0.8"
+    "@stackshift-ui/scripts" "6.0.10"
+    "@stackshift-ui/system" "6.0.11"
     classnames "^2.5.1"
 
-"@stackshift-ui/features@^6.0.10":
-  version "6.0.10"
-  resolved "https://registry.yarnpkg.com/@stackshift-ui/features/-/features-6.0.10.tgz#0f89fdb9997c66616cf543b75091bb0c8e51c7f4"
-  integrity sha512-LZgeev7J/fbUTjXM+iXUB2D86sb3x9PqHMZKm9/cEjfXz0hxaLSZbKv0ssDwpTr4q0SfD/4yVGPb4ock2rtJlw==
+"@stackshift-ui/footer@^6.0.13":
+  version "6.0.13"
+  resolved "https://registry.yarnpkg.com/@stackshift-ui/footer/-/footer-6.0.13.tgz#b203502948dc7199934da67656b5d94fe28f034f"
+  integrity sha512-wMkNlJE+/9paqMfGElnlSRuM2NOU5UHjXaMKqc3TR9Z3l0fn8OI8l/6K4BoMihAG9gPFZx/a1c3tJzLZQjE4/A==
   dependencies:
-    "@stackshift-ui/button" "6.0.8"
-    "@stackshift-ui/card" "6.0.8"
-    "@stackshift-ui/container" "6.0.8"
-    "@stackshift-ui/flex" "6.0.8"
-    "@stackshift-ui/heading" "6.0.8"
-    "@stackshift-ui/image" "6.0.8"
-    "@stackshift-ui/scripts" "6.0.7"
-    "@stackshift-ui/section" "6.0.8"
-    "@stackshift-ui/system" "6.0.8"
-    "@stackshift-ui/text" "6.0.8"
+    "@stackshift-ui/button" "6.0.11"
+    "@stackshift-ui/container" "6.0.11"
+    "@stackshift-ui/flex" "6.0.11"
+    "@stackshift-ui/grid" "6.0.11"
+    "@stackshift-ui/grid-item" "6.0.11"
+    "@stackshift-ui/image" "6.0.11"
+    "@stackshift-ui/link" "6.0.11"
+    "@stackshift-ui/scripts" "6.0.10"
+    "@stackshift-ui/section" "6.0.11"
+    "@stackshift-ui/social-icons" "6.0.11"
+    "@stackshift-ui/system" "6.0.11"
+    "@stackshift-ui/text" "6.0.11"
     classnames "^2.5.1"
 
-"@stackshift-ui/flex@6.0.8", "@stackshift-ui/flex@^6.0.8":
-  version "6.0.8"
-  resolved "https://registry.yarnpkg.com/@stackshift-ui/flex/-/flex-6.0.8.tgz#457c9d6dc3e3509eca9379c9751075f4a0f7d38d"
-  integrity sha512-0dmeYedLLPYj8fn2+ch1td2Ux4IDJN/RFrhD9pyQ8JN7il9cFMwrjKcx2KD3ggDXUNt6BuhzRWinR+jVp1CACg==
+"@stackshift-ui/form-field@6.0.13", "@stackshift-ui/form-field@^6.0.13":
+  version "6.0.13"
+  resolved "https://registry.yarnpkg.com/@stackshift-ui/form-field/-/form-field-6.0.13.tgz#3960846490a441844a45b1d7b7e5f4a64c920cbc"
+  integrity sha512-aGYAywbi+34zeQeHa5R+Uxlz1sYQnxj9AT6ntRgqU9ZFSVfrPZRoZr1X3iEiCl5mOhn5tcOMPjC6KBMWmOkcrg==
   dependencies:
-    "@stackshift-ui/scripts" "6.0.7"
-    "@stackshift-ui/system" "6.0.8"
+    "@stackshift-ui/checkbox" "6.0.11"
+    "@stackshift-ui/checkbox-group" "6.0.11"
+    "@stackshift-ui/input" "6.0.12"
+    "@stackshift-ui/input-file" "6.0.12"
+    "@stackshift-ui/radio" "6.0.11"
+    "@stackshift-ui/radio-group" "6.0.11"
+    "@stackshift-ui/scripts" "6.0.10"
+    "@stackshift-ui/select" "6.0.12"
+    "@stackshift-ui/system" "6.0.11"
+    "@stackshift-ui/textarea" "6.0.12"
+
+"@stackshift-ui/form@6.0.11":
+  version "6.0.11"
+  resolved "https://registry.yarnpkg.com/@stackshift-ui/form/-/form-6.0.11.tgz#8348d3dba6a392217314192dd5aed0451d34a786"
+  integrity sha512-rG8cAVutwFa017AWmGcJOT5YEpoamwnxvzFzXVzFtsqR5H0FgaAItWuQ8fpIT2cZRVE+6Vx8uKPtudeMQFDKpQ==
+  dependencies:
+    "@stackshift-ui/scripts" "6.0.10"
+    "@stackshift-ui/system" "6.0.11"
+    "@stackshift-ui/webriq-form" "6.0.11"
+
+"@stackshift-ui/grid-item@6.0.11":
+  version "6.0.11"
+  resolved "https://registry.yarnpkg.com/@stackshift-ui/grid-item/-/grid-item-6.0.11.tgz#8c549052f1cbe1322c5ed5e82f55b7f12bd4c8fe"
+  integrity sha512-szInGM6d/uvDJW5NkKz12X6CFlqeY0i4+Gj/l0G+A6hA34otD/y+7kcGuc4dAefmw1vQ2osXC4egEmC7NMro/Q==
+  dependencies:
+    "@stackshift-ui/scripts" "6.0.10"
+    "@stackshift-ui/system" "6.0.11"
     classnames "^2.5.1"
 
-"@stackshift-ui/footer@^6.0.10":
-  version "6.0.10"
-  resolved "https://registry.yarnpkg.com/@stackshift-ui/footer/-/footer-6.0.10.tgz#7461fcf6a33d19a14ff97bb5ca520304d65e1cf3"
-  integrity sha512-+FUPj7i8key3O06Tn5eRLWWDDOKMHvNf+SqufD3XpjPzuHVtGm9OypqM8JACemDD7JyG2EmupsnUrOgwwsJ7YQ==
+"@stackshift-ui/grid@6.0.11", "@stackshift-ui/grid@^6.0.11":
+  version "6.0.11"
+  resolved "https://registry.yarnpkg.com/@stackshift-ui/grid/-/grid-6.0.11.tgz#b2c23699ecab66b0983092df81eaa2155ac13439"
+  integrity sha512-ZDMFiXVzrTsVAVpGOVQV6N800cSFYHjyPycXFI3HC5nbmAdP05Xze/0Rdj0WZpUE/kZY94SCIao58+fTfDgdZw==
   dependencies:
-    "@stackshift-ui/button" "6.0.8"
-    "@stackshift-ui/container" "6.0.8"
-    "@stackshift-ui/flex" "6.0.8"
-    "@stackshift-ui/grid" "6.0.8"
-    "@stackshift-ui/grid-item" "6.0.8"
-    "@stackshift-ui/image" "6.0.8"
-    "@stackshift-ui/link" "6.0.8"
-    "@stackshift-ui/scripts" "6.0.7"
-    "@stackshift-ui/section" "6.0.8"
-    "@stackshift-ui/social-icons" "6.0.8"
-    "@stackshift-ui/system" "6.0.8"
-    "@stackshift-ui/text" "6.0.8"
+    "@stackshift-ui/scripts" "6.0.10"
+    "@stackshift-ui/system" "6.0.11"
     classnames "^2.5.1"
 
-"@stackshift-ui/form-field@6.0.10", "@stackshift-ui/form-field@^6.0.10":
-  version "6.0.10"
-  resolved "https://registry.yarnpkg.com/@stackshift-ui/form-field/-/form-field-6.0.10.tgz#92551764a16b83a2c1606831798dd8000dc7dc2e"
-  integrity sha512-po73br2hCxQDDQiraNI+NNOc7DpWwbSXGKa8kAq3+Y4EuXX7wJYLVwMUmpcVAOnKEKUNlNxGXWOYR/sVlqXqrA==
+"@stackshift-ui/header@^6.0.15":
+  version "6.0.15"
+  resolved "https://registry.yarnpkg.com/@stackshift-ui/header/-/header-6.0.15.tgz#139f7784099039b4215fc80140daaa635df07e29"
+  integrity sha512-VLPiadhX3XRFltoHP6JaO9nUJ0+BpHxR11pkdu2bFGiYTYI3zKuV6X/9252DWOc+he8GWTwokVz0MrrwyBjBlA==
   dependencies:
-    "@stackshift-ui/checkbox" "6.0.8"
-    "@stackshift-ui/checkbox-group" "6.0.8"
-    "@stackshift-ui/input" "6.0.9"
-    "@stackshift-ui/input-file" "6.0.9"
-    "@stackshift-ui/radio" "6.0.8"
-    "@stackshift-ui/radio-group" "6.0.8"
-    "@stackshift-ui/scripts" "6.0.7"
-    "@stackshift-ui/select" "6.0.9"
-    "@stackshift-ui/system" "6.0.8"
-    "@stackshift-ui/textarea" "6.0.9"
+    "@stackshift-ui/button" "6.0.11"
+    "@stackshift-ui/container" "6.0.11"
+    "@stackshift-ui/flex" "6.0.11"
+    "@stackshift-ui/heading" "6.0.11"
+    "@stackshift-ui/image" "6.0.11"
+    "@stackshift-ui/scripts" "6.0.10"
+    "@stackshift-ui/section" "6.0.11"
+    "@stackshift-ui/signin-signup" "6.0.14"
+    "@stackshift-ui/system" "6.0.11"
+    "@stackshift-ui/text" "6.0.11"
 
-"@stackshift-ui/form@6.0.8":
-  version "6.0.8"
-  resolved "https://registry.yarnpkg.com/@stackshift-ui/form/-/form-6.0.8.tgz#58621f2c30e6a433f91ad8725124e7904e197ad1"
-  integrity sha512-2RsILgcxBOW6uyyYRW7N4EDUrmUEHfjhaLqV07P2oO1WIncxnk9m+x2V+CxjZZCl4ia+y361Xd8G3dRqmWBHdg==
+"@stackshift-ui/heading@6.0.11", "@stackshift-ui/heading@^6.0.11":
+  version "6.0.11"
+  resolved "https://registry.yarnpkg.com/@stackshift-ui/heading/-/heading-6.0.11.tgz#a2bb3e6f06c6179b15e61315752d2dd200ce9d0d"
+  integrity sha512-as/R6cl1Ibeom4m/2OEeOpcjiacIm5KazgxpOMJNeVYp0XDNxCoEqbSP7viwGbV89uWtYntkiGPY6UNUq0C5IA==
   dependencies:
-    "@stackshift-ui/scripts" "6.0.7"
-    "@stackshift-ui/system" "6.0.8"
-    "@stackshift-ui/webriq-form" "6.0.8"
-
-"@stackshift-ui/grid-item@6.0.8":
-  version "6.0.8"
-  resolved "https://registry.yarnpkg.com/@stackshift-ui/grid-item/-/grid-item-6.0.8.tgz#21b8d482e5ef6c1f21f3f73ffc6789f61d29d355"
-  integrity sha512-a5vZXJxYxRM72mLsrzwoflGkyytXBoGAEdtNZbJJC6A/aKCM0KB5OHAUMUgiSqz8Wyhv2+lFNxSA8tAE6/mTrg==
-  dependencies:
-    "@stackshift-ui/scripts" "6.0.7"
-    "@stackshift-ui/system" "6.0.8"
+    "@stackshift-ui/scripts" "6.0.10"
+    "@stackshift-ui/system" "6.0.11"
     classnames "^2.5.1"
 
-"@stackshift-ui/grid@6.0.8", "@stackshift-ui/grid@^6.0.8":
-  version "6.0.8"
-  resolved "https://registry.yarnpkg.com/@stackshift-ui/grid/-/grid-6.0.8.tgz#ad19c1d86a70517f1553a4591f4c6f1ab70e670d"
-  integrity sha512-gpKNnQMzVTrq1pPcVxI1DoDwd8+J9DB5Dp35rD5CC10ik+XO7N4y3CX7LK4jakUXBQSPCk1PbJ/6bDytV2gCiA==
-  dependencies:
-    "@stackshift-ui/scripts" "6.0.7"
-    "@stackshift-ui/system" "6.0.8"
-    classnames "^2.5.1"
-
-"@stackshift-ui/header@^6.0.12":
+"@stackshift-ui/how-it-works@^6.0.12":
   version "6.0.12"
-  resolved "https://registry.yarnpkg.com/@stackshift-ui/header/-/header-6.0.12.tgz#812f90a502f7993a3e2389b64a610f2a66671852"
-  integrity sha512-2U1Jr4piv01VrmYXAe6S1+rTq0+d4W0xbUuJ0wuMMZcLywdcInkbu4CkfcIUXLxEHWdjqPNkHe6VfsMeCprCZQ==
+  resolved "https://registry.yarnpkg.com/@stackshift-ui/how-it-works/-/how-it-works-6.0.12.tgz#280e28d7dae26c6baf32b253fb7bb0dcf366c0b7"
+  integrity sha512-7EBzyt48GBP12Z673UgcG5q8Wx+kjAHuowAeeaA9H6Bf8NuWFmdmk5ZCZf+mahtDz1BEhSue1rrJ2AIE1pTwvQ==
   dependencies:
-    "@stackshift-ui/button" "6.0.8"
-    "@stackshift-ui/container" "6.0.8"
-    "@stackshift-ui/flex" "6.0.8"
-    "@stackshift-ui/heading" "6.0.8"
-    "@stackshift-ui/image" "6.0.8"
-    "@stackshift-ui/scripts" "6.0.7"
-    "@stackshift-ui/section" "6.0.8"
-    "@stackshift-ui/signin-signup" "6.0.11"
-    "@stackshift-ui/system" "6.0.8"
-    "@stackshift-ui/text" "6.0.8"
-
-"@stackshift-ui/heading@6.0.8", "@stackshift-ui/heading@^6.0.8":
-  version "6.0.8"
-  resolved "https://registry.yarnpkg.com/@stackshift-ui/heading/-/heading-6.0.8.tgz#115569e689218c856d184b73eea4813b5eebe63b"
-  integrity sha512-JM2CHaWOh/pHHZ9wvOadM4s3piXVUruKLaCaBBY6UMHHFpsBQ3iljtaSMuMFnboTaO1ACSipeRRqKZbDg7SnFA==
-  dependencies:
-    "@stackshift-ui/scripts" "6.0.7"
-    "@stackshift-ui/system" "6.0.8"
+    "@stackshift-ui/card" "6.0.11"
+    "@stackshift-ui/container" "6.0.11"
+    "@stackshift-ui/flex" "6.0.11"
+    "@stackshift-ui/heading" "6.0.11"
+    "@stackshift-ui/scripts" "6.0.10"
+    "@stackshift-ui/section" "6.0.11"
+    "@stackshift-ui/system" "6.0.11"
+    "@stackshift-ui/text" "6.0.11"
+    "@stackshift-ui/youtube-video" "6.0.11"
     classnames "^2.5.1"
 
-"@stackshift-ui/how-it-works@^6.0.9":
-  version "6.0.9"
-  resolved "https://registry.yarnpkg.com/@stackshift-ui/how-it-works/-/how-it-works-6.0.9.tgz#ac85c5c826a16520b3a6683db1b3667d86a03e05"
-  integrity sha512-4ySxu5iHuo74DLKZbPWsWXsCye/Y0YCcAwmSltUrPuDhI8xpsoDw/Yd4ENmywRTYWIf1AcQ4WUFr7PmxSRy5HA==
-  dependencies:
-    "@stackshift-ui/card" "6.0.8"
-    "@stackshift-ui/container" "6.0.8"
-    "@stackshift-ui/flex" "6.0.8"
-    "@stackshift-ui/heading" "6.0.8"
-    "@stackshift-ui/scripts" "6.0.7"
-    "@stackshift-ui/section" "6.0.8"
-    "@stackshift-ui/system" "6.0.8"
-    "@stackshift-ui/text" "6.0.8"
-    "@stackshift-ui/youtube-video" "6.0.8"
-    classnames "^2.5.1"
-
-"@stackshift-ui/image@6.0.8", "@stackshift-ui/image@^6.0.8":
-  version "6.0.8"
-  resolved "https://registry.yarnpkg.com/@stackshift-ui/image/-/image-6.0.8.tgz#2d5655de66f68f95882bc632506f454deefb8cf2"
-  integrity sha512-QC3enTedRHnA591biMyRXo/VRjeFru2Ed1MqbNVh83KbwrWzYomYngfydrekKEnKOP5EhdCcKB85s4oj+ykDXg==
-  dependencies:
-    "@stackshift-ui/scripts" "6.0.7"
-    "@stackshift-ui/system" "6.0.8"
-
-"@stackshift-ui/input-file@6.0.9":
-  version "6.0.9"
-  resolved "https://registry.yarnpkg.com/@stackshift-ui/input-file/-/input-file-6.0.9.tgz#a22a9c484d2ddc906795b244f17988125ae04d34"
-  integrity sha512-qpDLGtygqOUivFFibiabjs2BVw5WWBS9vtbmOvu6yJw3Mj8O4ohayS1iyMjpoczC4Iup0efPRUvJJMOrac+g1Q==
-  dependencies:
-    "@stackshift-ui/scripts" "6.0.7"
-    "@stackshift-ui/system" "6.0.8"
-    classnames "^2.5.1"
-
-"@stackshift-ui/input@6.0.9", "@stackshift-ui/input@^6.0.9":
-  version "6.0.9"
-  resolved "https://registry.yarnpkg.com/@stackshift-ui/input/-/input-6.0.9.tgz#488e7ebe07991be4025045ff3a28b4798b41a64f"
-  integrity sha512-w9JQFwpF7HE1gJTbajFe44IARFGQT3EFS4ZaVcv+Kx655EF5MyPHzsQc5zVkQP9p9R/dyupeXXRAoggFPrW8ZQ==
-  dependencies:
-    "@stackshift-ui/scripts" "6.0.7"
-    "@stackshift-ui/system" "6.0.8"
-    classnames "^2.5.1"
-
-"@stackshift-ui/link@6.0.8", "@stackshift-ui/link@^6.0.8":
-  version "6.0.8"
-  resolved "https://registry.yarnpkg.com/@stackshift-ui/link/-/link-6.0.8.tgz#32a3471a8e84251a90bc97f2d7aad6fa4bafe96d"
-  integrity sha512-vPw5RBb1cGNQq8VF7Qn91qzzy/BaNBhw2ecdHiCD5K5CQbZ4CoMydr5qAGGWabWrr+MqXeA3ATVfxc9B7zzNzw==
-  dependencies:
-    "@stackshift-ui/scripts" "6.0.7"
-    "@stackshift-ui/system" "6.0.8"
-
-"@stackshift-ui/logo-cloud@^6.0.11":
+"@stackshift-ui/image@6.0.11", "@stackshift-ui/image@^6.0.11":
   version "6.0.11"
-  resolved "https://registry.yarnpkg.com/@stackshift-ui/logo-cloud/-/logo-cloud-6.0.11.tgz#e0ccda6e665e10f804fc5ce3bbf87567acdf187b"
-  integrity sha512-LvZE+Nq4VKeVoLvBpoL7HpA5PI2cOFxdp+ectUscIYVF7lWghaKYr3X/n/fEwKl+bM9cFYtVhDlhbJbAh47mkA==
+  resolved "https://registry.yarnpkg.com/@stackshift-ui/image/-/image-6.0.11.tgz#38e2d8a2b421dd34f9147460e2bc970e3bcec83d"
+  integrity sha512-rotUzTY4euMwQtGgkiUacIwzjJU2j34lFDHb8OPEgq97ujVSAGzFSCvhCP20DgXI0DsppbJPQvHageoy6UIYCw==
   dependencies:
-    "@stackshift-ui/button" "6.0.8"
-    "@stackshift-ui/container" "6.0.8"
-    "@stackshift-ui/flex" "6.0.8"
-    "@stackshift-ui/heading" "6.0.8"
-    "@stackshift-ui/image" "6.0.8"
-    "@stackshift-ui/scripts" "6.0.7"
-    "@stackshift-ui/section" "6.0.8"
-    "@stackshift-ui/system" "6.0.8"
-    "@stackshift-ui/text" "6.0.8"
+    "@stackshift-ui/scripts" "6.0.10"
+    "@stackshift-ui/system" "6.0.11"
 
-"@stackshift-ui/navigation@^6.0.10":
-  version "6.0.10"
-  resolved "https://registry.yarnpkg.com/@stackshift-ui/navigation/-/navigation-6.0.10.tgz#0b36ad7de99dc6f419963f21d66b8991f4a96796"
-  integrity sha512-bXjqwcFcmcE5zanj63oR/Hs8EPHuGc4FvJRRMMSF18kyHHS8+jI+LEm3emHjzhvCk3BXQJ76KmXGJabQWyIYog==
+"@stackshift-ui/input-file@6.0.12":
+  version "6.0.12"
+  resolved "https://registry.yarnpkg.com/@stackshift-ui/input-file/-/input-file-6.0.12.tgz#6d1cc3bc95a9782312aaafb9b28cfc23705e64dc"
+  integrity sha512-pJnZz2rHlatco261qX3X0nQCUYqHHRfIz8IEFC23KnOU2tSlDre6IpXeMjqypprQQAG1BtTgzYU/Z/w2YqFFPg==
+  dependencies:
+    "@stackshift-ui/scripts" "6.0.10"
+    "@stackshift-ui/system" "6.0.11"
+    classnames "^2.5.1"
+
+"@stackshift-ui/input@6.0.12", "@stackshift-ui/input@^6.0.12":
+  version "6.0.12"
+  resolved "https://registry.yarnpkg.com/@stackshift-ui/input/-/input-6.0.12.tgz#e0e9875736307ac9c50d2099de226d579b7cd237"
+  integrity sha512-OrqcOcH1TOEFMNCppW6tjTimZ1wiHVaL45T+o+kKHH2YhJQVshEwgPwCWnTFV/0O0zoTN5+TPDJKTS+DuY5gyg==
+  dependencies:
+    "@stackshift-ui/scripts" "6.0.10"
+    "@stackshift-ui/system" "6.0.11"
+    classnames "^2.5.1"
+
+"@stackshift-ui/link@6.0.11", "@stackshift-ui/link@^6.0.11":
+  version "6.0.11"
+  resolved "https://registry.yarnpkg.com/@stackshift-ui/link/-/link-6.0.11.tgz#f14057df6eb35a5e5a2ff8825daef548ac08aea6"
+  integrity sha512-t82Yz7CHRzpzriYlBGsvFi/MA7S5+zkErxOYh+z/p3/cgj2v4JvYD5u9CiQkIYq9fLq6mMYEoiE+nioMUxubJg==
+  dependencies:
+    "@stackshift-ui/scripts" "6.0.10"
+    "@stackshift-ui/system" "6.0.11"
+
+"@stackshift-ui/logo-cloud@^6.0.14":
+  version "6.0.14"
+  resolved "https://registry.yarnpkg.com/@stackshift-ui/logo-cloud/-/logo-cloud-6.0.14.tgz#6035d1fde27362a3cce7b890b1bf230cbaaadb43"
+  integrity sha512-5RkabTf9K5WteHIhaGcoX5mhv1sl2uSXE1BCCOcoypZRwHox6JS9sdVJdsdG9NfA32TI7ldTdbHdTblCrWsFYQ==
+  dependencies:
+    "@stackshift-ui/button" "6.0.11"
+    "@stackshift-ui/container" "6.0.11"
+    "@stackshift-ui/flex" "6.0.11"
+    "@stackshift-ui/heading" "6.0.11"
+    "@stackshift-ui/image" "6.0.11"
+    "@stackshift-ui/scripts" "6.0.10"
+    "@stackshift-ui/section" "6.0.11"
+    "@stackshift-ui/system" "6.0.11"
+    "@stackshift-ui/text" "6.0.11"
+
+"@stackshift-ui/navigation@^6.0.13":
+  version "6.0.13"
+  resolved "https://registry.yarnpkg.com/@stackshift-ui/navigation/-/navigation-6.0.13.tgz#4449176f53a3a93101f1312c56aceb714e2fdfb1"
+  integrity sha512-S1IBOKoadzNfbDQXWmqUcK4GqSAAHy221aa5dBBmKm+PLDUtmiXkBQWfdQqCFsc2u2qbrqFMrmPJ9EHIif7X6g==
   dependencies:
     "@portabletext/react" "^3.1.0"
-    "@stackshift-ui/button" "6.0.8"
-    "@stackshift-ui/container" "6.0.8"
-    "@stackshift-ui/flex" "6.0.8"
-    "@stackshift-ui/image" "6.0.8"
-    "@stackshift-ui/link" "6.0.8"
-    "@stackshift-ui/scripts" "6.0.7"
-    "@stackshift-ui/section" "6.0.8"
-    "@stackshift-ui/system" "6.0.8"
-    "@stackshift-ui/text" "6.0.8"
+    "@stackshift-ui/button" "6.0.11"
+    "@stackshift-ui/container" "6.0.11"
+    "@stackshift-ui/flex" "6.0.11"
+    "@stackshift-ui/image" "6.0.11"
+    "@stackshift-ui/link" "6.0.11"
+    "@stackshift-ui/scripts" "6.0.10"
+    "@stackshift-ui/section" "6.0.11"
+    "@stackshift-ui/system" "6.0.11"
+    "@stackshift-ui/text" "6.0.11"
 
-"@stackshift-ui/newsletter@^6.0.9":
-  version "6.0.9"
-  resolved "https://registry.yarnpkg.com/@stackshift-ui/newsletter/-/newsletter-6.0.9.tgz#70649d75d9efbc894a5c019223b8d654830d4825"
-  integrity sha512-Bxql92mb57ELnhec+JYT3kmDCxNnvS13H1TGN6thihKYz23tRgdebUZ/cuZzqbsE+P8As6rXn3Tev4A7cVxlsA==
+"@stackshift-ui/newsletter@^6.0.12":
+  version "6.0.12"
+  resolved "https://registry.yarnpkg.com/@stackshift-ui/newsletter/-/newsletter-6.0.12.tgz#b60df8aeaef2101b9c78121430ca917b243d214d"
+  integrity sha512-P6rDf8Hg0RUQDBTV6Ko3BXdWELUIiWRJtozdeZo9gx1KWZYX9uVBxclWtUUMYtTz5BqoicL13fmH0BwfBDndHw==
   dependencies:
-    "@stackshift-ui/button" "6.0.8"
-    "@stackshift-ui/container" "6.0.8"
-    "@stackshift-ui/flex" "6.0.8"
-    "@stackshift-ui/form" "6.0.8"
-    "@stackshift-ui/heading" "6.0.8"
-    "@stackshift-ui/image" "6.0.8"
-    "@stackshift-ui/input" "6.0.9"
-    "@stackshift-ui/link" "6.0.8"
-    "@stackshift-ui/scripts" "6.0.7"
-    "@stackshift-ui/section" "6.0.8"
-    "@stackshift-ui/system" "6.0.8"
-    "@stackshift-ui/text" "6.0.8"
+    "@stackshift-ui/button" "6.0.11"
+    "@stackshift-ui/container" "6.0.11"
+    "@stackshift-ui/flex" "6.0.11"
+    "@stackshift-ui/form" "6.0.11"
+    "@stackshift-ui/heading" "6.0.11"
+    "@stackshift-ui/image" "6.0.11"
+    "@stackshift-ui/input" "6.0.12"
+    "@stackshift-ui/link" "6.0.11"
+    "@stackshift-ui/scripts" "6.0.10"
+    "@stackshift-ui/section" "6.0.11"
+    "@stackshift-ui/system" "6.0.11"
+    "@stackshift-ui/text" "6.0.11"
 
-"@stackshift-ui/portfolio@^6.0.10":
-  version "6.0.10"
-  resolved "https://registry.yarnpkg.com/@stackshift-ui/portfolio/-/portfolio-6.0.10.tgz#faf4bfc11106651aaf7bca60a362f01bd6caf622"
-  integrity sha512-PkP0mYZFPe7oSUo1h+BYbCrxFrfj/zVzEZIKXYoCIhKgf2hkbY4vsKeXZ8FnXnsiSLSxYQN0LE99jlz3Dj1dxA==
+"@stackshift-ui/portfolio@^6.0.13":
+  version "6.0.13"
+  resolved "https://registry.yarnpkg.com/@stackshift-ui/portfolio/-/portfolio-6.0.13.tgz#266c5c602b42cf3994ac239d8d4d42bb28a232a6"
+  integrity sha512-a+GQKH/YHtVbAb0cgO4q1wbd7AtD4AmmgG/AyshJYvH1GhGzJsBx7P7ruVrIpOVqRixRR2Gq784OvdEI6KP1uw==
   dependencies:
-    "@stackshift-ui/button" "6.0.8"
-    "@stackshift-ui/container" "6.0.8"
-    "@stackshift-ui/flex" "6.0.8"
-    "@stackshift-ui/heading" "6.0.8"
-    "@stackshift-ui/image" "6.0.8"
-    "@stackshift-ui/scripts" "6.0.7"
-    "@stackshift-ui/section" "6.0.8"
-    "@stackshift-ui/system" "6.0.8"
-    "@stackshift-ui/text" "6.0.8"
+    "@stackshift-ui/button" "6.0.11"
+    "@stackshift-ui/container" "6.0.11"
+    "@stackshift-ui/flex" "6.0.11"
+    "@stackshift-ui/heading" "6.0.11"
+    "@stackshift-ui/image" "6.0.11"
+    "@stackshift-ui/scripts" "6.0.10"
+    "@stackshift-ui/section" "6.0.11"
+    "@stackshift-ui/system" "6.0.11"
+    "@stackshift-ui/text" "6.0.11"
     classnames "^2.5.1"
 
-"@stackshift-ui/radio-group@6.0.8":
-  version "6.0.8"
-  resolved "https://registry.yarnpkg.com/@stackshift-ui/radio-group/-/radio-group-6.0.8.tgz#d77bd59f9263d85e8de05d6e9de35d8c3f8be8c8"
-  integrity sha512-/zW8cXl7g+BrDCWUqII9XOU0GbZSzANPkAsdF2qOhE4Ts5aVf9LPneot8DoFAFyN9OAwCz4nJMwVHm17DALGWg==
-  dependencies:
-    "@stackshift-ui/scripts" "6.0.7"
-    "@stackshift-ui/system" "6.0.8"
-    classnames "^2.5.1"
-
-"@stackshift-ui/radio@6.0.8":
-  version "6.0.8"
-  resolved "https://registry.yarnpkg.com/@stackshift-ui/radio/-/radio-6.0.8.tgz#a560522e009b247937916f168082fd6926ec9e0c"
-  integrity sha512-wzSMJXJhZZJ7/gWDL87tO5oeNmAEaBBqqvKHv46pEAUXv9ldaM+mepSOdkyrpoXw85WU/O6iNsafaIzBiRTDrQ==
-  dependencies:
-    "@stackshift-ui/scripts" "6.0.7"
-    "@stackshift-ui/system" "6.0.8"
-    classnames "^2.5.1"
-
-"@stackshift-ui/scripts@6.0.7":
-  version "6.0.7"
-  resolved "https://registry.yarnpkg.com/@stackshift-ui/scripts/-/scripts-6.0.7.tgz#85aa7cd5a7dc3eb9e5dcf55f479b6f1f84294862"
-  integrity sha512-Y9aYk/RT48mLU5GOpQoEJpymZoE8UtRSXicEUzP7qWmpxg6inztnPrhkn5jTLS+ikDP1qQICm1sARrf8MSYmLQ==
-
-"@stackshift-ui/section@6.0.8", "@stackshift-ui/section@^6.0.8":
-  version "6.0.8"
-  resolved "https://registry.yarnpkg.com/@stackshift-ui/section/-/section-6.0.8.tgz#8451214db45827bb0e3f6eb35a29ff4a8ac12c97"
-  integrity sha512-p8t+2GjhgKH29wG5dYRDgDiqbkkolUrUiabNrEKMGVQKEbynu8/QNKHjEB0Rc48CUUGqR/fyUXpUmShLcYs95g==
-  dependencies:
-    "@stackshift-ui/scripts" "6.0.7"
-    "@stackshift-ui/system" "6.0.8"
-    classnames "^2.5.1"
-
-"@stackshift-ui/select@6.0.9":
-  version "6.0.9"
-  resolved "https://registry.yarnpkg.com/@stackshift-ui/select/-/select-6.0.9.tgz#9a1fbebe12817f54a68165f3ff18a52ce293d319"
-  integrity sha512-XOALf4lL4gs8TOjsxSHwo+Lt94cysUOw1wN48lJYMBrnTsgS2kd2f4DGYw//rHJmyLg7TKe+oix1J90DmVdhaw==
-  dependencies:
-    "@stackshift-ui/scripts" "6.0.7"
-    "@stackshift-ui/system" "6.0.8"
-    classnames "^2.5.1"
-
-"@stackshift-ui/signin-signup@6.0.11", "@stackshift-ui/signin-signup@^6.0.11":
+"@stackshift-ui/radio-group@6.0.11":
   version "6.0.11"
-  resolved "https://registry.yarnpkg.com/@stackshift-ui/signin-signup/-/signin-signup-6.0.11.tgz#17523eb1b84fe66fa88cf3373f35dd887ddcf8b2"
-  integrity sha512-TRFeMqYcXBV8is0XgzXvbVNNLF3Sk5+GP74haO4XUa4gw/XPxER551D+hZuVgBtwUzlBuIgnVkNzVMCeXj5KdA==
+  resolved "https://registry.yarnpkg.com/@stackshift-ui/radio-group/-/radio-group-6.0.11.tgz#5081688ee73c7a67a6f5d9d664544ee68698836b"
+  integrity sha512-vxAfzPqaJmNuz5/YDvdBE3KZfHLPp9DV/kwnRALZ234iPaQD+bHcz5iRyIJhUEe7CyrfP1iNENoxFVYXvZfuIA==
   dependencies:
-    "@stackshift-ui/button" "6.0.8"
-    "@stackshift-ui/card" "6.0.8"
-    "@stackshift-ui/container" "6.0.8"
-    "@stackshift-ui/flex" "6.0.8"
-    "@stackshift-ui/form" "6.0.8"
-    "@stackshift-ui/form-field" "6.0.10"
-    "@stackshift-ui/heading" "6.0.8"
-    "@stackshift-ui/image" "6.0.8"
-    "@stackshift-ui/input" "6.0.9"
-    "@stackshift-ui/link" "6.0.8"
-    "@stackshift-ui/scripts" "6.0.7"
-    "@stackshift-ui/section" "6.0.8"
-    "@stackshift-ui/system" "6.0.8"
-    "@stackshift-ui/text" "6.0.8"
+    "@stackshift-ui/scripts" "6.0.10"
+    "@stackshift-ui/system" "6.0.11"
     classnames "^2.5.1"
 
-"@stackshift-ui/social-icons@6.0.8":
-  version "6.0.8"
-  resolved "https://registry.yarnpkg.com/@stackshift-ui/social-icons/-/social-icons-6.0.8.tgz#70d4a3ea8688d376073f3ee6dcec0042ebb24d48"
-  integrity sha512-LFJUN0KMWTe2QDRuEaPzDTOH2IeqM0/u7peTn5NAfF1CRV+efmyL3hwHRfpBuIzpUDcMQ+LDHHzdo1hLp9p3bA==
+"@stackshift-ui/radio@6.0.11":
+  version "6.0.11"
+  resolved "https://registry.yarnpkg.com/@stackshift-ui/radio/-/radio-6.0.11.tgz#738300bc6b833cee2158a240c09f2dafb09c6ab5"
+  integrity sha512-70WPki/69OJI2Q9OdgUxbURY0C2PRZ3qUnPU5cqzJhD39V3FGDEKgeZjAkWoxOS5gCQrLZ0tE3ZG5PLRLjCEsg==
   dependencies:
-    "@stackshift-ui/scripts" "6.0.7"
-    "@stackshift-ui/system" "6.0.8"
+    "@stackshift-ui/scripts" "6.0.10"
+    "@stackshift-ui/system" "6.0.11"
+    classnames "^2.5.1"
+
+"@stackshift-ui/scripts@6.0.10":
+  version "6.0.10"
+  resolved "https://registry.yarnpkg.com/@stackshift-ui/scripts/-/scripts-6.0.10.tgz#561ba3ecb83f819c3c5d25fffe1f4d0bde3d269a"
+  integrity sha512-2zkhjkWQnukvLZcO3WbcjJkm6iIlH+7RyxGQ9GjRbO0m7InR9fXVIrGTjai9f2Avm6aHZqxtciDGiYb0cvGxeA==
+
+"@stackshift-ui/section@6.0.11", "@stackshift-ui/section@^6.0.11":
+  version "6.0.11"
+  resolved "https://registry.yarnpkg.com/@stackshift-ui/section/-/section-6.0.11.tgz#d97fbfe6303fba17cb02545d52e474585243aa99"
+  integrity sha512-u9XdNC2j0BEmhAXDLji78ug1DAnZRsidNUgefoaqraFo9a+4qvMzwPr2nyD+y2agKtxeHNidLCAe6HGzbmeqrg==
+  dependencies:
+    "@stackshift-ui/scripts" "6.0.10"
+    "@stackshift-ui/system" "6.0.11"
+    classnames "^2.5.1"
+
+"@stackshift-ui/select@6.0.12":
+  version "6.0.12"
+  resolved "https://registry.yarnpkg.com/@stackshift-ui/select/-/select-6.0.12.tgz#958d3611b1abd723cf62393b25ede74df644fa3d"
+  integrity sha512-0IwiC/PBaLgvIQmFDlNdYUOihGkwz6XgM2zeQeTXCvg9GuW9ckJfgocIiEmFf8TOzRJCSbRIw8b0oPvD3LHC1w==
+  dependencies:
+    "@stackshift-ui/scripts" "6.0.10"
+    "@stackshift-ui/system" "6.0.11"
+    classnames "^2.5.1"
+
+"@stackshift-ui/signin-signup@6.0.14", "@stackshift-ui/signin-signup@^6.0.14":
+  version "6.0.14"
+  resolved "https://registry.yarnpkg.com/@stackshift-ui/signin-signup/-/signin-signup-6.0.14.tgz#6453b9fa91bdc6c1fd5e999616ca86b84c8a37a8"
+  integrity sha512-idJXTwu4zwSZsTBq/r/pApe9wDOx7Lfrs4uERcyf+rfflwZxoKylh9zMJKiKFdABp3q53FtdVHWZHEDhyUVhhA==
+  dependencies:
+    "@stackshift-ui/button" "6.0.11"
+    "@stackshift-ui/card" "6.0.11"
+    "@stackshift-ui/container" "6.0.11"
+    "@stackshift-ui/flex" "6.0.11"
+    "@stackshift-ui/form" "6.0.11"
+    "@stackshift-ui/form-field" "6.0.13"
+    "@stackshift-ui/heading" "6.0.11"
+    "@stackshift-ui/image" "6.0.11"
+    "@stackshift-ui/input" "6.0.12"
+    "@stackshift-ui/link" "6.0.11"
+    "@stackshift-ui/scripts" "6.0.10"
+    "@stackshift-ui/section" "6.0.11"
+    "@stackshift-ui/system" "6.0.11"
+    "@stackshift-ui/text" "6.0.11"
+    classnames "^2.5.1"
+
+"@stackshift-ui/social-icons@6.0.11":
+  version "6.0.11"
+  resolved "https://registry.yarnpkg.com/@stackshift-ui/social-icons/-/social-icons-6.0.11.tgz#4a7eda16ee710485fdcb12f63356d386b8ae97b4"
+  integrity sha512-7hKfb7iKNrVlYl1NYxeYLgdWq+gMYwSDNwR6kgGYEbqpxyjyOybYdwJx4Wlw4hYft5qjNT6n9ACl70VK/7/+Ug==
+  dependencies:
+    "@stackshift-ui/scripts" "6.0.10"
+    "@stackshift-ui/system" "6.0.11"
     classnames "^2.5.1"
     react-icons "^5.3.0"
 
-"@stackshift-ui/statistics@^6.0.10":
-  version "6.0.10"
-  resolved "https://registry.yarnpkg.com/@stackshift-ui/statistics/-/statistics-6.0.10.tgz#499034d3af09691634d3657ac44e06bcca05dcf6"
-  integrity sha512-OGPP8rfXPQi8TP3WDurGNnZ/NNWDun2bCx5BZMe2zCKJsq7CmFzhaNrZEnak8lZ0KkSUzm0VVXUdVKmwd5/AZg==
+"@stackshift-ui/statistics@^6.0.13":
+  version "6.0.13"
+  resolved "https://registry.yarnpkg.com/@stackshift-ui/statistics/-/statistics-6.0.13.tgz#14120e7796908e52e6261a8eef2c95f737211c25"
+  integrity sha512-hdHBXVs3FnPsxe2z+u5J1AfCc21tj+CDLb1l0uPaUqjaaH6UTxfryyffszasiMNsbjeb3lDyfrsqQD7oPJ/l4w==
   dependencies:
-    "@stackshift-ui/button" "6.0.8"
-    "@stackshift-ui/card" "6.0.8"
-    "@stackshift-ui/container" "6.0.8"
-    "@stackshift-ui/flex" "6.0.8"
-    "@stackshift-ui/scripts" "6.0.7"
-    "@stackshift-ui/section" "6.0.8"
-    "@stackshift-ui/stats-card" "6.0.9"
-    "@stackshift-ui/system" "6.0.8"
-    "@stackshift-ui/text" "6.0.8"
+    "@stackshift-ui/button" "6.0.11"
+    "@stackshift-ui/card" "6.0.11"
+    "@stackshift-ui/container" "6.0.11"
+    "@stackshift-ui/flex" "6.0.11"
+    "@stackshift-ui/scripts" "6.0.10"
+    "@stackshift-ui/section" "6.0.11"
+    "@stackshift-ui/stats-card" "6.0.12"
+    "@stackshift-ui/system" "6.0.11"
+    "@stackshift-ui/text" "6.0.11"
     classnames "^2.5.1"
 
-"@stackshift-ui/stats-card@6.0.9":
-  version "6.0.9"
-  resolved "https://registry.yarnpkg.com/@stackshift-ui/stats-card/-/stats-card-6.0.9.tgz#116a4bb9702f200b26da6b60ce6aafb685dc98e3"
-  integrity sha512-66L6fHBB6pifMmJWtOXG7bBZqe/yC5kU6cLMnX2Q1e5hGbcg49Yt/YUkcCoSRljhgMFUQx+s72JgSi8YwHnzug==
+"@stackshift-ui/stats-card@6.0.12":
+  version "6.0.12"
+  resolved "https://registry.yarnpkg.com/@stackshift-ui/stats-card/-/stats-card-6.0.12.tgz#c44c2fec8fbd9364ab5ad0f9f715f03382926eb2"
+  integrity sha512-fU7le1o8nFzoToPhph9ZMN3QYguQBwknVbYlqNngvjDmj71ER7w8DtR0FjsqC0mM+FA2sNVkQadSXVYyEplzVg==
   dependencies:
-    "@stackshift-ui/scripts" "6.0.7"
-    "@stackshift-ui/system" "6.0.8"
-    "@stackshift-ui/text" "6.0.8"
+    "@stackshift-ui/scripts" "6.0.10"
+    "@stackshift-ui/system" "6.0.11"
+    "@stackshift-ui/text" "6.0.11"
     classnames "^2.5.1"
 
-"@stackshift-ui/swiper-button@6.0.8":
-  version "6.0.8"
-  resolved "https://registry.yarnpkg.com/@stackshift-ui/swiper-button/-/swiper-button-6.0.8.tgz#22f555f1a3b293964ce8d5fca2b517ba0a36c999"
-  integrity sha512-fv9Kq+jW1GGqlRGMmDp15fEwDkH2+lVhVtp32qt22NfF0y47k3vAHivx3KhwjPovJMVDs/Nns/2Nd8et0184QQ==
+"@stackshift-ui/swiper-button@6.0.11":
+  version "6.0.11"
+  resolved "https://registry.yarnpkg.com/@stackshift-ui/swiper-button/-/swiper-button-6.0.11.tgz#aec7f75dafa52e970c1ca484e5b4e15a01166ce2"
+  integrity sha512-hqk2X9uTGQMmSLxVBhTdK53btEUlsHzG8OgWqRYyhbJxuhBr9OpQkei8hSHlm7DSGzz6PCjBVwWzWaHXfuAHgA==
   dependencies:
-    "@stackshift-ui/button" "6.0.8"
-    "@stackshift-ui/scripts" "6.0.7"
-    "@stackshift-ui/system" "6.0.8"
+    "@stackshift-ui/button" "6.0.11"
+    "@stackshift-ui/scripts" "6.0.10"
+    "@stackshift-ui/system" "6.0.11"
     classnames "^2.5.1"
 
-"@stackshift-ui/swiper-pagination@6.0.8", "@stackshift-ui/swiper-pagination@^6.0.8":
-  version "6.0.8"
-  resolved "https://registry.yarnpkg.com/@stackshift-ui/swiper-pagination/-/swiper-pagination-6.0.8.tgz#6702b848e43bc7a1797957851a76e947831d0696"
-  integrity sha512-jBr3reIqH2ldnX2tbEi7E5scWUxydDp7oS+iCiGEdGtCiY+G2jTMq/4ZdyDmsP84e+BDnZBxMj7bzt764ErJbA==
+"@stackshift-ui/swiper-pagination@6.0.11", "@stackshift-ui/swiper-pagination@^6.0.11":
+  version "6.0.11"
+  resolved "https://registry.yarnpkg.com/@stackshift-ui/swiper-pagination/-/swiper-pagination-6.0.11.tgz#3c4a7712ac57df14c1fd1fbeca7ddedb1a968cf1"
+  integrity sha512-NqUXftau/+C7Ld9GMRXB5+C7aZaqbCTcMt9H1Ihg9ARLzZ6LRL2DetTeAd1h2J/o5gvun9xzA+vRjUpykuOnuA==
   dependencies:
-    "@stackshift-ui/scripts" "6.0.7"
-    "@stackshift-ui/system" "6.0.8"
+    "@stackshift-ui/scripts" "6.0.10"
+    "@stackshift-ui/system" "6.0.11"
     classnames "^2.5.1"
 
-"@stackshift-ui/system@6.0.8", "@stackshift-ui/system@^6.0.8":
-  version "6.0.8"
-  resolved "https://registry.yarnpkg.com/@stackshift-ui/system/-/system-6.0.8.tgz#81b8e8b8ea78597a77a96ace7140417f74b5d09a"
-  integrity sha512-2cJbQ2CGzuVTCjljmiQHysO6Lcksci6XwMVzZhZvznIqbxaCl8NWw6z9oqvXBBE/Lb2BTELCReW/nPkjQhH+4Q==
+"@stackshift-ui/system@6.0.11", "@stackshift-ui/system@^6.0.11":
+  version "6.0.11"
+  resolved "https://registry.yarnpkg.com/@stackshift-ui/system/-/system-6.0.11.tgz#8bf8712fbd5cdf8a2ea1e08fe0fb0636e983edb1"
+  integrity sha512-1eeB3bNGnKHBD2xMGF8UmQXGs9+GZ9x6fErtKgTZR7Z2UMCIrSTvr/x2OpNc8Mm6o7swv6zrGpMbuto1jy++jQ==
   dependencies:
-    "@stackshift-ui/scripts" "6.0.7"
+    "@stackshift-ui/scripts" "6.0.10"
     nextjs-darkmode "^1.0.4"
     nextjs-themes "^4.0.3"
     r18gs "^2.0.0"
     react-live "^4.1.7"
     react18-loaders latest
 
-"@stackshift-ui/team@^6.0.11":
-  version "6.0.11"
-  resolved "https://registry.yarnpkg.com/@stackshift-ui/team/-/team-6.0.11.tgz#02b35402b6f33f1faf22648bfff419a8c315040b"
-  integrity sha512-iE8JMH9bL/d+Foe1EC4pQIQNuLEA+cjk7z992ay5AL38E2jlCbVU89HGHPirSXJRS3Ve63YZGMpBTZqgQTFwvQ==
+"@stackshift-ui/team@^6.0.14":
+  version "6.0.14"
+  resolved "https://registry.yarnpkg.com/@stackshift-ui/team/-/team-6.0.14.tgz#45979347cd851faf9af1f5312c0d027cfad02eae"
+  integrity sha512-klaHJZZ1iMeVSjKzkA2Yub3xpwXPFDlQbyyVzi8WUPYUKkqpHGQV+PJ/Gb/QUDfOJmj4vRp9xKtUFm/ha4nWZg==
   dependencies:
-    "@stackshift-ui/avatar" "6.0.10"
-    "@stackshift-ui/button" "6.0.8"
-    "@stackshift-ui/card" "6.0.8"
-    "@stackshift-ui/container" "6.0.8"
-    "@stackshift-ui/flex" "6.0.8"
-    "@stackshift-ui/heading" "6.0.8"
-    "@stackshift-ui/image" "6.0.8"
-    "@stackshift-ui/scripts" "6.0.7"
-    "@stackshift-ui/section" "6.0.8"
-    "@stackshift-ui/system" "6.0.8"
-    "@stackshift-ui/text" "6.0.8"
+    "@stackshift-ui/avatar" "6.0.13"
+    "@stackshift-ui/button" "6.0.11"
+    "@stackshift-ui/card" "6.0.11"
+    "@stackshift-ui/container" "6.0.11"
+    "@stackshift-ui/flex" "6.0.11"
+    "@stackshift-ui/heading" "6.0.11"
+    "@stackshift-ui/image" "6.0.11"
+    "@stackshift-ui/scripts" "6.0.10"
+    "@stackshift-ui/section" "6.0.11"
+    "@stackshift-ui/system" "6.0.11"
+    "@stackshift-ui/text" "6.0.11"
     classnames "^2.5.1"
 
-"@stackshift-ui/testimonial@^6.0.10":
-  version "6.0.10"
-  resolved "https://registry.yarnpkg.com/@stackshift-ui/testimonial/-/testimonial-6.0.10.tgz#d8418775f7b22d09e5e58c73ae6d2a788c2257d9"
-  integrity sha512-ra0OBu0RHHSsxk4FdHxbaTcMJff/1ZxzkIJiOXJMeaHQpZ7UiD1k3+nvHRF0qrxG+gGozekD0LXwNXY5lYrK5Q==
+"@stackshift-ui/testimonial@^6.0.13":
+  version "6.0.13"
+  resolved "https://registry.yarnpkg.com/@stackshift-ui/testimonial/-/testimonial-6.0.13.tgz#2fb87a016d41f7d31d7b683668d50eb65a2599fd"
+  integrity sha512-eKIAk/ueZ4hvr1tDBa+AyfNQ1bCb2dTh2hoJS1IovuDHmfAM76bD+aWZo26ktWMfFJYFpJg72UxhmMFbI058AA==
   dependencies:
-    "@stackshift-ui/avatar" "6.0.10"
-    "@stackshift-ui/card" "6.0.8"
-    "@stackshift-ui/container" "6.0.8"
-    "@stackshift-ui/flex" "6.0.8"
-    "@stackshift-ui/heading" "6.0.8"
-    "@stackshift-ui/image" "6.0.8"
-    "@stackshift-ui/scripts" "6.0.7"
-    "@stackshift-ui/section" "6.0.8"
-    "@stackshift-ui/swiper-button" "6.0.8"
-    "@stackshift-ui/swiper-pagination" "6.0.8"
-    "@stackshift-ui/system" "6.0.8"
-    "@stackshift-ui/text" "6.0.8"
+    "@stackshift-ui/avatar" "6.0.13"
+    "@stackshift-ui/card" "6.0.11"
+    "@stackshift-ui/container" "6.0.11"
+    "@stackshift-ui/flex" "6.0.11"
+    "@stackshift-ui/heading" "6.0.11"
+    "@stackshift-ui/image" "6.0.11"
+    "@stackshift-ui/scripts" "6.0.10"
+    "@stackshift-ui/section" "6.0.11"
+    "@stackshift-ui/swiper-button" "6.0.11"
+    "@stackshift-ui/swiper-pagination" "6.0.11"
+    "@stackshift-ui/system" "6.0.11"
+    "@stackshift-ui/text" "6.0.11"
     classnames "^2.5.1"
 
-"@stackshift-ui/text-component@^6.0.10":
-  version "6.0.10"
-  resolved "https://registry.yarnpkg.com/@stackshift-ui/text-component/-/text-component-6.0.10.tgz#c2157f9581d3f5fd875d4901cd53369e619c719a"
-  integrity sha512-y56xDEsnVzmbgoAa7YgNxikrjY0rZJq69oqghs3l4CKsx7s1INTGCO/k+wVqo9NnbSVCkQ1E4ExTA5i3iENbjg==
+"@stackshift-ui/text-component@^6.0.13":
+  version "6.0.13"
+  resolved "https://registry.yarnpkg.com/@stackshift-ui/text-component/-/text-component-6.0.13.tgz#c447947c81773c0455e7932a2446d0e9570efc3f"
+  integrity sha512-qtSb3KakDKIFGJ/VRqaHX3IyfXE5W/ISrwSJuUqNpKEobkMnW9dUmhtYFV1vRsYKrdPzw9djmU1TQn/EctvDwg==
   dependencies:
     "@portabletext/react" "^3.1.0"
     "@portabletext/types" "^2.0.13"
-    "@stackshift-ui/container" "6.0.8"
-    "@stackshift-ui/flex" "6.0.8"
-    "@stackshift-ui/heading" "6.0.8"
-    "@stackshift-ui/scripts" "6.0.7"
-    "@stackshift-ui/section" "6.0.8"
-    "@stackshift-ui/system" "6.0.8"
+    "@stackshift-ui/container" "6.0.11"
+    "@stackshift-ui/flex" "6.0.11"
+    "@stackshift-ui/heading" "6.0.11"
+    "@stackshift-ui/scripts" "6.0.10"
+    "@stackshift-ui/section" "6.0.11"
+    "@stackshift-ui/system" "6.0.11"
 
-"@stackshift-ui/text@6.0.8", "@stackshift-ui/text@^6.0.8":
-  version "6.0.8"
-  resolved "https://registry.yarnpkg.com/@stackshift-ui/text/-/text-6.0.8.tgz#9724cada645cce6416e88895ea24c27cbbac55ad"
-  integrity sha512-HNenVRhrKdRtA5CMGaYo49QYYLr6d9taYH60DHiqnz9G8ZDwjWtAgSgnTXKL5ST6Nnrl2OJE6NWMAXTGDwVmXg==
+"@stackshift-ui/text@6.0.11", "@stackshift-ui/text@^6.0.11":
+  version "6.0.11"
+  resolved "https://registry.yarnpkg.com/@stackshift-ui/text/-/text-6.0.11.tgz#c508571f1a6ce6728bb46b28dde7f9d55d1f3bee"
+  integrity sha512-J6aKJyeKcBY4qDuZLzH8eEzFCnfBpmr2y9cx8BZz8WqaWfWHPaxf+lyp60enNFJZCpKOd9s7FQT/sA6TInDRzA==
   dependencies:
-    "@stackshift-ui/scripts" "6.0.7"
-    "@stackshift-ui/system" "6.0.8"
+    "@stackshift-ui/scripts" "6.0.10"
+    "@stackshift-ui/system" "6.0.11"
     classnames "^2.5.1"
 
-"@stackshift-ui/textarea@6.0.9":
-  version "6.0.9"
-  resolved "https://registry.yarnpkg.com/@stackshift-ui/textarea/-/textarea-6.0.9.tgz#6968c08af174d591219fe640b0361e6502d50c81"
-  integrity sha512-idgAAoeo52hGs1I7MNc2hb5oF2l7JKeVo1j47Zmxhxy6r/z/nzztdErxK4/xhVAXcUiJf76JbL7D2fEPmgH1eA==
+"@stackshift-ui/textarea@6.0.12":
+  version "6.0.12"
+  resolved "https://registry.yarnpkg.com/@stackshift-ui/textarea/-/textarea-6.0.12.tgz#b68b0d1da2460410b4931f6186d63176f5a04af8"
+  integrity sha512-pp7eZmvzDxJPA/4FBEMSRDAyOdi7nJuQiDYxVdz7sTiO3UmAJIJCdrhjX7TfjEC5oaQznXvKI80Yvm/BIu+W/w==
   dependencies:
-    "@stackshift-ui/scripts" "6.0.7"
-    "@stackshift-ui/system" "6.0.8"
+    "@stackshift-ui/scripts" "6.0.10"
+    "@stackshift-ui/system" "6.0.11"
     classnames "^2.5.1"
 
-"@stackshift-ui/webriq-form@6.0.8", "@stackshift-ui/webriq-form@^6.0.8":
-  version "6.0.8"
-  resolved "https://registry.yarnpkg.com/@stackshift-ui/webriq-form/-/webriq-form-6.0.8.tgz#da0b06a35856eec6c9905b77a47339dd5b435f6e"
-  integrity sha512-vlJBJsTrQ+RNAlMYZcskHQCtyqewOuD6r6rutzbjOBgE6xbKpjeSqpDCH8JYP5b7MulMHTnGdKEWMSHwlBlOQQ==
+"@stackshift-ui/webriq-form@6.0.11", "@stackshift-ui/webriq-form@^6.0.11":
+  version "6.0.11"
+  resolved "https://registry.yarnpkg.com/@stackshift-ui/webriq-form/-/webriq-form-6.0.11.tgz#d96bac853a881feea74f9e04ec97ce3242093e39"
+  integrity sha512-A1WxPOdqZ+zTffofkX1r7Xni/wc0kX/HtyWlZ1E8vLTpXhDif7aN8jyT/pt1Db0W98HFVMcpceobwd0w4a8Ytw==
   dependencies:
-    "@stackshift-ui/scripts" "6.0.7"
-    "@stackshift-ui/system" "6.0.8"
+    "@stackshift-ui/scripts" "6.0.10"
+    "@stackshift-ui/system" "6.0.11"
 
-"@stackshift-ui/youtube-video@6.0.8":
-  version "6.0.8"
-  resolved "https://registry.yarnpkg.com/@stackshift-ui/youtube-video/-/youtube-video-6.0.8.tgz#d185fd602c5511cac7e76b4023bc57ff42f35855"
-  integrity sha512-UAJ+BSS/RaTaKJs323sFSaDmp0cGmuM6N6YXeOr3YFtJ1jdRvzz0NOf3YpLrUpMRjxpl6BtaJohC391Aax6ruA==
+"@stackshift-ui/youtube-video@6.0.11":
+  version "6.0.11"
+  resolved "https://registry.yarnpkg.com/@stackshift-ui/youtube-video/-/youtube-video-6.0.11.tgz#5f9e27809cad6e1aae0eb20b15083a0f54d2df55"
+  integrity sha512-7sRhTluCWDiPXkCszhEiKpmKdt0MaqnIo+OxnYz7H5PFsMWRFjwjEGhUZLwD89Px7GqrT3EFCrfTmfBGpeUmkw==
   dependencies:
-    "@stackshift-ui/scripts" "6.0.7"
-    "@stackshift-ui/system" "6.0.8"
+    "@stackshift-ui/scripts" "6.0.10"
+    "@stackshift-ui/system" "6.0.11"
 
 "@storybook/addon-actions@8.4.7":
   version "8.4.7"
