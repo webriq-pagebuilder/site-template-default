@@ -1,6 +1,79 @@
 import fs from "fs";
+import path from "path";
 
 export default function (plop) {
+  function getComponentVariants(componentName) {
+    // First try to look in the dist directory for .js files
+    const distPath = path.resolve(
+      process.cwd(),
+      "node_modules",
+      `@stackshift-ui/${componentName}`,
+      "dist"
+    );
+
+    // Also check in the src directory for .tsx files
+    const srcPath = path.resolve(
+      process.cwd(),
+      "node_modules",
+      `@stackshift-ui/${componentName}`,
+      "src"
+    );
+
+    let variants = [{ name: "Index", value: "index" }]; // Always include Index option
+    let foundVariants = false;
+
+    try {
+      // First check the dist directory
+      if (fs.existsSync(distPath)) {
+        const distFiles = fs.readdirSync(distPath);
+        const distVariants = distFiles
+          .filter(
+            (file) =>
+              file.startsWith(`${componentName}_`) && file.endsWith(".js")
+          )
+          .map((file) => {
+            const variantName = file.replace(".js", "").split("_")[1];
+            return {
+              name: `Variant ${variantName.toUpperCase()}`,
+              value: variantName,
+            };
+          });
+
+        if (distVariants.length > 0) {
+          variants = variants.concat(distVariants);
+          foundVariants = true;
+        }
+      }
+
+      // If no variants found in dist, check the src directory
+      if (!foundVariants && fs.existsSync(srcPath)) {
+        const srcFiles = fs.readdirSync(srcPath);
+        const srcVariants = srcFiles
+          .filter(
+            (file) =>
+              (file.startsWith(`${componentName}_`) ||
+                file.startsWith(`text_`)) && // Special case for text-component
+              file.endsWith(".tsx")
+          )
+          .map((file) => {
+            const variantName = file.replace(".tsx", "").split("_")[1];
+            return {
+              name: `Variant ${variantName.toUpperCase()}`,
+              value: variantName,
+            };
+          });
+
+        if (srcVariants.length > 0) {
+          variants = variants.concat(srcVariants);
+        }
+      }
+    } catch (error) {
+      console.error(`Error reading variants for ${componentName}:`, error);
+    }
+
+    return variants;
+  }
+
   plop.setGenerator("component", {
     description: "Create a new React component",
     prompts: [
@@ -100,22 +173,79 @@ export default function (plop) {
           return true;
         },
       },
+      {
+        type: "list",
+        name: "variantStyle",
+        message: "Select the variant style:",
+        when: (answers) => answers.type === "sections" && answers.variant,
+        choices: (answers) => getComponentVariants(answers.variant),
+      },
     ],
     actions: (answers) => {
-      const filePath = `node_modules/@stackshift-ui/${answers.variant}/src/${answers.variant}.tsx`;
-      let templateContent = fs.readFileSync(filePath, "utf8");
+      // Get the basic component file
+      const componentName = answers.variant;
+      let filePath = `node_modules/@stackshift-ui/${componentName}/src/${componentName}.tsx`;
 
-      // Replace import { lazy } from 'react' to import dynamic from 'next/dynamic'
-      templateContent = templateContent.replace(
-        /import\s+{\s*lazy\s*}\s+from\s+['"]react['"];/g,
-        'import dynamic from "next/dynamic";'
-      );
+      // Special case for text-component which might have files named differently
+      if (componentName === "text-component") {
+        // Check if the main file exists
+        if (!fs.existsSync(filePath)) {
+          // Try the alternative name pattern
+          const altFilePath = `node_modules/@stackshift-ui/${componentName}/src/text.tsx`;
+          if (fs.existsSync(altFilePath)) {
+            filePath = altFilePath;
+          }
+        }
+      }
 
-      // Replace import from './types' to '../../../types'
-      templateContent = templateContent.replace(
-        /from\s+['"]\.\/types['"];/g,
-        'from "../../../types";'
-      );
+      // For sections with variants, try to get the variant-specific file
+      if (answers.type === "sections" && answers.variantStyle !== "index") {
+        // Try regular naming pattern
+        let variantPath = `node_modules/@stackshift-ui/${componentName}/src/${componentName}_${answers.variantStyle}.tsx`;
+
+        // Special case for text-component which might have files named "text_a.tsx" instead of "text-component_a.tsx"
+        if (componentName === "text-component" && !fs.existsSync(variantPath)) {
+          variantPath = `node_modules/@stackshift-ui/${componentName}/src/text_${answers.variantStyle}.tsx`;
+        }
+
+        if (fs.existsSync(variantPath)) {
+          filePath = variantPath;
+        }
+      }
+
+      let templateContent = "";
+      try {
+        templateContent = fs.readFileSync(filePath, "utf8");
+
+        // Add proper formatting to ensure newlines
+        // Replace semicolons with semicolons + newline to separate imports
+        templateContent = templateContent.replace(/;(?!\n)/g, ";\n");
+
+        // Fix braces and other formatting
+        templateContent = templateContent.replace(/\{(?!\n)/g, "{\n");
+        templateContent = templateContent.replace(/(?<!\n)\}/g, "\n}");
+
+        // Replace import { lazy } from 'react' to import dynamic from 'next/dynamic'
+        templateContent = templateContent.replace(
+          /import\s+{\s*lazy\s*}\s+from\s+['"]react['"];/g,
+          'import dynamic from "next/dynamic";'
+        ); // Ensure consistent line endings
+        templateContent = templateContent.replace(/\r\n/g, "\n");
+
+        // Replace import from './types' to '../../../types'
+        templateContent = templateContent.replace(
+          /from\s+['"]\.\/types['"];/g,
+          'from "../../../types";'
+        );
+
+        // Make sure the content ends with a newline
+        if (!templateContent.endsWith("\n")) {
+          templateContent += "\n";
+        }
+      } catch (error) {
+        console.error(`Error reading template file: ${filePath}`, error);
+        return [];
+      }
 
       const toPascalCase = (str) =>
         str
@@ -151,11 +281,19 @@ export default function (plop) {
         );
       }
 
+      // Determine file path and name based on variant style
+      let fileName = "index.tsx";
+
+      if (answers.variantStyle && answers.variantStyle !== "index") {
+        fileName = `variant_${answers.variantStyle}.tsx`;
+      }
+
       return [
         {
           type: "add",
-          path: "components/{{type}}/{{kebabCase name}}/index.tsx",
+          path: `components/{{type}}/{{kebabCase name}}/${fileName}`,
           template: templateContent,
+          skipIfExists: true,
         },
       ];
     },
