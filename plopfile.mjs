@@ -291,13 +291,6 @@ export default function (plop) {
 
         let importStatement = `import * as ${importName}Variants from "@stackshift-ui/${answers.variant}";`;
 
-        // Special case for how-it-works and signin-signup components
-        if (componentName === "how-it-works") {
-          importStatement = `import * as ${importName}Variants from "@stackshift-ui/how-it-works";`;
-        } else if (componentName === "signin-signup") {
-          importStatement = `import * as ${importName}Variants from "@stackshift-ui/signin-signup";`;
-        }
-
         if (!templateContent.includes(importStatement)) {
           templateContent = templateContent.replace(
             /(import.*;)/,
@@ -315,14 +308,7 @@ export default function (plop) {
             const formattedKeys = variantKeys.map((key) => {
               const suffix = key.split("_")[1];
 
-              // Special case for how-it-works and signin-signup components
-              if (componentName === "how-it-works") {
-                return `  ${key}: ${importName}Variants.HowItWorks_${suffix.toUpperCase()}`;
-              } else if (componentName === "signin-signup") {
-                return `  ${key}: ${importName}Variants.SigninSignup_${suffix.toUpperCase()}`;
-              } else {
-                return `  ${key}: ${importName}Variants.${importName}_${suffix.toUpperCase()}`;
-              }
+              return `  ${key}: ${importName}Variants.${importName}_${suffix.toUpperCase()}`;
             });
 
             return `const Variants = {\n${formattedKeys.join(",\n")}\n};`;
