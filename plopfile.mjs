@@ -52,11 +52,22 @@ export default function (plop) {
           .filter(
             (file) =>
               (file.startsWith(`${componentName}_`) ||
-                file.startsWith(`text_`)) && // Special case for text-component
+                file.startsWith(`text_`) || // Special case for text-component
+                file.startsWith(`how_it_works_`) || // Special case for how-it-works
+                file.startsWith(`signin_signup_`)) && // Special case for signin-signup
               file.endsWith(".tsx")
           )
           .map((file) => {
-            const variantName = file.replace(".tsx", "").split("_")[1];
+            // Extract the variant name (the part after the last underscore)
+            let variantName;
+            if (
+              file.startsWith("how_it_works_") ||
+              file.startsWith("signin_signup_")
+            ) {
+              variantName = file.replace(".tsx", "").split("_").pop();
+            } else {
+              variantName = file.replace(".tsx", "").split("_")[1];
+            }
             return {
               name: `Variant ${variantName.toUpperCase()}`,
               value: variantName,
@@ -136,7 +147,7 @@ export default function (plop) {
           { name: "Footer", value: "footer" },
           { name: "Header", value: "header" },
           { name: "How It Works", value: "how-it-works" },
-          { name: "Logo Cloud", value: "hero" },
+          { name: "Logo Cloud", value: "logo-cloud" },
           { name: "Navigation", value: "navigation" },
           { name: "Newsletter", value: "newsletter" },
           { name: "Portfolio", value: "portfolio" },
@@ -208,6 +219,16 @@ export default function (plop) {
           variantPath = `node_modules/@stackshift-ui/${componentName}/src/text_${answers.variantStyle}.tsx`;
         }
 
+        // Special case for how-it-works component
+        if (componentName === "how-it-works" && !fs.existsSync(variantPath)) {
+          variantPath = `node_modules/@stackshift-ui/${componentName}/src/how_it_works_${answers.variantStyle}.tsx`;
+        }
+
+        // Special case for signin-signup component
+        if (componentName === "signin-signup" && !fs.existsSync(variantPath)) {
+          variantPath = `node_modules/@stackshift-ui/${componentName}/src/signin_signup_${answers.variantStyle}.tsx`;
+        }
+
         if (fs.existsSync(variantPath)) {
           filePath = variantPath;
         }
@@ -225,11 +246,22 @@ export default function (plop) {
         templateContent = templateContent.replace(/\{(?!\n)/g, "{\n");
         templateContent = templateContent.replace(/(?<!\n)\}/g, "\n}");
 
-        // Replace import { lazy } from 'react' to import dynamic from 'next/dynamic'
-        templateContent = templateContent.replace(
-          /import\s+{\s*lazy\s*}\s+from\s+['"]react['"];/g,
-          'import dynamic from "next/dynamic";'
-        ); // Ensure consistent line endings
+        const hasReactLazyWithReact =
+          /import\s+React,\s*\{\s*lazy\s*\}\s*from\s+['"]react['"];/gs;
+        const hasLazyOnly = /import\s*\{\s*lazy\s*\}\s*from\s+['"]react['"];/gs;
+
+        if (hasReactLazyWithReact.test(templateContent)) {
+          templateContent = templateContent.replace(
+            hasReactLazyWithReact,
+            `import React from 'react';\nimport dynamic from 'next/dynamic';`
+          );
+        } else if (hasLazyOnly.test(templateContent)) {
+          templateContent = templateContent.replace(
+            hasLazyOnly,
+            `import dynamic from 'next/dynamic';`
+          );
+        }
+
         templateContent = templateContent.replace(/\r\n/g, "\n");
 
         // Replace import from './types' to '../../../types'
@@ -255,7 +287,9 @@ export default function (plop) {
 
       if (answers.type === "sections") {
         const importName = `${toPascalCase(answers.variant)}`;
-        const importStatement = `import * as ${importName}Variants from "@stackshift-ui/${answers.variant}";`;
+        console.log("importName", importName);
+
+        let importStatement = `import * as ${importName}Variants from "@stackshift-ui/${answers.variant}";`;
 
         if (!templateContent.includes(importStatement)) {
           templateContent = templateContent.replace(
@@ -273,6 +307,7 @@ export default function (plop) {
 
             const formattedKeys = variantKeys.map((key) => {
               const suffix = key.split("_")[1];
+
               return `  ${key}: ${importName}Variants.${importName}_${suffix.toUpperCase()}`;
             });
 
