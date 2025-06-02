@@ -243,7 +243,30 @@ const variants = `
         ...,
         ${socialMediaIcon}
       }
-    }
+    },
+    headerSections[] {
+        ...,
+        title,
+        description,
+        imageHeight,
+        ${mainImage},
+        alignment,
+        primaryButton {
+          ...,
+          label,
+          ${conditionalLink}
+        },
+      },
+      "images": imagesAndVideos[] {
+        ...,
+        _type == "imageItem" => {
+          "image": image.asset->url,
+          "alt": image.alt,
+        },
+        _type == "videoItem" => {
+          "video": video.asset->url,
+        },
+      }
   }
 `;
 

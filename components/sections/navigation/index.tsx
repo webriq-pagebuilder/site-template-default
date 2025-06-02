@@ -14,6 +14,9 @@ const Variants = {
   variant_c: NavigationVariants.Navigation_C,
   variant_d: NavigationVariants.Navigation_D,
   variant_e: dynamic(() => import("./variant_e")),
+  variant_f: NavigationVariants.Navigation_F,
+  variant_g: NavigationVariants.Navigation_G,
+  variant_h: NavigationVariants.Navigation_H,
 };
 
 export interface ResponsiveNavLinksProps {
