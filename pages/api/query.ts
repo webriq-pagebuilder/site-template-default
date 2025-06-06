@@ -244,6 +244,13 @@ const variants = `
         ${socialMediaIcon}
       }
     },
+     "socialMedia": socialLinks[] {
+      ...,
+      socialMediaIcon {
+        ...,
+        ${socialMediaIcon}
+      }
+    },
     headerSections[] {
         ...,
         title,
@@ -257,6 +264,72 @@ const variants = `
           ${conditionalLink}
         },
       },
+      dropdownMenu != null => {
+        dropdownMenu[] {
+          _key,
+          _type,
+          routeType,
+          "label": link.label,
+          "linkType": link.linkType,
+          "internalLink": link.linkInternal->slug.current,
+          "externalLink": link.linkExternal,
+          "linkTarget": link.linkTarget,
+          multipleRoutes != null => {
+            multipleRoutes[] {
+              _key,
+              _type,
+              "label": link.label,
+              "linkType": link.linkType,
+              "internalLink": link.linkInternal->slug.current,
+              "externalLink": link.linkExternal,
+              "linkTarget": link.linkTarget
+            }
+          },
+          featuredRoute != null => {
+            featuredRoute {
+              featuredLink != null => {
+                featuredLink {
+                  "label": link.label,
+                  "linkType": link.linkType,
+                  "internalLink": link.linkInternal->slug.current,
+                  "externalLink": link.linkExternal,
+                  "linkTarget": link.linkTarget
+                },
+                ${mainImage}
+              }
+            }
+          }
+        }
+      },
+      multipleLinks != null => {
+      "multipleLinks": multipleLinks[]{
+        _key,
+        _type,
+        "label": link.label,
+        "linkType": link.linkType,
+        "internalLink": link.linkInternal->slug.current,
+        "externalLink": link.linkExternal,
+        "linkTarget": link.linkTarget,
+        multipleRoutes[]{
+          _key,
+          _type,
+          "label": link.label,
+          "linkType": link.linkType,
+          "internalLink": link.linkInternal->slug.current,
+          "externalLink": link.linkExternal,
+          "linkTarget": link.linkTarget,
+          multipleInnerRoutes[]{
+            _key,
+            _type,
+            "label": link.label,
+            "linkType": link.linkType,
+            "internalLink": link.linkInternal->slug.current,
+            "externalLink": link.linkExternal,
+            "linkTarget": link.linkTarget
+          }
+        }
+      }
+    },
       "images": imagesAndVideos[] {
         ...,
         _type == "imageItem" => {
@@ -266,7 +339,7 @@ const variants = `
         _type == "videoItem" => {
           "video": video.asset->url,
         },
-      }
+    }
   }
 `;
 
