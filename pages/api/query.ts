@@ -264,6 +264,47 @@ const variants = `
           ${conditionalLink}
         },
       },
+      iconLinks != null => {
+        iconLinks[] {
+          ...,
+          "type": link.linkType,
+          "internalLink": link.linkInternal->slug.current,
+          "externalLink": link.linkExternal,
+          "linkTarget": link.linkTarget
+        }
+      },
+      megaMenu != null => {
+        megaMenu[] {
+          ...,
+          ${conditionalLink},
+          groupOfLinks != null => {
+            groupOfLinks[] {
+              ...,
+              links != null => {
+                links[] {
+                  ...,
+                  links[] {
+                  ...,
+                  ${conditionalLink}
+                  }
+                }
+              }
+            }
+          },
+          showcaseLink != null => {
+            showcaseLink[] {
+              ...,
+              ${mainImage},
+              primaryButton != null => {
+                primaryButton {
+                  ...,
+                  ${conditionalLink}
+                }
+              }
+            }
+          }
+        }
+      },
       dropdownMenu != null => {
         dropdownMenu[] {
           _key,
