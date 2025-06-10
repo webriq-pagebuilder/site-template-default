@@ -243,6 +243,148 @@ const variants = `
         ...,
         ${socialMediaIcon}
       }
+    },
+     "socialMedia": socialLinks[] {
+      ...,
+      socialMediaIcon {
+        ...,
+        ${socialMediaIcon}
+      }
+    },
+    headerSections[] {
+        ...,
+        title,
+        description,
+        imageHeight,
+        ${mainImage},
+        alignment,
+        primaryButton {
+          ...,
+          label,
+          ${conditionalLink}
+        },
+      },
+      iconLinks != null => {
+        iconLinks[] {
+          ...,
+          "type": link.linkType,
+          "internalLink": link.linkInternal->slug.current,
+          "externalLink": link.linkExternal,
+          "linkTarget": link.linkTarget
+        }
+      },
+      megaMenu != null => {
+        megaMenu[] {
+          ...,
+          ${conditionalLink},
+          groupOfLinks != null => {
+            groupOfLinks[] {
+              ...,
+              links != null => {
+                links[] {
+                  ...,
+                  links[] {
+                  ...,
+                  ${conditionalLink}
+                  }
+                }
+              }
+            }
+          },
+          showcaseLink != null => {
+            showcaseLink[] {
+              ...,
+              ${mainImage},
+              primaryButton != null => {
+                primaryButton {
+                  ...,
+                  ${conditionalLink}
+                }
+              }
+            }
+          }
+        }
+      },
+      dropdownMenu != null => {
+        dropdownMenu[] {
+          _key,
+          _type,
+          routeType,
+          routeType == "singleRoute" => {
+            "label": link.label
+          },
+          routeType == "multipleRoute" => {
+            "label": label
+          },
+         "linkType": link.linkType,
+          "internalLink": link.linkInternal->slug.current,
+          "externalLink": link.linkExternal,
+          "linkTarget": link.linkTarget,
+          multipleRoutes != null => {
+            multipleRoutes[] {
+              _key,
+              _type,
+              "label": link.label,
+              "linkType": link.linkType,
+              "internalLink": link.linkInternal->slug.current,
+              "externalLink": link.linkExternal,
+              "linkTarget": link.linkTarget
+            }
+          },
+          featuredRoute != null => {
+            featuredRoute {
+              featuredLink != null => {
+                featuredLink {
+                  "label": link.label,
+                  "linkType": link.linkType,
+                  "internalLink": link.linkInternal->slug.current,
+                  "externalLink": link.linkExternal,
+                  "linkTarget": link.linkTarget
+                },
+                ${mainImage}
+              }
+            }
+          }
+        }
+      },
+      multipleLinks != null => {
+      "multipleLinks": multipleLinks[]{
+        _key,
+        _type,
+        "label": link.label,
+        "linkType": link.linkType,
+        "internalLink": link.linkInternal->slug.current,
+        "externalLink": link.linkExternal,
+        "linkTarget": link.linkTarget,
+        multipleRoutes[]{
+          _key,
+          _type,
+          "label": link.label,
+          "linkType": link.linkType,
+          "internalLink": link.linkInternal->slug.current,
+          "externalLink": link.linkExternal,
+          "linkTarget": link.linkTarget,
+          multipleInnerRoutes[]{
+            _key,
+            _type,
+            "label": link.label,
+            "linkType": link.linkType,
+            "internalLink": link.linkInternal->slug.current,
+            "externalLink": link.linkExternal,
+            "linkTarget": link.linkTarget
+          }
+        }
+      }
+    },
+      "images": imagesAndVideos[] {
+        ...,
+        _type == "imageItem" => {
+          "image": image.asset->url,
+          "alt": image.alt,
+        },
+        _type == "videoItem" => {
+          "video": video.asset->url,
+        },
     }
   }
 `;

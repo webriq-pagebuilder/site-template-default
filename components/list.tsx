@@ -4,7 +4,9 @@ export const Components = {
   navigation: dynamic(() =>
     import("components/sections/navigation").then((m) => m.Navigation)
   ),
-  header: dynamic(() => import("@stackshift-ui/header").then((m) => m.Header)),
+  header: dynamic(() => import("@stackshift-ui/header").then((m) => m.Header), {
+    ssr: false,
+  }),
   features: dynamic(() =>
     import("@stackshift-ui/features").then((m) => m.Features)
   ),

@@ -85,7 +85,6 @@ export const ConditionalLink = ({
 }: ConditionalLinkTypes) => {
   const defaultStyle =
     "inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-primary hover:bg-primary-foreground text-gray-50 font-bold leading-loose outline-none transition duration-200";
-
   if (!link?.internalLink && !link?.externalLink) {
     return (
       <a
@@ -99,7 +98,7 @@ export const ConditionalLink = ({
       </a>
     );
   } else if (
-    link?.type === "linkInternal" &&
+    (link?.type === "linkInternal" || link?.linkType === "linkInternal") &&
     link?.internalLink?.toLowerCase()?.includes("home")
   ) {
     return (
@@ -113,7 +112,10 @@ export const ConditionalLink = ({
         {children}
       </Link>
     );
-  } else if (link?.type === "linkInternal") {
+  } else if (
+    link?.type === "linkExternal" ||
+    link?.linkType === "linkInternal"
+  ) {
     return (
       <Link
         href={`/${link?.internalLink}`}
@@ -125,7 +127,10 @@ export const ConditionalLink = ({
         {children}
       </Link>
     );
-  } else if (link?.type === "linkExternal") {
+  } else if (
+    link?.type === "linkExternal" ||
+    link?.linkType === "linkExternal"
+  ) {
     return (
       <a
         aria-label={ariaLabel}

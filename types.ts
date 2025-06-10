@@ -14,6 +14,9 @@ export interface Variants {
   length?: number;
   arrayOfTitleAndText?: ArrayOfTitleAndText[] | null;
   logo?: Logo | null;
+  multipleLinks?: any;
+  dropdownMenu?: LabeledRouteWithKey[] | null;
+  logos?: Logo[] | null;
   primaryButton?: LabeledRoute | null;
   secondaryButton?: LabeledRoute | null;
   routes?: LabeledRouteWithKey[] | null;
@@ -38,6 +41,9 @@ export interface Variants {
   contactEmail?: string | null;
   contactNumber?: string | null;
   socialLinks?: SocialLink[] | null;
+  socialMedia?: SocialLink[] | null;
+  iconLinks?: LabeledRouteWithKey[] | null;
+  megaMenu?: MegaMenu[];
   block?: any;
   heading?: string | null;
   acceptButtonLabel?: string | null;
@@ -89,6 +95,51 @@ export interface Variants {
   contactLink?: any;
   showRecentPosts?: boolean;
   showPostsFrom?: number;
+}
+
+export interface MegaMenu {
+  _type: string;
+  showcaseLink?: ShowcaseLink[];
+  links?: MegaMenuLink[];
+  _key: string;
+  title?: string;
+  groupOfLinks?: GroupOfLink[];
+  label?: string;
+  linkTarget?: string;
+  linkType?: string;
+  url?: string;
+}
+
+export interface ShowcaseLink {
+  mainImage: MainImage;
+  _type: string;
+  primaryButton: LabeledRouteWithKey;
+  _key: string;
+}
+
+export interface MegaMenuLink {
+  _key: string;
+  title: string;
+  _type: string;
+  links: LabeledRouteWithKey[];
+  primaryButton: LabeledRouteWithKey;
+  label: string;
+}
+
+export interface GroupOfLink {
+  _type: string;
+  links: GroupOfLinkRoot[];
+  _key: string;
+  title: string;
+  primaryButton: LabeledRouteWithKey;
+}
+
+export interface GroupOfLinkRoot {
+  title: string;
+  _type: string;
+  label?: string;
+  links: LabeledRouteWithKey[];
+  _key: string;
 }
 
 export interface SocialProfileFeed {
@@ -180,6 +231,10 @@ export interface Logo extends ConditionalLink {
   alt?: string;
   linkTarget?: string;
   image?: string;
+}
+
+export interface Logos {
+  logo: Logo[];
 }
 
 export type Plans = {

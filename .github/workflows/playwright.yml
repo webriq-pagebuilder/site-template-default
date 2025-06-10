@@ -5,6 +5,10 @@ on:
       - master
       - develop
 
+  push:
+    branches:
+      - master
+
 jobs:
   wait_for_preview_url:
     name: Wait for Vercel Preview URL
