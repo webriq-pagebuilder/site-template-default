@@ -310,8 +310,13 @@ const variants = `
           _key,
           _type,
           routeType,
-          "label": link.label,
-          "linkType": link.linkType,
+          routeType == "singleRoute" => {
+            "label": link.label
+          },
+          routeType == "multipleRoute" => {
+            "label": label
+          },
+         "linkType": link.linkType,
           "internalLink": link.linkInternal->slug.current,
           "externalLink": link.linkExternal,
           "linkTarget": link.linkTarget,
