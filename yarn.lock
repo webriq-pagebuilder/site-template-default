@@ -3449,7 +3449,7 @@
     "@stackshift-ui/system" "6.0.11"
     classnames "^2.5.1"
 
-"@stackshift-ui/contact@^6.0.13":
+"@stackshift-ui/contact@^6.0.14":
   version "6.0.14"
   resolved "https://registry.yarnpkg.com/@stackshift-ui/contact/-/contact-6.0.14.tgz#684040eef2a4dd5d52d3fc16c6e091df77883e65"
   integrity sha512-EkE8F7ySq/jhNMEa1OstwvF3XRYsnnq7jisKcgCobuNsaNm0l+ZGXgDlRyI5Pv3b1eu/4CF8fr9/qBOy60pwwA==
@@ -3532,7 +3532,7 @@
     "@stackshift-ui/system" "6.0.11"
     classnames "^2.5.1"
 
-"@stackshift-ui/footer@^6.0.13":
+"@stackshift-ui/footer@^6.0.14":
   version "6.0.14"
   resolved "https://registry.yarnpkg.com/@stackshift-ui/footer/-/footer-6.0.14.tgz#d7adc4a6fdc6822550e219400e9b921fbe469f9f"
   integrity sha512-29ehqJ3Sa9G2iSxDPToGxD5npUq5ufS/sV1V8v8wYVcQ3R6EmoTjQR30BjFshHhHnK9jufnyiTwfVndTCSb3zQ==
@@ -3688,7 +3688,7 @@
     "@stackshift-ui/system" "6.0.11"
     "@stackshift-ui/text" "6.0.11"
 
-"@stackshift-ui/navigation@6.1.0":
+"@stackshift-ui/navigation@^6.1.0":
   version "6.1.0"
   resolved "https://registry.yarnpkg.com/@stackshift-ui/navigation/-/navigation-6.1.0.tgz#363836790e4ff218f49306dae035d6126d644d7b"
   integrity sha512-uwM1a/A2lYBX5gne6hjGHLWw7hUNl9YxciLTd/vd7U/3vQ1D9zPo4lxd37oS0F2CV29xrOnZ5gpl+2G3HJPcqg==
