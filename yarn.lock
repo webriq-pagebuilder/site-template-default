@@ -3594,10 +3594,10 @@
     "@stackshift-ui/system" "6.0.11"
     classnames "^2.5.1"
 
-"@stackshift-ui/header@^6.1.1":
-  version "6.1.1"
-  resolved "https://registry.yarnpkg.com/@stackshift-ui/header/-/header-6.1.1.tgz#bdd6e73c05af9d9856741925e1aaf139465beac0"
-  integrity sha512-JKM0QhgwyObrDWjVs4oYHlR5+C7KVjfjz8csOSKTHuO/jVC5bboygT5BCww7FvICbSrc9NFEkgsCRGxBY+CzdQ==
+"@stackshift-ui/header@^6.1.4":
+  version "6.1.4"
+  resolved "https://registry.yarnpkg.com/@stackshift-ui/header/-/header-6.1.4.tgz#a9183fd050016fe2305e4606f5c6b8f5169d6488"
+  integrity sha512-UWKOMX1jPNwDb+K13Wg9O8kMiDTuFFI/q/8W+SZLTvOwqpCFniJFhF1kUGqDo7w+m1zIjKi9Uwk2jqTBj6t5gw==
   dependencies:
     "@portabletext/react" "^3.1.0"
     "@stackshift-ui/button" "6.0.11"
