@@ -376,15 +376,15 @@ const variants = `
         }
       }
     },
-      "images": imagesAndVideos[] {
-        ...,
-        _type == "imageItem" => {
-          "image": image.asset->url,
-          "alt": image.alt,
-        },
-        _type == "videoItem" => {
-          "video": video.asset->url,
-        },
+    "mediaItems": imagesAndVideos[] {
+      ...,
+      _type == "imageItem" => {
+        "image": image.asset->url,
+        "alt": image.alt,
+      },
+      _type == "videoItem" => {
+        "video": video.asset->url,
+      },
     }
   }
 `;
