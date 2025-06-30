@@ -263,7 +263,6 @@ export default function (plop) {
         }
 
         templateContent = templateContent.replace(/\r\n/g, "\n");
-
         // Replace import from './types' to '../../../types'
         templateContent = templateContent.replace(
           /from\s+['"]\.\/types['"];/g,
