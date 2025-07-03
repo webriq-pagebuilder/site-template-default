@@ -21,14 +21,15 @@ import { schemaTypes } from "schemas/schema";
 // plugins
 import { media } from "sanity-plugin-media";
 import { codeInput } from "@sanity/code-input";
-
 import { visionTool } from "@sanity/vision";
+
 import { webriqBlog } from "@webriq-pagebuilder/sanity-plugin-webriq-blog";
 import { webriqForms } from "@webriq-pagebuilder/sanity-plugin-webriq-forms";
 import { webriqPayments } from "@webriq-pagebuilder/sanity-plugin-webriq-payments";
 import { webriqGPT3 } from "@webriq-pagebuilder/sanity-plugin-input-component-gpt3";
 import { webriqComponents } from "@webriq-pagebuilder/sanity-plugin-webriq-components";
 import { webriQInspectorInlineEdit } from "@webriq-pagebuilder/sanity-plugin-inspector-inline-edit";
+import { webriqScheduledPublishing } from "@webriq-pagebuilder/sanity-plugin-webriq-scheduled-publishing";
 
 export default defineConfig({
   basePath: "/studio",
@@ -39,6 +40,7 @@ export default defineConfig({
     deskStructure,
     visionTool(),
     webriqComponents(),
+    webriqScheduledPublishing(),
     webriqForms(),
     webriqPayments(),
     webriqBlog(),
