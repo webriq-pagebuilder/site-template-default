@@ -65,8 +65,14 @@ export const ResolveDocumentActions = (props) => {
         ["discardChanges", "unpublish", "delete"].includes(action)
       ),
     ];
-  } else if (["post", "category", "author"]?.includes(context?.schemaType)) {
-    // default document actions for blog documents: post, author and category
+  } else if (["post"]?.includes(context?.schemaType)) {
+    return [
+      createProductsPublishAction,
+      ...prev.filter(
+        ({ action }: { action: string }) => !["publish"].includes(action)
+      ),
+    ];
+  } else if (["category", "author"]?.includes(context?.schemaType)) {
     return [
       createProductsPublishAction,
       ...prev.filter(({ action }: { action: string }) =>
@@ -78,9 +84,8 @@ export const ResolveDocumentActions = (props) => {
     return [
       createProductsPublishAction,
       CustomDuplicateAction,
-      ...prev.filter(
-        ({ action }: { action: string }) =>
-          !["publish", "duplicate"].includes(action)
+      ...prev.filter(({ action }: { action: string }) =>
+        ["unpublish", "discardChanges", "delete"].includes(action)
       ),
     ];
   }
