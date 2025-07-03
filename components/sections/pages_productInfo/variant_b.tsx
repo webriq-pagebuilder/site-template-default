@@ -8,6 +8,10 @@ import ProductDetail from "components/ecwid/ProductDetail";
 import { useEcwid } from "context/EcwidContext";
 import { defaultBlockStyle } from "helper";
 import { PagesProductInfoProps } from ".";
+import { Container } from "@stackshift-ui/container";
+import { Flex } from "@stackshift-ui/flex";
+import { Heading } from "@stackshift-ui/heading";
+import { Text } from "@stackshift-ui/text";
 
 function VariantB({ products }: PagesProductInfoProps) {
   const ecwid = useEcwid();
@@ -21,24 +25,26 @@ function VariantB({ products }: PagesProductInfoProps) {
   }, [ecwid, products?.ecwidProductId]);
 
   return (
-    <section className="sm:p-10 md:p-20">
-      <div className="container mx-auto px-4">
+    <section className="sm:p-10 md:p-20 bg-background">
+      <Container>
         {products && (
-          <div className="-mx-4 flex flex-wrap">
-            <div className="mb-8 w-full px-4 md:mb-0 md:w-1/2">
-              <div className="-mx-1 flex flex-wrap">
+          <Flex wrap>
+            <div className="w-full px-4 mb-8 md:mb-0 md:w-1/2">
+              <Flex wrap>
                 <div className="px-5 md:w-full">
                   <div className="relative">
                     {products?.productInfo?.images ? (
-                      <div className="h-full w-full">
+                      <div className="w-full h-full">
                         <Image
-                          className="object-cover"
-                          sizes="100vw"
+                          sizes="(min-width: 1840px) 704px, (min-width: 1540px) calc(27.86vw + 197px), (min-width: 1320px) calc(30vw + 120px), (min-width: 1260px) calc(145vw - 1379px), (min-width: 1040px) 36vw, (min-width: 980px) 320px, (min-width: 780px) calc(41.11vw - 75px), (min-width: 640px) calc(66.67vw + 69px), calc(100vw - 64px)"
                           width={736}
                           height={564}
                           src={urlFor(
                             products?.productInfo?.images?.[0]?.image
                           )}
+                          style={{
+                            objectFit: "cover",
+                          }}
                           alt={
                             products?.productInfo?.images?.[0]?.alt ??
                             "product-info-main-image"
@@ -48,7 +54,7 @@ function VariantB({ products }: PagesProductInfoProps) {
                     ) : (
                       <Image
                         className="object-cover"
-                        sizes="100vw"
+                        sizes="(min-width: 1840px) 704px, (min-width: 1540px) calc(27.86vw + 197px), (min-width: 1320px) calc(30vw + 120px), (min-width: 1260px) calc(145vw - 1379px), (min-width: 1040px) 36vw, (min-width: 980px) 320px, (min-width: 780px) calc(41.11vw - 75px), (min-width: 640px) calc(66.67vw + 69px), calc(100vw - 64px)"
                         width={736}
                         height={564}
                         src="https://cdn.sanity.io/images/9itgab5x/production/9523d40461371b7b4948456c57bb663bd8998c4a-500x362.png"
@@ -57,9 +63,9 @@ function VariantB({ products }: PagesProductInfoProps) {
                     )}
                   </div>
                 </div>
-                <div className="mr-auto mt-8 px-5">
-                  <div className="flex items-center">
-                    <span className="font-heading mr-8 font-bold uppercase">
+                <div className="px-5 mt-8 mr-auto">
+                  <Flex wrap align="center">
+                    <span className="mr-8 font-bold uppercase font-heading">
                       SHARE IT
                     </span>
                     {products?.productInfo?.socialLinks?.map(
@@ -69,7 +75,7 @@ function VariantB({ products }: PagesProductInfoProps) {
                             aria-label={
                               social?.socialMedia || social?.socialMediaPlatform
                             }
-                            className="mr-2 h-8 w-8"
+                            className="w-8 h-8 mr-2 flex items-center justify-center"
                             target="_blank"
                             rel="noopener noreferrer"
                             href={social?.socialMediaLink}
@@ -114,8 +120,11 @@ function VariantB({ products }: PagesProductInfoProps) {
                               </svg>
                             ) : (
                               social?.socialMediaIcon?.image && (
-                                <img
+                                <Image
                                   src={urlFor(social?.socialMediaIcon?.image)}
+                                  width={32}
+                                  height={32}
+                                  quality={100}
                                   alt={
                                     social?.socialMediaIcon?.alt ??
                                     "contact-socialMedia-icon"
@@ -126,30 +135,62 @@ function VariantB({ products }: PagesProductInfoProps) {
                           </a>
                         )
                     )}
-                  </div>
+                  </Flex>
                 </div>
-              </div>
+              </Flex>
             </div>
             <div className="w-full px-4 md:w-1/2">
               <div>
-                <div className="mb-10 border-b pb-10">
+                <div className="pb-10 mb-10 border-b">
                   {products?.ecwidProductId && (
                     <div className="mb-3">
                       <Ribbon data={ecwidProduct} />
                     </div>
                   )}
                   {products?.name && (
-                    <h1 className="font-heading mb-6 mt-2 max-w-xl text-5xl font-bold md:text-6xl">
+                    <Heading
+                      weight="bold"
+                      className="max-w-xl mt-2 mb-6 text-5xl md:text-6xl"
+                    >
                       {products?.name}
-                    </h1>
+                    </Heading>
                   )}
                   <div className="mb-8">{/* Add product rating here */}</div>
                   {products?.price && (
-                    <p className="font-heading mb-8 inline-block text-2xl font-bold text-webriq-blue">
+                    <Text
+                      weight="bold"
+                      fontSize="2xl"
+                      className={`inline-blockd text-primary ${
+                        !products?.compareToPrice && "mb-8"
+                      }`}
+                    >
                       {(ecwid &&
                         ecwid?.products?.defaultDisplayedPriceFormatted) ||
                         ecwid?.getPriceDisplay(products?.price)}
-                    </p>
+                    </Text>
+                  )}
+                  {products?.compareToPrice && (
+                    <Text
+                      muted
+                      className="mt-3 mb-8 "
+                      style={{
+                        fontSize: "15px",
+                      }}
+                    >
+                      Before{" "}
+                      <span className="line-through">
+                        {ecwidProduct?.compareToPriceFormatted}
+                      </span>{" "}
+                      (
+                      <span
+                        className="text-secondary"
+                        style={{ fontSize: "15px" }}
+                      >
+                        Save{" "}
+                        {ecwidProduct?.compareToPriceDiscountPercentFormatted}
+                      </span>
+                      )
+                    </Text>
                   )}
                   {products?.description && (
                     // <p
@@ -157,52 +198,40 @@ function VariantB({ products }: PagesProductInfoProps) {
                     //     __html: products?.description,
                     //   }}
                     // />
-                    <PortableText value={products?.description} components={defaultBlockStyle} />
+                    <PortableText
+                      value={products?.description}
+                      components={defaultBlockStyle}
+                      onMissingComponent={false} // Disabling warnings / handling unknown types
+                    />
                   )}
                 </div>
 
                 <ProductDetail product={ecwidProduct}>
-                  <div className="my-8 flex items-start gap-4 flex-row">
+                  <Flex align="center" gap={4} className="my-8 flex-col lg:flex-row">
                     <div className="w-full lg:mb-4 xl:mb-0">
                       <AddToBag
                         inStock={!ecwidProduct?.inStock}
-                        classNames="block w-full mb-4 lg:mb-0 text-center text-white font-bold font-heading py-5 px-8 rounded-md uppercase transition duration-200 bg-webriq-darkblue hover:bg-webriq-blue cursor-pointer"
+                        classNames="block w-full py-5 px-8 cursor-pointer uppercase"
                       >
                         {products?.productInfo?.btnLabel ?? "ADD TO CART"}
                       </AddToBag>
                     </div>
                     <AddToWishlist
-                      classNames="w-full flex-shrink-0 flex flex-wrap items-center justify-center py-5 px-8 rounded-md border hover:border-webriq-darkblue"
+                      classNames="block w-full items-center justify-center rounded-md border hover:border-primary py-5 px-8"
                       product={ecwidProduct}
                       containerClass="w-full"
                     >
-                      <svg
-                        className="-mt-1 mr-2"
-                        width={27}
-                        height={27}
-                        viewBox="0 0 27 27"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M13.4993 26.2061L4.70067 16.9253C3.9281 16.1443 3.41815 15.1374 3.24307 14.0471C3.06798 12.9568 3.23664 11.8385 3.72514 10.8505V10.8505C4.09415 10.1046 4.63318 9.45803 5.29779 8.96406C5.96241 8.47008 6.73359 8.14284 7.54782 8.00931C8.36204 7.87578 9.19599 7.93978 9.98095 8.19603C10.7659 8.45228 11.4794 8.89345 12.0627 9.48319L13.4993 10.9358L14.9359 9.48319C15.5192 8.89345 16.2327 8.45228 17.0177 8.19603C17.8026 7.93978 18.6366 7.87578 19.4508 8.00931C20.265 8.14284 21.0362 8.47008 21.7008 8.96406C22.3654 9.45803 22.9045 10.1046 23.2735 10.8505V10.8505C23.762 11.8385 23.9306 12.9568 23.7556 14.0471C23.5805 15.1374 23.0705 16.1443 22.298 16.9253L13.4993 26.2061Z"
-                          stroke="black"
-                          strokeWidth="1.5"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                      </svg>
-                      <span className="font-heading font-bold uppercase">
-                        Add to wishlists
+                      <span className="font-bold uppercase">
+                        Add to wishlist
                       </span>
                     </AddToWishlist>
-                  </div>
+                  </Flex>
                 </ProductDetail>
               </div>
             </div>
-          </div>
+          </Flex>
         )}
-      </div>
+      </Container>
     </section>
   );
 }

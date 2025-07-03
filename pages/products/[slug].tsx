@@ -1,26 +1,29 @@
 /** This component displays content for the PRODUCT page */
 
 import React, { useEffect } from "react";
-import Head from "next/head";
 import { useRouter } from "next/router";
 import { groq } from "next-sanity";
 import { PreviewSuspense } from "next-sanity/preview";
 import { sanityClient, getClient } from "lib/sanity.client";
 import { usePreview } from "lib/sanity.preview";
-import { productsQuery } from "pages/api/query";
+import { globalSEOQuery, productsQuery } from "pages/api/query";
 import PageNotFound from "pages/404";
 import { filterDataToSingleItem } from "components/list";
+import { SEO } from "components/SEO";
 import { PreviewBanner } from "components/PreviewBanner";
 import { PreviewNoContent } from "components/PreviewNoContent";
 import { ProductSections } from "components/page/store/products";
 import InlineEditorContextProvider from "context/InlineEditorContext";
-import { CollectionProduct, CommonSections } from "types";
+import { CollectionProduct, CommonSections, SeoTags, SeoSchema } from "types";
+import { addSEOJsonLd } from "components/SEO";
 
 interface ProductPageBySlugProps {
   data: Data;
   preview: boolean;
   token: string;
   source: string;
+  seo?: SeoTags[];
+  seoSchema?: SeoSchema;
 }
 
 interface Data {
@@ -29,6 +32,7 @@ interface Data {
 
 export interface ProductData extends CollectionProduct {
   commonSections: CommonSections;
+  hasNeverPublished?: boolean;
 }
 
 interface DocumentWithPreviewProps {
@@ -84,32 +88,11 @@ function Document({ data }: { data: Data }) {
     return null;
   }
 
-  const {
-    commonSections, // sections from Store > Commerce Pages > Products
-    name, // product name
-    seo, // product page SEO
-  } = publishedData;
+  if (publishedData?.hasNeverPublished) {
+    return <PageNotFound />;
+  }
 
-  return (
-    <>
-      <Head>
-        <meta
-          name="viewport"
-          content="width=360 initial-scale=1, shrink-to-fit=no"
-        />
-        <link rel="icon" href="../favicon.ico" />
-        <title>
-          {seo?.seoTitle ??
-            commonSections?.seo?.seoTitle ??
-            name ??
-            "WebriQ Studio"}
-        </title>
-      </Head>
-
-      {/* Show Product page sections */}
-      {data?.productData && <ProductSections data={publishedData} />}
-    </>
-  );
+  return data?.productData && <ProductSections data={publishedData} />;
 }
 
 /**
@@ -135,35 +118,15 @@ function DocumentWithPreview({
     return null;
   }
 
-  const {
-    commonSections, // sections from Store > Commerce Pages > Products
-    name, // product name
-    seo, // product page SEO
-  } = previewData;
-
   return (
     <>
-      <Head>
-        <meta
-          name="viewport"
-          content="width=360 initial-scale=1, shrink-to-fit=no"
-        />
-        <link rel="icon" href="../favicon.ico" />
-        <title>
-          {seo?.seoTitle ??
-            commonSections?.seo?.seoTitle ??
-            name ??
-            "WebriQ Studio"}
-        </title>
-      </Head>
-
       {/* if no sections, show no sections only in preview */}
       {(!previewData ||
         !previewData?.sections ||
         previewData?.sections?.length === 0) && <PreviewNoContent />}
 
       {/* Show Product page sections */}
-      {data?.productData && <ProductSections data={previewData} />}
+      {previewData && <ProductSections data={previewData} />}
     </>
   );
 }
@@ -175,10 +138,13 @@ export async function getStaticProps({
 }: any): Promise<{ props: ProductPageBySlugProps; revalidate: number }> {
   const client =
     preview && previewData?.token
-      ? getClient(false).withConfig({ token: previewData.token })
-      : getClient(preview);
+      ? getClient(preview).withConfig({ token: previewData.token })
+      : getClient(false);
 
-  const products = await client.fetch(productsQuery, { slug: params.slug });
+  const [products, globalSEO] = await Promise.all([
+    client.fetch(productsQuery, { slug: params.slug }),
+    client.fetch(globalSEOQuery),
+  ]);
 
   // pass products data and preview to helper function
   const singleProductsData: ProductData = filterDataToSingleItem(
@@ -186,14 +152,41 @@ export async function getStaticProps({
     preview
   );
 
+  const data = {
+    productData: singleProductsData || null,
+  };
+
+  // SEO tags
+  const seo = SEO({
+    data: {
+      title: data?.productData?.name || "Stackshift | Product page",
+      type: data?.productData?._type || "mainProduct",
+      route: `products/${params?.slug}`,
+      ...data?.productData?.seo,
+    },
+    defaultSeo: globalSEO,
+  });
+
+  // Structured data (JSON-LD encoding)
+  const seoSchema = {
+    key: `${data?.productData?._type}-jsonld`,
+    innerHTML: addSEOJsonLd({
+      seo: seo,
+      type: data?.productData?._type,
+      defaults: globalSEO,
+      slug: params?.slug,
+      pageData: data?.productData,
+    }),
+  };
+
   return {
     props: {
       preview,
       token: (preview && previewData.token) || "",
       source: (preview && previewData.source) || "",
-      data: {
-        productData: singleProductsData || null,
-      },
+      data,
+      seo,
+      seoSchema,
     },
     // If webhooks isn't setup then attempt to re-generate in 1 minute intervals
     revalidate: process.env.SANITY_REVALIDATE_SECRET ? undefined : 60,
@@ -201,8 +194,18 @@ export async function getStaticProps({
 }
 
 export async function getStaticPaths() {
+  // When this is true (in preview environments) don't
+  // prerender any static pages
+  // (faster builds, but slower initial page load)
+  if (process.env.SKIP_BUILD_STATIC_GENERATION) {
+    return {
+      paths: [],
+      fallback: "blocking",
+    };
+  }
+
   const products = await sanityClient.fetch(
-    groq`*[_type == "mainProduct" && defined(slug.current)][].slug.current`
+    groq`*[_type == "mainProduct" && !(_id in path("drafts.**")) && defined(slug.current)][].slug.current`
   );
 
   return {

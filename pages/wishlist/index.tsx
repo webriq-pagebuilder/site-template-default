@@ -1,21 +1,23 @@
 import React, { useEffect } from "react";
-import Head from "next/head";
 import { PreviewSuspense } from "next-sanity/preview";
 import { getClient } from "lib/sanity.client";
 import { usePreview } from "lib/sanity.preview";
-import { wishlistPageQuery } from "pages/api/query";
+import { wishlistPageQuery, globalSEOQuery } from "pages/api/query";
 import { WishlistSections } from "components/page/store/wishlist";
 import { PreviewNoContent } from "components/PreviewNoContent";
+import PageNotFound from "pages/404";
 import { filterDataToSingleItem } from "components/list";
+import { SEO } from "components/SEO";
 import { PreviewBanner } from "components/PreviewBanner";
 import InlineEditorContextProvider from "context/InlineEditorContext";
-import { CommonPageData, CommonSections } from "types";
+import { CommonPageData, SeoTags } from "types";
 
 interface WishListPageProps {
   data: Data;
   preview: boolean;
   token?: string;
   source?: string;
+  seo?: SeoTags[];
 }
 
 interface Data {
@@ -33,28 +35,33 @@ interface DocumentWithPreviewProps {
   data: Data;
   token: string;
 }
+
 function WishlistPage({ data, preview, token, source }: WishListPageProps) {
+  const showInlineEditor = source === "studio";
   useEffect(() => {
     if (typeof Ecwid !== "undefined") {
       window.Ecwid.init();
     }
   }, []);
 
-  const showInlineEditor = source === "studio";
-  if (preview) {
-    return (
-      <>
-        <PreviewBanner />
-        <PreviewSuspense fallback={"Loading..."}>
-          <InlineEditorContextProvider showInlineEditor={showInlineEditor}>
-            <DocumentWithPreview {...{ data, token }} />
-          </InlineEditorContextProvider>
-        </PreviewSuspense>
-      </>
-    );
-  }
+  if (!data?.wishlistData) {
+    return <PageNotFound />
+  } else {
+    if (preview) {
+      return (
+        <>
+          <PreviewBanner />
+          <PreviewSuspense fallback={"Loading..."}>
+            <InlineEditorContextProvider showInlineEditor={showInlineEditor}>
+              <DocumentWithPreview {...{ data, token }} />
+            </InlineEditorContextProvider>
+          </PreviewSuspense>
+        </>
+      );
+    }
 
-  return <Document {...{ data }} />;
+    return <Document {...{ data }} />;
+  }
 }
 
 /**
@@ -71,19 +78,7 @@ function Document({ data }: { data: Data }) {
     return null;
   }
 
-  const { seo } = publishedData;
-
-  return (
-    <>
-      <Head>
-        <meta name="viewport" content="width=260 initial-scale=1" />
-        <title>{seo?.seoTitle ?? "Wishlist"}</title>
-      </Head>
-
-      {/*  Show page sections */}
-      {data?.wishlistData && <WishlistSections data={publishedData} />}
-    </>
-  );
+  return data?.wishlistData && <WishlistSections data={publishedData} />;
 }
 
 /**
@@ -103,17 +98,9 @@ function DocumentWithPreview({ data, token = null }: DocumentWithPreviewProps) {
     return null;
   }
 
-  const { seo } = previewData;
-
   return (
     <>
-      <Head>
-        <meta name="viewport" content="width=260 initial-scale=1" />
-        <title>{seo?.seoTitle ?? "Wishlist"}</title>
-      </Head>
-
       {/* if no sections, show no sections only in preview */}
-
       {(!previewData ||
         !previewData?.sections ||
         previewData?.sections?.length === 0) && <PreviewNoContent />}
@@ -130,19 +117,35 @@ export async function getStaticProps({
 }: any): Promise<{ props: WishListPageProps }> {
   const client =
     preview && previewData?.token
-      ? getClient(false).withConfig({ token: previewData.token })
-      : getClient(preview);
+      ? getClient(preview).withConfig({ token: previewData.token })
+      : getClient(false);
 
-  const searchPage = await client.fetch(wishlistPageQuery);
+  const [wishlistPage, globalSEO] = await Promise.all([
+    client.fetch(wishlistPageQuery),
+    client.fetch(globalSEOQuery),
+  ]);
 
   // pass page data and preview to helper function
-  const wishlistData = filterDataToSingleItem(searchPage, preview);
+  const wishlistData = filterDataToSingleItem(wishlistPage, preview);
+
+  const data = { wishlistData };
+
+  const seo = SEO({
+    data: {
+      title: "Wishlist",
+      type: data?.wishlistData?._type,
+      route: "wishlist",
+      ...data?.wishlistData,
+    },
+    defaultSeo: globalSEO,
+  });
 
   if (!wishlistData) {
     return {
       props: {
         preview,
         data: { wishlistData: null },
+        seo,
       },
     };
   }
@@ -152,7 +155,8 @@ export async function getStaticProps({
       preview,
       token: (preview && previewData.token) || "",
       source: (preview && previewData.source) || "",
-      data: { wishlistData },
+      data,
+      seo,
     },
   };
 }

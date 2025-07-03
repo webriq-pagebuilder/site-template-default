@@ -7,9 +7,21 @@ import AddToWishlist from "components/ecwid/AddToWishlist";
 import Ribbon from "components/ecwid/Ribbon";
 //import Description from "components/ecwid/Description";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Thumbs, Pagination, A11y } from "swiper";
+import { Navigation, Thumbs, Pagination, A11y } from "swiper/modules";
 import { ProductInfoProps } from ".";
 import { MyPortableTextComponents } from "types";
+import { Container } from "@stackshift-ui/container";
+import { Flex } from "@stackshift-ui/flex";
+import { Text } from "@stackshift-ui/text";
+import { Heading } from "@stackshift-ui/heading";
+import { Button } from "@stackshift-ui/button";
+
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/thumbs";
+import "swiper/css/pagination";
+import "swiper/css/a11y";
 
 function VariantA({
   subtitle,
@@ -21,47 +33,64 @@ function VariantA({
   ecwidProduct,
   getPriceDisplay,
 }: ProductInfoProps) {
+  const [activeTab, setActiveTab] = useState(0);
+  const [thumbsSwiper, setThumbsSwiper] = useState(null);
+
   // get Ecwid product details
   const defaultProduct = ecwidProduct ? ecwidProduct : product;
+  const buttonLabel = btnLabel ? btnLabel : "Add to cart";
 
   // block styling as props to `serializers` of the PortableText component
   const blockStyle: MyPortableTextComponents = {
     block: {
       h1: ({ children }) => {
         return (
-          <h1 className="font-heading mb-8 text-7xl font-bold leading-loose">
+          <Heading weight="bold" className="mb-8 leading-loose text-7xl">
             {children}
-          </h1>
+          </Heading>
         );
       },
       h2: ({ children }) => {
         return (
-          <h2 className="font-heading mb-8 text-5xl font-bold leading-loose">
+          <Heading
+            type="h2"
+            weight="bold"
+            className="mb-8 leading-loose text-5xl"
+          >
             {children}
-          </h2>
+          </Heading>
         );
       },
       h3: ({ children }) => {
         return (
-          <h3 className="font-heading mb-8 text-3xl font-bold leading-loose">
+          <Heading
+            type="h3"
+            weight="bold"
+            fontSize="3xl"
+            className="mb-8 leading-loose"
+          >
             {children}
-          </h3>
+          </Heading>
         );
       },
       h4: ({ children }) => {
         return (
-          <h4 className="font-heading mb-6 text-xl font-bold leading-loose">
+          <Heading
+            type="h4"
+            weight="bold"
+            fontSize="xl"
+            className="mb-6 leading-loose"
+          >
             {children}
-          </h4>
+          </Heading>
         );
       },
       normal: ({ children }) => {
-        // return <p className="max-w-2xl text-gray-500">{children}</p>;
-        return <p className="text-gray-500">{children}</p>;
+        return <Text muted>{children}</Text>;
       },
       blockquote: ({ children }) => {
         return (
-          <blockquote className="mb-6 px-14 italic leading-loose text-gray-500">
+          <blockquote className="mb-6 italic leading-loose text-gray-500 px-14">
             - {children}
           </blockquote>
         );
@@ -70,14 +99,14 @@ function VariantA({
     list: {
       bullet: ({ children }) => {
         return (
-          <ul className="mb-6 list-disc pl-10 leading-loose text-gray-900">
+          <ul className="pl-10 mb-6 leading-loose text-gray-900 list-disc">
             {children}
           </ul>
         );
       },
       number: ({ children }) => {
         return (
-          <ol className="mb-6 list-decimal leading-loose text-gray-900">
+          <ol className="mb-6 leading-loose text-gray-900 list-decimal">
             {children}
           </ol>
         );
@@ -95,7 +124,7 @@ function VariantA({
       link: ({ children, value }) => (
         <a
           aria-label={value.href ?? "external link"}
-          className="text-webriq-blue hover:text-webriq-lightblue"
+          className="text-primary-foreground hover:text-secondary-foreground"
           href={value.href}
           target="_blank"
           rel="noopener noreferrer"
@@ -106,14 +135,11 @@ function VariantA({
     },
   };
 
-  const [activeTab, setActiveTab] = useState(0);
-  const [thumbsSwiper, setThumbsSwiper] = useState(null);
-
   return (
-    <section className="sm:p-12 md:p-20">
-      <div className="container mx-auto px-4">
-        <div className="-mx-4 mb-24 flex flex-wrap">
-          <div className="mb-8 mt-14 w-full px-4 md:mb-0 lg:w-1/2">
+    <section className="sm:p-12 md:p-20 bg-background">
+      <Container>
+        <Flex wrap className="mb-5 ">
+          <div className="w-full px-4 mb-8 mt-14 md:mb-0 lg:w-1/2">
             <div className="relative mb-10">
               <Swiper
                 navigation={{
@@ -123,22 +149,28 @@ function VariantA({
                 modules={[Thumbs, Navigation, Pagination, A11y]}
                 spaceBetween={20}
                 slidesPerView={1}
-                loop={true}
+                loop={images?.length > 1 ? true : false}
                 speed={500}
-                watchSlidesProgress={true}
+                watchSlidesProgress={images?.length > 1 ? true : false}
                 thumbs={{ swiper: thumbsSwiper }}
+                style={{ height: "618px" }}
               >
                 {images &&
                   images?.map((item, index) => (
                     <SwiperSlide key={index}>
-                      <Image
-                        className="h-full w-full object-cover"
-                        sizes="100vw"
-                        width={736}
-                        height={564}
-                        src={urlFor(item?.image)}
-                        alt={item?.alt ?? `product-image-${index + 1}`}
-                      />
+                      <div className="h-full">
+                        <Image
+                          sizes="100vw"
+                          fill
+                          quality={100}
+                          src={urlFor(item?.image)}
+                          style={{
+                            objectFit: "cover",
+                            objectPosition: "center",
+                          }}
+                          alt={item?.alt ?? `product-image-${index + 1}`}
+                        />
+                      </div>
                     </SwiperSlide>
                   ))}
               </Swiper>
@@ -148,30 +180,31 @@ function VariantA({
                 spaceBetween={10}
                 slidesPerView={4}
                 freeMode={true}
-                watchSlidesProgress={true}
+                watchSlidesProgress={images?.length > 1 ? true : false}
                 navigation={{
                   prevEl: "#thumbPrev",
                   nextEl: "#thumbNext",
                 }}
-                className="product-images-thumbs-swiper hidden md:-mx-2 md:flex md:flex-wrap"
+                className="hidden md:-mx-2 md:flex md:flex-wrap mt-3"
                 pagination={{
                   clickable: true,
                 }}
               >
-                {images?.map((item, index) => (
-                  <SwiperSlide className="w-1/4 py-2" key={index}>
-                    {item?.image && (
-                      <Image
-                        className="flex h-[147px] object-cover hover:border hover:border-gray-400"
-                        sizes="100vw"
-                        width={170}
-                        height={128}
-                        src={urlFor(item?.image)}
-                        alt={item?.alt ?? `product-image-${index + 1}`}
-                      />
-                    )}
-                  </SwiperSlide>
-                ))}
+                {images &&
+                  images?.map((item, index) => (
+                    <SwiperSlide className="w-1/4" key={index}>
+                      {item?.image && (
+                        <Image
+                          className="flex h-[147px] object-cover hover:border hover:border-gray-400"
+                          sizes="100vw"
+                          width={170}
+                          height={128}
+                          src={urlFor(item?.image)}
+                          alt={item?.alt ?? `product-image-${index + 1}`}
+                        />
+                      )}
+                    </SwiperSlide>
+                  ))}
               </Swiper>
               <div className="mt-5">
                 <button
@@ -213,68 +246,106 @@ function VariantA({
           </div>
           <div className="w-full px-4 lg:w-1/2">
             <div className="lg:px-10">
-              <div className="border-b pb-10">
+              <div className="pb-10 border-b">
                 {ecwidProduct && product?.ecwidProductId && (
                   <div className="mb-3">
                     <Ribbon data={ecwidProduct} />
                   </div>
                 )}
                 {subtitle && (
-                  <span className="font-custom font-bold text-webriq-darkblue">
+                  <Text weight="bold" className="text-primary">
                     {subtitle}
-                  </span>
+                  </Text>
                 )}
                 {product?.name && (
-                  <h1 className="font-heading mb-6 mt-2 text-5xl font-bold md:text-6xl lg:max-w-xl">
+                  <Heading
+                    weight="bold"
+                    className="mt-2 mb-6 text-5xl md:text-6xl lg:max-w-xl"
+                  >
                     {product?.name}
-                  </h1>
+                  </Heading>
                 )}
                 <div className="mb-8">{/* Ratings from Ecwid */}</div>
-                <p className="font-heading mb-8 inline-block text-2xl font-bold">
-                  {/* Product price from Ecwid */}
-                  <span className="text-webriq-darkblue">
+                {/* Product price */}
+                {product?.price && (
+                  <Text
+                    weight="bold"
+                    fontSize="2xl"
+                    className={` text-primary inline-block ${
+                      !ecwidProduct?.compareToPrice && "mb-8"
+                    }`}
+                  >
+                    {/* Product price from Ecwid */}
                     {ecwidProduct
                       ? getPriceDisplay()
-                      : ecwidProduct?.defaultDisplayedPriceFormatted}
-                  </span>
-                </p>
-                {/* <Description data={product} /> */}
+                      : ecwidProduct?.defaultDisplayedPriceFormatted
+                      ? ecwidProduct?.defaultDisplayedPriceFormatted
+                      : product?.price}
+                  </Text>
+                )}
+                {/* "CompareTo" price */}
+                {ecwidProduct?.compareToPrice && (
+                  <p
+                    className="mt-3 mb-8"
+                    style={{
+                      fontSize: "15px",
+                    }}
+                  >
+                    Before{" "}
+                    <span className="line-through">
+                      {ecwidProduct?.compareToPriceFormatted}
+                    </span>{" "}
+                    (
+                    <span
+                      className="text-secondary"
+                      style={{ fontSize: "15px" }}
+                    >
+                      {`Save ${ecwidProduct?.compareToPriceDiscountPercentFormatted}`}
+                    </span>
+                    )
+                  </p>
+                )}
 
+                {/* <Description data={product} /> */}
                 {product?.description && (
-                  <PortableText value={product?.description} components={blockStyle} />
+                  <PortableText
+                    value={product?.description}
+                    components={blockStyle}
+                    onMissingComponent={false} // Disabling warnings / handling unknown types
+                  />
                 )}
               </div>
 
               {product?.ecwidProductId && ecwidProduct && (
                 <ProductDetail product={defaultProduct}>
-                  <div className="my-8 flex items-start gap-4 flex-row">
-                    {btnLabel && ecwidProduct?.inStock && (
+                  <div className="flex flex-row items-start gap-4 my-8">
+                    {buttonLabel && ecwidProduct?.inStock && (
                       <div className="w-full lg:mb-4 xl:mb-0">
                         <AddToBag
                           inStock={!ecwidProduct?.inStock}
-                          classNames="block w-full text-center text-white font-bold font-heading py-5 px-8 rounded-md uppercase transition duration-200 bg-webriq-darkblue hover:bg-webriq-blue cursor-pointer"
+                          classNames="block w-full py-5 px-8 cursor-pointer uppercase"
                         >
-                          {btnLabel}
+                          {buttonLabel}
                         </AddToBag>
                       </div>
                     )}
 
                     {/* Add to wishlist button */}
                     <AddToWishlist
-                      classNames="ml-auto sm:ml-0 flex-shrink-0 inline-flex items-center justify-center w-full h-16 rounded-md border hover:border-webriq-darkblue"
+                      classNames="ml-auto sm:ml-0 flex-shrink-0 inline-flex items-center justify-center w-full h-16 rounded-md border hover:border-primary"
                       product={defaultProduct}
                     >
                       <svg
-                        className="h-6 w-6"
+                        className="w-6 h-6"
                         width={27}
                         height={27}
                         viewBox="0 0 27 27"
-                        fill="none"
+                        fill="inherit"
                         xmlns="http://www.w3.org/2000/svg"
                       >
                         <path
                           d="M13.4993 26.2061L4.70067 16.9253C3.9281 16.1443 3.41815 15.1374 3.24307 14.0471C3.06798 12.9568 3.23664 11.8385 3.72514 10.8505V10.8505C4.09415 10.1046 4.63318 9.45803 5.29779 8.96406C5.96241 8.47008 6.73359 8.14284 7.54782 8.00931C8.36204 7.87578 9.19599 7.93978 9.98095 8.19603C10.7659 8.45228 11.4794 8.89345 12.0627 9.48319L13.4993 10.9358L14.9359 9.48319C15.5192 8.89345 16.2327 8.45228 17.0177 8.19603C17.8026 7.93978 18.6366 7.87578 19.4508 8.00931C20.265 8.14284 21.0362 8.47008 21.7008 8.96406C22.3654 9.45803 22.9045 10.1046 23.2735 10.8505V10.8505C23.762 11.8385 23.9306 12.9568 23.7556 14.0471C23.5805 15.1374 23.0705 16.1443 22.298 16.9253L13.4993 26.2061Z"
-                          stroke="black"
+                          //stroke="black"
                           strokeWidth="1.5"
                           strokeLinecap="round"
                           strokeLinejoin="round"
@@ -286,8 +357,8 @@ function VariantA({
               )}
 
               {socialLinks && (
-                <div className="mt-4 flex items-center">
-                  <span className="font-heading mr-8 font-bold uppercase">
+                <div className="flex items-center mt-4">
+                  <span className="mr-8 font-bold uppercase font-heading">
                     SHARE IT
                   </span>
                   {socialLinks?.map(
@@ -297,7 +368,7 @@ function VariantA({
                           aria-label={
                             social?.socialMedia || social?.socialMediaPlatform
                           }
-                          className="mr-1 h-8 w-8"
+                          className="w-8 h-8 mr-1 flex items-center justify-center"
                           target="_blank"
                           rel="noopener noreferrer"
                           href={social?.socialMediaLink}
@@ -342,8 +413,11 @@ function VariantA({
                             </svg>
                           ) : (
                             social?.socialMediaIcon?.image && (
-                              <img
+                              <Image
                                 src={urlFor(social?.socialMediaIcon?.image)}
+                                width={32}
+                                height={32}
+                                quality={100}
                                 alt={
                                   social?.socialMediaIcon?.alt ??
                                   "contact-socialMedia-icon"
@@ -358,45 +432,51 @@ function VariantA({
               )}
             </div>
           </div>
-        </div>
+        </Flex>
         {productDetails && (
           <div>
-            <ul className="mb-16 flex flex-wrap border-b-2">
+            <Flex as="ul" wrap className="mb-16 border-b-2">
               {productDetails?.map((details, index) => (
                 <li className="w-1/2 md:w-auto" key={index}>
-                  <button
+                  <Button
+                    variant="unstyled"
+                    as="button"
+                    ariaLabel="Current Image"
                     className={`font-heading inline-block px-7 py-6 font-bold lg:px-10 ${
                       activeTab === index
-                        ? "bg-white text-webriq-darkblue shadow-2xl"
+                        ? "bg-white text-primary shadow-2xl"
                         : "text-gray-500 hover:shadow-2xl"
                     }`}
                     onClick={() => setActiveTab(index)}
                     type="button"
                   >
                     {details?.tabName}
-                  </button>
+                  </Button>
                 </li>
               ))}
-            </ul>
+            </Flex>
             {productDetails?.[activeTab]?.contentType !== "textOnly" ? (
               <div className="flex flex-wrap gap-x-5">
                 {productDetails?.[activeTab]?.media &&
                 productDetails?.[activeTab]?.media === "imageArray" ? (
                   <Fragment>
-                    {productDetails?.[activeTab]?.images?.map((item, index) => (
-                      <div className="h-full w-1/4" key={index}>
-                        {item?.image && (
-                          <Image
-                            className="object-cover"
-                            sizes="100vw"
-                            width={250}
-                            height={128}
-                            src={urlFor(item?.image)}
-                            alt={item?.alt ?? `product-image-${index + 1}`}
-                          />
-                        )}
-                      </div>
-                    ))}
+                    {productDetails?.[activeTab]?.images &&
+                      productDetails?.[activeTab]?.images?.map(
+                        (item, index) => (
+                          <div className="w-1/4 h-full" key={index}>
+                            {item?.image && (
+                              <Image
+                                className="object-cover"
+                                sizes="100vw"
+                                width={250}
+                                height={128}
+                                src={urlFor(item?.image)}
+                                alt={item?.alt ?? `product-image-${index + 1}`}
+                              />
+                            )}
+                          </div>
+                        )
+                      )}
                   </Fragment>
                 ) : (
                   <div className="aspect-video">
@@ -414,6 +494,7 @@ function VariantA({
                   <PortableText
                     value={productDetails?.[activeTab]?.blockContent}
                     components={blockStyle}
+                    onMissingComponent={false} // Disabling warnings / handling unknown types
                   />
                 )}
               </div>
@@ -422,13 +503,14 @@ function VariantA({
                 <PortableText
                   value={productDetails?.[activeTab]?.blockContent}
                   components={blockStyle}
+                  onMissingComponent={false} // Disabling warnings / handling unknown types
                 />
               )
             )}
             {/* @TO DO: ADD VALUE SOURCE FOR CUSTOMER REVIEWS HERE */}
           </div>
         )}
-      </div>
+      </Container>
     </section>
   );
 }

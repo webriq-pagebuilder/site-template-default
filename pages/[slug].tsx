@@ -1,26 +1,29 @@
 import React from "react";
-import Head from "next/head";
 import { useRouter } from "next/router";
 import { groq } from "next-sanity";
 import { PreviewSuspense } from "next-sanity/preview";
 import { sanityClient, getClient } from "lib/sanity.client";
-import { blogQuery, slugQuery } from "./api/query";
+import { blogQuery, slugQuery, globalSEOQuery } from "./api/query";
 import { usePreview } from "lib/sanity.preview";
 import { PageSections } from "components/page";
 import BlogSections from "components/blog";
 import { PreviewBanner } from "components/PreviewBanner";
 import { PreviewNoContent } from "components/PreviewNoContent";
 import { filterDataToSingleItem } from "components/list";
+import { SEO } from "components/SEO";
 import PageNotFound from "pages/404";
 import InlineEditorContextProvider from "context/InlineEditorContext";
 import { GetStaticPaths, GetStaticProps } from "next";
-import { CommonPageData, BlogsData } from "types";
+import { CommonPageData, BlogsData, SeoTags, SeoSchema } from "types";
+import { addSEOJsonLd } from "components/SEO";
 
 interface PageBySlugProps {
   data: Data;
   preview: boolean;
   token: string | null;
   source: string;
+  seo?: SeoTags[];
+  seoSchema?: SeoSchema;
 }
 
 interface DocumentWithPreviewProps {
@@ -39,9 +42,15 @@ export interface PageData extends CommonPageData {
   collections: any;
   slug: string | string[];
   title: string;
+  hasNeverPublished?: boolean | null;
 }
 
-export function PageBySlug({ data, preview, token, source }: PageBySlugProps) {
+export function PageBySlug({
+  data,
+  preview,
+  token,
+  source,
+}: PageBySlugProps) {
   const router = useRouter();
   const slug = router.query.slug;
   const showInlineEditor = source === "studio";
@@ -56,7 +65,12 @@ export function PageBySlug({ data, preview, token, source }: PageBySlugProps) {
           <PreviewSuspense fallback="Loading...">
             <InlineEditorContextProvider showInlineEditor={showInlineEditor}>
               <DocumentWithPreview
-                {...{ data, token: token || null, slug, source }}
+                {...{
+                  data,
+                  token: token || null,
+                  slug,
+                  source,
+                }}
               />
             </InlineEditorContextProvider>
           </PreviewSuspense>
@@ -82,21 +96,18 @@ function Document({ data }: { data: Data }) {
     return null;
   }
 
-  const { title, seo } = publishedData;
+  if (publishedData?.hasNeverPublished) {
+    return <PageNotFound />;
+  }
 
   return (
-    <>
-      <Head>
-        <meta name="viewport" content="width=360 initial-scale=1" />
-        <title>{seo?.seoTitle ?? title ?? "WebriQ Studio"}</title>
-      </Head>
-
+    <PreviewSuspense fallback={null}>
       {/*  Show page sections */}
       {data?.pageData && <PageSections data={data?.pageData} />}
 
       {/* Show Blog sections */}
       {data?.blogData && <BlogSections data={data?.blogData} />}
-    </>
+    </PreviewSuspense>
   );
 }
 
@@ -131,15 +142,10 @@ function DocumentWithPreview({
     return null;
   }
 
-  const { title, seo, _type } = previewData;
+  const { _type } = previewData;
 
   return (
     <>
-      <Head>
-        <meta name="viewport" content="width=360 initial-scale=1" />
-        <title>{seo?.seoTitle ?? title ?? "WebriQ Studio"}</title>
-      </Head>
-
       {/* if page has no sections, show no sections only in preview */}
       {_type === "page" &&
         "sections" in previewData &&
@@ -163,27 +169,56 @@ export const getStaticProps: GetStaticProps = async ({
 }: any): Promise<{ props: PageBySlugProps; revalidate?: number }> => {
   const client =
     preview && previewData?.token
-      ? getClient(false).withConfig({ token: previewData.token })
-      : getClient(preview);
-
-  const [page, blogData] = await Promise.all([
+      ? getClient(preview).withConfig({ token: previewData.token })
+      : getClient(false);
+  
+  const [page, blogData, globalSEO] = await Promise.all([
     client.fetch(slugQuery, { slug: params.slug }),
     client.fetch(blogQuery, { slug: params.slug }),
+    client.fetch(globalSEOQuery),
   ]);
 
   // pass page data and preview to helper function
   const singlePageData: PageData = filterDataToSingleItem(page, preview);
   const singleBlogData: BlogsData = filterDataToSingleItem(blogData, preview);
 
+  const data = {
+    pageData: singlePageData || null,
+    blogData: singleBlogData || null,
+  };
+
+  // SEO tags
+  const seo = SEO({
+    data: {
+      title:
+        data?.pageData?.title || data?.blogData?.title || "StackShift page",
+      type: data?.pageData?._type || data?.blogData?._type || "",
+      route: params?.slug,
+      ...(data?.pageData?.seo || data?.blogData?.seo),
+    },
+    defaultSeo: globalSEO,
+  });
+
+  // Structured data (JSON-LD encoding)
+  const seoSchema = {
+    key: `${data?.pageData?._type || data?.blogData?._type}-jsonld`,
+    innerHTML: addSEOJsonLd({
+      seo: seo,
+      type: data?.pageData?._type || data?.blogData?._type,
+      defaults: globalSEO,
+      slug: params?.slug,
+      pageData: data?.pageData || data?.blogData,
+    }),
+  };
+
   return {
     props: {
       preview,
       token: (preview && previewData.token) || "",
       source: (preview && previewData?.source) || "",
-      data: {
-        pageData: singlePageData || null,
-        blogData: singleBlogData || null,
-      },
+      data,
+      seo,
+      seoSchema,
     },
     // If webhooks isn't setup then attempt to re-generate in 1 minute intervals
     revalidate: process.env.SANITY_REVALIDATE_SECRET ? undefined : 60,
@@ -191,8 +226,18 @@ export const getStaticProps: GetStaticProps = async ({
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
+  // When this is true (in preview environments) don't
+  // prerender any static pages
+  // (faster builds, but slower initial page load)
+  if (process.env.SKIP_BUILD_STATIC_GENERATION) {
+    return {
+      paths: [],
+      fallback: "blocking",
+    };
+  }
+
   const paths = await sanityClient.fetch(
-    groq`*[_type in ["page", "post"] && defined(slug.current)][].slug.current`
+    groq`*[_type in ["page", "post"] && !(_id in path("drafts.**")) && defined(slug.current)][].slug.current`
   );
 
   return {

@@ -1,6 +1,6 @@
 import { JSXElementConstructor, ReactElement } from "react";
 import { PortableTextComponents } from "@portabletext/react";
-import { PortableTextBlock } from "sanity";
+import { PortableTextBlock, Reference } from "sanity";
 
 //Used on different sections
 export interface SectionsProps {
@@ -9,8 +9,14 @@ export interface SectionsProps {
 }
 //*EDIT THIS SECTION WHEN CREATING/UPDATING SCHEMAS ON STUDIO */
 export interface Variants {
+  template?: Template;
+  multipleMenus?: any;
+  length?: number;
   arrayOfTitleAndText?: ArrayOfTitleAndText[] | null;
   logo?: Logo | null;
+  multipleLinks?: any;
+  dropdownMenu?: LabeledRouteWithKey[] | null;
+  logos?: Logo[] | null;
   primaryButton?: LabeledRoute | null;
   secondaryButton?: LabeledRoute | null;
   routes?: LabeledRouteWithKey[] | null;
@@ -20,6 +26,7 @@ export interface Variants {
   portfolios?: Portfolio[] | null;
   portfoliosWithCategories?: PortfoliosWithCategories[] | null;
   signInLink?: LabeledRoute | null;
+  signinLink?: LabeledRoute | null;
   tags?: string[] | null;
   blogPosts?: BlogPost[] | null;
   form?: Form | null;
@@ -34,6 +41,9 @@ export interface Variants {
   contactEmail?: string | null;
   contactNumber?: string | null;
   socialLinks?: SocialLink[] | null;
+  socialMedia?: SocialLink[] | null;
+  iconLinks?: LabeledRouteWithKey[] | null;
+  megaMenu?: MegaMenu[];
   block?: any;
   heading?: string | null;
   acceptButtonLabel?: string | null;
@@ -42,6 +52,7 @@ export interface Variants {
   askedQuestions?: AskedQuestion[] | null;
   arrayOfImageTitleAndText?: ArrayOfImageTitleAndText[] | null;
   description?: string | null;
+  caption?: string;
   featuredItems?: FeaturedItem[] | null;
   images?: Images[] | null;
   contactDetails?: ContactDetails[] | null;
@@ -50,6 +61,7 @@ export interface Variants {
   youtubeLink?: string | null;
   banner?: any;
   statItems?: StatItems[] | null;
+  stats?: StatItems[] | null;
   teams?: Team[] | null;
   testimonials?: Testimonial[] | null;
   firstColumn?: PortableTextBlock[];
@@ -60,6 +72,96 @@ export interface Variants {
   monthlyBilling?: string;
   productDetails?: ProductDetail[];
   btnLabel?: string;
+  user?: {
+    platform: string | undefined;
+    profileName: string | undefined;
+    profilePictureUrl: string | undefined;
+    userId: string | undefined;
+    userName: string | undefined;
+  };
+  hashtags?: string[];
+  numberOfPosts?: number;
+  text?: string;
+  button?: LabeledRoute;
+  features?: string[];
+  config: {
+    enableAnalytics: boolean;
+    cookiePolicy?: {
+      siteName: string;
+      cookiePolicyPage: Reference;
+    };
+    consentModalPosition?: string;
+  };
+  contactLink?: any;
+  showRecentPosts?: boolean;
+  showPostsFrom?: number;
+}
+
+export interface MegaMenu {
+  _type: string;
+  showcaseLink?: ShowcaseLink[];
+  links?: MegaMenuLink[];
+  _key: string;
+  title?: string;
+  groupOfLinks?: GroupOfLink[];
+  label?: string;
+  linkTarget?: string;
+  linkType?: string;
+  url?: string;
+}
+
+export interface ShowcaseLink {
+  mainImage: MainImage;
+  _type: string;
+  primaryButton: LabeledRouteWithKey;
+  _key: string;
+}
+
+export interface MegaMenuLink {
+  _key: string;
+  title: string;
+  _type: string;
+  links: LabeledRouteWithKey[];
+  primaryButton: LabeledRouteWithKey;
+  label: string;
+}
+
+export interface GroupOfLink {
+  _type: string;
+  links: GroupOfLinkRoot[];
+  _key: string;
+  title: string;
+  primaryButton: LabeledRouteWithKey;
+}
+
+export interface GroupOfLinkRoot {
+  title: string;
+  _type: string;
+  label?: string;
+  links: LabeledRouteWithKey[];
+  _key: string;
+}
+
+export interface SocialProfileFeed {
+  account: {
+    platform: string | undefined;
+    profileName: string | undefined;
+    profilePictureUrl: string | undefined;
+    userId: string | undefined;
+    userName: string | undefined;
+  };
+  status: string | "loading" | "success" | "error" | undefined;
+  media: any[];
+  baseUrl: string | undefined;
+}
+
+export interface Socials {
+  profileFeed: SocialProfileFeed;
+  setProfileFeed: React.Dispatch<React.SetStateAction<SocialProfileFeed>>;
+  fetchNextPage: () => void;
+  fetchPreviousPage: () => void;
+  nextCursor: string | null | undefined;
+  prevCursor: string | null | undefined;
 }
 
 export interface Template {
@@ -77,11 +179,11 @@ export interface Stripe {
 }
 
 export interface SanityBody {
-  _createdAt: string;
-  _id: string;
-  _rev: string;
-  _type: string;
-  _updatedAt: string;
+  _createdAt?: string;
+  _id?: string;
+  _rev?: string;
+  _type?: string;
+  _updatedAt?: string;
 }
 
 export interface ConditionalLink {
@@ -91,6 +193,7 @@ export interface ConditionalLink {
 }
 
 export interface SanityImage {
+  priority?: boolean | false;
   _type: "image";
   asset: {
     _ref: string;
@@ -100,7 +203,7 @@ export interface SanityImage {
 
 export interface MainImage {
   image: SanityImage;
-  alt: string;
+  alt?: string;
 }
 
 //Generic type for routes with label e.g. primaryButtons, secondaryButton, menu, etc
@@ -109,6 +212,8 @@ export interface LabeledRoute extends ConditionalLink {
   linkTarget?: string;
   linkType?: string;
   _type?: string;
+  linkInternal?: any;
+  linkExternal?: string;
 }
 
 export interface LabeledRouteWithKey extends LabeledRoute {
@@ -124,7 +229,12 @@ export interface ArrayOfTitleAndText {
 
 export interface Logo extends ConditionalLink {
   alt?: string;
-  image?: SanityImage;
+  linkTarget?: string;
+  image?: string;
+}
+
+export interface Logos {
+  logo: Logo[];
 }
 
 export type Plans = {
@@ -161,16 +271,7 @@ export interface FormFields {
   name?: string;
   placeholder?: string;
   pricingType?: string;
-  type?:
-    | "inputText"
-    | "inputEmail"
-    | "inputPassword"
-    | "inputNumber"
-    | "textarea"
-    | "inputFile"
-    | "inputRadio"
-    | "inputCheckbox"
-    | "inputSelect";
+  type?: FormTypes;
   _key?: string;
   _type?: string;
   isRequired?: boolean;
@@ -178,12 +279,58 @@ export interface FormFields {
   items?: string[];
 }
 
+export type FormTypes =
+  | "inputText"
+  | "inputEmail"
+  | "inputPassword"
+  | "inputNumber"
+  | "textarea"
+  | "inputFile"
+  | "inputRadio"
+  | "inputCheckbox"
+  | "inputSelect";
 export interface Seo {
+  _type?: string;
   seoTitle?: string;
   seoDescription?: string;
   seoImage?: SanityImage;
   seoKeywords?: string;
   seoSynonyms?: string;
+}
+
+export interface DefaultSeoData {
+  defaultSeoTitle: string | undefined;
+  defaultSeoSynonyms?: string | undefined;
+  defaultSeoKeywords?: string | undefined;
+  defaultSeoDescription: string | undefined;
+  defaultSeoImage: SanityImage | undefined;
+}
+
+export interface SeoData extends Seo {
+  title: string; // page title
+  name?: string; // for product page
+  body?: any; // for blog page
+  type: string; // page type e.g. blog
+  route: string | SanitySlug | string[]; // page slug
+}
+
+export interface SeoTags {
+  name?: string | null;
+  title?: string | null;
+  key: string;
+  content?: string | null;
+  property?: string | null;
+  rel?: string | null;
+  href?: string | null;
+}
+
+export interface SeoSchema {
+  key: string;
+  innerHTML?:
+    | {
+        __html: string | TrustedHTML;
+      }
+    | undefined;
 }
 
 export interface Sections extends SanityBody {
@@ -225,6 +372,7 @@ export interface BlogPost extends SanityBody {
   excerpt?: string | null;
   link?: string | null;
   mainImage?: SanityImage | null;
+  alt?: string | null;
   publishedAt?: string;
   seo?: Seo | null;
   slug?: SanitySlug | null;
@@ -243,6 +391,7 @@ export interface Collection extends SanityBody {
 }
 
 export interface CollectionProduct extends SanityBody {
+  compareToPrice?: number | null;
   description?: string | null;
   ecwidProductId?: number | null;
   name?: string | null;
@@ -417,13 +566,14 @@ export interface BlogsData extends SanityBody {
   categories?: Categories[] | null;
   excerpt?: string | null;
   mainImage?: SanityImage | null;
-  footer?: Sections[] | null;
-  navigation?: Sections[] | null;
+  footer?: Sections | null;
+  navigation?: Sections | null;
   publishedAt?: string | null;
   slug?: SanitySlug | null;
   title?: string | null;
   seo?: Seo;
   hasUnpublishedEdits?: boolean | null;
+  hasNeverPublished?: boolean | null;
 }
 
 export type MyPortableTextComponents = PortableTextComponents & {
@@ -442,16 +592,16 @@ export interface CommonSections {
 
 export interface SearchItemsTypes {
   searchItems: {
-    _id: string,
-    label: string,
-    title: string,
-    variant: string,
-    _type: string,
-  }[],
-  onClickHandler: any
+    _id: string;
+    label: string;
+    title: string;
+    variant: string;
+    _type: string;
+  }[];
+  onClickHandler: any;
 }
 
 export interface ButtonWithTooltipTypes {
-  toolTipText?: string | undefined, 
-  children: ReactElement<any, string | JSXElementConstructor<any>>, 
+  toolTipText?: string | undefined;
+  children: ReactElement<any, string | JSXElementConstructor<any>>;
 }

@@ -1,22 +1,25 @@
 import React from "react";
-import Head from "next/head";
 import { PreviewSuspense } from "next-sanity/preview";
 import { getClient } from "lib/sanity.client";
-import { homeQuery } from "./api/query";
+import { homeQuery, globalSEOQuery } from "./api/query";
 import { usePreview } from "lib/sanity.preview";
 import { PageSections } from "components/page";
 import { PreviewNoContent } from "components/PreviewNoContent";
+import { PreviewNoHomePage } from "components/PreviewNoHomePage";
 import { filterDataToSingleItem } from "components/list";
+import { SEO } from "components/SEO";
 import { PreviewBanner } from "components/PreviewBanner";
 import InlineEditorContextProvider from "context/InlineEditorContext";
-
-import { CommonPageData } from "types";
+import { CommonPageData, SeoTags, SeoSchema } from "types";
+import { addSEOJsonLd } from "components/SEO";
 
 interface HomeProps {
   data: Data;
   preview: boolean;
   token?: string | null;
   source?: string;
+  seo?: SeoTags[];
+  seoSchema?: SeoSchema;
 }
 
 interface DocumentWithPreviewProps {
@@ -32,11 +35,21 @@ interface PageData extends CommonPageData {
   collections: any;
   slug: string | string[];
   title: string;
+  hasNeverPublished?: boolean | null;
 }
 
 function Home({ data, preview, token, source }: HomeProps) {
   const showInlineEditor = source === "studio";
+
+  if (!data?.pageData && !preview) {
+    return null; // Return null only if not in preview mode
+  }
+
   if (preview) {
+    if (!data?.pageData) {
+      return <PreviewNoHomePage />; // Return PreviewNoHomePage if in preview mode and no page data
+    }
+
     return (
       <>
         <PreviewBanner />
@@ -66,18 +79,17 @@ function Document({ data }: { data: Data }) {
     return null;
   }
 
-  const { title, seo } = publishedData;
+  if (publishedData?.hasNeverPublished) {
+    return null;
+  }
 
+  {
+    /*  Show page sections */
+  }
   return (
-    <>
-      <Head>
-        <meta name="viewport" content="width=260 initial-scale=1" />
-        <title>{seo?.seoTitle ?? title ?? "WebriQ Studio"}</title>
-      </Head>
-
-      {/*  Show page sections */}
+    <PreviewSuspense fallback={null}>
       {data?.pageData && <PageSections data={publishedData} />}
-    </>
+    </PreviewSuspense>
   );
 }
 
@@ -100,17 +112,9 @@ function DocumentWithPreview({ data, token = null }: DocumentWithPreviewProps) {
     return null;
   }
 
-  const { title, seo } = previewData;
-
   return (
     <>
-      <Head>
-        <meta name="viewport" content="width=260 initial-scale=1" />
-        <title>{seo?.seoTitle ?? title ?? "WebriQ Studio"}</title>
-      </Head>
-
       {/* if no sections, show no sections only in preview */}
-
       {(!previewData ||
         !previewData?.sections ||
         previewData?.sections?.length === 0) && <PreviewNoContent />}
@@ -127,13 +131,41 @@ export const getStaticProps = async ({
 }: any): Promise<{ props: HomeProps }> => {
   const client =
     preview && previewData?.token
-      ? getClient(false).withConfig({ token: previewData.token })
-      : getClient(preview);
+      ? getClient(preview).withConfig({ token: previewData.token })
+      : getClient(false);
 
-  const indexPage = await client.fetch(homeQuery);
+  const [indexPage, globalSEO] = await Promise.all([
+    client.fetch(homeQuery),
+    client.fetch(globalSEOQuery),
+  ]);
 
   // pass page data and preview to helper function
   const pageData: PageData = filterDataToSingleItem(indexPage, preview);
+
+  const data = { pageData };
+
+  // SEO tags
+  const seo = SEO({
+    data: {
+      title: data?.pageData?.title || "StackShift | Home page",
+      type: data?.pageData?._type || "page",
+      route: "",
+      ...data?.pageData?.seo,
+    },
+    defaultSeo: globalSEO,
+  });
+
+  // Structured data (JSON-LD encoding)
+  const seoSchema = {
+    key: `${data?.pageData?._type}-jsonld`,
+    innerHTML: addSEOJsonLd({
+      seo: seo,
+      type: data?.pageData?._type,
+      defaults: globalSEO,
+      slug: "",
+      pageData: data?.pageData,
+    }),
+  };
 
   // if our query failed, then return null to display custom no-preview page
   if (!pageData) {
@@ -141,6 +173,8 @@ export const getStaticProps = async ({
       props: {
         preview,
         data: { pageData: null },
+        seo,
+        seoSchema,
       },
     };
   }
@@ -150,7 +184,9 @@ export const getStaticProps = async ({
       preview,
       token: (preview && previewData.token) || "",
       source: (preview && previewData.source) || "",
-      data: { pageData },
+      data,
+      seo,
+      seoSchema,
     },
   };
 };

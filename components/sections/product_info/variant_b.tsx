@@ -8,9 +8,21 @@ import AddToWishlist from "components/ecwid/AddToWishlist";
 import Ribbon from "components/ecwid/Ribbon";
 //import Description from "components/ecwid/Description";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Thumbs, Pagination, A11y } from "swiper";
+import { Navigation, Thumbs, Pagination, A11y } from "swiper/modules";
 import { ProductInfoProps } from ".";
 import { MyPortableTextComponents } from "types";
+import { Container } from "@stackshift-ui/container";
+import { Flex } from "@stackshift-ui/flex";
+import { Heading } from "@stackshift-ui/heading";
+import { Text } from "@stackshift-ui/text";
+import { Button } from "@stackshift-ui/button";
+
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/thumbs";
+import "swiper/css/pagination";
+import "swiper/css/a11y";
 
 function VariantB({
   subtitle,
@@ -24,44 +36,63 @@ function VariantB({
 }: ProductInfoProps) {
   // get Ecwid product details
   const defaultProduct = ecwidProduct ? ecwidProduct : product;
+  const buttonLabel = btnLabel ? btnLabel : "Add to cart";
 
   // block styling as props to `serializers` of the PortableText component
   const blockStyle: MyPortableTextComponents = {
     block: {
       h1: ({ children }) => {
         return (
-          <h1 className="font-heading mt-6 text-7xl font-bold leading-loose">
+          <Heading weight="bold" className="mt-6 leading-loose text-7xl">
             {children}
-          </h1>
+          </Heading>
         );
       },
       h2: ({ children }) => {
         return (
-          <h2 className="font-heading mt-6 text-5xl font-bold leading-loose">
+          <Heading
+            type="h2"
+            weight="bold"
+            className="mt-6 leading-loose text-5xl"
+          >
             {children}
-          </h2>
+          </Heading>
         );
       },
       h3: ({ children }) => {
         return (
-          <h3 className="font-heading mt-6 text-3xl font-bold leading-loose">
+          <Heading
+            type="h3"
+            weight="bold"
+            fontSize="3xl"
+            className="mt-6 leading-loose "
+          >
             {children}
-          </h3>
+          </Heading>
         );
       },
       h4: ({ children }) => {
         return (
-          <h4 className="font-heading mt-6 text-xl font-bold leading-loose">
+          <Heading
+            weight="bold"
+            type="h4"
+            fontSize="xl"
+            className="mt-6 leading-loose"
+          >
             {children}
-          </h4>
+          </Heading>
         );
       },
       normal: ({ children }) => {
-        return <p className="my-6 max-w-2xl text-gray-500">{children}</p>;
+        return (
+          <Text muted className="max-w-2xl my-6">
+            {children}
+          </Text>
+        );
       },
       blockquote: ({ children }) => {
         return (
-          <blockquote className="mt-6 px-14 italic leading-loose text-gray-500">
+          <blockquote className="mt-6 italic leading-loose text-gray-500 px-14">
             - {children}
           </blockquote>
         );
@@ -70,14 +101,14 @@ function VariantB({
     list: {
       bullet: ({ children }) => {
         return (
-          <ul className="mb-6 list-disc pl-10 leading-loose text-gray-900">
+          <ul className="pl-10 mb-6 leading-loose text-gray-900 list-disc">
             {children}
           </ul>
         );
       },
       number: ({ children }) => {
         return (
-          <ol className="mb-6 list-decimal leading-loose text-gray-900">
+          <ol className="mb-6 leading-loose text-gray-900 list-decimal">
             {children}
           </ol>
         );
@@ -95,7 +126,7 @@ function VariantB({
       link: ({ children, value }) => (
         <a
           aria-label={value.href ?? "external link"}
-          className="text-webriq-blue hover:text-webriq-lightblue"
+          className="text-primary-foreground hover:text-secondary-foreground"
           href={value.href}
           target="_blank"
           rel="noopener noreferrer"
@@ -110,14 +141,14 @@ function VariantB({
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
 
   return (
-    <section className="sm:p-12 md:p-20">
-      <div className="container mx-auto px-4">
-        <div className="-mx-4 xl:flex xl:flex-wrap">
+    <section className="sm:p-12 md:p-20 bg-background">
+      <Container>
+        <div className=" xl:flex xl:flex-wrap">
           <div className="w-full px-4">
-            <ul className="mb-8 flex flex-wrap items-center">
+            <Flex as="ul" wrap align="center" className="items-center mb-8 ">
               <li className="mr-5">
                 <Link
-                  className="font-heading mr-5 inline-block text-xs font-bold uppercase"
+                  className="inline-block mr-5 text-xs font-bold uppercase font-heading"
                   href="/"
                 >
                   HOME
@@ -139,32 +170,36 @@ function VariantB({
               </li>
               <li>
                 {product?.name && (
-                  <p className="font-heading inline-block text-xs font-bold uppercase">
+                  <Text
+                    fontSize="xs"
+                    weight="bold"
+                    className="inline-block uppercase "
+                  >
                     {product?.name}
-                  </p>
+                  </Text>
                 )}
               </li>
-            </ul>
+            </Flex>
           </div>
-          <div className="mb-8 w-full px-4 xl:mb-0 xl:w-1/2">
-            <div className="relative -mx-1 flex gap-3">
+          <div className="w-full px-4 mb-8 xl:mb-0 xl:w-1/2">
+            <Flex gap={3} className="relative">
               <Swiper
                 modules={[Thumbs, Navigation, Pagination, A11y]}
                 onSwiper={setThumbsSwiper}
                 spaceBetween={10}
                 slidesPerView={4}
                 freeMode={true}
-                watchSlidesProgress={true}
+                watchSlidesProgress={images?.length > 1 ? true : false}
                 direction="vertical"
                 navigation={{
                   prevEl: "#thumbPrevB",
                   nextEl: "#thumbNextB",
                 }}
-                className="thumb-swiper-B hidden w-40 md:flex md:flex-wrap"
+                className="hidden w-40 thumb-swiper-B md:flex md:flex-wrap"
                 style={{ height: "618px" }}
               >
                 {images &&
-                  images.map((item, index) => (
+                  images?.map((item, index) => (
                     <SwiperSlide
                       className="h-full hover:border hover:border-gray-400"
                       key={index}
@@ -191,15 +226,15 @@ function VariantB({
                 spaceBetween={20}
                 slidesPerView={1}
                 speed={500}
-                loop={true}
-                watchSlidesProgress={true}
+                loop={images?.length > 1 ? true : false}
+                watchSlidesProgress={images?.length > 1 ? true : false}
                 thumbs={{ swiper: thumbsSwiper }}
                 className="w-full"
               >
                 {images &&
-                  images.map((item, index) => (
+                  images?.map((item, index) => (
                     <SwiperSlide key={index}>
-                      <div className="mx-auto h-full w-3/4 xl:mx-0 xl:w-full">
+                      <div className="w-3/4 h-full mx-auto xl:mx-0 xl:w-full">
                         <Image
                           className="object-cover"
                           sizes="100vw"
@@ -248,11 +283,11 @@ function VariantB({
                   </svg>
                 </button>
               </div>
-            </div>
-            <div className="ml-auto mt-12 w-full lg:w-3/4">
+            </Flex>
+            <div className="w-full mt-12 ml-auto lg:w-3/4">
               {socialLinks && (
-                <div className="flex items-center">
-                  <span className="font-heading mr-8 font-bold uppercase">
+                <Flex align="center">
+                  <span className="mr-8 font-bold uppercase font-heading">
                     SHARE IT
                   </span>
                   {socialLinks?.map(
@@ -262,7 +297,7 @@ function VariantB({
                           aria-label={
                             social?.socialMedia || social?.socialMediaPlatform
                           }
-                          className="mr-1 h-8 w-8"
+                          className="w-8 h-8 mr-1 flex items-center justify-center"
                           target="_blank"
                           rel="noopener noreferrer"
                           href={social?.socialMediaLink}
@@ -319,13 +354,13 @@ function VariantB({
                         </a>
                       )
                   )}
-                </div>
+                </Flex>
               )}
             </div>
           </div>
           <div className="w-full px-4 pt-20 xl:w-1/2 xl:pt-0">
             <div>
-              <div className="mb-10 border-b pb-10">
+              <div className="pb-10 mb-10 border-b">
                 {product?.ecwidProductId && (
                   <div className="mb-3">
                     <Ribbon data={ecwidProduct} />
@@ -333,55 +368,89 @@ function VariantB({
                 )}
 
                 {subtitle && (
-                  <span className="font-custom font-bold text-webriq-darkblue">
+                  <span className="font-bold font-custom text-primary">
                     {subtitle}
                   </span>
                 )}
 
                 {product?.name && (
-                  <h1 className="font-heading mb-6 mt-2 max-w-xl text-5xl font-bold md:text-6xl">
+                  <Heading className="max-w-xl mt-2 mb-6 text-5xl md:text-6xl">
                     {product?.name}
-                  </h1>
+                  </Heading>
                 )}
 
                 <div className="mb-8">
                   {/* TO DO: ADD PRODUCT RATING HERE */}
                 </div>
 
-                <p className="font-heading mb-8 inline-block text-2xl font-bold text-webriq-darkblue">
-                  {/* PRICING HERE */}
-                  {ecwidProduct
-                    ? getPriceDisplay()
-                    : ecwidProduct?.defaultDisplayedPriceFormatted}
-                </p>
+                {/* PRICING HERE */}
+                {product?.price && (
+                  <p
+                    className={`font-heading text-primary inline-block text-2xl font-bold ${
+                      !ecwidProduct?.compareToPrice && "mb-8"
+                    }`}
+                  >
+                    {ecwidProduct
+                      ? getPriceDisplay()
+                      : ecwidProduct?.defaultDisplayedPriceFormatted
+                      ? ecwidProduct?.defaultDisplayedPriceFormatted
+                      : product?.price}
+                  </p>
+                )}
+
+                {/* "CompareTo" price */}
+                {ecwidProduct?.compareToPrice && (
+                  <p
+                    className="mt-3 mb-8"
+                    style={{
+                      fontSize: "15px",
+                    }}
+                  >
+                    Before{" "}
+                    <span className="line-through">
+                      {ecwidProduct?.compareToPriceFormatted}
+                    </span>{" "}
+                    (
+                    <span
+                      className="text-secondary"
+                      style={{ fontSize: "15px" }}
+                    >
+                      {`Save ${ecwidProduct?.compareToPriceDiscountPercentFormatted}`}
+                    </span>
+                    )
+                  </p>
+                )}
 
                 {/* <Description data={product} /> */}
-
                 {product?.description && (
-                  <PortableText value={product?.description} components={blockStyle} />
+                  <PortableText
+                    value={product?.description}
+                    components={blockStyle}
+                    onMissingComponent={false} // Disabling warnings / handling unknown types
+                  />
                 )}
               </div>
 
               {product?.ecwidProductId && ecwidProduct && (
                 <ProductDetail product={defaultProduct}>
-                  <div className="mt-8 flex flex-col items-start gap-y-4 sm:flex-row sm:gap-x-4 sm:gap-y-0">
-                    {btnLabel && ecwidProduct?.inStock && (
+                  <div className="flex flex-col items-start mt-8 gap-y-4 sm:flex-row sm:gap-x-4 sm:gap-y-0">
+                    {buttonLabel && ecwidProduct?.inStock && (
                       <div className="w-full lg:mb-4 xl:mb-0">
                         <AddToBag
                           inStock={!ecwidProduct?.inStock}
-                          classNames="block w-full mb-4 lg:mb-0 text-center text-white font-bold font-heading py-5 px-8 rounded-md uppercase transition duration-200 bg-webriq-darkblue hover:bg-webriq-blue cursor-pointer"
+                          classNames="block w-full py-5 px-8  cursor-pointer uppercase"
                         >
-                          {btnLabel}
+                          {buttonLabel}
                         </AddToBag>
                       </div>
                     )}
                     <AddToWishlist
-                      classNames="w-full flex-shrink-0 flex flex-wrap items-center justify-center py-5 px-8 rounded-md border hover:border-webriq-darkblue"
+                      classNames="w-full flex-shrink-0 flex flex-wrap items-center justify-center py-5 px-8 rounded-md border hover:border-primary bg-white text-primary"
                       product={defaultProduct}
                       containerClass="w-full"
                     >
                       <svg
-                        className="-mt-1 mr-2"
+                        className="mr-2 -mt-1"
                         width={27}
                         height={27}
                         viewBox="0 0 27 27"
@@ -396,7 +465,7 @@ function VariantB({
                           strokeLinejoin="round"
                         />
                       </svg>
-                      <span className="font-heading font-bold uppercase">
+                      <span className="font-bold uppercase font-heading">
                         Add to wishlist
                       </span>
                     </AddToWishlist>
@@ -408,8 +477,10 @@ function VariantB({
                 <div className="mt-10">
                   {productDetails?.map((details, index) => (
                     <Fragment key={index}>
-                      <div
-                        className={`flex items-center justify-between px-3 py-6 hover:bg-webriq-lightblue ${
+                      <Flex
+                        align="center"
+                        justify="between"
+                        className={` px-3 py-6 hover:bg-secondary-foreground ${
                           index !== productDetails?.length - 1 && "border-b"
                         }`}
                         onClick={() =>
@@ -418,22 +489,27 @@ function VariantB({
                             : setActiveTab(null)
                         }
                       >
-                        <p
-                          className={`font-heading text-xl font-bold ${
-                            activeTab === index && "text-webriq-darkblue"
+                        <Text
+                          weight="bold"
+                          fontSize="xl"
+                          className={` ${
+                            activeTab === index && "text-primary"
                           }`}
                         >
                           {details?.tabName}
-                        </p>
-                        <button
-                          className="inline-flex h-12 w-12 items-center justify-center rounded-md border hover:border-gray-500"
+                        </Text>
+                        <Button
+                          variant="unstyled"
+                          as="button"
+                          ariaLabel=""
+                          className="inline-flex items-center justify-center w-12 h-12 text-black border rounded-md hover:border-gray-500"
                           type="button"
                         >
                           <svg
                             width={12}
                             height={12}
                             viewBox="0 0 12 12"
-                            fill="none"
+                            fill="#161616"
                             xmlns="http://www.w3.org/2000/svg"
                           >
                             {activeTab !== index && (
@@ -453,8 +529,8 @@ function VariantB({
                               fill="#161616"
                             />
                           </svg>
-                        </button>
-                      </div>
+                        </Button>
+                      </Flex>
                       {productDetails?.[activeTab]?.contentType && (
                         <div
                           className={`${
@@ -468,28 +544,29 @@ function VariantB({
                               productDetails?.[activeTab]?.media ===
                                 "imageArray" ? (
                                 <Fragment>
-                                  {productDetails?.[activeTab]?.images?.map(
-                                    (item, index) => (
-                                      <div
-                                        className="mt-5 h-full w-1/4"
-                                        key={index}
-                                      >
-                                        {item?.image && (
-                                          <Image
-                                            className="object-cover"
-                                            sizes="100vw"
-                                            width={128}
-                                            height={128}
-                                            src={urlFor(item?.image)}
-                                            alt={
-                                              item?.alt ??
-                                              `product-image-${index}`
-                                            }
-                                          />
-                                        )}
-                                      </div>
-                                    )
-                                  )}
+                                  {productDetails?.[activeTab]?.images &&
+                                    productDetails?.[activeTab]?.images?.map(
+                                      (item, index) => (
+                                        <div
+                                          className="w-1/4 h-full mt-5"
+                                          key={index}
+                                        >
+                                          {item?.image && (
+                                            <Image
+                                              className="object-cover"
+                                              sizes="100vw"
+                                              width={128}
+                                              height={128}
+                                              src={urlFor(item?.image)}
+                                              alt={
+                                                item?.alt ??
+                                                `product-image-${index}`
+                                              }
+                                            />
+                                          )}
+                                        </div>
+                                      )
+                                    )}
                                 </Fragment>
                               ) : (
                                 <div className="mt-5 aspect-video">
@@ -509,6 +586,7 @@ function VariantB({
                                     productDetails?.[activeTab]?.blockContent
                                   }
                                   components={blockStyle}
+                                  onMissingComponent={false} // Disabling warnings / handling unknown types
                                 />
                               )}
                             </div>
@@ -519,6 +597,7 @@ function VariantB({
                                   productDetails?.[activeTab]?.blockContent
                                 }
                                 components={blockStyle}
+                                onMissingComponent={false} // Disabling warnings / handling unknown types
                               />
                             )
                           )}
@@ -532,7 +611,7 @@ function VariantB({
             </div>
           </div>
         </div>
-      </div>
+      </Container>
     </section>
   );
 }

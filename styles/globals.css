@@ -1,27 +1,24 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/**
+  IMPORTANT: ONLY ADD STYLES HERE IF THEY WILL BE USED GLOBALLY (IN ALL PAGES). 
+  IF NOT, THEN ADD THEM BY CSS MODULES (e.g. Products.module.css - contains all styling for product pages only).
+**/
 
 html {
   -webkit-text-size-adjust: 100%;
 }
 
-.swiper-slide-thumb-active img {
-  border: 1px solid #0045d8 !important;
-}
-.product-images-thumbs-swiper.swiper-container .swiper-slide {
-  height: 0 !important;
-  padding-bottom: 25%;
-}
-.product-images-thumbs-swiper.swiper-container .swiper-slide > div {
-  height: 0 !important;
-  padding-bottom: 100%;
-}
-.swiper-button-disabled {
-  opacity: 0.5 !important;
-}
+/* ECWID COMPONENT CUSTOM STYLING */
+/* TODO: MIGRATE THIS TO CSS MODULE */
 /* .cart-icon {
-  @apply relative before:content-[attr(data-count)] before:absolute before:flex before:items-center before:justify-center before:bg-webriq-darkblue before:rounded-full before:h-6 before:w-6 before:-top-3 before:-right-3 before:text-white;
+  @apply relative before:content-[attr(data-count)] before:absolute before:flex before:items-center before:justify-center before:bg-primary before:rounded-full before:h-6 before:w-6 before:-top-3 before:-right-3 before:text-white;
 } */
 html#ecwid_html body#ecwid_body .cart-icon {
   position: relative;
@@ -48,32 +45,29 @@ html#ecwid_html body#ecwid_body .ec-size .ec-store .ec-breadcrumbs {
   display: none !important;
 }
 
-.product-images-swiper.swiper-container {
-  height: calc(auto + 1px);
-  /* position: relative; */
-}
-.product-images-swiper.swiper-container {
-  padding-top: 10px;
-}
-.product-images-swiper.swiper-container .swiper-wrapper {
-  position: relative;
-  height: 0 !important;
-  padding-bottom: 100%;
-}
-.product-images-swiper.swiper-container .swiper-slide {
-  height: 0 !important;
-  padding-bottom: 100%;
-}
-.product-images-swiper.swiper-container .swiper-slide > div {
-  height: 0 !important;
-  padding-bottom: 100%;
-}
-.toastContainer {
-  z-index: 1;
+/* Recaptch badge */
+.grecaptcha-badge {
+  visibility: hidden;
 }
 
+/*
+   THEME SETTINGS 
+   
+   Default dark mode background and text color 
+   To override this, add background and text color classes along with a 'dark:' prefix to target components
+
+   Example: 
+   <button className="bg-blue-500 text-white dark:bg-blue-50 text-blue-500">
+     Save
+   </button>
+*/
+:is(.dark) {
+  @apply bg-background text-white
+}
+/* END OF THEME SETTINGS */
+
 /* hide navigation sidebar when screen is less than screen size */
-@media (min-width: 1280px) {
+@media (min-width: 1024px) {
   .mobile-nav {
     display: none;
   }
@@ -91,6 +85,55 @@ html#ecwid_html body#ecwid_body .ec-size .ec-store .ec-breadcrumbs {
     left: 40%;
     align-items: center;
   }
+}
+
+/* PRODUCT INFO SWIPER CUSTOM STYLE */
+/* TODO: MIGRATE THIS TO CSS MODULE */
+.swiper-slide-thumb-active img {
+  border: 1px solid #0045d8 !important;
+}
+
+.product-images-thumbs-swiper.swiper-container .swiper-slide {
+  height: 0 !important;
+  padding-bottom: 25%;
+}
+
+.product-images-thumbs-swiper.swiper-container .swiper-slide > div {
+  height: 0 !important;
+  padding-bottom: 100%;
+}
+
+.swiper-button-disabled {
+  opacity: 0.5 !important;
+}
+
+.product-images-swiper.swiper-container {
+  height: calc(auto + 1px);
+  /* position: relative; */
+}
+
+.product-images-swiper.swiper-container {
+  padding-top: 10px;
+}
+
+.product-images-swiper.swiper-container .swiper-wrapper {
+  position: relative;
+  height: 0 !important;
+  padding-bottom: 100%;
+}
+
+.product-images-swiper.swiper-container .swiper-slide {
+  height: 0 !important;
+  padding-bottom: 100%;
+}
+
+.product-images-swiper.swiper-container .swiper-slide > div {
+  height: 0 !important;
+  padding-bottom: 100%;
+}
+
+.toastContainer {
+  z-index: 1;
 }
 
 /** Sanity Studio embed **/
@@ -128,238 +171,117 @@ select[data-testid="field-group-select"] > option:first-child {
   display: none;
 }
 
-/* Inline Editing split pane */
-.nav-panesearch div[data-search-open] {
-  display: none !important;
-}
-.nav-paneheader div[data-testid="pane-header"] > div > div > div:nth-child(2) {
-  display: none !important;
-}
-.desk-listpane div[data-testid="desk-tool-list-pane"] {
-  display: none !important;
-}
-.document-pane div[data-testid="document-pane"] {
-  position: relative !important;
-}
-.field-label div[data-testid="field-label"] {
-  display: none !important;
-}
-.field-variant div[data-testid="field-variant"] {
-  display: none !important;
-}
-.panel div[data-testid="document-panel-scroller"] > div {
-  padding-top: 1rem;
-  padding-bottom: 2rem;
-}
-.pane-footer div[data-testid="pane-footer"] {
-  position: sticky !important;
-  bottom: 0;
-}
-.fieldgroup-tabs div[data-ui="TabList"][data-testid="field-group-tabs"] {
-  display: none;
-}
-.fieldgroup-select
-  select[data-testid="field-group-select"]
-  > option:first-child {
-  display: none;
-}
-/* fieldgroup style for main product document */
-.product-fieldgroup-tabs
-  div[data-ui="TabList"][data-testid="field-group-tabs"]
-  > div:not(:nth-child(2)):not(:nth-child(3)) {
-  display: none;
-}
-.product-fieldgroup-select
-  select[data-testid="field-group-select"]
-  > option:not(:nth-child(2)):not(:nth-child(3)) {
-  display: none;
-}
-
-/* Inline Editing button and container */
-.hide {
-  display: none;
-}
-
-.inline-editor:hover {
-  transition: all 300ms ease-in-out;
-  box-shadow: 0px 0px 25px #0045d8;
-  z-index: 9;
-  width: 99%;
-  margin: auto;
-}
-
-.show-button:hover .hide {
-  display: inline-flex;
-  position: absolute;
-  top: 0;
-  right: 10px;
-  z-index: 40;
-}
-
 /* Duplicate page settings modal */
 .showBtn:hover .hide {
   display: block;
 }
 
 /** Help Guide **/
-div[aria-label="List of Content"] {
-  min-height: calc(100vh - 260px);
+ul[aria-label="List of Content"] {
+  height: 100% !important;
+  display: flex !important;
+  flex-direction: column;
 }
 
-div[aria-label="List of Content"] > div:last-child {
-  border-top: 1px solid var(--card-border-color);
-  position: absolute;
-  width: 100%;
-  transform: none;
-  bottom: 0;
-  top: inherit !important;
+ul[aria-label="List of Content"] > li {
+  transform: none !important;
+  flex: none !important;
+  position: relative !important;
+  left: initial !important;
+  top: initial !important;
 }
+
+ul[aria-label="List of Content"] > li:last-child {
+  margin-top: auto;
+  padding-top: 10px;
+}
+
+ul[aria-label="List of Content"] > li:last-child:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  border-top: 1px solid var(--card-border-color);
+}
+ 
+/**** STUDIO > COMPONENTS > component filter ****/
+#component_filter .optionContainer li:hover,
+#component_filter .optionContainer .highlight {
+  background: #f2f3f5 !important;
+}
+
+/* hide default right icon */
+#component_filter .icon_down_dir {
+  display: none;
+}
+/* custom right icon */
+#component_filter:after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 100%;
+  width: 35px;
+  border-left: 1px solid #ced2d9;
+  background: url("data:image/svg+xml,%3Csvg data-sanity-icon='chevron-down' width='1em' height='1em' viewBox='0 0 25 25' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M17 10.5L12.5 15L8 10.5' stroke='currentColor' stroke-width='1.2' stroke-linejoin='round'%3E%3C/path%3E%3C/svg%3E");
+  background-size: 25px;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+/* add outline when dropdown is active/focused */
+#component_filter:has(.optionListContainer.displayBlock) .search-wrapper {
+  outline: 2px solid #2275FB;
+  outline-offset: 1px;
+}
+#component_filter .select-component-close-btn:hover {
+  fill: red;
+}
+
+#webriq_components_filter .select-component-close-btn:hover {
+  fill: red;
+}
+/**** end of STUDIO > COMPONENTS > component filter ****/
 /* End */
 
-/** Scheduled publishing **/
-.react-calendar {
-  width: 350px;
-  max-width: 100%;
-  background: white;
-  border: 1px solid #c6cad3ff;
-  font-family: 'Open Sans', sans-serif;
-  line-height: 1.125em;
+/* theme settings color picker */
+.color-picker {
+  margin-bottom: 10px;
 }
 
-.react-calendar--doubleView {
-  width: 700px;
+.custom-layout .react-colorful__saturation {
+  margin: 15px 0;
+  border-radius: 5px;
+  border-bottom: none;
 }
 
-.react-calendar--doubleView .react-calendar__viewContainer {
-  display: flex;
-  margin: -0.5em;
+.custom-layout .react-colorful__hue {
+  order: 0;
 }
 
-.react-calendar--doubleView .react-calendar__viewContainer > * {
-  width: 50%;
-  margin: 0.5em;
-}
-
-.react-calendar,
-.react-calendar *,
-.react-calendar *:before,
-.react-calendar *:after {
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
+.custom-layout .react-colorful__pointer {
+  position: absolute;
+  z-index: 1;
   box-sizing: border-box;
+  width: 20px;
+  height: 20px;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-.react-calendar button {
-  margin: 0;
-  border: 0;
-  outline: none;
+.custom-layout .react-colorful__hue,
+.custom-layout .react-colorful__alpha {
+  height: 10px;
+  border-radius: 5px;
 }
 
-.react-calendar button:enabled:hover {
-  cursor: pointer;
+.custom-layout .react-colorful__hue-pointer,
+.custom-layout .react-colorful__alpha-pointer {
+  width: 20px;
+  height: 20px;
 }
 
-.react-calendar__navigation {
-  display: flex;
-  height: 44px;
-  margin-bottom: 1em;
-}
-
-.react-calendar__navigation button {
-  min-width: 44px;
-  background: none;
-}
-
-.react-calendar__navigation button:disabled {
-  background-color: #f0f0f0;
-}
-
-.react-calendar__navigation button:enabled:hover,
-.react-calendar__navigation button:enabled:focus {
-  background-color: #e6e6e6;
-}
-
-.react-calendar__month-view__weekdays {
-  text-align: center;
-  text-transform: uppercase;
-  font-weight: bold;
-  font-size: 0.75em;
-}
-
-.react-calendar__month-view__weekdays__weekday {
-  padding: 0.5em;
-}
-
-.react-calendar__month-view__weekNumbers .react-calendar__tile {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.75em;
-  font-weight: bold;
-}
-
-.react-calendar__month-view__days__day--weekend {
-  color: #0045d8;
-}
-
-.react-calendar__month-view__days__day--neighboringMonth {
-  color: #757575;
-}
-
-.react-calendar__year-view .react-calendar__tile,
-.react-calendar__decade-view .react-calendar__tile,
-.react-calendar__century-view .react-calendar__tile {
-  padding: 2em 0.5em;
-}
-
-.react-calendar__tile {
-  max-width: 100%;
-  padding: 10px 6.6667px;
-  background: none;
-  text-align: center;
-  line-height: 16px;
-}
-
-.react-calendar__tile:disabled {
-  background-color: #f0f0f0;
-}
-
-.react-calendar__tile:enabled:hover,
-.react-calendar__tile:enabled:focus {
-  background-color: #e6e6e6;
-}
-
-.react-calendar__tile--now {
-  background: #d5e3ff;
-}
-
-.react-calendar__tile--now:enabled:hover,
-.react-calendar__tile--now:enabled:focus {
-  background: #0045d8;
-  color: white;
-}
-
-.react-calendar__tile--hasActive {
-  background: #d5e3ff;
-}
-
-.react-calendar__tile--hasActive:enabled:hover,
-.react-calendar__tile--hasActive:enabled:focus {
-  background: #a9d4ff;
-}
-
-.react-calendar__tile--active {
-  background: #0045d8;
-  color: white;
-}
-
-.react-calendar__tile--active:enabled:hover,
-.react-calendar__tile--active:enabled:focus {
-  background: #296eff;
-}
-
-.react-calendar--selectRange .react-calendar__tile--hover {
-  background-color: #3576ff;
-}
-
-/** End **/
+/* END OF theme settings color picker */

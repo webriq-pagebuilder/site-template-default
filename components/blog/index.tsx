@@ -1,52 +1,98 @@
-import React from "react";
-import dynamic from "next/dynamic";
-import { urlFor, PortableText } from "lib/sanity";
-import { format } from "date-fns";
-import { InlineEditorContext } from "context/InlineEditorContext";
 import InlineEditor from "components/InlineEditor";
-import { MyPortableTextComponents, BlogsData } from "types";
+import { Container } from "@stackshift-ui/container";
+import { Flex } from "@stackshift-ui/flex";
+import { Heading } from "@stackshift-ui/heading";
+import { Text } from "@stackshift-ui/text";
+import { InlineEditorContext } from "context/InlineEditorContext";
+import { format } from "date-fns";
+import { PortableText, urlFor } from "lib/sanity";
+import dynamic from "next/dynamic";
+import Image from "next/image";
+import Link from "next/link";
+import React from "react";
+import { BlogsData, MyPortableTextComponents } from "types";
 
-const Navigation = dynamic(() => import("components/sections/navigation"));
-const Footer = dynamic(() => import("components/sections/footer"));
+const Navigation = dynamic(() =>
+  import("components/sections/navigation").then((m) => m.Navigation)
+);
+const Footer = dynamic(() =>
+  import("@stackshift-ui/footer").then((m) => m.Footer)
+);
 // block styling as props to `components` of the PortableText component
 const blockStyle: MyPortableTextComponents = {
   block: {
     h1: ({ children }) => {
       return (
-        <h1 className="mb-6 text-7xl leading-loose text-gray-900">
+        <Heading className="mb-6 leading-loose text-gray-900 text-5xl">
           {children}
-        </h1>
+        </Heading>
       );
     },
     h2: ({ children }) => {
       return (
-        <h2 className="mb-6 text-5xl leading-loose text-gray-900">
+        <Heading
+          type="h2"
+          fontSize="4xl"
+          className="mb-6 leading-loose text-gray-900"
+        >
           {children}
-        </h2>
+        </Heading>
       );
     },
     h3: ({ children }) => {
       return (
-        <h3 className="mb-6 text-3xl leading-loose text-gray-900">
+        <Heading
+          type="h3"
+          fontSize="3xl"
+          className="mb-6 leading-loose text-gray-900"
+        >
           {children}
-        </h3>
+        </Heading>
       );
     },
     h4: ({ children }) => {
       return (
-        <h4 className="mb-6 text-xl leading-loose text-gray-900">{children}</h4>
+        <Heading
+          fontSize="2xl"
+          type="h4"
+          className="mb-6 leading-loose text-gray-900"
+        >
+          {children}
+        </Heading>
+      );
+    },
+    h5: ({ children }) => {
+      return (
+        <Heading
+          fontSize="xl"
+          type="h5"
+          className="mb-6 leading-loose text-gray-900"
+        >
+          {children}
+        </Heading>
+      );
+    },
+    h6: ({ children }) => {
+      return (
+        <Heading
+          fontSize="lg"
+          type="h6"
+          className="mb-6 leading-loose text-gray-900"
+        >
+          {children}
+        </Heading>
       );
     },
     normal: ({ children }) => {
       return (
-        <p className="mb-6 text-justify leading-loose text-gray-900">
+        <Text className="mb-6 leading-loose text-justify text-gray-900">
           {children}
-        </p>
+        </Text>
       );
     },
     blockquote: ({ children }) => {
       return (
-        <blockquote className="mb-6 px-14 italic leading-loose text-gray-500">
+        <blockquote className="mb-6 italic leading-loose text-gray-500 px-14">
           - {children}
         </blockquote>
       );
@@ -62,14 +108,14 @@ const blockStyle: MyPortableTextComponents = {
   list: {
     bullet: ({ children }) => {
       return (
-        <ul className="mb-6 list-disc pl-10 leading-loose text-gray-900">
+        <ul className="pl-10 mb-6 leading-loose text-gray-900 list-disc">
           {children}
         </ul>
       );
     },
     number: ({ children }) => {
       return (
-        <ol className="mb-6 list-decimal leading-loose text-gray-900">
+        <ol className="pl-10 mb-6 leading-loose text-gray-900 list-decimal">
           {children}
         </ol>
       );
@@ -79,26 +125,31 @@ const blockStyle: MyPortableTextComponents = {
     bullet: ({ children }) => (
       <li className="mb-6 leading-loose text-gray-900">{children}</li>
     ),
+    number: ({ children }) => (
+      <li className="mb-6 leading-loose text-gray-900">{children}</li>
+    ),
   },
   marks: {
     strong: ({ children }) => <strong>{children}</strong>,
     em: ({ children }) => <em>{children}</em>,
     code: ({ children }) => <code>{children}</code>,
     link: ({ children, value }) => (
-      <a
-        className="hover:text-webriq-darkorange text-webriq-lightorange"
-        href={value.href}
+      <Link
+        className="hover:text-primary-foreground text-primary"
+        href={value?.href}
         target="_blank"
         rel="noopener noreferrer"
       >
         {children}
-      </a>
+      </Link>
     ),
   },
   types: {
     addImage: ({ value }) => (
-      <img
-        className="mb-5 h-full w-full"
+      <Image
+        className="w-full h-full mb-10"
+        width={300}
+        height={300}
         src={urlFor(value?.image)}
         alt={value?.alt ?? value?.image?.asset?._ref}
       />
@@ -127,6 +178,8 @@ function BlogSections({ data }: BlogSectionsProps) {
     mainImage,
     publishedAt,
     title,
+    navigation,
+    footer,
   } = blogData;
 
   return (
@@ -136,65 +189,74 @@ function BlogSections({ data }: BlogSectionsProps) {
         type: _type,
       }}
       showInlineEditor={showInlineEditor}
+      key={_id}
     >
-      {blogData?.navigation?.map((nav) => (
+      {navigation && (
         <Navigation
-          key={nav?._key}
-          data={nav}
+          data={navigation}
           template={{
             bg: "gray",
             color: "webriq",
           }}
         />
-      ))}
+      )}
       <section className="pb-20">
         <div
-          className="mb-12 p-20"
+          className="p-20 mb-12"
           style={{
             backgroundImage: `url(${mainImage && urlFor(mainImage)})`,
             backgroundRepeat: "no-repeat",
             backgroundSize: "cover",
           }}
         >
-          <div className="container mx-auto px-4">
-            <div className="mx-auto max-w-2xl text-center">
-              {categories &&
-                categories?.map((tag, index) => (
-                  <span
-                    className="text-base uppercase text-webriq-blue mix-blend-difference lg:text-xl"
-                    key={index}
-                  >
-                    {tag?.title}
+          <Container>
+            <Container maxWidth={"2xl"} className="text-center">
+              <div className="flex flex-col md:flex-row items-center justify-center">
+                {categories &&
+                  categories?.map((tag, index) => (
+                    <span
+                      className="mr-2 text-base uppercase text-primary-foreground lg:text-xl"
+                      key={index}
+                    >
+                      {tag?.title}
+                    </span>
+                  ))}
+                {categories && publishedAt && (
+                  <span className="mx-2 text-base text-gray-500 uppercase lg:text-xl">
+                    •
                   </span>
-                ))}
-              {categories && publishedAt && (
-                <span className="mx-2 text-base uppercase text-gray-500 lg:text-xl">
-                  •
-                </span>
-              )}
-              {publishedAt && (
-                <span
-                  className={`text-base text-white mix-blend-difference lg:text-xl ${
-                    categories ?? "ml-2"
-                  }`}
-                >
-                  {format(new Date(publishedAt), "MMMM dd, yyyy")}
-                </span>
-              )}
+                )}
+                {publishedAt && (
+                  <span
+                    className={`text-base lg:text-xl ${categories ?? "ml-2"}${
+                      mainImage ? "text-white" : "text-black"
+                    }`}
+                  >
+                    {format(new Date(publishedAt), "MMMM dd, yyyy")}
+                  </span>
+                )}
+              </div>
               <div className="mt-2">
                 {title && (
-                  <h2 className="mb-6 text-4xl font-bold text-white mix-blend-difference lg:text-5xl">
+                  <Heading
+                    weight="bold"
+                    className={`mb-6 ${
+                      mainImage ? "text-white" : "text-black"
+                    }`}
+                  >
                     {title}
-                  </h2>
+                  </Heading>
                 )}
-                <div className="flex justify-center">
+                <div className="flex sm:justify-center gap-5 flex-wrap">
                   {authors &&
                     authors?.map((author, index, { length }) => (
-                      <div className="flex justify-center" key={index}>
+                      <Flex justify="center" className="mr-2" key={index}>
                         <div className="mr-4">
                           {author?.profile?.image ? (
-                            <img
-                              className="h-12 w-12 rounded-full object-cover object-top"
+                            <Image
+                              className="object-cover object-top w-12 h-12 rounded-full"
+                              width={48}
+                              height={48}
                               src={urlFor(author?.profile?.image)}
                               alt={author?.profile?.alt ?? author?.name}
                             />
@@ -210,41 +272,49 @@ function BlogSections({ data }: BlogSectionsProps) {
                           )}
                         </div>
                         <div className="text-left">
-                          <h3 className="font-bold text-webriq-blue mix-blend-difference">
+                          <Heading
+                            type="h3"
+                            weight="bold"
+                            fontSize="base"
+                            className="text-primary-foreground"
+                          >
                             {author?.name}
-                          </h3>
-                          {index + 1 !== length ? (
+                          </Heading>
+                          {/* {index + 1 !== length ? (
                             <span>&nbsp;and&nbsp;</span>
-                          ) : null}
-                          <span className="text-xs italic text-webriq-lightblue mix-blend-difference">
+                          ) : null} */}
+                          <span className="text-xs italic text-secondary-foreground">
                             {authors?.length > 1 ? "Authors" : "Author"}
                           </span>
                         </div>
-                      </div>
+                      </Flex>
                     ))}
                 </div>
               </div>
-            </div>
-          </div>
+            </Container>
+          </Container>
         </div>
-        <div className="container mx-auto px-4">
+        <Container>
           {body && (
-            <div className="mx-auto max-w-4xl break-all">
-              <PortableText value={body} components={blockStyle} />
+            <div className="max-w-4xl mx-auto break-all">
+              <PortableText
+                value={body}
+                components={blockStyle}
+                onMissingComponent={false} // Disabling warnings / handling unknown types
+              />
             </div>
           )}
-        </div>
+        </Container>
       </section>
-      {blogData?.footer?.map((footer) => (
+      {footer && (
         <Footer
-          key={footer?._key}
           data={footer}
           template={{
             bg: "gray",
             color: "webriq",
           }}
         />
-      ))}
+      )}
     </InlineEditor>
   );
 }

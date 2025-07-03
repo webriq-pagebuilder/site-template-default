@@ -1,151 +1,126 @@
-import React, { useEffect, useState } from "react";
 import { seoImageUrl } from "lib/sanity";
-import { NextSeo } from "next-seo";
-import { useRouter } from "next/router";
-import { PageData } from "pages/[slug]";
-import { BlogsData } from "types";
-import { ProductData } from "pages/products/[slug]";
-import { CollectionData } from "pages/collections/[slug]";
-import { CartData } from "pages/cart";
-import { SearchData } from "pages/search";
-import { WishlistData } from "pages/wishlist";
-import { sanityClient } from "lib/sanity.client";
-import { groq } from "next-sanity";
+import { DefaultSeoData, SeoData } from "types";
+import { BlogJsonLd, PagesJsonLd, ProductJsonLd } from "utils/seo/jsonLd";
 
-interface SlugData {
-  pageData: PageData | null;
-  blogData: BlogsData | null;
-}
+const url = process.env.NEXT_PUBLIC_SITE_URL;
 
-type SEOData =
-  | SlugData
-  | { productData: ProductData }
-  | { collectionData: CollectionData }
-  | { cartData: CartData }
-  | { searchData: SearchData }
-  | { wishlistData: WishlistData };
+const contacts = [
+  {
+    "@type": "ContactPoint",
+    telephone: "+1 503 436 6644",
+    email: "info.webriq.com",
+    contactType: "customer service",
+  },
+  {
+    "@type": "ContactPoint",
+    telephone: "+1 516 858 2325",
+    email: "info.webriq.com",
+    contactType: "customer service",
+  },
+];
 
-type DataType =
-  | PageData
-  | BlogsData
-  | ProductData
-  | CollectionData
-  | CartData
-  | SearchData
-  | WishlistData;
-
-const INITIAL_SEO_STATE = {
-  defaultSeoTitle: undefined,
-  defaultSeoSynonyms: undefined,
-  defaultSeoKeywords: undefined,
-  defaultSeoDescription: undefined,
-  defaultSeoImage: undefined,
-};
-
-function SEO({ data }: { data: SEOData | undefined }) {
-  const url = process.env.NEXT_PUBLIC_SITE_URL;
-  const router = useRouter();
-
-  const [defaultSeo, setDefaultSeo] = useState(INITIAL_SEO_STATE);
-
-  useEffect(() => {
-    const getDefaultSeo = async () => {
-      try {
-        const res = await sanityClient.fetch(
-          groq`*[_type == 'defaultSeo' && !(_id in path("drafts.**"))][0]`
-        );
-        if (res) {
-          setDefaultSeo(res);
-        }
-      } catch (error) {
-        console.log("Error getting default seo:", error);
-      }
-    };
-
-    getDefaultSeo();
-  }, []);
-
+export function SEO({
+  data,
+  defaultSeo,
+}: {
+  data: SeoData | null;
+  defaultSeo: DefaultSeoData | null;
+}) {
   const {
     defaultSeoTitle,
     defaultSeoSynonyms,
     defaultSeoKeywords,
     defaultSeoDescription,
     defaultSeoImage,
-  } = defaultSeo;
+  } = defaultSeo ?? {}; // add checking if defaultSeo is not null or undefined so it doesn't throw an error
 
-  let dataType: DataType | null | undefined;
-
-  if (data) {
-    if ("pageData" in data && data?.pageData) {
-      dataType = data?.pageData;
-    } else if ("blogData" in data && data?.blogData) {
-      dataType = data?.blogData;
-    } else if ("productData" in data) {
-      dataType = data?.productData;
-    } else if ("collectionData" in data) {
-      dataType = data?.collectionData;
-    } else if ("cartData" in data) {
-      dataType = data?.cartData;
-    } else if ("searchData" in data) {
-      dataType = data?.searchData;
-    } else if ("wishlistData" in data) {
-      dataType = data?.wishlistData;
-    }
-  }
-
-  const finalSeo = getSEOValue(dataType, dataType?._type);
+  const finalSeo = getSEOValue(data, data?.type);
   const { title, description, image, synonyms, keywords } = finalSeo;
 
-  return (
-    <>
-      <NextSeo
-        title={title ?? defaultSeoTitle}
-        description={description ?? defaultSeoDescription}
-        canonical={`${url}${router?.asPath}`}
-        openGraph={{
-          title: title ?? defaultSeoTitle,
-          description: description ?? defaultSeoDescription,
-          url: `${url}${router?.asPath}`,
-          images: [
-            {
-              url: image ? seoImageUrl(image) : seoImageUrl(defaultSeoImage),
-              width: 520,
-              height: 320,
-              // alt: "Page thumbnail image for SEO",
-              type: "image/jpeg",
-            },
-          ],
-          site_name: title ?? defaultSeoTitle,
-        }} // Twitter will read the og:title, og:image and og:description tags for their card. next-seo omits twitter:title, twitter:image and twitter:description to avoid duplication.
-        twitter={{
-          handle: "@handle",
-          site: "@site",
-          cardType: "summary_large_image",
-        }}
-        additionalMetaTags={[
-          {
-            name: "keywords",
-            content: keywords ?? defaultSeoKeywords,
-          },
-          {
-            name: "synonyms",
-            content: synonyms ?? defaultSeoSynonyms,
-          },
-        ]}
-        additionalLinkTags={[
-          // useful for PWA metatags
-          {
-            rel: "icon",
-            href: "favicon.ico",
-          },
-        ]}
-        robotsProps={{
-          maxSnippet: -1, // maximum of [number] characters as textual snippet for this search result
-          maxImagePreview: "large", // maximum size of image preview for page in search results
-        }}
-      />
-    </>
-  );
+  const seoImageUrlWrapper = (img) => (img ? seoImageUrl(img) : null);
+
+  const seoValues = {
+    title: title || data?.title || defaultSeoTitle,
+    keywords: keywords || defaultSeoKeywords,
+    synonyms: synonyms || defaultSeoSynonyms,
+    description: description || defaultSeoDescription,
+    image: seoImageUrlWrapper(image || defaultSeoImage),
+  };
+
+  const routeHref = `${url}/${data?.route}`;
+
+  const seoArray = [
+    seoValues.title && { key: "page-title", title: seoValues.title },
+    seoValues.title && {
+      name: "title",
+      key: "title",
+      content: seoValues.title,
+    },
+    seoValues.title && {
+      property: "og:title",
+      key: "ogtitle",
+      content: seoValues.title,
+    },
+    seoValues.title && {
+      property: "twitter:title",
+      key: "twittertitle",
+      content: seoValues.title,
+    },
+    data?.route && { name: "canonical", key: "canonical", href: routeHref },
+    data?.route && { property: "og:url", key: "ogurl", content: routeHref },
+    data?.route && {
+      property: "twitter:url",
+      key: "twitterurl",
+      content: routeHref,
+    },
+    seoValues.keywords && {
+      name: "keywords",
+      key: "keywords",
+      content: seoValues.keywords,
+    },
+    seoValues.synonyms && {
+      name: "synonyms",
+      key: "synonyms",
+      content: seoValues.synonyms,
+    },
+    seoValues.description && {
+      name: "description",
+      key: "description",
+      content: seoValues.description,
+    },
+    seoValues.description && {
+      property: "og:description",
+      key: "ogdesc",
+      content: seoValues.description,
+    },
+    seoValues.description && {
+      property: "twitter:description",
+      key: "twitterdesc",
+      content: seoValues.description,
+    },
+    seoValues.image && {
+      property: "og:image",
+      key: "ogimage",
+      content: seoValues.image,
+    },
+    seoValues.image && {
+      property: "twitter:image",
+      key: "twitterimage",
+      content: seoValues.image,
+    },
+    {
+      property: "twitter:card",
+      key: "twittercard",
+      content: "summary_large_image",
+    },
+    {
+      rel: "icon",
+      key: "favicon",
+      href: "/favicon.ico",
+    },
+  ].filter((tags) => !!tags); // Remove falsy entries
+
+  return seoArray;
 }
 
 // this function returns the first 100 characters of the blog post body or excerpt when an SEO description for the blog post is not provided
@@ -163,46 +138,78 @@ function blogPostBody(body) {
   return description;
 }
 
-function getSEOValue(seoData: DataType, dataType: string) {
+function getSEOValue(seoData: SeoData, dataType: string) {
   const seo = {
-    title: seoData?.seo?.seoTitle,
-    keywords: seoData?.seo?.seoKeywords,
-    synonyms: seoData?.seo?.seoSynonyms,
-    description: seoData?.seo?.seoDescription,
-    image: seoData?.seo?.seoImage,
+    title: seoData?.seoTitle,
+    keywords: seoData?.seoKeywords,
+    synonyms: seoData?.seoSynonyms,
+    description: seoData?.seoDescription,
+    image: seoData?.seoImage,
   };
   if (
     (dataType === "mainCollection" || dataType === "mainProduct") &&
     "commonSections" in seoData
   ) {
-    seo.title =
-      seoData?.seo?.seoTitle ||
-      seoData?.commonSections?.seo?.seoTitle ||
-      seoData?.name;
-    seo.keywords =
-      seoData?.seo?.seoKeywords || seoData?.commonSections?.seo?.seoKeywords;
-    seo.synonyms =
-      seoData?.seo?.seoSynonyms || seoData?.commonSections?.seo?.seoSynonyms;
-    seo.description =
-      seoData?.seo?.seoDescription ||
-      seoData?.commonSections?.seo?.seoDescription;
-    seo.image =
-      seoData?.seo?.seoImage || seoData?.commonSections?.seo?.seoImage;
+    seo.title = seoData?.seoTitle || seoData?.name;
+    seo.keywords = seoData?.seoKeywords;
+    seo.synonyms = seoData?.seoSynonyms;
+    seo.description = seoData?.seoDescription;
+    seo.image = seoData?.seoImage;
   } else if (dataType === "post" && "excerpt" in seoData) {
     const blogDescription = blogPostBody(seoData?.excerpt || seoData?.body);
-    seo.title = seoData?.seo?.seoTitle || seoData?.title;
-    seo.keywords = seoData?.seo?.seoKeywords;
-    seo.synonyms = seoData?.seo?.seoSynonyms;
-    seo.description = seoData?.seo?.seoDescription || blogDescription;
-    seo.image = seoData?.seo?.seoImage;
+    seo.title = seoData?.seoTitle || seoData?.title;
+    seo.keywords = seoData?.seoKeywords;
+    seo.synonyms = seoData?.seoSynonyms;
+    seo.description = seoData?.seoDescription || blogDescription;
+    seo.image = seoData?.seoImage;
   } else if (dataType === "page" && "title" in seoData) {
-    seo.title = seoData?.seo?.seoTitle || seoData?.title;
-    seo.keywords = seoData?.seo?.seoKeywords;
-    seo.synonyms = seoData?.seo?.seoSynonyms;
-    seo.description = seoData?.seo?.seoDescription;
-    seo.image = seoData?.seo?.seoImage;
+    seo.title = seoData?.seoTitle || seoData?.title;
+    seo.keywords = seoData?.seoKeywords;
+    seo.synonyms = seoData?.seoSynonyms;
+    seo.description = seoData?.seoDescription;
+    seo.image = seoData?.seoImage;
   }
   return seo;
 }
 
-export default React.memo(SEO);
+export function addSEOJsonLd({ seo, type, defaults, slug, pageData }) {
+  if (type === "post") {
+    // blog posts
+    return BlogJsonLd({
+      title: seo?.seoTitle ?? pageData?.title,
+      description:
+        seo?.seoDescription ??
+        blogPostBody(pageData?.excerpt ?? pageData?.body) ??
+        defaults?.description,
+      url: `${url}/${slug?.current}`,
+      images: seoImageUrl(
+        seo?.seoImage ?? pageData?.mainImage ?? defaults?.image
+      ),
+      authorName: pageData?.authors,
+      publisherName: "WebriQ",
+      publisherLogo: seoImageUrl(seo?.seoImage ?? defaults?.image),
+      dateModified: pageData?._updatedAt,
+      datePublished: pageData?.publishedAt ?? pageData?._updatedAt,
+    });
+  } else if (type === "mainProduct") {
+    // product pages
+    return ProductJsonLd({
+      productName: seo?.seoTitle ?? pageData?.name,
+      images: seo?.seoImage ?? pageData?.productInfo?.images,
+      url: `${url}/products/${slug}`,
+      brand: "WebriQ",
+      description: seo?.seoDescription ?? defaults?.description,
+      price: pageData?.price,
+      priceCurrency: "USD",
+    });
+  } else {
+    // default schema type for all pages
+    return PagesJsonLd({
+      name: seo?.seoTitle ?? pageData?.title,
+      description: seo?.seoDescription ?? defaults?.description,
+      url: `${url}/${slug}`,
+      logo: `${url}/favicon.ico`,
+      contactPoint: contacts,
+    });
+  }
+}

@@ -1,8 +1,8 @@
 import { defineConfig } from "sanity";
 import {
   NEXT_PUBLIC_SANITY_PROJECT_NAME,
-  NEXT_PUBLIC_SANITY_DATASET,
-  NEXT_PUBLIC_SANITY_PROJECT_ID,
+  SANITY_PROJECT_DATASET,
+  SANITY_PROJECT_ID,
   NEXT_PUBLIC_SANITY_PROJECT_OPENAI_KEY,
 } from "studio/config";
 
@@ -19,47 +19,51 @@ import { ResolveDocumentActions } from "studio/documentActions";
 import { schemaTypes } from "schemas/schema";
 
 // plugins
-import { media } from "sanity-plugin-media"
+import { media } from "sanity-plugin-media";
 import { codeInput } from "@sanity/code-input";
 
-import { openaiImageAsset } from "sanity-plugin-asset-source-openai"
-import { visionTool } from "@sanity/vision"
-import { webriqBlog } from "@webriq-pagebuilder/sanity-plugin-webriq-blog"
-import { webriqForms } from "@webriq-pagebuilder/sanity-plugin-webriq-forms"
-import { webriqPayments } from "@webriq-pagebuilder/sanity-plugin-webriq-payments"
-import { webriqGPT3 } from "@webriq-pagebuilder/sanity-plugin-input-component-gpt3"
-import { webriqComponents } from "@webriq-pagebuilder/sanity-plugin-webriq-components"
-import { webriqScheduledPublishing } from "@webriq-pagebuilder/sanity-plugin-webriq-scheduled-publishing";
-
-// Open preview
-import resolveProductionUrl from "studio/resolvePreviewUrl";
+import { visionTool } from "@sanity/vision";
+import { webriqBlog } from "@webriq-pagebuilder/sanity-plugin-webriq-blog";
+import { webriqForms } from "@webriq-pagebuilder/sanity-plugin-webriq-forms";
+import { webriqPayments } from "@webriq-pagebuilder/sanity-plugin-webriq-payments";
+import { webriqGPT3 } from "@webriq-pagebuilder/sanity-plugin-input-component-gpt3";
+import { webriqComponents } from "@webriq-pagebuilder/sanity-plugin-webriq-components";
+import { webriQInspectorInlineEdit } from "@webriq-pagebuilder/sanity-plugin-inspector-inline-edit";
 
 export default defineConfig({
   basePath: "/studio",
   title: NEXT_PUBLIC_SANITY_PROJECT_NAME,
-  projectId: NEXT_PUBLIC_SANITY_PROJECT_ID,
-  dataset: NEXT_PUBLIC_SANITY_DATASET,
+  projectId: SANITY_PROJECT_ID,
+  dataset: SANITY_PROJECT_DATASET,
   plugins: [
-    deskStructure, 
-    visionTool(), 
+    deskStructure,
+    visionTool(),
     webriqComponents(),
-    webriqForms(), 
-    webriqPayments(), 
+    webriqForms(),
+    webriqPayments(),
     webriqBlog(),
     webriqGPT3(),
-    webriqScheduledPublishing(),
+    webriQInspectorInlineEdit(),
     media(),
     codeInput(), // for "code" schema type
-    openaiImageAsset({
-      API_KEY: NEXT_PUBLIC_SANITY_PROJECT_OPENAI_KEY
-    }),
   ],
   tools: (prev) => {
-    // 👇 Uses environment variables set by Vite in development mode
-    if (process.env.NODE_ENV !== "production") {
-      return prev;
+    // 05-28-2024 StackShift revamp 2024: Adding forms and stripe accounts done from StackShift app
+    const hideTools = ["vision"];
+    const isProduction = process.env.NODE_ENV === "production";
+    const isStackShiftDefault = SANITY_PROJECT_ID === "9itgab5x";
+
+    // 11-19-2024 Only show WebriQ Forms and Payments tools if StackShift is default
+    if (!isStackShiftDefault) {
+      hideTools.push("webriq-forms", "payments");
     }
-    return prev.filter((tool) => tool.name !== "vision");
+
+    if (!isProduction) {
+      hideTools.shift(); // only show "Vision" in development
+
+      return prev.filter((tool) => !hideTools?.includes(tool.name));
+    }
+    return prev.filter((tool) => !hideTools?.includes(tool.name));
   },
   studio: {
     components: {
@@ -80,14 +84,6 @@ export default defineConfig({
   },
   document: {
     badges: [LiveURLBadge],
-    actions: (prev, context) =>
-      ResolveDocumentActions({ prev, context }),
-    // Open preview link
-    productionUrl: async (prev, context) => {
-      // context includes the client and other details
-      const { document } = context;
-
-      return resolveProductionUrl(document);
-    },
+    actions: (prev, context) => ResolveDocumentActions({ prev, context }),
   },
 });

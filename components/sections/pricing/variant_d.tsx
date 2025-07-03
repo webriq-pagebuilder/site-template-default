@@ -1,21 +1,22 @@
-import React from "react";
-import WebriQForm from "components/webriq-form";
-import Image from "next/image";
-import Link from "next/link";
-import { PortableText, urlFor } from "lib/sanity";
-import { initiateCheckout } from "lib/checkout";
-import {
-  CardElement,
-  Elements,
-  useElements,
-  useStripe,
-} from "@stripe/react-stripe-js";
-import { loadStripe } from "@stripe/stripe-js";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import router from "next/router";
-import { thankYouPageLink, ConditionalBtnOrLink } from "helper";
-import { PricingProps } from ".";
+import Image from "next/image";
+import { WebriQForm } from "@stackshift-ui/webriq-form";
+import { thankYouPageLink } from "helper";
+import { PortableText, urlFor } from "lib/sanity";
 import { MyPortableTextComponents } from "types";
+import { PricingProps } from ".";
+import { Text } from "@stackshift-ui/text";
+import { Button } from "@stackshift-ui/button";
+import { Heading } from "@stackshift-ui/heading";
+import { SwiperPagination } from "@stackshift-ui/swiper-pagination";
+import { Input } from "@stackshift-ui/input";
+import { FormField } from "@stackshift-ui/form-field";
+import { Container } from "@stackshift-ui/container";
+import { Flex } from "@stackshift-ui/flex";
+
+// for Stripe
+import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 
 function VariantD({
   caption,
@@ -43,16 +44,8 @@ function VariantD({
   });
   const [banners, setBanners] = React.useState(0);
   const [billing, setBilling] = React.useState({ amount: 0, billType: "" });
-  const [paymentOngoing, setPaymentOngoing] = React.useState(false);
-  const stripePromise = loadStripe(stripePKey);
 
-  const handleChange = (e) => {
-    e.target.value === monthlyBilling
-      ? setBilling({ amount: e.target.value, billType: "Monthly" })
-      : setBilling({ amount: e.target.value, billType: "Annual" });
-  };
-
-  React.useEffect(() => {
+  useEffect(() => {
     async function getPriceId() {
       const productPayload = {
         credentials: {
@@ -61,7 +54,7 @@ function VariantD({
           apiVersion,
         },
         stripeParams: {
-          id: `webriq-studio-pricing-formPayment-${formId}-recurring-monthlyPrice-${monthlyBilling}-yearlyPrice-${annualBilling}`,
+          id: `pricing-formPayment-${formId}-recurring-monthlyPrice-${monthlyBilling}-yearlyPrice-${annualBilling}`,
         },
       };
 
@@ -105,30 +98,29 @@ function VariantD({
       }
     }
 
-    getPriceId();
-  }, [
-    NEXT_PUBLIC_APP_URL,
-    annualBilling,
-    apiVersion,
-    formId,
-    hashKey,
-    monthlyBilling,
-    stripeSKey,
-    useCheckout,
-  ]);
+    if (apiVersion && hashKey && stripeSKey) {
+      getPriceId();
+    }
+  }, []);
+
+  const handleChange = (e) => {
+    e.target.value === monthlyBilling
+      ? setBilling({ amount: e.target.value, billType: "Monthly" })
+      : setBilling({ amount: e.target.value, billType: "Annual" });
+  };
 
   // block styling as props to `components` of the PortableText component
   const blockCustomization: MyPortableTextComponents = {
     block: {
       normal: ({ children }) => {
-        return <p className="text-xs">{children}</p>;
+        return <Text className="text-xs">{children}</Text>;
       },
     },
     marks: {
       link: ({ children, value }) => (
         <a
           aria-label={value.href ?? "external link"}
-          className="font-bold text-webriq-darkblue hover:text-webriq-darkblue"
+          className="font-bold text-primary hover:text-primary"
           href={value.href}
         >
           {children}
@@ -141,16 +133,20 @@ function VariantD({
     const elements = useElements();
     const stripe = useStripe();
     const [showPassword, setShowPassword] = React.useState(false); // show or hide password field value
-    const [value, setValue] = React.useState(null); // setting selected value for input field radio type
+    const [checkedValue, setCheckedValue] = React.useState(1); // form default checkbox
     const [checked, setChecked] = React.useState([]); // setting selected value for input field checkbox type
-
-    const handleRadioChange = (e) => {
-      setValue(e.target.value);
-    };
+    const [processing, setIsProcessing] = React.useState(false);
+    const [paymentStatus, setPaymentStatus] = React.useState("idle");
+    const [cardValidate, setCardValidate] = React.useState<any | undefined>({
+      brand: "unknown",
+      complete: false,
+      error: "",
+    });
 
     const handleCheckboxChange = (e) => {
       const { checked, value } = e.target;
 
+      setCheckedValue(value);
       setChecked((prev) =>
         checked ? [...prev, value] : prev.filter((v) => v !== value)
       );
@@ -158,13 +154,17 @@ function VariantD({
 
     const handleSubmit = async (event) => {
       event.preventDefault();
+      setIsProcessing(true);
+
       let data = {};
+
       formFields?.forEach((field) => {
         const formData = new FormData(
           document.querySelector(`form[name='${formName}']`)
         ).get(field.name);
-        if (field.name === "Card number") {
-          data["creditCard"] = "************************";
+
+        if (field.pricingType === "inputCard") {
+          data[field.name] = "************************";
         } else {
           data[field.name] = formData;
         }
@@ -173,6 +173,7 @@ function VariantD({
       if (elements == null) {
         return;
       }
+
       const { data: monthlyBilling_ClientSecret } = await axios.post(
         "/api/paymentIntent",
         {
@@ -191,126 +192,110 @@ function VariantD({
         }
       );
 
-      const { paymentMethod } = await stripe.createPaymentMethod({
-        type: "card",
-        card: elements.getElement(CardElement),
-      });
+      const payload = await stripe?.confirmCardPayment(
+        billing.billType === "Monthly"
+          ? monthlyBilling_ClientSecret
+          : yearlyBilling_ClientSecret,
+        {
+          payment_method: {
+            card: elements.getElement(CardElement),
+          },
+        }
+      );
 
-      if (paymentMethod) {
-        const { error, paymentIntent } = await stripe.confirmCardPayment(
-          billing.billType === "Monthly"
-            ? monthlyBilling_ClientSecret
-            : yearlyBilling_ClientSecret,
-          {
-            payment_method: paymentMethod.id,
-          }
-        );
-        if (paymentIntent) {
-          const response = await fetch("/api/submitForm", {
-            method: "POST",
-            body: JSON.stringify({ data, id: formId }),
-          });
-          const responseData = await response.json();
+      if (payload?.error) {
+        setIsProcessing(false);
+        setPaymentStatus("failed");
+        setCardValidate({ ...cardValidate, error: "error" });
+        return;
+      } else {
+        setPaymentStatus("success");
+        
+        const response = await fetch("/api/submitForm", {
+          method: "POST",
+          body: JSON.stringify({ data, id: formId }),
+        });
 
-          setPaymentOngoing(true);
-          if (response.statusText === "OK") {
-            router.push("/success");
-          }
+        if (response.ok) {
+          setPaymentStatus("success");
+          setIsProcessing(false);
+        } else {
+          setPaymentStatus("failed");
+          setIsProcessing(false);
         }
       }
     };
 
     return (
-      <div className="mb-8 w-full md:mb-0 md:w-1/2">
+      <div className="w-full mb-8 md:mb-0 md:w-1/2">
         <div className="px-6 py-8 text-center lg:px-8">
-          <p className="font-heading mb-8 text-2xl">{formName}</p>
+          <Text className="mb-8 text-2xl">{formName}</Text>
           {formFields && (
             <WebriQForm
               stripepkey={stripePKey}
               method="POST"
-              data-form-id={formId}
+              data-form-id={
+                cardValidate?.error === undefined &&
+                cardValidate?.brand !== "unknown" &&
+                cardValidate?.complete
+                  ? formId
+                  : undefined
+              }
               name={formName}
-              className="form-pricing"
+              className="form-pricing space-y-2"
               data-thankyou-url={thankYouPageLink(formThankYouPage)}
               scriptsrc="https://pagebuilderforms.webriq.com/js/initReactForms"
+              onSubmit={handleSubmit}
             >
               {formFields?.map((field, index) => {
                 return (
-                  <div key={index}>
-                    {field.pricingType === "textarea" ? (
+                  <React.Fragment key={index}>
+                    {field?.pricingType === "inputCard" ? (
                       <div className="mb-4">
-                        <textarea
-                          aria-label={`${field?.name} text area`}
-                          className="h-24 w-full resize-none rounded bg-gray-50 p-4 text-xs font-semibold leading-none outline-none"
-                          placeholder={field?.placeholder}
-                          name={field?.name}
-                          required={field?.isRequired}
+                        <CardElement
+                          onChange={(e) => setCardValidate(e)}
+                          className="w-full p-4 text-xs leading-none rounded-global outline-none bg-gray-50"
                         />
-                      </div>
-                    ) : field.pricingType === "inputFile" ? (
-                      <div className="mb-4">
-                        <label className="flex rounded bg-white px-2">
-                          <input
-                            aria-label="Add file"
-                            className="hidden"
-                            type="file"
-                            placeholder="Choose file.."
-                            name={field?.name}
-                            required={field?.isRequired}
-                          />
-                          <div className="my-1 ml-auto cursor-pointer rounded bg-gray-500 px-4 py-3 text-xs font-semibold leading-none text-white transition duration-200 hover:bg-gray-600">
-                            Browse
-                          </div>
-                        </label>
-                      </div>
-                    ) : field.pricingType === "inputCard" ? (
-                      <div className="mb-4">
-                        <CardElement className="w-full rounded bg-gray-50 p-4 text-xs font-semibold leading-none outline-none" />
-                        {paymentOngoing && (
-                          <div
-                            style={{
-                              textAlign: "left",
-                              marginTop: 12,
-                              fontSize: 12,
-                              color: "green",
-                            }}
-                          >
+                        {paymentStatus === "success" ? (
+                          <div className="text-xs font-semibold leading-none py-4 text-left mt-3 text-green-600">
                             Payment Success!
                           </div>
-                        )}
+                        ) : paymentStatus === "failed" ? (
+                          <div className="text-xs font-semibold leading-none py-4 text-left mt-3 text-red-600">
+                            {`Something went wrong! Payment can't be processed.`}
+                          </div>
+                        ) : null}
                       </div>
-                    ) : field.pricingType === "inputNumber" ? (
-                      <div className="mb-4">
-                        <input
-                          aria-label={field?.name}
-                          className="w-full rounded bg-gray-50 p-4 text-xs font-semibold leading-none outline-none"
-                          type="number"
-                          placeholder={field?.placeholder}
-                          name={field?.name}
-                          required={field?.isRequired}
-                        />
-                      </div>
-                    ) : field.pricingType === "inputPassword" ? (
-                      <div className="mb-4 flex rounded bg-gray-50">
-                        <input
-                          aria-label={field?.type}
-                          className="w-full rounded bg-gray-50 p-4 text-xs font-semibold leading-none outline-none"
+                    ) : field?.pricingType === "inputPassword" ? (
+                      <div className="flex my-4 rounded-global bg-gray-100">
+                        <Input
+                          noLabel
+                          autoComplete="new-password"
+                          ariaLabel={field?.placeholder ?? field?.name}
+                          className="w-full px-4 py-2 leading-none rounded-global text-xs outline-none bg-gray-100"
                           type={showPassword ? "text" : "password"}
                           placeholder={field?.placeholder}
                           name={field?.name}
                           required={field?.isRequired}
+                          readOnly={!billing.billType}
                         />
                         {/* SVG icon on the right of the password input field */}
-                        <button
-                          aria-label={
+                        <Button
+                          variant="unstyled"
+                          as="button"
+                          ariaLabel={
                             showPassword ? "Show password" : "Hide password"
                           }
-                          className="pr-4 focus:outline-none"
-                          onClick={() => setShowPassword(!showPassword)}
+                          className="pr-4 focus:outline-none bg-gray-100 rounded-global"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            setShowPassword(!showPassword);
+                          }}
+                          disabled={!billing.billType}
                         >
                           {showPassword ? (
                             <svg
-                              className="my-auto ml-4 h-5 w-5 text-gray-500"
+                              className="w-5 h-5 my-auto ml-4 text-gray-500"
                               xmlns="http://www.w3.org/2000/svg"
                               aria-hidden="true"
                               role="img"
@@ -327,7 +312,7 @@ function VariantD({
                             </svg>
                           ) : (
                             <svg
-                              className="my-auto ml-4 h-5 w-5 text-gray-500"
+                              className="w-5 h-5 my-auto ml-4 text-gray-500"
                               xmlns="http://www.w3.org/2000/svg"
                               aria-hidden="true"
                               role="img"
@@ -342,193 +327,73 @@ function VariantD({
                               </g>
                             </svg>
                           )}
-                        </button>
-                      </div>
-                    ) : field.pricingType === "inputSelect" ? (
-                      <div className="mb-4 flex">
-                        <label
-                          className="m-auto text-left text-xs text-gray-500"
-                          htmlFor={field?.name}
-                        >
-                          {field?.label}
-                        </label>
-                        <select
-                          className="w-full rounded bg-gray-50 p-3 text-xs outline-none"
-                          name={`pricing-${field?.name}`}
-                          defaultValue={"default-value"}
-                          required={field?.isRequired}
-                        >
-                          <option value=""></option>
-                          {field?.items?.map((item, index) => (
-                            <option key={index} value={item}>
-                              {item}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
-                    ) : field?.type === "inputRadio" ? (
-                      <div className="mb-4 text-left">
-                        <label
-                          className="m-auto text-left text-xs text-gray-500"
-                          htmlFor={field?.name}
-                        >
-                          {field?.label}
-                        </label>
-                        <div>
-                          {field?.items?.map((item, index) => (
-                            <label
-                              className="mr-4 text-xs text-gray-500"
-                              key={index}
-                            >
-                              <input
-                                className="mr-2"
-                                name={field?.name}
-                                value={item}
-                                type="radio"
-                                onChange={handleRadioChange}
-                                checked={value === item}
-                                required={field?.isRequired}
-                              />
-                              {item}
-                            </label>
-                          ))}
-                        </div>
-                      </div>
-                    ) : field?.type === "inputCheckbox" ? (
-                      <div className="mb-4 text-left">
-                        <label
-                          className="m-auto text-left text-xs text-gray-500"
-                          htmlFor={field?.name}
-                        >
-                          {field?.label}
-                        </label>
-                        <div>
-                          {field?.items?.map((item, index) => (
-                            <label
-                              className="mr-4 text-xs text-gray-500"
-                              key={index}
-                            >
-                              <input
-                                className="mr-2"
-                                name={field?.name}
-                                value={item}
-                                type="checkbox"
-                                onChange={handleCheckboxChange}
-                                checked={checked.some((v) => v === item)}
-                                required={
-                                  field?.isRequired && checked.length === 0
-                                    ? true
-                                    : false
-                                }
-                              />
-                              {item}
-                            </label>
-                          ))}
-                        </div>
+                        </Button>
                       </div>
                     ) : (
-                      <div className="mb-4 flex rounded bg-gray-50">
-                        <input
-                          aria-label={`${
-                            field?.type === "inputText"
-                              ? `Input ${field?.name}`
-                              : `${field?.type}`
-                          }`}
-                          className="w-full rounded bg-gray-50 p-4 text-xs font-semibold leading-none outline-none"
-                          type={
-                            field.pricingType === "inputEmail"
-                              ? "email"
-                              : field.pricingType === "inputPassword"
-                              ? "password"
-                              : "text"
-                          }
-                          placeholder={field?.placeholder}
-                          name={field?.name}
-                          required={field?.isRequired}
-                        />
-                        {/* SVG icon on the right of the email input field */}
-                        {field?.pricingType === "inputEmail" && (
-                          <svg
-                            className="my-auto ml-4 mr-4 h-6 w-6 text-gray-500"
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207"
-                            />
-                          </svg>
-                        )}
-                      </div>
+                      <FormField
+                        type={field?.pricingType || field?.type}
+                        name={field?.name}
+                        required={field?.isRequired}
+                        readOnly={!billing.billType}
+                        noLabel
+                        variant="secondary"
+                        {...field}
+                      />
                     )}
-                  </div>
+                  </React.Fragment>
                 );
               })}
-              <div className="mb-5 text-left text-sm text-gray-500">
-                <label className="inline-flex">
+              <div className="mb-5 text-sm text-left text-gray-500">
+                <label className="inline-flex mt-5">
                   <input
                     aria-label="Agree to terms"
-                    className="mr-2"
+                    className="mx-2 items-center"
                     type="checkbox"
                     name="terms"
-                    defaultValue={1}
+                    value={checkedValue}
+                    onChange={handleCheckboxChange}
+                    checked={checked.some((v) => v === checkedValue)}
                   />
-                  <PortableText value={block} components={blockCustomization} />
+                  <PortableText
+                    value={block}
+                    components={blockCustomization}
+                    onMissingComponent={false} // Disabling warnings / handling unknown types
+                  />
                 </label>
               </div>
               <div>
                 <div className="webriq-recaptcha" />
               </div>
-              <button
+              <Button
+                as="button"
                 id="submitBtn"
-                aria-label="Submit Pricing Form button"
-                onClick={(e) => handleSubmit(e)}
-                // type="submit"
-                // onClick={() =>
-                //   initiateCheckout(
-                //     {
-                //       lineItems: [
-                //         {
-                //           price:
-                //             billing.billType === "Monthly"
-                //               ? useCheckout.monthlyCheckout
-                //               : useCheckout.yearlyCheckout,
-                //           quantity: 1,
-                //         },
-                //       ],
-                //     },
-                //     stripePKey,
-                //     window.location.origin + "/success",
-                //     window.location.href,
-                //     true,
-                //     setPKError
-                //   )
-                // }
-                className={`block w-full rounded-l-xl rounded-t-xl bg-webriq-blue p-4 text-center font-bold leading-none text-white transition duration-200 hover:bg-webriq-darkblue ${
-                  billing.billType === "" &&
+                ariaLabel="Submit Pricing Form button"
+                type="submit"
+                className={`w-full ${
+                  (!formId || billing.billType === "" || processing || !cardValidate?.complete || cardValidate?.empty) &&
                   "cursor-not-allowed disabled:opacity-50"
                 }`}
-                disabled={billing.billType === ""}
+                disabled={!formId || billing.billType === "" || processing || !cardValidate?.complete || cardValidate?.empty}
               >
-                {/* {paymentOngoing
+                {processing
                   ? "Processing Payment...."
-                  : `Buy ${billing.billType} Supply`} */}
-                Buy {billing.billType} Supply
-              </button>
+                  : `Buy ${billing.billType} Supply`}
+              </Button>
             </WebriQForm>
           )}
           {signInLink?.label && (
-            <p className="text-xs text-gray-500">
+            <Text muted className="text-xs mt-3">
               Already have an account?{" "}
-              <ConditionalBtnOrLink
-                value={signInLink}
-                style="text-webriq-darkblue hover:underline"
-              />
-            </p>
+              <Button
+                as="link"
+                variant="link"
+                link={signInLink}
+                className="text-xs hover:underline"
+                ariaLabel={signInLink?.label}
+              >
+                {signInLink?.label}
+              </Button>
+            </Text>
           )}
         </div>
       </div>
@@ -536,88 +401,83 @@ function VariantD({
   };
 
   return (
-    <section>
-      <div className="radius-for-skewed bg-gray-50 py-20">
-        <div className="container mx-auto px-4">
-          <div className="mx-auto mb-16 max-w-2xl text-center">
-            <div className="mx-auto max-w-lg">
-              <span className="font-bold text-webriq-darkblue">{caption}</span>
-              <h1 className="font-heading mb-2 text-4xl font-bold lg:text-5xl">
-                {title}
-              </h1>
-              <p className="mb-8 text-gray-500">{description}</p>
-            </div>
-            <div className="flex flex-wrap justify-center">
-              {monthlyBilling && (
-                <label className="mb-2 mr-8 flex w-full items-center sm:w-auto md:mr-4">
-                  <input
-                    aria-label={`Select ${monthlyBilling}`}
-                    type="radio"
-                    name="billing"
-                    defaultValue={monthlyBilling}
-                    onChange={(e) => handleChange(e)}
-                  />
-                  <span className="mx-2 font-semibold">Monthly Billing</span>
-                  <span className="inline-flex h-10 w-16 items-center justify-center rounded-lg bg-webriq-darkblue font-semibold text-white">
-                    ${monthlyBilling}
-                  </span>
-                </label>
-              )}
-              {annualBilling && (
-                <label className="mb-2 flex w-full items-center sm:w-auto">
-                  <input
-                    aria-label={`Select ${annualBilling}`}
-                    type="radio"
-                    name="billing"
-                    defaultValue={annualBilling}
-                    onChange={(e) => handleChange(e)}
-                  />
-                  <span className="mx-2 font-semibold">Annual Billing</span>
-                  <span className="inline-flex h-10 w-16 items-center justify-center rounded-lg bg-webriq-darkblue font-semibold text-white">
-                    ${annualBilling}
-                  </span>
-                </label>
-              )}
-            </div>
-          </div>
-          <div className="flex flex-wrap rounded bg-white shadow">
-            <Elements stripe={stripePromise}>
-              <Form />
-            </Elements>
-            <div className="flex w-full flex-col overflow-hidden bg-webriq-darkblue py-10 md:w-1/2 lg:rounded-r">
-              {banner?.[banners]?.mainImage?.image?.asset?._ref && (
-                <div className="mx-auto my-auto w-full md:max-w-xs">
-                  <Image
-                    className="object-cover"
-                    src={urlFor(banner?.[banners]?.mainImage.image)}
-                    sizes="100vw"
-                    width={320}
-                    height={296}
-                    alt={`pricing-image-${banners}`}
-                  />
-                </div>
-              )}
-              <p className="mx-auto mb-4 max-w-sm text-center text-xl text-white">
-                {banner?.[banners]?.title}
-              </p>
-              <div className="text-center">
-                {banner?.map((item, index) => (
-                  <button
-                    aria-label={`Page ${index} button`}
-                    key={item?._key}
-                    className={` ${
-                      banners === index
-                        ? "mr-2 inline-block h-2 w-2 rounded-full bg-white focus:outline-none"
-                        : "mr-2 inline-block h-2 w-2 rounded-full bg-webriq-babyblue focus:outline-none"
-                    } `}
-                    onClick={() => setBanners(index)}
-                  />
-                ))}
+    <section className="p-5 sm:p-20 bg-background">
+      <Container>
+        <Container maxWidth={672} className="mb-16 text-center">
+          <Container maxWidth={512}>
+            <Text weight="bold" className="text-primary">
+              {caption}
+            </Text>
+            {title && <Heading>{title}</Heading>}
+            <Text muted className="mb-8 ">
+              {description}
+            </Text>
+          </Container>
+          <Flex wrap justify="center">
+            {monthlyBilling && (
+              <label className="flex items-center w-full mb-2 mr-8 sm:w-auto md:mr-4">
+                <input
+                  aria-label={`Select ${monthlyBilling}`}
+                  type="radio"
+                  name="billing"
+                  defaultValue={monthlyBilling}
+                  onChange={(e) => handleChange(e)}
+                />
+                <span className="mx-2 font-semibold">Monthly Billing</span>
+                <span className="inline-flex items-center justify-center w-16 h-10 font-semibold text-white rounded-lg bg-primary">
+                  ${monthlyBilling}
+                </span>
+              </label>
+            )}
+            {annualBilling && (
+              <label className="flex items-center w-full mb-2 sm:w-auto">
+                <input
+                  aria-label={`Select ${annualBilling}`}
+                  type="radio"
+                  name="billing"
+                  defaultValue={annualBilling}
+                  onChange={(e) => handleChange(e)}
+                />
+                <span className="mx-2 font-semibold">Annual Billing</span>
+                <span className="inline-flex items-center justify-center w-16 h-10 font-semibold text-white rounded-lg bg-primary">
+                  ${annualBilling}
+                </span>
+              </label>
+            )}
+          </Flex>
+        </Container>
+        <Flex wrap className="bg-white rounded shadow">
+          <Form />
+          <div className="flex flex-col w-full [@media(min-width:768px)]:h-[424.8px] [@media(min-width:978px)]:h-[406.8px] py-10 overflow-hidden bg-primary md:w-1/2 lg:rounded-tr">
+            {banner?.[banners]?.mainImage?.image?.asset?._ref && (
+              <div className="w-full mx-auto my-auto md:max-w-xs">
+                <Image
+                  className="object-cover"
+                  src={urlFor(banner?.[banners]?.mainImage.image)}
+                  sizes="100vw"
+                  width={320}
+                  height={296}
+                  alt={`pricing-image-${banners}`}
+                />
               </div>
+            )}
+            <Text className="max-w-sm mx-auto mb-4 sm:text-xl text-center text-white">
+              {banner?.[banners]?.title}
+            </Text>
+            <div className="text-center">
+              {banner?.map((item, index) => (
+                <SwiperPagination
+                  colorScheme="white"
+                  isActive={banners === index}
+                  ariaLabel={`Page ${index} button`}
+                  key={item?._key}
+                  onClick={() => setBanners(index)}
+                />
+              ))}
             </div>
           </div>
-        </div>
-      </div>
+        </Flex>
+      </Container>
     </section>
   );
 }

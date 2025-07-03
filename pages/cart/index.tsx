@@ -1,21 +1,22 @@
 import React from "react";
-import Head from "next/head";
 import { PreviewSuspense } from "next-sanity/preview";
 import { getClient } from "lib/sanity.client";
 import { usePreview } from "lib/sanity.preview";
-import { cartPageQuery } from "pages/api/query";
+import { cartPageQuery, globalSEOQuery } from "pages/api/query";
 import { CartSections } from "components/page/store/cart";
 import { PreviewNoContent } from "components/PreviewNoContent";
 import { filterDataToSingleItem } from "components/list";
+import { SEO } from "components/SEO";
 import { PreviewBanner } from "components/PreviewBanner";
 import InlineEditorContextProvider from "context/InlineEditorContext";
-import { CommonPageData } from "types";
+import { CommonPageData, SeoTags } from "types";
 
 interface CartPageProps {
   data: Data;
   preview: boolean;
   token?: string;
   source?: string;
+  seo?: SeoTags[];
 }
 
 interface Data {
@@ -37,20 +38,24 @@ interface DocumentWithPreviewProps {
 function CartPage({ data, preview, token, source }: CartPageProps) {
   const showInlineEditor = source === "studio";
 
-  if (preview) {
-    return (
-      <>
-        <PreviewBanner />
-        <PreviewSuspense fallback="Loading">
-          <InlineEditorContextProvider showInlineEditor={showInlineEditor}>
-            <DocumentWithPreview {...{ data, token }} />
-          </InlineEditorContextProvider>
-        </PreviewSuspense>
-      </>
-    );
-  }
+  if (!data?.cartData) {
+    return <PageNotFound />
+  } else {
+    if (preview) {
+      return (
+        <>
+          <PreviewBanner />
+          <PreviewSuspense fallback="Loading">
+            <InlineEditorContextProvider showInlineEditor={showInlineEditor}>
+              <DocumentWithPreview {...{ data, token }} />
+            </InlineEditorContextProvider>
+          </PreviewSuspense>
+        </>
+      );
+    }
 
-  return <Document {...{ data }} />;
+    return <Document {...{ data }} />;
+  }
 }
 
 /**
@@ -67,19 +72,7 @@ function Document({ data }: { data: Data }) {
     return null;
   }
 
-  const { seo } = publishedData;
-
-  return (
-    <>
-      <Head>
-        <meta name="viewport" content="width=260 initial-scale=1" />
-        <title>{seo?.seoTitle ?? "Cart"}</title>
-      </Head>
-
-      {/*  Show page sections */}
-      {data?.cartData && <CartSections data={publishedData} />}
-    </>
-  );
+  return data?.cartData && <CartSections data={publishedData} />;
 }
 
 /**
@@ -99,15 +92,8 @@ function DocumentWithPreview({ data, token = null }: DocumentWithPreviewProps) {
     return null;
   }
 
-  const { seo } = previewData;
-
   return (
     <>
-      <Head>
-        <meta name="viewport" content="width=260 initial-scale=1" />
-        <title>{seo?.seoTitle ?? "Cart"}</title>
-      </Head>
-
       {/* if no sections, show no sections only in preview */}
 
       {(!previewData ||
@@ -126,29 +112,37 @@ export async function getStaticProps({
 }: any): Promise<{ props: CartPageProps }> {
   const client =
     preview && previewData?.token
-      ? getClient(false).withConfig({ token: previewData.token })
-      : getClient(preview);
+      ? getClient(preview).withConfig({ token: previewData.token })
+      : getClient(false);
 
-  const cartPage: CartData[] = await client.fetch(cartPageQuery);
+  const [cartPage, globalSEO] = await Promise.all([
+    client.fetch(cartPageQuery),
+    client.fetch(globalSEOQuery),
+  ]);
 
   // pass page data and preview to helper function
   const cartData: CartData = filterDataToSingleItem(cartPage, preview);
 
-  if (!cartData) {
-    return {
-      props: {
-        preview,
-        data: { cartData: null },
-      },
-    };
-  }
+  const data = { cartData };
+
+  // SEO tags
+  const seo = SEO({
+    data: {
+      title: "Cart",
+      type: data?.cartData?._type || "cartPage",
+      route: "cart",
+      ...data?.cartData,
+    },
+    defaultSeo: globalSEO,
+  });
 
   return {
     props: {
       preview,
       token: (preview && previewData.token) || "",
       source: (preview && previewData.source) || "",
-      data: { cartData },
+      data,
+      seo,
     },
   };
 }

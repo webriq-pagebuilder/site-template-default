@@ -29,11 +29,7 @@ yarn-debug.log*
 yarn-error.log*
 
 # local env files
-.env.local
-.env.development
-.env.test.local
-.env.production.local
-.env.staging*
+.env.*
 
 # vercel
 .vercel
@@ -46,3 +42,22 @@ yarn-error.log*
 
 # sitemap
 public/sitemap.xml
+
+# chromatic
+chromatic.log
+build-storybook.log
+storybook-static/
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+playwright/.auth/
+
+# Yarn 3
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions

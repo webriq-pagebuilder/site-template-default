@@ -3,7 +3,7 @@
 */
 import { NEXT_PUBLIC_SANITY_STUDIO_IN_CSTUDIO } from "../config";
 
-const CStudioSchema = [
+export const EcommerceSchema = [
   "allProducts",
   "featuredProducts",
   "pages_productInfo",
@@ -13,8 +13,8 @@ const CStudioSchema = [
   "collectionSettings",
   "cartPage",
   "wishlistPage",
-  "searchPage"
-]
+  "searchPage",
+];
 
 export const mergeReplaceAndAdd = (existingItems: any, newItems: any) => {
   const updatedItems = existingItems.map((existingItem: any) => {
@@ -37,12 +37,12 @@ export const mergeReplaceAndAdd = (existingItems: any, newItems: any) => {
     return all;
   }, []);
 
-  const mergedSchemas = [...updatedItems, ...additionalSchemas]
+  const mergedSchemas = [...updatedItems, ...additionalSchemas];
 
   // If C-Studio is disabled, then C-Studio fields should be read-only
-  if(NEXT_PUBLIC_SANITY_STUDIO_IN_CSTUDIO === "false") {
+  if (NEXT_PUBLIC_SANITY_STUDIO_IN_CSTUDIO === "false") {
     return mergedSchemas?.map((items) => {
-      if(CStudioSchema.includes(items?.name)) {
+      if (EcommerceSchema.includes(items?.name)) {
         return {
           ...items,
           __experimental_actions: [
@@ -50,10 +50,10 @@ export const mergeReplaceAndAdd = (existingItems: any, newItems: any) => {
             /*'create',*/ "update",
             /*'delete',*/ "publish",
           ],
-        }
+        };
       }
-      return items
-    })
+      return items;
+    });
   }
 
   return mergedSchemas;
