@@ -83,7 +83,7 @@ function CustomPublishLabel({ hasErrors = false, isPublishing = false }) {
         placement="top"
         portal
       >
-        <span>Publish</span>
+        <span>Publish Blog</span>
       </Tooltip>
     );
   }
