@@ -1,6 +1,7 @@
 import createProductsPublishAction from "./actions/createProductsPublishAction";
 import createMainProductPublishAction from "./actions/createMainProductPublishAction";
 import CustomDuplicateAction from "./actions/CustomDuplicateAction";
+import customBlogPublishAction from "./actions/customBlogPublishAction";
 import { NEXT_PUBLIC_SANITY_STUDIO_IN_CSTUDIO } from "../config";
 
 export const ResolveDocumentActions = (props) => {
@@ -67,7 +68,7 @@ export const ResolveDocumentActions = (props) => {
     ];
   } else if (["post"]?.includes(context?.schemaType)) {
     return [
-      createProductsPublishAction,
+      customBlogPublishAction,
       ...prev.filter(
         ({ action }: { action: string }) => !["publish"].includes(action)
       ),
