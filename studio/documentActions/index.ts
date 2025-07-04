@@ -1,33 +1,43 @@
 import createProductsPublishAction from "./actions/createProductsPublishAction";
 import createMainProductPublishAction from "./actions/createMainProductPublishAction";
 import CustomDuplicateAction from "./actions/CustomDuplicateAction";
+import customBlogPublishAction from "./actions/customBlogPublishAction";
 import { NEXT_PUBLIC_SANITY_STUDIO_IN_CSTUDIO } from "../config";
+
+const defaultDocumentActions = [
+  "duplicate",
+  "unpublish",
+  "discardChanges",
+  "delete",
+];
+
+const stackShiftEcommerceTypes = [
+  "mainProduct",
+  "mainCollection",
+  "cartPage",
+  "wishlistPage",
+  "searchPage",
+  "productSettings",
+  "collectionSettings",
+  // c-studio sections
+  "allProducts",
+  "featuredProducts",
+  "cartSection",
+  "wishlistSection",
+  "productInfo",
+  // c-studio sections only in Store > Pages Products/Collections
+  "dynamic_featuredProducts",
+  "dynamic_productInfo",
+  // c-studio sections only in Pages
+  "pages_featuredProducts",
+  "pages_productInfo",
+];
 
 export const ResolveDocumentActions = (props) => {
   const { prev, context } = props;
 
   if (
-    [
-      "mainProduct",
-      "mainCollection",
-      "cartPage",
-      "wishlistPage",
-      "searchPage",
-      "productSettings",
-      "collectionSettings",
-      // c-studio sections
-      "allProducts",
-      "featuredProducts",
-      "cartSection",
-      "wishlistSection",
-      "productInfo",
-      // c-studio sections only in Store > Pages Products/Collections
-      "dynamic_featuredProducts",
-      "dynamic_productInfo",
-      // c-studio sections only in Pages
-      "pages_featuredProducts",
-      "pages_productInfo",
-    ]?.includes(context?.schemaType) &&
+    stackShiftEcommerceTypes?.includes(context?.schemaType) &&
     NEXT_PUBLIC_SANITY_STUDIO_IN_CSTUDIO === "false"
   ) {
     // only show the publish action button (hide the button beside "Publish") for C-Studio elements when C-Studio is disabled
@@ -65,12 +75,11 @@ export const ResolveDocumentActions = (props) => {
         ["discardChanges", "unpublish", "delete"].includes(action)
       ),
     ];
-  } else if (["post", "category", "author"]?.includes(context?.schemaType)) {
-    // default document actions for blog documents: post, author and category
+  } else if (["post"]?.includes(context?.schemaType)) {
     return [
-      createProductsPublishAction,
-      ...prev.filter(({ action }: { action: string }) =>
-        ["discardChanges", "unpublish", "delete"].includes(action)
+      customBlogPublishAction,
+      ...prev.filter(
+        ({ action }: { action: string }) => !["publish"].includes(action)
       ),
     ];
   } else if (context?.schemaType === "page") {
@@ -78,18 +87,17 @@ export const ResolveDocumentActions = (props) => {
     return [
       createProductsPublishAction,
       CustomDuplicateAction,
-      ...prev.filter(
-        ({ action }: { action: string }) =>
-          !["publish", "duplicate"].includes(action)
+      ...prev.filter(({ action }: { action: string }) =>
+        ["unpublish", "discardChanges", "delete"].includes(action)
+      ),
+    ];
+  } else {
+    // else for other document types use the default
+    return [
+      createProductsPublishAction,
+      ...prev.filter(({ action }: { action: string }) =>
+        defaultDocumentActions.includes(action)
       ),
     ];
   }
-
-  // else for other document types use the default
-  return [
-    createProductsPublishAction,
-    ...prev.filter(
-      ({ action }: { action: string }) => !["publish"].includes(action)
-    ),
-  ];
 };

@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useToast, Tooltip, Box, Text } from "@sanity/ui";
-import { useDocumentOperation, useValidationStatus } from "sanity";
+import { useClient, useDocumentOperation, useValidationStatus } from "sanity";
 import { processData } from "../../stripeActions/process-data";
 import { NEXT_PUBLIC_SANITY_STUDIO_IN_CSTUDIO } from "studio/config";
 
 export default function createProductsPublishAction(props) {
   const toast = useToast();
+  const client = useClient({ apiVersion: "v2021-10-21" });
 
   const { validation } = useValidationStatus(props.id, props.type);
   const { publish } = useDocumentOperation(props.id, props.type);
@@ -91,6 +92,13 @@ export default function createProductsPublishAction(props) {
 
       // Perform the publish
       publish.execute();
+
+      // If the document has a publishedAt or publishStatus field, remove them
+      if(props?.draft?.publishedAt || props?.draft?.publishStatus) {
+        await client.patch(props.id, {
+          unset: ["publishedAt", "publishStatus"],
+        }).commit();
+      }
 
       // Signal that the action is completed
       props.onComplete();
