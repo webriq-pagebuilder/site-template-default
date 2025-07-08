@@ -44,8 +44,8 @@ export default function customBlogPublishAction(props) {
             .patch(props.id, {
               set: {
                 publishedAt: new Date().toISOString(),
-                publishStatus: "published",
               },
+              unset: ["publishStatus"],
             })
             .commit();
         }
