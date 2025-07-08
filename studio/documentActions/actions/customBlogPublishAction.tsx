@@ -57,10 +57,6 @@ export default function customBlogPublishAction(props) {
           console.log(
             "[INFO] Successfully removed existing scheduled publish."
           );
-          toast.push({
-            status: "info",
-            title: "Successfully removed existing scheduled publish",
-          });
         } else {
           console.log(
             "[INFO] Unable to remove existing scheduled publish. Either the document is not scheduled or there was an error.",
