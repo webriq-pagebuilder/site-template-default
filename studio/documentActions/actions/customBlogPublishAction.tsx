@@ -53,16 +53,7 @@ export default function customBlogPublishAction(props) {
           }
         ).then((response) => response.json());
 
-        if (!scheduledFnRequest.success) {
-          console.log(
-            "[ERROR] Failed to remove existing scheduled publish. ",
-            scheduledFnRequest
-          );
-          toast.push({
-            status: "error",
-            title: "Failed to remove existing scheduled publish",
-          });
-        } else {
+        if (scheduledFnRequest.success) {
           console.log(
             "[INFO] Successfully removed existing scheduled publish."
           );
@@ -70,6 +61,11 @@ export default function customBlogPublishAction(props) {
             status: "info",
             title: "Successfully removed existing scheduled publish",
           });
+        } else {
+          console.log(
+            "[INFO] Unable to remove existing scheduled publish. Either the document is not scheduled or there was an error.",
+            scheduledFnRequest
+          );
         }
 
         await client
