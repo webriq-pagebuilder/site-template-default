@@ -36,8 +36,6 @@ export default function customBlogPublishAction(props) {
         publish.execute();
 
         const currentDateTime = new Date().toISOString();
-        const publishedAt =
-          props?.draft?.publishedAt || props?.publishedAt || currentDateTime;
 
         // remove any scheduled publish from supabase for the document ID
         const scheduledFnRequest = await fetch(
@@ -76,7 +74,7 @@ export default function customBlogPublishAction(props) {
 
         await client
           .patch(props.id, {
-            set: { publishedAt },
+            set: { publishedAt: currentDateTime },
             unset: ["publishStatus", "scheduledId"],
           })
           .commit();
