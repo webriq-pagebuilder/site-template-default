@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useToast, Tooltip, Box, Text } from "@sanity/ui";
 import { useClient, useDocumentOperation, useValidationStatus } from "sanity";
+import { SCHEDULED_PUBLISHING_URL, SUPABASE_ANON_KEY } from "studio/config";
 
 export default function customBlogPublishAction(props) {
   const toast = useToast();
@@ -38,10 +39,45 @@ export default function customBlogPublishAction(props) {
         const publishedAt =
           props?.draft?.publishedAt || props?.publishedAt || currentDateTime;
 
+        // remove any scheduled publish from supabase for the document ID
+        const scheduledFnRequest = await fetch(
+          `${SCHEDULED_PUBLISHING_URL}/functions/v1/schedule`,
+          {
+            method: "DELETE",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+            },
+            body: JSON.stringify({
+              documentId: props.id,
+              dataset: props.dataset,
+            }),
+          }
+        ).then((response) => response.json());
+
+        if (!scheduledFnRequest.success) {
+          console.log(
+            "[ERROR] Failed to remove existing scheduled publish. ",
+            scheduledFnRequest
+          );
+          toast.push({
+            status: "error",
+            title: "Failed to remove existing scheduled publish",
+          });
+        } else {
+          console.log(
+            "[INFO] Successfully removed existing scheduled publish."
+          );
+          toast.push({
+            status: "info",
+            title: "Successfully removed existing scheduled publish",
+          });
+        }
+
         await client
           .patch(props.id, {
             set: { publishedAt },
-            unset: ["publishStatus"],
+            unset: ["publishStatus", "scheduledId"],
           })
           .commit();
 
