@@ -34,21 +34,16 @@ export default function customBlogPublishAction(props) {
         // Perform the publish
         publish.execute();
 
-        const publishedAt = props?.draft?.publishedAt || props?.publishedAt;
-        const publishStatus =
-          props?.draft?.publishStatus || props?.publishStatus;
+        const currentDateTime = new Date().toISOString();
+        const publishedAt =
+          props?.draft?.publishedAt || props?.publishedAt || currentDateTime;
 
-        // If the document has a publishedAt or publishStatus field, update them
-        if (publishedAt || publishStatus) {
-          await client
-            .patch(props.id, {
-              set: {
-                publishedAt: new Date().toISOString(),
-              },
-              unset: ["publishStatus"],
-            })
-            .commit();
-        }
+        await client
+          .patch(props.id, {
+            set: { publishedAt },
+            unset: ["publishStatus"],
+          })
+          .commit();
 
         // Signal that the action is completed
         props.onComplete();
