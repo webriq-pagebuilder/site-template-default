@@ -1,6 +1,5 @@
 import React from "react";
 import { Components } from "components/list";
-import { fetchDynamicComponentsData, renameVariantKeys } from "utils/schemas";
 import { EcommerceSchema, mergeReplaceAndAdd } from "studio/utils";
 
 import pages from "./documents/pages";
@@ -34,66 +33,49 @@ const allSchemas = (() => {
 
 const componentsList = Object.keys(Components);
 
-// Update schemasWithComponents to include dynamic components data
-const schemasWithComponents = await Promise.all(
-  allSchemas.map(async (schema) => {
-    if (componentsList.includes(schema.name)) {
-      const fields = schema.fields?.find((field) => field.name === "variants")
-        ?.fields;
-      const isEcommerce = EcommerceSchema.includes(schema.name);
-      const dynamicData = await fetchDynamicComponentsData(
-        schema.name,
-        fields,
-        isEcommerce
-      ); // Fetch dynamic data for the schema
+// Make schema generation synchronous by removing dynamic component processing at module level
+const schemasWithComponents = allSchemas.map((schema) => {
+  if (componentsList.includes(schema.name)) {
+    const fields = schema.fields?.find((field) => field.name === "variants")
+      ?.fields;
+    const isEcommerce = EcommerceSchema.includes(schema.name);
 
-      return {
-        ...schema,
-        fields: schema.fields.map((field) => {
-          if (field.name === "variant") {
-            const Component = Components?.[schema.name];
+    return {
+      ...schema,
+      fields: schema.fields.map((field) => {
+        if (field.name === "variant") {
+          const Component = Components?.[schema.name];
 
-            // Exclude the dynamic components from rendering
-            if (
-              !Component ||
-              schema?.name === "cookies" ||
-              process.env.NEXT_PUBLIC_RENDER_DYNAMIC_COMPONENTS === "false" ||
-              !process.env.NEXT_PUBLIC_RENDER_DYNAMIC_COMPONENTS
-            ) {
-              return field;
-            }
-
-            return {
-              ...field,
-              options: {
-                ...field.options,
-                list:
-                  field.options?.list?.map((item) => {
-                    const data = dynamicData?.[schema.name]?.[item?.value];
-
-                    if (data) {
-                      const component = React.createElement(Component, {
-                        data: renameVariantKeys(data),
-                      });
-                      return {
-                        ...item,
-                        component,
-                      };
-                    }
-
-                    return item;
-                  }) || [],
-              },
-            };
+          // Exclude the dynamic components from rendering
+          if (
+            !Component ||
+            schema?.name === "cookies" ||
+            process.env.NEXT_PUBLIC_RENDER_DYNAMIC_COMPONENTS === "false" ||
+            !process.env.NEXT_PUBLIC_RENDER_DYNAMIC_COMPONENTS
+          ) {
+            return field;
           }
 
-          return field;
-        }),
-      };
-    }
+          return {
+            ...field,
+            options: {
+              ...field.options,
+              list:
+                field.options?.list?.map((item) => {
+                  // Remove the dynamic component processing for now
+                  // This will be handled at component level instead
+                  return item;
+                }) || [],
+            },
+          };
+        }
 
-    return schema;
-  })
-);
+        return field;
+      }),
+    };
+  }
+
+  return schema;
+});
 
 export const schemaTypes = [pages, themePage, ...schemasWithComponents];

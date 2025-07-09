@@ -3354,7 +3354,7 @@
     slate "0.94.1"
     slate-react "0.98.1"
 
-"@sanity/preview-kit@^1.5.4":
+"@sanity/preview-kit@^1.5.6":
   version "1.5.6"
   resolved "https://registry.yarnpkg.com/@sanity/preview-kit/-/preview-kit-1.5.6.tgz#acd172b4428569292869b5789f5b532c6ee21324"
   integrity sha512-3f0rzB10Nb0fNVooFAcfixiqj6IUrMSMi/aHNJjtJH86RQGaFOA+Q/OIif2cOUeQ7c6qCDv0HjPNhp2Qv7fuTg==
@@ -11658,13 +11658,13 @@ neo-async@^2.6.2:
   resolved "https://registry.yarnpkg.com/neo-async/-/neo-async-2.6.2.tgz#b4aafb93e3aeb2d8174ca53cf163ab7d7308305f"
   integrity sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==
 
-next-sanity@4.3.3:
-  version "4.3.3"
-  resolved "https://registry.yarnpkg.com/next-sanity/-/next-sanity-4.3.3.tgz#96f8e9af06fb07eb4a487d6601e77ca10aa796a3"
-  integrity sha512-537xLC4hpTgV3SGj6w4aXvBvm/nHdyZGtZ5IcZpH33p70J7UjptF4+D4FvWKZGPjF3v3SFk75AHjxWVPORL9RA==
+next-sanity@4.3.4:
+  version "4.3.4"
+  resolved "https://registry.yarnpkg.com/next-sanity/-/next-sanity-4.3.4.tgz#4cc44eca90a054c105e35affb79c178e531bf217"
+  integrity sha512-RM19KQT0QNaHJ0Qc2RWA6f00yEkxkuIXt/QmsvTZsl3t0tm21LG6ogGvBuxYAuCnSs1D4w+j2bKFV9b9Qfv60w==
   dependencies:
     "@sanity/client" "^6.0.0"
-    "@sanity/preview-kit" "^1.5.4"
+    "@sanity/preview-kit" "^1.5.6"
     "@sanity/webhook" "^2.0.0"
     groq "^3.0.0"
 

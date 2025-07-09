@@ -9,7 +9,7 @@
   },
   "scripts": {
     "build": "next build",
-    "dev": "next dev --turbopack",
+    "dev": "next dev",
     "lint": "next lint",
     "start": "next start",
     "update:tag": "echo 'Enter custom tag: 👇 (eg: latest, next, your-own-tag)' && read ctag && yarn add @webriq-pagebuilder/sanity-plugin-input-component-gpt3@$ctag @webriq-pagebuilder/sanity-plugin-input-component-variants@$ctag @webriq-pagebuilder/sanity-plugin-schema-blog@$ctag @webriq-pagebuilder/sanity-plugin-schema-commerce@$ctag @webriq-pagebuilder/sanity-plugin-schema-default@$ctag @webriq-pagebuilder/sanity-plugin-webriq-blog@$ctag @webriq-pagebuilder/sanity-plugin-webriq-components@$ctag @webriq-pagebuilder/sanity-plugin-webriq-forms@$ctag @webriq-pagebuilder/sanity-plugin-webriq-payments@$ctag @webriq-pagebuilder/sanity-plugin-desk-studio-version@$ctag @webriq-pagebuilder/sanity-plugin-inspector-inline-edit@$ctag @webriq-pagebuilder/sanity-plugin-input-component-social-accounts@$ctag",
@@ -97,7 +97,7 @@
     "msw-storybook-addon": "1.10.0",
     "nanoid": "3.1.30",
     "next": "15.3.5",
-    "next-sanity": "4.3.3",
+    "next-sanity": "4.3.4",
     "node-fetch": "^3.3.2",
     "polished": "^4.2.2",
     "react": "18.3.1",
