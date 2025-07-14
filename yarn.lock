@@ -2818,10 +2818,10 @@
     strict-event-emitter "^0.2.4"
     web-encoding "^1.1.5"
 
-"@netlify/plugin-nextjs@^5.5.0":
-  version "5.5.0"
-  resolved "https://registry.yarnpkg.com/@netlify/plugin-nextjs/-/plugin-nextjs-5.5.0.tgz#33637350109e06d032dea245afdab127431adfeb"
-  integrity sha512-Fcsc0fRk2t3VAz8CZ3b2IQzlIwluktjroeaNRRXWionK5z4hXHvTbG+R/+qz5XIACaX+D23+t1k31uuYevD+Ww==
+"@netlify/plugin-nextjs@^5.11.5":
+  version "5.11.5"
+  resolved "https://registry.yarnpkg.com/@netlify/plugin-nextjs/-/plugin-nextjs-5.11.5.tgz#aec8ec6d3e47a3e3a2a5236517585ff8483d0560"
+  integrity sha512-dI3sKldRENHpg0hygYo6zqpniG/rR+fyG62AGQYHH707FMDCArqF1H7ZSMmN50YsNXv9VctA4rH7ygrUL8lBkA==
 
 "@next/env@15.3.5":
   version "15.3.5"
