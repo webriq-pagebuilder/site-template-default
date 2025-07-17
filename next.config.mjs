@@ -1,11 +1,6 @@
 /** @type {import("next").NextConfig} */
 
 const nextConfig = {
-  i18n: {
-    // internalized routing
-    locales: ["en"],
-    defaultLocale: "en",
-  },
   images: {
     remotePatterns: [
       { hostname: "cdn.sanity.io" },
@@ -36,7 +31,7 @@ const nextConfig = {
   compiler: {
     // Remove console logs only in production
     removeConsole: process.env.NODE_ENV === "production",
-  }
+  },
 };
 
 export default nextConfig;
