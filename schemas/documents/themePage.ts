@@ -1,6 +1,6 @@
 import { defineArrayMember, defineField, defineType } from "sanity";
 import { MdFormatColorFill } from "react-icons/md";
-import { NEXT_PUBLIC_SANITY_STUDIO_IN_CSTUDIO } from "studio/config";
+import { NEXT_PUBLIC_SANITY_STUDIO_IN_CSTUDIO } from "@/studio/config";
 
 export default defineType({
   title: "Theme Page",

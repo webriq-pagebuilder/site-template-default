@@ -2,11 +2,11 @@
 import { SitemapStream, streamToPromise } from "sitemap";
 import { IncomingMessage, ServerResponse } from "http";
 import { groq } from "next-sanity";
-import { sanityClient } from "lib/sanity.client";
+import { sanityClient } from "@/lib/sanity.client";
 import {
   NEXT_PUBLIC_SANITY_STUDIO_IN_CSTUDIO,
   NEXT_PUBLIC_SITE_URL,
-} from "studio/config";
+} from "@/studio/config";
 
 export default async function generateSitemap(
   req: IncomingMessage,

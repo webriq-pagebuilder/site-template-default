@@ -2,7 +2,7 @@
 import React from "react";
 import { assemblePageUrl } from "../frontendUtils";
 import styles from "./FacebookShare.module.css";
-import { urlFor } from "lib/sanity";
+import { urlFor } from "@/lib/sanity";
 
 function FacebookShare(props) {
   const { document, width = 500, options, defaultSeo } = props;

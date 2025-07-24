@@ -1,4 +1,4 @@
-import { useEcwid } from "context/EcwidContext";
+import { useEcwid } from "@/context/EcwidContext";
 import React, { useEffect, useMemo, useState } from "react";
 import { TypedObject } from "sanity";
 import AddMoreButton from "./AddMoreButton";
@@ -6,7 +6,7 @@ import ViewWishlist from "./ViewWishlist";
 import ItemInBag from "./ItemInBag";
 import { isEmpty } from "lodash";
 
-import { EcwidTypes } from "context/_ecwid-types";
+import { EcwidTypes } from "@/context/_ecwid-types";
 import { Button } from "@stackshift-ui/button";
 
 interface ProductDetailProps {

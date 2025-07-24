@@ -1,7 +1,7 @@
 import { memo, useEffect } from "react";
-import { urlFor } from "lib/sanity";
-import { useEcwid } from "context/EcwidContext";
-import Ribbon from "components/ecwid/Ribbon";
+import { urlFor } from "@/lib/sanity";
+import { useEcwid } from "@/context/EcwidContext";
+import Ribbon from "@/components/ecwid/Ribbon";
 import Image from "next/image";
 
 import { FeaturedProductsProps } from ".";

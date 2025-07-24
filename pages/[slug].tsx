@@ -2,20 +2,20 @@ import React from "react";
 import { useRouter } from "next/router";
 import { groq } from "next-sanity";
 import { PreviewSuspense } from "next-sanity/preview";
-import { sanityClient, getClient } from "lib/sanity.client";
+import { sanityClient, getClient } from "@/lib/sanity.client";
 import { blogQuery, slugQuery, globalSEOQuery } from "./api/query";
-import { usePreview } from "lib/sanity.preview";
-import { PageSections } from "components/page";
-import BlogSections from "components/blog";
-import { PreviewBanner } from "components/PreviewBanner";
-import { PreviewNoContent } from "components/PreviewNoContent";
-import { filterDataToSingleItem } from "components/list";
-import { SEO } from "components/SEO";
-import PageNotFound from "pages/404";
-import InlineEditorContextProvider from "context/InlineEditorContext";
+import { usePreview } from "@/lib/sanity.preview";
+import { PageSections } from "@/components/page";
+import BlogSections from "@/components/blog";
+import { PreviewBanner } from "@/components/PreviewBanner";
+import { PreviewNoContent } from "@/components/PreviewNoContent";
+import { filterDataToSingleItem } from "@/components/list";
+import { SEO } from "@/components/SEO";
+import PageNotFound from "@/pages/404";
+import InlineEditorContextProvider from "@/context/InlineEditorContext";
 import { GetStaticPaths, GetStaticProps } from "next";
-import { CommonPageData, BlogsData, SeoTags, SeoSchema } from "types";
-import { addSEOJsonLd } from "components/SEO";
+import { CommonPageData, BlogsData, SeoTags, SeoSchema } from "@/types";
+import { addSEOJsonLd } from "@/components/SEO";
 
 interface PageBySlugProps {
   data: Data;
@@ -45,12 +45,7 @@ export interface PageData extends CommonPageData {
   hasNeverPublished?: boolean | null;
 }
 
-export function PageBySlug({
-  data,
-  preview,
-  token,
-  source,
-}: PageBySlugProps) {
+export function PageBySlug({ data, preview, token, source }: PageBySlugProps) {
   const router = useRouter();
   const slug = router.query.slug;
   const showInlineEditor = source === "studio";
@@ -171,7 +166,7 @@ export const getStaticProps: GetStaticProps = async ({
     preview && previewData?.token
       ? getClient(preview).withConfig({ token: previewData.token })
       : getClient(false);
-  
+
   const [page, blogData, globalSEO] = await Promise.all([
     client.fetch(slugQuery, { slug: params.slug }),
     client.fetch(blogQuery, { slug: params.slug }),

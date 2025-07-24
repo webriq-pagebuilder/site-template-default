@@ -1,5 +1,5 @@
 import React from "react";
-import { EcwidContextProvider } from "context/EcwidContext";
+import { EcwidContextProvider } from "@/context/EcwidContext";
 import { Container } from "@stackshift-ui/container";
 
 function VariantA() {

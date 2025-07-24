@@ -1,10 +1,10 @@
 import { useContext } from "react";
-import { Components } from "components/list";
-import { InlineEditorContext } from "context/InlineEditorContext";
-import InlineEditor from "components/InlineEditor";
-import { EcwidContextProvider } from "context/EcwidContext";
+import { Components } from "@/components/list";
+import { InlineEditorContext } from "@/context/InlineEditorContext";
+import InlineEditor from "@/components/InlineEditor";
+import { EcwidContextProvider } from "@/context/EcwidContext";
 
-import { CartData } from "pages/cart";
+import { CartData } from "@/pages/cart";
 
 interface CartSectionsProps {
   data: CartData;

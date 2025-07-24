@@ -2,7 +2,7 @@ import { test, expect } from "@playwright/test";
 import {
   NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY,
   NEXT_PUBLIC_STRIPE_SECRET_KEY,
-} from "studio/config";
+} from "@/studio/config";
 
 const paymentName = `Payment ` + new Date().getTime();
 const publishableKey = NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY;

@@ -2,7 +2,7 @@
 import React from "react";
 import { assemblePageUrl } from "../frontendUtils";
 import styles from "./LinkedInPost.module.css";
-import { urlFor } from "lib/sanity";
+import { urlFor } from "@/lib/sanity";
 
 function LinkedinPost(props) {
   const { document, width = 500, options, defaultSeo } = props;

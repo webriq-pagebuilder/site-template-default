@@ -1,6 +1,6 @@
 import React from "react";
-import { Components } from "components/list";
-import { EcommerceSchema, mergeReplaceAndAdd } from "studio/utils";
+import { Components } from "@/components/list";
+import { EcommerceSchema, mergeReplaceAndAdd } from "@/studio/utils";
 
 import pages from "./documents/pages";
 import themePage from "./documents/themePage";

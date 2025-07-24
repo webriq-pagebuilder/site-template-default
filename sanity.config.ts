@@ -4,19 +4,19 @@ import {
   SANITY_PROJECT_DATASET,
   SANITY_PROJECT_ID,
   NEXT_PUBLIC_SANITY_PROJECT_OPENAI_KEY,
-} from "studio/config";
+} from "@/studio/config";
 
 // desk customization
-import deskStructure from "studio/deskStructure";
-import { Logo } from "studio/brand/logo";
-import { DefaultStudioTheme } from "studio/brand/theme";
+import deskStructure from "@/studio/deskStructure";
+import { Logo } from "@/studio/brand/logo";
+import { DefaultStudioTheme } from "@/studio/brand/theme";
 
 // document badge and action
-import { LiveURLBadge } from "studio/badges/LiveURLBadge";
-import { ResolveDocumentActions } from "studio/documentActions";
+import { LiveURLBadge } from "@/studio/badges/LiveURLBadge";
+import { ResolveDocumentActions } from "@/studio/documentActions";
 
 // schemas
-import { schemaTypes } from "schemas/schema";
+import { schemaTypes } from "@/schemas/schema";
 
 // plugins
 import { media } from "sanity-plugin-media";

@@ -1,16 +1,16 @@
 import React, { useEffect } from "react";
 import { PreviewSuspense } from "next-sanity/preview";
-import { getClient } from "lib/sanity.client";
-import { usePreview } from "lib/sanity.preview";
-import { wishlistPageQuery, globalSEOQuery } from "pages/api/query";
-import { WishlistSections } from "components/page/store/wishlist";
-import { PreviewNoContent } from "components/PreviewNoContent";
-import PageNotFound from "pages/404";
-import { filterDataToSingleItem } from "components/list";
-import { SEO } from "components/SEO";
-import { PreviewBanner } from "components/PreviewBanner";
-import InlineEditorContextProvider from "context/InlineEditorContext";
-import { CommonPageData, SeoTags } from "types";
+import { getClient } from "@/lib/sanity.client";
+import { usePreview } from "@/lib/sanity.preview";
+import { wishlistPageQuery, globalSEOQuery } from "@/pages/api/query";
+import { WishlistSections } from "@/components/page/store/wishlist";
+import { PreviewNoContent } from "@/components/PreviewNoContent";
+import PageNotFound from "@/pages/404";
+import { filterDataToSingleItem } from "@/components/list";
+import { SEO } from "@/components/SEO";
+import { PreviewBanner } from "@/components/PreviewBanner";
+import InlineEditorContextProvider from "@/context/InlineEditorContext";
+import { CommonPageData, SeoTags } from "@/types";
 
 interface WishListPageProps {
   data: Data;
@@ -45,7 +45,7 @@ function WishlistPage({ data, preview, token, source }: WishListPageProps) {
   }, []);
 
   if (!data?.wishlistData) {
-    return <PageNotFound />
+    return <PageNotFound />;
   } else {
     if (preview) {
       return (

@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Button } from "@stackshift-ui/button";
 import { Text } from "@stackshift-ui/text";
 import { MdKeyboardArrowDown } from "react-icons/md";
-import { useClickOutside } from "utils/theme";
+import { useClickOutside } from "@/utils/theme";
 
 export function SearchBar({
   options,
@@ -102,7 +102,9 @@ export function SearchBar({
             options?.map((option) => (
               <div
                 onClick={() => handleSettingTheme(option)}
-                className={`flex justify-between items-center box-border px-2 py-3 cursor-pointer hover:bg-gray-50 ${option?.name === currentThemeName ? "bg-gray-100" : ""}`}
+                className={`flex justify-between items-center box-border px-2 py-3 cursor-pointer hover:bg-gray-50 ${
+                  option?.name === currentThemeName ? "bg-gray-100" : ""
+                }`}
                 key={option?._key}
               >
                 <Text>{option?.name}</Text>

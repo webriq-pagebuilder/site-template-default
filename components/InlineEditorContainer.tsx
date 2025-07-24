@@ -1,13 +1,13 @@
-import { useMagicRouter } from "hooks";
-import { useMediaQuery } from "hooks/useMediaQuery";
-import config from "sanity.config";
+import { useMagicRouter } from "@/hooks";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
+import config from "@/sanity.config";
 import React from "react";
 import { StudioProvider, StudioLayout } from "sanity";
 import SplitPane, { SashContent, Pane } from "split-pane-react";
 import { InlineEditorProps } from "./InlineEditor";
 
 import "split-pane-react/esm/themes/default.css";
-import styles from "styles/InlineEditing.module.css";
+import styles from "@/styles/InlineEditing.module.css";
 
 export default function InlineEditorContainer({
   document,

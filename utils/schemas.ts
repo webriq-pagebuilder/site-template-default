@@ -1,6 +1,6 @@
 import React from "react";
-import { Components } from "components/list";
-import { dynamicComponentsData } from "components/data/dynamic";
+import { Components } from "@/components/list";
+import { dynamicComponentsData } from "@/components/data/dynamic";
 
 // New async function to fetch dynamic components data
 export const fetchDynamicComponentsData = async (

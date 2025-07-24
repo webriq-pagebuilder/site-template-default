@@ -2,13 +2,13 @@
 // ONLY EDIT THIS FILE IF YOU HAVE A NEW VARIANT
 
 import type { Meta, StoryObj } from "@storybook/react";
-import { Components } from "components/list";
-import { Sections } from "types";
+import { Components } from "@/components/list";
+import { Sections } from "@/types";
 import {
   howItWorksSchema,
   howItWorksInitialValue,
 } from "@webriq-pagebuilder/sanity-plugin-schema-default";
-import { filterArgsByVariant } from "components/common";
+import { filterArgsByVariant } from "@/components/common";
 
 const args = {
   ...howItWorksInitialValue,

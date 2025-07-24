@@ -2,10 +2,10 @@
 // ONLY EDIT THIS FILE IF YOU HAVE A NEW VARIANT
 
 import type { Meta, StoryObj } from "@storybook/react";
-import { Sections } from "types";
+import { Sections } from "@/types";
 import ProductInfo from "../../sections/product_info";
-import { EcwidContextProvider } from "context/EcwidContext";
-import { productInfoDefaultValues } from "helper/defaultValues";
+import { EcwidContextProvider } from "@/context/EcwidContext";
+import { productInfoDefaultValues } from "@/helper/defaultValues";
 
 const args = {
   ...productInfoDefaultValues,

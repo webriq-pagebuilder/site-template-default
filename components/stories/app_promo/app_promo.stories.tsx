@@ -2,23 +2,26 @@
 // ONLY EDIT THIS FILE IF YOU HAVE A NEW VARIANT
 
 import type { Meta, StoryObj } from "@storybook/react";
-import { Components } from "components/list";
-import { Sections } from "types";
+import { Components } from "@/components/list";
+import { Sections } from "@/types";
 import {
   appPromoSchema,
   appPromoInitialValue,
 } from "@webriq-pagebuilder/sanity-plugin-schema-default";
-import { filterArgsByVariant } from "components/common";
-import { urlFor } from "lib/sanity";
-import { renameVariantKeys } from "utils/schemas";
+import { filterArgsByVariant } from "@/components/common";
+import { urlFor } from "@/lib/sanity";
+import { renameVariantKeys } from "@/utils/schemas";
 
 const args = {
   ...appPromoInitialValue,
   logo: {
     ...appPromoInitialValue.logo,
-    image: urlFor(appPromoInitialValue.logo.image)
+    image: urlFor(appPromoInitialValue.logo.image),
   },
-  images: appPromoInitialValue.images.map((item) => ({ ...item, image: urlFor(item?.image) })),
+  images: appPromoInitialValue.images.map((item) => ({
+    ...item,
+    image: urlFor(item?.image),
+  })),
   statistics: appPromoInitialValue.statItems,
 };
 

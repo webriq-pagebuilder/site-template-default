@@ -1,7 +1,7 @@
 import {
   NEXT_PUBLIC_PREVIEW_SECRET,
   NEXT_PUBLIC_SITE_URL,
-} from "studio/config";
+} from "@/studio/config";
 import type { SanityDocumentLike } from "sanity";
 
 interface PreviewURLProps {

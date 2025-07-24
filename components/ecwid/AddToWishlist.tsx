@@ -1,8 +1,8 @@
-import { useEcwid } from "context/EcwidContext";
+import { useEcwid } from "@/context/EcwidContext";
 import React, { useEffect } from "react";
 import { TypedObject } from "sanity";
 import _ from "lodash";
-import { EcwidTypes } from "context/_ecwid-types";
+import { EcwidTypes } from "@/context/_ecwid-types";
 import { Button } from "@stackshift-ui/button";
 import { Text } from "@stackshift-ui/text";
 
@@ -38,7 +38,13 @@ const AddToWishlist = ({
 
   return (
     <>
-      <div className={favorited ? "w-full bg-secondary text-primary rounded-global" : containerClass}>
+      <div
+        className={
+          favorited
+            ? "w-full bg-secondary text-primary rounded-global"
+            : containerClass
+        }
+      >
         <Button
           as="button"
           variant="addToWishlist"

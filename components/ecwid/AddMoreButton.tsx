@@ -1,7 +1,7 @@
-import { useEcwid } from "context/EcwidContext";
+import { useEcwid } from "@/context/EcwidContext";
 import React from "react";
 import AddToWishlist from "./AddToWishlist";
-import { EcwidTypes } from "context/_ecwid-types";
+import { EcwidTypes } from "@/context/_ecwid-types";
 import { Flex } from "@stackshift-ui/flex";
 import { Button } from "@stackshift-ui/button";
 import { Text } from "@stackshift-ui/text";

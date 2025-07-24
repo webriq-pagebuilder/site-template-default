@@ -1,4 +1,4 @@
-import { SANITY_PROJECT_ID, SANITY_PROJECT_DATASET } from "studio/config";
+import { SANITY_PROJECT_ID, SANITY_PROJECT_DATASET } from "@/studio/config";
 
 import { defineCliConfig } from "sanity/cli";
 

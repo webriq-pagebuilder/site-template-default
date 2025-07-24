@@ -1,7 +1,7 @@
 import React from "react";
 import { setContactPoint } from "../helpers";
 import { CorporateJsonLdProps } from "../types";
-import toJson from "utils/toJson";
+import toJson from "@/utils/toJson";
 
 // For all pages document, set schema type to Organization (Corporate)
 export function PagesJsonLd({

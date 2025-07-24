@@ -1,5 +1,5 @@
 import { expect } from "@playwright/test";
-import { NEXT_PUBLIC_SITE_URL } from "studio/config";
+import { NEXT_PUBLIC_SITE_URL } from "@/studio/config";
 import { customAlphabet } from "nanoid";
 
 export const newPageTitle = (text = "New Page") => {

@@ -1,7 +1,7 @@
 import React from "react";
 import { setAuthorData, setPublisherData } from "../helpers";
 import { BlogJsonLdProps } from "../types";
-import toJson from "utils/toJson";
+import toJson from "@/utils/toJson";
 
 export function BlogJsonLd({
   type = "BlogPosting",

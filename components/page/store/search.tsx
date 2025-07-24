@@ -1,8 +1,8 @@
 import { useContext } from "react";
-import { Components } from "components/list";
-import { InlineEditorContext } from "context/InlineEditorContext";
-import InlineEditor from "components/InlineEditor";
-import { SearchData } from "pages/search";
+import { Components } from "@/components/list";
+import { InlineEditorContext } from "@/context/InlineEditorContext";
+import InlineEditor from "@/components/InlineEditor";
+import { SearchData } from "@/pages/search";
 
 interface SearchPageSectionsProps {
   data: SearchData;

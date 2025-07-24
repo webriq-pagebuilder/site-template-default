@@ -1,4 +1,4 @@
-import { useEcwid } from "context/EcwidContext";
+import { useEcwid } from "@/context/EcwidContext";
 import React from "react";
 import AddToWishlist from "./AddToWishlist";
 

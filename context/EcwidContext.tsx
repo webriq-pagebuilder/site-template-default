@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState, useMemo } from "react";
 import { ToastContainer, toast } from "react-toast";
-import { sanityClient } from "lib/sanity.client";
+import { sanityClient } from "@/lib/sanity.client";
 import { includes } from "lodash";
 import { EProduct, EcwidTypes } from "./_ecwid-types";
 import { isEqual } from "lodash";

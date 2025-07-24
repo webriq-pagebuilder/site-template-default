@@ -1,6 +1,6 @@
-import { seoImageUrl } from "lib/sanity";
-import { DefaultSeoData, SeoData } from "types";
-import { BlogJsonLd, PagesJsonLd, ProductJsonLd } from "utils/seo/jsonLd";
+import { seoImageUrl } from "@/lib/sanity";
+import { DefaultSeoData, SeoData } from "@/types";
+import { BlogJsonLd, PagesJsonLd, ProductJsonLd } from "@/utils/seo/jsonLd";
 
 const url = process.env.NEXT_PUBLIC_SITE_URL;
 

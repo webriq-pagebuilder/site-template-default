@@ -1,4 +1,4 @@
-import { SANITY_PROJECT_ID } from "studio/config";
+import { SANITY_PROJECT_ID } from "@/studio/config";
 
 export const defaultThemeConfig = {
   _id: `${SANITY_PROJECT_ID}-theme-settings`,

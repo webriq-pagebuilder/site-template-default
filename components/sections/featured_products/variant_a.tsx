@@ -1,8 +1,8 @@
 import { memo, useEffect } from "react";
-import { urlFor } from "lib/sanity";
+import { urlFor } from "@/lib/sanity";
 import Image from "next/image";
-import { useEcwid } from "context/EcwidContext";
-import Ribbon from "components/ecwid/Ribbon";
+import { useEcwid } from "@/context/EcwidContext";
+import Ribbon from "@/components/ecwid/Ribbon";
 
 import { FeaturedProductsProps } from ".";
 import { Container } from "@stackshift-ui/container";

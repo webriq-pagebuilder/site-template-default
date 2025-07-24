@@ -1,15 +1,15 @@
 import React from "react";
 import { PreviewSuspense } from "next-sanity/preview";
-import { getClient } from "lib/sanity.client";
-import { usePreview } from "lib/sanity.preview";
-import { cartPageQuery, globalSEOQuery } from "pages/api/query";
-import { CartSections } from "components/page/store/cart";
-import { PreviewNoContent } from "components/PreviewNoContent";
-import { filterDataToSingleItem } from "components/list";
-import { SEO } from "components/SEO";
-import { PreviewBanner } from "components/PreviewBanner";
-import InlineEditorContextProvider from "context/InlineEditorContext";
-import { CommonPageData, SeoTags } from "types";
+import { getClient } from "@/lib/sanity.client";
+import { usePreview } from "@/lib/sanity.preview";
+import { cartPageQuery, globalSEOQuery } from "@/pages/api/query";
+import { CartSections } from "@/components/page/store/cart";
+import { PreviewNoContent } from "@/components/PreviewNoContent";
+import { filterDataToSingleItem } from "@/components/list";
+import { SEO } from "@/components/SEO";
+import { PreviewBanner } from "@/components/PreviewBanner";
+import InlineEditorContextProvider from "@/context/InlineEditorContext";
+import { CommonPageData, SeoTags } from "@/types";
 
 interface CartPageProps {
   data: Data;
@@ -39,7 +39,7 @@ function CartPage({ data, preview, token, source }: CartPageProps) {
   const showInlineEditor = source === "studio";
 
   if (!data?.cartData) {
-    return <PageNotFound />
+    return <PageNotFound />;
   } else {
     if (preview) {
       return (

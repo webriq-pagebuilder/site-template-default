@@ -1,8 +1,8 @@
 import React from "react";
 import dynamic from "next/dynamic";
-import { EcwidContextProvider } from "context/EcwidContext";
+import { EcwidContextProvider } from "@/context/EcwidContext";
 
-import { SectionsProps, CollectionProduct } from "types";
+import { SectionsProps, CollectionProduct } from "@/types";
 
 const Variants = {
   variant_a: dynamic(() => import("./variant_a")),

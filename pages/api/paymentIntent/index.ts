@@ -1,4 +1,4 @@
-import { decryptKey } from "lib/secureKey";
+import { decryptKey } from "@/lib/secureKey";
 import Stripe from "stripe";
 
 export default async (req, res) => {

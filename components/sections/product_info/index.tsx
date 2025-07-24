@@ -1,10 +1,10 @@
 import { memo, useMemo, useEffect } from "react";
 import { TypedObject } from "sanity";
 import dynamic from "next/dynamic";
-import { EcwidContextProvider, useEcwid } from "context/EcwidContext";
+import { EcwidContextProvider, useEcwid } from "@/context/EcwidContext";
 
-import { SectionsProps, Images, ProductDetail, SocialLink } from "types";
-import { EProduct } from "context/_ecwid-types";
+import { SectionsProps, Images, ProductDetail, SocialLink } from "@/types";
+import { EProduct } from "@/context/_ecwid-types";
 
 interface ProductIndexProps extends SectionsProps {
   product?: {

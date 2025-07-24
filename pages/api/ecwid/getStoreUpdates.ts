@@ -1,6 +1,6 @@
 // this will return the response from the Ecwid store events web hook
-import { baseUrl, requestHeaders, secret, siteUrl } from "utils/ecwid/config";
-import { sanityClient } from "lib/sanity.client";
+import { baseUrl, requestHeaders, secret, siteUrl } from "@/utils/ecwid/config";
+import { sanityClient } from "@/lib/sanity.client";
 import fetch from "node-fetch";
 import _ from "lodash";
 
@@ -37,8 +37,8 @@ export default async (req, res) => {
           });
 
         if (orderItems && orderItems?.length !== 0) {
-          const productIds = orderItems?.map((item) =>
-            item?.productId.toString()
+          const productIds = orderItems?.map(
+            (item) => item?.productId.toString()
           );
 
           const skuId = orderItems?.map((item) => item.sku.toString());
@@ -235,14 +235,15 @@ export default async (req, res) => {
                     })
                   );
 
-                  studioProducts?.map((prods) =>
-                    productList?.push({
-                      productId: prods?.id,
-                      name: prods?.name,
-                      sku: prods?.sku,
-                      price: 0,
-                      quantity: items?.quantity,
-                    })
+                  studioProducts?.map(
+                    (prods) =>
+                      productList?.push({
+                        productId: prods?.id,
+                        name: prods?.name,
+                        sku: prods?.sku,
+                        price: 0,
+                        quantity: items?.quantity,
+                      })
                   );
 
                   return newArrayItems.push(

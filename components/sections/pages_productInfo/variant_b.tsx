@@ -1,12 +1,12 @@
 import { memo, useEffect } from "react";
-import { urlFor, PortableText } from "lib/sanity";
+import { urlFor, PortableText } from "@/lib/sanity";
 import Image from "next/image";
-import AddToBag from "components/ecwid/AddToBag";
-import AddToWishlist from "components/ecwid/AddToWishlist";
-import Ribbon from "components/ecwid/Ribbon";
-import ProductDetail from "components/ecwid/ProductDetail";
-import { useEcwid } from "context/EcwidContext";
-import { defaultBlockStyle } from "helper";
+import AddToBag from "@/components/ecwid/AddToBag";
+import AddToWishlist from "@/components/ecwid/AddToWishlist";
+import Ribbon from "@/components/ecwid/Ribbon";
+import ProductDetail from "@/components/ecwid/ProductDetail";
+import { useEcwid } from "@/context/EcwidContext";
+import { defaultBlockStyle } from "@/helper";
 import { PagesProductInfoProps } from ".";
 import { Container } from "@stackshift-ui/container";
 import { Flex } from "@stackshift-ui/flex";
@@ -207,7 +207,11 @@ function VariantB({ products }: PagesProductInfoProps) {
                 </div>
 
                 <ProductDetail product={ecwidProduct}>
-                  <Flex align="center" gap={4} className="my-8 flex-col lg:flex-row">
+                  <Flex
+                    align="center"
+                    gap={4}
+                    className="my-8 flex-col lg:flex-row"
+                  >
                     <div className="w-full lg:mb-4 xl:mb-0">
                       <AddToBag
                         inStock={!ecwidProduct?.inStock}

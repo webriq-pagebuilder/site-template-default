@@ -2,18 +2,21 @@
 // ONLY EDIT THIS FILE IF YOU HAVE A NEW VARIANT
 
 import type { Meta, StoryObj } from "@storybook/react";
-import { Components } from "components/list";
-import { Sections } from "types";
+import { Components } from "@/components/list";
+import { Sections } from "@/types";
 import {
   logoCloudSchema,
   logoCloudInitialValue,
 } from "@webriq-pagebuilder/sanity-plugin-schema-default";
-import { filterArgsByVariant } from "components/common";
-import { urlFor } from "lib/sanity";
+import { filterArgsByVariant } from "@/components/common";
+import { urlFor } from "@/lib/sanity";
 
 const args = {
   ...logoCloudInitialValue,
-  images: logoCloudInitialValue.images.map((item) => ({ ...item, image: urlFor(item?.image) })),
+  images: logoCloudInitialValue.images.map((item) => ({
+    ...item,
+    image: urlFor(item?.image),
+  })),
 };
 
 const LogoCloudComponent = Components.logoCloud;

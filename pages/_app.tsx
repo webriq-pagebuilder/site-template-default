@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import type { AppProps } from "next/app";
-import { NEXT_PUBLIC_SANITY_STUDIO_IN_CSTUDIO } from "studio/config";
+import { NEXT_PUBLIC_SANITY_STUDIO_IN_CSTUDIO } from "@/studio/config";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import useScript from "utils/useScript";
-import { setProjectTheme } from "utils/theme";
-import { sanityClient } from "lib/sanity.client";
-import { defaultThemeConfig } from "components/theme-settings/defaultThemeConfig";
+import useScript from "@/utils/useScript";
+import { setProjectTheme } from "@/utils/theme";
+import { sanityClient } from "@/lib/sanity.client";
+import { defaultThemeConfig } from "@/components/theme-settings/defaultThemeConfig";
 import { StackShiftUIProvider } from "@stackshift-ui/system";
 import { Image, Link } from "../components/ui";
 
@@ -69,8 +69,9 @@ function App({ Component, pageProps }: AppProps) {
       : "*[_type=='themeSettings' && !(_id in path('drafts.**'))][0]";
 
     // get initial theme settings
-    sanityClient.fetch(
-      `${query}{
+    sanityClient
+      .fetch(
+        `${query}{
         ...,
         themes[] {
           ...,
@@ -88,11 +89,11 @@ function App({ Component, pageProps }: AppProps) {
           }
         }
       }`
-    )
-    .then((initialConfig) => {
-      const currentTheme = initialConfig;
-      setThemeConfig(currentTheme);
-    });
+      )
+      .then((initialConfig) => {
+        const currentTheme = initialConfig;
+        setThemeConfig(currentTheme);
+      });
 
     // listen to real-time updates to theme settings
     const subscription = sanityClient.listen(query).subscribe((config) => {

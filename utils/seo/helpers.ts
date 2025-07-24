@@ -1,7 +1,7 @@
 // references from : https://github.com/garmeeh/next-seo/blob/master/src/utils/schema
 
 import { ArticleAuthor, ContactPoint, Offers } from "./types";
-import { seoImageUrl } from "lib/sanity";
+import { seoImageUrl } from "@/lib/sanity";
 
 function authorData(author: string | ArticleAuthor) {
   if (typeof author === "string") {

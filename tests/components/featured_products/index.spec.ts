@@ -1,9 +1,9 @@
 import { test } from "@playwright/test";
-import { beforeEachTest, deletePageVariant, newPageTitle } from "tests/utils";
-import { NEXT_PUBLIC_SITE_URL } from "studio/config";
+import { beforeEachTest, deletePageVariant, newPageTitle } from "@/tests/utils";
+import { NEXT_PUBLIC_SITE_URL } from "@/studio/config";
 import VariantA from "./variant_a";
 import VariantB from "./variant_b";
-import { isEcommerceEnabled } from "tests/config";
+import { isEcommerceEnabled } from "@/tests/config";
 
 const variantModules = {
   variant_a: VariantA,

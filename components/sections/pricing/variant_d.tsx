@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Image from "next/image";
 import { WebriQForm } from "@stackshift-ui/webriq-form";
-import { thankYouPageLink } from "helper";
-import { PortableText, urlFor } from "lib/sanity";
-import { MyPortableTextComponents } from "types";
+import { thankYouPageLink } from "@/helper";
+import { PortableText, urlFor } from "@/lib/sanity";
+import { MyPortableTextComponents } from "@/types";
 import { PricingProps } from ".";
 import { Text } from "@stackshift-ui/text";
 import { Button } from "@stackshift-ui/button";
@@ -210,7 +210,7 @@ function VariantD({
         return;
       } else {
         setPaymentStatus("success");
-        
+
         const response = await fetch("/api/submitForm", {
           method: "POST",
           body: JSON.stringify({ data, id: formId }),
@@ -370,10 +370,20 @@ function VariantD({
                 ariaLabel="Submit Pricing Form button"
                 type="submit"
                 className={`w-full ${
-                  (!formId || billing.billType === "" || processing || !cardValidate?.complete || cardValidate?.empty) &&
+                  (!formId ||
+                    billing.billType === "" ||
+                    processing ||
+                    !cardValidate?.complete ||
+                    cardValidate?.empty) &&
                   "cursor-not-allowed disabled:opacity-50"
                 }`}
-                disabled={!formId || billing.billType === "" || processing || !cardValidate?.complete || cardValidate?.empty}
+                disabled={
+                  !formId ||
+                  billing.billType === "" ||
+                  processing ||
+                  !cardValidate?.complete ||
+                  cardValidate?.empty
+                }
               >
                 {processing
                   ? "Processing Payment...."

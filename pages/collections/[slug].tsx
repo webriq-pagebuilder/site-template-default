@@ -4,23 +4,23 @@ import React, { useEffect } from "react";
 import { useRouter } from "next/router";
 import { groq } from "next-sanity";
 import { PreviewSuspense } from "next-sanity/preview";
-import { sanityClient, getClient } from "lib/sanity.client";
-import { usePreview } from "lib/sanity.preview";
-import { collectionsQuery, globalSEOQuery } from "pages/api/query";
-import PageNotFound from "pages/404";
-import { filterDataToSingleItem } from "components/list";
-import { SEO } from "components/SEO";
-import { PreviewBanner } from "components/PreviewBanner";
-import { PreviewNoContent } from "components/PreviewNoContent";
-import { CollectionSections } from "components/page/store/collections";
-import InlineEditorContextProvider from "context/InlineEditorContext";
+import { sanityClient, getClient } from "@/lib/sanity.client";
+import { usePreview } from "@/lib/sanity.preview";
+import { collectionsQuery, globalSEOQuery } from "@/pages/api/query";
+import PageNotFound from "@/pages/404";
+import { filterDataToSingleItem } from "@/components/list";
+import { SEO } from "@/components/SEO";
+import { PreviewBanner } from "@/components/PreviewBanner";
+import { PreviewNoContent } from "@/components/PreviewNoContent";
+import { CollectionSections } from "@/components/page/store/collections";
+import InlineEditorContextProvider from "@/context/InlineEditorContext";
 
 import {
   CommonPageData,
   CommonSections,
   CollectionProduct,
   SeoTags,
-} from "types";
+} from "@/types";
 
 interface CollectionPageBySlugProps {
   data: Data;

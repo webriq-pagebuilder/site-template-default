@@ -1,6 +1,6 @@
 import JWT from "jsonwebtoken";
 import Cors from "cors";
-import corsMiddleware from "lib/cors";
+import corsMiddleware from "@/lib/cors";
 
 const storeId = process.env.NEXT_PUBLIC_ECWID_STORE_ID;
 const secret = process.env.ECWID_STORE_SECRET_TOKEN;

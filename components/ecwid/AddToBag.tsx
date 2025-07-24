@@ -1,6 +1,6 @@
 import { Button } from "@stackshift-ui/button";
-import { useEcwid } from "context/EcwidContext";
-import { EcwidTypes } from "context/_ecwid-types";
+import { useEcwid } from "@/context/EcwidContext";
+import { EcwidTypes } from "@/context/_ecwid-types";
 import React from "react";
 
 interface AddToBagProps {

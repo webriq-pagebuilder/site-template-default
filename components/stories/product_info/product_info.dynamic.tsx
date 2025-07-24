@@ -1,15 +1,15 @@
-import { productInfoDefaultValues } from "helper/defaultValues";
-import { defineStories } from "utils/stories";
-import { sanityClient } from "lib/sanity.client";
-import { componentsQuery } from "pages/api/query";
-import { dynamicStoryData } from "components/common";
+import { productInfoDefaultValues } from "@/helper/defaultValues";
+import { defineStories } from "@/utils/stories";
+import { sanityClient } from "@/lib/sanity.client";
+import { componentsQuery } from "@/pages/api/query";
+import { dynamicStoryData } from "@/components/common";
 import dedent from "ts-dedent";
 
 export default defineStories({
   baseCsf: dedent`
     import React from "react";
     import ProductInfo from "../../sections/product_info/index.tsx";
-    import { EcwidContextProvider } from "context/EcwidContext";
+    import { EcwidContextProvider } from "@/context/EcwidContext";
     
     export default {
       title: "Ecommerce/Product Info",

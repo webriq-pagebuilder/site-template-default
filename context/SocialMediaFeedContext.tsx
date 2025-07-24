@@ -1,7 +1,13 @@
-import React, { createContext, useCallback, useContext, useEffect, useState } from "react";
-import { SANITY_PROJECT_ID, SOCIAL_ACCOUNTS_API_URL } from "studio/config";
-import { SocialProfileFeed, Socials } from "types";
-import { sanityClient } from "lib/sanity.client";
+import React, {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
+import { SANITY_PROJECT_ID, SOCIAL_ACCOUNTS_API_URL } from "@/studio/config";
+import { SocialProfileFeed, Socials } from "@/types";
+import { sanityClient } from "@/lib/sanity.client";
 
 interface SocialMediaFeedContextProps {
   accountId: string;
@@ -17,7 +23,9 @@ export function useSocialMediaFeed(): Socials {
   const context = useContext(SocialMediaFeedContext);
 
   if (!context) {
-    console.error("'useSocialMediaFeed' must be used within a SocialMediaFeedContextProvider");
+    console.error(
+      "'useSocialMediaFeed' must be used within a SocialMediaFeedContextProvider"
+    );
   }
 
   return context;
@@ -28,7 +36,7 @@ export function SocialMediaFeedContextProvider({
   limit,
   showRecentPosts,
   showPostsFrom,
-  children
+  children,
 }: SocialMediaFeedContextProps) {
   const initialState = {
     account: {
@@ -43,7 +51,8 @@ export function SocialMediaFeedContextProvider({
     baseUrl: "",
   };
 
-  const [profileFeed, setProfileFeed] = useState<SocialProfileFeed>(initialState);
+  const [profileFeed, setProfileFeed] =
+    useState<SocialProfileFeed>(initialState);
   const [nextCursor, setNextCursor] = useState(null);
   const [prevCursor, setPrevCursor] = useState(null);
 
@@ -103,14 +112,7 @@ export function SocialMediaFeedContextProvider({
         }));
       }
     },
-    [
-      accountId,
-      limit,
-      showPostsFrom,
-      showRecentPosts,
-      nextCursor,
-      prevCursor,
-    ]
+    [accountId, limit, showPostsFrom, showRecentPosts, nextCursor, prevCursor]
   );
 
   useEffect(() => {

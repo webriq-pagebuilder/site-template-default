@@ -1,8 +1,8 @@
 import { memo } from "react";
 import dynamic from "next/dynamic";
-import { useEcwid } from "context/EcwidContext";
+import { useEcwid } from "@/context/EcwidContext";
 
-import { SectionsProps } from "types";
+import { SectionsProps } from "@/types";
 
 const Variants = {
   variant_a: dynamic(() => import("./variant_a")),

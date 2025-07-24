@@ -3,12 +3,12 @@
 
 import type { Meta, StoryObj } from "@storybook/react";
 import PricingComponent from "../../sections/pricing";
-import { Sections } from "types";
+import { Sections } from "@/types";
 import {
   pricingSchema,
   pricingInitialValue,
 } from "@webriq-pagebuilder/sanity-plugin-schema-default";
-import { filterArgsByVariant } from "components/common";
+import { filterArgsByVariant } from "@/components/common";
 
 const args = {
   ...pricingInitialValue,

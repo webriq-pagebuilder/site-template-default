@@ -1,6 +1,6 @@
 import React from "react";
 import axios from "axios";
-import { initiateCheckout } from "lib/checkout";
+import { initiateCheckout } from "@/lib/checkout";
 import { PricingProps } from ".";
 import { Container } from "@stackshift-ui/container";
 import { Heading } from "@stackshift-ui/heading";

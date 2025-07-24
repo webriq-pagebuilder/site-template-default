@@ -1,4 +1,4 @@
-import { EcwidTypes } from "context/_ecwid-types";
+import { EcwidTypes } from "@/context/_ecwid-types";
 import React from "react";
 
 const Ribbon = ({ data }: { data: EcwidTypes["products"] }) => {

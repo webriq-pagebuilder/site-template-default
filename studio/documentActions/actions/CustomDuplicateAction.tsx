@@ -1,7 +1,10 @@
 import React from "react";
 import { CopyIcon } from "@sanity/icons";
-import { DuplicatePageSettings, DialogFooter } from "studio/components/actions";
-import { sanityClient } from "lib/sanity.client";
+import {
+  DuplicatePageSettings,
+  DialogFooter,
+} from "@/studio/components/actions";
+import { sanityClient } from "@/lib/sanity.client";
 
 export default function CustomDuplicateAction(props) {
   const documentId = !props?.draft ? props?.id : props?.draft?._id;

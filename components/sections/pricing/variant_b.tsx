@@ -1,6 +1,6 @@
 import React from "react";
 import axios from "axios";
-import { initiateCheckout } from "lib/checkout";
+import { initiateCheckout } from "@/lib/checkout";
 import { PricingProps } from ".";
 import { Container } from "@stackshift-ui/container";
 import { Flex } from "@stackshift-ui/flex";
@@ -162,14 +162,14 @@ function VariantB({
                       className={`mt-4 lg:mt-0  ${
                         !plan ||
                         ("variant_b_checkoutButton" in plan &&
-                        !plan?.variant_b_checkoutButton &&
+                          !plan?.variant_b_checkoutButton &&
                           "cursor-not-allowed  disabled:opacity-50")
                       }`}
                       disabled={
-                      !plan ||
-                      ("variant_b_checkoutButton" in plan &&
-                        !plan?.variant_b_checkoutButton)
-                    }
+                        !plan ||
+                        ("variant_b_checkoutButton" in plan &&
+                          !plan?.variant_b_checkoutButton)
+                      }
                       onClick={() => {
                         initiateCheckout(
                           {

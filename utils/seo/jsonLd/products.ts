@@ -1,7 +1,7 @@
 import React from "react";
 import { setBrandData, setOffersData, ImagesData } from "../helpers";
 import { ProductJsonLdProps } from "../types";
-import toJson from "utils/toJson";
+import toJson from "@/utils/toJson";
 
 export function ProductJsonLd({
   type = "Product",

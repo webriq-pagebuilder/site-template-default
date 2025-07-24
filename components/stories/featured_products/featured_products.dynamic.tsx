@@ -1,8 +1,8 @@
-import { StoryConfigs, defineStories } from "utils/stories";
-import { sanityClient } from "lib/sanity.client";
-import { componentsQuery } from "pages/api/query";
-import { featuredProductDefaultValues } from "helper/defaultValues";
-import { dynamicStoryData } from "components/common";
+import { StoryConfigs, defineStories } from "@/utils/stories";
+import { sanityClient } from "@/lib/sanity.client";
+import { componentsQuery } from "@/pages/api/query";
+import { featuredProductDefaultValues } from "@/helper/defaultValues";
+import { dynamicStoryData } from "@/components/common";
 import dedent from "ts-dedent";
 
 export default defineStories({

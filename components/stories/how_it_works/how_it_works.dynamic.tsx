@@ -1,7 +1,7 @@
-import { dynamicStoryData } from "components/common";
-import { defineStories } from "utils/stories";
-import { sanityClient } from "lib/sanity.client";
-import { componentsQuery } from "pages/api/query";
+import { dynamicStoryData } from "@/components/common";
+import { defineStories } from "@/utils/stories";
+import { sanityClient } from "@/lib/sanity.client";
+import { componentsQuery } from "@/pages/api/query";
 import dedent from "ts-dedent";
 
 // NOTE: If this component has a custom component, comment out this line and import that instead

@@ -1,9 +1,9 @@
 import { useContext } from "react";
-import { Components } from "components/list";
-import { InlineEditorContext } from "context/InlineEditorContext";
-import InlineEditor from "components/InlineEditor";
-import { SocialMediaFeedContextProvider } from "context/SocialMediaFeedContext";
-import { PageData } from "pages/[slug]";
+import { Components } from "@/components/list";
+import { InlineEditorContext } from "@/context/InlineEditorContext";
+import InlineEditor from "@/components/InlineEditor";
+import { SocialMediaFeedContextProvider } from "@/context/SocialMediaFeedContext";
+import { PageData } from "@/pages/[slug]";
 import { ErrorBoundary } from "react-error-boundary";
 
 interface PageSectionsProps {
@@ -42,7 +42,13 @@ const getCurrentDocument = (section: any) => {
 };
 
 // Separate component for section content
-const SectionContent = ({ section, Component }: { section: any; Component: any }) => {
+const SectionContent = ({
+  section,
+  Component,
+}: {
+  section: any;
+  Component: any;
+}) => {
   const template = {
     bg: "gray",
     color: "webriq",

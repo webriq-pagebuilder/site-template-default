@@ -2,20 +2,20 @@
 // ONLY EDIT THIS FILE IF YOU HAVE A NEW VARIANT
 
 import type { Meta, StoryObj } from "@storybook/react";
-import { Components } from "components/list";
-import { Sections } from "types";
+import { Components } from "@/components/list";
+import { Sections } from "@/types";
 import {
   callToActionSchema,
   callToActionInitialValue,
 } from "@webriq-pagebuilder/sanity-plugin-schema-default";
-import { filterArgsByVariant } from "components/common";
-import { urlFor } from "lib/sanity";
+import { filterArgsByVariant } from "@/components/common";
+import { urlFor } from "@/lib/sanity";
 
 const args = {
   ...callToActionInitialValue,
   logo: {
     ...callToActionInitialValue.logo,
-    image: urlFor(callToActionInitialValue.logo.image)
+    image: urlFor(callToActionInitialValue.logo.image),
   },
 };
 

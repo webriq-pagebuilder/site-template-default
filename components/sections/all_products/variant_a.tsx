@@ -1,10 +1,10 @@
 import { memo, useState, useEffect } from "react";
-import { urlFor } from "lib/sanity";
+import { urlFor } from "@/lib/sanity";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { AllProductsProps } from ".";
-import { Collection, CollectionProduct } from "types";
+import { Collection, CollectionProduct } from "@/types";
 import { Container } from "@stackshift-ui/container";
 import { Flex } from "@stackshift-ui/flex";
 import { Heading } from "@stackshift-ui/heading";

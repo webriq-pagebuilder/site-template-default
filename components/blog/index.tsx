@@ -1,19 +1,19 @@
-import InlineEditor from "components/InlineEditor";
+import InlineEditor from "@/components/InlineEditor";
 import { Container } from "@stackshift-ui/container";
 import { Flex } from "@stackshift-ui/flex";
 import { Heading } from "@stackshift-ui/heading";
 import { Text } from "@stackshift-ui/text";
-import { InlineEditorContext } from "context/InlineEditorContext";
+import { InlineEditorContext } from "@/context/InlineEditorContext";
 import { format } from "date-fns";
-import { PortableText, urlFor } from "lib/sanity";
+import { PortableText, urlFor } from "@/lib/sanity";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import { BlogsData, MyPortableTextComponents } from "types";
+import { BlogsData, MyPortableTextComponents } from "@/types";
 
 const Navigation = dynamic(() =>
-  import("components/sections/navigation").then((m) => m.Navigation)
+  import("@/components/sections/navigation").then((m) => m.Navigation)
 );
 const Footer = dynamic(() =>
   import("@stackshift-ui/footer").then((m) => m.Footer)

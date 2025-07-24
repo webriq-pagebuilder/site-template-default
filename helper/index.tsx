@@ -1,13 +1,13 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { urlFor } from "lib/sanity";
+import { urlFor } from "@/lib/sanity";
 import {
   LabeledRoute,
   LabeledRouteWithKey,
   Logo,
   MyPortableTextComponents,
-} from "types";
+} from "@/types";
 import { Heading } from "@stackshift-ui/heading";
 import { Text } from "@stackshift-ui/text";
 

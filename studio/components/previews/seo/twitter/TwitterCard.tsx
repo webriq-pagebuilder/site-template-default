@@ -3,7 +3,7 @@ import React from "react";
 import { format } from "date-fns";
 import { assemblePageUrl } from "../frontendUtils";
 import styles from "./TwitterCard.module.css";
-import { urlFor } from "lib/sanity";
+import { urlFor } from "@/lib/sanity";
 
 const author = {
   name: "WebriQ",

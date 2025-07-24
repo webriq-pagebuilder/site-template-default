@@ -1,17 +1,17 @@
 import React from "react";
 import { PreviewSuspense } from "next-sanity/preview";
-import { getClient } from "lib/sanity.client";
+import { getClient } from "@/lib/sanity.client";
 import { homeQuery, globalSEOQuery } from "./api/query";
-import { usePreview } from "lib/sanity.preview";
-import { PageSections } from "components/page";
-import { PreviewNoContent } from "components/PreviewNoContent";
-import { PreviewNoHomePage } from "components/PreviewNoHomePage";
-import { filterDataToSingleItem } from "components/list";
-import { SEO } from "components/SEO";
-import { PreviewBanner } from "components/PreviewBanner";
-import InlineEditorContextProvider from "context/InlineEditorContext";
-import { CommonPageData, SeoTags, SeoSchema } from "types";
-import { addSEOJsonLd } from "components/SEO";
+import { usePreview } from "@/lib/sanity.preview";
+import { PageSections } from "@/components/page";
+import { PreviewNoContent } from "@/components/PreviewNoContent";
+import { PreviewNoHomePage } from "@/components/PreviewNoHomePage";
+import { filterDataToSingleItem } from "@/components/list";
+import { SEO } from "@/components/SEO";
+import { PreviewBanner } from "@/components/PreviewBanner";
+import InlineEditorContextProvider from "@/context/InlineEditorContext";
+import { CommonPageData, SeoTags, SeoSchema } from "@/types";
+import { addSEOJsonLd } from "@/components/SEO";
 
 interface HomeProps {
   data: Data;

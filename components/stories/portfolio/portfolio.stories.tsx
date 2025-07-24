@@ -2,15 +2,15 @@
 // ONLY EDIT THIS FILE IF YOU HAVE A NEW VARIANT
 
 import type { Meta, StoryObj } from "@storybook/react";
-import { Components } from "components/list";
-import { Sections } from "types";
+import { Components } from "@/components/list";
+import { Sections } from "@/types";
 import {
   portfolioSchema,
   portfolioInitialValue,
 } from "@webriq-pagebuilder/sanity-plugin-schema-default";
-import { filterArgsByVariant } from "components/common";
-import { urlFor } from "lib/sanity";
-import { portfolioDefaultValues } from "helper/defaultValues";
+import { filterArgsByVariant } from "@/components/common";
+import { urlFor } from "@/lib/sanity";
+import { portfolioDefaultValues } from "@/helper/defaultValues";
 
 const args = {
   ...portfolioInitialValue,
@@ -19,8 +19,8 @@ const args = {
     ...item,
     mainImage: {
       ...item.mainImage,
-      image: urlFor(item?.mainImage?.image)
-    }
+      image: urlFor(item?.mainImage?.image),
+    },
   })),
 };
 

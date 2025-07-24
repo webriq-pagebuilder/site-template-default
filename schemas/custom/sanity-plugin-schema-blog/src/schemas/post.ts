@@ -1,6 +1,6 @@
 import { MdBook } from "react-icons/md";
 import { defineField, defineType } from "sanity";
-import { isSlugUnique } from "studio/isSlugUnique";
+import { isSlugUnique } from "@/studio/isSlugUnique";
 
 export default defineType({
   name: "post",

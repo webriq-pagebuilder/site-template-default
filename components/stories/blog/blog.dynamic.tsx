@@ -1,14 +1,14 @@
-import { blogDefaultValues } from "helper/defaultValues";
-import { dynamicStoryData } from "components/common";
-import { defineStories } from "utils/stories";
-import { sanityClient } from "lib/sanity.client";
-import { componentsQuery } from "pages/api/query";
+import { blogDefaultValues } from "@/helper/defaultValues";
+import { dynamicStoryData } from "@/components/common";
+import { defineStories } from "@/utils/stories";
+import { sanityClient } from "@/lib/sanity.client";
+import { componentsQuery } from "@/pages/api/query";
 import dedent from "ts-dedent";
 
 export default defineStories({
   baseCsf: dedent`
     import React from "react";
-    import { Components } from "components/list";
+    import { Components } from "@/components/list";
 
     const BlogComponent = Components.blog;
 
@@ -33,7 +33,7 @@ export default defineStories({
       (await sanityClient.fetch(componentsQuery, {
         schema: "blog",
       })) || []; // Provide a default empty array
-        
+
     return dynamicStoryData({
       data: blogData,
       schemaFields: blogDefaultValues,

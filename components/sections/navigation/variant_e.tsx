@@ -1,14 +1,14 @@
 import { Flex } from "@stackshift-ui/flex";
 import { Button } from "@stackshift-ui/button";
 import { Text } from "@stackshift-ui/text";
-import { EcwidContextProvider } from "context/EcwidContext";
-import { logoLink } from "helper";
-import { PortableText, urlFor } from "lib/sanity";
+import { EcwidContextProvider } from "@/context/EcwidContext";
+import { logoLink } from "@/helper";
+import { PortableText, urlFor } from "@/lib/sanity";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { Fragment, memo, useEffect, useRef, useState } from "react";
-import { MyPortableTextComponents } from "types";
+import { MyPortableTextComponents } from "@/types";
 import { NavigationProps } from ".";
 
 function VariantE({ banner, logo, links }: NavigationProps) {

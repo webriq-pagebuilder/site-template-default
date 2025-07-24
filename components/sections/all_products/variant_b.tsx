@@ -1,9 +1,9 @@
 import { memo, useState, useEffect } from "react";
-import { urlFor } from "lib/sanity";
+import { urlFor } from "@/lib/sanity";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { Collection, CollectionProduct } from "types";
+import { Collection, CollectionProduct } from "@/types";
 import { AllProductsProps } from ".";
 import { Flex } from "@stackshift-ui/flex";
 import { Container } from "@stackshift-ui/container";

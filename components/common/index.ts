@@ -1,4 +1,4 @@
-import { StoryConfigs } from "utils/stories";
+import { StoryConfigs } from "@/utils/stories";
 
 // filter out args that are not listed on hidden array
 export const filterArgsByVariant = (

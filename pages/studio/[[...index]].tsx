@@ -3,9 +3,9 @@ import Head from "next/head";
 import { NextStudio } from "next-sanity/studio";
 import { useRouter } from "next/router";
 import { StudioLayout, StudioProvider } from "sanity";
-import config from "sanity.config";
-import { NEXT_PUBLIC_APP_URL } from "studio/config";
-import AutologinPrepage from "studio/components/AutologinPrepage";
+import config from "@/sanity.config";
+import { NEXT_PUBLIC_APP_URL } from "@/studio/config";
+import AutologinPrepage from "@/studio/components/AutologinPrepage";
 
 function apiFetch<T = any>(
   input: RequestInfo | URL,

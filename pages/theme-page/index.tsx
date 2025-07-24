@@ -1,18 +1,18 @@
 import React from "react";
 import Head from "next/head";
 import { PreviewSuspense } from "next-sanity/preview";
-import { getClient } from "lib/sanity.client";
-import { usePreview } from "lib/sanity.preview";
-import { themePageQuery } from "pages/api/query";
-import { PageSections } from "components/page";
-import { PreviewNoContent } from "components/PreviewNoContent";
-import { filterDataToSingleItem } from "components/list";
-import { PreviewBanner } from "components/PreviewBanner";
-import { CommonPageData } from "types";
-import { ThemeSettings } from "components/ThemeSettings";
-import { defaultThemeConfig } from "components/theme-settings/defaultThemeConfig";
+import { getClient } from "@/lib/sanity.client";
+import { usePreview } from "@/lib/sanity.preview";
+import { themePageQuery } from "@/pages/api/query";
+import { PageSections } from "@/components/page";
+import { PreviewNoContent } from "@/components/PreviewNoContent";
+import { filterDataToSingleItem } from "@/components/list";
+import { PreviewBanner } from "@/components/PreviewBanner";
+import { CommonPageData } from "@/types";
+import { ThemeSettings } from "@/components/ThemeSettings";
+import { defaultThemeConfig } from "@/components/theme-settings/defaultThemeConfig";
 
-import PageNotFound from "pages/404";
+import PageNotFound from "@/pages/404";
 
 interface ThemePageProps {
   data: Data;
@@ -39,11 +39,11 @@ interface DocumentWithPreviewProps {
   token: string | undefined | null;
 }
 
-function ThemePage ({ data, preview, token, source, theme }: ThemePageProps) {
+function ThemePage({ data, preview, token, source, theme }: ThemePageProps) {
   const showThemeSetting = source === "theme";
 
   if (!preview || !showThemeSetting || !data?.themePageData) {
-    return <PageNotFound />; 
+    return <PageNotFound />;
   }
 
   return (
@@ -57,7 +57,7 @@ function ThemePage ({ data, preview, token, source, theme }: ThemePageProps) {
       </PreviewSuspense>
     </>
   );
-} 
+}
 
 /**
  *
@@ -105,7 +105,7 @@ export async function getStaticProps({
   const themeQuery = preview
     ? "*[_type=='themeSettings'][0]"
     : "*[_type=='themeSettings' && !(_id in path('drafts.**'))][0]";
-  
+
   const [themePage, themeConfig] = await Promise.all([
     client.fetch(themePageQuery),
     client.fetch(themeQuery),
@@ -114,7 +114,10 @@ export async function getStaticProps({
   const theme = themeConfig ?? defaultThemeConfig;
 
   // pass page data and preview to helper function
-  const themePageData: ThemePageData = filterDataToSingleItem(themePage, preview);
+  const themePageData: ThemePageData = filterDataToSingleItem(
+    themePage,
+    preview
+  );
 
   const data = { themePageData };
 

@@ -1,8 +1,8 @@
 import { useContext } from "react";
-import { Components } from "components/list";
-import { InlineEditorContext } from "context/InlineEditorContext";
-import InlineEditor from "components/InlineEditor";
-import { WishlistData } from "pages/wishlist";
+import { Components } from "@/components/list";
+import { InlineEditorContext } from "@/context/InlineEditorContext";
+import InlineEditor from "@/components/InlineEditor";
+import { WishlistData } from "@/pages/wishlist";
 
 interface WishlistSectionsProps {
   data: WishlistData;

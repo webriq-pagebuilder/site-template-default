@@ -3,7 +3,7 @@ import packageJson from "../../package.json";
 import {
   NEXT_PUBLIC_SANITY_STUDIO_FROM_STAGING_APP,
   NEXT_PUBLIC_SANITY_STUDIO_IN_CSTUDIO,
-} from "studio/config";
+} from "@/studio/config";
 
 import { Page } from "./pages";
 import { Store } from "./store";

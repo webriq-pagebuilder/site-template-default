@@ -1,9 +1,9 @@
 import { useContext } from "react";
-import { Components } from "components/list";
-import { InlineEditorContext } from "context/InlineEditorContext";
-import InlineEditor from "components/InlineEditor";
-import { EcwidContextProvider } from "context/EcwidContext";
-import { ProductData } from "pages/products/[slug]";
+import { Components } from "@/components/list";
+import { InlineEditorContext } from "@/context/InlineEditorContext";
+import InlineEditor from "@/components/InlineEditor";
+import { EcwidContextProvider } from "@/context/EcwidContext";
+import { ProductData } from "@/pages/products/[slug]";
 import { ErrorBoundary } from "react-error-boundary";
 
 interface ProductSectionsProps {

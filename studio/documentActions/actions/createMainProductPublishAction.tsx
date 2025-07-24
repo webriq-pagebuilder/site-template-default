@@ -8,7 +8,7 @@ import {
 } from "../../config";
 import { useSecrets } from "@sanity/studio-secrets";
 import { namespace, getAuthHeaders } from "../sanity-secrets/config";
-import { PortableTextToHTML } from "studio/utils/PortableTextToHtml";
+import { PortableTextToHTML } from "@/studio/utils/PortableTextToHtml";
 
 export default function createMainProductPublishAction(props) {
   const { id, type, draft, published, onComplete } = props;

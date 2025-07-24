@@ -2,32 +2,37 @@
 // ONLY EDIT THIS FILE IF YOU HAVE A NEW VARIANT
 
 import type { Meta, StoryObj } from "@storybook/react";
-import { Components } from "components/list";
-import { Sections } from "types";
+import { Components } from "@/components/list";
+import { Sections } from "@/types";
 import {
   featuresSchema,
   featuresInitialValue,
 } from "@webriq-pagebuilder/sanity-plugin-schema-default";
-import { filterArgsByVariant } from "components/common";
-import { urlFor } from "lib/sanity";
+import { filterArgsByVariant } from "@/components/common";
+import { urlFor } from "@/lib/sanity";
 
 const args = {
   ...featuresInitialValue,
-  images: featuresInitialValue.images.map((item) => ({ ...item, image: urlFor(item?.image) })),
+  images: featuresInitialValue.images.map((item) => ({
+    ...item,
+    image: urlFor(item?.image),
+  })),
   featuredItems: featuresInitialValue.featuredItems.map((item) => ({
     ...item,
     mainImage: {
       ...item.mainImage,
-      image: urlFor(item?.mainImage?.image)
-    }
+      image: urlFor(item?.mainImage?.image),
+    },
   })),
-  arrayOfImageTitleAndText: featuresInitialValue.arrayOfImageTitleAndText.map((item) => ({
-    ...item,
-    mainImage: {
-      ...item.mainImage,
-      image: urlFor(item?.mainImage?.image)
-    }
-  })),
+  arrayOfImageTitleAndText: featuresInitialValue.arrayOfImageTitleAndText.map(
+    (item) => ({
+      ...item,
+      mainImage: {
+        ...item.mainImage,
+        image: urlFor(item?.mainImage?.image),
+      },
+    })
+  ),
 };
 
 const FeaturesComponent = Components.features;

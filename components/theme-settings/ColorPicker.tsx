@@ -4,7 +4,7 @@ import { Text } from "@stackshift-ui/text";
 import { FaSpinner, FaUndo } from "react-icons/fa";
 import { HexColorInput, HexColorPicker } from "react-colorful";
 import { ToastContainer, toast } from "react-toast";
-import { useClickOutside, debounce } from "utils/theme";
+import { useClickOutside, debounce } from "@/utils/theme";
 
 export function ColorPicker({
   isLoaded,
@@ -90,7 +90,9 @@ export function ColorPicker({
           />
           <HexColorInput
             color={customColor?.[colorKey]}
-            onChange={(newColor) => debouncedHandleColorChange({ [colorKey]: newColor })}
+            onChange={(newColor) =>
+              debouncedHandleColorChange({ [colorKey]: newColor })
+            }
             disabled={!isLoaded}
             placeholder="Enter hex color"
             style={{

@@ -1,20 +1,20 @@
 import { memo, useEffect } from "react";
-import { urlFor, PortableText } from "lib/sanity";
+import { urlFor, PortableText } from "@/lib/sanity";
 import Image from "next/image";
-import AddToBag from "components/ecwid/AddToBag";
-import AddToWishlist from "components/ecwid/AddToWishlist";
-import Ribbon from "components/ecwid/Ribbon";
-import ProductDetail from "components/ecwid/ProductDetail";
-import { useEcwid } from "context/EcwidContext";
-import { defaultBlockStyle } from "helper";
+import AddToBag from "@/components/ecwid/AddToBag";
+import AddToWishlist from "@/components/ecwid/AddToWishlist";
+import Ribbon from "@/components/ecwid/Ribbon";
+import ProductDetail from "@/components/ecwid/ProductDetail";
+import { useEcwid } from "@/context/EcwidContext";
+import { defaultBlockStyle } from "@/helper";
 import { PagesProductInfoProps } from ".";
 
-import { EcwidTypes } from "context/_ecwid-types";
+import { EcwidTypes } from "@/context/_ecwid-types";
 import { Container } from "@stackshift-ui/container";
 import { Flex } from "@stackshift-ui/flex";
 import { Heading } from "@stackshift-ui/heading";
 import { Text } from "@stackshift-ui/text";
-import { useMediaQuery } from "hooks/useMediaQuery";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 
 function VariantA({ products }: PagesProductInfoProps) {
   const ecwid: EcwidTypes = useEcwid();
@@ -121,7 +121,13 @@ function VariantA({ products }: PagesProductInfoProps) {
                 </div>
 
                 <ProductDetail product={ecwidProduct}>
-                  <Flex align="center" gap={4} className={`items-center y-8 ${ecwid?.favorited ? "flex-col" : "flex-col lg:flex-row"}`}>
+                  <Flex
+                    align="center"
+                    gap={4}
+                    className={`items-center y-8 ${
+                      ecwid?.favorited ? "flex-col" : "flex-col lg:flex-row"
+                    }`}
+                  >
                     <div className="w-full lg:mb-4 xl:mb-0">
                       <AddToBag
                         inStock={!ecwidProduct?.inStock}

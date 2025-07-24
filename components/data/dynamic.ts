@@ -1,6 +1,6 @@
-import { sanityClient } from "lib/sanity.client";
-import { componentsQuery } from "pages/api/query";
-import { dynamicComponents } from "components/common";
+import { sanityClient } from "@/lib/sanity.client";
+import { componentsQuery } from "@/pages/api/query";
+import { dynamicComponents } from "@/components/common";
 import {
   appPromoInitialValue,
   appPromoVariants,

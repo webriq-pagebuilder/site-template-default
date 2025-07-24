@@ -325,7 +325,7 @@ export default function (plop) {
       return [
         {
           type: "add",
-          path: `components/{{type}}/{{kebabCase name}}/${fileName}`,
+          path: `./components/{{type}}/{{kebabCase name}}/${fileName}`,
           template: templateContent,
           skipIfExists: true,
         },

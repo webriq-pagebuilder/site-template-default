@@ -2,7 +2,7 @@ import {
   SANITY_PROJECT_ID,
   SANITY_PROJECT_DATASET,
   SANITY_API_READ_TOKEN,
-} from "studio/config";
+} from "@/studio/config";
 
 interface Config {
   dataset: string;

@@ -1,6 +1,6 @@
 import { test } from "@playwright/test";
-import { deletePageVariant, newPageTitle, beforeEachTest } from "tests/utils";
-import { NEXT_PUBLIC_SITE_URL } from "studio/config";
+import { deletePageVariant, newPageTitle, beforeEachTest } from "@/tests/utils";
+import { NEXT_PUBLIC_SITE_URL } from "@/studio/config";
 import VariantA from "./variant_a";
 import VariantB from "./variant_b";
 import VariantC from "./variant_c";

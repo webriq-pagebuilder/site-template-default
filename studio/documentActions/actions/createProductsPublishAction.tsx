@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useToast, Tooltip, Box, Text } from "@sanity/ui";
 import { useDocumentOperation, useValidationStatus } from "sanity";
 import { processData } from "../../stripeActions/process-data";
-import { NEXT_PUBLIC_SANITY_STUDIO_IN_CSTUDIO } from "studio/config";
+import { NEXT_PUBLIC_SANITY_STUDIO_IN_CSTUDIO } from "@/studio/config";
 
 export default function createProductsPublishAction(props) {
   const toast = useToast();
