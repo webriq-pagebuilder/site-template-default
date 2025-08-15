@@ -58,3 +58,9 @@ export const NEXT_PUBLIC_SANITY_PROJECT_OPENAI_KEY =
 export const SOCIAL_ACCOUNTS_API_URL =
   process.env.NEXT_PUBLIC_SOCIAL_ACCOUNTS_API_URL ||
   `${NEXT_PUBLIC_APP_URL}/api/app/integrations/social-accounts`;
+
+export const SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+export const SCHEDULED_PUBLISHING_URL =
+  process.env.NEXT_PUBLIC_SCHEDULED_PUBLISHING_URL ||
+  "https://conrzqhfjvxpkjifqwdg.supabase.co";
