@@ -1,5 +1,4 @@
-import React, { useEffect } from "react";
-import { PreviewSuspense } from "next-sanity/preview";
+import React, { Suspense, useEffect } from "react";
 import { getClient } from "@/lib/sanity.client";
 import { usePreview } from "@/lib/sanity.preview";
 import { wishlistPageQuery, globalSEOQuery } from "@/pages/api/query";
@@ -9,6 +8,7 @@ import PageNotFound from "@/pages/404";
 import { filterDataToSingleItem } from "@/components/list";
 import { SEO } from "@/components/SEO";
 import { PreviewBanner } from "@/components/PreviewBanner";
+import { PreviewProvider } from "@/components/PreviewProvider";
 import InlineEditorContextProvider from "@/context/InlineEditorContext";
 import { CommonPageData, SeoTags } from "@/types";
 
@@ -51,11 +51,13 @@ function WishlistPage({ data, preview, token, source }: WishListPageProps) {
       return (
         <>
           <PreviewBanner />
-          <PreviewSuspense fallback={"Loading..."}>
-            <InlineEditorContextProvider showInlineEditor={showInlineEditor}>
-              <DocumentWithPreview {...{ data, token }} />
-            </InlineEditorContextProvider>
-          </PreviewSuspense>
+          <PreviewProvider token={token || ""}>
+            <Suspense fallback={"Loading..."}>
+              <InlineEditorContextProvider showInlineEditor={showInlineEditor}>
+                <DocumentWithPreview {...{ data, token }} />
+              </InlineEditorContextProvider>
+            </Suspense>
+          </PreviewProvider>
         </>
       );
     }
@@ -89,7 +91,7 @@ function Document({ data }: { data: Data }) {
  * @returns Document with preview data
  */
 function DocumentWithPreview({ data, token = null }: DocumentWithPreviewProps) {
-  const previewDataEventSource = usePreview(token, wishlistPageQuery);
+  const [previewDataEventSource] = usePreview(data?.wishlistData, wishlistPageQuery);
   const previewData: WishlistData =
     previewDataEventSource?.[0] || previewDataEventSource;
 
