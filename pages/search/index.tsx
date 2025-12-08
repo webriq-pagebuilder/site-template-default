@@ -1,4 +1,5 @@
-import React, { Suspense, useEffect } from "react";
+import React, { useEffect } from "react";
+import { PreviewSuspense } from "next-sanity/preview";
 import { getClient } from "@/lib/sanity.client";
 import { usePreview } from "@/lib/sanity.preview";
 import { searchPageQuery, globalSEOQuery } from "@/pages/api/query";
@@ -8,7 +9,6 @@ import PageNotFound from "@/pages/404";
 import { filterDataToSingleItem } from "@/components/list";
 import { SEO } from "@/components/SEO";
 import { PreviewBanner } from "@/components/PreviewBanner";
-import { PreviewProvider } from "@/components/PreviewProvider";
 import InlineEditorContextProvider from "@/context/InlineEditorContext";
 import { CommonPageData, SeoTags } from "@/types";
 
@@ -49,13 +49,11 @@ function SearchPage({ data, preview, token, source }: SeachPageProps) {
       return (
         <>
           <PreviewBanner />
-          <PreviewProvider token={token || ""}>
-            <Suspense fallback="Loading...">
-              <InlineEditorContextProvider showInlineEditor={showInlineEditor}>
-                <DocumentWithPreview {...{ data, token }} />
-              </InlineEditorContextProvider>
-            </Suspense>
-          </PreviewProvider>
+          <PreviewSuspense fallback="Loading...">
+            <InlineEditorContextProvider showInlineEditor={showInlineEditor}>
+              <DocumentWithPreview {...{ data, token }} />
+            </InlineEditorContextProvider>
+          </PreviewSuspense>
         </>
       );
     }
@@ -89,7 +87,7 @@ function Document({ data }: { data: Data }) {
  * @returns Document with preview data
  */
 function DocumentWithPreview({ data, token = null }: DocumentWithPreviewProps) {
-  const [previewDataEventSource] = usePreview(data?.searchData, searchPageQuery);
+  const previewDataEventSource = usePreview(token, searchPageQuery);
   const previewData = previewDataEventSource?.[0] || previewDataEventSource;
 
   // General safeguard against empty data

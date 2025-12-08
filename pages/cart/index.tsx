@@ -1,4 +1,5 @@
-import React, { Suspense } from "react";
+import React from "react";
+import { PreviewSuspense } from "next-sanity/preview";
 import { getClient } from "@/lib/sanity.client";
 import { usePreview } from "@/lib/sanity.preview";
 import { cartPageQuery, globalSEOQuery } from "@/pages/api/query";
@@ -7,9 +8,7 @@ import { PreviewNoContent } from "@/components/PreviewNoContent";
 import { filterDataToSingleItem } from "@/components/list";
 import { SEO } from "@/components/SEO";
 import { PreviewBanner } from "@/components/PreviewBanner";
-import { PreviewProvider } from "@/components/PreviewProvider";
 import InlineEditorContextProvider from "@/context/InlineEditorContext";
-import PageNotFound from "@/pages/404";
 import { CommonPageData, SeoTags } from "@/types";
 
 interface CartPageProps {
@@ -46,13 +45,11 @@ function CartPage({ data, preview, token, source }: CartPageProps) {
       return (
         <>
           <PreviewBanner />
-          <PreviewProvider token={token || ""}>
-            <Suspense fallback="Loading">
-              <InlineEditorContextProvider showInlineEditor={showInlineEditor}>
-                <DocumentWithPreview {...{ data, token }} />
-              </InlineEditorContextProvider>
-            </Suspense>
-          </PreviewProvider>
+          <PreviewSuspense fallback="Loading">
+            <InlineEditorContextProvider showInlineEditor={showInlineEditor}>
+              <DocumentWithPreview {...{ data, token }} />
+            </InlineEditorContextProvider>
+          </PreviewSuspense>
         </>
       );
     }
@@ -86,7 +83,7 @@ function Document({ data }: { data: Data }) {
  * @returns Document with preview data
  */
 function DocumentWithPreview({ data, token = null }: DocumentWithPreviewProps) {
-  const [previewDataEventSource] = usePreview(data?.cartData, cartPageQuery);
+  const previewDataEventSource = usePreview(token, cartPageQuery);
   const previewData: CartData =
     previewDataEventSource?.[0] || previewDataEventSource;
 

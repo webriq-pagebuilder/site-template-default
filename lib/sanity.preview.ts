@@ -1,5 +1,8 @@
-"use client";
+import { definePreview } from "next-sanity/preview";
+import { config } from "./config";
 
-import { useLiveQuery } from "@sanity/preview-kit";
-
-export { useLiveQuery as usePreview };
+export const usePreview = definePreview({
+  ...config,
+  // We are ommitting the onPublicAccessOnly function here so it'll not throw an error since we're using generated tokens
+  // onPublicAccessOnly,
+});

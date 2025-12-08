@@ -1,6 +1,7 @@
-import React, { Suspense } from "react";
+import React from "react";
 import { useRouter } from "next/router";
 import { groq } from "next-sanity";
+import { PreviewSuspense } from "next-sanity/preview";
 import { sanityClient, getClient } from "@/lib/sanity.client";
 import { blogQuery, slugQuery, globalSEOQuery } from "./api/query";
 import { usePreview } from "@/lib/sanity.preview";
@@ -8,7 +9,6 @@ import { PageSections } from "@/components/page";
 import BlogSections from "@/components/blog";
 import { PreviewBanner } from "@/components/PreviewBanner";
 import { PreviewNoContent } from "@/components/PreviewNoContent";
-import { PreviewProvider } from "@/components/PreviewProvider";
 import { filterDataToSingleItem } from "@/components/list";
 import { SEO } from "@/components/SEO";
 import PageNotFound from "@/pages/404";
@@ -57,20 +57,18 @@ export function PageBySlug({ data, preview, token, source }: PageBySlugProps) {
       return (
         <>
           <PreviewBanner />
-          <PreviewProvider token={token || ""}>
-            <Suspense fallback="Loading...">
-              <InlineEditorContextProvider showInlineEditor={showInlineEditor}>
-                <DocumentWithPreview
-                  {...{
-                    data,
-                    token: token || null,
-                    slug,
-                    source,
-                  }}
-                />
-              </InlineEditorContextProvider>
-            </Suspense>
-          </PreviewProvider>
+          <PreviewSuspense fallback="Loading...">
+            <InlineEditorContextProvider showInlineEditor={showInlineEditor}>
+              <DocumentWithPreview
+                {...{
+                  data,
+                  token: token || null,
+                  slug,
+                  source,
+                }}
+              />
+            </InlineEditorContextProvider>
+          </PreviewSuspense>
         </>
       );
     }
@@ -98,13 +96,13 @@ function Document({ data }: { data: Data }) {
   }
 
   return (
-    <Suspense fallback={null}>
+    <PreviewSuspense fallback={null}>
       {/*  Show page sections */}
       {data?.pageData && <PageSections data={data?.pageData} />}
 
       {/* Show Blog sections */}
       {data?.blogData && <BlogSections data={data?.blogData} />}
-    </Suspense>
+    </PreviewSuspense>
   );
 }
 
@@ -123,8 +121,8 @@ function DocumentWithPreview({
   token = null,
 }: DocumentWithPreviewProps) {
   // Current drafts data in Sanity
-  const [previewDataEventSource] = usePreview(
-    data?.pageData || data?.blogData,
+  const previewDataEventSource = usePreview(
+    token,
     data?.pageData ? slugQuery : blogQuery, // as a fallback we assume it's a blog post
     {
       slug,

@@ -1,4 +1,5 @@
-import React, { Suspense } from "react";
+import React from "react";
+import { PreviewSuspense } from "next-sanity/preview";
 import { getClient } from "@/lib/sanity.client";
 import { homeQuery, globalSEOQuery } from "./api/query";
 import { usePreview } from "@/lib/sanity.preview";
@@ -8,7 +9,6 @@ import { PreviewNoHomePage } from "@/components/PreviewNoHomePage";
 import { filterDataToSingleItem } from "@/components/list";
 import { SEO } from "@/components/SEO";
 import { PreviewBanner } from "@/components/PreviewBanner";
-import { PreviewProvider } from "@/components/PreviewProvider";
 import InlineEditorContextProvider from "@/context/InlineEditorContext";
 import { CommonPageData, SeoTags, SeoSchema } from "@/types";
 import { addSEOJsonLd } from "@/components/SEO";
@@ -53,13 +53,11 @@ function Home({ data, preview, token, source }: HomeProps) {
     return (
       <>
         <PreviewBanner />
-        <PreviewProvider token={token || ""}>
-          <Suspense fallback="Loading...">
-            <InlineEditorContextProvider showInlineEditor={showInlineEditor}>
-              <DocumentWithPreview {...{ data, token }} />
-            </InlineEditorContextProvider>
-          </Suspense>
-        </PreviewProvider>
+        <PreviewSuspense fallback="Loading...">
+          <InlineEditorContextProvider showInlineEditor={showInlineEditor}>
+            <DocumentWithPreview {...{ data, token }} />
+          </InlineEditorContextProvider>
+        </PreviewSuspense>
       </>
     );
   }
@@ -89,9 +87,9 @@ function Document({ data }: { data: Data }) {
     /*  Show page sections */
   }
   return (
-    <Suspense fallback={null}>
+    <PreviewSuspense fallback={null}>
       {data?.pageData && <PageSections data={publishedData} />}
-    </Suspense>
+    </PreviewSuspense>
   );
 }
 
@@ -104,7 +102,7 @@ function Document({ data }: { data: Data }) {
  * @returns Document with preview data
  */
 function DocumentWithPreview({ data, token = null }: DocumentWithPreviewProps) {
-  const [previewDataEventSource] = usePreview(data?.pageData, homeQuery);
+  const previewDataEventSource = usePreview(token, homeQuery);
 
   const previewData: PageData =
     previewDataEventSource?.[0] || previewDataEventSource;

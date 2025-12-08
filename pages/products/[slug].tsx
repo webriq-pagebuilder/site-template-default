@@ -1,8 +1,9 @@
 /** This component displays content for the PRODUCT page */
 
-import React, { Suspense, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useRouter } from "next/router";
 import { groq } from "next-sanity";
+import { PreviewSuspense } from "next-sanity/preview";
 import { sanityClient, getClient } from "@/lib/sanity.client";
 import { usePreview } from "@/lib/sanity.preview";
 import { globalSEOQuery, productsQuery } from "@/pages/api/query";
@@ -11,7 +12,6 @@ import { filterDataToSingleItem } from "@/components/list";
 import { SEO } from "@/components/SEO";
 import { PreviewBanner } from "@/components/PreviewBanner";
 import { PreviewNoContent } from "@/components/PreviewNoContent";
-import { PreviewProvider } from "@/components/PreviewProvider";
 import { ProductSections } from "@/components/page/store/products";
 import InlineEditorContextProvider from "@/context/InlineEditorContext";
 import { CollectionProduct, CommonSections, SeoTags, SeoSchema } from "@/types";
@@ -61,13 +61,11 @@ function ProductPageBySlug({
       return (
         <>
           <PreviewBanner />
-          <PreviewProvider token={token || ""}>
-            <Suspense fallback={"Loading..."}>
-              <InlineEditorContextProvider showInlineEditor={showInlineEditor}>
-                <DocumentWithPreview {...{ data, token: token || null, slug }} />
-              </InlineEditorContextProvider>
-            </Suspense>
-          </PreviewProvider>
+          <PreviewSuspense fallback={"Loading..."}>
+            <InlineEditorContextProvider showInlineEditor={showInlineEditor}>
+              <DocumentWithPreview {...{ data, token: token || null, slug }} />
+            </InlineEditorContextProvider>
+          </PreviewSuspense>
         </>
       );
     }
@@ -112,7 +110,7 @@ function DocumentWithPreview({
   token = null,
 }: DocumentWithPreviewProps) {
   // Current drafts data in Sanity
-  const [previewDataEventSource] = usePreview(data?.productData, productsQuery, { slug });
+  const previewDataEventSource = usePreview(token, productsQuery, { slug });
   const previewData = previewDataEventSource?.[0] || previewDataEventSource; // Latest preview data in Sanity
 
   // General safeguard against empty data

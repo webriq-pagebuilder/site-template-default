@@ -1,5 +1,6 @@
-import React, { Suspense } from "react";
+import React from "react";
 import Head from "next/head";
+import { PreviewSuspense } from "next-sanity/preview";
 import { getClient } from "@/lib/sanity.client";
 import { usePreview } from "@/lib/sanity.preview";
 import { themePageQuery } from "@/pages/api/query";
@@ -7,7 +8,6 @@ import { PageSections } from "@/components/page";
 import { PreviewNoContent } from "@/components/PreviewNoContent";
 import { filterDataToSingleItem } from "@/components/list";
 import { PreviewBanner } from "@/components/PreviewBanner";
-import { PreviewProvider } from "@/components/PreviewProvider";
 import { CommonPageData } from "@/types";
 import { ThemeSettings } from "@/components/ThemeSettings";
 import { defaultThemeConfig } from "@/components/theme-settings/defaultThemeConfig";
@@ -52,11 +52,9 @@ function ThemePage({ data, preview, token, source, theme }: ThemePageProps) {
       {showThemeSetting && (
         <ThemeSettings preview={preview} themeSettings={theme} />
       )}
-      <PreviewProvider token={token || ""}>
-        <Suspense fallback="Loading...">
-          <DocumentWithPreview {...{ data, token }} />
-        </Suspense>
-      </PreviewProvider>
+      <PreviewSuspense fallback="Loading...">
+        <DocumentWithPreview {...{ data, token }} />
+      </PreviewSuspense>
     </>
   );
 }
@@ -69,7 +67,7 @@ function ThemePage({ data, preview, token, source, theme }: ThemePageProps) {
  * @returns Document with preview data
  */
 function DocumentWithPreview({ data, token = null }: DocumentWithPreviewProps) {
-  const [previewDataEventSource] = usePreview(data?.themePageData, themePageQuery);
+  const previewDataEventSource = usePreview(token, themePageQuery);
   const previewData: ThemePageData =
     previewDataEventSource?.[0] || previewDataEventSource;
 

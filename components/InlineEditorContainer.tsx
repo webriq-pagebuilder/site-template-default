@@ -1,62 +1,13 @@
-"use client";
-
 import { useMagicRouter } from "@/hooks";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
-import React, { lazy, Suspense } from "react";
-import dynamic from "next/dynamic";
+import config from "@/sanity.config";
+import React from "react";
+import { StudioProvider, StudioLayout } from "sanity";
 import SplitPane, { SashContent, Pane } from "split-pane-react";
 import { InlineEditorProps } from "./InlineEditor";
 
 import "split-pane-react/esm/themes/default.css";
 import styles from "@/styles/InlineEditing.module.css";
-
-// Dynamically import Sanity components to avoid SSR issues with React 19
-const SanityStudioPane = dynamic(
-  () =>
-    Promise.all([
-      import("@/sanity.config"),
-      import("sanity"),
-    ]).then(([configModule, sanityModule]) => {
-      const config = configModule.default;
-      const { StudioProvider, StudioLayout } = sanityModule;
-
-      return function SanityStudioPaneInner({
-        history,
-        document,
-      }: {
-        history: any;
-        document: any;
-      }) {
-        return (
-          <StudioProvider
-            config={config}
-            unstable_history={history}
-            unstable_noAuthBoundary
-          >
-            <div
-              className={`${styles["nav-panesearch"]} ${
-                styles["nav-paneheader"]
-              } ${styles["desk-listpane"]} ${styles["document-pane"]} ${
-                styles["field-label"]
-              } ${styles["field-variant"]} ${styles["panel"]} ${
-                styles["pane-footer"]
-              } ${
-                document?.type === "mainProduct"
-                  ? `product-fieldgroup-tabs product-fieldgroup-select`
-                  : ` fieldgroup-tabs fieldgroup-select`
-              }`}
-            >
-              <StudioLayout />
-            </div>
-          </StudioProvider>
-        );
-      };
-    }),
-  {
-    ssr: false,
-    loading: () => <div className="p-4">Loading editor...</div>,
-  }
-);
 
 export default function InlineEditorContainer({
   document,
@@ -151,7 +102,27 @@ export default function InlineEditorContainer({
                 maxSize="45%"
                 style={{ overflowY: "scroll", ...layoutCSS }}
               >
-                <SanityStudioPane history={history} document={document} />
+                <StudioProvider
+                  config={config}
+                  unstable_history={history}
+                  unstable_noAuthBoundary
+                >
+                  <div
+                    className={`${styles["nav-panesearch"]} ${
+                      styles["nav-paneheader"]
+                    } ${styles["desk-listpane"]} ${styles["document-pane"]} ${
+                      styles["field-label"]
+                    } ${styles["field-variant"]} ${styles["panel"]} ${
+                      styles["pane-footer"]
+                    } ${
+                      document?.type === "mainProduct"
+                        ? `product-fieldgroup-tabs product-fieldgroup-select`
+                        : ` fieldgroup-tabs fieldgroup-select`
+                    }`}
+                  >
+                    <StudioLayout />
+                  </div>
+                </StudioProvider>
               </Pane>
             </SplitPane>
           </div>
