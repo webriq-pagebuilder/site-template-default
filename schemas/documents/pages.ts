@@ -48,6 +48,18 @@ export default defineType({
       },
     }),
     defineField({
+      title: "Publish date time",
+      name: "publishDateTime",
+      hidden: true,
+      type: "string",
+    }),
+    defineField({
+      title: "Publish status",
+      name: "publishStatus",
+      hidden: true,
+      type: "string",
+    }),
+    defineField({
       title: "Sections",
       name: "sections",
       type: "array",

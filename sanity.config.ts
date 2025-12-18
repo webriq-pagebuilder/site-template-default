@@ -21,8 +21,8 @@ import { schemaTypes } from "schemas/schema";
 // plugins
 import { media } from "sanity-plugin-media";
 import { codeInput } from "@sanity/code-input";
-
 import { visionTool } from "@sanity/vision";
+
 import { webriqBlog } from "@webriq-pagebuilder/sanity-plugin-webriq-blog";
 import { webriqForms } from "@webriq-pagebuilder/sanity-plugin-webriq-forms";
 import { webriqPayments } from "@webriq-pagebuilder/sanity-plugin-webriq-payments";
