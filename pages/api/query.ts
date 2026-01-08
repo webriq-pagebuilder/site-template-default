@@ -548,3 +548,9 @@ export const componentsQuery = groq`*[_type==$schema && !(_id in path("drafts.**
 
 // query theme page
 export const themePageQuery = groq`*[_type == "themePage"] ${allProjections}`;
+
+// query "cookies" component from "home" page
+export const getGlobalCookies = groq`*[_type == "page" && slug.current=="home"].sections[_type match "cookies"]->{
+  ...,
+  ${variants},
+}`;
