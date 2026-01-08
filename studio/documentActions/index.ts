@@ -5,99 +5,99 @@ import customBlogPublishAction from "./actions/customBlogPublishAction";
 import { NEXT_PUBLIC_SANITY_STUDIO_IN_CSTUDIO } from "../config";
 
 const defaultDocumentActions = [
-  "duplicate",
-  "unpublish",
-  "discardChanges",
-  "delete",
+	"duplicate",
+	"unpublish",
+	"discardChanges",
+	"delete",
 ];
 
 const stackShiftEcommerceTypes = [
-  "mainProduct",
-  "mainCollection",
-  "cartPage",
-  "wishlistPage",
-  "searchPage",
-  "productSettings",
-  "collectionSettings",
-  // c-studio sections
-  "allProducts",
-  "featuredProducts",
-  "cartSection",
-  "wishlistSection",
-  "productInfo",
-  // c-studio sections only in Store > Pages Products/Collections
-  "dynamic_featuredProducts",
-  "dynamic_productInfo",
-  // c-studio sections only in Pages
-  "pages_featuredProducts",
-  "pages_productInfo",
+	"mainProduct",
+	"mainCollection",
+	"cartPage",
+	"wishlistPage",
+	"searchPage",
+	"productSettings",
+	"collectionSettings",
+	// c-studio sections
+	"allProducts",
+	"featuredProducts",
+	"cartSection",
+	"wishlistSection",
+	"productInfo",
+	// c-studio sections only in Store > Pages Products/Collections
+	"dynamic_featuredProducts",
+	"dynamic_productInfo",
+	// c-studio sections only in Pages
+	"pages_featuredProducts",
+	"pages_productInfo",
 ];
 
 export const ResolveDocumentActions = (props) => {
-  const { prev, context } = props;
+	const { prev, context } = props;
 
-  if (
-    stackShiftEcommerceTypes?.includes(context?.schemaType) &&
-    NEXT_PUBLIC_SANITY_STUDIO_IN_CSTUDIO === "false"
-  ) {
-    // only show the publish action button (hide the button beside "Publish") for C-Studio elements when C-Studio is disabled
-    return [createProductsPublishAction];
-  } else if (
-    [
-      "cartPage",
-      "wishlistPage",
-      "searchPage",
-      "productSettings",
-      "collectionSettings",
-      "themePage",
-    ]?.includes(context?.schemaType)
-  ) {
-    return [
-      createProductsPublishAction,
-      ...prev.filter(({ action }: { action: string }) =>
-        ["discardChanges"].includes(action)
-      ),
-    ];
-  } else if (
-    [
-      "slotProductInfo",
-      "slotCollectionInfo",
-      "slotCart",
-      "slotWishlist",
-    ]?.includes(context?.schemaType)
-  ) {
-    return []; // hide document actions for default slot sections (all are read only)
-  } else if (context?.schemaType === "mainProduct") {
-    // use a custom publish action function for mainProduct documents
-    return [
-      createMainProductPublishAction,
-      ...prev.filter(({ action }: { action: string }) =>
-        ["discardChanges", "unpublish", "delete"].includes(action)
-      ),
-    ];
-  } else if (["post"]?.includes(context?.schemaType)) {
-    return [
-      customBlogPublishAction,
-      ...prev.filter(
-        ({ action }: { action: string }) => !["publish"].includes(action)
-      ),
-    ];
-  } else if (context?.schemaType === "page") {
-    // use these custom document actions for page type documents
-    return [
-      createProductsPublishAction,
-      CustomDuplicateAction,
-      ...prev.filter(({ action }: { action: string }) =>
-        ["unpublish", "discardChanges", "delete"].includes(action)
-      ),
-    ];
-  } else {
-    // else for other document types use the default
-    return [
-      createProductsPublishAction,
-      ...prev.filter(({ action }: { action: string }) =>
-        defaultDocumentActions.includes(action)
-      ),
-    ];
-  }
+	if (
+		stackShiftEcommerceTypes?.includes(context?.schemaType) &&
+		NEXT_PUBLIC_SANITY_STUDIO_IN_CSTUDIO === "false"
+	) {
+		// only show the publish action button (hide the button beside "Publish") for C-Studio elements when C-Studio is disabled
+		return [createProductsPublishAction];
+	} else if (
+		[
+			"cartPage",
+			"wishlistPage",
+			"searchPage",
+			"productSettings",
+			"collectionSettings",
+			"themePage",
+		]?.includes(context?.schemaType)
+	) {
+		return [
+			createProductsPublishAction,
+			...prev.filter(({ action }: { action: string }) =>
+				["discardChanges"].includes(action)
+			),
+		];
+	} else if (
+		[
+			"slotProductInfo",
+			"slotCollectionInfo",
+			"slotCart",
+			"slotWishlist",
+		]?.includes(context?.schemaType)
+	) {
+		return []; // hide document actions for default slot sections (all are read only)
+	} else if (context?.schemaType === "mainProduct") {
+		// use a custom publish action function for mainProduct documents
+		return [
+			createMainProductPublishAction,
+			...prev.filter(({ action }: { action: string }) =>
+				["discardChanges", "unpublish", "delete"].includes(action)
+			),
+		];
+	} else if (["post"]?.includes(context?.schemaType)) {
+		return [
+			customBlogPublishAction,
+			...prev.filter(
+				({ action }: { action: string }) => !["publish"].includes(action)
+			),
+		];
+	} else if (context?.schemaType === "page") {
+		// use these custom document actions for page type documents
+		return [
+			createProductsPublishAction,
+			CustomDuplicateAction,
+			...prev.filter(({ action }: { action: string }) =>
+				["unpublish", "discardChanges", "delete"].includes(action)
+			),
+		];
+	} else {
+		// else for other document types use the default
+		return [
+			createProductsPublishAction,
+			...prev.filter(({ action }: { action: string }) =>
+				defaultDocumentActions.includes(action)
+			),
+		];
+	}
 };
