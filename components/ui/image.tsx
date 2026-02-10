@@ -7,6 +7,9 @@ interface LocalImageProps {
   width?: number;
   height?: number;
   className?: string;
+  priority?: boolean;
+  loading?: "lazy" | "eager";
+  [key: string]: any;
 }
 
 export default function LocalImage({
@@ -15,9 +18,15 @@ export default function LocalImage({
   width,
   height,
   className,
+  priority,
+  loading,
   ...props
 }: LocalImageProps) {
   const validSrc = src && typeof src === "string" && src !== "[object Object]" ? src : "/webriq-logo.png";
+
+  // Next.js Image cannot have both priority and loading="lazy"
+  // Priority takes precedence - if set, don't pass loading prop
+  const shouldUsePriority = priority === true;
 
   return (
     <Image
@@ -27,7 +36,7 @@ export default function LocalImage({
       height={height ?? 250}
       className={className}
       quality={100}
-      priority
+      {...(shouldUsePriority ? { priority: true } : { loading: loading ?? "lazy" })}
       {...props}
     />
   );
