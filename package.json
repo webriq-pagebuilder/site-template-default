@@ -3,6 +3,10 @@
   "version": "6.0.11",
   "private": true,
   "license": "MIT",
+  "resolutions": {
+    "string-width": "4.2.3",
+    "wrap-ansi": "7.0.0"
+  },
   "author": {
     "name": "WebriQ",
     "email": "info@webriq.com"
