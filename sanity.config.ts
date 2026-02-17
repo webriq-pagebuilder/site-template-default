@@ -30,6 +30,8 @@ import { webriqGPT3 } from "@webriq-pagebuilder/sanity-plugin-input-component-gp
 import { webriqComponents } from "@webriq-pagebuilder/sanity-plugin-webriq-components";
 import { webriQInspectorInlineEdit } from "@webriq-pagebuilder/sanity-plugin-inspector-inline-edit";
 
+import customResolvePreviewUrl from "studio/resolvePreviewUrl";
+
 export default defineConfig({
   basePath: "/studio",
   title: NEXT_PUBLIC_SANITY_PROJECT_NAME,
@@ -43,7 +45,12 @@ export default defineConfig({
     webriqPayments(),
     webriqBlog(),
     webriqGPT3(),
-    webriQInspectorInlineEdit(),
+    webriQInspectorInlineEdit({
+      // Append custom document types
+      documentTypes: (defaults) => [...defaults, "themePage"],
+      // Use your existing custom preview URL
+      resolvePreviewUrl: customResolvePreviewUrl,
+    }),
     media(),
     codeInput(), // for "code" schema type
   ],

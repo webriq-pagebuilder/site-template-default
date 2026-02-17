@@ -1,25 +1,39 @@
 import React, { useEffect, useState } from "react";
 import type { AppProps } from "next/app";
 import { NEXT_PUBLIC_SANITY_STUDIO_IN_CSTUDIO } from "studio/config";
-import Head from "next/head";
 import { useRouter } from "next/router";
-import useScript from "utils/useScript";
 import { setProjectTheme } from "utils/theme";
-import { sanityClient } from "lib/sanity.client";
+import { getClient } from "lib/sanity.client";
+import { getGlobalCookies } from "./api/query";
 import { defaultThemeConfig } from "components/theme-settings/defaultThemeConfig";
 import { StackShiftUIProvider } from "@stackshift-ui/system";
-import { Image, Link } from "../components/ui";
+import { Image, Link } from "components/ui";
+import { Components } from "components/list";
+import Head from "next/head";
+import useScript from "utils/useScript";
 
 // global styles
 import "vanilla-cookieconsent/dist/cookieconsent.css";
 import "../styles/globals.css";
 
+const Cookies = Components.cookies;
+
 function App({ Component, pageProps }: AppProps) {
   const { seo = [], seoSchema = {}, preview, theme } = pageProps;
 
   const [themeConfig, setThemeConfig] = useState(theme);
+  const [componentData, setComponentData] = React.useState(pageProps);
+
+  const cookiesExcludedRoutes = [
+    "/home",
+    "/",
+    "/studio/[[...index]]",
+    "/success",
+    "/no-preview",
+  ];
 
   const router = useRouter();
+  const client = getClient(preview);
 
   // patch: cleanup `secret=<secret>&slug=<slug>` when on preview mode as this causes ECWID to refresh indefinitely
   useEffect(() => {
@@ -69,7 +83,7 @@ function App({ Component, pageProps }: AppProps) {
       : "*[_type=='themeSettings' && !(_id in path('drafts.**'))][0]";
 
     // get initial theme settings
-    sanityClient.fetch(
+    client.fetch(
       `${query}{
         ...,
         themes[] {
@@ -95,7 +109,7 @@ function App({ Component, pageProps }: AppProps) {
     });
 
     // listen to real-time updates to theme settings
-    const subscription = sanityClient.listen(query).subscribe((config) => {
+    const subscription = client.listen(query).subscribe((config) => {
       if (config) {
         const theme = config?.result;
         setThemeConfig(theme);
@@ -106,6 +120,26 @@ function App({ Component, pageProps }: AppProps) {
       subscription.unsubscribe();
     };
   }, [preview]);
+
+  // fetch cookies component
+  useEffect(() => {
+    try {
+      client.fetch(getGlobalCookies).then((cookies) => {
+        if (cookies) {
+          if (!cookiesExcludedRoutes?.includes(router?.route)) {
+            // Set cookies at the top level of data
+            const data = {
+              ...pageProps.data,
+              cookies,
+            };
+            setComponentData({ ...pageProps, data });
+          }
+        }
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
 
   return (
     <>
@@ -130,6 +164,11 @@ function App({ Component, pageProps }: AppProps) {
       </Head>
       <StackShiftUIProvider components={{ Image, Link }}>
         <Component {...pageProps} />
+        {/* Render Cookies globally except on whitelisted routes */}
+        {componentData?.data?.cookies?.[0] &&
+          !cookiesExcludedRoutes.includes(router.route) && (
+            <Cookies data={componentData?.data?.cookies?.[0]} />
+          )}
       </StackShiftUIProvider>
     </>
   );
