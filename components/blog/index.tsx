@@ -1,6 +1,6 @@
 import InlineEditor from "components/InlineEditor";
+import { Badge } from "@stackshift-ui/badge";
 import { Container } from "@stackshift-ui/container";
-import { Flex } from "@stackshift-ui/flex";
 import { Heading } from "@stackshift-ui/heading";
 import { Text } from "@stackshift-ui/text";
 import { InlineEditorContext } from "context/InlineEditorContext";
@@ -202,95 +202,55 @@ function BlogSections({ data }: BlogSectionsProps) {
       )}
       <section className="pb-20">
         <div
-          className="p-20 mb-12"
+          className="relative p-20 mb-12"
           style={{
             backgroundImage: `url(${mainImage && urlFor(mainImage)})`,
             backgroundRepeat: "no-repeat",
             backgroundSize: "cover",
           }}
         >
-          <Container>
+          {/* Dark overlay for text readability */}
+          <div className="absolute inset-0 bg-gradient-to-b from-black/60 to-black/40" />
+
+          <Container className="relative z-10">
             <Container maxWidth={"2xl"} className="text-center">
-              <div className="flex flex-col md:flex-row items-center justify-center">
-                {categories &&
-                  categories?.map((tag, index) => (
-                    <span
-                      className="mr-2 text-base uppercase text-primary-foreground lg:text-xl"
-                      key={index}
-                    >
-                      {tag?.title}
-                    </span>
+              {/* Title */}
+              {title && (
+                <Heading weight="bold" className="mb-4 text-white">
+                  {title}
+                </Heading>
+              )}
+
+              {/* Authors - "By {name}" format */}
+              {authors && authors.length > 0 && (
+                <Text className="text-gray-300 mb-2">
+                  By{" "}
+                  {authors.map((author, index, arr) => (
+                    <React.Fragment key={index}>
+                      <span className="text-gray-200">{author?.name}</span>
+                      {index < arr.length - 1 && ", "}
+                    </React.Fragment>
                   ))}
-                {categories && publishedAt && (
-                  <span className="mx-2 text-base text-gray-500 uppercase lg:text-xl">
-                    •
-                  </span>
-                )}
-                {publishedAt && (
-                  <span
-                    className={`text-base lg:text-xl ${categories ?? "ml-2"}${
-                      mainImage ? "text-white" : "text-black"
-                    }`}
-                  >
-                    {format(new Date(publishedAt), "MMMM dd, yyyy")}
-                  </span>
-                )}
-              </div>
-              <div className="mt-2">
-                {title && (
-                  <Heading
-                    weight="bold"
-                    className={`mb-6 ${
-                      mainImage ? "text-white" : "text-black"
-                    }`}
-                  >
-                    {title}
-                  </Heading>
-                )}
-                <div className="flex sm:justify-center gap-5 flex-wrap">
-                  {authors &&
-                    authors?.map((author, index, { length }) => (
-                      <Flex justify="center" className="mr-2" key={index}>
-                        <div className="mr-4">
-                          {author?.profile?.image ? (
-                            <Image
-                              className="object-cover object-top w-12 h-12 rounded-full"
-                              width={48}
-                              height={48}
-                              src={urlFor(author?.profile?.image)}
-                              alt={author?.profile?.alt ?? author?.name}
-                            />
-                          ) : (
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              width="48"
-                              height="48"
-                              viewBox="0 0 24 24"
-                            >
-                              <path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm0 22c-3.123 0-5.914-1.441-7.749-3.69.259-.588.783-.995 1.867-1.246 2.244-.518 4.459-.981 3.393-2.945-3.155-5.82-.899-9.119 2.489-9.119 3.322 0 5.634 3.177 2.489 9.119-1.035 1.952 1.1 2.416 3.393 2.945 1.082.25 1.61.655 1.871 1.241-1.836 2.253-4.628 3.695-7.753 3.695z" />
-                            </svg>
-                          )}
-                        </div>
-                        <div className="text-left">
-                          <Heading
-                            type="h3"
-                            weight="bold"
-                            fontSize="base"
-                            className="text-primary-foreground"
-                          >
-                            {author?.name}
-                          </Heading>
-                          {/* {index + 1 !== length ? (
-                            <span>&nbsp;and&nbsp;</span>
-                          ) : null} */}
-                          <span className="text-xs italic text-secondary-foreground">
-                            {authors?.length > 1 ? "Authors" : "Author"}
-                          </span>
-                        </div>
-                      </Flex>
-                    ))}
+                </Text>
+              )}
+
+              {/* Date */}
+              {publishedAt && (
+                <Text className="text-gray-300 text-sm mb-4">
+                  {format(new Date(publishedAt), "MMMM dd, yyyy")}
+                </Text>
+              )}
+
+              {/* Categories as badges */}
+              {categories && categories.length > 0 && (
+                <div className="flex flex-wrap justify-center gap-2">
+                  {categories.map((tag, index) => (
+                    <Badge key={index} variant="secondary" className="text-xs">
+                      {tag?.title}
+                    </Badge>
+                  ))}
                 </div>
-              </div>
+              )}
             </Container>
           </Container>
         </div>

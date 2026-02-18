@@ -20,7 +20,7 @@ const cors = corsMiddleware(
   Cors({
     // Allow GET for manual revalidation, POST for webhooks, OPTIONS for preflight
     methods: ["GET", "POST", "OPTIONS"],
-  })
+  }),
 );
 
 // Export the config from next-sanity to enable validating the request body signature properly
@@ -28,7 +28,7 @@ export { config } from "next-sanity/webhook";
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse,
 ) {
   // Run cors
   await cors(req, res);
@@ -64,7 +64,7 @@ export default async function handler(
 
       const { isValidSignature, body } = await parseBody(
         req,
-        process.env.SANITY_REVALIDATE_SECRET
+        process.env.SANITY_REVALIDATE_SECRET,
       );
 
       if (!isValidSignature) {
@@ -76,7 +76,7 @@ export default async function handler(
 
       webhookBody = body as SanityWebhookBody;
       console.log(
-        `📨 Sanity webhook mode - document type: ${webhookBody?._type}`
+        `📨 Sanity webhook mode - document type: ${webhookBody?._type}`,
       );
     }
 
@@ -103,7 +103,7 @@ export default async function handler(
         const referencingPages = await client.fetch(pageReferencesQuery);
 
         console.log(
-          `📝 Found ${referencingPages.length} page(s) referencing this post`
+          `📝 Found ${referencingPages.length} page(s) referencing this post`,
         );
 
         if (referencingPages.length > 0) {
@@ -136,8 +136,8 @@ export default async function handler(
 
     console.log(
       `🚀 Revalidating ${uniqueRoutes.length} route(s): ${uniqueRoutes.join(
-        ", "
-      )}`
+        ", ",
+      )}`,
     );
 
     // Revalidate all routes
@@ -179,7 +179,7 @@ export default async function handler(
       if (publishForgeWebhookUrl) {
         try {
           console.log(
-            `📤 Forwarding webhook to PublishForge: ${publishForgeWebhookUrl}`
+            `📤 Forwarding webhook to PublishForge: ${publishForgeWebhookUrl}`,
           );
 
           const forwardResponse = await fetch(publishForgeWebhookUrl, {
@@ -194,12 +194,12 @@ export default async function handler(
             publishForgeResult = await forwardResponse.json();
             console.log(
               `✅ PublishForge webhook forwarded successfully:`,
-              publishForgeResult
+              publishForgeResult,
             );
           } else {
             const errorText = await forwardResponse.text();
             console.error(
-              `❌ PublishForge webhook failed: ${forwardResponse.status} - ${errorText}`
+              `❌ PublishForge webhook failed: ${forwardResponse.status} - ${errorText}`,
             );
             publishForgeResult = {
               success: false,
@@ -220,7 +220,7 @@ export default async function handler(
         }
       } else {
         console.log(
-          `⚠️ NEXT_PUBLIC_PUBLISHFORGE_WEBHOOK_URL not configured, skipping webhook forwarding`
+          `⚠️ NEXT_PUBLIC_PUBLISHFORGE_WEBHOOK_URL not configured, skipping webhook forwarding`,
         );
       }
     }
@@ -238,7 +238,7 @@ export default async function handler(
       .status(500)
       .send(
         "Error revalidating: " +
-          (err instanceof Error ? err.message : String(err))
+          (err instanceof Error ? err.message : String(err)),
       );
   }
 }
