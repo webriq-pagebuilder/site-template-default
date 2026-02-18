@@ -1,6 +1,10 @@
 /** @type {import("next").NextConfig} */
 
 const nextConfig = {
+  transpilePackages: ["sanity-plugin-media"],
+  experimental: {
+    esmExternals: "loose",
+  },
   i18n: {
     // internalized routing
     locales: ["en"],
@@ -35,8 +39,11 @@ const nextConfig = {
   },
   compiler: {
     // Remove console logs only in production
-    removeConsole: process.env.NODE_ENV === "production" ? { exclude: ["error", "info"] } : false,
-  }
+    removeConsole:
+      process.env.NODE_ENV === "production"
+        ? { exclude: ["error", "info"] }
+        : false,
+  },
 };
 
 export default nextConfig;
