@@ -146,7 +146,7 @@
     "react-toast": "^1.0.3",
     "sanity": "^3.17.0",
     "sanity-plugin-iframe-pane": "2.6.1",
-    "sanity-plugin-media": "^4.1.1",
+    "sanity-plugin-media": "^2.2.2",
     "sass": "^1.62.1",
     "sharp": "^0.33.5",
     "split-pane-react": "^0.1.3",

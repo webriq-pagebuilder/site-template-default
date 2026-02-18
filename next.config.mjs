@@ -1,10 +1,6 @@
 /** @type {import("next").NextConfig} */
 
 const nextConfig = {
-  transpilePackages: ["sanity-plugin-media"],
-  experimental: {
-    esmExternals: "loose",
-  },
   i18n: {
     // internalized routing
     locales: ["en"],
