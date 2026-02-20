@@ -35,7 +35,10 @@ const nextConfig = {
   },
   compiler: {
     // Remove console logs only in production
-    removeConsole: process.env.NODE_ENV === "production" ? { exclude: ["error", "info"] } : false,
+    removeConsole:
+      process.env.NODE_ENV === "production"
+        ? { exclude: ["error", "info"] }
+        : false,
   },
   webpack: (config) => {
     config.experiments = {
