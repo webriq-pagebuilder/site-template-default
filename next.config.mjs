@@ -40,6 +40,17 @@ const nextConfig = {
         ? { exclude: ["error", "info"] }
         : false,
   },
+  webpack: (config) => {
+    config.experiments = {
+      ...config.experiments,
+      topLevelAwait: true,
+    };
+    config.output.environment = {
+      ...config.output.environment,
+      asyncFunction: true,
+    };
+    return config;
+  },
 };
 
 export default nextConfig;
