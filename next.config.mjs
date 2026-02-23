@@ -1,6 +1,7 @@
 /** @type {import("next").NextConfig} */
 
 const nextConfig = {
+  staticPageGenerationTimeout: 900,
   i18n: {
     // internalized routing
     locales: ["en"],
