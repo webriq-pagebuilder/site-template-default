@@ -14,6 +14,10 @@ export default {
         secondary: "rgba(var(--color-secondary, 53, 118, 255), <alpha-value>)", // Default to #3576ff
         background:
           "rgba(var(--color-background, 249, 250, 251), <alpha-value>)", // Default to #F9FAFB
+        "primary-foreground":
+          "rgba(var(--color-primary-foreground, 255, 255, 255), <alpha-value>)", // Default to #FFFFFF
+        "secondary-foreground":
+          "rgba(var(--color-secondary-foreground, 255, 255, 255), <alpha-value>)", // Default to #FFFFFF
       },
       borderRadius: {
         none: "0px",

@@ -1,6 +1,7 @@
 /** @type {import("next").NextConfig} */
 
 const nextConfig = {
+  staticPageGenerationTimeout: 900,
   i18n: {
     // internalized routing
     locales: ["en"],
@@ -35,8 +36,22 @@ const nextConfig = {
   },
   compiler: {
     // Remove console logs only in production
-    removeConsole: process.env.NODE_ENV === "production",
-  }
+    removeConsole:
+      process.env.NODE_ENV === "production"
+        ? { exclude: ["error", "info"] }
+        : false,
+  },
+  webpack: (config) => {
+    config.experiments = {
+      ...config.experiments,
+      topLevelAwait: true,
+    };
+    config.output.environment = {
+      ...config.output.environment,
+      asyncFunction: true,
+    };
+    return config;
+  },
 };
 
 export default nextConfig;
