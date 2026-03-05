@@ -19,15 +19,15 @@ const defaultSchemas = [...baseSchemaArray, ...blogSchemaArray];
 const baseSchemas = mergeReplaceAndAdd(defaultSchemas, commerceSchemaArray);
 
 // Uncomment these code below if we have custom components
-//import customSchema from "./custom";
-//const updatedSchemaArray = Object.values(customSchema);
+import customSchema from "./custom";
+const updatedSchemaArray = Object.values(customSchema);
 
 const allSchemas = (() => {
   // 12-04-2024: Hide socialMediaFeed component until Instagram integration has been updated
-  const mergedSchemas = mergeReplaceAndAdd(baseSchemas, commerceSchemaArray); // comment this code if we have custom components
+  // const mergedSchemas = mergeReplaceAndAdd(baseSchemas, commerceSchemaArray); // comment this code if we have custom components
 
   // Uncomment the line to replace line 33 if we have custom components
-  //const mergedSchemas = mergeReplaceAndAdd(baseSchemas, updatedSchemaArray);
+  const mergedSchemas = mergeReplaceAndAdd(baseSchemas, updatedSchemaArray);
 
   return mergedSchemas;
 })();

@@ -1,0 +1,110 @@
+name: Generate Custom Variant
+
+on:
+  workflow_dispatch:
+    inputs:
+      missing_variants:
+        description: "JSON array of missing variant specs (from CiteForge)"
+        required: true
+      page_title:
+        description: "Page title for PR context"
+        required: false
+        default: "New Page"
+      screenshot_url:
+        description: "Public URL of scraped page screenshot"
+        required: false
+        default: ""
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Configure git
+        run: |
+          git config user.name "webriq"
+          git config user.email "info@webriq.com"
+
+      - name: Install Claude Code + webriq skills
+        run: |
+          npm install -g @anthropic-ai/claude-code
+          npx skills add webriq/claude-skills -y
+
+      - name: Create task document
+        id: create-task
+        run: |
+          node -e "
+          const v = JSON.parse(process.env.MISSING_VARIANTS);
+          const title = process.env.PAGE_TITLE || 'New Page';
+          const shot = process.env.SCREENSHOT_URL || '';
+          const variantRows = v.map(x =>
+            '- \`' + x.componentName + '/' + x.variantName + '\`' +
+            ' | Scenario ' + x.scenario +
+            ' | ' + (x.label || x.componentName) +
+            ' | fields: ' + Object.keys(x.fieldValues || {}).slice(0, 8).join(', ')
+          ).join('\n');
+          const lines = [
+            '# Variant Generation Request',
+            '',
+            '**Page:** ' + title,
+            shot ? '**Screenshot:** ' + shot : '',
+            '',
+            '## Variants',
+            '',
+            variantRows,
+            '',
+            '## Scenario guide',
+            '',
+            '- **Scenario A**: component already has a local folder — add variant file + update index.tsx router',
+            '- **Scenario B**: no local folder yet — create full local folder wrapping the @stackshift-ui npm package, update components/list.tsx import',
+            '',
+            '## Implementation notes',
+            '',
+            '- Follow CUSTOM_VARIANT_WORKFLOW.md for exact file structure',
+            '- Use @stackshift-ui primitives: Section, Container, Flex, Grid, GridItem, Heading, Text, Button, Link, Image',
+            '- For forms, use Form + FormField from @stackshift-ui',
+            '- Export default function at the TOP of each variant file; helpers go below',
+          ].filter(Boolean).join('\n');
+          require('fs').writeFileSync('/tmp/variant-request.md', lines);
+          "
+          claude -p "/task Generate custom component variants for the '${{ inputs.page_title }}' page. Read /tmp/variant-request.md first — it has the full variant list, scenarios, and field keys. Follow CUSTOM_VARIANT_WORKFLOW.md for file structure. Priority: HIGH." \
+            --allowedTools "Read,Write,Edit,Bash,Glob,Grep" \
+            --max-turns 20
+          TASK_ID=$(node -e "
+          const fs = require('fs');
+          const tasks = fs.readFileSync('TASKS.md', 'utf8');
+          const rows = tasks.match(/^\| \d+ \|/gm) || [];
+          const ids = rows.map(r => parseInt(r.match(/\d+/)[0]));
+          console.log(ids.length ? Math.max(...ids) : 1);
+          ")
+          echo "task_id=$TASK_ID" >> \$GITHUB_OUTPUT
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          MISSING_VARIANTS: ${{ inputs.missing_variants }}
+          PAGE_TITLE: ${{ inputs.page_title }}
+          SCREENSHOT_URL: ${{ inputs.screenshot_url }}
+
+      - name: Implement variants
+        run: |
+          claude -p "/implement ${{ steps.create-task.outputs.task_id }}" \
+            --allowedTools "Read,Write,Edit,Bash,Glob,Grep" \
+            --max-turns 80
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+
+      - name: Ship PR
+        run: |
+          claude -p "/ship ${{ steps.create-task.outputs.task_id }}" \
+            --allowedTools "Bash,Read,Write" \
+            --max-turns 30
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

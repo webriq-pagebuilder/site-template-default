@@ -7,9 +7,7 @@ export const Components = {
   header: dynamic(() => import("@stackshift-ui/header").then((m) => m.Header), {
     ssr: false,
   }),
-  features: dynamic(() =>
-    import("@stackshift-ui/features").then((m) => m.Features)
-  ),
+  features: dynamic(() => import("components/sections/features")),
   portfolio: dynamic(() =>
     import("@stackshift-ui/portfolio").then((m) => m.Portfolio)
   ),
