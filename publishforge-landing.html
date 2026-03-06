@@ -1,0 +1,1482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PublishForge — Execute Content Faster. Stay Visible Everywhere.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    /* ─── RESET & BASE ──────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: #ffffff;
+      color: #0d1f3c;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ─── DESIGN TOKENS ─────────────────────────────── */
+    :root {
+      --navy:      #0d1f3c;
+      --navy-deep: #071430;
+      --blue:      #093fe0;
+      --blue-mid:  #1a56db;
+      --cyan:      #00cfde;
+      --cyan-light:#e0fafd;
+      --orange:    #f97316;
+      --orange-dk: #ea580c;
+      --white:     #ffffff;
+      --gray-50:   #f8fafc;
+      --gray-100:  #f1f5f9;
+      --gray-200:  #e2e8f0;
+      --gray-600:  #475569;
+      --gray-700:  #334155;
+      --radius:    0.5rem;
+      --radius-lg: 1rem;
+    }
+
+    /* ─── ANIMATIONS ────────────────────────────────── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(28px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+    @keyframes gradientShift {
+      0%   { background-position: 0% 50%; }
+      50%  { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    @keyframes pulseGlow {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(0,207,222,0.3); }
+      50%       { box-shadow: 0 0 0 12px rgba(0,207,222,0); }
+    }
+    @keyframes slideInLeft {
+      from { opacity: 0; transform: translateX(-30px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes countUp {
+      from { opacity: 0; transform: scale(0.8); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+
+    .animate-fade-up   { animation: fadeUp 0.7s ease both; }
+    .animate-fade-in   { animation: fadeIn 0.6s ease both; }
+    .animate-slide-left{ animation: slideInLeft 0.6s ease both; }
+
+    .delay-1 { animation-delay: 0.1s; }
+    .delay-2 { animation-delay: 0.2s; }
+    .delay-3 { animation-delay: 0.35s; }
+    .delay-4 { animation-delay: 0.5s; }
+    .delay-5 { animation-delay: 0.65s; }
+
+    /* ─── INTERSECTION OBSERVER CLASSES ─────────────── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.65s ease, transform 0.65s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-left {
+      opacity: 0;
+      transform: translateX(-24px);
+      transition: opacity 0.65s ease, transform 0.65s ease;
+    }
+    .reveal-left.visible { opacity: 1; transform: translateX(0); }
+    .reveal-right {
+      opacity: 0;
+      transform: translateX(24px);
+      transition: opacity 0.65s ease, transform 0.65s ease;
+    }
+    .reveal-right.visible { opacity: 1; transform: translateX(0); }
+
+    /* ─── LAYOUT HELPERS ────────────────────────────── */
+    .container {
+      width: 100%;
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+    .section { padding: 96px 0; }
+    .section-sm { padding: 64px 0; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; align-items: start; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+    .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; }
+    .grid-5 { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1rem; }
+
+    @media (max-width: 900px) {
+      .grid-2, .grid-3, .grid-4, .grid-5 { grid-template-columns: 1fr; }
+      .section { padding: 64px 0; }
+    }
+    @media (max-width: 600px) {
+      .grid-2 { grid-template-columns: 1fr; }
+    }
+
+    /* ─── TYPOGRAPHY ────────────────────────────────── */
+    .eyebrow {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--cyan);
+      margin-bottom: 0.75rem;
+    }
+    .eyebrow-orange { color: var(--orange); }
+    h1 { font-size: clamp(2.4rem, 5vw, 4rem); font-weight: 900; line-height: 1.08; }
+    h2 { font-size: clamp(1.75rem, 3.5vw, 2.75rem); font-weight: 800; line-height: 1.15; }
+    h3 { font-size: 1.25rem; font-weight: 700; line-height: 1.3; }
+    h4 { font-size: 1rem; font-weight: 700; }
+    p  { color: var(--gray-600); font-size: 1.0625rem; }
+
+    /* ─── BUTTONS ────────────────────────────────────── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.875rem 2rem;
+      border-radius: 9999px;
+      font-size: 0.9375rem;
+      font-weight: 700;
+      text-decoration: none;
+      cursor: pointer;
+      border: none;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    }
+    .btn:hover { transform: translateY(-2px); }
+    .btn-primary {
+      background: var(--orange);
+      color: var(--white);
+      box-shadow: 0 4px 20px rgba(249,115,22,0.35);
+    }
+    .btn-primary:hover {
+      background: var(--orange-dk);
+      box-shadow: 0 8px 30px rgba(249,115,22,0.45);
+    }
+    .btn-outline {
+      background: transparent;
+      color: var(--white);
+      border: 2px solid rgba(255,255,255,0.5);
+    }
+    .btn-outline:hover {
+      border-color: var(--cyan);
+      color: var(--cyan);
+    }
+    .btn-blue {
+      background: var(--blue);
+      color: var(--white);
+      box-shadow: 0 4px 20px rgba(9,63,224,0.3);
+    }
+    .btn-blue:hover {
+      background: #0735c8;
+      box-shadow: 0 8px 30px rgba(9,63,224,0.4);
+    }
+
+    /* ─── NAV ────────────────────────────────────────── */
+    .nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 1rem 0;
+      background: rgba(7,20,48,0.92);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+      transition: padding 0.3s ease;
+    }
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.625rem;
+      text-decoration: none;
+    }
+    .nav-logo-mark {
+      width: 34px; height: 34px;
+      background: linear-gradient(135deg, var(--blue), var(--cyan));
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .nav-logo-mark svg { width: 18px; height: 18px; fill: white; }
+    .nav-brand {
+      font-size: 1.125rem;
+      font-weight: 800;
+      color: white;
+      letter-spacing: -0.02em;
+    }
+    .nav-brand span { color: var(--cyan); }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      list-style: none;
+    }
+    .nav-links a {
+      text-decoration: none;
+      color: rgba(255,255,255,0.75);
+      font-size: 0.875rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--cyan); }
+    .nav-cta { display: flex; align-items: center; gap: 0.75rem; }
+    .nav-cta .btn { padding: 0.625rem 1.375rem; font-size: 0.875rem; }
+
+    /* ─── HERO ───────────────────────────────────────── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      background: linear-gradient(135deg, #071430 0%, #0d1f3c 40%, #0a2a5e 70%, #071430 100%);
+      background-size: 300% 300%;
+      animation: gradientShift 12s ease infinite;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 50% at 70% 40%, rgba(0,207,222,0.12) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 60% at 20% 80%, rgba(9,63,224,0.18) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .hero-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 40%, transparent 100%);
+    }
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      padding-top: 7rem;
+      padding-bottom: 4rem;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(0,207,222,0.12);
+      border: 1px solid rgba(0,207,222,0.3);
+      border-radius: 9999px;
+      padding: 0.375rem 1rem;
+      margin-bottom: 1.5rem;
+      font-size: 0.8125rem;
+      font-weight: 600;
+      color: var(--cyan);
+      letter-spacing: 0.04em;
+    }
+    .hero-badge::before {
+      content: '';
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--cyan);
+      animation: pulseGlow 2s ease-in-out infinite;
+    }
+    .hero h1 {
+      color: white;
+      margin-bottom: 1.5rem;
+      max-width: 780px;
+    }
+    .hero h1 span { color: var(--cyan); }
+    .hero-sub {
+      font-size: 1.1875rem;
+      color: rgba(255,255,255,0.7);
+      max-width: 620px;
+      margin-bottom: 2.25rem;
+      line-height: 1.7;
+    }
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 3.5rem;
+    }
+    .hero-stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2.5rem;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(255,255,255,0.1);
+    }
+    .hero-stat-num {
+      font-size: 1.875rem;
+      font-weight: 900;
+      color: white;
+      line-height: 1;
+      margin-bottom: 0.25rem;
+    }
+    .hero-stat-num span { color: var(--cyan); }
+    .hero-stat-label {
+      font-size: 0.8125rem;
+      color: rgba(255,255,255,0.55);
+      font-weight: 500;
+    }
+    .hero-visual {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .hero-card {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 1.25rem;
+      padding: 1.75rem;
+      backdrop-filter: blur(20px);
+      width: 100%;
+      max-width: 440px;
+    }
+    .hero-card-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1.25rem;
+    }
+    .hero-card-icon {
+      width: 42px; height: 42px;
+      background: linear-gradient(135deg, var(--blue), var(--cyan));
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .hero-card-icon svg { width: 20px; height: 20px; fill: white; }
+    .hero-card h4 { color: white; font-size: 0.9375rem; }
+    .hero-card p { font-size: 0.8125rem; color: rgba(255,255,255,0.55); margin-top: 0.125rem; }
+    .chat-bubble {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 0.75rem;
+      padding: 0.875rem 1rem;
+      margin-bottom: 0.625rem;
+      display: flex;
+      gap: 0.75rem;
+      align-items: flex-start;
+    }
+    .chat-bubble:last-child { margin-bottom: 0; }
+    .chat-avatar {
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      font-size: 0.75rem;
+      font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .chat-avatar.user { background: var(--blue); color: white; }
+    .chat-avatar.ai   { background: var(--cyan); color: var(--navy-deep); }
+    .chat-text { font-size: 0.8125rem; color: rgba(255,255,255,0.8); line-height: 1.5; }
+    .chat-tag {
+      display: inline-block;
+      background: rgba(0,207,222,0.15);
+      border: 1px solid rgba(0,207,222,0.25);
+      color: var(--cyan);
+      font-size: 0.7rem;
+      font-weight: 600;
+      border-radius: 4px;
+      padding: 0.15rem 0.4rem;
+      margin-bottom: 0.25rem;
+    }
+
+    /* ─── SECTION: PROBLEM ──────────────────────────── */
+    .problem-section { background: var(--gray-50); }
+    .problem-header { text-align: center; margin-bottom: 3.5rem; }
+    .problem-header h2 { color: var(--navy); margin-bottom: 1rem; }
+    .problem-header p { max-width: 600px; margin: 0 auto; }
+    .problem-split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin-bottom: 3rem;
+    }
+    @media(max-width:700px){ .problem-split { grid-template-columns: 1fr; } }
+    .problem-box {
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+    }
+    .problem-box.has { background: white; border: 1px solid var(--gray-200); }
+    .problem-box.hurts { background: linear-gradient(135deg, #0d1f3c, #1a3060); color: white; }
+    .problem-box h3 { margin-bottom: 1.25rem; }
+    .problem-box.has h3 { color: var(--navy); }
+    .problem-box.hurts h3 { color: var(--cyan); }
+    .check-list { list-style: none; display: flex; flex-direction: column; gap: 0.75rem; }
+    .check-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      font-size: 0.9375rem;
+    }
+    .check-list li .icon {
+      width: 20px; height: 20px;
+      flex-shrink: 0;
+      margin-top: 0.1rem;
+    }
+    .icon-check { color: var(--blue); }
+    .icon-x     { color: #ef4444; }
+    .problem-box.hurts .check-list li { color: rgba(255,255,255,0.8); }
+    .result-banner {
+      background: linear-gradient(90deg, var(--cyan), var(--blue));
+      border-radius: var(--radius-lg);
+      padding: 1.5rem 2rem;
+      text-align: center;
+    }
+    .result-banner p {
+      color: white;
+      font-size: 1.0625rem;
+      font-weight: 600;
+      margin: 0;
+    }
+    .result-banner span { font-weight: 800; }
+
+    /* ─── SECTION: HOW IT WORKS ─────────────────────── */
+    .how-section { background: white; }
+    .section-header { text-align: center; margin-bottom: 3.5rem; }
+    .section-header h2 { color: var(--navy); margin-bottom: 0.875rem; }
+    .section-header p { max-width: 580px; margin: 0 auto; }
+
+    .how-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+    @media(max-width:800px){ .how-grid { grid-template-columns: 1fr; } }
+
+    .how-card {
+      background: var(--gray-50);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+    }
+    .how-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 40px rgba(9,63,224,0.1);
+      border-color: var(--blue-mid);
+    }
+    .how-card::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--blue), var(--cyan));
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s ease;
+    }
+    .how-card:hover::after { transform: scaleX(1); }
+    .how-step {
+      font-size: 3rem;
+      font-weight: 900;
+      color: rgba(9,63,224,0.12);
+      line-height: 1;
+      margin-bottom: 1rem;
+      font-variant-numeric: tabular-nums;
+    }
+    .how-icon {
+      width: 48px; height: 48px;
+      background: linear-gradient(135deg, var(--blue), var(--cyan));
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 1.25rem;
+    }
+    .how-icon svg { width: 22px; height: 22px; fill: white; }
+    .how-card h3 { color: var(--navy); margin-bottom: 0.75rem; }
+    .how-card p  { font-size: 0.9375rem; }
+    .example-pill {
+      display: inline-block;
+      background: rgba(9,63,224,0.08);
+      color: var(--blue);
+      border-radius: 9999px;
+      padding: 0.25rem 0.75rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-top: 1rem;
+      font-style: italic;
+    }
+
+    /* ─── SECTION: AI VISIBILITY ────────────────────── */
+    .ai-section { background: var(--navy); }
+    .ai-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+    @media(max-width:800px){ .ai-inner { grid-template-columns: 1fr; } }
+    .ai-text h2 { color: white; margin-bottom: 1.25rem; }
+    .ai-text p  { color: rgba(255,255,255,0.7); margin-bottom: 1.5rem; }
+    .ai-pill-group { display: flex; flex-wrap: wrap; gap: 0.625rem; margin-bottom: 2rem; }
+    .ai-pill {
+      background: rgba(0,207,222,0.12);
+      border: 1px solid rgba(0,207,222,0.25);
+      color: var(--cyan);
+      border-radius: 9999px;
+      padding: 0.375rem 1rem;
+      font-size: 0.8125rem;
+      font-weight: 600;
+    }
+    .ai-visual {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 1.25rem;
+      padding: 2rem;
+    }
+    .visibility-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.875rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+    .visibility-row:last-child { border-bottom: none; }
+    .vis-label { color: rgba(255,255,255,0.7); font-size: 0.875rem; }
+    .vis-bar-wrap { flex: 1; margin: 0 1rem; background: rgba(255,255,255,0.08); border-radius: 9999px; height: 6px; }
+    .vis-bar { height: 6px; border-radius: 9999px; background: linear-gradient(90deg, var(--blue), var(--cyan)); }
+    .vis-score { color: var(--cyan); font-size: 0.875rem; font-weight: 700; min-width: 36px; text-align: right; }
+    .vis-badge {
+      font-size: 0.7rem;
+      font-weight: 700;
+      border-radius: 4px;
+      padding: 0.15rem 0.5rem;
+    }
+    .vis-badge.good { background: rgba(0,207,222,0.15); color: var(--cyan); }
+    .vis-badge.warn { background: rgba(249,115,22,0.15); color: var(--orange); }
+
+    /* ─── SECTION: ONE SOURCE ───────────────────────── */
+    .one-source-section { background: linear-gradient(135deg, #071430, #0d2b6e); }
+    .one-source-header { text-align: center; margin-bottom: 3rem; }
+    .one-source-header h2 { color: white; }
+    .one-source-header p  { color: rgba(255,255,255,0.65); max-width: 580px; margin: 0.875rem auto 0; }
+
+    .channel-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 1rem;
+      margin-bottom: 2.5rem;
+    }
+    @media(max-width:900px){ .channel-grid { grid-template-columns: repeat(3,1fr); } }
+    @media(max-width:560px){ .channel-grid { grid-template-columns: 1fr 1fr; } }
+
+    .channel-card {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem 1rem;
+      text-align: center;
+      transition: background 0.25s ease, transform 0.25s ease;
+    }
+    .channel-card:hover {
+      background: rgba(0,207,222,0.1);
+      transform: translateY(-3px);
+    }
+    .channel-icon {
+      font-size: 1.75rem;
+      margin-bottom: 0.75rem;
+    }
+    .channel-card h4 { color: white; font-size: 0.875rem; margin-bottom: 0.25rem; }
+    .channel-card p  { color: rgba(255,255,255,0.5); font-size: 0.75rem; }
+
+    .one-source-tagline {
+      text-align: center;
+      color: var(--cyan);
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-top: 1rem;
+    }
+
+    /* ─── SECTION: DESIGNED FOR ─────────────────────── */
+    .designed-section { background: var(--gray-50); }
+    .designed-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+    @media(max-width:700px){ .designed-grid { grid-template-columns: 1fr; } }
+    .designed-card {
+      background: white;
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-lg);
+      padding: 1.75rem;
+      transition: box-shadow 0.25s ease;
+    }
+    .designed-card:hover { box-shadow: 0 8px 30px rgba(9,63,224,0.08); }
+    .designed-card .icon-wrap {
+      width: 44px; height: 44px;
+      background: linear-gradient(135deg, rgba(9,63,224,0.12), rgba(0,207,222,0.12));
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 1rem;
+      font-size: 1.25rem;
+    }
+    .designed-card h3 { color: var(--navy); margin-bottom: 0.625rem; }
+    .designed-card p  { font-size: 0.9375rem; }
+
+    /* ─── SECTION: BUSINESS IMPACT ──────────────────── */
+    .impact-section { background: white; }
+    .impact-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+    @media(max-width:800px){ .impact-inner { grid-template-columns: 1fr; } }
+    .impact-col h2 { color: var(--navy); margin-bottom: 1.25rem; }
+
+    .impact-list { display: flex; flex-direction: column; gap: 0.875rem; }
+    .impact-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.875rem;
+    }
+    .impact-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--blue);
+      margin-top: 0.45rem;
+      flex-shrink: 0;
+    }
+    .impact-item p { color: var(--gray-700); font-size: 0.9375rem; margin: 0; }
+
+    .ecosystem-card {
+      background: var(--gray-50);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+    }
+    .ecosystem-card h3 { color: var(--navy); margin-bottom: 1.5rem; }
+    .ecosystem-items { display: flex; flex-direction: column; gap: 1rem; }
+    .eco-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      padding: 1rem;
+      background: white;
+      border-radius: var(--radius);
+      border: 1px solid var(--gray-200);
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .eco-item:hover { border-color: var(--blue-mid); transform: translateX(4px); }
+    .eco-badge {
+      width: 36px; height: 36px;
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+    .eco-item h4 { color: var(--navy); font-size: 0.9375rem; margin-bottom: 0.25rem; }
+    .eco-item p  { font-size: 0.8125rem; margin: 0; }
+
+    /* ─── SECTION: STATS ────────────────────────────── */
+    .stats-section { background: linear-gradient(135deg, var(--blue), #1a56db); }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+    @media(max-width:700px){ .stats-grid { grid-template-columns: 1fr; } }
+    .stat-item { text-align: center; }
+    .stat-num {
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: 900;
+      color: white;
+      line-height: 1;
+      margin-bottom: 0.5rem;
+    }
+    .stat-num span { color: var(--cyan); }
+    .stat-label { color: rgba(255,255,255,0.75); font-size: 0.9375rem; }
+
+    /* ─── SECTION: OUTCOME ──────────────────────────── */
+    .outcome-section { background: var(--gray-50); }
+    .outcome-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+    @media(max-width:800px){ .outcome-inner { grid-template-columns: 1fr; } }
+    .outcome-text h2 { color: var(--navy); margin-bottom: 1.25rem; }
+    .outcome-text p  { margin-bottom: 1rem; }
+    .outcome-pillars { display: flex; flex-direction: column; gap: 0.75rem; margin-top: 1.5rem; }
+    .outcome-pillar {
+      display: flex;
+      align-items: center;
+      gap: 0.875rem;
+      font-weight: 700;
+      font-size: 1.0625rem;
+      color: var(--navy);
+    }
+    .pillar-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--blue), var(--cyan));
+      flex-shrink: 0;
+    }
+    .outcome-visual {
+      background: white;
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+    }
+    .outcome-visual h3 { color: var(--navy); margin-bottom: 1.25rem; }
+    .before-after {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+    .ba-col { }
+    .ba-col h4 { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.875rem; }
+    .ba-col.before h4 { color: #ef4444; }
+    .ba-col.after  h4 { color: var(--blue); }
+    .ba-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.8125rem;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid var(--gray-100);
+    }
+    .ba-item:last-child { border-bottom: none; }
+    .ba-col.before .ba-item { color: var(--gray-600); }
+    .ba-col.after  .ba-item { color: var(--navy); font-weight: 500; }
+
+    /* ─── SECTION: ECOSYSTEM ────────────────────────── */
+    .ecosystem-section { background: var(--navy); }
+    .ecosystem-center { text-align: center; margin-bottom: 3rem; }
+    .ecosystem-center h2 { color: white; margin-bottom: 0.875rem; }
+    .ecosystem-center p { color: rgba(255,255,255,0.65); max-width: 560px; margin: 0 auto; }
+    .eco-flow {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      position: relative;
+    }
+    @media(max-width:800px){ .eco-flow { grid-template-columns: 1fr 1fr; } }
+    .eco-flow-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 2rem 1rem;
+      position: relative;
+    }
+    .eco-flow-item:not(:last-child)::after {
+      content: '→';
+      position: absolute;
+      right: -0.5rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--cyan);
+      font-size: 1.25rem;
+      font-weight: 700;
+    }
+    @media(max-width:800px){
+      .eco-flow-item:nth-child(2)::after,
+      .eco-flow-item:nth-child(4)::after { display: none; }
+    }
+    .eco-node {
+      width: 64px; height: 64px;
+      border-radius: 16px;
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 1rem;
+      font-size: 1.5rem;
+    }
+    .eco-flow-item h4 { color: white; margin-bottom: 0.375rem; }
+    .eco-flow-item p { font-size: 0.8125rem; color: rgba(255,255,255,0.55); }
+    .eco-flow-item.active-pf .eco-node {
+      background: linear-gradient(135deg, var(--blue), var(--cyan));
+      box-shadow: 0 0 24px rgba(0,207,222,0.4);
+    }
+    .eco-flow-item:not(.active-pf) .eco-node {
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.12);
+    }
+    .eco-flow-item.active-pf h4 { color: var(--cyan); }
+
+    /* ─── SECTION: CTA ───────────────────────────────── */
+    .cta-section {
+      background: linear-gradient(135deg, #071430, #0a2a5e, #071430);
+      background-size: 200% 200%;
+      animation: gradientShift 10s ease infinite;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-section::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 60% 80% at 50% 50%, rgba(0,207,222,0.1) 0%, transparent 70%);
+    }
+    .cta-inner {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+    }
+    .cta-inner h2 { color: white; margin-bottom: 1.25rem; max-width: 680px; margin-left: auto; margin-right: auto; }
+    .cta-inner p  { color: rgba(255,255,255,0.7); max-width: 540px; margin: 0 auto 2.5rem; }
+    .cta-actions { display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; }
+    .cta-sub {
+      margin-top: 1.75rem;
+      font-size: 0.8125rem;
+      color: rgba(255,255,255,0.4);
+    }
+
+    /* ─── FOOTER ─────────────────────────────────────── */
+    .footer {
+      background: #040d1e;
+      padding: 3rem 0 1.75rem;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    .footer-top {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 3rem;
+      margin-bottom: 2.5rem;
+    }
+    @media(max-width:800px){ .footer-top { grid-template-columns: 1fr 1fr; } }
+    @media(max-width:500px){ .footer-top { grid-template-columns: 1fr; } }
+    .footer-brand p { color: rgba(255,255,255,0.45); font-size: 0.875rem; margin-top: 0.875rem; max-width: 280px; }
+    .footer-col h5 { color: rgba(255,255,255,0.85); font-size: 0.8125rem; font-weight: 700; margin-bottom: 1rem; letter-spacing: 0.06em; text-transform: uppercase; }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
+    .footer-col ul a { color: rgba(255,255,255,0.45); font-size: 0.875rem; text-decoration: none; transition: color 0.2s; }
+    .footer-col ul a:hover { color: var(--cyan); }
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding-top: 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+    .footer-bottom p { color: rgba(255,255,255,0.3); font-size: 0.8125rem; }
+
+    /* ─── UTILITIES ──────────────────────────────────── */
+    .text-center { text-align: center; }
+    .mt-1  { margin-top: 0.5rem; }
+    .mt-2  { margin-top: 1rem; }
+    .mt-3  { margin-top: 1.5rem; }
+    .mb-8  { margin-bottom: 2rem; }
+
+    /* Divider */
+    .divider {
+      height: 3px;
+      width: 48px;
+      background: linear-gradient(90deg, var(--blue), var(--cyan));
+      border-radius: 9999px;
+      margin: 1rem 0 1.5rem;
+    }
+    .divider.center { margin-left: auto; margin-right: auto; }
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════════ NAV -->
+  <nav class="nav">
+    <div class="container">
+      <div class="nav-inner">
+        <a href="https://www.webriq.com" class="nav-logo">
+          <div class="nav-logo-mark">
+            <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+          </div>
+          <span class="nav-brand">Publish<span>Forge</span></span>
+        </a>
+        <ul class="nav-links">
+          <li><a href="#how-it-works">How It Works</a></li>
+          <li><a href="#channels">Channels</a></li>
+          <li><a href="#impact">Impact</a></li>
+          <li><a href="#ecosystem">Ecosystem</a></li>
+        </ul>
+        <div class="nav-cta">
+          <a href="#cta" class="btn btn-outline">See It in Action</a>
+          <a href="#cta" class="btn btn-primary">Talk to an Expert</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ═══════════════════════════════════════════════ HERO -->
+  <section class="hero">
+    <div class="hero-grid"></div>
+    <div class="container">
+      <div class="grid-2" style="align-items:center; padding-top:6rem; padding-bottom:4rem;">
+        <div class="hero-content" style="padding:0;">
+          <div class="hero-badge animate-fade-up">PublishForge by WebriQ</div>
+          <h1 class="animate-fade-up delay-1">
+            Execute Content Faster.<br/>
+            Stay <span>Visible</span> Everywhere.<br/>
+            Drive Results.
+          </h1>
+          <p class="hero-sub animate-fade-up delay-2">
+            The AI-powered execution layer that helps mid-market teams activate existing content across every channel — quickly, consistently, and with measurable impact.
+          </p>
+          <div class="hero-actions animate-fade-up delay-3">
+            <a href="#cta" class="btn btn-primary">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              Talk to an Expert
+            </a>
+            <a href="#how-it-works" class="btn btn-outline">See It in Action</a>
+          </div>
+          <div class="hero-stats animate-fade-up delay-4">
+            <div>
+              <div class="hero-stat-num">1<span>×</span></div>
+              <div class="hero-stat-label">Source for all channels</div>
+            </div>
+            <div>
+              <div class="hero-stat-num"><span>0</span></div>
+              <div class="hero-stat-label">Developer dependency</div>
+            </div>
+            <div>
+              <div class="hero-stat-num">5<span>+</span></div>
+              <div class="hero-stat-label">Channels, instantly</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-visual animate-fade-in delay-2">
+          <div class="hero-card">
+            <div class="hero-card-header">
+              <div class="hero-card-icon">
+                <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm1 14.93V17a1 1 0 1 1-2 0v-.07A8.01 8.01 0 0 1 4.07 9H5a1 1 0 0 1 0 2 6 6 0 0 0 6 6zm6.93-6A8.01 8.01 0 0 1 13 4.07V5a1 1 0 0 1-2 0v-.93A8.01 8.01 0 0 1 4.07 11H5a1 1 0 0 1 0-2 6 6 0 0 0 6-6V3a1 1 0 0 1 2 0v2a6 6 0 0 0 6 6h.93z"/></svg>
+              </div>
+              <div>
+                <h4>PublishForge AI</h4>
+                <p>Content execution engine</p>
+              </div>
+            </div>
+            <div class="chat-bubble">
+              <div class="chat-avatar user">T</div>
+              <div class="chat-text">
+                <div class="chat-tag">TEAM</div><br/>
+                "Update this page for our new offer and turn it into an email campaign."
+              </div>
+            </div>
+            <div class="chat-bubble">
+              <div class="chat-avatar ai">AI</div>
+              <div class="chat-text">
+                <div class="chat-tag" style="background:rgba(0,207,222,0.15); border-color:rgba(0,207,222,0.25); color:#00cfde;">PUBLISHFORGE</div><br/>
+                Page updated. Email draft ready. Publishing to 5 channels — website, email, LinkedIn, blog, FAQ — in seconds.
+              </div>
+            </div>
+            <div class="chat-bubble">
+              <div class="chat-avatar user">T</div>
+              <div class="chat-text">
+                <div class="chat-tag">TEAM</div><br/>
+                "Adapt this for decision-makers."
+              </div>
+            </div>
+            <div class="chat-bubble">
+              <div class="chat-avatar ai">AI</div>
+              <div class="chat-text">
+                <div class="chat-tag" style="background:rgba(0,207,222,0.15); border-color:rgba(0,207,222,0.25); color:#00cfde;">PUBLISHFORGE</div><br/>
+                Done. Executive version live. AI visibility score: 94 ✓
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════ PROBLEM -->
+  <section class="section problem-section" id="problem">
+    <div class="container">
+      <div class="problem-header reveal">
+        <div class="eyebrow eyebrow-orange">The Mid-Market Reality</div>
+        <h2>Good Content.<br/>Underperforming Execution.</h2>
+        <div class="divider center"></div>
+        <p>Most mid-market organizations already have the raw ingredients. What fails is the execution layer.</p>
+      </div>
+      <div class="problem-split">
+        <div class="problem-box has reveal">
+          <h3>What you already have</h3>
+          <ul class="check-list">
+            <li>
+              <svg class="icon" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#093fe0" stroke-width="2"/><path d="M8 12l3 3 5-5" stroke="#093fe0" stroke-width="2.5" stroke-linecap="round"/></svg>
+              Strong websites and content
+            </li>
+            <li>
+              <svg class="icon" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#093fe0" stroke-width="2"/><path d="M8 12l3 3 5-5" stroke="#093fe0" stroke-width="2.5" stroke-linecap="round"/></svg>
+              Proven expertise and messaging
+            </li>
+            <li>
+              <svg class="icon" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#093fe0" stroke-width="2"/><path d="M8 12l3 3 5-5" stroke="#093fe0" stroke-width="2.5" stroke-linecap="round"/></svg>
+              Lean teams under constant pressure
+            </li>
+          </ul>
+        </div>
+        <div class="problem-box hurts reveal delay-2">
+          <h3>What slows you down</h3>
+          <ul class="check-list">
+            <li>
+              <svg class="icon" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#ef4444" stroke-width="2"/><path d="M9 9l6 6M15 9l-6 6" stroke="#ef4444" stroke-width="2.5" stroke-linecap="round"/></svg>
+              Manual updates and approvals
+            </li>
+            <li>
+              <svg class="icon" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#ef4444" stroke-width="2"/><path d="M9 9l6 6M15 9l-6 6" stroke="#ef4444" stroke-width="2.5" stroke-linecap="round"/></svg>
+              Rewriting content for every channel
+            </li>
+            <li>
+              <svg class="icon" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#ef4444" stroke-width="2"/><path d="M9 9l6 6M15 9l-6 6" stroke="#ef4444" stroke-width="2.5" stroke-linecap="round"/></svg>
+              Dependency on developers or agencies
+            </li>
+            <li>
+              <svg class="icon" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#ef4444" stroke-width="2"/><path d="M9 9l6 6M15 9l-6 6" stroke="#ef4444" stroke-width="2.5" stroke-linecap="round"/></svg>
+              Limited insight into AI-driven visibility
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="result-banner reveal">
+        <p>The result: <span>good content, underperforming execution.</span> PublishForge fixes the execution layer.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════ HOW IT WORKS -->
+  <section class="section how-section" id="how-it-works">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="eyebrow">How Teams Get Work Done</div>
+        <h2>Operate with Simple Instructions</h2>
+        <div class="divider center"></div>
+        <p>Teams work from one reliable source and apply changes everywhere it matters — using plain language, no complex tools or workflows.</p>
+      </div>
+      <div class="how-grid">
+        <div class="how-card reveal">
+          <div class="how-step">01</div>
+          <div class="how-icon">
+            <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          </div>
+          <h3>Tell It What You Need</h3>
+          <p>Your team instructs using natural language — no technical skills required. The system understands intent and executes immediately.</p>
+          <span class="example-pill">"Update this page for our new offer."</span>
+        </div>
+        <div class="how-card reveal delay-2">
+          <div class="how-step">02</div>
+          <div class="how-icon">
+            <svg viewBox="0 0 24 24"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>
+          </div>
+          <h3>Content Adapts to Every Channel</h3>
+          <p>Website pages, emails, social posts, FAQs, and blogs are all updated from a single governed source — consistently and instantly.</p>
+          <span class="example-pill">"Turn this into a customer email."</span>
+        </div>
+        <div class="how-card reveal delay-3">
+          <div class="how-step">03</div>
+          <div class="how-icon">
+            <svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+          </div>
+          <h3>Go Live Without Delays</h3>
+          <p>Updates go live immediately. AI visibility scores surface which content is performing and where to improve reach and citation.</p>
+          <span class="example-pill">"Adapt this for decision-makers."</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════ AI VISIBILITY -->
+  <section class="section ai-section" id="ai-visibility">
+    <div class="container">
+      <div class="ai-inner">
+        <div class="ai-text reveal-left">
+          <div class="eyebrow">Built for AI-Driven Discovery</div>
+          <h2>Buyers Now Find You Through AI. Are You Visible?</h2>
+          <div class="divider"></div>
+          <p>Decisions form inside Google AI Overviews, ChatGPT, Perplexity, and enterprise copilots — before buyers reach your website. PublishForge continuously assesses your content's clarity and structure for these systems.</p>
+          <div class="ai-pill-group">
+            <span class="ai-pill">Google AI Overviews</span>
+            <span class="ai-pill">ChatGPT</span>
+            <span class="ai-pill">Perplexity</span>
+            <span class="ai-pill">Enterprise Copilots</span>
+          </div>
+          <p>Visibility indicators show which content is being surfaced, where clarity can be improved, and which existing assets can be refined to increase reach.</p>
+          <div class="mt-3">
+            <a href="#cta" class="btn btn-primary">Improve My AI Visibility</a>
+          </div>
+        </div>
+        <div class="ai-visual reveal-right">
+          <p style="color:rgba(255,255,255,0.5); font-size:0.8rem; margin-bottom:1.25rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em;">Content AI Visibility Dashboard</p>
+          <div class="visibility-row">
+            <span class="vis-label">Homepage</span>
+            <div class="vis-bar-wrap"><div class="vis-bar" style="width:91%"></div></div>
+            <span class="vis-score">91</span>
+            <span class="vis-badge good" style="margin-left:0.5rem;">High</span>
+          </div>
+          <div class="visibility-row">
+            <span class="vis-label">Product Pages</span>
+            <div class="vis-bar-wrap"><div class="vis-bar" style="width:74%"></div></div>
+            <span class="vis-score">74</span>
+            <span class="vis-badge good" style="margin-left:0.5rem;">Good</span>
+          </div>
+          <div class="visibility-row">
+            <span class="vis-label">Blog Posts</span>
+            <div class="vis-bar-wrap"><div class="vis-bar" style="width:62%; background: linear-gradient(90deg, var(--orange), #fbbf24);"></div></div>
+            <span class="vis-score" style="color:var(--orange);">62</span>
+            <span class="vis-badge warn" style="margin-left:0.5rem;">Improve</span>
+          </div>
+          <div class="visibility-row">
+            <span class="vis-label">FAQ Section</span>
+            <div class="vis-bar-wrap"><div class="vis-bar" style="width:85%"></div></div>
+            <span class="vis-score">85</span>
+            <span class="vis-badge good" style="margin-left:0.5rem;">High</span>
+          </div>
+          <div class="visibility-row">
+            <span class="vis-label">Landing Pages</span>
+            <div class="vis-bar-wrap"><div class="vis-bar" style="width:58%; background: linear-gradient(90deg, var(--orange), #fbbf24);"></div></div>
+            <span class="vis-score" style="color:var(--orange);">58</span>
+            <span class="vis-badge warn" style="margin-left:0.5rem;">Improve</span>
+          </div>
+          <div style="margin-top:1.5rem; padding:1rem; background:rgba(0,207,222,0.1); border:1px solid rgba(0,207,222,0.2); border-radius:0.75rem;">
+            <p style="color:var(--cyan); font-size:0.8125rem; font-weight:600; margin:0;">
+              ✓ 3 pages ready for AI citation improvement. PublishForge can enhance them automatically.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════ ONE SOURCE -->
+  <section class="section one-source-section" id="channels">
+    <div class="container">
+      <div class="one-source-header reveal">
+        <div class="eyebrow">One Source. Every Channel.</div>
+        <h2>Publish Once. Reflect Everywhere.</h2>
+        <p>All updates draw from a shared content foundation that reaches every surface your buyers use.</p>
+      </div>
+      <div class="channel-grid">
+        <div class="channel-card reveal">
+          <div class="channel-icon">🌐</div>
+          <h4>Website Pages</h4>
+          <p>Landing experiences updated instantly</p>
+        </div>
+        <div class="channel-card reveal delay-1">
+          <div class="channel-icon">🤖</div>
+          <h4>AI Search</h4>
+          <p>Structured for LLM discovery</p>
+        </div>
+        <div class="channel-card reveal delay-2">
+          <div class="channel-icon">✍️</div>
+          <h4>Blogs & FAQs</h4>
+          <p>Repurposed from trusted source</p>
+        </div>
+        <div class="channel-card reveal delay-3">
+          <div class="channel-icon">📧</div>
+          <h4>Email & Newsletters</h4>
+          <p>Campaign-ready in minutes</p>
+        </div>
+        <div class="channel-card reveal delay-4">
+          <div class="channel-icon">📱</div>
+          <h4>Social & Outreach</h4>
+          <p>Consistent messaging at scale</p>
+        </div>
+      </div>
+      <p class="one-source-tagline reveal">Decisions turn into live updates without delays or handoffs.</p>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════ DESIGNED FOR -->
+  <section class="section designed-section" id="designed">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="eyebrow">Designed for Mid-Market Teams</div>
+        <h2>Built for Organizations Like Yours</h2>
+        <div class="divider center"></div>
+        <p>PublishForge supports organizations that operate across multiple products, services, or regions — and need speed without adding headcount.</p>
+      </div>
+      <div class="designed-grid">
+        <div class="designed-card reveal">
+          <div class="icon-wrap">🏭</div>
+          <h3>Manufacturers & Distributors</h3>
+          <p>Your product catalog lives in PDFs and legacy systems. PublishForge structures that expertise and makes it visible across every channel buyers use to discover vendors.</p>
+        </div>
+        <div class="designed-card reveal delay-2">
+          <div class="icon-wrap">🏥</div>
+          <h3>Healthcare Organizations</h3>
+          <p>Centralized content management across locations. Keep patient-facing content current and consistent without a developer at every site.</p>
+        </div>
+        <div class="designed-card reveal delay-1">
+          <div class="icon-wrap">💼</div>
+          <h3>Service Companies</h3>
+          <p>When potential customers ask AI for recommendations, you need to show up. PublishForge structures your expertise for AI-driven discovery.</p>
+        </div>
+        <div class="designed-card reveal delay-3">
+          <div class="icon-wrap">🚀</div>
+          <h3>Growing Businesses</h3>
+          <p>Outgrown your website platform? PublishForge scales with you — adding channels, campaigns, and regions without adding complexity or headcount.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════ STATS -->
+  <section class="section-sm stats-section" id="stats">
+    <div class="container">
+      <div class="stats-grid">
+        <div class="stat-item reveal">
+          <div class="stat-num">5<span>+</span></div>
+          <div class="stat-label">Channels updated from one source</div>
+        </div>
+        <div class="stat-item reveal delay-2">
+          <div class="stat-num"><span>Zero</span></div>
+          <div class="stat-label">Developer dependency for updates</div>
+        </div>
+        <div class="stat-item reveal delay-3">
+          <div class="stat-num">30<span>–60</span></div>
+          <div class="stat-label">Days to first measurable outcomes (DFY)</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════ BUSINESS IMPACT -->
+  <section class="section impact-section" id="impact">
+    <div class="container">
+      <div class="impact-inner">
+        <div class="impact-col reveal-left">
+          <div class="eyebrow">Business Impact</div>
+          <h2>What Mid-Market Teams Gain</h2>
+          <div class="divider"></div>
+          <div class="impact-list">
+            <div class="impact-item">
+              <div class="impact-dot"></div>
+              <p>Faster time-to-market for updates and campaigns</p>
+            </div>
+            <div class="impact-item">
+              <div class="impact-dot"></div>
+              <p>Consistent messaging across all channels</p>
+            </div>
+            <div class="impact-item">
+              <div class="impact-dot"></div>
+              <p>Improved visibility in AI-powered search environments</p>
+            </div>
+            <div class="impact-item">
+              <div class="impact-dot"></div>
+              <p>Reduced dependency on technical resources and agencies</p>
+            </div>
+            <div class="impact-item">
+              <div class="impact-dot"></div>
+              <p>Clear alignment between content execution and revenue goals</p>
+            </div>
+          </div>
+          <div class="mt-3">
+            <p style="font-style: italic; font-size:0.9375rem; color:var(--gray-600); border-left:3px solid var(--cyan); padding-left:1rem;">
+              Sales, marketing, and leadership stay aligned — without friction.
+            </p>
+          </div>
+        </div>
+        <div class="reveal-right">
+          <div class="ecosystem-card">
+            <h3>Before vs. After PublishForge</h3>
+            <div class="before-after">
+              <div class="ba-col before">
+                <h4>❌ Before</h4>
+                <div class="ba-item">Manual updates per channel</div>
+                <div class="ba-item">Dev tickets for each change</div>
+                <div class="ba-item">Inconsistent messaging</div>
+                <div class="ba-item">No AI visibility insight</div>
+                <div class="ba-item">Slow campaign launches</div>
+              </div>
+              <div class="ba-col after">
+                <h4>✓ After</h4>
+                <div class="ba-item">One instruction, all channels</div>
+                <div class="ba-item">Updates go live immediately</div>
+                <div class="ba-item">Governed single source</div>
+                <div class="ba-item">Real-time AI score tracking</div>
+                <div class="ba-item">Campaigns in minutes</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════ OUTCOME -->
+  <section class="section outcome-section" id="outcome">
+    <div class="container">
+      <div class="outcome-inner">
+        <div class="outcome-text reveal-left">
+          <div class="eyebrow">The Outcome</div>
+          <h2>Move Faster. Stay Consistent. Be Found.</h2>
+          <div class="divider"></div>
+          <p>Mid-market organizations that adopt PublishForge move faster, stay visible in AI-driven environments, and execute with confidence — without growing teams or complexity.</p>
+          <div class="outcome-pillars">
+            <div class="outcome-pillar"><div class="pillar-dot"></div>Update faster.</div>
+            <div class="outcome-pillar"><div class="pillar-dot"></div>Stay consistent.</div>
+            <div class="outcome-pillar"><div class="pillar-dot"></div>Be visible where buyers decide.</div>
+          </div>
+          <div class="mt-3">
+            <a href="#cta" class="btn btn-blue">Start Executing Faster</a>
+          </div>
+        </div>
+        <div class="outcome-visual reveal-right">
+          <h3>How It Works in Practice</h3>
+          <div style="display:flex; flex-direction:column; gap:1rem; margin-top:1rem;">
+            <div style="display:flex; gap:1rem; align-items:flex-start;">
+              <div style="width:32px; height:32px; background:linear-gradient(135deg,var(--blue),var(--cyan)); border-radius:8px; display:flex; align-items:center; justify-content:center; flex-shrink:0; color:white; font-weight:900; font-size:0.875rem;">1</div>
+              <div>
+                <div style="font-weight:700; color:var(--navy); margin-bottom:0.25rem;">Instruction</div>
+                <div style="font-size:0.875rem; color:var(--gray-600);">Team types a plain-language update request</div>
+              </div>
+            </div>
+            <div style="display:flex; gap:1rem; align-items:flex-start;">
+              <div style="width:32px; height:32px; background:linear-gradient(135deg,var(--blue),var(--cyan)); border-radius:8px; display:flex; align-items:center; justify-content:center; flex-shrink:0; color:white; font-weight:900; font-size:0.875rem;">2</div>
+              <div>
+                <div style="font-weight:700; color:var(--navy); margin-bottom:0.25rem;">AI Execution</div>
+                <div style="font-size:0.875rem; color:var(--gray-600);">PublishForge adapts content from the single source of truth</div>
+              </div>
+            </div>
+            <div style="display:flex; gap:1rem; align-items:flex-start;">
+              <div style="width:32px; height:32px; background:linear-gradient(135deg,var(--blue),var(--cyan)); border-radius:8px; display:flex; align-items:center; justify-content:center; flex-shrink:0; color:white; font-weight:900; font-size:0.875rem;">3</div>
+              <div>
+                <div style="font-weight:700; color:var(--navy); margin-bottom:0.25rem;">Multi-Channel Publish</div>
+                <div style="font-size:0.875rem; color:var(--gray-600);">Website, email, social, FAQs — all updated simultaneously</div>
+              </div>
+            </div>
+            <div style="display:flex; gap:1rem; align-items:flex-start;">
+              <div style="width:32px; height:32px; background:linear-gradient(135deg,var(--blue),var(--cyan)); border-radius:8px; display:flex; align-items:center; justify-content:center; flex-shrink:0; color:white; font-weight:900; font-size:0.875rem;">4</div>
+              <div>
+                <div style="font-weight:700; color:var(--navy); margin-bottom:0.25rem;">AI Visibility Scored</div>
+                <div style="font-size:0.875rem; color:var(--gray-600);">Real-time indicators show discoverability improvements</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════ ECOSYSTEM -->
+  <section class="section ecosystem-section" id="ecosystem">
+    <div class="container">
+      <div class="ecosystem-center reveal">
+        <div class="eyebrow">How It Fits the Bigger Picture</div>
+        <h2>A Continuous Flow from Content to Revenue</h2>
+        <p>PublishForge operates alongside the full WebriQ AI solution — turning organized knowledge into daily execution and measurable results.</p>
+      </div>
+      <div class="eco-flow">
+        <div class="eco-flow-item reveal">
+          <div class="eco-node" style="background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.12);">📚</div>
+          <h4>CiteForge</h4>
+          <p>Organizes existing content into structured, AI-ready knowledge</p>
+        </div>
+        <div class="eco-flow-item active-pf reveal delay-2">
+          <div class="eco-node">⚡</div>
+          <h4 style="color:var(--cyan);">PublishForge</h4>
+          <p>Activates and distributes content across every channel</p>
+        </div>
+        <div class="eco-flow-item reveal delay-3">
+          <div class="eco-node" style="background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.12);">📈</div>
+          <h4>PipelineForge</h4>
+          <p>Converts visibility into leads and qualified pipeline</p>
+        </div>
+        <div class="eco-flow-item reveal delay-4">
+          <div class="eco-node" style="background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.12);">🏗️</div>
+          <h4>StackShift</h4>
+          <p>The secure, reliable platform keeping everything operational</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════ CTA -->
+  <section class="section cta-section" id="cta">
+    <div class="container">
+      <div class="cta-inner reveal">
+        <div class="eyebrow" style="color:var(--cyan);">Ready to Execute Faster?</div>
+        <h2>Stop Coordinating. Start Publishing.</h2>
+        <p>See how PublishForge helps your mid-market team activate content across every channel — in minutes, not weeks.</p>
+        <div class="cta-actions">
+          <a href="https://www.webriq.com" class="btn btn-primary" style="font-size:1rem; padding:1rem 2.25rem;">
+            Talk to an Expert
+          </a>
+          <a href="https://www.webriq.com" class="btn btn-outline" style="font-size:1rem; padding:1rem 2.25rem;">
+            See It in Action
+          </a>
+        </div>
+        <p class="cta-sub">Powered by WebriQ · Built on StackShift · www.webriq.com</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════ FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <a href="https://www.webriq.com" class="nav-logo" style="margin-bottom:0.875rem; display:inline-flex;">
+            <div class="nav-logo-mark">
+              <svg viewBox="0 0 24 24" fill="white"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+            </div>
+            <span class="nav-brand">Publish<span>Forge</span></span>
+          </a>
+          <p>The AI-powered content execution layer for mid-market organizations. Part of the WebriQ AI solution.</p>
+        </div>
+        <div class="footer-col">
+          <h5>Product</h5>
+          <ul>
+            <li><a href="#">How It Works</a></li>
+            <li><a href="#">AI Visibility</a></li>
+            <li><a href="#">Channel Publishing</a></li>
+            <li><a href="#">Pricing</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h5>Ecosystem</h5>
+          <ul>
+            <li><a href="#">CiteForge</a></li>
+            <li><a href="#">PipelineForge</a></li>
+            <li><a href="#">StackShift</a></li>
+            <li><a href="#">WebriQ Platform</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h5>Company</h5>
+          <ul>
+            <li><a href="https://www.webriq.com/about-us">About WebriQ</a></li>
+            <li><a href="#">Blog</a></li>
+            <li><a href="#">Talk to an Expert</a></li>
+            <li><a href="https://www.webriq.com">webriq.com</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2026 WebriQ Inc. All rights reserved.</p>
+        <p>PublishForge is part of the StackShift Content Operating Platform</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Intersection Observer for reveal animations
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => {
+      observer.observe(el);
+    });
+
+    // Add stagger delays to grid children
+    document.querySelectorAll('.how-card, .channel-card, .designed-card').forEach((el, i) => {
+      if (!el.style.transitionDelay) {
+        el.style.transitionDelay = `${i * 0.08}s`;
+      }
+    });
+
+    // Sticky nav shrink
+    window.addEventListener('scroll', () => {
+      const nav = document.querySelector('.nav');
+      if (window.scrollY > 60) {
+        nav.style.padding = '0.625rem 0';
+      } else {
+        nav.style.padding = '1rem 0';
+      }
+    });
+  </script>
+</body>
+</html>

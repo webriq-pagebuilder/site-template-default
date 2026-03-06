@@ -1,0 +1,35 @@
+{
+  "version": 1,
+  "skills": {
+    "document": {
+      "source": "webriq/claude-skills",
+      "sourceType": "github",
+      "computedHash": "df889a61d9742572cce166bc14fec7b1cd9d8fd21f9a30f7236e33b2a6e773c4"
+    },
+    "implement": {
+      "source": "webriq/claude-skills",
+      "sourceType": "github",
+      "computedHash": "6df5dd442246efbbda2067204700bc90b6d5d7815200f17768feb85c8fbb5298"
+    },
+    "release": {
+      "source": "webriq/claude-skills",
+      "sourceType": "github",
+      "computedHash": "3d119d6c2c4a6307db9b40302b4c7ea2d60d0b9c06f5a3e4dac9ddf363186d8a"
+    },
+    "ship": {
+      "source": "webriq/claude-skills",
+      "sourceType": "github",
+      "computedHash": "a96723ac52879801cdaa980a0b0afc28130ea7d324aacc88ffaed487e8ab928c"
+    },
+    "task": {
+      "source": "webriq/claude-skills",
+      "sourceType": "github",
+      "computedHash": "0a4a6a5874f33474541e4315c46b24c5ccdbe27224231e6981b4a20cde8bb3fb"
+    },
+    "test": {
+      "source": "webriq/claude-skills",
+      "sourceType": "github",
+      "computedHash": "b1d21cc588be08564b7ea637fa8b57edefea2f2107b89d528fdd60a83136a238"
+    }
+  }
+}
