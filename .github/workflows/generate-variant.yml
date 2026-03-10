@@ -44,19 +44,23 @@ jobs:
           const v = JSON.parse(process.env.MISSING_VARIANTS);
           const title = process.env.PAGE_TITLE || 'New Page';
           const shot = process.env.SCREENSHOT_URL || '';
-          const variantRows = v.map(x =>
-            '- \`' + x.componentName + '/' + x.variantName + '\`' +
-            ' | Scenario ' + x.scenario +
-            ' | ' + (x.label || x.componentName) +
-            ' | fields: ' + Object.keys(x.fieldValues || {}).slice(0, 8).join(', ')
-          ).join('\n');
+
+          const variantRows = v.map(x => [
+            '### ' + x.componentName + ' / ' + x.variantName,
+            '- Component: ' + x.componentName,
+            '- Variant name: ' + x.variantName,
+            '- Scenario: ' + x.scenario,
+            '- Label: ' + (x.label || x.componentName),
+            '- Field keys: ' + Object.keys(x.fieldValues || {}).slice(0, 8).join(', '),
+          ].join('\n')).join('\n\n');
+
           const lines = [
             '# Variant Generation Request',
             '',
             '**Page:** ' + title,
             shot ? '**Screenshot:** ' + shot : '',
             '',
-            '## Variants',
+            '## Variants to implement',
             '',
             variantRows,
             '',
@@ -65,16 +69,25 @@ jobs:
             '- **Scenario A**: component already has a local folder — add variant file + update index.tsx router',
             '- **Scenario B**: no local folder yet — create full local folder wrapping the @stackshift-ui npm package, update components/list.tsx import',
             '',
+            '## Schema files to update (for each variant)',
+            '',
+            '1. Add entry to variantsList in {componentName}.ts',
+            '2. Update hideIfVariantIn() in schema/index.ts',
+            '3. Add defaults in initialValue/index.ts',
+            '4. Register in schemas/custom/sanity-plugin-schema-default/src/schemas/sections/index.ts',
+            '5. Uncomment custom schema lines in schemas/schema.ts (if not already done)',
+            '',
             '## Implementation notes',
             '',
-            '- Follow CUSTOM_VARIANT_WORKFLOW.md for exact file structure',
+            '- Read CUSTOM_VARIANT_WORKFLOW.md first — follow it exactly end to end',
             '- Use @stackshift-ui primitives: Section, Container, Flex, Grid, GridItem, Heading, Text, Button, Link, Image',
             '- For forms, use Form + FormField from @stackshift-ui',
             '- Export default function at the TOP of each variant file; helpers go below',
+            '- After implementing, open a PR against main with title: feat: add {variantName} custom variant for {componentName}',
           ].filter(Boolean).join('\n');
           require('fs').writeFileSync('/tmp/variant-request.md', lines);
           "
-          claude -p "/task Generate custom component variants for the '${{ inputs.page_title }}' page. Read /tmp/variant-request.md first — it has the full variant list, scenarios, and field keys. Follow CUSTOM_VARIANT_WORKFLOW.md for file structure. Priority: HIGH." \
+          claude -p "/task Generate custom component variants for the '${{ inputs.page_title }}' page. Read /tmp/variant-request.md first — it has the full variant list, scenarios, field keys, and schema checklist. Follow CUSTOM_VARIANT_WORKFLOW.md for file structure. Priority: HIGH." \
             --allowedTools "Read,Write,Edit,Bash,Glob,Grep" \
             --max-turns 20
           TASK_ID=$(node -e "
