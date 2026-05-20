@@ -2,66 +2,69 @@ import dynamic from "next/dynamic";
 
 export const Components = {
   navigation: dynamic(() =>
-    import("components/sections/navigation").then((m) => m.Navigation)
+    import("components/sections/navigation").then((m) => m.Navigation),
   ),
   header: dynamic(() => import("@stackshift-ui/header").then((m) => m.Header), {
     ssr: false,
   }),
   features: dynamic(() => import("components/sections/features")),
   portfolio: dynamic(() =>
-    import("@stackshift-ui/portfolio").then((m) => m.Portfolio)
+    import("@stackshift-ui/portfolio").then((m) => m.Portfolio),
   ),
   blog: dynamic(() => import("@stackshift-ui/blog").then((m) => m.Blog)),
   contact: dynamic(() =>
-    import("@stackshift-ui/contact").then((m) => m.Contact)
+    import("@stackshift-ui/contact").then((m) => m.Contact),
   ),
   pricing: dynamic(() => import("components/sections/pricing")),
   testimonial: dynamic(() =>
-    import("@stackshift-ui/testimonial").then((m) => m.Testimonial)
+    import("@stackshift-ui/testimonial").then((m) => m.Testimonial),
   ),
   team: dynamic(() => import("@stackshift-ui/team").then((m) => m.Team)),
   howItWorks: dynamic(() =>
-    import("@stackshift-ui/how-it-works").then((m) => m.HowItWorks)
+    import("@stackshift-ui/how-it-works").then((m) => m.HowItWorks),
   ),
   newsletter: dynamic(() =>
-    import("@stackshift-ui/newsletter").then((m) => m.Newsletter)
+    import("@stackshift-ui/newsletter").then((m) => m.Newsletter),
   ),
   faqs: dynamic(() => import("@stackshift-ui/faqs").then((m) => m.Faqs)),
   callToAction: dynamic(() =>
-    import("@stackshift-ui/call-to-action").then((m) => m.CallToAction)
+    import("@stackshift-ui/call-to-action").then((m) => m.CallToAction),
   ),
   stats: dynamic(() =>
-    import("@stackshift-ui/statistics").then((m) => m.Statistics)
+    import("@stackshift-ui/statistics").then((m) => m.Statistics),
   ),
   cookies: dynamic(() =>
-    import("@stackshift-ui/cookies").then((m) => m.Cookies)
+    import("@stackshift-ui/cookies").then((m) => m.Cookies),
   ),
   appPromo: dynamic(() =>
-    import("@stackshift-ui/app-promo").then((m) => m.AppPromo)
+    import("@stackshift-ui/app-promo").then((m) => m.AppPromo),
   ),
   logoCloud: dynamic(() =>
-    import("@stackshift-ui/logo-cloud").then((m) => m.LogoCloud)
+    import("@stackshift-ui/logo-cloud").then((m) => m.LogoCloud),
+  ),
+  aiChatbot: dynamic(() =>
+    import("@stackshift-ui/ai-chatbot").then((m) => m.AIChatbot),
   ),
   footer: dynamic(() => import("@stackshift-ui/footer").then((m) => m.Footer)),
   signInSignUp: dynamic(() =>
-    import("@stackshift-ui/signin-signup").then((m) => m.SigninSignup)
+    import("@stackshift-ui/signin-signup").then((m) => m.SigninSignup),
   ),
   textComponent: dynamic(() =>
-    import("@stackshift-ui/text-component").then((m) => m.TextComponent)
+    import("@stackshift-ui/text-component").then((m) => m.TextComponent),
   ),
   // C-Studio
   cartSection: dynamic(() => import("components/sections/cart_section")),
   featuredProducts: dynamic(
-    () => import("components/sections/featured_products")
+    () => import("components/sections/featured_products"),
   ),
   productInfo: dynamic(() => import("components/sections/product_info")),
   wishlistSection: dynamic(() => import("components/sections/wishlist")),
   pages_productInfo: dynamic(
-    () => import("components/sections/pages_productInfo")
+    () => import("components/sections/pages_productInfo"),
   ),
   allProducts: dynamic(() => import("components/sections/all_products")),
   socialMediaFeed: dynamic(
-    () => import("components/sections/social_media_feed")
+    () => import("components/sections/social_media_feed"),
   ),
 };
 
@@ -104,7 +107,7 @@ export function filterDataToSingleItem(data, preview) {
 export const filterFieldsByVariant = (
   component: any,
   args: any,
-  variant: string
+  variant: string,
 ) => {
   return Object.keys(args).reduce((result, key) => {
     if (
@@ -113,7 +116,7 @@ export const filterFieldsByVariant = (
         (schema) =>
           schema?.name === key &&
           (!schema?._hideInVariants ||
-            !schema?._hideInVariants?.includes(variant))
+            !schema?._hideInVariants?.includes(variant)),
       )
     ) {
       result[key] = args[key];
