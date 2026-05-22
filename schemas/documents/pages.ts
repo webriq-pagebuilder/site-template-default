@@ -220,7 +220,7 @@ export default defineType({
           to: [{ type: "textComponent" }],
         }),
         defineArrayMember({
-          title: "AI Chatbot",
+          title: "AI Chatbot UI",
           name: "aiChatbot",
           type: "reference",
           to: [{ type: "aiChatbot" }],
