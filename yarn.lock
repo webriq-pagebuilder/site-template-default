@@ -2542,10 +2542,10 @@
     classnames "^2.5.1"
     lucide-react "^0.468.0"
 
-"@stackshift-ui/ai-chatbot@^1.0.0-alpha.0":
-  version "1.0.0-alpha.0"
-  resolved "https://registry.yarnpkg.com/@stackshift-ui/ai-chatbot/-/ai-chatbot-1.0.0-alpha.0.tgz#166f797536431543d460b22e7678c13b1ca85eeb"
-  integrity sha512-TF+faxQSb8NzUWILFiACef45mD80SujwGq6ComadynMmYL2szSo+EG4J3Z3eroyIAJra0rEw+pHw63kGSYohIA==
+"@stackshift-ui/ai-chatbot@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@stackshift-ui/ai-chatbot/-/ai-chatbot-1.0.0.tgz#9993c5f32a9cf95aa8974d1e6b3aefb59ec16f27"
+  integrity sha512-iUKv3BxI42uRxQsg5q3pH9p6khewU/RMgxzmZhHYG1GN89ZtsvDX1Clmae/q8SL5AwgF4mmDR1PZw4R4TXzMdg==
   dependencies:
     "@stackshift-ui/scripts" "6.1.0"
     "@stackshift-ui/system" "6.1.0"
