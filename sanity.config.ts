@@ -22,6 +22,7 @@ import { schemaTypes } from "./schemas/schema";
 import { media } from "sanity-plugin-media";
 import { codeInput } from "@sanity/code-input";
 import { visionTool } from "@sanity/vision";
+import { markdownSchema } from "sanity-plugin-markdown/next";
 
 import { webriqBlog } from "@webriq-pagebuilder/sanity-plugin-webriq-blog";
 import { webriqForms } from "@webriq-pagebuilder/sanity-plugin-webriq-forms";
@@ -55,6 +56,7 @@ export default defineConfig({
     }),
     media(),
     codeInput(), // for "code" schema type
+    markdownSchema(),
   ],
   tools: (prev) => {
     // 05-28-2024 StackShift revamp 2024: Adding forms and stripe accounts done from StackShift app

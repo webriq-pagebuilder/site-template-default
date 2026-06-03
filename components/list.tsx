@@ -47,6 +47,7 @@ export const Components = {
   aiChatbot: dynamic(() =>
     import("@stackshift-ui/ai-chatbot").then((m) => m.AIChatbot),
   ),
+  markdownSection: dynamic(() => import("components/sections/markdown_section")),
   footer: dynamic(() => import("@stackshift-ui/footer").then((m) => m.Footer)),
   signInSignUp: dynamic(() =>
     import("@stackshift-ui/signin-signup").then((m) => m.SigninSignup),

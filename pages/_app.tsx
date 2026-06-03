@@ -14,6 +14,7 @@ import useScript from "utils/useScript";
 
 // global styles
 import "vanilla-cookieconsent/dist/cookieconsent.css";
+import "easymde/dist/easymde.min.css";
 import "../styles/globals.css";
 
 const Cookies = Components.cookies;
