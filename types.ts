@@ -558,6 +558,7 @@ export interface CommonPageData extends SanityBody {
   seo?: Seo;
   sections?: Sections[];
   hasUnpublishedEdits?: boolean | null;
+  schemaMarkup?: string | null;
 }
 
 export interface BlogsData extends SanityBody {
@@ -574,6 +575,17 @@ export interface BlogsData extends SanityBody {
   seo?: Seo;
   hasUnpublishedEdits?: boolean | null;
   hasNeverPublished?: boolean | null;
+  schemaMarkup?: string | null;
+  faqItems?: Array<{ _key: string; question: string; answer: string }> | null;
+  faqItemsSource?: string | null;
+  citationAnchors?: Array<{
+    _key: string;
+    text?: string;
+    url?: string;
+    source?: string;
+    context?: string;
+  }> | null;
+  aiVisibilityTags?: string[] | null;
 }
 
 export type MyPortableTextComponents = PortableTextComponents & {

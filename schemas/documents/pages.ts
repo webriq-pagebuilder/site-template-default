@@ -255,6 +255,12 @@ export default defineType({
       ],
     }),
     defineField({
+      name: "schemaMarkup",
+      title: "Schema Markup",
+      type: "text",
+      hidden: true,
+    }),
+    defineField({
       title: "SEO Settings",
       name: "seo",
       type: "seoSettings",

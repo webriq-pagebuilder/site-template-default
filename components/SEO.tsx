@@ -1,6 +1,7 @@
 import { seoImageUrl } from "lib/sanity";
 import { DefaultSeoData, SeoData } from "types";
 import { BlogJsonLd, PagesJsonLd, ProductJsonLd } from "utils/seo/jsonLd";
+import { stringify } from "utils/toJson";
 
 const url = process.env.NEXT_PUBLIC_SITE_URL;
 
@@ -173,6 +174,15 @@ function getSEOValue(seoData: SeoData, dataType: string) {
 }
 
 export function addSEOJsonLd({ seo, type, defaults, slug, pageData }) {
+  if (pageData?.schemaMarkup) {
+    try {
+      const parsed = JSON.parse(pageData.schemaMarkup);
+      return { __html: stringify(parsed) };
+    } catch {
+      // malformed JSON — fall through to generated schema
+    }
+  }
+
   if (type === "post") {
     // blog posts
     return BlogJsonLd({
@@ -183,13 +193,14 @@ export function addSEOJsonLd({ seo, type, defaults, slug, pageData }) {
         defaults?.description,
       url: `${url}/${slug?.current}`,
       images: seoImageUrl(
-        seo?.seoImage ?? pageData?.mainImage ?? defaults?.image
+        seo?.seoImage ?? pageData?.mainImage ?? defaults?.image,
       ),
       authorName: pageData?.authors,
       publisherName: "WebriQ",
       publisherLogo: seoImageUrl(seo?.seoImage ?? defaults?.image),
       dateModified: pageData?._updatedAt,
       datePublished: pageData?.publishedAt ?? pageData?._updatedAt,
+      faqItems: pageData?.faqItems,
     });
   } else if (type === "mainProduct") {
     // product pages

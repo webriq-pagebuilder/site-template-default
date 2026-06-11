@@ -22,6 +22,7 @@ export interface BlogJsonLdProps {
   publisherName?: string;
   publisherLogo?: string;
   description: string;
+  faqItems?: Array<{ question: string; answer: string }> | null;
 }
 
 export interface ContactPoint {
