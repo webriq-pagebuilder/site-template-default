@@ -4,9 +4,9 @@ import path from "node:path";
 import { parseArgs } from "node:util";
 import { loadEnvConfig } from "@next/env";
 import matter from "gray-matter";
-import { createBackfillClient } from "./lib/sanity-backfill-client";
-import { blocksToMarkdown, firstParagraph } from "./lib/portabletext-to-md";
-import { getWikiContext } from "./lib/wiki-context";
+import { createBackfillClient } from "./sanity-backfill-client";
+import { blocksToMarkdown, firstParagraph } from "./portabletext-to-md";
+import { getWikiContext } from "./wiki-context";
 
 loadEnvConfig(process.cwd());
 
@@ -135,7 +135,7 @@ async function processDocument(
     const { frontmatter, body } = await buildDirectContent(doc, taxonomy);
 
     if (mode === "enrich") {
-      const { enrichFrontmatter } = await import("./lib/enrich-with-claude");
+      const { enrichFrontmatter } = await import("./enrich-with-claude");
       const content = [frontmatter.title, frontmatter.summary, body].join(
         "\n\n",
       );
