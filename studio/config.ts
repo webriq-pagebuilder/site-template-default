@@ -82,3 +82,7 @@ export const SCHEDULED_PUBLISHING_URL =
 // drift, document types silently drop in transit between the repos. Add a type
 // here (and in PublishForge) to opt it into agent pages later.
 export const WEBHOOK_INCLUDED_TYPES = new Set<string>(["page", "post"]);
+
+// PublishForge webhook — triggers agent content generation on blog publish
+export const PUBLISHFORGE_WEBHOOK_URL =
+  process.env.NEXT_PUBLIC_PUBLISHFORGE_WEBHOOK_URL;

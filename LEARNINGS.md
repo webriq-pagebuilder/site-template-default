@@ -11,7 +11,7 @@ Reusable lessons from completed tasks in this codebase. Each entry is a gotcha o
 `lib/sanity.client.ts` imports from `studio/config`, which transitively pulls in Sanity Studio dependencies unsuitable for a plain Node script. Always call `createClient` directly in scripts with env vars.
 
 ```ts
-// scripts/lib/sanity-backfill-client.ts
+// scripts/sanity-backfill-client.ts
 import { createClient } from "next-sanity";
 export function createBackfillClient() {
   const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
@@ -26,7 +26,7 @@ export function createBackfillClient() {
 }
 ```
 
-Source: T-002. See `scripts/lib/sanity-backfill-client.ts`.
+Source: T-002. See `scripts/sanity-backfill-client.ts`.
 
 ---
 
@@ -47,7 +47,7 @@ Source: T-001 (initial discovery), T-002 (reinforced). See `scripts/generate-llm
 
 ### `@portabletext/to-markdown` does not exist
 
-The `@portabletext/*` npm namespace ships `react`, `to-html`, `toolkit`, and `types` — there is no markdown serializer. For text-only extraction in scripts, hand-roll a minimal serializer (~100 LOC). See `scripts/lib/portabletext-to-md.ts` for the implementation covering standard blocks, `h1`–`h4`, blockquote, lists, `strong`/`em`/`code`/`link` marks, and graceful skip for non-text blocks like `addImage`.
+The `@portabletext/*` npm namespace ships `react`, `to-html`, `toolkit`, and `types` — there is no markdown serializer. For text-only extraction in scripts, hand-roll a minimal serializer (~100 LOC). See `scripts/portabletext-to-md.ts` for the implementation covering standard blocks, `h1`–`h4`, blockquote, lists, `strong`/`em`/`code`/`link` marks, and graceful skip for non-text blocks like `addImage`.
 
 Source: T-002.
 
@@ -60,13 +60,13 @@ When a script has a common path (free) and an optional path (paid/side-effect), 
 ```ts
 // In main script — enrich path only
 if (mode === "enrich") {
-  const { enrichFrontmatter } = await import("./lib/enrich-with-claude");
+  const { enrichFrontmatter } = await import("./enrich-with-claude");
   // ...
 }
 // Direct mode never touches @anthropic-ai/sdk
 ```
 
-Source: T-002. See `scripts/backfill-agents-from-sanity.ts:127`.
+Source: T-002. See `scripts/backfill-agents-from-sanity.ts:138`.
 
 ---
 
@@ -74,14 +74,14 @@ Source: T-002. See `scripts/backfill-agents-from-sanity.ts:127`.
 
 ### `title` and `summary` in `content/agents/*.md` are build-critical — never empty
 
-`lib/agents/read-agents.ts:73` throws `Error: missing required frontmatter fields (title, summary)` on any file with an empty field. This causes `getStaticPaths` to fail and aborts the entire build. Any script writing to `content/agents/` must guarantee non-empty values via fallback chains:
+`lib/agents/read-agents.ts:79` throws `Error: missing required frontmatter fields (title, summary)` on any file with an empty field. This causes `getStaticPaths` to fail and aborts the entire build. Any script writing to `content/agents/` must guarantee non-empty values via fallback chains:
 
 ```
 title:   doc.title → seo.seoTitle → slug
 summary: post.excerpt → seo.seoDescription → firstParagraph(body) → title → slug
 ```
 
-Source: T-002. See `scripts/backfill-agents-from-sanity.ts:58–75`.
+Source: T-002. See `scripts/backfill-agents-from-sanity.ts:62–81`.
 
 ---
 
@@ -94,7 +94,7 @@ const { data, content } = matter(raw);
 const frontmatter = JSON.parse(JSON.stringify(data)) as AgentFrontmatter;
 ```
 
-Source: T-001. Already applied in `lib/agents/read-agents.ts:71`.
+Source: T-001. Already applied in `lib/agents/read-agents.ts:75`.
 
 ---
 

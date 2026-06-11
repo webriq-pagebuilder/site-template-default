@@ -132,7 +132,8 @@ function CustomPublishLabel({ hasErrors = false, isPublishing = false }) {
           </Box>
         }
         placement="top"
-        portal>
+        portal
+      >
         <span>Publish Blog</span>
       </Tooltip>
     );
