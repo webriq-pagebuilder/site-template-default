@@ -37,7 +37,13 @@ export function SEO({
   const finalSeo = getSEOValue(data, data?.type);
   const { title, description, image, synonyms, keywords } = finalSeo;
 
-  const seoImageUrlWrapper = (img) => (img ? seoImageUrl(img) : null);
+  // Already-absolute http(s) URLs (e.g. PublishForge/PIM-hosted product images)
+  // pass through as-is; only Sanity image references go through seoImageUrl().
+  const seoImageUrlWrapper = (img) => {
+    if (!img) return null;
+    if (typeof img === "string" && /^https?:\/\//i.test(img)) return img;
+    return seoImageUrl(img);
+  };
 
   const seoValues = {
     title: title || data?.title || defaultSeoTitle,
@@ -198,6 +204,19 @@ export function addSEOJsonLd({ seo, type, defaults, slug, pageData }) {
       images: seo?.seoImage ?? pageData?.productInfo?.images,
       url: `${url}/products/${slug}`,
       brand: "WebriQ",
+      description: seo?.seoDescription ?? defaults?.description,
+      price: pageData?.price,
+      priceCurrency: "USD",
+    });
+  } else if (type === "agentProduct") {
+    // PublishForge-sourced agent-product pages (ISR). Same Product schema as
+    // mainProduct but with the /agents-products/ URL and frontmatter-derived
+    // brand/price/image.
+    return ProductJsonLd({
+      productName: seo?.seoTitle ?? pageData?.name,
+      images: seo?.seoImage ?? pageData?.productInfo?.images,
+      url: `${url}/agents-products/${slug}`,
+      brand: pageData?.brand ?? "WebriQ",
       description: seo?.seoDescription ?? defaults?.description,
       price: pageData?.price,
       priceCurrency: "USD",

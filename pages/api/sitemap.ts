@@ -68,6 +68,11 @@ export default async function generateSitemap(
       }
     }
 
+    // Append PublishForge-sourced agent-product URLs. The list endpoint is
+    // keyset-paginated; if it is unreachable the sitemap stays valid and simply
+    // omits the agent-product URLs.
+    await writeAgentProductUrls(smStream);
+
     smStream.end();
 
     const sitemap = await streamToPromise(smStream).then((sm) => sm.toString());
@@ -78,6 +83,43 @@ export default async function generateSitemap(
     console.log("[ERROR] Failed to generate sitemap! ", error);
     res.statusCode = 500;
     res.end();
+  }
+}
+
+async function writeAgentProductUrls(smStream: SitemapStream) {
+  const base = process.env.PF_AGENT_API_BASE_URL;
+  const token = process.env.PIM_AGENT_READ_TOKEN;
+
+  // Not configured → nothing to add; keep the Sanity sitemap valid.
+  if (!base || !token) return;
+
+  try {
+    let cursor: string | null = null;
+    do {
+      const listUrl = new URL(`${base}/api/pim/agent-doc`);
+      if (cursor) listUrl.searchParams.set("cursor", cursor);
+      listUrl.searchParams.set("limit", "1000");
+
+      const r = await fetch(listUrl.toString(), {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      // PF down → stop paging; sitemap stays valid without agent products.
+      if (!r.ok) break;
+
+      const { items, nextCursor } = await r.json();
+      for (const it of items ?? []) {
+        if (!it?.slug) continue;
+        smStream.write({
+          url: `${NEXT_PUBLIC_SITE_URL}/agents-products/${it.slug}`,
+          lastmod: it.updatedAt,
+          changefreq: "daily",
+          priority: 0.7,
+        });
+      }
+      cursor = nextCursor ?? null;
+    } while (cursor);
+  } catch (error) {
+    console.log("[WARN] Failed to append agent-product sitemap URLs! ", error);
   }
 }
 
