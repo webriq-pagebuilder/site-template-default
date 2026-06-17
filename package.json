@@ -13,6 +13,7 @@
     "email": "info@webriq.com"
   },
   "scripts": {
+    "prebuild": "tsx scripts/generate-llms-txt.ts && tsx scripts/generate-sitemap-agents.ts && tsx scripts/generate-robots-txt.ts",
     "build": "next build",
     "clean": "rm -rf .next node_modules",
     "reinstall": "yarn clean && yarn install",
