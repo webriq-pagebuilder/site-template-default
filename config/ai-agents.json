@@ -1,0 +1,24 @@
+{
+  "crawlers": [
+    { "agent": "ChatGPT", "ua": ["GPTBot", "OAI-SearchBot", "ChatGPT-User"] },
+    {
+      "agent": "Claude",
+      "ua": [
+        "ClaudeBot",
+        "Claude-Web",
+        "anthropic-ai",
+        "Claude-User",
+        "Claude-SearchBot"
+      ]
+    },
+    { "agent": "Perplexity", "ua": ["PerplexityBot", "Perplexity-User"] },
+    { "agent": "Gemini", "ua": ["Google-Extended", "Gemini"] }
+  ],
+  "referrers": [
+    { "agent": "ChatGPT", "hosts": ["chat.openai.com", "chatgpt.com"] },
+    { "agent": "Claude", "hosts": ["claude.ai"] },
+    { "agent": "Perplexity", "hosts": ["perplexity.ai"] },
+    { "agent": "Gemini", "hosts": ["gemini.google.com"] },
+    { "agent": "Other", "hosts": ["copilot.microsoft.com"] }
+  ]
+}
