@@ -1,15 +1,17 @@
 # T-003 — Vercel edge middleware for AI Traffic Visibility
 
-| Field            | Value                                                                 |
-| ---------------- | --------------------------------------------------------------------- |
-| ID               | T-003                                                                 |
-| Branch           | `feat/T-003-edge-middleware-ai-traffic`                               |
-| Recommended Tier | `balanced`                                                            |
-| Priority         | P1                                                                    |
-| Type             | feature                                                               |
-| Created          | 2026-06-07                                                            |
-| Source           | `docs/HANDOVER_sprint_2.md` Part 1 (Sprint 2 — AI Traffic Visibility) |
-| Status           | Planned — awaiting human review                                       |
+| Field            | Value                                                                                                                                                       |
+| ---------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ID               | T-003                                                                                                                                                       |
+| Branch           | `feat/T-003-edge-middleware-ai-traffic`                                                                                                                     |
+| Recommended Tier | `balanced`                                                                                                                                                  |
+| Priority         | P1                                                                                                                                                          |
+| Type             | feature                                                                                                                                                     |
+| Created          | 2026-06-07                                                                                                                                                  |
+| Source           | `docs/HANDOVER_sprint_2.md` Part 1 (Sprint 2 — AI Traffic Visibility)                                                                                       |
+| Status           | Middleware done & deployed. **Follow-up added 2026-06-17:** `pf_known_pages` producer (coverage denominator) — see "Sprint 2 Follow-Up" section at the end. |
+
+> **2026-06-17 update.** The PublishForge consumer side (Task 104) is implemented, hardened, and live (incl. a code-review fix pass: partition-provisioning `SECURITY DEFINER` fix, `page_url` normalization on both sides, RLS hardening, Zod validation). Two cross-repo items land back here and are folded into this doc rather than a separate T-004 (that ID is already used by the blog-schema task): (1) the **`pf_known_pages` producer** is now in scope for this repo — full recommendation in the new "Sprint 2 Follow-Up" section below; (2) PublishForge **removed `/api/track/config`** (it was unused — the middleware reads the bundled `config/ai-agents.json`), so the "match list without redeploy" idea is formally closed and the bundled JSON is the single source of truth.
 
 ## Overview
 
@@ -38,7 +40,7 @@ The middleware must:
 - **Match list delivery:** bundled JSON file in the repo (`config/ai-agents.json`), imported by the middleware. Editable config, not hardcoded logic. Tradeoff accepted: updating the list requires a redeploy (a remote PF endpoint was the alternative and was declined).
 - **`session_token`:** mint-if-absent and set a first-party cookie — self-contained in this repo. No existing cookie minting to rely on.
 - **PF endpoint:** build against env vars (`PF_TRACK_URL`, `PF_TRACK_KEY`) to be filled in later. The endpoint is not assumed live; fire-and-forget makes a missing/dead endpoint harmless. Not live-validated in this task.
-- **Discoverability files (handover Part 2.8):** OUT OF SCOPE for this repo, even though `public/llms.txt` and `public/sitemap-agents.xml` are generated here. Treated as PublishForge's concern (assigned to Ross in the handover).
+- **Discoverability files (handover Part 2.8):** ~~OUT OF SCOPE for this repo~~ — **superseded 2026-06-17.** The `pf_known_pages` coverage denominator has no producer on either side; since `sitemap-agents.xml` is generated here, the producer (a POST to PublishForge `/api/track/known-pages` from the sitemap-generation step) is now in scope for this repo. See "Sprint 2 Follow-Up" at the end.
 
 ## Requirements
 
@@ -410,7 +412,9 @@ PASS
 
 ### 3. What PublishForge must implement to receive this (consumer side — Repository A, NOT this repo)
 
-This is the downstream work the producer depends on. It is **out of scope here** and lives in PublishForge per handover Part 2 — listed so the integrator has a single checklist:
+> **Status 2026-06-17: DONE & live (PublishForge Task 104 + code-review fix pass).** All items below are implemented and hardened. `POST /api/track` ingests (Zod-validated, body-size capped, 202), `bot_verified` runs async via `after()`, the 4 tables + aggregation/score/alert/crawl_drop migrations are applied, and `page_url` is normalized to a bare pathname **on both sides** (PF defends the join even if a producer sends absolute URLs). The one thing still missing is the **producer for `pf_known_pages`** — which is this repo's follow-up (see end of doc).
+
+This is the downstream work the producer depends on. It lives in PublishForge per handover Part 2 — listed so the integrator has a single checklist:
 
 - **`POST /api/track`** (handover 2.2): authenticate the `Authorization: Bearer` key → resolve `client_id`; 401 on missing/invalid, 400 on malformed; validate the `visitor_type` / `agent` enums; set `event_month`; insert into `pf_page_events`. Must be fast and side-effect-free beyond the insert (+ verification flag).
 - **`bot_verified`** (handover 3.2): reverse-DNS / published-IP-range check on `client_ip` for `ai_crawler` events, run in the endpoint or async — **not** at the edge. Only verified crawls count toward metrics.
@@ -418,14 +422,15 @@ This is the downstream work the producer depends on. It is **out of scope here**
 - **`page_url` join normalization** (KPI-load-bearing): `pf_known_pages` is populated from `sitemap-agents.xml`, which emits **absolute** URLs (`http://host/agents/about-us`). The middleware sends a **bare pathname** (`/agents/about-us`). **Ratified contract: both sides key on the bare pathname — PF must strip the origin from each sitemap `<loc>` when upserting `pf_known_pages`.** If PF instead stores absolute URLs, AI Crawl Coverage silently under-counts.
 - Downstream (aggregation, daily score via pg_cron, alerting, dashboard, `wiki_health_log` crawl_drop wiring) per handover Part 2.
 
-### 4. Contract items to confirm with PublishForge before freeze
+### 4. Contract items — ✅ RESOLVED with PublishForge (2026-06-17)
 
-| Item                   | StackShift default (this repo)   | Action                                                                                                                |
-| ---------------------- | -------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
-| Auth header format     | `Authorization: Bearer <key>`    | Confirm PF expects Bearer (vs a custom `x-ingest-key`). If PF differs, change the one header line in `middleware.ts`. |
-| `page_url` key         | bare pathname, no trailing slash | Confirm PF normalizes `pf_known_pages` to the same.                                                                   |
-| Field names / enums    | the 8 fields above               | Confirm PF's `pf_page_events` columns + `CHECK` enums match exactly.                                                  |
-| `client_ip` empty case | may send `""`                    | Confirm PF tolerates empty/`NULL` for the `inet` column (don't reject the row).                                       |
+| Item                   | StackShift default (this repo)   | Resolution                                                                                                                                                                                |
+| ---------------------- | -------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Auth header format     | `Authorization: Bearer <key>`    | ✅ Confirmed — PF accepts `Authorization: Bearer` **or** `x-pf-track-key`. No middleware change needed.                                                                                   |
+| `page_url` key         | bare pathname, no trailing slash | ✅ Confirmed — PF normalizes to a bare pathname on **both** ingest paths (`normalizePageUrl`), so absolute/trailing-slash drift can't break the join. Keep sending bare pathnames anyway. |
+| Field names / enums    | the 8 fields above               | ✅ Confirmed — PF validates with Zod against exactly these fields + the `visitor_type` / `agent` enums; `pf_page_events` `CHECK`s match.                                                  |
+| `client_ip` empty case | may send `""`                    | ✅ Confirmed — PF coerces non-IP/`""` to `NULL` (via `isIP`); the row is never rejected. (Note: a crawler with no IP can't be `bot_verified`, so it won't count — PF now logs that case.) |
+| Match-list endpoint    | bundled `config/ai-agents.json`  | ✅ Resolved — PF **deleted** `/api/track/config` (unused). The bundled JSON is canonical; updating it requires a redeploy (the accepted tradeoff). No StackShift change.                  |
 
 ### 5. Files that carry the integration (for the next engineer)
 
@@ -433,3 +438,82 @@ This is the downstream work the producer depends on. It is **out of scope here**
 - `config/ai-agents.json` — the editable bot/referrer match list.
 - `lib/tracking/classify.ts` — pure classification + referrer scrub.
 - `.env.example` — documents `PF_TRACK_URL` / `PF_TRACK_KEY`.
+
+---
+
+## Sprint 2 Follow-Up — `pf_known_pages` Producer (H1)
+
+> **Added 2026-06-17.** Folded in here (not a separate T-004 — that ID is taken by the blog-schema task). This is the **coverage-denominator producer**: without it, PublishForge's AI Crawl Coverage KPI, the 0.35-weighted coverage score component, and `crawl_drop` "never-crawled" detection all read empty. The middleware (events / numerator) is done; this is the denominator. **Owner: Mariel.**
+
+### Why it's needed
+
+PublishForge computes **AI Crawl Coverage** = (active known pages with ≥1 verified crawl) ÷ (active known pages). The denominator lives in `pf_known_pages`, populated only by `POST /api/track/known-pages`. PublishForge built and hardened that receiver, but **nothing POSTs to it.** The middleware (T-003) records which pages _were_ crawled; it cannot know which pages _should_ be discoverable. `sitemap-agents.xml` is that authoritative list and it's generated in this repo — so the producer belongs here.
+
+### Receiver contract (PublishForge — live & hardened, do not change)
+
+```
+POST {PF_TRACK_URL_BASE}/known-pages        # the /known-pages sibling of PF_TRACK_URL
+Authorization: Bearer {PF_TRACK_KEY}        # reuse the SAME key the middleware already uses
+Content-Type: application/json
+
+{
+  "pages": [
+    { "page_url": "/agents/about-us",        "page_type": "agent" },
+    { "page_url": "/agents/products/SKU-123", "page_type": "product" }
+  ],
+  "replace": true
+}
+```
+
+Response `202 { ok, upserted, deactivated }`. Semantics: every `page_url` → upserted `active=true`; with `replace:true`, any previously-active URL **not** in this POST → `active=false`. PF normalizes `page_url` server-side (tolerates absolute URLs) but **send bare pathnames** to stay aligned with the middleware's `page_url`. Body cap 2 MB; `401`/`400`/`413`/`500` on auth/shape/size/error.
+
+### Recommended implementation (where it slots in)
+
+The natural home is the **prebuild sitemap step** — `scripts/generate-sitemap-agents.ts` already builds the exact agent URL set, and `prebuild` (`generate-llms-txt && generate-sitemap-agents && generate-robots-txt`) is the content-change boundary for this file-based SSG content.
+
+1. **Emit bare pathnames, not the absolute `<loc>`.** `generate-sitemap-agents.ts` builds `loc: ${siteUrl}/agents/${ref.slug}`. For the sync, reuse `ref.slug` directly → `page_url: /agents/${ref.slug}`, `page_type: "agent"`. Do **not** POST the absolute URL (PF would normalize it, but matching the middleware's bare-pathname key avoids any drift).
+2. **Add a small POST helper** (e.g. `scripts/lib/sync-known-pages.ts` or inline at the end of the generator): chunk if needed (≤2 MB; first chunk `replace:true`, subsequent `replace:false`), `Authorization: Bearer ${process.env.PF_TRACK_KEY}`, endpoint = `${process.env.PF_TRACK_URL}`.replace(`/track`, `/track/known-pages`) or a new `PF_KNOWN_PAGES_URL`.
+3. **Fire-and-forget, non-fatal.** A failed/unreachable PF sync must **not** fail `next build`. Wrap in try/catch, log, continue. If `PF_TRACK_URL` is unset (local dev / pre-activation), **skip** — same no-op rule as the middleware.
+4. **`replace: true` for the full set.** The generator produces the complete current list, so one full POST with `replace:true` reconciles additions and removals. Only chunk-1 may carry `replace:true`.
+
+### Product-coverage — handled by Sprint 1.5 (not this task)
+
+`generate-sitemap-agents.ts` sources `listAgentFiles()` → `lib/agents/content-dirs.ts`, which today is **`["content/agents"]` only** (its comment: _"Sprint 2 will extend this list with content/agents-products for PIM-derived pages."_). **Decision (2026-06-17):** a separate ongoing **Sprint 1.5 PR** adds the product pages and is merged **before** this task. Once it extends `listAgentFiles()` / the sitemap to emit `/agents/products/<sku>` URLs, the producer below picks them up automatically — it derives `page_url` + `page_type` from the generator's URL set (path-based), so no further change is needed here. This task does **not** add product enumeration.
+
+### Deployment note
+
+The prebuild script runs during `next build`, so `PF_TRACK_URL` + `PF_TRACK_KEY` must be present in the **Vercel build environment** (not only the edge/runtime env the middleware uses). Confirm both are set for the Build step. ISR/on-demand content that changes _without_ a rebuild won't re-sync until the next build — acceptable for the file-based agent/product content in scope; a webhook-triggered sync is a later option if needed.
+
+### Acceptance criteria
+
+- [x] On `prebuild` (sitemap generation), a `POST {…}/known-pages` fires with the full current URL set, `replace:true`, `Authorization: Bearer {PF_TRACK_KEY}`. _(harness-verified)_
+- [x] `page_url` values are bare pathnames identical to what the middleware emits (derived from the sitemap `<loc>` pathname, e.g. `/agents/about-us`). _(harness-verified)_
+- [x] `/agents/[slug]` → `page_type:"agent"`; `/agents/products/[sku]` → `"product"` — path-based (`pageTypeForPath`), so product pages resolve automatically once Sprint 1.5 emits their URLs. _(harness-verified for both)_
+- [x] Removing a page from the sitemap deactivates it in `pf_known_pages` (`active=false`) on the next build — via `replace:true` on the single full-set POST (PF reconciles per call). _(by design; PF-side behavior)_
+- [x] A failing/unreachable PF endpoint does **not** fail `next build` (logged, swallowed); with `PF_TRACK_URL` unset, no POST and no error. _(harness-verified)_
+
+### Implementation (done 2026-06-17)
+
+**Files changed:**
+
+- `scripts/lib/sync-known-pages.ts` — **new.** `syncKnownPages(pages)`: resolves the endpoint (`PF_KNOWN_PAGES_URL` or `${PF_TRACK_URL}/known-pages`), de-dupes by pathname, single full-set `POST` with `replace:true` and `Authorization: Bearer ${PF_TRACK_KEY}`, 1.9 MB guard, and **resolves (never throws)** so it can't fail the build. No-op when `PF_TRACK_URL`/`PF_TRACK_KEY` are unset.
+- `scripts/generate-sitemap-agents.ts` — **edit.** After writing `sitemap-agents.xml`, derives `{ page_url, page_type }` from the same URL set (bare pathname via `new URL(loc).pathname`; `pageTypeForPath` infers agent/product/content) and `await`s `syncKnownPages(...)`.
+- `.env.example` — **edit.** Documented that `PF_TRACK_URL` / `PF_TRACK_KEY` are now used by both the middleware and the prebuild sync, that both must be present in the **Vercel Build** env, and added optional `PF_KNOWN_PAGES_URL`.
+
+**Verified:** `npx tsc --noEmit` clean for both files; a Node http-echo harness drove the real `syncKnownPages` — 9/9 assertions pass (endpoint derivation, Bearer auth, `replace:true`, dedupe + drop-empty, `page_type` preserved incl. product, no-op when URL unset, skip when key unset, non-fatal on unreachable). `tsx`/`yarn build` were **not** run in this environment (the sandbox's `node_modules` carries the macOS esbuild binary, not Linux) — run `yarn build` on the merge host to confirm the full prebuild chain.
+
+**Deployment reminder:** prebuild runs during `next build`, so set `PF_TRACK_URL` + `PF_TRACK_KEY` in the Vercel **Build** environment (not only runtime). ISR content that changes without a rebuild re-syncs on the next build — acceptable for the file-based agent/product content in scope.
+
+### Verification
+
+```bash
+# After a build/prebuild, in the PublishForge Supabase DB:
+select count(*) filter (where active) as active_known, count(*) as total_known
+from pf_known_pages where client_id = '<pagebuilder_id>';
+
+# A page must key IDENTICALLY on both sides:
+select page_url from pf_known_pages   where page_url like '%about-us%';  -- "/agents/about-us"
+select distinct page_url from pf_page_events where page_url like '%about-us%';  -- "/agents/about-us"
+```
+
+End-to-end: once known-pages sync runs AND verified crawls exist, PublishForge `/ai-traffic-visibility` shows a non-zero **AI Crawl Coverage %** and lists zero-crawl known pages as coverage-gap rows.

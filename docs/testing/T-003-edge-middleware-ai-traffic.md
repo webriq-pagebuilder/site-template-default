@@ -99,8 +99,8 @@ noop: cookie still set
 ## Skipped / Deferred Checks
 
 - **Live dev-server + curl matrix** — superseded by the layer-3 runtime harness, which asserts the same behaviours (Set-Cookie, live `waitUntil` POST capture, 200-on-dead-URL isolation, no-op) deterministically against the real handler. No behavioural gap.
-- **End-to-end against PublishForge `/api/track`** — out of scope for this repo and not yet live (the endpoint is PublishForge/Repository A). Deferred to the cross-repo integration handoff per the task's Compatibility Touchpoints. KPI items requiring a live ingest + `bot_verified` (TTFB delta in staging, pages-within-24h) cannot be validated from this repo alone.
-- **Real reverse-DNS / IP-range `bot_verified`** — PublishForge's responsibility (handover §3.2); middleware only forwards raw `client_ip` + `user_agent`, which the payload assertions confirm.
+- **End-to-end against PublishForge `/api/track`** — out of scope for this repo. _(Update 2026-06-17: PublishForge `/api/track` is now live & hardened; E2E ingest was validated cross-repo — events + known-pages land and the dashboard renders. The `pf_known_pages` producer also moved into this repo as the T-003 "Sprint 2 Follow-Up".)_ KPI items requiring genuine verified-crawl volume still accrue only on production over time.
+- **Real reverse-DNS / IP-range `bot_verified`** — PublishForge's responsibility (handover §3.2); middleware only forwards raw `client_ip` + `user_agent`, which the payload assertions confirm. PF now does reverse-DNS forward-confirm **with a published IP-range fallback** for operators whose PTR doesn't forward-confirm (OpenAI/Anthropic).
 
 ---
 
