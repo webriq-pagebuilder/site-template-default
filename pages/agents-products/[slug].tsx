@@ -19,6 +19,11 @@ import rehypeStringify from "rehype-stringify";
 import { SEO, addSEOJsonLd } from "components/SEO";
 import { globalSEOQuery } from "pages/api/query";
 import { sanityClient } from "lib/sanity.client";
+import {
+  cleanAttr,
+  humanizeSlug,
+  stripBlankProductData,
+} from "lib/agents/read-agent-products";
 import { SeoTags, SeoSchema } from "types";
 
 interface AgentProductPageProps {
@@ -96,9 +101,10 @@ export async function getStaticProps({ params }: any) {
   // block. The parsed values arrive separately in `doc.frontmatter`, so strip
   // the raw block here — otherwise the unified pipeline (which has no
   // frontmatter plugin) renders it as an <hr> + Setext <h2> dump at the top.
-  const body = (doc.markdown ?? "").replace(
-    /^\s*---\r?\n[\s\S]*?\r?\n---\r?\n/,
-    "",
+  // Then stripBlankProductData() drops any "N/A" / empty / null / undefined
+  // spec rows so the page never shows placeholder product data.
+  const body = stripBlankProductData(
+    (doc.markdown ?? "").replace(/^\s*---\r?\n[\s\S]*?\r?\n---\r?\n/, ""),
   );
 
   // Markdown -> sanitized HTML, SERVER-SIDE (not in useEffect).
@@ -114,15 +120,24 @@ export async function getStaticProps({ params }: any) {
   const globalSEO = await sanityClient.fetch(globalSEOQuery);
   const fm = doc.frontmatter ?? {};
 
+  // Drop N/A / empty / null / undefined frontmatter before it reaches the title,
+  // <meta> tags, or JSON-LD — cleanAttr() returns undefined for any junk value,
+  // so each field falls back instead of rendering a placeholder.
+  const title = cleanAttr(fm.title) ?? cleanAttr(doc.sku) ?? humanizeSlug(slug);
+  const image = cleanAttr(fm.image);
+  const description = cleanAttr(fm.description);
+  const brand = cleanAttr(fm.brand);
+  const availability = cleanAttr(fm.availability);
+
   const seo = SEO({
     data: {
-      title: fm.title || doc.sku || slug,
+      title,
       type: "agentProduct",
       route: `agents-products/${slug}`,
-      seoDescription: fm.description,
+      seoDescription: description,
       // Product image is an absolute URL from PublishForge (PIM-hosted), so the
       // SEO helper passes it through to og:image/twitter:image as-is.
-      seoImage: fm.image,
+      seoImage: image,
     },
     defaultSeo: globalSEO,
   });
@@ -136,11 +151,11 @@ export async function getStaticProps({ params }: any) {
       slug,
       // map PublishForge frontmatter -> the shape addSEOJsonLd expects
       pageData: {
-        name: fm.title || doc.sku,
+        name: title,
         price: fm.price,
-        brand: fm.brand,
-        availability: fm.availability,
-        productInfo: { images: fm.image },
+        brand,
+        availability,
+        productInfo: { images: image },
       },
     }),
   };
@@ -148,8 +163,8 @@ export async function getStaticProps({ params }: any) {
   return {
     props: {
       html,
-      image: fm.image ?? null,
-      title: fm.title || doc.sku || slug,
+      image: image ?? null,
+      title,
       seo,
       seoSchema,
     },

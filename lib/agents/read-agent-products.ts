@@ -130,6 +130,55 @@ export function cleanAttr(value: unknown): string | undefined {
 }
 
 /**
+ * True when an attribute value carries no real product data. Superset of the
+ * cleanAttr() blank set: null/undefined/empty/whitespace and "N/A" (any case),
+ * plus the stringified "null"/"undefined" a composer can leak. Used to drop
+ * junk rows from composed product markdown before it is rendered.
+ */
+function isBlankAttrValue(value: string): boolean {
+  const t = value.trim().toLowerCase();
+  return t === "" || t === "n/a" || t === "null" || t === "undefined";
+}
+
+/**
+ * Remove junk rows from composed agent-product markdown so the page never shows
+ * "N/A" / empty / null / undefined product data. PublishForge composes specs as
+ * definition-style bullets — `- **Label**: value` (Attributes) and
+ * `- Label: value` (Availability) — so any such bullet whose value is blank is
+ * dropped. A section heading left with no remaining content (every row blank) is
+ * dropped too, so we never render a bare "## Attributes" with nothing under it.
+ * Non-definition bullets (no `key: value`) and prose lines are always kept.
+ */
+export function stripBlankProductData(markdown: string): string {
+  // Definition-style bullet: "- **Label**: value" or "- Label: value".
+  const attrLine = /^\s*[-*]\s+(?:\*\*.+?\*\*|[^:]+?)\s*:\s*(.*)$/;
+
+  const filtered = markdown.split(/\r?\n/).filter((line) => {
+    const m = line.match(attrLine);
+    return !(m && isBlankAttrValue(m[1])); // drop junk attribute rows
+  });
+
+  // Drop ATX headings with no non-blank content before the next heading / EOF.
+  const isHeading = (l: string) => /^#{1,6}\s/.test(l);
+  const result: string[] = [];
+  for (let i = 0; i < filtered.length; i++) {
+    if (isHeading(filtered[i])) {
+      let hasContent = false;
+      for (let j = i + 1; j < filtered.length && !isHeading(filtered[j]); j++) {
+        if (filtered[j].trim() !== "") {
+          hasContent = true;
+          break;
+        }
+      }
+      if (!hasContent) continue; // skip the now-empty section heading
+    }
+    result.push(filtered[i]);
+  }
+
+  return result.join("\n");
+}
+
+/**
  * Derive a human-readable title from a SKU slug when PF provides no attributes.
  *   "acme-widget-pro-x1" -> "Acme Widget Pro X1"
  */
