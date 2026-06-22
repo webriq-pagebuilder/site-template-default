@@ -226,6 +226,12 @@ export default defineType({
           to: [{ type: "aiChatbot" }],
         }),
         defineArrayMember({
+          title: "Markdown",
+          name: "markdownSchema",
+          type: "reference",
+          to: [{ type: "markdownSchema" }],
+        }),
+        defineArrayMember({
           title: "Footer",
           name: "footer",
           type: "reference",
