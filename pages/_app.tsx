@@ -15,6 +15,7 @@ import useScript from "utils/useScript";
 // global styles
 import "vanilla-cookieconsent/dist/cookieconsent.css";
 import "../styles/globals.css";
+import "easymde/dist/easymde.min.css";
 
 const Cookies = Components.cookies;
 
@@ -83,8 +84,9 @@ function App({ Component, pageProps }: AppProps) {
       : "*[_type=='themeSettings' && !(_id in path('drafts.**'))][0]";
 
     // get initial theme settings
-    client.fetch(
-      `${query}{
+    client
+      .fetch(
+        `${query}{
         ...,
         themes[] {
           ...,
@@ -101,12 +103,12 @@ function App({ Component, pageProps }: AppProps) {
             }
           }
         }
-      }`
-    )
-    .then((initialConfig) => {
-      const currentTheme = initialConfig;
-      setThemeConfig(currentTheme);
-    });
+      }`,
+      )
+      .then((initialConfig) => {
+        const currentTheme = initialConfig;
+        setThemeConfig(currentTheme);
+      });
 
     // listen to real-time updates to theme settings
     const subscription = client.listen(query).subscribe((config) => {
