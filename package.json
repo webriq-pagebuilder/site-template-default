@@ -149,7 +149,7 @@
     "react-is": "^18.2.0",
     "react-toast": "^1.0.3",
     "rehype-sanitize": "^6.0.0",
-    "rehype-sanitize": "^10.0.1",
+    "rehype-stringify": "^10.0.1",
     "remark-parse": "^11.0.0",
     "remark-rehype": "^11.1.2",
     "sanity": "3.17.0",
