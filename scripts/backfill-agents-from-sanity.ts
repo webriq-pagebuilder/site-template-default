@@ -5,6 +5,11 @@ import { parseArgs } from "node:util";
 import { loadEnvConfig } from "@next/env";
 import matter from "gray-matter";
 import { createBackfillClient } from "./sanity-backfill-client";
+import {
+  sectionsToMarkdown,
+  firstSectionParagraph,
+  type DereferencedSection,
+} from "./sections-to-md";
 import { blocksToMarkdown, firstParagraph } from "./portabletext-to-md";
 import { getWikiContext } from "./wiki-context";
 
@@ -52,6 +57,7 @@ interface SanityPage {
   title: string;
   slug: string;
   publishDateTime?: string;
+  sections?: DereferencedSection[];
   seo?: { seoTitle?: string; seoDescription?: string };
 }
 
@@ -75,6 +81,11 @@ function resolveSummary(doc: SanityPost | SanityPage): string {
     const para = firstParagraph(post.body);
     if (para) return para;
   }
+  const page = doc as SanityPage;
+  if (Array.isArray(page.sections)) {
+    const para = firstSectionParagraph(page.sections);
+    if (para) return para;
+  }
   const title = resolveTitle(doc);
   if (title) return title;
   return doc.slug;
@@ -91,7 +102,12 @@ async function buildDirectContent(
     post.publishedAt ??
     (doc as SanityPage).publishDateTime ??
     new Date().toISOString();
-  const bodyMd = Array.isArray(post.body) ? blocksToMarkdown(post.body) : "";
+  const page = doc as SanityPage;
+  const bodyMd = Array.isArray(post.body)
+    ? blocksToMarkdown(post.body)
+    : Array.isArray(page.sections)
+    ? sectionsToMarkdown(page.sections)
+    : "";
 
   const frontmatter: Record<string, unknown> = {
     title,
@@ -206,13 +222,16 @@ async function main() {
   }
 
   if (docType === "all" || docType === "page") {
+    const pageSectionsProjection = `"sections": sections[]->{ _type, label, variants }`;
     const pageQuery = filterSlug
       ? `*[_type == "page" && slug.current == $slug && !(_id in path("drafts.**"))] {
           _id, title, "slug": slug.current, publishDateTime,
+          ${pageSectionsProjection},
           "seo": seo { seoTitle, seoDescription }
         }`
       : `*[_type == "page" && defined(slug.current) && !(_id in path("drafts.**")) && slug.current != "home"] {
           _id, title, "slug": slug.current, publishDateTime,
+          ${pageSectionsProjection},
           "seo": seo { seoTitle, seoDescription }
         }`;
 
