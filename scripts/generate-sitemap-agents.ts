@@ -17,7 +17,7 @@ const OUTPUT = path.join(process.cwd(), "public", "sitemap-agents.xml");
  * so it stays correct when Sprint 1.5 adds `/agents/products/<sku>` URLs to the set.
  */
 function pageTypeForPath(pathname: string): string {
-  if (pathname.startsWith("/agents/products/")) return "product";
+  if (pathname.startsWith("/agents-products/")) return "product";
   if (pathname.startsWith("/agents/")) return "agent";
   return "content";
 }
