@@ -52,10 +52,10 @@ async function main() {
     }),
   );
 
-  // (b) PublishForge-backed /agents-products/{slug} entries (PIM-sourced)
+  // (b) PublishForge-backed /agents/products/{slug} entries (PIM-sourced)
   const productRefs = await listAgentProductRefs();
   const productUrls = productRefs.map((ref) => ({
-    loc: `${siteUrl}/agents-products/${ref.slug}`,
+    loc: `${siteUrl}/agents/products/${ref.slug}`,
     lastmod: ref.updatedAt,
   }));
 

@@ -78,7 +78,7 @@ export async function getStaticProps({ params }: any) {
   } catch (e) {
     // Cold fetch failed: never publish a blank 200. Short revalidate to retry.
     // Warm (already-cached) pages keep serving via ISR stale-while-revalidate.
-    console.error(`[agents-products] cold fetch failed for "${slug}":`, e);
+    console.error(`[agents/products] cold fetch failed for "${slug}":`, e);
     return { notFound: true, revalidate: 60 };
   }
 
@@ -122,7 +122,7 @@ export async function getStaticProps({ params }: any) {
     data: {
       title,
       type: "agentProduct",
-      route: `agents-products/${slug}`,
+      route: `agents/products/${slug}`,
       seoDescription: description,
       // Product image is an absolute URL from PublishForge (PIM-hosted), so the
       // SEO helper passes it through to og:image/twitter:image as-is.

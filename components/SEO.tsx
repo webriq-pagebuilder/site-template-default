@@ -189,7 +189,7 @@ export function addSEOJsonLd({ seo, type, defaults, slug, pageData }) {
         defaults?.description,
       url: `${url}/${slug?.current}`,
       images: seoImageUrl(
-        seo?.seoImage ?? pageData?.mainImage ?? defaults?.image
+        seo?.seoImage ?? pageData?.mainImage ?? defaults?.image,
       ),
       authorName: pageData?.authors,
       publisherName: "WebriQ",
@@ -210,12 +210,12 @@ export function addSEOJsonLd({ seo, type, defaults, slug, pageData }) {
     });
   } else if (type === "agentProduct") {
     // PublishForge-sourced agent-product pages (ISR). Same Product schema as
-    // mainProduct but with the /agents-products/ URL and frontmatter-derived
+    // mainProduct but with the /agents/products/ URL and frontmatter-derived
     // brand/price/image.
     return ProductJsonLd({
       productName: seo?.seoTitle ?? pageData?.name,
       images: seo?.seoImage ?? pageData?.productInfo?.images,
-      url: `${url}/agents-products/${slug}`,
+      url: `${url}/agents/products/${slug}`,
       brand: pageData?.brand ?? "WebriQ",
       description: seo?.seoDescription ?? defaults?.description,
       price: pageData?.price,

@@ -50,7 +50,7 @@ async function main() {
   // per-doc (~8,730 requests, opt-in).
   const productRefs = await listAgentProductRefs();
   const productEntries = productRefs.map((ref) => ({
-    url: `${siteUrl}/agents-products/${ref.slug}`,
+    url: `${siteUrl}/agents/products/${ref.slug}`,
     title: agentProductLabel(ref),
   }));
 

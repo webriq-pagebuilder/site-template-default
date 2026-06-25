@@ -2,11 +2,11 @@
  * On-demand revalidate webhook for agent-product pages.
  *
  * PublishForge calls this in `revalidate` publish mode to refresh a single
- * /agents-products/[slug] page without a rebuild. Token-gated with a dedicated
+ * /agents/products/[slug] page without a rebuild. Token-gated with a dedicated
  * secret (constant-time compare) — do NOT reuse the open GET /api/revalidate
  * manual mode, which has no auth.
  *
- *   POST /api/agents-products/revalidate
+ *   POST /api/agents/products/revalidate
  *   header: x-revalidate-token: <STACKSHIFT_REVALIDATE_SECRET>
  *   body:   { "slug": "<sku-slug>" }
  */

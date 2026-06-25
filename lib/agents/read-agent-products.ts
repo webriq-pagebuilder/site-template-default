@@ -1,4 +1,4 @@
-// PublishForge-backed source for /agents-products/{slug} pages.
+// PublishForge-backed source for /agents/products/{slug} pages.
 //
 // Unlike content/agents (file-backed markdown), agent-products live in
 // PublishForge (PIM). The prebuild generators (sitemap + llms.txt) page the

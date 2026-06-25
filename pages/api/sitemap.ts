@@ -110,7 +110,7 @@ async function writeAgentProductUrls(smStream: SitemapStream) {
       for (const it of items ?? []) {
         if (!it?.slug) continue;
         smStream.write({
-          url: `${NEXT_PUBLIC_SITE_URL}/agents-products/${it.slug}`,
+          url: `${NEXT_PUBLIC_SITE_URL}/agents/products/${it.slug}`,
           lastmod: it.updatedAt,
           changefreq: "daily",
           priority: 0.7,
