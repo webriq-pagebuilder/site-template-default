@@ -1,14 +1,3 @@
-/**
- * Agent-products ISR page.
- *
- * Renders /agents-products/[slug] on demand by fetching the composed product
- * markdown from the PublishForge read API. Markdown is converted to sanitized
- * HTML SERVER-SIDE inside getStaticProps (never in a client useEffect) so that
- * crawlers receive complete HTML in the initial response.
- *
- * See docs/task/001-agents-products-isr-page.md for the full contract.
- */
-
 import React from "react";
 import Image from "next/image";
 import { unified } from "unified";

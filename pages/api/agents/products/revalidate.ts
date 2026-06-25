@@ -26,7 +26,7 @@ function secretOk(provided: string | undefined): boolean {
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse,
 ) {
   if (req.method !== "POST") {
     res.setHeader("Allow", "POST");
@@ -44,10 +44,10 @@ export default async function handler(
   }
 
   try {
-    await res.revalidate(`/agents-products/${slug}`);
+    await res.revalidate(`/agents/products/${slug}`);
     return res.status(200).json({ revalidated: true, slug });
   } catch (e) {
-    console.error(`[agents-products] revalidate failed for "${slug}":`, e);
+    console.error(`[agents/products] revalidate failed for "${slug}":`, e);
     return res.status(500).json({ revalidated: false, error: String(e) });
   }
 }
