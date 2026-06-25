@@ -30,6 +30,30 @@ To learn more about Next.js, take a look at the following resources:
 - [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
 - [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
+## Connecting newsletter signups to PublishForge
+
+If this site is linked to a [PublishForge](https://www.publishforge.cloud) project, `newsletter`
+form submissions can also be added as subscribers in that project's **Newsletter**
+(alongside the normal webriq-forms submission). The link is **optional** — sites without
+a PublishForge simply skip this setup.
+
+This uses the form's built-in **Webhook Settings** (no code, no env change on the site):
+
+1. In Sanity Studio, open the `newsletter` section's form → **Webhook Settings**.
+2. Add the PublishForge ingest URL:
+
+   ```
+   https://<your-publishforge-domain>/api/newsletter/webhook
+   ```
+
+3. In the PublishForge deployment, add the newsletter form's id to
+   `NEWSLETTER_WEBHOOK_FORM_IDS` (comma-separated allowlist).
+
+On submission, the webriq-forms backend POSTs the payload to that URL **after**
+reCAPTCHA passes; PublishForge creates an active subscriber tagged
+`source: stackshift`. The webhook is fire-and-forget — if the endpoint is
+unconfigured or unavailable, the form still submits and redirects exactly as usual.
+
 ## Get in touch with us
 
 Let’s work together on your digital experience project. Check out the [WebriQ](https://www.webriq.com/contact-us) website for more details.
