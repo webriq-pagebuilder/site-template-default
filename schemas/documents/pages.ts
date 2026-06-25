@@ -123,12 +123,6 @@ export default defineType({
         //   to: [{ type: "featuredProducts" }],
         //   readOnly: NEXT_PUBLIC_SANITY_STUDIO_IN_CSTUDIO === "false",
         // }),
-        defineArrayMember({
-          title: "Pricing",
-          name: "pricing",
-          type: "reference",
-          to: [{ type: "pricing" }],
-        }),
         // 06-25-2026: Remove default e-commerce setup in StackShift
         // defineArrayMember({
         //   title: "Product Info",
