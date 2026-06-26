@@ -22,6 +22,8 @@ function pageTypeForPath(pathname: string): string {
   return "content";
 }
 
+import { listAgentProductRefs } from "../lib/agents/read-agent-products";
+
 function resolveSiteUrl(): string {
   const env = process.env.NEXT_PUBLIC_SITE_URL;
   if (!env) {
@@ -44,6 +46,9 @@ function escapeXml(value: string): string {
 
 async function main() {
   const siteUrl = resolveSiteUrl();
+
+  // (a) file-backed /agents/{slug} entries (content/agents markdown)
+  const fileUrls = await Promise.all(
   const refs = await listAgentFiles();
 
   const urls = await Promise.all(
@@ -60,6 +65,15 @@ async function main() {
       };
     }),
   );
+
+  // (b) PublishForge-backed /agents/products/{slug} entries (PIM-sourced)
+  const productRefs = await listAgentProductRefs();
+  const productUrls = productRefs.map((ref) => ({
+    loc: `${siteUrl}/agents/products/${ref.slug}`,
+    lastmod: ref.updatedAt,
+  }));
+
+  const urls = [...fileUrls, ...productUrls];
 
   const xml = [
     '<?xml version="1.0" encoding="UTF-8"?>',
@@ -89,6 +103,9 @@ async function main() {
     return { page_url: pathname, page_type: pageTypeForPath(pathname) };
   });
   await syncKnownPages(knownPages);
+    `[generate-sitemap-agents] wrote ${urls.length} URLs ` +
+      `(${fileUrls.length} agents, ${productUrls.length} agent-products) → ${OUTPUT}`,
+  );
 }
 
 main().catch((err) => {

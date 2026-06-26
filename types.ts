@@ -293,7 +293,9 @@ export interface Seo {
   _type?: string;
   seoTitle?: string;
   seoDescription?: string;
-  seoImage?: SanityImage;
+  // Either a Sanity image ref or an already-absolute http(s) URL (e.g. a
+  // PublishForge/PIM-hosted product image); SEO()'s wrapper handles both.
+  seoImage?: SanityImage | string;
   seoKeywords?: string;
   seoSynonyms?: string;
 }

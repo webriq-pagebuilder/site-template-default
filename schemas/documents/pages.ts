@@ -115,31 +115,27 @@ export default defineType({
           type: "reference",
           to: [{ type: "callToAction" }],
         }),
-        defineArrayMember({
-          title: "Social Media Feed",
-          name: "socialMediaFeed",
-          type: "reference",
-          to: [{ type: "socialMediaFeed" }],
-        }),
-        defineArrayMember({
-          title: "Featured products",
-          name: "featuredProducts",
-          type: "reference",
-          to: [{ type: "featuredProducts" }],
-          readOnly: NEXT_PUBLIC_SANITY_STUDIO_IN_CSTUDIO === "false",
-        }),
+        // 06-25-2026: Remove default e-commerce setup in StackShift
+        // defineArrayMember({
+        //   title: "Featured products",
+        //   name: "featuredProducts",
+        //   type: "reference",
+        //   to: [{ type: "featuredProducts" }],
+        //   readOnly: NEXT_PUBLIC_SANITY_STUDIO_IN_CSTUDIO === "false",
+        // }),
+        // 06-25-2026: Remove default e-commerce setup in StackShift
+        // defineArrayMember({
+        //   title: "Product Info",
+        //   name: "productInfo",
+        //   type: "reference",
+        //   to: [{ type: "pages_productInfo" }],
+        //   readOnly: NEXT_PUBLIC_SANITY_STUDIO_IN_CSTUDIO === "false",
+        // }),
         defineArrayMember({
           title: "Pricing",
           name: "pricing",
           type: "reference",
           to: [{ type: "pricing" }],
-        }),
-        defineArrayMember({
-          title: "Product Info",
-          name: "productInfo",
-          type: "reference",
-          to: [{ type: "pages_productInfo" }],
-          readOnly: NEXT_PUBLIC_SANITY_STUDIO_IN_CSTUDIO === "false",
         }),
         defineArrayMember({
           title: "Contact",
@@ -253,6 +249,12 @@ export default defineType({
           },
         }),
       ],
+    }),
+    defineField({
+      name: "schemaMarkup",
+      title: "Schema Markup",
+      type: "text",
+      hidden: true,
     }),
     defineField({
       title: "SEO Settings",

@@ -12,6 +12,7 @@ const nextConfig = {
       { hostname: "cdn.sanity.io" },
       { hostname: "source.unsplash.com" },
       { hostname: "**.cdninstagram.com" },
+      { hostname: "**.supabase.co" }, // PublishForge agent-product frontmatter images
     ],
   },
   typescript: {
