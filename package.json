@@ -42,7 +42,7 @@
     "@sanity/ui": "^2.8.9",
     "@sanity/vision": "3.17.0",
     "@stackshift-ui/accordion": "^1.0.1",
-    "@stackshift-ui/ai-chatbot": "^1.0.0",
+    "@stackshift-ui/ai-chatbot": "^1.0.1",
     "@stackshift-ui/app-promo": "^6.1.1",
     "@stackshift-ui/avatar": "^6.1.1",
     "@stackshift-ui/badge": "^6.1.1",
