@@ -15,9 +15,22 @@ export default async function handler(
       .json({ error: "NEXT_PUBLIC_PUBLISHFORGE_WEBHOOK_URL is not set" });
   }
 
+  // SEC-18: PublishForge requires the shared secret as a header (the ?token=
+  // query fallback was removed). Read from a SERVER-ONLY env var — never
+  // NEXT_PUBLIC_ — so the secret is not bundled to the browser.
+  const webhookSecret = process.env.PUBLISHFORGE_WEBHOOK_SECRET;
+  if (!webhookSecret) {
+    return res
+      .status(500)
+      .json({ error: "PUBLISHFORGE_WEBHOOK_SECRET is not set" });
+  }
+
   const response = await fetch(PUBLISHFORGE_WEBHOOK_URL, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json",
+      "x-publishforge-webhook-secret": webhookSecret,
+    },
     body: JSON.stringify(req.body),
   });
 
