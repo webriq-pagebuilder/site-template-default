@@ -9,6 +9,10 @@ import matter from "gray-matter";
 loadEnvConfig(process.cwd());
 
 import { listAgentFiles } from "../lib/agents/read-agents";
+import {
+  listAgentProductRefs,
+  agentProductLabel,
+} from "../lib/agents/read-agent-products";
 
 const OUTPUT = path.join(process.cwd(), "public", "llms.txt");
 
@@ -39,11 +43,29 @@ async function main() {
     }),
   );
 
+  // PublishForge-backed agent-products. Emit [label](url), where the label is
+  // the variant `finish` (e.g. "Vintage Bronze"), falling back to `sku`, then a
+  // humanized slug — see agentProductLabel(). These attrs come from the PF list
+  // endpoint when present; otherwise enrichAgentProductTitles() can fetch them
+  // per-doc (~8,730 requests, opt-in).
+  const productRefs = await listAgentProductRefs();
+  const productEntries = productRefs.map((ref) => ({
+    url: `${siteUrl}/agents/products/${ref.slug}`,
+    title: agentProductLabel(ref),
+  }));
+
   const lines = [
     `# ${siteUrl}`,
     "",
     "> AI-readable index of agent pages.",
     "",
+    "## Agents",
+    "",
+    ...entries.map((e) => `- [${e.title}](${e.url}): ${e.summary}`),
+    "",
+    "## Agent Products",
+    "",
+    ...productEntries.map((e) => `- [${e.title}](${e.url})`),
     "## Pages",
     "",
     ...entries.map((e) => `- [${e.title}](${e.url}): ${e.summary}`),
@@ -52,7 +74,8 @@ async function main() {
   await mkdir(path.dirname(OUTPUT), { recursive: true });
   await writeFile(OUTPUT, lines.join("\n") + "\n", "utf-8");
   console.log(
-    `[generate-llms-txt] wrote ${entries.length} entries → ${OUTPUT}`,
+    `[generate-llms-txt] wrote ${entries.length} agents + ` +
+      `${productEntries.length} agent-products → ${OUTPUT}`,
   );
 }
 

@@ -8,6 +8,7 @@ import matter from "gray-matter";
 loadEnvConfig(process.cwd());
 
 import { listAgentFiles } from "../lib/agents/read-agents";
+import { listAgentProductRefs } from "../lib/agents/read-agent-products";
 
 const OUTPUT = path.join(process.cwd(), "public", "sitemap-agents.xml");
 
@@ -33,6 +34,9 @@ function escapeXml(value: string): string {
 
 async function main() {
   const siteUrl = resolveSiteUrl();
+
+  // (a) file-backed /agents/{slug} entries (content/agents markdown)
+  const fileUrls = await Promise.all(
   const refs = await listAgentFiles();
 
   const urls = await Promise.all(
@@ -50,6 +54,15 @@ async function main() {
     }),
   );
 
+  // (b) PublishForge-backed /agents/products/{slug} entries (PIM-sourced)
+  const productRefs = await listAgentProductRefs();
+  const productUrls = productRefs.map((ref) => ({
+    loc: `${siteUrl}/agents/products/${ref.slug}`,
+    lastmod: ref.updatedAt,
+  }));
+
+  const urls = [...fileUrls, ...productUrls];
+
   const xml = [
     '<?xml version="1.0" encoding="UTF-8"?>',
     '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
@@ -66,7 +79,8 @@ async function main() {
   await mkdir(path.dirname(OUTPUT), { recursive: true });
   await writeFile(OUTPUT, xml, "utf-8");
   console.log(
-    `[generate-sitemap-agents] wrote ${urls.length} URLs → ${OUTPUT}`,
+    `[generate-sitemap-agents] wrote ${urls.length} URLs ` +
+      `(${fileUrls.length} agents, ${productUrls.length} agent-products) → ${OUTPUT}`,
   );
 }
 
