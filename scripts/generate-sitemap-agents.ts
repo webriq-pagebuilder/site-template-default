@@ -48,10 +48,9 @@ async function main() {
   const siteUrl = resolveSiteUrl();
 
   // (a) file-backed /agents/{slug} entries (content/agents markdown)
-  const fileUrls = await Promise.all(
   const refs = await listAgentFiles();
 
-  const urls = await Promise.all(
+  const fileUrls = await Promise.all(
     refs.map(async (ref) => {
       const raw = await readFile(ref.absPath, "utf-8");
       const { data } = matter(raw);
@@ -90,9 +89,6 @@ async function main() {
 
   await mkdir(path.dirname(OUTPUT), { recursive: true });
   await writeFile(OUTPUT, xml, "utf-8");
-  console.log(
-    `[generate-sitemap-agents] wrote ${urls.length} URLs → ${OUTPUT}`,
-  );
 
   // Sprint 2 (T-003 follow-up): mirror the same URL set into PublishForge's
   // pf_known_pages (AI Crawl Coverage denominator). Bare pathnames so the key
@@ -103,6 +99,8 @@ async function main() {
     return { page_url: pathname, page_type: pageTypeForPath(pathname) };
   });
   await syncKnownPages(knownPages);
+
+  console.log(
     `[generate-sitemap-agents] wrote ${urls.length} URLs ` +
       `(${fileUrls.length} agents, ${productUrls.length} agent-products) → ${OUTPUT}`,
   );
