@@ -8,9 +8,21 @@ import matter from "gray-matter";
 loadEnvConfig(process.cwd());
 
 import { listAgentFiles } from "../lib/agents/read-agents";
-import { listAgentProductRefs } from "../lib/agents/read-agent-products";
+import { syncKnownPages, type KnownPage } from "./lib/sync-known-pages";
 
 const OUTPUT = path.join(process.cwd(), "public", "sitemap-agents.xml");
+
+/**
+ * Infer the PublishForge `page_type` from the URL path. Path-based (not source-based)
+ * so it stays correct when Sprint 1.5 adds `/agents/products/<sku>` URLs to the set.
+ */
+function pageTypeForPath(pathname: string): string {
+  if (pathname.startsWith("/agents-products/")) return "product";
+  if (pathname.startsWith("/agents/")) return "agent";
+  return "content";
+}
+
+import { listAgentProductRefs } from "../lib/agents/read-agent-products";
 
 function resolveSiteUrl(): string {
   const env = process.env.NEXT_PUBLIC_SITE_URL;
@@ -79,6 +91,18 @@ async function main() {
   await mkdir(path.dirname(OUTPUT), { recursive: true });
   await writeFile(OUTPUT, xml, "utf-8");
   console.log(
+    `[generate-sitemap-agents] wrote ${urls.length} URLs → ${OUTPUT}`,
+  );
+
+  // Sprint 2 (T-003 follow-up): mirror the same URL set into PublishForge's
+  // pf_known_pages (AI Crawl Coverage denominator). Bare pathnames so the key
+  // matches the edge middleware's payload. No-op + non-fatal when PF is unset —
+  // never fails the build.
+  const knownPages: KnownPage[] = urls.map((u) => {
+    const pathname = new URL(u.loc).pathname.replace(/\/+$/, "") || "/";
+    return { page_url: pathname, page_type: pageTypeForPath(pathname) };
+  });
+  await syncKnownPages(knownPages);
     `[generate-sitemap-agents] wrote ${urls.length} URLs ` +
       `(${fileUrls.length} agents, ${productUrls.length} agent-products) → ${OUTPUT}`,
   );

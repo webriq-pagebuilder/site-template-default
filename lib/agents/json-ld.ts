@@ -35,7 +35,7 @@ export function buildAgentJsonLd(
           },
         };
       })
-      .filter((entry): entry is NonNullable<typeof entry> => entry !== null);
+      .filter((entry): entry is Record<string, unknown> => entry !== null);
 
     if (faqEntries.length === 0) {
       return jsonLd;
