@@ -7,6 +7,7 @@ export default {
     "./components/**/*.{js,ts,jsx,tsx}",
     "./node_modules/@stackshift-ui/**/*.{js,ts,jsx,tsx}",
   ],
+  plugins: [typography],
   darkMode: "selector",
   theme: {
     extend: {

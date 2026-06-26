@@ -49,9 +49,6 @@ public/robots.txt
 # dev-only agent fixtures (seeded via `yarn seed:agents`)
 content/agents/__fixture-*.md
 
-# sitemap
-public/sitemap.xml
-
 # playwright
 /test-results/
 /playwright-report/

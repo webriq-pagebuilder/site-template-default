@@ -66,6 +66,9 @@ async function main() {
     "## Agent Products",
     "",
     ...productEntries.map((e) => `- [${e.title}](${e.url})`),
+    "## Pages",
+    "",
+    ...entries.map((e) => `- [${e.title}](${e.url}): ${e.summary}`),
   ];
 
   await mkdir(path.dirname(OUTPUT), { recursive: true });

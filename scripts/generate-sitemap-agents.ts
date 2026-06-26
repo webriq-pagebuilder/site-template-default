@@ -36,8 +36,10 @@ async function main() {
   const siteUrl = resolveSiteUrl();
 
   // (a) file-backed /agents/{slug} entries (content/agents markdown)
-  const refs = await listAgentFiles();
   const fileUrls = await Promise.all(
+  const refs = await listAgentFiles();
+
+  const urls = await Promise.all(
     refs.map(async (ref) => {
       const raw = await readFile(ref.absPath, "utf-8");
       const { data } = matter(raw);
