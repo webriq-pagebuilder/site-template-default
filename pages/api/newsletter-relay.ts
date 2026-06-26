@@ -31,7 +31,7 @@ export default async function handler(
   }
 
   try {
-    await fetch(url, {
+    const pfRes = await fetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -44,6 +44,14 @@ export default async function handler(
       },
       body: JSON.stringify(req.body ?? {}),
     });
+    // A non-2xx PublishForge response (e.g. 401 = ingest key mismatch, 503 =
+    // PF not configured) does not throw — log it so the failure is visible
+    // instead of silently swallowed. Still respond 2xx to the form/webhook.
+    if (!pfRes.ok) {
+      console.error(
+        `Newsletter relay: PublishForge responded ${pfRes.status} ${pfRes.statusText}`
+      );
+    }
   } catch (error) {
     // Never fail the webhook over a relay/PublishForge hiccup.
     console.error("Newsletter relay error:", error);
