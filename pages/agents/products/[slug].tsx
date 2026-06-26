@@ -71,15 +71,26 @@ export async function getStaticProps({ params }: any) {
       clearTimeout(timeout);
     }
 
-    // Unknown slug: serve the real 404, retry occasionally in case it appears.
+    // Unknown / delisted slug: a legitimate terminal state (e.g. a soft-deleted
+    // product), NOT a publish failure — serve the real 404 so res.revalidate()
+    // resolves and the page 404s. Retry occasionally in case it reappears.
     if (r.status === 404) return { notFound: true, revalidate: 3600 };
+    // Any other non-OK (5xx, 401, …) is an upstream failure. Do NOT swallow it:
+    // throwing propagates out of getStaticProps so the revalidate webhook's
+    // res.revalidate() rejects and PublishForge records the publish as FAILED
+    // instead of a false "succeeded". Nothing is cached on a throw, so warm
+    // pages keep serving their prior render (ISR) and organic fallback traffic
+    // retries on the next request.
     if (!r.ok) throw new Error(`PublishForge responded ${r.status}`);
     doc = await r.json();
   } catch (e) {
-    // Cold fetch failed: never publish a blank 200. Short revalidate to retry.
-    // Warm (already-cached) pages keep serving via ISR stale-while-revalidate.
+    // Log for observability, then RE-THROW so the failure reaches the caller —
+    // res.revalidate() in the webhook (→ 500 → PF marks the slug failed) or the
+    // fallback renderer. Never convert a transient upstream error into a cached
+    // 404: that produced false-positive "succeeded" publish events AND delisted
+    // live products from search during an outage.
     console.error(`[agents/products] cold fetch failed for "${slug}":`, e);
-    return { notFound: true, revalidate: 60 };
+    throw e instanceof Error ? e : new Error(String(e));
   }
 
   if (!doc?.markdown) {
