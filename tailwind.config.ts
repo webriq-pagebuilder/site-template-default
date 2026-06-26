@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import typography from "@tailwindcss/typography";
 
 export default {
   content: [
@@ -6,6 +7,7 @@ export default {
     "./components/**/*.{js,ts,jsx,tsx}",
     "./node_modules/@stackshift-ui/**/*.{js,ts,jsx,tsx}",
   ],
+  plugins: [typography],
   darkMode: "selector",
   theme: {
     extend: {
@@ -63,4 +65,5 @@ export default {
       },
     },
   },
+  plugins: [typography],
 } satisfies Config;
