@@ -95,6 +95,65 @@ export default defineType({
       hidden: true,
     }),
 
+    // PublishForge AI Visibility and agentic publishing fields
+    defineField({
+      name: "schemaMarkup",
+      title: "Schema Markup",
+      type: "text",
+      hidden: true,
+    }),
+    defineField({
+      name: "faqItems",
+      title: "FAQ Items",
+      type: "array",
+      hidden: true,
+      of: [
+        {
+          type: "object",
+          fields: [
+            defineField({
+              name: "question",
+              type: "string",
+              title: "Question",
+            }),
+            defineField({ name: "answer", type: "text", title: "Answer" }),
+          ],
+        },
+      ],
+    }),
+    defineField({
+      name: "faqItemsSource",
+      title: "FAQ Items Source",
+      type: "string",
+      hidden: true,
+    }),
+    defineField({
+      name: "citationAnchors",
+      title: "Citation Anchors",
+      type: "array",
+      hidden: true,
+      of: [
+        {
+          type: "object",
+          // Shape mirrors PublishForge structured-metadata.ts SanityCitationAnchor
+          // ({ _key, text, url, source, context? }). Sanity provides _key.
+          fields: [
+            defineField({ name: "text", type: "string", title: "Text" }),
+            defineField({ name: "url", type: "url", title: "URL" }),
+            defineField({ name: "source", type: "string", title: "Source" }),
+            defineField({ name: "context", type: "text", title: "Context" }),
+          ],
+        },
+      ],
+    }),
+    defineField({
+      name: "aiVisibilityTags",
+      title: "AI Visibility Tags",
+      type: "array",
+      hidden: true,
+      of: [{ type: "string" }],
+    }),
+
     // SEO fields
     defineField({
       title: "SEO Settings",
