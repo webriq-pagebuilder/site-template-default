@@ -1,0 +1,569 @@
+# Headless page-migration pipeline — receives repository_dispatch from the app UI
+# (see docs/operational/headless-migration-workflow.md). Claude Code runs the
+# stackshift-section skill end-to-end and NEVER commits; this wrapper is the only
+# thing that touches git: it ALWAYS pushes the preview branch when the run
+# produced changes (a failed run has already pushed content into Sanity, so
+# losing the code with the VM strands the dataset on unknown _types), but opens
+# the PR only after the G7 report says "Verdict: DONE".
+# Can also be fired manually from the Actions tab (workflow_dispatch) for testing.
+name: Claude Implement → Preview Branch
+
+on:
+  repository_dispatch:
+    types: [claude-implement]
+  workflow_dispatch:
+    inputs:
+      pageSlug:
+        description: "Page slug to migrate (e.g. home)"
+        required: true
+      prompt:
+        description: "Prompt for the headless Claude run"
+        required: true
+      mockupPath:
+        description: "Mockup path (e.g. docs/mockups/homepage.html)"
+        required: false
+      callback_url:
+        description: "Callback URL to notify when done (optional)"
+        required: false
+
+# Same parameters arrive via client_payload (app dispatch) or inputs (manual run);
+# normalize once here. Exported as real env vars, so run scripts use $PAGE_SLUG etc.
+# instead of inlining ${{ }} expressions (script-injection safety).
+env:
+  PAGE_SLUG: ${{ github.event.client_payload.pageSlug || inputs.pageSlug }}
+  PROMPT: ${{ github.event.client_payload.prompt || inputs.prompt }}
+  MOCKUP_PATH: ${{ github.event.client_payload.mockupPath || inputs.mockupPath || 'uploaded' }}
+  CALLBACK_URL: ${{ github.event.client_payload.callback_url || inputs.callback_url }}
+
+concurrency:
+  group: claude-implement-${{ github.event.client_payload.pageSlug || inputs.pageSlug }}
+  cancel-in-progress: false
+
+jobs:
+  implement:
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    # Needed when falling back to github.token (no GH_PAT secret): contents to
+    # push the preview branch, pull-requests for `gh pr create`. Note: a PR
+    # created with github.token does NOT trigger downstream workflows
+    # (e.g. Playwright) — set a GH_PAT secret to restore that.
+    permissions:
+      contents: write
+      pull-requests: write
+    outputs:
+      branch: ${{ steps.branch.outputs.name }}
+      verdict: ${{ steps.verify.outputs.verdict }}
+      pushed: ${{ steps.commit.outputs.pushed }}
+      # Token usage surfaced to the notify-failure job so a FAILED run that
+      # still burned model tokens records its cost. Empty when the usage step
+      # never ran (VM-killed run) — the failure callback then sends no cost.
+      input_tokens: ${{ steps.usage.outputs.input_tokens }}
+      output_tokens: ${{ steps.usage.outputs.output_tokens }}
+      cache_read_tokens: ${{ steps.usage.outputs.cache_read_tokens }}
+      cache_write_tokens: ${{ steps.usage.outputs.cache_write_tokens }}
+      num_turns: ${{ steps.usage.outputs.num_turns }}
+      duration_ms: ${{ steps.usage.outputs.duration_ms }}
+
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: master
+          token: ${{ secrets.GH_PAT || github.token }}
+
+      # Callback helper used by every stage ping below, so the app UI can render
+      # pipeline progress (branch_created → claude_started/claude_finished →
+      # verdict_parsed → branch_pushed → pr_created → done). No-op when
+      # CALLBACK_URL is empty; values are JSON-escaped so externally supplied
+      # text can't break out of the payload (script-injection safety).
+      - name: Prepare callback helper
+        run: |
+          cat > /tmp/notify.sh <<'EOF'
+          #!/usr/bin/env bash
+          # usage: notify.sh <status> <step> [key=value ...]
+          set -u
+          [ -z "${CALLBACK_URL:-}" ] && exit 0
+          esc() { printf '%s' "$1" | sed -e 's/\\/\\\\/g' -e 's/"/\\"/g'; }
+          STATUS="$1"; STEP="$2"; shift 2
+          PAYLOAD="{\"status\":\"$(esc "$STATUS")\",\"step\":\"$(esc "$STEP")\",\"pageSlug\":\"$(esc "${PAGE_SLUG:-}")\""
+          for KV in "$@"; do
+            PAYLOAD="$PAYLOAD,\"$(esc "${KV%%=*}")\":\"$(esc "${KV#*=}")\""
+          done
+          PAYLOAD="$PAYLOAD}"
+          curl -s -m 15 -X POST "$CALLBACK_URL" -H "Content-Type: application/json" -d "$PAYLOAD" || true
+          EOF
+          chmod +x /tmp/notify.sh
+
+      - name: Create preview branch
+        id: branch
+        run: |
+          SAFE_SLUG="$(echo "$PAGE_SLUG" | tr -cd 'a-zA-Z0-9_-')"
+          BRANCH="preview/${SAFE_SLUG:-page}-$(date +%Y%m%d-%H%M%S)"
+          git checkout -b "$BRANCH"
+          # Author = WebriQ (the org's git identity, same as human commits in
+          # this repo); the commit body's "Co-Authored-By: Claude" trailer adds
+          # Claude as the second author, so GitHub renders every pipeline
+          # commit as "WebriQ and Claude" collaborating.
+          git config user.name "WebriQ"
+          git config user.email "info@webriq.com"
+          echo "name=$BRANCH" >> "$GITHUB_OUTPUT"
+
+      # Early ping so the app UI can show the run as "processing" during the
+      # (long) Claude run — the terminal done/failed callbacks come at the end.
+      - name: Notify callback — branch created
+        if: env.CALLBACK_URL != ''
+        env:
+          BRANCH: ${{ steps.branch.outputs.name }}
+        run: /tmp/notify.sh running branch_created "branch=$BRANCH"
+
+      # ubuntu-latest on a private repo = 2 vCPU / 7GB RAM. The Claude run +
+      # Next.js dev server + Playwright Chromium together exceed that; when the
+      # VM itself is OOM-killed the step dies with exit 143 and every later
+      # step — verdict parse, artifact upload, callbacks — is skipped
+      # (observed: run killed at ~18m with only "claude_started" in the log).
+      # Two layers of defense:
+      #   1. Grow swap (image ships 4GB on /mnt; replace with 8GB) so memory
+      #      pressure degrades into slowness instead of a VM kill.
+      #   2. earlyoom kills the fattest process (claude/chromium/next) BEFORE
+      #      the runner agent starves — claude then exits non-zero and the
+      #      pipeline still reaches verdict=FAIL + artifacts + failure callback.
+      - name: Provision swap + OOM protection
+        run: |
+          sudo swapoff -a || true
+          sudo rm -f /mnt/swapfile
+          sudo fallocate -l 8G /mnt/swapfile
+          sudo chmod 600 /mnt/swapfile
+          sudo mkswap /mnt/swapfile
+          sudo swapon /mnt/swapfile
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq earlyoom
+          echo 'EARLYOOM_ARGS="-m 6 -s 20 -r 60 --avoid Runner --prefer (node|chrome|headless_shell|next-server)"' | sudo tee /etc/default/earlyoom
+          sudo systemctl restart earlyoom
+          swapon --show
+          free -m
+
+      # The ~14GB root disk fills mid-run: run #11 (2026-07-13) hit the runner's
+      # "Free space left: 0 MB" warning 12 minutes into the Claude step, and tee
+      # then couldn't write /tmp/claude-output.txt ("No space left on device") —
+      # an EMPTY output file parses as verdict=FAIL even if the migration itself
+      # succeeded. Drop the preinstalled toolchains this pipeline never uses
+      # (~10-14GB back) before the heavy installs.
+      - name: Free disk space
+        run: |
+          df -h /
+          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /usr/local/.ghcup /opt/hostedtoolcache/CodeQL
+          sudo docker image prune --all --force 2>/dev/null || true
+          df -h /
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: |
+          yarn install
+          npx playwright install --with-deps chromium
+
+      - name: Install Claude Code CLI
+        run: npm install -g @anthropic-ai/claude-code
+
+      - name: Source environment
+        run: |
+          echo "NEXT_PUBLIC_SANITY_PROJECT_ID=${{ secrets.NEXT_PUBLIC_SANITY_PROJECT_ID }}" >> .env.local
+          echo "NEXT_PUBLIC_SANITY_DATASET=${{ secrets.NEXT_PUBLIC_SANITY_DATASET }}" >> .env.local
+          echo "NEXT_PUBLIC_SANITY_API_READ_TOKEN=${{ secrets.SANITY_READ_TOKEN }}" >> .env.local
+          echo "NEXT_PUBLIC_SANITY_API_WRITE_TOKEN=${{ secrets.SANITY_WRITE_TOKEN }}" >> .env.local
+
+      - name: Run Claude Code headless (via OpenRouter / DeepSeek)
+        id: claude
+        env:
+          # Route Claude Code through the local thinking-strip proxy, which
+          # forwards to OpenRouter. Reasoning models (deepseek-v4-pro) return
+          # the assistant message ending on a thinking/redacted_thinking block,
+          # which makes `claude -p`'s final-result assembly EMPTY — 27 minutes
+          # of work, zero bytes of stdout, verdict parses FAIL (observed run
+          # 29309962889, 2026-07-14). The proxy strips reasoning blocks from
+          # responses so the CLI prints the text. See the header comment in
+          # scripts/thinking-strip-proxy.mjs and claude-smoke-test.yml Stage C.
+          ANTHROPIC_BASE_URL: "http://127.0.0.1:8787"
+          PROXY_UPSTREAM: "https://openrouter.ai/api"
+          ANTHROPIC_AUTH_TOKEN: ${{ secrets.OPENROUTER_API_KEY }}
+          ANTHROPIC_API_KEY: "" # Important: must be explicitly empty
+          CLAUDE_MODEL: "deepseek/deepseek-v4-pro"
+          # Per-process Node heap cap — inherited by every node child (claude
+          # CLI, next dev, tsc), so one runaway process crashes itself instead
+          # of eating the VM. Total-memory protection is the swap + earlyoom
+          # step above; this is the per-process belt on top of it.
+          NODE_OPTIONS: "--max-old-space-size=4096"
+        # Don't fail the job on a non-zero exit — the G7 verdict parse below is
+        # the source of truth, and the failure callback must still fire.
+        # timeout(1) bounds the run INSIDE the step so the step shell survives a
+        # stuck/overlong Claude run (exit 124) and the pipeline still reaches
+        # verdict parse + callbacks — without it, the job-level 180m timeout
+        # SIGTERMs the whole step (exit 143) and skips everything after it.
+        # 150m leaves ~30m of the job budget for setup + wrap-up steps.
+        # --output-format stream-json (+--verbose, required in print mode)
+        # emits one JSON event per turn; the jq renderer compresses each to a
+        # one-line [tool]/[claude]/[result] entry so the live Actions log shows
+        # WHAT claude is doing as it runs — with plain `claude -p` the step
+        # printed nothing until the end, so a 90s empty-output dud (run
+        # 29504803257) looked identical to a healthy 2h run until it died.
+        # Raw events are kept in /tmp/claude-stream.jsonl (artifact); the final
+        # result text is re-extracted into /tmp/claude-output.txt so the
+        # verdict fallback keeps its old semantics (see the extraction comment
+        # below). The background memory sampler + the diagnostics step below
+        # leave evidence when the runner kills the run under memory pressure.
+        run: |
+          /tmp/notify.sh running claude_started
+          # Thinking-strip proxy (see env comment above). Fail fast if it
+          # doesn't come up — running without it reproduces the empty-output
+          # failure mode, so there's no point burning a 150m Claude run.
+          node scripts/thinking-strip-proxy.mjs > /tmp/proxy.log 2>&1 &
+          PROXY_PID=$!
+          for i in $(seq 1 20); do
+            (exec 3<>/dev/tcp/127.0.0.1/8787) 2>/dev/null && break
+            if ! kill -0 "$PROXY_PID" 2>/dev/null; then
+              echo "::error::thinking-strip proxy died on startup"; cat /tmp/proxy.log; exit 1
+            fi
+            sleep 0.5
+          done
+          (exec 3<>/dev/tcp/127.0.0.1/8787) 2>/dev/null || { echo "::error::thinking-strip proxy never started listening on :8787"; cat /tmp/proxy.log; exit 1; }
+          # Heartbeat to BOTH /tmp/mem.log and the live step log — claude -p
+          # prints nothing until it finishes, so without this a killed run is
+          # just silent minutes then exit 143. The streamed lines survive even
+          # a full VM kill (the log ships live; artifacts don't).
+          ( while true; do
+              { echo "=== $(date -u '+%H:%M:%S')"; free -m; df -h /; } >> /tmp/mem.log 2>&1
+              DISK="$(df -h / | awk 'NR==2{print $4}')"
+              free -m | awk -v ts="$(date -u '+%H:%M:%S')" -v d="$DISK" '/^Mem:/{m=$3"/"$2} /^Swap:/{s=$3"/"$2} END{print "[mem " ts "] RAM " m " MB, swap " s " MB, disk free " d}'
+              sleep 30
+            done ) &
+          MEM_PID=$!
+          # If the jq renderer ever fails (syntax drift, bad event shape), fall
+          # back to raw passthrough INSIDE the same pipe reader — an exiting
+          # renderer would EPIPE tee and crash the claude process itself.
+          render_stream() {
+            jq -Rrc --unbuffered -f scripts/claude-stream-render.jq 2>/tmp/render-err.log \
+              || { echo "[render] jq renderer failed (see render-err.log in the artifact) — raw stream follows"; cat; }
+          }
+          # TaskList/TaskGet/TaskOutput let the model POLL background
+          # subagents inside a turn. Without them, "waiting" means ending
+          # the turn and hoping a completion notification re-invokes it —
+          # runs 29508364067 / 29511262074 (2026-07-16) died exit-0
+          # mid-build that way: notifications for finished agents never
+          # arrived, the queue drained, and claude -p exited before serial
+          # integration/G7. Prompt rule 13 makes subagents foreground;
+          # these tools are the in-run belt if one goes background anyway.
+          # COMPLETION_GATE is the repo-side belt on top of BOTH: the prompt
+          # arrives from the dispatching app's payload, so this repo can't
+          # assume it carries rules 7/13 — append the gate to the system
+          # prompt here, where it applies no matter what the app sends.
+          # Run 29994115217 (2026-07-23) died exit-0 (subtype "success" —
+          # NOT max-turns, which exits 1/error_max_turns) right after
+          # scaffolding a section: the model ended its turn believing it
+          # could wait/was done, with g7-report.md never written.
+          COMPLETION_GATE='COMPLETION GATE (pipeline-enforced): You run headless in CI — ending your turn terminates this process and destroys all unfinished work. Never end your turn to "wait" for anything. Run subagents in the foreground; if any task went to the background anyway, poll TaskList and TaskOutput in a loop until every task is complete before proceeding. You are NOT done until the full verification has run and you have written /tmp/g7-report.md containing the final verdict line. If you cannot finish everything, you must still write /tmp/g7-report.md with "Verdict: INCOMPLETE" plus what remains — never end the session without writing that file. Never output the literal DONE verdict string unless every gate truly passed.'
+          set +e
+          timeout --signal=TERM --kill-after=60 150m \
+            claude -p "$PROMPT" \
+            --append-system-prompt "$COMPLETION_GATE" \
+            --model "$CLAUDE_MODEL" \
+            --permission-mode acceptEdits \
+            --allowedTools "Bash,Read,Write,Edit,Agent,Skill,TaskCreate,TaskUpdate,TaskList,TaskGet,TaskOutput,Glob,Grep,WebFetch,WebSearch" \
+            --max-turns 200 \
+            --verbose \
+            --output-format stream-json \
+            2>&1 | tee /tmp/claude-stream.jsonl | render_stream
+          EXIT_CODE="${PIPESTATUS[0]}"
+          kill "$MEM_PID" "$PROXY_PID" 2>/dev/null
+          # Reconstruct what plain `claude -p` used to print — ONLY the final
+          # result text. The verdict fallback greps THIS file; it must never
+          # see the raw stream, because the stream echoes the prompt, and the
+          # prompt quotes the literal "Verdict: DONE" (instant false PASS).
+          jq -Rr 'fromjson? | select(.type == "result") | .result // empty' \
+            /tmp/claude-stream.jsonl > /tmp/claude-output.txt 2>/dev/null || true
+          # One-glance postmortem — the numbers that diagnosed runs
+          # 29309962889 / 29504803257 the hard way, printed on every run.
+          RESULT_BYTES=$(wc -c < /tmp/claude-output.txt 2>/dev/null | tr -d ' '); RESULT_BYTES=${RESULT_BYTES:-0}
+          EVENT_LINES=$(wc -l < /tmp/claude-stream.jsonl 2>/dev/null | tr -d ' '); EVENT_LINES=${EVENT_LINES:-0}
+          echo "claude exited $EXIT_CODE — stream lines: $EVENT_LINES, final-result bytes: $RESULT_BYTES"
+          case "$EXIT_CODE" in
+            124) echo "::error::claude hit the in-step 150m timeout (exit 124) — the last [tool] line above shows where it was stuck" ;;
+            143) echo "::error::claude was SIGTERMed (exit 143) — job timeout / cancellation / infra kill; check the [mem] heartbeat above and diagnostics.log" ;;
+          esac
+          if [ "$RESULT_BYTES" -le 1 ]; then
+            echo "::warning::claude produced an EMPTY final result — known reasoning-model dud (all-thinking response or in-stream error; runs 29309962889, 29504803257). proxy.log tail:"
+            tail -n 20 /tmp/proxy.log || true
+          fi
+          echo "exit_code=$EXIT_CODE" >> "$GITHUB_OUTPUT"
+          /tmp/notify.sh running claude_finished "exitCode=$EXIT_CODE"
+
+      # Pull token usage from Claude Code's final `result` event so the app can
+      # store the per-HTML cost of the run. Claude Code's own total_cost_usd is
+      # priced against Anthropic rates and is meaningless through OpenRouter —
+      # we ship the raw token COUNTS (which are real) and the app prices them
+      # against OpenRouter's list price for $CLAUDE_MODEL (lib/migration/cost.ts).
+      # Read from claude-stream.jsonl (the raw events) — claude-output.txt in
+      # this pipeline holds only the reconstructed result TEXT, not the JSON
+      # event with .usage. No result event (killed/OOM run) → all zeros, and the
+      # failure job (not this success path) reports the outcome. jq '... // 0'
+      # tolerates the cache fields some models omit.
+      - name: Extract run usage
+        id: usage
+        if: always()
+        run: |
+          RESULT="$(grep '"type":"result"' /tmp/claude-stream.jsonl 2>/dev/null | tail -n1)"
+          get() { echo "$RESULT" | jq -r "$1 // 0" 2>/dev/null || echo 0; }
+          {
+            echo "input_tokens=$(get '.usage.input_tokens')"
+            echo "output_tokens=$(get '.usage.output_tokens')"
+            echo "cache_read_tokens=$(get '.usage.cache_read_input_tokens')"
+            echo "cache_write_tokens=$(get '.usage.cache_creation_input_tokens')"
+            echo "num_turns=$(get '.num_turns')"
+            echo "duration_ms=$(get '.duration_ms')"
+          } >> "$GITHUB_OUTPUT"
+
+      # always() so a runner-level kill of the Claude step (job timeout,
+      # cancellation, infra SIGTERM) still yields a verdict — a missing or
+      # partial output file parses as FAIL, which routes to the failure
+      # callback instead of silently skipping the rest of the pipeline.
+      # The durable report file is the PRIMARY source (the prompt's rule 7
+      # instructs Claude to Write it before printing); stdout is the fallback —
+      # it is lost when the process dies while exiting, and with some models
+      # `claude -p` prints nothing at all (run 29309962889).
+      - name: Parse G7 completion report
+        id: verify
+        if: always()
+        env:
+          EXIT_CODE: ${{ steps.claude.outputs.exit_code }}
+        run: |
+          # When the report file exists it is AUTHORITATIVE (an INCOMPLETE
+          # report must not be overridden by a stray "Verdict: DONE" in the
+          # final result text — the prompt itself quotes that literal string).
+          # claude-output.txt (the extracted final result) is only consulted
+          # when the file was never written.
+          if [ -s /tmp/g7-report.md ]; then
+            SOURCE=g7-report.md
+            if grep -q "Verdict: DONE" /tmp/g7-report.md; then VERDICT=PASS; else VERDICT=FAIL; fi
+            echo "──── g7-report.md ────"
+            cat /tmp/g7-report.md
+            echo "──────────────────────"
+          elif grep -q "Verdict: DONE" /tmp/claude-output.txt 2>/dev/null; then
+            VERDICT=PASS
+            SOURCE=claude-output.txt
+          else
+            VERDICT=FAIL
+            SOURCE=none
+            echo "::warning::no g7-report.md and no verdict in the final result — the run died before reaching G7 (prompt rule 7). claude exit code: ${EXIT_CODE:-unknown}."
+          fi
+          echo "verdict=$VERDICT (source: $SOURCE)"
+          echo "verdict=$VERDICT" >> "$GITHUB_OUTPUT"
+          # Run-summary page: verdict + the report itself, so diagnosing a
+          # FAIL never requires downloading the artifact.
+          RESULT_BYTES=$(wc -c < /tmp/claude-output.txt 2>/dev/null | tr -d ' '); RESULT_BYTES=${RESULT_BYTES:-0}
+          EVENT_LINES=$(wc -l < /tmp/claude-stream.jsonl 2>/dev/null | tr -d ' '); EVENT_LINES=${EVENT_LINES:-0}
+          {
+            echo "## Claude implement — \`${PAGE_SLUG:-?}\`"
+            echo ""
+            echo "| Field | Value |"
+            echo "|---|---|"
+            echo "| Verdict | **$VERDICT** (source: $SOURCE) |"
+            echo "| claude exit code | ${EXIT_CODE:-unknown} (124 = 150m timeout, 143 = SIGTERM/infra kill) |"
+            echo "| Stream events | $EVENT_LINES |"
+            echo "| Final-result bytes | $RESULT_BYTES (≤1 = empty-result model dud) |"
+            echo ""
+            if [ -s /tmp/g7-report.md ]; then
+              echo "<details><summary>g7-report.md</summary>"
+              echo ""
+              cat /tmp/g7-report.md
+              echo ""
+              echo "</details>"
+            else
+              echo "_No g7-report.md was written — the run died before the G7 stage. See the claude step log for the last [tool]/[claude] transcript line._"
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
+          /tmp/notify.sh running verdict_parsed "verdict=$VERDICT" || true
+
+      # Kernel + memory forensics for killed runs: an OOM kill is recorded in
+      # dmesg, and the sampler log shows the memory curve leading up to it.
+      - name: Collect diagnostics
+        if: always()
+        run: |
+          { echo "=== free -m (final) ==="; free -m; } > /tmp/diagnostics.log 2>&1 || true
+          { echo "=== df -h (final) ==="; df -h; } >> /tmp/diagnostics.log 2>&1 || true
+          { echo "=== largest dirs on / ==="; sudo du -xh --max-depth=3 / 2>/dev/null | sort -rh | head -n 40; } >> /tmp/diagnostics.log 2>&1 || true
+          { echo "=== dmesg tail ==="; sudo dmesg | tail -n 300; } >> /tmp/diagnostics.log 2>&1 || true
+          { echo "=== earlyoom journal ==="; sudo journalctl -u earlyoom --no-pager -n 80; } >> /tmp/diagnostics.log 2>&1 || true
+
+      - name: Upload Claude output log
+        if: always()
+        uses: actions/upload-artifact@v5
+        with:
+          name: claude-output-${{ github.run_id }}
+          path: |
+            /tmp/claude-output.txt
+            /tmp/claude-stream.jsonl
+            /tmp/g7-report.md
+            /tmp/proxy.log
+            /tmp/mem.log
+            /tmp/diagnostics.log
+            /tmp/render-err.log
+          retention-days: 14
+
+      # Push the branch whenever the run produced changes — even on a FAIL
+      # verdict. The skill pushes Sanity content (page + section docs) mid-run;
+      # if the code then dies with the ephemeral VM, the dataset is stranded on
+      # section _types no deployed schema knows — observed runs 29224707248 and
+      # 29309962889 left the ai-visibility page showing "unknown type" sections
+      # in Studio with the code unrecoverable. Pushing the WIP branch preserves
+      # the code for review/repair and gives Vercel a preview whose /studio
+      # understands the pushed content. The PR below stays gated on PASS.
+      # (.gitignore covers .env* — the secrets written by "Source environment"
+      # can never be swept into the commit by `git add -A`.)
+      - name: Commit and push preview branch
+        id: commit
+        if: always() && steps.branch.outputs.name != ''
+        env:
+          BRANCH: ${{ steps.branch.outputs.name }}
+          VERDICT: ${{ steps.verify.outputs.verdict }}
+        run: |
+          git add -A
+          if git diff --cached --quiet; then
+            echo "pushed=false" >> "$GITHUB_OUTPUT"
+            echo "Working tree is clean — nothing to preserve."
+            exit 0
+          fi
+          if [ "$VERDICT" = "PASS" ]; then
+            SUBJECT="feat: migrate $PAGE_SLUG page"
+          else
+            SUBJECT="wip: migrate $PAGE_SLUG page [verdict: ${VERDICT:-FAIL} — do not merge as-is]"
+          fi
+          git commit -m "$SUBJECT
+
+          Mockup: $MOCKUP_PATH
+          Generated by Claude Code headless (verdict: ${VERDICT:-FAIL}).
+
+          Co-Authored-By: Claude <noreply@anthropic.com>"
+          git push origin "$BRANCH"
+          echo "pushed=true" >> "$GITHUB_OUTPUT"
+          /tmp/notify.sh running branch_pushed "branch=$BRANCH" "verdict=${VERDICT:-FAIL}"
+
+      - name: Create Pull Request
+        id: pr
+        if: steps.verify.outputs.verdict == 'PASS'
+        env:
+          GH_TOKEN: ${{ secrets.GH_PAT || github.token }}
+        run: |
+          PR_URL="$(gh pr create \
+            --base master \
+            --head "${{ steps.branch.outputs.name }}" \
+            --title "feat: migrate $PAGE_SLUG page" \
+            --body "## Preview Deployment
+          Vercel will auto-deploy this branch. Check the deployment in the Vercel dashboard.
+
+          ## What changed
+          - **Page slug:** \`$PAGE_SLUG\`
+          - **Mockup:** \`$MOCKUP_PATH\`
+          - All sections built with schema, content, components, and styling.
+
+          ## Review checklist
+          - [ ] Preview deployment looks correct
+          - [ ] Content is editable in Sanity Studio
+          - [ ] Diff reviewed
+
+          🤖 Generated with Claude Code. Merge to ship to production.")"
+          echo "url=$PR_URL" >> "$GITHUB_OUTPUT"
+          /tmp/notify.sh running pr_created "prUrl=$PR_URL"
+
+      # Vercel auto-deploys the pushed branch via its Git integration — no step
+      # here triggers it; the UI can treat "done" as "preview deploying" and use
+      # branch/prUrl to locate the deployment.
+      - name: Notify callback — success
+        if: steps.verify.outputs.verdict == 'PASS' && env.CALLBACK_URL != ''
+        env:
+          BRANCH: ${{ steps.branch.outputs.name }}
+          PR_URL: ${{ steps.pr.outputs.url }}
+          # CLAUDE_MODEL is step-scoped on the Claude run step above, so
+          # re-declare it here (keep the value in sync). Model + token usage →
+          # the app prices the per-HTML run cost from these (lib/migration/cost.ts).
+          CLAUDE_MODEL: "deepseek/deepseek-v4-pro"
+          IN: ${{ steps.usage.outputs.input_tokens }}
+          OUT: ${{ steps.usage.outputs.output_tokens }}
+          CR: ${{ steps.usage.outputs.cache_read_tokens }}
+          CW: ${{ steps.usage.outputs.cache_write_tokens }}
+          TURNS: ${{ steps.usage.outputs.num_turns }}
+          DUR: ${{ steps.usage.outputs.duration_ms }}
+        run: |
+          /tmp/notify.sh done completed \
+            "branch=$BRANCH" "verdict=PASS" "prUrl=$PR_URL" \
+            "model=$CLAUDE_MODEL" \
+            "inputTokens=$IN" "outputTokens=$OUT" \
+            "cacheReadTokens=$CR" "cacheWriteTokens=$CW" \
+            "numTurns=$TURNS" "durationMs=$DUR"
+
+      # Make the Actions checkmark reflect the verdict: without this, a FAIL
+      # verdict skips the push/PR steps but every step that DID run succeeded,
+      # so the run shows green with no PR — misleading from the Actions tab.
+      # Runs LAST so callbacks + artifacts above are never cut short. The
+      # notify-failure job below still fires: its condition matches any
+      # non-success outcome, including the failure this step produces.
+      - name: Fail run on FAIL verdict
+        if: always() && steps.verify.outputs.verdict != 'PASS'
+        env:
+          VERDICT: ${{ steps.verify.outputs.verdict }}
+          BRANCH: ${{ steps.branch.outputs.name }}
+          PUSHED: ${{ steps.commit.outputs.pushed }}
+          EXIT_CODE: ${{ steps.claude.outputs.exit_code }}
+        run: |
+          if [ -s /tmp/g7-report.md ]; then
+            REPORT="present — the run REACHED G7 and reported INCOMPLETE (gate details in the step summary)"
+          else
+            REPORT="missing — the run DIED BEFORE G7 (see the last [tool]/[claude] line in the claude step log)"
+          fi
+          echo "::error::G7 verdict was '$VERDICT' (expected PASS) — no PR was created. claude exit code: ${EXIT_CODE:-unknown} (124 = timeout, 143 = SIGTERM). g7-report.md: $REPORT. WIP branch '${BRANCH:-none}' pushed: ${PUSHED:-false}. Full transcript: claude-output artifact (claude-stream.jsonl)."
+          exit 1
+
+  # Failure callback lives in its OWN job: when the implement job's VM is
+  # hard-killed (OOM shutdown, exit 143), even its `if: always()` steps are
+  # skipped because the runner agent itself is dead — observed 2026-07-10, run
+  # 29082963013, which left the app UI stuck on "processing" forever. A
+  # separate job gets a fresh runner, so this fires on ANY non-success outcome:
+  # VM kill, step failure, cancellation, or a PASS verdict whose push/PR step
+  # then failed. The one case it skips is the full success path, where the
+  # implement job already sent the `done` callback. Raw curl, not notify.sh —
+  # the helper only exists on the dead runner. The UI knows where the run
+  # stopped from the last stage ping it received.
+  notify-failure:
+    runs-on: ubuntu-latest
+    needs: implement
+    if: always() && !(needs.implement.result == 'success' && needs.implement.outputs.verdict == 'PASS')
+    timeout-minutes: 5
+    steps:
+      - name: Notify callback — failure
+        if: env.CALLBACK_URL != ''
+        env:
+          BRANCH: ${{ needs.implement.outputs.branch }}
+          PUSHED: ${{ needs.implement.outputs.pushed }}
+          # Forward token usage so a FAILED run that still burned model tokens
+          # records its cost (the app prices these via lib/migration/cost.ts).
+          # CLAUDE_MODEL is re-declared here (keep in sync with the Claude run
+          # step). A VM-killed run leaves these empty → treated as 0 below and
+          # the cost fields are omitted, so the app stores nothing for it.
+          CLAUDE_MODEL: "deepseek/deepseek-v4-pro"
+          IN: ${{ needs.implement.outputs.input_tokens }}
+          OUT: ${{ needs.implement.outputs.output_tokens }}
+          CR: ${{ needs.implement.outputs.cache_read_tokens }}
+          CW: ${{ needs.implement.outputs.cache_write_tokens }}
+          TURNS: ${{ needs.implement.outputs.num_turns }}
+          DUR: ${{ needs.implement.outputs.duration_ms }}
+        run: |
+          # Attach cost fields only when the run actually reported token usage —
+          # a VM-killed run never reached the "Extract run usage" step, so its
+          # forwarded counts are empty (${VAR:-0} → 0) and USED stays 0.
+          USED=$(( ${IN:-0} + ${OUT:-0} + ${CR:-0} + ${CW:-0} ))
+          COST_FIELDS=""
+          if [ "$USED" -gt 0 ]; then
+            COST_FIELDS=",\"model\":\"$CLAUDE_MODEL\",\"inputTokens\":\"${IN:-0}\",\"outputTokens\":\"${OUT:-0}\",\"cacheReadTokens\":\"${CR:-0}\",\"cacheWriteTokens\":\"${CW:-0}\",\"numTurns\":\"${TURNS:-0}\",\"durationMs\":\"${DUR:-0}\""
+          fi
+          curl -s -m 15 -X POST "$CALLBACK_URL" \
+            -H "Content-Type: application/json" \
+            -d "{\"status\":\"failed\",\"step\":\"failed\",\"verdict\":\"FAIL\",\"pageSlug\":\"$PAGE_SLUG\",\"branch\":\"$BRANCH\",\"branchPushed\":\"${PUSHED:-false}\"$COST_FIELDS}" || true
