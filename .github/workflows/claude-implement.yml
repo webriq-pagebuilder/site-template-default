@@ -253,9 +253,19 @@ jobs:
           # arrived, the queue drained, and claude -p exited before serial
           # integration/G7. Prompt rule 13 makes subagents foreground;
           # these tools are the in-run belt if one goes background anyway.
+          # COMPLETION_GATE is the repo-side belt on top of BOTH: the prompt
+          # arrives from the dispatching app's payload, so this repo can't
+          # assume it carries rules 7/13 — append the gate to the system
+          # prompt here, where it applies no matter what the app sends.
+          # Run 29994115217 (2026-07-23) died exit-0 (subtype "success" —
+          # NOT max-turns, which exits 1/error_max_turns) right after
+          # scaffolding a section: the model ended its turn believing it
+          # could wait/was done, with g7-report.md never written.
+          COMPLETION_GATE='COMPLETION GATE (pipeline-enforced): You run headless in CI — ending your turn terminates this process and destroys all unfinished work. Never end your turn to "wait" for anything. Run subagents in the foreground; if any task went to the background anyway, poll TaskList and TaskOutput in a loop until every task is complete before proceeding. You are NOT done until the full verification has run and you have written /tmp/g7-report.md containing the final verdict line. If you cannot finish everything, you must still write /tmp/g7-report.md with "Verdict: INCOMPLETE" plus what remains — never end the session without writing that file. Never output the literal DONE verdict string unless every gate truly passed.'
           set +e
           timeout --signal=TERM --kill-after=60 150m \
             claude -p "$PROMPT" \
+            --append-system-prompt "$COMPLETION_GATE" \
             --model "$CLAUDE_MODEL" \
             --permission-mode acceptEdits \
             --allowedTools "Bash,Read,Write,Edit,Agent,Skill,TaskCreate,TaskUpdate,TaskList,TaskGet,TaskOutput,Glob,Grep,WebFetch,WebSearch" \
