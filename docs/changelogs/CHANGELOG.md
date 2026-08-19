@@ -2,6 +2,25 @@
 
 All notable changes to the WebriQ PageBuilder site template are documented here.
 
+## [v6.4.0] - 2026-08-12
+
+### ✨ What's New
+
+- **Open WebUI Support for the Headless Migration Pipeline** — the `claude-implement` GitHub Action can now be dispatched from an Open WebUI chat (via CiteForge) with only `pageSlug` + `mockupPath`; the workflow is self-sufficient for prompt, callback, and run linkage
+- **In-Repo Migration Prompt Template** — the dispatch `prompt` input is now optional: when empty, the workflow renders the 13-rule migration contract from `.github/migration/prompt.md` (`{{pageSlug}}`/`{{mockupPath}}` substitution), so the chat control plane cannot author or skip the plan gate, reuse triage, or V1–V7 verification rules
+- **Chat ↔ Run Linkage** — new optional `chatId` input echoed on every callback ping, so the `#html-migrations` notification links back to the Open WebUI conversation that started the run
+- **Callback Resolution & Run Adoption** — when the dispatcher supplies no `callback_url`, the workflow builds one from `CITEFORGE_URL` + `MIGRATION_CALLBACK_SECRET`; every ping now carries `repo`/`runId`/`mockupPath` so CiteForge can adopt chat-dispatched runs that have no `page_migrations` row
+
+### 🛠️ Improvements
+
+- Stable, greppable `MIGRATION_USAGE` log line (model + raw token counts + turns + duration) for the chat control plane's cost reporting — USD is priced by CiteForge, not the workflow
+- PRs created by the action now include a run report (verdict + usage) in the PR body
+- Migration prompt contract extended with stale-attempt guard, reuse field parity, scroll/double-render parity, nav element inventory, and foreground-only subagent rules
+
+### 🧩 Full Change log
+
+- Open WebUI support for the claude-implement action by @rosellerenrqz in #TBD
+
 ## [v6.3.1] - 2026-07-24
 
 ### ✨ What's New
