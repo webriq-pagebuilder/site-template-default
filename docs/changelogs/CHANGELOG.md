@@ -10,16 +10,21 @@ All notable changes to the WebriQ PageBuilder site template are documented here.
 - **In-Repo Migration Prompt Template** — the dispatch `prompt` input is now optional: when empty, the workflow renders the 13-rule migration contract from `.github/migration/prompt.md` (`{{pageSlug}}`/`{{mockupPath}}` substitution), so the chat control plane cannot author or skip the plan gate, reuse triage, or V1–V7 verification rules
 - **Chat ↔ Run Linkage** — new optional `chatId` input echoed on every callback ping, so the `#html-migrations` notification links back to the Open WebUI conversation that started the run
 - **Callback Resolution & Run Adoption** — when the dispatcher supplies no `callback_url`, the workflow builds one from `CITEFORGE_URL` + `MIGRATION_CALLBACK_SECRET`; every ping now carries `repo`/`runId`/`mockupPath` so CiteForge can adopt chat-dispatched runs that have no `page_migrations` row
+- **`stackshift-i-upgrade` Skill** — one-command upgrade to StackShift I dual-track publishing: the agent content layer (`/agents` twins, `llms.txt`, agent sitemap, markdown negotiation) plus the AI Traffic edge middleware, kept in sync with PublishForge. Ships as merge guides + payload (agent libs, tracking classifier, `/agents` pages, llms/robots/sitemap generators, Sanity backfill, Studio publish-proxy). Also the update channel — re-run after `npx skills add` to pull payload patches into an already-upgraded site
+- **`stackshift-sitemap` Skill** — flag-driven sitemap system: a per-document "Add to sitemap" toggle in Sanity Studio, a build-time generator that writes a static sitemap from the flagged documents, and a `noindex` robots meta that de-indexes pages switched back off — retiring ad-hoc/legacy sitemap mechanisms into one config-driven source of truth
 
 ### 🛠️ Improvements
 
 - Stable, greppable `MIGRATION_USAGE` log line (model + raw token counts + turns + duration) for the chat control plane's cost reporting — USD is priced by CiteForge, not the workflow
 - PRs created by the action now include a run report (verdict + usage) in the PR body
 - Migration prompt contract extended with stale-attempt guard, reuse field parity, scroll/double-render parity, nav element inventory, and foreground-only subagent rules
+- **`stackshift-section` reference doc** — adds `CLAUDE.reference.md`, a companion architecture/guardrails reference for the section-build skill
+- CI workflow files relocated under `.github/workflows/workflows/`
 
 ### 🧩 Full Change log
 
-- Open WebUI support for the claude-implement action by @rosellerenrqz in #TBD
+- Open WebUI support for the claude-implement action by @rosellerenrqz in #331
+- Vendor `stackshift-i-upgrade` and `stackshift-sitemap` skills by @rosellerenrqz in `026e197`
 
 ## [v6.3.1] - 2026-07-24
 
