@@ -1,0 +1,65 @@
+{
+  "version": 1,
+  "skills": {
+    "document": {
+      "source": "webriq/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/workflow/document/SKILL.md",
+      "computedHash": "1eccffa466549a7b34ffeb2e6917d80d123dad144cca62f9cb09e757f0669eea"
+    },
+    "implement": {
+      "source": "webriq/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/workflow/implement/SKILL.md",
+      "computedHash": "d529741292943bbf70749d92fd5d1d085f01ffc9f1afc25d48f6d3960c72fb24"
+    },
+    "release": {
+      "source": "webriq/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/workflow/release/SKILL.md",
+      "computedHash": "5fa10b1a2fe9c1b83163d609c262340d7718b3a3bbc250c3697f7973bb9645b0"
+    },
+    "ship": {
+      "source": "webriq/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/workflow/ship/SKILL.md",
+      "computedHash": "78fdbfc2c0cdce512280f5942dae45d4c2a26f83560560838a1688255b78f37e"
+    },
+    "simplify": {
+      "source": "webriq/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/workflow/simplify/SKILL.md",
+      "computedHash": "22e972155ee85a70f6ad3d5e2b9b49906944d9f85d79e1ce65ec52c175d8625d"
+    },
+    "stackshift-i-upgrade": {
+      "source": "webriq/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/stackshift-i-upgrade/SKILL.md",
+      "computedHash": "6a3f874678e4b80737cfb4b8f93cfb0ffec985165188fbd968fb5b417308ec23"
+    },
+    "stackshift-section": {
+      "source": "webriq/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/stackshift-section/SKILL.md",
+      "computedHash": "b6ba4245121dc41ce410417f7e55792eb2c28db8613c8535336e555a17ce50e4"
+    },
+    "stackshift-sitemap": {
+      "source": "webriq/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/stackshift-sitemap/SKILL.md",
+      "computedHash": "383ad325411d66fc56f9b3b7a50ce12909f218fb204818bfcffb758a1e6a2c39"
+    },
+    "task": {
+      "source": "webriq/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/workflow/task/SKILL.md",
+      "computedHash": "f84a33256a57d59340647110d3814e0a012ced6cb73cb3bf3833b6e153ee8ea5"
+    },
+    "test": {
+      "source": "webriq/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/workflow/test/SKILL.md",
+      "computedHash": "e5718808de20b84538fab948dd8d5c357ef9c56468bfbf46ba5ba101135dd64b"
+    }
+  }
+}

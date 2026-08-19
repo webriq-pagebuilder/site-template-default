@@ -1,0 +1,244 @@
+{
+  "skill": "stackshift-i-upgrade",
+  "payloadVersion": "1.1.0",
+  "targetsTemplate": "6.x",
+  "updatedAt": "2026-07-22",
+  "markerFile": ".stackshift-i.json",
+  "files": [
+    {
+      "target": "lib/agents/content-dirs.ts",
+      "payload": "payload/lib/agents/content-dirs.ts",
+      "strategy": "verbatim",
+      "phase": "agent-layer",
+      "sha256": "2996c82c8e2af64153d60b1005854ed466899579aed10e2242f8e5a467492203"
+    },
+    {
+      "target": "lib/agents/read-agents.ts",
+      "payload": "payload/lib/agents/read-agents.ts",
+      "strategy": "verbatim",
+      "phase": "agent-layer",
+      "sha256": "5472832cef8d6011d547b5c196047c48dbb768b61012d122a8e2380f55afb8e4"
+    },
+    {
+      "target": "lib/agents/json-ld.ts",
+      "payload": "payload/lib/agents/json-ld.ts",
+      "strategy": "verbatim",
+      "phase": "agent-layer",
+      "sha256": "ebaee23381165ed56476490432eb0d13554ac032a484fa9350952126058d2da0"
+    },
+    {
+      "target": "lib/agents/agent-slugs.ts",
+      "payload": "payload/lib/agents/agent-slugs.ts",
+      "strategy": "verbatim",
+      "phase": "agent-layer",
+      "sha256": "dc0631a838cc8d20c09a4cdf33b929e164e6410204e0959c988b5477a7931167"
+    },
+    {
+      "target": "pages/agents/[slug].tsx",
+      "payload": "payload/pages/agents/[slug].tsx",
+      "strategy": "verbatim",
+      "phase": "agent-layer",
+      "sha256": "bb6318d57475a3021fbc1e1153171fb832f2c77b36d54a8b08bd3dce9be08471"
+    },
+    {
+      "target": "pages/agents/index.tsx",
+      "payload": "payload/pages/agents/index.tsx",
+      "strategy": "verbatim",
+      "phase": "agent-layer",
+      "sha256": "c8f60d19ed7a89e127571917e8ddd54dc7d6530ce01303b07077f3fd49b6040f"
+    },
+    {
+      "target": "pages/api/agents-md/[slug].ts",
+      "payload": "payload/pages/api/agents-md/[slug].ts",
+      "strategy": "verbatim",
+      "phase": "agent-layer",
+      "sha256": "6ba1c851fdc8b2d1d1e6adbc78e993b099337b649d7af4f54b1f09faccbf058b"
+    },
+    {
+      "target": "scripts/generate-llms-txt.ts",
+      "payload": "payload/scripts/generate-llms-txt.ts",
+      "strategy": "verbatim",
+      "phase": "agent-layer",
+      "sha256": "95c2de7436b29e01630b9195c2d8b4e7984880844fb5c82055683fc250dcd89e"
+    },
+    {
+      "target": "scripts/generate-sitemap-agents.ts",
+      "payload": "payload/scripts/generate-sitemap-agents.ts",
+      "strategy": "verbatim",
+      "phase": "agent-layer",
+      "sha256": "6c726d85cde6d84b4eaac0165fb5ad51263d0bf6938980a4b5281d8b79c11cbe"
+    },
+    {
+      "target": "scripts/generate-robots-txt.ts",
+      "payload": "payload/scripts/generate-robots-txt.ts",
+      "strategy": "verbatim",
+      "phase": "agent-layer",
+      "sha256": "8f37bf95235a72396a801122a6f3dab818f7898295d15e1382eb5f4d035c7bb6"
+    },
+    {
+      "target": "scripts/seed-agents-fixtures.ts",
+      "payload": "payload/scripts/seed-agents-fixtures.ts",
+      "strategy": "verbatim",
+      "phase": "agent-layer",
+      "sha256": "3c709051295853af73cb3cf9022467dcb595f208b8e23450fe5d11aae2184d3f"
+    },
+    {
+      "target": "scripts/backfill-agents-from-sanity.ts",
+      "payload": "payload/scripts/backfill-agents-from-sanity.ts",
+      "strategy": "verbatim",
+      "phase": "agent-layer",
+      "sha256": "6804888eb2236cbf74a1e8dc3cbb8e94ea00e79b7108c9dd692f3f1c6e783ba0"
+    },
+    {
+      "target": "scripts/sanity-backfill-client.ts",
+      "payload": "payload/scripts/sanity-backfill-client.ts",
+      "strategy": "verbatim",
+      "phase": "agent-layer",
+      "sha256": "db3a52764d2a975afed5424b52a420f8f9d09f4c3728ed9ce0ec7a23ea642fc8"
+    },
+    {
+      "target": "scripts/enrich-with-claude.ts",
+      "payload": "payload/scripts/enrich-with-claude.ts",
+      "strategy": "verbatim",
+      "phase": "agent-layer",
+      "sha256": "7da61a75e933456b14fcabae4108af5fda9d90cef50adb10a94c044bf998cd73"
+    },
+    {
+      "target": "scripts/wiki-context.ts",
+      "payload": "payload/scripts/wiki-context.ts",
+      "strategy": "verbatim",
+      "phase": "agent-layer",
+      "sha256": "45eff78a42a2c1e33af7b63f2ca83e88db48beccf23bdae7196831b2a554ca6b"
+    },
+    {
+      "target": "scripts/portabletext-to-md.ts",
+      "payload": "payload/scripts/portabletext-to-md.ts",
+      "strategy": "verbatim",
+      "phase": "agent-layer",
+      "sha256": "9b91e52ccc32829db95f46b5632dc885eebbe38775d522b4ebf74e9115e63ed1"
+    },
+    {
+      "target": "scripts/sections-to-md.ts",
+      "payload": "payload/scripts/sections-to-md.ts",
+      "strategy": "verbatim",
+      "phase": "agent-layer",
+      "sha256": "97a8c5c6f697afb5936e14a69bbce5a1b130980449b02149e477052c18cd0a45"
+    },
+    {
+      "target": "config/agent-slugs.json",
+      "payload": "payload/seeds/agent-slugs.json",
+      "strategy": "seed",
+      "phase": "agent-layer",
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "note": "Seeded as [] so imports compile on a fresh clone; prebuild regenerates it. Never overwritten on update."
+    },
+    {
+      "target": "content/agents/.gitkeep",
+      "payload": "payload/seeds/content-agents.gitkeep",
+      "strategy": "seed",
+      "phase": "agent-layer",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "note": "Tracks the directory so the first committed .md is a clean diff. Never overwritten on update."
+    },
+    {
+      "target": "package.json",
+      "payload": "merges/package-json.md",
+      "strategy": "merge",
+      "phase": "agent-layer"
+    },
+    {
+      "target": "next.config.mjs",
+      "payload": "merges/next-config-mjs.md",
+      "strategy": "merge",
+      "phase": "agent-layer",
+      "note": "Target may be next.config.js in some projects \u2014 the merge doc covers both."
+    },
+    {
+      "target": ".gitignore",
+      "payload": "merges/gitignore.md",
+      "strategy": "merge",
+      "phase": "agent-layer"
+    },
+    {
+      "target": ".env.example",
+      "payload": "merges/env-example.md",
+      "strategy": "merge",
+      "phase": "agent-layer",
+      "note": "Created if absent; documents key names only, never values."
+    },
+    {
+      "target": "pages/[slug].tsx",
+      "payload": "merges/pages-slug-tsx.md",
+      "strategy": "merge",
+      "phase": "agent-layer"
+    },
+    {
+      "target": "middleware.ts",
+      "payload": "payload/middleware.ts",
+      "strategy": "verbatim",
+      "phase": "ai-traffic",
+      "note": "If the project already has its own middleware.ts, compose by guided merge instead of copying \u2014 see SKILL.md Phase 2.",
+      "sha256": "f62b3290227fd723b687eefc8de22a83043eb72bb0672e33eeccd042cc1b555f"
+    },
+    {
+      "target": "lib/tracking/classify.ts",
+      "payload": "payload/lib/tracking/classify.ts",
+      "strategy": "verbatim",
+      "phase": "ai-traffic",
+      "sha256": "7b753aa826de97ed7709f22fe7aab859db8263a5aa54384a62dd9ac1b4eedd30"
+    },
+    {
+      "target": "config/ai-agents.json",
+      "payload": "payload/config/ai-agents.json",
+      "strategy": "verbatim",
+      "phase": "ai-traffic",
+      "sha256": "78bb8ba8f06639f90913f5d75d7592e3768bb667a85744169a553c9497ecdfbf"
+    },
+    {
+      "target": "scripts/lib/sync-known-pages.ts",
+      "payload": "payload/scripts/lib/sync-known-pages.ts",
+      "strategy": "verbatim",
+      "phase": "agent-layer",
+      "note": "Imported by the agent-layer scripts/generate-sitemap-agents.ts (which reports known pages to PublishForge), so it belongs with its importer \u2014 keeps an agent-layer-only run self-contained.",
+      "sha256": "d26f7c9f039c90f74d7e03a89cc5516d2ef3f328b0399241a557716e270f3319"
+    },
+    {
+      "target": "pages/api/publishforge-proxy.ts",
+      "payload": "payload/studio/pages/api/publishforge-proxy.ts",
+      "strategy": "verbatim",
+      "phase": "studio-publish",
+      "optional": true,
+      "sha256": "bfc96ac1cebb6a1a4e77bb90145a7d6f4367749646b6c5d40b70b6eb25d1699a"
+    },
+    {
+      "target": "studio/config.ts",
+      "payload": "merges/studio-config-ts.md",
+      "strategy": "merge",
+      "phase": "studio-publish",
+      "optional": true
+    },
+    {
+      "target": "studio/documentActions/actions/customBlogPublishAction.tsx",
+      "payload": "payload/studio/reference/customBlogPublishAction.tsx",
+      "strategy": "merge",
+      "phase": "studio-publish",
+      "optional": true,
+      "note": "Reference file \u2014 port the PublishForge forwarding block into the project's own action; do not copy wholesale."
+    },
+    {
+      "target": "studio/documentActions/actions/createProductsPublishAction.tsx",
+      "payload": "payload/studio/reference/createProductsPublishAction.tsx",
+      "strategy": "merge",
+      "phase": "studio-publish",
+      "optional": true,
+      "note": "Reference file \u2014 port the PublishForge forwarding block into the project's own action; do not copy wholesale."
+    },
+    {
+      "target": "pages/api/revalidate.ts",
+      "payload": "merges/pages-api-revalidate-ts.md",
+      "strategy": "merge",
+      "phase": "studio-publish",
+      "optional": true
+    }
+  ]
+}

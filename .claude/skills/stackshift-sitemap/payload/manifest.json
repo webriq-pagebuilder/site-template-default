@@ -1,0 +1,135 @@
+{
+  "skill": "stackshift-sitemap",
+  "payloadVersion": "1.0.0",
+  "targetsTemplate": "6.x",
+  "updatedAt": "2026-07-22",
+  "markerFile": ".stackshift-sitemap.json",
+  "files": [
+    {
+      "target": "lib/sitemap/types.ts",
+      "payload": "payload/lib/sitemap/types.ts",
+      "strategy": "verbatim",
+      "phase": "core",
+      "sha256": "a6cc48df6de66237692a684526cd990aead355525714d8f992d5ad76eea68fd1"
+    },
+    {
+      "target": "lib/sitemap/schema.ts",
+      "payload": "payload/lib/sitemap/schema.ts",
+      "strategy": "verbatim",
+      "phase": "core",
+      "sha256": "57519749472c84a1d67640f4516d299cd122c7b41fb6cca122fe71c232e607be"
+    },
+    {
+      "target": "lib/sitemap/urls.ts",
+      "payload": "payload/lib/sitemap/urls.ts",
+      "strategy": "verbatim",
+      "phase": "core",
+      "sha256": "8f917241962bb0ef25d0a3411f6fafc0e92893c3467d2978f131d821d4497bf6"
+    },
+    {
+      "target": "lib/sitemap/xml.ts",
+      "payload": "payload/lib/sitemap/xml.ts",
+      "strategy": "verbatim",
+      "phase": "core",
+      "sha256": "8bb2f7f2f6ec5b9338e959b8bad8ee909c587c0c13f63972a1e9e1b5e5619376"
+    },
+    {
+      "target": "lib/sitemap/robots-meta.ts",
+      "payload": "payload/lib/sitemap/robots-meta.ts",
+      "strategy": "verbatim",
+      "phase": "core",
+      "sha256": "35c87c721123a8eaa7256785735937d85e85dd6a074e2e99a3d16b90ff619181"
+    },
+    {
+      "target": "lib/sitemap/generate.ts",
+      "payload": "payload/lib/sitemap/generate.ts",
+      "strategy": "verbatim",
+      "phase": "core",
+      "sha256": "8d1519026d012ccf34595648ec30631d5f320d2e721fa4922dc8717fe364e91d"
+    },
+    {
+      "target": "lib/sitemap/__tests__/sitemap.test.ts",
+      "payload": "payload/lib/sitemap/__tests__/sitemap.test.ts",
+      "strategy": "verbatim",
+      "phase": "core",
+      "sha256": "c963e5909d56141569734984172ee45b52463c108f4398c0292ed4796938e450",
+      "note": "Self-validating core tests. Run via `npx tsx lib/sitemap/__tests__/sitemap.test.ts` after copy."
+    },
+    {
+      "target": "scripts/generate-sitemap.ts",
+      "payload": "payload/scripts/generate-sitemap.ts",
+      "strategy": "verbatim",
+      "phase": "core",
+      "sha256": "b745a4da08e23150bd693d43d8a3cf8ea0ea9d9be162af3c01fc3ef618fc3b87"
+    },
+    {
+      "target": "scripts/migrate-sitemap-flags.ts",
+      "payload": "payload/scripts/migrate-sitemap-flags.ts",
+      "strategy": "verbatim",
+      "phase": "core",
+      "sha256": "1b943593545eb581c7e2ad01360a65df1b5680c44a743d9bcbebf60b66ae4a33"
+    },
+    {
+      "target": "sitemap.config.ts",
+      "payload": "payload/sitemap.config.template.ts",
+      "strategy": "merge",
+      "phase": "core",
+      "note": "Template — adapt routes/excludeTypes/outputPath per project from the physical pages/ folder; do not copy verbatim. See SKILL.md Phase 1."
+    },
+    {
+      "target": "schemas/schema.ts",
+      "payload": "merges/schemas-schema-ts.md",
+      "strategy": "merge",
+      "phase": "wiring",
+      "note": "Wrap the assembled schema-types array with withSitemapFlag. The assembly point differs per project — discover it, do not assume."
+    },
+    {
+      "target": "components/SEO.tsx",
+      "payload": "merges/components-seo-tsx.md",
+      "strategy": "merge",
+      "phase": "wiring"
+    },
+    {
+      "target": "types.ts",
+      "payload": "merges/types-ts.md",
+      "strategy": "merge",
+      "phase": "wiring",
+      "note": "Only if the project uses a typed SEO data interface. Skip on JS projects."
+    },
+    {
+      "target": "pages/ (SEO call sites)",
+      "payload": "merges/seo-callsites.md",
+      "strategy": "merge",
+      "phase": "wiring",
+      "note": "Repeated across every routed page's <SEO> call (published + preview). Enumerate by grep — count is not fixed."
+    },
+    {
+      "target": "package.json",
+      "payload": "merges/package-json.md",
+      "strategy": "merge",
+      "phase": "wiring"
+    },
+    {
+      "target": ".gitignore",
+      "payload": "merges/gitignore.md",
+      "strategy": "merge",
+      "phase": "wiring"
+    },
+    {
+      "target": "scripts/generate-robots-txt.ts",
+      "payload": "merges/robots-txt.md",
+      "strategy": "merge",
+      "phase": "wiring",
+      "optional": true,
+      "note": "If the project generates robots.txt (e.g. via stackshift-i-upgrade) derive the Sitemap line from outputPath; else ensure public/robots.txt lists the sitemap."
+    },
+    {
+      "target": "(legacy sitemap mechanisms)",
+      "payload": "merges/legacy-teardown.md",
+      "strategy": "merge",
+      "phase": "teardown",
+      "optional": true,
+      "note": "Discovery + removal of whatever pre-existing sitemap mechanisms the project has. Per-project — nothing is assumed present."
+    }
+  ]
+}
