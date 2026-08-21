@@ -16,6 +16,7 @@ All notable changes to the WebriQ PageBuilder site template are documented here.
 - Stable, greppable `MIGRATION_USAGE` log line (model + raw token counts + turns + duration) for the chat control plane's cost reporting — USD is priced by CiteForge, not the workflow
 - PRs created by the action now include a run report (verdict + usage) in the PR body
 - Migration prompt contract extended with stale-attempt guard, reuse field parity, scroll/double-render parity, nav element inventory, and foreground-only subagent rules
+- **Agents-page trigger for local migrations** — new `scripts/notify-publishforge.sh` lets a local/CLI `stackshift-section` run generate the `/agents/<slug>` page by POSTing the published `page`/`post` to the deployed site's `/api/publishforge-proxy` (zero-secret — the proxy injects the credential). The skill runs it after a `Verdict: DONE`, and it self-skips in CI so it never double-fires with CiteForge's migration callback
 
 ### 🐞 Notable Fixes
 
