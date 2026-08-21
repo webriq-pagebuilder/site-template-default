@@ -760,8 +760,7 @@ that differ (colors compared as rgb; sizes within ±1px). Same PASS rule (empty 
 cap, plus the V6b gate-3 zero-broken-images check. This path is objective and self-checkable without
 vision — a text-only model MUST use it instead of guessing at screenshots. On a text-only model, NEVER
 `Read` a screenshot or any image file — not even to "double-check" a passing delta table: the image block
-makes every subsequent API request fail and kills the entire run (observed claude-implement runs #21/#23,
-2026-08-19, both dead minutes before G7). The computed-style delta table IS the V5 evidence; a repo
+makes every subsequent API request fail and kills the entire run. The computed-style delta table IS the V5 evidence; a repo
 PreToolUse hook denies image Reads on text-only models and the CI proxy strips any image that slips into a
 request.
 
