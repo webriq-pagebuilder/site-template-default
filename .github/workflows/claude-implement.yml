@@ -263,6 +263,11 @@ jobs:
           # scripts/thinking-strip-proxy.mjs and claude-smoke-test.yml Stage C.
           ANTHROPIC_BASE_URL: "http://127.0.0.1:8787"
           PROXY_UPSTREAM: "https://openrouter.ai/api"
+          # Explicit (it is already the proxy default): replace image blocks
+          # in outgoing requests with text placeholders — deepseek is
+          # text-only and an image in the conversation kills the run (see the
+          # NO-VISION GATE comment below).
+          PROXY_STRIP_IMAGES: "1"
           ANTHROPIC_AUTH_TOKEN: ${{ secrets.OPENROUTER_API_KEY }}
           ANTHROPIC_API_KEY: "" # Important: must be explicitly empty
           CLAUDE_MODEL: "deepseek/deepseek-v4-pro"
@@ -338,7 +343,14 @@ jobs:
           # NOT max-turns, which exits 1/error_max_turns) right after
           # scaffolding a section: the model ended its turn believing it
           # could wait/was done, with g7-report.md never written.
-          COMPLETION_GATE='COMPLETION GATE (pipeline-enforced): You run headless in CI — ending your turn terminates this process and destroys all unfinished work. Never end your turn to "wait" for anything. Run subagents in the foreground; if any task went to the background anyway, poll TaskList and TaskOutput in a loop until every task is complete before proceeding. You are NOT done until the full verification has run and you have written /tmp/g7-report.md containing the final verdict line. If you cannot finish everything, you must still write /tmp/g7-report.md with "Verdict: INCOMPLETE" plus what remains — never end the session without writing that file. Never output the literal DONE verdict string unless every gate truly passed.'
+          # NO-VISION GATE: runs 32226310025 / 32265786479 (2026-08-19) died
+          # at the V5 gate when the agent Read a screenshot PNG — deepseek is
+          # text-only, the image block 404s every later OpenRouter request,
+          # and claude -p exits 1 before writing the G7 report. Three belts:
+          # this system-prompt rule, the .claude/hooks/deny-image-read.sh
+          # PreToolUse hook (denies the Read), and the proxy stripping any
+          # image block that still reaches an outgoing request.
+          COMPLETION_GATE='COMPLETION GATE (pipeline-enforced): You run headless in CI — ending your turn terminates this process and destroys all unfinished work. Never end your turn to "wait" for anything. Run subagents in the foreground; if any task went to the background anyway, poll TaskList and TaskOutput in a loop until every task is complete before proceeding. You are NOT done until the full verification has run and you have written /tmp/g7-report.md containing the final verdict line. If you cannot finish everything, you must still write /tmp/g7-report.md with "Verdict: INCOMPLETE" plus what remains — never end the session without writing that file. Never output the literal DONE verdict string unless every gate truly passed. NO-VISION GATE (pipeline-enforced): you are running on a TEXT-ONLY model that cannot receive images — an image block in the conversation makes every subsequent API request fail and destroys the run. NEVER call Read on an image file (.png/.jpg/.jpeg/.gif/.webp, screenshots included) and never ask a subagent to; a repo hook denies it. For the V5 visual-parity gate use the SKILL.md No-vision path (computed-style delta tables via getComputedStyle) exclusively — the computed-style table IS the V5 evidence, do not try to double-check it by viewing screenshots.'
           set +e
           timeout --signal=TERM --kill-after=60 150m \
             claude -p "$(cat /tmp/migration-prompt.txt)" \

@@ -758,7 +758,12 @@ primary button, card) capture `getComputedStyle` — `background-color`, `color`
 `page.$eval(sel, el => { const s = getComputedStyle(el); return {...}; })`. Delta table = property values
 that differ (colors compared as rgb; sizes within ±1px). Same PASS rule (empty table), same 5-iteration
 cap, plus the V6b gate-3 zero-broken-images check. This path is objective and self-checkable without
-vision — a text-only model MUST use it instead of guessing at screenshots.
+vision — a text-only model MUST use it instead of guessing at screenshots. On a text-only model, NEVER
+`Read` a screenshot or any image file — not even to "double-check" a passing delta table: the image block
+makes every subsequent API request fail and kills the entire run (observed claude-implement runs #21/#23,
+2026-08-19, both dead minutes before G7). The computed-style delta table IS the V5 evidence; a repo
+PreToolUse hook denies image Reads on text-only models and the CI proxy strips any image that slips into a
+request.
 
 **V6 — Content is editable (Sanity is the source of truth; the StackShift mandate).** Every string the
 section renders must be a STORED field, not a component default. Query the section doc and confirm `variants`
