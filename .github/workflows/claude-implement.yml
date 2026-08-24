@@ -17,13 +17,16 @@ on:
         description: "Page slug to migrate (e.g. home)"
         required: true
       prompt:
-        description: "Prompt for the headless Claude run"
-        required: true
+        description: "Prompt override (leave empty to use .github/migration/prompt.md)"
+        required: false
       mockupPath:
         description: "Mockup path (e.g. docs/mockups/homepage.html)"
         required: false
       callback_url:
         description: "Callback URL to notify when done (optional)"
+        required: false
+      chatId:
+        description: "Open WebUI chat id that started this run (optional) — relayed to CiteForge so the #html-migrations notification links back to that conversation"
         required: false
 
 # Same parameters arrive via client_payload (app dispatch) or inputs (manual run);
@@ -34,6 +37,11 @@ env:
   PROMPT: ${{ github.event.client_payload.prompt || inputs.prompt }}
   MOCKUP_PATH: ${{ github.event.client_payload.mockupPath || inputs.mockupPath || 'uploaded' }}
   CALLBACK_URL: ${{ github.event.client_payload.callback_url || inputs.callback_url }}
+  # Pass-through only: never read by the run itself, just echoed back to
+  # CiteForge on every callback ping so a chat-dispatched run can be linked to
+  # the Open WebUI conversation that started it. Empty for UI dispatches.
+
+  CHAT_ID: ${{ github.event.client_payload.chatId || inputs.chatId }}
 
 concurrency:
   group: claude-implement-${{ github.event.client_payload.pageSlug || inputs.pageSlug }}
@@ -70,6 +78,44 @@ jobs:
           ref: master
           token: ${{ secrets.GH_PAT || github.token }}
 
+      # The migration prompt is the 13-rule execution contract, and it is
+      # resolved HERE rather than trusted from the dispatcher:
+      #   1. client_payload.prompt / inputs.prompt — the CiteForge app path
+      #   2. .github/migration/prompt.md in this repo — the chat control plane
+      #      supplies only pageSlug + mockupPath and cannot author the rules
+      # A chat model handed a `prompt` parameter WILL fill it, and a
+      # model-written substitute skips the plan gate, reuse triage and V1-V7
+      # while still emitting a verdict — undetectable from outside the run.
+      # Same reasoning as COMPLETION_GATE below, which already refuses to
+      # assume the app's prompt carries rules 7/13.
+      # prompt.md is generated verbatim from ai-scraper-next
+      # lib/migration/prompt.ts — regenerate it there, never hand-edit here.
+      - name: Resolve migration prompt
+        run: |
+          set -euo pipefail
+          if [ -n "${PROMPT:-}" ]; then
+            printf '%s' "$PROMPT" > /tmp/migration-prompt.txt
+            echo "prompt source: dispatch payload ($(wc -c < /tmp/migration-prompt.txt) bytes)"
+          else
+            TEMPLATE=.github/migration/prompt.md
+            if [ ! -f "$TEMPLATE" ]; then
+              echo "::error::no prompt in the dispatch payload and $TEMPLATE is missing"
+              exit 1
+            fi
+            if [ -z "${MOCKUP_PATH:-}" ] || [ "$MOCKUP_PATH" = "uploaded" ]; then
+              echo "::error::mockupPath is required when the prompt comes from the template (got '${MOCKUP_PATH:-}')"
+              exit 1
+            fi
+            # Literal substitution via python, not sed: mockupPath contains
+            # slashes and must never be treated as a sed expression.
+            python3 -c 'import io,os,sys; t=io.open(sys.argv[1],encoding="utf-8").read(); sys.stdout.write(t.replace("{{pageSlug}}",os.environ["PAGE_SLUG"]).replace("{{mockupPath}}",os.environ["MOCKUP_PATH"]))' "$TEMPLATE" > /tmp/migration-prompt.txt
+            if grep -q '{{' /tmp/migration-prompt.txt; then
+              echo "::error::unrendered placeholder left in the prompt — template and workflow are out of sync"
+              exit 1
+            fi
+            echo "prompt source: $TEMPLATE ($(wc -c < /tmp/migration-prompt.txt) bytes)"
+          fi
+
       # Callback helper used by every stage ping below, so the app UI can render
       # pipeline progress (branch_created → claude_started/claude_finished →
       # verdict_parsed → branch_pushed → pr_created → done). No-op when
@@ -85,6 +131,14 @@ jobs:
           esc() { printf '%s' "$1" | sed -e 's/\\/\\\\/g' -e 's/"/\\"/g'; }
           STATUS="$1"; STEP="$2"; shift 2
           PAYLOAD="{\"status\":\"$(esc "$STATUS")\",\"step\":\"$(esc "$STEP")\",\"pageSlug\":\"$(esc "${PAGE_SLUG:-}")\""
+          # Adoption fields: a chat-dispatched run has no page_migrations row,
+          # so CiteForge creates one from these on the first ping it receives
+          # (app/api/migration-callback + lib/migration/adopt-run.ts). Ignored
+          # when the callback URL already carries a row id.
+          PAYLOAD="$PAYLOAD,\"repo\":\"$(esc "${GITHUB_REPOSITORY##*/}")\",\"runId\":\"$(esc "${GITHUB_RUN_ID:-}")\",\"mockupPath\":\"$(esc "${MOCKUP_PATH:-}")\""
+          # Chat link field: sent only when the dispatcher supplied one, so a UI
+          # dispatch keeps the payload exactly as it was.
+          [ -n "${CHAT_ID:-}" ] && PAYLOAD="$PAYLOAD,\"chatId\":\"$(esc "$CHAT_ID")\""
           for KV in "$@"; do
             PAYLOAD="$PAYLOAD,\"$(esc "${KV%%=*}")\":\"$(esc "${KV#*=}")\""
           done
@@ -92,6 +146,29 @@ jobs:
           curl -s -m 15 -X POST "$CALLBACK_URL" -H "Content-Type: application/json" -d "$PAYLOAD" || true
           EOF
           chmod +x /tmp/notify.sh
+
+      # The callback target is a property of the deployment, not of whoever
+      # dispatched — so this repo knows it. CiteForge-dispatched runs still
+      # supply a signed URL carrying their row id; a chat-dispatched run has no
+      # row, so the URL is built here WITHOUT an id and CiteForge adopts the run
+      # from the repo/pageSlug/runId in the ping body.
+      # MIGRATION_CALLBACK_SECRET must be URL-safe — it is interpolated into the
+      # query string unencoded.
+      - name: Resolve callback URL
+        env:
+          CITEFORGE_URL: ${{ vars.CITEFORGE_URL || 'https://citeforge.webriq.cloud' }}
+          CALLBACK_SECRET: ${{ secrets.MIGRATION_CALLBACK_SECRET }}
+        run: |
+          set -euo pipefail
+          if [ -n "${CALLBACK_URL:-}" ]; then
+            echo "callback: supplied by the dispatcher (carries a row id)"
+          elif [ -n "${CALLBACK_SECRET:-}" ]; then
+            BASE="${CITEFORGE_URL%/}"
+            echo "CALLBACK_URL=${BASE}/api/migration-callback?secret=${CALLBACK_SECRET}" >> "$GITHUB_ENV"
+            echo "callback: ${BASE} (no row id — run will be adopted on the first ping)"
+          else
+            echo "::warning::no callback_url in the payload and MIGRATION_CALLBACK_SECRET is not set — stage pings disabled, this run will not appear in CiteForge"
+          fi
 
       - name: Create preview branch
         id: branch
@@ -186,6 +263,11 @@ jobs:
           # scripts/thinking-strip-proxy.mjs and claude-smoke-test.yml Stage C.
           ANTHROPIC_BASE_URL: "http://127.0.0.1:8787"
           PROXY_UPSTREAM: "https://openrouter.ai/api"
+          # Explicit (it is already the proxy default): replace image blocks
+          # in outgoing requests with text placeholders — deepseek is
+          # text-only and an image in the conversation kills the run (see the
+          # NO-VISION GATE comment below).
+          PROXY_STRIP_IMAGES: "1"
           ANTHROPIC_AUTH_TOKEN: ${{ secrets.OPENROUTER_API_KEY }}
           ANTHROPIC_API_KEY: "" # Important: must be explicitly empty
           CLAUDE_MODEL: "deepseek/deepseek-v4-pro"
@@ -261,10 +343,17 @@ jobs:
           # NOT max-turns, which exits 1/error_max_turns) right after
           # scaffolding a section: the model ended its turn believing it
           # could wait/was done, with g7-report.md never written.
-          COMPLETION_GATE='COMPLETION GATE (pipeline-enforced): You run headless in CI — ending your turn terminates this process and destroys all unfinished work. Never end your turn to "wait" for anything. Run subagents in the foreground; if any task went to the background anyway, poll TaskList and TaskOutput in a loop until every task is complete before proceeding. You are NOT done until the full verification has run and you have written /tmp/g7-report.md containing the final verdict line. If you cannot finish everything, you must still write /tmp/g7-report.md with "Verdict: INCOMPLETE" plus what remains — never end the session without writing that file. Never output the literal DONE verdict string unless every gate truly passed.'
+          # NO-VISION GATE: runs 32226310025 / 32265786479 (2026-08-19) died
+          # at the V5 gate when the agent Read a screenshot PNG — deepseek is
+          # text-only, the image block 404s every later OpenRouter request,
+          # and claude -p exits 1 before writing the G7 report. Three belts:
+          # this system-prompt rule, the .claude/hooks/deny-image-read.sh
+          # PreToolUse hook (denies the Read), and the proxy stripping any
+          # image block that still reaches an outgoing request.
+          COMPLETION_GATE='COMPLETION GATE (pipeline-enforced): You run headless in CI — ending your turn terminates this process and destroys all unfinished work. Never end your turn to "wait" for anything. Run subagents in the foreground; if any task went to the background anyway, poll TaskList and TaskOutput in a loop until every task is complete before proceeding. You are NOT done until the full verification has run and you have written /tmp/g7-report.md containing the final verdict line. If you cannot finish everything, you must still write /tmp/g7-report.md with "Verdict: INCOMPLETE" plus what remains — never end the session without writing that file. Never output the literal DONE verdict string unless every gate truly passed. NO-VISION GATE (pipeline-enforced): you are running on a TEXT-ONLY model that cannot receive images — an image block in the conversation makes every subsequent API request fail and destroys the run. NEVER call Read on an image file (.png/.jpg/.jpeg/.gif/.webp, screenshots included) and never ask a subagent to; a repo hook denies it. For the V5 visual-parity gate use the SKILL.md No-vision path (computed-style delta tables via getComputedStyle) exclusively — the computed-style table IS the V5 evidence, do not try to double-check it by viewing screenshots.'
           set +e
           timeout --signal=TERM --kill-after=60 150m \
-            claude -p "$PROMPT" \
+            claude -p "$(cat /tmp/migration-prompt.txt)" \
             --append-system-prompt "$COMPLETION_GATE" \
             --model "$CLAUDE_MODEL" \
             --permission-mode acceptEdits \
@@ -310,17 +399,34 @@ jobs:
       - name: Extract run usage
         id: usage
         if: always()
+        env:
+          # Step-scoped on the Claude run step above — re-declared here for the
+          # MIGRATION_USAGE line (keep the value in sync).
+          CLAUDE_MODEL: "deepseek/deepseek-v4-pro"
         run: |
           RESULT="$(grep '"type":"result"' /tmp/claude-stream.jsonl 2>/dev/null | tail -n1)"
           get() { echo "$RESULT" | jq -r "$1 // 0" 2>/dev/null || echo 0; }
+          IN=$(get '.usage.input_tokens')
+          OUT=$(get '.usage.output_tokens')
+          CR=$(get '.usage.cache_read_input_tokens')
+          CW=$(get '.usage.cache_creation_input_tokens')
+          TURNS=$(get '.num_turns')
+          DUR=$(get '.duration_ms')
           {
-            echo "input_tokens=$(get '.usage.input_tokens')"
-            echo "output_tokens=$(get '.usage.output_tokens')"
-            echo "cache_read_tokens=$(get '.usage.cache_read_input_tokens')"
-            echo "cache_write_tokens=$(get '.usage.cache_creation_input_tokens')"
-            echo "num_turns=$(get '.num_turns')"
-            echo "duration_ms=$(get '.duration_ms')"
+            echo "input_tokens=$IN"
+            echo "output_tokens=$OUT"
+            echo "cache_read_tokens=$CR"
+            echo "cache_write_tokens=$CW"
+            echo "num_turns=$TURNS"
+            echo "duration_ms=$DUR"
           } >> "$GITHUB_OUTPUT"
+          # One greppable line for the chat control plane: the Migration
+          # Operator reads run cost from this job's log via the Actions API
+          # (get_job_logs) and its Skill greps for "MIGRATION_USAGE" — keep the
+          # format stable. Raw token counts only, and deliberately no dollar
+          # figure: USD is priced by CiteForge against the OpenRouter catalog
+          # (lib/migration/cost.ts), and a workflow-computed price would drift.
+          echo "MIGRATION_USAGE model=$CLAUDE_MODEL input_tokens=$IN output_tokens=$OUT cache_read_tokens=$CR cache_write_tokens=$CW num_turns=$TURNS duration_ms=$DUR"
 
       # always() so a runner-level kill of the Claude step (job timeout,
       # cancellation, infra SIGTERM) still yields a verdict — a missing or
@@ -452,7 +558,17 @@ jobs:
         if: steps.verify.outputs.verdict == 'PASS'
         env:
           GH_TOKEN: ${{ secrets.GH_PAT || github.token }}
+          # Run report for the PR body — the chat control plane reads verdict
+          # and cost from here (raw tokens; USD lives in CiteForge).
+          CLAUDE_MODEL: "deepseek/deepseek-v4-pro"
+          IN: ${{ steps.usage.outputs.input_tokens }}
+          OUT: ${{ steps.usage.outputs.output_tokens }}
+          CR: ${{ steps.usage.outputs.cache_read_tokens }}
+          CW: ${{ steps.usage.outputs.cache_write_tokens }}
+          TURNS: ${{ steps.usage.outputs.num_turns }}
+          DUR: ${{ steps.usage.outputs.duration_ms }}
         run: |
+          DUR_MIN=$(( ${DUR:-0} / 60000 ))
           PR_URL="$(gh pr create \
             --base master \
             --head "${{ steps.branch.outputs.name }}" \
@@ -464,6 +580,17 @@ jobs:
           - **Page slug:** \`$PAGE_SLUG\`
           - **Mockup:** \`$MOCKUP_PATH\`
           - All sections built with schema, content, components, and styling.
+
+          ## Run report
+          | Field | Value |
+          |---|---|
+          | Verdict | **PASS** |
+          | Model | \`$CLAUDE_MODEL\` |
+          | Tokens | ${IN:-0} in / ${OUT:-0} out / ${CR:-0} cache-read / ${CW:-0} cache-write |
+          | Turns / duration | ${TURNS:-0} turns, ~${DUR_MIN} min |
+          | Run | https://github.com/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID |
+
+          Exact USD is priced and recorded by CiteForge (\`migration_costs\`).
 
           ## Review checklist
           - [ ] Preview deployment looks correct
@@ -539,8 +666,13 @@ jobs:
     timeout-minutes: 5
     steps:
       - name: Notify callback — failure
-        if: env.CALLBACK_URL != ''
         env:
+          # Resolved again in this job: it runs on a fresh runner and cannot see
+          # the implement job's GITHUB_ENV. Guarding inside the script instead of
+          # with `if: env.CALLBACK_URL != ''` because that expression only sees
+          # the dispatcher-supplied value, which a chat dispatch never sets.
+          CITEFORGE_URL: ${{ vars.CITEFORGE_URL || 'https://citeforge.webriq.cloud' }}
+          CALLBACK_SECRET: ${{ secrets.MIGRATION_CALLBACK_SECRET }}
           BRANCH: ${{ needs.implement.outputs.branch }}
           PUSHED: ${{ needs.implement.outputs.pushed }}
           # Forward token usage so a FAILED run that still burned model tokens
@@ -549,6 +681,12 @@ jobs:
           # step). A VM-killed run leaves these empty → treated as 0 below and
           # the cost fields are omitted, so the app stores nothing for it.
           CLAUDE_MODEL: "deepseek/deepseek-v4-pro"
+          # The verdict the implement job actually parsed. Empty on a VM-killed
+          # run (→ FAIL below). Forwarding it matters for the one shape observed
+          # on 2026-07-29 (run 30427461074): verdict PASS but a post-verdict
+          # step (gh pr create) failed — hardcoding FAIL here recorded a
+          # passing migration as a failed one in page_migrations.
+          VERDICT: ${{ needs.implement.outputs.verdict }}
           IN: ${{ needs.implement.outputs.input_tokens }}
           OUT: ${{ needs.implement.outputs.output_tokens }}
           CR: ${{ needs.implement.outputs.cache_read_tokens }}
@@ -556,14 +694,28 @@ jobs:
           TURNS: ${{ needs.implement.outputs.num_turns }}
           DUR: ${{ needs.implement.outputs.duration_ms }}
         run: |
+          if [ -z "${CALLBACK_URL:-}" ]; then
+            if [ -n "${CALLBACK_SECRET:-}" ]; then
+              CALLBACK_URL="${CITEFORGE_URL%/}/api/migration-callback?secret=${CALLBACK_SECRET}"
+            else
+              echo "no callback target — nothing to notify"
+              exit 0
+            fi
+          fi
           # Attach cost fields only when the run actually reported token usage —
           # a VM-killed run never reached the "Extract run usage" step, so its
           # forwarded counts are empty (${VAR:-0} → 0) and USED stays 0.
           USED=$(( ${IN:-0} + ${OUT:-0} + ${CR:-0} + ${CW:-0} ))
+          # Same pass-through as notify.sh: a failed chat-dispatched run should
+          # still link back to the conversation that started it.
+          CHAT_FIELD=""
+          if [ -n "${CHAT_ID:-}" ]; then
+            CHAT_FIELD=",\"chatId\":\"$CHAT_ID\""
+          fi
           COST_FIELDS=""
           if [ "$USED" -gt 0 ]; then
             COST_FIELDS=",\"model\":\"$CLAUDE_MODEL\",\"inputTokens\":\"${IN:-0}\",\"outputTokens\":\"${OUT:-0}\",\"cacheReadTokens\":\"${CR:-0}\",\"cacheWriteTokens\":\"${CW:-0}\",\"numTurns\":\"${TURNS:-0}\",\"durationMs\":\"${DUR:-0}\""
           fi
           curl -s -m 15 -X POST "$CALLBACK_URL" \
             -H "Content-Type: application/json" \
-            -d "{\"status\":\"failed\",\"step\":\"failed\",\"verdict\":\"FAIL\",\"pageSlug\":\"$PAGE_SLUG\",\"branch\":\"$BRANCH\",\"branchPushed\":\"${PUSHED:-false}\"$COST_FIELDS}" || true
+            -d "{\"status\":\"failed\",\"step\":\"failed\",\"verdict\":\"${VERDICT:-FAIL}\",\"pageSlug\":\"$PAGE_SLUG\",\"repo\":\"${GITHUB_REPOSITORY##*/}\",\"runId\":\"${GITHUB_RUN_ID:-}\",\"mockupPath\":\"${MOCKUP_PATH:-}\",\"branch\":\"$BRANCH\",\"branchPushed\":\"${PUSHED:-false}\"$CHAT_FIELD$COST_FIELDS}" || true

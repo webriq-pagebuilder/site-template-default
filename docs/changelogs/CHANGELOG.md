@@ -2,6 +2,31 @@
 
 All notable changes to the WebriQ PageBuilder site template are documented here.
 
+## [v6.4.0] - 2026-08-12
+
+### ✨ What's New
+
+- **Open WebUI Support for the Headless Migration Pipeline** — the `claude-implement` GitHub Action can now be dispatched from an Open WebUI chat (via CiteForge) with only `pageSlug` + `mockupPath`; the workflow is self-sufficient for prompt, callback, and run linkage
+- **In-Repo Migration Prompt Template** — the dispatch `prompt` input is now optional: when empty, the workflow renders the 13-rule migration contract from `.github/migration/prompt.md` (`{{pageSlug}}`/`{{mockupPath}}` substitution), so the chat control plane cannot author or skip the plan gate, reuse triage, or V1–V7 verification rules
+- **Chat ↔ Run Linkage** — new optional `chatId` input echoed on every callback ping, so the `#html-migrations` notification links back to the Open WebUI conversation that started the run
+- **Callback Resolution & Run Adoption** — when the dispatcher supplies no `callback_url`, the workflow builds one from `CITEFORGE_URL` + `MIGRATION_CALLBACK_SECRET`; every ping now carries `repo`/`runId`/`mockupPath` so CiteForge can adopt chat-dispatched runs that have no `page_migrations` row
+
+### 🛠️ Improvements
+
+- Stable, greppable `MIGRATION_USAGE` log line (model + raw token counts + turns + duration) for the chat control plane's cost reporting — USD is priced by CiteForge, not the workflow
+- PRs created by the action now include a run report (verdict + usage) in the PR body
+- Migration prompt contract extended with stale-attempt guard, reuse field parity, scroll/double-render parity, nav element inventory, and foreground-only subagent rules
+- **Agents-page trigger for local migrations** — new `scripts/notify-publishforge.sh` lets a local/CLI `stackshift-section` run generate the `/agents/<slug>` page by POSTing the published `page`/`post` to the deployed site's `/api/publishforge-proxy` (zero-secret — the proxy injects the credential). The skill runs it after a `Verdict: DONE`, and it self-skips in CI so it never double-fires with CiteForge's migration callback
+
+### 🐞 Notable Fixes
+
+- **Headless runs survive on the text-only model** — the CI migration pipeline runs on a text-only model (deepseek via OpenRouter), where reading a screenshot placed an image block in the conversation that failed every subsequent request and killed the run before the completion report. Fixed with defense-in-depth so no image can reach the model: a `PreToolUse` hook that denies image reads on text-only models, the thinking-strip proxy now also strips image blocks from outgoing requests (`PROXY_STRIP_IMAGES`), a NO-VISION GATE rule appended to the run's system prompt, and the `stackshift-section` V5 gate updated to use computed-style delta tables (no screenshots) as the visual-parity evidence
+
+### 🧩 Full Change log
+
+- Open WebUI support for the claude-implement action by @rosellerenrqz in #331
+- No-vision gate — keep headless runs alive on the text-only model by @rosellerenrqz in #TBD
+
 ## [v6.3.1] - 2026-07-24
 
 ### ✨ What's New
