@@ -1,6 +1,6 @@
 {
   "name": "@webriq-pagebuilder/site-template-default",
-  "version": "6.4.0",
+  "version": "6.4.1",
   "private": true,
   "license": "MIT",
   "resolutions": {
@@ -30,7 +30,10 @@
     "test": "npx playwright test",
     "test:ui": "npx playwright test --ui",
     "test:generate": "npx playwright codegen localhost:3000",
-    "generate": "plop"
+    "generate": "plop",
+    "version:sync": "node scripts/sync-version-from-changelog.mjs",
+    "version:check": "node scripts/sync-version-from-changelog.mjs --check",
+    "version:notes": "node scripts/sync-version-from-changelog.mjs --print-notes"
   },
   "dependencies": {
     "@portabletext/react": "^3.0.9",

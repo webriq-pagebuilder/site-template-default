@@ -31,12 +31,11 @@ Supported version inputs:
 2. Read `TASKS.md` and find merged items in `Ready To Ship`.
 3. Read each task document for type, version impact, and summary.
 4. Determine the next version.
-5. Generate or update `docs/changelogs/CHANGELOG.md`.
-6. Commit changelog changes if the repository workflow expects release commits.
-7. Create a git tag when appropriate.
-8. Create release notes using the available repository hosting tool when appropriate.
-9. Move released items to `Shipped` in `TASKS.md`, removing each row from `Ready To Ship`.
-10. Re-read `TASKS.md` and verify the released task rows are in `Shipped` and absent from `Ready To Ship`. If any row is not in the expected section, the move was missed — perform the edit now before handoff.
+5. Generate or update `docs/changelogs/CHANGELOG.md`. Keep the top heading in the `## [vX.Y.Z] - {Date}` format — the release automation parses it.
+6. Run `yarn version:sync` so `package.json` carries the new version, and commit the changelog together with the synced `package.json`. Verify with `yarn version:check`; preview the release body with `yarn version:notes`.
+7. Do NOT create the git tag or GitHub release manually. Once the changelog change lands on `master`, the `Release on version bump` workflow (`.github/workflows/release.yml`) creates the tag (bare version, e.g. `6.4.0`) and publishes the GitHub Release from the top changelog entry automatically.
+8. Move released items to `Shipped` in `TASKS.md`, removing each row from `Ready To Ship`.
+9. Re-read `TASKS.md` and verify the released task rows are in `Shipped` and absent from `Ready To Ship`. If any row is not in the expected section, the move was missed — perform the edit now before handoff.
 
 ## Version Calculation
 
