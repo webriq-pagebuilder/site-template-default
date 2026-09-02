@@ -2,6 +2,14 @@
 
 All notable changes to the WebriQ PageBuilder site template are documented here.
 
+## [v6.4.1] - 2026-09-02
+
+### 🧰 Maintenance
+
+- **Releases are cut from the changelog:** Pushing a new top entry in `docs/changelogs/CHANGELOG.md` to `master` now publishes the matching GitHub Release automatically, using that entry's section as the release notes (`### ` sub-headings are promoted to `## ` in the published body). The job is path-filtered to the changelog, so ordinary code pushes never trigger it, and it skips versions that already have a release — re-runs, reverts, and edits to older entries can't produce duplicates. Runs on the default `GITHUB_TOKEN`; no extra secrets. A `workflow_dispatch` fallback allows a manual run
+- **One command keeps the version in sync:** `yarn version:sync` reads the newest changelog heading and writes that version into `package.json`, so the two can no longer drift apart by hand. `yarn version:check` fails when they have drifted (useful in CI or a pre-push hook) and `yarn version:notes` prints the exact release-notes body before you push. The script is dependency-free Node and can also read the changelog from another path or git ref
+- **`/release` skill hands off to the automation:** the release skill still authors the changelog entry and bumps the version, but no longer creates git tags or GitHub releases by hand — the workflow does that when the changelog lands on `master`. Wiring is documented in `docs/operational/automated-changelog-release.md`
+
 ## [v6.4.0] - 2026-08-12
 
 ### ✨ What's New

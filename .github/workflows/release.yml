@@ -1,0 +1,55 @@
+name: Release on version bump
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - docs/changelogs/CHANGELOG.md # every release starts with a new top entry here
+  workflow_dispatch: {}
+
+permissions:
+  contents: write # create tags + releases via default GITHUB_TOKEN
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Resolve version from CHANGELOG
+        id: ver
+        run: echo "version=$(node scripts/sync-version-from-changelog.mjs --print-version)" >> "$GITHUB_OUTPUT"
+
+      - name: Skip if release already exists
+        id: check
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if gh release view "${{ steps.ver.outputs.version }}" >/dev/null 2>&1; then
+            echo "Release ${{ steps.ver.outputs.version }} already exists - skipping."
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Extract release notes
+        if: steps.check.outputs.exists == 'false'
+        run: node scripts/sync-version-from-changelog.mjs --print-notes > RELEASE_NOTES.md
+
+      - name: Create and publish release
+        if: steps.check.outputs.exists == 'false'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "${{ steps.ver.outputs.version }}" \
+            --title "Release ${{ steps.ver.outputs.version }}" \
+            --notes-file RELEASE_NOTES.md \
+            --target "${{ github.sha }}"
